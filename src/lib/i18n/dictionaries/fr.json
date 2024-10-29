@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} Obligatoire",
   "description.gold.egg.boost": "Nourrissez les poulets gratuitement",
   "cropMachine.readyCropPacks.description": "Vous avez actuellement {{totalReady}} packs de récoltes à récolter ! Cliquez sur le pack que vous souhaitez récolter.",
-  "leaderboard.empty": "Aucun classement n'a été trouvé."
+  "leaderboard.empty": "Aucun classement n'a été trouvé.",
+  "description.cowScratcher": "Un outil rustique mais efficace, parfait pour donner aux vaches une bonne grattage après une longue journée dans les champs. Faites en sorte que votre bétail soit heureux et content !",
+  "description.spinningWheel": "Pièce d'artisanat élégante, ce rouet transforme la laine brute en fil fin, essentiel à la confection de textiles de qualité.",
+  "description.sleepyRug": "Douillet et accueillant, ce tapis doux est parfait pour une sieste l'après-midi. Il apporte de la chaleur et du charme à n'importe quel espace.",
+  "description.meteorite": "Fragment rare et mystérieux provenant des étoiles, la météorite est supposée détenir un pouvoir cosmique.",
+  "description.sheafOfPlenty": "Une botte d'orge récoltée à pleine maturité, symbolisant l'abondance et le dur labeur de la saison. +2 Orge",
+  "description.mechanicalBull": "Une attraction animée et une épreuve d'endurance ! Montez à bord du Mechanical Bull et voyez si vous pouvez tenir le coup."
 }

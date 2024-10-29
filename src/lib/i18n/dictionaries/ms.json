@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} Diperlukan",
   "description.gold.egg.boost": "Makan Ayam secara percuma",
   "cropMachine.readyCropPacks.description": "Anda kini mempunyai pek tanaman {{totalReady}} untuk dituai! Klik pada pek yang ingin anda tuai.",
-  "leaderboard.empty": "Tiada papan pendahulu ditemui."
+  "leaderboard.empty": "Tiada papan pendahulu ditemui.",
+  "description.cowScratcher": "Alat desa namun berkesan, sesuai untuk memberi lembu calar yang memuaskan setelah seharian di ladang. Pastikan lembu anda gembira dan puas!",
+  "description.spinningWheel": "Sekeping ketukangan yang elegan, roda berputar ini mengubah bulu mentah menjadi benang halus, penting untuk membuat tekstil berkualiti.",
+  "description.sleepyRug": "Selesa dan menarik, permaidani lembut ini sesuai untuk tidur petang. Ia menambah kehangatan dan daya tarikan kepada mana-mana ruang.",
+  "description.meteorite": "Serpihan jarang dan misteri dari bintang-bintang, meteorit dikhabarkan memegang kekuatan kosmik.",
+  "description.sheafOfPlenty": "Sekumpulan barli dituai pada kematangan puncak, melambangkan kelimpahan dan kerja keras musim ini. +2 Barli",
+  "description.mechanicalBull": "Tarikan yang meriah dan ujian ketahanan! Lompat ke Mechanical Bull dan lihat apakah anda boleh bertahan."
 }

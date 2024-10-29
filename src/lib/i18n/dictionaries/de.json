@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} Erforderlich",
   "description.gold.egg.boost": "Hühner kostenlos füttern",
   "cropMachine.readyCropPacks.description": "Ihr habt derzeit {{totalReady}} Erntepakete zum Ernten! Klicke auf das Paket, das du ernten möchtest.",
-  "leaderboard.empty": "Keine Bestenliste gefunden."
+  "leaderboard.empty": "Keine Bestenliste gefunden.",
+  "description.cowScratcher": "Ein rustikales und dennoch effektives Werkzeug, perfekt, um Kühen nach einem langen Tag auf den Feldern ein angenehmes Kratzen zu bereiten. Sorgen Sie dafür, dass Ihr Vieh glücklich und zufrieden ist!",
+  "description.spinningWheel": "Dieses elegante Stück Handwerkskunst verwandelt Rohwolle in feine Fäden, die für die Herstellung hochwertiger Textilien unverzichtbar sind.",
+  "description.sleepyRug": "Dieser weiche Teppich ist gemütlich und einladend und eignet sich perfekt für ein Nickerchen am Nachmittag. Er verleiht jedem Raum Wärme und Charme.",
+  "description.meteorite": "Der Meteorit ist ein seltenes und rätselhaftes Fragment der Sterne. Gerüchten zufolge soll er kosmische Kraft besitzen.",
+  "description.sheafOfPlenty": "Ein Bündel Gerste, das bei höchster Reife geerntet wird. Es steht für Fülle und die harte Arbeit der Saison. +2 Gerste",
+  "description.mechanicalBull": "Eine lebhafte Attraktion und Ausdauerprobe! Steigen Sie auf den Mechanical Bull und sehen Sie, ob Sie durchhalten können."
 }

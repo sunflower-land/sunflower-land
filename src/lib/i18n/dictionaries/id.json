@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} Diperlukan",
   "description.gold.egg.boost": "Beri makan ayam secara gratis",
   "cropMachine.readyCropPacks.description": "Saat ini Anda memiliki paket tanaman {{totalReady}} untuk dipanen! Klik pada paket yang ingin Anda panen.",
-  "leaderboard.empty": "Tidak ada papan peringkat yang ditemukan."
+  "leaderboard.empty": "Tidak ada papan peringkat yang ditemukan.",
+  "description.cowScratcher": "Alat pedesaan namun efektif, sempurna untuk memberi sapi goresan yang memuaskan setelah hari yang panjang di ladang. Jaga ternak Anda bahagia dan puas!",
+  "description.spinningWheel": "Sebuah pengerjaan yang elegan, roda pemintal ini mengubah wol mentah menjadi benang halus, penting untuk membuat tekstil berkualitas.",
+  "description.sleepyRug": "Nyaman dan mengundang, karpet lembut ini sangat cocok untuk tidur siang. Ini menambah kehangatan dan pesona ke ruang apa pun.",
+  "description.meteorite": "Sebuah fragmen langka dan misterius dari bintang-bintang, meteorit itu dikabarkan memiliki kekuatan kosmik.",
+  "description.sheafOfPlenty": "Seikat jelai dipanen pada puncak kematangan, melambangkan kelimpahan dan kerja keras musim ini. +2 Barley",
+  "description.mechanicalBull": "Daya tarik yang hidup dan ujian daya tahan! Naik Mechanical Bull dan lihat apakah Anda bisa bertahan."
 }

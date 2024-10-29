@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} Obbligatorio",
   "description.gold.egg.boost": "Dai da mangiare ai polli gratis",
   "cropMachine.readyCropPacks.description": "Al momento hai {{totalReady}} pacchetti di raccolto da raccogliere! Fai clic sulla confezione che desideri raccogliere.",
-  "leaderboard.empty": "Nessuna classifica trovata."
+  "leaderboard.empty": "Nessuna classifica trovata.",
+  "description.cowScratcher": "Uno strumento rustico ma efficace, perfetto per dare alle mucche un graffio soddisfacente dopo una lunga giornata nei campi. Mantieni il tuo bestiame felice e contento!",
+  "description.spinningWheel": "Un elegante pezzo di artigianato, questo filatoio trasforma la lana grezza in filo sottile, essenziale per realizzare tessuti di qualità.",
+  "description.sleepyRug": "Accogliente e invitante, questo morbido tappeto è perfetto per un sonnellino pomeridiano. Aggiunge calore e fascino a qualsiasi spazio.",
+  "description.meteorite": "Si dice che il meteorite sia un raro e misterioso frammento stellare dotato di potere cosmico.",
+  "description.sheafOfPlenty": "Un fascio di orzo raccolto al massimo della maturazione, che simboleggia l'abbondanza e il duro lavoro della stagione. +2 Orzo",
+  "description.mechanicalBull": "Un'attrazione vivace e una prova di resistenza! Sali sul Mechanical Bull e vedi se riesci a resistere."
 }

@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} 필수",
   "description.gold.egg.boost": "닭에게 무료로 먹이주기",
   "cropMachine.readyCropPacks.description": "현재 수확할 크롭 팩이 {{totalReady}} 있습니다!수확하려는 팩을 클릭하세요.",
-  "leaderboard.empty": "리더보드를 찾을 수 없습니다."
+  "leaderboard.empty": "리더보드를 찾을 수 없습니다.",
+  "description.cowScratcher": "소박하면서도 효과적인 도구로, 들판에서 긴 하루를 보낸 젖소에게 만족스러운 스크래치를 주기에 안성맞춤입니다.소를 행복하고 만족스럽게 키우세요!",
+  "description.spinningWheel": "장인 정신이 깃든 우아한 물레는 원모를 가는 실로 만들어 고급 직물을 만드는 데 필수적입니다.",
+  "description.sleepyRug": "아늑하고 매력적인 이 부드러운 러그는 오후 낮잠에 안성맞춤입니다.어떤 공간에도 따뜻함과 매력을 더해줍니다.",
+  "description.meteorite": "별에서 나온 희귀하고 불가사의한 파편인 이 운석은 우주의 힘을 지니고 있다는 소문이 있습니다.",
+  "description.sheafOfPlenty": "가장 잘 익었을 때 수확한 보리 다발로, 풍요로움과 계절의 노력을 상징합니다. +2 보리",
+  "description.mechanicalBull": "활기찬 매력과 지구력 테스트!기계식 황소에 올라타 버틸 수 있는지 확인해 보세요."
 }

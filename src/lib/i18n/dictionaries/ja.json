@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} が必要です",
   "description.gold.egg.boost": "鶏に無料で餌をやる",
   "cropMachine.readyCropPacks.description": "現在、収穫できるクロップパックは {{totalReady}} 個あります！収穫したいパックをクリックしてください。",
-  "leaderboard.empty": "リーダーボードが見つかりません。"
+  "leaderboard.empty": "リーダーボードが見つかりません。",
+  "description.cowScratcher": "素朴でありながら効果的な道具で、野原で長い一日を過ごした牛に満足のいくひっかき傷を与えるのに最適です。牛たちを幸せで満足させましょう。",
+  "description.spinningWheel": "職人技が光るエレガントなこのスピニングホイールは、原毛を高品質のテキスタイルに欠かせない細い糸に変えます。",
+  "description.sleepyRug": "心地よく心地よいこの柔らかいラグは、午後の昼寝に最適です。どんな空間にも暖かさと魅力を添えます。",
+  "description.meteorite": "星から出た希少で神秘的な破片である隕石は、宇宙の力を持っていると噂されています。",
+  "description.sheafOfPlenty": "熟度のピーク時に収穫された大麦の束で、豊かさと季節の苦労を象徴しています。+2 大麦",
+  "description.mechanicalBull": "にぎやかなアトラクションと持久力の試練！メカニカルブルに飛び乗って、持ちこたえられるか試してみましょう。"
 }

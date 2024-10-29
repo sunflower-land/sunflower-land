@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} Obrigatório",
   "description.gold.egg.boost": "Alimente galinhas de graça",
   "cropMachine.readyCropPacks.description": "No momento, você tem {{totalReady}} pacotes de safra para colher! Clique no pacote que você deseja colher.",
-  "leaderboard.empty": "Nenhuma tabela de classificação encontrada."
+  "leaderboard.empty": "Nenhuma tabela de classificação encontrada.",
+  "description.cowScratcher": "Uma ferramenta rústica e eficaz, perfeita para dar às vacas um arranhão satisfatório após um longo dia no campo. Mantenha seu gado feliz e contente!",
+  "description.spinningWheel": "Uma peça de artesanato elegante, esta roda giratória transforma lã crua em fio fino, essencial para a confecção de tecidos de qualidade.",
+  "description.sleepyRug": "Aconchegante e convidativo, este tapete macio é perfeito para um cochilo à tarde. Ele adiciona calor e charme a qualquer espaço.",
+  "description.meteorite": "Um fragmento raro e misterioso das estrelas, dizem que o meteorito tem poder cósmico.",
+  "description.sheafOfPlenty": "Um pacote de cevada colhido no pico da maturação, simbolizando a abundância e o trabalho árduo da temporada. +2 Cevada",
+  "description.mechanicalBull": "Uma atração animada e um teste de resistência! Suba no Mechanical Bull e veja se consegue aguentar."
 }

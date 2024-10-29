@@ -4081,5 +4081,11 @@
   "animal.toolRequired": "{{tool}} 必填项",
   "description.gold.egg.boost": "免费喂鸡",
   "cropMachine.readyCropPacks.description": "你目前有 {{totalReady}} 个作物包要收割！点击你想要收获的包裹。",
-  "leaderboard.empty": "未找到排行榜。"
+  "leaderboard.empty": "未找到排行榜。",
+  "description.cowScratcher": "一款质朴而有效的工具，非常适合在田里度过漫长的一天后给奶牛留下令人满意的抓痕。让你的牛群开心和满足！",
+  "description.spinningWheel": "这款纺车是一件优雅的工艺，可将生羊毛变成细线，是制作优质纺织品的必备品。",
+  "description.sleepyRug": "这款柔软的地毯既舒适又诱人，非常适合午睡。它为任何空间增添了温暖和魅力。",
+  "description.meteorite": "有传言说，这颗陨石是来自恒星的稀有而神秘的碎片，具有宇宙的力量。",
+  "description.sheafOfPlenty": "一捆在成熟期收获的大麦，象征着丰收和本季的辛勤工作。+2 大麦",
+  "description.mechanicalBull": "生动的景点和耐力的考验！跳上机械公牛，看看你能不能坚持下去。"
 }
