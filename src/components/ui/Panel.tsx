@@ -70,7 +70,7 @@ export const InnerPanel: React.FC<
       style={{
         ...pixelHalloweenInnerBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        background: isDarkMode ? "#546395" : "#546395",
+        background: isDarkMode ? "#495682" : "#495682",
         ...style,
       }}
       ref={divRef}
