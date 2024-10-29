@@ -715,6 +715,13 @@ import horseshoe from "assets/icons/horseshoe.webp";
 import cowSkull from "assets/community/arcade/greedy_goblin/images/skull.png";
 import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
 
+import cowScratcher from "assets/sfts/cow_scratcher.webp";
+import spinningWheel from "assets/sfts/spinning_wheel.webp";
+import sleepyRug from "assets/sfts/sleepy_rug.webp";
+import meteorite from "assets/sfts/meteorite.webp";
+import sheafOfPlenty from "assets/sfts/sheaf_of_plenty.webp";
+import mechanicalBull from "assets/sfts/mecha_bull.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4278,5 +4285,29 @@ export const ITEM_DETAILS: Items = {
   "Synthetic Fabric": {
     image: SUNNYSIDE.crafting.syntheticFabric,
     description: "",
+  },
+  "Cow Scratcher": {
+    image: cowScratcher,
+    description: translate("description.cowScratcher"),
+  },
+  "Spinning Wheel": {
+    image: spinningWheel,
+    description: translate("description.spinningWheel"),
+  },
+  "Sleepy Rug": {
+    image: sleepyRug,
+    description: translate("description.sleepyRug"),
+  },
+  Meteorite: {
+    image: meteorite,
+    description: translate("description.meteorite"),
+  },
+  "Sheaf of Plenty": {
+    image: sheafOfPlenty,
+    description: translate("description.sheafOfPlenty"),
+  },
+  "Mechanical Bull": {
+    image: mechanicalBull,
+    description: translate("description.mechanicalBull"),
   },
 };
