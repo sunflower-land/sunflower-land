@@ -141,6 +141,7 @@ class InteractableModalManager {
 export const interactableModalManager = new InteractableModalManager();
 
 function getInitialModal(scene: SceneId): InteractableName | undefined {
+  return "chicken_rescue";
   if (
     !hasReadFactionIntro() &&
     (scene === "goblin_house" ||

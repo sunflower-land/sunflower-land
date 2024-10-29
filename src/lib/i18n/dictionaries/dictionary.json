@@ -4080,5 +4080,6 @@
   "description.petting.hand": "Pets animals. Use this to show affection to your animals.",
   "description.brush": "Animal Brush. Use this to show affection your animals.",
   "description.music.box": "Plays music to animals. Use this to show affection your animals.",
-  "animal.toolRequired": "{{tool}} Required"
+  "animal.toolRequired": "{{tool}} Required",
+  "leaderboard.empty": "No leaderboard found."
 }
