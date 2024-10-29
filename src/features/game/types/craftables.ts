@@ -12,6 +12,7 @@ import {
   HeliosBlacksmithItem,
   MegaStoreCollectibleName,
   PotionHouseItemName,
+  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -219,7 +220,8 @@ export type CollectibleName =
   | FactionShopCollectibleName
   | TreasureCollectibleItem
   | MutantFlowerName
-  | BedName;
+  | BedName
+  | SeasonalCollectibleName;
 
 export type ToolName =
   | "Axe"
@@ -1407,6 +1409,14 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Squirrel: { width: 2, height: 1 },
   Macaw: { width: 1, height: 1 },
   Butterfly: { width: 1, height: 1 },
+
+  // Animal Season
+  "Cow Scratcher": { width: 1, height: 2 },
+  "Spinning Wheel": { width: 2, height: 2 },
+  "Sleepy Rug": { width: 3, height: 2 },
+  Meteorite: { width: 2, height: 2 },
+  "Sheaf of Plenty": { width: 1, height: 2 },
+  "Mechanical Bull": { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
