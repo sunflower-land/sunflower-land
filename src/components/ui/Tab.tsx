@@ -78,7 +78,7 @@ export const Tab: React.FC<Props> = ({
         paddingLeft: `${PIXEL_SCALE * 2}px`,
         paddingRight: `${PIXEL_SCALE * 2}px`,
         height: `${PIXEL_SCALE * 16}px`,
-        background: isDarkMode ? "#546395" : "#546395",
+        background: isDarkMode ? "#495682" : "#495682",
       }}
     >
       {children}
