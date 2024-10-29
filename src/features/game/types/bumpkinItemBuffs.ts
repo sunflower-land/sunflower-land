@@ -530,5 +530,18 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
     },
+    "Milk Apron": {
+      shortDescription: translate("description.milkApron.boost"),
+      labelType: "info",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.milk,
+    },
+    "Dream Scarf": {
+      shortDescription: translate("description.dreamScarf.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+    },
+
     ...SPECIAL_ITEM_LABELS,
   };
