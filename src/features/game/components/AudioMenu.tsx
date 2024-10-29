@@ -77,7 +77,7 @@ export const AudioMenu: React.FC<Props> = ({
         <div className="p-1 relative">
           <p className="mb-2">{t("music")}</p>
           {/* Music display */}
-          <div className="mb-1.5 overflow-hidden bg-brown-200 ">
+          <div className="mb-1.5 overflow-hidden">
             <p
               className="whitespace-no-wrap w-fit text-white text-sm pt-1 pb-2"
               style={{

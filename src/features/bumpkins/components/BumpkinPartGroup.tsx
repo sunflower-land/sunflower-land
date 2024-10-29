@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { OuterPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 
-import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 
 import { BumpkinPart, ITEM_IDS } from "features/game/types/bumpkin";
@@ -85,7 +84,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
               <div id="select-box" className="block">
                 <img
                   className="absolute pointer-events-none"
-                  src={SUNNYSIDE.ui.selectBoxTL}
+                  src="/world/halloweenSelectbox_tl.png"
                   style={{
                     top: `${PIXEL_SCALE * -3}px`,
                     left: `${PIXEL_SCALE * -3}px`,
@@ -95,7 +94,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 {!buffLabel && (
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxTR}
+                    src="/world/halloweenSelectbox_tr.png"
                     style={{
                       top: `${PIXEL_SCALE * -3}px`,
                       right: `${PIXEL_SCALE * -3}px`,
@@ -105,7 +104,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 )}
                 <img
                   className="absolute pointer-events-none"
-                  src={SUNNYSIDE.ui.selectBoxBL}
+                  src="/world/halloweenSelectbox_bl.png"
                   style={{
                     bottom: `${PIXEL_SCALE * -3}px`,
                     left: `${PIXEL_SCALE * -3}px`,
@@ -114,7 +113,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 />
                 <img
                   className="absolute pointer-events-none"
-                  src={SUNNYSIDE.ui.selectBoxBR}
+                  src="/world/halloweenSelectbox_br.png"
                   style={{
                     bottom: `${PIXEL_SCALE * -3}px`,
                     right: `${PIXEL_SCALE * -3}px`,

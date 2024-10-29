@@ -1,6 +1,5 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   innerCanvasWidth: number;
@@ -10,7 +9,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
   <>
     <img
       className="absolute pointer-events-none"
-      src={SUNNYSIDE.ui.selectBoxBL}
+      src="/world/halloweenSelectbox_bl.png"
       style={{
         top: `${PIXEL_SCALE * innerCanvasWidth}px`,
         left: `${PIXEL_SCALE * 0}px`,
@@ -19,7 +18,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src={SUNNYSIDE.ui.selectBoxBR}
+      src="/world/halloweenSelectbox_br.png"
       style={{
         top: `${PIXEL_SCALE * innerCanvasWidth}px`,
         left: `${PIXEL_SCALE * innerCanvasWidth}px`,
@@ -28,7 +27,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src={SUNNYSIDE.ui.selectBoxTL}
+      src="/world/halloweenSelectbox_tl.png"
       style={{
         top: `${PIXEL_SCALE * 1}px`,
         left: `${PIXEL_SCALE * 0}px`,
@@ -37,7 +36,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src={SUNNYSIDE.ui.selectBoxTR}
+      src="/world/halloweenSelectbox_tr.png"
       style={{
         top: `${PIXEL_SCALE * 1}px`,
         left: `${PIXEL_SCALE * innerCanvasWidth}px`,
