@@ -629,7 +629,8 @@ export function startGame(authContext: AuthContext) {
       initial: "loading",
       context: {
         fslId: "123",
-        farmId: Math.floor(Math.random() * 1000),
+        farmId:
+          CONFIG.NETWORK === "mainnet" ? 0 : Math.floor(Math.random() * 1000),
         actions: [],
         state: EMPTY,
         sessionId: INITIAL_SESSION,
