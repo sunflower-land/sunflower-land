@@ -2609,7 +2609,6 @@
   "cropMachine.notStartedYet": "Pas encore commencé",
   "cropMachine.seedPacks": "Sachets de graines",
   "cropMachine.readyCropPacks": "Emballages prêts à l'emploi",
-  "cropMachine.readyCropPacks.description": "Vous avez actuellement {{totalReady}} packs de cultures à récolter ! Cliquez sur le pack que vous souhaitez récolter.",
   "cropMachine.harvestCropPack": "Pack de récolte",
   "cropMachine.addOil": "Ajouter de l'huile",
   "cropMachine.oil.description": "Votre machine a besoin d'huile pour fonctionner. Chaque lot de graines nécessitera une certaine quantité d'huile en fonction du temps nécessaire à la croissance des cultures. Lorsque vous ajoutez de l'huile, vous pouvez voir combien de temps la machine fonctionnera avec cette quantité.",
@@ -4080,5 +4079,6 @@
   "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
   "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
   "animal.toolRequired": "{{tool}} Obligatoire",
-  "description.gold.egg.boost": "Nourrissez les poulets gratuitement"
+  "description.gold.egg.boost": "Nourrissez les poulets gratuitement",
+  "cropMachine.readyCropPacks.description": "Vous avez actuellement {{totalReady}} packs de récoltes à récolter ! Cliquez sur le pack que vous souhaitez récolter."
 }

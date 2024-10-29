@@ -728,7 +728,6 @@
   "cropMachine.notStartedYet": "Non ancora iniziato",
   "cropMachine.seedPacks": "Confezioni di semi",
   "cropMachine.readyCropPacks": "Confezioni colturali pronte",
-  "cropMachine.readyCropPacks.description": "Al momento hai {{totalReady}} pacchetti di raccolto da raccogliere! Fai clic sulla confezione che desideri raccogliere.",
   "cropMachine.harvestCropPack": "Pacchetto Harvest Crop",
   "cropMachine.addOil": "Aggiungere olio",
   "cropMachine.oil.description": "La tua macchina ha bisogno di olio per funzionare. Ogni confezione di semi richiederà una certa quantità di olio in base al tempo impiegato dalle colture a crescere. Man mano che aggiungi olio puoi vedere per quanto tempo funzionerà la macchina quando viene fornita quella quantità.",
@@ -4080,5 +4079,6 @@
   "description.brush": "Spazzola per animali. Usalo per mostrare affetto ai tuoi animali.",
   "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
   "animal.toolRequired": "{{tool}} Obbligatorio",
-  "description.gold.egg.boost": "Dai da mangiare ai polli gratis"
+  "description.gold.egg.boost": "Dai da mangiare ai polli gratis",
+  "cropMachine.readyCropPacks.description": "Al momento hai {{totalReady}} pacchetti di raccolto da raccogliere! Fai clic sulla confezione che desideri raccogliere."
 }

@@ -2577,7 +2577,6 @@
   "cropMachine.notStartedYet": "Ainda não começou",
   "cropMachine.seedPacks": "Pacotes de sementes",
   "cropMachine.readyCropPacks": "Pacotes de colheita prontos",
-  "cropMachine.readyCropPacks.description": "No momento, você tem {{totalReady}} pacotes de safra para colher! Clique no pacote que você deseja colher.",
   "cropMachine.harvestCropPack": "Pacote de colheita",
   "cropMachine.addOil": "Adicione óleo",
   "cropMachine.oil.description": "Sua máquina precisa de óleo para funcionar. Cada pacote de sementes exigirá uma certa quantidade de óleo com base no tempo que as safras levam para crescer. Ao adicionar óleo, você pode ver por quanto tempo a máquina funcionará quando receber essa quantidade.",
@@ -4080,5 +4079,6 @@
   "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
   "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
   "animal.toolRequired": "{{tool}} Obrigatório",
-  "description.gold.egg.boost": "Alimente galinhas de graça"
+  "description.gold.egg.boost": "Alimente galinhas de graça",
+  "cropMachine.readyCropPacks.description": "No momento, você tem {{totalReady}} pacotes de safra para colher! Clique no pacote que você deseja colher."
 }

@@ -732,7 +732,6 @@
   "cropMachine.notStartedYet": "Belum bermula lagi",
   "cropMachine.seedPacks": "Pek benih",
   "cropMachine.readyCropPacks": "Pek tanaman siap",
-  "cropMachine.readyCropPacks.description": "Anda kini mempunyai pek tanaman {{totalReady}} untuk dituai! Klik pek yang ingin anda tuai.",
   "cropMachine.harvestCropPack": "Pek tanaman menuai",
   "cropMachine.addOil": "Tambah minyak",
   "cropMachine.oil.description": "Mesin anda memerlukan minyak untuk berjalan. Setiap pek benih memerlukan sejumlah minyak berdasarkan berapa lama tanaman tumbuh. Semasa anda menambah minyak, anda dapat melihat berapa lama mesin akan berjalan apabila diberi jumlah itu.",
@@ -4080,5 +4079,6 @@
   "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
   "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
-  "description.gold.egg.boost": "Makan Ayam secara percuma"
+  "description.gold.egg.boost": "Makan Ayam secara percuma",
+  "cropMachine.readyCropPacks.description": "Anda kini mempunyai pek tanaman {{totalReady}} untuk dituai! Klik pada pek yang ingin anda tuai."
 }

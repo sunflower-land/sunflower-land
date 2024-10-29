@@ -704,7 +704,6 @@
   "cropMachine.paused": "已暂停",
   "cropMachine.pickSeed": "选择种子",
   "cropMachine.readyCropPacks": "准备庄稼袋",
-  "cropMachine.readyCropPacks.description": "您目前有 {{totalReady}} 袋庄稼可供收割！点击收割按钮来收割所有庄稼。",
   "cropMachine.readyToHarvest": "可供收割",
   "cropMachine.seedPacks": "种子袋",
   "cropMachine.seeds": "种子： {{amount}}",
@@ -4080,5 +4079,6 @@
   "description.brush": "动物画笔。用它来表达对动物的爱意。",
   "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
   "animal.toolRequired": "{{tool}} 必填项",
-  "description.gold.egg.boost": "免费喂鸡"
+  "description.gold.egg.boost": "免费喂鸡",
+  "cropMachine.readyCropPacks.description": "你目前有 {{totalReady}} 个作物包要收割！点击你想要收获的包裹。"
 }

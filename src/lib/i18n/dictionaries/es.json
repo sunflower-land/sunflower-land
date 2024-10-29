@@ -729,7 +729,6 @@
   "cropMachine.notStartedYet": "Aún no se ha iniciado",
   "cropMachine.seedPacks": "Paquetes de semillas",
   "cropMachine.readyCropPacks": "Paquetes de cosecha listos",
-  "cropMachine.readyCropPacks.description": "Actualmente tienes paquetes de cosecha de {{totalReady}} que cosechar! Haz clic en el paquete que deseas cosechar.",
   "cropMachine.harvestCropPack": "Paquete de cosecha",
   "cropMachine.addOil": "Aceite para agregar",
   "cropMachine.oil.description": "Su máquina necesita aceite para funcionar. Cada paquete de semillas requerirá una cantidad determinada de aceite en función del tiempo que tarden los cultivos en crecer. A medida que añadas aceite, puedes ver cuánto tiempo funcionará la máquina cuando se le dé esa cantidad.",
@@ -4080,5 +4079,6 @@
   "description.brush": "Cepillo para animales. Utilízalo para demostrar afecto a tus animales.",
   "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales.",
   "animal.toolRequired": "{{tool}} Obligatorio",
-  "description.gold.egg.boost": "Alimenta a los pollos gratis"
+  "description.gold.egg.boost": "Alimenta a los pollos gratis",
+  "cropMachine.readyCropPacks.description": "¡Actualmente tienes paquetes de cosecha de {{totalReady}} que cosechar! Haz clic en el paquete que quieres cosechar."
 }

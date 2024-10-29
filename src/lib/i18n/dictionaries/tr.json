@@ -2605,7 +2605,6 @@
   "cropMachine.notStartedYet": "Henüz başlamadı",
   "cropMachine.seedPacks": "Tohum paketleri",
   "cropMachine.readyCropPacks": "Hazır mahsul paketleri",
-  "cropMachine.readyCropPacks.description": "Şu anda hasat etmek için {{totalReady}} mahsul paketleriniz var! Hasat etmek istediğiniz pakete tıklayın.",
   "cropMachine.harvestCropPack": "Hasat mahsul paketi",
   "cropMachine.addOil": "Yağ ekleyin",
   "cropMachine.oil.description": "Makinenizin çalışması için yağa ihtiyacı var. Her tohum paketi, mahsullerin büyümesinin ne kadar sürdüğüne bağlı olarak belirli miktarda yağ gerektirecektir. Yağ eklediğinizde, bu miktar verildiğinde makinenin ne kadar süre çalışacağını görebilirsiniz..",
@@ -4080,5 +4079,6 @@
   "description.brush": "Hayvan Fırçası. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
   "description.music.box": "Hayvanlara müzik çalar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
   "animal.toolRequired": "{{tool}} Gerekli",
-  "description.gold.egg.boost": "Tavukları ücretsiz besleyin"
+  "description.gold.egg.boost": "Tavukları ücretsiz besleyin",
+  "cropMachine.readyCropPacks.description": "Şu anda hasat etmek için {{totalReady}} mahsul paketleriniz var! Hasat etmek istediğiniz pakete tıklayın."
 }

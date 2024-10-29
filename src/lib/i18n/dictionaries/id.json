@@ -732,7 +732,6 @@
   "cropMachine.notStartedYet": "Belum dimulai",
   "cropMachine.seedPacks": "Paket benih",
   "cropMachine.readyCropPacks": "Paket tanaman siap pakai",
-  "cropMachine.readyCropPacks.description": "Saat ini Anda memiliki paket tanaman {{totalReady}} untuk dipanen! Klik paket yang ingin Anda panen.",
   "cropMachine.harvestCropPack": "Paket tanaman panen",
   "cropMachine.addOil": "Tambahkan minyak",
   "cropMachine.oil.description": "Mesin Anda membutuhkan oli untuk berjalan. Setiap paket benih akan membutuhkan sejumlah minyak berdasarkan berapa lama tanaman tumbuh. Saat Anda menambahkan oli, Anda dapat melihat berapa lama mesin akan berjalan ketika diberi jumlah itu.",
@@ -4080,5 +4079,6 @@
   "description.brush": "Sikat Hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
   "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
-  "description.gold.egg.boost": "Beri makan ayam secara gratis"
+  "description.gold.egg.boost": "Beri makan ayam secara gratis",
+  "cropMachine.readyCropPacks.description": "Saat ini Anda memiliki paket tanaman {{totalReady}} untuk dipanen! Klik pada paket yang ingin Anda panen."
 }

@@ -732,7 +732,6 @@
   "cropMachine.notStartedYet": "まだ開始されていません",
   "cropMachine.seedPacks": "シードパック",
   "cropMachine.readyCropPacks": "レディクロップパック",
-  "cropMachine.readyCropPacks.description": "現在、収穫できるクロップパックは {{totalReady}} 個あります！収穫したいパックをクリックしてください。",
   "cropMachine.harvestCropPack": "ハーベスト・クロップ・パック",
   "cropMachine.addOil": "オイルを加える",
   "cropMachine.oil.description": "機械を動かすにはオイルが必要です。すべてのシードパックには、作物の成長にかかる時間に応じて一定量の油が必要です。オイルを追加していくと、その量を与えられたときにマシンがどれくらいの時間稼働するかがわかります。",
@@ -4080,5 +4079,6 @@
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
   "animal.toolRequired": "{{tool}} が必要です",
-  "description.gold.egg.boost": "鶏に無料で餌をやる"
+  "description.gold.egg.boost": "鶏に無料で餌をやる",
+  "cropMachine.readyCropPacks.description": "現在、収穫できるクロップパックは {{totalReady}} 個あります！収穫したいパックをクリックしてください。"
 }
