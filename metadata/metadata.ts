@@ -15033,11 +15033,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Hat": {
     description:
-      "A classic wide-brimmed hat with a rugged charm, perfect for life on the open plains. Protects from the sun while adding a touch of cowboy style.",
+      "A classic wide-brimmed hat with a rugged charm, perfect for life on the open plains. Protects from the sun while adding a touch of cowboy style. +1 Horseshoe from Deliveries during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
       { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Horseshoe from Deliveries",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/396.png",
@@ -15045,11 +15050,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Shirt": {
     description:
-      "This durable, checked shirt is made for the hardworking cowpoke.",
+      "This durable, checked shirt is made for the hardworking cowpoke. +1 Horseshoe from Bounties during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Shirt" },
       { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Horseshoe from Bounties",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/397.png",
@@ -15057,11 +15067,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Trouser": {
     description:
-      "These sturdy trousers are built to withstand the wear and tear of ranch life, complete with a touch of style fit for a true cowboy.",
+      "These sturdy trousers are built to withstand the wear and tear of ranch life, complete with a touch of style fit for a true cowboy.  +1 Horseshoe from Chores during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Pants" },
       { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Horseshoe from Chores",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/398.png",

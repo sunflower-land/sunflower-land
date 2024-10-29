@@ -6,6 +6,7 @@ import { Label } from "components/ui/Label";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -13,6 +14,7 @@ import { getKeys } from "features/game/types/decorations";
 import { FLOWERS } from "features/game/types/flowers";
 import { BountyRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -149,7 +151,12 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
                               type="warning"
                               icon={ITEM_DETAILS[name].image}
                             >
-                              {deal.items?.[name]}
+                              {name !== getSeasonalTicket()
+                                ? deal.items?.[name]
+                                : generateBountyTicket({
+                                    game: state,
+                                    bounty: deal,
+                                  })}
                             </Label>
                           );
                         })}
@@ -175,6 +182,7 @@ const Deal: React.FC<{
   onSold: () => void;
 }> = ({ deal, onClose, onSold }) => {
   const { gameService } = useContext(Context);
+  const state = gameService.getSnapshot().context.state;
 
   const { t } = useAppTranslation();
   const sell = () => {
@@ -208,7 +216,12 @@ const Deal: React.FC<{
 
           {getKeys(deal.items ?? {}).map((name) => (
             <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
-              {deal.items?.[name]}
+              {name !== getSeasonalTicket()
+                ? deal.items?.[name]
+                : generateBountyTicket({
+                    game: state,
+                    bounty: deal,
+                  })}
             </Label>
           ))}
         </div>
@@ -218,7 +231,17 @@ const Deal: React.FC<{
             ? t("bounties.sell.coins", { amount: deal.coins })
             : t("bounties.sell.items", {
                 amount: getKeys(deal.items ?? {})
-                  .map((name) => `${deal.items?.[name]} x ${name}`)
+                  .map(
+                    (name) =>
+                      `${
+                        name !== getSeasonalTicket()
+                          ? deal.items?.[name]
+                          : generateBountyTicket({
+                              game: state,
+                              bounty: deal,
+                            })
+                      } x ${name}`,
+                  )
                   .join(" - "),
               })}
         </p>
