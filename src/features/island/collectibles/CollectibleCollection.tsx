@@ -1266,7 +1266,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 30}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
         left: `${PIXEL_SCALE * 1}px`,
       }}
       imgStyle={{
@@ -1311,7 +1311,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * -3}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
         left: `${PIXEL_SCALE * -3}px`,
       }}
       imgStyle={{
@@ -1326,7 +1326,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
