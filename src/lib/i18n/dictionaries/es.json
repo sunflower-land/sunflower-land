@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "Acogedora y acogedora, esta suave alfombra es perfecta para una siesta por la tarde. Añade calidez y encanto a cualquier espacio.",
   "description.meteorite": "Se rumorea que el meteorito, un raro y misterioso fragmento de las estrellas, tiene poder cósmico.",
   "description.sheafOfPlenty": "Un manojo de cebada cosechado en su punto máximo de madurez, que simboliza la abundancia y el arduo trabajo de la estación. +2 Cebada",
-  "description.mechanicalBull": "¡Una atracción animada y una prueba de resistencia! Súbete al Mechanical Bull y comprueba si puedes aguantar."
+  "description.mechanicalBull": "¡Una atracción animada y una prueba de resistencia! Súbete al Mechanical Bull y comprueba si puedes aguantar.",
+  "description.dreamScarf.boost": "-20% de tiempo de producción ovina",
+  "description.cowboyHat.boost": "+1 Herradura de Deliveries",
+  "description.cowboyShirt.boost": "+1 Horseshoe de Bounties",
+  "description.cowboyTrouser.boost": "+1 Herradura de Chores",
+  "description.milkApron.boost": "+0.5 Leche",
+  "description.sheafOfPlenty.boost": "+2 Cebada",
+  "restrictionReason.sheepFed": "Las ovejas son alimentadas",
+  "restrictionReason.cowFed": "Las vacas se alimentan"
 }

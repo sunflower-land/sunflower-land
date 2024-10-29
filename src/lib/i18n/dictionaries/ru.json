@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "Уютный и уютный, этот мягкий коврик идеально подходит для послеобеденного сна. Он добавляет тепла и шарма любому пространству.",
   "description.meteorite": "По слухам, метеорит, представляющий собой редкий и загадочный фрагмент звезд, обладает космической силой.",
   "description.sheafOfPlenty": "Пучок ячменя, собранный в пик спелости, символизирует изобилие и тяжелую работу сезона. +2 Ячмень",
-  "description.mechanicalBull": "Оживленный аттракцион и испытание на выносливость! Садитесь на механического быка и посмотрите, сможете ли вы удержаться."
+  "description.mechanicalBull": "Оживленный аттракцион и испытание на выносливость! Садитесь на механического быка и посмотрите, сможете ли вы удержаться.",
+  "description.dreamScarf.boost": "-20% времени производства овец",
+  "description.cowboyHat.boost": "+1 «Подкова» от поставок",
+  "description.cowboyShirt.boost": "+1 «Подкова» от Bounties",
+  "description.cowboyTrouser.boost": "+1 Подкова из серии Chores",
+  "description.milkApron.boost": "+0,5 Молоко",
+  "description.sheafOfPlenty.boost": "+2 Ячмень",
+  "restrictionReason.sheepFed": "Овец кормят",
+  "restrictionReason.cowFed": "Коров кормят"
 }

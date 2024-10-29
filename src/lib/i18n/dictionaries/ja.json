@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "心地よく心地よいこの柔らかいラグは、午後の昼寝に最適です。どんな空間にも暖かさと魅力を添えます。",
   "description.meteorite": "星から出た希少で神秘的な破片である隕石は、宇宙の力を持っていると噂されています。",
   "description.sheafOfPlenty": "熟度のピーク時に収穫された大麦の束で、豊かさと季節の苦労を象徴しています。+2 大麦",
-  "description.mechanicalBull": "にぎやかなアトラクションと持久力の試練！メカニカルブルに飛び乗って、持ちこたえられるか試してみましょう。"
+  "description.mechanicalBull": "にぎやかなアトラクションと持久力の試練！メカニカルブルに飛び乗って、持ちこたえられるか試してみましょう。",
+  "description.dreamScarf.boost": "-20% 羊の生産時間",
+  "description.cowboyHat.boost": "デリバリーで獲得できるホースシュー +1",
+  "description.cowboyShirt.boost": "バウンティからホースシュー +1",
+  "description.cowboyTrouser.boost": "雑用から+1ホースシュー",
+  "description.milkApron.boost": "+0.5 ミルク",
+  "description.sheafOfPlenty.boost": "+2 バーリー",
+  "restrictionReason.sheepFed": "羊に餌をやる",
+  "restrictionReason.cowFed": "牛に餌をやる"
 }

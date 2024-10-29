@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "Nyaman dan mengundang, karpet lembut ini sangat cocok untuk tidur siang. Ini menambah kehangatan dan pesona ke ruang apa pun.",
   "description.meteorite": "Sebuah fragmen langka dan misterius dari bintang-bintang, meteorit itu dikabarkan memiliki kekuatan kosmik.",
   "description.sheafOfPlenty": "Seikat jelai dipanen pada puncak kematangan, melambangkan kelimpahan dan kerja keras musim ini. +2 Barley",
-  "description.mechanicalBull": "Daya tarik yang hidup dan ujian daya tahan! Naik Mechanical Bull dan lihat apakah Anda bisa bertahan."
+  "description.mechanicalBull": "Daya tarik yang hidup dan ujian daya tahan! Naik Mechanical Bull dan lihat apakah Anda bisa bertahan.",
+  "description.dreamScarf.boost": "-20% Waktu Produksi Domba",
+  "description.cowboyHat.boost": "+1 Horseshoe dari Delivery",
+  "description.cowboyShirt.boost": "+1 Horseshoe dari Bounties",
+  "description.cowboyTrouser.boost": "+1 Horseshoe dari Chores",
+  "description.milkApron.boost": "+0.5 Susu",
+  "description.sheafOfPlenty.boost": "+2 Barley",
+  "restrictionReason.sheepFed": "Domba diberi makan",
+  "restrictionReason.cowFed": "Sapi diberi makan"
 }

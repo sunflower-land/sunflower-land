@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "Accogliente e invitante, questo morbido tappeto è perfetto per un sonnellino pomeridiano. Aggiunge calore e fascino a qualsiasi spazio.",
   "description.meteorite": "Si dice che il meteorite sia un raro e misterioso frammento stellare dotato di potere cosmico.",
   "description.sheafOfPlenty": "Un fascio di orzo raccolto al massimo della maturazione, che simboleggia l'abbondanza e il duro lavoro della stagione. +2 Orzo",
-  "description.mechanicalBull": "Un'attrazione vivace e una prova di resistenza! Sali sul Mechanical Bull e vedi se riesci a resistere."
+  "description.mechanicalBull": "Un'attrazione vivace e una prova di resistenza! Sali sul Mechanical Bull e vedi se riesci a resistere.",
+  "description.dreamScarf.boost": "-20% Tempo di produzione delle pecore",
+  "description.cowboyHat.boost": "+1 Horseshoe from Deliveries",
+  "description.cowboyShirt.boost": "+1 Horseshoe di Bounties",
+  "description.cowboyTrouser.boost": "+1 Horseshoe from Chores",
+  "description.milkApron.boost": "+0,5 latte",
+  "description.sheafOfPlenty.boost": "+2 Barley",
+  "restrictionReason.sheepFed": "Le pecore vengono nutrite",
+  "restrictionReason.cowFed": "Le mucche vengono nutrite"
 }

@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "Aconchegante e convidativo, este tapete macio é perfeito para um cochilo à tarde. Ele adiciona calor e charme a qualquer espaço.",
   "description.meteorite": "Um fragmento raro e misterioso das estrelas, dizem que o meteorito tem poder cósmico.",
   "description.sheafOfPlenty": "Um pacote de cevada colhido no pico da maturação, simbolizando a abundância e o trabalho árduo da temporada. +2 Cevada",
-  "description.mechanicalBull": "Uma atração animada e um teste de resistência! Suba no Mechanical Bull e veja se consegue aguentar."
+  "description.mechanicalBull": "Uma atração animada e um teste de resistência! Suba no Mechanical Bull e veja se consegue aguentar.",
+  "description.dreamScarf.boost": "-20% de tempo de produção de ovinos",
+  "description.cowboyHat.boost": "+1 Horseshoe from Deliveries",
+  "description.cowboyShirt.boost": "+1 Horseshoe de Bounties",
+  "description.cowboyTrouser.boost": "+1 Horseshoe from Chores",
+  "description.milkApron.boost": "+0,5 Leite",
+  "description.sheafOfPlenty.boost": "+2 Cevada",
+  "restrictionReason.sheepFed": "As ovelhas são alimentadas",
+  "restrictionReason.cowFed": "As vacas são alimentadas"
 }

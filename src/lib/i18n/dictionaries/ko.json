@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "아늑하고 매력적인 이 부드러운 러그는 오후 낮잠에 안성맞춤입니다.어떤 공간에도 따뜻함과 매력을 더해줍니다.",
   "description.meteorite": "별에서 나온 희귀하고 불가사의한 파편인 이 운석은 우주의 힘을 지니고 있다는 소문이 있습니다.",
   "description.sheafOfPlenty": "가장 잘 익었을 때 수확한 보리 다발로, 풍요로움과 계절의 노력을 상징합니다. +2 보리",
-  "description.mechanicalBull": "활기찬 매력과 지구력 테스트!기계식 황소에 올라타 버틸 수 있는지 확인해 보세요."
+  "description.mechanicalBull": "활기찬 매력과 지구력 테스트!기계식 황소에 올라타 버틸 수 있는지 확인해 보세요.",
+  "description.dreamScarf.boost": "-20% 양 생산 시간",
+  "description.cowboyHat.boost": "배달에서 얻는 말굽 1개당 1개",
+  "description.cowboyShirt.boost": "바운티에서 얻는 말굽 1마리",
+  "description.cowboyTrouser.boost": "초어스의 말굽 1마리",
+  "description.milkApron.boost": "+0.5 밀크",
+  "description.sheafOfPlenty.boost": "+2 보리",
+  "restrictionReason.sheepFed": "양에게 먹이를 준다",
+  "restrictionReason.cowFed": "젖소에게 먹이주기"
 }

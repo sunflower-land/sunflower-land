@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "Dieser weiche Teppich ist gemütlich und einladend und eignet sich perfekt für ein Nickerchen am Nachmittag. Er verleiht jedem Raum Wärme und Charme.",
   "description.meteorite": "Der Meteorit ist ein seltenes und rätselhaftes Fragment der Sterne. Gerüchten zufolge soll er kosmische Kraft besitzen.",
   "description.sheafOfPlenty": "Ein Bündel Gerste, das bei höchster Reife geerntet wird. Es steht für Fülle und die harte Arbeit der Saison. +2 Gerste",
-  "description.mechanicalBull": "Eine lebhafte Attraktion und Ausdauerprobe! Steigen Sie auf den Mechanical Bull und sehen Sie, ob Sie durchhalten können."
+  "description.mechanicalBull": "Eine lebhafte Attraktion und Ausdauerprobe! Steigen Sie auf den Mechanical Bull und sehen Sie, ob Sie durchhalten können.",
+  "description.dreamScarf.boost": "-20% Produktionszeit für Schafe",
+  "description.cowboyHat.boost": "+1 Hufeisen von Deliveries",
+  "description.cowboyShirt.boost": "+1 Hufeisen von Bounties",
+  "description.cowboyTrouser.boost": "+1 Hufeisen von Chores",
+  "description.milkApron.boost": "+0.5 Milch",
+  "description.sheafOfPlenty.boost": "+2 Gerste",
+  "restrictionReason.sheepFed": "Schafe werden gefüttert",
+  "restrictionReason.cowFed": "Kühe werden gefüttert"
 }

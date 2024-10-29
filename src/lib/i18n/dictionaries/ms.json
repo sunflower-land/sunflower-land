@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "Selesa dan menarik, permaidani lembut ini sesuai untuk tidur petang. Ia menambah kehangatan dan daya tarikan kepada mana-mana ruang.",
   "description.meteorite": "Serpihan jarang dan misteri dari bintang-bintang, meteorit dikhabarkan memegang kekuatan kosmik.",
   "description.sheafOfPlenty": "Sekumpulan barli dituai pada kematangan puncak, melambangkan kelimpahan dan kerja keras musim ini. +2 Barli",
-  "description.mechanicalBull": "Tarikan yang meriah dan ujian ketahanan! Lompat ke Mechanical Bull dan lihat apakah anda boleh bertahan."
+  "description.mechanicalBull": "Tarikan yang meriah dan ujian ketahanan! Lompat ke Mechanical Bull dan lihat apakah anda boleh bertahan.",
+  "description.dreamScarf.boost": "-20% Masa Pengeluaran Domba",
+  "description.cowboyHat.boost": "+1 Horseshoe dari Penghantaran",
+  "description.cowboyShirt.boost": "+1 Horseshoe dari Bounties",
+  "description.cowboyTrouser.boost": "+1 Horseshoe dari Chores",
+  "description.milkApron.boost": "+0.5 Susu",
+  "description.sheafOfPlenty.boost": "+2 Barli",
+  "restrictionReason.sheepFed": "Domba diberi makan",
+  "restrictionReason.cowFed": "Lembu diberi makan"
 }

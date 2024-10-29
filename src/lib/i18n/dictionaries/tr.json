@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "Rahat ve davetkar olan bu yumuşak halı, öğleden sonra uykusu için mükemmeldir. Her alana sıcaklık ve çekicilik katar.",
   "description.meteorite": "Yıldızlardan nadir ve gizemli bir parça olan göktaşının kozmik güce sahip olduğu söyleniyor.",
   "description.sheafOfPlenty": "Bolluğu ve sezonun sıkı çalışmasını simgeleyen, en yüksek olgunlukta hasat edilen bir arpa demeti. +2 Arpa",
-  "description.mechanicalBull": "Canlı bir cazibe ve dayanıklılık testi! Mekanik Boğa'ya atla ve tutunabilecek misin bir bak."
+  "description.mechanicalBull": "Canlı bir cazibe ve dayanıklılık testi! Mekanik Boğa'ya atla ve tutunabilecek misin bir bak.",
+  "description.dreamScarf.boost": "-20% Koyun Üretim Süresi",
+  "description.cowboyHat.boost": "Teslimatlardan +1 At Nalı",
+  "description.cowboyShirt.boost": "+1 Bounties'den Horseshoe",
+  "description.cowboyTrouser.boost": "+1 Horseshoe from Chores",
+  "description.milkApron.boost": "+0.5 Süt",
+  "description.sheafOfPlenty.boost": "+2 Barley",
+  "restrictionReason.sheepFed": "Koyunlar beslenir",
+  "restrictionReason.cowFed": "İnekler beslenir"
 }

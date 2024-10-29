@@ -4087,5 +4087,13 @@
   "description.sleepyRug": "这款柔软的地毯既舒适又诱人，非常适合午睡。它为任何空间增添了温暖和魅力。",
   "description.meteorite": "有传言说，这颗陨石是来自恒星的稀有而神秘的碎片，具有宇宙的力量。",
   "description.sheafOfPlenty": "一捆在成熟期收获的大麦，象征着丰收和本季的辛勤工作。+2 大麦",
-  "description.mechanicalBull": "生动的景点和耐力的考验！跳上机械公牛，看看你能不能坚持下去。"
+  "description.mechanicalBull": "生动的景点和耐力的考验！跳上机械公牛，看看你能不能坚持下去。",
+  "description.dreamScarf.boost": "-20% 绵羊生产时间",
+  "description.cowboyHat.boost": "+1 来自配送的马蹄铁",
+  "description.cowboyShirt.boost": "+1 来自赏金的马蹄铁",
+  "description.cowboyTrouser.boost": "+1 来自 Chores 的马蹄铁",
+  "description.milkApron.boost": "+0.5 牛奶",
+  "description.sheafOfPlenty.boost": "+2 大麦",
+  "restrictionReason.sheepFed": "给绵羊喂食",
+  "restrictionReason.cowFed": "奶牛被喂食"
 }
