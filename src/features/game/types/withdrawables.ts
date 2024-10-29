@@ -1706,9 +1706,13 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Chicken Suit": () => false,
   "Cowgirl Skirt": () => hasSeasonEnded("Bull Run"),
   "Merino Jumper": () => false,
-  "Dream Scarf": () => hasSeasonEnded("Bull Run"),
+  "Dream Scarf": (state) =>
+    canWithdrawBoostedWearable("Dream Scarf", state) &&
+    hasSeasonEnded("Bull Run"),
   "Cowbell Necklace": () => false,
-  "Milk Apron": () => hasSeasonEnded("Bull Run"),
+  "Milk Apron": (state) =>
+    canWithdrawBoostedWearable("Milk Apron", state) &&
+    hasSeasonEnded("Bull Run"),
   "Shepherd Staff": () => false,
   "Sol & Luna": () => false,
   "Fossil Armor": () => false,

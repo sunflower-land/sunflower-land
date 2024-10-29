@@ -39,6 +39,7 @@ import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
 import { BED_FARMHAND_COUNT } from "./beds";
+import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -242,6 +243,28 @@ export function areAnyChickensFed(game: GameState): Restriction {
   );
 
   return [chickensAreFed, translate("restrictionReason.chickensFed")];
+}
+
+export function areAnySheepsFed(game: GameState): Restriction {
+  const sheepAreFed = Object.values(game.barn.animals).some(
+    (animal) =>
+      animal.asleepAt &&
+      animal.type === "Sheep" &&
+      Date.now() - animal.asleepAt < ANIMAL_SLEEP_DURATION,
+  );
+
+  return [sheepAreFed, translate("restrictionReason.sheepFed")];
+}
+
+export function areAnyCowsFed(game: GameState): Restriction {
+  const cowAreFed = Object.values(game.barn.animals).some(
+    (animal) =>
+      animal.asleepAt &&
+      animal.type === "Cow" &&
+      Date.now() - animal.asleepAt < ANIMAL_SLEEP_DURATION,
+  );
+
+  return [cowAreFed, translate("restrictionReason.cowFed")];
 }
 
 const MAX_DIGS = 25;
@@ -560,6 +583,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Cow Bed": (game) => isFarmhandUsingBed("Cow Bed", game),
   "Pirate Bed": (game) => isFarmhandUsingBed("Pirate Bed", game),
   "Royal Bed": (game) => isFarmhandUsingBed("Royal Bed", game),
+
+  // Bull Run
+  "Sheaf of Plenty": (game) => cropIsGrowing({ item: "Barley", game }),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
