@@ -13,6 +13,7 @@ import {
 } from "../types/decorations";
 import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_IDS } from "../types";
+import { ANIMAL_FOODS } from "../types/animals";
 
 export const MAX_ITEMS: Inventory = {
   Sunflower: new Decimal(30000),
@@ -334,6 +335,14 @@ export const MAX_ITEMS: Inventory = {
       }),
       {},
     ),
+
+  ...(Object.keys(ANIMAL_FOODS) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(1500),
+    }),
+    {},
+  ),
 };
 
 /**
