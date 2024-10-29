@@ -530,6 +530,24 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
     },
+    "Cowboy Hat": {
+      shortDescription: translate("description.cowboyHat.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+    },
+    "Cowboy Shirt": {
+      shortDescription: translate("description.cowboyShirt.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+    },
+    "Cowboy Trouser": {
+      shortDescription: translate("description.cowboyTrouser.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+    },
     "Milk Apron": {
       shortDescription: translate("description.milkApron.boost"),
       labelType: "info",
