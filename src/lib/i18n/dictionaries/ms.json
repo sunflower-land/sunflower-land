@@ -4080,7 +4080,21 @@
   "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
   "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
+  "description.gold.egg.boost": "Makan Ayam secara percuma",
   "easterEgg.halloweenBook": "?????",
   "easterEgg.halloweenBookText": "Terdapat tempat yang lebih tua daripada masa itu sendiri, dan tempat lain di mana cahaya tidak bersinar. Anda tidak sepatutnya berada di sini. Di hutan ini, pokok-pokok membisikkan rahsia masa yang dilupakan dan bayang-bayang mengintai di mana-mana, dengan sabar menunggu peluang untuk membaham mana-mana sumber cahaya yang berani bersinar. Tiada tempat untuk pengembara di sini...",
-  "description.gold.egg.boost": "Makan Ayam secara percuma"
+  "halloween.sacrifice.intro.one": "Mereka mengatakan bahawa pada malam tanpa bulan, di bawah pokok purba, seorang ahli sihir mengumpulkan roh yang paling pelbagai dan berkuasa di bumi.",
+  "halloween.sacrifice.intro.two": "Masing-masing memegang gema yang berbeza, kilauan unik dalam pandangan mereka, dan masing-masing ditawarkan kepada bulatan suci di bawah sumpah kuno.",
+  "halloween.sacrifice.intro.three": "Apabila semua roh hadir, hutan itu bergetar, dan dalam kilatan hijau dan emas, makhluk yang kuat dilahirkan, diselitkan dengan kekuatan dan kebijaksanaan mereka yang dipanggil.",
+  "halloween.sacrifice.intro.four": "Hanya seorang yang memahami misteri setiap roh dan menyatukan mereka dalam keharmonian yang sempurna akan layak menerima berkat ini... tetapi berhati-hatilah, kerana kuasa sedemikian tidak diberikan kepada sesiapa sahaja.",
+  "halloween.sacrifice.suggestion": "Ingatlah untuk memilih dengan teliti beruang mana yang ingin anda korbankan.",
+  "halloween.sacrifice.select.bears": "Pilih beruang untuk dikorbankan",
+  "halloween.sacrifice.sacrifice": "Beruang Pengorbanan",
+  "halloween.sacrifice.empty": "Anda tidak mempunyai sebarang beruang untuk dikorbankan",
+  "halloween.noticeboard.one": "Selamat Halloween!",
+  "halloween.noticeboard.two": "Dalam acara ini, anda akan menemui Portal Halloween masa terhad, di mana bahaya mengintai dan hanya bumpkin paling berani bertahan!",
+  "halloween.noticeboard.three": "Pada akhir acara, ganjaran istimewa akan diedarkan kepada mereka yang mendapat markah tertinggi dalam portal!",
+  "halloween.noticeboard.four": "Markah tertinggi akan menerima item terhad khas, manakala mereka yang mempunyai markah terkumpul tertinggi (jumlah markah terbaik untuk setiap hari acara) akan menerima ganjaran $SFL!",
+  "halloween.noticeboard.five": "Anda juga boleh membuat sumbangan kepada NPC di pulau ini, dan hadiah istimewa akan diberikan kepada mereka yang menderma 3 $POL atau lebih!",
+  "easterEgg.halloweenTorchText": "Anda merasakan sensasi aneh, seolah-olah hutan memanggil anda..."
 }

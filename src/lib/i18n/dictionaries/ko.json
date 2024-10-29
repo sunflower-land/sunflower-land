@@ -4080,7 +4080,21 @@
   "description.brush": "애니멀 브러쉬.이 제품을 사용해 동물에게 애정을 표현하세요.",
   "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
   "animal.toolRequired": "{{tool}} 필수",
+  "description.gold.egg.boost": "닭에게 무료로 먹이주기",
   "easterEgg.halloweenBook": "?????",
   "easterEgg.halloweenBookText": "시간보다 오래된 곳도 있고, 빛이 비치지 않는 곳도 있습니다. 당신은 여기 오면 안 돼요. 이 숲에서는 나무들이 잊혀진 시간의 비밀을 속삭이고, 그림자가 곳곳에 숨어 감히 빛을 비추는 모든 것을 삼킬 기회를 참을성 있게 기다립니다. 이곳에는 모험가를 위한 자리가 없습니다...",
-  "description.gold.egg.boost": "닭에게 무료로 먹이주기"
+  "halloween.sacrifice.intro.one": "달이 없는 밤, 고대의 나무 아래에서 한 마녀가 지구상에서 가장 다양하고 강력한 정령을 모았다고 전해져 내려옵니다.",
+  "halloween.sacrifice.intro.two": "각기 다른 울림과 독특한 눈빛을 지닌 정령들은 고대의 맹세 아래 신성한 서클에 바쳐졌습니다.",
+  "halloween.sacrifice.intro.three": "모든 정령이 모였을 때 숲이 떨리고 녹색과 금빛이 번쩍이며 소환된 이들의 힘과 지혜가 깃든 강력한 생명체가 탄생했습니다.",
+  "halloween.sacrifice.intro.four": "각 정령의 신비를 이해하고 완벽한 조화를 이루는 사람만이 이 축복을 받을 자격이 있지만, 아무에게나 그런 힘이 주어지는 것은 아니니 조심하세요.",
+  "halloween.sacrifice.suggestion": "어떤 곰을 희생할지 신중하게 선택해야 합니다.",
+  "halloween.sacrifice.select.bears": "희생할 곰 선택하기",
+  "halloween.sacrifice.sacrifice": "곰 희생",
+  "halloween.sacrifice.empty": "희생할 곰이 없습니다.",
+  "halloween.noticeboard.one": "해피 할로윈!",
+  "halloween.noticeboard.two": "이 이벤트에서는 위험이 도사리고 있고 용감한 범프킨만이 살아남을 수 있는 기간 한정 할로윈 포털을 만나볼 수 있습니다!",
+  "halloween.noticeboard.three": "이벤트가 끝나면 포털에서 가장 높은 점수를 얻은 사람들에게 특별한 보상이 지급됩니다!",
+  "halloween.noticeboard.four": "최고 점수자에게는 특별 한정 아이템을, 누적 점수(이벤트 기간 중 각 날짜별 최고 점수를 합산한 점수)가 가장 높은 사람에게는 $SFL 보상을 드립니다!",
+  "halloween.noticeboard.five": "또한 이 섬의 NPC에게 기부할 수 있으며, 3 $POL 이상 기부하신 분들께는 특별한 선물이 주어집니다!",
+  "easterEgg.halloweenTorchText": "마치 숲이 당신을 부르는 듯한 이상한 느낌을 받습니다..."
 }

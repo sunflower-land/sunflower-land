@@ -29,6 +29,7 @@ export class HalloweenIslandScene extends BaseScene {
       },
     });
   }
+
   preload() {
     super.preload();
 
@@ -71,6 +72,15 @@ export class HalloweenIslandScene extends BaseScene {
       {
         frameWidth: 16,
         frameHeight: 16,
+      },
+    );
+
+    this.load.spritesheet(
+      "ghost_animated",
+      `world/event_island_assets/ghost_animated.png`,
+      {
+        frameWidth: 20,
+        frameHeight: 19,
       },
     );
 
@@ -154,6 +164,18 @@ export class HalloweenIslandScene extends BaseScene {
     });
     skullfloat.play("skullfloat_animation", true);
 
+    const ghost_animated = this.add.sprite(398, 340, "ghost_animated");
+    this.anims.create({
+      key: "ghost_animated_animation",
+      frames: this.anims.generateFrameNumbers("ghost_animated", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 6,
+    });
+    ghost_animated.play("ghost_animated_animation", true);
+
     const halloweenwarp = this.add.sprite(309, 1080, "halloweenwarp");
     this.anims.create({
       key: "halloweenwarp_animation",
@@ -165,6 +187,16 @@ export class HalloweenIslandScene extends BaseScene {
       frameRate: 8,
     });
     halloweenwarp.play("halloweenwarp_animation", true);
+
+    halloweenwarp
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(halloweenwarp, 75)) {
+          interactableModalManager.open("world_map");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
 
     const halloween_portal_entrance = this.add.sprite(
       220,
@@ -182,6 +214,17 @@ export class HalloweenIslandScene extends BaseScene {
     });
     halloween_portal_entrance.play("halloween_portal_entrance_animation", true);
 
+    halloween_portal_entrance
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(halloween_portal_entrance, 40)) {
+          interactableModalManager.open("chicken_rescue");
+          //Change to the right portal
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+
     const halloween_monsters = this.add.sprite(129, 785, "halloween_monsters");
     this.anims.create({
       key: "halloween_monsters_animation",
@@ -198,11 +241,21 @@ export class HalloweenIslandScene extends BaseScene {
 
     const halloween_torch = this.add.image(227, 885, "halloween_torch");
 
-    const halloween_leaderboard = this.add.image(
+    const halloween_noticeboard = this.add.image(
       351,
       1031,
       "halloween_leaderboard",
     );
+
+    halloween_noticeboard
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(halloween_noticeboard, 75)) {
+          interactableModalManager.open("halloween_noticeboard");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
 
     const donate_halloween_npc = this.add.sprite(
       212,
@@ -243,5 +296,20 @@ export class HalloweenIslandScene extends BaseScene {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
+
+    halloween_torch
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(halloween_torch, 75)) {
+          interactableModalManager.open("halloween_torch");
+          this.physics.world.disable(door!);
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+
+    const door = this.colliders
+      ?.getChildren()
+      .find((object) => object.data?.list?.id === "forest_door");
   }
 }

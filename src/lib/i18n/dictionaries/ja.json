@@ -4080,7 +4080,21 @@
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
   "animal.toolRequired": "{{tool}} が必要です",
+  "description.gold.egg.boost": "鶏に無料で餌をやる",
   "easterEgg.halloweenBook": "?????",
   "easterEgg.halloweenBookText": "時間よりも古い場所もあれば、光の当たらない場所もある。ここにいてはいけない。この森では、木々が忘れ去られた時代の秘密をささやき、影がいたるところに潜み、光を放とうとする光源を食い尽くすチャンスを辛抱強く待っている。ここに冒険者の居場所はない...。",
-  "description.gold.egg.boost": "鶏に無料で餌をやる"
+  "halloween.sacrifice.intro.one": "月のない夜、古代の木々の下で、一人の魔女が地上の最も多様で強力な精霊を集めたという。",
+  "halloween.sacrifice.intro.two": "それぞれが異なる響きを持ち、そのまなざしには独特のきらめきがあり、古代の誓いのもと、聖なる輪に捧げられた。",
+  "halloween.sacrifice.intro.three": "すべての精霊が揃ったとき、森が震え、緑と金の閃光が走り、召喚された者たちの力と知恵が注ぎ込まれた強力なクリーチャーが誕生した。",
+  "halloween.sacrifice.intro.four": "それぞれの精霊の神秘を理解し、それらを完璧に調和させた者だけが、この祝福を受けるにふさわしい...しかし用心せよ、そのような力は誰にでも与えられるものではない。",
+  "halloween.sacrifice.suggestion": "どの熊を生贄に捧げるかは、慎重に選ぶことを忘れずに。",
+  "halloween.sacrifice.select.bears": "生贄に捧げる熊を選ぶ",
+  "halloween.sacrifice.sacrifice": "生け贄のクマ",
+  "halloween.sacrifice.empty": "生け贄にするクマがいない",
+  "halloween.noticeboard.one": "ハッピーハロウィン",
+  "halloween.noticeboard.two": "このイベントでは、危険が潜む期間限定のハロウィンポータルを見つけ、勇敢なコブキングだけが生き残ることができます！",
+  "halloween.noticeboard.three": "イベント終了時には、ポータルで最高得点を獲得した方に特別報酬が配布されます！",
+  "halloween.noticeboard.four": "最高得点者には特別な限定アイテムが、累計得点（イベント各日のベストスコアの合計）上位者にはSFL特典が贈られる！",
+  "halloween.noticeboard.five": "また、この島にいるNPCに寄付をすることができ、3$POL以上寄付した方には特別なプレゼントが贈られます！",
+  "easterEgg.halloweenTorchText": "森が自分を呼んでいるような、不思議な感覚を覚える...。"
 }
