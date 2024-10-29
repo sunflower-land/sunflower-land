@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
+import { isWearableActive } from "features/game/lib/wearables";
 import { ChoreV2Name, GameState } from "features/game/types/game";
 import {
+  getCurrentSeason,
   getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
@@ -34,6 +36,13 @@ export function generateChoreTickets({
     !!game.inventory["Lifetime Farmer Banner"]
   ) {
     amount += 2;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
   }
 
   return amount;
