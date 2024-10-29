@@ -178,7 +178,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Treasure Key",
     cost: {
       items: {
-        Horseshoe: 50,
+        Horseshoe: 100,
       },
       sfl: 0,
     },
@@ -224,7 +224,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Rare Key",
     cost: {
       items: {
-        Horseshoe: 50,
+        Horseshoe: 300,
       },
       sfl: 0,
     },
@@ -270,7 +270,7 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Luxury Key",
     cost: {
       items: {
-        Horseshoe: 50,
+        Horseshoe: 1000,
       },
       sfl: 0,
     },
