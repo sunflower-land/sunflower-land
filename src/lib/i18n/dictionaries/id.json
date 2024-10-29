@@ -4080,5 +4080,6 @@
   "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
   "description.gold.egg.boost": "Beri makan ayam secara gratis",
-  "cropMachine.readyCropPacks.description": "Saat ini Anda memiliki paket tanaman {{totalReady}} untuk dipanen! Klik pada paket yang ingin Anda panen."
+  "cropMachine.readyCropPacks.description": "Saat ini Anda memiliki paket tanaman {{totalReady}} untuk dipanen! Klik pada paket yang ingin Anda panen.",
+  "leaderboard.empty": "Tidak ada papan peringkat yang ditemukan."
 }

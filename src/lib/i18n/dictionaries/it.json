@@ -4080,5 +4080,6 @@
   "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
   "animal.toolRequired": "{{tool}} Obbligatorio",
   "description.gold.egg.boost": "Dai da mangiare ai polli gratis",
-  "cropMachine.readyCropPacks.description": "Al momento hai {{totalReady}} pacchetti di raccolto da raccogliere! Fai clic sulla confezione che desideri raccogliere."
+  "cropMachine.readyCropPacks.description": "Al momento hai {{totalReady}} pacchetti di raccolto da raccogliere! Fai clic sulla confezione che desideri raccogliere.",
+  "leaderboard.empty": "Nessuna classifica trovata."
 }

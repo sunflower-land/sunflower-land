@@ -4080,5 +4080,6 @@
   "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
   "description.gold.egg.boost": "Makan Ayam secara percuma",
-  "cropMachine.readyCropPacks.description": "Anda kini mempunyai pek tanaman {{totalReady}} untuk dituai! Klik pada pek yang ingin anda tuai."
+  "cropMachine.readyCropPacks.description": "Anda kini mempunyai pek tanaman {{totalReady}} untuk dituai! Klik pada pek yang ingin anda tuai.",
+  "leaderboard.empty": "Tiada papan pendahulu ditemui."
 }

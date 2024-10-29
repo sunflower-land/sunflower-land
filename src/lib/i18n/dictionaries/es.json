@@ -4080,5 +4080,6 @@
   "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales.",
   "animal.toolRequired": "{{tool}} Obligatorio",
   "description.gold.egg.boost": "Alimenta a los pollos gratis",
-  "cropMachine.readyCropPacks.description": "¡Actualmente tienes paquetes de cosecha de {{totalReady}} que cosechar! Haz clic en el paquete que quieres cosechar."
+  "cropMachine.readyCropPacks.description": "¡Actualmente tienes paquetes de cosecha de {{totalReady}} que cosechar! Haz clic en el paquete que quieres cosechar.",
+  "leaderboard.empty": "No se ha encontrado ninguna tabla de clasificación."
 }

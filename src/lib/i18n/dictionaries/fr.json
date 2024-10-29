@@ -4080,5 +4080,6 @@
   "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
   "animal.toolRequired": "{{tool}} Obligatoire",
   "description.gold.egg.boost": "Nourrissez les poulets gratuitement",
-  "cropMachine.readyCropPacks.description": "Vous avez actuellement {{totalReady}} packs de récoltes à récolter ! Cliquez sur le pack que vous souhaitez récolter."
+  "cropMachine.readyCropPacks.description": "Vous avez actuellement {{totalReady}} packs de récoltes à récolter ! Cliquez sur le pack que vous souhaitez récolter.",
+  "leaderboard.empty": "Aucun classement n'a été trouvé."
 }

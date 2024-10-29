@@ -4080,5 +4080,6 @@
   "description.music.box": "Играет музыку для животных. Используйте это, чтобы выразить любовь к своим животным.",
   "animal.toolRequired": "{{tool}} Обязательно",
   "description.gold.egg.boost": "Кормите цыплят бесплатно",
-  "cropMachine.readyCropPacks.description": "Сейчас у вас есть наборы урожая {{totalReady}} для сбора урожая! Нажмите на набор, который хотите собрать."
+  "cropMachine.readyCropPacks.description": "Сейчас у вас есть наборы урожая {{totalReady}} для сбора урожая! Нажмите на набор, который хотите собрать.",
+  "leaderboard.empty": "Таблица лидеров не найдена."
 }

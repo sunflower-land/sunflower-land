@@ -4080,5 +4080,6 @@
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
   "animal.toolRequired": "{{tool}} が必要です",
   "description.gold.egg.boost": "鶏に無料で餌をやる",
-  "cropMachine.readyCropPacks.description": "現在、収穫できるクロップパックは {{totalReady}} 個あります！収穫したいパックをクリックしてください。"
+  "cropMachine.readyCropPacks.description": "現在、収穫できるクロップパックは {{totalReady}} 個あります！収穫したいパックをクリックしてください。",
+  "leaderboard.empty": "リーダーボードが見つかりません。"
 }

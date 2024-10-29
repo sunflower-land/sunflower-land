@@ -4080,5 +4080,6 @@
   "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
   "animal.toolRequired": "{{tool}} 必填项",
   "description.gold.egg.boost": "免费喂鸡",
-  "cropMachine.readyCropPacks.description": "你目前有 {{totalReady}} 个作物包要收割！点击你想要收获的包裹。"
+  "cropMachine.readyCropPacks.description": "你目前有 {{totalReady}} 个作物包要收割！点击你想要收获的包裹。",
+  "leaderboard.empty": "未找到排行榜。"
 }
