@@ -21,6 +21,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PortalLeaderboard } from "./PortalLeaderboard";
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -95,6 +96,8 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   const [showIntro, setShowIntro] = useState(!minigame?.history);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
+  const [page, setPage] = useState<"play" | "leaderboard">("play");
+
   const { t } = useAppTranslation();
 
   if (showIntro) {
@@ -167,6 +170,15 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
     );
   }
 
+  if (page === "leaderboard") {
+    return (
+      <PortalLeaderboard
+        onBack={() => setPage("play")}
+        name={"chicken-rescue"}
+      />
+    );
+  }
+
   return (
     <>
       <div className="mb-1">
@@ -183,7 +195,12 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           mission={`Mission: Rescue ${prize?.score} chickens`}
         />
       </div>
-      <Button onClick={playNow}>{t("minigame.playNow")}</Button>
+      <div className="flex">
+        <Button className="mr-1" onClick={() => setPage("leaderboard")}>
+          {t("competition.leaderboard")}
+        </Button>
+        <Button onClick={playNow}>{t("minigame.playNow")}</Button>
+      </div>
     </>
   );
 };
