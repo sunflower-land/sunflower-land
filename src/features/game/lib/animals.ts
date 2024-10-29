@@ -233,7 +233,7 @@ export function getBoostedFoodQuantity({
   return foodQuantity;
 }
 
-export function getBoostedAsleepAt({
+export function getBoostedAwakeAt({
   animalType,
   createdAt,
   game,
@@ -242,8 +242,8 @@ export function getBoostedAsleepAt({
   createdAt: number;
   game: GameState;
 }) {
-  let asleepAt = createdAt;
   const sleepDuration = ANIMAL_SLEEP_DURATION;
+  let awakeAt = createdAt + sleepDuration;
   const { bumpkin } = game;
 
   const isChicken = animalType === "Chicken";
@@ -251,29 +251,29 @@ export function getBoostedAsleepAt({
 
   if (isChicken) {
     if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
-      asleepAt -= sleepDuration * 0.1;
+      awakeAt -= sleepDuration * 0.1;
     }
 
     if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
-      asleepAt -= 2 * 60 * 60 * 1000;
+      awakeAt -= 2 * 60 * 60 * 1000;
     }
   }
 
   if (isSheep) {
     if (isWearableActive({ name: "Dream Scarf", game })) {
-      asleepAt -= sleepDuration * 0.2;
+      awakeAt -= sleepDuration * 0.2;
     }
   }
 
   // Applies to all animals
   if (game.inventory["Wrangler"]?.gt(0)) {
-    asleepAt -= sleepDuration * 0.1;
+    awakeAt -= sleepDuration * 0.1;
   }
 
   // Applies to all animals
   if (bumpkin.skills["Stable Hand"]) {
-    asleepAt -= sleepDuration * 0.1;
+    awakeAt -= sleepDuration * 0.1;
   }
 
-  return asleepAt;
+  return awakeAt;
 }

@@ -24,6 +24,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 60,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -61,6 +62,7 @@ describe("claimProduce", () => {
                 state: "idle",
                 experience: 50,
                 asleepAt: 0,
+                awakeAt: 0,
                 lovedAt: 0,
                 item: "Petting Hand",
               },
@@ -131,6 +133,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 60,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -174,6 +177,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 60,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -217,6 +221,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 60,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -260,6 +265,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 60,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -297,6 +303,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -335,6 +342,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 360,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -373,6 +381,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 360,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -411,6 +420,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 240,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -455,6 +465,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -489,6 +500,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -523,6 +535,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 360,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -557,6 +570,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 240,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -620,6 +634,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -656,6 +671,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 240,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -697,6 +713,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 360,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },
@@ -748,9 +765,9 @@ describe("claimProduce", () => {
       },
     });
 
-    const boostedAsleepAt = now - ANIMAL_SLEEP_DURATION * 0.1;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.9;
 
-    expect(state.henHouse.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("adds a time boost of -4 hours if El Pollo Veloz is placed", () => {
@@ -791,9 +808,9 @@ describe("claimProduce", () => {
     });
 
     const fourHoursInMs = 2 * 60 * 60 * 1000;
-    const boostedAsleepAt = now - fourHoursInMs;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION - fourHoursInMs;
 
-    expect(state.henHouse.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("doesn't stack the time boost of 10% if multiple Speed Chickens are placed and ready", () => {
@@ -839,9 +856,9 @@ describe("claimProduce", () => {
       },
     });
 
-    const boostedAsleepAt = now - ANIMAL_SLEEP_DURATION * 0.1;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.9;
 
-    expect(state.henHouse.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("reduces the sleep time by 10% for a chicken if player has Wrangler skill", () => {
@@ -870,9 +887,9 @@ describe("claimProduce", () => {
       },
     });
 
-    const boostedAsleepAt = now - ANIMAL_SLEEP_DURATION * 0.1;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.9;
 
-    expect(state.henHouse.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("reduces the sleep time by 20% if Dream Scarf is worn and ready", () => {
@@ -906,9 +923,9 @@ describe("claimProduce", () => {
       },
     });
 
-    const boostedAsleepAt = now - ANIMAL_SLEEP_DURATION * 0.2;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.8;
 
-    expect(state.barn.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+    expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("reduces the sleep time by 10% for a Cow if player has Wrangler skill", () => {
@@ -938,9 +955,9 @@ describe("claimProduce", () => {
       },
     });
 
-    const boostedAsleepAt = now - ANIMAL_SLEEP_DURATION * 0.1;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.9;
 
-    expect(state.barn.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+    expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("stacks the Wrangler and Speed Chicken speed boosts", () => {
@@ -980,9 +997,9 @@ describe("claimProduce", () => {
       },
     });
 
-    const boostedAsleepAt = now - ANIMAL_SLEEP_DURATION * 0.2;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.8;
 
-    expect(state.henHouse.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("adds a time boost of 10% if a Stable Hand skill is present", () => {
@@ -1014,9 +1031,9 @@ describe("claimProduce", () => {
       },
     });
 
-    const boostedAsleepAt = now - ANIMAL_SLEEP_DURATION * 0.1;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.9;
 
-    expect(state.barn.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+    expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("tracks the bumpkin activity when a resource is collected", () => {
@@ -1068,6 +1085,7 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
+              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
             },

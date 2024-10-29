@@ -1233,6 +1233,7 @@ export type Animal = {
   coordinates: Coordinates;
   experience: number;
   asleepAt: number;
+  awakeAt: number;
   lovedAt: number;
   item: LoveAnimalItem;
   multiplier?: number;
