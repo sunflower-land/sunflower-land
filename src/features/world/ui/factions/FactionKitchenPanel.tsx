@@ -180,7 +180,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                               <div id="select-box">
                                 <img
                                   className="absolute pointer-events-none"
-                                  src={SUNNYSIDE.ui.selectBoxTL}
+                                  src="/world/halloweenSelectbox_tl.png"
                                   style={{
                                     top: `${PIXEL_SCALE * -3}px`,
                                     left: `${PIXEL_SCALE * -3}px`,
@@ -189,7 +189,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                                 />
                                 <img
                                   className="absolute pointer-events-none"
-                                  src={SUNNYSIDE.ui.selectBoxTR}
+                                  src="/world/halloweenSelectbox_tr.png"
                                   style={{
                                     top: `${PIXEL_SCALE * -3}px`,
                                     right: `${PIXEL_SCALE * -3}px`,
