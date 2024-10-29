@@ -255,7 +255,6 @@
   "description.rooster.boost": "Duplica la probabilidad de obtener un pollo mutante.",
   "description.undead.rooster.boost": "Aumenta la producción de huevos en +0.1.",
   "description.chicken.coop.boost": "Incrementa el rendimiento en +1 huevo y permite tener hasta 5 pollos por gallinero.",
-  "description.gold.egg.boost": "Permite alimentar a los pollos sin necesidad de usar trigo.",
   "description.woody.beaver.boost": "Aumenta la recolección de madera en un +20% y reduce el tiempo de recuperación de los árboles en un -50%.",
   "description.apprentice.beaver.boost": "Aumenta la recolección de madera en un +20% y reduce el tiempo de recuperación de los árboles en un -50%.",
   "description.foreman.beaver.boost": "Aumenta la recolección de madera en un +20%, reduce el tiempo de recuperación de árboles en un -50%, y permite talar sin hachas.",
@@ -730,7 +729,6 @@
   "cropMachine.notStartedYet": "Aún no se ha iniciado",
   "cropMachine.seedPacks": "Paquetes de semillas",
   "cropMachine.readyCropPacks": "Paquetes de cosecha listos",
-  "cropMachine.readyCropPacks.description": "Actualmente tienes paquetes de cosecha de {{totalReady}} que cosechar! Haz clic en el paquete que deseas cosechar.",
   "cropMachine.harvestCropPack": "Paquete de cosecha",
   "cropMachine.addOil": "Aceite para agregar",
   "cropMachine.oil.description": "Su máquina necesita aceite para funcionar. Cada paquete de semillas requerirá una cantidad determinada de aceite en función del tiempo que tarden los cultivos en crecer. A medida que añadas aceite, puedes ver cuánto tiempo funcionará la máquina cuando se le dé esa cantidad.",
@@ -4080,5 +4078,8 @@
   "description.petting.hand": "Animales de compañía. Utilízalo para mostrar afecto a tus animales.",
   "description.brush": "Cepillo para animales. Utilízalo para demostrar afecto a tus animales.",
   "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales.",
-  "animal.toolRequired": "{{tool}} Obligatorio"
+  "animal.toolRequired": "{{tool}} Obligatorio",
+  "description.gold.egg.boost": "Alimenta a los pollos gratis",
+  "cropMachine.readyCropPacks.description": "¡Actualmente tienes paquetes de cosecha de {{totalReady}} que cosechar! Haz clic en el paquete que quieres cosechar.",
+  "leaderboard.empty": "No se ha encontrado ninguna tabla de clasificación."
 }

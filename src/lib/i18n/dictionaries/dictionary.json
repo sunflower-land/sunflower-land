@@ -265,7 +265,7 @@
   "description.rooster.boost": "2x Chance of Mutant Chicken",
   "description.undead.rooster.boost": "+0.1 Egg",
   "description.chicken.coop.boost": "+1 Egg Yield; +5 Chicken Limit per Hen House",
-  "description.gold.egg.boost": "Feed Chickens without Wheat",
+  "description.gold.egg.boost": "Feed Chickens for free",
   "description.woody.beaver.boost": "+20% Wood",
   "description.apprentice.beaver.boost": "+20% Wood; -50% Tree Recovery Time",
   "description.foreman.beaver.boost": "+20% Wood; -50% Tree Recovery Time; Chop Trees without Axes",
@@ -749,7 +749,7 @@
   "cropMachine.notStartedYet": "Not started yet",
   "cropMachine.seedPacks": "Seed packs",
   "cropMachine.readyCropPacks": "Ready crop packs",
-  "cropMachine.readyCropPacks.description": "You currently have {{totalReady}} crop packs to harvest! Click the the pack you want to harvest.",
+  "cropMachine.readyCropPacks.description": "You currently have {{totalReady}} crop packs to harvest! Click on the pack you want to harvest.",
   "cropMachine.harvestCropPack": "Harvest crop pack",
   "cropMachine.addOil": "Add oil",
   "cropMachine.oil.description": "Your machine needs oil to run. Every seed pack will require a certain amount of oil based on how long the crops take to grow. As you add oil you can see how long the machine will run when given that amount.",
@@ -4080,5 +4080,6 @@
   "description.petting.hand": "Pets animals. Use this to show affection to your animals.",
   "description.brush": "Animal Brush. Use this to show affection your animals.",
   "description.music.box": "Plays music to animals. Use this to show affection your animals.",
-  "animal.toolRequired": "{{tool}} Required"
+  "animal.toolRequired": "{{tool}} Required",
+  "leaderboard.empty": "No leaderboard found."
 }

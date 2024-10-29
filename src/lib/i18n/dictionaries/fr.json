@@ -216,7 +216,6 @@
   "description.el.pollo.veloz.boost": "-4h Temps de production des Eggs",
   "description.rooster.boost": "Chance x2 d'obtenir un poulet mutant",
   "description.chicken.coop.boost": "+1 Rendement en Eggs ; +5 Limite de poulets par poulailler",
-  "description.gold.egg.boost": "Nourrir les poulets sans Wheat",
   "description.apprentice.beaver.boost": "+20% Wood ; -50% Temps de récupération des arbres",
   "description.foreman.beaver.boost": "+20% Wood ; -50% Temps de récupération des arbres ; Couper les arbres sans haches",
   "description.tunnel.mole.boost": "+0.25 Pierre",
@@ -2610,7 +2609,6 @@
   "cropMachine.notStartedYet": "Pas encore commencé",
   "cropMachine.seedPacks": "Sachets de graines",
   "cropMachine.readyCropPacks": "Emballages prêts à l'emploi",
-  "cropMachine.readyCropPacks.description": "Vous avez actuellement {{totalReady}} packs de cultures à récolter ! Cliquez sur le pack que vous souhaitez récolter.",
   "cropMachine.harvestCropPack": "Pack de récolte",
   "cropMachine.addOil": "Ajouter de l'huile",
   "cropMachine.oil.description": "Votre machine a besoin d'huile pour fonctionner. Chaque lot de graines nécessitera une certaine quantité d'huile en fonction du temps nécessaire à la croissance des cultures. Lorsque vous ajoutez de l'huile, vous pouvez voir combien de temps la machine fonctionnera avec cette quantité.",
@@ -4080,5 +4078,8 @@
   "description.petting.hand": "Animaux de compagnie. Utilisez-le pour montrer de l'affection à vos animaux.",
   "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
   "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
-  "animal.toolRequired": "{{tool}} Obligatoire"
+  "animal.toolRequired": "{{tool}} Obligatoire",
+  "description.gold.egg.boost": "Nourrissez les poulets gratuitement",
+  "cropMachine.readyCropPacks.description": "Vous avez actuellement {{totalReady}} packs de récoltes à récolter ! Cliquez sur le pack que vous souhaitez récolter.",
+  "leaderboard.empty": "Aucun classement n'a été trouvé."
 }

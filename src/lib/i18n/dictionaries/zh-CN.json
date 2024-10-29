@@ -253,7 +253,6 @@
   "description.rooster.boost": "变种鸡出现几率提升 2 倍",
   "description.undead.rooster.boost": "+0.1 鸡蛋",
   "description.chicken.coop.boost": "+1 鸡蛋产量；每个鸡舍的养鸡数量上限 +5",
-  "description.gold.egg.boost": "喂鸡不再需要小麦",
   "description.woody.beaver.boost": "+20% 木头",
   "description.apprentice.beaver.boost": "+20% 木头；-50% 树木恢复时间",
   "description.foreman.beaver.boost": "+20% 木头；-50% 树木恢复时间；砍树不再需要斧头",
@@ -705,7 +704,6 @@
   "cropMachine.paused": "已暂停",
   "cropMachine.pickSeed": "选择种子",
   "cropMachine.readyCropPacks": "准备庄稼袋",
-  "cropMachine.readyCropPacks.description": "您目前有 {{totalReady}} 袋庄稼可供收割！点击收割按钮来收割所有庄稼。",
   "cropMachine.readyToHarvest": "可供收割",
   "cropMachine.seedPacks": "种子袋",
   "cropMachine.seeds": "种子： {{amount}}",
@@ -4080,5 +4078,8 @@
   "description.petting.hand": "宠物动物。用它来表达对动物的爱意。",
   "description.brush": "动物画笔。用它来表达对动物的爱意。",
   "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
-  "animal.toolRequired": "{{tool}} 必填项"
+  "animal.toolRequired": "{{tool}} 必填项",
+  "description.gold.egg.boost": "免费喂鸡",
+  "cropMachine.readyCropPacks.description": "你目前有 {{totalReady}} 个作物包要收割！点击你想要收获的包裹。",
+  "leaderboard.empty": "未找到排行榜。"
 }

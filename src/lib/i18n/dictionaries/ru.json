@@ -232,7 +232,6 @@
   "description.el.pollo.veloz.boost": "-4ч времени производства Яиц",
   "description.rooster.boost": "2x шанс на курицу-мутанта",
   "description.chicken.coop.boost": "+1 к производству Яиц; +5 к лимиту Кур на Hen House",
-  "description.gold.egg.boost": "Для кормления кур не требуется Пшеница",
   "description.apprentice.beaver.boost": "+20% Дерева; -50% времени восстановления Деревьев",
   "description.foreman.beaver.boost": "+20% Дерева; -50% времени восстановления Деревьев; для рубки деревьев не требуются топоры",
   "description.rock.golem.boost": "10% шанс на +2 Камень",
@@ -653,7 +652,6 @@
   "cropMachine.notStartedYet": "Не запущено",
   "cropMachine.seedPacks": "Наборы семян",
   "cropMachine.readyCropPacks": "Готовые пакеты урожая",
-  "cropMachine.readyCropPacks.description": "В настоящее время у тебя есть {{totalReady}} пакетов для сбора урожая! Щелкни на пакет, в который ты хочешь собрать.",
   "cropMachine.harvestCropPack": "Собрать урожай",
   "cropMachine.addOil": "Добавить нефти",
   "cropMachine.oil.description": "Для работы твоей машины необходима нефть. Каждому пакету семян потребуется определенное количество нефти в зависимости от того, как долго растут культуры. Добавляя нефть, ты можешь увидеть, как долго машина будет работать при таком количестве нефти.",
@@ -4080,5 +4078,8 @@
   "description.petting.hand": "Домашние животные. Используйте это, чтобы выразить привязанность к своим животным.",
   "description.brush": "Щетка для животных. Используйте ее, чтобы выразить любовь к своим животным.",
   "description.music.box": "Играет музыку для животных. Используйте это, чтобы выразить любовь к своим животным.",
-  "animal.toolRequired": "{{tool}} Обязательно"
+  "animal.toolRequired": "{{tool}} Обязательно",
+  "description.gold.egg.boost": "Кормите цыплят бесплатно",
+  "cropMachine.readyCropPacks.description": "Сейчас у вас есть наборы урожая {{totalReady}} для сбора урожая! Нажмите на набор, который хотите собрать.",
+  "leaderboard.empty": "Таблица лидеров не найдена."
 }

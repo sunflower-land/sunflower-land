@@ -255,7 +255,6 @@
   "description.rooster.boost": "2x Peluang Ayam Mutan",
   "description.undead.rooster.boost": "+0.1 Telur",
   "description.chicken.coop.boost": "+1 Hasil Telur; +5 Had Ayam setiap Rumah Ayam",
-  "description.gold.egg.boost": "Makan Ayam tanpa Gandum",
   "description.woody.beaver.boost": "+20% Kayu",
   "description.apprentice.beaver.boost": "+20% Kayu; -50% Masa Pemulihan Pokok",
   "description.foreman.beaver.boost": "+20% Kayu; -50% Masa Pemulihan Pokok; Potong Pokok tanpa Kapak",
@@ -733,7 +732,6 @@
   "cropMachine.notStartedYet": "Belum bermula lagi",
   "cropMachine.seedPacks": "Pek benih",
   "cropMachine.readyCropPacks": "Pek tanaman siap",
-  "cropMachine.readyCropPacks.description": "Anda kini mempunyai pek tanaman {{totalReady}} untuk dituai! Klik pek yang ingin anda tuai.",
   "cropMachine.harvestCropPack": "Pek tanaman menuai",
   "cropMachine.addOil": "Tambah minyak",
   "cropMachine.oil.description": "Mesin anda memerlukan minyak untuk berjalan. Setiap pek benih memerlukan sejumlah minyak berdasarkan berapa lama tanaman tumbuh. Semasa anda menambah minyak, anda dapat melihat berapa lama mesin akan berjalan apabila diberi jumlah itu.",
@@ -4080,5 +4078,8 @@
   "description.petting.hand": "Haiwan haiwan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
   "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
   "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
-  "animal.toolRequired": "{{tool}} Diperlukan"
+  "animal.toolRequired": "{{tool}} Diperlukan",
+  "description.gold.egg.boost": "Makan Ayam secara percuma",
+  "cropMachine.readyCropPacks.description": "Anda kini mempunyai pek tanaman {{totalReady}} untuk dituai! Klik pada pek yang ingin anda tuai.",
+  "leaderboard.empty": "Tiada papan pendahulu ditemui."
 }

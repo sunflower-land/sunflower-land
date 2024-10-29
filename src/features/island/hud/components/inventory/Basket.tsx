@@ -44,7 +44,11 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
-import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
+import {
+  TREASURE_TOOLS,
+  WORKBENCH_TOOLS,
+  LOVE_ANIMAL_TOOLS,
+} from "features/game/types/tools";
 import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
 import {
   WORM,
@@ -161,6 +165,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);
+  const animalTools = getItems(LOVE_ANIMAL_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES).filter(
     (resource) => resource !== "Egg",
@@ -195,7 +200,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     ...flowerSeeds,
     ...greenhouseSeeds,
   ];
-  const allTools = [...workbenchTools, ...treasureTools];
+  const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
 
   const itemsSection = (
     title: string,

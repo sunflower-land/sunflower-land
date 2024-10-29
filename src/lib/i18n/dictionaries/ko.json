@@ -255,7 +255,6 @@
   "description.rooster.boost": "뮤턴트 치킨 확률 2배",
   "description.undead.rooster.boost": "+0.1 에그",
   "description.chicken.coop.boost": "계란 생산량 +1, 암탉 사육장당 닭 한도 +5 마리",
-  "description.gold.egg.boost": "밀을 넣지 않은 닭에게 먹이주기",
   "description.woody.beaver.boost": "+20% 우드",
   "description.apprentice.beaver.boost": "목재 20% 증가, 나무 회복 시간 -50%",
   "description.foreman.beaver.boost": "나무 20% 증가, 나무 회복 시간 -50%, 도끼를 사용하지 않고 나무 자르기",
@@ -733,7 +732,6 @@
   "cropMachine.notStartedYet": "아직 시작되지 않음",
   "cropMachine.seedPacks": "시드 팩",
   "cropMachine.readyCropPacks": "레디 크롭 팩",
-  "cropMachine.readyCropPacks.description": "현재 수확할 크롭 팩이 {{totalReady}} 있습니다!수확하려는 팩을 클릭합니다.",
   "cropMachine.harvestCropPack": "하베스트 크롭 팩",
   "cropMachine.addOil": "오일 추가",
   "cropMachine.oil.description": "기계를 작동하려면 오일이 필요합니다.모든 종자 팩에는 작물이 자라는 데 걸리는 시간에 따라 일정량의 오일이 필요합니다.오일을 추가하면 그 양이 주어졌을 때 기계가 얼마나 오래 작동할지 알 수 있습니다.",
@@ -4080,5 +4078,8 @@
   "description.petting.hand": "애완 동물.이를 사용해 동물에게 애정을 표현하세요.",
   "description.brush": "애니멀 브러쉬.이 제품을 사용해 동물에게 애정을 표현하세요.",
   "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
-  "animal.toolRequired": "{{tool}} 필수"
+  "animal.toolRequired": "{{tool}} 필수",
+  "description.gold.egg.boost": "닭에게 무료로 먹이주기",
+  "cropMachine.readyCropPacks.description": "현재 수확할 크롭 팩이 {{totalReady}} 있습니다!수확하려는 팩을 클릭하세요.",
+  "leaderboard.empty": "리더보드를 찾을 수 없습니다."
 }

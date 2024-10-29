@@ -255,7 +255,6 @@
   "description.rooster.boost": "2x ミュータント・チキンの確率",
   "description.undead.rooster.boost": "+0.1 エッグ",
   "description.chicken.coop.boost": "産卵量+1、鶏小屋1つにつきチキンリミット+5",
-  "description.gold.egg.boost": "小麦なしで鶏に餌をやる",
   "description.woody.beaver.boost": "+20% ウッド",
   "description.apprentice.beaver.boost": "木材 +20%、樹木回復時間 -50%",
   "description.foreman.beaver.boost": "木材 +20%、樹木回復時間 -50%、斧なしで木を切る",
@@ -733,7 +732,6 @@
   "cropMachine.notStartedYet": "まだ開始されていません",
   "cropMachine.seedPacks": "シードパック",
   "cropMachine.readyCropPacks": "レディクロップパック",
-  "cropMachine.readyCropPacks.description": "現在、収穫できるクロップパックは {{totalReady}} 個あります！収穫したいパックをクリックしてください。",
   "cropMachine.harvestCropPack": "ハーベスト・クロップ・パック",
   "cropMachine.addOil": "オイルを加える",
   "cropMachine.oil.description": "機械を動かすにはオイルが必要です。すべてのシードパックには、作物の成長にかかる時間に応じて一定量の油が必要です。オイルを追加していくと、その量を与えられたときにマシンがどれくらいの時間稼働するかがわかります。",
@@ -4080,5 +4078,8 @@
   "description.petting.hand": "ペット、動物。これを使って動物への愛情を示しましょう。",
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
-  "animal.toolRequired": "{{tool}} が必要です"
+  "animal.toolRequired": "{{tool}} が必要です",
+  "description.gold.egg.boost": "鶏に無料で餌をやる",
+  "cropMachine.readyCropPacks.description": "現在、収穫できるクロップパックは {{totalReady}} 個あります！収穫したいパックをクリックしてください。",
+  "leaderboard.empty": "リーダーボードが見つかりません。"
 }

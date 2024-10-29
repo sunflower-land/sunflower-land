@@ -58,10 +58,10 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
           )}
         </div>
 
-        {hasDeals && <p className="text-xs mb-2">{t("bounties.board.info")}</p>}
-        <div className="flex flex-wrap mb-2">
+        {hasDeals && <p className="text-xs mb-3">{t("bounties.board.info")}</p>}
+        <div className="flex flex-wrap">
           {deals.length === 0 && (
-            <p className="text-sm">{t("bounties.board.empty")}</p>
+            <p className="text-sm mb-2">{t("bounties.board.empty")}</p>
           )}
           {deals.map((deal) => {
             const isSold = !!state.bounties.completed.find(
