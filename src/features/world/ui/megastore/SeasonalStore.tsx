@@ -4,11 +4,8 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
-import React, { useState, useEffect, useContext } from "react";
-import { _megastore } from "./MegaStore";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
-import { getCurrentSeason } from "features/game/types/seasons";
+import React, { useState, useEffect } from "react";
+import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import {
   MEGASTORE,
   SeasonalStoreCollectible,
@@ -74,8 +71,6 @@ export const getItemDescription = (item: SeasonalStoreItem | null): string => {
 export const SeasonalStore: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
-  const { gameService } = useContext(Context);
-  const megastore = useSelector(gameService, _megastore);
   const [selectedItem, setSelectedItem] = useState<SeasonalStoreItem | null>(
     null,
   );
@@ -98,16 +93,15 @@ export const SeasonalStore: React.FC<{
     setSelectedTier(tier);
   };
   const getTotalSecondsAvailable = () => {
-    const { from, to } = megastore.available;
+    const { startDate, endDate } = SEASONS[getCurrentSeason()];
 
-    return (to - from) / 1000;
+    return (endDate.getTime() - startDate.getTime()) / 1000;
   };
 
   const timeRemaining = getTimeLeft(
-    megastore.available.from,
+    SEASONS[getCurrentSeason()].startDate.getTime(),
     getTotalSecondsAvailable(),
   );
-
   const { t } = useAppTranslation();
 
   const currentSeason = getCurrentSeason(new Date(createdAt));

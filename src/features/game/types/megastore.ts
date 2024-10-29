@@ -137,6 +137,146 @@ const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
+const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Cowboy Hat",
+    cost: {
+      items: {
+        Horseshoe: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    wearable: "Cowgirl Skirt",
+    cost: {
+      items: {
+        Horseshoe: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Cow Scratcher",
+    cost: {
+      items: {
+        Scarab: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Spinning Wheel",
+    cost: {
+      items: {
+        Horseshoe: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Treasure Key",
+    cost: {
+      items: {
+        Horseshoe: 100,
+      },
+      sfl: 0,
+    },
+  },
+];
+
+const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Cowboy Shirt",
+    cost: {
+      items: {
+        Horseshoe: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    wearable: "Dream Scarf",
+    cost: {
+      items: {
+        Horseshoe: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Sleepy Rug",
+    cost: {
+      items: {},
+      sfl: 50,
+    },
+  },
+  {
+    collectible: "Meteorite",
+    cost: {
+      items: {
+        Scarab: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Rare Key",
+    cost: {
+      items: {
+        Horseshoe: 300,
+      },
+      sfl: 0,
+    },
+  },
+];
+
+const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Cowboy Trouser",
+    cost: {
+      items: {
+        Horseshoe: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    wearable: "Milk Apron",
+    cost: {
+      items: {
+        Scarab: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Sheaf of Plenty",
+    cost: {
+      items: {
+        Scarab: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Mechanical Bull",
+    cost: {
+      items: {},
+      sfl: 500,
+    },
+  },
+  {
+    collectible: "Luxury Key",
+    cost: {
+      items: {
+        Horseshoe: 1000,
+      },
+      sfl: 0,
+    },
+  },
+];
+
 export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
@@ -157,5 +297,17 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
       requirement: 3,
     },
   },
-  "Bull Run": EMPTY_SEASONAL_STORE,
+  "Bull Run": {
+    basic: {
+      items: BULL_RUN_ITEMS,
+    },
+    rare: {
+      items: RARE_BULL_RUN_ITEMS,
+      requirement: 3,
+    },
+    epic: {
+      items: EPIC_BULL_RUN_ITEMS,
+      requirement: 3,
+    },
+  },
 };

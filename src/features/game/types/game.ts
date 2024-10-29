@@ -34,6 +34,7 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
+  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -454,7 +455,8 @@ export type InventoryItemName =
   | AnimalMedicineName
   | LoveAnimalItem
   | BedName
-  | RecipeCraftableName;
+  | RecipeCraftableName
+  | SeasonalCollectibleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

@@ -4081,5 +4081,11 @@
   "description.brush": "Animal Brush. Use this to show affection your animals.",
   "description.music.box": "Plays music to animals. Use this to show affection your animals.",
   "animal.toolRequired": "{{tool}} Required",
-  "leaderboard.empty": "No leaderboard found."
+  "leaderboard.empty": "No leaderboard found.",
+  "description.cowScratcher": "A rustic yet effective tool, perfect for giving cows a satisfying scratch after a long day in the fields. Keep your cattle happy and content!",
+  "description.spinningWheel": "An elegant piece of craftsmanship, this spinning wheel turns raw wool into fine thread, essential for crafting quality textiles.",
+  "description.sleepyRug": "Cozy and inviting, this soft rug is perfect for an afternoon nap. It adds warmth and charm to any space.",
+  "description.meteorite": "A rare and mysterious fragment from the stars, the meteorite is rumored to hold cosmic power.",
+  "description.sheafOfPlenty": "A bundle of barley harvested at peak ripeness, symbolizing abundance and the hard work of the season. +2 Barley",
+  "description.mechanicalBull": "A lively attraction and test of endurance! Hop on the Mechanical Bull and see if you can hold on."
 }

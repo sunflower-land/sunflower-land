@@ -1246,6 +1246,96 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
   "Desert Bed": (props: CollectibleProps) => <Bed name="Desert Bed" />,
   "Royal Bed": (props: CollectibleProps) => <Bed name="Royal Bed" />,
+  "Cow Scratcher": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+      }}
+      image={ITEM_DETAILS["Cow Scratcher"].image}
+      alt="Cow Scratcher"
+    />
+  ),
+  "Spinning Wheel": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+      }}
+      image={ITEM_DETAILS["Spinning Wheel"].image}
+      alt="Spinning Wheel"
+    />
+  ),
+  "Sleepy Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+      image={ITEM_DETAILS["Sleepy Rug"].image}
+      alt="Sleepy Rug"
+    />
+  ),
+  Meteorite: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+      }}
+      image={ITEM_DETAILS["Meteorite"].image}
+      alt="Meteorite"
+    />
+  ),
+  "Sheaf of Plenty": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Sheaf of Plenty"].image}
+      alt="Sheaf of Plenty"
+    />
+  ),
+  "Mechanical Bull": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Mechanical Bull"].image}
+      alt="Mechanical Bull"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
