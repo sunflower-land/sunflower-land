@@ -66,6 +66,7 @@ export function makeAnimalBuilding(
           item: "Petting Hand",
           lovedAt: 0,
           awakeAt: 0,
+          level: 0,
         },
       };
     }, {});
@@ -80,25 +81,7 @@ export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
   return level === Object.keys(ANIMAL_LEVELS[animal]).length;
 };
 
-export function getAnimalLevel(experience: number, animal: AnimalType) {
-  const levels = ANIMAL_LEVELS[animal];
-
-  let currentLevel: AnimalLevel = 0;
-
-  // Iterate through the levels and find the appropriate one
-  for (const [level, xpThreshold] of Object.entries(levels)) {
-    if (experience >= xpThreshold) {
-      currentLevel = Number(level) as AnimalLevel; // Update to the highest level met
-    } else {
-      break; // Exit the loop if the next threshold is not met
-    }
-  }
-
-  return currentLevel;
-}
-
-export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
-  const level = getAnimalLevel(animalXP, type);
+export function getAnimalFavoriteFood(type: AnimalType, level: AnimalLevel) {
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
   const maxXp = Math.max(...Object.values(levelFood));
 

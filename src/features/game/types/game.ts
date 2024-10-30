@@ -77,7 +77,7 @@ import { ExperimentName } from "lib/flags";
 import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
-import { AnimalType } from "./animals";
+import { AnimalLevel, AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
 import {
   RecipeCollectibleName,
@@ -1232,7 +1232,7 @@ export type Animal = {
   createdAt: number;
   coordinates: Coordinates;
   experience: number;
-  level: number;
+  level: AnimalLevel;
   asleepAt: number;
   awakeAt: number;
   lovedAt: number;

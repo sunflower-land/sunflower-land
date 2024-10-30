@@ -2,6 +2,9 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import {
   ANIMAL_FOOD_EXPERIENCE,
+  ANIMAL_LEVELS,
+  ANIMAL_RESOURCE_DROP,
+  AnimalLevel,
   ANIMALS,
   AnimalType,
 } from "features/game/types/animals";
@@ -12,12 +15,12 @@ import {
 } from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
-  getAnimalLevel,
   getBoostedFoodQuantity,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { getKeys } from "features/game/types/craftables";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -78,56 +81,57 @@ export function feedAnimal({
 
       copy.bumpkin.activity = trackActivity(
         `${action.animal} Cured`,
-        copy.bumpkin.activity,
+        copy.bumpkin?.activity,
+        new Decimal(1),
       );
 
       return copy; // Early return after curing
     }
 
-    // Handle feeding
+    // Regular feeding logic
     if (animal.state === "sick") {
       throw new Error("Cannot feed a sick animal");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
     const food = action.item as AnimalFoodName;
     const isChicken = action.animal === "Chicken";
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
       game: copy,
     });
-    const favouriteFood = getAnimalFavoriteFood(
-      action.animal,
-      animal.experience,
-    );
+    const favouriteFood = getAnimalFavoriteFood(action.animal, animal.level);
 
-    // Handle Golden Egg Free Food
+    const totalLevels = getKeys(ANIMAL_RESOURCE_DROP[action.animal]).length;
+    const nextLevel = Math.min(animal.level + 1, totalLevels) as AnimalLevel;
+    const xpNeededForLevelUp = ANIMAL_LEVELS[action.animal][nextLevel];
+    const levelFoodsXP = ANIMAL_FOOD_EXPERIENCE[action.animal][animal.level];
+
+    // Players with a Gold Egg place can feed a chicken for free
     if (isChicken && hasGoldenEggPlaced) {
-      const favouriteFoodXp =
-        ANIMAL_FOOD_EXPERIENCE[action.animal][level][favouriteFood];
+      const favouriteFoodXp = levelFoodsXP[favouriteFood];
       animal.experience += favouriteFoodXp;
 
       animal.state = "happy";
 
-      if (level !== getAnimalLevel(animal.experience, animal.type)) {
+      if (animal.experience >= xpNeededForLevelUp) {
         animal.state = "ready";
       }
 
       copy.bumpkin.activity = trackActivity(
         `${action.animal} Fed`,
-        copy.bumpkin.activity,
+        copy.bumpkin?.activity,
+        new Decimal(1),
       );
 
       // Early return
       return copy;
     }
 
-    // Regular feeding logic
     if (!food) {
       throw new Error("No food provided");
     }
 
-    const foodXp = ANIMAL_FOOD_EXPERIENCE[action.animal][level][food];
+    const foodXp = levelFoodsXP[food];
     const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
     const boostedFoodQuantity = getBoostedFoodQuantity({
       animalType: action.animal,
@@ -144,20 +148,20 @@ export function feedAnimal({
     copy.inventory[food] = inventoryAmount.sub(boostedFoodQuantity);
 
     animal.experience += foodXp;
-
     animal.state = "sad";
 
     if (favouriteFood === food) {
       animal.state = "happy";
     }
 
-    if (level !== getAnimalLevel(animal.experience, animal.type)) {
+    if (animal.experience >= xpNeededForLevelUp) {
       animal.state = "ready";
     }
 
     copy.bumpkin.activity = trackActivity(
       `${action.animal} Fed`,
-      copy.bumpkin.activity,
+      copy.bumpkin?.activity,
+      new Decimal(1),
     );
 
     return copy;
