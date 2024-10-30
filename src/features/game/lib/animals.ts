@@ -55,9 +55,9 @@ export function makeAnimalBuilding(
     .reduce<Record<string, Animal>>((animals, _, index) => {
       return {
         ...animals,
-        [index]: {
+        [String(index)]: {
           id: index.toString(),
-          type: animalType,
+          type: animalType as AnimalType,
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
@@ -65,6 +65,7 @@ export function makeAnimalBuilding(
           createdAt: Date.now(),
           item: "Petting Hand",
           lovedAt: 0,
+          awakeAt: 0,
         },
       };
     }, {});
