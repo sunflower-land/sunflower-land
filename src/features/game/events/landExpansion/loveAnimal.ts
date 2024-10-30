@@ -1,8 +1,5 @@
 import Decimal from "decimal.js-light";
-import {
-  getAnimalLevel,
-  makeAnimalBuildingKey,
-} from "features/game/lib/animals";
+import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { AnimalLevel, ANIMALS, AnimalType } from "features/game/types/animals";
 import { GameState, LoveAnimalItem } from "features/game/types/game";
 import { produce } from "immer";
@@ -56,10 +53,7 @@ export function loveAnimal({
     animal.experience += ITEM_XP[action.item];
     animal.lovedAt = createdAt;
 
-    animal.item = getAnimalItem(
-      getAnimalLevel(animal.experience, action.animal),
-      Math.random,
-    );
+    animal.item = getAnimalItem(animal.level, Math.random);
 
     return copy;
   });

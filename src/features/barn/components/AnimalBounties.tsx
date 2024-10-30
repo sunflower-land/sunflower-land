@@ -7,7 +7,6 @@ import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
 import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
-import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -190,7 +189,7 @@ export const AnimalDeal: React.FC<{
             icon={ITEM_DETAILS[animal.type].image}
             className="mr-2"
           >
-            {`Lvl ${getAnimalLevel(animal.experience, animal.type)} ${animal.type}`}
+            {`Lvl ${animal.level} ${animal.type}`}
           </Label>
           {!!deal.coins && (
             <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
