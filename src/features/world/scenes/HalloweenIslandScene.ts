@@ -57,6 +57,8 @@ export class HalloweenIslandScene extends BaseScene {
       },
     );
 
+    this.load.image("question_disc", "world/question_disc.png");
+
     this.load.spritesheet(
       "worm",
       `world/event_island_assets/worm-skull-sprite.png`,
@@ -248,6 +250,18 @@ export class HalloweenIslandScene extends BaseScene {
     );
 
     halloween_noticeboard
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(halloween_noticeboard, 75)) {
+          interactableModalManager.open("halloween_noticeboard");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+
+    const question_disc = this.add.image(351, 1015, "question_disc");
+
+    question_disc
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         if (this.checkDistanceToSprite(halloween_noticeboard, 75)) {
