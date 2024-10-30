@@ -436,7 +436,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           />
         )}
         {(sleeping || needsLove) && showWakesIn && (
-          <WakesIn asleepAt={cow.asleepAt} className="-top-10" />
+          <WakesIn awakeAt={cow.awakeAt} className="-top-10" />
         )}
         {/* Not enough food */}
         {showNotEnoughFood && (
