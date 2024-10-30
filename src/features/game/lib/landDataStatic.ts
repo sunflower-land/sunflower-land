@@ -1471,6 +1471,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     animals: {
       abc: {
         asleepAt: Date.now() - 9 * 60 * 60 * 1000,
+        awakeAt: Date.now() + 15 * 60 * 60 * 1000,
         experience: 0,
         id: "abc",
         type: "Chicken",
@@ -1487,6 +1488,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     animals: {
       abc: {
         asleepAt: Date.now() - 9 * 60 * 60 * 1000,
+        awakeAt: Date.now() + 15 * 60 * 60 * 1000,
         experience: 0,
         id: "abc",
         type: "Cow",
@@ -1498,6 +1500,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
       def: {
         asleepAt: Date.now() - 9 * 60 * 60 * 1000,
+        awakeAt: Date.now() + 15 * 60 * 60 * 1000,
         experience: 0,
         id: "def",
         type: "Sheep",

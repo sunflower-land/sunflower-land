@@ -8,7 +8,7 @@ import {
 import { GameState } from "features/game/types/game";
 import {
   getAnimalLevel,
-  getBoostedAsleepAt,
+  getBoostedAwakeAt,
   getResourceDropAmount,
 } from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
@@ -71,7 +71,8 @@ export function claimProduce({
       );
     });
 
-    animal.asleepAt = getBoostedAsleepAt({
+    animal.asleepAt = createdAt;
+    animal.awakeAt = getBoostedAwakeAt({
       animalType: animal.type,
       createdAt,
       game: copy,
