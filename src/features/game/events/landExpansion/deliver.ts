@@ -192,7 +192,11 @@ export function populateOrders(
   return orders;
 }
 
-export function getOrderSellPrice<T>(game: GameState, order: Order): T {
+export function getOrderSellPrice<T>(
+  game: GameState,
+  order: Order,
+  now: Date = new Date(),
+): T {
   let mul = 1;
 
   // Michelin Stars - 5% bonus
@@ -264,7 +268,7 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
 
   const completedAt = game.npcs?.[order.from]?.deliveryCompletedAt;
 
-  const dateKey = new Date().toISOString().substring(0, 10);
+  const dateKey = new Date(now).toISOString().substring(0, 10);
   const hasClaimedBonus =
     !!completedAt &&
     new Date(completedAt).toISOString().substring(0, 10) === dateKey;
@@ -356,14 +360,18 @@ export function deliverOrder({
     });
 
     if (order.reward.sfl) {
-      const sfl = getOrderSellPrice<Decimal>(game, order);
+      const sfl = getOrderSellPrice<Decimal>(game, order, new Date(createdAt));
       game.balance = game.balance.add(sfl);
 
       bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
     }
 
     if (order.reward.coins) {
-      const coinsReward = getOrderSellPrice<number>(game, order);
+      const coinsReward = getOrderSellPrice<number>(
+        game,
+        order,
+        new Date(createdAt),
+      );
 
       game.coins = game.coins + coinsReward;
 
