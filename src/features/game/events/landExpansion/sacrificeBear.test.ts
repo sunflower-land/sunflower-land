@@ -69,7 +69,7 @@ describe("sacrificeBear", () => {
     ).toThrow("You do not have any Chef Bear bears");
   });
 
-  it("burns the bears and mints a new Basic Bear", () => {
+  it("burns the bears and mints a new King Bear", () => {
     const state = sacrificeBear({
       state: {
         ...GAME_STATE,
@@ -104,7 +104,7 @@ describe("sacrificeBear", () => {
     });
 
     // Check bears were burned
-    expect(state.inventory["Basic Bear"]).toEqual(new Decimal(1)); // 0 + 1 from minting
+    expect(state.inventory["King of Bears"]).toEqual(new Decimal(1)); // 0 + 1 from minting
     expect(state.inventory["Chef Bear"]).toEqual(new Decimal(0));
     expect(state.inventory["Construction Bear"]).toEqual(new Decimal(0));
     expect(state.inventory["Angel Bear"]).toEqual(new Decimal(0));

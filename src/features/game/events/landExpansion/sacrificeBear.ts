@@ -34,7 +34,7 @@ const VALID_BEARS: InventoryItemName[] = [
   "Eggplant Bear",
 ];
 
-const HALLOWEEN_BEAR: InventoryItemName = "Basic Bear";
+const HALLOWEEN_BEAR: InventoryItemName = "King of Bears";
 
 export type SacrificeBearAction = {
   type: "bear.sacrificed";
@@ -77,7 +77,7 @@ export function sacrificeBear({ state, action }: Options) {
         throw new Error(`You do not have any ${bear} bears`);
       }
 
-      inventory[bear] = inventory[bear].sub(1);
+      inventory[bear] = (inventory[bear] ?? new Decimal(0)).sub(1);
     });
 
     inventory[HALLOWEEN_BEAR] = (
