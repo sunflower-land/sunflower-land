@@ -129,6 +129,7 @@ export function buyAnimal({
       awakeAt: 0,
       lovedAt: 0,
       item: "Petting Hand",
+      level: 0,
     };
 
     bumpkin.activity = trackActivity(

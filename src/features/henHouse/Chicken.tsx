@@ -11,11 +11,7 @@ import {
   TState as AnimalMachineState,
   TState,
 } from "features/game/lib/animalMachine";
-import {
-  getAnimalFavoriteFood,
-  getAnimalLevel,
-  isAnimalFood,
-} from "features/game/lib/animals";
+import { getAnimalFavoriteFood, isAnimalFood } from "features/game/lib/animals";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -126,7 +122,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
 
-  const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
+  const favFood = getAnimalFavoriteFood("Chicken", chicken.level);
   const sleeping = chickenMachineState === "sleeping";
   const needsLove = chickenMachineState === "needsLove";
   const ready = chickenMachineState === "ready";
@@ -346,8 +342,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   if (chickenMachineState === "initial") return null;
 
-  const level = getAnimalLevel(chicken.experience, "Chicken");
-
   return (
     <>
       <div
@@ -369,7 +363,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           {showDrops && (
             <ProduceDrops
               multiplier={chicken.multiplier ?? 0}
-              level={level}
+              level={chicken.level}
               animalType="Chicken"
               className="bottom-0 left-1/2 -translate-x-1/2"
             />
@@ -459,9 +453,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       </div>
       {/* Level Progress */}
       <LevelProgress
-        animal="Chicken"
+        animal={chicken}
         animalState={chickenMachineState}
-        experience={chicken.experience}
         className="absolute bottom-1 left-1/2 transform -translate-x-1/2 ml-0.5"
         // Don't block level up UI with wakes in panel if accidentally clicked
         onLevelUp={() => setShowWakesIn(false)}

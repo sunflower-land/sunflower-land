@@ -20,6 +20,7 @@ export function makeAnimals(count: number, type: AnimalType) {
           item: "Petting Hand",
           createdAt: 0,
           awakeAt: 0,
+          level: 0,
         },
       };
     }, {});

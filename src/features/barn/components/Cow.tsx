@@ -10,11 +10,7 @@ import {
   TState as AnimalMachineState,
   TState,
 } from "features/game/lib/animalMachine";
-import {
-  getAnimalFavoriteFood,
-  getAnimalLevel,
-  isAnimalFood,
-} from "features/game/lib/animals";
+import { getAnimalFavoriteFood, isAnimalFood } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -136,7 +132,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
 
-  const favFood = getAnimalFavoriteFood("Cow", cow.experience);
+  const favFood = getAnimalFavoriteFood("Cow", cow.level);
   const sleeping = cowMachineState === "sleeping";
   const needsLove = cowMachineState === "needsLove";
   const ready = cowMachineState === "ready";
@@ -350,8 +346,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   if (cowMachineState === "initial") return null;
 
-  const level = getAnimalLevel(cow.experience, "Cow");
-
   return (
     <div
       className="relative flex items-center justify-center cursor-pointer"
@@ -366,7 +360,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         {showDrops && (
           <ProduceDrops
             multiplier={cow.multiplier ?? 0}
-            level={level}
+            level={cow.level}
             animalType="Cow"
             className="bottom-0 left-4 top-4"
           />
@@ -447,9 +441,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       </div>
       {/* Level Progress */}
       <LevelProgress
-        animal="Cow"
+        animal={cow}
         animalState={cowMachineState}
-        experience={cow.experience}
         className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
         // Don't block level up UI with wakes in panel if accidentally clicked
         onLevelUp={() => setShowWakesIn(false)}

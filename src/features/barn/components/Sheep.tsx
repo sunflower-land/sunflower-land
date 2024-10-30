@@ -10,11 +10,7 @@ import {
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
 } from "features/game/lib/animalMachine";
-import {
-  getAnimalFavoriteFood,
-  getAnimalLevel,
-  isAnimalFood,
-} from "features/game/lib/animals";
+import { getAnimalFavoriteFood, isAnimalFood } from "features/game/lib/animals";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
@@ -84,7 +80,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playCureAnimal } = useSound("cure_animal");
   const { t } = useAppTranslation();
 
-  const favFood = getAnimalFavoriteFood("Sheep", sheep.experience);
+  const favFood = getAnimalFavoriteFood("Sheep", sheep.level);
   const sleeping = sheepState === "sleeping";
   const needsLove = sheepState === "needsLove";
   const ready = sheepState === "ready";
@@ -298,8 +294,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   if (sheepState === "initial") return null;
 
-  const level = getAnimalLevel(sheep.experience, "Sheep");
-
   return (
     <div
       className="relative flex items-center justify-center cursor-pointer"
@@ -314,7 +308,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         {showDrops && (
           <ProduceDrops
             multiplier={sheep.multiplier ?? 0}
-            level={level}
+            level={sheep.level}
             animalType="Sheep"
             className="bottom-0 left-5 top-4"
           />
@@ -396,9 +390,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       </div>
       {/* Level Progress */}
       <LevelProgress
-        animal="Sheep"
+        animal={sheep}
         animalState={sheepState}
-        experience={sheep.experience}
         className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
         // Don't block level up UI with wakes in panel if accidentally clicked
         onLevelUp={() => setShowWakesIn(false)}

@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { getAnimalLevel } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
@@ -16,7 +15,7 @@ export function isValidDeal({
     return false;
   }
 
-  if (getAnimalLevel(animal.experience, animal.type) < deal.level) {
+  if (animal.level < deal.level) {
     return false;
   }
 
