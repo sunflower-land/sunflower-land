@@ -818,5 +818,6 @@ export const SUNNYSIDE = {
     farmHandImage: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/farmHands.png`,
     flowersTutorial: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/flowers.webp`,
     beeTutorial: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/bees.webp`,
+    craftingBox: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/crafting_box.webp`,
   },
 };
