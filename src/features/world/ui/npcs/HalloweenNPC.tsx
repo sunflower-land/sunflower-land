@@ -102,6 +102,9 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
 
   const sacrifice = () => {
     // Place the purchase function here
+    gameService.send("bear.sacrificed", {
+      bears: selectedItems,
+    });
   };
 
   const onAdd = (itemName: InventoryItemName) => {
