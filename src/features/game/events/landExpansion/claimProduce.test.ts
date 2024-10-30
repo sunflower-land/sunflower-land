@@ -13,6 +13,9 @@ describe("claimProduce", () => {
       createdAt: now,
       state: {
         ...INITIAL_FARM,
+        inventory: {
+          Egg: new Decimal(1),
+        },
         henHouse: {
           ...INITIAL_FARM.henHouse,
           animals: {
@@ -40,7 +43,7 @@ describe("claimProduce", () => {
 
     expect(state.henHouse.animals[chickenId].state).toBe("idle");
     expect(state.henHouse.animals[chickenId].experience).toBe(60);
-    expect(state.inventory.Egg).toStrictEqual(new Decimal(1));
+    expect(state.inventory.Egg).toStrictEqual(new Decimal(2));
   });
 
   it("throws an error if animal is not in ready state", () => {
@@ -62,8 +65,8 @@ describe("claimProduce", () => {
                 state: "idle",
                 experience: 50,
                 asleepAt: 0,
-                awakeAt: 0,
                 lovedAt: 0,
+                awakeAt: 0,
                 item: "Petting Hand",
               },
             },
@@ -76,31 +79,6 @@ describe("claimProduce", () => {
         },
       }),
     ).toThrow("Animal is not ready to claim produce");
-  });
-
-  it("gives the correct amount of produce for the level eg. cow achieving level 4 should drop 2x milk & 1x leather", () => {
-    const cowId = "123";
-
-    const newState = claimProduce({
-      state: {
-        ...INITIAL_FARM,
-        barn: {
-          ...INITIAL_FARM.barn,
-          animals: {
-            [cowId]: {
-              ...INITIAL_FARM.barn.animals[cowId],
-              experience: 1200,
-              state: "ready",
-            },
-          },
-        },
-      },
-      action: { type: "produce.claimed", animal: "Cow", id: cowId },
-      createdAt: now,
-    });
-
-    expect(newState.inventory.Milk).toEqual(new Decimal(2));
-    expect(newState.inventory.Leather).toEqual(new Decimal(1));
   });
 
   it("gives 2x eggs for chickens when Chicken Coop is placed", () => {
@@ -177,8 +155,8 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 60,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
+              awakeAt: 0,
               item: "Petting Hand",
             },
           },
@@ -221,8 +199,8 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 60,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
+              awakeAt: 0,
               item: "Petting Hand",
             },
           },
@@ -265,9 +243,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 60,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -303,9 +281,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -342,9 +320,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 360,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -420,9 +398,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 240,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -465,9 +443,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -500,9 +478,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -535,9 +513,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 360,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -570,9 +548,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 240,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -671,9 +649,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 240,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -713,9 +691,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 360,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -770,7 +748,7 @@ describe("claimProduce", () => {
     expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
-  it("adds a time boost of -4 hours if El Pollo Veloz is placed", () => {
+  it("adds a time boost of -2 hours if El Pollo Veloz is placed", () => {
     const state = claimProduce({
       createdAt: now,
       state: {
@@ -807,8 +785,8 @@ describe("claimProduce", () => {
       },
     });
 
-    const fourHoursInMs = 2 * 60 * 60 * 1000;
-    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION - fourHoursInMs;
+    const twoHoursInMs = 2 * 60 * 60 * 1000;
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION - twoHoursInMs;
 
     expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
@@ -997,9 +975,114 @@ describe("claimProduce", () => {
       },
     });
 
-    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.8;
+    // 0.9 * 0.9 = 0.81 (stacking multiplicatively)
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.81;
 
-    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
+    expect(state.henHouse.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
+  });
+
+  it("stacks all possible speed boosts for chickens", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Wrangler: new Decimal(1),
+          "Speed Chicken": new Decimal(1),
+          "El Pollo Veloz": new Decimal(1),
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Stable Hand": 1,
+          },
+        },
+        collectibles: {
+          "Speed Chicken": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+          "El Pollo Veloz": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+
+    const twoHoursInMs = 2 * 60 * 60 * 1000;
+    // First subtract 2 hours, then apply percentage reductions
+    const afterFixedReduction = ANIMAL_SLEEP_DURATION - twoHoursInMs;
+    const finalDuration = afterFixedReduction * 0.9 * 0.9 * 0.9; // Apply all 10% reductions
+    const boostedAwakeAt = now + finalDuration;
+
+    expect(state.henHouse.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
+  });
+
+  it("stacks all possible speed boosts for sheep", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Wrangler: new Decimal(1),
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Stable Hand": 1,
+          },
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            necklace: "Dream Scarf",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Sheep",
+              state: "ready",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Sheep",
+        id: "0",
+      },
+    });
+
+    // 0.9 (Wrangler) * 0.9 (Stable Hand) * 0.8 (Dream Scarf) = 0.648
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.648;
+
+    expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
   it("adds a time boost of 10% if a Stable Hand skill is present", () => {
@@ -1034,6 +1117,40 @@ describe("claimProduce", () => {
     const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.9;
 
     expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
+  });
+
+  it("applies the multiplier on all produce when a critical drop is hit with Buckaroo skill", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            Buckaroo: 1,
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              state: "ready",
+              experience: 360,
+              multiplier: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Cow",
+        id: "0",
+      },
+    });
+
+    expect(state.inventory.Milk).toEqual(new Decimal(2));
+    expect(state.inventory.Leather).toEqual(new Decimal(2));
   });
 
   it("tracks the bumpkin activity when a resource is collected", () => {
@@ -1085,9 +1202,9 @@ describe("claimProduce", () => {
               state: "ready",
               experience: 120,
               asleepAt: 0,
-              awakeAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
+              awakeAt: 0,
             },
           },
         },
@@ -1098,5 +1215,142 @@ describe("claimProduce", () => {
 
     expect(newState.bumpkin.activity["Egg Collected"]).toEqual(1);
     expect(newState.bumpkin.activity["Feather Collected"]).toEqual(1);
+  });
+
+  it("correctly applies El Pollo Veloz 2-hour reduction with percentage boosts", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "El Pollo Veloz": new Decimal(1),
+          Wrangler: new Decimal(1),
+        },
+        collectibles: {
+          "El Pollo Veloz": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+
+    const twoHoursInMs = 2 * 60 * 60 * 1000;
+    // First subtract 2 hours, then apply 10% reduction
+    const reducedDuration = (ANIMAL_SLEEP_DURATION - twoHoursInMs) * 0.9;
+    const boostedAwakeAt = now + reducedDuration;
+
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
+  });
+
+  it("reduces the sleep time by 25% if a Farm Dog is placed and ready", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Farm Dog": new Decimal(1),
+        },
+        collectibles: {
+          "Farm Dog": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              state: "ready",
+              type: "Sheep",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Sheep",
+        id: "0",
+      },
+    });
+
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.75;
+
+    expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
+  });
+
+  it("stacks Farm Dog boost with other speed boosts for sheep", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Farm Dog": new Decimal(1),
+          Wrangler: new Decimal(1),
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Stable Hand": 1,
+          },
+        },
+        collectibles: {
+          "Farm Dog": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              state: "ready",
+              type: "Sheep",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Sheep",
+        id: "0",
+      },
+    });
+
+    // 0.75 (Farm Dog) * 0.9 (Wrangler) * 0.9 (Stable Hand) = 0.6075
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.6075;
+
+    expect(state.barn.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
   });
 });

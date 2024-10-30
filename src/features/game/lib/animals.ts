@@ -243,37 +243,44 @@ export function getBoostedAwakeAt({
   game: GameState;
 }) {
   const sleepDuration = ANIMAL_SLEEP_DURATION;
-  let awakeAt = createdAt + sleepDuration;
   const { bumpkin } = game;
+  const twoHoursInMs = 2 * 60 * 60 * 1000;
+
+  // Start with the base duration
+  let totalDuration = sleepDuration;
 
   const isChicken = animalType === "Chicken";
   const isSheep = animalType === "Sheep";
 
+  // Apply fixed time reductions first
   if (isChicken) {
-    if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
-      awakeAt -= sleepDuration * 0.1;
+    if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
+      totalDuration -= twoHoursInMs;
     }
 
-    if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
-      awakeAt -= 2 * 60 * 60 * 1000;
+    if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
+      totalDuration *= 0.9;
     }
   }
 
   if (isSheep) {
     if (isWearableActive({ name: "Dream Scarf", game })) {
-      awakeAt -= sleepDuration * 0.2;
+      totalDuration *= 0.8;
+    }
+
+    if (isCollectibleBuilt({ name: "Farm Dog", game })) {
+      totalDuration *= 0.75;
     }
   }
 
-  // Applies to all animals
   if (game.inventory["Wrangler"]?.gt(0)) {
-    awakeAt -= sleepDuration * 0.1;
+    totalDuration *= 0.9;
   }
 
-  // Applies to all animals
   if (bumpkin.skills["Stable Hand"]) {
-    awakeAt -= sleepDuration * 0.1;
+    totalDuration *= 0.9;
   }
 
-  return awakeAt;
+  // Add the boosted duration to the created time
+  return createdAt + totalDuration;
 }
