@@ -4095,5 +4095,6 @@
   "description.milkApron.boost": "+0.5 Milk",
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Sheeps are fed",
-  "restrictionReason.cowFed": "Cows are fed"
+  "restrictionReason.cowFed": "Cows are fed",
+  "double.delivery.hint": "Pssssst...there will be double rewards for deliveries on {{date}}."
 }

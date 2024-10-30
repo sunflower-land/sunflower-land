@@ -1314,7 +1314,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: new Date("2024-09-10").getTime(),
               from: "tango",
               items: {
                 Orange: 5,
@@ -1323,13 +1323,14 @@ describe("deliver", () => {
               reward: { coins: 320 },
             },
           ],
-          doubleDelivery: true,
+          doubleDelivery: "2024-09-10",
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: new Date("2024-09-10").getTime(),
     });
 
     expect(state.coins).toEqual(640);
@@ -1350,7 +1351,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: new Date("2024-09-10").getTime(),
               from: "guria",
               items: {
                 Orange: 5,
@@ -1359,13 +1360,14 @@ describe("deliver", () => {
               reward: { sfl: 1 },
             },
           ],
-          doubleDelivery: true,
+          doubleDelivery: "2024-09-10",
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: new Date("2024-09-10").getTime(),
     });
 
     expect(state.balance).toEqual(new Decimal(2));
@@ -1383,19 +1385,20 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: new Date("2024-09-10").getTime(),
               from: "tywin",
               items: { coins: 6400 },
               reward: {},
             },
           ],
-          doubleDelivery: true,
+          doubleDelivery: "2024-09-10",
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: new Date("2024-09-10").getTime(),
     });
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));

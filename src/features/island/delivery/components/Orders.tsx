@@ -441,7 +441,8 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between gap-1 flex-row w-full">
             <Label type="default">{t("deliveries")}</Label>
-            {state.delivery.doubleDelivery === true && (
+            {state.delivery.doubleDelivery ===
+              new Date().toISOString().substring(0, 10) && (
               <Label type="vibrant" icon={lightning}>
                 {t("double.rewards.deliveries")}
               </Label>
@@ -780,11 +781,13 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </Label>
               </div>
               <div className="mb-1">
-                {state.delivery.doubleDelivery === true && !hasClaimedBonus && (
-                  <Label type="vibrant" icon={lightning}>
-                    {t("2x.rewards")}
-                  </Label>
-                )}
+                {state.delivery.doubleDelivery ===
+                  new Date().toISOString().substring(0, 10) &&
+                  !hasClaimedBonus && (
+                    <Label type="vibrant" icon={lightning}>
+                      {t("2x.rewards")}
+                    </Label>
+                  )}
               </div>
               <div>
                 {!previewOrder.completedAt &&
