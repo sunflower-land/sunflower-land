@@ -4,7 +4,6 @@ import React from "react";
 import { POTIONS } from "./lib/potions";
 import { FeedbackIcons } from "./lib/types";
 
-import { SUNNYSIDE } from "assets/sunnyside";
 import { PotionName, PotionStatus } from "features/game/types/game";
 
 const INNER_CANVAS_WIDTH = 14;
@@ -63,7 +62,7 @@ const SelectBox = () => {
     <>
       <img
         className="absolute pointer-events-none"
-        src={SUNNYSIDE.ui.selectBoxBL}
+        src="/world/halloweenSelectbox_bl.png"
         style={{
           top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: 0,
@@ -72,7 +71,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src={SUNNYSIDE.ui.selectBoxBR}
+        src="/world/halloweenSelectbox_br.png"
         style={{
           top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
@@ -81,7 +80,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src={SUNNYSIDE.ui.selectBoxTL}
+        src="/world/halloweenSelectbox_tl.png"
         style={{
           top: 0,
           left: 0,
@@ -90,7 +89,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src={SUNNYSIDE.ui.selectBoxTR}
+        src="/world/halloweenSelectbox_tr.png"
         style={{
           top: 0,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import worldMap from "assets/map/world_map.png";
+//import worldMap from "assets/map/world_map.png";
+import worldMap from "assets/map/world_map_halloween.png";
 
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -418,6 +419,50 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <span className="map-text text-xxs sm:text-sm">
             {t("world.retreat")}
           </span>
+        )}
+      </div>
+
+      <div
+        style={{
+          width: "35%",
+          height: "14%",
+          border: showDebugBorders ? "2px solid red" : "",
+          position: "absolute",
+          right: "35%",
+          bottom: "0%",
+        }}
+        className="flex justify-center items-center cursor-pointer"
+        onClick={() => {
+          if (level < 5) return;
+          travel.play();
+          navigate("/world/halloween_island");
+          onClose();
+        }}
+      >
+        {level < 2 ? (
+          isMobile ? (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              className="h-4 sm:h-6 ml-1 img-highlight"
+              onClick={() => {
+                setShowPopup(true);
+                setReqLvl("1");
+                setTimeout(() => {
+                  setShowPopup(false);
+                }, 1300);
+              }}
+            />
+          ) : (
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.lock}
+              className="text-sm"
+            >
+              {t("world.lvl.requirement", { lvl: 1 })}
+            </Label>
+          )
+        ) : (
+          <span className="map-text text-xxs sm:text-sm">{"Halloween"}</span>
         )}
       </div>
 
