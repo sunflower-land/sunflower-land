@@ -22,7 +22,7 @@ export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
   return (
     <>
       {items.map((item, index) => (
-        <div className="pb-2">
+        <div className="pb-2" key={index}>
           <div className="flex mb-1 items-center" key={index}>
             <div className={`w-${iconWidth} flex justify-center`}>
               <img src={item.icon} className="h-6 mr-2 object-contain" />
