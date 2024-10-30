@@ -1024,7 +1024,7 @@
   "delivery.feed": "It ain't free, I've got a tribe to feed!",
   "delivery.fee": "I'll take 30% of the resources for the Goblin Community Treasury",
   "delivery.goblin.comm.treasury": "Goblin Community Treasury",
-  "digby.streakReward": "Discover all the items above for a bonus prize. Unlock daily streaks for extra rewards.",
+  "digby.streakReward": "Discover the three {{name}} for a bonus prize. Unlock daily streaks for extra rewards.",
   "digby.streak": "Digging Streak",
   "digby.claimPrize": "Well done Bumpkin! Don't forget to claim your bonus prize!",
   "digby.noShovels": "Hey, you need a sand shovel to dig here! Speak to Jafar...",
@@ -4115,5 +4115,16 @@
   "description.milkApron.boost": "+0.5 Milk",
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Sheeps are fed",
-  "restrictionReason.cowFed": "Cows are fed"
+  "restrictionReason.cowFed": "Cows are fed",
+  "double.delivery.hint": "Pssssst...there will be double rewards for deliveries on {{date}}.",
+  "craftingBox.welcome.1": "Welcome to the Crafting Box! Here you can craft items with your resources.",
+  "craftingBox.welcome.2": "Insert items into the crafting box to try discover new recipes. If you find a recipe, it will be saved under recipes!",
+  "craftingBox.welcome.3": "Time to get crafting! What would you like to do?",
+  "craftingBox.startCrafting": "Start Crafting",
+  "craftingBox.viewRecipes": "View Recipes",
+  "craftingBoxGuide.selectResource": "Select resources to craft.",
+  "craftingBoxGuide.craftItem": "Start crafting.",
+  "craftingBoxGuide.failed": "Crafting will fail if no match is found.",
+  "craftingBoxGuide.success": "An item will be crafted if a match is found.",
+  "craftingBoxGuide.viewRecipe": "Crafted items will be saved to your recipes."
 }

@@ -712,7 +712,7 @@ import royalBed from "assets/bumpkins/royal_bed.webp";
 import cowBed from "assets/bumpkins/cow_bed.webp";
 
 import horseshoe from "assets/icons/horseshoe.webp";
-import cowSkull from "assets/community/arcade/greedy_goblin/images/skull.png";
+import cowSkull from "assets/resources/cow_skull.png";
 import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
 
 import cowScratcher from "assets/sfts/cow_scratcher.webp";

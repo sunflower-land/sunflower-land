@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Modal } from "components/ui/Modal";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -70,6 +70,14 @@ import { BarnInside } from "features/barn/BarnInside";
 import { EFFECT_EVENTS } from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Button } from "components/ui/Button";
+import { GameState } from "../types/game";
+import { Ocean } from "features/world/ui/Ocean";
+
+const _betaInventory = (state: MachineState) => {
+  const pass = state.context.state.inventory["Beta Pass"];
+
+  return { inventory: { "Beta Pass": pass } } as GameState;
+};
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -210,12 +218,30 @@ const isEffectFailure = (state: MachineState) =>
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
-
   useSound("desert", true);
 
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
+  const betaInventory = useSelector(gameService, _betaInventory);
+  const [gameState] = useActor(gameService);
+
+  const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
+    GreenHouse: (game) => game.inventory.Greenhouse !== undefined,
+    Barn: (game) =>
+      game.inventory.Barn !== undefined &&
+      hasFeatureAccess(betaInventory, "ANIMAL_BUILDINGS"),
+    HenHouse: (game) =>
+      game.inventory["Hen House"] !== undefined &&
+      hasFeatureAccess(betaInventory, "ANIMAL_BUILDINGS"),
+  };
+
+  const hasAccess = (pathName: string) => {
+    return (
+      PATH_ACCESS[pathName] && PATH_ACCESS[pathName](gameState.context.state)
+    );
+  };
+
   if (landToVisitNotFound) {
     return (
       <>
@@ -270,10 +296,21 @@ const GameContent: React.FC = () => {
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/greenhouse" element={<GreenhouseInside />} />
-          <Route path="/barn" element={<BarnInside />} />
-          <Route path="/hen-house" element={<HenHouseInside />} />
-          <Route path="*" element={<IslandNotFound />} />
+          {hasAccess("GreenHouse") && (
+            <Route path="/greenhouse" element={<GreenhouseInside />} />
+          )}
+          {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
+          {hasAccess("HenHouse") && (
+            <Route path="/hen-house" element={<HenHouseInside />} />
+          )}
+          <Route
+            path="*"
+            element={
+              <Ocean>
+                <IslandNotFound />
+              </Ocean>
+            }
+          />
         </Routes>
       </div>
     </>

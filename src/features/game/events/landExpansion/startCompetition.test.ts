@@ -86,7 +86,6 @@ describe("startCompetition", () => {
           fulfilledCount: 177,
           milestone: {} as any,
           orders: [],
-          doubleDelivery: false,
         },
         island: {
           type: "spring",

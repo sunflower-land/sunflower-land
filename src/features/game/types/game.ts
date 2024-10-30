@@ -844,7 +844,7 @@ export type Delivery = {
     total: number;
     claimedAt?: number;
   };
-  doubleDelivery: boolean;
+  doubleDelivery?: string;
 };
 
 export type DailyRewards = {
@@ -1233,6 +1233,7 @@ export type Animal = {
   coordinates: Coordinates;
   experience: number;
   asleepAt: number;
+  awakeAt: number;
   lovedAt: number;
   item: LoveAnimalItem;
   multiplier?: number;

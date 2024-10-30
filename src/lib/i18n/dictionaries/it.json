@@ -991,7 +991,6 @@
   "delivery.feed": "Non è gratis, ho una tribù da sfamare!",
   "delivery.fee": "Prenderò il 30% delle risorse per il Goblin Community Treasury",
   "delivery.goblin.comm.treasury": "Tesoro della comunità dei Goblin",
-  "digby.streakReward": "Scopri tutti gli articoli qui sopra per un premio bonus. Sblocca serie giornaliere per ottenere ricompense extra.",
   "digby.streak": "Serie di scavi",
   "digby.claimPrize": "Ben fatto Bumpkin! Non dimenticare di richiedere il tuo premio bonus!",
   "digby.puzzle": "Puzzle di scavo",
@@ -4111,5 +4110,7 @@
   "description.milkApron.boost": "+0,5 latte",
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Le pecore vengono nutrite",
-  "restrictionReason.cowFed": "Le mucche vengono nutrite"
+  "restrictionReason.cowFed": "Le mucche vengono nutrite",
+  "digby.streakReward": "Scopri i tre {{name}} per un premio bonus. Sblocca serie giornaliere per ottenere ricompense extra.",
+  "double.delivery.hint": "Pssssst... ci saranno ricompense doppie per le consegne il {{date}}."
 }

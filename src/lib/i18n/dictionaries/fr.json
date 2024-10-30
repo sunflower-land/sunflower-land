@@ -2647,7 +2647,6 @@
   "description.splendorFlag": "Pour les joueurs qui ont généreusement soutenu les Sunflorians, symbolisant leur splendeur par la générosité.",
   "description.jellyLamp": "Une lampe qui apporte une touche de luxe à n'importe quelle pièce.",
   "description.paintCan": "Un pot de peinture découvert lors du festival des couleurs",
-  "digby.streakReward": "Découvrez tous les objets ci-dessus pour un prix bonus. Débloquez des séries quotidiennes pour obtenir des récompenses supplémentaires.",
   "digby.streak": "Série de fouilles",
   "digby.claimPrize": "Bravo Bumpkin ! N'oubliez pas de réclamer votre prix bonus !",
   "digby.puzzle": "Puzzle à creuser",
@@ -4111,5 +4110,8 @@
   "description.milkApron.boost": "+0,5 Lait",
   "description.sheafOfPlenty.boost": "+2 Orge",
   "restrictionReason.sheepFed": "Les moutons sont nourris",
-  "restrictionReason.cowFed": "Les vaches sont nourries"
+  "restrictionReason.cowFed": "Les vaches sont nourries",
+  "restrictionReason.cowFed": "Les vaches sont nourries",
+  "digby.streakReward": "Découvrez les trois {{name}} pour un prix bonus. Débloquez des séries quotidiennes pour obtenir des récompenses supplémentaires.",
+  "double.delivery.hint": "Pssssst... les récompenses seront doublées pour les livraisons effectuées le {{date}}."
 }

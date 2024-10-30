@@ -1001,7 +1001,6 @@
   "delivery.feed": "Itu tidak gratis, aku punya suku untuk diberi makan!",
   "delivery.fee": "Aku akan mengambil 30% dari sumber daya untuk Perbendaharaan Komunitas Goblin",
   "delivery.goblin.comm.treasury": "Perbendaharaan Komunitas Goblin",
-  "digby.streakReward": "Temukan semua item di atas untuk hadiah bonus. Buka rangkaian harian untuk hadiah tambahan.",
   "digby.streak": "Menggali Garis",
   "digby.claimPrize": "Bagus sekali Bumpkin! Jangan lupa untuk mengklaim hadiah bonus Anda!",
   "digby.puzzle": "Menggali teka-teki",
@@ -4111,5 +4110,8 @@
   "description.milkApron.boost": "+0.5 Susu",
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Domba diberi makan",
-  "restrictionReason.cowFed": "Sapi diberi makan"
+  "restrictionReason.cowFed": "Sapi diberi makan",
+  "restrictionReason.cowFed": "Sapi diberi makan",
+  "digby.streakReward": "Temukan tiga {{name}} untuk hadiah bonus. Buka rangkaian harian untuk hadiah tambahan.",
+  "double.delivery.hint": "Pssssst... akan ada hadiah ganda untuk pengiriman pada {{date}}."
 }

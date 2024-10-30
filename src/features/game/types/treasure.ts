@@ -80,24 +80,6 @@ export type SellableTreasure = {
   to?: Date;
 };
 
-export const SEASONAL_ARTEFACT: Record<
-  BeachBountySeasonalArtefact,
-  SellableTreasure
-> = {
-  Scarab: {
-    sellPrice: 200,
-    from: SEASONS["Pharaoh's Treasure"].startDate,
-    to: SEASONS["Pharaoh's Treasure"].endDate,
-    description: translate("description.scarab"),
-  },
-  "Cow Skull": {
-    sellPrice: 200,
-    from: SEASONS["Bull Run"].startDate,
-    to: SEASONS["Bull Run"].endDate,
-    description: translate("description.cowSkull"),
-  },
-};
-
 export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
   {
     Sand: {
@@ -172,5 +154,16 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       sellPrice: 7500,
       description: translate("description.pirate.bounty"),
     },
-    ...SEASONAL_ARTEFACT,
+    Scarab: {
+      sellPrice: 200,
+      from: SEASONS["Pharaoh's Treasure"].startDate,
+      to: SEASONS["Pharaoh's Treasure"].endDate,
+      description: translate("description.scarab"),
+    },
+    "Cow Skull": {
+      sellPrice: 200,
+      from: SEASONS["Bull Run"].startDate,
+      to: SEASONS["Bull Run"].endDate,
+      description: translate("description.cowSkull"),
+    },
   };

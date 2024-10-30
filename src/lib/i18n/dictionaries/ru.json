@@ -936,7 +936,6 @@
   "deposit.noSflOrCollectibles": "SFL или коллекционные предметы не найдены!",
   "deposit.farmAddress": "Адрес фермы",
   "question.depositSFLItems": "Хочешь добавить в Sunflower Land предметы, одежду или токен SFL?",
-  "digby.streakReward": "Найди все предметы для получения бонусного приза. Не пропускай день для получения дополнительных наград.",
   "digby.streak": "Копательная серия",
   "digby.claimPrize": "Молодец, Бампкин! Не забудь получить свой бонусный приз!",
   "digby.puzzle": "Головоломка «Раскопки»",
@@ -4111,5 +4110,8 @@
   "description.milkApron.boost": "+0,5 Молоко",
   "description.sheafOfPlenty.boost": "+2 Ячмень",
   "restrictionReason.sheepFed": "Овец кормят",
-  "restrictionReason.cowFed": "Коров кормят"
+  "restrictionReason.cowFed": "Коров кормят",
+  "restrictionReason.cowFed": "Коров кормят",
+  "digby.streakReward": "Откройте для себя три {{name}} и получите бонусный приз. Открывайте ежедневные серии и получайте дополнительные награды.",
+  "double.delivery.hint": "Psssssst... за доставку по адресу {{date}} вы получите двойное вознаграждение."
 }

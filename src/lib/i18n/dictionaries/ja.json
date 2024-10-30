@@ -1001,7 +1001,6 @@
   "delivery.feed": "タダじゃないんだ、餌をやる部族がいるんだ！",
   "delivery.fee": "ゴブリンのコミュニティ宝庫の資源の 30% は私が取る",
   "delivery.goblin.comm.treasury": "ゴブリンコミュニティトレジャリー",
-  "digby.streakReward": "上記のすべてのアイテムを見つけて、ボーナス賞品を手に入れましょう。毎日の連勝をアンロックして、追加報酬を獲得しましょう。",
   "digby.streak": "ディギング・ストリーク",
   "digby.claimPrize": "よくやったバンプキン！ボーナス賞品を受け取るのを忘れないでね！",
   "digby.puzzle": "掘りパズル",
@@ -4111,5 +4110,7 @@
   "description.milkApron.boost": "+0.5 ミルク",
   "description.sheafOfPlenty.boost": "+2 バーリー",
   "restrictionReason.sheepFed": "羊に餌をやる",
-  "restrictionReason.cowFed": "牛に餌をやる"
+  "restrictionReason.cowFed": "牛に餌をやる",
+  "digby.streakReward": "3つの {{name}} を見つけるとボーナス賞品がもらえます。毎日の連勝をアンロックして追加報酬を獲得しましょう。",
+  "double.delivery.hint": "Pssssst... {{date}} に配送すると2倍の報酬がもらえます。"
 }
