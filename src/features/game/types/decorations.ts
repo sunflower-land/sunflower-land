@@ -121,6 +121,13 @@ export type PotionHouseDecorationName =
 export type InteriorDecorationName = "Rug" | "Wardrobe";
 
 export const DECORATION_TEMPLATES = {
+  "King of Bears": {
+    dimensions: {
+      width: 3,
+      height: 2,
+    },
+    isWithdrawable: () => false,
+  },
   "Goblin Gold Champion": {
     dimensions: {
       width: 2,

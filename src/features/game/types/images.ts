@@ -367,6 +367,7 @@ import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
 import snowglobe from "src/assets/decorations/snowglobe.gif";
 import shrub from "assets/decorations/shrub.png";
 import basicBear from "src/assets/sfts/bears/basic_bear.png";
+import kingOfBears from "src/assets/sfts/bears/king_of_bears.png";
 import chefBear from "src/assets/sfts/bears/chef_bear.png";
 import constructionBear from "src/assets/sfts/bears/construction_bear.png";
 import angelBear from "src/assets/sfts/bears/angel_bear.png";
@@ -4309,5 +4310,9 @@ export const ITEM_DETAILS: Items = {
   "Mechanical Bull": {
     image: mechanicalBull,
     description: translate("description.mechanicalBull"),
+  },
+  "King of Bears": {
+    image: kingOfBears,
+    description: "?",
   },
 };
