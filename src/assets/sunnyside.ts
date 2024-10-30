@@ -418,6 +418,7 @@ export const SUNNYSIDE = {
   },
   //Icons
   icons: {
+    upgrade_disc: `${CONFIG.PROTECTED_IMAGE_URL}/icons/upgrade_disc.webp`,
     angry: `${CONFIG.PROTECTED_IMAGE_URL}/icons/angry.png`,
     arrow_down: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_down.png`,
     arrow_left: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_left.png`,

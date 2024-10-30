@@ -172,9 +172,10 @@ export const BarnInside: React.FC = () => {
               <div
                 className="absolute"
                 style={{
-                  left: `${10 * PIXEL_SCALE}px`,
-                  top: `${0 * PIXEL_SCALE}px`,
-                  width: `${30 * PIXEL_SCALE}px`,
+                  top: `${-4 * PIXEL_SCALE}px`,
+                  // Center in parent
+                  left: "50%",
+                  transform: "translateX(-50%)",
                 }}
               >
                 <FeederMachine />
@@ -237,11 +238,11 @@ export const BarnInside: React.FC = () => {
                     onClick={() => setShowModal(true)}
                   />
                   <img
-                    src={SUNNYSIDE.icons.upgradeBuildingIcon}
+                    src={SUNNYSIDE.icons.upgrade_disc}
                     alt="Upgrade Building"
-                    className="absolute bottom-[44px] right-[18px] cursor-pointer z-10"
+                    className="absolute top-[18px] left-[18px] cursor-pointer z-10"
                     style={{
-                      width: `${PIXEL_SCALE * 16}px`,
+                      width: `${PIXEL_SCALE * 18}px`,
                     }}
                     onClick={() => setShowUpgradeModal(true)}
                   />
