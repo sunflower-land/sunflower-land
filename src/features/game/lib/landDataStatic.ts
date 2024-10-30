@@ -502,6 +502,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Knight Chicken": new Decimal(1),
     Baozi: new Decimal(10),
     Goblet: new Decimal(1),
+    "Hen House": new Decimal(1),
+    Barn: new Decimal(1),
     "Prize Ticket": new Decimal(10),
     "Fat Chicken": new Decimal(2),
     "Speed Chicken": new Decimal(2),

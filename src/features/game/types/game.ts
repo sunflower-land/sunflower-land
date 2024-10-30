@@ -1232,6 +1232,7 @@ export type Animal = {
   createdAt: number;
   coordinates: Coordinates;
   experience: number;
+  level: number;
   asleepAt: number;
   awakeAt: number;
   lovedAt: number;

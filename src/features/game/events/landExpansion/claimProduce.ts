@@ -2,12 +2,12 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
   ANIMAL_RESOURCE_DROP,
+  AnimalLevel,
   ANIMALS,
   AnimalType,
 } from "features/game/types/animals";
 import { GameState } from "features/game/types/game";
 import {
-  getAnimalLevel,
   getBoostedAwakeAt,
   getResourceDropAmount,
 } from "features/game/lib/animals";
@@ -47,16 +47,16 @@ export function claimProduce({
       throw new Error("Animal is not ready to claim produce");
     }
 
-    const level = getAnimalLevel(animal.experience, action.animal);
+    const totalLevels = getKeys(ANIMAL_RESOURCE_DROP[action.animal]).length;
+    const newLevel = Math.min(animal.level + 1, totalLevels) as AnimalLevel;
+    const drop = ANIMAL_RESOURCE_DROP[action.animal][newLevel];
 
-    getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
-      const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
-        resource
-      ] as Decimal;
+    getKeys(drop).forEach((resource) => {
+      const baseAmount = drop[resource];
       const boostedAmount = getResourceDropAmount({
         game: copy,
         animalType: action.animal,
-        baseAmount: baseAmount.toNumber(),
+        baseAmount: baseAmount!.toNumber(),
         resource,
         multiplier: animal.multiplier ?? 0,
       });
@@ -78,6 +78,8 @@ export function claimProduce({
       game: copy,
     });
     animal.state = "idle";
+    animal.level = newLevel;
+    animal.experience = 0;
     animal.multiplier = 1;
 
     return copy;
