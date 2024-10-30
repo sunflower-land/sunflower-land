@@ -13,6 +13,7 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getBoostedFoodQuantity,
   isAnimalFood,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -88,6 +89,7 @@ const _cow = (id: string) => (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _inventoryCount = (item: InventoryItemName) => (state: MachineState) =>
   state.context.state.inventory[item] ?? new Decimal(0);
+const _game = (state: MachineState) => state.context.state;
 
 export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -100,7 +102,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     gameService,
     _inventoryCount(selectedItem as AnimalFoodName),
   );
-
+  const game = useSelector(gameService, _game);
   const cowService = useInterpret(animalMachine, {
     context: {
       animal: cow,
@@ -143,6 +145,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const idle = cowMachineState === "idle";
   const sick = cowMachineState === "sick";
   const loved = cowMachineState === "loved";
+
+  const requiredFoodQty = getBoostedFoodQuantity({
+    animalType: "Cow",
+    foodQuantity: REQUIRED_FOOD_QTY.Cow,
+    game,
+  });
 
   const feedCow = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
@@ -279,7 +287,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       const foodCount =
         inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
       // 5 is the amount of food needed to feed the cow
-      if (foodCount.lt(REQUIRED_FOOD_QTY.Cow)) {
+      if (foodCount.lt(requiredFoodQty)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -308,7 +316,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     const foodCount = inventory[item as AnimalFoodName] ?? new Decimal(0);
 
-    if (foodCount.lt(REQUIRED_FOOD_QTY.Cow)) {
+    if (foodCount.lt(requiredFoodQty)) {
       setShowQuickSelect(false);
       setShowNotEnoughFood(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -398,10 +406,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         {/* Request */}
         {idle && (
           <RequestBubble
+            key={REQUIRED_FOOD_QTY.Cow}
             top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
             request={favFood}
-            quantity={REQUIRED_FOOD_QTY.Cow}
+            quantity={requiredFoodQty}
           />
         )}
         {sick && (
@@ -473,9 +482,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
                   .filter(
                     (food) =>
                       ANIMAL_FOODS[food].type === "food" &&
-                      (inventory[food] ?? new Decimal(0)).gte(
-                        REQUIRED_FOOD_QTY.Cow,
-                      ),
+                      (inventory[food] ?? new Decimal(0)).gte(requiredFoodQty),
                   )
                   .map((food) => ({
                     name: food,
