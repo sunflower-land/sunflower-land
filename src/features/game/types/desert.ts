@@ -1,5 +1,6 @@
 import { getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
+import { getCurrentSeason, SeasonName } from "./seasons";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;
@@ -7,6 +8,17 @@ export const DESERT_GRID_WIDTH = 10;
 type FormationPlot = { x: number; y: number; name: InventoryItemName };
 
 export type DiggingFormation = FormationPlot[];
+
+export const SEASONAL_ARTEFACT: Record<SeasonName, InventoryItemName> = {
+  "Bull Run": "Cow Skull",
+  "Pharaoh's Treasure": "Scarab",
+  "Solar Flare": "Scarab",
+  "Dawn Breaker": "Scarab",
+  "Witches' Eve": "Scarab",
+  "Catch the Kraken": "Scarab",
+  "Spring Blossom": "Scarab",
+  "Clash of Factions": "Scarab",
+};
 
 export const DIGGING_FORMATIONS = {
   // Horizontal Zig Zag - X Coins
@@ -207,6 +219,12 @@ export function getTreasuresFound({ game }: { game: GameState }) {
       );
     })
     .map((hole) => getKeys(hole.items)[0]);
+}
+
+export function getArtefactsFound({ game }: { game: GameState }) {
+  return game.desert.digging.grid.flat().filter((hole) => {
+    return getKeys(hole.items)[0] === SEASONAL_ARTEFACT[getCurrentSeason()];
+  }).length;
 }
 
 export function getTreasureCount({ game }: { game: GameState }) {

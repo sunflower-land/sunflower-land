@@ -7,19 +7,14 @@ import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { InventoryItemName } from "features/game/types/game";
-import { gameAnalytics } from "lib/gameAnalytics";
-import {
-  BeachBountyTreasure,
-  SELLABLE_TREASURE,
-} from "features/game/types/treasure";
+
 import { getUTCDateString } from "lib/utils/time";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getKeys } from "features/game/types/decorations";
 import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
-  getTreasureCount,
-  getTreasuresFound,
+  getArtefactsFound,
   secondsTillDesertStorm,
 } from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
@@ -1110,17 +1105,11 @@ export class BeachScene extends BaseScene {
   };
 
   get treasuresFound() {
-    return getTreasuresFound({ game: this.gameService.state.context.state });
-  }
-
-  get totalBuriedTreasure() {
-    return getTreasureCount({ game: this.gameService.state.context.state });
+    return getArtefactsFound({ game: this.gameService.state.context.state });
   }
 
   get percentageTreasuresFound() {
-    return Math.round(
-      (this.treasuresFound.length / this.totalBuriedTreasure) * 100,
-    );
+    return Math.round((this.treasuresFound / 3) * 100);
   }
 
   get isAncientShovelActive() {
@@ -1188,29 +1177,6 @@ export class BeachScene extends BaseScene {
         "beachDigAttempts",
         JSON.stringify({ [day]: attemptsToday + 1 }),
       );
-    }
-
-    if (attemptsToday + 1 < 4) {
-      const totalCoins = this.treasuresFound.reduce((acc, item) => {
-        const treasure = SELLABLE_TREASURE[item as BeachBountyTreasure];
-
-        if (!treasure) {
-          // eslint-disable-next-line no-console
-          console.log("Treasure not found in SELLABLE_TREASURE", item);
-          return acc;
-        }
-
-        return (acc += treasure.sellPrice);
-      }, 0);
-
-      const percentageFound = Math.floor(
-        (this.totalBuriedTreasure / this.treasuresFound.length) * 100,
-      );
-
-      gameAnalytics.trackBeachDiggingAttempt({
-        outputCoins: totalCoins,
-        percentageFound,
-      });
     }
   };
 
