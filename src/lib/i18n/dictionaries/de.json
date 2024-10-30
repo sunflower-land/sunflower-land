@@ -732,7 +732,6 @@
   "cropMachine.notStartedYet": "Noch nicht gestartet",
   "cropMachine.seedPacks": "Samenpackungen",
   "cropMachine.readyCropPacks": "Fertige Erntepakete",
-  "cropMachine.readyCropPacks.description": "Ihr habt derzeit {{totalReady}} Erntepakete zum Ernten! Klicken Sie auf das Paket, das Sie ernten möchten.",
   "cropMachine.harvestCropPack": "Erntegutpaket",
   "cropMachine.addOil": "Öl hinzufügen",
   "cropMachine.oil.description": "Ihre Maschine benötigt Öl, um zu laufen. Jede Samenpackung benötigt eine bestimmte Menge Öl, je nachdem, wie lange es dauert, bis die Pflanzen wachsen. Wenn Sie Öl hinzufügen, können Sie sehen, wie lange die Maschine läuft, wenn diese Menge verabreicht wird.",
@@ -4096,5 +4095,22 @@
   "halloween.noticeboard.three": "Am Ende des Events werden besondere Belohnungen an die Spieler mit der höchsten Punktzahl im Portal verteilt!",
   "halloween.noticeboard.four": "Die höchsten Punktzahlen erhalten spezielle limitierte Gegenstände, während die Teilnehmer mit den höchsten Gesamtpunktzahlen (Summe der besten Punktzahlen für jeden Tag der Veranstaltung) $SFL-Prämien erhalten!",
   "halloween.noticeboard.five": "Ihr könnt auch an den NPC auf der Insel spenden, und wer 3 $POL oder mehr spendet, erhält ein besonderes Geschenk!",
-  "easterEgg.halloweenTorchText": "Du spürst ein seltsames Gefühl, als ob der Wald nach dir ruft..."
+  "easterEgg.halloweenTorchText": "Du spürst ein seltsames Gefühl, als ob der Wald nach dir ruft...",
+  "cropMachine.readyCropPacks.description": "Ihr habt derzeit {{totalReady}} Erntepakete zum Ernten! Klicke auf das Paket, das du ernten möchtest.",
+  "leaderboard.empty": "Keine Bestenliste gefunden.",
+  "description.cowScratcher": "Ein rustikales und dennoch effektives Werkzeug, perfekt, um Kühen nach einem langen Tag auf den Feldern ein angenehmes Kratzen zu bereiten. Sorgen Sie dafür, dass Ihr Vieh glücklich und zufrieden ist!",
+  "description.spinningWheel": "Dieses elegante Stück Handwerkskunst verwandelt Rohwolle in feine Fäden, die für die Herstellung hochwertiger Textilien unverzichtbar sind.",
+  "description.sleepyRug": "Dieser weiche Teppich ist gemütlich und einladend und eignet sich perfekt für ein Nickerchen am Nachmittag. Er verleiht jedem Raum Wärme und Charme.",
+  "description.meteorite": "Der Meteorit ist ein seltenes und rätselhaftes Fragment der Sterne. Gerüchten zufolge soll er kosmische Kraft besitzen.",
+  "description.sheafOfPlenty": "Ein Bündel Gerste, das bei höchster Reife geerntet wird. Es steht für Fülle und die harte Arbeit der Saison. +2 Gerste",
+  "description.mechanicalBull": "Eine lebhafte Attraktion und Ausdauerprobe! Steigen Sie auf den Mechanical Bull und sehen Sie, ob Sie durchhalten können.",
+  "description.dreamScarf.boost": "-20% Produktionszeit für Schafe",
+  "description.cowboyHat.boost": "+1 Hufeisen von Deliveries",
+  "description.cowboyShirt.boost": "+1 Hufeisen von Bounties",
+  "description.cowboyTrouser.boost": "+1 Hufeisen von Chores",
+  "description.milkApron.boost": "+0.5 Milch",
+  "description.sheafOfPlenty.boost": "+2 Gerste",
+  "restrictionReason.sheepFed": "Schafe werden gefüttert",
+  "restrictionReason.cowFed": "Kühe werden gefüttert"
 }
+

@@ -935,6 +935,94 @@ describe("deliver", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
   });
 
+  it("provides +1 tickets when Cowboy Hat is worn at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2024-11-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("does not provide +1 tickets when Cowboy Hat is worn outside Bull Run Season", () => {
+    const mockDate = new Date("2024-10-30T15:00:00Z");
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2024-10-29T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+  });
+
   it("add 20% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {

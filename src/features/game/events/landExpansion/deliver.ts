@@ -5,6 +5,7 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
+  getCurrentSeason,
   getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
@@ -51,6 +52,13 @@ export function generateDeliveryTickets({
     !!game.inventory["Lifetime Farmer Banner"]
   ) {
     amount += 2;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Hat" })
+  ) {
+    amount += 1;
   }
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;

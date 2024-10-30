@@ -9837,6 +9837,68 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/661.png",
     name: "Royal Ornament",
   },
+  "Cow Scratcher": {
+    description:
+      "A rustic yet effective tool, perfect for giving cows a satisfying scratch after a long day in the fields. Keep your cattle happy and content!",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2148.png",
+    name: "Cow Scratcher",
+  },
+  "Spinning Wheel": {
+    description:
+      "An elegant piece of craftsmanship, this spinning wheel turns raw wool into fine thread, essential for crafting quality textiles.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2149.gif",
+    name: "Spinning Wheel",
+  },
+  "Sleepy Rug": {
+    description:
+      "Cozy and inviting, this soft rug is perfect for an afternoon nap. It adds warmth and charm to any space.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2150.png",
+    name: "Sleepy Rug",
+  },
+  Meteorite: {
+    description:
+      "A rare and mysterious fragment from the stars, the meteorite is rumored to hold cosmic power.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2151.png",
+    name: "Meteorite",
+  },
+  "Sheaf of Plenty": {
+    description:
+      "A bundle of barley harvested at peak ripeness, symbolizing abundance and the hard work of the season. +2 Barley",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Barley",
+        value: 2,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2152.gif",
+    name: "Sheaf of Plenty",
+  },
+  "Mechanical Bull": {
+    description:
+      "A lively attraction and test of endurance! Hop on the Mechanical Bull and see if you can hold on.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2153.gif",
+    name: "Mechanical Bull",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -14970,40 +15032,59 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Gam3s Cap",
   },
   "Cowboy Hat": {
-    description: "",
+    description:
+      "A classic wide-brimmed hat with a rugged charm, perfect for life on the open plains. Protects from the sun while adding a touch of cowboy style. +1 Horseshoe from Deliveries during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
       { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Horseshoe from Deliveries",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/396.png",
     name: "Cowboy Hat",
   },
   "Cowboy Shirt": {
-    description: "",
+    description:
+      "This durable, checked shirt is made for the hardworking cowpoke. +1 Horseshoe from Bounties during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Shirt" },
       { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Horseshoe from Bounties",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/397.png",
     name: "Cowboy Shirt",
   },
   "Cowboy Trouser": {
-    description: "",
+    description:
+      "These sturdy trousers are built to withstand the wear and tear of ranch life, complete with a touch of style fit for a true cowboy.  +1 Horseshoe from Chores during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Pants" },
       { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Horseshoe from Chores",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/398.png",
     name: "Cowboy Trouser",
   },
   "Cowboy Boots": {
-    description: "",
+    description:
+      "A tough, stylish pair of leather boots, complete with spurs. Ideal for long days in the saddle and showing off your cowboy flair.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Shoes" },
@@ -15058,7 +15139,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Chicken Suit",
   },
   "Cowgirl Skirt": {
-    description: "",
+    description:
+      "A stylish skirt with a Cowboy twist, perfect for those days spent in the sun or dancing around the bonfire.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Pants" },
@@ -15080,10 +15162,17 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Merino Jumper",
   },
   "Dream Scarf": {
-    description: "",
+    description:
+      "A soft, ethereal scarf that feels like a whisper in the wind. Wrap yourself in comfort and style with this dreamy accessory. 10% reduction in Sheep sleep time.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Sheep Produce Time",
+        value: -20,
+      },
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -15102,7 +15191,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Cowbell Necklace",
   },
   "Milk Apron": {
-    description: "",
+    description:
+      "A sturdy, practical apron designed for those working with dairy. Handy, comfortable, and perfect for any farmhouse chores. +0.5 Milk",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Coat" },

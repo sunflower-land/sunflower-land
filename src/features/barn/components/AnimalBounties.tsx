@@ -5,6 +5,7 @@ import { Button } from "components/ui/Button";
 import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
+import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -18,6 +19,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -137,7 +139,12 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                           height: "25px",
                         }}
                       >
-                        {deal.items?.[name]}
+                        {name !== getSeasonalTicket()
+                          ? deal.items?.[name]
+                          : generateBountyTicket({
+                              game: state,
+                              bounty: deal,
+                            })}
                       </Label>
                     );
                   })}
@@ -158,6 +165,7 @@ export const AnimalDeal: React.FC<{
   onSold: () => void;
 }> = ({ deal, animal, onClose, onSold }) => {
   const { gameService } = useContext(Context);
+  const state = gameService.getSnapshot().context.state;
 
   const { t } = useAppTranslation();
   const sell = () => {
@@ -192,7 +200,12 @@ export const AnimalDeal: React.FC<{
 
           {getKeys(deal.items ?? {}).map((name) => {
             <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
-              {deal.items?.[name]}
+              {name !== getSeasonalTicket()
+                ? deal.items?.[name]
+                : generateBountyTicket({
+                    game: state,
+                    bounty: deal,
+                  })}
             </Label>;
           })}
         </div>
@@ -202,7 +215,17 @@ export const AnimalDeal: React.FC<{
             ? t("bounties.sell.coins", { amount: deal.coins })
             : t("bounties.sell.items", {
                 amount: getKeys(deal.items ?? {})
-                  .map((name) => `${deal.items?.[name]} x ${name}`)
+                  .map(
+                    (name) =>
+                      `${
+                        name !== getSeasonalTicket()
+                          ? deal.items?.[name]
+                          : generateBountyTicket({
+                              game: state,
+                              bounty: deal,
+                            })
+                      } x ${name}`,
+                  )
                   .join(" - "),
               })}
         </p>

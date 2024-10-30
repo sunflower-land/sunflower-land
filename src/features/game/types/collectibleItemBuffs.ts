@@ -738,4 +738,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
   },
+  // Bull Run
+  "Sheaf of Plenty": {
+    shortDescription: translate("description.sheafOfPlenty.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: CROP_LIFECYCLE.Barley.crop,
+  },
 };

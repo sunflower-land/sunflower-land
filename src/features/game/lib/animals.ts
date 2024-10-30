@@ -158,6 +158,16 @@ function getEggYieldBoosts(game: GameState) {
   return boost;
 }
 
+function getMilkYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Milk Apron", game })) {
+    boost += 0.5;
+  }
+
+  return boost;
+}
+
 export function getResourceDropAmount({
   game,
   animalType,
@@ -170,10 +180,16 @@ export function getResourceDropAmount({
   const { bumpkin, buds = {} } = game;
 
   const isChicken = animalType === "Chicken";
+  const isCow = animalType === "Cow";
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
     amount += getEggYieldBoosts(game);
+  }
+
+  // Milk Yield Boost
+  if (isCow && resource === "Milk") {
+    amount += getMilkYieldBoosts(game);
   }
 
   // Cattlegrim boosts all produce
@@ -231,6 +247,7 @@ export function getBoostedAsleepAt({
   const { bumpkin } = game;
 
   const isChicken = animalType === "Chicken";
+  const isSheep = animalType === "Sheep";
 
   if (isChicken) {
     if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
@@ -239,6 +256,12 @@ export function getBoostedAsleepAt({
 
     if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
       asleepAt -= 2 * 60 * 60 * 1000;
+    }
+  }
+
+  if (isSheep) {
+    if (isWearableActive({ name: "Dream Scarf", game })) {
+      asleepAt -= sleepDuration * 0.2;
     }
   }
 
