@@ -409,10 +409,15 @@ import {
   unlockFarmhand,
   UnlockFarmhandAction,
 } from "./landExpansion/unlockFarmhand";
+import {
+  sacrificeBear,
+  SacrificeBearAction,
+} from "./landExpansion/sacrificeBear";
 
 export type PlayingEvent =
   | SellAnimalAction
   | SpeedUpBuilding
+  | SacrificeBearAction
   | SpeedUpCollectible
   | SellBountyAction
   | FeedMixedAction
@@ -600,6 +605,7 @@ type Handlers<T> = {
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
+  "bear.sacrificed": sacrificeBear,
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,
   "recipe.spedUp": speedUpRecipe,
