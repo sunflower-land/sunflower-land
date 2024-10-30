@@ -324,7 +324,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
-    if (sleeping) {
+    if (sleeping || needsLove) {
       return {
         image: SUNNYSIDE.animals.cowSleeping,
         width: PIXEL_SCALE * 13,

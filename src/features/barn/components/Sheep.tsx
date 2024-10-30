@@ -272,7 +272,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
-    if (sleeping) {
+    if (sleeping || needsLove) {
       return {
         image: SUNNYSIDE.animals.sheepSleeping,
         width: PIXEL_SCALE * 13,

@@ -203,7 +203,7 @@ export const AnimatedBar: React.FC<{
 }> = ({ percentage, type }) => {
   const { width } = useSpring({
     width: Math.min(percentage, 100),
-    config: { tension: 300, friction: 80 },
+    config: { tension: 320, friction: 60 },
   });
 
   return (

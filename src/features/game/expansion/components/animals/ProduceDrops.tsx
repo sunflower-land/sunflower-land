@@ -29,7 +29,8 @@ export const ProduceDrops: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const game = useSelector(gameService, _game);
 
-  const dropItems = ANIMAL_RESOURCE_DROP[animalType][level];
+  const nextLevel = (level + 1) as AnimalLevel;
+  const dropItems = ANIMAL_RESOURCE_DROP[animalType][nextLevel];
   const itemEntries = Object.entries(dropItems);
 
   return (
