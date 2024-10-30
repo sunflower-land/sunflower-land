@@ -135,7 +135,6 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     const bearsCollection = getChestBears(gameState.context.state as GameState);
-    console.log(Object.values(bearsCollection).length);
     setBearsCollection(bearsCollection);
     setSelectedItems([]);
   }, []);
