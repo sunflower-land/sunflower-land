@@ -20,7 +20,6 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
-export const ANIMAL_NEEDS_LOVE_DURATION = 1000 * 60 * 60 * 8;
 
 export const REQUIRED_FOOD_QTY: Record<AnimalType, number> = {
   Chicken: 1,
@@ -57,7 +56,7 @@ export function feedAnimal({
       );
     }
 
-    if (createdAt < animal.asleepAt + ANIMAL_SLEEP_DURATION) {
+    if (createdAt < animal.awakeAt) {
       throw new Error("Animal is asleep");
     }
 

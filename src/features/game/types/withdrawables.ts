@@ -50,6 +50,7 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
+  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -1050,6 +1051,15 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Tomato Bombard": () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
+const seasonalStore: Record<SeasonalCollectibleName, () => boolean> = {
+  "Cow Scratcher": () => hasSeasonEnded("Bull Run"),
+  "Spinning Wheel": () => hasSeasonEnded("Bull Run"),
+  "Sleepy Rug": () => hasSeasonEnded("Bull Run"),
+  Meteorite: () => hasSeasonEnded("Bull Run"),
+  "Sheaf of Plenty": () => hasSeasonEnded("Bull Run"),
+  "Mechanical Bull": () => hasSeasonEnded("Bull Run"),
+};
+
 const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {
   "Grape Seed": () => false,
 };
@@ -1230,6 +1240,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...factionShopCollectibles,
   ...beds,
   ...recipeCraftables,
+  ...seasonalStore,
 
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (acc, key) => ({
@@ -1685,19 +1696,23 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Gam3s Cap": () => false,
 
   //Bull Run Season Wearables
-  "Cowboy Hat": () => false,
-  "Cowboy Shirt": () => false,
-  "Cowboy Trouser": () => false,
+  "Cowboy Hat": () => hasSeasonEnded("Bull Run"),
+  "Cowboy Shirt": () => hasSeasonEnded("Bull Run"),
+  "Cowboy Trouser": () => hasSeasonEnded("Bull Run"),
   "Cowboy Boots": () => false,
   "Infernal Bullwhip": () => false,
   "White Sheep Onesie": () => false,
   "Black Sheep Onesie": () => false,
   "Chicken Suit": () => false,
-  "Cowgirl Skirt": () => false,
+  "Cowgirl Skirt": () => hasSeasonEnded("Bull Run"),
   "Merino Jumper": () => false,
-  "Dream Scarf": () => false,
+  "Dream Scarf": (state) =>
+    canWithdrawBoostedWearable("Dream Scarf", state) &&
+    hasSeasonEnded("Bull Run"),
   "Cowbell Necklace": () => false,
-  "Milk Apron": () => false,
+  "Milk Apron": (state) =>
+    canWithdrawBoostedWearable("Milk Apron", state) &&
+    hasSeasonEnded("Bull Run"),
   "Shepherd Staff": () => false,
   "Sol & Luna": () => false,
   "Fossil Armor": () => false,

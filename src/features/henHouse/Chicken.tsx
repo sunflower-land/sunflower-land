@@ -269,9 +269,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
+    const isGoldEggPlaced = isCollectibleBuilt({
+      name: "Gold Egg",
+      game: gameService.state.context.state,
+    });
 
     if (hasFoodSelected) {
-      if (inventoryCount.lt(REQUIRED_FOOD_QTY.Chicken)) {
+      if (inventoryCount.lt(REQUIRED_FOOD_QTY.Chicken) && !isGoldEggPlaced) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);

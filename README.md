@@ -4,7 +4,7 @@
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/translate.yml/"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/translate.yml/badge.svg" alt="Translate" /></a>
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml/badge.svg" alt="Testnet deploy" /></a>
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/mainnet.yml"> <img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/mainnet.yml/badge.svg" alt="Mainnet deploy" /></a>
-<a href="https://twitter.com/0xSunflowerLand"><img src="https://img.shields.io/twitter/follow/0xSunflowerLand?style=social" height="100%" alt="Twitter Follow: 0xSunflowerLand" /></a>
+<a href="https://x.com/0xSunflowerLand"><img src="https://img.shields.io/twitter/follow/0xSunflowerLand?style=social" height="100%" alt="Twitter Follow: 0xSunflowerLand" /></a>
 <a href="https://www.youtube.com/channel/UCA08g3x6EGPPZE_4093q3PQ?sub_confirmation=1"><img src="https://img.shields.io/youtube/channel/subscribers/UCA08g3x6EGPPZE_4093q3PQ?style=social&label=Sunflower%20Land" alt="Youtube Subscribe: Sunflower Land" /></a>
 <a href="https://discord.gg/sunflowerland"><img src="https://img.shields.io/discord/880987707214544966?label=Sunflower%20Land&logo=Discord&style=social" alt="Discord: Sunflower Land" /></a>
 </p>
@@ -128,4 +128,4 @@ All media assets (images and music) are not available for use in commercial or p
 
 To access the crops, resources and land tiles, please refer to the [SunnySide Asset Pack](https://danieldiggle.itch.io/sunnyside)
 
-If you wish to use Bumpkin NFTs or custom Sunflower Land collectibles in your own project please reach to the core team on Discord.
+If you wish to use Bumpkin NFTs or custom Sunflower Land collectibles in your own project please reach to the core team on [Discord](https://discord.com/invite/sunflowerland).

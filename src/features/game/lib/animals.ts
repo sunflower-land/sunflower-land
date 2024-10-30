@@ -55,9 +55,9 @@ export function makeAnimalBuilding(
     .reduce<Record<string, Animal>>((animals, _, index) => {
       return {
         ...animals,
-        [index]: {
+        [String(index)]: {
           id: index.toString(),
-          type: animalType,
+          type: animalType as AnimalType,
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
@@ -65,6 +65,7 @@ export function makeAnimalBuilding(
           createdAt: Date.now(),
           item: "Petting Hand",
           lovedAt: 0,
+          awakeAt: 0,
         },
       };
     }, {});
@@ -158,6 +159,16 @@ function getEggYieldBoosts(game: GameState) {
   return boost;
 }
 
+function getMilkYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Milk Apron", game })) {
+    boost += 0.5;
+  }
+
+  return boost;
+}
+
 export function getResourceDropAmount({
   game,
   animalType,
@@ -170,10 +181,16 @@ export function getResourceDropAmount({
   const { bumpkin, buds = {} } = game;
 
   const isChicken = animalType === "Chicken";
+  const isCow = animalType === "Cow";
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
     amount += getEggYieldBoosts(game);
+  }
+
+  // Milk Yield Boost
+  if (isCow && resource === "Milk") {
+    amount += getMilkYieldBoosts(game);
   }
 
   // Cattlegrim boosts all produce
@@ -217,7 +234,7 @@ export function getBoostedFoodQuantity({
   return foodQuantity;
 }
 
-export function getBoostedAsleepAt({
+export function getBoostedAwakeAt({
   animalType,
   createdAt,
   game,
@@ -226,31 +243,45 @@ export function getBoostedAsleepAt({
   createdAt: number;
   game: GameState;
 }) {
-  let asleepAt = createdAt;
   const sleepDuration = ANIMAL_SLEEP_DURATION;
   const { bumpkin } = game;
+  const twoHoursInMs = 2 * 60 * 60 * 1000;
+
+  // Start with the base duration
+  let totalDuration = sleepDuration;
 
   const isChicken = animalType === "Chicken";
+  const isSheep = animalType === "Sheep";
 
+  // Apply fixed time reductions first
   if (isChicken) {
-    if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
-      asleepAt -= sleepDuration * 0.1;
-    }
-
     if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
-      asleepAt -= 2 * 60 * 60 * 1000;
+      totalDuration -= twoHoursInMs;
+    }
+
+    if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
+      totalDuration *= 0.9;
     }
   }
 
-  // Applies to all animals
+  if (isSheep) {
+    if (isWearableActive({ name: "Dream Scarf", game })) {
+      totalDuration *= 0.8;
+    }
+
+    if (isCollectibleBuilt({ name: "Farm Dog", game })) {
+      totalDuration *= 0.75;
+    }
+  }
+
   if (game.inventory["Wrangler"]?.gt(0)) {
-    asleepAt -= sleepDuration * 0.1;
+    totalDuration *= 0.9;
   }
 
-  // Applies to all animals
   if (bumpkin.skills["Stable Hand"]) {
-    asleepAt -= sleepDuration * 0.1;
+    totalDuration *= 0.9;
   }
 
-  return asleepAt;
+  // Add the boosted duration to the created time
+  return createdAt + totalDuration;
 }

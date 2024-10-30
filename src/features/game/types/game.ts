@@ -34,6 +34,7 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
+  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -454,7 +455,8 @@ export type InventoryItemName =
   | AnimalMedicineName
   | LoveAnimalItem
   | BedName
-  | RecipeCraftableName;
+  | RecipeCraftableName
+  | SeasonalCollectibleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -842,7 +844,7 @@ export type Delivery = {
     total: number;
     claimedAt?: number;
   };
-  doubleDelivery: boolean;
+  doubleDelivery?: string;
 };
 
 export type DailyRewards = {
@@ -1231,6 +1233,7 @@ export type Animal = {
   coordinates: Coordinates;
   experience: number;
   asleepAt: number;
+  awakeAt: number;
   lovedAt: number;
   item: LoveAnimalItem;
   multiplier?: number;

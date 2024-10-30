@@ -30,15 +30,18 @@ export function loveAnimal({
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
 
-    if (createdAt > animal.asleepAt + 24 * 60 * 60 * 1000) {
+    if (createdAt > animal.awakeAt) {
       throw new Error("The animal is not sleeping");
     }
 
-    if (createdAt < animal.asleepAt + 8 * 60 * 60 * 1000) {
+    // You can love an animal twice in a night
+    const loveAnimalPeriod = (animal.awakeAt - animal.asleepAt) / 3;
+
+    if (createdAt < animal.asleepAt + loveAnimalPeriod) {
       throw new Error("The animal has not been sleeping for more than 8 hours");
     }
 
-    if (createdAt < animal.lovedAt + 8 * 60 * 60 * 1000) {
+    if (createdAt < animal.lovedAt + loveAnimalPeriod) {
       throw new Error("The animal was loved in the last 8 hours");
     }
 

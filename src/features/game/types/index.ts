@@ -868,6 +868,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Cow Bed": 2145,
   "Desert Bed": 2146,
   "Royal Bed": 2147,
+  "Cow Scratcher": 2148,
+  "Spinning Wheel": 2149,
+  "Sleepy Rug": 2150,
+  Meteorite: 2151,
+  "Sheaf of Plenty": 2152,
+  "Mechanical Bull": 2153,
 };
 
 // The reverse of above

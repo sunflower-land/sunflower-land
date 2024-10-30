@@ -3,6 +3,7 @@ import { TicketsLeaderboard } from "./TicketsLeaderboard";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { InnerPanel } from "components/ui/Panel";
 import {
+  hasSeasonEnded,
   SEASON_TICKET_NAME,
   SeasonName,
   secondsLeftInSeason,
@@ -124,12 +125,16 @@ export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
           <SeasonalStore readonly />
         </InnerPanel>
       )}
-      <InnerPanel className="mb-1">
-        <MegaStoreMonthly readonly />
-      </InnerPanel>
-      <InnerPanel className="mb-1">
-        <MegaStoreSeasonal readonly />
-      </InnerPanel>
+      {!hasSeasonEnded("Pharaoh's Treasure") && (
+        <InnerPanel className="mb-1">
+          <MegaStoreMonthly readonly />
+        </InnerPanel>
+      )}
+      {!hasSeasonEnded("Pharaoh's Treasure") && (
+        <InnerPanel className="mb-1">
+          <MegaStoreSeasonal readonly />
+        </InnerPanel>
+      )}
       <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
       <SeasonalMutants season={season} />
       <InnerPanel className="mb-1">
