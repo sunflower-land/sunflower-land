@@ -4112,5 +4112,19 @@
   "restrictionReason.sheepFed": "Le pecore vengono nutrite",
   "restrictionReason.cowFed": "Le mucche vengono nutrite",
   "digby.streakReward": "Scopri i tre {{name}} per un premio bonus. Sblocca serie giornaliere per ottenere ricompense extra.",
-  "double.delivery.hint": "Pssssst... ci saranno ricompense doppie per le consegne il {{date}}."
+  "double.delivery.hint": "Pssssst... ci saranno ricompense doppie per le consegne il {{date}}.",
+  "halloween.portal.title": "Minigioco - Halloween",
+  "halloween.portal.description": "Riesci a resistere all'interno del labirinto?",
+  "halloween.portal.missionObjectives": "Missione: raggiungere {{targetScore}}.",
+  "halloween.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
+  "craftingBox.welcome.1": "Benvenuto nella Crafting Box! Qui puoi creare oggetti con le tue risorse.",
+  "craftingBox.welcome.2": "Inserisci gli oggetti nella scatola di creazione per provare a scoprire nuove ricette. Se trovi una ricetta, questa verrà salvata nella sezione Ricette!",
+  "craftingBox.welcome.3": "È ora di iniziare a creare! Cosa vorresti fare?",
+  "craftingBox.startCrafting": "Inizia a creare",
+  "craftingBox.viewRecipes": "Visualizza le ricette",
+  "craftingBoxGuide.selectResource": "Seleziona le risorse da creare.",
+  "craftingBoxGuide.craftItem": "Inizia a creare.",
+  "craftingBoxGuide.failed": "La creazione fallirà se non viene trovata alcuna corrispondenza.",
+  "craftingBoxGuide.success": "Un oggetto verrà creato se viene trovata una corrispondenza.",
+  "craftingBoxGuide.viewRecipe": "Gli oggetti creati verranno salvati nelle tue ricette."
 }

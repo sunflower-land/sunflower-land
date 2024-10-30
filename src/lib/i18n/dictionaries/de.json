@@ -4111,7 +4111,20 @@
   "description.sheafOfPlenty.boost": "+2 Gerste",
   "restrictionReason.sheepFed": "Schafe werden gefüttert",
   "restrictionReason.cowFed": "Kühe werden gefüttert",
-  "restrictionReason.cowFed": "Kühe werden gefüttert",
   "digby.streakReward": "Entdecke die drei {{name}} für einen Bonuspreis. Schalte tägliche Serien frei, um zusätzliche Belohnungen zu erhalten.",
-  "double.delivery.hint": "Pssssst... für Lieferungen am {{date}} gibt es doppelte Belohnungen."
+  "double.delivery.hint": "Pssssst... für Lieferungen am {{date}} gibt es doppelte Belohnungen.",
+  "halloween.portal.title": "Minispiel - Halloween",
+  "halloween.portal.description": "Kannst du dich im Labyrinth festhalten?",
+  "halloween.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}}.",
+  "halloween.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
+  "craftingBox.welcome.1": "Willkommen in der Crafting Box! Hier kannst du Gegenstände mit deinen Ressourcen herstellen.",
+  "craftingBox.welcome.2": "Lege Gegenstände in die Bastelkiste ein, um neue Rezepte auszuprobieren. Wenn du ein Rezept findest, wird es unter Rezepte gespeichert!",
+  "craftingBox.welcome.3": "Zeit zum Basteln! Was würdest du gerne machen?",
+  "craftingBox.startCrafting": "Fangen Sie an zu basteln",
+  "craftingBox.viewRecipes": "Rezepte ansehen",
+  "craftingBoxGuide.selectResource": "Wähle Ressourcen aus, die du herstellen möchtest.",
+  "craftingBoxGuide.craftItem": "Fangen Sie an zu basteln.",
+  "craftingBoxGuide.failed": "Die Herstellung schlägt fehl, wenn keine Übereinstimmung gefunden wird.",
+  "craftingBoxGuide.success": "Wenn eine Übereinstimmung gefunden wird, wird ein Gegenstand hergestellt.",
+  "craftingBoxGuide.viewRecipe": "Hergestellte Gegenstände werden in deinen Rezepten gespeichert."
 }

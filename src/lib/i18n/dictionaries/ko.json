@@ -4112,5 +4112,19 @@
   "restrictionReason.sheepFed": "양에게 먹이를 준다",
   "restrictionReason.cowFed": "젖소에게 먹이주기",
   "digby.streakReward": "세 개의 {{name}} 를 찾아 보너스 상품을 받으세요.일일 연속 기록을 잠금 해제하고 추가 보상을 받으세요.",
-  "double.delivery.hint": "Passst... {{date}} 에 배송하면 두 배의 보상이 제공됩니다."
+  "double.delivery.hint": "Passst... {{date}} 에 배송하면 두 배의 보상이 제공됩니다.",
+  "halloween.portal.title": "미니게임 - 할로윈",
+  "halloween.portal.description": "미로 안에서 버틸 수 있을까요?",
+  "halloween.portal.missionObjectives": "임무: {{targetScore}} 에 도달하세요.",
+  "halloween.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
+  "craftingBox.welcome.1": "크래프팅 박스에 오신 것을 환영합니다!여기서 자원으로 아이템을 제작할 수 있습니다.",
+  "craftingBox.welcome.2": "제작 상자에 아이템을 삽입하여 새로운 레시피를 찾아보세요.레시피를 찾으면 레시피 아래에 저장됩니다!",
+  "craftingBox.welcome.3": "제작을 시작할 시간입니다!뭘 하고 싶으세요?",
+  "craftingBox.startCrafting": "제작 시작",
+  "craftingBox.viewRecipes": "레시피 보기",
+  "craftingBoxGuide.selectResource": "제작할 자원을 선택하세요.",
+  "craftingBoxGuide.craftItem": "제작을 시작하세요.",
+  "craftingBoxGuide.failed": "일치하는 항목이 없으면 제작이 실패합니다.",
+  "craftingBoxGuide.success": "일치하는 아이템이 발견되면 아이템이 제작됩니다.",
+  "craftingBoxGuide.viewRecipe": "제작한 아이템은 레시피에 저장됩니다."
 }

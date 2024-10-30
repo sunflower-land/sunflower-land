@@ -4111,7 +4111,20 @@
   "description.sheafOfPlenty.boost": "+2 Orge",
   "restrictionReason.sheepFed": "Les moutons sont nourris",
   "restrictionReason.cowFed": "Les vaches sont nourries",
-  "restrictionReason.cowFed": "Les vaches sont nourries",
   "digby.streakReward": "Découvrez les trois {{name}} pour un prix bonus. Débloquez des séries quotidiennes pour obtenir des récompenses supplémentaires.",
-  "double.delivery.hint": "Pssssst... les récompenses seront doublées pour les livraisons effectuées le {{date}}."
+  "double.delivery.hint": "Pssssst... les récompenses seront doublées pour les livraisons effectuées le {{date}}.",
+  "halloween.portal.title": "Mini-jeu - Halloween",
+  "halloween.portal.description": "Peux-tu t'accrocher à l'intérieur du labyrinthe ?",
+  "halloween.portal.missionObjectives": "Mission : Atteindre {{targetScore}}.",
+  "halloween.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
+  "craftingBox.welcome.1": "Bienvenue dans la Crafting Box ! Ici, tu peux fabriquer des objets avec tes ressources.",
+  "craftingBox.welcome.2": "Insérez des objets dans la boîte de bricolage pour essayer de découvrir de nouvelles recettes. Si vous trouvez une recette, elle sera enregistrée dans la rubrique recettes !",
+  "craftingBox.welcome.3": "Il est temps de passer à l'artisanat ! Qu'est-ce que tu aimerais faire ?",
+  "craftingBox.startCrafting": "Commencez à fabriquer",
+  "craftingBox.viewRecipes": "Afficher les recettes",
+  "craftingBoxGuide.selectResource": "Sélectionnez les ressources à fabriquer.",
+  "craftingBoxGuide.craftItem": "Commencez à fabriquer.",
+  "craftingBoxGuide.failed": "La fabrication échouera si aucune correspondance n'est trouvée.",
+  "craftingBoxGuide.success": "Un objet sera fabriqué si une correspondance est trouvée.",
+  "craftingBoxGuide.viewRecipe": "Les objets fabriqués seront enregistrés dans vos recettes."
 }

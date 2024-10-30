@@ -4112,5 +4112,19 @@
   "restrictionReason.sheepFed": "给绵羊喂食",
   "restrictionReason.cowFed": "奶牛被喂食",
   "digby.streakReward": "探索三个 {{name}} 以获得额外奖励。解锁每日连胜纪录以获得额外奖励。",
-  "double.delivery.hint": "Pssssst... {{date}} 的配送将获得双倍奖励。"
+  "double.delivery.hint": "Pssssst... {{date}} 的配送将获得双倍奖励。",
+  "halloween.portal.title": "小游戏-万圣节",
+  "halloween.portal.description": "你能在迷宫里坚持下去吗？",
+  "halloween.portal.missionObjectives": "任务：达到 {{targetScore}}。",
+  "halloween.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
+  "craftingBox.welcome.1": "欢迎来到 Crafting Box！在这里，你可以用你的资源制作物品。",
+  "craftingBox.welcome.2": "将物品放入制作盒中，尝试发现新食谱。如果你找到食谱，它将保存在食谱下！",
+  "craftingBox.welcome.3": "是时候开始手工制作了！你想做什么？",
+  "craftingBox.startCrafting": "开始制作",
+  "craftingBox.viewRecipes": "查看食谱",
+  "craftingBoxGuide.selectResource": "选择要制作的资源。",
+  "craftingBoxGuide.craftItem": "开始制作。",
+  "craftingBoxGuide.failed": "如果找不到匹配项，制作将失败。",
+  "craftingBoxGuide.success": "如果找到匹配的物品，则会合成一件物品。",
+  "craftingBoxGuide.viewRecipe": "制作的物品将保存到您的食谱中。"
 }

@@ -4112,5 +4112,19 @@
   "restrictionReason.sheepFed": "Domba diberi makan",
   "restrictionReason.cowFed": "Lembu diberi makan",
   "digby.streakReward": "Cari tiga {{name}} untuk hadiah bonus. Buka kunci garisan harian untuk ganjaran tambahan.",
-  "double.delivery.hint": "Pssssst... akan ada ganjaran berganda untuk penghantaran pada {{date}}."
+  "double.delivery.hint": "Pssssst... akan ada ganjaran berganda untuk penghantaran pada {{date}}.",
+  "halloween.portal.title": "Permainan mini - Halloween",
+  "halloween.portal.description": "Bolehkah anda bertahan di dalam labirin?",
+  "halloween.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
+  "halloween.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
+  "craftingBox.welcome.1": "Selamat datang ke Kotak Kerajinan! Di sini anda boleh membuat barang dengan sumber anda.",
+  "craftingBox.welcome.2": "Masukkan item ke dalam kotak kerajinan untuk mencuba menemui resipi baru. Sekiranya anda menemui resipi, ia akan disimpan di bawah resipi!",
+  "craftingBox.welcome.3": "Masa untuk membuat kerajinan! Apa yang anda ingin lakukan?",
+  "craftingBox.startCrafting": "Mulakan Kerajinan",
+  "craftingBox.viewRecipes": "Lihat Resipi",
+  "craftingBoxGuide.selectResource": "Pilih sumber untuk membuat.",
+  "craftingBoxGuide.craftItem": "Mula membuat kerajinan.",
+  "craftingBoxGuide.failed": "Kerajinan akan gagal jika tiada padanan dijumpai.",
+  "craftingBoxGuide.success": "Item akan dibuat jika padanan ditemui.",
+  "craftingBoxGuide.viewRecipe": "Item buatan akan disimpan ke resipi anda."
 }

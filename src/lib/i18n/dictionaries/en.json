@@ -4083,6 +4083,10 @@
   "animal.toolRequired": "{{tool}} Required",
   "easterEgg.halloweenBook": "?????",
   "easterEgg.halloweenBookText": "There are places older than time itself, and others where the light doesn't shine. You shouldn't be here. In this forest, the trees whisper secrets of forgotten times and shadows lurk everywhere, patiently waiting for a chance to devour any source of light that dares to shine. There's no place for adventurers or the curious like you around here...",
+  "halloween.portal.title": "Minigame - Halloween",
+  "halloween.portal.description": "Can you hold on inside the maze?",
+  "halloween.portal.missionObjectives": "Mission: Reach {{targetScore}}.",
+  "halloween.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
   "halloween.sacrifice.intro.one": "They say that on a moonless night, beneath the ancient trees, a witch gathered the most varied and powerful spirits of the earth.",
   "halloween.sacrifice.intro.two": "Each held a different echo, a unique glimmer in their gaze, and each was offered to the sacred circle under an ancient oath.",
   "halloween.sacrifice.intro.three": "When all spirits were present, the forest trembled, and in a flash of green and gold, a powerful creature was born, infused with the strength and wisdom of those who were summoned.",
@@ -4112,6 +4116,15 @@
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Sheeps are fed",
   "restrictionReason.cowFed": "Cows are fed",
-  "restrictionReason.cowFed": "Cows are fed",
-  "double.delivery.hint": "Pssssst...there will be double rewards for deliveries on {{date}}."
+  "double.delivery.hint": "Pssssst...there will be double rewards for deliveries on {{date}}.",
+  "craftingBox.welcome.1": "Welcome to the Crafting Box! Here you can craft items with your resources.",
+  "craftingBox.welcome.2": "Insert items into the crafting box to try discover new recipes. If you find a recipe, it will be saved under recipes!",
+  "craftingBox.welcome.3": "Time to get crafting! What would you like to do?",
+  "craftingBox.startCrafting": "Start Crafting",
+  "craftingBox.viewRecipes": "View Recipes",
+  "craftingBoxGuide.selectResource": "Select resources to craft.",
+  "craftingBoxGuide.craftItem": "Start crafting.",
+  "craftingBoxGuide.failed": "Crafting will fail if no match is found.",
+  "craftingBoxGuide.success": "An item will be crafted if a match is found.",
+  "craftingBoxGuide.viewRecipe": "Crafted items will be saved to your recipes."
 }

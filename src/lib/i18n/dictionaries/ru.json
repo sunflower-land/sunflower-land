@@ -4111,7 +4111,20 @@
   "description.sheafOfPlenty.boost": "+2 Ячмень",
   "restrictionReason.sheepFed": "Овец кормят",
   "restrictionReason.cowFed": "Коров кормят",
-  "restrictionReason.cowFed": "Коров кормят",
   "digby.streakReward": "Откройте для себя три {{name}} и получите бонусный приз. Открывайте ежедневные серии и получайте дополнительные награды.",
-  "double.delivery.hint": "Psssssst... за доставку по адресу {{date}} вы получите двойное вознаграждение."
+  "double.delivery.hint": "Psssssst... за доставку по адресу {{date}} вы получите двойное вознаграждение.",
+  "halloween.portal.title": "Мини-игра «Хеллоуин»",
+  "halloween.portal.description": "Сможете ли вы удержаться в лабиринте?",
+  "halloween.portal.missionObjectives": "Миссия: достичь {{targetScore}}.",
+  "halloween.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
+  "craftingBox.welcome.1": "Добро пожаловать в коробку для рукоделия! Здесь вы можете создавать предметы, используя свои ресурсы.",
+  "craftingBox.welcome.2": "Вставьте предметы в коробку для рукоделия, чтобы попробовать новые рецепты. Если вы найдете рецепт, он будет сохранен в разделе Рецепты!",
+  "craftingBox.welcome.3": "Пора заняться крафтом! Чем бы ты хотел заняться?",
+  "craftingBox.startCrafting": "Начните крафтинг",
+  "craftingBox.viewRecipes": "Смотреть рецепты",
+  "craftingBoxGuide.selectResource": "Выберите ресурсы для создания.",
+  "craftingBoxGuide.craftItem": "Начните заниматься крафтом.",
+  "craftingBoxGuide.failed": "Если совпадение не будет найдено, крафтинг закончится неудачей.",
+  "craftingBoxGuide.success": "Предмет будет изготовлен, если будет найдено совпадение.",
+  "craftingBoxGuide.viewRecipe": "Изготовленные предметы будут сохранены в ваших рецептах."
 }

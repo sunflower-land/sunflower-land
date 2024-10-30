@@ -4112,5 +4112,19 @@
   "restrictionReason.sheepFed": "羊に餌をやる",
   "restrictionReason.cowFed": "牛に餌をやる",
   "digby.streakReward": "3つの {{name}} を見つけるとボーナス賞品がもらえます。毎日の連勝をアンロックして追加報酬を獲得しましょう。",
-  "double.delivery.hint": "Pssssst... {{date}} に配送すると2倍の報酬がもらえます。"
+  "double.delivery.hint": "Pssssst... {{date}} に配送すると2倍の報酬がもらえます。",
+  "halloween.portal.title": "ミニゲーム-ハロウィン",
+  "halloween.portal.description": "迷路の中でじっとしていられますか？",
+  "halloween.portal.missionObjectives": "ミッション:リーチ {{targetScore}}。",
+  "halloween.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
+  "craftingBox.welcome.1": "クラフトボックスへようこそ！ここでは、自分の資源を使ってアイテムを作ることができます。",
+  "craftingBox.welcome.2": "クラフトボックスにアイテムを挿入して、新しいレシピを見つけましょう。レシピが見つかると、レシピの下に保存されます！",
+  "craftingBox.welcome.3": "クラフトを始めましょう！何をしたいですか？",
+  "craftingBox.startCrafting": "クラフトを始める",
+  "craftingBox.viewRecipes": "レシピを表示",
+  "craftingBoxGuide.selectResource": "クラフトするリソースを選択してください。",
+  "craftingBoxGuide.craftItem": "クラフトを始めましょう。",
+  "craftingBoxGuide.failed": "一致するものが見つからない場合、クラフトは失敗します。",
+  "craftingBoxGuide.success": "一致するアイテムが見つかると、アイテムが作成されます。",
+  "craftingBoxGuide.viewRecipe": "クラフトされたアイテムはレシピに保存されます。"
 }

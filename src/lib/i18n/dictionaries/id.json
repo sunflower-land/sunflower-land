@@ -4111,7 +4111,20 @@
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Domba diberi makan",
   "restrictionReason.cowFed": "Sapi diberi makan",
-  "restrictionReason.cowFed": "Sapi diberi makan",
   "digby.streakReward": "Temukan tiga {{name}} untuk hadiah bonus. Buka rangkaian harian untuk hadiah tambahan.",
-  "double.delivery.hint": "Pssssst... akan ada hadiah ganda untuk pengiriman pada {{date}}."
+  "double.delivery.hint": "Pssssst... akan ada hadiah ganda untuk pengiriman pada {{date}}.",
+  "halloween.portal.title": "Minigame - Halloween",
+  "halloween.portal.description": "Bisakah Anda bertahan di dalam labirin?",
+  "halloween.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
+  "halloween.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
+  "craftingBox.welcome.1": "Selamat datang di Kotak Kerajinan! Di sini Anda dapat membuat item dengan sumber daya Anda.",
+  "craftingBox.welcome.2": "Masukkan item ke dalam kotak kerajinan untuk mencoba menemukan resep baru. Jika Anda menemukan resep, itu akan disimpan di bawah resep!",
+  "craftingBox.welcome.3": "Saatnya membuat kerajinan! Apa yang ingin Anda lakukan?",
+  "craftingBox.startCrafting": "Mulai Kerajinan",
+  "craftingBox.viewRecipes": "Lihat Resep",
+  "craftingBoxGuide.selectResource": "Pilih sumber daya untuk dibuat.",
+  "craftingBoxGuide.craftItem": "Mulai kerajinan.",
+  "craftingBoxGuide.failed": "Kerajinan akan gagal jika tidak ada kecocokan yang ditemukan.",
+  "craftingBoxGuide.success": "Item akan dibuat jika kecocokan ditemukan.",
+  "craftingBoxGuide.viewRecipe": "Item yang dibuat akan disimpan ke resep Anda."
 }

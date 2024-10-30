@@ -4111,7 +4111,20 @@
   "description.sheafOfPlenty.boost": "+2 Cebada",
   "restrictionReason.sheepFed": "Las ovejas son alimentadas",
   "restrictionReason.cowFed": "Las vacas se alimentan",
-  "restrictionReason.cowFed": "Las vacas se alimentan",
   "digby.streakReward": "Descubre los tres {{name}} para conseguir un premio extra. Desbloquea rachas diarias para obtener recompensas adicionales.",
-  "double.delivery.hint": "Pssssst... habrá recompensas dobles para las entregas el {{date}}."
+  "double.delivery.hint": "Pssssst... habrá recompensas dobles para las entregas el {{date}}.",
+  "halloween.portal.title": "Minijuego - Halloween",
+  "halloween.portal.description": "¿Puedes aguantar el interior del laberinto?",
+  "halloween.portal.missionObjectives": "Misión: Alcanzar {{targetScore}}.",
+  "halloween.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
+  "craftingBox.welcome.1": "¡Bienvenido a Crafting Box! Aquí puedes crear objetos con tus recursos.",
+  "craftingBox.welcome.2": "Inserta objetos en la caja de manualidades para intentar descubrir nuevas recetas. Si encuentras una receta, ¡se guardará en Recetas!",
+  "craftingBox.welcome.3": "¡Es hora de empezar a hacer manualidades! ¿Qué te gustaría hacer?",
+  "craftingBox.startCrafting": "Empieza a crear",
+  "craftingBox.viewRecipes": "Ver recetas",
+  "craftingBoxGuide.selectResource": "Selecciona los recursos para crear.",
+  "craftingBoxGuide.craftItem": "Empieza a hacer manualidades.",
+  "craftingBoxGuide.failed": "La fabricación fallará si no se encuentra ninguna coincidencia.",
+  "craftingBoxGuide.success": "Se fabricará un objeto si se encuentra una coincidencia.",
+  "craftingBoxGuide.viewRecipe": "Los objetos creados se guardarán en tus recetas."
 }

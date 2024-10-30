@@ -4112,5 +4112,19 @@
   "restrictionReason.sheepFed": "Koyunlar beslenir",
   "restrictionReason.cowFed": "İnekler beslenir",
   "digby.streakReward": "Bonus ödülü için üçünü {{name}} keşfedin. Ekstra ödüller için günlük serilerin kilidini açın.",
-  "double.delivery.hint": "Psssssst... {{date}} üzerindeki teslimatlar için çifte ödül olacak."
+  "double.delivery.hint": "Psssssst... {{date}} üzerindeki teslimatlar için çifte ödül olacak.",
+  "halloween.portal.title": "Mini oyun - Cadılar Bayramı",
+  "halloween.portal.description": "Labirentin içinde tutunabilir misin?",
+  "halloween.portal.missionObjectives": "Görev: Ulaşın {{targetScore}}.",
+  "halloween.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
+  "craftingBox.welcome.1": "Crafting Box'a Hoş Geldiniz! Burada kaynaklarınızla öğeler üretebilirsiniz.",
+  "craftingBox.welcome.2": "Yeni tarifler keşfetmeyi denemek için işçilik kutusuna öğeler yerleştirin. Bir tarif bulursanız, tariflerin altına kaydedilecektir!",
+  "craftingBox.welcome.3": "İşçiliğe başlama zamanı! Ne yapmak istersin?",
+  "craftingBox.startCrafting": "İşe Başlayın",
+  "craftingBox.viewRecipes": "Tarifleri Görüntüle",
+  "craftingBoxGuide.selectResource": "Üretilecek kaynakları seçin.",
+  "craftingBoxGuide.craftItem": "İşe başlayın.",
+  "craftingBoxGuide.failed": "Eşleşme bulunmazsa işçilik başarısız olur.",
+  "craftingBoxGuide.success": "Bir eşleşme bulunursa bir öğe oluşturulur.",
+  "craftingBoxGuide.viewRecipe": "Hazırlanmış öğeler tariflerinize kaydedilecektir."
 }
