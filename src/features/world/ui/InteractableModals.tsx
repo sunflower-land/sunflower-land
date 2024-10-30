@@ -38,6 +38,7 @@ import { ExampleDonations } from "./donations/ExampleDonations";
 import { FlowerBounties } from "./flowerShop/FlowerBounties";
 import { HalloweenNoticeboard } from "./HalloweenNoticeboard";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
+import { Halloween } from "./portals/Halloween";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -128,7 +129,8 @@ type InteractableName =
   | "halloween_book"
   | "halloween_noticeboard"
   | "world_map"
-  | "halloween_torch";
+  | "halloween_torch"
+  | "halloween";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -488,6 +490,15 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES.billy}
         >
           <FestivalOfColors onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "halloween"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.raven}
+        >
+          <Halloween onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
 
