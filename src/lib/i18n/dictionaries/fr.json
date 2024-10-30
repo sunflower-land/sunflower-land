@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 Orge",
   "restrictionReason.sheepFed": "Les moutons sont nourris",
   "restrictionReason.cowFed": "Les vaches sont nourries",
-  "digby.streakReward": "Découvrez les trois {{name}} pour un prix bonus. Débloquez des séries quotidiennes pour obtenir des récompenses supplémentaires."
+  "digby.streakReward": "Découvrez les trois {{name}} pour un prix bonus. Débloquez des séries quotidiennes pour obtenir des récompenses supplémentaires.",
+  "double.delivery.hint": "Pssssst... les récompenses seront doublées pour les livraisons effectuées le {{date}}."
 }

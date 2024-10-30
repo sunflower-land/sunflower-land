@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 보리",
   "restrictionReason.sheepFed": "양에게 먹이를 준다",
   "restrictionReason.cowFed": "젖소에게 먹이주기",
-  "digby.streakReward": "세 개의 {{name}} 를 찾아 보너스 상품을 받으세요.일일 연속 기록을 잠금 해제하고 추가 보상을 받으세요."
+  "digby.streakReward": "세 개의 {{name}} 를 찾아 보너스 상품을 받으세요.일일 연속 기록을 잠금 해제하고 추가 보상을 받으세요.",
+  "double.delivery.hint": "Passst... {{date}} 에 배송하면 두 배의 보상이 제공됩니다."
 }

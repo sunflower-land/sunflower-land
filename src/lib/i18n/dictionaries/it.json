@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Le pecore vengono nutrite",
   "restrictionReason.cowFed": "Le mucche vengono nutrite",
-  "digby.streakReward": "Scopri i tre {{name}} per un premio bonus. Sblocca serie giornaliere per ottenere ricompense extra."
+  "digby.streakReward": "Scopri i tre {{name}} per un premio bonus. Sblocca serie giornaliere per ottenere ricompense extra.",
+  "double.delivery.hint": "Pssssst... ci saranno ricompense doppie per le consegne il {{date}}."
 }

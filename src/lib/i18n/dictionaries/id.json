@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Domba diberi makan",
   "restrictionReason.cowFed": "Sapi diberi makan",
-  "digby.streakReward": "Temukan tiga {{name}} untuk hadiah bonus. Buka rangkaian harian untuk hadiah tambahan."
+  "digby.streakReward": "Temukan tiga {{name}} untuk hadiah bonus. Buka rangkaian harian untuk hadiah tambahan.",
+  "double.delivery.hint": "Pssssst... akan ada hadiah ganda untuk pengiriman pada {{date}}."
 }

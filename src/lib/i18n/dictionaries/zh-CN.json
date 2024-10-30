@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 大麦",
   "restrictionReason.sheepFed": "给绵羊喂食",
   "restrictionReason.cowFed": "奶牛被喂食",
-  "digby.streakReward": "探索三个 {{name}} 以获得额外奖励。解锁每日连胜纪录以获得额外奖励。"
+  "digby.streakReward": "探索三个 {{name}} 以获得额外奖励。解锁每日连胜纪录以获得额外奖励。",
+  "double.delivery.hint": "Pssssst... {{date}} 的配送将获得双倍奖励。"
 }

@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Koyunlar beslenir",
   "restrictionReason.cowFed": "İnekler beslenir",
-  "digby.streakReward": "Bonus ödülü için üçünü {{name}} keşfedin. Ekstra ödüller için günlük serilerin kilidini açın."
+  "digby.streakReward": "Bonus ödülü için üçünü {{name}} keşfedin. Ekstra ödüller için günlük serilerin kilidini açın.",
+  "double.delivery.hint": "Psssssst... {{date}} üzerindeki teslimatlar için çifte ödül olacak."
 }

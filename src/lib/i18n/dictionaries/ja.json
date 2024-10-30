@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 バーリー",
   "restrictionReason.sheepFed": "羊に餌をやる",
   "restrictionReason.cowFed": "牛に餌をやる",
-  "digby.streakReward": "3つの {{name}} を見つけるとボーナス賞品がもらえます。毎日の連勝をアンロックして追加報酬を獲得しましょう。"
+  "digby.streakReward": "3つの {{name}} を見つけるとボーナス賞品がもらえます。毎日の連勝をアンロックして追加報酬を獲得しましょう。",
+  "double.delivery.hint": "Pssssst... {{date}} に配送すると2倍の報酬がもらえます。"
 }

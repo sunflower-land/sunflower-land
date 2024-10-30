@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 Gerste",
   "restrictionReason.sheepFed": "Schafe werden gefüttert",
   "restrictionReason.cowFed": "Kühe werden gefüttert",
-  "digby.streakReward": "Entdecke die drei {{name}} für einen Bonuspreis. Schalte tägliche Serien frei, um zusätzliche Belohnungen zu erhalten."
+  "digby.streakReward": "Entdecke die drei {{name}} für einen Bonuspreis. Schalte tägliche Serien frei, um zusätzliche Belohnungen zu erhalten.",
+  "double.delivery.hint": "Pssssst... für Lieferungen am {{date}} gibt es doppelte Belohnungen."
 }

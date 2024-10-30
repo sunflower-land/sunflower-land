@@ -4095,5 +4095,6 @@
   "description.sheafOfPlenty.boost": "+2 Cevada",
   "restrictionReason.sheepFed": "As ovelhas são alimentadas",
   "restrictionReason.cowFed": "As vacas são alimentadas",
-  "digby.streakReward": "Descubra os três {{name}} para ganhar um prêmio de bônus. Desbloqueie sequências diárias para obter recompensas extras."
+  "digby.streakReward": "Descubra os três {{name}} para ganhar um prêmio de bônus. Desbloqueie sequências diárias para obter recompensas extras.",
+  "double.delivery.hint": "Pssssst... haverá recompensas duplas por entregas em {{date}}."
 }
