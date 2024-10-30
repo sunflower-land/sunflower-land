@@ -116,7 +116,7 @@ describe("animal.sold", () => {
             ...INITIAL_FARM.henHouse.animals,
             [animalId]: {
               ...INITIAL_FARM.henHouse.animals[animalId],
-              experience: 1000,
+              level: 1,
             },
           },
         },
@@ -156,7 +156,7 @@ describe("animal.sold", () => {
             ...INITIAL_FARM.henHouse.animals,
             [animalId]: {
               ...INITIAL_FARM.henHouse.animals[animalId],
-              experience: 1000,
+              level: 1,
             },
           },
         },
@@ -195,7 +195,7 @@ describe("animal.sold", () => {
             ...INITIAL_FARM.henHouse.animals,
             [animalId]: {
               ...INITIAL_FARM.henHouse.animals[animalId],
-              experience: 1000,
+              level: 1,
             },
           },
         },
@@ -236,7 +236,7 @@ describe("animal.sold", () => {
             ...INITIAL_FARM.henHouse.animals,
             [animalId]: {
               ...INITIAL_FARM.henHouse.animals[animalId],
-              experience: 1000,
+              level: 1,
             },
           },
         },
