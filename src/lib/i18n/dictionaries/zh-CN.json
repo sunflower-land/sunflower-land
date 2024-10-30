@@ -2131,7 +2131,6 @@
   "equip.beard": "胡子",
   "equip.aura": "光环",
   "bumpkinTrade.listed": "已上架",
-  "digby.streakReward": "发现以上所有范式以领取连胜大奖。解锁每日连胜以获得额外大奖。",
   "digby.streak": "挖宝连胜",
   "digby.claimPrize": "干得好 Bumpkin！可别忘了领取连胜大奖！",
   "digby.puzzle": "挖宝谜题",
@@ -4095,5 +4094,6 @@
   "description.milkApron.boost": "+0.5 牛奶",
   "description.sheafOfPlenty.boost": "+2 大麦",
   "restrictionReason.sheepFed": "给绵羊喂食",
-  "restrictionReason.cowFed": "奶牛被喂食"
+  "restrictionReason.cowFed": "奶牛被喂食",
+  "digby.streakReward": "探索三个 {{name}} 以获得额外奖励。解锁每日连胜纪录以获得额外奖励。"
 }

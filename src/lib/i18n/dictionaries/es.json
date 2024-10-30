@@ -992,7 +992,6 @@
   "delivery.feed": "No es gratis, tengo una tribu que alimentar!",
   "delivery.fee": "Me quedaré con el 30% de los recursos del tesoro de la comunidad de duendes",
   "delivery.goblin.comm.treasury": "Tesoro de la comunidad de duendes",
-  "digby.streakReward": "Descubre todos los artículos anteriores para conseguir un premio extra. Desbloquea rachas diarias para obtener recompensas adicionales.",
   "digby.streak": "Excavando una racha",
   "digby.claimPrize": "Bien hecho Bumpkin! No olvides reclamar tu premio extra!",
   "digby.puzzle": "Excavando rompecabezas",
@@ -4095,5 +4094,6 @@
   "description.milkApron.boost": "+0.5 Leche",
   "description.sheafOfPlenty.boost": "+2 Cebada",
   "restrictionReason.sheepFed": "Las ovejas son alimentadas",
-  "restrictionReason.cowFed": "Las vacas se alimentan"
+  "restrictionReason.cowFed": "Las vacas se alimentan",
+  "digby.streakReward": "Descubre los tres {{name}} para conseguir un premio extra. Desbloquea rachas diarias para obtener recompensas adicionales."
 }

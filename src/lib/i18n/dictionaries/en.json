@@ -1024,7 +1024,7 @@
   "delivery.feed": "It ain't free, I've got a tribe to feed!",
   "delivery.fee": "I'll take 30% of the resources for the Goblin Community Treasury",
   "delivery.goblin.comm.treasury": "Goblin Community Treasury",
-  "digby.streakReward": "Discover all the items above for a bonus prize. Unlock daily streaks for extra rewards.",
+  "digby.streakReward": "Discover the three {{name}} for a bonus prize. Unlock daily streaks for extra rewards.",
   "digby.streak": "Digging Streak",
   "digby.claimPrize": "Well done Bumpkin! Don't forget to claim your bonus prize!",
   "digby.noShovels": "Hey, you need a sand shovel to dig here! Speak to Jafar...",

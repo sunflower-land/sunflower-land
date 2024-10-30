@@ -2642,7 +2642,6 @@
   "description.jellyLamp": "Her odaya lüks bir dokunuş getiren bir lamba.",
   "description.paintCan": "Renkler festivalinde keşfedilen bir boya kutusu",
   "delivery.fee": "Goblin Topluluk Hazinesi için kaynakların %30'unu alacağım",
-  "digby.streakReward": "Bonus ödülü için yukarıdaki tüm öğeleri keşfedin. Ekstra ödüller için günlük serilerin kilidini açın.",
   "digby.streak": "Kazma Çizgisi",
   "digby.claimPrize": "Aferin Bumpkin! Bonus ödülünüzü almayı unutmayın!",
   "digby.puzzle": "Kazma bulmacası",
@@ -4095,5 +4094,6 @@
   "description.milkApron.boost": "+0.5 Süt",
   "description.sheafOfPlenty.boost": "+2 Barley",
   "restrictionReason.sheepFed": "Koyunlar beslenir",
-  "restrictionReason.cowFed": "İnekler beslenir"
+  "restrictionReason.cowFed": "İnekler beslenir",
+  "digby.streakReward": "Bonus ödülü için üçünü {{name}} keşfedin. Ekstra ödüller için günlük serilerin kilidini açın."
 }

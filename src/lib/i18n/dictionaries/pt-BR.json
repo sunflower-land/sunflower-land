@@ -2614,7 +2614,6 @@
   "description.jellyLamp": "Uma lâmpada que dá um toque de luxo a qualquer ambiente.",
   "description.paintCan": "Uma lata de tinta descoberta no festival das cores",
   "delivery.fee": "Vou levar 30% dos recursos para o Tesouro Comunitário dos Goblins",
-  "digby.streakReward": "Descubra todos os itens acima para ganhar um prêmio de bônus. Desbloqueie sequências diárias para obter recompensas extras.",
   "digby.streak": "Sequência de escavações",
   "digby.claimPrize": "Muito bem, Bumpkin! Não se esqueça de reivindicar seu prêmio de bônus!",
   "digby.puzzle": "Quebra-cabeça de escavação",
@@ -4095,5 +4094,6 @@
   "description.milkApron.boost": "+0,5 Leite",
   "description.sheafOfPlenty.boost": "+2 Cevada",
   "restrictionReason.sheepFed": "As ovelhas são alimentadas",
-  "restrictionReason.cowFed": "As vacas são alimentadas"
+  "restrictionReason.cowFed": "As vacas são alimentadas",
+  "digby.streakReward": "Descubra os três {{name}} para ganhar um prêmio de bônus. Desbloqueie sequências diárias para obter recompensas extras."
 }

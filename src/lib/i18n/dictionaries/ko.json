@@ -1001,7 +1001,6 @@
   "delivery.feed": "공짜가 아니에요. 먹이를 줄 부족이 있어요!",
   "delivery.fee": "고블린 커뮤니티 재무부에 쓸 자원의 30% 를 가져가겠습니다",
   "delivery.goblin.comm.treasury": "고블린 커뮤니티 트레저리",
-  "digby.streakReward": "위의 모든 아이템을 발견하고 보너스 상품을 받으세요.일일 연속 기록을 잠금 해제하여 추가 보상을 받으세요.",
   "digby.streak": "디깅 스트릭",
   "digby.claimPrize": "잘했어 범프킨!보너스 상품을 받는 것을 잊지 마세요!",
   "digby.puzzle": "디깅 퍼즐",
@@ -4095,5 +4094,6 @@
   "description.milkApron.boost": "+0.5 밀크",
   "description.sheafOfPlenty.boost": "+2 보리",
   "restrictionReason.sheepFed": "양에게 먹이를 준다",
-  "restrictionReason.cowFed": "젖소에게 먹이주기"
+  "restrictionReason.cowFed": "젖소에게 먹이주기",
+  "digby.streakReward": "세 개의 {{name}} 를 찾아 보너스 상품을 받으세요.일일 연속 기록을 잠금 해제하고 추가 보상을 받으세요."
 }

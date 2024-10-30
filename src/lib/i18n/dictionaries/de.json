@@ -1001,7 +1001,6 @@
   "delivery.feed": "Es ist nicht umsonst, ich muss einen Stamm ernähren!",
   "delivery.fee": "Ich nehme 30% der Ressourcen für die Schatzkammer der Goblin-Gemeinschaft",
   "delivery.goblin.comm.treasury": "Schatzkammer der Goblin-Gemeinschaft",
-  "digby.streakReward": "Entdecken Sie alle oben genannten Artikel und erhalten Sie einen Bonuspreis. Schalte tägliche Serien frei, um zusätzliche Belohnungen zu erhalten.",
   "digby.streak": "Grabungsserie",
   "digby.claimPrize": "Gut gemacht Bumpkin! Vergiss nicht, deinen Bonuspreis in Anspruch zu nehmen!",
   "digby.puzzle": "Rätsel graben",
@@ -4095,5 +4094,6 @@
   "description.milkApron.boost": "+0.5 Milch",
   "description.sheafOfPlenty.boost": "+2 Gerste",
   "restrictionReason.sheepFed": "Schafe werden gefüttert",
-  "restrictionReason.cowFed": "Kühe werden gefüttert"
+  "restrictionReason.cowFed": "Kühe werden gefüttert",
+  "digby.streakReward": "Entdecke die drei {{name}} für einen Bonuspreis. Schalte tägliche Serien frei, um zusätzliche Belohnungen zu erhalten."
 }
