@@ -393,6 +393,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Barn: new Decimal(1),
     "Hen House": new Decimal(1),
     Hay: new Decimal(100),
+    Bale: new Decimal(1),
     "Kernel Blend": new Decimal(100),
     "Rich Chicken": new Decimal(1),
     Wrangler: new Decimal(1),
