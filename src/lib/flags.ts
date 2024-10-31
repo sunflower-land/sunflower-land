@@ -36,7 +36,7 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
  * Do not delete JEST_TEST.
  */
 const featureFlags = {
-  CHORE_BOARD: defaultFeatureFlag,
+  CHORE_BOARD: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   ONBOARDING_REWARDS: (game: GameState) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
   SEASONAL_TIERS: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),

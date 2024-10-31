@@ -363,6 +363,39 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     } as Record<ChoreV2Name, ChoreV2>,
   },
+  choreBoard: {
+    chores: {
+      "boneyard betty": {
+        name: "CHOP_1_TREE",
+        reward: {
+          coins: 100,
+          items: {},
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+      "chef ebon": {
+        name: "CHOP_1_TREE",
+        reward: {
+          items: {
+            Gem: 100,
+          },
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+      barlow: {
+        name: "CHOP_1_TREE",
+        reward: {
+          items: {
+            "Amber Fossil": 100,
+          },
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+    },
+  },
   desert: {
     digging: {
       grid: [

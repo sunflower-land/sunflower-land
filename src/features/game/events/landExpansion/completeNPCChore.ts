@@ -64,6 +64,10 @@ export function completeNPCChore({
       ).add(amount);
     });
 
+    if (chore.reward.coins) {
+      draft.coins += chore.reward.coins;
+    }
+
     // Increase NPC friendship points
     if (!draft.npcs) {
       draft.npcs = {};

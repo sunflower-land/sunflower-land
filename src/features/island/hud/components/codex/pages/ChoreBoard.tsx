@@ -18,7 +18,6 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 
@@ -36,7 +35,7 @@ import { Button } from "components/ui/Button";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lockIcon from "assets/icons/lock.png";
 
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { CHORE_DETAILS } from "../lib/choreDetails";
 import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
 
@@ -72,13 +71,6 @@ export const ChoreBoard: React.FC = () => {
     if (KINGDOM_BUMPKINS.includes(npcName)) return t("island.kingdom");
     return t("island.pumpkin.plaza");
   };
-
-  const {
-    tasksStartAt,
-    tasksCloseAt,
-    ticketTasksAreFrozen,
-    ticketTasksAreClosing,
-  } = getSeasonChangeover({ id: gameService.state.context.farmId });
 
   const level = getBumpkinLevel(
     gameService.state.context.state.bumpkin.experience ?? 0,
@@ -230,8 +222,6 @@ export const ChoreBoard: React.FC = () => {
               <Button
                 className="h-12 relative !mt-4"
                 disabled={
-                  ticketTasksAreFrozen ||
-                  ticketTasksAreClosing ||
                   !!previewChore.completedAt ||
                   getChoreProgress({
                     chore: previewChore,
@@ -241,17 +231,9 @@ export const ChoreBoard: React.FC = () => {
                 onClick={() => handleCompleteChore(previewNpc)}
               >
                 {t("chores.complete")}
-                <Label
-                  type={"warning"}
-                  icon={ITEM_DETAILS[getSeasonalTicket()].image}
-                  className="flex absolute right-0 -top-5"
-                >
-                  {generateChoreRewards({
-                    game: gameService.state.context.state,
-                    chore: previewChore,
-                    now: new Date(),
-                  })[getSeasonalTicket()] ?? 0}
-                </Label>
+                <div className="flex absolute right-0 -top-5">
+                  <ChoreRewardLabel chore={previewChore} />
+                </div>
               </Button>
             )}
 
@@ -262,15 +244,6 @@ export const ChoreBoard: React.FC = () => {
               </div>
             )}
           </div>
-          {ticketTasksAreFrozen && (
-            <Label
-              type="danger"
-              className="mb-1"
-              icon={SUNNYSIDE.icons.stopwatch}
-            >
-              {t("deliveries.closed")}
-            </Label>
-          )}
         </InnerPanel>
       )}
     </div>
@@ -300,13 +273,9 @@ export const ChoreCard: React.FC<{
         frozen={!!chore.completedAt}
         style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
-        <Label
-          type={"warning"}
-          icon={ITEM_DETAILS[getSeasonalTicket()].image}
-          className="flex absolute -right-2 -top-4"
-        >
-          {rewards[getSeasonalTicket()] ?? 0}
-        </Label>
+        <div className="flex absolute -right-2 -top-4">
+          <ChoreRewardLabel chore={chore} />
+        </div>
 
         {!chore.completedAt &&
           getChoreProgress({
@@ -404,5 +373,41 @@ export const LockedChoreCard: React.FC<{
         </Label>
       </ButtonPanel>
     </div>
+  );
+};
+
+export const ChoreRewardLabel: React.FC<{
+  chore: NpcChore;
+}> = ({ chore }) => {
+  const { gameService } = useContext(Context);
+
+  if (chore.reward.items[getSeasonalTicket()]) {
+    return (
+      <Label type={"warning"} icon={ITEM_DETAILS[getSeasonalTicket()].image}>
+        {generateChoreRewards({
+          game: gameService.state.context.state,
+          chore,
+          now: new Date(),
+        })[getSeasonalTicket()] ?? 0}
+      </Label>
+    );
+  }
+
+  if (chore.reward.coins) {
+    return (
+      <Label type={"warning"} icon={SUNNYSIDE.ui.coins}>
+        {chore.reward.coins}
+      </Label>
+    );
+  }
+
+  const item = Object.keys(chore.reward.items)[0] as InventoryItemName;
+
+  if (!item) return null;
+
+  return (
+    <Label type={"warning"} icon={ITEM_DETAILS[item].image}>
+      {chore.reward.items[item]}
+    </Label>
   );
 };
