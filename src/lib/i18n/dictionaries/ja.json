@@ -4149,5 +4149,7 @@
   "digby.holiday": "今日は砂漠が閉まっている。後で戻ってきて。",
   "delivery.holiday": "ロック済み",
   "delivery.holiday.closingSoon": "このバンプキンズは休暇中です... 出発前に注文を完了してください！",
-  "delivery.holiday.closed": "このバンプキンズは休暇中です... 後で戻ってきてください！"
+  "delivery.holiday.closed": "このバンプキンズは休暇中です... 後で戻ってきてください！",
+  "description.chicory.boost": "10% の確率で花1個獲得可能",
+  "description.chicory": "ブルランの季節に見つかる突然変異花。"
 }

@@ -1373,6 +1373,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Goblin Faction Rug": { width: 3, height: 2 },
   "Bumpkin Faction Rug": { width: 3, height: 2 },
   "Desert Rose": { width: 1, height: 1 },
+  Chicory: { width: 1, height: 1 },
 
   "Hapy Jar": { width: 1, height: 2 },
   "Duamutef Jar": { width: 1, height: 2 },
