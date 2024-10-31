@@ -1336,6 +1336,66 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Mechanical Bull"
     />
   ),
+  "Moo-ver": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["Moo-ver"].image}
+      alt="Moo-ver"
+    />
+  ),
+  "Swiss Whiskers": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Swiss Whiskers"].image}
+      alt="Swiss Whiskers"
+    />
+  ),
+  Cluckulator: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Cluckulator"].image}
+      alt="Cluckulator"
+    />
+  ),
+  UFO: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["UFO"].image}
+      alt="UFO"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
