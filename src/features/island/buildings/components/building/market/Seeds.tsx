@@ -6,9 +6,9 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
-  CROP_SEEDS,
   GREENHOUSE_SEEDS,
   GreenHouseCropSeedName,
+  PLOT_CROP_SEEDS,
   PlotCropName,
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -294,7 +294,7 @@ export const Seeds: React.FC = () => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => name in CROP_SEEDS)
+              .filter((name) => name in PLOT_CROP_SEEDS)
               .filter((name) => isBasicCrop(name.split(" ")[0] as PlotCropName))
               .filter(
                 (name) =>
@@ -323,7 +323,7 @@ export const Seeds: React.FC = () => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => name in CROP_SEEDS)
+              .filter((name) => name in PLOT_CROP_SEEDS)
               .filter((name) => isMediumCrop(name.split(" ")[0] as PlotCropName))
               .map((name: SeedName) => (
                 <Box
@@ -348,7 +348,7 @@ export const Seeds: React.FC = () => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => name in CROP_SEEDS)
+              .filter((name) => name in PLOT_CROP_SEEDS)
               .filter((name) => isAdvancedCrop(name.split(" ")[0] as PlotCropName))
               .filter(
                 (name) =>

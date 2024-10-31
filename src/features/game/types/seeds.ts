@@ -1,9 +1,9 @@
 import {
-  CROP_SEEDS,
   CropSeedName,
   GREENHOUSE_SEEDS,
   GreenHouseCropName,
   GreenHouseCropSeedName,
+  PLOT_CROP_SEEDS,
   PlotCropName,
 } from "./crops";
 import {
@@ -40,7 +40,7 @@ export type Seed = {
 };
 
 export const SEEDS: () => Record<SeedName, Seed> = () => ({
-  ...CROP_SEEDS,
+  ...PLOT_CROP_SEEDS,
   ...PATCH_FRUIT_SEEDS(),
   ...FLOWER_SEEDS(),
   ...GREENHOUSE_FRUIT_SEEDS(),

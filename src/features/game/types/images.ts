@@ -745,7 +745,7 @@ import mootant from "assets/sfts/mootant.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
-import { CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS, PLOT_CROPS } from "./crops";
+import { GREENHOUSE_CROPS, GREENHOUSE_SEEDS, PLOT_CROP_SEEDS, PLOT_CROPS } from "./crops";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
 
 //Golden Crop Event
@@ -861,62 +861,62 @@ export const ITEM_DETAILS: Items = {
   "Sunflower Seed": {
     image: PLOT_CROP_LIFECYCLE.Sunflower.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Sunflower.crop,
-    description: CROP_SEEDS["Sunflower Seed"].description,
+    description: PLOT_CROP_SEEDS["Sunflower Seed"].description,
   },
   "Potato Seed": {
     image: PLOT_CROP_LIFECYCLE.Potato.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Potato.crop,
-    description: CROP_SEEDS["Potato Seed"].description,
+    description: PLOT_CROP_SEEDS["Potato Seed"].description,
   },
   "Pumpkin Seed": {
     image: PLOT_CROP_LIFECYCLE.Pumpkin.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Pumpkin.crop,
-    description: CROP_SEEDS["Pumpkin Seed"].description,
+    description: PLOT_CROP_SEEDS["Pumpkin Seed"].description,
   },
   "Carrot Seed": {
     image: PLOT_CROP_LIFECYCLE.Carrot.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Carrot.crop,
-    description: CROP_SEEDS["Carrot Seed"].description,
+    description: PLOT_CROP_SEEDS["Carrot Seed"].description,
   },
   "Cabbage Seed": {
     image: PLOT_CROP_LIFECYCLE.Cabbage.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Cabbage.crop,
-    description: CROP_SEEDS["Cabbage Seed"].description,
+    description: PLOT_CROP_SEEDS["Cabbage Seed"].description,
   },
   "Beetroot Seed": {
     image: PLOT_CROP_LIFECYCLE.Beetroot.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Beetroot.crop,
-    description: CROP_SEEDS["Beetroot Seed"].description,
+    description: PLOT_CROP_SEEDS["Beetroot Seed"].description,
   },
   "Cauliflower Seed": {
     image: PLOT_CROP_LIFECYCLE.Cauliflower.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Cauliflower.crop,
-    description: CROP_SEEDS["Cauliflower Seed"].description,
+    description: PLOT_CROP_SEEDS["Cauliflower Seed"].description,
   },
   "Parsnip Seed": {
     image: PLOT_CROP_LIFECYCLE.Parsnip.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Parsnip.crop,
-    description: CROP_SEEDS["Parsnip Seed"].description,
+    description: PLOT_CROP_SEEDS["Parsnip Seed"].description,
   },
   "Eggplant Seed": {
     image: PLOT_CROP_LIFECYCLE.Eggplant.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Eggplant.crop,
-    description: CROP_SEEDS["Eggplant Seed"].description,
+    description: PLOT_CROP_SEEDS["Eggplant Seed"].description,
   },
   "Corn Seed": {
     image: PLOT_CROP_LIFECYCLE.Corn.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Corn.crop,
-    description: CROP_SEEDS["Corn Seed"].description,
+    description: PLOT_CROP_SEEDS["Corn Seed"].description,
   },
   "Radish Seed": {
     image: PLOT_CROP_LIFECYCLE.Radish.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Radish.crop,
-    description: CROP_SEEDS["Radish Seed"].description,
+    description: PLOT_CROP_SEEDS["Radish Seed"].description,
   },
   "Wheat Seed": {
     image: PLOT_CROP_LIFECYCLE.Wheat.seed,
     secondaryImage: PLOT_CROP_LIFECYCLE.Wheat.crop,
-    description: CROP_SEEDS["Wheat Seed"].description,
+    description: PLOT_CROP_SEEDS["Wheat Seed"].description,
   },
   "Barley Seed": {
     image: PLOT_CROP_LIFECYCLE.Barley.seed,
@@ -928,11 +928,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Kale Seed": {
     image: PLOT_CROP_LIFECYCLE.Kale.seed,
-    description: CROP_SEEDS["Kale Seed"].description,
+    description: PLOT_CROP_SEEDS["Kale Seed"].description,
   },
   "Soybean Seed": {
     image: PLOT_CROP_LIFECYCLE.Soybean.seed,
-    description: CROP_SEEDS["Soybean Seed"].description,
+    description: PLOT_CROP_SEEDS["Soybean Seed"].description,
   },
   "Apple Seed": {
     image: appleSeed,

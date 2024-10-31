@@ -8,7 +8,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import React, { useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { CROP_SEEDS } from "features/game/types/crops";
+import { PLOT_CROP_SEEDS } from "features/game/types/crops";
 
 interface Props {
   onPlant: (seed: SeedName) => void;
@@ -19,7 +19,7 @@ export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
 
   const [seed, setSeed] = useState<SeedName>();
 
-  const availableSeeds = getKeys(CROP_SEEDS).filter((name) =>
+  const availableSeeds = getKeys(PLOT_CROP_SEEDS).filter((name) =>
     inventory[name]?.gte(1),
   );
 
