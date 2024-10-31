@@ -107,11 +107,15 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
 
-  {
-    x: 214,
-    y: 295,
-    npc: "hank",
-  },
+  ...(Date.now() < new Date("2024-11-01T00:00:00").getTime()
+    ? [
+        {
+          x: 214,
+          y: 295,
+          npc: "hank" as NPCName,
+        },
+      ]
+    : []),
   {
     x: 442,
     y: 173,

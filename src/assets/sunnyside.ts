@@ -514,6 +514,7 @@ export const SUNNYSIDE = {
   },
   //NPCs
   npcs: {
+    hank_swimming: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/hank_swimming.webp`,
     betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
     bumpkin: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/idle.gif`,
     fisherman: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/fisherman.gif`,

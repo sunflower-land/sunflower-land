@@ -4143,5 +4143,6 @@
   "description.merinoJumper.boost": "+1 Merino Wool",
   "description.mooVer.boost": "+0.25 Leather",
   "description.swissWhiskers.boost": "+500 Cheese Recipe XP",
-  "description.cluckulator.boost": "-25% Feed to Chicken"
+  "description.cluckulator.boost": "-25% Feed to Chicken",
+  "chores.ended": "All that time tellin Bumpkins what to do......I'm tired. I think I need a vacation."
 }
