@@ -6,6 +6,7 @@ import {
 } from "features/game/lib/constants";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type LandExpansionFeedChickenAction = {
   type: "chicken.fed";
@@ -69,6 +70,9 @@ export function feedChicken({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
+    if (hasFeatureAccess(stateCopy, "ANIMAL_BUILDINGS")) {
+      throw new Error("You can no longer feed chickens");
+    }
     const { bumpkin, inventory, collectibles } = stateCopy;
 
     if (!bumpkin) {
