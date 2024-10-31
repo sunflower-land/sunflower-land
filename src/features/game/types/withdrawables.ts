@@ -788,6 +788,10 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Tomato Clown": () => canWithdrawTimebasedItem(new Date("2024-10-06")), // Last Auction 5th October
   Pyramid: () => true,
   Oasis: () => true,
+  "Moo-ver": () => false,
+  "Swiss Whiskers": () => false,
+  Cluckulator: () => false,
+  UFO: () => false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
