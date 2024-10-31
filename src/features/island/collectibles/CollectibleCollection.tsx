@@ -335,6 +335,7 @@ import { BattleFish } from "./components/BattleFish";
 import { TomatoBombard } from "./components/TomatoBombard";
 import { BullRunBanner } from "./components/BullRunBanner";
 import { Bed } from "./components/Bed";
+import { Wagon } from "./components/Wagon";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -483,6 +484,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Radiance Lantern": RadianceLantern,
   "Ocean Lantern": OceanLantern,
   "Solar Lantern": SolarLantern,
+  Wagon: Wagon,
 
   "Magic Bean": Bean,
 

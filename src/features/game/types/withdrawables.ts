@@ -61,6 +61,7 @@ import { BuildingName } from "./buildings";
 import { ConsumableName } from "./consumables";
 import {
   AchievementDecorationName,
+  AnimalDecorationName,
   DECORATION_TEMPLATES,
   EventDecorationName,
   InteriorDecorationName,
@@ -669,6 +670,10 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Paper Reed": () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
+const animalDecorations: Record<AnimalDecorationName, () => boolean> = {
+  Wagon: () => false,
+};
+
 const mutantCrop: Record<MutantCropName, () => boolean> = {
   "Stellar Sunflower": () => true,
   "Potent Potato": () => true,
@@ -1222,6 +1227,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   "Basic Land": () => false,
   ...lanterns,
   ...megastore,
+  ...animalDecorations,
 
   // non-withdrawables
   ...skills,

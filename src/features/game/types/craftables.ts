@@ -1417,6 +1417,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Meteorite: { width: 2, height: 2 },
   "Sheaf of Plenty": { width: 1, height: 2 },
   "Mechanical Bull": { width: 2, height: 2 },
+  Wagon: { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
