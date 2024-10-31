@@ -414,7 +414,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         {/* Request */}
         {idle && (
           <RequestBubble
-            key={REQUIRED_FOOD_QTY.Cow}
+            key={id}
             top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
             request={favFood}

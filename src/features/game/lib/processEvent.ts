@@ -59,6 +59,7 @@ export const MAX_ITEMS: Inventory = {
   "Knight Chicken": new Decimal(5),
   "Desert Rose": new Decimal(5),
   "Pharaoh Chicken": new Decimal(5),
+  Chicory: new Decimal(5),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1250),
