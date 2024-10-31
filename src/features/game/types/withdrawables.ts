@@ -1138,6 +1138,7 @@ const factionShopFood: Record<FactionShopFoodName, () => boolean> = {
 const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
   "Desert Rose": () =>
     canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  Chicory: () => hasSeasonEnded("Bull Run"),
 };
 
 const animalResources: Record<AnimalResource, () => boolean> = {

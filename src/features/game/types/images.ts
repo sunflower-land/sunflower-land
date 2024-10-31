@@ -726,6 +726,7 @@ import mooVer from "assets/sfts/moo_ver.webp";
 import swissWhisker from "assets/sfts/swiss_whiskers.webp";
 import cluckulator from "assets/sfts/cluckulator.webp";
 import ufo from "assets/sfts/ufo.webp";
+import chicory from "assets/sfts/chicory.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4331,9 +4332,12 @@ export const ITEM_DETAILS: Items = {
     image: cluckulator,
     description: translate("description.cluckulator"),
   },
-
   UFO: {
     image: ufo,
     description: translate("description.ufo"),
+  },
+  Chicory: {
+    image: chicory,
+    description: translate("description.chicory"),
   },
 };
