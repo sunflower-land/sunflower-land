@@ -4144,5 +4144,10 @@
   "description.mooVer.boost": "+0,25 Pelle",
   "description.swissWhiskers.boost": "+500 Ricetta al formaggio XP",
   "description.cluckulator.boost": "-25% di mangime per polli",
-  "chores.ended": "Tutto il tempo a dire a Bumpkins cosa fare... sono stanco. Penso di aver bisogno di una vacanza."
+  "chores.ended": "Tutto il tempo a dire a Bumpkins cosa fare... sono stanco. Penso di aver bisogno di una vacanza.",
+  "digby.closed": "Deserto chiuso",
+  "digby.holiday": "Il deserto è chiuso oggi. Torna più tardi.",
+  "delivery.holiday": "Bloccato",
+  "delivery.holiday.closingSoon": "Questi Bumpkins vanno in vacanza... Completa i tuoi ordini prima che se ne vadano!",
+  "delivery.holiday.closed": "Questi Bumpkins sono in vacanza... Torna più tardi!"
 }

@@ -4144,5 +4144,10 @@
   "description.mooVer.boost": "+0.25 Leder",
   "description.swissWhiskers.boost": "+500 Erfahrungspunkte für Käserezept",
   "description.cluckulator.boost": "-25% Futter für Hühner",
-  "chores.ended": "Die ganze Zeit, in der ich Bumpkins sage, was er tun soll... ich bin müde. Ich glaube, ich brauche Urlaub."
+  "chores.ended": "Die ganze Zeit, in der ich Bumpkins sage, was er tun soll... ich bin müde. Ich glaube, ich brauche Urlaub.",
+  "digby.closed": "Wüste geschlossen",
+  "digby.holiday": "Die Wüste ist heute geschlossen. Komm später zurück.",
+  "delivery.holiday": "Gesperrt",
+  "delivery.holiday.closingSoon": "Diese Bumpkins machen Urlaub... Erledige deine Bestellungen, bevor sie gehen!",
+  "delivery.holiday.closed": "Diese Bumpkins sind im Urlaub... Komm später wieder!"
 }

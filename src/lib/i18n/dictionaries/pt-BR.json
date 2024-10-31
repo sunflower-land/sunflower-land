@@ -4144,5 +4144,10 @@
   "description.mooVer.boost": "+0.25 Couro",
   "description.swissWhiskers.boost": "+500 XP de receita de queijo",
   "description.cluckulator.boost": "-25% de ração para frango",
-  "chores.ended": "Todo esse tempo dizendo a Bumpkins o que fazer... estou cansado. Acho que preciso de férias."
+  "chores.ended": "Todo esse tempo dizendo a Bumpkins o que fazer... estou cansado. Acho que preciso de férias.",
+  "digby.closed": "Deserto fechado",
+  "digby.holiday": "O deserto está fechado hoje. Volte mais tarde.",
+  "delivery.holiday": "Bloqueado",
+  "delivery.holiday.closingSoon": "Esses Bumpkins estão de férias... Complete seus pedidos antes que eles partam!",
+  "delivery.holiday.closed": "Esses Bumpkins estão de férias... Volte mais tarde!"
 }

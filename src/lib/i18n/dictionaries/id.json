@@ -4144,5 +4144,10 @@
   "description.mooVer.boost": "+0,25 Kulit",
   "description.swissWhiskers.boost": "+500 Resep Keju XP",
   "description.cluckulator.boost": "-25% Pakan untuk Ayam",
-  "chores.ended": "Selama itu memberitahu Bumpkins apa yang harus dilakukan... aku lelah. Saya pikir saya perlu liburan."
+  "chores.ended": "Selama itu memberitahu Bumpkins apa yang harus dilakukan... aku lelah. Saya pikir saya perlu liburan.",
+  "digby.closed": "Gurun ditutup",
+  "digby.holiday": "Gurun ditutup hari ini. Kembali lagi nanti.",
+  "delivery.holiday": "Terkunci",
+  "delivery.holiday.closingSoon": "Bumpkins ini akan berlibur... Selesaikan pesanan Anda sebelum mereka pergi!",
+  "delivery.holiday.closed": "Bumpkins ini sedang berlibur... Kembalilah nanti!"
 }
