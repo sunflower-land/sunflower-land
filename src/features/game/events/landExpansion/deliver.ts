@@ -10,7 +10,10 @@ import {
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { NPCName } from "lib/npcs";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import {
+  getBumpkinHoliday,
+  getSeasonChangeover,
+} from "lib/utils/getSeasonWeek";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
@@ -312,10 +315,11 @@ export function deliverOrder({
       throw new Error("Order is already completed");
     }
 
-    const { ticketTasksAreFrozen } = getSeasonChangeover({
-      id: farmId,
-      now: createdAt,
-    });
+    const holiday = getBumpkinHoliday({ id: farmId, now: createdAt });
+
+    if (holiday === new Date(createdAt).toISOString().split("T")[0]) {
+      throw new Error("Bumpkin is on holiday");
+    }
 
     const tickets = generateDeliveryTickets({
       game,

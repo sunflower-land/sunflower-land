@@ -42,6 +42,7 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getCurrentSeason } from "features/game/types/seasons";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -249,6 +250,11 @@ export const DailyPuzzle: React.FC = () => {
       />
     );
   }
+
+  // TODO
+  const isHoliday =
+    getBumpkinHoliday({ id: gameService.state.context.farmId }) ===
+    new Date().toISOString().split("T")[0];
 
   return (
     <>
