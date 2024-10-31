@@ -28,7 +28,10 @@ import { Leaderboards } from "features/game/expansion/components/leaderboard/act
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { Season } from "./pages/Season";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import {
+  getCurrentSeason,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
 
@@ -156,16 +159,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-
-    ...(hasFeatureAccess(state, "ANIMAL_BUILDINGS")
-      ? [
-          {
-            name: "Bull Run" as const,
-            icon: ITEM_DETAILS.Horseshoe.image,
-            count: 0,
-          },
-        ]
-      : []),
   ];
 
   return (
@@ -248,7 +241,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 id={id}
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
-                season={"Pharaoh's Treasure"}
+                season={getCurrentSeason()}
               />
             )}
             {currentTab === 3 && (
@@ -264,15 +257,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 isLoading={data?.kingdom === undefined}
                 playerId={id}
                 faction={state.faction.name}
-              />
-            )}
-
-            {currentTab === 6 && (
-              <Season
-                id={id}
-                isLoading={data?.tickets === undefined}
-                data={data?.tickets ?? null}
-                season={"Bull Run"}
               />
             )}
           </div>
