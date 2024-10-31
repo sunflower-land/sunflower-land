@@ -4144,5 +4144,13 @@
   "description.mooVer.boost": "+0.25 皮革",
   "description.swissWhiskers.boost": "+500 奶酪食谱经验值",
   "description.cluckulator.boost": "-25% 鸡肉饲料",
-  "chores.ended": "一直在告诉 Bumpkins 该怎么做... 我累了。我想我需要休假。"
+  "chores.ended": "一直在告诉 Bumpkins 该怎么做... 我累了。我想我需要休假。",
+  "digby.closed": "沙漠已关闭",
+  "digby.holiday": "沙漠今天关闭。稍后再来。",
+  "delivery.holiday": "已锁定",
+  "delivery.holiday.closingSoon": "这些 Bumpkins 要去度假了... 在他们离开之前完成订单！",
+  "delivery.holiday.closed": "这些 Bumpkins 正在度假... 稍后再来！",
+  "description.chicory.boost": "10% 几率获得 +1 朵花",
+  "description.chicory": "一种可以在牛市奔跑季节找到的突变花。",
+  "season.codex.howToEarn.comingSoon": "杂务、送货和赏金将于 11 月 6 日开始！"
 }

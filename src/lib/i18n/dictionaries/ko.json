@@ -4144,5 +4144,13 @@
   "description.mooVer.boost": "+0.25 가죽",
   "description.swissWhiskers.boost": "+500 치즈 레시피 경험치",
   "description.cluckulator.boost": "-25% 닭고기에게 먹이기",
-  "chores.ended": "범킨스한테 어떻게 하라고 말하는 내내... 피곤해요휴가가 필요할 것 같아요."
+  "chores.ended": "범킨스한테 어떻게 하라고 말하는 내내... 피곤해요휴가가 필요할 것 같아요.",
+  "digby.closed": "사막 폐쇄",
+  "digby.holiday": "사막은 오늘 문을 닫았습니다.나중에 다시 오세요.",
+  "delivery.holiday": "잠김",
+  "delivery.holiday.closingSoon": "이 범프킨들은 휴가를 갈 거예요... 떠나기 전에 주문을 완료하세요!",
+  "delivery.holiday.closed": "이 범프킨들은 휴가 중입니다... 나중에 다시 오세요!",
+  "description.chicory.boost": "10% 확률로 꽃 1송이",
+  "description.chicory": "불런 시즌에 볼 수 있는 돌연변이 꽃.",
+  "season.codex.howToEarn.comingSoon": "집안일, 배달 및 현상금은 11월 6일에 시작됩니다!"
 }

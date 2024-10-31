@@ -337,6 +337,7 @@ import { BullRunBanner } from "./components/BullRunBanner";
 import { Bed } from "./components/Bed";
 import { Wagon } from "./components/Wagon";
 import { hasFeatureAccess } from "lib/flags";
+import { Chicory } from "./components/Chicory";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -742,6 +743,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
+  Chicory: Chicory,
   "Adrift Ark": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

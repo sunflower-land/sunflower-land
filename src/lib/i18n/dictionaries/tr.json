@@ -4144,5 +4144,13 @@
   "description.mooVer.boost": "+0.25 Deri",
   "description.swissWhiskers.boost": "+500 Peynir Tarifi XP",
   "description.cluckulator.boost": "-25% Tavuk Yemi",
-  "chores.ended": "Bunca zaman Bumpkins'e ne yapacağını söylerken yoruldum. Sanırım tatile ihtiyacım var."
+  "chores.ended": "Bunca zaman Bumpkins'e ne yapacağını söylerken yoruldum. Sanırım tatile ihtiyacım var.",
+  "digby.closed": "Çöl kapalı",
+  "digby.holiday": "Çöl bugün kapalı. Daha sonra gel.",
+  "delivery.holiday": "Kilitli",
+  "delivery.holiday.closingSoon": "Bu Bumpkin'ler tatile gidiyor... Ayrılmadan önce siparişlerinizi tamamlayın!",
+  "delivery.holiday.closed": "Bu Bumpkin'ler tatilde... Sonra geri gelin!",
+  "description.chicory.boost": "+1 Çiçek için %10 Şans",
+  "description.chicory": "Bull Run sezonunda bulunabilen mutant bir çiçek.",
+  "season.codex.howToEarn.comingSoon": "Ev işleri, teslimatlar ve ödüller 6 Kasım'da başlayacak!"
 }

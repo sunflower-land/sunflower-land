@@ -322,6 +322,7 @@
   "description.hourglass.running": "This {{hourglass}} provides a temporary boost of {{boost}}.",
   "description.hourglass.expired": "Your {{hourglass}} has expired. Time to grab another one!",
   "description.desert.rose.boost": "10% Chance for +1 Flower",
+  "description.chicory.boost": "10% Chance for +1 Flower",
   "description.pharaoh.gnome.boost": "+2 Greenhouse Produce",
   "description.lemon.tea.bath.boost": "-50% Lemon Growth Time",
   "description.tomato.clown.boost": "-50% Tomato Growth Time",
@@ -3592,6 +3593,7 @@
   "description.factionShop.sunflorianSilverChampion": "An esteemed Sunflorian competitor, known for grace and strategic acumen.",
   "description.factionShop.sunflorianBronzeChampion": "A radiant Sunflorian champion, celebrated for courage and noble spirit.",
   "description.desert.rose": "A mutant flower that can be found during the Pharaoh's Treasure season.",
+  "description.chicory": "A mutant flower that can be found during the Bull Run season.",
   "description.camel.bone": "Bones of an ancient camel, rumoured to transport artefacts",
   "description.cockle.shell": "A beautiful shell.",
   "description.hieroglyph": "Unlock the secrets of the hieroglyphs.",
@@ -4144,5 +4146,11 @@
   "description.mooVer.boost": "+0.25 Leather",
   "description.swissWhiskers.boost": "+500 Cheese Recipe XP",
   "description.cluckulator.boost": "-25% Feed to Chicken",
-  "chores.ended": "All that time tellin Bumpkins what to do......I'm tired. I think I need a vacation."
+  "chores.ended": "All that time tellin Bumpkins what to do......I'm tired. I think I need a vacation.",
+  "digby.closed": "Desert closed",
+  "digby.holiday": "The desert is closed today. Come back later.",
+  "delivery.holiday": "Locked",
+  "delivery.holiday.closingSoon": "These Bumpkins are going on a holiday...Complete your orders before they leave!",
+  "delivery.holiday.closed": "These Bumpkins are on holiday...Come back later!",
+  "season.codex.howToEarn.comingSoon": "Chores, deliveries and bounties will begin on the 6th of November!"
 }

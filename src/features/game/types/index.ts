@@ -879,6 +879,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Swiss Whiskers": 2156,
   Cluckulator: 2157,
   UFO: 2158,
+  Chicory: 2159,
   Wagon: 2160,
 };
 
