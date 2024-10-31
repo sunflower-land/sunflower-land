@@ -9935,7 +9935,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   Cluckulator: {
     description:
-      "This specialized scale accurately weighs each chicken, ensuring they receive the ideal feed portion for balanced growth and health, making poultry care more efficient and sustainable. -25% Chicken Feed",
+      "This specialized scale accurately weighs each chicken, ensuring they receive the ideal feed portion for balanced growth and health, making poultry care more efficient and sustainable. -25% Feed to Chicken",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Animal" },
@@ -15156,13 +15156,13 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Infernal Bullwhip": {
     description:
-      "This menacing bullwhip is imbued with fiery power, making it as intimidating as it is effective. -50% Feed",
+      "This menacing bullwhip is imbued with fiery power, making it as intimidating as it is effective. -50% Feed to Barn Animal",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_percentage",
-        trait_type: "Animal Feed Reduction",
+        trait_type: "Barn Animal Feed Reduction",
         value: 50,
       },
       { trait_type: "Part", value: "Tool" },
