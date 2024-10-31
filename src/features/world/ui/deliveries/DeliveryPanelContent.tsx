@@ -155,7 +155,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 <>
                   <img
                     className="absolute pointer-events-none"
-                    src="/world/halloweenSelectbox_bl.png"
+                    src="src/assets/ui/halloweenSelectbox_bl.png"
                     style={{
                       bottom: `${PIXEL_SCALE * -3}px`,
                       left: `${PIXEL_SCALE * -3}px`,
@@ -164,7 +164,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src="/world/halloweenSelectbox_br.png"
+                    src="src/assets/ui/halloweenSelectbox_br.png"
                     style={{
                       bottom: `${PIXEL_SCALE * -3}px`,
                       right: `${PIXEL_SCALE * -3}px`,
@@ -173,7 +173,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src="/world/halloweenSelectbox_tl.png"
+                    src="src/assets/ui/halloweenSelectbox_tl.png"
                     style={{
                       top: `${PIXEL_SCALE * -5}px`,
                       left: `${PIXEL_SCALE * -3}px`,
@@ -182,7 +182,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src="/world/halloweenSelectbox_tr.png"
+                    src="src/assets/ui/halloweenSelectbox_tr.png"
                     style={{
                       top: `${PIXEL_SCALE * -5}px`,
                       right: `${PIXEL_SCALE * -3}px`,

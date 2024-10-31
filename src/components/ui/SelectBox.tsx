@@ -9,7 +9,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
   <>
     <img
       className="absolute pointer-events-none"
-      src="/world/halloweenSelectbox_bl.png"
+      src="src/assets/ui/halloweenSelectbox_bl.png"
       style={{
         top: `${PIXEL_SCALE * innerCanvasWidth}px`,
         left: `${PIXEL_SCALE * 0}px`,
@@ -18,7 +18,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src="/world/halloweenSelectbox_br.png"
+      src="src/assets/ui/halloweenSelectbox_br.png"
       style={{
         top: `${PIXEL_SCALE * innerCanvasWidth}px`,
         left: `${PIXEL_SCALE * innerCanvasWidth}px`,
@@ -27,7 +27,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src="/world/halloweenSelectbox_tl.png"
+      src="src/assets/ui/halloweenSelectbox_tl.png"
       style={{
         top: `${PIXEL_SCALE * 1}px`,
         left: `${PIXEL_SCALE * 0}px`,
@@ -36,7 +36,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src="/world/halloweenSelectbox_tr.png"
+      src="src/assets/ui/halloweenSelectbox_tr.png"
       style={{
         top: `${PIXEL_SCALE * 1}px`,
         left: `${PIXEL_SCALE * innerCanvasWidth}px`,

@@ -110,7 +110,7 @@ export const OuterPanel: React.FC<PanelProps> = ({
       <div
         className={classNames(
           className,
-          "bg-[url(/world/halloweenPanelBg.png)]",
+          "bg-[url(src/assets/ui/halloweenPanelBg.png)]",
         )}
         style={{
           ...pixelHalloweenOuterBorderStyle,
@@ -158,7 +158,7 @@ export const ButtonPanel: React.FC<
       style={{
         ...pixelHalloweenOuterBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${frozen ? usedButton : "/world/halloweenButton.png"}) 3 3 4 3 fill`,
+        borderImage: `url(${frozen ? usedButton : "src/assets/ui/halloweenButton.png"}) 3 3 4 3 fill`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         imageRendering: "pixelated",

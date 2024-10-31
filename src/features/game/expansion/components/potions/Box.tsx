@@ -62,7 +62,7 @@ const SelectBox = () => {
     <>
       <img
         className="absolute pointer-events-none"
-        src="/world/halloweenSelectbox_bl.png"
+        src="src/assets/ui/halloweenSelectbox_bl.png"
         style={{
           top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: 0,
@@ -71,7 +71,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src="/world/halloweenSelectbox_br.png"
+        src="src/assets/ui/halloweenSelectbox_br.png"
         style={{
           top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
@@ -80,7 +80,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src="/world/halloweenSelectbox_tl.png"
+        src="src/assets/ui/halloweenSelectbox_tl.png"
         style={{
           top: 0,
           left: 0,
@@ -89,7 +89,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src="/world/halloweenSelectbox_tr.png"
+        src="src/assets/ui/halloweenSelectbox_tr.png"
         style={{
           top: 0,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,

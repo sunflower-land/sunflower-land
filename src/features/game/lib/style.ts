@@ -122,23 +122,23 @@ export const progressBarBorderStyle: React.CSSProperties = {
 
 //Halloween
 export const pixelHalloweenInnerBorderStyle: React.CSSProperties = {
-  borderImage: `url(/world/halloweenBorderInner.png) 20%`,
+  borderImage: `url(src/assets/ui/halloweenBorderInner.png) 20%`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelHalloweenOuterBorderStyle: React.CSSProperties = {
-  borderImage: `url(/world/halloweenBorderOuter.png) 20%`,
+  borderImage: `url(src/assets/ui/halloweenBorderOuter.png) 20%`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelHalloweenTabBorderMiddleStyle1: React.CSSProperties = {
-  borderImage: `url(/world/halloweenTabBorderInner1.png) 20%`,
+  borderImage: `url(src/assets/ui/halloweenTabBorderInner1.png) 20%`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
 };
 
 export const pixelHalloweenTabBorderMiddleStyle2: React.CSSProperties = {
-  borderImage: `url(/world/halloweenTabBorderInner2.png) 20%`,
+  borderImage: `url(src/assets/ui/halloweenTabBorderInner2.png) 20%`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
 };

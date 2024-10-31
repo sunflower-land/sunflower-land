@@ -391,7 +391,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                 <div id="select-box">
                                   <img
                                     className="absolute pointer-events-none"
-                                    src="/world/halloweenSelectbox_tl.png"
+                                    src="src/assets/ui/halloweenSelectbox_tl.png"
                                     style={{
                                       top: `${PIXEL_SCALE * -3}px`,
                                       left: `${PIXEL_SCALE * -3}px`,
@@ -400,7 +400,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                   />
                                   <img
                                     className="absolute pointer-events-none"
-                                    src="/world/halloweenSelectbox_tr.png"
+                                    src="src/assets/ui/halloweenSelectbox_tr.png"
                                     style={{
                                       top: `${PIXEL_SCALE * -3}px`,
                                       right: `${PIXEL_SCALE * -3}px`,

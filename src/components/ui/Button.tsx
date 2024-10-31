@@ -58,14 +58,14 @@ export const Button: React.FC<Props> = ({
       type={type}
       disabled={disabled}
       style={{
-        borderImage: `url(/world/halloweenButton.png)`,
+        borderImage: `url(src/assets/ui/halloweenButton.png)`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         borderImageSlice: "3 3 4 3 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
         borderRadius: `${PIXEL_SCALE * 5}px`,
-        color: "#674544",
+        color: "white",
       }}
       {...clickEvents}
     >

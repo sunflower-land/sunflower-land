@@ -3,7 +3,7 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 
-import bgHalloween from "/world/halloween_input_box_border.png";
+import bgHalloween from "assets/ui/halloween_input_box_border.png";
 import { SquareIcon } from "./SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
