@@ -4149,5 +4149,7 @@
   "digby.holiday": "Die Wüste ist heute geschlossen. Komm später zurück.",
   "delivery.holiday": "Gesperrt",
   "delivery.holiday.closingSoon": "Diese Bumpkins machen Urlaub... Erledige deine Bestellungen, bevor sie gehen!",
-  "delivery.holiday.closed": "Diese Bumpkins sind im Urlaub... Komm später wieder!"
+  "delivery.holiday.closed": "Diese Bumpkins sind im Urlaub... Komm später wieder!",
+  "description.chicory.boost": "10% Chance auf +1 Blume",
+  "description.chicory": "Eine mutierte Blume, die während der Bull Run-Saison zu finden ist."
 }

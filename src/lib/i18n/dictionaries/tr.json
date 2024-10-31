@@ -4149,5 +4149,7 @@
   "digby.holiday": "Çöl bugün kapalı. Daha sonra gel.",
   "delivery.holiday": "Kilitli",
   "delivery.holiday.closingSoon": "Bu Bumpkin'ler tatile gidiyor... Ayrılmadan önce siparişlerinizi tamamlayın!",
-  "delivery.holiday.closed": "Bu Bumpkin'ler tatilde... Sonra geri gelin!"
+  "delivery.holiday.closed": "Bu Bumpkin'ler tatilde... Sonra geri gelin!",
+  "description.chicory.boost": "+1 Çiçek için %10 Şans",
+  "description.chicory": "Bull Run sezonunda bulunabilen mutant bir çiçek."
 }

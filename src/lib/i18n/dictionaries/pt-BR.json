@@ -4149,5 +4149,7 @@
   "digby.holiday": "O deserto está fechado hoje. Volte mais tarde.",
   "delivery.holiday": "Bloqueado",
   "delivery.holiday.closingSoon": "Esses Bumpkins estão de férias... Complete seus pedidos antes que eles partam!",
-  "delivery.holiday.closed": "Esses Bumpkins estão de férias... Volte mais tarde!"
+  "delivery.holiday.closed": "Esses Bumpkins estão de férias... Volte mais tarde!",
+  "description.chicory.boost": "10% de chance de ganhar +1 flor",
+  "description.chicory": "Uma flor mutante que pode ser encontrada durante a temporada de Bull Run."
 }
