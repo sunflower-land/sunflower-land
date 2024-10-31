@@ -384,7 +384,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           />
         )}
         {sleeping && showWakesIn && (
-          <WakesIn asleepAt={sheep.asleepAt} className="-top-10" />
+          <WakesIn awakeAt={sheep.awakeAt} className="-top-10" />
         )}
         {/* Not enough food */}
         {showNotEnoughFood && (
