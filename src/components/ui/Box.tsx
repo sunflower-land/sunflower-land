@@ -11,6 +11,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "./SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressType, ResizableBar } from "./ProgressBar";
+import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
+import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
+import halloweenSelectboxBL from "assets/ui/halloweenSelectbox_bl.png";
+import halloweenSelectboxBR from "assets/ui/halloweenSelectbox_br.png";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
@@ -350,7 +354,7 @@ export const Box: React.FC<BoxProps> = ({
           <>
             <img
               className="absolute pointer-events-none"
-              src="src/assets/ui/halloweenSelectbox_bl.png"
+              src={halloweenSelectboxBL}
               style={{
                 top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
                 left: `${PIXEL_SCALE * 0}px`,
@@ -359,7 +363,7 @@ export const Box: React.FC<BoxProps> = ({
             />
             <img
               className="absolute pointer-events-none"
-              src="src/assets/ui/halloweenSelectbox_br.png"
+              src={halloweenSelectboxBR}
               style={{
                 top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
                 left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
@@ -371,7 +375,7 @@ export const Box: React.FC<BoxProps> = ({
 
           <img
             className="absolute pointer-events-none"
-            src="src/assets/ui/halloweenSelectbox_tl.png"
+            src={halloweenSelectboxTL}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
               left: `${PIXEL_SCALE * 0}px`,
@@ -380,7 +384,7 @@ export const Box: React.FC<BoxProps> = ({
           />
           <img
             className="absolute pointer-events-none"
-            src="src/assets/ui/halloweenSelectbox_tr.png"
+            src={halloweenSelectboxTR}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
               left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
