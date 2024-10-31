@@ -281,11 +281,7 @@ export const AnimatedBar: React.FC<{
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
           width: width.to((w) => {
             // wrap the width to 0 if the previous width is greater than the current width
-<<<<<<< HEAD
             if (prevWidth.current > w && shouldWrap) {
-=======
-            if (prevWidth.current > w) {
->>>>>>> 86a4479ba ([FEAT] Update progress bar)
               width.set(0);
             }
 
