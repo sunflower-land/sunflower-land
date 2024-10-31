@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "一种奇特的箱鱼，有着角状的刺，像牛一样优雅地在海中游泳。",
   "howToGetThisItem.longhornCowfish": "它是通过法老宝藏季的游戏玩法获得的。",
   "restrictionReason.sheepSleeping": "绵羊在睡觉",
-  "restrictionReason.cowsSleeping": "奶牛在睡觉"
+  "restrictionReason.cowsSleeping": "奶牛在睡觉",
+  "chickens.deprecated.1": "现在鸡舍里喂鸡。",
+  "chickens.deprecated.2": "在 Garbo 出售现有鸡。"
 }

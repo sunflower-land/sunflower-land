@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Un peculiar pez caja con espinas en forma de cuerno, que nada por los mares con gracia bovina.",
   "howToGetThisItem.longhornCowfish": "Se podía obtener jugando en la temporada de Pharaoh's Treasure.",
   "restrictionReason.sheepSleeping": "Las ovejas duermen",
-  "restrictionReason.cowsSleeping": "Las vacas duermen"
+  "restrictionReason.cowsSleeping": "Las vacas duermen",
+  "chickens.deprecated.1": "Los pollos ahora se alimentan en el gallinero.",
+  "chickens.deprecated.2": "Vende los pollos existentes en Garbo."
 }

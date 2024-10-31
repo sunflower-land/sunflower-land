@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Un particolare pesce scatola con spine simili a corna, che nuota nei mari con grazia bovina.",
   "howToGetThisItem.longhornCowfish": "Era ottenibile giocando nella stagione di Pharaoh's Treasure.",
   "restrictionReason.sheepSleeping": "Le pecore dormono",
-  "restrictionReason.cowsSleeping": "Le mucche dormono"
+  "restrictionReason.cowsSleeping": "Le mucche dormono",
+  "chickens.deprecated.1": "I polli vengono ora nutriti nel pollaio.",
+  "chickens.deprecated.2": "Vendi polli esistenti alla Garbo."
 }

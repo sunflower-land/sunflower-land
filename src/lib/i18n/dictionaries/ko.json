@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "뿔처럼 생긴 가시가 달린 독특한 복어로서 소의 품위를 유유히 헤엄쳐 다닙니다.",
   "howToGetThisItem.longhornCowfish": "파라오의 보물 시즌의 게임 플레이를 통해 얻을 수 있었습니다.",
   "restrictionReason.sheepSleeping": "양들이 자고 있다",
-  "restrictionReason.cowsSleeping": "소들이 자고 있다"
+  "restrictionReason.cowsSleeping": "소들이 자고 있다",
+  "chickens.deprecated.1": "닭들은 이제 닭장에서 먹이를 먹고 있습니다.",
+  "chickens.deprecated.2": "Garbo에서 기존 닭을 판매하십시오."
 }

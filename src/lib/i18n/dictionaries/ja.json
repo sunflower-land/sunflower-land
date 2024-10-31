@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "ウシの優雅さで海を泳いでいる、角のようなトゲを持つ独特のハゲです。",
   "howToGetThisItem.longhornCowfish": "ファラオのトレジャーシーズンのゲームプレイで入手できました。",
   "restrictionReason.sheepSleeping": "羊は眠っている",
-  "restrictionReason.cowsSleeping": "牛は眠っている"
+  "restrictionReason.cowsSleeping": "牛は眠っている",
+  "chickens.deprecated.1": "鶏は今、鶏小屋で餌を与えられています。",
+  "chickens.deprecated.2": "ガルボで既存の鶏を売ってください。"
 }

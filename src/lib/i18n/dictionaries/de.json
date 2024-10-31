@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Ein eigenartiger Kastenfisch mit hornähnlichen Stacheln, der mit Rinderanmut durch die Meere schwimmt.",
   "howToGetThisItem.longhornCowfish": "Es war in der Pharaoh's Treasure-Saison im Gameplay erhältlich.",
   "restrictionReason.sheepSleeping": "Schafe schlafen",
-  "restrictionReason.cowsSleeping": "Kühe schlafen"
+  "restrictionReason.cowsSleeping": "Kühe schlafen",
+  "chickens.deprecated.1": "Hühner werden jetzt im Hühnerstall gefüttert.",
+  "chickens.deprecated.2": "Verkaufe bestehende Hühner bei Garbo."
 }

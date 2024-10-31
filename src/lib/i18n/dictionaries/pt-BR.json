@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Um peixe-caixa peculiar com espinhos em forma de chifre, nadando pelos mares com graça bovina.",
   "howToGetThisItem.longhornCowfish": "Foi obtido por meio da jogabilidade na temporada Pharaoh's Treasure.",
   "restrictionReason.sheepSleeping": "As ovelhas estão dormindo",
-  "restrictionReason.cowsSleeping": "As vacas estão dormindo"
+  "restrictionReason.cowsSleeping": "As vacas estão dormindo",
+  "chickens.deprecated.1": "As galinhas agora são alimentadas no galinheiro.",
+  "chickens.deprecated.2": "Venda galinhas existentes na Garbo."
 }

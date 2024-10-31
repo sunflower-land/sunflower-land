@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Своеобразный самшит с рогоподобными шипами, плавающий по морям с бычьим изяществом.",
   "howToGetThisItem.longhornCowfish": "Его можно было получить в игровом режиме в сезоне «Сокровища Фараона».",
   "restrictionReason.sheepSleeping": "Овцы спят",
-  "restrictionReason.cowsSleeping": "Коровы спят"
+  "restrictionReason.cowsSleeping": "Коровы спят",
+  "chickens.deprecated.1": "Теперь цыплят кормят в курятнике.",
+  "chickens.deprecated.2": "Продавайте существующих цыплят в Garbo."
 }

@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Ikan kotak yang pelik dengan duri seperti tanduk, berenang melalui laut dengan rahmat lembu.",
   "howToGetThisItem.longhornCowfish": "Ia boleh diperolehi melalui permainan dalam musim Pharaoh's Treasure.",
   "restrictionReason.sheepSleeping": "Domba sedang tidur",
-  "restrictionReason.cowsSleeping": "Lembu sedang tidur"
+  "restrictionReason.cowsSleeping": "Lembu sedang tidur",
+  "chickens.deprecated.1": "Ayam kini diberi makan di rumah ayam.",
+  "chickens.deprecated.2": "Jual ayam sedia ada di Garbo."
 }

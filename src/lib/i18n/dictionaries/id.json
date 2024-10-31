@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Ikan kotak aneh dengan duri seperti tanduk, berenang melalui laut dengan keanggunan sapi.",
   "howToGetThisItem.longhornCowfish": "Itu bisa diperoleh melalui gameplay di musim Pharaoh's Treasure.",
   "restrictionReason.sheepSleeping": "Domba sedang tidur",
-  "restrictionReason.cowsSleeping": "Sapi sedang tidur"
+  "restrictionReason.cowsSleeping": "Sapi sedang tidur",
+  "chickens.deprecated.1": "Ayam sekarang diberi makan di kandang ayam.",
+  "chickens.deprecated.2": "Jual ayam yang sudah ada di Garbo."
 }

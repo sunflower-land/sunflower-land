@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Boynuz benzeri dikenleri olan, sığır zarafetiyle denizlerde yüzen tuhaf bir şimşir balığı.",
   "howToGetThisItem.longhornCowfish": "Firavun'un Hazinesi sezonunda oynanarak elde edilebilirdi.",
   "restrictionReason.sheepSleeping": "Koyunlar uyuyor",
-  "restrictionReason.cowsSleeping": "İnekler uyuyor"
+  "restrictionReason.cowsSleeping": "İnekler uyuyor",
+  "chickens.deprecated.1": "Tavuklar artık tavuk evinde besleniyor.",
+  "chickens.deprecated.2": "Garbo'da mevcut tavukları sat."
 }

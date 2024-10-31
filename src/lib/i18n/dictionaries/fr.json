@@ -4156,5 +4156,7 @@
   "description.longhorn.cowfish": "Un poisson-boîte particulier aux épines en forme de corne, qui nage dans les mers avec une grâce bovine.",
   "howToGetThisItem.longhornCowfish": "Il était possible de l'obtenir en jouant pendant la saison du Trésor de Pharaon.",
   "restrictionReason.sheepSleeping": "Les moutons dorment",
-  "restrictionReason.cowsSleeping": "Les vaches dorment"
+  "restrictionReason.cowsSleeping": "Les vaches dorment",
+  "chickens.deprecated.1": "Les poulets sont maintenant nourris dans le poulailler.",
+  "chickens.deprecated.2": "Vendez des poulets existants chez Garbo."
 }
