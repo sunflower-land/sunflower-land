@@ -23,61 +23,42 @@ export const SEASONAL_ARTEFACT: Record<SeasonName, InventoryItemName> = {
 export const DIGGING_FORMATIONS = {
   // Horizontal Zig Zag - X Coins
   MONDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Camel Bone" },
     { x: 0, y: -1, name: "Camel Bone" },
-    { x: 1, y: -1, name: "Scarab" },
+    { x: 1, y: -1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
   // Upside T - X Coins
   TUESDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Scarab" },
-    { x: 2, y: 0, name: "Camel Bone" },
-    { x: 1, y: 1, name: "Camel Bone" },
+    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
     { x: 1, y: 2, name: "Camel Bone" },
   ],
 
   // Star - X Coins
   WEDNESDAY_ARTEFACT_FORMATION: [
     { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 1, name: "Camel Bone" },
-    { x: 2, y: 0, name: "Camel Bone" },
-    { x: 1, y: -1, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Scarab" },
+    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
 
   // Square - X Coins
   THURSDAY_ARTEFACT_FORMATION: [
     { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Camel Bone" },
-    { x: 0, y: -1, name: "Camel Bone" },
-    { x: 1, y: -1, name: "Scarab" },
+    { x: 1, y: -1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
 
   // Horizontal - X Coins
   FRIDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Camel Bone" },
     { x: 2, y: 0, name: "Camel Bone" },
-    { x: 3, y: 0, name: "Scarab" },
+    { x: 3, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
 
   // U Shape - X Coins
   SATURDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 0, y: -1, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Scarab" },
+    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
     { x: 1, y: -1, name: "Camel Bone" },
-    { x: 2, y: 0, name: "Camel Bone" },
-    { x: 2, y: -1, name: "Camel Bone" },
   ],
 
   // Horizontal - X Coins
   SUNDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 0, y: -1, name: "Camel Bone" },
-    { x: 0, y: -2, name: "Scarab" },
-    { x: 0, y: -3, name: "Camel Bone" },
+    { x: 0, y: -2, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
 
   // Small L - X Coins
