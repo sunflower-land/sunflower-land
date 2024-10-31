@@ -4144,5 +4144,10 @@
   "description.mooVer.boost": "+0.25 Leather",
   "description.swissWhiskers.boost": "+500 Cheese Recipe XP",
   "description.cluckulator.boost": "-25% Feed to Chicken",
-  "chores.ended": "All that time tellin Bumpkins what to do......I'm tired. I think I need a vacation."
+  "chores.ended": "All that time tellin Bumpkins what to do......I'm tired. I think I need a vacation.",
+  "digby.closed": "Desert closed",
+  "digby.holiday": "The desert is closed today. Come back later.",
+  "delivery.holiday": "Locked",
+  "delivery.holiday.closingSoon": "These Bumpkins are going on a holiday...Complete your orders before they leave!",
+  "delivery.holiday.closed": "These Bumpkins are on holiday...Come back later!"
 }
