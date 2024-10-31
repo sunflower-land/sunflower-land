@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { hasRemoveRestriction } from "./removeables";
 import { TEST_FARM } from "../lib/constants";

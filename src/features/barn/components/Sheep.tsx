@@ -29,13 +29,17 @@ import {
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { getKeys } from "features/game/types/craftables";
-import { ANIMAL_FOODS } from "features/game/types/animals";
+import {
+  ANIMAL_FOOD_EXPERIENCE,
+  ANIMAL_FOODS,
+} from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
+import { formatNumber } from "lib/utils/formatNumber";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 
 const _animalState = (state: AnimalMachineState) =>
@@ -77,6 +81,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showWakesIn, setShowWakesIn] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
+  const [showFeedXP, setShowFeedXP] = useState(false);
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
@@ -107,6 +112,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       item: item ? (item as AnimalFoodName) : undefined,
       id: sheep.id,
     });
+
+    setShowFeedXP(true);
+    setTimeout(() => setShowFeedXP(false), 700);
 
     const updatedSheep = updatedState.context.state.barn.animals[id];
 
@@ -411,6 +419,26 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         // Don't block level up UI with wakes in panel if accidentally clicked
         onLevelUp={() => setShowWakesIn(false)}
       />
+      {/* Feed XP */}
+      <Transition
+        appear={true}
+        id="food-xp-amount"
+        show={showFeedXP}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+      >
+        <span
+          className="text-sm yield-text"
+          style={{
+            color: favFood === selectedItem ? "#71e358" : "#fff",
+          }}
+        >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Sheep[level][selectedItem as AnimalFoodName])}`}</span>
+      </Transition>
       {/* Quick Select */}
       <Transition
         appear={true}
