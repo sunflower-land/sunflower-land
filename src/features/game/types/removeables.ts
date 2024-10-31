@@ -624,6 +624,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   // Bull Run
   "Sheaf of Plenty": (game) => cropIsGrowing({ item: "Barley", game }),
   Chicory: (game) => areFlowersGrowing(game),
+  "Moo-ver": (game) => areAnyCowsSleeping(game),
+  Cluckulator: (game) => areAnyChickensFed(game),
   "Longhorn Cowfish": (game) => areAnyCowsSleeping(game),
 };
 
