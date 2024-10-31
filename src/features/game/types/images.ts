@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// CROPS
+// PLOT_CROPS
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
@@ -745,7 +745,7 @@ import mootant from "assets/sfts/mootant.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
-import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
+import { CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS, PLOT_CROPS } from "./crops";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
 
 //Golden Crop Event
@@ -800,59 +800,59 @@ type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 export const ITEM_DETAILS: Items = {
   Sunflower: {
     image: CROP_LIFECYCLE.Sunflower.crop,
-    description: CROPS.Sunflower.description,
+    description: PLOT_CROPS.Sunflower.description,
   },
   Potato: {
     image: CROP_LIFECYCLE.Potato.crop,
-    description: CROPS.Potato.description,
+    description: PLOT_CROPS.Potato.description,
   },
   Pumpkin: {
     image: CROP_LIFECYCLE.Pumpkin.crop,
-    description: CROPS.Pumpkin.description,
+    description: PLOT_CROPS.Pumpkin.description,
   },
   Carrot: {
     image: CROP_LIFECYCLE.Carrot.crop,
-    description: CROPS.Carrot.description,
+    description: PLOT_CROPS.Carrot.description,
   },
   Cabbage: {
     image: CROP_LIFECYCLE.Cabbage.crop,
-    description: CROPS.Cabbage.description,
+    description: PLOT_CROPS.Cabbage.description,
   },
   Beetroot: {
     image: CROP_LIFECYCLE.Beetroot.crop,
-    description: CROPS.Beetroot.description,
+    description: PLOT_CROPS.Beetroot.description,
   },
   Cauliflower: {
     image: CROP_LIFECYCLE.Cauliflower.crop,
-    description: CROPS.Cauliflower.description,
+    description: PLOT_CROPS.Cauliflower.description,
   },
   Parsnip: {
     image: CROP_LIFECYCLE.Parsnip.crop,
-    description: CROPS.Parsnip.description,
+    description: PLOT_CROPS.Parsnip.description,
   },
   Eggplant: {
     image: CROP_LIFECYCLE.Eggplant.crop,
-    description: CROPS.Eggplant.description,
+    description: PLOT_CROPS.Eggplant.description,
   },
   Corn: {
     image: CROP_LIFECYCLE.Corn.crop,
-    description: CROPS.Corn.description,
+    description: PLOT_CROPS.Corn.description,
   },
   Radish: {
     image: CROP_LIFECYCLE.Radish.crop,
-    description: CROPS.Radish.description,
+    description: PLOT_CROPS.Radish.description,
   },
   Wheat: {
     image: CROP_LIFECYCLE.Wheat.crop,
-    description: CROPS.Wheat.description,
+    description: PLOT_CROPS.Wheat.description,
   },
   Kale: {
     image: CROP_LIFECYCLE.Kale.crop,
-    description: CROPS.Kale.description,
+    description: PLOT_CROPS.Kale.description,
   },
   Soybean: {
     image: CROP_LIFECYCLE.Soybean.crop,
-    description: CROPS.Soybean.description,
+    description: PLOT_CROPS.Soybean.description,
   },
   Barley: {
     image: CROP_LIFECYCLE.Barley.crop,

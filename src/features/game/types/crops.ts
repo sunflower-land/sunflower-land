@@ -73,9 +73,9 @@ export const GREENHOUSE_SEEDS: Record<GreenHouseCropSeedName, Seed> = {
 export type GreenHouseCropSeedName = `${GreenHouseCropName} Seed`;
 
 /**
- * Crops and their original prices
+ * Plot crops and their original prices
  */
-export const CROPS: Record<CropName, Crop> = {
+export const PLOT_CROPS: Record<CropName, Crop> = {
   Sunflower: {
     name: "Sunflower",
     description: translate("description.sunflower"),

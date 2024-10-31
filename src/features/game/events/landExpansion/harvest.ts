@@ -2,9 +2,9 @@ import { GameState, PlantedCrop } from "../../types/game";
 import {
   Crop,
   CropName,
-  CROPS,
   GREENHOUSE_CROPS,
   GreenHouseCropName,
+  PLOT_CROPS,
 } from "../../types/crops";
 import Decimal from "decimal.js-light";
 import {
@@ -27,8 +27,8 @@ type Options = {
 
 export const isBasicCrop = (cropName: CropName | GreenHouseCropName) => {
   if (!isCrop(cropName)) return false;
-  const cropDetails = CROPS[cropName];
-  return cropDetails.harvestSeconds <= CROPS["Pumpkin"].harvestSeconds;
+  const cropDetails = PLOT_CROPS[cropName];
+  return cropDetails.harvestSeconds <= PLOT_CROPS["Pumpkin"].harvestSeconds;
 };
 
 export const isMediumCrop = (cropName: CropName | GreenHouseCropName) => {
@@ -38,18 +38,18 @@ export const isMediumCrop = (cropName: CropName | GreenHouseCropName) => {
 
 export const isAdvancedCrop = (cropName: CropName | GreenHouseCropName) => {
   if (!isCrop(cropName)) return false;
-  const cropDetails = CROPS[cropName];
-  return cropDetails.harvestSeconds >= CROPS["Eggplant"].harvestSeconds;
+  const cropDetails = PLOT_CROPS[cropName];
+  return cropDetails.harvestSeconds >= PLOT_CROPS["Eggplant"].harvestSeconds;
 };
 
 function isCrop(plant: GreenHouseCropName | CropName): plant is CropName {
-  return (plant as CropName) in CROPS;
+  return (plant as CropName) in PLOT_CROPS;
 }
 
 export const isOvernightCrop = (cropName: CropName | GreenHouseCropName) => {
   if (isCrop(cropName)) {
-    const cropDetails = CROPS[cropName];
-    return cropDetails.harvestSeconds >= CROPS["Radish"].harvestSeconds;
+    const cropDetails = PLOT_CROPS[cropName];
+    return cropDetails.harvestSeconds >= PLOT_CROPS["Radish"].harvestSeconds;
   }
 
   const details = GREENHOUSE_CROPS[cropName];
@@ -71,7 +71,7 @@ export function isCropGrowing(plot: CropPlot) {
   const crop = plot.crop;
   if (!crop) return false;
 
-  const cropDetails = CROPS[crop.name];
+  const cropDetails = PLOT_CROPS[crop.name];
   return !isReadyToHarvest(Date.now(), crop, cropDetails);
 }
 
@@ -99,7 +99,7 @@ export function harvest({
 
     const { name: cropName, plantedAt, amount = 1, reward } = plot.crop;
 
-    const { harvestSeconds } = CROPS[cropName];
+    const { harvestSeconds } = PLOT_CROPS[cropName];
 
     if (createdAt - plantedAt < harvestSeconds * 1000) {
       throw new Error("Not ready");

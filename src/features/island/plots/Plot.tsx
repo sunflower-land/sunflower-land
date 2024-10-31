@@ -7,7 +7,7 @@ import {
   PlacedItem,
   InventoryItemName,
 } from "features/game/types/game";
-import { CROPS, CROP_SEEDS } from "features/game/types/crops";
+import { PLOT_CROPS, CROP_SEEDS } from "features/game/types/crops";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import {
@@ -57,7 +57,7 @@ const selectLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 const selectHarvests = (state: MachineState) => {
-  return getKeys(CROPS).reduce(
+  return getKeys(PLOT_CROPS).reduce(
     (total, crop) =>
       total +
       (state.context.state.bumpkin?.activity?.[`${crop} Harvested`] ?? 0),
@@ -66,7 +66,7 @@ const selectHarvests = (state: MachineState) => {
 };
 
 const selectPlants = (state: MachineState) =>
-  getKeys(CROPS).reduce(
+  getKeys(PLOT_CROPS).reduce(
     (total, crop) =>
       total + (state.context.state.bumpkin?.activity?.[`${crop} Planted`] ?? 0),
     0,
@@ -218,7 +218,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
     // increase touch count if there is a reward
     const readyToHarvest =
-      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
+      !!crop && isReadyToHarvest(now, crop, PLOT_CROPS[crop.name]);
 
     if (crop?.reward && readyToHarvest) {
       if (!isSeasoned && touchCount < 1) {

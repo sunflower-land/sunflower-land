@@ -12,7 +12,7 @@ import {
 import {
   CROP_SEEDS,
   CropName,
-  CROPS,
+  PLOT_CROPS,
   GREENHOUSE_CROPS,
   GREENHOUSE_SEEDS,
   GreenHouseCropSeedName,
@@ -161,7 +161,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     ...getItems(GREENHOUSE_SEEDS),
   ];
   const flowerSeeds = getItems(FLOWER_SEEDS());
-  const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
+  const crops = [...getItems(PLOT_CROPS), ...getItems(GREENHOUSE_CROPS)];
   const fruits = [...getItems(PATCH_FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);

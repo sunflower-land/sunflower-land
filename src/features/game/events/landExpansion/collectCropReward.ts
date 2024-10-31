@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { CROPS } from "../../types/crops";
+import { PLOT_CROPS } from "../../types/crops";
 import { GameState } from "../../types/game";
 import { produce } from "immer";
 
@@ -37,7 +37,7 @@ export function collectCropReward({
       throw new Error("Crop does not have a reward");
     }
 
-    const crop = CROPS[plantedCrop.name];
+    const crop = PLOT_CROPS[plantedCrop.name];
 
     if (createdAt - plantedCrop.plantedAt < crop.harvestSeconds * 1000) {
       throw new Error("Not ready");

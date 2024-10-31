@@ -2,9 +2,9 @@ import Decimal from "decimal.js-light";
 import {
   Crop,
   CropName,
-  CROPS,
   GREENHOUSE_CROPS,
   GreenHouseCrop,
+  PLOT_CROPS,
 } from "../../types/crops";
 import { GameState } from "../../types/game";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
@@ -35,7 +35,7 @@ export type SellCropAction = {
 };
 
 export const SELLABLE = {
-  ...CROPS,
+  ...PLOT_CROPS,
   ...PATCH_FRUIT(),
   ...GREENHOUSE_CROPS,
   ...GREENHOUSE_FRUIT(),

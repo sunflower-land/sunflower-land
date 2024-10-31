@@ -3,7 +3,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { addNoise } from "lib/images";
 
-import { CROPS } from "features/game/types/crops";
+import { PLOT_CROPS } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
@@ -75,7 +75,7 @@ const generateImages = (
   let resourceImages;
   if (isMoonSeekerMode) {
     resourceImages = [
-      ...getKeys(CROPS),
+      ...getKeys(PLOT_CROPS),
       ...getKeys(PATCH_FRUIT()),
       ...getKeys(COMMODITIES),
     ];

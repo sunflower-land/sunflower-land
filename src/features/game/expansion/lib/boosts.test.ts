@@ -1,6 +1,6 @@
 import { getSellPrice } from "./boosts";
 import { TEST_FARM } from "features/game/lib/constants";
-import { CROPS } from "features/game/types/crops";
+import { PLOT_CROPS } from "features/game/types/crops";
 import Decimal from "decimal.js-light";
 import { PATCH_FRUIT } from "features/game/types/fruits";
 
@@ -8,7 +8,7 @@ describe("boosts", () => {
   it("applies crop shortage price", () => {
     expect(
       getSellPrice({
-        item: CROPS.Sunflower,
+        item: PLOT_CROPS.Sunflower,
         game: {
           ...TEST_FARM,
           inventory: { "Basic Land": new Decimal(3) },
@@ -16,14 +16,14 @@ describe("boosts", () => {
         },
         now: new Date(),
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice * 2);
+    ).toEqual(PLOT_CROPS.Sunflower.sellPrice * 2);
   });
 
   it("removes crop shortage price after 2 hours", () => {
     const now = new Date();
     expect(
       getSellPrice({
-        item: CROPS.Sunflower,
+        item: PLOT_CROPS.Sunflower,
         game: {
           ...TEST_FARM,
           inventory: { "Basic Land": new Decimal(3) },
@@ -32,7 +32,7 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice);
+    ).toEqual(PLOT_CROPS.Sunflower.sellPrice);
   });
 
   it("applies special event pricing", () => {
@@ -93,7 +93,7 @@ describe("boosts", () => {
     const now = new Date();
     expect(
       getSellPrice({
-        item: CROPS.Sunflower,
+        item: PLOT_CROPS.Sunflower,
         game: {
           ...TEST_FARM,
           inventory: {
@@ -105,7 +105,7 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice * 1.05);
+    ).toEqual(PLOT_CROPS.Sunflower.sellPrice * 1.05);
   });
 
   it("does not apply Green Thumb boost to non crops", () => {
@@ -131,7 +131,7 @@ describe("boosts", () => {
     const now = new Date();
     expect(
       getSellPrice({
-        item: CROPS.Sunflower,
+        item: PLOT_CROPS.Sunflower,
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -148,7 +148,7 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice * 1.1);
+    ).toEqual(PLOT_CROPS.Sunflower.sellPrice * 1.1);
   });
 
   it("applies Coin Swindler boost to crop", () => {
@@ -179,7 +179,7 @@ describe("boosts", () => {
     const now = new Date();
     expect(
       getSellPrice({
-        item: CROPS.Sunflower,
+        item: PLOT_CROPS.Sunflower,
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -197,6 +197,6 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice * 2.15);
+    ).toEqual(PLOT_CROPS.Sunflower.sellPrice * 2.15);
   });
 });

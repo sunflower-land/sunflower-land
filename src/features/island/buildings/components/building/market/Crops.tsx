@@ -6,9 +6,9 @@ import { Context } from "features/game/GameProvider";
 import {
   Crop,
   CropName,
-  CROPS,
   GREENHOUSE_CROPS,
   GreenHouseCrop,
+  PLOT_CROPS,
 } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -54,7 +54,7 @@ export const isExoticCrop = (
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<
     Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop
-  >(CROPS.Sunflower);
+  >(PLOT_CROPS.Sunflower);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const [customAmount, setCustomAmount] = useState(new Decimal(0));
@@ -142,7 +142,7 @@ export const Crops: React.FC = () => {
     );
 
   const cropsAndFruits = Object.values({
-    ...CROPS,
+    ...PLOT_CROPS,
     ...PATCH_FRUIT(),
     ...exotics,
     ...GREENHOUSE_FRUIT(),
@@ -231,7 +231,7 @@ export const Crops: React.FC = () => {
             </div>
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
-                .filter((crop) => !!crop.sellPrice && crop.name in CROPS)
+                .filter((crop) => !!crop.sellPrice && crop.name in PLOT_CROPS)
                 .filter((crop) => isBasicCrop(crop.name as CropName))
                 .map((item) => (
                   <Box
@@ -255,7 +255,7 @@ export const Crops: React.FC = () => {
             </div>
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
-                .filter((crop) => !!crop.sellPrice && crop.name in CROPS)
+                .filter((crop) => !!crop.sellPrice && crop.name in PLOT_CROPS)
                 .filter((crop) => isMediumCrop(crop.name as CropName))
                 .map((item) => (
                   <Box
@@ -279,7 +279,7 @@ export const Crops: React.FC = () => {
             </div>
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
-                .filter((crop) => !!crop.sellPrice && crop.name in CROPS)
+                .filter((crop) => !!crop.sellPrice && crop.name in PLOT_CROPS)
                 .filter((crop) => isAdvancedCrop(crop.name as CropName))
                 .filter(
                   (crop) =>

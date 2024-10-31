@@ -9,7 +9,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
-import { CROPS } from "features/game/types/crops";
+import { PLOT_CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
 import { loadAudio, shopAudio } from "lib/utils/sfx";
 import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
@@ -35,7 +35,7 @@ const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
 
   const { activity = {} } = bumpkin;
 
-  return !!getKeys(CROPS).find((crop) =>
+  return !!getKeys(PLOT_CROPS).find((crop) =>
     getKeys(activity).includes(`${crop} Sold`),
   );
 };
@@ -45,7 +45,7 @@ const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
 
   const { activity = {} } = bumpkin;
 
-  return !!getKeys(CROPS).find((crop) =>
+  return !!getKeys(PLOT_CROPS).find((crop) =>
     getKeys(activity).includes(`${crop} Seed Bought`),
   );
 };

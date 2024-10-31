@@ -1,6 +1,6 @@
 import { getBumpkinLevel } from "../lib/level";
 import { SellEvent } from "./bumpkinActivity";
-import { CROPS } from "./crops";
+import { PLOT_CROPS } from "./crops";
 import { getKeys } from "./decorations";
 import {
   BB_TO_GEM_RATIO,
@@ -64,7 +64,7 @@ export const ONBOARDING_CHALLENGES: DailyChallenge[] = [
   {
     description: "Sell 30 Crops",
     progress: ({ game }) => {
-      const events = getKeys(CROPS).map((name) => `${name} Sold` as SellEvent);
+      const events = getKeys(PLOT_CROPS).map((name) => `${name} Sold` as SellEvent);
 
       return events.reduce((count, activityName) => {
         const amount = game.bumpkin?.activity?.[activityName] || 0;

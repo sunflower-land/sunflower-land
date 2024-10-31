@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 
 import { Bumpkin, GameState, Inventory } from "../../types/game";
-import { CROPS } from "../../types/crops";
+import { PLOT_CROPS } from "../../types/crops";
 import {
   COOKABLES,
   COOKABLE_CAKES,
@@ -24,7 +24,7 @@ import {
   getFactionPetBoostMultiplier,
 } from "features/game/lib/factions";
 
-const crops = CROPS;
+const crops = PLOT_CROPS;
 
 export function isCropShortage({ game }: { game: GameState }) {
   const bumpkinLevel = getBumpkinLevel(game.bumpkin?.experience ?? 0);
@@ -90,7 +90,7 @@ export const getSellPrice = ({
   const isCropShortage =
     game.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000 > now.getTime();
 
-  if (item.name in CROPS && isCropShortage) {
+  if (item.name in PLOT_CROPS && isCropShortage) {
     multiplier += 1;
   }
 
@@ -107,7 +107,7 @@ export const getSellPrice = ({
     multiplier += specialEventMultiplier - 1;
   }
 
-  if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
+  if (bumpkin.skills["Coin Swindler"] && item.name in PLOT_CROPS) {
     multiplier += 0.1;
   }
 

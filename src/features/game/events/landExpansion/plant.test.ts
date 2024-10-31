@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CROPS } from "features/game/types/crops";
+import { PLOT_CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
 import {
@@ -366,7 +366,7 @@ describe("plant", () => {
     });
 
     // Should be twice as fast! (Planted in the past)
-    const parsnipTime = CROPS.Parsnip.harvestSeconds * 1000;
+    const parsnipTime = PLOT_CROPS.Parsnip.harvestSeconds * 1000;
 
     const plots = state.crops;
 
@@ -495,7 +495,7 @@ describe("plant", () => {
     });
 
     // Should be twice as fast! (Planted in the past)
-    const carrotTime = CROPS.Carrot.harvestSeconds * 1000;
+    const carrotTime = PLOT_CROPS.Carrot.harvestSeconds * 1000;
 
     const plots = state.crops;
 
@@ -535,7 +535,7 @@ describe("plant", () => {
       },
     });
 
-    const sunflowerTime = CROPS.Sunflower.harvestSeconds * 1000;
+    const sunflowerTime = PLOT_CROPS.Sunflower.harvestSeconds * 1000;
 
     const plots = state.crops;
 
@@ -1569,7 +1569,7 @@ describe("plant", () => {
     expect(plots).toBeDefined();
 
     expect((plots as Record<number, CropPlot>)[0].crop?.plantedAt).toEqual(
-      dateNow - 0.1 * CROPS.Parsnip.harvestSeconds * 1000,
+      dateNow - 0.1 * PLOT_CROPS.Parsnip.harvestSeconds * 1000,
     );
   });
 });
@@ -1611,7 +1611,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a 10% speed boost with Lunar Calendar placed.", () => {
-    const carrotHarvestSeconds = CROPS["Carrot"].harvestSeconds;
+    const carrotHarvestSeconds = PLOT_CROPS["Carrot"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Carrot",
       inventory: {},
@@ -1636,7 +1636,7 @@ describe("getCropTime", () => {
   });
 
   it("grows cabbage twice as fast with Cabbage Girl placed.", () => {
-    const cabbageHarvestSeconds = CROPS["Cabbage"].harvestSeconds;
+    const cabbageHarvestSeconds = PLOT_CROPS["Cabbage"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Cabbage",
       buds: {},
@@ -1661,7 +1661,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a 25% speed boost with Obie placed", () => {
-    const baseHarvestSeconds = CROPS["Eggplant"].harvestSeconds;
+    const baseHarvestSeconds = PLOT_CROPS["Eggplant"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Eggplant",
       inventory: {},
@@ -1724,7 +1724,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a 25% speed boost with Kernaldo placed", () => {
-    const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
+    const baseHarvestSeconds = PLOT_CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Corn",
       inventory: {},
@@ -1749,7 +1749,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Sunflower", () => {
-    const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+    const sunflowerHarvestSeconds = PLOT_CROPS["Sunflower"].harvestSeconds;
 
     const time = getCropPlotTime({
       crop: "Sunflower",
@@ -1775,7 +1775,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Potato", () => {
-    const potatoHarvestSeconds = CROPS["Potato"].harvestSeconds;
+    const potatoHarvestSeconds = PLOT_CROPS["Potato"].harvestSeconds;
 
     const time = getCropPlotTime({
       crop: "Potato",
@@ -1801,7 +1801,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Pumpkin", () => {
-    const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
+    const pumpkinHarvestSeconds = PLOT_CROPS["Pumpkin"].harvestSeconds;
 
     const time = getCropPlotTime({
       crop: "Pumpkin",
@@ -1827,7 +1827,7 @@ describe("getCropTime", () => {
   });
 
   it("does not apply boost with Basic Scarecrow if not basic crop", () => {
-    const beetrootHarvestSeconds = CROPS["Beetroot"].harvestSeconds;
+    const beetrootHarvestSeconds = PLOT_CROPS["Beetroot"].harvestSeconds;
 
     const time = getCropPlotTime({
       crop: "Beetroot",
@@ -1853,7 +1853,7 @@ describe("getCropTime", () => {
   });
 
   it("does not apply boost with Basic Scarecrow placed, if plot is outside AOE", () => {
-    const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+    const sunflowerHarvestSeconds = PLOT_CROPS["Sunflower"].harvestSeconds;
 
     const time = getCropPlotTime({
       crop: "Sunflower",
@@ -1879,7 +1879,7 @@ describe("getCropTime", () => {
   });
 
   it("does not apply boost with Basic Scarecrow placed, if it was moved within 10min", () => {
-    const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+    const sunflowerHarvestSeconds = PLOT_CROPS["Sunflower"].harvestSeconds;
 
     const time = getCropPlotTime({
       crop: "Sunflower",
@@ -2018,7 +2018,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a +5% speed boost with Green Thumb 2 skill", () => {
-    const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
+    const baseHarvestSeconds = PLOT_CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Corn",
       inventory: {},
@@ -2040,7 +2040,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a +10% speed boost on Radish, Wheat and Kale with Strong Roots skill", () => {
-    const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
+    const baseHarvestSeconds = PLOT_CROPS["Radish"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Radish",
       inventory: {},
@@ -2062,7 +2062,7 @@ describe("getCropTime", () => {
   });
 
   it("does not apply a +10% speed boost on Sunflower with Strong Roots skill", () => {
-    const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+    const baseHarvestSeconds = PLOT_CROPS["Sunflower"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Sunflower",
       inventory: {},
@@ -3383,7 +3383,7 @@ describe("getCropYield", () => {
 
     it("applies the harvest hourglass boost of -25% crop growth time for 6 hours", () => {
       const now = Date.now();
-      const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
+      const baseHarvestSeconds = PLOT_CROPS["Corn"].harvestSeconds;
 
       const time = getPlantedAt({
         crop: "Corn",

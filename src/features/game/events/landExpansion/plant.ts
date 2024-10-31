@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { CropName, CROPS, GreenHouseCropName } from "../../types/crops";
+import { CropName, GreenHouseCropName, PLOT_CROPS } from "../../types/crops";
 import {
   Bumpkin,
   CropPlot,
@@ -206,7 +206,7 @@ export const getCropPlotTime = ({
   plot?: CropPlot;
   fertiliser?: CropCompostName;
 }) => {
-  let seconds = CROPS[crop]?.harvestSeconds ?? 0;
+  let seconds = PLOT_CROPS[crop]?.harvestSeconds ?? 0;
 
   if (game.bumpkin === undefined) return seconds;
 
@@ -317,7 +317,7 @@ export function getPlantedAt({
 }: GetPlantedAtArgs): number {
   if (!crop) return 0;
 
-  const cropTime = CROPS[crop].harvestSeconds;
+  const cropTime = PLOT_CROPS[crop].harvestSeconds;
   const boostedTime = getCropPlotTime({
     crop,
     inventory,
@@ -333,7 +333,7 @@ export function getPlantedAt({
 }
 
 function isPlotCrop(plant: GreenHouseCropName | CropName): plant is CropName {
-  return (plant as CropName) in CROPS;
+  return (plant as CropName) in PLOT_CROPS;
 }
 
 /**

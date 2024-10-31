@@ -8,7 +8,7 @@ import {
   Position,
 } from "features/game/types/game";
 import { isReadyToHarvest } from "./harvest";
-import { CROPS } from "features/game/types/crops";
+import { PLOT_CROPS } from "features/game/types/crops";
 import { isBasicCrop, isMediumCrop, isAdvancedCrop } from "./harvest";
 import { produce } from "immer";
 
@@ -44,7 +44,7 @@ export function isLocked(
   if (!crop || !plantedAt) return false;
 
   const cropName = crop.name;
-  const cropDetails = CROPS[cropName];
+  const cropDetails = PLOT_CROPS[cropName];
 
   if (isReadyToHarvest(createdAt, crop, cropDetails)) return false;
 

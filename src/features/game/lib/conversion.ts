@@ -1,6 +1,6 @@
 import { FERTILISERS, InventoryItemName } from "../types/game";
 import { SHOVELS, TOOLS } from "../types/craftables";
-import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS } from "../types/crops";
+import { CROP_SEEDS, GREENHOUSE_CROPS, PLOT_CROPS } from "../types/crops";
 
 import { ANIMAL_RESOURCES, COMMODITIES } from "../types/resources";
 import {
@@ -20,7 +20,7 @@ import { RECIPE_CRAFTABLES } from "./crafting";
  */
 export function getItemUnit(name: InventoryItemName) {
   if (
-    name in CROPS ||
+    name in PLOT_CROPS ||
     name in PATCH_FRUIT() ||
     name in GREENHOUSE_CROPS ||
     name in GREENHOUSE_FRUIT() ||

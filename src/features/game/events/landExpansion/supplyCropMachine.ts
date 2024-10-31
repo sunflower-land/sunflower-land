@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CROPS, CropName, CropSeedName } from "features/game/types/crops";
+import { CropName, CropSeedName, PLOT_CROPS } from "features/game/types/crops";
 import {
   CropMachineBuilding,
   CropMachineQueueItem,
@@ -107,7 +107,7 @@ export function calculateCropTime(
 
   const cropName = seeds.type.split(" ")[0] as CropName;
 
-  let milliSeconds = CROPS[cropName].harvestSeconds * 1000;
+  let milliSeconds = PLOT_CROPS[cropName].harvestSeconds * 1000;
 
   if (state.bumpkin.skills?.["Crop Processor Unit"]) {
     milliSeconds = milliSeconds * 0.95;

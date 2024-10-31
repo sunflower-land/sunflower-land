@@ -6,10 +6,10 @@ import {
 import { getUniqueAnimalResources } from "../types/animals";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
 import {
-  CROPS,
   CropName,
   GREENHOUSE_CROPS,
   GreenHouseCropName,
+  PLOT_CROPS,
 } from "../types/crops";
 import {
   GREENHOUSE_FRUIT,
@@ -30,11 +30,11 @@ export type Resource =
   | AnimalResource;
 
 export const isPlotCrop = (resource: Resource): resource is CropName => {
-  return resource in CROPS;
+  return resource in PLOT_CROPS;
 };
 
 export const isCrop = (resource: Resource): resource is CropName => {
-  return resource in CROPS || resource in GREENHOUSE_CROPS;
+  return resource in PLOT_CROPS || resource in GREENHOUSE_CROPS;
 };
 
 export const isAnimalProduce = (

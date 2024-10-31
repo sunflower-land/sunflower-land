@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
 import { CropCompostName } from "features/game/types/composters";
-import { CROPS, Crop } from "features/game/types/crops";
+import { PLOT_CROPS, Crop } from "features/game/types/crops";
 import { isReadyToHarvest } from "./harvest";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
@@ -86,7 +86,7 @@ export function fertilisePlot({
     // Apply buff if already planted
     const crop = plot.crop;
     if (crop) {
-      const cropDetails = crop && CROPS[crop.name];
+      const cropDetails = crop && PLOT_CROPS[crop.name];
       if (cropDetails && isReadyToHarvest(createdAt, crop, cropDetails)) {
         throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
       }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { CROPS, CropName } from "features/game/types/crops";
+import { CropName, PLOT_CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
@@ -60,7 +60,7 @@ const FertilePlotComponent: React.FC<Props> = ({
 
   const [_, setRender] = useState<number>(0);
 
-  let harvestSeconds = cropName ? CROPS[cropName].harvestSeconds : 0;
+  let harvestSeconds = cropName ? PLOT_CROPS[cropName].harvestSeconds : 0;
   const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
 
   let startAt = plantedAt ?? 0;

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
-import { CropName, CROPS } from "../../types/crops";
+import { CropName, PLOT_CROPS } from "../../types/crops";
 import { sellCrop } from "./sellCrop";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { PATCH_FRUIT } from "features/game/types/fruits";
@@ -75,7 +75,7 @@ describe("sell", () => {
     });
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(4));
-    expect(state.coins).toEqual(GAME_STATE.coins + CROPS.Sunflower.sellPrice);
+    expect(state.coins).toEqual(GAME_STATE.coins + PLOT_CROPS.Sunflower.sellPrice);
   });
 
   it("sell an item in bulk given sufficient quantity", () => {
@@ -96,7 +96,7 @@ describe("sell", () => {
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(1));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + CROPS.Sunflower.sellPrice * 10,
+      GAME_STATE.coins + PLOT_CROPS.Sunflower.sellPrice * 10,
     );
   });
 
@@ -134,7 +134,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.coins).toEqual(CROPS.Cauliflower.sellPrice);
+    expect(state.coins).toEqual(PLOT_CROPS.Cauliflower.sellPrice);
   });
 
   it("increments coins earned when cauliflower is sold", () => {
@@ -153,7 +153,7 @@ describe("sell", () => {
     });
 
     expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
-      CROPS.Cauliflower.sellPrice,
+      PLOT_CROPS.Cauliflower.sellPrice,
     );
   });
 
@@ -257,7 +257,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.coins).toEqual(coins + CROPS.Sunflower.sellPrice * 1.1);
+    expect(state.coins).toEqual(coins + PLOT_CROPS.Sunflower.sellPrice * 1.1);
   });
 
   it("does not add 10% more profit if it is not a crop", () => {
@@ -307,6 +307,6 @@ describe("sell", () => {
       },
     });
 
-    expect(state.coins).toEqual(coins + CROPS.Sunflower.sellPrice);
+    expect(state.coins).toEqual(coins + PLOT_CROPS.Sunflower.sellPrice);
   });
 });
