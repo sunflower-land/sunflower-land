@@ -4249,47 +4249,47 @@ export const ITEM_DETAILS: Items = {
   },
   Cushion: {
     image: SUNNYSIDE.crafting.cushion,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   Timber: {
     image: SUNNYSIDE.crafting.timber,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Bee Box": {
     image: SUNNYSIDE.crafting.beeBox,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   Crimsteel: {
     image: SUNNYSIDE.crafting.crimsteel,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Merino Cushion": {
     image: SUNNYSIDE.crafting.merinoCushion,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Ocean's Treasure": {
     image: SUNNYSIDE.crafting.oceansTreasure,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Royal Bedding": {
     image: SUNNYSIDE.crafting.royalBedding,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Royal Ornament": {
     image: SUNNYSIDE.crafting.royalOrnament,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Kelp Fibre": {
     image: SUNNYSIDE.crafting.kelpFibre,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Hardened Leather": {
     image: SUNNYSIDE.crafting.hardenedLeather,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Synthetic Fabric": {
     image: SUNNYSIDE.crafting.syntheticFabric,
-    description: "",
+    description: translate("craftingBox.craftThisItem"),
   },
   "Cow Scratcher": {
     image: cowScratcher,
