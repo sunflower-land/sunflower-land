@@ -750,6 +750,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sand Golem": new Decimal(1),
     "Scarab Beetle": new Decimal(1),
     Sundial: new Decimal(1),
+    Wagon: new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,

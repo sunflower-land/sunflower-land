@@ -1353,4 +1353,43 @@ describe("claimProduce", () => {
 
     expect(state.barn.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
   });
+
+  it("gives +0.25 more produce for sheep when player has White Sheep Onesie wearable equipped", () => {
+    const sheepId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            onesie: "White Sheep Onesie",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [sheepId]: {
+              coordinates: { x: 0, y: 0 },
+              id: sheepId,
+              type: "Sheep",
+              createdAt: 0,
+              state: "ready",
+              experience: 240,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: sheepId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Wool).toEqual(new Decimal(1.25));
+    expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1.25));
+  });
 });

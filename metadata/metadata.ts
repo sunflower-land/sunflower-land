@@ -9998,6 +9998,14 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2158.gif",
     name: "UFO",
   },
+  Wagon: {
+    description: "A perfect wagon for your bears to rest and relax.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/2160.png",
+    name: "Wagon",
+  },
   "Black Sheep": {
     description: "A black sheep has taken up residence on your farm.",
     decimals: 0,

@@ -409,10 +409,10 @@ import hideawayHerman from "src/assets/decorations/hideaway_herman.webp";
 import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
 import tikiTorch from "src/assets/decorations/tiki_torch.webp";
 import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
-
 import fieldMaple from "src/assets/decorations/field_maple.webp";
 import redMaple from "src/assets/decorations/red_maple.webp";
 import goldenMaple from "src/assets/decorations/golden_maple.webp";
+import Wagon from "src/assets/decorations/wagon.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -4350,6 +4350,10 @@ export const ITEM_DETAILS: Items = {
   Chicory: {
     image: chicory,
     description: translate("description.chicory"),
+  },
+  Wagon: {
+    image: Wagon,
+    description: "A perfect wagon for your bears to rest and relax.",
   },
   "Black Sheep": {
     image: blackSheep,
