@@ -52,7 +52,8 @@ export type MarineMarvelName =
   | "Gilded Swordfish"
   | "Crimson Carp"
   | "Battle Fish"
-  | "Lemon Shark";
+  | "Lemon Shark"
+  | "Longhorn Cowfish";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -191,7 +192,10 @@ type Fish = {
 };
 
 export const SEASONAL_FISH: Record<
-  Extract<MarineMarvelName, "Crimson Carp" | "Lemon Shark" | "Battle Fish">,
+  Extract<
+    MarineMarvelName,
+    "Crimson Carp" | "Lemon Shark" | "Battle Fish" | "Longhorn Cowfish"
+  >,
   Fish
 > = {
   "Crimson Carp": {
@@ -206,6 +210,11 @@ export const SEASONAL_FISH: Record<
   },
   "Lemon Shark": {
     baits: ["Grub", "Fishing Lure"],
+    type: "marine marvel",
+    locations: ["wharf", "beach"],
+  },
+  "Longhorn Cowfish": {
+    baits: ["Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf", "beach"],
   },

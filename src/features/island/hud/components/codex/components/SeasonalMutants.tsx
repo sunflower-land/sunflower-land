@@ -32,7 +32,7 @@ const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
   "Bull Run": {
     chicken: "Pharaoh Chicken",
     flower: "Chicory",
-    fish: "Lemon Shark",
+    fish: "Longhorn Cowfish",
     banner: SUNNYSIDE.announcement.pharaohSeasonRares,
   },
 };

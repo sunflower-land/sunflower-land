@@ -14,6 +14,7 @@ describe("canremove", () => {
       });
       expect(restricted).toBe(true);
     });
+
     it("prevents a user from removing mutant chickens if some chicken is fed", () => {
       const [restricted] = hasRemoveRestriction("Rich Chicken", "1", {
         ...TEST_FARM,
@@ -396,6 +397,7 @@ describe("canremove", () => {
       });
       expect(restricted).toBe(false);
     });
+
     it("enables users to remove crops", () => {
       const [restricted] = hasRemoveRestriction("Sunflower", "1", {
         ...TEST_FARM,
@@ -1349,6 +1351,31 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
+  it("prevents a user from removing Longhorn Cowfish when a cow is sleeping", () => {
+    const [restricted] = hasRemoveRestriction("Longhorn Cowfish", "123", {
+      ...TEST_FARM,
+      barn: {
+        ...TEST_FARM.barn,
+        animals: {
+          ...TEST_FARM.barn.animals,
+          "0": {
+            ...TEST_FARM.barn.animals["0"],
+            asleepAt: Date.now() - 10000,
+            awakeAt: Date.now() + 10000,
+          },
+        },
+      },
+      collectibles: {
+        "Longhorn Cowfish": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
   it("prevents a user from removing Crim Peckster when Crimstone is mined", () => {
     const [restricted] = hasRemoveRestriction("Crim Peckster", "1", {
       ...TEST_FARM,
