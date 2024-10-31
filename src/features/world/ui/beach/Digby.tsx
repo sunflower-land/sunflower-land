@@ -251,9 +251,7 @@ export const DailyPuzzle: React.FC = () => {
     );
   }
 
-  const { holiday } = getBumpkinHoliday({
-    id: gameService.state.context.farmId,
-  });
+  const { holiday } = getBumpkinHoliday({});
 
   const isHoliday = holiday === new Date().toISOString().split("T")[0];
 

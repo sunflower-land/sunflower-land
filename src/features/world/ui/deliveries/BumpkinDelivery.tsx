@@ -559,7 +559,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
 
-  const { holiday } = getBumpkinHoliday({ id: game.bumpkin?.id ?? 0 });
+  const { holiday } = getBumpkinHoliday({});
 
   const isHoliday = holiday === new Date().toISOString().split("T")[0];
 

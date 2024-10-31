@@ -70,13 +70,7 @@ const HOLIDAYS: string[] = [
   // TODO Auction week
 ];
 
-export function getBumpkinHoliday({
-  id,
-  now = Date.now(),
-}: {
-  id: number;
-  now?: number;
-}) {
+export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
   // Get upcoming holiday, return today if there is one today.
   const todayKey = new Date(now).toISOString().split("T")[0];
 

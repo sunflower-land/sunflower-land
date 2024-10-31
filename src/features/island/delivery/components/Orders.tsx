@@ -401,9 +401,7 @@ export const DeliveryOrders: React.FC<Props> = ({
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
-  const { holiday } = getBumpkinHoliday({
-    id: gameService.state.context.farmId,
-  });
+  const { holiday } = getBumpkinHoliday({});
 
   // Check if matches UTC date
   const isHoliday = holiday === new Date().toISOString().split("T")[0];
