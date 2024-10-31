@@ -792,6 +792,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Swiss Whiskers": () => false,
   Cluckulator: () => false,
   UFO: () => false,
+  "Black Sheep": () => false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =

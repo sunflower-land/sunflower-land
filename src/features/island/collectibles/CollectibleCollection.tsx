@@ -1401,6 +1401,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="UFO"
     />
   ),
+  "Black Sheep": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+      image={ITEM_DETAILS["Black Sheep"].image}
+      alt="UFO"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
