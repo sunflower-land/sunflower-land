@@ -142,7 +142,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     wearable: "Cowboy Hat",
     cost: {
       items: {
-        Horseshoe: 50,
+        Horseshoe: 500,
       },
       sfl: 0,
     },
@@ -160,7 +160,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Cow Scratcher",
     cost: {
       items: {
-        Scarab: 50,
+        Horseshoe: 20,
       },
       sfl: 0,
     },
@@ -169,7 +169,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Spinning Wheel",
     cost: {
       items: {
-        Horseshoe: 50,
+        Horseshoe: 250,
       },
       sfl: 0,
     },
@@ -178,7 +178,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Treasure Key",
     cost: {
       items: {
-        Horseshoe: 100,
+        Horseshoe: 200,
       },
       sfl: 0,
     },
@@ -190,7 +190,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     wearable: "Cowboy Shirt",
     cost: {
       items: {
-        Horseshoe: 50,
+        Horseshoe: 750,
       },
       sfl: 0,
     },
@@ -199,7 +199,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     wearable: "Dream Scarf",
     cost: {
       items: {
-        Horseshoe: 50,
+        Horseshoe: 1250,
       },
       sfl: 0,
     },
@@ -215,7 +215,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Meteorite",
     cost: {
       items: {
-        Scarab: 50,
+        "Cow Skull": 60,
       },
       sfl: 0,
     },
@@ -224,7 +224,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Rare Key",
     cost: {
       items: {
-        Horseshoe: 300,
+        Horseshoe: 500,
       },
       sfl: 0,
     },
@@ -236,7 +236,7 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     wearable: "Cowboy Trouser",
     cost: {
       items: {
-        Horseshoe: 50,
+        Horseshoe: 1000,
       },
       sfl: 0,
     },
@@ -245,7 +245,7 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     wearable: "Milk Apron",
     cost: {
       items: {
-        Scarab: 50,
+        "Cow Skull": 225,
       },
       sfl: 0,
     },
@@ -254,7 +254,7 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Sheaf of Plenty",
     cost: {
       items: {
-        Scarab: 50,
+        Horseshoe: 2500,
       },
       sfl: 0,
     },
@@ -303,11 +303,11 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
     },
     rare: {
       items: RARE_BULL_RUN_ITEMS,
-      requirement: 3,
+      requirement: 4,
     },
     epic: {
       items: EPIC_BULL_RUN_ITEMS,
-      requirement: 3,
+      requirement: 4,
     },
   },
 };
