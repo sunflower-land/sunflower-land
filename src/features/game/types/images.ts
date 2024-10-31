@@ -4337,6 +4337,6 @@ export const ITEM_DETAILS: Items = {
   },
   Wagon: {
     image: Wagon,
-    description: "?",
+    description: "A perfect wagon for your bears to rest and relax.",
   },
 };
