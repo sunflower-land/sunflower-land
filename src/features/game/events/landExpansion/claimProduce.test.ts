@@ -374,6 +374,45 @@ describe("claimProduce", () => {
     expect(newState.inventory.Leather).toEqual(new Decimal(1));
   });
 
+  it("gives +2 yield for Milk for cows when a Cowbell Necklace is being worn", () => {
+    const cowId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            necklace: "Cowbell Necklace",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [cowId]: {
+              coordinates: { x: 0, y: 0 },
+              id: cowId,
+              type: "Cow",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: cowId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Milk).toEqual(new Decimal(3));
+    expect(newState.inventory.Leather).toEqual(new Decimal(1));
+  });
+
   it("gives +0.25 yield for all produce for sheep when a Cattlegrim is being worn", () => {
     const sheepId = "123";
 
@@ -456,6 +495,45 @@ describe("claimProduce", () => {
 
     expect(newState.inventory.Egg).toEqual(new Decimal(1.1));
     expect(newState.inventory.Feather).toEqual(new Decimal(1));
+  });
+
+  it("gives +1 Feather for chickens when Chicken Suit is worn", () => {
+    const chickenId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            suit: "Chicken Suit",
+          },
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "ready",
+              experience: 120,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Feather).toEqual(new Decimal(2));
   });
 
   it("gives +0.1 more produce for chickens when player has Barn Manager skill", () => {
@@ -561,6 +639,126 @@ describe("claimProduce", () => {
 
     expect(newState.inventory.Wool).toEqual(new Decimal(1.1));
     expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1.1));
+  });
+
+  it("gives +0.25 Leather for cows when player has Moo-ver placed", () => {
+    const cowId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        collectibles: {
+          "Moo-ver": [
+            {
+              id: "rich",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [cowId]: {
+              coordinates: { x: 0, y: 0 },
+              id: cowId,
+              type: "Cow",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: cowId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Leather).toEqual(new Decimal(1.25));
+  });
+
+  it("gives +2 Wool for sheeps when Black Sheep Onesie is worn", () => {
+    const sheepID = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            onesie: "Black Sheep Onesie",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [sheepID]: {
+              coordinates: { x: 0, y: 0 },
+              id: sheepID,
+              type: "Sheep",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: sheepID },
+      createdAt: now,
+    });
+
+    expect(newState.inventory["Wool"]).toEqual(new Decimal(3));
+  });
+
+  it("gives +1 Merino Wool for sheeps when Merino Jumper is worn", () => {
+    const sheepID = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            shirt: "Merino Jumper",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [sheepID]: {
+              coordinates: { x: 0, y: 0 },
+              id: sheepID,
+              type: "Sheep",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: sheepID },
+      createdAt: now,
+    });
+
+    expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(2));
   });
 
   it("stacks the Barn Manager, Rich Chicken, Chicken Coop, and Bale yield boosts for eggs", () => {
