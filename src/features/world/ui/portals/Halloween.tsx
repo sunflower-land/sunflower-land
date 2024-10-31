@@ -21,6 +21,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PortalLeaderboard } from "./PortalLeaderboard";
 // import { PortalLeaderboard } from "./PortalLeaderboard";
 
 export function hasReadHalloweenNotice() {
@@ -181,14 +182,11 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  //   if (page === "leaderboard") {
-  //     return (
-  //       <PortalLeaderboard
-  //         onBack={() => setPage("play")}
-  //         name={"chicken-rescue"}
-  //       />
-  //     );
-  //   }
+  if (page === "leaderboard") {
+    return (
+      <PortalLeaderboard onBack={() => setPage("play")} name={"halloween"} />
+    );
+  }
 
   return (
     <>
