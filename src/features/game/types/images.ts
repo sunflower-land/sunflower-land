@@ -722,6 +722,10 @@ import sleepyRug from "assets/sfts/sleepy_rug.webp";
 import meteorite from "assets/sfts/meteorite.webp";
 import sheafOfPlenty from "assets/sfts/sheaf_of_plenty.webp";
 import mechanicalBull from "assets/sfts/mecha_bull.webp";
+import mooVer from "assets/sfts/moo_ver.webp";
+import swissWhisker from "assets/sfts/swiss_whiskers.webp";
+import cluckulator from "assets/sfts/cluckulator.webp";
+import ufo from "assets/sfts/ufo.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4314,5 +4318,22 @@ export const ITEM_DETAILS: Items = {
   "King of Bears": {
     image: kingOfBears,
     description: "?",
+  },
+  "Moo-ver": {
+    image: mooVer,
+    description: translate("description.mooVer"),
+  },
+  "Swiss Whiskers": {
+    image: swissWhisker,
+    description: translate("description.swissWhiskers"),
+  },
+  Cluckulator: {
+    image: cluckulator,
+    description: translate("description.cluckulator"),
+  },
+
+  UFO: {
+    image: ufo,
+    description: translate("description.ufo"),
   },
 };
