@@ -39,8 +39,8 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
-import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
+import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -82,6 +82,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
+
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
   const { play: playSheepCollect } = useSound("sheep_collect", true);
@@ -421,7 +422,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       {/* Feed XP */}
       <Transition
         appear={true}
-        id="feed-xp-amount"
+        id="food-xp-amount"
         show={showFeedXP}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
