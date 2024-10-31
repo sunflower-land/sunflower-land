@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { MOVE_CROP_ERRORS, moveCrop } from "./moveCrop";
 
