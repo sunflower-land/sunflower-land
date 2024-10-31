@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import "lib/__mocks__/configMock";
+
 import { GameState } from "features/game/types/game";
 import { sellBounty, SellBountyAction } from "./sellBounty";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";

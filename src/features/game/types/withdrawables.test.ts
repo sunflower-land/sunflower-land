@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import { TEST_FARM } from "../lib/constants";
 import { BUMPKIN_WITHDRAWABLES, WITHDRAWABLES } from "./withdrawables";
 import { GameState } from "./game";
