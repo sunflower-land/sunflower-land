@@ -1713,16 +1713,26 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Cowboy Shirt": () => hasSeasonEnded("Bull Run"),
   "Cowboy Trouser": () => hasSeasonEnded("Bull Run"),
   "Cowboy Boots": () => false,
-  "Infernal Bullwhip": () => false,
+  "Infernal Bullwhip": (state) =>
+    canWithdrawBoostedWearable("Infernal Bullwhip", state) &&
+    hasSeasonEnded("Bull Run"),
   "White Sheep Onesie": () => false,
-  "Black Sheep Onesie": () => false,
-  "Chicken Suit": () => false,
+  "Black Sheep Onesie": (state) =>
+    canWithdrawBoostedWearable("Black Sheep Onesie", state) &&
+    hasSeasonEnded("Bull Run"),
+  "Chicken Suit": (state) =>
+    canWithdrawBoostedWearable("Chicken Suit", state) &&
+    hasSeasonEnded("Bull Run"),
   "Cowgirl Skirt": () => hasSeasonEnded("Bull Run"),
-  "Merino Jumper": () => false,
+  "Merino Jumper": (state) =>
+    canWithdrawBoostedWearable("Merino Jumper", state) &&
+    hasSeasonEnded("Bull Run"),
   "Dream Scarf": (state) =>
     canWithdrawBoostedWearable("Dream Scarf", state) &&
     hasSeasonEnded("Bull Run"),
-  "Cowbell Necklace": () => false,
+  "Cowbell Necklace": (state) =>
+    canWithdrawBoostedWearable("Cowbell Necklace", state) &&
+    hasSeasonEnded("Bull Run"),
   "Milk Apron": (state) =>
     canWithdrawBoostedWearable("Milk Apron", state) &&
     hasSeasonEnded("Bull Run"),

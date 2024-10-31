@@ -15359,7 +15359,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Milk Apron",
   },
   "Shepherd Staff": {
-    description: "",
+    description:
+      "A tall, rustic staff crafted for herding. It’s both a trusty tool and a symbol of a watchful, caring shepherd.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Tool" },

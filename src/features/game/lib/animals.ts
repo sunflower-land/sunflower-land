@@ -159,11 +159,57 @@ function getEggYieldBoosts(game: GameState) {
   return boost;
 }
 
+function getFeatherYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Chicken Suit", game })) {
+    boost += 1;
+  }
+
+  return boost;
+}
+
+function getWoolYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Black Sheep Onesie", game })) {
+    boost += 2;
+  }
+  if (isWearableActive({ name: "White Sheep Onesie", game })) {
+    boost += 0.25;
+  }
+  return boost;
+}
+
+function getMerinoWoolYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Merino Jumper", game })) {
+    boost += 1;
+  }
+
+  return boost;
+}
+
 function getMilkYieldBoosts(game: GameState) {
   let boost = 0;
 
   if (isWearableActive({ name: "Milk Apron", game })) {
     boost += 0.5;
+  }
+
+  if (isWearableActive({ name: "Cowbell Necklace", game })) {
+    boost += 2;
+  }
+
+  return boost;
+}
+
+function getLeatherYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isCollectibleBuilt({ name: "Moo-ver", game })) {
+    boost += 0.25;
   }
 
   return boost;
@@ -189,9 +235,29 @@ export function getResourceDropAmount({
     amount += getEggYieldBoosts(game);
   }
 
+  // Feather yield boosts
+  if (isChicken && resource === "Feather") {
+    amount += getFeatherYieldBoosts(game);
+  }
+
+  // Wool Yield Boost
+  if (isSheep && resource === "Wool") {
+    amount += getWoolYieldBoosts(game);
+  }
+
+  // Merino Wool Yield Boost
+  if (isSheep && resource === "Merino Wool") {
+    amount += getMerinoWoolYieldBoosts(game);
+  }
+
   // Milk Yield Boost
   if (isCow && resource === "Milk") {
     amount += getMilkYieldBoosts(game);
+  }
+
+  // Leather Yield Boost
+  if (isCow && resource === "Leather") {
+    amount += getLeatherYieldBoosts(game);
   }
 
   // Cattlegrim boosts all produce
@@ -207,11 +273,6 @@ export function getResourceDropAmount({
   // Free Range boosts all produce
   if (bumpkin.skills["Free Range"]) {
     amount += 0.1;
-  }
-
-  // White Sheep Onesie - +.25 wool
-  if (isWearableActive({ name: "White Sheep Onesie", game }) && isSheep) {
-    amount += 0.25;
   }
 
   amount += getBudYieldBoosts(buds, resource);
@@ -234,7 +295,21 @@ export function getBoostedFoodQuantity({
     animalType === "Chicken" &&
     isCollectibleBuilt({ name: "Fat Chicken", game })
   ) {
-    return foodQuantity * 0.9;
+    foodQuantity *= 0.9;
+  }
+
+  if (
+    animalType === "Chicken" &&
+    isCollectibleBuilt({ name: "Cluckulator", game })
+  ) {
+    foodQuantity *= 0.8;
+  }
+
+  if (
+    (animalType === "Sheep" || animalType === "Cow") &&
+    isWearableActive({ name: "Infernal Bullwhip", game })
+  ) {
+    foodQuantity *= 0.5;
   }
 
   return foodQuantity;
