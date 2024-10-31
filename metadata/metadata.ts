@@ -9899,6 +9899,66 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2153.gif",
     name: "Mechanical Bull",
   },
+  "Moo-ver": {
+    description:
+      "A unique contraption that keeps cows active and healthy. +0.25 Leather",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Leather",
+        value: 0.25,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2155.gif",
+    name: "Moo-ver",
+  },
+  "Swiss Whiskers": {
+    description:
+      "A culinary genius in miniature form, this skilled chef elevates every cheese recipe with his expert touch. +500 Cheese Recipe XP",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "XP" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Cheese Recipe XP",
+        value: 500,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2156.png",
+    name: "Swiss Whiskers",
+  },
+  Cluckulator: {
+    description:
+      "This specialized scale accurately weighs each chicken, ensuring they receive the ideal feed portion for balanced growth and health, making poultry care more efficient and sustainable. -25% Feed to Chicken",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Chicken Feed Reduction",
+        value: 25,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2157.gif",
+    name: "Cluckulator",
+  },
+  UFO: {
+    description:
+      "This extraterrestrial craft is said to emit a soft glow and hum, creating an aura of wonder and curiosity.  Keep your eyes on the skies—who knows what otherworldly secrets it might unveil!",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2158.gif",
+    name: "UFO",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -15095,9 +15155,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Cowboy Boots",
   },
   "Infernal Bullwhip": {
-    description: "",
+    description:
+      "This menacing bullwhip is imbued with fiery power, making it as intimidating as it is effective. -50% Feed to Barn Animal",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Barn Animal Feed Reduction",
+        value: 50,
+      },
       { trait_type: "Part", value: "Tool" },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -15117,9 +15184,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "White Sheep Onesie",
   },
   "Black Sheep Onesie": {
-    description: "",
+    description:
+      "Stand out in the flock with this soft, warm onesie. This charming black sheep outfit adds a fun twist to cozy wear. +2 Wool",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Wool",
+        value: 2,
+      },
       { trait_type: "Part", value: "Onesie" },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -15128,9 +15202,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Black Sheep Onesie",
   },
   "Chicken Suit": {
-    description: "",
+    description:
+      "Cluck your way into any gathering with this playful Chicken Suit! +1 Feather",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Feather",
+        value: 1,
+      },
       { trait_type: "Part", value: "Suit" },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -15151,9 +15232,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Cowgirl Skirt",
   },
   "Merino Jumper": {
-    description: "",
+    description:
+      "Crafted from the finest wool, this cozy jumper provides unparalleled warmth and comfort. +1 Merino Wool",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Merino Wool",
+        value: 1,
+      },
       { trait_type: "Part", value: "Shirt" },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -15180,9 +15268,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Dream Scarf",
   },
   "Cowbell Necklace": {
-    description: "",
+    description:
+      "A charming necklace for any dairy enthusiast featuring a tiny, jingling cowbell that cows can’t resist! +2 Milk",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Milk",
+        value: 2,
+      },
       { trait_type: "Part", value: "Necklace" },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -15195,6 +15290,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       "A sturdy, practical apron designed for those working with dairy. Handy, comfortable, and perfect for any farmhouse chores. +0.5 Milk",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Milk",
+        value: 0.5,
+      },
       { trait_type: "Part", value: "Coat" },
       { trait_type: "Tradable", value: "No" },
     ],

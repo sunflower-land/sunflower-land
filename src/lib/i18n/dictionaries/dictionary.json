@@ -4126,5 +4126,22 @@
   "craftingBoxGuide.craftItem": "Start crafting.",
   "craftingBoxGuide.failed": "Crafting will fail if no match is found.",
   "craftingBoxGuide.success": "An item will be crafted if a match is found.",
-  "craftingBoxGuide.viewRecipe": "Crafted items will be saved to your recipes."
+  "craftingBoxGuide.viewRecipe": "Crafted items will be saved to your recipes.",
+  "description.infernalBullwhip": "This menacing bullwhip is imbued with fiery power, making it as intimidating as it is effective. -50% Feed to Barn Animal",
+  "description.chickenSuit": "Cluck your way into any gathering with this playful Chicken Suit! +1 Feather",
+  "description.cowbellNecklace": "A charming necklace for any dairy enthusiast featuring a tiny, jingling cowbell that cows can’t resist! +2 Milk",
+  "description.blackSheepOnesie": "Stand out in the flock with this soft, warm onesie. This charming black sheep outfit adds a fun twist to cozy wear. +2 Wool",
+  "description.merinoJumper": "Crafted from the finest wool, this cozy jumper provides unparalleled warmth and comfort. +1 Merino Wool",
+  "description.mooVer": "A unique contraption that keeps cows active and healthy. +0.25 Leather",
+  "description.swissWhiskers": "A culinary genius in miniature form, this skilled chef elevates every cheese recipe with his expert touch. +500 Cheese Recipe XP",
+  "description.cluckulator": "This specialized scale accurately weighs each chicken, ensuring they receive the ideal feed portion for balanced growth and health, making poultry care more efficient and sustainable. -25% Feed to Chicken",
+  "description.ufo": "This extraterrestrial craft is said to emit a soft glow and hum, creating an aura of wonder and curiosity.  Keep your eyes on the skies—who knows what otherworldly secrets it might unveil!",
+  "description.infernalBullwhip.boost": "-50% Feed to Barn Animal",
+  "description.chickenSuit.boost": "+1 Feather",
+  "description.cowbellNecklace.boost": "+2 Milk",
+  "description.blackSheepOnesie.boost": "+2 Wool",
+  "description.merinoJumper.boost": "+1 Merino Wool",
+  "description.mooVer.boost": "+0.25 Leather",
+  "description.swissWhiskers.boost": "+500 Cheese Recipe XP",
+  "description.cluckulator.boost": "-25% Feed to Chicken"
 }
