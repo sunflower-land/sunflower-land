@@ -652,6 +652,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: lightning,
     boostedItemIcon: SUNNYSIDE.icons.plant,
   },
+  Chicory: {
+    shortDescription: translate("description.chicory.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+    boostedItemIcon: SUNNYSIDE.icons.plant,
+  },
   "Pharaoh Gnome": {
     shortDescription: translate("description.pharaoh.gnome.boost"),
     labelType: "success",

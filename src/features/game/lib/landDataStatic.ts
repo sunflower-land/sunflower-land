@@ -527,6 +527,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Deli: new Decimal(1),
     Greenhouse: new Decimal(1),
     "Desert Gnome": new Decimal(1),
+    Chicory: new Decimal(1),
     Blossombeard: new Decimal(1),
     Gnome: new Decimal(1),
     Cobalt: new Decimal(1),
@@ -1057,7 +1058,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
         flower: {
           amount: 1,
           plantedAt: 0,
-          name: "Blue Balloon Flower",
+          name: "Red Pansy",
+          reward: {
+            items: [
+              {
+                name: "Chicory",
+                amount: 1,
+              },
+            ],
+          },
         },
       },
     },

@@ -9150,6 +9150,28 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  Chicory: {
+    name: "Chicory",
+    description:
+      "A mutant flower that can be found during the Bull Run season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2159.png",
+    attributes: [
+      { trait_type: "Boost", value: "Flower" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Flower Critical Hit Chance",
+        value: 10,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Critical Flower Amount",
+        value: 1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
 
   "Camel Bone": {
     description: "Bones of an ancient camel, rumoured to transport artefacts",
