@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
-import { CropName, PLOT_CROPS } from "../../types/crops";
+import { PLOT_CROPS, PlotCropName } from "../../types/crops";
 import { sellCrop } from "./sellCrop";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { PATCH_FRUIT } from "features/game/types/fruits";
@@ -20,7 +20,7 @@ describe("sell", () => {
         state: GAME_STATE,
         action: {
           type: "crop.sold",
-          crop: "Axe" as CropName,
+          crop: "Axe" as PlotCropName,
           amount: 1,
         },
       }),

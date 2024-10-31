@@ -1,4 +1,4 @@
-import { CropName } from "features/game/types/crops";
+import { PlotCropName } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 import { CONFIG } from "lib/config";
 
@@ -17,7 +17,7 @@ import wheatProc from "assets/crops/wheat/proc_sprite.png";
 import kaleProc from "assets/crops/kale/proc_sprite.png";
 import soybeanProc from "assets/crops/soybean/proc_sprite.png";
 
-const HARVEST_PROC_SPRITES: Record<CropName, any> = {
+const HARVEST_PROC_SPRITES: Record<PlotCropName, any> = {
   Sunflower: sunflowerProc,
   Potato: potatoProc,
   Pumpkin: pumpkinProc,
@@ -53,7 +53,7 @@ export type Lifecycle = {
 
 const URL = `${CONFIG.PROTECTED_IMAGE_URL}/crops`;
 
-export const IMAGES: Record<CropName, string> = {
+export const IMAGES: Record<PlotCropName, string> = {
   Sunflower: "sunflower",
   Potato: "potato",
   Pumpkin: "pumpkin",
@@ -71,7 +71,7 @@ export const IMAGES: Record<CropName, string> = {
   Barley: "barley",
 };
 
-export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
+export const CROP_LIFECYCLE: Record<PlotCropName, Lifecycle> = getKeys(
   IMAGES,
 ).reduce(
   (acc, name) => ({
@@ -85,5 +85,5 @@ export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
       seed: `${URL}/${IMAGES[name]}/seed.png`,
     },
   }),
-  {} as Record<CropName, Lifecycle>,
+  {} as Record<PlotCropName, Lifecycle>,
 );

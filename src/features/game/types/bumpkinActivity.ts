@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "./consumables";
 import { Animal, Food, ToolName } from "./craftables";
-import { CropName, GreenHouseCropName, GreenHouseCropSeedName } from "./crops";
+import { GreenHouseCropName, GreenHouseCropSeedName, PlotCropName } from "./crops";
 import {
   AnimalFoodName,
   AnimalMedicineName,
@@ -50,7 +50,7 @@ type BuyableName =
   | SeasonalTierItemName;
 
 type SellableName =
-  | CropName
+  | PlotCropName
   | Food
   | PatchFruitName
   | BeachBountyTreasure
@@ -61,13 +61,13 @@ type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${
-  | CropName
+  | PlotCropName
   | PatchFruitName
   | FlowerName
   | GreenHouseCropName
   | GreenHouseFruitName
   | "Honey"} Harvested`;
-export type PlantEvent = `${CropName | PatchFruitName} Planted`;
+export type PlantEvent = `${PlotCropName | PatchFruitName} Planted`;
 export type FruitPlantEvent = `${PatchFruitSeedName} Planted`;
 export type PlantFlowerEvent = `${FlowerSeedName} Planted`;
 export type CookEvent = `${Recipes} Cooked`;

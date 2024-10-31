@@ -1,10 +1,10 @@
 import { GameState, PlantedCrop } from "../../types/game";
 import {
   Crop,
-  CropName,
   GREENHOUSE_CROPS,
   GreenHouseCropName,
   PLOT_CROPS,
+  PlotCropName,
 } from "../../types/crops";
 import Decimal from "decimal.js-light";
 import {
@@ -25,28 +25,28 @@ type Options = {
   createdAt?: number;
 };
 
-export const isBasicCrop = (cropName: CropName | GreenHouseCropName) => {
+export const isBasicCrop = (cropName: PlotCropName | GreenHouseCropName) => {
   if (!isCrop(cropName)) return false;
   const cropDetails = PLOT_CROPS[cropName];
   return cropDetails.harvestSeconds <= PLOT_CROPS["Pumpkin"].harvestSeconds;
 };
 
-export const isMediumCrop = (cropName: CropName | GreenHouseCropName) => {
+export const isMediumCrop = (cropName: PlotCropName | GreenHouseCropName) => {
   if (!isCrop(cropName)) return false;
   return !(isBasicCrop(cropName) || isAdvancedCrop(cropName));
 };
 
-export const isAdvancedCrop = (cropName: CropName | GreenHouseCropName) => {
+export const isAdvancedCrop = (cropName: PlotCropName | GreenHouseCropName) => {
   if (!isCrop(cropName)) return false;
   const cropDetails = PLOT_CROPS[cropName];
   return cropDetails.harvestSeconds >= PLOT_CROPS["Eggplant"].harvestSeconds;
 };
 
-function isCrop(plant: GreenHouseCropName | CropName): plant is CropName {
-  return (plant as CropName) in PLOT_CROPS;
+function isCrop(plant: GreenHouseCropName | PlotCropName): plant is PlotCropName {
+  return (plant as PlotCropName) in PLOT_CROPS;
 }
 
-export const isOvernightCrop = (cropName: CropName | GreenHouseCropName) => {
+export const isOvernightCrop = (cropName: PlotCropName | GreenHouseCropName) => {
   if (isCrop(cropName)) {
     const cropDetails = PLOT_CROPS[cropName];
     return cropDetails.harvestSeconds >= PLOT_CROPS["Radish"].harvestSeconds;

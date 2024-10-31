@@ -2,7 +2,7 @@
 import { Decimal } from "decimal.js-light";
 
 import {
-  CropName,
+  PlotCropName,
   CropSeedName,
   GreenHouseCropName,
   GreenHouseCropSeedName,
@@ -114,7 +114,7 @@ export type FruitFertiliser = {
 };
 
 export type FieldItem = {
-  name: CropName;
+  name: PlotCropName;
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
@@ -405,7 +405,7 @@ export type Bounties = {
 
 export type InventoryItemName =
   | AnimalResource
-  | CropName
+  | PlotCropName
   | CropSeedName
   | BeanName
   | MutantCropName
@@ -517,7 +517,7 @@ export type Wood = {
 
 export type PlantedCrop = {
   id?: string;
-  name: CropName;
+  name: PlotCropName;
   plantedAt: number;
   amount: number;
   reward?: Omit<Reward, "sfl">;
@@ -635,7 +635,7 @@ export type CompostBuilding = PlacedItem & {
 };
 
 export type CropMachineQueueItem = {
-  crop: CropName;
+  crop: PlotCropName;
   seeds: number;
   amount: number;
   growTimeRemaining: number;
@@ -1226,7 +1226,7 @@ export type Faction = {
 };
 
 export type DonationItemName =
-  | CropName
+  | PlotCropName
   | FishName
   | PatchFruitName
   | CommodityName

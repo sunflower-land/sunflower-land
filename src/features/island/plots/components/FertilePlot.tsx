@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { CropName, PLOT_CROPS } from "features/game/types/crops";
+import { PLOT_CROPS, PlotCropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
@@ -29,7 +29,7 @@ const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 interface Props {
-  cropName?: CropName;
+  cropName?: PlotCropName;
   inventory: Inventory;
   game: GameState;
   bumpkin?: Bumpkin;

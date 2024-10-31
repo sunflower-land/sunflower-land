@@ -1,10 +1,10 @@
 import {
   CROP_SEEDS,
-  CropName,
   CropSeedName,
   GREENHOUSE_SEEDS,
   GreenHouseCropName,
   GreenHouseCropSeedName,
+  PlotCropName,
 } from "./crops";
 import {
   GREENHOUSE_FRUIT_SEEDS,
@@ -31,7 +31,7 @@ export type Seed = {
   bumpkinLevel: number;
   plantingSpot: ResourceName | "Greenhouse";
   yield?:
-    | CropName
+    | PlotCropName
     | PatchFruitName
     | FlowerSeedName
     | GreenHouseCropName

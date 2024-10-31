@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CropName } from "features/game/types/crops";
+import { PlotCropName } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../lib/plant";
@@ -8,7 +8,7 @@ import { CROP_LIFECYCLE } from "../lib/plant";
 export type GrowthStage = "seedling" | "halfway" | "almost" | "ready";
 
 interface Props {
-  cropName?: CropName;
+  cropName?: PlotCropName;
   stage?: GrowthStage;
 }
 

@@ -7,9 +7,9 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
   CROP_SEEDS,
-  CropName,
   GREENHOUSE_SEEDS,
   GreenHouseCropSeedName,
+  PlotCropName,
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
@@ -238,7 +238,7 @@ export const Seeds: React.FC = () => {
     }
 
     return getCropPlotTime({
-      crop: yields as CropName,
+      crop: yields as PlotCropName,
       inventory,
       game: state,
       buds: state.buds ?? {},
@@ -295,7 +295,7 @@ export const Seeds: React.FC = () => {
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in CROP_SEEDS)
-              .filter((name) => isBasicCrop(name.split(" ")[0] as CropName))
+              .filter((name) => isBasicCrop(name.split(" ")[0] as PlotCropName))
               .filter(
                 (name) =>
                   name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
@@ -324,7 +324,7 @@ export const Seeds: React.FC = () => {
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in CROP_SEEDS)
-              .filter((name) => isMediumCrop(name.split(" ")[0] as CropName))
+              .filter((name) => isMediumCrop(name.split(" ")[0] as PlotCropName))
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
@@ -349,7 +349,7 @@ export const Seeds: React.FC = () => {
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in CROP_SEEDS)
-              .filter((name) => isAdvancedCrop(name.split(" ")[0] as CropName))
+              .filter((name) => isAdvancedCrop(name.split(" ")[0] as PlotCropName))
               .filter(
                 (name) =>
                   name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),

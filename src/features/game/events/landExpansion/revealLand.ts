@@ -14,11 +14,11 @@ import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
-import { CropName } from "features/game/types/crops";
+import { PlotCropName } from "features/game/types/crops";
 import { produce } from "immer";
 
 // Preloaded crops that will appear on plots when they reveal
-const EXPANSION_CROPS: Record<number, CropName> = {
+const EXPANSION_CROPS: Record<number, PlotCropName> = {
   4: "Sunflower",
   5: "Potato", // We need Potatos at expansion 5 for cooking
   6: "Pumpkin",

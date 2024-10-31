@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import {
   Crop,
-  CropName,
+  PlotCropName,
   GREENHOUSE_CROPS,
   GreenHouseCrop,
   PLOT_CROPS,
@@ -232,7 +232,7 @@ export const Crops: React.FC = () => {
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
                 .filter((crop) => !!crop.sellPrice && crop.name in PLOT_CROPS)
-                .filter((crop) => isBasicCrop(crop.name as CropName))
+                .filter((crop) => isBasicCrop(crop.name as PlotCropName))
                 .map((item) => (
                   <Box
                     isSelected={selected.name === item.name}
@@ -256,7 +256,7 @@ export const Crops: React.FC = () => {
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
                 .filter((crop) => !!crop.sellPrice && crop.name in PLOT_CROPS)
-                .filter((crop) => isMediumCrop(crop.name as CropName))
+                .filter((crop) => isMediumCrop(crop.name as PlotCropName))
                 .map((item) => (
                   <Box
                     isSelected={selected.name === item.name}
@@ -280,7 +280,7 @@ export const Crops: React.FC = () => {
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
                 .filter((crop) => !!crop.sellPrice && crop.name in PLOT_CROPS)
-                .filter((crop) => isAdvancedCrop(crop.name as CropName))
+                .filter((crop) => isAdvancedCrop(crop.name as PlotCropName))
                 .filter(
                   (crop) =>
                     crop.name !== "Barley" || hasFeatureAccess(state, "BARLEY"),

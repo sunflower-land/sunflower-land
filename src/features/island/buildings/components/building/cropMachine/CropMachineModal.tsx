@@ -28,7 +28,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import oilBarrel from "assets/icons/oil_barrel.webp";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
-import { CROP_SEEDS, CropName, CropSeedName } from "features/game/types/crops";
+import { CROP_SEEDS, CropSeedName, PlotCropName } from "features/game/types/crops";
 import { isBasicCrop } from "features/game/events/landExpansion/harvest";
 import { getKeys } from "features/game/types/craftables";
 import { useActor, useSelector } from "@xstate/react";
@@ -57,7 +57,7 @@ interface Props {
 
 const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
   getKeys(CROP_SEEDS).filter((seed) => {
-    const crop = seed.split(" ")[0] as CropName;
+    const crop = seed.split(" ")[0] as PlotCropName;
     return (
       isBasicCrop(crop) ||
       (state.bumpkin.skills["Crop Extension Module"] &&

@@ -11,8 +11,8 @@ import {
 } from "features/game/types/game";
 import {
   CROP_SEEDS,
-  CropName,
   PLOT_CROPS,
+  PlotCropName,
   GREENHOUSE_CROPS,
   GREENHOUSE_SEEDS,
   GreenHouseCropSeedName,
@@ -133,7 +133,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       return seconds;
     }
 
-    const crop = SEEDS()[seedName].yield as CropName;
+    const crop = SEEDS()[seedName].yield as PlotCropName;
     return getCropPlotTime({
       crop,
       inventory,

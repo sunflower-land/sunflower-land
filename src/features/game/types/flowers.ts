@@ -1,5 +1,5 @@
 import { getKeys } from "./craftables";
-import { CropName } from "./crops";
+import { PlotCropName } from "./crops";
 import { PatchFruitName } from "./fruits";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
@@ -105,7 +105,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
 // Some crops have been omitted to reserve cross breeds for future use
 export type FlowerCrossBreedName =
   | Extract<
-      CropName,
+      PlotCropName,
       | "Sunflower"
       | "Beetroot"
       | "Cauliflower"

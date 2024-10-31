@@ -6,10 +6,10 @@ import {
 import { getUniqueAnimalResources } from "../types/animals";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
 import {
-  CropName,
   GREENHOUSE_CROPS,
   GreenHouseCropName,
   PLOT_CROPS,
+  PlotCropName,
 } from "../types/crops";
 import {
   GREENHOUSE_FRUIT,
@@ -22,18 +22,18 @@ import { CommodityName, MushroomName } from "../types/resources";
 
 export type Resource =
   | CommodityName
-  | CropName
+  | PlotCropName
   | PatchFruitName
   | MushroomName
   | GreenHouseCropName
   | GreenHouseFruitName
   | AnimalResource;
 
-export const isPlotCrop = (resource: Resource): resource is CropName => {
+export const isPlotCrop = (resource: Resource): resource is PlotCropName => {
   return resource in PLOT_CROPS;
 };
 
-export const isCrop = (resource: Resource): resource is CropName => {
+export const isCrop = (resource: Resource): resource is PlotCropName => {
   return resource in PLOT_CROPS || resource in GREENHOUSE_CROPS;
 };
 

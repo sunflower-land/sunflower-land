@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { CropName, GreenHouseCropName, PLOT_CROPS } from "../../types/crops";
+import { GreenHouseCropName, PLOT_CROPS, PlotCropName } from "../../types/crops";
 import {
   Bumpkin,
   CropPlot,
@@ -125,7 +125,7 @@ export function getCropTime({
   crop,
 }: {
   game: GameState;
-  crop: CropName | GreenHouseCropName;
+  crop: PlotCropName | GreenHouseCropName;
 }) {
   let seconds = 1;
 
@@ -199,7 +199,7 @@ export const getCropPlotTime = ({
   plot,
   fertiliser,
 }: {
-  crop: CropName;
+  crop: PlotCropName;
   inventory: Inventory;
   game: GameState;
   buds: NonNullable<GameState["buds"]>;
@@ -294,7 +294,7 @@ export const getCropPlotTime = ({
 };
 
 type GetPlantedAtArgs = {
-  crop: CropName;
+  crop: PlotCropName;
   inventory: Inventory;
   game: GameState;
   createdAt: number;
@@ -332,8 +332,8 @@ export function getPlantedAt({
   return createdAt - offset * 1000;
 }
 
-function isPlotCrop(plant: GreenHouseCropName | CropName): plant is CropName {
-  return (plant as CropName) in PLOT_CROPS;
+function isPlotCrop(plant: GreenHouseCropName | PlotCropName): plant is PlotCropName {
+  return (plant as PlotCropName) in PLOT_CROPS;
 }
 
 /**
@@ -345,7 +345,7 @@ export function getCropYieldAmount({
   game,
   fertiliser,
 }: {
-  crop: CropName | GreenHouseCropName;
+  crop: PlotCropName | GreenHouseCropName;
   plot?: CropPlot;
   game: GameState;
   fertiliser?: CropCompostName;
@@ -750,7 +750,7 @@ export function plant({
       throw new Error("Not enough seeds");
     }
 
-    const cropName = action.item.split(" ")[0] as CropName;
+    const cropName = action.item.split(" ")[0] as PlotCropName;
 
     const activityName: BumpkinActivityName = `${cropName} Planted`;
 
