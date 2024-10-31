@@ -623,11 +623,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   // Bull Run
   "Sheaf of Plenty": (game) => cropIsGrowing({ item: "Barley", game }),
-<<<<<<< HEAD
   Chicory: (game) => areFlowersGrowing(game),
-=======
   "Longhorn Cowfish": (game) => areAnyCowsSleeping(game),
->>>>>>> ee4ab40ec ([FEAT] Add Longhorn Cowfish)
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
