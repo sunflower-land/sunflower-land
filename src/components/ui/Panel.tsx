@@ -110,9 +110,12 @@ export const OuterPanel: React.FC<PanelProps> = ({
         </div>
       )}
       <div
-        className={classNames(className, `bg-[url(${halloweenPanelBg})]`)}
+        // Fix for dark mode
+
+        className={classNames(className)}
         style={{
           ...pixelHalloweenOuterBorderStyle,
+          backgroundImage: `url(${halloweenPanelBg})`,
           padding: `${PIXEL_SCALE * 1}px`,
           ...(hasTabs
             ? {
