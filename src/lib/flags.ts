@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "domain/game/types/game";
 import { CONFIG } from "lib/config";
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
