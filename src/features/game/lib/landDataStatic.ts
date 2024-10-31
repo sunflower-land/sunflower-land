@@ -409,6 +409,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Camel Bone": new Decimal(1000),
     Sand: new Decimal(1000),
     Crab: new Decimal(1000),
+    Crimsteel: new Decimal(1000),
     "Old Bottle": new Decimal(1000),
     "Sea Cucumber": new Decimal(1000),
     Vase: new Decimal(1000),
