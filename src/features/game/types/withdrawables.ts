@@ -61,6 +61,7 @@ import { BuildingName } from "./buildings";
 import { ConsumableName } from "./consumables";
 import {
   AchievementDecorationName,
+  AnimalDecorationName,
   DECORATION_TEMPLATES,
   EventDecorationName,
   InteriorDecorationName,
@@ -669,6 +670,10 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Paper Reed": () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
+const animalDecorations: Record<AnimalDecorationName, () => boolean> = {
+  Wagon: () => false,
+};
+
 const mutantCrop: Record<MutantCropName, () => boolean> = {
   "Stellar Sunflower": () => true,
   "Potent Potato": () => true,
@@ -792,6 +797,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Swiss Whiskers": () => false,
   Cluckulator: () => false,
   UFO: () => false,
+  "Black Sheep": () => false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -1006,6 +1012,7 @@ const fish: Record<FishName | MarineMarvelName | OldFishName, () => boolean> = {
   "Lemon Shark": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Crimson Carp": () => hasSeasonEnded("Clash of Factions"),
   "Battle Fish": () => hasSeasonEnded("Clash of Factions"),
+  "Longhorn Cowfish": () => hasSeasonEnded("Bull Run"),
 };
 
 const interiors: Record<InteriorDecorationName, () => boolean> = {
@@ -1227,6 +1234,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   "Basic Land": () => false,
   ...lanterns,
   ...megastore,
+  ...animalDecorations,
 
   // non-withdrawables
   ...skills,

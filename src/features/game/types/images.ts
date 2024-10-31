@@ -409,10 +409,10 @@ import hideawayHerman from "src/assets/decorations/hideaway_herman.webp";
 import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
 import tikiTorch from "src/assets/decorations/tiki_torch.webp";
 import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
-
 import fieldMaple from "src/assets/decorations/field_maple.webp";
 import redMaple from "src/assets/decorations/red_maple.webp";
 import goldenMaple from "src/assets/decorations/golden_maple.webp";
+import Wagon from "src/assets/decorations/wagon.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -542,6 +542,7 @@ import angelFish from "assets/fish/angel_fish.png";
 import parrotFish from "assets/fish/parrot_fish.png";
 import battleFish from "assets/fish/battle_fish.webp";
 import lemonShark from "assets/fish/lemon_shark.webp";
+import longhornCowfish from "assets/fish/cow_fish.webp";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -727,6 +728,7 @@ import swissWhisker from "assets/sfts/swiss_whiskers.webp";
 import cluckulator from "assets/sfts/cluckulator.webp";
 import ufo from "assets/sfts/ufo.webp";
 import chicory from "assets/sfts/chicory.webp";
+import blackSheep from "assets/sfts/black_sheep.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -3144,7 +3146,16 @@ export const ITEM_DETAILS: Items = {
       ? [translate("howToGetThisItem.lemonShark")]
       : [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: translate("description.lemon.shark.boost"),
+    description: translate("description.lemon.shark"),
+    availability: translate("seasonal"),
+  },
+  "Longhorn Cowfish": {
+    image: longhornCowfish,
+    howToGetItem: hasSeasonEnded("Bull Run")
+      ? [translate("howToGetThisItem.longhornCowfish")]
+      : [translate("ocean.fishing"), translate("beach.fishing")],
+    itemType: "collectible",
+    description: translate("description.longhorn.cowfish"),
     availability: translate("seasonal"),
   },
   "Kraken Tentacle": {
@@ -4339,5 +4350,13 @@ export const ITEM_DETAILS: Items = {
   Chicory: {
     image: chicory,
     description: translate("description.chicory"),
+  },
+  Wagon: {
+    image: Wagon,
+    description: "A perfect wagon for your bears to rest and relax.",
+  },
+  "Black Sheep": {
+    image: blackSheep,
+    description: translate("description.blackSheep"),
   },
 };

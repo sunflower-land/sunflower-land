@@ -1276,6 +1276,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Crimson Carp": { width: 2, height: 1 },
   "Battle Fish": { width: 2, height: 1 },
   "Lemon Shark": { width: 2, height: 1 },
+  "Longhorn Cowfish": { width: 2, height: 1 },
 
   "Kraken Tentacle": { width: 1, height: 1 },
 
@@ -1422,6 +1423,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Swiss Whiskers": { width: 1, height: 1 },
   Cluckulator: { width: 1, height: 2 },
   UFO: { width: 2, height: 2 },
+  Wagon: { width: 2, height: 2 },
+  "Black Sheep": { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

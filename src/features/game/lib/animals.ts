@@ -182,6 +182,7 @@ export function getResourceDropAmount({
 
   const isChicken = animalType === "Chicken";
   const isCow = animalType === "Cow";
+  const isSheep = animalType === "Sheep";
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
@@ -206,6 +207,11 @@ export function getResourceDropAmount({
   // Free Range boosts all produce
   if (bumpkin.skills["Free Range"]) {
     amount += 0.1;
+  }
+
+  // White Sheep Onesie - +.25 wool
+  if (isWearableActive({ name: "White Sheep Onesie", game }) && isSheep) {
+    amount += 0.25;
   }
 
   amount += getBudYieldBoosts(buds, resource);
