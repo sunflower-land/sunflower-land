@@ -560,6 +560,36 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
     },
+    "Infernal Bullwhip": {
+      shortDescription: translate("description.infernalBullwhip.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.animalFoods.mixed_grain,
+    },
+    "Chicken Suit": {
+      shortDescription: translate("description.chickenSuit.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.feather,
+    },
+    "Cowbell Necklace": {
+      shortDescription: translate("description.cowbellNecklace.boost"),
+      labelType: "info",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.milk,
+    },
+    "Black Sheep Onesie": {
+      shortDescription: translate("description.blackSheepOnesie.boost"),
+      labelType: "info",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.wool,
+    },
+    "Merino Jumper": {
+      shortDescription: translate("description.merinoJumper.boost"),
+      labelType: "info",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.merino_wool,
+    },
 
     ...SPECIAL_ITEM_LABELS,
   };
