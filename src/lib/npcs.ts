@@ -754,6 +754,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Wise Slacks",
     shirt: "Wise Robes",
     tool: "Wise Staff",
+    hat: "Cowboy Hat",
     secondaryTool: "Wise Book",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
@@ -894,7 +895,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   mayor: {
     body: "Light Brown Farmer Potion",
     shirt: "Pirate Leather Polo",
-    hat: "Feather Hat",
+    hat: "Cowboy Hat",
     hair: "Sun Spots",
     tool: "Merch Coffee Mug",
     pants: "Farmer Pants",
