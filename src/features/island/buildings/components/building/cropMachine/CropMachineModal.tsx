@@ -28,7 +28,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import oilBarrel from "assets/icons/oil_barrel.webp";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
-import { CropSeedName, PLOT_CROP_SEEDS, PlotCropName } from "features/game/types/crops";
+import { PLOT_CROP_SEEDS, PlotCropName, PlotCropSeedName } from "features/game/types/crops";
 import { isBasicCrop } from "features/game/events/landExpansion/harvest";
 import { getKeys } from "features/game/types/craftables";
 import { useActor, useSelector } from "@xstate/react";
@@ -55,7 +55,7 @@ interface Props {
   onAddOil: (oil: number) => void;
 }
 
-const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
+const ALLOWED_SEEDS = (state: GameState): PlotCropSeedName[] =>
   getKeys(PLOT_CROP_SEEDS).filter((seed) => {
     const crop = seed.split(" ")[0] as PlotCropName;
     return (
@@ -98,7 +98,7 @@ export const CropMachineModal: React.FC<Props> = ({
   const [selectedPackIndex, setSelectedPackIndex] = useState<number>(
     growingCropPackIndex ?? 0,
   );
-  const [selectedSeed, setSelectedSeed] = useState<CropSeedName>();
+  const [selectedSeed, setSelectedSeed] = useState<PlotCropSeedName>();
   const [showOverlayScreen, setShowOverlayScreen] = useState<boolean>(false);
   const [totalSeeds, setTotalSeeds] = useState(0);
   const [totalOil, setTotalOil] = useState(0);
@@ -215,7 +215,7 @@ export const CropMachineModal: React.FC<Props> = ({
     setShowOverlayScreen(false);
   };
 
-  const handlePickSeed = (seed: CropSeedName) => {
+  const handlePickSeed = (seed: PlotCropSeedName) => {
     setSelectedSeed(seed);
     setTotalSeeds(0);
   };

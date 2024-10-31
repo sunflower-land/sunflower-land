@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CropSeedName } from "./crops";
+import { PlotCropSeedName } from "./crops";
 import {
   BedName,
   FactionBanner,
@@ -41,7 +41,7 @@ export type CraftAction = {
 export type CraftableName =
   | LimitedItemName
   | ToolName
-  | CropSeedName
+  | PlotCropSeedName
   | Food
   | Animal
   | Flag

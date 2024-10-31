@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CropSeedName, PLOT_CROPS, PlotCropName } from "features/game/types/crops";
+import { PLOT_CROPS, PlotCropName, PlotCropSeedName } from "features/game/types/crops";
 import {
   CropMachineBuilding,
   CropMachineQueueItem,
@@ -9,7 +9,7 @@ import { getCropYieldAmount } from "./plant";
 import { isBasicCrop } from "./harvest";
 import cloneDeep from "lodash.clonedeep";
 
-export type AddSeedsInput = { type: CropSeedName; amount: number };
+export type AddSeedsInput = { type: PlotCropSeedName; amount: number };
 
 export type SupplyCropMachineAction = {
   type: "cropMachine.supplied";
@@ -96,7 +96,7 @@ export function getTotalOilMillisInMachine(
 
 export function calculateCropTime(
   seeds: {
-    type: CropSeedName;
+    type: PlotCropSeedName;
     amount: number;
   },
   state: GameState,

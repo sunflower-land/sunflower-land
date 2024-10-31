@@ -168,9 +168,9 @@ export const PLOT_CROPS: Record<PlotCropName, Crop> = {
   },
 };
 
-export type CropSeedName = `${PlotCropName} Seed`;
+export type PlotCropSeedName = `${PlotCropName} Seed`;
 
-export const PLOT_CROP_SEEDS: Record<CropSeedName, Seed> = {
+export const PLOT_CROP_SEEDS: Record<PlotCropSeedName, Seed> = {
   "Sunflower Seed": {
     description: translate("description.sunflower"),
     price: 0.01,

@@ -3,7 +3,7 @@ import { Decimal } from "decimal.js-light";
 
 import {
   PlotCropName,
-  CropSeedName,
+  PlotCropSeedName,
   GreenHouseCropName,
   GreenHouseCropSeedName,
 } from "./crops";
@@ -406,7 +406,7 @@ export type Bounties = {
 export type InventoryItemName =
   | AnimalResource
   | PlotCropName
-  | CropSeedName
+  | PlotCropSeedName
   | BeanName
   | MutantCropName
   | PatchFruitName

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { CropSeedName, PLOT_CROP_SEEDS } from "features/game/types/crops";
+import { PLOT_CROP_SEEDS, PlotCropSeedName } from "features/game/types/crops";
 import { GameState } from "features/game/types/game";
 
 import { seedBought } from "./seedBought";
@@ -17,7 +17,7 @@ describe("seedBought", () => {
         state: GAME_STATE,
         action: {
           type: "seed.bought",
-          item: "Goblin Key" as CropSeedName,
+          item: "Goblin Key" as PlotCropSeedName,
           amount: 1,
         },
       }),

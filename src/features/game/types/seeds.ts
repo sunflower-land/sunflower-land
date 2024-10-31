@@ -1,10 +1,10 @@
 import {
-  CropSeedName,
   GREENHOUSE_SEEDS,
   GreenHouseCropName,
   GreenHouseCropSeedName,
   PLOT_CROP_SEEDS,
   PlotCropName,
+  PlotCropSeedName,
 } from "./crops";
 import {
   GREENHOUSE_FRUIT_SEEDS,
@@ -18,7 +18,7 @@ import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
 import { ResourceName } from "./resources";
 
 export type SeedName =
-  | CropSeedName
+  | PlotCropSeedName
   | PatchFruitSeedName
   | FlowerSeedName
   | GreenHouseCropSeedName
