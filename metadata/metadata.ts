@@ -10003,7 +10003,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2160.png",
+    image: "../public/erc1155/images/2161.png",
     name: "Black Sheep",
   },
 };
