@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "+1 Horseshoe dari Chores",
   "description.milkApron.boost": "+0.5 Susu",
   "description.sheafOfPlenty.boost": "+2 Barley",
-  "restrictionReason.sheepFed": "Domba diberi makan",
-  "restrictionReason.cowFed": "Sapi diberi makan",
   "digby.streakReward": "Temukan tiga {{name}} untuk hadiah bonus. Buka rangkaian harian untuk hadiah tambahan.",
   "double.delivery.hint": "Pssssst... akan ada hadiah ganda untuk pengiriman pada {{date}}.",
   "halloween.portal.title": "Minigame - Halloween",
@@ -4152,5 +4150,13 @@
   "delivery.holiday.closed": "Bumpkins ini sedang berlibur... Kembalilah nanti!",
   "description.chicory.boost": "10% Peluang untuk +1 Bunga",
   "description.chicory": "Bunga mutan yang dapat ditemukan selama musim Bull Run.",
-  "season.codex.howToEarn.comingSoon": "Tugas kerja, pengiriman, dan hadiah akan dimulai pada 6 November!"
+  "season.codex.howToEarn.comingSoon": "Tugas kerja, pengiriman, dan hadiah akan dimulai pada 6 November!",
+  "description.longhorn.cowfish.boost": "+0.2 Susu",
+  "description.lemon.shark": "Perenang laut Musim Panas yang ceria dan bersemangat. Hanya tersedia selama musim Harta Karun Firaun.",
+  "description.longhorn.cowfish": "Ikan kotak aneh dengan duri seperti tanduk, berenang melalui laut dengan keanggunan sapi.",
+  "howToGetThisItem.longhornCowfish": "Itu bisa diperoleh melalui gameplay di musim Pharaoh's Treasure.",
+  "restrictionReason.sheepSleeping": "Domba sedang tidur",
+  "restrictionReason.cowsSleeping": "Sapi sedang tidur",
+  "chickens.deprecated.1": "Ayam sekarang diberi makan di kandang ayam.",
+  "chickens.deprecated.2": "Jual ayam yang sudah ada di Garbo."
 }

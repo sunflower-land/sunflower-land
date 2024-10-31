@@ -338,6 +338,7 @@ import { Bed } from "./components/Bed";
 import { Wagon } from "./components/Wagon";
 import { hasFeatureAccess } from "lib/flags";
 import { Chicory } from "./components/Chicory";
+import { LonghornCowfish } from "./components/LonghornCownfish";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -610,6 +611,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
   "Lemon Shark": LemonShark,
+  "Longhorn Cowfish": LonghornCowfish,
 
   "Kraken Tentacle": KrakenTentacle,
 
@@ -1398,6 +1400,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 36}px`,
       }}
       image={ITEM_DETAILS["UFO"].image}
+      alt="UFO"
+    />
+  ),
+  "Black Sheep": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+      image={ITEM_DETAILS["Black Sheep"].image}
       alt="UFO"
     />
   ),

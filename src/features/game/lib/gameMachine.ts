@@ -855,7 +855,7 @@ export function startGame(authContext: AuthContext) {
               target: "specialOffer",
               cond: (context) =>
                 (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Clash of Factions Banner"] &&
+                !context.state.collectibles["Bull Run Banner"] &&
                 !getSeasonPassRead(),
             },
             {

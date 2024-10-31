@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "초어스의 말굽 1마리",
   "description.milkApron.boost": "+0.5 밀크",
   "description.sheafOfPlenty.boost": "+2 보리",
-  "restrictionReason.sheepFed": "양에게 먹이를 준다",
-  "restrictionReason.cowFed": "젖소에게 먹이주기",
   "digby.streakReward": "세 개의 {{name}} 를 찾아 보너스 상품을 받으세요.일일 연속 기록을 잠금 해제하고 추가 보상을 받으세요.",
   "double.delivery.hint": "Passst... {{date}} 에 배송하면 두 배의 보상이 제공됩니다.",
   "halloween.portal.title": "미니게임 - 할로윈",
@@ -4152,5 +4150,13 @@
   "delivery.holiday.closed": "이 범프킨들은 휴가 중입니다... 나중에 다시 오세요!",
   "description.chicory.boost": "10% 확률로 꽃 1송이",
   "description.chicory": "불런 시즌에 볼 수 있는 돌연변이 꽃.",
-  "season.codex.howToEarn.comingSoon": "집안일, 배달 및 현상금은 11월 6일에 시작됩니다!"
+  "season.codex.howToEarn.comingSoon": "집안일, 배달 및 현상금은 11월 6일에 시작됩니다!",
+  "description.longhorn.cowfish.boost": "+0.2 밀크",
+  "description.lemon.shark": "여름 바다에서 활기차고 쾌활하게 헤엄치는 사람.파라오의 보물 시즌에만 이용할 수 있습니다.",
+  "description.longhorn.cowfish": "뿔처럼 생긴 가시가 달린 독특한 복어로서 소의 품위를 유유히 헤엄쳐 다닙니다.",
+  "howToGetThisItem.longhornCowfish": "파라오의 보물 시즌의 게임 플레이를 통해 얻을 수 있었습니다.",
+  "restrictionReason.sheepSleeping": "양들이 자고 있다",
+  "restrictionReason.cowsSleeping": "소들이 자고 있다",
+  "chickens.deprecated.1": "닭들은 이제 닭장에서 먹이를 먹고 있습니다.",
+  "chickens.deprecated.2": "Garbo에서 기존 닭을 판매하십시오."
 }

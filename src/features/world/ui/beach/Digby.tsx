@@ -42,7 +42,6 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getCurrentSeason } from "features/game/types/seasons";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -248,21 +247,6 @@ export const DailyPuzzle: React.FC = () => {
           setIsRevealing(false);
         }}
       />
-    );
-  }
-
-  const { holiday } = getBumpkinHoliday({});
-
-  const isHoliday = holiday === new Date().toISOString().split("T")[0];
-
-  if (isHoliday) {
-    return (
-      <div className="p-1">
-        <Label type="danger" className="mb-1">
-          {t("digby.closed")}
-        </Label>
-        <span className="text-xs">{t("digby.holiday")}</span>
-      </div>
     );
   }
 

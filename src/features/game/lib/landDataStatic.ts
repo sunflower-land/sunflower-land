@@ -433,6 +433,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Bull Run Banner": new Decimal(1),
     "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
+    "Longhorn Cowfish": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Paint Can": new Decimal(1),
     "Jelly Lamp": new Decimal(1),
