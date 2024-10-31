@@ -31,13 +31,6 @@ export const getRegularMaxDigs = (game: GameState) => {
     maxDigs += 5;
   }
 
-  if (
-    !!game.inventory["Pharaoh's Treasure Banner"] &&
-    getCurrentSeason() === "Pharaoh's Treasure"
-  ) {
-    maxDigs += 5;
-  }
-
   return maxDigs;
 };
 

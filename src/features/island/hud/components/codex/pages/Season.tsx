@@ -35,7 +35,7 @@ const SEASON_GRAPHICS: Record<SeasonName, string> = {
   "Catch the Kraken": "?",
   "Spring Blossom": "?",
   "Clash of Factions": "?",
-  "Pharaoh's Treasure": SUNNYSIDE.announcement.desertSeason,
+  "Pharaoh's Treasure": "?",
   "Bull Run": SUNNYSIDE.announcement.bullRunSeason,
 };
 
@@ -138,16 +138,6 @@ export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
       ) && (
         <InnerPanel className="mb-1">
           <SeasonalStore readonly />
-        </InnerPanel>
-      )}
-      {!hasSeasonEnded("Pharaoh's Treasure") && (
-        <InnerPanel className="mb-1">
-          <MegaStoreMonthly readonly />
-        </InnerPanel>
-      )}
-      {!hasSeasonEnded("Pharaoh's Treasure") && (
-        <InnerPanel className="mb-1">
-          <MegaStoreSeasonal readonly />
         </InnerPanel>
       )}
       <SeasonalAuctions gameState={state} farmId={farmId} season={season} />

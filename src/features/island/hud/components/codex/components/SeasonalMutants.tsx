@@ -23,12 +23,6 @@ const DEFAULT: SeasonalMutants = {
 };
 
 const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
-  "Pharaoh's Treasure": {
-    chicken: "Pharaoh Chicken",
-    flower: "Desert Rose",
-    fish: "Lemon Shark",
-    banner: SUNNYSIDE.announcement.pharaohSeasonRares,
-  },
   "Bull Run": {
     chicken: "Alien Chicken",
     flower: "Chicory",

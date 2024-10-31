@@ -330,23 +330,7 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   "Solar Flare": EMPTY_SEASONAL_STORE,
   "Spring Blossom": EMPTY_SEASONAL_STORE,
   "Witches' Eve": EMPTY_SEASONAL_STORE,
-  "Pharaoh's Treasure": {
-    basic: {
-      items: PHARAOH_ITEMS,
-    },
-    rare: {
-      items: RARE_PHARAOH_ITEMS,
-      requirement: 3,
-    },
-    epic: {
-      items: EPIC_PHARAOH_ITEMS,
-      requirement: 3,
-    },
-    mega: {
-      items: EPIC_PHARAOH_ITEMS,
-      requirement: 3,
-    },
-  },
+  "Pharaoh's Treasure": EMPTY_SEASONAL_STORE,
   "Bull Run": {
     basic: {
       items: BULL_RUN_ITEMS,

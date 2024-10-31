@@ -16,14 +16,6 @@ export type ArtefactShopWearables = Partial<
 >;
 
 export const ARTEFACT_SHOP_WEARABLES: ArtefactShopWearables = {
-  "Scarab Wings": {
-    coins: 0,
-    ingredients: {
-      Scarab: new Decimal(150),
-    },
-    from: SEASONS["Pharaoh's Treasure"].startDate,
-    to: SEASONS["Pharaoh's Treasure"].endDate,
-  },
   "Bionic Drill": {
     coins: 0,
     ingredients: {

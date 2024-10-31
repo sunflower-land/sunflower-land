@@ -363,16 +363,6 @@ const BoostDigItems: Partial<
     ...(BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel),
     location: "Artefact Shop",
   },
-  ...(getCurrentSeason() === "Pharaoh's Treasure"
-    ? {
-        "Pharaoh's Treasure Banner": {
-          shortDescription: "+5 digs",
-          labelType: "vibrant",
-          boostTypeIcon: gift,
-          location: "VIP Item",
-        },
-      }
-    : {}),
 };
 
 const getDefaultTab = (game: GameState) => {

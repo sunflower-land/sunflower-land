@@ -3154,9 +3154,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Lemon Shark": {
     image: lemonShark,
-    howToGetItem: hasSeasonEnded("Pharaoh's Treasure")
-      ? [translate("howToGetThisItem.lemonShark")]
-      : [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("howToGetThisItem.lemonShark")],
     itemType: "collectible",
     description: translate("description.lemon.shark"),
     availability: translate("seasonal"),
@@ -4080,7 +4078,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Sunlit Citadel": {
     image: sunlitCitadel,
-    description: TREASURE_COLLECTIBLE_ITEM["Sunlit Citadel"].description,
+    description: translate("description.sunlit.citadel"),
   },
   "Pharaoh Gnome": {
     image: pharaohGnome,
@@ -4108,11 +4106,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Baobab Tree": {
     image: baobabTree,
-    description: TREASURE_COLLECTIBLE_ITEM["Baobab Tree"].description,
+    description: translate("description.baobab.tree"),
   },
   Camel: {
     image: camel,
-    description: TREASURE_COLLECTIBLE_ITEM.Camel.description,
+    description: translate("description.camel"),
   },
   "Tomato Bombard": {
     image: tomatoBombard,

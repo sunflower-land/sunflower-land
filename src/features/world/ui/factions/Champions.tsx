@@ -34,7 +34,7 @@ import {
 import { Fireworks } from "./components/Fireworks";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
-import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
@@ -226,10 +226,7 @@ export const ChampionsPrizes: React.FC = () => {
   const week = getWeekKey();
   const ticket = getSeasonalTicket(new Date(week));
 
-  const { startDate } = SEASONS["Pharaoh's Treasure"];
-  const isPharaohsTreasure =
-    new Date(week) >= new Date(startDate) &&
-    new Date(week) <= new Date("2024-10-21");
+  const isPharaohsTreasure = false;
 
   const MONTHLY_PRIZES = BONUS_FACTION_PRIZES[week];
 
