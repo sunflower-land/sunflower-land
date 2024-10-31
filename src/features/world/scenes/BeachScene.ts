@@ -28,7 +28,6 @@ import { hasReadDigbyIntro } from "../ui/beach/Digby";
 import { isWearableActive } from "features/game/lib/wearables";
 import { EventObject } from "xstate/lib/types";
 import { EVENT_BUMPKINS, sheepPlace } from "../ui/npcs/Sheep";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -441,9 +440,6 @@ export class BeachScene extends BaseScene {
       )
       .setOrigin(0);
 
-    const { holiday } = getBumpkinHoliday({});
-    const isHoliday = holiday === new Date().toISOString().substring(0, 10);
-
     // set up cells
     for (let row = 0; row < SITE_ROWS; row++) {
       for (let col = 0; col < SITE_COLS; col++) {
@@ -457,11 +453,6 @@ export class BeachScene extends BaseScene {
           .setOrigin(0)
           .setInteractive({ cursor: "pointer" })
           .on("pointerdown", (e: any) => {
-            if (isHoliday) {
-              npcModalManager.open("digby");
-              return;
-            }
-
             // Touch devices have a different interaction for the sand drill
             if (isTouchDevice() && this.selectedItem === "Sand Drill") {
               this.handleMobileTouchDrill({
