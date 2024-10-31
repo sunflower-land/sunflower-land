@@ -1035,6 +1035,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
           Sunflower: 20,
         },
       },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "pumpkin' pete",
+        reward: {
+          items: {},
+          coins: 0,
+        },
+        id: `pete-delivery`,
+        items: {
+          Sunflower: 20,
+        },
+      },
     ],
 
     milestone: {

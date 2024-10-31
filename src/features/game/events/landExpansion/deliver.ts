@@ -315,11 +315,10 @@ export function deliverOrder({
       throw new Error("Order is already completed");
     }
 
-    const holiday = getBumpkinHoliday({ id: farmId, now: createdAt });
+    const { holiday } = getBumpkinHoliday({ id: farmId });
 
-    if (holiday === new Date(createdAt).toISOString().split("T")[0]) {
-      throw new Error("Bumpkin is on holiday");
-    }
+    const ticketTasksAreFrozen =
+      holiday === new Date(createdAt).toISOString().split("T")[0];
 
     const tickets = generateDeliveryTickets({
       game,

@@ -251,10 +251,22 @@ export const DailyPuzzle: React.FC = () => {
     );
   }
 
-  // TODO
-  const isHoliday =
-    getBumpkinHoliday({ id: gameService.state.context.farmId }) ===
-    new Date().toISOString().split("T")[0];
+  const { holiday } = getBumpkinHoliday({
+    id: gameService.state.context.farmId,
+  });
+
+  const isHoliday = holiday === new Date().toISOString().split("T")[0];
+
+  if (isHoliday) {
+    return (
+      <div className="p-1">
+        <Label type="danger" className="mb-1">
+          {t("digby.closed")}
+        </Label>
+        <span className="text-xs">{t("digby.holiday")}</span>
+      </div>
+    );
+  }
 
   return (
     <>

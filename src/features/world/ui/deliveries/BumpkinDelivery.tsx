@@ -44,10 +44,7 @@ import {
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import {
-  getBumpkinHoliday,
-  getSeasonChangeover,
-} from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -562,7 +559,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
 
-  const holiday = getBumpkinHoliday({ id: game.bumpkin?.id ?? 0 });
+  const { holiday } = getBumpkinHoliday({ id: game.bumpkin?.id ?? 0 });
 
   const isHoliday = holiday === new Date().toISOString().split("T")[0];
 

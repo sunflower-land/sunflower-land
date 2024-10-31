@@ -44,7 +44,7 @@ import { secondsTillReset } from "features/helios/components/hayseedHank/Hayseed
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { useNavigate } from "react-router-dom";
@@ -401,12 +401,15 @@ export const DeliveryOrders: React.FC<Props> = ({
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
-  const {
-    tasksStartAt,
-    tasksCloseAt,
-    ticketTasksAreFrozen,
-    ticketTasksAreClosing,
-  } = getSeasonChangeover({ id: gameService.state.context.farmId });
+  const { holiday } = getBumpkinHoliday({
+    id: gameService.state.context.farmId,
+  });
+
+  // Check if matches UTC date
+  const isHoliday = holiday === new Date().toISOString().split("T")[0];
+
+  const nextHolidayInSecs =
+    (new Date(holiday ?? 0).getTime() - Date.now()) / 1000;
 
   const level = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
@@ -484,16 +487,14 @@ export const DeliveryOrders: React.FC<Props> = ({
             >
               {getSeasonalTicket()}
             </Label>
-            {ticketTasksAreFrozen && (
+            {isHoliday && (
               <Label type="formula" icon={lock} className="mt-1">
-                {secondsToString((tasksStartAt - Date.now()) / 1000, {
-                  length: "medium",
-                })}
+                {t("delivery.holiday")}
               </Label>
             )}
-            {ticketTasksAreClosing && (
+            {nextHolidayInSecs > 0 && nextHolidayInSecs < 24 * 60 * 60 && (
               <Label type="danger" icon={lock} className="mt-1">
-                {`${secondsToString((tasksCloseAt - Date.now()) / 1000, {
+                {`${secondsToString(nextHolidayInSecs, {
                   length: "medium",
                 })} left`}
               </Label>
@@ -506,10 +507,13 @@ export const DeliveryOrders: React.FC<Props> = ({
               })}
             </span>
           )}
-          {ticketTasksAreFrozen && (
+          {nextHolidayInSecs > 0 && nextHolidayInSecs < 24 * 60 * 60 && (
             <span className="text-xs mb-2">
-              {t("orderhelp.New.Season.arrival")}
+              {t("delivery.holiday.closingSoon")}
             </span>
+          )}
+          {isHoliday && (
+            <span className="text-xs mb-2">{t("delivery.holiday.closed")}</span>
           )}
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
@@ -864,7 +868,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               )}
             </div>
           )}
-          {ticketTasksAreFrozen &&
+          {isHoliday &&
             !!generateDeliveryTickets({
               game: state,
               npc: previewOrder.from,
