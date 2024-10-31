@@ -200,7 +200,8 @@ export const Bar: React.FC<{ percentage: number; type: ProgressType }> = ({
 export const AnimatedBar: React.FC<{
   percentage: number;
   type: ProgressType;
-}> = ({ percentage, type }) => {
+  shouldWrap?: boolean;
+}> = ({ percentage, type, shouldWrap = true }) => {
   const prevWidth = useRef(percentage);
 
   const { width } = useSpring({
@@ -280,7 +281,7 @@ export const AnimatedBar: React.FC<{
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
           width: width.to((w) => {
             // wrap the width to 0 if the previous width is greater than the current width
-            if (prevWidth.current > w) {
+            if (prevWidth.current > w && shouldWrap) {
               width.set(0);
             }
 
