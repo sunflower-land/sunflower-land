@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "+1 Horseshoe from Chores",
   "description.milkApron.boost": "+0,5 latte",
   "description.sheafOfPlenty.boost": "+2 Barley",
-  "restrictionReason.sheepFed": "Le pecore vengono nutrite",
-  "restrictionReason.cowFed": "Le mucche vengono nutrite",
   "digby.streakReward": "Scopri i tre {{name}} per un premio bonus. Sblocca serie giornaliere per ottenere ricompense extra.",
   "double.delivery.hint": "Pssssst... ci saranno ricompense doppie per le consegne il {{date}}.",
   "halloween.portal.title": "Minigioco - Halloween",
@@ -4152,5 +4150,11 @@
   "delivery.holiday.closed": "Questi Bumpkins sono in vacanza... Torna più tardi!",
   "description.chicory.boost": "10% di probabilità che +1 fiore",
   "description.chicory": "Un fiore mutante che può essere trovato durante la stagione della Bull Run.",
-  "season.codex.howToEarn.comingSoon": "Le faccende domestiche, le consegne e i premi inizieranno il 6 novembre!"
+  "season.codex.howToEarn.comingSoon": "Le faccende domestiche, le consegne e i premi inizieranno il 6 novembre!",
+  "description.longhorn.cowfish.boost": "+0,2 latte",
+  "description.lemon.shark": "Una vivace e vivace nuotatrice dei mari estivi. Disponibile solo durante la stagione di Pharaoh's Treasure.",
+  "description.longhorn.cowfish": "Un particolare pesce scatola con spine simili a corna, che nuota nei mari con grazia bovina.",
+  "howToGetThisItem.longhornCowfish": "Era ottenibile giocando nella stagione di Pharaoh's Treasure.",
+  "restrictionReason.sheepSleeping": "Le pecore dormono",
+  "restrictionReason.cowsSleeping": "Le mucche dormono"
 }

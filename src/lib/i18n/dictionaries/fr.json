@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "+1 Horseshoe depuis Chores",
   "description.milkApron.boost": "+0,5 Lait",
   "description.sheafOfPlenty.boost": "+2 Orge",
-  "restrictionReason.sheepFed": "Les moutons sont nourris",
-  "restrictionReason.cowFed": "Les vaches sont nourries",
   "digby.streakReward": "Découvrez les trois {{name}} pour un prix bonus. Débloquez des séries quotidiennes pour obtenir des récompenses supplémentaires.",
   "double.delivery.hint": "Pssssst... les récompenses seront doublées pour les livraisons effectuées le {{date}}.",
   "halloween.portal.title": "Mini-jeu - Halloween",
@@ -4152,5 +4150,11 @@
   "delivery.holiday.closed": "Ces Bumpkins sont en vacances... Revenez plus tard !",
   "description.chicory.boost": "10 % de chances d'obtenir +1 fleur",
   "description.chicory": "Une fleur mutante que l'on peut trouver pendant la saison des Bull Run.",
-  "season.codex.howToEarn.comingSoon": "Les corvées, les livraisons et les primes débuteront le 6 novembre !"
+  "season.codex.howToEarn.comingSoon": "Les corvées, les livraisons et les primes débuteront le 6 novembre !",
+  "description.longhorn.cowfish.boost": "+0,2 Lait",
+  "description.lemon.shark": "Un nageur plein d'entrain et de fougue des mers estivales. Disponible uniquement pendant la saison du Trésor du Pharaon.",
+  "description.longhorn.cowfish": "Un poisson-boîte particulier aux épines en forme de corne, qui nage dans les mers avec une grâce bovine.",
+  "howToGetThisItem.longhornCowfish": "Il était possible de l'obtenir en jouant pendant la saison du Trésor de Pharaon.",
+  "restrictionReason.sheepSleeping": "Les moutons dorment",
+  "restrictionReason.cowsSleeping": "Les vaches dorment"
 }

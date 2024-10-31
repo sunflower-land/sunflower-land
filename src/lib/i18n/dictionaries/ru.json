@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "+1 Подкова из серии Chores",
   "description.milkApron.boost": "+0,5 Молоко",
   "description.sheafOfPlenty.boost": "+2 Ячмень",
-  "restrictionReason.sheepFed": "Овец кормят",
-  "restrictionReason.cowFed": "Коров кормят",
   "digby.streakReward": "Откройте для себя три {{name}} и получите бонусный приз. Открывайте ежедневные серии и получайте дополнительные награды.",
   "double.delivery.hint": "Psssssst... за доставку по адресу {{date}} вы получите двойное вознаграждение.",
   "halloween.portal.title": "Мини-игра «Хеллоуин»",
@@ -4152,5 +4150,11 @@
   "delivery.holiday.closed": "Эти Бампкинсы в отпуске... Возвращайтесь позже!",
   "description.chicory.boost": "Вероятность получения +1 цветка: 10%",
   "description.chicory": "Цветок-мутант, который можно найти во время сезона Bull Run.",
-  "season.codex.howToEarn.comingSoon": "Работа по дому, доставка и награды начнутся 6 ноября!"
+  "season.codex.howToEarn.comingSoon": "Работа по дому, доставка и награды начнутся 6 ноября!",
+  "description.longhorn.cowfish.boost": "+0.2 Молоко",
+  "description.lemon.shark": "Пикантный и динамичный пловец в летних морях. Доступно только в сезон «Сокровищ фараона».",
+  "description.longhorn.cowfish": "Своеобразный самшит с рогоподобными шипами, плавающий по морям с бычьим изяществом.",
+  "howToGetThisItem.longhornCowfish": "Его можно было получить в игровом режиме в сезоне «Сокровища Фараона».",
+  "restrictionReason.sheepSleeping": "Овцы спят",
+  "restrictionReason.cowsSleeping": "Коровы спят"
 }

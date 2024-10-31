@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "+1 Hufeisen von Chores",
   "description.milkApron.boost": "+0.5 Milch",
   "description.sheafOfPlenty.boost": "+2 Gerste",
-  "restrictionReason.sheepFed": "Schafe werden gefüttert",
-  "restrictionReason.cowFed": "Kühe werden gefüttert",
   "digby.streakReward": "Entdecke die drei {{name}} für einen Bonuspreis. Schalte tägliche Serien frei, um zusätzliche Belohnungen zu erhalten.",
   "double.delivery.hint": "Pssssst... für Lieferungen am {{date}} gibt es doppelte Belohnungen.",
   "halloween.portal.title": "Minispiel - Halloween",
@@ -4152,5 +4150,11 @@
   "delivery.holiday.closed": "Diese Bumpkins sind im Urlaub... Komm später wieder!",
   "description.chicory.boost": "10% Chance auf +1 Blume",
   "description.chicory": "Eine mutierte Blume, die während der Bull Run-Saison zu finden ist.",
-  "season.codex.howToEarn.comingSoon": "Hausarbeiten, Lieferungen und Kopfgelder beginnen am 6. November!"
+  "season.codex.howToEarn.comingSoon": "Hausarbeiten, Lieferungen und Kopfgelder beginnen am 6. November!",
+  "description.longhorn.cowfish.boost": "+0.2 Milch",
+  "description.lemon.shark": "Ein spritziger, flotter Schwimmer der Sommermeere. Nur während der Saison „Pharaoh's Treasure“ verfügbar.",
+  "description.longhorn.cowfish": "Ein eigenartiger Kastenfisch mit hornähnlichen Stacheln, der mit Rinderanmut durch die Meere schwimmt.",
+  "howToGetThisItem.longhornCowfish": "Es war in der Pharaoh's Treasure-Saison im Gameplay erhältlich.",
+  "restrictionReason.sheepSleeping": "Schafe schlafen",
+  "restrictionReason.cowsSleeping": "Kühe schlafen"
 }
