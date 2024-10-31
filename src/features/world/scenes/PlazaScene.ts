@@ -247,7 +247,7 @@ export class PlazaScene extends BaseScene {
     let bumpkins = PLAZA_BUMPKINS;
 
     const { holiday } = getBumpkinHoliday({});
-    const isHoliday = true; //holiday === new Date().toISOString().split("T")[0];
+    const isHoliday = holiday === new Date().toISOString().split("T")[0];
 
     if (!isHoliday) {
       bumpkins = [
