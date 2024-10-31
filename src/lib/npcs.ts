@@ -176,7 +176,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Pants",
     coat: "Chef Apron",
     hair: "Royal Braids",
-    hat: "Chef Hat",
+    hat: "Cowboy Hat",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     tool: "Parsnip",
@@ -438,6 +438,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Parsnip",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
+    hat: "Cowboy Hat",
   },
   blacksmith: {
     body: "Light Brown Farmer Potion",
@@ -447,6 +448,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
+    hat: "Cowboy Hat",
   },
   bruce: {
     body: "Beige Farmer Potion",
@@ -484,6 +486,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     shirt: "Yellow Farmer Shirt",
+    hat: "Cowboy Hat",
   },
   grimtooth: {
     body: "Goblin Potion",
@@ -493,6 +496,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
+    hat: "Cowboy Hat",
   },
   grubnuk: {
     body: "Goblin Potion",
@@ -624,6 +628,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Tattered Slacks",
     shoes: "Old Shoes",
     tool: "Farmer Pitchfork",
+    hat: "Cowboy Hat",
   },
   // Announces news
   birdie: {
@@ -703,7 +708,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   stella: {
     body: "Beige Farmer Potion",
     hair: "White Long Hair",
-    hat: "Boater Hat",
+    hat: "Cowboy Hat",
+
     pants: "Farmer Overalls",
     shirt: "Daisy Tee",
     background: "Pumpkin Plaza Background",
