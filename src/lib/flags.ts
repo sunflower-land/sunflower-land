@@ -58,6 +58,7 @@ const featureFlags = {
   ANIMALS_RESOURCE_TRADING: timeBasedFeatureFlag(
     new Date("2024-11-06T00:00:00Z"),
   ),
+  BULL_RUN_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
