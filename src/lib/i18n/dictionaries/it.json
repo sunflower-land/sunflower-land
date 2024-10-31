@@ -4126,5 +4126,22 @@
   "craftingBoxGuide.craftItem": "Inizia a creare.",
   "craftingBoxGuide.failed": "La creazione fallirà se non viene trovata alcuna corrispondenza.",
   "craftingBoxGuide.success": "Un oggetto verrà creato se viene trovata una corrispondenza.",
-  "craftingBoxGuide.viewRecipe": "Gli oggetti creati verranno salvati nelle tue ricette."
+  "craftingBoxGuide.viewRecipe": "Gli oggetti creati verranno salvati nelle tue ricette.",
+  "description.infernalBullwhip": "Questa minacciosa frusta è intrisa di un potere ardente, che la rende tanto intimidatoria quanto efficace. -50% di cibo per animali da stalla",
+  "description.chickenSuit": "Fatti strada in qualsiasi riunione con questo giocoso costume da pollo! +1 piuma",
+  "description.cowbellNecklace": "Un'affascinante collana per ogni appassionato di latticini con un piccolo campanaccio tintinnante a cui le mucche non possono resistere! +2 Latte",
+  "description.blackSheepOnesie": "Distinguiti nel gregge con questa tutina morbida e calda. Questo affascinante completo da pecora nera aggiunge un tocco divertente a un abbigliamento comodo. +2 Wool",
+  "description.merinoJumper": "Realizzato con la lana più pregiata, questo comodo maglione offre calore e comfort senza pari. +1 lana merino",
+  "description.mooVer": "Un congegno unico che mantiene le mucche attive e sane. +0,25 Leather",
+  "description.swissWhiskers": "Un genio culinario in miniatura, questo abile chef eleva ogni ricetta di formaggio con il suo tocco esperto. +500 Cheese Recipe XP",
+  "description.cluckulator": "Questa bilancia specializzata pesa accuratamente ogni pollo, assicurando che riceva la porzione di mangime ideale per una crescita e una salute equilibrate, rendendo la cura del pollame più efficiente e sostenibile. -25% Feed to Chicken",
+  "description.ufo": "Si dice che questo velivolo extraterrestre emetta un leggero bagliore e ronzio, creando un'aura di meraviglia e curiosità. Tieni gli occhi puntati sul cielo: chissà quali segreti ultraterreni potrebbe svelare!",
+  "description.infernalBullwhip.boost": "-50% di mangime per animali da stalla",
+  "description.chickenSuit.boost": "+1 piuma",
+  "description.cowbellNecklace.boost": "+2 Latte",
+  "description.blackSheepOnesie.boost": "+2 lana",
+  "description.merinoJumper.boost": "+1 lana merino",
+  "description.mooVer.boost": "+0,25 Pelle",
+  "description.swissWhiskers.boost": "+500 Ricetta al formaggio XP",
+  "description.cluckulator.boost": "-25% di mangime per polli"
 }

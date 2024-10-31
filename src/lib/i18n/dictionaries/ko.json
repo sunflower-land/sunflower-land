@@ -4126,5 +4126,22 @@
   "craftingBoxGuide.craftItem": "제작을 시작하세요.",
   "craftingBoxGuide.failed": "일치하는 항목이 없으면 제작이 실패합니다.",
   "craftingBoxGuide.success": "일치하는 아이템이 발견되면 아이템이 제작됩니다.",
-  "craftingBoxGuide.viewRecipe": "제작한 아이템은 레시피에 저장됩니다."
+  "craftingBoxGuide.viewRecipe": "제작한 아이템은 레시피에 저장됩니다.",
+  "description.infernalBullwhip": "이 위협적인 채찍에는 불의 힘이 깃들어 있어 효과적이면서도 위협적입니다. -50% 헛간 동물에게 먹이주기",
+  "description.chickenSuit": "이 장난기 넘치는 치킨 수트를 입고 어떤 모임에도 잘 어울리세요!깃털 1개당",
+  "description.cowbellNecklace": "젖소가 거부할 수 없는 작고 징글거리는 카우벨이 특징인 낙농 애호가를 위한 매력적인 목걸이입니다!+2 밀크",
+  "description.blackSheepOnesie": "이 부드럽고 따뜻한 우주복으로 무리 속에서 돋보이세요.이 매력적인 검은색 양 의상은 포근한 옷차림에 재미를 더해줍니다. +2 울",
+  "description.merinoJumper": "최고급 울로 제작된 이 포근한 점퍼는 타의 추종을 불허하는 따뜻함과 편안함을 제공합니다. +1 메리노 울",
+  "description.mooVer": "젖소를 활동적이고 건강하게 유지하는 독특한 장치입니다. +0.25 가죽",
+  "description.swissWhiskers": "미니어처 요리의 천재인 이 숙련된 셰프는 전문가의 손길로 모든 치즈 레시피의 품격을 높여줍니다. +500 치즈 레시피 XP",
+  "description.cluckulator": "이 특수 저울은 각 닭의 무게를 정확하게 측정하여 균형 잡힌 성장과 건강에 필요한 이상적인 사료를 공급받아 가금류 관리를 보다 효율적이고 지속 가능하게 만듭니다. -25% Feed to Chicken",
+  "description.ufo": "이 외계 우주선은 부드러운 빛과 윙윙 거리는 소리를 내며 경이로움과 호기심의 기운을 자아낸다고 합니다.하늘을 주시하세요. 하늘에서 어떤 다른 비밀이 드러날지 누가 알겠어요!",
+  "description.infernalBullwhip.boost": "-50% 축사 동물 사료 공급",
+  "description.chickenSuit.boost": "+1 페더",
+  "description.cowbellNecklace.boost": "+2 밀크",
+  "description.blackSheepOnesie.boost": "+2 울",
+  "description.merinoJumper.boost": "+1 메리노 울",
+  "description.mooVer.boost": "+0.25 가죽",
+  "description.swissWhiskers.boost": "+500 치즈 레시피 경험치",
+  "description.cluckulator.boost": "-25% 닭고기에게 먹이기"
 }
