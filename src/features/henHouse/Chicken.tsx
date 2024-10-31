@@ -14,6 +14,7 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getBoostedFoodQuantity,
   isAnimalFood,
 } from "features/game/lib/animals";
 import classNames from "classnames";
@@ -88,6 +89,7 @@ const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
 const _inventoryCount = (item: InventoryItemName) => (state: MachineState) =>
   state.context.state.inventory[item] ?? new Decimal(0);
+const _game = (state: MachineState) => state.context.state;
 
 export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -100,7 +102,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     gameService,
     _inventoryCount(selectedItem as AnimalFoodName),
   );
-
+  const game = useSelector(gameService, _game);
   const chickenService = useInterpret(animalMachine, {
     context: { animal: chicken },
     devTools: true,
@@ -139,6 +141,12 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
+
+  const requiredFoodQty = getBoostedFoodQuantity({
+    animalType: "Chicken",
+    foodQuantity: REQUIRED_FOOD_QTY.Chicken,
+    game,
+  });
 
   const feedChicken = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
@@ -275,7 +283,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     });
 
     if (hasFoodSelected) {
-      if (inventoryCount.lt(REQUIRED_FOOD_QTY.Chicken) && !isGoldEggPlaced) {
+      if (inventoryCount.lt(requiredFoodQty) && !isGoldEggPlaced) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -485,7 +493,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
                   .filter(
                     (food) =>
                       ANIMAL_FOODS[food].type === "food" &&
-                      inventoryCount.gte(REQUIRED_FOOD_QTY.Chicken),
+                      inventoryCount.gte(requiredFoodQty),
                   )
                   .map((food) => ({
                     name: food,

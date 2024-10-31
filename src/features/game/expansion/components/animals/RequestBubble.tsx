@@ -72,37 +72,34 @@ export const RequestBubble: React.FC<RequestBubbleProps> = ({
   quantity,
 }) => {
   const image = ANIMAL_REQUEST_IMAGES[request];
-  // 15px is the width of the quantity text
-  const leftBorderWidth = PIXEL_SCALE * 5;
-  const parentWidth = image.width + (quantity ? 15 : 0) + leftBorderWidth;
+
   return (
     <div
-      className="absolute inline-flex justify-center items-center z-10"
+      className={`absolute inline-flex justify-center items-center z-10`}
       style={{
         top: `${top}px`,
         left: `${left}px`,
-
         borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
         borderStyle: "solid",
         borderTopWidth: `${PIXEL_SCALE * 2}px`,
         borderRightWidth: `${PIXEL_SCALE * 2}px`,
         borderBottomWidth: `${PIXEL_SCALE * 4}px`,
         borderLeftWidth: `${PIXEL_SCALE * 5}px`,
-
         borderImageSlice: "2 2 4 5 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
-        width: `${Math.max(parentWidth, 30)}px`,
       }}
     >
-      <div
-        className="flex justify-center items-center"
-        style={{
-          marginLeft: `-${(PIXEL_SCALE * 5) / 2}px`,
-        }}
-      >
-        <img src={image.src} style={{ width: `${image.width}px` }} />
-        {quantity && <p className="text-xxs">{`x${quantity}`}</p>}
+      <div className="flex" style={{ marginLeft: `-${PIXEL_SCALE * 3}px` }}>
+        <div
+          className="flex items-center"
+          style={{ width: `${image.width}px` }}
+        >
+          <img className="w-full h-full" src={image.src} />
+        </div>
+        {quantity && (
+          <span className="text-xxs">{`x${Number.isInteger(Number(quantity)) ? Number(quantity) : Number(quantity).toFixed(2)}`}</span>
+        )}
       </div>
     </div>
   );
