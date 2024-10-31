@@ -15,14 +15,13 @@ import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MinigameHistory, MinigamePrize } from "features/game/types/game";
-import { secondsToString } from "lib/utils/time";
+import { millisecondsToString, secondsToString } from "lib/utils/time";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PortalLeaderboard } from "./PortalLeaderboard";
-// import { PortalLeaderboard } from "./PortalLeaderboard";
 
 export function hasReadHalloweenNotice() {
   return !!localStorage.getItem("halloween.notice");
@@ -184,7 +183,13 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
 
   if (page === "leaderboard") {
     return (
-      <PortalLeaderboard onBack={() => setPage("play")} name={"halloween"} />
+      <PortalLeaderboard
+        onBack={() => setPage("play")}
+        name={"halloween"}
+        formatPoints={(points: number) =>
+          millisecondsToString(points, { length: "full" })
+        }
+      />
     );
   }
 
