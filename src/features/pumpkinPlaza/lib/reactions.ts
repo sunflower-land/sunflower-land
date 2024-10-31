@@ -5,7 +5,7 @@ import crown from "assets/sfts/goblin_crown.png";
 
 import levelUp from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
 
 export type ReactionName =
@@ -95,7 +95,7 @@ export const REACTIONS: Reaction[] = [
     hasAccess: (game: GameState) =>
       !!game.bumpkin?.achievements?.["Sunflower Superstar"],
     description: translate("reaction.sunflowers"),
-    icon: CROP_LIFECYCLE.Sunflower.crop,
+    icon: PLOT_CROP_LIFECYCLE.Sunflower.crop,
   },
   {
     name: "suspicious",

@@ -1,6 +1,6 @@
 import { getKeys } from "./craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
 
 export type BumpkinSkillName =
@@ -237,7 +237,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Master Farmer",
     },
     boosts: translate("coming.soon"),
-    image: CROP_LIFECYCLE.Radish.crop,
+    image: PLOT_CROP_LIFECYCLE.Radish.crop,
     disabled: true,
   },
   "Happy Crop": {

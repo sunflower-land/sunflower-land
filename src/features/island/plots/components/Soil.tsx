@@ -3,7 +3,7 @@ import React from "react";
 import { PlotCropName } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "../lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "../lib/plant";
 
 export type GrowthStage = "seedling" | "halfway" | "almost" | "ready";
 
@@ -28,7 +28,7 @@ const getCropImage = (imageSource: string): JSX.Element => {
 const SoilComponent: React.FC<Props> = ({ cropName, stage }) => {
   if (!cropName || !stage) return getCropImage(SUNNYSIDE.soil.soil2);
 
-  const lifecycle = CROP_LIFECYCLE[cropName];
+  const lifecycle = PLOT_CROP_LIFECYCLE[cropName];
 
   switch (stage) {
     case "seedling":

@@ -3,7 +3,7 @@ import { Seeds } from "./Seeds";
 import { Crops } from "./Crops";
 import { Equipped } from "features/game/types/bumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ConversationName } from "features/game/types/announcements";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -91,7 +91,7 @@ export const ShopItems: React.FC<Props> = ({
           unread: showBuyHelper,
         },
         {
-          icon: CROP_LIFECYCLE.Sunflower.crop,
+          icon: PLOT_CROP_LIFECYCLE.Sunflower.crop,
           name: t("sell"),
           unread: !hasSoldBefore,
         },

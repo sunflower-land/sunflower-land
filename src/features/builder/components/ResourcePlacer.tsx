@@ -20,7 +20,7 @@ import { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { ZoomContext } from "components/ZoomProvider";
 import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -100,7 +100,7 @@ export const RESOURCES: Record<
       height: 1,
       width: 1,
     },
-    icon: CROP_LIFECYCLE.Sunflower.seedling,
+    icon: PLOT_CROP_LIFECYCLE.Sunflower.seedling,
   },
   boulder: {
     component: () => <Boulder />,

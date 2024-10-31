@@ -26,7 +26,7 @@ import { getKeys } from "features/game/types/decorations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ShipmentRestockModal } from "./ShipmentRestockModal";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { capitalize } from "lodash";
 
@@ -225,14 +225,14 @@ const RestockSelectionModal: React.FC<{
                 <div className="flex flex-row flex-wrap ml-7 mb-0.5">
                   <Label
                     type="default"
-                    icon={CROP_LIFECYCLE.Sunflower.seed}
+                    icon={PLOT_CROP_LIFECYCLE.Sunflower.seed}
                     className="mt-1 ml-1 capitalize"
                   >
                     {t("basic.seeds")}
                   </Label>
                   <Label
                     type="default"
-                    icon={CROP_LIFECYCLE.Carrot.seed}
+                    icon={PLOT_CROP_LIFECYCLE.Carrot.seed}
                     className="mt-1 ml-1 capitalize"
                   >
                     {t("medium.seeds")}

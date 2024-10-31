@@ -23,7 +23,7 @@ import {
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "../plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "../plots/lib/plant";
 import {
   Chicken as ChickenType,
   GameState,
@@ -324,7 +324,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={CROP_LIFECYCLE.Wheat.crop}
+                src={PLOT_CROP_LIFECYCLE.Wheat.crop}
                 className={classNames("transition-opacity absolute z-10", {
                   "opacity-100": showPopover,
                   "opacity-0": !showPopover,

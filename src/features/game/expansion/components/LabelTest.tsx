@@ -7,7 +7,7 @@ import lock from "assets/skills/lock.png";
 import chest from "assets/icons/chest.png";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const LabelTest: React.FC = () => {
@@ -43,7 +43,7 @@ export const LabelTest: React.FC = () => {
               <Label
                 type="success"
                 icon={powerup}
-                secondaryIcon={CROP_LIFECYCLE.Pumpkin.crop}
+                secondaryIcon={PLOT_CROP_LIFECYCLE.Pumpkin.crop}
               >
                 {t("buff")}
               </Label>
@@ -122,7 +122,7 @@ export const LabelTest: React.FC = () => {
               <Label
                 type="chill"
                 icon={SUNNYSIDE.icons.heart}
-                secondaryIcon={CROP_LIFECYCLE.Sunflower.crop}
+                secondaryIcon={PLOT_CROP_LIFECYCLE.Sunflower.crop}
               >
                 {t("formula")}
               </Label>

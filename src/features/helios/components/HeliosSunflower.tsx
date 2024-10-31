@@ -5,7 +5,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const HeliosSunflower: React.FC = () => {
@@ -18,7 +18,7 @@ export const HeliosSunflower: React.FC = () => {
         onClick={() => setShowModal(true)}
       >
         <img
-          src={CROP_LIFECYCLE.Sunflower.ready}
+          src={PLOT_CROP_LIFECYCLE.Sunflower.ready}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 16}px`,

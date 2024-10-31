@@ -16,7 +16,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { SEEDS } from "features/game/types/seeds";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 interface RestockModalProps {
   onClose: () => void;
@@ -121,7 +121,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
         </div>
         {restockSeeds.length > 0 && (
           <Label
-            icon={CROP_LIFECYCLE.Sunflower.seed}
+            icon={PLOT_CROP_LIFECYCLE.Sunflower.seed}
             type="default"
             className="ml-2 mb-1"
           >

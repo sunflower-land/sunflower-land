@@ -71,7 +71,7 @@ export const IMAGES: Record<PlotCropName, string> = {
   Barley: "barley",
 };
 
-export const CROP_LIFECYCLE: Record<PlotCropName, Lifecycle> = getKeys(
+export const PLOT_CROP_LIFECYCLE: Record<PlotCropName, Lifecycle> = getKeys(
   IMAGES,
 ).reduce(
   (acc, name) => ({

@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { BuffLabel } from ".";
 import { BumpkinItem } from "./bumpkin";
 
@@ -60,7 +60,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       shortDescription: translate("bumpkinItemBuff.eggplant.onesie.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Eggplant.crop,
+      boostedItemIcon: PLOT_CROP_LIFECYCLE.Eggplant.crop,
     },
     "Golden Spatula": {
       shortDescription: translate("bumpkinItemBuff.golden.spatula.boost"),
@@ -77,31 +77,31 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       shortDescription: translate("bumpkinItemBuff.parsnip.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Parsnip.crop,
+      boostedItemIcon: PLOT_CROP_LIFECYCLE.Parsnip.crop,
     },
     "Sunflower Shield": {
       shortDescription: translate("bumpkinItemBuff.sunflower.shield.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
-      boostedItemIcon: CROP_LIFECYCLE.Sunflower.crop,
+      boostedItemIcon: PLOT_CROP_LIFECYCLE.Sunflower.crop,
     },
     "Sunflower Amulet": {
       shortDescription: translate("bumpkinItemBuff.sunflower.amulet.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Sunflower.crop,
+      boostedItemIcon: PLOT_CROP_LIFECYCLE.Sunflower.crop,
     },
     "Carrot Amulet": {
       shortDescription: translate("bumpkinItemBuff.carrot.amulet.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: CROP_LIFECYCLE.Carrot.crop,
+      boostedItemIcon: PLOT_CROP_LIFECYCLE.Carrot.crop,
     },
     "Beetroot Amulet": {
       shortDescription: translate("bumpkinItemBuff.beetroot.amulet.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Beetroot.crop,
+      boostedItemIcon: PLOT_CROP_LIFECYCLE.Beetroot.crop,
     },
     "Green Amulet": {
       shortDescription: translate("bumpkinItemBuff.green.amulet.boost"),
@@ -128,7 +128,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       shortDescription: translate("bumpkinItemBuff.corn.onesie.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+      boostedItemIcon: PLOT_CROP_LIFECYCLE.Corn.crop,
     },
     "Sunflower Rod": {
       shortDescription: translate("bumpkinItemBuff.sunflower.rod.boost"),

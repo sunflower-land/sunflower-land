@@ -32,7 +32,7 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -223,7 +223,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE.Sunflower.crop}
+                icon={PLOT_CROP_LIFECYCLE.Sunflower.crop}
                 type="default"
               >
                 {`Basic Crops`}
@@ -247,7 +247,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE.Carrot.crop}
+                icon={PLOT_CROP_LIFECYCLE.Carrot.crop}
                 type="default"
               >
                 {`Medium Crops`}
@@ -271,7 +271,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE.Kale.crop}
+                icon={PLOT_CROP_LIFECYCLE.Kale.crop}
                 type="default"
               >
                 {`Advanced Crops`}

@@ -11,7 +11,7 @@ import {
 import { MachineInterpreter } from "../mmoMachine";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useNavigate } from "react-router-dom";
@@ -26,10 +26,10 @@ interface Props {
 // If colyseus does not return one of the servers, it means its empty
 const ICONS = [
   SUNNYSIDE.icons.water,
-  CROP_LIFECYCLE.Sunflower.crop,
+  PLOT_CROP_LIFECYCLE.Sunflower.crop,
   SUNNYSIDE.icons.heart,
   brazilFlag,
-  CROP_LIFECYCLE.Pumpkin.crop,
+  PLOT_CROP_LIFECYCLE.Pumpkin.crop,
 ];
 
 export const PickServer: React.FC<Props> = ({ mmoService }) => {

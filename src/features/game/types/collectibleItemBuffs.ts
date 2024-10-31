@@ -3,7 +3,7 @@ import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import chefHat from "assets/icons/chef_hat.png";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
@@ -66,103 +66,103 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: translate("description.peeled.potato.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Potato.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Potato.crop,
   },
   "Victoria Sisters": {
     shortDescription: translate("description.victoria.sisters.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Pumpkin.crop,
   },
   "Freya Fox": {
     shortDescription: translate("description.freya.fox.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Pumpkin.crop,
   },
   "Easter Bunny": {
     shortDescription: translate("description.easter.bunny.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Carrot.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Carrot.crop,
   },
   "Pablo The Bunny": {
     shortDescription: translate("description.pablo.bunny.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Carrot.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Carrot.crop,
   },
   "Cabbage Boy": {
     shortDescription: translate("description.cabbage.boy.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Cabbage.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Cabbage.crop,
   },
   "Cabbage Girl": {
     shortDescription: translate("description.cabbage.girl.boost"),
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-    boostedItemIcon: CROP_LIFECYCLE.Cabbage.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Cabbage.crop,
   },
   Karkinos: {
     shortDescription: translate("description.Karkinos.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Cabbage.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Cabbage.crop,
   },
   "Golden Cauliflower": {
     shortDescription: translate("description.golden.cauliflower.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Cauliflower.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Cauliflower.crop,
   },
   "Mysterious Parsnip": {
     shortDescription: translate("description.mysterious.parsnip.boost"),
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-    boostedItemIcon: CROP_LIFECYCLE.Parsnip.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Parsnip.crop,
   },
   "Purple Trail": {
     shortDescription: translate("description.purple.trail.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Eggplant.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Eggplant.crop,
   },
   Obie: {
     shortDescription: translate("description.obie.boost"),
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-    boostedItemIcon: CROP_LIFECYCLE.Eggplant.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Eggplant.crop,
   },
   Maximus: {
     shortDescription: translate("description.maximus.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Eggplant.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Eggplant.crop,
   },
   Poppy: {
     shortDescription: translate("description.poppy.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Corn.crop,
   },
   Kernaldo: {
     shortDescription: translate("description.kernaldo.boost"),
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-    boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Corn.crop,
   },
   "Queen Cornelia": {
     shortDescription: translate("description.queen.cornelia.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Corn.crop,
   },
   Foliant: {
     shortDescription: translate("description.foliant.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Kale.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Kale.crop,
   },
   Hoot: {
     shortDescription: translate("description.hoot.boost"),
@@ -186,26 +186,23 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: translate("description.soybliss.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Soybean.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Soybean.crop,
   },
 
   "Grape Granny": {
     shortDescription: translate("description.grape.granny.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
   },
   Vinny: {
     shortDescription: translate("description.vinny.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
   },
   "Rice Panda": {
     shortDescription: translate("description.rice.panda.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
   },
 
   // Fruit Boosts
@@ -255,37 +252,37 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: translate("description.stellar.sunflower.boost"),
     labelType: "vibrant",
     boostTypeIcon: lightning,
-    boostedItemIcon: CROP_LIFECYCLE.Sunflower.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Sunflower.crop,
   },
   "Potent Potato": {
     shortDescription: translate("description.potent.potato.boost"),
     labelType: "vibrant",
     boostTypeIcon: lightning,
-    boostedItemIcon: CROP_LIFECYCLE.Potato.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Potato.crop,
   },
   "Radical Radish": {
     shortDescription: translate("description.radical.radish.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Radish.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Radish.crop,
   },
   "Lab Grown Pumpkin": {
     shortDescription: translate("description.lg.pumpkin.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Pumpkin.crop,
   },
   "Lab Grown Carrot": {
     shortDescription: translate("description.lg.carrot.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Carrot.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Carrot.crop,
   },
   "Lab Grown Radish": {
     shortDescription: translate("description.lg.radish.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Radish.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Radish.crop,
   },
 
   // Animals
@@ -763,7 +760,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: translate("description.sheafOfPlenty.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: CROP_LIFECYCLE.Barley.crop,
+    boostedItemIcon: PLOT_CROP_LIFECYCLE.Barley.crop,
   },
   "Moo-ver": {
     shortDescription: translate("description.mooVer.boost"),

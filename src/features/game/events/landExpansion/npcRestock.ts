@@ -5,7 +5,7 @@ import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { SEEDS } from "features/game/types/seeds";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { NPCName } from "lib/npcs";
@@ -40,7 +40,7 @@ export const RestockItems: Record<RestockNPC, Restock> = {
     shopName: translate("market"),
     categoryLabel: {
       labelText: translate("seeds"),
-      icon: CROP_LIFECYCLE.Sunflower.seed,
+      icon: PLOT_CROP_LIFECYCLE.Sunflower.seed,
     },
   },
   blacksmith: {

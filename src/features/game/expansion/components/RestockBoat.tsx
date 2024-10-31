@@ -16,7 +16,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import Decimal from "decimal.js-light";
 
 const expansions = (state: MachineState) =>
@@ -102,7 +102,7 @@ export const RestockBoat: React.FC<{
             </div>
             {restockSeeds.length > 0 && (
               <Label
-                icon={CROP_LIFECYCLE.Sunflower.seed}
+                icon={PLOT_CROP_LIFECYCLE.Sunflower.seed}
                 type="default"
                 className="ml-2 mb-1"
               >

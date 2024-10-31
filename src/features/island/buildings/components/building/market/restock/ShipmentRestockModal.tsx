@@ -10,7 +10,7 @@ import { StockableName, INITIAL_STOCK } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS } from "features/game/types/seeds";
 import { WORKBENCH_TOOLS, TREASURE_TOOLS } from "features/game/types/tools";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import stockIcon from "assets/icons/stock.webp";
@@ -98,7 +98,7 @@ export const ShipmentRestockModal: React.FC<{
         </div>
         {restockSeeds.length > 0 && (
           <Label
-            icon={CROP_LIFECYCLE.Sunflower.seed}
+            icon={PLOT_CROP_LIFECYCLE.Sunflower.seed}
             type="default"
             className="ml-2 mb-1"
           >

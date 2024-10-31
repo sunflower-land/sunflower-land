@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
-import { CROP_LIFECYCLE } from "../plots/lib/plant";
+import { PLOT_CROP_LIFECYCLE } from "../plots/lib/plant";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -59,7 +59,7 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
       content: translate("fishingGuide.condition"),
     },
     {
-      icon: CROP_LIFECYCLE.Carrot.crop,
+      icon: PLOT_CROP_LIFECYCLE.Carrot.crop,
       content: translate("fishingGuide.bait.chum"),
     },
     {
