@@ -115,11 +115,22 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: SUNNYSIDE.icons.player,
       count: incompleteDeliveries,
     },
-    {
-      name: "Chores",
-      icon: chores,
-      count: incompleteChores + inCompleteKingdomChores,
-    },
+    ...(hasFeatureAccess(state, "CHORE_BOARD")
+      ? [
+          {
+            name: "Chore Board" as const,
+            icon: chores,
+            count: 0,
+          },
+        ]
+      : [
+          {
+            name: "Chores" as const,
+            icon: chores,
+            count: incompleteChores + inCompleteKingdomChores,
+          },
+        ]),
+
     {
       name: "Leaderboard" as const,
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
@@ -141,16 +152,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           {
             name: "Marks" as const,
             icon: factions,
-            count: 0,
-          },
-        ]
-      : []),
-
-    ...(hasFeatureAccess(state, "CHORE_BOARD")
-      ? [
-          {
-            name: "Chore Board" as const,
-            icon: chores,
             count: 0,
           },
         ]
@@ -235,7 +236,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 0 && <Deliveries onClose={onHide} />}
             {currentTab === 1 && (
               <>
-                <Chores farmId={farmId} />
+                {hasFeatureAccess(state, "CHORE_BOARD") ? (
+                  <ChoreBoard />
+                ) : (
+                  <Chores farmId={farmId} />
+                )}
               </>
             )}
             {currentTab === 2 && (
@@ -263,12 +268,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             )}
 
             {currentTab === 6 && (
-              <>
-                <ChoreBoard />
-              </>
-            )}
-
-            {currentTab === 7 && (
               <Season
                 id={id}
                 isLoading={data?.tickets === undefined}

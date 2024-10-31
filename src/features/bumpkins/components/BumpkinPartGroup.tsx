@@ -19,6 +19,11 @@ import {
 } from "features/game/lib/style";
 import { getImageUrl } from "lib/utils/getImageURLS";
 
+import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
+import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
+import halloweenSelectboxBL from "assets/ui/halloweenSelectbox_bl.png";
+import halloweenSelectboxBR from "assets/ui/halloweenSelectbox_br.png";
+
 interface Props {
   bumpkinParts: BumpkinPart[];
   equipped: BumpkinParts;
@@ -84,7 +89,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
               <div id="select-box" className="block">
                 <img
                   className="absolute pointer-events-none"
-                  src="src/assets/ui/halloweenSelectbox_tl.png"
+                  src={halloweenSelectboxTL}
                   style={{
                     top: `${PIXEL_SCALE * -3}px`,
                     left: `${PIXEL_SCALE * -3}px`,
@@ -94,7 +99,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 {!buffLabel && (
                   <img
                     className="absolute pointer-events-none"
-                    src="src/assets/ui/halloweenSelectbox_tr.png"
+                    src={halloweenSelectboxTR}
                     style={{
                       top: `${PIXEL_SCALE * -3}px`,
                       right: `${PIXEL_SCALE * -3}px`,
@@ -104,7 +109,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 )}
                 <img
                   className="absolute pointer-events-none"
-                  src="src/assets/ui/halloweenSelectbox_bl.png"
+                  src={halloweenSelectboxBL}
                   style={{
                     bottom: `${PIXEL_SCALE * -3}px`,
                     left: `${PIXEL_SCALE * -3}px`,
@@ -113,7 +118,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 />
                 <img
                   className="absolute pointer-events-none"
-                  src="src/assets/ui/halloweenSelectbox_br.png"
+                  src={halloweenSelectboxBR}
                   style={{
                     bottom: `${PIXEL_SCALE * -3}px`,
                     right: `${PIXEL_SCALE * -3}px`,

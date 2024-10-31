@@ -7,6 +7,11 @@ import { FeedbackIcons } from "./lib/types";
 import { PotionName, PotionStatus } from "features/game/types/game";
 
 const INNER_CANVAS_WIDTH = 14;
+// Add imports
+import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
+import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
+import halloweenSelectboxBL from "assets/ui/halloweenSelectbox_bl.png";
+import halloweenSelectboxBR from "assets/ui/halloweenSelectbox_br.png";
 
 interface Props {
   potionName: PotionName | null;
@@ -62,7 +67,7 @@ const SelectBox = () => {
     <>
       <img
         className="absolute pointer-events-none"
-        src="src/assets/ui/halloweenSelectbox_bl.png"
+        src={halloweenSelectboxTL}
         style={{
           top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: 0,
@@ -71,7 +76,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src="src/assets/ui/halloweenSelectbox_br.png"
+        src={halloweenSelectboxTR}
         style={{
           top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
@@ -80,7 +85,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src="src/assets/ui/halloweenSelectbox_tl.png"
+        src={halloweenSelectboxBL}
         style={{
           top: 0,
           left: 0,
@@ -89,7 +94,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src="src/assets/ui/halloweenSelectbox_tr.png"
+        src={halloweenSelectboxBR}
         style={{
           top: 0,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,

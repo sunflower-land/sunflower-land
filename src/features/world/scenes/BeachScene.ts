@@ -169,6 +169,10 @@ export class BeachScene extends BaseScene {
     this.load.image("button", "world/button.webp");
     this.load.image("treasure_shop", "world/treasure_shop.png");
     this.load.image("shop_icon", "world/shop_disc.png");
+    this.load.spritesheet("hank_swimming", SUNNYSIDE.npcs.hank_swimming, {
+      frameWidth: 16,
+      frameHeight: 14,
+    });
   }
 
   updatePirateChest() {
@@ -239,6 +243,20 @@ export class BeachScene extends BaseScene {
       frameRate: 10,
     });
     turtle.play("turtle_bud_anim", true);
+
+    if (Date.now() > new Date("2023-11-01T00:00:00").getTime()) {
+      const hank = this.add.sprite(480, 810, "hank_swimming");
+      this.anims.create({
+        key: "hank_anim",
+        frames: this.anims.generateFrameNumbers("hank_swimming", {
+          start: 0,
+          end: 12,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+      hank.play("hank_anim", true);
+    }
 
     const treasureShop = this.add.sprite(464, 194, "treasure_shop");
     this.physics.world.enable(treasureShop);

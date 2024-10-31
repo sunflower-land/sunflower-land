@@ -62,7 +62,7 @@ import { RichBear } from "./components/RichBear";
 import { SunflowerBear } from "./components/SunflowerBear";
 import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
@@ -336,6 +336,7 @@ import { TomatoBombard } from "./components/TomatoBombard";
 import { BullRunBanner } from "./components/BullRunBanner";
 import { Bed } from "./components/Bed";
 import { Wagon } from "./components/Wagon";
+import { hasFeatureAccess } from "lib/flags";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -1338,6 +1339,66 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Mechanical Bull"
     />
   ),
+  "Moo-ver": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["Moo-ver"].image}
+      alt="Moo-ver"
+    />
+  ),
+  "Swiss Whiskers": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Swiss Whiskers"].image}
+      alt="Swiss Whiskers"
+    />
+  ),
+  Cluckulator: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Cluckulator"].image}
+      alt="Cluckulator"
+    />
+  ),
+  UFO: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["UFO"].image}
+      alt="UFO"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
@@ -1632,25 +1693,27 @@ export const READONLY_COLLECTIBLES: Record<
           top: `${PIXEL_SCALE * 5}px`,
         }}
       />
-      <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 16 * 4}px`,
-          height: `${PIXEL_SCALE * 16 * 4}px`,
-          left: `${PIXEL_SCALE * -13}px`,
-          top: `${PIXEL_SCALE * -11}px`,
-        }}
-      >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
+      {!hasFeatureAccess(INITIAL_FARM, "BALE_AOE_END") && (
+        <div
+          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 27}px`,
-            top: `${PIXEL_SCALE * 25}px`,
+            width: `${PIXEL_SCALE * 16 * 4}px`,
+            height: `${PIXEL_SCALE * 16 * 4}px`,
+            left: `${PIXEL_SCALE * -13}px`,
+            top: `${PIXEL_SCALE * -11}px`,
           }}
-        />
-      </div>
+        >
+          <img
+            src={lightning}
+            className="absolute bottom-0 opacity-50 animate-pulsate"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * 27}px`,
+              top: `${PIXEL_SCALE * 25}px`,
+            }}
+          />
+        </div>
+      )}
     </div>
   ),
   "Nyon Statue": () => (

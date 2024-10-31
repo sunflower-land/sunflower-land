@@ -27,18 +27,36 @@ export const LevelProgress = ({
 }: Props) => {
   const [prevAnimalState, setPrevAnimalState] = useState(animalState);
   const [showLevelUp, setShowLevelUp] = useState(false);
+  const [displayExperience, setDisplayExperience] = useState(experience);
+  const [isLevelingUp, setIsLevelingUp] = useState(false);
   const { t } = useAppTranslation();
 
+  // Handle level up animation sequence
   useEffect(() => {
     if (prevAnimalState === "ready" && animalState === "sleeping") {
+      setIsLevelingUp(true);
       onLevelUp();
       setShowLevelUp(true);
+
+      // Delay updating the experience until the level up animation starts
+      setTimeout(() => {
+        setDisplayExperience(experience);
+        setIsLevelingUp(false);
+      }, 50);
+
       setTimeout(() => {
         setShowLevelUp(false);
       }, 600);
     }
     setPrevAnimalState(animalState);
-  }, [animalState, prevAnimalState, onLevelUp]);
+  }, [animalState, prevAnimalState, onLevelUp, experience]);
+
+  // Handle regular experience updates (feeding)
+  useEffect(() => {
+    if (!isLevelingUp) {
+      setDisplayExperience(experience);
+    }
+  }, [experience, isLevelingUp]);
 
   const level = getAnimalLevel(experience, animal);
 
@@ -48,8 +66,7 @@ export const LevelProgress = ({
     }
 
     const nextThreshold = ANIMAL_LEVELS[animal][(level + 1) as AnimalLevel];
-
-    return (experience / nextThreshold) * 100;
+    return (displayExperience / nextThreshold) * 100;
   };
 
   // An animal get xp on every feed so they may already be in the next level

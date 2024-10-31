@@ -5,6 +5,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import halloweenButton from "assets/ui/halloweenButton.png";
 
 interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -58,7 +59,7 @@ export const Button: React.FC<Props> = ({
       type={type}
       disabled={disabled}
       style={{
-        borderImage: `url(src/assets/ui/halloweenButton.png)`,
+        borderImage: `url(${halloweenButton})`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         borderImageSlice: "3 3 4 3 fill",

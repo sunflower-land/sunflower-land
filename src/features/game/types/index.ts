@@ -875,7 +875,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sheaf of Plenty": 2152,
   "Mechanical Bull": 2153,
   "King of Bears": 2154,
-  Wagon: 2155,
+  "Moo-ver": 2155,
+  "Swiss Whiskers": 2156,
+  Cluckulator: 2157,
+  UFO: 2158,
+  Wagon: 2160,
 };
 
 // The reverse of above

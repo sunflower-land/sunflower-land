@@ -2,6 +2,7 @@ import { InventoryItemName } from "./game";
 import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
+import chefHat from "assets/icons/chef_hat.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -744,5 +745,23 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
     boostedItemIcon: CROP_LIFECYCLE.Barley.crop,
+  },
+  "Moo-ver": {
+    shortDescription: translate("description.mooVer.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.leather,
+  },
+  "Swiss Whiskers": {
+    shortDescription: translate("description.swissWhiskers.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: chefHat,
+  },
+  Cluckulator: {
+    shortDescription: translate("description.cluckulator.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
   },
 };

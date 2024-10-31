@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { pickSkill } from "./pickSkill";

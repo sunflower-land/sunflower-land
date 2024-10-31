@@ -1208,7 +1208,7 @@ export type ChoreName = keyof typeof NPC_CHORES;
 
 type ChoreDetails = {
   name: ChoreName;
-  reward: { items: Partial<Record<InventoryItemName, number>> };
+  reward: { items: Partial<Record<InventoryItemName, number>>; coins?: number };
 };
 
 export type NpcChore = ChoreDetails & {

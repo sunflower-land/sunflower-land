@@ -13,6 +13,7 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getBoostedFoodQuantity,
   isAnimalFood,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -29,13 +30,17 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
-import { ANIMAL_FOODS } from "features/game/types/animals";
+import {
+  ANIMAL_FOOD_EXPERIENCE,
+  ANIMAL_FOODS,
+} from "features/game/types/animals";
 import { useTranslation } from "react-i18next";
 import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
+import { formatNumber } from "lib/utils/formatNumber";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -88,6 +93,7 @@ const _cow = (id: string) => (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _inventoryCount = (item: InventoryItemName) => (state: MachineState) =>
   state.context.state.inventory[item] ?? new Decimal(0);
+const _game = (state: MachineState) => state.context.state;
 
 export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -100,7 +106,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     gameService,
     _inventoryCount(selectedItem as AnimalFoodName),
   );
-
+  const game = useSelector(gameService, _game);
   const cowService = useInterpret(animalMachine, {
     context: {
       animal: cow,
@@ -109,6 +115,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const cowMachineState = useSelector(cowService, _animalState);
   const inventory = useSelector(gameService, _inventory);
+  const [showFeedXP, setShowFeedXP] = useState(false);
 
   useEffect(() => {
     if (cow.state === "sick" && cowMachineState !== "sick") {
@@ -144,6 +151,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const sick = cowMachineState === "sick";
   const loved = cowMachineState === "loved";
 
+  const requiredFoodQty = getBoostedFoodQuantity({
+    animalType: "Cow",
+    foodQuantity: REQUIRED_FOOD_QTY.Cow,
+    game,
+  });
+
   const feedCow = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
       type: "animal.fed",
@@ -151,6 +164,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       item: item ? (item as AnimalFoodName) : undefined,
       id: cow.id,
     });
+
+    setShowFeedXP(true);
+    setTimeout(() => setShowFeedXP(false), 700);
 
     const updatedCow = updatedState.context.state.barn.animals[id];
 
@@ -279,7 +295,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       const foodCount =
         inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
       // 5 is the amount of food needed to feed the cow
-      if (foodCount.lt(REQUIRED_FOOD_QTY.Cow)) {
+      if (foodCount.lt(requiredFoodQty)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -308,7 +324,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     const foodCount = inventory[item as AnimalFoodName] ?? new Decimal(0);
 
-    if (foodCount.lt(REQUIRED_FOOD_QTY.Cow)) {
+    if (foodCount.lt(requiredFoodQty)) {
       setShowQuickSelect(false);
       setShowNotEnoughFood(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -398,10 +414,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         {/* Request */}
         {idle && (
           <RequestBubble
+            key={REQUIRED_FOOD_QTY.Cow}
             top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
             request={favFood}
-            quantity={REQUIRED_FOOD_QTY.Cow}
+            quantity={requiredFoodQty}
           />
         )}
         {sick && (
@@ -454,6 +471,26 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         // Don't block level up UI with wakes in panel if accidentally clicked
         onLevelUp={() => setShowWakesIn(false)}
       />
+      {/* Feed XP */}
+      <Transition
+        appear={true}
+        id="oil-reserve-collected-amount"
+        show={showFeedXP}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+      >
+        <span
+          className="text-sm yield-text"
+          style={{
+            color: favFood === selectedItem ? "#71e358" : "#fff",
+          }}
+        >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Cow[level][selectedItem as AnimalFoodName])}`}</span>
+      </Transition>
       {/* Quick Select */}
       <Transition
         appear={true}
@@ -473,9 +510,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
                   .filter(
                     (food) =>
                       ANIMAL_FOODS[food].type === "food" &&
-                      (inventory[food] ?? new Decimal(0)).gte(
-                        REQUIRED_FOOD_QTY.Cow,
-                      ),
+                      (inventory[food] ?? new Decimal(0)).gte(requiredFoodQty),
                   )
                   .map((food) => ({
                     name: food,

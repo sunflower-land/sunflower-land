@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import { getEncyclopediaFish } from "features/island/hud/components/codex/lib/utils";
 import { FISH_MILESTONES } from "./milestones";
 import { getKeys } from "./decorations";

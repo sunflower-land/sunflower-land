@@ -8,6 +8,8 @@ import {
 } from "features/game/lib/style";
 
 import usedButton from "assets/ui/used_button.png";
+import halloweenPanelBg from "assets/ui/halloweenPanelBg.png";
+import halloweenButton from "assets/ui/halloweenButton.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
@@ -108,12 +110,12 @@ export const OuterPanel: React.FC<PanelProps> = ({
         </div>
       )}
       <div
-        className={classNames(
-          className,
-          "bg-[url(src/assets/ui/halloweenPanelBg.png)]",
-        )}
+        // Fix for dark mode
+
+        className={classNames(className)}
         style={{
           ...pixelHalloweenOuterBorderStyle,
+          backgroundImage: `url(${halloweenPanelBg})`,
           padding: `${PIXEL_SCALE * 1}px`,
           ...(hasTabs
             ? {
@@ -158,7 +160,7 @@ export const ButtonPanel: React.FC<
       style={{
         ...pixelHalloweenOuterBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${frozen ? usedButton : "src/assets/ui/halloweenButton.png"}) 3 3 4 3 fill`,
+        borderImage: `url(${frozen ? usedButton : halloweenButton}) 3 3 4 3 fill`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         imageRendering: "pixelated",
