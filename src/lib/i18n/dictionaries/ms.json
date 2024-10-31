@@ -4143,5 +4143,6 @@
   "description.merinoJumper.boost": "+1 Merino Wool",
   "description.mooVer.boost": "+0.25 Kulit",
   "description.swissWhiskers.boost": "+500 Resipi Keju XP",
-  "description.cluckulator.boost": "-25% Makanan kepada Ayam"
+  "description.cluckulator.boost": "-25% Makanan kepada Ayam",
+  "chores.ended": "Sepanjang masa itu memberitahu Bumpkins apa yang perlu dilakukan... saya letih. Saya rasa saya perlukan percutian."
 }

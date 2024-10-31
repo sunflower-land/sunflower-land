@@ -4143,5 +4143,6 @@
   "description.merinoJumper.boost": "+1 мериносовая шерсть",
   "description.mooVer.boost": "+0.25 Кожа",
   "description.swissWhiskers.boost": "+500 рецептов сыра XP",
-  "description.cluckulator.boost": "-25% корма для курицы"
+  "description.cluckulator.boost": "-25% корма для курицы",
+  "chores.ended": "Все это время я говорю Бампкинсу, что делать... Я устала. Думаю, мне нужен отпуск."
 }

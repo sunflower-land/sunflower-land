@@ -4143,5 +4143,6 @@
   "description.merinoJumper.boost": "+1 Lã Merino",
   "description.mooVer.boost": "+0.25 Couro",
   "description.swissWhiskers.boost": "+500 XP de receita de queijo",
-  "description.cluckulator.boost": "-25% de ração para frango"
+  "description.cluckulator.boost": "-25% de ração para frango",
+  "chores.ended": "Todo esse tempo dizendo a Bumpkins o que fazer... estou cansado. Acho que preciso de férias."
 }

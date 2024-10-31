@@ -4143,5 +4143,6 @@
   "description.merinoJumper.boost": "+1 メリノウール",
   "description.mooVer.boost": "+0.25 レザー",
   "description.swissWhiskers.boost": "+500 チーズレシピ経験値",
-  "description.cluckulator.boost": "-25% 鶏への飼料"
+  "description.cluckulator.boost": "-25% 鶏への飼料",
+  "chores.ended": "バンプキンズに何をすべきか言っている間ずっと... 疲れた。休暇が必要だと思う。"
 }

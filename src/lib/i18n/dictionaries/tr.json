@@ -4143,5 +4143,6 @@
   "description.merinoJumper.boost": "+1 Merinos Yünü",
   "description.mooVer.boost": "+0.25 Deri",
   "description.swissWhiskers.boost": "+500 Peynir Tarifi XP",
-  "description.cluckulator.boost": "-25% Tavuk Yemi"
+  "description.cluckulator.boost": "-25% Tavuk Yemi",
+  "chores.ended": "Bunca zaman Bumpkins'e ne yapacağını söylerken yoruldum. Sanırım tatile ihtiyacım var."
 }

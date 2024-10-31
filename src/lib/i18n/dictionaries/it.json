@@ -4143,5 +4143,6 @@
   "description.merinoJumper.boost": "+1 lana merino",
   "description.mooVer.boost": "+0,25 Pelle",
   "description.swissWhiskers.boost": "+500 Ricetta al formaggio XP",
-  "description.cluckulator.boost": "-25% di mangime per polli"
+  "description.cluckulator.boost": "-25% di mangime per polli",
+  "chores.ended": "Tutto il tempo a dire a Bumpkins cosa fare... sono stanco. Penso di aver bisogno di una vacanza."
 }

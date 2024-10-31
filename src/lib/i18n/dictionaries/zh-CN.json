@@ -4143,5 +4143,6 @@
   "description.merinoJumper.boost": "+1 美利奴羊毛",
   "description.mooVer.boost": "+0.25 皮革",
   "description.swissWhiskers.boost": "+500 奶酪食谱经验值",
-  "description.cluckulator.boost": "-25% 鸡肉饲料"
+  "description.cluckulator.boost": "-25% 鸡肉饲料",
+  "chores.ended": "一直在告诉 Bumpkins 该怎么做... 我累了。我想我需要休假。"
 }
