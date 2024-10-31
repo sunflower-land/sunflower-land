@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "+1 Horseshoe from Chores",
   "description.milkApron.boost": "+0,5 Leite",
   "description.sheafOfPlenty.boost": "+2 Cevada",
-  "restrictionReason.sheepFed": "As ovelhas são alimentadas",
-  "restrictionReason.cowFed": "As vacas são alimentadas",
   "digby.streakReward": "Descubra os três {{name}} para ganhar um prêmio de bônus. Desbloqueie sequências diárias para obter recompensas extras.",
   "double.delivery.hint": "Pssssst... haverá recompensas duplas por entregas em {{date}}.",
   "halloween.portal.title": "Minijogo - Halloween",
@@ -4152,5 +4150,13 @@
   "delivery.holiday.closed": "Esses Bumpkins estão de férias... Volte mais tarde!",
   "description.chicory.boost": "10% de chance de ganhar +1 flor",
   "description.chicory": "Uma flor mutante que pode ser encontrada durante a temporada de Bull Run.",
-  "season.codex.howToEarn.comingSoon": "As tarefas, entregas e recompensas começarão no dia 6 de novembro!"
+  "season.codex.howToEarn.comingSoon": "As tarefas, entregas e recompensas começarão no dia 6 de novembro!",
+  "description.longhorn.cowfish.boost": "+0,2 Leite",
+  "description.lemon.shark": "Um nadador animado e animado dos mares de verão. Disponível apenas durante a temporada do Tesouro do Faraó.",
+  "description.longhorn.cowfish": "Um peixe-caixa peculiar com espinhos em forma de chifre, nadando pelos mares com graça bovina.",
+  "howToGetThisItem.longhornCowfish": "Foi obtido por meio da jogabilidade na temporada Pharaoh's Treasure.",
+  "restrictionReason.sheepSleeping": "As ovelhas estão dormindo",
+  "restrictionReason.cowsSleeping": "As vacas estão dormindo",
+  "chickens.deprecated.1": "As galinhas agora são alimentadas no galinheiro.",
+  "chickens.deprecated.2": "Venda galinhas existentes na Garbo."
 }

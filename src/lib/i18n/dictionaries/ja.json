@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "雑用から+1ホースシュー",
   "description.milkApron.boost": "+0.5 ミルク",
   "description.sheafOfPlenty.boost": "+2 バーリー",
-  "restrictionReason.sheepFed": "羊に餌をやる",
-  "restrictionReason.cowFed": "牛に餌をやる",
   "digby.streakReward": "3つの {{name}} を見つけるとボーナス賞品がもらえます。毎日の連勝をアンロックして追加報酬を獲得しましょう。",
   "double.delivery.hint": "Pssssst... {{date}} に配送すると2倍の報酬がもらえます。",
   "halloween.portal.title": "ミニゲーム-ハロウィン",
@@ -4152,5 +4150,13 @@
   "delivery.holiday.closed": "このバンプキンズは休暇中です... 後で戻ってきてください！",
   "description.chicory.boost": "10% の確率で花1個獲得可能",
   "description.chicory": "ブルランの季節に見つかる突然変異花。",
-  "season.codex.howToEarn.comingSoon": "雑用、配達、報奨金は11月6日から始まります！"
+  "season.codex.howToEarn.comingSoon": "雑用、配達、報奨金は11月6日から始まります！",
+  "description.longhorn.cowfish.boost": "+0.2 ミルク",
+  "description.lemon.shark": "夏の海を泳ぐ元気で元気いっぱいのスイマー。ファラオの宝のシーズン中のみ利用可能。",
+  "description.longhorn.cowfish": "ウシの優雅さで海を泳いでいる、角のようなトゲを持つ独特のハゲです。",
+  "howToGetThisItem.longhornCowfish": "ファラオのトレジャーシーズンのゲームプレイで入手できました。",
+  "restrictionReason.sheepSleeping": "羊は眠っている",
+  "restrictionReason.cowsSleeping": "牛は眠っている",
+  "chickens.deprecated.1": "鶏は今、鶏小屋で餌を与えられています。",
+  "chickens.deprecated.2": "ガルボで既存の鶏を売ってください。"
 }

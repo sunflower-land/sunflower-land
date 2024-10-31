@@ -4109,8 +4109,6 @@
   "description.cowboyTrouser.boost": "+1 Horseshoe from Chores",
   "description.milkApron.boost": "+0.5 Süt",
   "description.sheafOfPlenty.boost": "+2 Barley",
-  "restrictionReason.sheepFed": "Koyunlar beslenir",
-  "restrictionReason.cowFed": "İnekler beslenir",
   "digby.streakReward": "Bonus ödülü için üçünü {{name}} keşfedin. Ekstra ödüller için günlük serilerin kilidini açın.",
   "double.delivery.hint": "Psssssst... {{date}} üzerindeki teslimatlar için çifte ödül olacak.",
   "halloween.portal.title": "Mini oyun - Cadılar Bayramı",
@@ -4152,5 +4150,13 @@
   "delivery.holiday.closed": "Bu Bumpkin'ler tatilde... Sonra geri gelin!",
   "description.chicory.boost": "+1 Çiçek için %10 Şans",
   "description.chicory": "Bull Run sezonunda bulunabilen mutant bir çiçek.",
-  "season.codex.howToEarn.comingSoon": "Ev işleri, teslimatlar ve ödüller 6 Kasım'da başlayacak!"
+  "season.codex.howToEarn.comingSoon": "Ev işleri, teslimatlar ve ödüller 6 Kasım'da başlayacak!",
+  "description.longhorn.cowfish.boost": "+0.2 Süt",
+  "description.lemon.shark": "Yaz denizlerinin şirin, ferah bir yüzücüsü. Sadece Firavun'un Hazinesi sezonunda kullanılabilir.",
+  "description.longhorn.cowfish": "Boynuz benzeri dikenleri olan, sığır zarafetiyle denizlerde yüzen tuhaf bir şimşir balığı.",
+  "howToGetThisItem.longhornCowfish": "Firavun'un Hazinesi sezonunda oynanarak elde edilebilirdi.",
+  "restrictionReason.sheepSleeping": "Koyunlar uyuyor",
+  "restrictionReason.cowsSleeping": "İnekler uyuyor",
+  "chickens.deprecated.1": "Tavuklar artık tavuk evinde besleniyor.",
+  "chickens.deprecated.2": "Garbo'da mevcut tavukları sat."
 }
