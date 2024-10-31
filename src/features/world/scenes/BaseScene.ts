@@ -49,6 +49,7 @@ export type NPCBumpkin = {
   direction?: "left" | "right";
   clothing?: BumpkinParts;
   onClick?: () => void;
+  hideLabel?: boolean;
 };
 
 // 3 Times per second send position to server
@@ -1210,7 +1211,7 @@ export abstract class BaseScene extends Phaser.Scene {
           updatedAt: 0,
         },
         onClick: bumpkin.onClick ?? defaultClick,
-        name: bumpkin.npc,
+        name: bumpkin.hideLabel ? undefined : bumpkin.npc,
         direction: bumpkin.direction ?? "right",
       });
 
