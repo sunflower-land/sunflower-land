@@ -1588,6 +1588,6 @@ describe("claimProduce", () => {
     });
 
     expect(newState.inventory.Wool).toEqual(new Decimal(1.25));
-    expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1.25));
+    expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1));
   });
 });
