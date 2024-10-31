@@ -437,6 +437,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS.Lemon.image,
   },
+  "Longhorn Cowfish": {
+    labelType: "success",
+    shortDescription: translate("description.longhorn.cowfish.boost"),
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Milk.image,
+  },
   "Crim Peckster": {
     shortDescription: translate("description.crim.peckster.boost"),
     labelType: "success",

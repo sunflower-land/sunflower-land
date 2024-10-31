@@ -1006,6 +1006,7 @@ const fish: Record<FishName | MarineMarvelName | OldFishName, () => boolean> = {
   "Lemon Shark": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Crimson Carp": () => hasSeasonEnded("Clash of Factions"),
   "Battle Fish": () => hasSeasonEnded("Clash of Factions"),
+  "Longhorn Cowfish": () => hasSeasonEnded("Bull Run"),
 };
 
 const interiors: Record<InteriorDecorationName, () => boolean> = {

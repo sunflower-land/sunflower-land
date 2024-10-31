@@ -336,6 +336,7 @@ import { TomatoBombard } from "./components/TomatoBombard";
 import { BullRunBanner } from "./components/BullRunBanner";
 import { Bed } from "./components/Bed";
 import { hasFeatureAccess } from "lib/flags";
+import { LonghornCowfish } from "./components/LonghornCownfish";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -607,6 +608,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
   "Lemon Shark": LemonShark,
+  "Longhorn Cowfish": LonghornCowfish,
 
   "Kraken Tentacle": KrakenTentacle,
 
