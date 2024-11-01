@@ -1,9 +1,9 @@
 import { GameState, PlantedCrop } from "../../types/game";
 import {
-  Crop,
   GREENHOUSE_CROPS,
   GreenHouseCropName,
   PLOT_CROPS,
+  PlotCrop,
   PlotCropName,
 } from "../../types/crops";
 import Decimal from "decimal.js-light";
@@ -62,7 +62,7 @@ export const isOvernightCrop = (cropName: PlotCropName | GreenHouseCropName) => 
 export const isReadyToHarvest = (
   createdAt: number,
   plantedCrop: PlantedCrop,
-  cropDetails: Crop,
+  cropDetails: PlotCrop,
 ) => {
   return createdAt - plantedCrop.plantedAt >= cropDetails.harvestSeconds * 1000;
 };

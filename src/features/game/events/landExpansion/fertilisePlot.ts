@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
 import { CropCompostName } from "features/game/types/composters";
-import { PLOT_CROPS, Crop } from "features/game/types/crops";
+import { PLOT_CROPS, PlotCrop } from "features/game/types/crops";
 import { isReadyToHarvest } from "./harvest";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
@@ -34,7 +34,7 @@ const getPlantedAt = (
   fertiliser: CropCompostName,
   plantedAt: number,
   fertilisedAt: number,
-  cropDetails: Crop,
+  cropDetails: PlotCrop,
 ) => {
   const timeToHarvest = cropDetails.harvestSeconds * 1000;
   const harvestTime = plantedAt + timeToHarvest;

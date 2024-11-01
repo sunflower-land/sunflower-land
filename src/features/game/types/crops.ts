@@ -18,7 +18,7 @@ export type PlotCropName =
   | "Kale"
   | "Barley";
 
-export type Crop = {
+export type PlotCrop = {
   sellPrice: number;
   harvestSeconds: number;
   name: PlotCropName;
@@ -75,7 +75,7 @@ export type GreenHouseCropSeedName = `${GreenHouseCropName} Seed`;
 /**
  * Plot crops and their original prices
  */
-export const PLOT_CROPS: Record<PlotCropName, Crop> = {
+export const PLOT_CROPS: Record<PlotCropName, PlotCrop> = {
   Sunflower: {
     name: "Sunflower",
     description: translate("description.sunflower"),

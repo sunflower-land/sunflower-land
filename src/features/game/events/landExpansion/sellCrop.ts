@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import {
-  Crop,
   GREENHOUSE_CROPS,
   GreenHouseCrop,
   PLOT_CROPS,
+  PlotCrop,
   PlotCropName,
 } from "../../types/crops";
 import { GameState } from "../../types/game";
@@ -22,7 +22,7 @@ import { ExoticCrop } from "features/game/types/beans";
 
 export type SellableName = PlotCropName | PatchFruitName;
 export type SellableItem =
-  | Crop
+  | PlotCrop
   | PatchFruit
   | ExoticCrop
   | GreenHouseFruit

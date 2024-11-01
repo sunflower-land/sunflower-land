@@ -4,11 +4,11 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import {
-  Crop,
   PlotCropName,
   GREENHOUSE_CROPS,
   GreenHouseCrop,
   PLOT_CROPS,
+  PlotCrop,
 } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -46,14 +46,14 @@ import {
 } from "features/game/events/landExpansion/harvest";
 
 export const isExoticCrop = (
-  item: Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
+  item: PlotCrop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
 ): item is ExoticCrop => {
   return item.name in EXOTIC_CROPS;
 };
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<
-    Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop
+  PlotCrop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop
   >(PLOT_CROPS.Sunflower);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
@@ -93,7 +93,7 @@ export const Crops: React.FC = () => {
   };
 
   const displaySellPrice = (
-    crop: Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
+    crop: PlotCrop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
   ) =>
     isExoticCrop(crop)
       ? crop.sellPrice
