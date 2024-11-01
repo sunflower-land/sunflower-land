@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";

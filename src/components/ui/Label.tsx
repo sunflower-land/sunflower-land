@@ -118,7 +118,6 @@ export const Label: React.FC<Props> = ({
       style={{
         ...LABEL_STYLES[type].borderStyle,
         background: LABEL_STYLES[type].background,
-
         paddingLeft: icon ? "14px" : "3px",
         paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "3px",
         color: LABEL_STYLES[type].textColour,

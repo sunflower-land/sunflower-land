@@ -374,6 +374,45 @@ describe("claimProduce", () => {
     expect(newState.inventory.Leather).toEqual(new Decimal(1));
   });
 
+  it("gives +2 yield for Milk for cows when a Cowbell Necklace is being worn", () => {
+    const cowId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            necklace: "Cowbell Necklace",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [cowId]: {
+              coordinates: { x: 0, y: 0 },
+              id: cowId,
+              type: "Cow",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: cowId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Milk).toEqual(new Decimal(3));
+    expect(newState.inventory.Leather).toEqual(new Decimal(1));
+  });
+
   it("gives +0.25 yield for all produce for sheep when a Cattlegrim is being worn", () => {
     const sheepId = "123";
 
@@ -456,6 +495,45 @@ describe("claimProduce", () => {
 
     expect(newState.inventory.Egg).toEqual(new Decimal(1.1));
     expect(newState.inventory.Feather).toEqual(new Decimal(1));
+  });
+
+  it("gives +1 Feather for chickens when Chicken Suit is worn", () => {
+    const chickenId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            suit: "Chicken Suit",
+          },
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "ready",
+              experience: 120,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Feather).toEqual(new Decimal(2));
   });
 
   it("gives +0.1 more produce for chickens when player has Barn Manager skill", () => {
@@ -561,6 +639,126 @@ describe("claimProduce", () => {
 
     expect(newState.inventory.Wool).toEqual(new Decimal(1.1));
     expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1.1));
+  });
+
+  it("gives +0.25 Leather for cows when player has Moo-ver placed", () => {
+    const cowId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        collectibles: {
+          "Moo-ver": [
+            {
+              id: "rich",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [cowId]: {
+              coordinates: { x: 0, y: 0 },
+              id: cowId,
+              type: "Cow",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: cowId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Leather).toEqual(new Decimal(1.25));
+  });
+
+  it("gives +2 Wool for sheeps when Black Sheep Onesie is worn", () => {
+    const sheepID = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            onesie: "Black Sheep Onesie",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [sheepID]: {
+              coordinates: { x: 0, y: 0 },
+              id: sheepID,
+              type: "Sheep",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: sheepID },
+      createdAt: now,
+    });
+
+    expect(newState.inventory["Wool"]).toEqual(new Decimal(3));
+  });
+
+  it("gives +1 Merino Wool for sheeps when Merino Jumper is worn", () => {
+    const sheepID = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            shirt: "Merino Jumper",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [sheepID]: {
+              coordinates: { x: 0, y: 0 },
+              id: sheepID,
+              type: "Sheep",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: sheepID },
+      createdAt: now,
+    });
+
+    expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(2));
   });
 
   it("stacks the Barn Manager, Rich Chicken, Chicken Coop, and Bale yield boosts for eggs", () => {
@@ -1352,5 +1550,151 @@ describe("claimProduce", () => {
     const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.6075;
 
     expect(state.barn.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
+  });
+
+  it("gives +0.25 more produce for sheep when player has White Sheep Onesie wearable equipped", () => {
+    const sheepId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            onesie: "White Sheep Onesie",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [sheepId]: {
+              coordinates: { x: 0, y: 0 },
+              id: sheepId,
+              type: "Sheep",
+              createdAt: 0,
+              state: "ready",
+              experience: 240,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: sheepId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Wool).toEqual(new Decimal(1.25));
+    expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1));
+  });
+
+  it("gives 0.1 more feathers when an Alien Chicken is placed", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Alien Chicken": new Decimal(1),
+        },
+        collectibles: {
+          "Alien Chicken": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              experience: 120,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: "0" },
+    });
+
+    expect(state.inventory.Feather).toEqual(new Decimal(1.1));
+  });
+
+  it("gives 0.1 more merino wool when a Toxic Tuft is placed", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Toxic Tuft": new Decimal(1),
+        },
+        collectibles: {
+          "Toxic Tuft": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Sheep",
+              state: "ready",
+              experience: 240,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: "0" },
+    });
+
+    expect(state.inventory["Merino Wool"]).toEqual(new Decimal(1.1));
+  });
+
+  it("gives 0.1 more leather when a Mootant is placed", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Mootant: new Decimal(1),
+        },
+        collectibles: {
+          Mootant: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Cow",
+              state: "ready",
+              experience: 360,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: "0" },
+    });
+
+    expect(state.inventory.Leather).toEqual(new Decimal(1.1));
   });
 });

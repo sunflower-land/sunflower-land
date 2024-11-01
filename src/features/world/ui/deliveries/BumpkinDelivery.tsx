@@ -44,7 +44,7 @@ import {
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -559,9 +559,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
 
-  const { ticketTasksAreFrozen } = getSeasonChangeover({
-    id: gameService.state.context.farmId,
-  });
+  const { holiday } = getBumpkinHoliday({});
+
+  const isHoliday = holiday === new Date().toISOString().split("T")[0];
 
   const deliver = () => {
     gameService.send("order.delivered", {
@@ -629,7 +629,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     }
   }
 
-  if (!delivery || (!!tickets && ticketTasksAreFrozen)) {
+  if (!delivery || (!!tickets && isHoliday)) {
     message = noOrder;
   }
 
@@ -645,7 +645,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
   const isLocked = missingLevels >= 1;
   const isTicketOrder = tickets > 0;
-  const deliveryFrozen = ticketTasksAreFrozen && isTicketOrder;
+  const deliveryFrozen = isHoliday && isTicketOrder;
   const acceptGifts = !!getNextGift({ game, npc });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
@@ -782,7 +782,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   />
                 </>
               )}
-              {isTicketOrder && ticketTasksAreFrozen && (
+              {isTicketOrder && isHoliday && (
                 <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
                   {t("orderhelp.ticket.deliveries.closed")}
                 </Label>
@@ -804,7 +804,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 !!delivery?.completedAt ||
                 isLocked ||
                 missingVIPAccess ||
-                (isTicketOrder && ticketTasksAreFrozen)
+                (isTicketOrder && isHoliday)
               }
               onClick={deliver}
             >

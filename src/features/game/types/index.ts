@@ -719,6 +719,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Crimson Carp": 1537,
   "Battle Fish": 1538,
   "Lemon Shark": 1539,
+  "Longhorn Cowfish": 1540,
 
   "White Festive Fox": 2001,
   Rug: 2002,
@@ -874,6 +875,17 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Meteorite: 2151,
   "Sheaf of Plenty": 2152,
   "Mechanical Bull": 2153,
+  "King of Bears": 2154,
+  "Moo-ver": 2155,
+  "Swiss Whiskers": 2156,
+  Cluckulator: 2157,
+  UFO: 2158,
+  Chicory: 2159,
+  Wagon: 2160,
+  "Black Sheep": 2161,
+  "Alien Chicken": 2162,
+  Mootant: 2163,
+  "Toxic Tuft": 2164,
 };
 
 // The reverse of above

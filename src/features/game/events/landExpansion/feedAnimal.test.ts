@@ -851,4 +851,130 @@ describe("feedAnimal", () => {
 
     expect(state.inventory.Hay).toEqual(new Decimal(0.1));
   });
+
+  it("takes 20% less food to feed a chicken if a user has a Cluckulator placed", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Cluckulator: new Decimal(1),
+          "Kernel Blend": new Decimal(1),
+        },
+        collectibles: {
+          Cluckulator: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.2));
+  });
+
+  it("Applies Fat Chicken and Cluckulator boost", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Fat Chicken": new Decimal(1),
+          Cluckulator: new Decimal(1),
+          "Kernel Blend": new Decimal(1),
+        },
+        collectibles: {
+          Cluckulator: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+          "Fat Chicken": [
+            {
+              coordinates: { x: 5, y: 5 },
+              createdAt: 0,
+              id: "2",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+    const result = new Decimal(1 - 1 * 0.8 * 0.9);
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(result));
+  });
+
+  it("takes 50% less food to feed a sheep if Infernal Bullwhip is worn", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            tool: "Infernal Bullwhip",
+          },
+        },
+        inventory: {
+          "Kernel Blend": new Decimal(3),
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Sheep",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1.5));
+  });
+
+  it("takes 50% less food to feed a cow if Infernal Bullwhip is worn", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            tool: "Infernal Bullwhip",
+          },
+        },
+        inventory: {
+          "Kernel Blend": new Decimal(5),
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(2.5));
+  });
 });

@@ -2,6 +2,7 @@ import { InventoryItemName } from "./game";
 import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
+import chefHat from "assets/icons/chef_hat.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -436,6 +437,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS.Lemon.image,
   },
+  "Longhorn Cowfish": {
+    labelType: "success",
+    shortDescription: translate("description.longhorn.cowfish.boost"),
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Milk.image,
+  },
   "Crim Peckster": {
     shortDescription: translate("description.crim.peckster.boost"),
     labelType: "success",
@@ -651,6 +658,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: lightning,
     boostedItemIcon: SUNNYSIDE.icons.plant,
   },
+  Chicory: {
+    shortDescription: translate("description.chicory.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+    boostedItemIcon: SUNNYSIDE.icons.plant,
+  },
   "Pharaoh Gnome": {
     shortDescription: translate("description.pharaoh.gnome.boost"),
     labelType: "success",
@@ -744,5 +757,41 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
     boostedItemIcon: CROP_LIFECYCLE.Barley.crop,
+  },
+  "Moo-ver": {
+    shortDescription: translate("description.mooVer.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.leather,
+  },
+  "Swiss Whiskers": {
+    shortDescription: translate("description.swissWhiskers.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: chefHat,
+  },
+  Cluckulator: {
+    shortDescription: translate("description.cluckulator.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
+  },
+  "Alien Chicken": {
+    shortDescription: translate("description.alien.chicken"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.feather,
+  },
+  "Toxic Tuft": {
+    shortDescription: translate("description.toxic.tuft"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.merino_wool,
+  },
+  Mootant: {
+    shortDescription: translate("description.mootant"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.leather,
   },
 };

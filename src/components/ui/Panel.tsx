@@ -3,11 +3,13 @@ import classNames from "classnames";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 import {
-  pixelDarkBorderStyle,
-  pixelLightBorderStyle,
+  pixelHalloweenInnerBorderStyle,
+  pixelHalloweenOuterBorderStyle,
 } from "features/game/lib/style";
 
 import usedButton from "assets/ui/used_button.png";
+import halloweenPanelBg from "assets/ui/halloweenPanelBg.png";
+import halloweenButton from "assets/ui/halloweenButton.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
@@ -68,9 +70,9 @@ export const InnerPanel: React.FC<
     <div
       className={classNames(className)}
       style={{
-        ...pixelLightBorderStyle,
+        ...pixelHalloweenInnerBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        background: isDarkMode ? "#c28669" : "#e4a672",
+        background: isDarkMode ? "#495682" : "#495682",
         ...style,
       }}
       ref={divRef}
@@ -108,9 +110,12 @@ export const OuterPanel: React.FC<PanelProps> = ({
         </div>
       )}
       <div
-        className={classNames(className, "bg-[#c28569]")}
+        // Fix for dark mode
+
+        className={classNames(className)}
         style={{
-          ...pixelDarkBorderStyle,
+          ...pixelHalloweenOuterBorderStyle,
+          backgroundImage: `url(${halloweenPanelBg})`,
           padding: `${PIXEL_SCALE * 1}px`,
           ...(hasTabs
             ? {
@@ -153,14 +158,14 @@ export const ButtonPanel: React.FC<
         },
       )}
       style={{
-        ...pixelDarkBorderStyle,
+        ...pixelHalloweenOuterBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${frozen ? usedButton : SUNNYSIDE.ui.primaryButton}) 3 3 4 3 fill`,
+        borderImage: `url(${frozen ? usedButton : halloweenButton}) 3 3 4 3 fill`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
-        color: "#674544",
+        color: "#3A4466",
         ...style,
       }}
       {...otherDivProps}

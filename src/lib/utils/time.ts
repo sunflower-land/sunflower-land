@@ -125,6 +125,91 @@ export const secondsToString = (
     .join("\u00A0");
 };
 
+export const millisecondsToString = (
+  milliseconds: number,
+  options: TimeFormatOptions,
+) => {
+  const ONE_SEC = 1000;
+  const ONE_MIN = ONE_SEC * 60;
+  const ONE_HR = ONE_MIN * 60;
+  const ONE_DAY = ONE_HR * 24;
+
+  const roundingFunction =
+    milliseconds >= 0
+      ? (x: number) => Math.floor(x)
+      : (x: number) => Math.ceil(x);
+
+  const millisecondsValue = {
+    value: roundingFunction(milliseconds % ONE_SEC),
+    unit: translate("time.ms.med"),
+    pluralisedUnit: translate("time.mss.med"),
+    unitShort: translate("time.millisecond.short"),
+  };
+  const secondsValue = {
+    value: roundingFunction((milliseconds / ONE_SEC) % 60),
+    unit: translate("time.sec.med"),
+    pluralisedUnit: translate("time.secs.med"),
+    unitShort: translate("time.second.short"),
+  };
+  const minutesValue = {
+    value: roundingFunction((milliseconds / ONE_MIN) % 60),
+    unit: translate("time.min.med"),
+    pluralisedUnit: translate("time.mins.med"),
+    unitShort: translate("time.minute.short"),
+  };
+  const hoursValue = {
+    value: roundingFunction((milliseconds / ONE_HR) % 24),
+    unit: translate("time.hr.med"),
+    pluralisedUnit: translate("time.hrs.med"),
+    unitShort: translate("time.hour.short"),
+  };
+  const daysValue = {
+    value: roundingFunction(milliseconds / ONE_DAY),
+    unit: translate("time.day.med"),
+    pluralisedUnit: translate("time.days.med"),
+    unitShort: translate("time.day.short"),
+  };
+
+  const timeUnits = [
+    daysValue.value && daysValue,
+    (daysValue.value || hoursValue.value) && hoursValue,
+    (daysValue.value || hoursValue.value || minutesValue.value) && minutesValue,
+    (daysValue.value ||
+      hoursValue.value ||
+      minutesValue.value ||
+      secondsValue.value) &&
+      secondsValue,
+    millisecondsValue.value && millisecondsValue,
+  ].filter(Boolean);
+
+  let reducedTimeUnits;
+  switch (options.length) {
+    case "short":
+      reducedTimeUnits = timeUnits.slice(0, 1);
+      break;
+    case "medium":
+      reducedTimeUnits = timeUnits.slice(0, 2);
+      break;
+    case "full":
+      reducedTimeUnits = timeUnits;
+      break;
+  }
+
+  if (options.removeTrailingZeros) {
+    while (
+      options.removeTrailingZeros &&
+      reducedTimeUnits.length > 1 &&
+      !(reducedTimeUnits.slice(-1)[0] as TimeDuration)?.value
+    ) {
+      reducedTimeUnits = reducedTimeUnits.slice(0, -1);
+    }
+  }
+
+  return reducedTimeUnits
+    .map((x) => timeUnitToString(x as TimeDuration, options))
+    .join("\u00A0");
+};
+
 /**
  * Gets the time left before an operation is ready.
  * @param createdAt The time where the operation is started.

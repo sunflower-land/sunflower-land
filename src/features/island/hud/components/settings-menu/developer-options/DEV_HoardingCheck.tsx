@@ -8,14 +8,9 @@ import { ContentComponentProps } from "../GameOptions";
 import { readContract } from "viem/actions";
 import { createPublicClient, encodePacked, http } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";
+import { CONFIG } from "lib/config";
 
-interface Props {
-  network: "mainnet" | "amoy";
-}
-
-export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
-  network,
-}) => {
+export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
   const [loading, setLoading] = useState(false);
   const [farmId, setFarmId] = useState("");
@@ -27,10 +22,7 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
     setInventoryLimits([]);
     setWardrobeLimits([]);
 
-    const API_URL =
-      network === "mainnet"
-        ? "https://api.sunflower-land.com"
-        : "https://api-dev.sunflower-land.com";
+    const API_URL = CONFIG.API_URL;
 
     try {
       const result = await window.fetch(`${API_URL}/community/getFarms`, {
@@ -58,13 +50,10 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
 
       const publicClient = createPublicClient({
         transport: http(),
-        chain: network === "mainnet" ? polygon : polygonAmoy,
+        chain: CONFIG.NETWORK === "mainnet" ? polygon : polygonAmoy,
       });
 
-      const gameContract =
-        network === "mainnet"
-          ? "0xfB84a7D985f9336987C89e1518E9A897b013080B"
-          : "0x05BbC2c442A7468538e68B1F70a97C9140227b0e";
+      const gameContract = CONFIG.GAME_CONTRACT;
 
       // Note this is imported from viem, not wagmi
       const maxAmount = (
@@ -106,7 +95,7 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
       const getOnChainMax = async (wearableName: string) => {
         const id = ITEM_IDS[wearableName as BumpkinItem];
 
-        const storage = encodePacked(["uint256, uint"], [id, 13] as any);
+        const storage = encodePacked(["uint256, uint"], [id, 9] as any);
         const hex = await publicClient.getStorageAt({
           address: gameContract,
           slot: storage,
@@ -141,7 +130,7 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
 
   return (
     <>
-      {network}
+      {CONFIG.NETWORK}
       <input
         style={{
           boxShadow: "#b96e50 0px 1px 1px 1px inset",

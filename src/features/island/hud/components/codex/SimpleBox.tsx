@@ -1,6 +1,6 @@
 import React from "react";
 
-import { pixelDarkBorderStyle } from "features/game/lib/style";
+import { pixelHalloweenOuterBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "components/ui/SquareIcon";
 import classNames from "classnames";
@@ -24,7 +24,7 @@ export const SimpleBox: React.FC<BoxProps> = ({
   return (
     <div onClick={onClick}>
       <div
-        className={`bg-brown-600 cursor-pointer relative ${className}`}
+        className={`cursor-pointer relative ${className}`}
         style={{
           width: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
           height: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
@@ -32,7 +32,8 @@ export const SimpleBox: React.FC<BoxProps> = ({
           marginBottom: `${PIXEL_SCALE * 2}px`,
           marginLeft: `${PIXEL_SCALE * 2}px`,
           marginRight: `${PIXEL_SCALE * 3}px`,
-          ...pixelDarkBorderStyle,
+          backgroundColor: "#3A4466",
+          ...pixelHalloweenOuterBorderStyle,
         }}
       >
         <div className="absolute flex justify-center items-center w-full h-full">

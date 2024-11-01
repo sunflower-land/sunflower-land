@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import {
   QUEST_NPC_NAMES,
@@ -9,7 +8,7 @@ import {
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { getSeasonalTicket } from "features/game/types/seasons";
 
-const FIRST_DAY_OF_SEASON = new Date("2023-11-01T16:00:00Z").getTime();
+const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
 
 describe("deliver", () => {

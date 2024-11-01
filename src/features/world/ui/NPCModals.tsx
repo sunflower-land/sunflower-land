@@ -36,6 +36,7 @@ import { Digby } from "./beach/Digby";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
+import { HalloweenNPC } from "./npcs/HalloweenNPC";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -115,6 +116,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <ExampleDonations onClose={closeModal} />
           </CloseButtonPanel>
         )}
+        {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
         {npc === "poppy" && <FlowerShop onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}

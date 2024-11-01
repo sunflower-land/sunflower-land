@@ -62,6 +62,7 @@ import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import worldIcon from "assets/icons/world.png";
+import { HalloweenIslandScene } from "./scenes/HalloweenIslandScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -138,7 +139,7 @@ export const PhaserComponent: React.FC<Props> = ({
     Preloader,
     new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
-    PlazaScene,
+    new PlazaScene({ gameState: gameService.state.context.state }),
     RetreatScene,
     KingdomScene,
     GoblinHouseScene,
@@ -147,6 +148,7 @@ export const PhaserComponent: React.FC<Props> = ({
     BumpkinHouseScene,
     ExampleAnimationScene,
     ExampleRPGScene,
+    HalloweenIslandScene,
   ];
 
   useEffect(() => {

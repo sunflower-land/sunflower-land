@@ -32,6 +32,8 @@ import {
 } from "features/game/lib/factions";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "./BoostInfoPanel";
+import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
+import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
 
 interface Props {
   bumpkinParts: Equipped;
@@ -177,10 +179,10 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                               </Label>
                             </div>
                             {selectedRequestIdx === idx && (
-                              <div id="select-box">
+                              <div id="select-box" className="block">
                                 <img
                                   className="absolute pointer-events-none"
-                                  src={SUNNYSIDE.ui.selectBoxTL}
+                                  src={halloweenSelectboxTL}
                                   style={{
                                     top: `${PIXEL_SCALE * -3}px`,
                                     left: `${PIXEL_SCALE * -3}px`,
@@ -189,7 +191,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                                 />
                                 <img
                                   className="absolute pointer-events-none"
-                                  src={SUNNYSIDE.ui.selectBoxTR}
+                                  src={halloweenSelectboxTR}
                                   style={{
                                     top: `${PIXEL_SCALE * -3}px`,
                                     right: `${PIXEL_SCALE * -3}px`,

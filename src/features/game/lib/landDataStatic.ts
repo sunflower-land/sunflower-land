@@ -363,6 +363,39 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     } as Record<ChoreV2Name, ChoreV2>,
   },
+  choreBoard: {
+    chores: {
+      "boneyard betty": {
+        name: "CHOP_1_TREE",
+        reward: {
+          coins: 100,
+          items: {},
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+      "chef ebon": {
+        name: "CHOP_1_TREE",
+        reward: {
+          items: {
+            Gem: 100,
+          },
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+      barlow: {
+        name: "CHOP_1_TREE",
+        reward: {
+          items: {
+            "Amber Fossil": 100,
+          },
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+    },
+  },
   desert: {
     digging: {
       grid: [
@@ -390,15 +423,20 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Alien Chicken": new Decimal(1),
+    "Toxic Tuft": new Decimal(1),
+    Mootant: new Decimal(1),
     Barn: new Decimal(1),
     "Hen House": new Decimal(1),
     Hay: new Decimal(100),
+    Bale: new Decimal(1),
     "Kernel Blend": new Decimal(100),
     "Rich Chicken": new Decimal(1),
     Wrangler: new Decimal(1),
     "Bull Run Banner": new Decimal(1),
     "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
+    "Longhorn Cowfish": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Paint Can": new Decimal(1),
     "Jelly Lamp": new Decimal(1),
@@ -409,6 +447,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Camel Bone": new Decimal(1000),
     Sand: new Decimal(1000),
     Crab: new Decimal(1000),
+    Crimsteel: new Decimal(1000),
     "Old Bottle": new Decimal(1000),
     "Sea Cucumber": new Decimal(1000),
     Vase: new Decimal(1000),
@@ -493,6 +532,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Deli: new Decimal(1),
     Greenhouse: new Decimal(1),
     "Desert Gnome": new Decimal(1),
+    Chicory: new Decimal(1),
     Blossombeard: new Decimal(1),
     Gnome: new Decimal(1),
     Cobalt: new Decimal(1),
@@ -713,6 +753,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sand Golem": new Decimal(1),
     "Scarab Beetle": new Decimal(1),
     Sundial: new Decimal(1),
+    Wagon: new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,
@@ -1001,6 +1042,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
           Sunflower: 20,
         },
       },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "pumpkin' pete",
+        reward: {
+          items: {},
+          coins: 0,
+        },
+        id: `pete-delivery`,
+        items: {
+          Sunflower: 20,
+        },
+      },
     ],
 
     milestone: {
@@ -1023,7 +1077,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
         flower: {
           amount: 1,
           plantedAt: 0,
-          name: "Blue Balloon Flower",
+          name: "Red Pansy",
+          reward: {
+            items: [
+              {
+                name: "Chicory",
+                amount: 1,
+              },
+            ],
+          },
         },
       },
     },

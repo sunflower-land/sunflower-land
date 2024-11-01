@@ -3,8 +3,7 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 
-import bg from "assets/ui/input_box_border.png";
-import activeBg from "assets/ui/active_input_box_border.png";
+import bgHalloween from "assets/ui/halloween_input_box_border.png";
 import { SquareIcon } from "./SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -55,7 +54,7 @@ export const NumberInput: React.FC<Props> = ({
           textAlign: isRightAligned ? "right" : "left",
           borderImageRepeat: "stretch",
           borderStyle: "solid",
-          borderImage: `url(${isFocused ? activeBg : bg})`,
+          borderImage: `url(${isFocused ? bgHalloween : bgHalloween})`,
           borderWidth: `${PIXEL_SCALE * 4}px`,
           borderImageSlice: isFocused ? "4 fill" : "4 4 4 4 fill",
           padding: 0,

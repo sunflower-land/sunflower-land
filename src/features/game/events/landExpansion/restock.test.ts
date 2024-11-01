@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import {
   INITIAL_BUMPKIN,
   INITIAL_STOCK,

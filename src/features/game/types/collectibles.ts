@@ -96,7 +96,12 @@ export type SoldOutCollectibleName =
   | "Lemon Tea Bath"
   | "Tomato Clown"
   | "Pyramid"
-  | "Oasis";
+  | "Oasis"
+  | "Moo-ver"
+  | "Swiss Whiskers"
+  | "Cluckulator"
+  | "UFO"
+  | "Black Sheep";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

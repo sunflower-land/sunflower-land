@@ -6,11 +6,15 @@ import { Label, LabelType } from "./Label";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { setPrecision, shortenCount } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
-import { pixelDarkBorderStyle } from "features/game/lib/style";
+import { pixelHalloweenInnerBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "./SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressType, ResizableBar } from "./ProgressBar";
+import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
+import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
+import halloweenSelectboxBL from "assets/ui/halloweenSelectbox_bl.png";
+import halloweenSelectboxBR from "assets/ui/halloweenSelectbox_br.png";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
@@ -168,8 +172,8 @@ export const Box: React.FC<BoxProps> = ({
       onMouseLeave={() => setIsHover(false)}
     >
       <div
-        className={classNames("bg-brown-600 relative", {
-          "bg-brown-600 cursor-not-allowed opacity-75": disabled,
+        className={classNames("relative", {
+          "cursor-not-allowed opacity-75": disabled,
           "cursor-pointer": canClick,
         })}
         {...clickEvents}
@@ -180,7 +184,8 @@ export const Box: React.FC<BoxProps> = ({
           marginBottom: `${PIXEL_SCALE * 2}px`,
           marginLeft: `${PIXEL_SCALE * 2}px`,
           marginRight: `${PIXEL_SCALE * 3}px`,
-          ...pixelDarkBorderStyle,
+          backgroundColor: "#3A4466",
+          ...pixelHalloweenInnerBorderStyle,
         }}
         onDragOver={onDragOver}
         onDrop={onDrop}
@@ -349,7 +354,7 @@ export const Box: React.FC<BoxProps> = ({
           <>
             <img
               className="absolute pointer-events-none"
-              src={SUNNYSIDE.ui.selectBoxBL}
+              src={halloweenSelectboxBL}
               style={{
                 top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
                 left: `${PIXEL_SCALE * 0}px`,
@@ -358,7 +363,7 @@ export const Box: React.FC<BoxProps> = ({
             />
             <img
               className="absolute pointer-events-none"
-              src={SUNNYSIDE.ui.selectBoxBR}
+              src={halloweenSelectboxBR}
               style={{
                 top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
                 left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
@@ -370,7 +375,7 @@ export const Box: React.FC<BoxProps> = ({
 
           <img
             className="absolute pointer-events-none"
-            src={SUNNYSIDE.ui.selectBoxTL}
+            src={halloweenSelectboxTL}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
               left: `${PIXEL_SCALE * 0}px`,
@@ -379,7 +384,7 @@ export const Box: React.FC<BoxProps> = ({
           />
           <img
             className="absolute pointer-events-none"
-            src={SUNNYSIDE.ui.selectBoxTR}
+            src={halloweenSelectboxTR}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
               left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,

@@ -7,6 +7,7 @@ import {
   constructBuilding,
   CONSTRUCT_BUILDING_ERRORS,
 } from "./constructBuilding";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -552,5 +553,69 @@ describe("Construct building", () => {
         createdAt: dateNow,
       }),
     ).not.toThrow();
+  });
+
+  it("gives the player 5 Kernel Blend when a barn is constructed", () => {
+    const state = constructBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {},
+        coins: 8000,
+        inventory: {
+          Wood: new Decimal(151),
+          Iron: new Decimal(11),
+          Gold: new Decimal(11),
+          "Basic Land": new Decimal(5),
+        },
+        bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        island: {
+          type: "desert",
+        },
+      },
+      action: {
+        type: "building.constructed",
+        id: "123",
+        name: "Barn",
+        coordinates: {
+          x: 1,
+          y: 1,
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(5));
+  });
+
+  it("gives the player 5 Kernel Blend when a hen house is constructed", () => {
+    const state = constructBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {},
+        coins: 8000,
+        inventory: {
+          Wood: new Decimal(151),
+          Iron: new Decimal(11),
+          Gold: new Decimal(11),
+          "Basic Land": new Decimal(5),
+        },
+        bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        island: {
+          type: "desert",
+        },
+      },
+      action: {
+        type: "building.constructed",
+        id: "123",
+        name: "Barn",
+        coordinates: {
+          x: 1,
+          y: 1,
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(5));
   });
 });

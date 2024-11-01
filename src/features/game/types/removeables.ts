@@ -39,7 +39,6 @@ import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
 import { BED_FARMHAND_COUNT } from "./beds";
-import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -245,26 +244,33 @@ export function areAnyChickensFed(game: GameState): Restriction {
   return [chickensAreFed, translate("restrictionReason.chickensFed")];
 }
 
-export function areAnySheepsFed(game: GameState): Restriction {
-  const sheepAreFed = Object.values(game.barn.animals).some(
+export function areAnyChickensSleeping(game: GameState): Restriction {
+  const chickensAreSleeping = Object.values(game.henHouse.animals).some(
     (animal) =>
-      animal.asleepAt &&
-      animal.type === "Sheep" &&
-      Date.now() - animal.asleepAt < ANIMAL_SLEEP_DURATION,
+      animal.type === "Chicken" &&
+      animal.awakeAt &&
+      Date.now() < animal.awakeAt,
   );
 
-  return [sheepAreFed, translate("restrictionReason.sheepFed")];
+  return [chickensAreSleeping, translate("restrictionReason.chickensFed")];
 }
 
-export function areAnyCowsFed(game: GameState): Restriction {
-  const cowAreFed = Object.values(game.barn.animals).some(
+export function areAnySheepSleeping(game: GameState): Restriction {
+  const sheepAreSleeping = Object.values(game.barn.animals).some(
     (animal) =>
-      animal.asleepAt &&
-      animal.type === "Cow" &&
-      Date.now() - animal.asleepAt < ANIMAL_SLEEP_DURATION,
+      animal.type === "Sheep" && animal.awakeAt && Date.now() < animal.awakeAt,
   );
 
-  return [cowAreFed, translate("restrictionReason.cowFed")];
+  return [sheepAreSleeping, translate("restrictionReason.sheepSleeping")];
+}
+
+export function areAnyCowsSleeping(game: GameState): Restriction {
+  const cowAreFed = Object.values(game.barn.animals).some(
+    (animal) =>
+      animal.type === "Cow" && animal.awakeAt && Date.now() < animal.awakeAt,
+  );
+
+  return [cowAreFed, translate("restrictionReason.cowsSleeping")];
 }
 
 const MAX_DIGS = 25;
@@ -416,20 +422,33 @@ export function isFarmhandUsingBed(
   return [isLastBed && farmHandInBed, "Farmhand is using bed"];
 }
 
+const newAnimalsStarted =
+  Date.now() > new Date("2024-11-04T00:00:00Z").getTime();
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
   // Mutant Chickens
-  "Undead Rooster": (game) => areAnyChickensFed(game),
-  "Ayam Cemani": (game) => areAnyChickensFed(game),
-  "El Pollo Veloz": (game) => areAnyChickensFed(game),
-  "Fat Chicken": (game) => areAnyChickensFed(game),
-  "Rich Chicken": (game) => areAnyChickensFed(game),
-  "Speed Chicken": (game) => areAnyChickensFed(game),
-  "Chicken Coop": (game) => areAnyChickensFed(game),
-  "Gold Egg": (game) => areAnyChickensFed(game),
-  Rooster: (game) => areAnyChickensFed(game),
-  Bale: (game) => areAnyChickensFed(game),
+  "Undead Rooster": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Ayam Cemani": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "El Pollo Veloz": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Rich Chicken": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Fat Chicken": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Speed Chicken": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Chicken Coop": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Gold Egg": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  Rooster: (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  Bale: (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Banana Chicken": (game) => areFruitsGrowing(game, "Banana"),
   "Crim Peckster": (game) => areAnyCrimstonesMined(game),
 
@@ -586,6 +605,13 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   // Bull Run
   "Sheaf of Plenty": (game) => cropIsGrowing({ item: "Barley", game }),
+  Chicory: (game) => areFlowersGrowing(game),
+  "Moo-ver": (game) => areAnyCowsSleeping(game),
+  Cluckulator: (game) => areAnyChickensFed(game),
+  "Longhorn Cowfish": (game) => areAnyCowsSleeping(game),
+  "Toxic Tuft": (game) => areAnySheepSleeping(game),
+  Mootant: (game) => areAnyCowsSleeping(game),
+  "Alien Chicken": (game) => areAnyChickensSleeping(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
@@ -607,7 +633,8 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   "Acorn Hat": (game) => areAnyTreesChopped(game),
   Banana: (game) => areAnyFruitsGrowing(game),
   "Tree Hat": (game) => areAnyTreesChopped(game),
-  "Egg Head": (game) => areAnyChickensFed(game),
+  "Egg Head": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Apple Head": (game) => areAnyFruitsGrowing(game),
 
   "Axe Head": () => [false, translate("restrictionReason.noRestriction")],
@@ -634,7 +661,8 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   Castle: (game) => areAnyMediumCropsGrowing(game),
   // TODO Port needs to be implemented
   Port: () => [false, translate("restrictionReason.noRestriction")],
-  Retreat: (game) => areAnyChickensFed(game),
+  Retreat: (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   Saphiro: (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
   Snow: (game) => areAnyAdvancedCropsGrowing(game),
   Beach: (game) => areAnyFruitsGrowing(game),

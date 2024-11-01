@@ -19,6 +19,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinDelivery } from "./BumpkinDelivery";
 import { formatNumber } from "lib/utils/formatNumber";
 
+import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
+import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
+import halloweenSelectboxBL from "assets/ui/halloweenSelectbox_bl.png";
+import halloweenSelectboxBR from "assets/ui/halloweenSelectbox_br.png";
+
 interface OrderCardsProps {
   orders: Order[];
   balance: Decimal;
@@ -155,7 +160,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 <>
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxBL}
+                    src={halloweenSelectboxTL}
                     style={{
                       bottom: `${PIXEL_SCALE * -3}px`,
                       left: `${PIXEL_SCALE * -3}px`,
@@ -164,7 +169,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxBR}
+                    src={halloweenSelectboxTR}
                     style={{
                       bottom: `${PIXEL_SCALE * -3}px`,
                       right: `${PIXEL_SCALE * -3}px`,
@@ -173,7 +178,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxTL}
+                    src={halloweenSelectboxBL}
                     style={{
                       top: `${PIXEL_SCALE * -5}px`,
                       left: `${PIXEL_SCALE * -3}px`,
@@ -182,7 +187,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxTR}
+                    src={halloweenSelectboxBR}
                     style={{
                       top: `${PIXEL_SCALE * -5}px`,
                       right: `${PIXEL_SCALE * -3}px`,

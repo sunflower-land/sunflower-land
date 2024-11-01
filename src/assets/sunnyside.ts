@@ -61,6 +61,7 @@ export const SUNNYSIDE = {
     desertSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_season.png`,
     bullRunSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bull_run_season.png`,
     pharaohSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/pharaoh_seasonal_rares.png`,
+    bullRunSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bull_run_seasonal_rares.png`,
   },
   //Badges(Pre-LandExpansion Skills)
   badges: {
@@ -514,6 +515,7 @@ export const SUNNYSIDE = {
   },
   //NPCs
   npcs: {
+    hank_swimming: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/hank_swimming.webp`,
     betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
     bumpkin: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/idle.gif`,
     fisherman: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/fisherman.gif`,

@@ -1,6 +1,12 @@
 import { PIXEL_SCALE } from "./constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
+// Add Halloween border imports
+import halloweenBorderInner from "assets/ui/halloweenBorderInner.png";
+import halloweenBorderOuter from "assets/ui/halloweenBorderOuter.png";
+import halloweenTabBorderInner1 from "assets/ui/halloweenTabBorderInner1.png";
+import halloweenTabBorderInner2 from "assets/ui/halloweenTabBorderInner2.png";
+
 const pixelizedBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
   borderWidth: `${PIXEL_SCALE * 2}px`,
@@ -118,4 +124,27 @@ export const progressBarBorderStyle: React.CSSProperties = {
   borderTopWidth: `${PIXEL_SCALE * 2}px`,
   borderBottomWidth: `${PIXEL_SCALE * 3}px`,
   borderImageSlice: "20% 20% 30%",
+};
+
+//Halloween
+export const pixelHalloweenInnerBorderStyle: React.CSSProperties = {
+  borderImage: `url(${halloweenBorderInner}) 20%`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelHalloweenOuterBorderStyle: React.CSSProperties = {
+  borderImage: `url(${halloweenBorderOuter}) 20%`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelHalloweenTabBorderMiddleStyle1: React.CSSProperties = {
+  borderImage: `url(${halloweenTabBorderInner1}) 20%`,
+  ...pixelizedBorderStyle,
+  borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
+};
+
+export const pixelHalloweenTabBorderMiddleStyle2: React.CSSProperties = {
+  borderImage: `url(${halloweenTabBorderInner2}) 20%`,
+  ...pixelizedBorderStyle,
+  borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
 };

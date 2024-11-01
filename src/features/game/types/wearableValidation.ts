@@ -16,8 +16,8 @@ import {
   areBonusTreasureHolesDug,
   areAnyCropsOrGreenhouseCropsGrowing,
   hasOpenedPirateChest,
-  areAnySheepsFed,
-  areAnyCowsFed,
+  areAnySheepSleeping,
+  areAnyCowsSleeping,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -79,8 +79,14 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Hornet Mask": (state) => isBeehivesFull(state)[0],
   "Ancient Shovel": (state) => areBonusTreasureHolesDug(state)[0],
   "Pirate Potion": (state) => !hasOpenedPirateChest(state)[0],
-  "Dream Scarf": (state) => !areAnySheepsFed(state)[0],
-  "Milk Apron": (state) => !areAnyCowsFed(state)[0],
+  "Dream Scarf": (state) => !areAnySheepSleeping(state)[0],
+  "Milk Apron": (state) => !areAnyCowsSleeping(state)[0],
+  "Infernal Bullwhip": (state) =>
+    !areAnySheepSleeping(state)[0] || !areAnyCowsSleeping(state)[0],
+  "Black Sheep Onesie": (state) => !areAnySheepSleeping(state)[0],
+  "Chicken Suit": (state) => !areAnyChickensFed(state)[0],
+  "Merino Jumper": (state) => !areAnySheepSleeping(state)[0],
+  "Cowbell Necklace": (state) => !areAnyCowsSleeping(state)[0],
 };
 
 export const canWithdrawBoostedWearable = (
