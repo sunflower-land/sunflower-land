@@ -110,7 +110,9 @@ describe("seedBought", () => {
     });
 
     expect(state.balance).toEqual(balance);
-    expect(state.coins).toEqual(coins - PLOT_CROP_SEEDS["Sunflower Seed"].price);
+    expect(state.coins).toEqual(
+      coins - PLOT_CROP_SEEDS["Sunflower Seed"].price,
+    );
   });
 
   it("adds the newly bought seed to a players inventory", () => {

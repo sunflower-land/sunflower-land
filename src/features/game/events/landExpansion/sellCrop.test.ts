@@ -75,7 +75,9 @@ describe("sell", () => {
     });
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(4));
-    expect(state.coins).toEqual(GAME_STATE.coins + PLOT_CROPS.Sunflower.sellPrice);
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + PLOT_CROPS.Sunflower.sellPrice,
+    );
   });
 
   it("sell an item in bulk given sufficient quantity", () => {

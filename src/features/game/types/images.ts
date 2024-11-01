@@ -745,7 +745,12 @@ import mootant from "assets/sfts/mootant.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
-import { GREENHOUSE_CROPS, GREENHOUSE_SEEDS, PLOT_CROP_SEEDS, PLOT_CROPS } from "./crops";
+import {
+  GREENHOUSE_CROPS,
+  GREENHOUSE_SEEDS,
+  PLOT_CROP_SEEDS,
+  PLOT_CROPS,
+} from "./crops";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
 
 //Golden Crop Event

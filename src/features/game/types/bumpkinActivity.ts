@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "./consumables";
 import { Animal, Food, ToolName } from "./craftables";
-import { GreenHouseCropName, GreenHouseCropSeedName, PlotCropName } from "./crops";
+import {
+  GreenHouseCropName,
+  GreenHouseCropSeedName,
+  PlotCropName,
+} from "./crops";
 import {
   AnimalFoodName,
   AnimalMedicineName,

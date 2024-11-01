@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
 
-import { GreenHouseCropName, PLOT_CROPS, PlotCropName } from "../../types/crops";
+import {
+  GreenHouseCropName,
+  PLOT_CROPS,
+  PlotCropName,
+} from "../../types/crops";
 import {
   Bumpkin,
   CropPlot,
@@ -332,7 +336,9 @@ export function getPlantedAt({
   return createdAt - offset * 1000;
 }
 
-function isPlotCrop(plant: GreenHouseCropName | PlotCropName): plant is PlotCropName {
+function isPlotCrop(
+  plant: GreenHouseCropName | PlotCropName,
+): plant is PlotCropName {
   return (plant as PlotCropName) in PLOT_CROPS;
 }
 

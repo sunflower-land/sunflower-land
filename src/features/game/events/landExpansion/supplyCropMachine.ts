@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
-import { PLOT_CROPS, PlotCropName, PlotCropSeedName } from "features/game/types/crops";
+import {
+  PLOT_CROPS,
+  PlotCropName,
+  PlotCropSeedName,
+} from "features/game/types/crops";
 import {
   CropMachineBuilding,
   CropMachineQueueItem,

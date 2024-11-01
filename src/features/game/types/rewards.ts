@@ -64,7 +64,9 @@ export const ONBOARDING_CHALLENGES: DailyChallenge[] = [
   {
     description: "Sell 30 Crops",
     progress: ({ game }) => {
-      const events = getKeys(PLOT_CROPS).map((name) => `${name} Sold` as SellEvent);
+      const events = getKeys(PLOT_CROPS).map(
+        (name) => `${name} Sold` as SellEvent,
+      );
 
       return events.reduce((count, activityName) => {
         const amount = game.bumpkin?.activity?.[activityName] || 0;

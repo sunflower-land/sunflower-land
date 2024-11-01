@@ -42,11 +42,15 @@ export const isAdvancedCrop = (cropName: PlotCropName | GreenHouseCropName) => {
   return cropDetails.harvestSeconds >= PLOT_CROPS["Eggplant"].harvestSeconds;
 };
 
-function isPlotCrop(plant: GreenHouseCropName | PlotCropName): plant is PlotCropName {
+function isPlotCrop(
+  plant: GreenHouseCropName | PlotCropName,
+): plant is PlotCropName {
   return (plant as PlotCropName) in PLOT_CROPS;
 }
 
-export const isOvernightCrop = (cropName: PlotCropName | GreenHouseCropName) => {
+export const isOvernightCrop = (
+  cropName: PlotCropName | GreenHouseCropName,
+) => {
   if (isPlotCrop(cropName)) {
     const cropDetails = PLOT_CROPS[cropName];
     return cropDetails.harvestSeconds >= PLOT_CROPS["Radish"].harvestSeconds;

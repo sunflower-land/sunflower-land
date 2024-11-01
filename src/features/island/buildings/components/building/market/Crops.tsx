@@ -53,7 +53,7 @@ export const isExoticCrop = (
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<
-  PlotCrop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop
+    PlotCrop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop
   >(PLOT_CROPS.Sunflower);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 

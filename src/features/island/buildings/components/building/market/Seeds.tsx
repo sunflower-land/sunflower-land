@@ -324,7 +324,9 @@ export const Seeds: React.FC = () => {
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in PLOT_CROP_SEEDS)
-              .filter((name) => isMediumCrop(name.split(" ")[0] as PlotCropName))
+              .filter((name) =>
+                isMediumCrop(name.split(" ")[0] as PlotCropName),
+              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
@@ -349,7 +351,9 @@ export const Seeds: React.FC = () => {
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in PLOT_CROP_SEEDS)
-              .filter((name) => isAdvancedCrop(name.split(" ")[0] as PlotCropName))
+              .filter((name) =>
+                isAdvancedCrop(name.split(" ")[0] as PlotCropName),
+              )
               .filter(
                 (name) =>
                   name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),

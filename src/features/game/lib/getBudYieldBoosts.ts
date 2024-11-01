@@ -33,7 +33,9 @@ export const isPlotCrop = (resource: Resource): resource is PlotCropName => {
   return resource in PLOT_CROPS;
 };
 
-export const isCrop = (resource: Resource): resource is PlotCropName | GreenHouseCropName => {
+export const isCrop = (
+  resource: Resource,
+): resource is PlotCropName | GreenHouseCropName => {
   return resource in PLOT_CROPS || resource in GREENHOUSE_CROPS;
 };
 
