@@ -609,6 +609,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Moo-ver": (game) => areAnyCowsSleeping(game),
   Cluckulator: (game) => areAnyChickensFed(game),
   "Longhorn Cowfish": (game) => areAnyCowsSleeping(game),
+  "Toxic Tuft": (game) => areAnySheepSleeping(game),
+  Mootant: (game) => areAnyCowsSleeping(game),
+  "Alien Chicken": (game) => areAnyChickensSleeping(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
