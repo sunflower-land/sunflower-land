@@ -152,9 +152,9 @@ const ANIMAL_ITEM_CHANCES: Record<
 };
 
 const ITEM_XP: Record<LoveAnimalItem, number> = {
-  "Petting Hand": 2,
-  Brush: 5,
-  "Music Box": 10,
+  "Petting Hand": 25,
+  Brush: 40,
+  "Music Box": 50,
 };
 
 function getAnimalItem(level: AnimalLevel, randomGenerator: () => number) {

@@ -214,7 +214,7 @@ describe("loveAnimal", () => {
       createdAt: now,
     });
 
-    expect(state.barn.animals["1"].experience).toBe(2);
+    expect(state.barn.animals["1"].experience).toBe(25);
   });
 
   it("sets the lovedAt timestamp", () => {
