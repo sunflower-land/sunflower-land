@@ -4189,5 +4189,11 @@
   "whatsOn.date.dec18Jan31": "18 Aralık - 31 Ocak",
   "whatsOn.date.feb1": "1 Şubat",
   "description.whiteSheepOnesie.boost": "+0.25 Yün",
-  "description.whiteSheepOnesie": "Bu kabarık, yünlü kıyafetle rahatlayın - rahat bir gece veya plazada eğlenceli bir gün için mükemmel! Karşı konulmaz cazibesi ile sürüdeki en şirin koyun olacaksınız. 0.25+ Yün"
+  "description.whiteSheepOnesie": "Bu kabarık, yünlü kıyafetle rahatlayın - rahat bir gece veya plazada eğlenceli bir gün için mükemmel! Karşı konulmaz cazibesi ile sürüdeki en şirin koyun olacaksınız. 0.25+ Yün",
+  "time.millisecond.full": "milisaniye",
+  "time.milliseconds.full": "milisaniye",
+  "time.ms.med": "ms",
+  "time.mss.med": "mss",
+  "time.millisecond.short": "ms",
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} önce"
 }

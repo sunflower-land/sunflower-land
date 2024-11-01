@@ -4189,5 +4189,11 @@
   "whatsOn.date.dec18Jan31": "12월 18일 - 1월 31일",
   "whatsOn.date.feb1": "2월 1일",
   "description.whiteSheepOnesie.boost": "+0.25 울",
-  "description.whiteSheepOnesie": "푹신하고 털이 많은 원피스로 포근하게 몸을 맡기세요. 아늑한 밤이나 광장에서 즐거운 하루를 보내기에 안성맞춤입니다!거부할 수 없는 매력으로 당신은 무리에서 가장 귀여운 양이 될 것입니다. 0.25+ 울"
+  "description.whiteSheepOnesie": "푹신하고 털이 많은 원피스로 포근하게 몸을 맡기세요. 아늑한 밤이나 광장에서 즐거운 하루를 보내기에 안성맞춤입니다!거부할 수 없는 매력으로 당신은 무리에서 가장 귀여운 양이 될 것입니다. 0.25+ 울",
+  "time.millisecond.full": "밀리초",
+  "time.milliseconds.full": "밀리초",
+  "time.ms.med": "ms",
+  "time.mss.med": "질량",
+  "time.millisecond.short": "ms",
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 전"
 }
