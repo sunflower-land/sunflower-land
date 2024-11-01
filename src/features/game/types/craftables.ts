@@ -1,6 +1,12 @@
 import Decimal from "decimal.js-light";
 import { CropSeedName } from "./crops";
-import { BedName, FactionBanner, InventoryItemName, LanternName } from "./game";
+import {
+  BedName,
+  FactionBanner,
+  InventoryItemName,
+  LanternName,
+  MutantAnimal,
+} from "./game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { LimitedItemType } from ".";
@@ -90,17 +96,6 @@ export interface CraftableItem {
   mintReleaseDate?: number;
 }
 
-export type MutantChicken =
-  | "Speed Chicken"
-  | "Rich Chicken"
-  | "Fat Chicken"
-  | "Ayam Cemani"
-  | "El Pollo Veloz"
-  | "Banana Chicken"
-  | "Crim Peckster"
-  | "Knight Chicken"
-  | "Pharaoh Chicken";
-
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
   section?: Section;
@@ -185,7 +180,6 @@ export type LimitedItemName =
   | Flag
   | MOMEventItem
   | QuestItem
-  | MutantChicken
   | WarTentItem;
 
 export type CollectibleName =
@@ -194,7 +188,7 @@ export type CollectibleName =
   | MarketItem
   | Flag
   | TravelingSalesmanItem
-  | MutantChicken
+  | MutantAnimal
   | MutantCropName
   | DecorationName
   | BeanName
@@ -766,54 +760,6 @@ export const MOM_EVENT_ITEMS: Record<MOMEventItem, LimitedItem> = {
     description: translate("description.observatory"),
     section: Section.Observatory,
     type: LimitedItemType.MOMEventItem,
-  },
-};
-
-export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
-  "Speed Chicken": {
-    name: "Speed Chicken",
-    description: translate("description.speed.chicken.two"),
-    type: LimitedItemType.MutantChicken,
-  },
-  "Fat Chicken": {
-    name: "Fat Chicken",
-    description: translate("description.fat.chicken.two"),
-    type: LimitedItemType.MutantChicken,
-  },
-  "Rich Chicken": {
-    name: "Rich Chicken",
-    description: translate("description.rich.chicken.two"),
-    type: LimitedItemType.MutantChicken,
-  },
-  "Ayam Cemani": {
-    name: "Ayam Cemani",
-    description: translate("description.ayam.cemani"),
-    type: LimitedItemType.MutantChicken,
-  },
-  "El Pollo Veloz": {
-    name: "El Pollo Veloz",
-    description: translate("description.el.pollo.veloz.two"),
-    type: LimitedItemType.MutantChicken,
-  },
-  "Banana Chicken": {
-    name: "Banana Chicken",
-    description: translate("description.banana.chicken"),
-    type: LimitedItemType.MutantChicken,
-  },
-  "Crim Peckster": {
-    name: "Crim Peckster",
-    description: translate("description.crim.peckster"),
-    type: LimitedItemType.MutantChicken,
-  },
-  "Knight Chicken": {
-    name: "Knight Chicken",
-    description: translate("description.knight.chicken"),
-    type: LimitedItemType.MutantChicken,
-  },
-  "Pharaoh Chicken": {
-    name: "Pharaoh Chicken",
-    description: translate("description.pharaoh.chicken"),
-    type: LimitedItemType.MutantChicken,
   },
 };
 
@@ -1425,6 +1371,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   UFO: { width: 2, height: 2 },
   Wagon: { width: 2, height: 2 },
   "Black Sheep": { width: 2, height: 2 },
+  "Alien Chicken": { width: 1, height: 2 },
+  "Toxic Tuft": { width: 1, height: 1 },
+  Mootant: { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
