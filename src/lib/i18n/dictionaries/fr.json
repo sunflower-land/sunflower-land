@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "Cuisinez 5 gâteaux aux carottes",
   "chore.cook.4.cabbage.cakes": "Faites cuire 4 gâteaux au chou",
   "megaStore.msg1": "Bienvenue dans ma boutique saisonnière. Rassemblez des ressources et échangez-les contre des objets rares avant la fin du temps imparti !",
-  "megaStore.tier.requirements": "Achetez {{requirements}} d'objets supplémentaires pour débloquer {{tier}} objets.",
   "description.barn.delight": "Un élixir magique qui guérit les maladies des animaux.",
   "animal.notEnoughFood": "Pas assez de nourriture disponible",
   "feeder.foodTypes.food": "Nourriture",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ms",
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} il y a"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} il y a",
+  "megaStore.tier.rare.requirements": "Achetez 4 objets de base pour débloquer des objets rares.",
+  "megaStore.tier.epic.requirements": "Achetez 4 objets rares pour débloquer des objets épiques."
 }

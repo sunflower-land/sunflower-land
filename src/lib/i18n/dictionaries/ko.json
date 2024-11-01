@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "당근 케이크 5개 요리하기",
   "chore.cook.4.cabbage.cakes": "양배추 케이크 4개를 요리하세요",
   "megaStore.msg1": "제 시즌 스토어에 오신 것을 환영합니다.시간이 다 가기 전에 자원을 모아 희귀 아이템으로 교환하세요!",
-  "megaStore.tier.requirements": "{{requirements}} 아이템을 더 구매하면 {{tier}} 아이템을 잠금 해제할 수 있습니다.",
   "description.barn.delight": "동물의 질병을 치료하는 마법의 비약입니다.",
   "animal.notEnoughFood": "식량이 충분하지 않음",
   "feeder.foodTypes.food": "음식",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ms",
   "time.mss.med": "질량",
   "time.millisecond.short": "ms",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 전"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 전",
+  "megaStore.tier.rare.requirements": "기본 아이템 4개를 구매하면 희귀 아이템을 잠금 해제할 수 있습니다.",
+  "megaStore.tier.epic.requirements": "희귀 아이템 4개를 구매하여 에픽 아이템을 잠금 해제하세요."
 }

@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "Cozinhe 5 bolos de cenoura",
   "chore.cook.4.cabbage.cakes": "Cozinhe 4 bolos de repolho",
   "megaStore.msg1": "Bem-vindo à minha loja sazonal. Reúna recursos e troque-os por itens raros antes que o tempo acabe!",
-  "megaStore.tier.requirements": "Compre {{requirements}} mais itens para desbloquear {{tier}} itens.",
   "description.barn.delight": "Um elixir mágico que cura as doenças dos animais.",
   "animal.notEnoughFood": "Não há comida suficiente disponível",
   "feeder.foodTypes.food": "Comida",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ms",
   "time.mss.med": "bagunça",
   "time.millisecond.short": "ms",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} atrás"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} atrás",
+  "megaStore.tier.rare.requirements": "Compre 4 itens básicos para desbloquear itens raros.",
+  "megaStore.tier.epic.requirements": "Compre 4 itens raros para desbloquear itens épicos."
 }

@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "Masak 5 Kue Wortel",
   "chore.cook.4.cabbage.cakes": "Masak 4 Kue Kubis",
   "megaStore.msg1": "Selamat datang di toko musiman saya. Kumpulkan sumber daya & tukarkan dengan barang-barang langka sebelum waktu habis!",
-  "megaStore.tier.requirements": "Beli lebih banyak item {{requirements}} untuk membuka item {{tier}}.",
   "description.barn.delight": "Obat mujarab ajaib yang menyembuhkan penyakit hewan.",
   "animal.notEnoughFood": "Tidak cukup makanan yang tersedia",
   "feeder.foodTypes.food": "Makanan",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ms",
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} lalu"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} lalu",
+  "megaStore.tier.rare.requirements": "Beli 4 item dasar untuk membuka kunci item langka.",
+  "megaStore.tier.epic.requirements": "Beli 4 item langka untuk membuka item epik."
 }

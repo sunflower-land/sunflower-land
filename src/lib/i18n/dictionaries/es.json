@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "Cocina 5 pasteles de zanahoria",
   "chore.cook.4.cabbage.cakes": "Cocina 4 pasteles de repollo",
   "megaStore.msg1": "Bienvenido a mi tienda de temporada. ¡Reúne recursos y cámbialos por objetos raros antes de que acabe el tiempo!",
-  "megaStore.tier.requirements": "Compra {{requirements}} más artículos para desbloquear artículos de {{tier}}.",
   "description.barn.delight": "Un elixir mágico que cura las enfermedades de los animales.",
   "animal.notEnoughFood": "No hay suficiente comida disponible",
   "feeder.foodTypes.food": "Comida",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ms",
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} atrás"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} atrás",
+  "megaStore.tier.rare.requirements": "Compra 4 objetos básicos para desbloquear objetos raros.",
+  "megaStore.tier.epic.requirements": "Compra 4 objetos raros para desbloquear objetos épicos."
 }
