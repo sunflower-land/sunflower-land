@@ -729,6 +729,9 @@ import cluckulator from "assets/sfts/cluckulator.webp";
 import ufo from "assets/sfts/ufo.webp";
 import chicory from "assets/sfts/chicory.webp";
 import blackSheep from "assets/sfts/black_sheep.webp";
+import alienChicken from "assets/sfts/alien_chicken.webp";
+import toxicTuft from "assets/sfts/toxic_tuft.webp";
+import mootant from "assets/sfts/mootant.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -756,7 +759,6 @@ import {
   FOODS,
   MARKET_ITEMS,
   MOM_EVENT_ITEMS,
-  MUTANT_CHICKENS,
   QUEST_ITEMS,
   SALESMAN_ITEMS,
   SHOVELS,
@@ -1704,15 +1706,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Speed Chicken": {
     image: speedChicken,
-    description: MUTANT_CHICKENS["Speed Chicken"].description,
+    description: translate("description.speed.chicken.two"),
   },
   "Fat Chicken": {
     image: fatChicken,
-    description: MUTANT_CHICKENS["Fat Chicken"].description,
+    description: translate("description.fat.chicken.two"),
   },
   "Rich Chicken": {
     image: richChicken,
-    description: MUTANT_CHICKENS["Rich Chicken"].description,
+    description: translate("description.rich.chicken.two"),
   },
   "Chef Apron": {
     image: SUNNYSIDE.icons.expression_confused,
@@ -2816,7 +2818,7 @@ export const ITEM_DETAILS: Items = {
   },
   "El Pollo Veloz": {
     image: elPolloVeloz,
-    description: MUTANT_CHICKENS["El Pollo Veloz"].description,
+    description: translate("description.el.pollo.veloz.two"),
   },
   "Grain Grinder": {
     image: grainGrinder,
@@ -4358,5 +4360,17 @@ export const ITEM_DETAILS: Items = {
   "Black Sheep": {
     image: blackSheep,
     description: translate("description.blackSheep"),
+  },
+  "Alien Chicken": {
+    image: alienChicken,
+    description: translate("description.alien.chicken"),
+  },
+  "Toxic Tuft": {
+    image: toxicTuft,
+    description: translate("description.toxic.tuft"),
+  },
+  Mootant: {
+    image: mootant,
+    description: translate("description.mootant"),
   },
 };

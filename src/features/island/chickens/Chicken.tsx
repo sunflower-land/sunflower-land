@@ -14,18 +14,21 @@ import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
-import { MutantChicken } from "features/game/types/craftables";
 import {
   ChickenContext,
   chickenMachine,
   MachineInterpreter as ChickenMachineInterpreter,
   MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
-import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
+import { MutantAnimalModal } from "features/farming/animals/components/MutantChickenModal";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-import { Chicken as ChickenType, GameState } from "features/game/types/game";
+import {
+  Chicken as ChickenType,
+  GameState,
+  MutantChicken,
+} from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
@@ -510,9 +513,9 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
         </div>
       )}
       {showMutantModal && (
-        <MutantChickenModal
+        <MutantAnimalModal
           show={showMutantModal}
-          type={chicken.reward?.items?.[0].name as MutantChicken}
+          mutant={chicken.reward?.items?.[0].name as MutantChicken}
           onContinue={handleContinue}
         />
       )}
