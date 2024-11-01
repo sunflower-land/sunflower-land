@@ -2,10 +2,13 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import {
   ANIMAL_FOOD_EXPERIENCE,
+  ANIMAL_LEVELS,
+  AnimalLevel,
   ANIMALS,
   AnimalType,
 } from "features/game/types/animals";
 import {
+  Animal,
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
@@ -18,6 +21,7 @@ import {
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { getKeys } from "features/game/types/decorations";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -40,6 +44,38 @@ type Options = {
   createdAt?: number;
 };
 
+function isMaxLevel(animal: AnimalType, experience: number) {
+  const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
+  const maxLevelXP = ANIMAL_LEVELS[animal][maxLevel];
+
+  return experience >= maxLevelXP;
+}
+
+const handleGoldenEggFeeding = (
+  animal: Animal,
+  animalType: AnimalType,
+  level: number,
+  favouriteFood: AnimalFoodName,
+  copy: GameState,
+) => {
+  const foodXps = ANIMAL_FOOD_EXPERIENCE[animalType];
+  const favouriteFoodXp = foodXps[level as AnimalLevel][favouriteFood];
+  animal.experience += favouriteFoodXp;
+
+  animal.state = "happy";
+
+  if (level !== getAnimalLevel(animal.experience, animal.type)) {
+    animal.state = "ready";
+  }
+
+  copy.bumpkin.activity = trackActivity(
+    `${animalType} Fed`,
+    copy.bumpkin.activity,
+  );
+
+  return copy;
+};
+
 export function feedAnimal({
   state,
   action,
@@ -55,6 +91,8 @@ export function feedAnimal({
         `Animal ${action.id} not found in building ${buildingKey}`,
       );
     }
+
+    const beforeFeedXp = animal.experience;
 
     if (createdAt < animal.awakeAt) {
       throw new Error("Animal is asleep");
@@ -89,6 +127,7 @@ export function feedAnimal({
       throw new Error("Cannot feed a sick animal");
     }
 
+    const maxLevelAnimal = isMaxLevel(action.animal, animal.experience);
     const level = getAnimalLevel(animal.experience, animal.type);
     const food = action.item as AnimalFoodName;
     const isChicken = action.animal === "Chicken";
@@ -103,23 +142,13 @@ export function feedAnimal({
 
     // Handle Golden Egg Free Food
     if (isChicken && hasGoldenEggPlaced) {
-      const favouriteFoodXp =
-        ANIMAL_FOOD_EXPERIENCE[action.animal][level][favouriteFood];
-      animal.experience += favouriteFoodXp;
-
-      animal.state = "happy";
-
-      if (level !== getAnimalLevel(animal.experience, animal.type)) {
-        animal.state = "ready";
-      }
-
-      copy.bumpkin.activity = trackActivity(
-        `${action.animal} Fed`,
-        copy.bumpkin.activity,
+      return handleGoldenEggFeeding(
+        animal,
+        action.animal,
+        level,
+        favouriteFood,
+        copy,
       );
-
-      // Early return
-      return copy;
     }
 
     // Regular feeding logic
@@ -135,6 +164,7 @@ export function feedAnimal({
       game: copy,
     });
 
+    // Take food from inventory
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
 
     if (inventoryAmount.lt(boostedFoodQuantity)) {
@@ -143,22 +173,44 @@ export function feedAnimal({
 
     copy.inventory[food] = inventoryAmount.sub(boostedFoodQuantity);
 
-    animal.experience += foodXp;
-
+    // Initialise state to sad
     animal.state = "sad";
+    // Give food xp
+    animal.experience += foodXp;
 
     if (favouriteFood === food || food === "Omnifeed") {
       animal.state = "happy";
     }
 
-    if (level !== getAnimalLevel(animal.experience, animal.type)) {
-      animal.state = "ready";
-    }
-
+    // Track activity
     copy.bumpkin.activity = trackActivity(
       `${action.animal} Fed`,
       copy.bumpkin.activity,
     );
+
+    // Handle non-max level animal
+    if (!maxLevelAnimal) {
+      if (level !== getAnimalLevel(animal.experience, animal.type)) {
+        animal.state = "ready";
+      }
+
+      return copy;
+    }
+
+    // When an animal is at max level, the will continually cycle through the max level
+    // Each time an animal completes another cycle, it will be ready to drop resources
+    const maxLevel = (getKeys(ANIMAL_LEVELS[action.animal]).length -
+      1) as AnimalLevel;
+    const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
+    const maxLevelXp = ANIMAL_LEVELS[action.animal][maxLevel];
+    const levelBeforeMaxXp = ANIMAL_LEVELS[action.animal][levelBeforeMax];
+    const cycleXP = maxLevelXp - levelBeforeMaxXp;
+    const excessXpBeforeFeed = beforeFeedXp - maxLevelXp;
+    const currentCycleProgress = excessXpBeforeFeed % cycleXP;
+
+    if (currentCycleProgress + foodXp >= cycleXP) {
+      animal.state = "ready";
+    }
 
     return copy;
   });

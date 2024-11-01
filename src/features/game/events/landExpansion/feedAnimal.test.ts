@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION, feedAnimal } from "./feedAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { ANIMAL_LEVELS } from "features/game/types/animals";
 
 describe("feedAnimal", () => {
   const now = Date.now();
@@ -234,7 +235,6 @@ describe("feedAnimal", () => {
       state: {
         ...INITIAL_FARM,
         inventory: {
-          ...INITIAL_FARM.inventory,
           "Kernel Blend": new Decimal(6),
         },
         barn: {
@@ -976,5 +976,214 @@ describe("feedAnimal", () => {
     });
 
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(2.5));
+  });
+
+  it("sets animal to ready state when completing a cycle at max level", () => {
+    // Setup chicken at max level (15)
+    const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
+    // Add enough XP to complete one cycle (240 XP - difference between level 14-15)
+    const cycleXP = ANIMAL_LEVELS["Chicken"][15] - ANIMAL_LEVELS["Chicken"][14];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Mixed Grain": new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              coordinates: { x: 0, y: 0 },
+              id: "0",
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: maxLevelXP + cycleXP - 60, // One Favourite Food feed away from cycle
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Mixed Grain",
+      },
+    });
+
+    expect(state.henHouse.animals["0"].state).toBe("ready");
+  });
+
+  it("maintains correct state through multiple cycles", () => {
+    // Setup chicken at max level (15)
+    const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
+    // Add enough XP to complete one cycle (240 XP - difference between level 14-15)
+    const cycleXP = ANIMAL_LEVELS["Chicken"][15] - ANIMAL_LEVELS["Chicken"][14];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Mixed Grain": new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              coordinates: { x: 0, y: 0 },
+              id: "0",
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: maxLevelXP + cycleXP + 60, // One Favourite Food feed into a new cycle
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Mixed Grain",
+      },
+    });
+
+    // Should be in happy state since we're mid-cycle
+    expect(state.henHouse.animals["0"].state).toBe("happy");
+    // Experience should continue accumulating
+    expect(state.henHouse.animals["0"].experience).toBe(
+      maxLevelXP + cycleXP + 60 + 60,
+    );
+  });
+
+  it("sets animal to ready state after going over the second cycle", () => {
+    const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
+    const cycleXP = ANIMAL_LEVELS["Chicken"][15] - ANIMAL_LEVELS["Chicken"][14];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Mixed Grain": new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              experience: maxLevelXP + cycleXP + cycleXP - 50,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Mixed Grain",
+      },
+    });
+
+    expect(state.henHouse.animals["0"].state).toBe("ready");
+  });
+  it("correctly transitions to ready state at exact cycle completion", () => {
+    const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
+    const cycleXP = ANIMAL_LEVELS["Chicken"][15] - ANIMAL_LEVELS["Chicken"][14];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Mixed Grain": new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              coordinates: { x: 0, y: 0 },
+              id: "0",
+              type: "Chicken",
+              createdAt: 0,
+              state: "happy",
+              experience: maxLevelXP + cycleXP * 2 - 60, // One feed away from cycle completion
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Mixed Grain",
+      },
+    });
+
+    expect(state.henHouse.animals["0"].state).toBe("ready");
+    expect(state.henHouse.animals["0"].experience).toBe(
+      maxLevelXP + cycleXP * 2,
+    );
+  });
+
+  it("sets cow to ready state when completing a cycle at max level", () => {
+    // Setup cow at max level (15)
+    const maxLevelXP = ANIMAL_LEVELS["Cow"][15];
+    // Add enough XP to complete one cycle (240 XP - difference between level 14-15)
+    const cycleXP = ANIMAL_LEVELS["Cow"][15] - ANIMAL_LEVELS["Cow"][14];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Mixed Grain": new Decimal(5),
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              coordinates: { x: 0, y: 0 },
+              id: "0",
+              type: "Cow",
+              createdAt: 0,
+              state: "idle",
+              experience: maxLevelXP + cycleXP - 60, // One Favourite Food feed away from cycle
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+        item: "Mixed Grain",
+      },
+    });
+
+    expect(state.barn.animals["0"].state).toBe("ready");
   });
 });
