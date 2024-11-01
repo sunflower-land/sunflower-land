@@ -6710,6 +6710,54 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  "Alien Chicken": {
+    description:
+      "A peculiar chicken from another galaxy, here to boost your feather production!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2162.png",
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Feather Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Mootant: {
+    description:
+      "This genetically enhanced bovine here to boost your leather production!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2163.png",
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Leather Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Toxic Tuft": {
+    description:
+      "A mutated sheep whose toxic fleece produces the finest merino wool in the land!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2164.png",
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Merino Wool Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
   "Knight Chicken": {
     description: "A strong and noble chicken boosting your oil yield.",
     decimals: 0,

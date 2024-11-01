@@ -127,7 +127,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onLoveClick = () => {
-    if (selectedItem !== sheep.item || inventoryCount.lt(1)) {
+    const loveItemCount = inventory[sheep.item] ?? new Decimal(0);
+    if (selectedItem !== sheep.item || loveItemCount.lt(1)) {
       setShowAffectionQuickSelect(true);
       return;
     }
@@ -238,11 +239,19 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
+    const hasFavFoodInInventory = (inventory[favFood] ?? new Decimal(0)).gte(
+      requiredFoodQty,
+    );
+    const hasFavFoodSelected = selectedItem === favFood;
+
+    if (hasFavFoodInInventory && !hasFavFoodSelected) {
+      setShowQuickSelect(true);
+      return;
+    }
 
     if (hasFoodSelected) {
       const foodCount =
         inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
-      // 5 is the amount of food needed to feed the cow
       if (foodCount.lt(requiredFoodQty)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -252,7 +261,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
       feedSheep(selectedItem);
       setShowQuickSelect(false);
-
       return;
     }
 

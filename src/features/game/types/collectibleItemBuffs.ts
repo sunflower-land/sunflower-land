@@ -776,4 +776,22 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
   },
+  "Alien Chicken": {
+    shortDescription: translate("description.alien.chicken"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.feather,
+  },
+  "Toxic Tuft": {
+    shortDescription: translate("description.toxic.tuft"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.merino_wool,
+  },
+  Mootant: {
+    shortDescription: translate("description.mootant"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.leather,
+  },
 };

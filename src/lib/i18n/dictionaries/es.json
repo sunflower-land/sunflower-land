@@ -3033,7 +3033,6 @@
   "statements.maintenance": "Vienen cosas nuevas! Gracias por tu paciencia, el juego volverá a estar disponible en breve.",
   "statements.minted": "Los duendes han creado tu",
   "statements.minting": "Tenga paciencia mientras su artículo se acuña en la cadena de bloques.",
-  "statements.mutant.chicken": "Enhorabuena, tu gallina ha puesto un pollo mutante muy raro!",
   "statements.news": "Recibe las últimas noticias, completa las tareas y alimenta a tu Bumpkin.",
   "statements.ohNo": "Oh, no! Algo salió mal!",
   "statements.openGuide": "Guía abierta",
@@ -4196,5 +4195,9 @@
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} atrás",
   "megaStore.tier.rare.requirements": "Compra 4 objetos básicos para desbloquear objetos raros.",
-  "megaStore.tier.epic.requirements": "Compra 4 objetos raros para desbloquear objetos épicos."
+  "megaStore.tier.epic.requirements": "Compra 4 objetos raros para desbloquear objetos épicos.",
+  "statements.mutant.animal": "¡Enhorabuena, has descubierto un animal mutante!",
+  "description.alien.chicken": "¡Un peculiar pollo de otra galaxia, aquí para aumentar tu producción de plumas!",
+  "description.toxic.tuft": "¡Una oveja mutada cuyo tóxico vellón produce la mejor lana merino del país!",
+  "description.mootant": "¡Este bovino genéticamente mejorado está aquí para aumentar tu producción de cuero!"
 }

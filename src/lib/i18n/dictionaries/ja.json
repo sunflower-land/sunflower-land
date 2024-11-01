@@ -3073,7 +3073,6 @@
   "statements.maintenance": "新しいものがやってくる！しばらくお待ちいただきますようお願いします。ゲームはまもなく再開されます。",
   "statements.minted": "ゴブリンが君を作った",
   "statements.minting": "アイテムがブロックチェーン上で作成されるまで、しばらくお待ちください。",
-  "statements.mutant.chicken": "おめでとうございます、あなたの鶏は非常に珍しい突然変異鶏を産みました！",
   "statements.news": "最新ニュースを受け取ったり、雑用をこなしたり、バンプキンにエサをあげたりしましょう。",
   "statements.ohNo": "ああ、いや！何かがおかしくなった！",
   "statements.openGuide": "オープンガイド",
@@ -4196,5 +4195,9 @@
   "time.millisecond.short": "ミリ秒",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 前",
   "megaStore.tier.rare.requirements": "基本アイテムを4つ購入すると、レアアイテムのロックが解除されます。",
-  "megaStore.tier.epic.requirements": "レアなアイテムを4つ購入して、エピックアイテムをアンロックしましょう。"
+  "megaStore.tier.epic.requirements": "レアなアイテムを4つ購入して、エピックアイテムをアンロックしましょう。",
+  "statements.mutant.animal": "おめでとう、突然変異動物を発見したね！",
+  "description.alien.chicken": "別の銀河からやってきた不思議なニワトリが、羽根の生産力を高めてくれます！",
+  "description.toxic.tuft": "毒性のあるフリースが国内で最高級のメリノウールを生む突然変異した羊！",
+  "description.mootant": "この遺伝子組み換え牛は、皮革の生産を後押ししてくれます！"
 }
