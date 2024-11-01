@@ -1590,4 +1590,111 @@ describe("claimProduce", () => {
     expect(newState.inventory.Wool).toEqual(new Decimal(1.25));
     expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1));
   });
+
+  it("gives 0.1 more feathers when an Alien Chicken is placed", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Alien Chicken": new Decimal(1),
+        },
+        collectibles: {
+          "Alien Chicken": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              experience: 120,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: "0" },
+    });
+
+    expect(state.inventory.Feather).toEqual(new Decimal(1.1));
+  });
+
+  it("gives 0.1 more merino wool when a Toxic Tuft is placed", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Toxic Tuft": new Decimal(1),
+        },
+        collectibles: {
+          "Toxic Tuft": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Sheep",
+              state: "ready",
+              experience: 240,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: "0" },
+    });
+
+    expect(state.inventory["Merino Wool"]).toEqual(new Decimal(1.1));
+  });
+
+  it("gives 0.1 more leather when a Mootant is placed", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Mootant: new Decimal(1),
+        },
+        collectibles: {
+          Mootant: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Cow",
+              state: "ready",
+              experience: 360,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: "0" },
+    });
+
+    expect(state.inventory.Leather).toEqual(new Decimal(1.1));
+  });
 });
