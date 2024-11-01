@@ -39,7 +39,6 @@ import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
 import { BED_FARMHAND_COUNT } from "./beds";
-import { hasSeasonStarted } from "./seasons";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -423,50 +422,33 @@ export function isFarmhandUsingBed(
   return [isLastBed && farmHandInBed, "Farmhand is using bed"];
 }
 
+const newAnimalsStarted =
+  Date.now() > new Date("2024-11-04T00:00:00Z").getTime();
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
   // Mutant Chickens
   "Undead Rooster": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Ayam Cemani": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "El Pollo Veloz": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Rich Chicken": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Fat Chicken": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Speed Chicken": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Chicken Coop": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Gold Egg": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   Rooster: (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   Bale: (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Banana Chicken": (game) => areFruitsGrowing(game, "Banana"),
   "Crim Peckster": (game) => areAnyCrimstonesMined(game),
 
@@ -649,9 +631,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   Banana: (game) => areAnyFruitsGrowing(game),
   "Tree Hat": (game) => areAnyTreesChopped(game),
   "Egg Head": (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Apple Head": (game) => areAnyFruitsGrowing(game),
 
   "Axe Head": () => [false, translate("restrictionReason.noRestriction")],
@@ -679,9 +659,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   // TODO Port needs to be implemented
   Port: () => [false, translate("restrictionReason.noRestriction")],
   Retreat: (game) =>
-    hasSeasonStarted("Bull Run")
-      ? areAnyChickensSleeping(game)
-      : areAnyChickensFed(game),
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   Saphiro: (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
   Snow: (game) => areAnyAdvancedCropsGrowing(game),
   Beach: (game) => areAnyFruitsGrowing(game),
