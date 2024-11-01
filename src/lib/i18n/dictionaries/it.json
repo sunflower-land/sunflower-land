@@ -4189,5 +4189,11 @@
   "whatsOn.date.dec18Jan31": "18 dicembre - 31 gennaio",
   "whatsOn.date.feb1": "1° febbraio",
   "description.whiteSheepOnesie.boost": "+0,25 lana",
-  "description.whiteSheepOnesie": "Mettiti comodo con questa soffice tutina di lana, perfetta per una notte accogliente o una giornata giocosa in piazza! Con il suo fascino irresistibile, sarai la pecora più carina del gregge. 0,25+ lana"
+  "description.whiteSheepOnesie": "Mettiti comodo con questa soffice tutina di lana, perfetta per una notte accogliente o una giornata giocosa in piazza! Con il suo fascino irresistibile, sarai la pecora più carina del gregge. 0,25+ lana",
+  "time.millisecond.full": "millisecondo",
+  "time.milliseconds.full": "millisecondi",
+  "time.ms.med": "ms",
+  "time.mss.med": "sminuzzata",
+  "time.millisecond.short": "ms",
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} fa"
 }

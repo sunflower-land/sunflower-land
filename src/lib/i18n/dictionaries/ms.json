@@ -4189,5 +4189,11 @@
   "whatsOn.date.dec18Jan31": "18 Disember - 31 Jan",
   "whatsOn.date.feb1": "1 Februari",
   "description.whiteSheepOnesie.boost": "+0.25 Bulu",
-  "description.whiteSheepOnesie": "Bersenang-senang di semangat yang lembut dan berbulu ini—sesuai untuk malam yang selesa atau hari yang suka bermain di plaza! Dengan daya tarikannya yang tidak dapat ditahan, anda akan menjadi domba paling comel dalam kawanan itu. 0.25+ bulu"
+  "description.whiteSheepOnesie": "Bersenang-senang di semangat yang lembut dan berbulu ini—sesuai untuk malam yang selesa atau hari yang suka bermain di plaza! Dengan daya tarikannya yang tidak dapat ditahan, anda akan menjadi domba paling comel dalam kawanan itu. 0.25+ bulu",
+  "time.millisecond.full": "milisaat",
+  "time.milliseconds.full": "milisaat",
+  "time.ms.med": "ms",
+  "time.mss.med": "mss",
+  "time.millisecond.short": "ms",
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} lalu"
 }

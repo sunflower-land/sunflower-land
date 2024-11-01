@@ -4189,5 +4189,11 @@
   "whatsOn.date.dec18Jan31": "18 de dezembro - 31 de janeiro",
   "whatsOn.date.feb1": "1° de fevereiro",
   "description.whiteSheepOnesie.boost": "+0,25 Lã",
-  "description.whiteSheepOnesie": "Aconchegue-se com este macacão fofo de lã, perfeito para uma noite confortável ou um dia divertido na praça! Com seu charme irresistível, você será a ovelha mais fofa do rebanho. 0,25 ou mais lã"
+  "description.whiteSheepOnesie": "Aconchegue-se com este macacão fofo de lã, perfeito para uma noite confortável ou um dia divertido na praça! Com seu charme irresistível, você será a ovelha mais fofa do rebanho. 0,25 ou mais lã",
+  "time.millisecond.full": "milissegundo",
+  "time.milliseconds.full": "milissegundos",
+  "time.ms.med": "ms",
+  "time.mss.med": "bagunça",
+  "time.millisecond.short": "ms",
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} atrás"
 }

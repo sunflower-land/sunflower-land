@@ -22,7 +22,8 @@ import { Button } from "components/ui/Button";
 export const PortalLeaderboard: React.FC<{
   name: MinigameName;
   onBack: () => void;
-}> = ({ name, onBack }) => {
+  formatPoints?: (value: number) => string;
+}> = ({ name, onBack, formatPoints }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [data, setData] = useState<CompetitionLeaderboardResponse>();
@@ -64,13 +65,13 @@ export const PortalLeaderboard: React.FC<{
 
         <p className="font-secondary text-xs my-2">{`${from} to ${to}`}</p>
 
-        <CompetitionTable items={leaderboard} />
+        <CompetitionTable items={leaderboard} formatPoints={formatPoints} />
 
         {/* Only show miniboard if player isn't in the main leaderboard */}
         {player && !leaderboard.find((m) => m.id === player.id) && (
           <>
             <p className="text-center text-xs mb-2">{`...`}</p>
-            <CompetitionTable items={miniboard} />
+            <CompetitionTable items={miniboard} formatPoints={formatPoints} />
           </>
         )}
       </div>
@@ -82,9 +83,10 @@ export const PortalLeaderboard: React.FC<{
   );
 };
 
-export const CompetitionTable: React.FC<{ items: CompetitionPlayer[] }> = ({
-  items,
-}) => {
+export const CompetitionTable: React.FC<{
+  items: CompetitionPlayer[];
+  formatPoints?: (value: number) => string;
+}> = ({ items, formatPoints }) => {
   const { t } = useAppTranslation();
   if (items.length === 0) {
     return <p className="text-sm">{t("leaderboard.empty")}</p>;
@@ -119,7 +121,7 @@ export const CompetitionTable: React.FC<{ items: CompetitionPlayer[] }> = ({
               style={{ border: "1px solid #b96f50" }}
               className="p-1.5 truncate text-center"
             >
-              {points}
+              {formatPoints?.(points) ?? points}
             </td>
           </tr>
         ))}

@@ -15313,7 +15313,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Dream Scarf": {
     description:
-      "A soft, ethereal scarf that feels like a whisper in the wind. Wrap yourself in comfort and style with this dreamy accessory. 10% reduction in Sheep sleep time.",
+      "A soft, ethereal scarf that feels like a whisper in the wind. Wrap yourself in comfort and style with this dreamy accessory. 20% reduction in Sheep sleep time.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Necklace" },

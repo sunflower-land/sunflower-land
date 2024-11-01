@@ -4189,5 +4189,11 @@
   "whatsOn.date.dec18Jan31": "18 Desember - 31 Januari",
   "whatsOn.date.feb1": "1 Februari",
   "description.whiteSheepOnesie.boost": "+0.25 Wol",
-  "description.whiteSheepOnesie": "Bersantailah dengan pakaian berbulu halus ini — sempurna untuk malam yang nyaman atau hari yang menyenangkan di alun-alun! Dengan pesonanya yang tak tertahankan, Anda akan menjadi domba paling lucu dalam kawanan. 0,25+ Wol"
+  "description.whiteSheepOnesie": "Bersantailah dengan pakaian berbulu halus ini — sempurna untuk malam yang nyaman atau hari yang menyenangkan di alun-alun! Dengan pesonanya yang tak tertahankan, Anda akan menjadi domba paling lucu dalam kawanan. 0,25+ Wol",
+  "time.millisecond.full": "milidetik",
+  "time.milliseconds.full": "milidetik",
+  "time.ms.med": "ms",
+  "time.mss.med": "mss",
+  "time.millisecond.short": "ms",
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} lalu"
 }
