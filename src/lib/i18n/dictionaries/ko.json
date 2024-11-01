@@ -3070,7 +3070,6 @@
   "statements.maintenance": "새로운 것들이 다가오고 있습니다!기다려 주셔서 감사합니다. 게임이 곧 다시 출시될 예정입니다.",
   "statements.minted": "고블린이 당신을 만들었죠",
   "statements.minting": "아이템이 블록체인에서 발행되는 동안 잠시만 기다려주세요.",
-  "statements.mutant.chicken": "축하합니다. 당신의 닭이 아주 희귀한 돌연변이 닭을 낳았어요!",
   "statements.news": "최신 뉴스를 받고 집안일을 끝내고 범프킨에게 먹이를 주세요.",
   "statements.ohNo": "오, 안돼!뭔가 잘못됐어요!",
   "statements.openGuide": "오픈 가이드",
@@ -4196,5 +4195,9 @@
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 전",
   "megaStore.tier.rare.requirements": "기본 아이템 4개를 구매하면 희귀 아이템을 잠금 해제할 수 있습니다.",
-  "megaStore.tier.epic.requirements": "희귀 아이템 4개를 구매하여 에픽 아이템을 잠금 해제하세요."
+  "megaStore.tier.epic.requirements": "희귀 아이템 4개를 구매하여 에픽 아이템을 잠금 해제하세요.",
+  "statements.mutant.animal": "축하합니다. 돌연변이 동물을 발견하셨군요!",
+  "description.alien.chicken": "다른 은하계에서 온 특이한 닭이 깃털 생산량을 늘리러 왔습니다!",
+  "description.toxic.tuft": "이 땅에서 가장 좋은 메리노 울을 만들어내는 독성 양털을 가진 돌연변이 양!",
+  "description.mootant": "유전적으로 강화된 이 소고기는 가죽 생산량을 늘려줄 거예요!"
 }

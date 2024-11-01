@@ -2155,7 +2155,6 @@
   "statements.maintenance": "Yeni şeyler geliyor! Sabrınız için teşekkürler, oyun kısa süre sonra tekrar yayında olacak.",
   "statements.minted": "Goblinler senin işini yaptı",
   "statements.minting": "Öğeniz Blockchain'de üretilirken lütfen sabırlı olun.",
-  "statements.mutant.chicken": "Tebrikler, tavuğunuz çok nadir görülen bir mutant tavuk yumurtladı!",
   "statements.news": "En son haberleri alın, işleri tamamlayın ve Bumpkin'inizi besleyin.",
   "statements.ohNo": "Oh hayır! Bir şeyler yanlış gitti!",
   "statements.openGuide": "Rehberi aç",
@@ -4196,5 +4195,9 @@
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} önce",
   "megaStore.tier.rare.requirements": "Nadir eşyaların kilidini açmak için 4 temel öğe satın alın.",
-  "megaStore.tier.epic.requirements": "Destansı eşyaların kilidini açmak için 4 nadir eşya satın alın."
+  "megaStore.tier.epic.requirements": "Destansı eşyaların kilidini açmak için 4 nadir eşya satın alın.",
+  "statements.mutant.animal": "Tebrikler, mutant bir hayvan keşfettin!",
+  "description.alien.chicken": "Başka bir galaksiden gelen tuhaf bir tavuk, tüy üretiminizi artırmak için burada!",
+  "description.toxic.tuft": "Zehirli yapağı topraktaki en iyi merinos yünü üreten mutasyona uğramış bir koyun!",
+  "description.mootant": "Bu genetik olarak geliştirilmiş sığır, deri üretiminizi artırmak için burada!"
 }
