@@ -95,7 +95,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       const getOnChainMax = async (wearableName: string) => {
         const id = ITEM_IDS[wearableName as BumpkinItem];
 
-        const storage = encodePacked(["uint256, uint"], [id, 13] as any);
+        const storage = encodePacked(["uint256, uint"], [id, 9] as any);
         const hex = await publicClient.getStorageAt({
           address: gameContract,
           slot: storage,
