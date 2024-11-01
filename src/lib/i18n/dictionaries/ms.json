@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "Masak 5 Kek Wortel",
   "chore.cook.4.cabbage.cakes": "Masak 4 Kek Kubis",
   "megaStore.msg1": "Selamat datang ke kedai bermusim saya. Kumpulkan sumber & tukarkannya dengan barang langka sebelum masa habis!",
-  "megaStore.tier.requirements": "Beli {{requirements}} lebih banyak item untuk membuka kunci item {{tier}}.",
   "description.barn.delight": "Elixir ajaib yang menyembuhkan penyakit haiwan.",
   "animal.notEnoughFood": "Tidak cukup makanan yang tersedia",
   "feeder.foodTypes.food": "Makanan",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ms",
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} lalu"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} lalu",
+  "megaStore.tier.rare.requirements": "Beli 4 item asas untuk membuka kunci barang langka.",
+  "megaStore.tier.epic.requirements": "Beli 4 item langka untuk membuka kunci item epik."
 }

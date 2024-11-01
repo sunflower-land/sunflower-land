@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "Cuoci 5 torte alle carote",
   "chore.cook.4.cabbage.cakes": "Cuoci 4 torte al cavolo",
   "megaStore.msg1": "Benvenuto nel mio negozio stagionale. Raccogli risorse e scambiale con oggetti rari prima che scada il tempo!",
-  "megaStore.tier.requirements": "Acquista {{requirements}} altri oggetti per sbloccare {{tier}} articoli.",
   "description.barn.delight": "Un elisir magico che cura le malattie degli animali.",
   "animal.notEnoughFood": "Non c'è abbastanza cibo disponibile",
   "feeder.foodTypes.food": "Cibo",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ms",
   "time.mss.med": "sminuzzata",
   "time.millisecond.short": "ms",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} fa"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} fa",
+  "megaStore.tier.rare.requirements": "Acquista 4 oggetti base per sbloccare oggetti rari.",
+  "megaStore.tier.epic.requirements": "Acquista 4 oggetti rari per sbloccare oggetti epici."
 }

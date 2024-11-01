@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "Приготовь 5 морковных тортов",
   "chore.cook.4.cabbage.cakes": "Приготовь 4 капустных тортов",
   "megaStore.msg1": "Добро пожаловать в мой сезонный магазин. Собирайте ресурсы и обменивайте их на редкие предметы до истечения времени!",
-  "megaStore.tier.requirements": "Купите {{requirements}} больше предметов, чтобы разблокировать {{tier}} предметы.",
   "description.barn.delight": "Волшебный эликсир, излечивающий болезни животных.",
   "animal.notEnoughFood": "Недостаточно еды",
   "feeder.foodTypes.food": "Еда",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "мс",
   "time.mss.med": "масса",
   "time.millisecond.short": "мс",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} назад"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} назад",
+  "megaStore.tier.rare.requirements": "Купите 4 основных предмета, чтобы разблокировать редкие предметы.",
+  "megaStore.tier.epic.requirements": "Купите 4 редких предмета, чтобы разблокировать эпические предметы."
 }

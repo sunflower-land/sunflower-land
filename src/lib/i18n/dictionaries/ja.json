@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "キャロットケーキを5個作る",
   "chore.cook.4.cabbage.cakes": "キャベツケーキを4個作る",
   "megaStore.msg1": "私の季節限定ストアへようこそ。時間がなくなる前に資源を集めてレアアイテムと交換しよう！",
-  "megaStore.tier.requirements": "{{requirements}} 個のアイテムを追加購入すると、{{tier}} 個のアイテムがアンロックされます。",
   "description.barn.delight": "動物の病気を治す魔法のエリクサー。",
   "animal.notEnoughFood": "食べ物が足りない",
   "feeder.foodTypes.food": "食べ物",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ミリ秒",
   "time.mss.med": "混同だ",
   "time.millisecond.short": "ミリ秒",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 前"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 前",
+  "megaStore.tier.rare.requirements": "基本アイテムを4つ購入すると、レアアイテムのロックが解除されます。",
+  "megaStore.tier.epic.requirements": "レアなアイテムを4つ購入して、エピックアイテムをアンロックしましょう。"
 }

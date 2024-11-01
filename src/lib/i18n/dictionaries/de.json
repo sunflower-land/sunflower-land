@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "Koche 5 Karottenkuchen",
   "chore.cook.4.cabbage.cakes": "Koche 4 Kohlkuchen",
   "megaStore.msg1": "Willkommen in meinem saisonalen Geschäft. Sammle Ressourcen und tausche sie gegen seltene Gegenstände ein, bevor die Zeit abläuft!",
-  "megaStore.tier.requirements": "Kaufe {{requirements}} weitere Artikel, um {{tier}} Artikel freizuschalten.",
   "description.barn.delight": "Ein magisches Elixier, das Tierkrankheiten heilt.",
   "animal.notEnoughFood": "Nicht genug Essen verfügbar",
   "feeder.foodTypes.food": "Essen",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "Frau",
   "time.mss.med": "mss",
   "time.millisecond.short": "Frau",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} vor"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} vor",
+  "megaStore.tier.rare.requirements": "Kaufe 4 grundlegende Gegenstände, um seltene Gegenstände freizuschalten.",
+  "megaStore.tier.epic.requirements": "Kaufe 4 seltene Gegenstände, um epische Gegenstände freizuschalten."
 }

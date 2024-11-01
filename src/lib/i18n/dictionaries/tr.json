@@ -4041,7 +4041,6 @@
   "chore.cook.5.carrot.cakes": "5 Havuçlu Kek pişirin",
   "chore.cook.4.cabbage.cakes": "4 Lahanalı Kek Pişir",
   "megaStore.msg1": "Sezonluk mağazama hoş geldiniz. Zaman dolmadan kaynakları toplayın ve nadir eşyalarla değiştirin!",
-  "megaStore.tier.requirements": "{{tier}} öğelerinin kilidini açmak için {{requirements}} daha fazla öğe satın alın.",
   "description.barn.delight": "Hayvan hastalıklarını iyileştiren büyülü bir iksir.",
   "animal.notEnoughFood": "Yeterli yiyecek yok",
   "feeder.foodTypes.food": "Gıda",
@@ -4195,5 +4194,7 @@
   "time.ms.med": "ms",
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
-  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} önce"
+  "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} önce",
+  "megaStore.tier.rare.requirements": "Nadir eşyaların kilidini açmak için 4 temel öğe satın alın.",
+  "megaStore.tier.epic.requirements": "Destansı eşyaların kilidini açmak için 4 nadir eşya satın alın."
 }
