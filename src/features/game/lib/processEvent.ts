@@ -191,6 +191,7 @@ export const MAX_ITEMS: Inventory = {
   "Tulip Bulb": new Decimal(1500),
   Scroll: new Decimal(1500),
   "Amber Fossil": new Decimal(1500),
+  Horseshoe: new Decimal(1500),
   "Bud Ticket": new Decimal(1),
 
   // Potion House

@@ -112,6 +112,10 @@ describe("sellBounty", () => {
   });
 
   it("rewards Amber Fossil", () => {
+    const mockDate = new Date(2024, 7, 10); // Time during Pharaoh's Treasure
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
     const action: SellBountyAction = {
       type: "bounty.sold",
       requestId: "2",
@@ -120,6 +124,8 @@ describe("sellBounty", () => {
     const result = sellBounty({ state: GAME_STATE, action });
 
     expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+
+    jest.useRealTimers();
   });
 
   it("rewards Horseshoe at Bull Run Season", () => {
