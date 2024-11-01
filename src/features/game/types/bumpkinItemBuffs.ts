@@ -590,6 +590,12 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.resource.merino_wool,
     },
+    "White Sheep Onesie": {
+      shortDescription: translate("description.whiteSheepOnesie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.wool,
+    },
 
     ...SPECIAL_ITEM_LABELS,
   };
