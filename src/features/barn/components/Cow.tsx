@@ -91,8 +91,6 @@ const _animalState = (state: AnimalMachineState) =>
 const _cow = (id: string) => (state: MachineState) =>
   state.context.state.barn.animals[id];
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _inventoryCount = (item: InventoryItemName) => (state: MachineState) =>
-  state.context.state.inventory[item] ?? new Decimal(0);
 const _game = (state: MachineState) => state.context.state;
 
 export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
@@ -102,10 +100,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const { gameService, selectedItem } = useContext(Context);
 
   const cow = useSelector(gameService, _cow(id));
-  const inventoryCount = useSelector(
-    gameService,
-    _inventoryCount(selectedItem as AnimalFoodName),
-  );
   const game = useSelector(gameService, _game);
   const cowService = useInterpret(animalMachine, {
     context: {
@@ -179,7 +173,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onLoveClick = () => {
-    if (selectedItem !== cow.item || inventoryCount.lt(1)) {
+    const loveItemCount = inventory[cow.item] ?? new Decimal(0);
+    if (selectedItem !== cow.item || loveItemCount.lt(1)) {
       setShowAffectionQuickSelect(true);
       return;
     }
@@ -290,11 +285,19 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
+    const hasFavFoodInInventory = (inventory[favFood] ?? new Decimal(0)).gte(
+      requiredFoodQty,
+    );
+    const hasFavFoodSelected = selectedItem === favFood;
+
+    if (hasFavFoodInInventory && !hasFavFoodSelected) {
+      setShowQuickSelect(true);
+      return;
+    }
 
     if (hasFoodSelected) {
       const foodCount =
         inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
-      // 5 is the amount of food needed to feed the cow
       if (foodCount.lt(requiredFoodQty)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -304,7 +307,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
       feedCow(selectedItem);
       setShowQuickSelect(false);
-
       return;
     }
 
