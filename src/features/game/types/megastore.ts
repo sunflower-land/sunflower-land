@@ -160,7 +160,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     collectible: "Cow Scratcher",
     cost: {
       items: {
-        Horseshoe: 20,
+        "Cow Skull": 20,
       },
       sfl: 0,
     },
