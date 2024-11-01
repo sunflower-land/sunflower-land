@@ -26,28 +26,28 @@ type Options = {
 };
 
 export const isBasicCrop = (cropName: PlotCropName | GreenHouseCropName) => {
-  if (!isCrop(cropName)) return false;
+  if (!isPlotCrop(cropName)) return false;
   const cropDetails = PLOT_CROPS[cropName];
   return cropDetails.harvestSeconds <= PLOT_CROPS["Pumpkin"].harvestSeconds;
 };
 
 export const isMediumCrop = (cropName: PlotCropName | GreenHouseCropName) => {
-  if (!isCrop(cropName)) return false;
+  if (!isPlotCrop(cropName)) return false;
   return !(isBasicCrop(cropName) || isAdvancedCrop(cropName));
 };
 
 export const isAdvancedCrop = (cropName: PlotCropName | GreenHouseCropName) => {
-  if (!isCrop(cropName)) return false;
+  if (!isPlotCrop(cropName)) return false;
   const cropDetails = PLOT_CROPS[cropName];
   return cropDetails.harvestSeconds >= PLOT_CROPS["Eggplant"].harvestSeconds;
 };
 
-function isCrop(plant: GreenHouseCropName | PlotCropName): plant is PlotCropName {
+function isPlotCrop(plant: GreenHouseCropName | PlotCropName): plant is PlotCropName {
   return (plant as PlotCropName) in PLOT_CROPS;
 }
 
 export const isOvernightCrop = (cropName: PlotCropName | GreenHouseCropName) => {
-  if (isCrop(cropName)) {
+  if (isPlotCrop(cropName)) {
     const cropDetails = PLOT_CROPS[cropName];
     return cropDetails.harvestSeconds >= PLOT_CROPS["Radish"].harvestSeconds;
   }
