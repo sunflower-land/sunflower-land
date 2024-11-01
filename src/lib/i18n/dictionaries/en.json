@@ -4146,6 +4146,8 @@
   "description.chickenSuit.boost": "+1 Feather",
   "description.cowbellNecklace.boost": "+2 Milk",
   "description.blackSheepOnesie.boost": "+2 Wool",
+  "description.whiteSheepOnesie.boost": "+0.25 Wool",
+  "description.whiteSheepOnesie": "Cozy up in this fluffy, woolly onesie—perfect for a snug night in or a playful day in the plaza! With its irresistible charm, you will be the cutest sheep in the herd. 0.25+ Wool",
   "description.blackSheep": "A black sheep has taken up residence on your farm.",
   "description.merinoJumper.boost": "+1 Merino Wool",
   "description.mooVer.boost": "+0.25 Leather",
