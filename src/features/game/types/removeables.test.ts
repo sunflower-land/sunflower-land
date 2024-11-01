@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { hasRemoveRestriction } from "./removeables";
-import { TEST_FARM } from "../lib/constants";
+import { INITIAL_FARM, TEST_FARM } from "../lib/constants";
 
 describe("canremove", () => {
   describe("prevents", () => {
@@ -384,9 +384,179 @@ describe("canremove", () => {
 
       expect(restricted).toBe(true);
     });
+
+    it("prevents a user from removing Alien Chicken when chickens are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Alien Chicken", "123", {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        collectibles: {
+          "Alien Chicken": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing Mootant when cows are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Mootant", "123", {
+        ...INITIAL_FARM,
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.barn.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        collectibles: {
+          Mootant: [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing Toxic Tuft when sheep are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Toxic Tuft", "123", {
+        ...INITIAL_FARM,
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.barn.animals["1"],
+              type: "Sheep",
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        collectibles: {
+          "Toxic Tuft": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
   });
 
   describe("enables", () => {
+    it("enables a user to remove Alien Chicken when no chickens are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Alien Chicken", "123", {
+        ...TEST_FARM,
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          animals: {
+            "1": {
+              ...TEST_FARM.henHouse.animals["1"],
+              asleepAt: 0,
+              awakeAt: 0,
+            },
+          },
+        },
+        collectibles: {
+          "Alien Chicken": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
+
+    it("enables a user to remove Mootant when no cows are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Mootant", "123", {
+        ...TEST_FARM,
+        barn: {
+          ...TEST_FARM.barn,
+          animals: {
+            "1": {
+              ...TEST_FARM.barn.animals["1"],
+              asleepAt: 0,
+              awakeAt: 0,
+            },
+          },
+        },
+        collectibles: {
+          Mootant: [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
+
+    it("enables a user to remove Toxic Tuft when no sheep are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Toxic Tuft", "123", {
+        ...TEST_FARM,
+        barn: {
+          ...TEST_FARM.barn,
+          animals: {
+            "1": {
+              ...TEST_FARM.barn.animals["1"],
+              type: "Sheep",
+              asleepAt: 0,
+              awakeAt: 0,
+            },
+          },
+        },
+        collectibles: {
+          "Toxic Tuft": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
+
     it("enables a user to remove Grinx Hammer 7 days after expanding", () => {
       const [restricted] = hasRemoveRestriction("Grinx's Hammer", "1", {
         ...TEST_FARM,

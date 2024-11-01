@@ -39,7 +39,6 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
 
@@ -91,9 +90,8 @@ const _animalState = (state: AnimalMachineState) =>
 
 const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
-const _inventoryCount = (item: InventoryItemName) => (state: MachineState) =>
-  state.context.state.inventory[item] ?? new Decimal(0);
 const _game = (state: MachineState) => state.context.state;
+const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -102,11 +100,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { gameService, selectedItem } = useContext(Context);
   const { t } = useAppTranslation();
   const chicken = useSelector(gameService, _chicken(id));
-  const inventoryCount = useSelector(
-    gameService,
-    _inventoryCount(selectedItem as AnimalFoodName),
-  );
   const game = useSelector(gameService, _game);
+  const inventory = useSelector(gameService, _inventory);
   const chickenService = useInterpret(animalMachine, {
     context: { animal: chicken },
     devTools: true,
@@ -175,7 +170,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onLoveClick = () => {
-    if (selectedItem !== chicken.item || inventoryCount.lt(1)) {
+    const loveItemCount = inventory[chicken.item] ?? new Decimal(0);
+    if (selectedItem !== chicken.item || loveItemCount.lt(1)) {
       setShowAffectionQuickSelect(true);
       return;
     }
@@ -233,7 +229,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const onSickClick = async () => {
     const hasMedicineSelected = selectedItem === "Barn Delight";
-    const medicineCount = inventoryCount ?? new Decimal(0);
+    const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
     const hasEnoughMedicine = medicineCount.gte(1);
 
     if (hasMedicineSelected && hasEnoughMedicine) {
@@ -285,13 +281,20 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
-    const isGoldEggPlaced = isCollectibleBuilt({
-      name: "Gold Egg",
-      game: gameService.state.context.state,
-    });
+    const hasFavFoodInInventory = (inventory[favFood] ?? new Decimal(0)).gte(
+      requiredFoodQty,
+    );
+    const hasFavFoodSelected = selectedItem === favFood;
+
+    if (hasFavFoodInInventory && !hasFavFoodSelected) {
+      setShowQuickSelect(true);
+      return;
+    }
 
     if (hasFoodSelected) {
-      if (inventoryCount.lt(requiredFoodQty) && !isGoldEggPlaced) {
+      const foodCount =
+        inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
+      if (foodCount.lt(requiredFoodQty)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -299,18 +302,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       feedChicken(selectedItem);
-      setShowQuickSelect(false);
-
-      return;
-    }
-
-    if (
-      isCollectibleBuilt({
-        name: "Gold Egg",
-        game: gameService.state.context.state,
-      })
-    ) {
-      feedChicken();
       setShowQuickSelect(false);
       return;
     }
@@ -521,7 +512,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
                   .filter(
                     (food) =>
                       ANIMAL_FOODS[food].type === "food" &&
-                      inventoryCount.gte(requiredFoodQty),
+                      (inventory[food] ?? new Decimal(0)).gte(requiredFoodQty),
                   )
                   .map((food) => ({
                     name: food,

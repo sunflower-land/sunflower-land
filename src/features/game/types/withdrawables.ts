@@ -17,7 +17,6 @@ import {
   LegacyItem,
   MOMEventItem,
   MarketItem,
-  MutantChicken,
   QuestItem,
   Shovel,
   ToolName,
@@ -36,6 +35,7 @@ import {
   InventoryItemName,
   LanternName,
   LoveAnimalItem,
+  MutantAnimal,
   Points,
   RecipeCraftableName,
   SpecialEvent,
@@ -333,7 +333,7 @@ const resources: Record<ResourceName, () => boolean> = {
   "Oil Reserve": () => false,
 };
 
-const mutantChickens: Record<MutantChicken, () => boolean> = {
+const mutantAnimals: Record<MutantAnimal, () => boolean> = {
   "Ayam Cemani": () => true,
   "Fat Chicken": () => true,
   "Rich Chicken": () => true,
@@ -342,8 +342,10 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "Banana Chicken": () => true,
   "Crim Peckster": () => true,
   "Knight Chicken": () => true,
-  "Pharaoh Chicken": () =>
-    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  "Pharaoh Chicken": () => true,
+  "Alien Chicken": () => hasSeasonEnded("Bull Run"),
+  "Toxic Tuft": () => hasSeasonEnded("Bull Run"),
+  Mootant: () => hasSeasonEnded("Bull Run"),
 };
 
 const flags: Record<Flag, () => boolean> = {
@@ -1205,7 +1207,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...warBanners,
   ...heliosBlacksmith,
   ...commodities,
-  ...mutantChickens,
+  ...mutantAnimals,
   ...flags,
   ...easterEggs,
   ...mutantCrop,

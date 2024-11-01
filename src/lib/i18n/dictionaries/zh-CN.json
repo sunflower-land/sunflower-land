@@ -3159,7 +3159,6 @@
   "statements.maintenance": "新事物来了！感谢您的耐心等待，游戏将很快再次上线。",
   "statements.minted": "哥布林精心铸造了你的",
   "statements.minting": "当您的物品在区块链上铸造时，请耐心等待。",
-  "statements.mutant.chicken": "恭喜，你的鸡产下了一只非常稀有的突变鸡！",
   "statements.news": "接收最新消息，完成琐事并喂养您的 Bumpkin。",
   "statements.ohNo": "哦不！出了点问题！",
   "statements.openGuide": "打开指南",
@@ -4196,5 +4195,9 @@
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 之前",
   "megaStore.tier.rare.requirements": "购买 4 件基础物品即可解锁稀有物品。",
-  "megaStore.tier.epic.requirements": "购买 4 件稀有物品来解锁史诗物品。"
+  "megaStore.tier.epic.requirements": "购买 4 件稀有物品来解锁史诗物品。",
+  "statements.mutant.animal": "恭喜，你发现了一只突变动物！",
+  "description.alien.chicken": "一只来自另一个星系的奇特小鸡，可以提高你的羽毛产量！",
+  "description.toxic.tuft": "一只变异的绵羊，它的有毒羊毛能产出这片土地上最好的美利奴羊毛！",
+  "description.mootant": "这种经过基因改造的牛可以提高您的皮革产量！"
 }

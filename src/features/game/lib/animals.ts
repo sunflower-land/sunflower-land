@@ -61,7 +61,7 @@ export function makeAnimalBuilding(
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
-          experience: 0,
+          experience: animalType === "Chicken" ? 40 : 80,
           createdAt: Date.now(),
           item: "Petting Hand",
           lovedAt: 0,
@@ -166,6 +166,10 @@ function getFeatherYieldBoosts(game: GameState) {
     boost += 1;
   }
 
+  if (isCollectibleBuilt({ name: "Alien Chicken", game })) {
+    boost += 0.1;
+  }
+
   return boost;
 }
 
@@ -186,6 +190,10 @@ function getMerinoWoolYieldBoosts(game: GameState) {
 
   if (isWearableActive({ name: "Merino Jumper", game })) {
     boost += 1;
+  }
+
+  if (isCollectibleBuilt({ name: "Toxic Tuft", game })) {
+    boost += 0.1;
   }
 
   return boost;
@@ -210,6 +218,10 @@ function getLeatherYieldBoosts(game: GameState) {
 
   if (isCollectibleBuilt({ name: "Moo-ver", game })) {
     boost += 0.25;
+  }
+
+  if (isCollectibleBuilt({ name: "Mootant", game })) {
+    boost += 0.1;
   }
 
   return boost;

@@ -339,6 +339,9 @@ import { Wagon } from "./components/Wagon";
 import { hasFeatureAccess } from "lib/flags";
 import { Chicory } from "./components/Chicory";
 import { LonghornCowfish } from "./components/LonghornCownfish";
+import { AlienChicken } from "./components/AlienChicken";
+import { ToxicTuft } from "./components/ToxicTuft";
+import { Mootant } from "./components/Mootants";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -745,6 +748,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
+  "Alien Chicken": AlienChicken,
+  "Toxic Tuft": ToxicTuft,
+  Mootant: Mootant,
   Chicory: Chicory,
   "Adrift Ark": (props: CollectibleProps) => (
     <ImageStyle

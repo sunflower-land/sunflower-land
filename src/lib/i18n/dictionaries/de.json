@@ -3067,7 +3067,6 @@
   "statements.maintenance": "Neue Dinge kommen! Danke für deine Geduld, das Spiel wird in Kürze wieder live sein.",
   "statements.minted": "Die Goblins haben deine hergestellt",
   "statements.minting": "Bitte haben Sie etwas Geduld, während Ihr Artikel in der Blockchain geprägt wird.",
-  "statements.mutant.chicken": "Herzlichen Glückwunsch, dein Huhn hat ein sehr seltenes mutiertes Huhn gelegt!",
   "statements.news": "Erhalte die neuesten Nachrichten, erledige Aufgaben und füttere deinen Bumpkin.",
   "statements.ohNo": "Oh nein! Etwas ist schief gelaufen!",
   "statements.openGuide": "Leitfaden öffnen",
@@ -4196,5 +4195,9 @@
   "time.millisecond.short": "Frau",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} vor",
   "megaStore.tier.rare.requirements": "Kaufe 4 grundlegende Gegenstände, um seltene Gegenstände freizuschalten.",
-  "megaStore.tier.epic.requirements": "Kaufe 4 seltene Gegenstände, um epische Gegenstände freizuschalten."
+  "megaStore.tier.epic.requirements": "Kaufe 4 seltene Gegenstände, um epische Gegenstände freizuschalten.",
+  "statements.mutant.animal": "Herzlichen Glückwunsch, Sie haben ein mutiertes Tier entdeckt!",
+  "description.alien.chicken": "Ein eigenartiges Huhn aus einer anderen Galaxie, hier, um deine Federproduktion anzukurbeln!",
+  "description.toxic.tuft": "Ein mutiertes Schaf, aus dessen giftigem Vlies die feinste Merinowolle des Landes gewonnen wird!",
+  "description.mootant": "Dieses gentechnisch veränderte Rind ist hier, um deine Lederproduktion anzukurbeln!"
 }
