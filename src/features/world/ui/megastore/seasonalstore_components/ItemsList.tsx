@@ -261,16 +261,23 @@ export const ItemsList: React.FC<Props> = ({
           </div>
         </div>
       )}
-      {tier !== "basic" &&
-        ((tier === "rare" && !isRareUnlocked) ||
-          (tier === "epic" && !isEpicUnlocked)) && (
-          <span className="text-xs pb-2">
-            {t("megaStore.tier.requirements", {
-              requirements: requirements - tierpercentage,
-              tier: tier,
-            })}
-          </span>
-        )}
+      {tier === "rare" && !isRareUnlocked && (
+        <span className="text-xs pb-2">
+          {t("megaStore.tier.rare.requirements", {
+            requirements: requirements - tierpercentage,
+            tier: tier,
+          })}
+        </span>
+      )}
+
+      {tier === "epic" && !isEpicUnlocked && (
+        <span className="text-xs pb-2">
+          {t("megaStore.tier.epic.requirements", {
+            requirements: requirements - tierpercentage,
+            tier: tier,
+          })}
+        </span>
+      )}
 
       <div className="flex gap-2 flex-wrap">
         {sortedItems.length === 0 ? (
