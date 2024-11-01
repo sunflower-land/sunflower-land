@@ -15228,9 +15228,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Infernal Bullwhip",
   },
   "White Sheep Onesie": {
-    description: "",
+    description:
+      "Cozy up in this fluffy, woolly onesie—perfect for a snug night in or a playful day in the plaza! With its irresistible charm, you will be the cutest sheep in the herd. 0.25+ Wool",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Wool",
+        value: 0.25,
+      },
       { trait_type: "Part", value: "Onesie" },
       { trait_type: "Tradable", value: "No" },
     ],
