@@ -3031,7 +3031,6 @@
   "statements.maintenance": "Nuove cose stanno arrivando! Grazie per la pazienza, il gioco sarà nuovamente disponibili a breve.",
   "statements.minted": "I goblin hanno creato il tuo",
   "statements.minting": "Ti preghiamo di pazientare mentre il tuo articolo viene coniato sulla Blockchain.",
-  "statements.mutant.chicken": "Congratulazioni, la tua gallina ha deposto un pollo mutante molto raro!",
   "statements.news": "Ricevi le ultime notizie, completa le faccende domestiche e dai da mangiare al tuo Bumpkin.",
   "statements.ohNo": "Oh no! Qualcosa è andato storto!",
   "statements.openGuide": "Apri la guida",
@@ -4196,5 +4195,9 @@
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} fa",
   "megaStore.tier.rare.requirements": "Acquista 4 oggetti base per sbloccare oggetti rari.",
-  "megaStore.tier.epic.requirements": "Acquista 4 oggetti rari per sbloccare oggetti epici."
+  "megaStore.tier.epic.requirements": "Acquista 4 oggetti rari per sbloccare oggetti epici.",
+  "statements.mutant.animal": "Congratulazioni, hai scoperto un animale mutante!",
+  "description.alien.chicken": "Un pollo particolare proveniente da un'altra galassia, qui per aumentare la tua produzione di piume!",
+  "description.toxic.tuft": "Una pecora mutante il cui vello tossico produce la lana merino più pregiata del paese!",
+  "description.mootant": "Questo bovino geneticamente migliorato è qui per aumentare la tua produzione di pelle!"
 }

@@ -3073,7 +3073,6 @@
   "statements.maintenance": "Perkara baru akan datang! Terima kasih atas kesabaran anda, permainan akan dihidupkan semula tidak lama lagi.",
   "statements.minted": "Goblin telah membuat anda",
   "statements.minting": "Sila bersabar semasa item anda dicetak di Blockchain.",
-  "statements.mutant.chicken": "Tahniah, ayam anda telah meletakkan ayam mutan yang sangat jarang berlaku!",
   "statements.news": "Terima berita terkini, lengkapkan tugas dan beri makan Bumpkin anda.",
   "statements.ohNo": "Oh tidak! Ada yang salah!",
   "statements.openGuide": "Panduan terbuka",
@@ -4196,5 +4195,9 @@
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} lalu",
   "megaStore.tier.rare.requirements": "Beli 4 item asas untuk membuka kunci barang langka.",
-  "megaStore.tier.epic.requirements": "Beli 4 item langka untuk membuka kunci item epik."
+  "megaStore.tier.epic.requirements": "Beli 4 item langka untuk membuka kunci item epik.",
+  "statements.mutant.animal": "Tahniah, anda telah menemui haiwan mutan!",
+  "description.alien.chicken": "Ayam pelik dari galaksi lain, di sini untuk meningkatkan pengeluaran bulu anda!",
+  "description.toxic.tuft": "Seekor domba bermutasi yang bulu toksiknya menghasilkan bulu merino terbaik di tanah ini!",
+  "description.mootant": "Sapi yang dipertingkatkan secara genetik ini di sini untuk meningkatkan pengeluaran kulit anda!"
 }
