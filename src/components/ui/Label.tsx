@@ -9,7 +9,6 @@ import {
   pixelCalmBorderStyle,
   pixelFormulaBorderStyle,
   pixelGreenBorderStyle,
-  pixelHalloweenInnerBorderStyle,
 } from "features/game/lib/style";
 import { SquareIcon } from "./SquareIcon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -117,9 +116,8 @@ export const Label: React.FC<Props> = ({
         },
       )}
       style={{
-        ...pixelHalloweenInnerBorderStyle,
-        background: "#8B9BB4",
-
+        ...LABEL_STYLES[type].borderStyle,
+        background: LABEL_STYLES[type].background,
         paddingLeft: icon ? "14px" : "3px",
         paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "3px",
         color: LABEL_STYLES[type].textColour,
