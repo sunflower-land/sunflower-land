@@ -22,8 +22,8 @@ import { Button } from "components/ui/Button";
 export const PortalLeaderboard: React.FC<{
   name: MinigameName;
   onBack: () => void;
-  startDate: Date;
-  endDate: Date;
+  startDate?: Date;
+  endDate?: Date;
   formatPoints?: (value: number) => string;
   isAccumulator?: boolean;
 }> = ({ name, onBack, startDate, endDate, formatPoints, isAccumulator }) => {
@@ -75,7 +75,7 @@ export const PortalLeaderboard: React.FC<{
           </Label>
         </div>
 
-        <p className="font-secondary text-xs my-2">{`${from} to ${endDate.toISOString().substring(0, 10)}`}</p>
+        <p className="font-secondary text-xs my-2">{`${from} to ${endDate ? endDate.toISOString().substring(0, 10) : to}`}</p>
 
         <CompetitionTable items={items} formatPoints={formatPoints} />
 
