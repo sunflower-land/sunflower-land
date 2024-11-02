@@ -148,6 +148,7 @@ export type CompetitionData = {
 
 export type CompetitionLeaderboardResponse = {
   leaderboard: CompetitionPlayer[];
+  accumulators?: CompetitionPlayer[];
   miniboard: CompetitionPlayer[];
   lastUpdated: number;
   player?: CompetitionPlayer;
