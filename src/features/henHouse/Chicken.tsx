@@ -83,6 +83,18 @@ const _chicken = (id: string) => (state: MachineState) =>
 const _game = (state: MachineState) => state.context.state;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
+export const getMedicineOption = (): {
+  name: InventoryItemName;
+  icon: InventoryItemName;
+  showSecondaryImage: boolean;
+}[] => [
+  {
+    name: "Barn Delight" as InventoryItemName,
+    icon: "Barn Delight" as InventoryItemName,
+    showSecondaryImage: false,
+  },
+];
+
 export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
   disabled,
@@ -468,7 +480,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       </Transition>
       <Transition
         appear={true}
-        id="oil-reserve-collected-amount"
+        id="love-xp"
         show={showLoveXp}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
