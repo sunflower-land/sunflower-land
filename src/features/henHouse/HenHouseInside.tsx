@@ -28,6 +28,7 @@ import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
+import { hasReadGuide } from "features/game/expansion/components/animals/AnimalBuildingModal";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
@@ -42,7 +43,7 @@ export const ANIMAL_HOUSE_IMAGES: Record<
 
 export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
   const [selected, setSelected] = useState<Animal>();

@@ -24,12 +24,13 @@ import { Label } from "components/ui/Label";
 import { pickRandomPositionInAnimalHouse } from "features/game/expansion/placeable/lib/collisionDetection";
 
 import coinsIcon from "assets/icons/coins.webp";
+import brush from "assets/animals/brush.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { AnimalBounties } from "features/barn/components/AnimalBounties";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
 
@@ -42,6 +43,14 @@ function acknowledgeIntro() {
 
 function hasReadIntro() {
   return !!localStorage.getItem("animal.bounties.acknowledged");
+}
+
+export function acknowledgeGuide() {
+  localStorage.setItem("animal.guide.acknowledged", new Date().toISOString());
+}
+
+export function hasReadGuide() {
+  return !!localStorage.getItem("animal.guide.acknowledged");
 }
 
 type Props = {
@@ -62,6 +71,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
+  const [currentTab, setCurrentTab] = useState(!hasReadGuide() ? 2 : 0);
 
   const state = useSelector(gameService, _state);
   const bumpkin = useSelector(gameService, _bumpkin);
@@ -75,7 +85,6 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     (animal) => ANIMALS[animal].buildingRequired === buildingName,
   );
 
-  const [currentTab, setCurrentTab] = useState(0);
   const [selectedName, setSelectedName] = useState<AnimalType>(animals[0]);
 
   const handleBuyAnimal = () => {
@@ -143,6 +152,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
       tabs={[
         { name: t("buy"), icon: coinsIcon },
         { name: t("sell"), icon: SUNNYSIDE.icons.death },
+        { name: t("guide"), icon: SUNNYSIDE.icons.expression_confused },
       ]}
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
@@ -220,6 +230,74 @@ export const AnimalBuildingModal: React.FC<Props> = ({
           type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
           onExchanging={onExchanging}
         />
+      )}
+
+      {currentTab === 2 && (
+        <>
+          <div className="flex flex-col p-1 space-y-1 mb-2">
+            <InnerPanel className="p-1">
+              <img src={SUNNYSIDE.tutorial.animals} className="w-full" />
+            </InnerPanel>
+            <div className="flex flex-col space-y-2 text-xs">
+              <div className="flex items-center space-x-1">
+                <img
+                  src={SUNNYSIDE.building.feederMachine}
+                  className="h-8"
+                  alt="feeder machine"
+                />
+                <p>{t("animals.guide.feeder")}</p>
+              </div>
+              <div className="flex items-center space-x-1">
+                <img
+                  src={SUNNYSIDE.animalFoods.kernel_blend}
+                  className="h-6"
+                  alt="animal food"
+                />
+                <p>{t("animals.guide.food_preference")}</p>
+              </div>
+              <div className="flex items-center space-x-1">
+                <img
+                  src={SUNNYSIDE.icons.expression_ready}
+                  className="h-6"
+                  alt="animal food"
+                />
+                <p>{t("animals.guide.progress")}</p>
+              </div>
+              <div className="flex items-center space-x-1">
+                <img
+                  src={SUNNYSIDE.icons.sleeping}
+                  className="h-6"
+                  alt="animal food"
+                />
+                <p>{t("animals.guide.sleeping")}</p>
+              </div>
+              <div className="flex items-center space-x-1">
+                <img src={brush} className="h-6" alt="brush" />
+                <p>{t("animals.guide.affection")}</p>
+              </div>
+              <div className="flex items-center space-x-1">
+                <img src={SUNNYSIDE.icons.death} className="h-6" alt="trade" />
+                <p>{t("animals.guide.bounties")}</p>
+              </div>
+              <div className="flex items-center space-x-1">
+                <img
+                  src={SUNNYSIDE.animalFoods.barn_delight}
+                  className="h-6"
+                  alt="barn delight medicine"
+                />
+                <p>{t("animals.guide.sickness")}</p>
+              </div>
+            </div>
+          </div>
+          <Button
+            onClick={() => {
+              acknowledgeGuide();
+              onClose();
+            }}
+          >
+            {t("gotIt")}
+          </Button>
+        </>
       )}
     </CloseButtonPanel>
   );

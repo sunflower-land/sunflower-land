@@ -809,7 +809,7 @@ export const SUNNYSIDE = {
   },
   //Tutorials
   tutorial: {
-    animals: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/animals.png`,
+    animals: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/new_animals.png`,
     workbench: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/workbench.png`,
     harvesting: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/harvesting.png`,
     cooking: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/fire_pit.png`,

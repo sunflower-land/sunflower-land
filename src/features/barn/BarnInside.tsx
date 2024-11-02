@@ -16,7 +16,10 @@ import { Sheep } from "./components/Sheep";
 
 import shopDisc from "assets/icons/shop_disc.png";
 
-import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
+import {
+  AnimalBuildingModal,
+  hasReadGuide,
+} from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -50,7 +53,7 @@ const BARN_ANIMAL_COMPONENTS: Record<
 
 export const BarnInside: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [selected, setSelected] = useState<Animal>();
   const [deal, setDeal] = useState<AnimalBounty>();
