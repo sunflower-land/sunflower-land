@@ -4199,5 +4199,7 @@
   "statements.mutant.animal": "¡Enhorabuena, has descubierto un animal mutante!",
   "description.alien.chicken": "¡Un peculiar pollo de otra galaxia, aquí para aumentar tu producción de plumas!",
   "description.toxic.tuft": "¡Una oveja mutada cuyo tóxico vellón produce la mejor lana merino del país!",
-  "description.mootant": "¡Este bovino genéticamente mejorado está aquí para aumentar tu producción de cuero!"
+  "description.mootant": "¡Este bovino genéticamente mejorado está aquí para aumentar tu producción de cuero!",
+  "competition.highscore": "Puntuaciones más altas",
+  "competition.accumulator": "Puntuaciones acumuladas"
 }

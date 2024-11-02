@@ -4199,5 +4199,7 @@
   "statements.mutant.animal": "축하합니다. 돌연변이 동물을 발견하셨군요!",
   "description.alien.chicken": "다른 은하계에서 온 특이한 닭이 깃털 생산량을 늘리러 왔습니다!",
   "description.toxic.tuft": "이 땅에서 가장 좋은 메리노 울을 만들어내는 독성 양털을 가진 돌연변이 양!",
-  "description.mootant": "유전적으로 강화된 이 소고기는 가죽 생산량을 늘려줄 거예요!"
+  "description.mootant": "유전적으로 강화된 이 소고기는 가죽 생산량을 늘려줄 거예요!",
+  "competition.highscore": "최고 점수",
+  "competition.accumulator": "누적 점수"
 }

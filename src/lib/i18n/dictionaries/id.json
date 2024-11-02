@@ -4199,5 +4199,7 @@
   "statements.mutant.animal": "Selamat, Anda telah menemukan hewan mutan!",
   "description.alien.chicken": "Ayam aneh dari galaksi lain, di sini untuk meningkatkan produksi bulu Anda!",
   "description.toxic.tuft": "Seekor domba bermutasi yang bulu beracunnya menghasilkan wol merino terbaik di negeri ini!",
-  "description.mootant": "Sapi yang ditingkatkan secara genetik ini di sini untuk meningkatkan produksi kulit Anda!"
+  "description.mootant": "Sapi yang ditingkatkan secara genetik ini di sini untuk meningkatkan produksi kulit Anda!",
+  "competition.highscore": "Skor Tertinggi",
+  "competition.accumulator": "Skor Akumulasi"
 }

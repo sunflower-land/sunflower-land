@@ -4199,5 +4199,7 @@
   "statements.mutant.animal": "おめでとう、突然変異動物を発見したね！",
   "description.alien.chicken": "別の銀河からやってきた不思議なニワトリが、羽根の生産力を高めてくれます！",
   "description.toxic.tuft": "毒性のあるフリースが国内で最高級のメリノウールを生む突然変異した羊！",
-  "description.mootant": "この遺伝子組み換え牛は、皮革の生産を後押ししてくれます！"
+  "description.mootant": "この遺伝子組み換え牛は、皮革の生産を後押ししてくれます！",
+  "competition.highscore": "最高得点",
+  "competition.accumulator": "累積スコア"
 }

@@ -4199,5 +4199,7 @@
   "statements.mutant.animal": "Félicitations, vous venez de découvrir un animal mutant !",
   "description.alien.chicken": "Un étrange poulet venu d'une autre galaxie, là pour augmenter ta production de plumes !",
   "description.toxic.tuft": "Un mouton mutant dont la toison toxique produit la laine mérinos la plus fine du pays !",
-  "description.mootant": "Ce bovin génétiquement amélioré est là pour augmenter votre production de cuir !"
+  "description.mootant": "Ce bovin génétiquement amélioré est là pour augmenter votre production de cuir !",
+  "competition.highscore": "Scores les plus élevés",
+  "competition.accumulator": "Scores cumulés"
 }

@@ -4199,5 +4199,7 @@
   "statements.mutant.animal": "Herzlichen Glückwunsch, Sie haben ein mutiertes Tier entdeckt!",
   "description.alien.chicken": "Ein eigenartiges Huhn aus einer anderen Galaxie, hier, um deine Federproduktion anzukurbeln!",
   "description.toxic.tuft": "Ein mutiertes Schaf, aus dessen giftigem Vlies die feinste Merinowolle des Landes gewonnen wird!",
-  "description.mootant": "Dieses gentechnisch veränderte Rind ist hier, um deine Lederproduktion anzukurbeln!"
+  "description.mootant": "Dieses gentechnisch veränderte Rind ist hier, um deine Lederproduktion anzukurbeln!",
+  "competition.highscore": "Höchste Punktzahlen",
+  "competition.accumulator": "Gesammelte Punktzahlen"
 }

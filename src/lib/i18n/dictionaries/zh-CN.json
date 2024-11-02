@@ -4199,5 +4199,7 @@
   "statements.mutant.animal": "恭喜，你发现了一只突变动物！",
   "description.alien.chicken": "一只来自另一个星系的奇特小鸡，可以提高你的羽毛产量！",
   "description.toxic.tuft": "一只变异的绵羊，它的有毒羊毛能产出这片土地上最好的美利奴羊毛！",
-  "description.mootant": "这种经过基因改造的牛可以提高您的皮革产量！"
+  "description.mootant": "这种经过基因改造的牛可以提高您的皮革产量！",
+  "competition.highscore": "最高分数",
+  "competition.accumulator": "累积分数"
 }

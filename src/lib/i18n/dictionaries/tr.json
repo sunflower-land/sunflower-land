@@ -4199,5 +4199,7 @@
   "statements.mutant.animal": "Tebrikler, mutant bir hayvan keşfettin!",
   "description.alien.chicken": "Başka bir galaksiden gelen tuhaf bir tavuk, tüy üretiminizi artırmak için burada!",
   "description.toxic.tuft": "Zehirli yapağı topraktaki en iyi merinos yünü üreten mutasyona uğramış bir koyun!",
-  "description.mootant": "Bu genetik olarak geliştirilmiş sığır, deri üretiminizi artırmak için burada!"
+  "description.mootant": "Bu genetik olarak geliştirilmiş sığır, deri üretiminizi artırmak için burada!",
+  "competition.highscore": "En Yüksek Puanlar",
+  "competition.accumulator": "Birikmiş Puanlar"
 }
