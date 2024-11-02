@@ -23,8 +23,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 
-// export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
-export const ANIMAL_SLEEP_DURATION = 20 * 1000;
+export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
 export const REQUIRED_FOOD_QTY: Record<AnimalType, number> = {
   Chicken: 1,
