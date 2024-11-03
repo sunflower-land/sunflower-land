@@ -4193,9 +4193,6 @@
   "megaStore.tier.rare.requirements": "Compra 4 objetos básicos para desbloquear objetos raros.",
   "megaStore.tier.epic.requirements": "Compra 4 objetos raros para desbloquear objetos épicos.",
   "statements.mutant.animal": "¡Enhorabuena, has descubierto un animal mutante!",
-  "description.alien.chicken": "¡Un peculiar pollo de otra galaxia, aquí para aumentar tu producción de plumas!",
-  "description.toxic.tuft": "¡Una oveja mutada cuyo tóxico vellón produce la mejor lana merino del país!",
-  "description.mootant": "¡Este bovino genéticamente mejorado está aquí para aumentar tu producción de cuero!",
   "competition.highscore": "Puntuaciones más altas",
   "competition.accumulator": "Puntuaciones acumuladas",
   "description.basic.bear": "Un oso básico.",
@@ -4205,5 +4202,12 @@
   "whatsOn.horseshoesText": "Completa las entregas para ganar herraduras.",
   "whatsOn.choresText": "Completa tareas y recompensas para ganar herraduras (11 de noviembre)",
   "whatsOn.date.nov6Dec11": "Del 6 de noviembre al 9 de diciembre",
-  "whatsOn.date.dec11Dec18": "9 de diciembre - 16 de diciembre"
+  "whatsOn.date.dec11Dec18": "9 de diciembre - 16 de diciembre",
+  "animals.guide.feeder": "Prepare la comida para sus animales con la máquina alimentadora.",
+  "animals.guide.food_preference": "Los animales prefieren su comida favorita, pero comen cualquier alimento.",
+  "animals.guide.progress": "Cuando la barra de progreso esté llena, tu animal estará listo para subir de nivel y soltar recursos.",
+  "animals.guide.sleeping": "Después de subir de nivel, tu animal dormirá 24 horas.",
+  "animals.guide.affection": "Muestre afecto a los animales dormidos cuando lo soliciten.",
+  "animals.guide.bounties": "Completa las recompensas semanales intercambiando tus animales por recompensas.",
+  "animals.guide.sickness": "¡Cuidado con las enfermedades! Los animales más viejos son más susceptibles: use el medicamento Barn Delight para curarlos."
 }

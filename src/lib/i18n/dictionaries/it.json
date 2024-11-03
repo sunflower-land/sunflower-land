@@ -4193,9 +4193,6 @@
   "megaStore.tier.rare.requirements": "Acquista 4 oggetti base per sbloccare oggetti rari.",
   "megaStore.tier.epic.requirements": "Acquista 4 oggetti rari per sbloccare oggetti epici.",
   "statements.mutant.animal": "Congratulazioni, hai scoperto un animale mutante!",
-  "description.alien.chicken": "Un pollo particolare proveniente da un'altra galassia, qui per aumentare la tua produzione di piume!",
-  "description.toxic.tuft": "Una pecora mutante il cui vello tossico produce la lana merino più pregiata del paese!",
-  "description.mootant": "Questo bovino geneticamente migliorato è qui per aumentare la tua produzione di pelle!",
   "competition.highscore": "Punteggi più alti",
   "competition.accumulator": "Punteggi accumulati",
   "description.basic.bear": "Un orso semplice.",
@@ -4205,5 +4202,12 @@
   "whatsOn.horseshoesText": "Completa le consegne per guadagnare ferri di cavallo.",
   "whatsOn.choresText": "Completa le faccende e le ricompense per guadagnare ferri di cavallo (11 novembre)",
   "whatsOn.date.nov6Dec11": "6 novembre - 9 dicembre",
-  "whatsOn.date.dec11Dec18": "9 dicembre - 16 dicembre"
+  "whatsOn.date.dec11Dec18": "9 dicembre - 16 dicembre",
+  "animals.guide.feeder": "Prepara il cibo per i tuoi animali usando la mangiatoia.",
+  "animals.guide.food_preference": "Gli animali preferiscono il loro cibo preferito ma mangeranno qualsiasi cibo.",
+  "animals.guide.progress": "Una volta che la barra di avanzamento è piena, il tuo animale è pronto per salire di livello e rilasciare risorse.",
+  "animals.guide.sleeping": "Dopo essere salito di livello, il tuo animale dormirà per 24 ore.",
+  "animals.guide.affection": "Mostra affetto agli animali che dormono quando lo richiedono.",
+  "animals.guide.bounties": "Completa le taglie settimanali scambiando i tuoi animali per ottenere ricompense.",
+  "animals.guide.sickness": "Attenzione alle malattie! Gli animali più anziani sono più sensibili: usa il medicinale Barn Delight per curarli."
 }

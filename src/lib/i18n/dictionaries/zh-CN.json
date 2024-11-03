@@ -4193,9 +4193,6 @@
   "megaStore.tier.rare.requirements": "购买 4 件基础物品即可解锁稀有物品。",
   "megaStore.tier.epic.requirements": "购买 4 件稀有物品来解锁史诗物品。",
   "statements.mutant.animal": "恭喜，你发现了一只突变动物！",
-  "description.alien.chicken": "一只来自另一个星系的奇特小鸡，可以提高你的羽毛产量！",
-  "description.toxic.tuft": "一只变异的绵羊，它的有毒羊毛能产出这片土地上最好的美利奴羊毛！",
-  "description.mootant": "这种经过基因改造的牛可以提高您的皮革产量！",
   "competition.highscore": "最高分数",
   "competition.accumulator": "累积分数",
   "description.basic.bear": "一只基本的熊。",
@@ -4205,5 +4202,12 @@
   "whatsOn.horseshoesText": "完成配送即可获得马蹄铁。",
   "whatsOn.choresText": "完成琐事和赏金以赚取马蹄铁（11 月 11 日）",
   "whatsOn.date.nov6Dec11": "11 月 6 日至 12 月 9 日",
-  "whatsOn.date.dec11Dec18": "12 月 9 日至 12 月 16 日"
+  "whatsOn.date.dec11Dec18": "12 月 9 日至 12 月 16 日",
+  "animals.guide.feeder": "使用喂食机为您的动物准备食物。",
+  "animals.guide.food_preference": "动物更喜欢自己喜欢的食物，但会吃任何食物。",
+  "animals.guide.progress": "进度条填满后，你的动物就可以升级和掉落资源了。",
+  "animals.guide.sleeping": "等级提升后，你的动物将睡觉 24 小时。",
+  "animals.guide.affection": "在熟睡的动物提出要求时向他们表达爱意。",
+  "animals.guide.bounties": "用你的动物换取奖励，完成每周的赏金。",
+  "animals.guide.sickness": "当心疾病！年龄较大的动物更容易受到感染——使用 Barn Delight 药物来治愈它们。"
 }

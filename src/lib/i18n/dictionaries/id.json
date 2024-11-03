@@ -4193,9 +4193,6 @@
   "megaStore.tier.rare.requirements": "Beli 4 item dasar untuk membuka kunci item langka.",
   "megaStore.tier.epic.requirements": "Beli 4 item langka untuk membuka item epik.",
   "statements.mutant.animal": "Selamat, Anda telah menemukan hewan mutan!",
-  "description.alien.chicken": "Ayam aneh dari galaksi lain, di sini untuk meningkatkan produksi bulu Anda!",
-  "description.toxic.tuft": "Seekor domba bermutasi yang bulu beracunnya menghasilkan wol merino terbaik di negeri ini!",
-  "description.mootant": "Sapi yang ditingkatkan secara genetik ini di sini untuk meningkatkan produksi kulit Anda!",
   "competition.highscore": "Skor Tertinggi",
   "competition.accumulator": "Skor Akumulasi",
   "description.basic.bear": "Beruang dasar.",
@@ -4205,5 +4202,12 @@
   "whatsOn.horseshoesText": "Selesaikan pengiriman untuk mendapatkan sepatu kuda.",
   "whatsOn.choresText": "Selesaikan tugas & hadiah untuk mendapatkan sepatu kuda (11 November)",
   "whatsOn.date.nov6Dec11": "6 November - 9 Desember",
-  "whatsOn.date.dec11Dec18": "9 Desember - 16 Desember"
+  "whatsOn.date.dec11Dec18": "9 Desember - 16 Desember",
+  "animals.guide.feeder": "Siapkan makanan untuk hewan Anda menggunakan mesin pengumpan.",
+  "animals.guide.food_preference": "Hewan lebih suka makanan favorit mereka tetapi akan memakan makanan apa pun.",
+  "animals.guide.progress": "Setelah bilah kemajuan penuh, hewan Anda siap untuk naik level & menurunkan sumber daya.",
+  "animals.guide.sleeping": "Setelah naik level, hewan Anda akan tidur selama 24 jam.",
+  "animals.guide.affection": "Tunjukkan kasih sayang kepada hewan yang sedang tidur ketika mereka memintanya.",
+  "animals.guide.bounties": "Selesaikan hadiah mingguan dengan menukar hewan Anda dengan hadiah..",
+  "animals.guide.sickness": "Waspadalah terhadap penyakit! Hewan yang lebih tua lebih rentan - gunakan obat Barn Delight untuk menyembuhkannya."
 }

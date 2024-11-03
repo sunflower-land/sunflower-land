@@ -4203,7 +4203,11 @@
   "whatsOn.date.feb1": "February 1st",
   "chickens.deprecated.1": "Chickens are now fed in the hen house.",
   "chickens.deprecated.2": "Sell existing chickens at Garbo.",
-  "description.alien.chicken": "A peculiar chicken from another galaxy, here to boost your feather production!",
-  "description.toxic.tuft": "A mutated sheep whose toxic fleece produces the finest merino wool in the land!",
-  "description.mootant": "This genetically enhanced bovine here to boost your leather production!"
+  "animals.guide.feeder": "Prepare food for your animals using the feeder machine.",
+  "animals.guide.food_preference": "Animals prefer their favourite food but will eat any food.",
+  "animals.guide.progress": "Once the progress bar is full your animal is ready to level up & drop resources.",
+  "animals.guide.sleeping": "After levelling up your animal will sleep for 24 hours.",
+  "animals.guide.affection": "Show affection to sleeping animals when they request it.",
+  "animals.guide.bounties": "Complete weekly bounties by trading your animals for rewards..",
+  "animals.guide.sickness": "Beware of sickness! Older animals are more susceptible - use Barn Delight medicine to cure them."
 }

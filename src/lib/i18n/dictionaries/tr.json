@@ -4193,9 +4193,6 @@
   "megaStore.tier.rare.requirements": "Nadir eşyaların kilidini açmak için 4 temel öğe satın alın.",
   "megaStore.tier.epic.requirements": "Destansı eşyaların kilidini açmak için 4 nadir eşya satın alın.",
   "statements.mutant.animal": "Tebrikler, mutant bir hayvan keşfettin!",
-  "description.alien.chicken": "Başka bir galaksiden gelen tuhaf bir tavuk, tüy üretiminizi artırmak için burada!",
-  "description.toxic.tuft": "Zehirli yapağı topraktaki en iyi merinos yünü üreten mutasyona uğramış bir koyun!",
-  "description.mootant": "Bu genetik olarak geliştirilmiş sığır, deri üretiminizi artırmak için burada!",
   "competition.highscore": "En Yüksek Puanlar",
   "competition.accumulator": "Birikmiş Puanlar",
   "description.basic.bear": "Temel bir ayı.",
@@ -4205,5 +4202,12 @@
   "whatsOn.horseshoesText": "At nalı kazanmak için teslimatları tamamlayın.",
   "whatsOn.choresText": "At nalı kazanmak için ev işleri ve ödülleri tamamlayın (11 Kasım)",
   "whatsOn.date.nov6Dec11": "6 Kasım - 9 Aralık",
-  "whatsOn.date.dec11Dec18": "9 Aralık - 16 Aralık"
+  "whatsOn.date.dec11Dec18": "9 Aralık - 16 Aralık",
+  "animals.guide.feeder": "Besleme makinesini kullanarak hayvanlarınız için yiyecek hazırlayın.",
+  "animals.guide.food_preference": "Hayvanlar en sevdikleri yiyecekleri tercih ederler, ancak herhangi bir yemeği yerler.",
+  "animals.guide.progress": "İlerleme çubuğu dolduğunda hayvanınız seviye atlamaya ve kaynakları bırakmaya hazırdır.",
+  "animals.guide.sleeping": "Seviye atladıktan sonra hayvanınız 24 saat uyuyacaktır.",
+  "animals.guide.affection": "İstediklerinde uyuyan hayvanlara şefkat gösterin.",
+  "animals.guide.bounties": "Hayvanlarınızı ödüller karşılığında takas ederek haftalık ödülleri tamamlayın..",
+  "animals.guide.sickness": "Hastalıklara dikkat edin! Yaşlı hayvanlar daha hassastır - onları iyileştirmek için Barn Delight ilacını kullanın."
 }

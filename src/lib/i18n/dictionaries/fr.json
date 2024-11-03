@@ -4193,9 +4193,6 @@
   "megaStore.tier.rare.requirements": "Achetez 4 objets de base pour débloquer des objets rares.",
   "megaStore.tier.epic.requirements": "Achetez 4 objets rares pour débloquer des objets épiques.",
   "statements.mutant.animal": "Félicitations, vous venez de découvrir un animal mutant !",
-  "description.alien.chicken": "Un étrange poulet venu d'une autre galaxie, là pour augmenter ta production de plumes !",
-  "description.toxic.tuft": "Un mouton mutant dont la toison toxique produit la laine mérinos la plus fine du pays !",
-  "description.mootant": "Ce bovin génétiquement amélioré est là pour augmenter votre production de cuir !",
   "competition.highscore": "Scores les plus élevés",
   "competition.accumulator": "Scores cumulés",
   "description.basic.bear": "Un ours basique.",
@@ -4205,5 +4202,12 @@
   "whatsOn.horseshoesText": "Effectuez des livraisons pour gagner des fers à cheval.",
   "whatsOn.choresText": "Accomplissez des corvées et des primes pour gagner des fers à cheval (11 novembre)",
   "whatsOn.date.nov6Dec11": "6 novembre - 9 décembre",
-  "whatsOn.date.dec11Dec18": "9 décembre - 16 décembre"
+  "whatsOn.date.dec11Dec18": "9 décembre - 16 décembre",
+  "animals.guide.feeder": "Préparez la nourriture pour vos animaux à l'aide de la mangeoire.",
+  "animals.guide.food_preference": "Les animaux préfèrent leur nourriture préférée, mais ils peuvent manger n'importe quelle nourriture.",
+  "animals.guide.progress": "Une fois que la barre de progression est pleine, votre animal est prêt à monter de niveau et à perdre des ressources.",
+  "animals.guide.sleeping": "Après avoir augmenté de niveau, votre animal dormira pendant 24 heures.",
+  "animals.guide.affection": "Montrez de l'affection aux animaux endormis lorsqu'ils le demandent.",
+  "animals.guide.bounties": "Complétez les primes hebdomadaires en échangeant vos animaux contre des récompenses.",
+  "animals.guide.sickness": "Attention à la maladie ! Les animaux plus âgés sont plus sensibles. Utilisez le médicament Barn Delight pour les soigner."
 }

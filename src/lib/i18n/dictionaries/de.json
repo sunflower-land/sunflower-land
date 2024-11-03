@@ -4193,9 +4193,6 @@
   "megaStore.tier.rare.requirements": "Kaufe 4 grundlegende Gegenstände, um seltene Gegenstände freizuschalten.",
   "megaStore.tier.epic.requirements": "Kaufe 4 seltene Gegenstände, um epische Gegenstände freizuschalten.",
   "statements.mutant.animal": "Herzlichen Glückwunsch, Sie haben ein mutiertes Tier entdeckt!",
-  "description.alien.chicken": "Ein eigenartiges Huhn aus einer anderen Galaxie, hier, um deine Federproduktion anzukurbeln!",
-  "description.toxic.tuft": "Ein mutiertes Schaf, aus dessen giftigem Vlies die feinste Merinowolle des Landes gewonnen wird!",
-  "description.mootant": "Dieses gentechnisch veränderte Rind ist hier, um deine Lederproduktion anzukurbeln!",
   "competition.highscore": "Höchste Punktzahlen",
   "competition.accumulator": "Gesammelte Punktzahlen",
   "description.basic.bear": "Ein einfacher Bär.",
@@ -4205,5 +4202,12 @@
   "whatsOn.horseshoesText": "Schließe Lieferungen ab, um Hufeisen zu verdienen.",
   "whatsOn.choresText": "Erledige Hausarbeiten und Kopfgelder, um Hufeisen zu verdienen (11. November)",
   "whatsOn.date.nov6Dec11": "6. November — 9. Dezember",
-  "whatsOn.date.dec11Dec18": "9. Dezember — 16. Dezember"
+  "whatsOn.date.dec11Dec18": "9. Dezember — 16. Dezember",
+  "animals.guide.feeder": "Bereiten Sie das Futter für Ihre Tiere mit der Futtermaschine zu.",
+  "animals.guide.food_preference": "Tiere bevorzugen ihr Lieblingsfutter, fressen aber jedes Futter.",
+  "animals.guide.progress": "Sobald der Fortschrittsbalken voll ist, ist dein Tier bereit, aufzusteigen und Ressourcen fallen zu lassen.",
+  "animals.guide.sleeping": "Nach dem Levelaufstieg schläft Ihr Tier 24 Stunden lang.",
+  "animals.guide.affection": "Zeigen Sie schlafenden Tieren Zuneigung, wenn sie darum bitten.",
+  "animals.guide.bounties": "Schließe wöchentliche Kopfgelder ab, indem du deine Tiere gegen Belohnungen eintauschst.",
+  "animals.guide.sickness": "Vorsicht vor Krankheit! Ältere Tiere sind anfälliger - verwenden Sie Barn Delight-Medikamente, um sie zu heilen."
 }

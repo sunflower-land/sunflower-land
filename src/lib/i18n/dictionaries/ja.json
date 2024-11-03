@@ -4193,9 +4193,6 @@
   "megaStore.tier.rare.requirements": "基本アイテムを4つ購入すると、レアアイテムのロックが解除されます。",
   "megaStore.tier.epic.requirements": "レアなアイテムを4つ購入して、エピックアイテムをアンロックしましょう。",
   "statements.mutant.animal": "おめでとう、突然変異動物を発見したね！",
-  "description.alien.chicken": "別の銀河からやってきた不思議なニワトリが、羽根の生産力を高めてくれます！",
-  "description.toxic.tuft": "毒性のあるフリースが国内で最高級のメリノウールを生む突然変異した羊！",
-  "description.mootant": "この遺伝子組み換え牛は、皮革の生産を後押ししてくれます！",
   "competition.highscore": "最高得点",
   "competition.accumulator": "累積スコア",
   "description.basic.bear": "ベーシックなクマ。",
@@ -4205,5 +4202,12 @@
   "whatsOn.horseshoesText": "配達を完了して蹄鉄を獲得しましょう。",
   "whatsOn.choresText": "雑用とバウンティを完了して蹄鉄を獲得 (11月11日)",
   "whatsOn.date.nov6Dec11": "11月6日-12月9日",
-  "whatsOn.date.dec11Dec18": "12月9日-12月16日"
+  "whatsOn.date.dec11Dec18": "12月9日-12月16日",
+  "animals.guide.feeder": "フィーダーマシンを使用して動物用の餌を準備します。",
+  "animals.guide.food_preference": "動物は好きな食べ物を好みますが、どんな食べ物でも食べます。",
+  "animals.guide.progress": "プログレスバーがいっぱいになると、動物はレベルアップしてリソースをドロップする準備が整います。",
+  "animals.guide.sleeping": "レベルアップ後、動物は24時間眠ります。",
+  "animals.guide.affection": "眠っている動物が求めたら、その動物に愛情を示しましょう。",
+  "animals.guide.bounties": "動物を報酬と交換して、毎週の賞金を獲得してください。",
+  "animals.guide.sickness": "病気に気をつけろ！高齢の動物は感染しやすくなります。バーンディライトの薬を使って治療してください。"
 }
