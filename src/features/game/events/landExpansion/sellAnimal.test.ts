@@ -265,4 +265,86 @@ describe("animal.sold", () => {
     const deal = state.bounties.completed.find((deal) => deal.id === "123");
     expect(deal?.soldAt).toEqual(now);
   });
+
+  it("gives half rewards when selling sick animals", () => {
+    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 60,
+              state: "sick",
+            },
+          },
+        },
+        bounties: {
+          completed: [],
+          requests: [
+            {
+              id: "123",
+              coins: 100,
+              items: { "Amber Fossil": 7 },
+              level: 1,
+              name: "Chicken",
+            },
+          ],
+        },
+      },
+      action: {
+        requestId: "123",
+        animalId,
+        type: "animal.sold",
+      },
+    });
+
+    // Check coins are halved
+    expect(state.coins).toEqual(50);
+    // Check items are halved
+    expect(state.inventory["Amber Fossil"]).toEqual(new Decimal(3.5));
+  });
+
+  it("allows sick animals to be sold regardless of level requirement", () => {
+    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 60,
+              state: "sick",
+            },
+          },
+        },
+        bounties: {
+          completed: [],
+          requests: [
+            {
+              id: "123",
+              coins: 100,
+              level: 1, // High level requirement
+              name: "Chicken",
+            },
+          ],
+        },
+      },
+      action: {
+        requestId: "123",
+        animalId,
+        type: "animal.sold",
+      },
+    });
+
+    // Should complete successfully
+    expect(state.coins).toEqual(50);
+    expect(state.henHouse.animals[animalId]).toBeUndefined();
+  });
 });

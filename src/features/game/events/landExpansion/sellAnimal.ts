@@ -67,15 +67,18 @@ export function sellAnimal({
       throw new Error("Animal does not meet requirements");
     }
 
+    const isSick = animal.state === "sick";
+
     delete animals[action.animalId];
 
     if (request.coins) {
-      game.coins += request.coins;
+      game.coins += request.coins * (isSick ? 0.5 : 1);
     }
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = game.inventory[name] ?? new Decimal(0);
-      game.inventory[name] = previous.add(request.items?.[name] ?? 0);
+      const amount = request.items?.[name] ?? 0;
+      game.inventory[name] = previous.add(amount * (isSick ? 0.5 : 1));
     });
 
     game.bounties.completed = [

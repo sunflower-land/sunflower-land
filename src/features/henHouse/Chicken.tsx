@@ -281,15 +281,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
-    const hasFavFoodInInventory = (inventory[favFood] ?? new Decimal(0)).gte(
-      requiredFoodQty,
-    );
-    const hasFavFoodSelected = selectedItem === favFood;
-
-    if (hasFavFoodInInventory && !hasFavFoodSelected) {
-      setShowQuickSelect(true);
-      return;
-    }
 
     if (hasFoodSelected) {
       const foodCount =
