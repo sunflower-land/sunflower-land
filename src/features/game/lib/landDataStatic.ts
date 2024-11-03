@@ -631,7 +631,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Capybara: new Decimal(1),
     "Golden Cauliflower": new Decimal(1),
     "Petting Hand": new Decimal(1),
-    Brush: new Decimal(1),
     "Music Box": new Decimal(1),
 
     "Sunpetal Seed": new Decimal(20),
