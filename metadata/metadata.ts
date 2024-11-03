@@ -498,6 +498,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Mixed Grain",
   },
+  Omnifeed: {
+    name: "Omnifeed",
+    description: "Acts as the best feed for all animals.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Barn Delight": {
     name: "Barn Delight",
     description: "A magical elixir that cures animal sickness.",
