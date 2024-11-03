@@ -36,6 +36,7 @@ import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
+import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -51,12 +52,6 @@ export const ANIMAL_EMOTION_ICONS: Record<
     width: PIXEL_SCALE * 9,
     top: PIXEL_SCALE * 2,
     right: PIXEL_SCALE * -1,
-  },
-  loved: {
-    icon: SUNNYSIDE.icons.heart,
-    width: PIXEL_SCALE * 10,
-    top: PIXEL_SCALE * 2.6,
-    right: PIXEL_SCALE * 0.3,
   },
   sleeping: {
     icon: SUNNYSIDE.icons.sleeping,
@@ -105,6 +100,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const cowMachineState = useSelector(cowService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
+  const [showLoveXP, setShowLoveXP] = useState(false);
 
   useEffect(() => {
     if (cow.state === "sick" && cowMachineState !== "sick") {
@@ -137,7 +133,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = cowMachineState === "ready";
   const idle = cowMachineState === "idle";
   const sick = cowMachineState === "sick";
-  const loved = cowMachineState === "loved";
 
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Cow",
@@ -185,6 +180,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       id: cow.id,
       item: item as LoveAnimalItem,
     });
+
+    setShowLoveXP(true);
+    setTimeout(() => setShowLoveXP(false), 700);
 
     const updatedCow = updatedState.context.state.barn.animals[id];
 
@@ -262,7 +260,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
-    if (loved) return;
 
     if (needsLove) return onLoveClick();
 
@@ -314,7 +311,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
-    if (sleeping) {
+    if (sleeping || needsLove) {
       return {
         image: SUNNYSIDE.animals.cowSleeping,
         width: PIXEL_SCALE * 13,
@@ -424,7 +421,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       </div>
       {/* Level Progress */}
       <LevelProgress
-        animal="Cow"
+        animal={cow}
         animalState={cowMachineState}
         experience={cow.experience}
         className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
@@ -450,6 +447,25 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
             color: favFood === selectedItem ? "#71e358" : "#fff",
           }}
         >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Cow[level][selectedItem as AnimalFoodName])}`}</span>
+      </Transition>
+      <Transition
+        appear={true}
+        id="oil-reserve-collected-amount"
+        show={showLoveXP}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+      >
+        <span
+          className="text-sm yield-text"
+          style={{
+            color: "#ffffff",
+          }}
+        >{`+${formatNumber(ITEM_XP[cow.item])}`}</span>
       </Transition>
     </div>
   );

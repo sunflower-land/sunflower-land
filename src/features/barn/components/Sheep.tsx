@@ -36,6 +36,7 @@ import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { ANIMAL_FOOD_EXPERIENCE } from "features/game/types/animals";
+import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -70,6 +71,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
+  const [showLoveXP, setShowLoveXP] = useState(false);
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
@@ -85,7 +87,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = sheepState === "ready";
   const sick = sheepState === "sick";
   const idle = sheepState === "idle";
-  const loved = sheepState === "loved";
 
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Cow",
@@ -133,6 +134,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       id: sheep.id,
       item: item as LoveAnimalItem,
     });
+
+    setShowLoveXP(true);
+    setTimeout(() => setShowLoveXP(false), 700);
 
     const updatedSheep = updatedState.context.state.barn.animals[id];
 
@@ -210,7 +214,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
-    if (loved) return;
 
     if (needsLove) return onLoveClick();
 
@@ -263,7 +266,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
-    if (sleeping) {
+    if (sleeping || needsLove) {
       return {
         image: SUNNYSIDE.animals.sheepSleeping,
         width: PIXEL_SCALE * 13,
@@ -373,7 +376,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       </div>
       {/* Level Progress */}
       <LevelProgress
-        animal="Sheep"
+        animal={sheep}
         animalState={sheepState}
         experience={sheep.experience}
         className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
@@ -399,6 +402,25 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
             color: favFood === selectedItem ? "#71e358" : "#fff",
           }}
         >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Sheep[level][selectedItem as AnimalFoodName])}`}</span>
+      </Transition>
+      <Transition
+        appear={true}
+        id="food-xp-amount"
+        show={showLoveXP}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+      >
+        <span
+          className="text-sm yield-text"
+          style={{
+            color: "#ffffff",
+          }}
+        >{`+${formatNumber(ITEM_XP[sheep.item])}`}</span>
       </Transition>
     </div>
   );

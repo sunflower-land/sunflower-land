@@ -10,7 +10,6 @@ export type TState = {
     | "idle"
     | "happy"
     | "sad"
-    | "loved"
     | "sleeping"
     | "needsLove"
     | "sick"
@@ -231,17 +230,6 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
     },
-    loved: {
-      after: {
-        2000: [
-          {
-            target: "sleeping",
-            cond: (context) => isAnimalSleeping(context),
-          },
-          { target: "idle" },
-        ],
-      },
-    },
     idle: {
       on: {
         FEED: [
@@ -295,6 +283,11 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
               !isAnimalSleeping(context) && context.animal?.state === "sick",
           },
           {
+            target: "ready",
+            cond: (context) =>
+              !isAnimalSleeping(context) && context.animal?.state === "ready",
+          },
+          {
             target: "idle",
             cond: (context) => !isAnimalSleeping(context),
           },
@@ -330,7 +323,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           },
         ],
         LOVE: {
-          target: "loved",
+          target: "sleeping",
           actions: assign({
             animal: (_, event) => (event as AnimalLoveEvent).animal,
           }),
