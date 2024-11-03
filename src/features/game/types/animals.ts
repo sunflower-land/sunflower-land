@@ -89,7 +89,7 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
     12: 1920,
     13: 2160,
     14: 2400,
-    15: 2700,
+    15: 2720,
   },
   Cow: {
     0: 0,
@@ -107,7 +107,7 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
     12: 5760,
     13: 6480,
     14: 7200,
-    15: 8100,
+    15: 8160,
   },
   Sheep: {
     0: 0,
@@ -125,7 +125,7 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
     12: 3840,
     13: 4320,
     14: 4800,
-    15: 5400,
+    15: 5440,
   },
 };
 
