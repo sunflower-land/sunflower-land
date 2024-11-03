@@ -809,7 +809,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         name: "Cow",
         level: 3,
-        coins: 100,
+        items: {
+          Horseshoe: 1,
+        },
       },
       {
         id: "1",
@@ -827,7 +829,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1e",
         name: "Chicken",
         level: 1,
-        coins: 100,
+        items: {
+          Horseshoe: 7,
+        },
       },
       {
         id: "1ef",
@@ -1535,13 +1539,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
       abc: {
         asleepAt: 0,
         awakeAt: 0,
-        experience: 0,
+        experience: 60,
         id: "abc",
         type: "Chicken",
         createdAt: 0,
         coordinates: { x: 0, y: 0 },
         lovedAt: 0,
-        state: "happy",
+        state: "sick",
         item: "Brush",
       },
     },

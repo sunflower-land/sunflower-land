@@ -5,6 +5,7 @@ import { Button } from "components/ui/Button";
 import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
+import { getSickAnimalRewardAmount } from "features/game/events/landExpansion/sellAnimal";
 import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import { getAnimalLevel } from "features/game/lib/animals";
@@ -22,6 +23,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext } from "react";
 
@@ -182,61 +184,103 @@ export const AnimalDeal: React.FC<{
   }
 
   return (
-    <Panel>
-      <div className="p-2">
-        <div className="mb-2 flex flex-wrap">
-          <Label
-            type="default"
-            icon={ITEM_DETAILS[animal.type].image}
-            className="mr-2"
-          >
-            {`Lvl ${getAnimalLevel(animal.experience, animal.type)} ${animal.type}`}
-          </Label>
-          {!!deal.coins && (
-            <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
-              {deal.coins}
-            </Label>
-          )}
-
-          {getKeys(deal.items ?? {}).map((name) => {
-            <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
-              {name !== getSeasonalTicket()
-                ? deal.items?.[name]
-                : generateBountyTicket({
-                    game: state,
-                    bounty: deal,
-                  })}
-            </Label>;
-          })}
-        </div>
-
-        <p>
-          {deal.coins
-            ? t("bounties.sell.coins", { amount: deal.coins })
-            : t("bounties.sell.items", {
-                amount: getKeys(deal.items ?? {})
-                  .map(
-                    (name) =>
-                      `${
-                        name !== getSeasonalTicket()
-                          ? deal.items?.[name]
-                          : generateBountyTicket({
-                              game: state,
-                              bounty: deal,
-                            })
-                      } x ${name}`,
-                  )
-                  .join(" - "),
+    <>
+      {animal.state === "sick" ? (
+        <Panel bumpkinParts={NPC_WEARABLES.grabnab}>
+          <div className="p-2">
+            <p className="mb-1">{`Hmm, I see this poor animal is sick. I'll still take them off your hands, but I will have to offer you a reduced bounty. Deal?`}</p>
+            <div className="flex flex-col space-y-1 my-3">
+              {deal.coins && (
+                <div className="flex items-center space-x-1">
+                  <img
+                    src={SUNNYSIDE.ui.coinsImg}
+                    className="w-4"
+                    alt="Coins"
+                  />
+                  <p>{`x ${getSickAnimalRewardAmount(deal.coins)} coins`}</p>
+                </div>
+              )}
+              {getKeys(deal.items ?? {}).map((name) => {
+                return (
+                  <div className="flex items-center space-x-1" key={name}>
+                    <img
+                      src={ITEM_DETAILS[name].image}
+                      className="w-4 space-x-1"
+                      alt={name}
+                    />
+                    <p>{`x ${getSickAnimalRewardAmount(deal.items?.[name] ?? 0)} ${name}`}</p>
+                  </div>
+                );
               })}
-        </p>
-      </div>
-      <div className="flex">
-        <Button className="mr-1" onClick={onClose}>
-          {t("cancel")}
-        </Button>
-        <Button onClick={sell}>{t("confirm")}</Button>
-      </div>
-    </Panel>
+            </div>
+          </div>
+          <div className="flex space-x-1">
+            <Button onClick={onClose}>{t("cancel")}</Button>
+            <Button onClick={sell}>{t("confirm")}</Button>
+          </div>
+        </Panel>
+      ) : (
+        <Panel>
+          <div className="p-2">
+            <div className="mb-2 flex flex-wrap">
+              <Label
+                type="default"
+                icon={ITEM_DETAILS[animal.type].image}
+                className="mr-2"
+              >
+                {`Lvl ${getAnimalLevel(animal.experience, animal.type)} ${animal.type}`}
+              </Label>
+              {!!deal.coins && (
+                <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
+                  {deal.coins}
+                </Label>
+              )}
+
+              {getKeys(deal.items ?? {}).map((name) => {
+                <Label
+                  key={name}
+                  type="warning"
+                  icon={ITEM_DETAILS[name].image}
+                >
+                  {name !== getSeasonalTicket()
+                    ? deal.items?.[name]
+                    : generateBountyTicket({
+                        game: state,
+                        bounty: deal,
+                      })}
+                </Label>;
+              })}
+            </div>
+
+            <p>
+              {deal.coins
+                ? t("bounties.sell.coins", { amount: deal.coins })
+                : t("bounties.sell.items", {
+                    amount: getKeys(deal.items ?? {})
+                      .map(
+                        (name) =>
+                          `${
+                            name !== getSeasonalTicket()
+                              ? deal.items?.[name]
+                              : generateBountyTicket({
+                                  game: state,
+                                  bounty: deal,
+                                })
+                          } x ${name}`,
+                      )
+                      .join(" - "),
+                  })}
+            </p>
+          </div>
+          <div className="flex">
+            <Button className="mr-1" onClick={onClose}>
+              {t("cancel")}
+            </Button>
+            <Button onClick={sell}>{t("confirm")}</Button>
+          </div>
+        </Panel>
+      )}
+    </>
   );
 };
 
