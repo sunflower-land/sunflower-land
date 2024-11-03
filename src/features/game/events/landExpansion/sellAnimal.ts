@@ -35,6 +35,10 @@ type Options = {
   createdAt?: number;
 };
 
+export function getSickAnimalRewardAmount(amount: number) {
+  return Math.floor(amount * 0.75);
+}
+
 export function sellAnimal({
   state,
   action,
@@ -67,15 +71,22 @@ export function sellAnimal({
       throw new Error("Animal does not meet requirements");
     }
 
+    const isSick = animal.state === "sick";
+
     delete animals[action.animalId];
 
     if (request.coins) {
-      game.coins += request.coins;
+      game.coins += isSick
+        ? getSickAnimalRewardAmount(request.coins)
+        : request.coins;
     }
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = game.inventory[name] ?? new Decimal(0);
-      game.inventory[name] = previous.add(request.items?.[name] ?? 0);
+      const amount = request.items?.[name] ?? 0;
+      game.inventory[name] = previous.add(
+        isSick ? getSickAnimalRewardAmount(amount) : amount,
+      );
     });
 
     game.bounties.completed = [
