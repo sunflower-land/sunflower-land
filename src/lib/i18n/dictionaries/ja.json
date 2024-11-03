@@ -3734,7 +3734,6 @@
   "2x.rewards": "2倍リワード",
   "quickSelect.animalFeed": "動物用飼料を用意してください。",
   "wakesIn": "ウェイクイン:",
-  "animal.noFoodMessage": "お食事はありません",
   "levelUp": "レベルアップ！",
   "gameOptions.plazaSettings.pickServer": "サーバーを選択",
   "gameOptions.plazaSettings.pickServer.loading": "サーバーをロード中...",
@@ -4212,5 +4211,6 @@
   "animals.guide.sickness": "病気に気をつけろ！高齢の動物は感染しやすくなります。バーンディライトの薬を使って治療してください。",
   "description.alien.chicken": "別の銀河からやってきた不思議なニワトリが、羽根の生産力を高めてくれます！",
   "description.toxic.tuft": "毒性のあるフリースが国内で最高級のメリノウールを生む突然変異した羊！",
-  "description.mootant": "この遺伝子組み換え牛は、皮革の生産を後押ししてくれます！"
+  "description.mootant": "この遺伝子組み換え牛は、皮革の生産を後押ししてくれます！",
+  "animal.noFoodMessage": "食品が選択されていません"
 }

@@ -3734,7 +3734,6 @@
   "2x.rewards": "2x Prämien",
   "quickSelect.animalFeed": "Bereite etwas Tierfutter zu.",
   "wakesIn": "Wacht auf in:",
-  "animal.noFoodMessage": "Kein Essen verfügbar",
   "levelUp": "Steigen Sie auf!",
   "gameOptions.plazaSettings.pickServer": "Server auswählen",
   "gameOptions.plazaSettings.pickServer.loading": "Server werden geladen...",
@@ -4212,5 +4211,6 @@
   "animals.guide.sickness": "Vorsicht vor Krankheit! Ältere Tiere sind anfälliger - verwenden Sie Barn Delight-Medikamente, um sie zu heilen.",
   "description.alien.chicken": "Ein eigenartiges Huhn aus einer anderen Galaxie, hier, um deine Federproduktion anzukurbeln!",
   "description.toxic.tuft": "Ein mutiertes Schaf, aus dessen giftigem Vlies die feinste Merinowolle des Landes gewonnen wird!",
-  "description.mootant": "Dieses gentechnisch veränderte Rind ist hier, um deine Lederproduktion anzukurbeln!"
+  "description.mootant": "Dieses gentechnisch veränderte Rind ist hier, um deine Lederproduktion anzukurbeln!",
+  "animal.noFoodMessage": "Kein Essen ausgewählt"
 }

@@ -3734,7 +3734,6 @@
   "2x.rewards": "2x Recompensas",
   "quickSelect.animalFeed": "Prepare um pouco de ração animal.",
   "wakesIn": "Acorda em:",
-  "animal.noFoodMessage": "Não há comida disponível",
   "levelUp": "Suba de nível!",
   "gameOptions.plazaSettings.pickServer": "Escolha o servidor",
   "gameOptions.plazaSettings.pickServer.loading": "Carregando servidores...",
@@ -4212,5 +4211,6 @@
   "animals.guide.sickness": "Cuidado com as doenças! Animais mais velhos são mais suscetíveis - use o medicamento Barn Delight para curá-los.",
   "description.alien.chicken": "Uma galinha peculiar de outra galáxia, aqui para aumentar sua produção de penas!",
   "description.toxic.tuft": "Uma ovelha mutante cujo velo tóxico produz a melhor lã de merino da terra!",
-  "description.mootant": "Este bovino geneticamente aprimorado está aqui para aumentar sua produção de couro!"
+  "description.mootant": "Este bovino geneticamente aprimorado está aqui para aumentar sua produção de couro!",
+  "animal.noFoodMessage": "Nenhum alimento selecionado"
 }

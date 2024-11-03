@@ -3734,7 +3734,6 @@
   "2x.rewards": "Hadiah 2x",
   "quickSelect.animalFeed": "Siapkan beberapa pakan ternak.",
   "wakesIn": "Bangun di:",
-  "animal.noFoodMessage": "Tidak ada makanan yang tersedia",
   "levelUp": "Naik Level!",
   "gameOptions.plazaSettings.pickServer": "Pilih Server",
   "gameOptions.plazaSettings.pickServer.loading": "Memuat server...",
@@ -4212,5 +4211,6 @@
   "animals.guide.sickness": "Waspadalah terhadap penyakit! Hewan yang lebih tua lebih rentan - gunakan obat Barn Delight untuk menyembuhkannya.",
   "description.alien.chicken": "Ayam aneh dari galaksi lain, di sini untuk meningkatkan produksi bulu Anda!",
   "description.toxic.tuft": "Seekor domba bermutasi yang bulu beracunnya menghasilkan wol merino terbaik di negeri ini!",
-  "description.mootant": "Sapi yang ditingkatkan secara genetik ini di sini untuk meningkatkan produksi kulit Anda!"
+  "description.mootant": "Sapi yang ditingkatkan secara genetik ini di sini untuk meningkatkan produksi kulit Anda!",
+  "animal.noFoodMessage": "Tidak ada makanan yang dipilih"
 }

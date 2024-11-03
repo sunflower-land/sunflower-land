@@ -3734,7 +3734,6 @@
   "2x.rewards": "2 fois plus de récompenses",
   "quickSelect.animalFeed": "Préparez de la nourriture pour animaux.",
   "wakesIn": "Se réveille :",
-  "animal.noFoodMessage": "Pas de nourriture disponible",
   "levelUp": "Passez au niveau supérieur !",
   "gameOptions.plazaSettings.pickServer": "Choisissez un serveur",
   "gameOptions.plazaSettings.pickServer.loading": "Chargement des serveurs...",
@@ -4212,5 +4211,6 @@
   "animals.guide.sickness": "Attention à la maladie ! Les animaux plus âgés sont plus sensibles. Utilisez le médicament Barn Delight pour les soigner.",
   "description.alien.chicken": "Un étrange poulet venu d'une autre galaxie, là pour augmenter ta production de plumes !",
   "description.toxic.tuft": "Un mouton mutant dont la toison toxique produit la laine mérinos la plus fine du pays !",
-  "description.mootant": "Ce bovin génétiquement amélioré est là pour augmenter votre production de cuir !"
+  "description.mootant": "Ce bovin génétiquement amélioré est là pour augmenter votre production de cuir !",
+  "animal.noFoodMessage": "Aucun aliment sélectionné"
 }

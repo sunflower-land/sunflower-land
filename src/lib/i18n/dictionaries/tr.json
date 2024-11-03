@@ -3734,7 +3734,6 @@
   "2x.rewards": "2x Ödül",
   "quickSelect.animalFeed": "Hayvan yemi hazırlayın.",
   "wakesIn": "Uyanıyor:",
-  "animal.noFoodMessage": "Yiyecek yok",
   "levelUp": "Seviye Atla!",
   "gameOptions.plazaSettings.pickServer": "Sunucu Seç",
   "gameOptions.plazaSettings.pickServer.loading": "Sunucular yükleniyor...",
@@ -4212,5 +4211,6 @@
   "animals.guide.sickness": "Hastalıklara dikkat edin! Yaşlı hayvanlar daha hassastır - onları iyileştirmek için Barn Delight ilacını kullanın.",
   "description.alien.chicken": "Başka bir galaksiden gelen tuhaf bir tavuk, tüy üretiminizi artırmak için burada!",
   "description.toxic.tuft": "Zehirli yapağı topraktaki en iyi merinos yünü üreten mutasyona uğramış bir koyun!",
-  "description.mootant": "Bu genetik olarak geliştirilmiş sığır, deri üretiminizi artırmak için burada!"
+  "description.mootant": "Bu genetik olarak geliştirilmiş sığır, deri üretiminizi artırmak için burada!",
+  "animal.noFoodMessage": "Yiyecek seçilmedi"
 }

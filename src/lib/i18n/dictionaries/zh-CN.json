@@ -3734,7 +3734,6 @@
   "2x.rewards": "2x 奖励",
   "quickSelect.animalFeed": "准备一些动物饲料。",
   "wakesIn": "醒来了：",
-  "animal.noFoodMessage": "没有食物可用",
   "levelUp": "升级！",
   "gameOptions.plazaSettings.pickServer": "选择服务器",
   "gameOptions.plazaSettings.pickServer.loading": "正在加载服务器...",
@@ -4212,5 +4211,6 @@
   "animals.guide.sickness": "当心疾病！年龄较大的动物更容易受到感染——使用 Barn Delight 药物来治愈它们。",
   "description.alien.chicken": "一只来自另一个星系的奇特小鸡，可以提高你的羽毛产量！",
   "description.toxic.tuft": "一只变异的绵羊，它的有毒羊毛能产出这片土地上最好的美利奴羊毛！",
-  "description.mootant": "这种经过基因改造的牛可以提高您的皮革产量！"
+  "description.mootant": "这种经过基因改造的牛可以提高您的皮革产量！",
+  "animal.noFoodMessage": "未选择任何食物"
 }

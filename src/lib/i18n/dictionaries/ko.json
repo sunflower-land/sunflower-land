@@ -3734,7 +3734,6 @@
   "2x.rewards": "리워드 2배",
   "quickSelect.animalFeed": "동물 사료를 준비하십시오.",
   "wakesIn": "웨이크 인:",
-  "animal.noFoodMessage": "음식 제공 불가",
   "levelUp": "레벨 업!",
   "gameOptions.plazaSettings.pickServer": "서버 선택",
   "gameOptions.plazaSettings.pickServer.loading": "서버 로드 중...",
@@ -4212,5 +4211,6 @@
   "animals.guide.sickness": "질병을 조심하세요!나이가 많은 동물은 더 취약합니다. Barn Delight 약을 사용하여 치료하세요.",
   "description.alien.chicken": "다른 은하계에서 온 특이한 닭이 깃털 생산량을 늘리러 왔습니다!",
   "description.toxic.tuft": "이 땅에서 가장 좋은 메리노 울을 만들어내는 독성 양털을 가진 돌연변이 양!",
-  "description.mootant": "유전적으로 강화된 이 소고기는 가죽 생산량을 늘려줄 거예요!"
+  "description.mootant": "유전적으로 강화된 이 소고기는 가죽 생산량을 늘려줄 거예요!",
+  "animal.noFoodMessage": "음식이 선택되지 않았습니다."
 }
