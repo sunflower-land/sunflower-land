@@ -103,7 +103,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     (order) => !order.completedAt,
   ).length;
 
-  const incompleteChores = Object.values(state.chores?.chores ?? {}).filter(
+  const incompleteChores = Object.values(state.choreBoard?.chores ?? {}).filter(
     (chore) => !chore.completedAt,
   ).length;
 
@@ -123,7 +123,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           {
             name: "Chore Board" as const,
             icon: chores,
-            count: 0,
+            count: incompleteChores,
           },
         ]
       : [
