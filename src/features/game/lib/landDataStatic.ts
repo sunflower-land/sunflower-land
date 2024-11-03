@@ -423,6 +423,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Barn Delight": new Decimal(1),
+    Brush: new Decimal(1),
     "Alien Chicken": new Decimal(1),
     "Toxic Tuft": new Decimal(1),
     Mootant: new Decimal(1),
@@ -1541,7 +1543,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
         coordinates: { x: 0, y: 0 },
         lovedAt: 0,
-        state: "happy",
+        state: "sick",
         item: "Brush",
       },
     },

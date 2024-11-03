@@ -21,12 +21,7 @@ import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { Transition } from "@headlessui/react";
-import { QuickSelect } from "features/greenhouse/QuickSelect";
-import { getKeys } from "features/game/types/decorations";
-import {
-  ANIMAL_FOOD_EXPERIENCE,
-  ANIMAL_FOODS,
-} from "features/game/types/animals";
+import { ANIMAL_FOOD_EXPERIENCE } from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   AnimalFoodName,
@@ -97,7 +92,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
   disabled,
 }) => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
   const chicken = useSelector(gameService, _chicken(id));
   const game = useSelector(gameService, _game);
@@ -119,15 +114,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chicken.state]);
 
-  const [showQuickSelect, setShowQuickSelect] = useState(false);
-  const [showAffectionQuickSelect, setShowAffectionQuickSelect] =
-    useState(false);
   const [showDrops, setShowDrops] = useState(false);
   const [showWakesIn, setShowWakesIn] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
-
+  const [showNoToolPopover, setShowNoToolPopover] = useState(false);
+  const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenMachineState === "sleeping";
   const needsLove = chickenMachineState === "needsLove";
@@ -169,14 +162,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     playFeedAnimal();
   };
 
-  const onLoveClick = () => {
-    const loveItemCount = inventory[chicken.item] ?? new Decimal(0);
-    if (selectedItem !== chicken.item || loveItemCount.lt(1)) {
-      setShowAffectionQuickSelect(true);
+  const onLoveClick = async () => {
+    if ((inventory[chicken.item] ?? new Decimal(0)).lt(1)) {
+      setShowNoToolPopover(true);
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      setShowNoToolPopover(false);
       return;
     }
 
-    loveChicken(selectedItem);
+    shortcutItem(chicken.item);
+    loveChicken(chicken.item);
   };
 
   const loveChicken = (item = selectedItem) => {
@@ -228,21 +223,20 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onSickClick = async () => {
-    const hasMedicineSelected = selectedItem === "Barn Delight";
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
     const hasEnoughMedicine = medicineCount.gte(1);
 
-    if (hasMedicineSelected && hasEnoughMedicine) {
+    if (hasEnoughMedicine) {
+      shortcutItem("Barn Delight");
       playCureAnimal();
       cureChicken("Barn Delight");
-      setShowQuickSelect(false);
-    } else if (!hasMedicineSelected && hasEnoughMedicine) {
-      setShowQuickSelect(true);
-    } else {
-      setShowNoMedicine(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setShowNoMedicine(false);
+      return;
     }
+
+    setShowNoMedicine(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setShowNoMedicine(false);
+
     return;
   };
 
@@ -281,15 +275,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
-    const hasFavFoodInInventory = (inventory[favFood] ?? new Decimal(0)).gte(
-      requiredFoodQty,
-    );
-    const hasFavFoodSelected = selectedItem === favFood;
-
-    if (hasFavFoodInInventory && !hasFavFoodSelected) {
-      setShowQuickSelect(true);
-      return;
-    }
 
     if (hasFoodSelected) {
       const foodCount =
@@ -302,25 +287,19 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       feedChicken(selectedItem);
-      setShowQuickSelect(false);
       return;
     }
 
-    setShowQuickSelect(true);
+    setShowNoFoodSelected(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setShowNoFoodSelected(false);
   };
 
-  const handleQuickSelect = async (item: InventoryItemName) => {
-    if (sick) {
-      playCureAnimal();
-      cureChicken(item);
-
-      setShowQuickSelect(false);
-
-      return;
-    }
-
-    feedChicken(item);
-    setShowQuickSelect(false);
+  const getInfoPopoverMessage = () => {
+    if (showNoFoodSelected) return t("animal.noFoodMessage");
+    if (showNoToolPopover)
+      return t("animal.toolRequired", { tool: chicken.item });
+    if (showNoMedicine) return t("animal.noMedicine");
   };
 
   const animalImageInfo = () => {
@@ -441,28 +420,20 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           {sleeping && showWakesIn && (
             <WakesIn awakeAt={chicken.awakeAt} className="-top-9 z-20" />
           )}
-          {/* Not enough food */}
-          {showNotEnoughFood && (
-            <InfoPopover
-              showPopover
-              className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
-            >
-              <p className="text-xs p-0.5 py-1 font-secondary">
-                {t("animal.notEnoughFood")}
-              </p>
-            </InfoPopover>
-          )}
-          {showNoMedicine && (
-            <InfoPopover
-              showPopover
-              className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
-            >
-              <p className="text-xs p-0.5 py-1 font-secondary">
-                {t("animal.noMedicine")}
-              </p>
-            </InfoPopover>
-          )}
         </div>
+        <InfoPopover
+          showPopover={
+            showNoToolPopover ||
+            showNoFoodSelected ||
+            showNoMedicine ||
+            showNotEnoughFood
+          }
+          className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
+        >
+          <p className="text-xs p-0.5 py-1 font-secondary">
+            {getInfoPopoverMessage()}
+          </p>
+        </InfoPopover>
       </div>
       {/* Level Progress */}
       <LevelProgress
@@ -492,74 +463,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             color: favFood === selectedItem ? "#71e358" : "#fff",
           }}
         >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Chicken[level][selectedItem as AnimalFoodName])}`}</span>
-      </Transition>
-      {/* Quick Select */}
-      <Transition
-        appear={true}
-        show={showQuickSelect}
-        enter="transition-opacity  duration-300"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity duration-300"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex top-[-20px] left-[50%] z-40 absolute"
-      >
-        <QuickSelect
-          options={
-            !sick
-              ? getKeys(ANIMAL_FOODS)
-                  .filter(
-                    (food) =>
-                      ANIMAL_FOODS[food].type === "food" &&
-                      (inventory[food] ?? new Decimal(0)).gte(requiredFoodQty),
-                  )
-                  .map((food) => ({
-                    name: food,
-                    icon: food,
-                    showSecondaryImage: false,
-                  }))
-              : [
-                  {
-                    name: "Barn Delight",
-                    icon: "Barn Delight",
-                    showSecondaryImage: false,
-                  },
-                ]
-          }
-          onClose={() => setShowQuickSelect(false)}
-          onSelected={(item) => handleQuickSelect(item)}
-          emptyMessage={t(sick ? "animal.noMedicine" : "animal.noFoodMessage")}
-        />
-      </Transition>
-      <Transition
-        appear={true}
-        show={showAffectionQuickSelect}
-        enter="transition-opacity  duration-300"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity duration-300"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex top-[-20px] left-[50%] z-40 absolute"
-      >
-        <QuickSelect
-          options={[
-            {
-              name: chicken.item,
-              icon: chicken.item,
-              showSecondaryImage: false,
-            },
-          ]}
-          onClose={() => setShowAffectionQuickSelect(false)}
-          onSelected={() => {
-            setShowAffectionQuickSelect(false);
-            loveChicken(chicken.item);
-          }}
-          emptyMessage={t("animal.toolRequired", {
-            tool: chicken.item,
-          })}
-        />
       </Transition>
     </>
   );
