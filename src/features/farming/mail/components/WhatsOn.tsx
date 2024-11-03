@@ -83,6 +83,10 @@ export const WhatsOn = () => {
                 icon: ITEM_DETAILS.Horseshoe.image,
               },
               {
+                text: t("whatsOn.choresText"),
+                icon: choreIcon,
+              },
+              {
                 text: t("whatsOn.megastoreText"),
                 icon: trophyIcon,
               },
