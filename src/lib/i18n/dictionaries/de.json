@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "Tiere sind jetzt live! Füttere sie, melke sie, schere sie und mehr!",
   "whatsOn.craftingBoxText": "Du kannst jetzt eine Bastelkiste bauen und neue Gegenstände herstellen!",
   "whatsOn.bedsText": "Stelle die 8 Betten her, um zusätzliche Farmarbeiter freizuschalten.",
-  "whatsOn.horseshoesText": "Erledige Lieferungen, Hausarbeiten und Kopfgelder, um Hufeisen zu verdienen.",
   "whatsOn.megastoreText": "Tauschen Sie Hufeisen im Megastore gegen NFTs ein oder gewinnen Sie sie im Auktionshaus",
   "whatsOn.sflMarketplaceText": "Der $SFL Marketplace ist jetzt live! Tauschen Sie $SFL gegen NFTs ein.",
   "whatsOn.auctionText": "Konkurrieren Sie und überbieten Sie Ihre Freunde um die besten NFTs!",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "Bereite deine Ressourcen vor und beherrsche den Markt. Die Mystery-Saison kommt!",
   "whatsOn.date.nov1": "1. November",
   "whatsOn.date.nov4": "4. November",
-  "whatsOn.date.nov6Dec11": "6. November — 11. Dezember",
   "whatsOn.date.dec2": "2. Dezember",
-  "whatsOn.date.dec11Dec18": "11. Dezember — 18. Dezember",
   "whatsOn.date.dec18Jan31": "18. Dezember — 31. Januar",
   "whatsOn.date.feb1": "1. Februar",
   "description.whiteSheepOnesie.boost": "+0.25 Wolle",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "Ein einfacher Bär.",
   "description.alien.chicken.boost": "+0.1 Federn",
   "description.toxic.tuft.boost": "+0.1 Merinowolle",
-  "description.mootant.boost": "+0.1 Leder"
+  "description.mootant.boost": "+0.1 Leder",
+  "whatsOn.horseshoesText": "Schließe Lieferungen ab, um Hufeisen zu verdienen.",
+  "whatsOn.choresText": "Erledige Hausarbeiten und Kopfgelder, um Hufeisen zu verdienen (11. November)",
+  "whatsOn.date.nov6Dec11": "6. November — 9. Dezember",
+  "whatsOn.date.dec11Dec18": "9. Dezember — 16. Dezember"
 }

@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "Os animais agora estão vivos! Alimente-os, ordenhe-os, tosquie-os e muito mais!",
   "whatsOn.craftingBoxText": "Agora você pode construir uma caixa de artesanato e criar novos itens!",
   "whatsOn.bedsText": "Crie as 8 camas para desbloquear trabalhadores agrícolas extras.",
-  "whatsOn.horseshoesText": "Complete entregas, tarefas e recompensas para ganhar ferraduras.",
   "whatsOn.megastoreText": "Troque ferraduras por NFTs na Megastore ou ganhe-as na Casa de Leilões",
   "whatsOn.sflMarketplaceText": "O mercado $SFL já está ativo! Troque $ SFL por NFTs.",
   "whatsOn.auctionText": "Compita e supere seus amigos pelos melhores NFTs!",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "Prepare seus recursos e domine o mercado. A temporada de mistérios está chegando!",
   "whatsOn.date.nov1": "1° de novembro",
   "whatsOn.date.nov4": "4 de novembro",
-  "whatsOn.date.nov6Dec11": "6 de novembro - 11 de dezembro",
   "whatsOn.date.dec2": "2 de dezembro",
-  "whatsOn.date.dec11Dec18": "11 de dezembro - 18 de dezembro",
   "whatsOn.date.dec18Jan31": "18 de dezembro - 31 de janeiro",
   "whatsOn.date.feb1": "1° de fevereiro",
   "description.whiteSheepOnesie.boost": "+0,25 Lã",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "Um urso básico.",
   "description.alien.chicken.boost": "+0.1 Penas",
   "description.toxic.tuft.boost": "+0.1 Lã Merino",
-  "description.mootant.boost": "+0.1 Couro"
+  "description.mootant.boost": "+0.1 Couro",
+  "whatsOn.horseshoesText": "Conclua as entregas para ganhar ferraduras.",
+  "whatsOn.choresText": "Complete tarefas e recompensas para ganhar ferraduras (11 de novembro)",
+  "whatsOn.date.nov6Dec11": "6 de novembro a 9 de dezembro",
+  "whatsOn.date.dec11Dec18": "9 de dezembro - 16 de dezembro"
 }

@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "Les animaux sont désormais vivants ! Nourrissez-les, traiez-les, tondez-les et plus encore !",
   "whatsOn.craftingBoxText": "Tu peux désormais construire une boîte d'artisanat et fabriquer de nouveaux objets !",
   "whatsOn.bedsText": "Fabriquez les 8 lits pour débloquer des mains de ferme supplémentaires.",
-  "whatsOn.horseshoesText": "Effectuez des livraisons, des corvées et des primes pour gagner des fers à cheval.",
   "whatsOn.megastoreText": "Échangez des fers à cheval contre des NFT au Megastore ou remportez-les à la maison des ventes",
   "whatsOn.sflMarketplaceText": "La place de marché $SFL est maintenant en ligne ! Échangez des $ SFL contre des NFT.",
   "whatsOn.auctionText": "Participez et surenchérissez sur vos amis pour les meilleurs NFT !",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "Préparez vos ressources et maîtrisez le marché. La saison des mystères arrive !",
   "whatsOn.date.nov1": "1er novembre",
   "whatsOn.date.nov4": "4 novembre",
-  "whatsOn.date.nov6Dec11": "6 novembre - 11 décembre",
   "whatsOn.date.dec2": "2 décembre",
-  "whatsOn.date.dec11Dec18": "11 décembre - 18 décembre",
   "whatsOn.date.dec18Jan31": "18 décembre - 31 janvier",
   "whatsOn.date.feb1": "1er février",
   "description.whiteSheepOnesie.boost": "+0,25 Laine",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "Un ours basique.",
   "description.alien.chicken.boost": "+0.1 Plumes",
   "description.toxic.tuft.boost": "+0.1 Laine mérinos",
-  "description.mootant.boost": "+0.1 Cuir"
+  "description.mootant.boost": "+0.1 Cuir",
+  "whatsOn.horseshoesText": "Effectuez des livraisons pour gagner des fers à cheval.",
+  "whatsOn.choresText": "Accomplissez des corvées et des primes pour gagner des fers à cheval (11 novembre)",
+  "whatsOn.date.nov6Dec11": "6 novembre - 9 décembre",
+  "whatsOn.date.dec11Dec18": "9 décembre - 16 décembre"
 }

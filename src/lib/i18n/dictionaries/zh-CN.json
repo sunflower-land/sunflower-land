@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "动物现在还活着！喂它们，给它们挤奶，剪掉它们等等！",
   "whatsOn.craftingBoxText": "你现在可以建造一个手工盒并制作新物品了！",
   "whatsOn.bedsText": "制作 8 张床，解锁额外的农场手牌。",
-  "whatsOn.horseshoesText": "完成配送、琐事和赏金以赚取马蹄铁。",
   "whatsOn.megastoreText": "在 Megastore 用马蹄铁换取 NFT 或在拍卖行赢取 NFT",
   "whatsOn.sflMarketplaceText": "$SFL 市场现已上线！用 $SFL 兑换 NFT。",
   "whatsOn.auctionText": "竞争并出价超过好友，争夺最好的 NFT！",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "准备好您的资源并掌控市场。神秘季节即将来临！",
   "whatsOn.date.nov1": "11 月 1 日",
   "whatsOn.date.nov4": "11 月 4 日",
-  "whatsOn.date.nov6Dec11": "11 月 6 日至 12 月 11 日",
   "whatsOn.date.dec2": "12 月 2 日",
-  "whatsOn.date.dec11Dec18": "12 月 11 日至 12 月 18 日",
   "whatsOn.date.dec18Jan31": "12 月 18 日至 1 月 31 日",
   "whatsOn.date.feb1": "2 月 1 日",
   "description.whiteSheepOnesie.boost": "+0.25 羊毛",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "一只基本的熊。",
   "description.alien.chicken.boost": "+0.1 羽毛",
   "description.toxic.tuft.boost": "+0.1 美利奴羊毛",
-  "description.mootant.boost": "+0.1 皮革"
+  "description.mootant.boost": "+0.1 皮革",
+  "whatsOn.horseshoesText": "完成配送即可获得马蹄铁。",
+  "whatsOn.choresText": "完成琐事和赏金以赚取马蹄铁（11 月 11 日）",
+  "whatsOn.date.nov6Dec11": "11 月 6 日至 12 月 9 日",
+  "whatsOn.date.dec11Dec18": "12 月 9 日至 12 月 16 日"
 }

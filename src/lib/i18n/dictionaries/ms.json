@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "Haiwan kini hidup! Beri makan kepada mereka, menyusu mereka, gunting dan banyak lagi!",
   "whatsOn.craftingBoxText": "Anda kini boleh membina kotak kerajinan dan membuat barang baru!",
   "whatsOn.bedsText": "Buat 8 katil untuk membuka kunci tangan ladang tambahan.",
-  "whatsOn.horseshoesText": "Lengkapkan penghantaran, kerja rumah & hadiah untuk mendapatkan kuda.",
   "whatsOn.megastoreText": "Berdagang kuda untuk NFT di Megastore atau menanginya di Rumah Lelongan",
   "whatsOn.sflMarketplaceText": "Pasaran $SFL kini disiarkan! Berdagang $SFL untuk NFT.",
   "whatsOn.auctionText": "Bersaing dan mengalahkan rakan anda untuk NFT terbaik!",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "Sediakan sumber anda & menguasai pasaran. Musim misteri akan datang!",
   "whatsOn.date.nov1": "1 November",
   "whatsOn.date.nov4": "4 November",
-  "whatsOn.date.nov6Dec11": "6 November - 11 Dis",
   "whatsOn.date.dec2": "2 Disember",
-  "whatsOn.date.dec11Dec18": "11 Disember - 18 Dis",
   "whatsOn.date.dec18Jan31": "18 Disember - 31 Jan",
   "whatsOn.date.feb1": "1 Februari",
   "description.whiteSheepOnesie.boost": "+0.25 Bulu",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "Beruang asas.",
   "description.alien.chicken.boost": "+0.1 Bulu",
   "description.toxic.tuft.boost": "+0.1 Merino Wool",
-  "description.mootant.boost": "+0.1 Kulit"
+  "description.mootant.boost": "+0.1 Kulit",
+  "whatsOn.horseshoesText": "Lengkapkan penghantaran untuk mendapatkan tapak kuda.",
+  "whatsOn.choresText": "Lengkapkan tugas & hadiah untuk mendapatkan kuda (11 Nov)",
+  "whatsOn.date.nov6Dec11": "6 November - 9 Dis",
+  "whatsOn.date.dec11Dec18": "9 Disember - 16 Dis"
 }

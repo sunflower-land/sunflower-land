@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "Теперь животные живы! Кормите их, дойте, стригите и многое другое!",
   "whatsOn.craftingBoxText": "Теперь вы можете построить ящик для рукоделия и изготовить новые предметы!",
   "whatsOn.bedsText": "Создайте 8 кроватей, чтобы разблокировать дополнительные руки на ферме.",
-  "whatsOn.horseshoesText": "Выполняйте доставку, выполняйте работу по дому и получайте награды, чтобы заработать подковы.",
   "whatsOn.megastoreText": "Обменяйте подковы на NFT в Megastore или выиграйте их в аукционном доме",
   "whatsOn.sflMarketplaceText": "Торговая площадка $SFL уже запущена! Обменяйте доллары SFL на NFT.",
   "whatsOn.auctionText": "Соревнуйтесь и предлагайте своим друзьям лучшие NFT!",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "Подготовьте свои ресурсы и освойте рынок. Наступает сезон загадок!",
   "whatsOn.date.nov1": "1 ноября",
   "whatsOn.date.nov4": "4 ноября",
-  "whatsOn.date.nov6Dec11": "6 ноября — 11 декабря",
   "whatsOn.date.dec2": "2 декабря",
-  "whatsOn.date.dec11Dec18": "11 декабря — 18 декабря",
   "whatsOn.date.dec18Jan31": "18 декабря — 31 января",
   "whatsOn.date.feb1": "1 февраля",
   "description.whiteSheepOnesie.boost": "+0.25 Шерсть",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "Обычный медведь.",
   "description.alien.chicken.boost": "+0.1 Перья",
   "description.toxic.tuft.boost": "+0.1 Шерсть мериноса",
-  "description.mootant.boost": "+0.1 Кожа"
+  "description.mootant.boost": "+0.1 Кожа",
+  "whatsOn.horseshoesText": "Совершайте поставки, чтобы заработать подковы.",
+  "whatsOn.choresText": "Выполняйте задания и получайте награды, чтобы заработать подковы (11 ноября)",
+  "whatsOn.date.nov6Dec11": "6 ноября — 9 декабря",
+  "whatsOn.date.dec11Dec18": "9 декабря — 16 декабря"
 }

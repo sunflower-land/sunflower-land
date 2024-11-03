@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "동물들은 이제 살아있다!먹이를 주고, 젖을 짜고, 털을 깎는 등 다양한 활동을 할 수 있습니다!",
   "whatsOn.craftingBoxText": "이제 제작 상자를 만들고 새 아이템을 제작할 수 있습니다!",
   "whatsOn.bedsText": "침대 8개를 만들어서 여분의 농장의 손을 손에 넣으세요.",
-  "whatsOn.horseshoesText": "배달, 집안일, 현상금을 완료하고 말굽을 획득하세요.",
   "whatsOn.megastoreText": "메가스토어에서 말굽을 NFT로 교환하거나 경매장에서 경매장에서 경매하세요",
   "whatsOn.sflMarketplaceText": "$SFL 마켓플레이스가 시작되었습니다!$SFL을 NFT로 거래하세요.",
   "whatsOn.auctionText": "최고의 NFT를 위해 경쟁하고 친구들보다 높은 가격을 제시하세요!",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "리소스를 준비하고 마켓플레이스를 마스터하세요.미스터리 시즌이 다가옵니다!",
   "whatsOn.date.nov1": "11월 1일",
   "whatsOn.date.nov4": "11월 4일",
-  "whatsOn.date.nov6Dec11": "11월 6일 - 12월 11일",
   "whatsOn.date.dec2": "12월 2일",
-  "whatsOn.date.dec11Dec18": "12월 11일 - 12월 18일",
   "whatsOn.date.dec18Jan31": "12월 18일 - 1월 31일",
   "whatsOn.date.feb1": "2월 1일",
   "description.whiteSheepOnesie.boost": "+0.25 울",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "기본 곰.",
   "description.alien.chicken.boost": "+0.1 페더",
   "description.toxic.tuft.boost": "+0.1 메리노 울",
-  "description.mootant.boost": "+0.1 가죽"
+  "description.mootant.boost": "+0.1 가죽",
+  "whatsOn.horseshoesText": "배달을 완료하면 말굽을 얻을 수 있습니다.",
+  "whatsOn.choresText": "집안일과 현상금을 완료하여 말굽을 획득하세요 (11월 11일)",
+  "whatsOn.date.nov6Dec11": "11월 6일 - 12월 9일",
+  "whatsOn.date.dec11Dec18": "12월 9일 - 12월 16일"
 }

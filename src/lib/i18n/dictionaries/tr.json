@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "Hayvanlar artık yaşıyor! Onları besle, sağır, keser ve daha fazlası!",
   "whatsOn.craftingBoxText": "Artık bir zanaat kutusu oluşturabilir ve yeni öğeler üretebilirsiniz!",
   "whatsOn.bedsText": "Ekstra çiftlik ellerinin kilidini açmak için 8 yatağı hazırlayın.",
-  "whatsOn.horseshoesText": "At nalı kazanmak için teslimatları, işleri ve ödülleri tamamlayın.",
   "whatsOn.megastoreText": "Megastore'da NFT'ler için at nalı takas edin veya Müzayede Evi'nde kazanın",
   "whatsOn.sflMarketplaceText": "$SFL pazarı artık yayında! NFT'ler için $SFL ticareti yapın.",
   "whatsOn.auctionText": "En iyi NFT'ler için yarışın ve arkadaşlarınızdan daha fazla teklif verin!",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "Kaynaklarınızı hazırlayın ve pazarda ustalaşın. Gizemli mevsim geliyor!",
   "whatsOn.date.nov1": "1 Kasım",
   "whatsOn.date.nov4": "4 Kasım",
-  "whatsOn.date.nov6Dec11": "6 Kasım - 11 Aralık",
   "whatsOn.date.dec2": "2 Aralık",
-  "whatsOn.date.dec11Dec18": "11 Aralık - 18 Aralık",
   "whatsOn.date.dec18Jan31": "18 Aralık - 31 Ocak",
   "whatsOn.date.feb1": "1 Şubat",
   "description.whiteSheepOnesie.boost": "+0.25 Yün",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "Temel bir ayı.",
   "description.alien.chicken.boost": "+0.1 Tüyler",
   "description.toxic.tuft.boost": "+0.1 Merinos Yünü",
-  "description.mootant.boost": "+0.1 Deri"
+  "description.mootant.boost": "+0.1 Deri",
+  "whatsOn.horseshoesText": "At nalı kazanmak için teslimatları tamamlayın.",
+  "whatsOn.choresText": "At nalı kazanmak için ev işleri ve ödülleri tamamlayın (11 Kasım)",
+  "whatsOn.date.nov6Dec11": "6 Kasım - 9 Aralık",
+  "whatsOn.date.dec11Dec18": "9 Aralık - 16 Aralık"
 }

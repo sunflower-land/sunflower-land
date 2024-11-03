@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "動物たちが生きている！エサをあげたり、搾乳したり、毛刈りをしたり、他にもいろいろ！",
   "whatsOn.craftingBoxText": "クラフトボックスを作って新しいアイテムを作れるようになりました！",
   "whatsOn.bedsText": "ベッドを8つ作って、追加のファームハンドをアンロックしよう。",
-  "whatsOn.horseshoesText": "配達、雑用、バウンティを完了して蹄鉄を獲得しましょう。",
   "whatsOn.megastoreText": "メガストアで馬蹄をNFTと交換したり、オークションハウスで獲得したりできます",
   "whatsOn.sflMarketplaceText": "$SFLマーケットプレイスが公開されました！$SFLをNFTと交換しましょう。",
   "whatsOn.auctionText": "最高のNFTを競って友達を上回って入札しましょう！",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "リソースを準備し、マーケットプレイスをマスターしましょう。ミステリーシーズンがやってくる！",
   "whatsOn.date.nov1": "11 月 1 日",
   "whatsOn.date.nov4": "11 月 4 日",
-  "whatsOn.date.nov6Dec11": "11月6日-12月11日",
   "whatsOn.date.dec2": "12 月 2 日",
-  "whatsOn.date.dec11Dec18": "12月11日-12月18日",
   "whatsOn.date.dec18Jan31": "12 月 18 日から 1 月 31 日まで",
   "whatsOn.date.feb1": "2 月 1 日",
   "description.whiteSheepOnesie.boost": "+0.25 ウール",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "ベーシックなクマ。",
   "description.alien.chicken.boost": "+0.1 フェザー",
   "description.toxic.tuft.boost": "+0.1 メリノウール",
-  "description.mootant.boost": "+0.1 レザー"
+  "description.mootant.boost": "+0.1 レザー",
+  "whatsOn.horseshoesText": "配達を完了して蹄鉄を獲得しましょう。",
+  "whatsOn.choresText": "雑用とバウンティを完了して蹄鉄を獲得 (11月11日)",
+  "whatsOn.date.nov6Dec11": "11月6日-12月9日",
+  "whatsOn.date.dec11Dec18": "12月9日-12月16日"
 }

@@ -4172,7 +4172,6 @@
   "whatsOn.animalsLiveText": "¡Los animales ahora están vivos! ¡Dales de comer, ordeñarlos, esquilarlos y más!",
   "whatsOn.craftingBoxText": "¡Ahora puedes construir una caja de artesanía y crear nuevos objetos!",
   "whatsOn.bedsText": "Crea las 8 camas para desbloquear manos de granja adicionales.",
-  "whatsOn.horseshoesText": "Completa entregas, tareas y recompensas para ganar herraduras.",
   "whatsOn.megastoreText": "Cambia herraduras por NFT en la Megastore o gánalas en la casa de subastas",
   "whatsOn.sflMarketplaceText": "¡El mercado de $SFL ya está disponible! Cambia $SFL por NFT.",
   "whatsOn.auctionText": "¡Compite y puja más que tus amigos por los mejores NFT!",
@@ -4180,9 +4179,7 @@
   "whatsOn.mysterySeasonText": "Prepare sus recursos y domine el mercado. ¡Se acerca la misteriosa temporada!",
   "whatsOn.date.nov1": "1 de noviembre",
   "whatsOn.date.nov4": "4 de noviembre",
-  "whatsOn.date.nov6Dec11": "Del 6 de noviembre al 11 de diciembre",
   "whatsOn.date.dec2": "2 de diciembre",
-  "whatsOn.date.dec11Dec18": "11 de diciembre - 18 de diciembre",
   "whatsOn.date.dec18Jan31": "Del 18 de diciembre al 31 de enero",
   "whatsOn.date.feb1": "1 de febrero",
   "description.whiteSheepOnesie.boost": "+0.25 Lana",
@@ -4204,5 +4201,9 @@
   "description.basic.bear": "Un oso básico.",
   "description.alien.chicken.boost": "+0.1 Plumas",
   "description.toxic.tuft.boost": "+0.1 Lana merino",
-  "description.mootant.boost": "+0.1 Cuero"
+  "description.mootant.boost": "+0.1 Cuero",
+  "whatsOn.horseshoesText": "Completa las entregas para ganar herraduras.",
+  "whatsOn.choresText": "Completa tareas y recompensas para ganar herraduras (11 de noviembre)",
+  "whatsOn.date.nov6Dec11": "Del 6 de noviembre al 9 de diciembre",
+  "whatsOn.date.dec11Dec18": "9 de diciembre - 16 de diciembre"
 }
