@@ -507,7 +507,6 @@
   "description.potted.potato": "Le sang de la potato coule dans votre Bumpkin.",
   "description.potted.pumpkin": "Des pumpkins pour les Bumpkins",
   "description.cactus": "Économise de l'eau et rend votre ferme magnifique!",
-  "description.basic.bear": "Un ours basique. Utilisez-le au Goblin Retreat pour construire un ours!",
   "description.bonnies.tombstone": "Un ajout effrayant à n'importe quelle ferme, la pierre tombale humaine de Bonnie vous donnera des frissons dans le dos.",
   "description.grubnashs.tombstone": "Ajoutez un charme espiègle avec la pierre tombale Goblin de Grubnash.",
   "description.town.sign": "Montrez fièrement votre ID de ferme!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "Un mouton mutant dont la toison toxique produit la laine mérinos la plus fine du pays !",
   "description.mootant": "Ce bovin génétiquement amélioré est là pour augmenter votre production de cuir !",
   "competition.highscore": "Scores les plus élevés",
-  "competition.accumulator": "Scores cumulés"
+  "competition.accumulator": "Scores cumulés",
+  "description.basic.bear": "Un ours basique.",
+  "description.alien.chicken.boost": "+0.1 Plumes",
+  "description.toxic.tuft.boost": "+0.1 Laine mérinos",
+  "description.mootant.boost": "+0.1 Cuir"
 }

@@ -728,7 +728,6 @@
   "description.potted.potato": "土豆血在你的乡包佬体内流淌。",
   "description.potted.pumpkin": "南瓜属于乡包佬",
   "description.cactus": "节约用水并让您的农场美丽惊人！",
-  "description.basic.bear": "这是一只普通的熊。用它在哥布林聚居地锻造一只熊吧！",
   "description.bonnies.tombstone": "在任何农场都显诡怪的添饰，Bonnie 的人类墓碑叫人寒凉刺骨",
   "description.grubnashs.tombstone": "让 Grubnash 的哥布林墓碑带来些许诡魅",
   "description.town.sign": "骄傲地炫耀您的农场号码吧！",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "一只变异的绵羊，它的有毒羊毛能产出这片土地上最好的美利奴羊毛！",
   "description.mootant": "这种经过基因改造的牛可以提高您的皮革产量！",
   "competition.highscore": "最高分数",
-  "competition.accumulator": "累积分数"
+  "competition.accumulator": "累积分数",
+  "description.basic.bear": "一只基本的熊。",
+  "description.alien.chicken.boost": "+0.1 羽毛",
+  "description.toxic.tuft.boost": "+0.1 美利奴羊毛",
+  "description.mootant.boost": "+0.1 皮革"
 }

@@ -760,7 +760,6 @@
   "description.potted.potato": "じゃがいもの血がバンプキンに流れ込みます。",
   "description.potted.pumpkin": "バンプキン用パンプキン",
   "description.cactus": "水を節約し、農場を美しく見せましょう！",
-  "description.basic.bear": "ベーシックなクマ。ゴブリンリトリートでこれを使ってクマを作ろう！",
   "description.bonnies.tombstone": "どんな農場にも不気味な要素を加えるボニーのヒューマントゥームストーンは、背筋を震わせます。",
   "description.grubnashs.tombstone": "グラブナッシュのゴブリンの墓石で、いたずら好きな魅力を添えましょう。",
   "description.town.sign": "誇りを持って農場IDを見せてください！",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "毒性のあるフリースが国内で最高級のメリノウールを生む突然変異した羊！",
   "description.mootant": "この遺伝子組み換え牛は、皮革の生産を後押ししてくれます！",
   "competition.highscore": "最高得点",
-  "competition.accumulator": "累積スコア"
+  "competition.accumulator": "累積スコア",
+  "description.basic.bear": "ベーシックなクマ。",
+  "description.alien.chicken.boost": "+0.1 フェザー",
+  "description.toxic.tuft.boost": "+0.1 メリノウール",
+  "description.mootant.boost": "+0.1 レザー"
 }

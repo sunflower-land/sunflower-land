@@ -684,7 +684,6 @@
   "description.potted.potato": "В твоем бампкине течет картофельная кровь.",
   "description.potted.pumpkin": "Pumpkins для бампкинов",
   "description.cactus": "Экономит воду и придает твоей ферме превосходный вид!",
-  "description.basic.bear": "Базовый медведь. Используй его в Goblin Retreat, чтобы создать медведя!",
   "description.bonnies.tombstone": "Жуткое дополнение к любой ферме, от Bonnie's Human Tombstone у тебя пойдут мурашки по спине.",
   "description.grubnashs.tombstone": "Добавь немного зловещего обаяния с помощью Grubnash's Goblin Tombstone.",
   "description.town.sign": "С гордостью показывает номер твоей фермы!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "Мутировавшая овца, из ядовитой шерсти которой получается самая лучшая мериносовая шерсть в мире!",
   "description.mootant": "Этот генетически улучшенный крупный рогатый скот поможет вам увеличить производство кожи!",
   "competition.highscore": "Самые высокие баллы",
-  "competition.accumulator": "Накопленные очки"
+  "competition.accumulator": "Накопленные очки",
+  "description.basic.bear": "Обычный медведь.",
+  "description.alien.chicken.boost": "+0.1 Перья",
+  "description.toxic.tuft.boost": "+0.1 Шерсть мериноса",
+  "description.mootant.boost": "+0.1 Кожа"
 }

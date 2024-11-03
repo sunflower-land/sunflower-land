@@ -760,7 +760,6 @@
   "description.potted.potato": "감자의 피가 범프킨을 통해 흐릅니다.",
   "description.potted.pumpkin": "범프킨을 위한 호박",
   "description.cactus": "물을 절약하고 농장을 멋지게 꾸며보세요!",
-  "description.basic.bear": "기본 곰.고블린 리트리트에서 이걸 사용해 곰을 만드세요!",
   "description.bonnies.tombstone": "어떤 농장에서든 으스스하게 추가할 수 있는 보니의 인간 묘비는 등골에 떨게 할 것입니다.",
   "description.grubnashs.tombstone": "그루브내쉬의 고블린 묘비로 장난스러운 매력을 더하세요.",
   "description.town.sign": "자랑스럽게 농장 ID를 보여주세요!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "이 땅에서 가장 좋은 메리노 울을 만들어내는 독성 양털을 가진 돌연변이 양!",
   "description.mootant": "유전적으로 강화된 이 소고기는 가죽 생산량을 늘려줄 거예요!",
   "competition.highscore": "최고 점수",
-  "competition.accumulator": "누적 점수"
+  "competition.accumulator": "누적 점수",
+  "description.basic.bear": "기본 곰.",
+  "description.alien.chicken.boost": "+0.1 페더",
+  "description.toxic.tuft.boost": "+0.1 메리노 울",
+  "description.mootant.boost": "+0.1 가죽"
 }

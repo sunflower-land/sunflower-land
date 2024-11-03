@@ -760,7 +760,6 @@
   "description.potted.potato": "Darah kentang mengalir melalui Bumpkin anda.",
   "description.potted.pumpkin": "Labu untuk Bumpkins",
   "description.cactus": "Menjimatkan air dan menjadikan ladang anda kelihatan menakjubkan!",
-  "description.basic.bear": "Beruang asas. Gunakan ini di Goblin Retreat untuk membina beruang!",
   "description.bonnies.tombstone": "Tambahan yang menyeramkan untuk mana-mana ladang, Bonnie's Human Tombstone akan menggigil ke tulang belakang anda.",
   "description.grubnashs.tombstone": "Tambah beberapa daya tarikan nakal dengan Grubnash's Goblin Tombstone.",
   "description.town.sign": "Tunjukkan ID ladang anda dengan bangga!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "Seekor domba bermutasi yang bulu toksiknya menghasilkan bulu merino terbaik di tanah ini!",
   "description.mootant": "Sapi yang dipertingkatkan secara genetik ini di sini untuk meningkatkan pengeluaran kulit anda!",
   "competition.highscore": "Skor Tertinggi",
-  "competition.accumulator": "Skor Terkumpul"
+  "competition.accumulator": "Skor Terkumpul",
+  "description.basic.bear": "Beruang asas.",
+  "description.alien.chicken.boost": "+0.1 Bulu",
+  "description.toxic.tuft.boost": "+0.1 Merino Wool",
+  "description.mootant.boost": "+0.1 Kulit"
 }

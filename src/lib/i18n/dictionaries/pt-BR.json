@@ -491,7 +491,6 @@
   "description.potted.potato": "O sangue da batata corre pelo seu Bumpkin.",
   "description.potted.pumpkin": "Abóboras para Bumpkins",
   "description.cactus": "Economiza água e deixa sua fazenda deslumbrante!",
-  "description.basic.bear": "Um urso básico.",
   "description.bonnies.tombstone": "Uma adição assustadora a qualquer fazenda, a Lápide Humana de Bonnie enviará calafrios pela sua espinha.",
   "description.grubnashs.tombstone": "Adicione um charme travesso com a Lápide dos Goblins de Grubnash.",
   "description.town.sign": "Mostre sua identificação da fazenda com orgulho!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "Uma ovelha mutante cujo velo tóxico produz a melhor lã de merino da terra!",
   "description.mootant": "Este bovino geneticamente aprimorado está aqui para aumentar sua produção de couro!",
   "competition.highscore": "Pontuações mais altas",
-  "competition.accumulator": "Pontuações acumuladas"
+  "competition.accumulator": "Pontuações acumuladas",
+  "description.basic.bear": "Um urso básico.",
+  "description.alien.chicken.boost": "+0.1 Penas",
+  "description.toxic.tuft.boost": "+0.1 Lã Merino",
+  "description.mootant.boost": "+0.1 Couro"
 }

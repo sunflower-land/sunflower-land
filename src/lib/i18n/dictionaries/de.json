@@ -760,7 +760,6 @@
   "description.potted.potato": "Kartoffelblut fließt durch deinen Bumpkin.",
   "description.potted.pumpkin": "Kürbisse für Bumpkins",
   "description.cactus": "Spart Wasser und lässt deine Farm umwerfend aussehen!",
-  "description.basic.bear": "Ein einfacher Bär. Benutze ihn beim Goblin-Retreat, um einen Bären zu bauen!",
   "description.bonnies.tombstone": "Bonnie's Human Tombstone ist eine gruselige Ergänzung für jede Farm und wird Ihnen Schauer über den Rücken laufen lassen.",
   "description.grubnashs.tombstone": "Verleihen Sie mit Grubnashs Goblin-Grabstein etwas schelmischen Charme.",
   "description.town.sign": "Zeigen Sie mit Stolz Ihren Farm-Ausweis!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "Ein mutiertes Schaf, aus dessen giftigem Vlies die feinste Merinowolle des Landes gewonnen wird!",
   "description.mootant": "Dieses gentechnisch veränderte Rind ist hier, um deine Lederproduktion anzukurbeln!",
   "competition.highscore": "Höchste Punktzahlen",
-  "competition.accumulator": "Gesammelte Punktzahlen"
+  "competition.accumulator": "Gesammelte Punktzahlen",
+  "description.basic.bear": "Ein einfacher Bär.",
+  "description.alien.chicken.boost": "+0.1 Federn",
+  "description.toxic.tuft.boost": "+0.1 Merinowolle",
+  "description.mootant.boost": "+0.1 Leder"
 }

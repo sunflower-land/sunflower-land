@@ -752,7 +752,6 @@
   "description.potted.potato": "Il sangue di patata scorre attraverso il tuo Bumpkin.",
   "description.potted.pumpkin": "Zucche per Bumpkins",
   "description.cactus": "Risparmia acqua e dona alla tua fattoria un aspetto fantastico!",
-  "description.basic.bear": "Un orso semplice. Usalo al Goblin Retreat per costruire un orso!",
   "description.bonnies.tombstone": "Una spaventosa aggiunta a qualsiasi fattoria, la lapide umana di Bonnie ti farà venire i brividi lungo la schiena.",
   "description.grubnashs.tombstone": "Aggiungi un po' di fascino malizioso con la lapide dei Goblin di Grubnash.",
   "description.town.sign": "Mostra l'ID della tua fattoria con orgoglio!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "Una pecora mutante il cui vello tossico produce la lana merino più pregiata del paese!",
   "description.mootant": "Questo bovino geneticamente migliorato è qui per aumentare la tua produzione di pelle!",
   "competition.highscore": "Punteggi più alti",
-  "competition.accumulator": "Punteggi accumulati"
+  "competition.accumulator": "Punteggi accumulati",
+  "description.basic.bear": "Un orso semplice.",
+  "description.alien.chicken.boost": "+0.1 Piume",
+  "description.toxic.tuft.boost": "+0.1 Lana Merino",
+  "description.mootant.boost": "+0.1 Pelle"
 }

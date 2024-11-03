@@ -514,7 +514,6 @@
   "description.potted.potato": "Bumpkin'in içinden patates kanı akıyor.",
   "description.potted.pumpkin": "Bumpkins için Balkabakları",
   "description.cactus": "Su tasarrufu sağlar ve çiftliğinizin muhteşem görünmesini sağlar!",
-  "description.basic.bear": "Temel bir ayı. Bir ayı inşa etmek için bunu Goblin Retreat'te kullanın!",
   "description.bonnies.tombstone": "Her çiftliğe ürkütücü bir eklenti olan Bonnie'nin İnsan Mezar Taşı tüylerinizi diken diken edecek.",
   "description.grubnashs.tombstone": "Grubnash’ın Goblin Mezar Taşı ile biraz muzip bir çekicilik katın",
   "description.town.sign": "Çiftlik kimliğinizi gururla gösterin!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "Zehirli yapağı topraktaki en iyi merinos yünü üreten mutasyona uğramış bir koyun!",
   "description.mootant": "Bu genetik olarak geliştirilmiş sığır, deri üretiminizi artırmak için burada!",
   "competition.highscore": "En Yüksek Puanlar",
-  "competition.accumulator": "Birikmiş Puanlar"
+  "competition.accumulator": "Birikmiş Puanlar",
+  "description.basic.bear": "Temel bir ayı.",
+  "description.alien.chicken.boost": "+0.1 Tüyler",
+  "description.toxic.tuft.boost": "+0.1 Merinos Yünü",
+  "description.mootant.boost": "+0.1 Deri"
 }

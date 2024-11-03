@@ -753,7 +753,6 @@
   "description.potted.potato": "La sangre de patata corre por tu Bumpkin.",
   "description.potted.pumpkin": "Calabazas para panecillos",
   "description.cactus": "Ahorra agua y hace que tu granja luzca impresionante!",
-  "description.basic.bear": "Un oso básico. Utilízalo en Goblin Retreat para construir un oso!",
   "description.bonnies.tombstone": "Bonnie's Human Tombstone, una espeluznante adición a cualquier granja, te hará temblar la espalda.",
   "description.grubnashs.tombstone": "Añade un toque de encanto travieso con la lápida de los duendes de Grubnash.",
   "description.town.sign": "Muestre su identificación de granja con orgullo!",
@@ -4201,5 +4200,9 @@
   "description.toxic.tuft": "¡Una oveja mutada cuyo tóxico vellón produce la mejor lana merino del país!",
   "description.mootant": "¡Este bovino genéticamente mejorado está aquí para aumentar tu producción de cuero!",
   "competition.highscore": "Puntuaciones más altas",
-  "competition.accumulator": "Puntuaciones acumuladas"
+  "competition.accumulator": "Puntuaciones acumuladas",
+  "description.basic.bear": "Un oso básico.",
+  "description.alien.chicken.boost": "+0.1 Plumas",
+  "description.toxic.tuft.boost": "+0.1 Lana merino",
+  "description.mootant.boost": "+0.1 Cuero"
 }
