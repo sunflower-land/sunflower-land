@@ -60,12 +60,23 @@ export const PortalLeaderboard: React.FC<{
 
   if (!data) return <Loading />;
 
-  const { leaderboard, accumulators, lastUpdated, miniboard, player } = data;
+  const {
+    leaderboard,
+    accumulators,
+    lastUpdated,
+    miniboard,
+    accumulatorMiniboard,
+    player,
+  } = data;
   const items = (!!isAccumulator && accumulators?.slice(0, 10)) || leaderboard;
   const title =
     !!isAccumulator && accumulators?.length
       ? t("competition.accumulator")
       : t("competition.highscore");
+  const miniboardItems =
+    !!isAccumulator && accumulatorMiniboard?.length
+      ? accumulatorMiniboard
+      : miniboard;
   return (
     <>
       <div className="p-1">
@@ -83,7 +94,10 @@ export const PortalLeaderboard: React.FC<{
         {player && !items.find((m) => m.id === player.id) && (
           <>
             <p className="text-center text-xs mb-2">{`...`}</p>
-            <CompetitionTable items={miniboard} formatPoints={formatPoints} />
+            <CompetitionTable
+              items={miniboardItems}
+              formatPoints={formatPoints}
+            />
           </>
         )}
       </div>
