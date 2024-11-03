@@ -206,6 +206,7 @@ const tierMapping: Record<keyof SeasonalStore, keyof SeasonalStore> = {
   basic: "basic",
   rare: "basic",
   epic: "rare",
+  mega: "epic",
 };
 
 //Gets lower Tier

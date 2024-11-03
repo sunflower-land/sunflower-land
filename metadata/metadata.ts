@@ -10037,6 +10037,15 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2157.gif",
     name: "Cluckulator",
   },
+  "Crop Circle": {
+    description:
+      "A mysterious circle that appears on your farm...what could it mean?",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2165.png",
+    name: "Crop Circle",
+  },
   UFO: {
     description:
       "This extraterrestrial craft is said to emit a soft glow and hum, creating an aura of wonder and curiosity.  Keep your eyes on the skies—who knows what otherworldly secrets it might unveil!",
@@ -15196,7 +15205,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Hat": {
     description:
-      "A classic wide-brimmed hat with a rugged charm, perfect for life on the open plains. Protects from the sun while adding a touch of cowboy style. +1 Horseshoe from Deliveries during Bull Run Season.",
+      "A classic wide-brimmed hat with a rugged charm, perfect for life on the open plains. Protects from the sun while adding a touch of cowboy style. +1 Horseshoe from Deliveries, Chores & Bounties during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -15213,7 +15222,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Shirt": {
     description:
-      "This durable, checked shirt is made for the hardworking cowpoke. +1 Horseshoe from Bounties during Bull Run Season.",
+      "This durable, checked shirt is made for the hardworking cowpoke. +1 Horseshoe from Deliveries, Chores & Bounties during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Shirt" },
@@ -15230,7 +15239,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Trouser": {
     description:
-      "These sturdy trousers are built to withstand the wear and tear of ranch life, complete with a touch of style fit for a true cowboy.  +1 Horseshoe from Chores during Bull Run Season.",
+      "These sturdy trousers are built to withstand the wear and tear of ranch life, complete with a touch of style fit for a true cowboy.  +1 Horseshoe from Deliveries, Chores & Bounties during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Pants" },

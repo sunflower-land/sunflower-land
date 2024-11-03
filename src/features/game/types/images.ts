@@ -20,6 +20,7 @@ import gem from "assets/icons/gem.webp";
 
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
+import cropCircle from "assets/sfts/crop_circle.webp";
 
 // NFTs
 import marty from "assets/sfts/morchi_marty.webp";
@@ -4372,5 +4373,9 @@ export const ITEM_DETAILS: Items = {
   Mootant: {
     image: mootant,
     description: translate("description.mootant"),
+  },
+  "Crop Circle": {
+    image: cropCircle,
+    description: translate("description.cropCircle"),
   },
 };

@@ -32,7 +32,13 @@ export type SeasonalStore = {
     items: SeasonalStoreItem[];
     requirement: number;
   };
+  mega: {
+    items: SeasonalStoreItem[];
+    requirement: number;
+  };
 };
+
+export type SeasonalStoreTier = keyof SeasonalStore;
 
 const EMPTY_SEASONAL_STORE: SeasonalStore = {
   basic: {
@@ -43,6 +49,10 @@ const EMPTY_SEASONAL_STORE: SeasonalStore = {
     requirement: 0,
   },
   epic: {
+    items: [],
+    requirement: 0,
+  },
+  mega: {
     items: [],
     requirement: 0,
   },
@@ -142,7 +152,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     wearable: "Cowboy Hat",
     cost: {
       items: {
-        Horseshoe: 500,
+        Horseshoe: 300,
       },
       sfl: 0,
     },
@@ -190,7 +200,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     wearable: "Cowboy Shirt",
     cost: {
       items: {
-        Horseshoe: 750,
+        Horseshoe: 600,
       },
       sfl: 0,
     },
@@ -236,7 +246,7 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     wearable: "Cowboy Trouser",
     cost: {
       items: {
-        Horseshoe: 1000,
+        Horseshoe: 750,
       },
       sfl: 0,
     },
@@ -246,15 +256,6 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     cost: {
       items: {
         "Cow Skull": 225,
-      },
-      sfl: 0,
-    },
-  },
-  {
-    collectible: "Sheaf of Plenty",
-    cost: {
-      items: {
-        Horseshoe: 2500,
       },
       sfl: 0,
     },
@@ -271,6 +272,27 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
     cost: {
       items: {
         Horseshoe: 1000,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Crop Circle",
+    cost: {
+      items: {
+        Horseshoe: 1250,
+      },
+      sfl: 0,
+    },
+  },
+];
+
+const MEGA_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
+  {
+    collectible: "Sheaf of Plenty",
+    cost: {
+      items: {
+        Horseshoe: 2500,
       },
       sfl: 0,
     },
@@ -296,6 +318,10 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
       items: EPIC_PHARAOH_ITEMS,
       requirement: 3,
     },
+    mega: {
+      items: EPIC_PHARAOH_ITEMS,
+      requirement: 3,
+    },
   },
   "Bull Run": {
     basic: {
@@ -307,6 +333,10 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
     },
     epic: {
       items: EPIC_BULL_RUN_ITEMS,
+      requirement: 4,
+    },
+    mega: {
+      items: MEGA_BULL_RUN_ITEMS,
       requirement: 4,
     },
   },
