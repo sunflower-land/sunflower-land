@@ -4209,5 +4209,8 @@
   "animals.guide.sleeping": "Seviye atladıktan sonra hayvanınız 24 saat uyuyacaktır.",
   "animals.guide.affection": "İstediklerinde uyuyan hayvanlara şefkat gösterin.",
   "animals.guide.bounties": "Hayvanlarınızı ödüller karşılığında takas ederek haftalık ödülleri tamamlayın..",
-  "animals.guide.sickness": "Hastalıklara dikkat edin! Yaşlı hayvanlar daha hassastır - onları iyileştirmek için Barn Delight ilacını kullanın."
+  "animals.guide.sickness": "Hastalıklara dikkat edin! Yaşlı hayvanlar daha hassastır - onları iyileştirmek için Barn Delight ilacını kullanın.",
+  "description.alien.chicken": "Başka bir galaksiden gelen tuhaf bir tavuk, tüy üretiminizi artırmak için burada!",
+  "description.toxic.tuft": "Zehirli yapağı topraktaki en iyi merinos yünü üreten mutasyona uğramış bir koyun!",
+  "description.mootant": "Bu genetik olarak geliştirilmiş sığır, deri üretiminizi artırmak için burada!"
 }

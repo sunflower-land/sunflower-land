@@ -4209,5 +4209,8 @@
   "animals.guide.sleeping": "Depois de subir de nível, seu animal dormirá por 24 horas.",
   "animals.guide.affection": "Mostre afeto aos animais adormecidos quando eles solicitarem.",
   "animals.guide.bounties": "Complete recompensas semanais trocando seus animais por recompensas.",
-  "animals.guide.sickness": "Cuidado com as doenças! Animais mais velhos são mais suscetíveis - use o medicamento Barn Delight para curá-los."
+  "animals.guide.sickness": "Cuidado com as doenças! Animais mais velhos são mais suscetíveis - use o medicamento Barn Delight para curá-los.",
+  "description.alien.chicken": "Uma galinha peculiar de outra galáxia, aqui para aumentar sua produção de penas!",
+  "description.toxic.tuft": "Uma ovelha mutante cujo velo tóxico produz a melhor lã de merino da terra!",
+  "description.mootant": "Este bovino geneticamente aprimorado está aqui para aumentar sua produção de couro!"
 }

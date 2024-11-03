@@ -4209,5 +4209,8 @@
   "animals.guide.sleeping": "레벨업 후 동물은 24시간 동안 잠을 잘 수 있습니다.",
   "animals.guide.affection": "잠자는 동물이 요청할 때 애정을 표현하세요.",
   "animals.guide.bounties": "동물을 보상으로 교환하여 주간 현상금을 완료하세요.",
-  "animals.guide.sickness": "질병을 조심하세요!나이가 많은 동물은 더 취약합니다. Barn Delight 약을 사용하여 치료하세요."
+  "animals.guide.sickness": "질병을 조심하세요!나이가 많은 동물은 더 취약합니다. Barn Delight 약을 사용하여 치료하세요.",
+  "description.alien.chicken": "다른 은하계에서 온 특이한 닭이 깃털 생산량을 늘리러 왔습니다!",
+  "description.toxic.tuft": "이 땅에서 가장 좋은 메리노 울을 만들어내는 독성 양털을 가진 돌연변이 양!",
+  "description.mootant": "유전적으로 강화된 이 소고기는 가죽 생산량을 늘려줄 거예요!"
 }

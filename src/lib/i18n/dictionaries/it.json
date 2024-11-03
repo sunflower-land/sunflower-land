@@ -4209,5 +4209,8 @@
   "animals.guide.sleeping": "Dopo essere salito di livello, il tuo animale dormirà per 24 ore.",
   "animals.guide.affection": "Mostra affetto agli animali che dormono quando lo richiedono.",
   "animals.guide.bounties": "Completa le taglie settimanali scambiando i tuoi animali per ottenere ricompense.",
-  "animals.guide.sickness": "Attenzione alle malattie! Gli animali più anziani sono più sensibili: usa il medicinale Barn Delight per curarli."
+  "animals.guide.sickness": "Attenzione alle malattie! Gli animali più anziani sono più sensibili: usa il medicinale Barn Delight per curarli.",
+  "description.alien.chicken": "Un pollo particolare proveniente da un'altra galassia, qui per aumentare la tua produzione di piume!",
+  "description.toxic.tuft": "Una pecora mutante il cui vello tossico produce la lana merino più pregiata del paese!",
+  "description.mootant": "Questo bovino geneticamente migliorato è qui per aumentare la tua produzione di pelle!"
 }

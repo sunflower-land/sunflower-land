@@ -4209,5 +4209,8 @@
   "animals.guide.sleeping": "等级提升后，你的动物将睡觉 24 小时。",
   "animals.guide.affection": "在熟睡的动物提出要求时向他们表达爱意。",
   "animals.guide.bounties": "用你的动物换取奖励，完成每周的赏金。",
-  "animals.guide.sickness": "当心疾病！年龄较大的动物更容易受到感染——使用 Barn Delight 药物来治愈它们。"
+  "animals.guide.sickness": "当心疾病！年龄较大的动物更容易受到感染——使用 Barn Delight 药物来治愈它们。",
+  "description.alien.chicken": "一只来自另一个星系的奇特小鸡，可以提高你的羽毛产量！",
+  "description.toxic.tuft": "一只变异的绵羊，它的有毒羊毛能产出这片土地上最好的美利奴羊毛！",
+  "description.mootant": "这种经过基因改造的牛可以提高您的皮革产量！"
 }
