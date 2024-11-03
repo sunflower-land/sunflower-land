@@ -475,19 +475,12 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         leaveTo="opacity-0"
         className="flex top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
       >
-        <div className="flex items-center">
-          <img
-            src={SUNNYSIDE.icons.heart}
-            alt="Heart"
-            width={PIXEL_SCALE * 10}
-          />
-          <span
-            className="text-sm yield-text"
-            style={{
-              color: "#ffffff",
-            }}
-          >{`+${formatNumber(ITEM_XP[chicken.item])}`}</span>
-        </div>
+        <span
+          className="text-sm yield-text"
+          style={{
+            color: "#ffffff",
+          }}
+        >{`+${formatNumber(ITEM_XP[chicken.item])}`}</span>
       </Transition>
     </>
   );
