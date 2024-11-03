@@ -413,6 +413,14 @@ export const SUNNYSIDE = {
     cropMachine: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/crop_machine.wep.webp`,
     shadowCropMachine: `${CONFIG.PROTECTED_IMAGE_URL}/cropMachine/shadow.webp`,
 
+    // Animal Houses
+    henHouseLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/hen_house_1.webp`,
+    henHouseLevel2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/hen_house_2.webp`,
+    henHouseLevel3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/hen_house_3.webp`,
+    barnLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_1.webp`,
+    barnLevel2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_2.webp`,
+    barnLevel3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_3.webp`,
+
     //Bumpkin Houses
     house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/house.png`,
     manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/manor.png`,
