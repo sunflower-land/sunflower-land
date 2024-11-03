@@ -48,6 +48,11 @@ const ANIMAL_REQUEST_IMAGES: Record<
     width: 16,
     height: 15,
   },
+  Omnifeed: {
+    src: ITEM_DETAILS.Omnifeed.image,
+    width: 11,
+    height: 16,
+  },
   "Petting Hand": {
     src: ITEM_DETAILS["Petting Hand"].image,
     width: 14,

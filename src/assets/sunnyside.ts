@@ -306,6 +306,7 @@ export const SUNNYSIDE = {
     mixed_grain: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/mixed_grain.webp`,
     fish_oil: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/fish_oil.webp`,
     barn_delight: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/barn_delight.webp`,
+    omnifeed: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/omnifeed.webp`,
   },
   crafting: {
     cushion: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/cushion.webp`,
