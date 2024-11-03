@@ -43,7 +43,7 @@ interface ItemOverlayProps {
   image: string;
   isWearable: boolean;
   buff?: BuffLabel;
-  tier?: "basic" | "rare" | "epic";
+  tier?: "basic" | "rare" | "epic" | "mega";
   isVisible: boolean;
   onClose: () => void;
   readonly?: boolean;
