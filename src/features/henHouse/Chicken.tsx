@@ -36,6 +36,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
+import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -62,12 +63,6 @@ export const CHICKEN_EMOTION_ICONS: Record<
     icon: SUNNYSIDE.icons.sad,
     width: PIXEL_SCALE * 7,
     top: PIXEL_SCALE * -1.3,
-    right: PIXEL_SCALE * 3.7,
-  },
-  loved: {
-    icon: SUNNYSIDE.icons.heart,
-    width: PIXEL_SCALE * 10,
-    top: PIXEL_SCALE * -3.3,
     right: PIXEL_SCALE * 3.7,
   },
   sleeping: {
@@ -121,13 +116,15 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [showFeedXP, setShowFeedXP] = useState(false);
   const [showNoToolPopover, setShowNoToolPopover] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
+  const [showLoveXp, setShowLoveXp] = useState(false);
+
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenMachineState === "sleeping";
   const needsLove = chickenMachineState === "needsLove";
   const ready = chickenMachineState === "ready";
   const idle = chickenMachineState === "idle";
   const sick = chickenMachineState === "sick";
-  const loved = chickenMachineState === "loved";
+
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
   const { play: playChickenCollect } = useSound("chicken_collect");
@@ -181,6 +178,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       id: chicken.id,
       item: item as LoveAnimalItem,
     });
+
+    setShowLoveXp(true);
+    setTimeout(() => setShowLoveXp(false), 700);
 
     const updatedChicken = updatedState.context.state.henHouse.animals[id];
 
@@ -257,7 +257,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
-    if (loved) return;
 
     if (needsLove) return onLoveClick();
 
@@ -310,7 +309,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
-    if (sleeping) {
+    if (sleeping || needsLove) {
       return {
         image: SUNNYSIDE.animals.chickenAsleep,
         width: PIXEL_SCALE * 13,
@@ -437,9 +436,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       </div>
       {/* Level Progress */}
       <LevelProgress
-        animal="Chicken"
         animalState={chickenMachineState}
         experience={chicken.experience}
+        animal={chicken}
         className="absolute bottom-1 left-1/2 transform -translate-x-1/2 ml-0.5"
         // Don't block level up UI with wakes in panel if accidentally clicked
         onLevelUp={() => setShowWakesIn(false)}
@@ -463,6 +462,32 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             color: favFood === selectedItem ? "#71e358" : "#fff",
           }}
         >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Chicken[level][selectedItem as AnimalFoodName])}`}</span>
+      </Transition>
+      <Transition
+        appear={true}
+        id="oil-reserve-collected-amount"
+        show={showLoveXp}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+      >
+        <div className="flex items-center">
+          <img
+            src={SUNNYSIDE.icons.heart}
+            alt="Heart"
+            width={PIXEL_SCALE * 10}
+          />
+          <span
+            className="text-sm yield-text"
+            style={{
+              color: "#ffffff",
+            }}
+          >{`+${formatNumber(ITEM_XP[chicken.item])}`}</span>
+        </div>
       </Transition>
     </>
   );
