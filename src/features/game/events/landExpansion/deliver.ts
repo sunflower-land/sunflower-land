@@ -303,7 +303,6 @@ export function deliverOrder({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
 }: Options): GameState {
   return produce(state, (game) => {
     const bumpkin = game.bumpkin;
@@ -434,10 +433,7 @@ export function deliverOrder({
 
     game.npcs = {
       ...npcs,
-      [order.from]: {
-        ...npc,
-        deliveryCompletedAt: createdAt,
-      },
+      [order.from]: npc,
     };
 
     // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
