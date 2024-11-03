@@ -335,6 +335,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
   },
+  "Farm Dog": {
+    shortDescription: translate("description.farm.dog.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+  },
   "Gold Egg": {
     shortDescription: translate("description.gold.egg.boost"),
     labelType: "vibrant",
