@@ -266,7 +266,7 @@ describe("animal.sold", () => {
     expect(deal?.soldAt).toEqual(now);
   });
 
-  it("gives half rewards when selling sick animals", () => {
+  it("gives 25% less coins when selling sick animals", () => {
     const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
@@ -288,7 +288,7 @@ describe("animal.sold", () => {
             {
               id: "123",
               coins: 100,
-              items: { "Amber Fossil": 7 },
+              items: {},
               level: 1,
               name: "Chicken",
             },
@@ -303,12 +303,10 @@ describe("animal.sold", () => {
     });
 
     // Check coins are halved
-    expect(state.coins).toEqual(50);
-    // Check items are halved
-    expect(state.inventory["Amber Fossil"]).toEqual(new Decimal(3.5));
+    expect(state.coins).toEqual(75);
   });
 
-  it("allows sick animals to be sold regardless of level requirement", () => {
+  it("gives approx 25% less items (rounded down) when selling sick animals", () => {
     const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
@@ -330,7 +328,10 @@ describe("animal.sold", () => {
             {
               id: "123",
               coins: 100,
-              level: 1, // High level requirement
+              items: {
+                "Amber Fossil": 7,
+              },
+              level: 1,
               name: "Chicken",
             },
           ],
@@ -343,8 +344,8 @@ describe("animal.sold", () => {
       },
     });
 
-    // Should complete successfully
-    expect(state.coins).toEqual(50);
-    expect(state.henHouse.animals[animalId]).toBeUndefined();
+    // Check coins are halved
+    expect(state.coins).toEqual(75);
+    expect(state.inventory["Amber Fossil"]).toEqual(new Decimal(5));
   });
 });
