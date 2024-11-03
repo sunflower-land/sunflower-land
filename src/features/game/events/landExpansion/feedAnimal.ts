@@ -147,7 +147,7 @@ export function feedAnimal({
 
     animal.state = "sad";
 
-    if (favouriteFood === food) {
+    if (favouriteFood === food || food === "Omnifeed") {
       animal.state = "happy";
     }
 

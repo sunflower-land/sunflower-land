@@ -4209,6 +4209,10 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.animalFoods.mixed_grain,
     description: ANIMAL_FOODS["Mixed Grain"].description,
   },
+  Omnifeed: {
+    image: SUNNYSIDE.animalFoods.omnifeed,
+    description: ANIMAL_FOODS.Omnifeed.description,
+  },
   "Crafting Box": {
     image: craftingBox,
     description: translate("description.craftingBox"),

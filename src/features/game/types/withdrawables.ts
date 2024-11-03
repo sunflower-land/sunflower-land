@@ -100,6 +100,7 @@ const animalFood: Record<AnimalFoodName, () => boolean> = {
   "Kernel Blend": () => false,
   NutriBarley: () => false,
   "Mixed Grain": () => false,
+  Omnifeed: () => false,
 };
 
 const animalMedicine: Record<AnimalMedicineName, () => boolean> = {

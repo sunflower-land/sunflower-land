@@ -459,7 +459,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         <span
           className="text-sm yield-text"
           style={{
-            color: favFood === selectedItem ? "#71e358" : "#fff",
+            color:
+              favFood === selectedItem || selectedItem === "Omnifeed"
+                ? "#71e358"
+                : "#fff",
           }}
         >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Chicken[level][selectedItem as AnimalFoodName])}`}</span>
       </Transition>
