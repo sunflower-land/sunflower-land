@@ -16,16 +16,27 @@ describe("canremove", () => {
     });
 
     it("prevents a user from removing mutant chickens if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rich Chicken", "1", {
-        ...TEST_FARM,
-        inventory: {
-          "Rich Chicken": new Decimal(1),
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
+      const [restricted] = hasRemoveRestriction("Rich Chicken", "123", {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
           },
+        },
+        collectibles: {
+          "Rich Chicken": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
         },
       });
 
