@@ -43,7 +43,7 @@ interface ItemOverlayProps {
   image: string;
   isWearable: boolean;
   buff?: BuffLabel;
-  tier?: "basic" | "rare" | "epic";
+  tier?: "basic" | "rare" | "epic" | "mega";
   isVisible: boolean;
   onClose: () => void;
   readonly?: boolean;
@@ -89,7 +89,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? "rare"
         : tier === "epic"
           ? "epic"
-          : "basic";
+          : tier === "mega"
+            ? "mega"
+            : "basic";
 
   const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
     state,
@@ -126,6 +128,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const isEpicUnlocked =
     tiers === "epic" &&
     seasonalItemsCrafted - reduction >= seasonalStore.epic.requirement;
+  const isMegaUnlocked =
+    tier === "mega" &&
+    seasonalItemsCrafted - reduction >= seasonalStore.mega.requirement;
 
   const keysBoughtAt = keysBought?.megastore[itemName as Keys]?.boughtAt;
   const keysBoughtToday =
@@ -165,6 +170,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     if (tier !== "basic") {
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
+      if (tier === "mega" && !isMegaUnlocked) return false;
     }
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {

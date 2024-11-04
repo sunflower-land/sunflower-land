@@ -214,4 +214,176 @@ describe("completeNPCChore", () => {
 
     expect(newState.inventory["Amber Fossil"]).toEqual(new Decimal(3));
   });
+
+  it("provides +1 ticket rewards for Cowboy Hat at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hat: "Cowboy Hat",
+        },
+      },
+      inventory: {},
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Horseshoe"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(2));
+  });
+
+  it("provides +1 ticket rewards for Cowboy Shirt at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          shirt: "Cowboy Shirt",
+        },
+      },
+      inventory: {},
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Horseshoe"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(2));
+  });
+
+  it("provides +1 ticket rewards for Cowboy Trouser at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          pants: "Cowboy Trouser",
+        },
+      },
+      inventory: {},
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Horseshoe"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(2));
+  });
+
+  it("stacks Cowboy Set boost at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hat: "Cowboy Hat",
+          shirt: "Cowboy Shirt",
+          pants: "Cowboy Trouser",
+        },
+      },
+      inventory: {},
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Horseshoe"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(4));
+  });
+
+  it("does not provide +1 tickets when Cowboy Trouser is worn outside Bull Run Season", () => {
+    const mockDate = new Date("2024-10-30T15:00:00Z");
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          pants: "Cowboy Trouser",
+        },
+      },
+      inventory: {},
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Horseshoe"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(1));
+  });
 });

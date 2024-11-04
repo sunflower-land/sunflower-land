@@ -61,6 +61,20 @@ export function generateDeliveryTickets({
     amount += 1;
   }
 
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Shirt" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
+  }
+
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
 
   const dateKey = new Date(now).toISOString().substring(0, 10);

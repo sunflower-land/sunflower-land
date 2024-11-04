@@ -306,6 +306,7 @@ export const SUNNYSIDE = {
     mixed_grain: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/mixed_grain.webp`,
     fish_oil: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/fish_oil.webp`,
     barn_delight: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/barn_delight.webp`,
+    omnifeed: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/omnifeed.webp`,
   },
   crafting: {
     cushion: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/cushion.webp`,
@@ -412,6 +413,14 @@ export const SUNNYSIDE = {
     idleMachine: `${CONFIG.PROTECTED_IMAGE_URL}/cropMachine/stage1_collector_empty.webp`,
     cropMachine: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/crop_machine.wep.webp`,
     shadowCropMachine: `${CONFIG.PROTECTED_IMAGE_URL}/cropMachine/shadow.webp`,
+
+    // Animal Houses
+    henHouseLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/hen_house_1.webp`,
+    henHouseLevel2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/hen_house_2.webp`,
+    henHouseLevel3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/hen_house_3.webp`,
+    barnLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_1.webp`,
+    barnLevel2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_2.webp`,
+    barnLevel3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_3.webp`,
 
     //Bumpkin Houses
     house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/house.png`,
@@ -809,7 +818,7 @@ export const SUNNYSIDE = {
   },
   //Tutorials
   tutorial: {
-    animals: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/animals.png`,
+    animals: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/new_animals.png`,
     workbench: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/workbench.png`,
     harvesting: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/harvesting.png`,
     cooking: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/fire_pit.png`,

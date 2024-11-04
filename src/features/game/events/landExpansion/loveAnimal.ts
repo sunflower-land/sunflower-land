@@ -53,6 +53,8 @@ export function loveAnimal({
       throw new Error(`Missing item, ${action.item}`);
     }
 
+    const level = getAnimalLevel(animal.experience, animal.type);
+
     animal.experience += ITEM_XP[action.item];
     animal.lovedAt = createdAt;
 
@@ -60,6 +62,10 @@ export function loveAnimal({
       getAnimalLevel(animal.experience, action.animal),
       Math.random,
     );
+
+    if (level !== getAnimalLevel(animal.experience, animal.type)) {
+      animal.state = "ready";
+    }
 
     return copy;
   });
@@ -151,10 +157,10 @@ const ANIMAL_ITEM_CHANCES: Record<
   },
 };
 
-const ITEM_XP: Record<LoveAnimalItem, number> = {
-  "Petting Hand": 2,
-  Brush: 5,
-  "Music Box": 10,
+export const ITEM_XP: Record<LoveAnimalItem, number> = {
+  "Petting Hand": 25,
+  Brush: 40,
+  "Music Box": 50,
 };
 
 function getAnimalItem(level: AnimalLevel, randomGenerator: () => number) {

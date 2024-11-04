@@ -594,6 +594,118 @@ describe("chore.completed", () => {
           ...INITIAL_BUMPKIN,
           equipped: {
             ...INITIAL_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+          },
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
+  });
+
+  it("provides +1 tickets when Cowboy Shirt is worn at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11).getTime();
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: mockDate,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: mockDate,
+      action: {
+        type: "chore.completed",
+        id: 4,
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {},
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          history: {},
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shirt: "Cowboy Shirt",
+          },
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
+  });
+
+  it("provides +1 tickets when Cowboy Trouser is worn at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11).getTime();
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: mockDate,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: mockDate,
+      action: {
+        type: "chore.completed",
+        id: 4,
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {},
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          history: {},
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
             pants: "Cowboy Trouser",
           },
           activity: {
@@ -617,7 +729,65 @@ describe("chore.completed", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
   });
 
-  it("does not provide +1 tickets when Cowboy Hat is worn outside Bull Run Season", () => {
+  it("stacks Cowboy Set boost at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11).getTime();
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: mockDate,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: mockDate,
+      action: {
+        type: "chore.completed",
+        id: 4,
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {},
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          history: {},
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+            shirt: "Cowboy Shirt",
+            pants: "Cowboy Trouser",
+          },
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(7));
+  });
+
+  it("does not provide +1 tickets when Cowboy Trouser is worn outside Bull Run Season", () => {
     const mockDate = new Date("2024-10-30T15:00:00Z").getTime();
     jest.useFakeTimers();
     jest.setSystemTime(mockDate);

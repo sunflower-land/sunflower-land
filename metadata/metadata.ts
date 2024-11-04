@@ -498,6 +498,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Mixed Grain",
   },
+  Omnifeed: {
+    name: "Omnifeed",
+    description: "Acts as the best feed for all animals.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Barn Delight": {
     name: "Barn Delight",
     description: "A magical elixir that cures animal sickness.",
@@ -829,12 +840,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Farm Dog": {
     name: "Farm Dog",
     description:
-      "Sheep are no longer lazy when this farm dog is around. Increases wool production. Currently used for decoration purposes.\n\n~~You can craft a dog at the Goblin Farmer in the game.~~ **Sold out!**",
+      "Sheep are no longer lazy when this farm dog is around.\n\n~~You can craft a dog at the Goblin Farmer in the game.~~ **Sold out!**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/406.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Sheep Produce Time",
+        value: -25,
+      },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -889,7 +905,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Chicken Coop": {
     name: "Chicken Coop",
     description:
-      "A chicken coop that can be used to raise chickens. Increase egg production with this rare coop on your farm.\n\n~~You can craft a chicken coop at the Goblin Farmer in the game.~~ **Sold out!**",
+      "A chicken coop that can be used to raise chickens. Increase egg production with this rare coop.\n\n~~You can craft a chicken coop at the Goblin Farmer in the game.~~ **Sold out!**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/408.png",
@@ -897,12 +913,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Egg Production",
+        trait_type: "Increase Egg Yield",
         value: 1,
       },
       {
         display_type: "boost_number",
-        trait_type: "Increase Max Chickens per Hen House",
+        trait_type: "Increase Base Chickens",
+        value: 5,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Max Chickens per Hen House Upgrade",
         value: 5,
       },
       { trait_type: "Tradable", value: "Yes" },
@@ -919,7 +940,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_number",
-        trait_type: "Feed chickens without wheat",
+        trait_type: "Feed chickens without food",
         value: 1,
       },
       { trait_type: "Tradable", value: "Yes" },
@@ -1684,14 +1705,14 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Fat Chicken": {
     name: "Fat Chicken",
     description:
-      "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant reduces the wheat required to feed a chicken by 10%.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
+      "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant reduces the food required to feed a chicken by 10%.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/611.gif",
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Amount of Wheat to Feed Chickens",
+        trait_type: "Chicken Feed Reduction",
         value: -10,
       },
       { trait_type: "Boost", value: "Animal" },
@@ -1701,7 +1722,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Rich Chicken": {
     name: "Rich Chicken",
     description:
-      "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant adds a boost of 10% higher egg yield.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
+      "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant adds a boost of +0.1 egg yield.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/612.gif",
@@ -1814,9 +1835,9 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
-        display_type: "boost_percentage",
+        display_type: "boost_number",
         trait_type: "Increase Animal Yield",
-        value: 5,
+        value: 0.1,
       },
       {
         display_type: "boost_percentage",
@@ -3179,7 +3200,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Undead Rooster": {
     name: "Undead Rooster",
-    description: "An unfortunate casualty of the war. 10% increased egg yield.",
+    description: "An unfortunate casualty of the war. +0.1 egg yield.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1114.gif",
@@ -5376,16 +5397,10 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/465.png",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
-      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_number",
         trait_type: "Increase Egg Yield",
-        value: 0.2,
-      },
-      {
-        display_type: "boost_number",
-        trait_type: "Chickens Affected",
-        value: 12,
+        value: 0.1,
       },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -10036,6 +10051,15 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2157.gif",
     name: "Cluckulator",
+  },
+  "Crop Circle": {
+    description:
+      "A mysterious circle that appears on your farm...what could it mean?",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2165.png",
+    name: "Crop Circle",
   },
   UFO: {
     description:
@@ -15196,7 +15220,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Hat": {
     description:
-      "A classic wide-brimmed hat with a rugged charm, perfect for life on the open plains. Protects from the sun while adding a touch of cowboy style. +1 Horseshoe from Deliveries during Bull Run Season.",
+      "A classic wide-brimmed hat with a rugged charm, perfect for life on the open plains. Protects from the sun while adding a touch of cowboy style. +1 Horseshoe from Deliveries, Chores & Bounties during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -15213,7 +15237,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Shirt": {
     description:
-      "This durable, checked shirt is made for the hardworking cowpoke. +1 Horseshoe from Bounties during Bull Run Season.",
+      "This durable, checked shirt is made for the hardworking cowpoke. +1 Horseshoe from Deliveries, Chores & Bounties during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Shirt" },
@@ -15230,7 +15254,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Cowboy Trouser": {
     description:
-      "These sturdy trousers are built to withstand the wear and tear of ranch life, complete with a touch of style fit for a true cowboy.  +1 Horseshoe from Chores during Bull Run Season.",
+      "These sturdy trousers are built to withstand the wear and tear of ranch life, complete with a touch of style fit for a true cowboy.  +1 Horseshoe from Deliveries, Chores & Bounties during Bull Run Season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Pants" },

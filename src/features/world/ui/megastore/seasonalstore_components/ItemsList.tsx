@@ -28,6 +28,7 @@ import {
   MEGASTORE,
   SeasonalStoreCollectible,
   SeasonalStoreItem,
+  SeasonalStoreTier,
   SeasonalStoreWearable,
 } from "features/game/types/megastore";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -43,12 +44,9 @@ import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 interface Props {
   itemsLabel?: string;
   type?: "wearables" | "collectibles" | "keys";
-  tier: "basic" | "rare" | "epic";
+  tier: SeasonalStoreTier;
   items: SeasonalStoreItem[];
-  onItemClick: (
-    item: SeasonalStoreItem,
-    tier: "basic" | "rare" | "epic",
-  ) => void;
+  onItemClick: (item: SeasonalStoreItem, tier: SeasonalStoreTier) => void;
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -153,14 +151,7 @@ export const ItemsList: React.FC<Props> = ({
   const createdAt = Date.now();
   const currentSeason = getCurrentSeason(new Date(createdAt));
   const seasonalStore = MEGASTORE[currentSeason];
-  const tiers =
-    tier === "basic"
-      ? "basic"
-      : tier === "epic"
-        ? "epic"
-        : tier === "rare"
-          ? "rare"
-          : "basic";
+  const tiers = tier;
 
   const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
     state,
@@ -207,6 +198,8 @@ export const ItemsList: React.FC<Props> = ({
     tier === "rare" && seasonalItemsCrafted - reduction >= requirements;
   const isEpicUnlocked =
     tier === "epic" && seasonalItemsCrafted - reduction >= requirements;
+  const isMegaUnlocked =
+    tier === "mega" && seasonalItemsCrafted - reduction >= requirements;
   const tierpercentage = seasonalItemsCrafted - reduction;
 
   const percentage = Math.round((tierpercentage / requirements) * 100);
@@ -219,9 +212,9 @@ export const ItemsList: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col mb-5">
       {itemsLabel && (
-        <div className="flex -top-1 pb-1 z-10">
+        <div className="flex z-10">
           <div className="grow w-9/10">
             {itemsLabel && (
               <Label
@@ -231,7 +224,9 @@ export const ItemsList: React.FC<Props> = ({
                     ? lock
                     : !isEpicUnlocked && tier === "epic"
                       ? lock
-                      : ""
+                      : !isMegaUnlocked && tier === "mega"
+                        ? lock
+                        : ""
                 }
                 type={
                   tier === "basic"
@@ -240,7 +235,9 @@ export const ItemsList: React.FC<Props> = ({
                       ? "info"
                       : tier === "epic" && isEpicUnlocked
                         ? "vibrant"
-                        : "danger"
+                        : tier === "mega" && isMegaUnlocked
+                          ? "warning"
+                          : "danger"
                 }
               >
                 {itemsLabel}
@@ -248,7 +245,7 @@ export const ItemsList: React.FC<Props> = ({
             )}
           </div>
           <div className="w-1/10">
-            {(tier === "rare" || tier === "epic") && (
+            {(tier === "rare" || tier === "epic" || tier === "mega") && (
               <ResizableBar
                 percentage={percentage}
                 type={"progress"}
@@ -262,7 +259,7 @@ export const ItemsList: React.FC<Props> = ({
         </div>
       )}
       {tier === "rare" && !isRareUnlocked && (
-        <span className="text-xs pb-2">
+        <span className="text-xs py-1">
           {t("megaStore.tier.rare.requirements", {
             requirements: requirements - tierpercentage,
             tier: tier,
@@ -271,8 +268,17 @@ export const ItemsList: React.FC<Props> = ({
       )}
 
       {tier === "epic" && !isEpicUnlocked && (
-        <span className="text-xs pb-2">
+        <span className="text-xs py-1">
           {t("megaStore.tier.epic.requirements", {
+            requirements: requirements - tierpercentage,
+            tier: tier,
+          })}
+        </span>
+      )}
+
+      {tier === "mega" && !isMegaUnlocked && (
+        <span className="text-xs py-1">
+          {t("megaStore.tier.mega.requirements", {
             requirements: requirements - tierpercentage,
             tier: tier,
           })}
@@ -305,7 +311,7 @@ export const ItemsList: React.FC<Props> = ({
                   }}
                   onClick={() => onItemClick(item, tier)}
                 >
-                  <div className="flex relative justify-center items-center w-full h-full">
+                  <div className="flex relative justify-center items-center w-full h-full z-20">
                     <SquareIcon icon={getItemImage(item)} width={20} />
                     {buff && (
                       <img
@@ -322,7 +328,8 @@ export const ItemsList: React.FC<Props> = ({
                       !isItemKey &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked)) && (
+                        (tier === "epic" && isEpicUnlocked) ||
+                        (tier === "mega" && isMegaUnlocked)) && (
                         <img
                           src={SUNNYSIDE.icons.confirm}
                           className="absolute -right-2 -top-3"
@@ -337,7 +344,8 @@ export const ItemsList: React.FC<Props> = ({
                       isKeyCounted === 0 &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked)) && (
+                        (tier === "epic" && isEpicUnlocked) ||
+                        (tier === "mega" && isMegaUnlocked)) && (
                         <img
                           src={SUNNYSIDE.icons.confirm}
                           className="absolute -right-2 -top-3"
@@ -349,7 +357,8 @@ export const ItemsList: React.FC<Props> = ({
                       )}
 
                     {((tier === "rare" && !isRareUnlocked) ||
-                      (tier === "epic" && !isEpicUnlocked)) && (
+                      (tier === "epic" && !isEpicUnlocked) ||
+                      (tier === "mega" && !isMegaUnlocked)) && (
                       <img
                         src={lock}
                         className="absolute -right-2 -top-2"

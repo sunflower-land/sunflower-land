@@ -120,7 +120,7 @@ describe("cook", () => {
       },
     });
 
-    expect(state.inventory["Egg"]).toEqual(new Decimal(17));
+    expect(state.inventory["Egg"]).toEqual(new Decimal(12));
   });
 
   it("does not affect existing inventory", () => {
@@ -274,7 +274,7 @@ describe("cook", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          Egg: new Decimal(10),
+          Egg: new Decimal(20),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,

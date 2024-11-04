@@ -8,9 +8,11 @@ import {
 import { produce } from "immer";
 import { NPCName } from "lib/npcs";
 import {
+  getCurrentSeason,
   getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -104,6 +106,27 @@ export function generateChoreRewards({
     !!game.inventory["Lifetime Farmer Banner"]
   ) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 2;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Hat" })
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Shirt" })
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
   }
 
   return items;

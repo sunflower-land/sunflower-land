@@ -368,6 +368,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ocean's Treasure": 659,
   "Royal Bedding": 660,
   "Royal Ornament": 661,
+  Omnifeed: 662,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -886,6 +887,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Alien Chicken": 2162,
   Mootant: 2163,
   "Toxic Tuft": 2164,
+  "Crop Circle": 2165,
 };
 
 // The reverse of above

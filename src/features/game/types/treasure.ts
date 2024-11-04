@@ -1,5 +1,5 @@
 import { translate } from "lib/i18n/translate";
-import { SEASONS } from "./seasons";
+import { hasSeasonEnded, SEASONS } from "./seasons";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -156,14 +156,16 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     },
     Scarab: {
       sellPrice: 200,
-      from: SEASONS["Pharaoh's Treasure"].startDate,
-      to: SEASONS["Pharaoh's Treasure"].endDate,
       description: translate("description.scarab"),
     },
     "Cow Skull": {
       sellPrice: 200,
-      from: SEASONS["Bull Run"].startDate,
-      to: SEASONS["Bull Run"].endDate,
       description: translate("description.cowSkull"),
+      ...(hasSeasonEnded("Bull Run")
+        ? {}
+        : {
+            from: SEASONS["Bull Run"].startDate,
+            to: SEASONS["Bull Run"].endDate,
+          }),
     },
   };

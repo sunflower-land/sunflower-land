@@ -19,7 +19,6 @@ import { CONFIG } from "lib/config";
 import { LaTomatina } from "./LaTomatina";
 import { Richie } from "./Richie";
 import { RestockBoat } from "./RestockBoat";
-import { AnimalTeaser } from "./AnimalTeaser";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -45,7 +44,6 @@ export const WaterComponent: React.FC<Props> = ({
       }}
     >
       {/* Decorations */}
-      {<AnimalTeaser />}
 
       {CONFIG.NETWORK === "mainnet" && <DiscordBoat />}
 

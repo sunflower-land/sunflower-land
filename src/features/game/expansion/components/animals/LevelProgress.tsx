@@ -9,13 +9,26 @@ import { getAnimalLevel, isMaxLevel } from "features/game/lib/animals";
 import { TState } from "features/game/lib/animalMachine";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Animal } from "features/game/types/game";
+import { getKeys } from "features/game/types/decorations";
 
 type Props = {
-  animal: AnimalType;
+  animal: Animal;
   animalState: TState["value"];
   experience: number;
   className?: string;
   onLevelUp: () => void;
+};
+
+const getMaxLevelCycleProgress = (animal: AnimalType, experience: number) => {
+  const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
+  const maxLevelXp = ANIMAL_LEVELS[animal][maxLevel];
+  const oneLevelBeforeMaxXp =
+    ANIMAL_LEVELS[animal][(maxLevel - 1) as AnimalLevel];
+  const cycleXP = maxLevelXp - oneLevelBeforeMaxXp;
+  const excessXPoverMax = experience - maxLevelXp;
+
+  return ((excessXPoverMax % cycleXP) / cycleXP) * 100;
 };
 
 export const LevelProgress = ({
@@ -29,6 +42,7 @@ export const LevelProgress = ({
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [displayExperience, setDisplayExperience] = useState(experience);
   const [isLevelingUp, setIsLevelingUp] = useState(false);
+
   const { t } = useAppTranslation();
 
   // Handle level up animation sequence
@@ -58,21 +72,38 @@ export const LevelProgress = ({
     }
   }, [experience, isLevelingUp]);
 
-  const level = getAnimalLevel(experience, animal);
+  const level = getAnimalLevel(experience, animal.type);
+
+  const hasLeveledUp =
+    animalState === "ready" ||
+    (animalState === "sleeping" && animal.state === "ready");
 
   const getProgressPercentage = () => {
-    if (isMaxLevel(animal, level) || animalState === "ready") {
+    if (animalState === "ready") {
       return 100;
     }
 
-    const nextThreshold = ANIMAL_LEVELS[animal][(level + 1) as AnimalLevel];
-    return (displayExperience / nextThreshold) * 100;
+    if (isMaxLevel(animal.type, level)) {
+      return getMaxLevelCycleProgress(animal.type, experience);
+    }
+
+    const currentThreshold = ANIMAL_LEVELS[animal.type][level as AnimalLevel];
+    const nextThreshold =
+      ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel];
+    return (
+      ((displayExperience - currentThreshold) /
+        (nextThreshold - currentThreshold)) *
+      100
+    );
   };
 
   // An animal get xp on every feed so they may already be in the next level
   // however, we want to have them interact with the "level up"
   // so if an animal is ready, we want to show the previous level
-  const displayLevel = animalState === "ready" ? level - 1 : level;
+  const displayLevel =
+    animalState === "ready" && !isMaxLevel(animal.type, level)
+      ? level - 1
+      : level;
 
   return (
     <>
@@ -94,7 +125,7 @@ export const LevelProgress = ({
             color: "#71e358",
           }}
         >
-          {t("levelUp")}
+          {isMaxLevel(animal.type, level) ? t("levelUpMax") : t("levelUp")}
         </span>
       </Transition>
 
@@ -104,9 +135,7 @@ export const LevelProgress = ({
           className="absolute z-50 text-right yield-text right-[85%] ml-0.5 top-[11px] leading-3 transform -translate-y-1/2 text-[16px] text-white"
           style={{ color: "#71e358" }}
         >
-          <div
-            className={`relative ${animalState === "ready" ? "pulse-no-fade" : ""}`}
-          >
+          <div className={`relative ${hasLeveledUp ? "pulse-no-fade" : ""}`}>
             {displayLevel}
           </div>
         </div>

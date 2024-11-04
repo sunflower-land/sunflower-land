@@ -77,7 +77,8 @@ export function makeAnimalBuilding(
 }
 
 export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
-  return level === Object.keys(ANIMAL_LEVELS[animal]).length;
+  const maxLevel = Math.max(...Object.keys(ANIMAL_LEVELS[animal]).map(Number));
+  return level === maxLevel;
 };
 
 export function getAnimalLevel(experience: number, animal: AnimalType) {
@@ -102,9 +103,9 @@ export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
   const maxXp = Math.max(...Object.values(levelFood));
 
-  const favouriteFoods = getKeys(levelFood).filter(
-    (foodName) => levelFood[foodName] === maxXp,
-  );
+  const favouriteFoods = getKeys(levelFood)
+    .filter((foodName) => levelFood[foodName] === maxXp)
+    .filter((food) => food !== "Omnifeed");
 
   if (favouriteFoods.length !== 1) throw new Error("No favourite food");
 

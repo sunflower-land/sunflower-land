@@ -20,7 +20,7 @@ import {
   MachineInterpreter as ChickenMachineInterpreter,
   MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
-import { MutantAnimalModal } from "features/farming/animals/components/MutantChickenModal";
+import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
