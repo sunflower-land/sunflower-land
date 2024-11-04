@@ -1,7 +1,7 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { getInstantGems } from "./speedUpRecipe";
+import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
 import { BuildingName } from "features/game/types/buildings";
 
 export type SpeedUpBuilding = {
@@ -48,16 +48,7 @@ export function speedUpBuilding({
 
     building.readyAt = createdAt;
 
-    const today = new Date(createdAt).toISOString().substring(0, 10);
-    game.gems = {
-      ...game.gems,
-      history: {
-        ...game.gems.history,
-        [today]: {
-          spent: (game.gems.history?.[today]?.spent ?? 0) + gems,
-        },
-      },
-    };
+    game = makeGemHistory({ game, amount: gems });
 
     return game;
   });

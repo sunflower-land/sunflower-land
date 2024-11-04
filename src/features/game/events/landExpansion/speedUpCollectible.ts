@@ -2,7 +2,7 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
-import { getInstantGems } from "./speedUpRecipe";
+import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
 
 export type SpeedUpCollectible = {
   type: "collectible.spedUp";
@@ -48,16 +48,7 @@ export function speedUpCollectible({
 
     collectible.readyAt = createdAt;
 
-    const today = new Date(createdAt).toISOString().substring(0, 10);
-    game.gems = {
-      ...game.gems,
-      history: {
-        ...game.gems.history,
-        [today]: {
-          spent: (game.gems.history?.[today]?.spent ?? 0) + gems,
-        },
-      },
-    };
+    game = makeGemHistory({ game, amount: gems });
 
     return game;
   });

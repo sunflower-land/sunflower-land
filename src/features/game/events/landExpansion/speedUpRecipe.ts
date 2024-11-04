@@ -66,6 +66,27 @@ export function getInstantGems({
   return gems;
 }
 
+export function makeGemHistory({
+  game,
+  amount,
+}: {
+  game: GameState;
+  amount: number;
+}): GameState {
+  const today = new Date().toISOString().substring(0, 10);
+
+  return produce(game, (game) => {
+    game.gems.history = game.gems.history ?? {};
+
+    // Remove other dates
+    game.gems.history = {
+      [today]: {
+        spent: (game.gems.history[today]?.spent ?? 0) + amount,
+      },
+    };
+  });
+}
+
 export function speedUpRecipe({
   state,
   action,
@@ -107,16 +128,7 @@ export function speedUpRecipe({
 
     delete building.crafting;
 
-    const today = new Date(createdAt).toISOString().substring(0, 10);
-    game.gems = {
-      ...game.gems,
-      history: {
-        ...game.gems.history,
-        [today]: {
-          spent: (game.gems.history?.[today]?.spent ?? 0) + gems,
-        },
-      },
-    };
+    game = makeGemHistory({ game, amount: gems });
 
     return game;
   });

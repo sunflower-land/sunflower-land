@@ -1,6 +1,6 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getInstantGems } from "./speedUpRecipe";
+import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 
 export type InstantExpand = {
@@ -43,17 +43,7 @@ export function speedUpExpansion({
 
     expansion.readyAt = createdAt;
 
-    const today = new Date(createdAt).toISOString().substring(0, 10);
-
-    game.gems = {
-      ...game.gems,
-      history: {
-        ...game.gems.history,
-        [today]: {
-          spent: (game.gems.history?.[today]?.spent ?? 0) + gems,
-        },
-      },
-    };
+    game = makeGemHistory({ game, amount: gems });
 
     return game;
   });
