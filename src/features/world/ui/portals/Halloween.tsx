@@ -188,8 +188,8 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
       <PortalLeaderboard
         onBack={() => setPage("play")}
         name={"halloween"}
-        startDate={new Date(2024, 10, 1)}
-        endDate={new Date(2024, 10, 6)}
+        startDate={new Date(Date.UTC(2024, 10, 1))}
+        endDate={new Date(Date.UTC(2024, 10, 6))}
         formatPoints={(points: number) =>
           millisecondsToString(points, { length: "full" })
         }
@@ -203,8 +203,8 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
         isAccumulator
         onBack={() => setPage("play")}
         name={"halloween"}
-        startDate={new Date(2024, 10, 1)}
-        endDate={new Date(2024, 10, 6)}
+        startDate={new Date(Date.UTC(2024, 10, 1))}
+        endDate={new Date(Date.UTC(2024, 10, 6))}
         formatPoints={(points: number) =>
           millisecondsToString(points, { length: "full" })
         }
