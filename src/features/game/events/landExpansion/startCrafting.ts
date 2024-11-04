@@ -59,8 +59,10 @@ export function startCrafting({
             copy.inventory[ingredient.collectible] ?? new Decimal(0);
 
           const placedCount =
-            copy.collectibles[ingredient.collectible as CollectibleName]
-              ?.length ?? 0;
+            (copy.collectibles[ingredient.collectible as CollectibleName]
+              ?.length ?? 0) +
+            (copy.home?.collectibles[ingredient.collectible as CollectibleName]
+              ?.length ?? 0);
 
           if (inventoryCount.sub(placedCount).lt(1)) {
             throw new Error(
