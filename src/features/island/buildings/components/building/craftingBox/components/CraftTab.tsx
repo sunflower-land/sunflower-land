@@ -462,7 +462,7 @@ export const CraftTab: React.FC<Props> = ({
         )}
       </div>
       <div className="flex flex-col max-h-72 overflow-y-auto scrollable pr-1">
-        <div className="flex flex-wrap justify-between">
+        <div className="flex flex-wrap">
           {VALID_CRAFTING_RESOURCES.map((itemName) => {
             const amount = remainingInventory[itemName] || new Decimal(0);
             return (
