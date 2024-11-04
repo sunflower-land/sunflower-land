@@ -40,7 +40,9 @@ export function generateChoreTickets({
 
   if (
     getCurrentSeason() === "Bull Run" &&
-    isWearableActive({ game, name: "Cowboy Trouser" })
+    (isWearableActive({ game, name: "Cowboy Hat" }) ||
+      isWearableActive({ game, name: "Cowboy Shirt" }) ||
+      isWearableActive({ game, name: "Cowboy Trouser" }))
   ) {
     amount += 1;
   }
