@@ -3595,7 +3595,6 @@
   "gems.intro.two": "所有しているブロックバックごとに20ジェムを受け取ります。",
   "restock.one.buck": "20個のジェムを使用して、ゲーム内のすべてのショップアイテムを補充します。",
   "birdieplaza.commonMethod": "{{seasonalTicket}} を獲得する最も一般的な方法は、資源を集めるか、他のリクエストされたアイテムを集めて、プラザや他のエリアのバンプキンに届けることです。",
-  "birdieplaza.choresAndRewards": "また、ハンクの雑用をこなしたり、デイリーチェスト報酬を受け取ったり、陣営コンペに参加したりして {{seasonalTicket}} を獲得することもできます！",
   "birdieplaza.seasonQuests": "今シーズンには、エキサイティングなクエスト、レアな収集品、限定ウェアラブルが手に入ります。",
   "birdieplaza.craftItems": "これらのレアアイテムを入手するには、{{seasonalTicket}} を集めてステラのメガストアで交換するか、オークションハウスで入札する必要があります。",
   "reward.streak.oneYear": "365 日連続リワード",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "すべての動物に最適な飼料として機能します。",
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
-  "levelUpMax": "最大レベル！"
+  "levelUpMax": "最大レベル！",
+  "birdieplaza.choresAndRewards": "また、毎週の雑用、毎日のチェスト報酬、バートのオッドオブセッション、バウンティシステムによって {{seasonalTicket}} を獲得することもできます！"
 }

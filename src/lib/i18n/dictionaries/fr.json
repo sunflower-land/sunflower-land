@@ -3595,7 +3595,6 @@
   "gems.intro.two": "Vous recevrez 20 gemmes pour chaque Block Buck que vous possédez.",
   "restock.one.buck": "Vous allez utiliser 20 gemmes pour réapprovisionner tous les articles de la boutique du jeu.",
   "birdieplaza.commonMethod": "La méthode la plus courante pour gagner des {{seasonalTicket}} s consiste à rassembler des ressources ou à collecter d'autres objets demandés, puis à les livrer à Bumpkins in the Plaza et dans d'autres zones.",
-  "birdieplaza.choresAndRewards": "Tu peux également gagner {{seasonalTicket}} s en accomplissant des corvées pour Hank, en remportant des récompenses de coffre quotidiennes et en participant à la compétition entre factions !",
   "birdieplaza.seasonQuests": "Cette saison propose des quêtes passionnantes, des objets de collection rares et des objets portables exclusifs que vous pouvez gagner.",
   "birdieplaza.craftItems": "Pour obtenir ces objets rares, vous devez collecter des {{seasonalTicket}} s et les échanger au Stella's Megastore ou enchérir à l'hôtel des ventes.",
   "reward.streak.oneYear": "Récompense d'une série de 365 jours",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "C'est le meilleur aliment pour tous les animaux.",
   "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
   "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
-  "levelUpMax": "Niveau maximum !"
+  "levelUpMax": "Niveau maximum !",
+  "birdieplaza.choresAndRewards": "Vous pouvez également gagner {{seasonalTicket}} s grâce à des tâches hebdomadaires, à des récompenses de coffre quotidiennes, à l'obsession étrange de Bert et au système de primes !"
 }

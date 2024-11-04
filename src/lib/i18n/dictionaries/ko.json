@@ -3595,7 +3595,6 @@
   "gems.intro.two": "블록벅을 소유할 때마다 보석 20개를 받게 됩니다.",
   "restock.one.buck": "게임 내 모든 상점 아이템을 재입고하는 데 보석 20개를 사용할 수 있습니다.",
   "birdieplaza.commonMethod": "{{seasonalTicket}} s를 얻는 가장 일반적인 방법은 자원을 수집하거나 다른 요청 아이템을 수집하여 플라자 및 기타 지역의 범킨에게 전달하는 것입니다.",
-  "birdieplaza.choresAndRewards": "행크의 집안일을 완료하고 일일 상자 보상을 받고 진영 경쟁에서 경쟁하여 {{seasonalTicket}} s를 얻을 수도 있습니다!",
   "birdieplaza.seasonQuests": "이번 시즌에는 흥미진진한 퀘스트, 희귀 수집품, 획득할 수 있는 독점 웨어러블이 있습니다.",
   "birdieplaza.craftItems": "이러한 희귀 아이템을 얻으려면 {{seasonalTicket}} s를 모아 스텔라의 메가스토어에서 교환하거나 경매장에서 입찰해야 합니다.",
   "reward.streak.oneYear": "365일 연속 보상",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "모든 동물에게 가장 좋은 사료로 작용합니다.",
   "description.brush": "애니멀 브러쉬.이 제품을 사용해 동물에게 애정을 표현하세요.",
   "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
-  "levelUpMax": "최대 레벨!"
+  "levelUpMax": "최대 레벨!",
+  "birdieplaza.choresAndRewards": "또한 주간 집안일, 일일 상자 보상, 버트의 이상한 집착, 현상금 시스템을 통해서도 {{seasonalTicket}} 를 얻을 수 있습니다!"
 }

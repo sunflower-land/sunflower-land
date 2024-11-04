@@ -3595,7 +3595,6 @@
   "gems.intro.two": "Você receberá 20 joias por cada Block Buck que possuir.",
   "restock.one.buck": "Você vai usar 20 joias para reabastecer todos os itens da loja no jogo.",
   "birdieplaza.commonMethod": "O método mais comum de ganhar {{seasonalTicket}} s é reunir recursos ou coletar outros itens solicitados e, em seguida, entregá-los ao Bumpkins in the Plaza e a algumas outras áreas.",
-  "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s completando tarefas para Hank, reivindicando recompensas diárias no baú e competindo na competição de facções!",
   "birdieplaza.seasonQuests": "Esta temporada tem missões emocionantes, itens colecionáveis raros e dispositivos vestíveis exclusivos que você pode ganhar.",
   "birdieplaza.craftItems": "Para obter esses itens raros, você deve coletar {{seasonalTicket}} s e trocá-los na Stella's Megastore ou licitar na Casa de Leilões.",
   "reward.streak.oneYear": "Recompensa de sequência de 365 dias",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "Atua como o melhor alimento para todos os animais.",
   "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
   "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
-  "levelUpMax": "Nível máximo!"
+  "levelUpMax": "Nível máximo!",
+  "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s por meio de tarefas semanais, recompensas diárias no baú, Bert's Odd Obsession e sistema de recompensas!"
 }

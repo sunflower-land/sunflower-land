@@ -3595,7 +3595,6 @@
   "gems.intro.two": "Sahip olduğunuz her Blok Buck için 20 Mücevher alacaksınız.",
   "restock.one.buck": "Oyundaki tüm mağaza öğelerini stoklamak için 20 Mücevher kullanacaksınız.",
   "birdieplaza.commonMethod": "{{seasonalTicket}} s kazanmanın en yaygın yöntemi, kaynakları toplamak veya istenen diğer öğeleri toplamak ve ardından bunları Plaza'daki Bumpkins'e ve diğer bazı bölgelere teslim etmektir.",
-  "birdieplaza.choresAndRewards": "Ayrıca Hank için ev işlerini tamamlayarak, günlük sandık ödüllerini talep ederek ve grup yarışmasında yarışarak {{seasonalTicket}} s kazanabilirsiniz!",
   "birdieplaza.seasonQuests": "Bu sezon heyecan verici görevler, nadir koleksiyonlar ve kazanabileceğiniz özel giyilebilir ürünler var.",
   "birdieplaza.craftItems": "Bu nadir eşyaları elde etmek için {{seasonalTicket}} s toplamanız ve bunları Stella's Megastore'da değiştirmeniz veya Müzayede Evi'nde teklif vermeniz gerekir.",
   "reward.streak.oneYear": "365 gün seri ödülü",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "Tüm hayvanlar için en iyi yem görevi görür.",
   "description.brush": "Hayvan Fırçası. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
   "description.music.box": "Hayvanlara müzik çalar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
-  "levelUpMax": "Maksimum Seviye!"
+  "levelUpMax": "Maksimum Seviye!",
+  "birdieplaza.choresAndRewards": "Ayrıca haftalık ev işleri, günlük sandık ödülleri, Bert'in Garip Takıntısı ve ödül sistemi ile {{seasonalTicket}} s kazanabilirsiniz!"
 }

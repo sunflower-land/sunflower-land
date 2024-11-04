@@ -3595,7 +3595,6 @@
   "gems.intro.two": "Du erhältst 20 Edelsteine für jeden Block Buck, den du besitzt.",
   "restock.one.buck": "Du wirst 20 Edelsteine verwenden, um alle Ladengegenstände im Spiel aufzufüllen.",
   "birdieplaza.commonMethod": "Die gängigste Methode, {{seasonalTicket}} s zu verdienen, besteht darin, Ressourcen oder andere angeforderte Gegenstände zu sammeln und sie dann an Bumpkins auf der Plaza und in einigen anderen Bereichen zu liefern.",
-  "birdieplaza.choresAndRewards": "Ihr könnt auch {{seasonalTicket}} s verdienen, indem ihr Aufgaben für Hank erledigt, tägliche Truhenbelohnungen einsammelt und am Fraktionswettbewerb teilnehmt!",
   "birdieplaza.seasonQuests": "In dieser Saison erwarten dich spannende Quests, seltene Sammlerstücke und exklusive Wearables, die du dir verdienen kannst.",
   "birdieplaza.craftItems": "Um diese seltenen Gegenstände zu erhalten, müsst ihr {{seasonalTicket}} s sammeln und sie in Stellas Megastore eintauschen oder im Auktionshaus bieten.",
   "reward.streak.oneYear": "Belohnung für eine 365-tägige Serie",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "Es ist das beste Futter für alle Tiere.",
   "description.brush": "Tierbürste. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "description.music.box": "Spielt Musik für Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
-  "levelUpMax": "Maximales Level!"
+  "levelUpMax": "Maximales Level!",
+  "birdieplaza.choresAndRewards": "Du kannst auch {{seasonalTicket}} s durch wöchentliche Aufgaben, tägliche Truhenbelohnungen, Bert's Odd Obsession und das Kopfgeldsystem verdienen!"
 }

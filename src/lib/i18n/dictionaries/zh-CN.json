@@ -3595,7 +3595,6 @@
   "gems.intro.two": "你每拥有一个区块积分，你将获得 20 颗宝石。",
   "restock.one.buck": "你将使用 20 颗宝石来补充游戏中的所有商店物品。",
   "birdieplaza.commonMethod": "赚取 {{seasonalTicket}} s 的最常见方法是收集资源或收集其他所需物品，然后将其交付给广场和其他区域的 Bumpkins。",
-  "birdieplaza.choresAndRewards": "你还可以通过为汉克完成家务、领取每日宝箱奖励和参加派系竞赛来获得 {{seasonalTicket}} s！",
   "birdieplaza.seasonQuests": "本赛季有激动人心的任务、稀有收藏品和你可以获得的专属可穿戴设备。",
   "birdieplaza.craftItems": "要获得这些稀有物品，你必须收集 {{seasonalTicket}} 并在斯特拉的超级商店兑换或在拍卖行出价。",
   "reward.streak.oneYear": "365 天连胜奖励",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "是所有动物的最佳饲料。",
   "description.brush": "动物画笔。用它来表达对动物的爱意。",
   "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
-  "levelUpMax": "最高等级！"
+  "levelUpMax": "最高等级！",
+  "birdieplaza.choresAndRewards": "你还可以通过每周琐事、每日宝箱奖励、伯特的 Odd Obsession 和赏金系统获得 {{seasonalTicket}} s！"
 }

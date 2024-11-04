@@ -3595,7 +3595,6 @@
   "gems.intro.two": "Anda akan menerima 20 Permata untuk setiap Block Buck yang anda miliki.",
   "restock.one.buck": "Anda akan menggunakan 20 Permata untuk menyimpan semula semua barang kedai dalam permainan.",
   "birdieplaza.commonMethod": "Kaedah yang paling biasa untuk mendapatkan {{seasonalTicket}} s adalah dengan mengumpulkan sumber atau mengumpul item lain yang diminta, dan kemudian menghantarnya ke Bumpkins di Plaza dan beberapa kawasan lain.",
-  "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan menyelesaikan tugas untuk Hank, menuntut ganjaran dada harian dan bersaing dalam pertandingan puak!",
   "birdieplaza.seasonQuests": "Musim ini mempunyai pencarian menarik, koleksi langka dan barang pakai eksklusif yang boleh anda perolehi.",
   "birdieplaza.craftItems": "Untuk mendapatkan barang-barang langka ini, anda mesti mengumpul {{seasonalTicket}} s dan menukarnya di Stella's Megastore atau membida di Rumah Lelongan.",
   "reward.streak.oneYear": "Ganjaran rentetan 365 hari",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "Bertindak sebagai makanan terbaik untuk semua haiwan.",
   "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
   "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
-  "levelUpMax": "Tahap Maksimum!"
+  "levelUpMax": "Tahap Maksimum!",
+  "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan kerja mingguan, ganjaran dada harian, Bert's Odd Obsession dan sistem hadiah!"
 }

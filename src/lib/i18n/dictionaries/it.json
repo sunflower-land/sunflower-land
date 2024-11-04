@@ -3595,7 +3595,6 @@
   "gems.intro.two": "Riceverai 20 gemme per ogni Block Buck che possiedi.",
   "restock.one.buck": "Utilizzerai 20 gemme per rifornire tutti gli articoli del negozio nel gioco.",
   "birdieplaza.commonMethod": "Il metodo più comune per guadagnare {{seasonalTicket}} è raccogliere risorse o raccogliere altri oggetti richiesti e poi consegnarli a Bumpkins in the Plaza e in altre aree.",
-  "birdieplaza.choresAndRewards": "Puoi guadagnare {{seasonalTicket}} anche completando le faccende domestiche per Hank, ottenendo ricompense giornaliere per i forzieri e partecipando alla competizione tra fazioni!",
   "birdieplaza.seasonQuests": "Questa stagione offre missioni entusiasmanti, rari oggetti da collezione e dispositivi indossabili esclusivi che puoi guadagnare.",
   "birdieplaza.craftItems": "Per ottenere questi oggetti rari, devi raccogliere {{seasonalTicket}} e cambiarli allo Stella's Megastore o fare un'offerta presso la Casa d'Aste.",
   "reward.streak.oneYear": "Premi per una serie di 365 giorni",
@@ -4217,5 +4216,6 @@
   "description.omnifeed": "Agisce come il miglior mangime per tutti gli animali.",
   "description.brush": "Spazzola per animali. Usalo per mostrare affetto ai tuoi animali.",
   "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
-  "levelUpMax": "Livello massimo!"
+  "levelUpMax": "Livello massimo!",
+  "birdieplaza.choresAndRewards": "Puoi guadagnare {{seasonalTicket}} anche con le faccende settimanali, i premi giornalieri per i bauli, la strana ossessione di Bert e il sistema di ricompense!"
 }
