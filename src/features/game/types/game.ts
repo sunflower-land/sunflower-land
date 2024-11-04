@@ -789,12 +789,12 @@ export type AnimalMedicineName = "Barn Delight";
 
 export type BedName =
   | "Basic Bed"
-  | "Sturdy Bed"
-  | "Floral Bed"
   | "Fisher Bed"
-  | "Pirate Bed"
-  | "Cow Bed"
+  | "Floral Bed"
+  | "Sturdy Bed"
   | "Desert Bed"
+  | "Cow Bed"
+  | "Pirate Bed"
   | "Royal Bed";
 
 export type RecipeCraftableName =

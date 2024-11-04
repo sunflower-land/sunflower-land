@@ -9795,13 +9795,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2140.png",
     name: "Basic Bed",
   },
-  "Sturdy Bed": {
-    description: "A sturdy bed for your Bumpkin to rest.",
+  "Fisher Bed": {
+    description: "A fisherman's bed for your Bumpkin to rest.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2141.png",
-    name: "Sturdy Bed",
+    image: "../public/erc1155/images/2143.png",
+    name: "Fisher Bed",
   },
   "Floral Bed": {
     description: "A floral bed for your Bumpkin to rest.",
@@ -9811,21 +9811,21 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2142.png",
     name: "Floral Bed",
   },
-  "Fisher Bed": {
-    description: "A fisherman's bed for your Bumpkin to rest.",
+  "Sturdy Bed": {
+    description: "A sturdy bed for your Bumpkin to rest.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2143.png",
-    name: "Fisher Bed",
+    image: "../public/erc1155/images/2141.png",
+    name: "Sturdy Bed",
   },
-  "Pirate Bed": {
-    description: "A pirate bed for your Bumpkin to rest.",
+  "Desert Bed": {
+    description: "A desert bed for your Bumpkin to rest.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2144.png",
-    name: "Pirate Bed",
+    image: "../public/erc1155/images/2146.png",
+    name: "Desert Bed",
   },
   "Cow Bed": {
     description: "A cow bed for your Bumpkin to rest.",
@@ -9835,13 +9835,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2145.png",
     name: "Cow Bed",
   },
-  "Desert Bed": {
-    description: "A desert bed for your Bumpkin to rest.",
+  "Pirate Bed": {
+    description: "A pirate bed for your Bumpkin to rest.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2146.png",
-    name: "Desert Bed",
+    image: "../public/erc1155/images/2144.png",
+    name: "Pirate Bed",
   },
   "Royal Bed": {
     description: "A royal bed for your Bumpkin to rest.",

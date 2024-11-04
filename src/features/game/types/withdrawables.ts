@@ -1170,12 +1170,12 @@ const animalResources: Record<AnimalResource, () => boolean> = {
 
 const beds: Record<BedName, () => boolean> = {
   "Basic Bed": () => false,
-  "Sturdy Bed": () => false,
-  "Floral Bed": () => false,
   "Fisher Bed": () => false,
-  "Pirate Bed": () => false,
-  "Cow Bed": () => false,
+  "Floral Bed": () => false,
+  "Sturdy Bed": () => false,
   "Desert Bed": () => false,
+  "Cow Bed": () => false,
+  "Pirate Bed": () => false,
   "Royal Bed": () => false,
 };
 

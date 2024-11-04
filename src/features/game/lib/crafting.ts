@@ -233,8 +233,8 @@ export const RECIPES: Recipes = {
     time: 0,
     type: "collectible",
   },
-  "Sturdy Bed": {
-    name: "Sturdy Bed",
+  "Fisher Bed": {
+    name: "Fisher Bed",
     ingredients: [],
     time: 0,
     type: "collectible",
@@ -245,8 +245,14 @@ export const RECIPES: Recipes = {
     time: 0,
     type: "collectible",
   },
-  "Fisher Bed": {
-    name: "Fisher Bed",
+  "Sturdy Bed": {
+    name: "Sturdy Bed",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Desert Bed": {
+    name: "Desert Bed",
     ingredients: [],
     time: 0,
     type: "collectible",
@@ -259,12 +265,6 @@ export const RECIPES: Recipes = {
   },
   "Pirate Bed": {
     name: "Pirate Bed",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Desert Bed": {
-    name: "Desert Bed",
     ingredients: [],
     time: 0,
     type: "collectible",
