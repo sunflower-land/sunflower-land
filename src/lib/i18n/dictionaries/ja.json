@@ -4216,5 +4216,6 @@
   "description.cropCircle": "農場に現れる不思議なサークル... どういう意味？",
   "description.omnifeed": "すべての動物に最適な飼料として機能します。",
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
-  "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。"
+  "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
+  "levelUpMax": "最大レベル！"
 }

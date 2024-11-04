@@ -4216,5 +4216,6 @@
   "description.cropCircle": "Çiftliğinizde görünen gizemli bir daire... ne anlama gelebilir?",
   "description.omnifeed": "Tüm hayvanlar için en iyi yem görevi görür.",
   "description.brush": "Hayvan Fırçası. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
-  "description.music.box": "Hayvanlara müzik çalar. Bunu hayvanlarınıza şefkat göstermek için kullanın."
+  "description.music.box": "Hayvanlara müzik çalar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
+  "levelUpMax": "Maksimum Seviye!"
 }

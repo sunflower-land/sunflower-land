@@ -4216,5 +4216,6 @@
   "description.cropCircle": "Ein mysteriöser Kreis, der auf deiner Farm erscheint... was könnte das bedeuten?",
   "description.omnifeed": "Es ist das beste Futter für alle Tiere.",
   "description.brush": "Tierbürste. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
-  "description.music.box": "Spielt Musik für Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen."
+  "description.music.box": "Spielt Musik für Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
+  "levelUpMax": "Maximales Level!"
 }

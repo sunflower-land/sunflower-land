@@ -4216,5 +4216,6 @@
   "description.cropCircle": "Un cercle mystérieux qui apparaît dans votre ferme... qu'est-ce que cela pourrait signifier ?",
   "description.omnifeed": "C'est le meilleur aliment pour tous les animaux.",
   "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
-  "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux."
+  "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
+  "levelUpMax": "Niveau maximum !"
 }
