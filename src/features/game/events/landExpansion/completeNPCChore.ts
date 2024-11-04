@@ -109,10 +109,22 @@ export function generateChoreRewards({
   }
 
   if (
-    getCurrentSeason(now) === "Bull Run" &&
-    (isWearableActive({ game, name: "Cowboy Hat" }) ||
-      isWearableActive({ game, name: "Cowboy Shirt" }) ||
-      isWearableActive({ game, name: "Cowboy Trouser" }))
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Hat" })
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Shirt" })
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Trouser" })
   ) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
   }
