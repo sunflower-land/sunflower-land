@@ -1520,7 +1520,6 @@
   "description.sunflower.key": "Der Sonnenblumenschlüssel",
   "description.ancient.goblin.sword": "Ein uraltes Goblinschwert",
   "description.ancient.human.warhammer": "Ein uralter menschlicher Kriegshammer",
-  "description.community.coin": "(WIP) Eine wertvolle Münze, die gegen Prämien eingetauscht werden kann",
   "description.bud.seedling": "(LEGACY) Ein Sämling, der gegen einen kostenlosen Bud NFT eingetauscht werden soll",
   "description.gold.pass": "(LEGACY) Ein exklusiver Pass, der es dem Inhaber ermöglicht, seltene NFTs herzustellen, zu handeln, abzuheben und auf Bonusinhalte zuzugreifen.",
   "description.rapid.growth": "(LEGACY) Auf eine Pflanze auftragen, um doppelt so schnell zu wachsen",
@@ -4217,5 +4216,6 @@
   "description.brush": "Tierbürste. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "description.music.box": "Spielt Musik für Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "levelUpMax": "Maximales Level!",
-  "birdieplaza.choresAndRewards": "Du kannst auch {{seasonalTicket}} s durch wöchentliche Aufgaben, tägliche Truhenbelohnungen, Bert's Odd Obsession und das Kopfgeldsystem verdienen!"
+  "birdieplaza.choresAndRewards": "Du kannst auch {{seasonalTicket}} s durch wöchentliche Aufgaben, tägliche Truhenbelohnungen, Bert's Odd Obsession und das Kopfgeldsystem verdienen!",
+  "description.community.coin": "(WIP) Eine wertvolle Münze, die für die zukünftige Verwendung in Sunflower Land reserviert ist."
 }

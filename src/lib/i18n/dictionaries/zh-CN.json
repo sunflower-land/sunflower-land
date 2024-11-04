@@ -2152,7 +2152,6 @@
   "description.sunflower.key": "Sunflower 钥匙",
   "description.ancient.goblin.sword": "古老的 Goblin 宝剑",
   "description.ancient.human.warhammer": "古老的人类战锤",
-  "description.community.coin": "（待完善）可以用于兑换奖励的宝贵硬币",
   "description.bud.seedling": "（往期）用于兑换免费蕾芽 Nft 的幼苗",
   "description.gold.pass": "（往期）允许持有者锻造稀有 NFT、交易、提现与享受额外内容的独家票券。",
   "description.rapid.growth": "（往期）施加给庄稼让生长速度翻倍",
@@ -4217,5 +4216,6 @@
   "description.brush": "动物画笔。用它来表达对动物的爱意。",
   "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
   "levelUpMax": "最高等级！",
-  "birdieplaza.choresAndRewards": "你还可以通过每周琐事、每日宝箱奖励、伯特的 Odd Obsession 和赏金系统获得 {{seasonalTicket}} s！"
+  "birdieplaza.choresAndRewards": "你还可以通过每周琐事、每日宝箱奖励、伯特的 Odd Obsession 和赏金系统获得 {{seasonalTicket}} s！",
+  "description.community.coin": "(WIP) 一枚有价值的硬币，留待将来在向日葵之地使用。"
 }

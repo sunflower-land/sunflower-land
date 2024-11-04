@@ -1520,7 +1520,6 @@
   "description.sunflower.key": "Kunci Bunga Matahari",
   "description.ancient.goblin.sword": "Pedang Goblin Kuno",
   "description.ancient.human.warhammer": "Warhammer Manusia Kuno",
-  "description.community.coin": "(WIP) Koin bernilai yang dapat ditukar dengan hadiah",
   "description.bud.seedling": "(LEGACY) Bibit yang akan ditukar dengan NFT Bud gratis",
   "description.gold.pass": "(LEGACY) Pass eksklusif yang memungkinkan pemegangnya membuat NFT langka, berdagang, menarik, dan mengakses konten bonus.",
   "description.rapid.growth": "(LEGACY) Oleskan ke tanaman untuk tumbuh dua kali lebih cepat",
@@ -4217,5 +4216,6 @@
   "description.brush": "Sikat Hewan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
   "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
   "levelUpMax": "Tingkat Maks!",
-  "birdieplaza.choresAndRewards": "Anda juga bisa mendapatkan {{seasonalTicket}} s dengan tugas mingguan, hadiah peti harian, Obsesi Aneh Bert, dan sistem hadiah!"
+  "birdieplaza.choresAndRewards": "Anda juga bisa mendapatkan {{seasonalTicket}} s dengan tugas mingguan, hadiah peti harian, Obsesi Aneh Bert, dan sistem hadiah!",
+  "description.community.coin": "(WIP) Koin bernilai yang disediakan untuk digunakan di masa mendatang di Sunflower Land."
 }

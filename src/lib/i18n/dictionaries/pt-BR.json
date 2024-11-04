@@ -982,7 +982,6 @@
   "description.sunflower.key": "A Chave do Girassol",
   "description.ancient.goblin.sword": "Uma Antiga Espada de Goblin",
   "description.ancient.human.warhammer": "Um Antigo Martelo de Guerra Humano",
-  "description.community.coin": "(WIP) Uma moeda valiosa que pode ser trocada por recompensas",
   "description.bud.seedling": "(LEGACY) Uma muda a ser trocada por um Bud NFT gratuito",
   "description.gold.pass": "(LEGACY) Um passe exclusivo que permite ao portador criar NFTs raros, negociar, sacar e acessar conteúdo bônus.",
   "description.rapid.growth": "(LEGACY) Aplique em uma cultura para crescer duas vezes mais rápido",
@@ -4217,5 +4216,6 @@
   "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
   "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
   "levelUpMax": "Nível máximo!",
-  "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s por meio de tarefas semanais, recompensas diárias no baú, Bert's Odd Obsession e sistema de recompensas!"
+  "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s por meio de tarefas semanais, recompensas diárias no baú, Bert's Odd Obsession e sistema de recompensas!",
+  "description.community.coin": "(WIP) Uma moeda valiosa reservada para uso futuro em Sunflower Land."
 }

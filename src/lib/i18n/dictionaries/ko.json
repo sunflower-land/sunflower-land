@@ -1520,7 +1520,6 @@
   "description.sunflower.key": "선플라워 키",
   "description.ancient.goblin.sword": "고대 고블린 검",
   "description.ancient.human.warhammer": "고대 인간 워해머",
-  "description.community.coin": "(WIP) 보상으로 교환할 수 있는 가치 있는 코인",
   "description.bud.seedling": "(레거시) 무료 버드 NFT로 교환할 묘목",
   "description.gold.pass": "(LEGACY) 보유자가 희귀 NFT를 제작하고, 거래, 출금하고, 보너스 콘텐츠를 이용할 수 있는 전용 패스입니다.",
   "description.rapid.growth": "(레거시) 작물에 바르면 두 배 빨리 자랍니다.",
@@ -4217,5 +4216,6 @@
   "description.brush": "애니멀 브러쉬.이 제품을 사용해 동물에게 애정을 표현하세요.",
   "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
   "levelUpMax": "최대 레벨!",
-  "birdieplaza.choresAndRewards": "또한 주간 집안일, 일일 상자 보상, 버트의 이상한 집착, 현상금 시스템을 통해서도 {{seasonalTicket}} 를 얻을 수 있습니다!"
+  "birdieplaza.choresAndRewards": "또한 주간 집안일, 일일 상자 보상, 버트의 이상한 집착, 현상금 시스템을 통해서도 {{seasonalTicket}} 를 얻을 수 있습니다!",
+  "description.community.coin": "(WIP) 선플라워 랜드에서 나중에 사용할 수 있도록 예약되어 있는 가치 있는 주화입니다."
 }

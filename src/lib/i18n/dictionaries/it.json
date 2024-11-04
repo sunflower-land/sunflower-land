@@ -1503,7 +1503,6 @@
   "description.sunflower.key": "La chiave del girasole",
   "description.ancient.goblin.sword": "Un'antica spada Goblin",
   "description.ancient.human.warhammer": "Un antico martello da guerra umano",
-  "description.community.coin": "(WIP) Una moneta di valore che può essere scambiata con premi",
   "description.bud.seedling": "(LEGACY) Una piantina da scambiare con un Bud NFT gratuito",
   "description.gold.pass": "(LEGACY) Un pass esclusivo che consente al titolare di creare NFT rari, scambiare, prelevare e accedere a contenuti bonus.",
   "description.rapid.growth": "(LEGACY) Applicalo su una coltura per crescere due volte più velocemente",
@@ -4217,5 +4216,6 @@
   "description.brush": "Spazzola per animali. Usalo per mostrare affetto ai tuoi animali.",
   "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
   "levelUpMax": "Livello massimo!",
-  "birdieplaza.choresAndRewards": "Puoi guadagnare {{seasonalTicket}} anche con le faccende settimanali, i premi giornalieri per i bauli, la strana ossessione di Bert e il sistema di ricompense!"
+  "birdieplaza.choresAndRewards": "Puoi guadagnare {{seasonalTicket}} anche con le faccende settimanali, i premi giornalieri per i bauli, la strana ossessione di Bert e il sistema di ricompense!",
+  "description.community.coin": "(WIP) Una moneta di valore riservata per un uso futuro a Sunflower Land."
 }

@@ -1520,7 +1520,6 @@
   "description.sunflower.key": "ザ・サンフラワー・キー",
   "description.ancient.goblin.sword": "古代のゴブリンの剣",
   "description.ancient.human.warhammer": "古代の人間のウォーハンマー",
-  "description.community.coin": "(WIP) 報酬と交換できる価値のあるコイン",
   "description.bud.seedling": "(レガシー) 苗木を1本無料でバドNFTに交換できます",
   "description.gold.pass": "（レガシー）所有者がレアなNFTの作成、取引、出金、ボーナスコンテンツへのアクセスを可能にする専用パス。",
   "description.rapid.growth": "（レガシー）作物に塗布すると、2倍の速さで成長します",
@@ -4217,5 +4216,6 @@
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
   "levelUpMax": "最大レベル！",
-  "birdieplaza.choresAndRewards": "また、毎週の雑用、毎日のチェスト報酬、バートのオッドオブセッション、バウンティシステムによって {{seasonalTicket}} を獲得することもできます！"
+  "birdieplaza.choresAndRewards": "また、毎週の雑用、毎日のチェスト報酬、バートのオッドオブセッション、バウンティシステムによって {{seasonalTicket}} を獲得することもできます！",
+  "description.community.coin": "(WIP) 将来サンフラワーランドで使えるように予約されている貴重なコイン。"
 }
