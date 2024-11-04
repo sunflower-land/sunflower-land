@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -13,10 +13,23 @@ export const InfoPopover: React.FC<Props> = ({
   children,
   className,
 }) => {
+  const [content, setContent] = useState(children);
+
+  useEffect(() => {
+    if (showPopover) {
+      setContent(children);
+    } else {
+      const timer = setTimeout(() => {
+        setContent(null);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopover, children]);
+
   return (
     <InnerPanel
       className={classNames(
-        "transition-opacity absolute w-fit z-50 pointer-events-none",
+        "transition-opacity duration-200 absolute w-fit z-50 pointer-events-none",
         className,
         {
           "opacity-100": showPopover,
@@ -24,7 +37,7 @@ export const InfoPopover: React.FC<Props> = ({
         },
       )}
     >
-      {children}
+      {content}
     </InnerPanel>
   );
 };
