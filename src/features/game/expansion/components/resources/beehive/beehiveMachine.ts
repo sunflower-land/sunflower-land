@@ -103,6 +103,7 @@ export const beehiveMachine = createMachine<
   BeehiveState
 >(
   {
+    predictableActionArguments: true,
     id: "beehive",
     preserveActionOrder: true,
     initial: "prepareHive",

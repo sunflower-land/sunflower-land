@@ -4224,9 +4224,7 @@
   "description.toxic.tuft": "A mutated sheep whose toxic fleece produces the finest merino wool in the land!",
   "description.mootant": "This genetically enhanced bovine here to boost your leather production!",
   "description.cropCircle": "A mysterious circle that appears on your farm...what could it mean?",
-<<<<<<< HEAD
-  "whatsOn.auction.tickets": "No horseshoes from chores and bounties this week."
-=======
+  "whatsOn.auction.tickets": "No horseshoes from chores and bounties this week.",
   "description.cheese": "A delicious dairy delight made from fresh milk",
   "description.pizzaMargherita": "A classic Italian pizza with tomatoes and cheese",
   "description.blueCheese": "A strong flavored cheese with blue mold",
@@ -4235,5 +4233,4 @@
   "description.sourShake": "A tangy and refreshing lemon drink",
   "description.spaghettiLimone": "A zesty pasta dish with lemon and cheese",
   "description.lemonCheesecake": "A creamy cheesecake with a citrus twist"
->>>>>>> c7c679e69 ([FEAT] Add new recipes)
 }
