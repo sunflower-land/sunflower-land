@@ -16,16 +16,27 @@ describe("canremove", () => {
     });
 
     it("prevents a user from removing mutant chickens if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rich Chicken", "1", {
-        ...TEST_FARM,
-        inventory: {
-          "Rich Chicken": new Decimal(1),
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
+      const [restricted] = hasRemoveRestriction("Rich Chicken", "123", {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
           },
+        },
+        collectibles: {
+          "Rich Chicken": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
         },
       });
 
@@ -49,45 +60,28 @@ describe("canremove", () => {
       expect(restricted).toBe(true);
     });
 
-    it("prevents a user from removing Bale if some chicken is fed and within AoE", () => {
-      const [restricted] = hasRemoveRestriction("Bale", "1", {
-        ...TEST_FARM,
-        inventory: {
-          Bale: new Decimal(1),
+    it("prevents a user from removing rooster if some chicken is fed", () => {
+      const [restricted] = hasRemoveRestriction("Rooster", "123", {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
         },
         collectibles: {
-          Bale: [
+          Rooster: [
             {
-              id: "123",
-              coordinates: { x: 0, y: 0 },
+              coordinates: { x: 1, y: 1 },
               createdAt: 0,
+              id: "123",
               readyAt: 0,
             },
           ],
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
-            coordinates: { x: -1, y: 0 },
-          },
-        },
-      });
-
-      expect(restricted).toBe(true);
-    });
-
-    it("prevents a user from removing rooster if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rooster", "1", {
-        ...TEST_FARM,
-        inventory: {
-          Rooster: new Decimal(1),
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
-          },
         },
       });
 

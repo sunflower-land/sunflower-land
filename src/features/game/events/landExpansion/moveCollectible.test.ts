@@ -190,40 +190,4 @@ describe("moveCollectible", () => {
       },
     ]);
   });
-
-  it("throws when trying to move Bale with chickens fed", () => {
-    const dateNow = Date.now();
-
-    expect(() =>
-      moveCollectible({
-        state: {
-          ...GAME_STATE,
-          chickens: {
-            0: {
-              fedAt: dateNow,
-              multiplier: 1,
-            },
-          },
-          collectibles: {
-            Bale: [
-              {
-                id: "123",
-                coordinates: { x: 1, y: 1 },
-                createdAt: 0,
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        action: {
-          type: "collectible.moved",
-          name: "Bale",
-          id: "123",
-          coordinates: { x: 2, y: 2 },
-          location: "farm",
-        },
-        createdAt: dateNow,
-      }),
-    ).toThrow("Chickens are fed");
-  });
 });
