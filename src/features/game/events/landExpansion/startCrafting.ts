@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
 import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
+import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { availableWardrobe } from "./equip";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -55,7 +57,12 @@ export function startCrafting({
         if (ingredient.collectible) {
           const inventoryCount =
             copy.inventory[ingredient.collectible] ?? new Decimal(0);
-          if (inventoryCount.lte(1)) {
+
+          const placedCount =
+            copy.collectibles[ingredient.collectible as CollectibleName]
+              ?.length ?? 0;
+
+          if (inventoryCount.sub(placedCount).lt(1)) {
             throw new Error(
               "You do not have the ingredients to craft this item",
             );
@@ -65,7 +72,10 @@ export function startCrafting({
 
         if (ingredient.wearable) {
           const wardrobeCount = copy.wardrobe[ingredient.wearable] ?? 0;
-          if (wardrobeCount <= 1) {
+          const available = availableWardrobe(copy);
+          const availableWardrobeCount = available[ingredient.wearable] ?? 0;
+
+          if (availableWardrobeCount < 1) {
             throw new Error(
               "You do not have the ingredients to craft this item",
             );
@@ -88,6 +98,8 @@ export function startCrafting({
         [recipe.name]: recipe,
       },
     };
+
+    return copy;
   });
 }
 
