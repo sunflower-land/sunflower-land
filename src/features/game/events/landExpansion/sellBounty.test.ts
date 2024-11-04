@@ -142,6 +142,33 @@ describe("sellBounty", () => {
     expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
   });
 
+  it("rewards +1 Horseshoe when Cowboy Hat is worn during Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const action: SellBountyAction = {
+      type: "bounty.sold",
+      requestId: "3",
+    };
+
+    const result = sellBounty({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+          },
+        },
+      },
+      action,
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
   it("rewards +1 Horseshoe when Cowboy Shirt is worn during Bull Run Season", () => {
     const mockDate = new Date(2024, 11, 11);
     jest.useFakeTimers();
@@ -159,6 +186,33 @@ describe("sellBounty", () => {
           equipped: {
             ...INITIAL_BUMPKIN.equipped,
             shirt: "Cowboy Shirt",
+          },
+        },
+      },
+      action,
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("rewards +1 Horseshoe when Cowboy Trouser is worn during Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const action: SellBountyAction = {
+      type: "bounty.sold",
+      requestId: "3",
+    };
+
+    const result = sellBounty({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            pants: "Cowboy Trouser",
           },
         },
       },
