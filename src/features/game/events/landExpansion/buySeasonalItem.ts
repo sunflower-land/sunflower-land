@@ -10,6 +10,7 @@ import {
   SeasonalStore,
   SeasonalStoreCollectible,
   SeasonalStoreItem,
+  SeasonalStoreTier,
 } from "features/game/types/megastore";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -23,7 +24,7 @@ export function isCollectible(
 export type BuySeasonalItemAction = {
   type: "seasonalItem.bought";
   name: BumpkinItem | InventoryItemName;
-  tier: keyof SeasonalStore;
+  tier: SeasonalStoreTier;
 };
 
 type Options = {
@@ -105,6 +106,13 @@ export function buySeasonalItem({
           "You need to buy more basic and rare items to unlock epic items",
         );
       }
+
+      if (
+        tier === "mega" &&
+        seasonalItemsCrafted - reduction < seasonalStore.epic.requirement
+      ) {
+        throw new Error("You need to buy more epic items to unlock mega items");
+      }
     }
 
     // Check if player has enough resources
@@ -181,11 +189,13 @@ export function isKeyBoughtWithinSeason(
       ? "Treasure Key"
       : isLowerTier && tier === "epic"
         ? "Rare Key"
-        : tier === "basic"
-          ? "Treasure Key"
-          : tier === "rare"
-            ? "Rare Key"
-            : "Luxury Key";
+        : isLowerTier && tier === "mega"
+          ? "Luxury Key"
+          : tier === "basic"
+            ? "Treasure Key"
+            : tier === "rare"
+              ? "Rare Key"
+              : "Luxury Key";
 
   const keyBoughtAt =
     game.pumpkinPlaza.keysBought?.megastore[tierKey as Keys]?.boughtAt;
