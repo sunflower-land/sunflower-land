@@ -37,6 +37,7 @@ export function speedUpCollectible({
     const gems = getInstantGems({
       readyAt: collectible.readyAt,
       now: createdAt,
+      game,
     });
 
     if (!game.inventory["Gem"]?.gte(gems)) {

@@ -15,11 +15,15 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import {
   canRestockShipment,
   nextShipmentAt,
+  SHIPMENT_STOCK,
 } from "features/game/events/landExpansion/shipmentRestocked";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import confetti from "canvas-confetti";
+import { Box } from "components/ui/Box";
+import Decimal from "decimal.js-light";
+import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -51,7 +55,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
     return (
       <>
         <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
-          <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES.betty}>
+          <Panel className="sm:w-4/5 m-auto">
             <ExperimentRestockModal onClose={() => setShowConfirm(false)} />
           </Panel>
         </Modal>
@@ -156,6 +160,17 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
+      <div className="mt-1 flex flex-wrap h-40 scrollable overflow-y-scroll">
+        {Object.entries(INITIAL_STOCK(gameState.context.state)).map(
+          ([item, amount]) => (
+            <Box
+              key={item}
+              count={new Decimal(amount)}
+              image={ITEM_DETAILS[item as StockableName].image}
+            />
+          ),
+        )}
+      </div>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
         <Button className="relative" onClick={handleRestock}>
@@ -227,6 +242,18 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
           </Label>
           <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
         </div>
+        <div className="mt-1 flex flex-wrap">
+          {Object.entries(SHIPMENT_STOCK).map(([item, amount]) => (
+            <Box
+              key={item}
+              count={new Decimal(amount)}
+              image={ITEM_DETAILS[item as StockableName].image}
+            />
+          ))}
+        </div>
+        <p className="text-xs p-1 pb-1.5 italic">
+          {`(${t("gems.shipment.useGems")})`}
+        </p>
         <div className="flex">
           <Button className="mr-1" onClick={onClose}>
             {t("close")}
@@ -251,6 +278,17 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
         </div>
 
         <p className="mb-1">{t("gems.buyReplenish")}</p>
+      </div>
+      <div className="mt-1 flex flex-wrap h-40 scrollable overflow-y-scroll">
+        {Object.entries(INITIAL_STOCK(gameState.context.state)).map(
+          ([item, amount]) => (
+            <Box
+              key={item}
+              count={new Decimal(amount)}
+              image={ITEM_DETAILS[item as StockableName].image}
+            />
+          ),
+        )}
       </div>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>

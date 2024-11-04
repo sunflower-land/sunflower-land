@@ -37,6 +37,7 @@ export function speedUpBuilding({
     const gems = getInstantGems({
       readyAt: building.readyAt,
       now: createdAt,
+      game,
     });
 
     if (!game.inventory["Gem"]?.gte(gems)) {

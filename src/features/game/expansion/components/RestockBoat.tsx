@@ -1,10 +1,13 @@
 import React, { useContext, useState } from "react";
 import boat from "assets/decorations/restock_boat.png";
 import { MapPlacement } from "./MapPlacement";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, StockableName } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { canRestockShipment } from "features/game/events/landExpansion/shipmentRestocked";
+import {
+  canRestockShipment,
+  SHIPMENT_STOCK,
+} from "features/game/events/landExpansion/shipmentRestocked";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { Label } from "components/ui/Label";
@@ -14,6 +17,9 @@ import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Decimal } from "decimal.js-light";
+import { Box } from "components/ui/Box";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
@@ -66,6 +72,15 @@ export const RestockBoat: React.FC = () => {
             </Label>
             <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
             <p className="text-sm mb-2">{t("gems.shipment.shops")}</p>
+          </div>
+          <div className="mt-1 flex flex-wrap">
+            {Object.entries(SHIPMENT_STOCK).map(([item, amount]) => (
+              <Box
+                key={item}
+                count={new Decimal(amount)}
+                image={ITEM_DETAILS[item as StockableName].image}
+              />
+            ))}
           </div>
           <Button
             onClick={() => {

@@ -1268,6 +1268,10 @@ export interface GameState {
     restockedAt?: number;
   };
 
+  gems: {
+    history?: Record<string, { spent: number }>;
+  };
+
   // There are more fields but unused
   transaction?: GameTransaction;
 

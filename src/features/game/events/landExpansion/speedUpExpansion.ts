@@ -29,7 +29,11 @@ export function speedUpExpansion({
       throw new Error("Expansion already complete");
     }
 
-    const gems = getInstantGems({ readyAt: expansion.readyAt, now: createdAt });
+    const gems = getInstantGems({
+      readyAt: expansion.readyAt,
+      now: createdAt,
+      game,
+    });
 
     if (!game.inventory["Gem"]?.gte(gems)) {
       throw new Error("Insufficient Gems");

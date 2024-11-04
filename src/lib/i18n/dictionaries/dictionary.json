@@ -4233,5 +4233,6 @@
   "description.capreseSalad": "A fresh salad with cheese, tomatoes and kale",
   "description.sourShake": "A tangy and refreshing lemon drink",
   "description.spaghettiLimone": "A zesty pasta dish with lemon and cheese",
-  "description.lemonCheesecake": "A creamy cheesecake with a citrus twist"
+  "description.lemonCheesecake": "A creamy cheesecake with a citrus twist",
+  "gems.shipment.useGems": "Use Gems to unlock more stock"
 }

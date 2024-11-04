@@ -36,20 +36,34 @@ const SECONDS_TO_GEMS = {
 export function getInstantGems({
   readyAt,
   now = Date.now(),
+  game,
 }: {
   readyAt: number;
   now?: number;
+  game: GameState;
 }) {
   const secondsLeft = (readyAt - now) / 1000;
 
   const thresholds = getKeys(SECONDS_TO_GEMS);
+
+  let gems = 100;
+
   for (let i = 0; i < thresholds.length; i++) {
     if (thresholds[i] >= secondsLeft) {
-      return SECONDS_TO_GEMS[thresholds[i]];
+      gems = SECONDS_TO_GEMS[thresholds[i]];
+      break;
     }
   }
 
-  return 100;
+  const today = new Date(now).toISOString().substring(0, 10);
+  const gemsSpentToday = game.gems.history?.[today]?.spent ?? 0;
+
+  if (gemsSpentToday >= 100) {
+    const multiplier = Math.floor(gemsSpentToday / 100);
+    gems += Math.floor(0.2 * multiplier * gems);
+  }
+
+  return gems;
 }
 
 export function speedUpRecipe({
@@ -75,7 +89,11 @@ export function speedUpRecipe({
       throw new Error("Already cooked");
     }
 
-    const gems = getInstantGems({ readyAt: recipe.readyAt, now: createdAt });
+    const gems = getInstantGems({
+      readyAt: recipe.readyAt,
+      now: createdAt,
+      game,
+    });
 
     if (!game.inventory["Gem"]?.gte(gems)) {
       throw new Error("Insufficient gems");
