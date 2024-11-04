@@ -22,7 +22,8 @@ type FirePitCookableName =
   | "Gumbo"
   | "Antipasto"
   | "Rice Bun"
-  | "Fried Tofu";
+  | "Fried Tofu"
+  | "Pizza Margherita";
 
 type KitchenCookableName =
   | "Beetroot Blaze"
@@ -47,13 +48,16 @@ type KitchenCookableName =
   | "Ocean's Olive"
   | "Seafood Basket"
   | "Fish n Chips"
-  | "Sushi Roll";
+  | "Sushi Roll"
+  | "Caprese Salad"
+  | "Spaghetti al Limone";
 
 type BakeryCookableName =
   | CakeName
   | "Apple Pie"
   | "Kale & Mushroom Pie"
-  | "Cornbread";
+  | "Cornbread"
+  | "Lemon Cheesecake";
 
 type DeliCookableName =
   | "Shroom Syrup"
@@ -61,7 +65,10 @@ type DeliCookableName =
   | "Fermented Carrots"
   | "Sauerkraut"
   | "Fancy Fries"
-  | "Fermented Fish";
+  | "Fermented Fish"
+  | "Cheese"
+  | "Blue Cheese"
+  | "Honey Cheddar";
 
 type JuiceName =
   | "Apple Juice"
@@ -74,7 +81,8 @@ type JuiceName =
   | "Quick Juice"
   | "Slow Juice"
   | "The Lot"
-  | "Carrot Juice";
+  | "Carrot Juice"
+  | "Sour Shake";
 
 type FishCookableName =
   | "Chowder"
@@ -278,6 +286,18 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     ingredients: {
       Olive: new Decimal(2),
       Grape: new Decimal(2),
+    },
+  },
+  "Pizza Margherita": {
+    name: "Pizza Margherita",
+    description: translate("description.pizzaMargherita"),
+    building: "Fire Pit",
+    experience: 5000,
+    cookingSeconds: 6 * 60 * 60,
+    ingredients: {
+      Tomato: new Decimal(30),
+      Cheese: new Decimal(5),
+      Wheat: new Decimal(20),
     },
   },
 };
@@ -548,6 +568,30 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
       Rice: new Decimal(2),
     },
   },
+  "Caprese Salad": {
+    name: "Caprese Salad",
+    description: translate("description.capreseSalad"),
+    building: "Kitchen",
+    experience: 4000,
+    cookingSeconds: 2 * 60 * 60,
+    ingredients: {
+      Cheese: new Decimal(3),
+      Tomato: new Decimal(25),
+      Kale: new Decimal(20),
+    },
+  },
+  "Spaghetti al Limone": {
+    name: "Spaghetti al Limone",
+    description: translate("description.spaghettiLimone"),
+    building: "Kitchen",
+    experience: 5000,
+    cookingSeconds: 4 * 60 * 60,
+    ingredients: {
+      Wheat: new Decimal(20),
+      Lemon: new Decimal(10),
+      Cheese: new Decimal(5),
+    },
+  },
 };
 
 export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
@@ -742,6 +786,18 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
       Egg: new Decimal(30),
     },
   },
+  "Lemon Cheesecake": {
+    name: "Lemon Cheesecake",
+    description: translate("description.lemonCheesecake"),
+    building: "Bakery",
+    experience: 6000,
+    cookingSeconds: 10 * 60 * 60,
+    ingredients: {
+      Lemon: new Decimal(20),
+      Cheese: new Decimal(5),
+      Egg: new Decimal(20),
+    },
+  },
 };
 
 export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
@@ -805,6 +861,38 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
     ingredients: {
       "Magic Mushroom": new Decimal(3),
       Honey: new Decimal(20),
+    },
+  },
+  Cheese: {
+    name: "Cheese",
+    description: translate("description.cheese"),
+    building: "Deli",
+    experience: 0,
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Milk: new Decimal(3),
+    },
+  },
+  "Blue Cheese": {
+    name: "Blue Cheese",
+    description: translate("description.blueCheese"),
+    building: "Deli",
+    experience: 3000,
+    cookingSeconds: 3 * 60 * 60,
+    ingredients: {
+      Cheese: new Decimal(2),
+      Blueberry: new Decimal(10),
+    },
+  },
+  "Honey Cheddar": {
+    name: "Honey Cheddar",
+    description: translate("description.honeyCheddar"),
+    building: "Deli",
+    experience: 7000,
+    cookingSeconds: 6 * 60 * 60,
+    ingredients: {
+      Cheese: new Decimal(5),
+      Honey: new Decimal(5),
     },
   },
 };
@@ -930,6 +1018,16 @@ export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
     ingredients: {
       Grape: new Decimal(10),
       Kale: new Decimal(100),
+    },
+  },
+  "Sour Shake": {
+    name: "Sour Shake",
+    description: translate("description.sourShake"),
+    building: "Smoothie Shack",
+    experience: 1000,
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Lemon: new Decimal(20),
     },
   },
 };

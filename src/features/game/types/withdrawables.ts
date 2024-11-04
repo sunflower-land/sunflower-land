@@ -610,6 +610,14 @@ const consumables: Record<ConsumableName, () => boolean> = {
   "The Lot": () => false,
   "Tofu Scramble": () => false,
   Antipasto: () => false,
+  Cheese: () => false,
+  "Pizza Margherita": () => false,
+  "Blue Cheese": () => false,
+  "Honey Cheddar": () => false,
+  "Caprese Salad": () => false,
+  "Sour Shake": () => false,
+  "Spaghetti al Limone": () => false,
+  "Lemon Cheesecake": () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
