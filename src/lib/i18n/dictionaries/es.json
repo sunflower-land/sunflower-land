@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "¡Coloca camas para contratar más peones!",
   "farmHand": "Mano de granja",
   "description.petting.hand": "Animales de compañía. Utilízalo para mostrar afecto a tus animales.",
-  "description.brush": "Cepillo para animales. Utilízalo para demostrar afecto a tus animales.",
-  "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales.",
   "animal.toolRequired": "{{tool}} Obligatorio",
   "description.gold.egg.boost": "Alimenta a los pollos gratis",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 Herraduras",
   "season.codex.howToEarn.comingSoon": "¡Gana herraduras con las tareas, las entregas y las recompensas!",
   "description.cropCircle": "Un círculo misterioso que aparece en tu granja... ¿qué podría significar?",
-  "description.omnifeed": "Actúa como el mejor alimento para todos los animales."
+  "description.omnifeed": "Actúa como el mejor alimento para todos los animales.",
+  "description.brush": "Cepillo para animales. Utilízalo para mostrar afecto a tus animales.",
+  "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales."
 }

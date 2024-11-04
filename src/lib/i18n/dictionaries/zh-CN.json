@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "放置床位以雇用更多的农民！",
   "farmHand": "农场之手",
   "description.petting.hand": "宠物动物。用它来表达对动物的爱意。",
-  "description.brush": "动物画笔。用它来表达对动物的爱意。",
-  "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
   "animal.toolRequired": "{{tool}} 必填项",
   "description.gold.egg.boost": "免费喂鸡",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 马蹄铁",
   "season.codex.howToEarn.comingSoon": "从杂务、送货和赏金中赚取马蹄铁！",
   "description.cropCircle": "你的农场里出现了一个神秘的圆圈... 这可能意味着什么？",
-  "description.omnifeed": "是所有动物的最佳饲料。"
+  "description.omnifeed": "是所有动物的最佳饲料。",
+  "description.brush": "动物画笔。用它来表达对动物的爱意。",
+  "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。"
 }

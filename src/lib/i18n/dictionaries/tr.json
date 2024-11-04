@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "Daha fazla çiftçi kiralamak için yatak yerleştirin!",
   "farmHand": "Çiftlik El",
   "description.petting.hand": "Evcil hayvanlar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
-  "description.brush": "Hayvan Fırçası. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
-  "description.music.box": "Hayvanlara müzik çalar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
   "animal.toolRequired": "{{tool}} Gerekli",
   "description.gold.egg.boost": "Tavukları ücretsiz besleyin",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 Horseshoes",
   "season.codex.howToEarn.comingSoon": "Ev işleri, teslimatlar ve ödüllerden at nalı kazanın!",
   "description.cropCircle": "Çiftliğinizde görünen gizemli bir daire... ne anlama gelebilir?",
-  "description.omnifeed": "Tüm hayvanlar için en iyi yem görevi görür."
+  "description.omnifeed": "Tüm hayvanlar için en iyi yem görevi görür.",
+  "description.brush": "Hayvan Fırçası. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
+  "description.music.box": "Hayvanlara müzik çalar. Bunu hayvanlarınıza şefkat göstermek için kullanın."
 }

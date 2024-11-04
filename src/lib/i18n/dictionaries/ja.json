@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "ベッドを置いて農夫をもっと雇おう！",
   "farmHand": "ファームハンド",
   "description.petting.hand": "ペット、動物。これを使って動物への愛情を示しましょう。",
-  "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
-  "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
   "animal.toolRequired": "{{tool}} が必要です",
   "description.gold.egg.boost": "鶏に無料で餌をやる",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 ホースシュー",
   "season.codex.howToEarn.comingSoon": "家事、配達、賞金で馬蹄形を稼ごう！",
   "description.cropCircle": "農場に現れる不思議なサークル... どういう意味？",
-  "description.omnifeed": "すべての動物に最適な飼料として機能します。"
+  "description.omnifeed": "すべての動物に最適な飼料として機能します。",
+  "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
+  "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。"
 }

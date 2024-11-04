@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "Posiziona i letti per assumere altri braccianti agricoli!",
   "farmHand": "Mano della fattoria",
   "description.petting.hand": "Animali domestici. Usalo per mostrare affetto ai tuoi animali.",
-  "description.brush": "Spazzola per animali. Usalo per mostrare affetto ai tuoi animali.",
-  "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
   "animal.toolRequired": "{{tool}} Obbligatorio",
   "description.gold.egg.boost": "Dai da mangiare ai polli gratis",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 Ferri di cavallo",
   "season.codex.howToEarn.comingSoon": "Guadagna ferri di cavallo con faccende domestiche, consegne e ricompense!",
   "description.cropCircle": "Un cerchio misterioso che appare nella tua fattoria... cosa potrebbe significare?",
-  "description.omnifeed": "Agisce come il miglior mangime per tutti gli animali."
+  "description.omnifeed": "Agisce come il miglior mangime per tutti gli animali.",
+  "description.brush": "Spazzola per animali. Usalo per mostrare affetto ai tuoi animali.",
+  "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali."
 }

@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "Coloque camas para contratar mais fazendeiros!",
   "farmHand": "Farm Hand",
   "description.petting.hand": "Animais de estimação. Use isso para mostrar afeto aos seus animais.",
-  "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
-  "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
   "animal.toolRequired": "{{tool}} Obrigatório",
   "description.gold.egg.boost": "Alimente galinhas de graça",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 Ferraduras",
   "season.codex.howToEarn.comingSoon": "Ganhe ferraduras com tarefas, entregas e recompensas!",
   "description.cropCircle": "Um círculo misterioso que aparece em sua fazenda... o que isso poderia significar?",
-  "description.omnifeed": "Atua como o melhor alimento para todos os animais."
+  "description.omnifeed": "Atua como o melhor alimento para todos os animais.",
+  "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
+  "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais."
 }

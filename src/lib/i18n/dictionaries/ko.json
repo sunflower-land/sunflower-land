@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "더 많은 농부를 고용하려면 침대를 배치하세요!",
   "farmHand": "팜 핸드",
   "description.petting.hand": "애완 동물.이를 사용해 동물에게 애정을 표현하세요.",
-  "description.brush": "애니멀 브러쉬.이 제품을 사용해 동물에게 애정을 표현하세요.",
-  "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
   "animal.toolRequired": "{{tool}} 필수",
   "description.gold.egg.boost": "닭에게 무료로 먹이주기",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 호스슈즈",
   "season.codex.howToEarn.comingSoon": "집안일, 배달, 현상금으로 말굽을 획득하세요!",
   "description.cropCircle": "농장에 나타난 신비한 원... 무슨 뜻일까요?",
-  "description.omnifeed": "모든 동물에게 가장 좋은 사료로 작용합니다."
+  "description.omnifeed": "모든 동물에게 가장 좋은 사료로 작용합니다.",
+  "description.brush": "애니멀 브러쉬.이 제품을 사용해 동물에게 애정을 표현하세요.",
+  "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요."
 }

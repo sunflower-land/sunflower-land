@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "Tempatkan tempat tidur untuk menyewa lebih banyak petani!",
   "farmHand": "Tangan Pertanian",
   "description.petting.hand": "Hewan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
-  "description.brush": "Sikat Hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
-  "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
   "description.gold.egg.boost": "Beri makan ayam secara gratis",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 Horseshoes",
   "season.codex.howToEarn.comingSoon": "Dapatkan sepatu kuda dari pekerjaan rumah, pengiriman, dan hadiah!",
   "description.cropCircle": "Lingkaran misterius yang muncul di pertanian Anda... apa artinya?",
-  "description.omnifeed": "Bertindak sebagai pakan terbaik untuk semua hewan."
+  "description.omnifeed": "Bertindak sebagai pakan terbaik untuk semua hewan.",
+  "description.brush": "Sikat Hewan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
+  "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda."
 }

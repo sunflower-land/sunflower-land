@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "Placez des lits pour engager plus d'ouvriers agricoles !",
   "farmHand": "Farm Hand",
   "description.petting.hand": "Animaux de compagnie. Utilisez-le pour montrer de l'affection à vos animaux.",
-  "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
-  "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
   "animal.toolRequired": "{{tool}} Obligatoire",
   "description.gold.egg.boost": "Nourrissez les poulets gratuitement",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 Fers à cheval",
   "season.codex.howToEarn.comingSoon": "Gagnez des fers à cheval grâce aux corvées, aux livraisons et aux primes !",
   "description.cropCircle": "Un cercle mystérieux qui apparaît dans votre ferme... qu'est-ce que cela pourrait signifier ?",
-  "description.omnifeed": "C'est le meilleur aliment pour tous les animaux."
+  "description.omnifeed": "C'est le meilleur aliment pour tous les animaux.",
+  "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
+  "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux."
 }

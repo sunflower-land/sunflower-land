@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "Letakkan katil untuk menyewa lebih banyak petani ladang!",
   "farmHand": "Tangan Ladang",
   "description.petting.hand": "Haiwan haiwan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
-  "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
-  "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
   "description.gold.egg.boost": "Makan Ayam secara percuma",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 Horseshoes",
   "season.codex.howToEarn.comingSoon": "Dapatkan kuda dari kerja rumah, penghantaran dan hadiah!",
   "description.cropCircle": "Lingkaran misteri yang muncul di ladang anda... apa maksudnya?",
-  "description.omnifeed": "Bertindak sebagai makanan terbaik untuk semua haiwan."
+  "description.omnifeed": "Bertindak sebagai makanan terbaik untuk semua haiwan.",
+  "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
+  "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda."
 }

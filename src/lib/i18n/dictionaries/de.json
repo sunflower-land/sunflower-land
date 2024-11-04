@@ -4054,8 +4054,6 @@
   "bedsMigration.bedsNeededDescription2": "Platziere Betten, um mehr Landarbeiter einzustellen!",
   "farmHand": "Landarbeiter",
   "description.petting.hand": "Haustiere Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
-  "description.brush": "Tierbürste. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
-  "description.music.box": "Spielt Musik für Tiere. Benutze das, um deinen Tieren Zuneigung zu zeigen.",
   "animal.toolRequired": "{{tool}} Erforderlich",
   "description.gold.egg.boost": "Hühner kostenlos füttern",
   "easterEgg.halloweenBook": "?????",
@@ -4216,5 +4214,7 @@
   "description.cowboyTrouser.boost": "+1 Hufeisen",
   "season.codex.howToEarn.comingSoon": "Verdiene Hufeisen durch Hausarbeiten, Lieferungen und Kopfgelder!",
   "description.cropCircle": "Ein mysteriöser Kreis, der auf deiner Farm erscheint... was könnte das bedeuten?",
-  "description.omnifeed": "Es ist das beste Futter für alle Tiere."
+  "description.omnifeed": "Es ist das beste Futter für alle Tiere.",
+  "description.brush": "Tierbürste. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
+  "description.music.box": "Spielt Musik für Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen."
 }
