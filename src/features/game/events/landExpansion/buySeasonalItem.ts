@@ -200,15 +200,18 @@ export function isKeyBoughtWithinSeason(
   const keyBoughtAt =
     game.pumpkinPlaza.keysBought?.megastore[tierKey as Keys]?.boughtAt;
   const seasonTime = SEASONS[getCurrentSeason()];
+  //If player has no history of buying keys at megastore
+  if (!keyBoughtAt && isLowerTier) return true;
 
+  // Returns false if key is bought outside current season, otherwise, true
   if (keyBoughtAt) {
     const isWithinSeason =
       new Date(keyBoughtAt) >= seasonTime.startDate &&
       new Date(keyBoughtAt) <= seasonTime.endDate;
-
     return isWithinSeason;
   }
 
+  // This will only be triggered if isLowerTier is false
   return false;
 }
 
