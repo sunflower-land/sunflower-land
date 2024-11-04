@@ -317,6 +317,42 @@ describe("completeNPCChore", () => {
     expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(2));
   });
 
+  it("stacks Cowboy Set boost at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hat: "Cowboy Hat",
+          shirt: "Cowboy Shirt",
+          pants: "Cowboy Trouser",
+        },
+      },
+      inventory: {},
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Horseshoe"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(4));
+  });
+
   it("does not provide +1 tickets when Cowboy Trouser is worn outside Bull Run Season", () => {
     const mockDate = new Date("2024-10-30T15:00:00Z");
     jest.useFakeTimers();
