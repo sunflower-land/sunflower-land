@@ -11,9 +11,9 @@
 
 ![banner_2400_800-export](https://github.com/user-attachments/assets/4d08da2c-a5a5-4131-acbb-b9b41132f6df)
 
-The goal of this project is to create a decentralized and community driven MetaVerse style game.
+The goal of this project is to create a decentralized and community-driven MetaVerse style game.
 
-This repo includes the front-end game in which users can play and interact with the game on the Polygon Network and off chain data.
+This repo includes the front-end game in which users can play and interact with the game on the Polygon Network and offchain data.
 
 Looking to help out? Read our [contributing docs](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md)
 
@@ -57,7 +57,7 @@ These raw assets/tiles are not in this repo. You must purchase the asset pack if
 
 # 👶 Getting Started
 
-You can take a look at the instructions in [CODE_CONTRIBUTING.md](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md) to get started on open source contribution for Sunflower Land
+You can take a look at the instructions in [CODE_CONTRIBUTING.md](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md) to get started on open-source contribution for Sunflower Land
 
 # 🧪 Testing
 
@@ -128,4 +128,4 @@ All media assets (images and music) are not available for use in commercial or p
 
 To access the crops, resources and land tiles, please refer to the [SunnySide Asset Pack](https://danieldiggle.itch.io/sunnyside)
 
-If you wish to use Bumpkin NFTs or custom Sunflower Land collectibles in your own project please reach to the core team on [Discord](https://discord.com/invite/sunflowerland).
+If you wish to use Bumpkin NFTs or custom Sunflower Land collectibles in your own project please reach out to the core team on [Discord](https://discord.com/invite/sunflowerland).

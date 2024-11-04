@@ -10,7 +10,7 @@ The OpenAPI schema is available within the documentation directory [openapi.json
 
 ### Rate-Limits
 
-There are some rate-limits imposed while querying this API. For best results, query these batch APIs at a 15 second interval. Querying at higher intervals will almost certainly result in failure response: `HTTP 429 Too Many Requests`.
+There are some rate-limits imposed while querying this API. For best results, query these batch APIs at a 15 second interval. Querying at higher intervals will almost certainly result in a failure response: `HTTP 429 Too Many Requests`.
 
 ## Get Farms
 
@@ -58,7 +58,7 @@ GET https://api.sunflower-land.com/community/farms?cursor=abcd
 
 ## Get A Farm
 
-Query current offchain state for one farm.
+Query the current offchain state for one farm.
 
 ### URL:
 
