@@ -87,9 +87,14 @@ export const LevelProgress = ({
       return getMaxLevelCycleProgress(animal.type, experience);
     }
 
+    const currentThreshold = ANIMAL_LEVELS[animal.type][level as AnimalLevel];
     const nextThreshold =
       ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel];
-    return (displayExperience / nextThreshold) * 100;
+    return (
+      ((displayExperience - currentThreshold) /
+        (nextThreshold - currentThreshold)) *
+      100
+    );
   };
 
   // An animal get xp on every feed so they may already be in the next level
