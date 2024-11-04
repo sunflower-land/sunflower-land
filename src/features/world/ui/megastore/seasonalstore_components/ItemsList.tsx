@@ -214,7 +214,7 @@ export const ItemsList: React.FC<Props> = ({
   return (
     <div className="flex flex-col mb-5">
       {itemsLabel && (
-        <div className="flex  z-10">
+        <div className="flex z-10">
           <div className="grow w-9/10">
             {itemsLabel && (
               <Label
@@ -224,7 +224,9 @@ export const ItemsList: React.FC<Props> = ({
                     ? lock
                     : !isEpicUnlocked && tier === "epic"
                       ? lock
-                      : ""
+                      : !isMegaUnlocked && tier === "mega"
+                        ? lock
+                        : ""
                 }
                 type={
                   tier === "basic"
@@ -233,7 +235,9 @@ export const ItemsList: React.FC<Props> = ({
                       ? "info"
                       : tier === "epic" && isEpicUnlocked
                         ? "vibrant"
-                        : "danger"
+                        : tier === "mega" && isMegaUnlocked
+                          ? "warning"
+                          : "danger"
                 }
               >
                 {itemsLabel}
@@ -241,7 +245,7 @@ export const ItemsList: React.FC<Props> = ({
             )}
           </div>
           <div className="w-1/10">
-            {(tier === "rare" || tier === "epic") && (
+            {(tier === "rare" || tier === "epic" || tier === "mega") && (
               <ResizableBar
                 percentage={percentage}
                 type={"progress"}
@@ -307,7 +311,7 @@ export const ItemsList: React.FC<Props> = ({
                   }}
                   onClick={() => onItemClick(item, tier)}
                 >
-                  <div className="flex relative justify-center items-center w-full h-full">
+                  <div className="flex relative justify-center items-center w-full h-full z-20">
                     <SquareIcon icon={getItemImage(item)} width={20} />
                     {buff && (
                       <img
@@ -324,7 +328,8 @@ export const ItemsList: React.FC<Props> = ({
                       !isItemKey &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked)) && (
+                        (tier === "epic" && isEpicUnlocked) ||
+                        (tier === "mega" && isMegaUnlocked)) && (
                         <img
                           src={SUNNYSIDE.icons.confirm}
                           className="absolute -right-2 -top-3"
@@ -339,7 +344,8 @@ export const ItemsList: React.FC<Props> = ({
                       isKeyCounted === 0 &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked)) && (
+                        (tier === "epic" && isEpicUnlocked) ||
+                        (tier === "mega" && isMegaUnlocked)) && (
                         <img
                           src={SUNNYSIDE.icons.confirm}
                           className="absolute -right-2 -top-3"
@@ -351,7 +357,8 @@ export const ItemsList: React.FC<Props> = ({
                       )}
 
                     {((tier === "rare" && !isRareUnlocked) ||
-                      (tier === "epic" && !isEpicUnlocked)) && (
+                      (tier === "epic" && !isEpicUnlocked) ||
+                      (tier === "mega" && !isMegaUnlocked)) && (
                       <img
                         src={lock}
                         className="absolute -right-2 -top-2"
