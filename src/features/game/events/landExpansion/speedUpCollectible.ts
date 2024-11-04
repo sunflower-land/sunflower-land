@@ -48,6 +48,17 @@ export function speedUpCollectible({
 
     collectible.readyAt = createdAt;
 
+    const today = new Date(createdAt).toISOString().substring(0, 10);
+    game.gems = {
+      ...game.gems,
+      history: {
+        ...game.gems.history,
+        [today]: {
+          spent: (game.gems.history?.[today]?.spent ?? 0) + gems,
+        },
+      },
+    };
+
     return game;
   });
 }
