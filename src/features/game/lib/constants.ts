@@ -6,6 +6,7 @@ import {
   Inventory,
   ExpansionConstruction,
   PlacedItem,
+  BB_TO_GEM_RATIO,
   InventoryItemName,
 } from "../types/game";
 import { getKeys } from "../types/craftables";
@@ -94,6 +95,9 @@ export type StockableName = Extract<
   | "Lily Seed"
   | "Sand Shovel"
   | "Sand Drill"
+  | "Chicken"
+  | "Magic Bean"
+  | "Immortal Pear"
 >;
 
 export const INITIAL_STOCK = (
@@ -180,6 +184,9 @@ export const INITIAL_STOCK = (
 
     "Sand Shovel": new Decimal(50),
     "Sand Drill": new Decimal(10),
+    Chicken: new Decimal(5),
+    "Magic Bean": new Decimal(5),
+    "Immortal Pear": new Decimal(1),
   };
 };
 
@@ -284,15 +291,7 @@ export const INITIAL_RESOURCES: Pick<
   | "beehives"
   | "oilReserves"
 > = {
-  crops: {
-    1: {
-      createdAt: Date.now(),
-      x: 0,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-  },
+  crops: {},
   trees: {
     1: {
       createdAt: Date.now(),
@@ -414,12 +413,10 @@ export const INITIAL_CHORE_BOARD: ChoreBoard = {
 };
 
 export const INITIAL_FARM: GameState = {
-  coins: 1000000,
+  coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
-    Rice: new Decimal(100),
-    Wheat: new Decimal(300),
     Marty: new Decimal(2),
     Miffy: new Decimal(2),
     Morty: new Decimal(2),
@@ -428,12 +425,12 @@ export const INITIAL_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(6),
+    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     Axe: new Decimal(10),
-    Gem: new Decimal(500),
+    Gem: new Decimal(1 * BB_TO_GEM_RATIO),
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
@@ -598,7 +595,7 @@ export const INITIAL_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    "Fire Pit": [
+    Workbench: [
       {
         id: "123",
         readyAt: 0,
@@ -711,14 +708,13 @@ export const TEST_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
-    Rice: new Decimal(500),
-    Wheat: new Decimal(500),
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
     Carrot: new Decimal("502.079999999999991"),
     "Roasted Cauliflower": new Decimal(1),
     "Carrot Cake": new Decimal(1),
     Radish: new Decimal(100),
+    Wheat: new Decimal(100),
     Egg: new Decimal(30),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
