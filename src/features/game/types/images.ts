@@ -4222,29 +4222,29 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.bed,
     description: translate("description.basicBed"),
   },
-  "Sturdy Bed": {
-    image: sturdyBed,
-    description: translate("description.sturdyBed"),
+  "Fisher Bed": {
+    image: fisherBed,
+    description: translate("description.fisherBed"),
   },
   "Floral Bed": {
     image: floralBed,
     description: translate("description.floralBed"),
   },
-  "Fisher Bed": {
-    image: fisherBed,
-    description: translate("description.fisherBed"),
+  "Sturdy Bed": {
+    image: sturdyBed,
+    description: translate("description.sturdyBed"),
   },
-  "Pirate Bed": {
-    image: pirateBed,
-    description: translate("description.pirateBed"),
+  "Desert Bed": {
+    image: desertBed,
+    description: translate("description.desertBed"),
   },
   "Cow Bed": {
     image: cowBed,
     description: translate("description.cowBed"),
   },
-  "Desert Bed": {
-    image: desertBed,
-    description: translate("description.desertBed"),
+  "Pirate Bed": {
+    image: pirateBed,
+    description: translate("description.pirateBed"),
   },
   "Royal Bed": {
     image: royalBed,

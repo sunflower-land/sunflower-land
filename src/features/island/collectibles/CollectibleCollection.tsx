@@ -1252,12 +1252,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Basic Bed": (props: CollectibleProps) => <Bed name="Basic Bed" />,
-  "Sturdy Bed": (props: CollectibleProps) => <Bed name="Sturdy Bed" />,
-  "Floral Bed": (props: CollectibleProps) => <Bed name="Floral Bed" />,
   "Fisher Bed": (props: CollectibleProps) => <Bed name="Fisher Bed" />,
-  "Pirate Bed": (props: CollectibleProps) => <Bed name="Pirate Bed" />,
-  "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
+  "Floral Bed": (props: CollectibleProps) => <Bed name="Floral Bed" />,
+  "Sturdy Bed": (props: CollectibleProps) => <Bed name="Sturdy Bed" />,
   "Desert Bed": (props: CollectibleProps) => <Bed name="Desert Bed" />,
+  "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
+  "Pirate Bed": (props: CollectibleProps) => <Bed name="Pirate Bed" />,
   "Royal Bed": (props: CollectibleProps) => <Bed name="Royal Bed" />,
   "Cow Scratcher": (props: CollectibleProps) => (
     <ImageStyle
