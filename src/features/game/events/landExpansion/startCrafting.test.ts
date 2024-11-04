@@ -223,6 +223,8 @@ describe("startCrafting", () => {
   });
 
   it("if recipes exists - subtracts the ingredients from the player's inventory", () => {
+    gameState.inventory.Stone = new Decimal(1);
+
     gameState.craftingBox.recipes = {
       "Dirt Path": {
         name: "Dirt Path",
@@ -259,6 +261,180 @@ describe("startCrafting", () => {
 
     const state = startCrafting({ state: gameState, action });
 
-    expect(state.inventory.Stone).toStrictEqual(new Decimal(9));
+    expect(state.inventory.Stone).toStrictEqual(new Decimal(0));
+  });
+
+  it("if recipes exists - does not allow crafting when the ingredient is placed", () => {
+    gameState.craftingBox.recipes = {
+      "Sturdy Bed": {
+        name: "Sturdy Bed",
+        type: "collectible",
+        ingredients: [
+          { collectible: "Merino Cushion" },
+          { collectible: "Merino Cushion" },
+          { collectible: "Merino Cushion" },
+          { collectible: "Crimsteel" },
+          { collectible: "Crimsteel" },
+          { collectible: "Crimsteel" },
+          { collectible: "Crimsteel" },
+          { collectible: "Basic Bed" },
+          { collectible: "Crimsteel" },
+        ],
+        time: 0,
+      },
+    };
+
+    gameState.inventory["Basic Bed"] = new Decimal(1);
+    gameState.inventory["Merino Cushion"] = new Decimal(3);
+    gameState.inventory["Crimsteel"] = new Decimal(5);
+
+    gameState.collectibles = {};
+    gameState.collectibles["Basic Bed"] = [
+      {
+        id: "123",
+        coordinates: { x: 0, y: 0 },
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ];
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        { collectible: "Merino Cushion" },
+        { collectible: "Merino Cushion" },
+        { collectible: "Merino Cushion" },
+        { collectible: "Crimsteel" },
+        { collectible: "Crimsteel" },
+        { collectible: "Crimsteel" },
+        { collectible: "Crimsteel" },
+        { collectible: "Basic Bed" },
+        { collectible: "Crimsteel" },
+      ],
+    };
+
+    expect(() => startCrafting({ state: { ...gameState }, action })).toThrow(
+      "You do not have the ingredients to craft this item",
+    );
+  });
+
+  it("if recipes exists - does not allow crafting when the wearable is worn", () => {
+    gameState.craftingBox.recipes = {
+      "Farmer Overalls": {
+        name: "Farmer Overalls",
+        type: "wearable",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { wearable: "Farmer Pants" },
+          null,
+          { collectible: "Leather" },
+          null,
+          { collectible: "Leather" },
+        ],
+        time: 0,
+      },
+    };
+
+    gameState.inventory["Leather"] = new Decimal(2);
+    gameState.wardrobe = {};
+    gameState.wardrobe["Farmer Pants"] = 1;
+
+    gameState.farmHands = {
+      bumpkins: {},
+    };
+    gameState.farmHands.bumpkins = {
+      "0": {
+        equipped: {
+          background: "Farm Background",
+          hair: "Buzz Cut",
+          body: "Beige Farmer Potion",
+          pants: "Farmer Pants",
+          shoes: "Black Farmer Boots",
+          tool: "Axe",
+        },
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        { wearable: "Farmer Pants" },
+        null,
+        { collectible: "Leather" },
+        null,
+        { collectible: "Leather" },
+      ],
+    };
+
+    expect(() => startCrafting({ state: { ...gameState }, action })).toThrow(
+      "You do not have the ingredients to craft this item",
+    );
+  });
+
+  it("if recipes exists - allows crafting when the wearable is worn and there is a spare", () => {
+    gameState.craftingBox.recipes = {
+      "Farmer Overalls": {
+        name: "Farmer Overalls",
+        type: "wearable",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { wearable: "Farmer Pants" },
+          null,
+          { collectible: "Leather" },
+          null,
+          { collectible: "Leather" },
+        ],
+        time: 0,
+      },
+    };
+
+    gameState.inventory["Leather"] = new Decimal(2);
+    gameState.wardrobe = {};
+    gameState.wardrobe["Farmer Pants"] = 2;
+
+    gameState.farmHands = {
+      bumpkins: {},
+    };
+    gameState.farmHands.bumpkins = {
+      "0": {
+        equipped: {
+          background: "Farm Background",
+          hair: "Buzz Cut",
+          body: "Beige Farmer Potion",
+          pants: "Farmer Pants",
+          shoes: "Black Farmer Boots",
+          tool: "Axe",
+        },
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        { wearable: "Farmer Pants" },
+        null,
+        { collectible: "Leather" },
+        null,
+        { collectible: "Leather" },
+      ],
+    };
+
+    const newState = startCrafting({ state: { ...gameState }, action });
+    expect(newState.inventory["Leather"]).toStrictEqual(new Decimal(0));
+    expect(newState.wardrobe["Farmer Pants"]).toBe(1);
   });
 });

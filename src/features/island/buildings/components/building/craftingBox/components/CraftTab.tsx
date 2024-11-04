@@ -26,6 +26,8 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { availableWardrobe } from "features/game/events/landExpansion/equip";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Wood",
@@ -131,6 +133,22 @@ export const CraftTab: React.FC<Props> = ({
 
   const remainingInventory = useMemo(() => {
     const updatedInventory = { ...inventory };
+
+    // Removed placed items
+    getKeys(updatedInventory).forEach((itemName) => {
+      const placedCount =
+        (gameService.state.context.state.collectibles[
+          itemName as CollectibleName
+        ]?.length ?? 0) +
+        (gameService.state.context.state.home?.collectibles[
+          itemName as CollectibleName
+        ]?.length ?? 0);
+
+      updatedInventory[itemName] = (
+        updatedInventory[itemName] ?? new Decimal(0)
+      ).minus(placedCount);
+    });
+
     selectedItems.forEach((item) => {
       const collectible = item?.collectible;
       if (collectible && updatedInventory[collectible]) {
@@ -141,7 +159,8 @@ export const CraftTab: React.FC<Props> = ({
   }, [inventory, selectedItems]);
 
   const remainingWardrobe = useMemo(() => {
-    const updatedWardrobe = { ...wardrobe };
+    const updatedWardrobe = availableWardrobe(gameService.state.context.state);
+
     selectedItems.forEach((item) => {
       const wearable = item?.wearable;
       if (wearable && updatedWardrobe[wearable]) {
