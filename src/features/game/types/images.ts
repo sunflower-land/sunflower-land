@@ -271,13 +271,13 @@ import wheatCake from "src/assets/food/cakes/wheat_cake.png";
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
 import radishPie from "assets/food/radish_pie.png";
 import cheese from "assets/food/cheese.webp";
-// import pizzaMargherita from "assets/food/pizza_margherita.webp";
+import pizzaMargherita from "assets/food/pizza_marguerita.webp";
 import blueCheese from "assets/food/blue_cheese.webp";
 import honeyCheddar from "assets/food/honey_chedder.webp";
 import capreseSalad from "assets/food/caprese_salad.webp";
 import sourShake from "assets/food/sour_shake.webp";
 import spaghettiAlLimone from "assets/food/spaghetti_al_limone.webp";
-// import lemonCheesecake from "assets/food/lemon_cheesecake.webp";
+import lemonCheesecake from "assets/food/lemon_cheesecake.webp";
 import mashedPotato from "assets/food/mashed_potato.png";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import bumpkinBroth from "assets/food/bumpkin_broth.png";
@@ -4394,7 +4394,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Pizza Margherita": {
     description: translate("description.pizzaMargherita"),
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pizzaMargherita,
   },
   "Blue Cheese": {
     description: translate("description.blueCheese"),
@@ -4418,6 +4418,6 @@ export const ITEM_DETAILS: Items = {
   },
   "Lemon Cheesecake": {
     description: translate("description.lemonCheesecake"),
-    image: SUNNYSIDE.icons.expression_confused,
+    image: lemonCheesecake,
   },
 };
