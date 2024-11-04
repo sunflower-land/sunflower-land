@@ -20,13 +20,15 @@ type Options = {
 export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return 0;
 
-  const bumpkinLevel = getBumpkinLevel(bumpkin.experience); // 1 level = 1 skill point
-  const allocatedSkillPoints = Object.values(bumpkin.skills).reduce(
-    (acc, level) => acc + level,
-    0,
-  );
+  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+  const skillsClaimed = Object.keys(bumpkin.skills) as BumpkinRevampSkillName[];
 
-  return bumpkinLevel - allocatedSkillPoints;
+  const totalUsedSkillPoints = skillsClaimed.reduce((acc, skill) => {
+    const skillData = BUMPKIN_REVAMP_SKILL_TREE[skill];
+    return acc + skillData.requirements.points;
+  }, 0);
+
+  return bumpkinLevel - totalUsedSkillPoints;
 };
 
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
