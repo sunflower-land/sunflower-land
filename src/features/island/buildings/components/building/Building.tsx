@@ -184,15 +184,15 @@ const BuildingComponent: React.FC<Prop> = ({
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
-const _island = (state: MachineState) => state.context.state.island.type;
+const _gameState = (state: MachineState) => state.context.state;
 
 const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
+  const gameState = useSelector(gameService, _gameState);
 
   const landscaping = useSelector(gameService, isLandscaping);
-  const island = useSelector(gameService, _island);
   if (landscaping) {
-    const BuildingPlaced = READONLY_BUILDINGS(island)[props.name];
+    const BuildingPlaced = READONLY_BUILDINGS(gameState)[props.name];
 
     const inProgress = props.readyAt > Date.now();
 

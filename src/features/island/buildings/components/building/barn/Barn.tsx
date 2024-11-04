@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 
-const BARN_IMAGES: Record<AnimalBuildingLevel, string> = {
+export const BARN_IMAGES: Record<AnimalBuildingLevel, string> = {
   1: SUNNYSIDE.building.barnLevel1,
   2: SUNNYSIDE.building.barnLevel2,
   3: SUNNYSIDE.building.barnLevel3,

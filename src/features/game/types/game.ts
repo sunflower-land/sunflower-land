@@ -84,6 +84,7 @@ import {
   Recipes,
   RecipeWearableName,
 } from "../lib/crafting";
+import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
 
 export type Reward = {
   coins?: number;
@@ -1248,7 +1249,7 @@ export type Animal = {
 };
 
 export type AnimalBuilding = {
-  level: number;
+  level: AnimalBuildingLevel;
   animals: Record<string, Animal>;
 };
 
