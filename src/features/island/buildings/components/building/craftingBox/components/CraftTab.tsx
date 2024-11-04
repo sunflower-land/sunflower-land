@@ -29,6 +29,7 @@ import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Wood",
+  "Timber",
   "Stone",
   "Wild Mushroom",
   "White Pansy",
@@ -52,6 +53,8 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Coral",
   "Pirate Bounty",
   "Synthetic Fabric",
+  "Merino Cushion",
+  "Cushion",
   "Gold",
   "Basic Bed",
   "Sturdy Bed",
