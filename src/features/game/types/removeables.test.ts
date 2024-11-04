@@ -74,7 +74,7 @@ describe("canremove", () => {
           },
         },
         collectibles: {
-          "Rooster": [
+          Rooster: [
             {
               coordinates: { x: 1, y: 1 },
               createdAt: 0,
