@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "Пусто",
   "bedsMigration.status.notPlaced": "Не размещено",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "Мои кровати."
+  "bedsMigration.label": "Мои кровати",
+  "whatsOn.auction.tickets": "На этой неделе никаких подков от работы по дому и наград."
 }

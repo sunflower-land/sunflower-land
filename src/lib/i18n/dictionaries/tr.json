@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "Boş",
   "bedsMigration.status.notPlaced": "Yerleştirilmemiş",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "Yataklarım."
+  "bedsMigration.label": "Yataklarım",
+  "whatsOn.auction.tickets": "Bu hafta ev işlerinden ve ödüllerden at nalı yok."
 }

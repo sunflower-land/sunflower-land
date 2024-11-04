@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "비어 있습니다",
   "bedsMigration.status.notPlaced": "배치되지 않음",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "마이 베드."
+  "bedsMigration.label": "마이 베드",
+  "whatsOn.auction.tickets": "이번 주에는 집안일과 현상금으로 인한 말굽이 없습니다."
 }

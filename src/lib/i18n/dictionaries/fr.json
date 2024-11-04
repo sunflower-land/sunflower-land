@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "Vide",
   "bedsMigration.status.notPlaced": "Non placé",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "Mes lits."
+  "bedsMigration.label": "Mes lits",
+  "whatsOn.auction.tickets": "Pas de fers à cheval à cause des corvées et des primes cette semaine."
 }

@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "Leer",
   "bedsMigration.status.notPlaced": "Nicht platziert",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "Meine Betten."
+  "bedsMigration.label": "Meine Betten",
+  "whatsOn.auction.tickets": "Diese Woche gibt es keine Hufeisen von Hausarbeiten und Kopfgeldern."
 }

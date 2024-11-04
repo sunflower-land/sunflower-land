@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "空です",
   "bedsMigration.status.notPlaced": "未配置",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "マイベッド."
+  "bedsMigration.label": "マイベッド",
+  "whatsOn.auction.tickets": "今週は雑用や報奨金で馬蹄形は出ない"
 }

@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "空的",
   "bedsMigration.status.notPlaced": "未放置",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "我的床。"
+  "bedsMigration.label": "我的床",
+  "whatsOn.auction.tickets": "本周的琐事和赏金不容错过。"
 }

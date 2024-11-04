@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "Kosong",
   "bedsMigration.status.notPlaced": "Tidak Ditempatkan",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "Tempat Tidur Saya."
+  "bedsMigration.label": "Tempat Tidur Saya",
+  "whatsOn.auction.tickets": "Tidak ada sepatu kuda dari tugas-tugas dan hadiah minggu ini."
 }

@@ -4223,5 +4223,6 @@
   "bedsMigration.status.unoccupied": "Vacía",
   "bedsMigration.status.notPlaced": "No colocado",
   "bedsMigration.farmHandCount": "{{count}} /8",
-  "bedsMigration.label": "Mis camas."
+  "bedsMigration.label": "Mis camas",
+  "whatsOn.auction.tickets": "No habrá herraduras por tareas y recompensas esta semana."
 }
