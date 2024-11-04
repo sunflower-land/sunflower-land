@@ -679,8 +679,9 @@ const InProgressLabelContent: React.FC<{ remainingTime: number | null }> = ({
   return (
     <span>
       {secondsToString(remainingTime / 1000, {
-        length: "short",
+        length: "medium",
         isShortFormat: true,
+        removeTrailingZeros: true,
       })}
     </span>
   );
