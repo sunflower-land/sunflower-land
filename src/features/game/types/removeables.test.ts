@@ -61,16 +61,27 @@ describe("canremove", () => {
     });
 
     it("prevents a user from removing rooster if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rooster", "1", {
-        ...TEST_FARM,
-        inventory: {
-          Rooster: new Decimal(1),
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
+      const [restricted] = hasRemoveRestriction("Rooster", "123", {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
           },
+        },
+        collectibles: {
+          "Rooster": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
         },
       });
 
