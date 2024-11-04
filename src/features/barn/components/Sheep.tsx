@@ -256,6 +256,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoToolPopover)
       return t("animal.toolRequired", { tool: sheep.item });
     if (showNoMedicine) return t("animal.noMedicine");
+    if (showNotEnoughFood)
+      return t("animal.notEnoughFood", { amount: requiredFoodQty });
   };
 
   const animalImageInfo = () => {
