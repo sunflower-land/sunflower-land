@@ -18,7 +18,6 @@ import { BEDS } from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   game: GameState;
@@ -36,6 +35,22 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
   const farmHands = game.farmHands.bumpkins;
 
   const count = getKeys(farmHands).length + 1;
+
+  const collectibles = game.collectibles;
+  const homeCollectibles = game.home.collectibles;
+
+  const uniqueBedCollectibles = getKeys(collectibles).filter(
+    (collectible) => collectible in BEDS,
+  );
+  const uniqueHomeBedCollectibles = getKeys(homeCollectibles).filter(
+    (collectible) => collectible in BEDS,
+  );
+  const uniqueBeds = new Set([
+    ...uniqueBedCollectibles,
+    ...uniqueHomeBedCollectibles,
+  ]);
+
+  const beds = getKeys(BEDS).filter((bedName) => uniqueBeds.has(bedName));
 
   const hasBedsAccess = hasFeatureAccess(game, "BEDS");
 
@@ -129,75 +144,34 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
               <div className="flex start"></div>
 
               <div className="grid grid-cols-4 mb-2 w-full">
-                {getKeys(BEDS).map((bed, i) => {
+                {beds.map((bed, i) => {
                   const equipments = [bumpkin, ...Object.values(farmHands)].map(
                     (f) => f.equipped,
                   );
 
-                  const isPlaced = isCollectibleBuilt({
-                    name: bed,
-                    game,
-                  });
-
                   const equipment = equipments[i];
 
                   return (
-                    <div
-                      className="flex flex-col items-center w-full"
+                    <InteriorBed
+                      bed={bed}
+                      equipment={equipment}
+                      isPlaced={true}
                       key={bed}
-                    >
-                      <Label
-                        type={
-                          isPlaced
-                            ? equipment
-                              ? "warning"
-                              : "success"
-                            : "default"
-                        }
-                      >
-                        <span className="text-xxs">
-                          {isPlaced
-                            ? equipment
-                              ? t("bedsMigration.status.occupied")
-                              : t("bedsMigration.status.unoccupied")
-                            : t("bedsMigration.status.notPlaced")}
-                        </span>
-                      </Label>
-                      <span className={`text-xxs text-center`}>
-                        {bed.split(" ")[0]}
-                      </span>
-                      <span className={`text-xxs text-center mb-1`}>
-                        {bed.split(" ")[1]}
-                      </span>
-
-                      <div
-                        className="flex justify-center relative"
-                        key={bed}
-                        style={{
-                          width: `${22 * PIXEL_SCALE}px`,
-                        }}
-                      >
-                        <div>
-                          <img
-                            src={ITEM_DETAILS[bed as BedName].image}
-                            style={{
-                              width: `${BED_WIDTH[bed as BedName] * PIXEL_SCALE}px`,
-                            }}
-                            className={`${isPlaced ? "opacity-100" : "opacity-50"}`}
-                          />
-                        </div>
-                        {equipment && (
-                          <div className="absolute">
-                            <NPC
-                              key={JSON.stringify(equipment)}
-                              parts={equipment}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                    />
                   );
                 })}
+                {getKeys(BEDS)
+                  .filter((bed) => !beds.includes(bed))
+                  .map((bed, i) => {
+                    return (
+                      <InteriorBed
+                        bed={bed}
+                        equipment={undefined}
+                        isPlaced={false}
+                        key={bed}
+                      />
+                    );
+                  })}
               </div>
             </div>
 
@@ -268,5 +242,52 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         </CloseButtonPanel>
       </Modal>
     </>
+  );
+};
+
+const InteriorBed: React.FC<{
+  bed: BedName;
+  equipment?: BumpkinParts;
+  isPlaced: boolean;
+}> = ({ bed, equipment, isPlaced }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <div className="flex flex-col items-center w-full" key={bed}>
+      <Label type={isPlaced ? (equipment ? "warning" : "success") : "default"}>
+        <span className="text-xxs">
+          {isPlaced
+            ? equipment
+              ? t("bedsMigration.status.occupied")
+              : t("bedsMigration.status.unoccupied")
+            : t("bedsMigration.status.notPlaced")}
+        </span>
+      </Label>
+      <span className={`text-xxs text-center`}>{bed.split(" ")[0]}</span>
+      <span className={`text-xxs text-center mb-1`}>{bed.split(" ")[1]}</span>
+
+      <div
+        className="flex justify-center relative"
+        key={bed}
+        style={{
+          width: `${22 * PIXEL_SCALE}px`,
+        }}
+      >
+        <div>
+          <img
+            src={ITEM_DETAILS[bed as BedName].image}
+            style={{
+              width: `${BED_WIDTH[bed as BedName] * PIXEL_SCALE}px`,
+            }}
+            className={`${isPlaced ? "opacity-100" : "opacity-50"}`}
+          />
+        </div>
+        {equipment && (
+          <div className="absolute">
+            <NPC key={JSON.stringify(equipment)} parts={equipment} />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
