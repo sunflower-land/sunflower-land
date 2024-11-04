@@ -163,10 +163,16 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
                 {getKeys(BEDS)
                   .filter((bed) => !beds.includes(bed))
                   .map((bed, i) => {
+                    const equipments = [bumpkin, ...Object.values(farmHands)]
+                      .map((f) => f.equipped)
+                      .slice(beds.length);
+
+                    const equipment = equipments[i];
+
                     return (
                       <InteriorBed
                         bed={bed}
-                        equipment={undefined}
+                        equipment={equipment}
                         isPlaced={false}
                         key={bed}
                       />
