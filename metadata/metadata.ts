@@ -10086,6 +10086,94 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2161.png",
     name: "Black Sheep",
   },
+  Cheese: {
+    name: "Cheese",
+    description: "A delicious dairy delight made from fresh milk",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/578.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Pizza Margherita": {
+    name: "Pizza Margherita",
+    description: "A classic Italian pizza with tomatoes and cheese",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/579.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Blue Cheese": {
+    name: "Blue Cheese",
+    description: "A strong flavored cheese with blue mold",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/580.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Honey Cheddar": {
+    name: "Honey Cheddar",
+    description: "A sweet and savory cheese infused with honey",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/581.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Caprese Salad": {
+    name: "Caprese Salad",
+    description: "A fresh salad with cheese, tomatoes and kale",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/582.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Sour Shake": {
+    name: "Sour Shake",
+    description: "A tangy and refreshing lemon drink",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/583.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Spaghetti al Limone": {
+    name: "Spaghetti al Limone",
+    description: "A zesty pasta dish with lemon and cheese",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/584.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Lemon Cheesecake": {
+    name: "Lemon Cheesecake",
+    description: "A creamy cheesecake with a citrus twist",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/585.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
