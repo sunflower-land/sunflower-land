@@ -228,7 +228,10 @@ export const ChoreBoard: React.FC = () => {
                     game: gameService.state.context.state,
                   }) < NPC_CHORES[previewChore.name].requirement
                 }
-                onClick={() => handleCompleteChore(previewNpc)}
+                onClick={() => {
+                  handleCompleteChore(previewNpc);
+                  setSelectedId(undefined);
+                }}
               >
                 {t("chores.complete")}
                 <div className="flex absolute right-0 -top-5">
