@@ -423,6 +423,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    Tomato: new Decimal(100),
+    Cheese: new Decimal(100),
     "Barn Delight": new Decimal(1),
     Brush: new Decimal(1),
     "Alien Chicken": new Decimal(1),
@@ -945,6 +947,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         coordinates: {
           x: 2,
+          y: -2,
+        },
+        createdAt: 0,
+        id: "1",
+        readyAt: 0,
+      },
+    ],
+    Kitchen: [
+      {
+        coordinates: {
+          x: 8,
           y: -2,
         },
         createdAt: 0,

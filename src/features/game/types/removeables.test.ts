@@ -15,15 +15,18 @@ describe("canremove", () => {
       expect(restricted).toBe(true);
     });
 
-    it("prevents a user from removing mutant chickens if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rich Chicken", "123", {
-        ...INITIAL_FARM,
+    it("prevents a user from removing mutant chickens if some chicken are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Rich Chicken", "1", {
+        ...TEST_FARM,
+        inventory: {
+          "Rich Chicken": new Decimal(1),
+        },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...TEST_FARM.henHouse,
           animals: {
-            "1": {
-              ...INITIAL_FARM.henHouse.animals["1"],
-              asleepAt: Date.now() - 1000,
+            1: {
+              ...TEST_FARM.henHouse.animals[1],
+              asleepAt: Date.now(),
               awakeAt: Date.now() + 10000,
             },
           },
@@ -60,18 +63,11 @@ describe("canremove", () => {
       expect(restricted).toBe(true);
     });
 
-    it("prevents a user from removing rooster if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rooster", "123", {
-        ...INITIAL_FARM,
-        henHouse: {
-          ...INITIAL_FARM.henHouse,
-          animals: {
-            "1": {
-              ...INITIAL_FARM.henHouse.animals["1"],
-              asleepAt: Date.now() - 1000,
-              awakeAt: Date.now() + 10000,
-            },
-          },
+    it("prevents a user from removing Bale if some chickens are sleeping and within AoE", () => {
+      const [restricted] = hasRemoveRestriction("Bale", "1", {
+        ...TEST_FARM,
+        inventory: {
+          Bale: new Decimal(1),
         },
         collectibles: {
           Rooster: [
@@ -82,6 +78,37 @@ describe("canremove", () => {
               readyAt: 0,
             },
           ],
+        },
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          animals: {
+            1: {
+              ...TEST_FARM.henHouse.animals[1],
+              asleepAt: Date.now(),
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing rooster if some chicken are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Rooster", "1", {
+        ...TEST_FARM,
+        inventory: {
+          Rooster: new Decimal(1),
+        },
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          animals: {
+            1: {
+              ...TEST_FARM.henHouse.animals[1],
+              asleepAt: Date.now(),
+              awakeAt: Date.now() + 10000,
+            },
+          },
         },
       });
 

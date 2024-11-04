@@ -3479,6 +3479,7 @@
   "restrictionReason.goldMined": "Gold is mined",
   "restrictionReason.crimstoneMined": "Crimstone is mined",
   "restrictionReason.chickensFed": "Chickens are fed",
+  "restrictionReason.chickensSleeping": "Chickens are sleeping",
   "restrictionReason.treasuresDug": "Treasure holes are dug",
   "restrictionReason.inUse": "In use",
   "restrictionReason.recentlyUsed": "Recently used",
@@ -4224,5 +4225,13 @@
   "description.toxic.tuft": "A mutated sheep whose toxic fleece produces the finest merino wool in the land!",
   "description.mootant": "This genetically enhanced bovine here to boost your leather production!",
   "description.cropCircle": "A mysterious circle that appears on your farm...what could it mean?",
-  "whatsOn.auction.tickets": "No horseshoes from chores and bounties this week."
+  "whatsOn.auction.tickets": "No horseshoes from chores and bounties this week.",
+  "description.cheese": "A delicious dairy delight made from fresh milk",
+  "description.pizzaMargherita": "A classic Italian pizza with tomatoes and cheese",
+  "description.blueCheese": "A strong flavored cheese with blue mold",
+  "description.honeyCheddar": "A sweet and savory cheese infused with honey",
+  "description.capreseSalad": "A fresh salad with cheese, tomatoes and kale",
+  "description.sourShake": "A tangy and refreshing lemon drink",
+  "description.spaghettiLimone": "A zesty pasta dish with lemon and cheese",
+  "description.lemonCheesecake": "A creamy cheesecake with a citrus twist"
 }
