@@ -10,7 +10,7 @@ import choreIcon from "assets/icons/chores.webp";
 import trophyIcon from "assets/icons/trophy.png";
 import sflIcon from "assets/icons/sfl.webp";
 import giftIcon from "assets/icons/gift.png";
-
+import lockIcon from "assets/icons/lock.png";
 export const WhatsOn = () => {
   const { t } = useAppTranslation();
 
@@ -123,6 +123,10 @@ export const WhatsOn = () => {
               {
                 text: t("whatsOn.auctionText"),
                 icon: SUNNYSIDE.icons.stopwatch,
+              },
+              {
+                text: t("whatsOn.auction.tickets"),
+                icon: lockIcon,
               },
             ]}
           />
