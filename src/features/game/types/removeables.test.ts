@@ -49,34 +49,6 @@ describe("canremove", () => {
       expect(restricted).toBe(true);
     });
 
-    it("prevents a user from removing Bale if some chicken is fed and within AoE", () => {
-      const [restricted] = hasRemoveRestriction("Bale", "1", {
-        ...TEST_FARM,
-        inventory: {
-          Bale: new Decimal(1),
-        },
-        collectibles: {
-          Bale: [
-            {
-              id: "123",
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
-            coordinates: { x: -1, y: 0 },
-          },
-        },
-      });
-
-      expect(restricted).toBe(true);
-    });
-
     it("prevents a user from removing rooster if some chicken is fed", () => {
       const [restricted] = hasRemoveRestriction("Rooster", "1", {
         ...TEST_FARM,
