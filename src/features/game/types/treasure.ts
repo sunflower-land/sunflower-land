@@ -160,10 +160,12 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     },
     "Cow Skull": {
       sellPrice: 200,
-      from: hasSeasonEnded("Bull Run")
-        ? undefined
-        : SEASONS["Bull Run"].startDate,
-      to: hasSeasonEnded("Bull Run") ? undefined : SEASONS["Bull Run"].endDate,
       description: translate("description.cowSkull"),
+      ...(hasSeasonEnded("Bull Run")
+        ? {}
+        : {
+            from: SEASONS["Bull Run"].startDate,
+            to: SEASONS["Bull Run"].endDate,
+          }),
     },
   };
