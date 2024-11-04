@@ -3479,6 +3479,7 @@
   "restrictionReason.goldMined": "Gold is mined",
   "restrictionReason.crimstoneMined": "Crimstone is mined",
   "restrictionReason.chickensFed": "Chickens are fed",
+  "restrictionReason.chickensSleeping": "Chickens are sleeping",
   "restrictionReason.treasuresDug": "Treasure holes are dug",
   "restrictionReason.inUse": "In use",
   "restrictionReason.recentlyUsed": "Recently used",

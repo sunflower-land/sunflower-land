@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { upgradeBuilding } from "./upgradeBuilding";
+import { AnimalBuildingLevel, upgradeBuilding } from "./upgradeBuilding";
 
 describe("upgradeBuilding", () => {
   it("throws an error if the building is not found", () => {
@@ -132,7 +132,7 @@ describe("upgradeBuilding", () => {
       },
       henHouse: {
         ...TEST_FARM.henHouse,
-        level: 1,
+        level: 1 as AnimalBuildingLevel,
       },
       inventory: {
         Wood: new Decimal(501),
@@ -179,7 +179,7 @@ describe("upgradeBuilding", () => {
       },
       henHouse: {
         ...TEST_FARM.henHouse,
-        level: 1,
+        level: 1 as AnimalBuildingLevel,
       },
     };
 
