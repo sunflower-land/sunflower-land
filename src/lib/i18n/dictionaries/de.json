@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "Nicht platziert",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Meine Betten",
-  "whatsOn.auction.tickets": "Diese Woche gibt es keine Hufeisen von Hausarbeiten und Kopfgeldern."
+  "whatsOn.auction.tickets": "Diese Woche gibt es keine Hufeisen von Hausarbeiten und Kopfgeldern.",
+  "restrictionReason.chickensSleeping": "Hühner schlafen",
+  "description.cheese": "Ein köstlicher Milchgenuss aus frischer Milch",
+  "description.pizzaMargherita": "Eine klassische italienische Pizza mit Tomaten und Käse",
+  "description.blueCheese": "Ein stark gewürzter Käse mit Blauschimmel",
+  "description.honeyCheddar": "Ein süßer und herzhafter Käse mit Honig",
+  "description.capreseSalad": "Ein frischer Salat mit Käse, Tomaten und Grünkohl",
+  "description.sourShake": "Ein würziger und erfrischender Zitronengetränk",
+  "description.spaghettiLimone": "Ein pikantes Nudelgericht mit Zitrone und Käse",
+  "description.lemonCheesecake": "Ein cremiger Käsekuchen mit einem Hauch von Zitrusfrüchten"
 }

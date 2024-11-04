@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "未放置",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "我的床",
-  "whatsOn.auction.tickets": "本周的琐事和赏金不容错过。"
+  "whatsOn.auction.tickets": "本周的琐事和赏金不容错过。",
+  "restrictionReason.chickensSleeping": "鸡在睡觉",
+  "description.cheese": "由新鲜牛奶制成的美味乳制品",
+  "description.pizzaMargherita": "经典的意大利披萨，里面有番茄和奶酪",
+  "description.blueCheese": "带有蓝霉的味道浓郁的奶酪",
+  "description.honeyCheddar": "一种注入蜂蜜的甜味和咸味奶酪",
+  "description.capreseSalad": "含有奶酪、西红柿和羽衣甘蓝的新鲜沙拉",
+  "description.sourShake": "一款浓郁清爽的柠檬饮品",
+  "description.spaghettiLimone": "一道含有柠檬和奶酪的美味意大利面",
+  "description.lemonCheesecake": "带有柑橘味的奶油芝士蛋糕"
 }

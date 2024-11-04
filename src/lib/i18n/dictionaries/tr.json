@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "Yerleştirilmemiş",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Yataklarım",
-  "whatsOn.auction.tickets": "Bu hafta ev işlerinden ve ödüllerden at nalı yok."
+  "whatsOn.auction.tickets": "Bu hafta ev işlerinden ve ödüllerden at nalı yok.",
+  "restrictionReason.chickensSleeping": "Tavuklar uyuyor",
+  "description.cheese": "Taze sütten yapılan lezzetli bir süt lezzeti",
+  "description.pizzaMargherita": "Domates ve peynirli klasik bir İtalyan pizzası",
+  "description.blueCheese": "Mavi küflü güçlü aromalı peynir",
+  "description.honeyCheddar": "Bal ile demlenmiş tatlı ve tuzlu bir peynir",
+  "description.capreseSalad": "Peynir, domates ve lahana ile taze salata",
+  "description.sourShake": "Keskin ve ferahlatıcı bir limonlu içecek",
+  "description.spaghettiLimone": "Limonlu ve peynirli lezzetli bir makarna yemeği",
+  "description.lemonCheesecake": "Narenciye dokunuşlu kremalı peynirli kek"
 }

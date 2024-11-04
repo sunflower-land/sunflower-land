@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "未配置",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "マイベッド",
-  "whatsOn.auction.tickets": "今週は雑用や報奨金で馬蹄形は出ない"
+  "whatsOn.auction.tickets": "今週は雑用や報奨金で馬蹄形は出ない",
+  "restrictionReason.chickensSleeping": "ニワトリは寝ている",
+  "description.cheese": "新鮮な牛乳を使ったおいしい乳製品",
+  "description.pizzaMargherita": "トマトとチーズを使ったクラシックなイタリアンピザ",
+  "description.blueCheese": "青カビが入った濃厚な風味のチーズ",
+  "description.honeyCheddar": "はちみつ入りの甘くておいしいチーズ",
+  "description.capreseSalad": "チーズ、トマト、ケールのフレッシュサラダ",
+  "description.sourShake": "ピリッと爽やかなレモンドリンク",
+  "description.spaghettiLimone": "レモンとチーズのピリッとしたパスタ料理",
+  "description.lemonCheesecake": "柑橘系のひねりを加えたクリーミーなチーズケーキ"
 }

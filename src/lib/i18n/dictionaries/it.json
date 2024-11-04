@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "Non posizionato",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "I miei letti",
-  "whatsOn.auction.tickets": "Niente ferri di cavallo per le faccende domestiche e le taglie questa settimana."
+  "whatsOn.auction.tickets": "Niente ferri di cavallo per le faccende domestiche e le taglie questa settimana.",
+  "restrictionReason.chickensSleeping": "I polli dormono",
+  "description.cheese": "Una deliziosa delizia casearia a base di latte fresco",
+  "description.pizzaMargherita": "Una classica pizza italiana con pomodoro e formaggio",
+  "description.blueCheese": "Un formaggio dal sapore forte con muffa blu",
+  "description.honeyCheddar": "Un formaggio dolce e salato infuso con miele",
+  "description.capreseSalad": "Una fresca insalata con formaggio, pomodori e cavolo nero",
+  "description.sourShake": "Una bevanda al limone piccante e rinfrescante",
+  "description.spaghettiLimone": "Un gustoso piatto di pasta con limone e formaggio",
+  "description.lemonCheesecake": "Una cheesecake cremosa con un tocco di agrumi"
 }

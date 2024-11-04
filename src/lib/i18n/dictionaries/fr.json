@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "Non placé",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Mes lits",
-  "whatsOn.auction.tickets": "Pas de fers à cheval à cause des corvées et des primes cette semaine."
+  "whatsOn.auction.tickets": "Pas de fers à cheval à cause des corvées et des primes cette semaine.",
+  "restrictionReason.chickensSleeping": "Les poulets dorment",
+  "description.cheese": "Un délicieux délice laitier à base de lait frais",
+  "description.pizzaMargherita": "Une pizza italienne classique aux tomates et au fromage",
+  "description.blueCheese": "Un fromage au goût prononcé avec de la moisissure bleue",
+  "description.honeyCheddar": "Un fromage sucré et salé infusé au miel",
+  "description.capreseSalad": "Une salade fraîche avec du fromage, des tomates et du chou frisé",
+  "description.sourShake": "Une boisson acidulée et rafraîchissante au citron",
+  "description.spaghettiLimone": "Un plat de pâtes épicé au citron et au fromage",
+  "description.lemonCheesecake": "Un cheesecake crémeux avec une touche d'agrumes"
 }

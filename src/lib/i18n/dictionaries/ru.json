@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "Не размещено",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Мои кровати",
-  "whatsOn.auction.tickets": "На этой неделе никаких подков от работы по дому и наград."
+  "whatsOn.auction.tickets": "На этой неделе никаких подков от работы по дому и наград.",
+  "restrictionReason.chickensSleeping": "Цыплята спят",
+  "description.cheese": "Восхитительное молочное лакомство из свежего молока",
+  "description.pizzaMargherita": "Классическая итальянская пицца с помидорами и сыром",
+  "description.blueCheese": "Сыр с сильным ароматом и голубой плесенью",
+  "description.honeyCheddar": "Сладкий и соленый сыр с медом",
+  "description.capreseSalad": "Свежий салат с сыром, помидорами и капустой",
+  "description.sourShake": "Острый и освежающий лимонный напиток",
+  "description.spaghettiLimone": "Пикантное блюдо из пасты с лимоном и сыром",
+  "description.lemonCheesecake": "Сливочный чизкейк с цитрусовым оттенком"
 }

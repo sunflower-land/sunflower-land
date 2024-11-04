@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "배치되지 않음",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "마이 베드",
-  "whatsOn.auction.tickets": "이번 주에는 집안일과 현상금으로 인한 말굽이 없습니다."
+  "whatsOn.auction.tickets": "이번 주에는 집안일과 현상금으로 인한 말굽이 없습니다.",
+  "restrictionReason.chickensSleeping": "닭이 자고 있어요",
+  "description.cheese": "신선한 우유로 만든 맛있는 유제품",
+  "description.pizzaMargherita": "토마토와 치즈가 들어간 정통 이탈리아 피자",
+  "description.blueCheese": "파란 곰팡이가 있는 강한 맛의 치즈",
+  "description.honeyCheddar": "꿀이 들어간 달콤하고 짭짤한 치즈",
+  "description.capreseSalad": "치즈, 토마토, 케일을 곁들인 신선한 샐러드",
+  "description.sourShake": "톡 쏘는 상큼한 레몬 음료",
+  "description.spaghettiLimone": "레몬과 치즈가 들어간 풍미 가득한 파스타 요리",
+  "description.lemonCheesecake": "시트러스 트위스트가 가미된 크리미 치즈케이크"
 }

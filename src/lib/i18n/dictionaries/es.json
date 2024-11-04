@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "No colocado",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Mis camas",
-  "whatsOn.auction.tickets": "No habrá herraduras por tareas y recompensas esta semana."
+  "whatsOn.auction.tickets": "No habrá herraduras por tareas y recompensas esta semana.",
+  "restrictionReason.chickensSleeping": "Los pollos duermen",
+  "description.cheese": "Una deliciosa delicia láctea hecha con leche fresca",
+  "description.pizzaMargherita": "Una pizza italiana clásica con tomate y queso",
+  "description.blueCheese": "Un queso de sabor fuerte con moho azul",
+  "description.honeyCheddar": "Un queso dulce y salado con miel",
+  "description.capreseSalad": "Ensalada fresca con queso, tomates y col rizada",
+  "description.sourShake": "Una bebida de limón picante y refrescante",
+  "description.spaghettiLimone": "Un sabroso plato de pasta con limón y queso",
+  "description.lemonCheesecake": "Una tarta de queso cremosa con un toque cítrico"
 }

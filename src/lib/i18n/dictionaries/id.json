@@ -4224,5 +4224,14 @@
   "bedsMigration.status.notPlaced": "Tidak Ditempatkan",
   "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Tempat Tidur Saya",
-  "whatsOn.auction.tickets": "Tidak ada sepatu kuda dari tugas-tugas dan hadiah minggu ini."
+  "whatsOn.auction.tickets": "Tidak ada sepatu kuda dari tugas-tugas dan hadiah minggu ini.",
+  "restrictionReason.chickensSleeping": "Ayam sedang tidur",
+  "description.cheese": "Kenikmatan susu lezat yang terbuat dari susu segar",
+  "description.pizzaMargherita": "Pizza Italia klasik dengan tomat dan keju",
+  "description.blueCheese": "Keju rasa yang kuat dengan jamur biru",
+  "description.honeyCheddar": "Keju manis dan gurih yang diresapi dengan madu",
+  "description.capreseSalad": "Salad segar dengan keju, tomat, dan kangkung",
+  "description.sourShake": "Minuman lemon yang tajam dan menyegarkan",
+  "description.spaghettiLimone": "Hidangan pasta yang lezat dengan lemon dan keju",
+  "description.lemonCheesecake": "Kue keju krim dengan sentuhan jeruk"
 }
