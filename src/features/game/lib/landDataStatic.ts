@@ -431,6 +431,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Barn: new Decimal(1),
     "Hen House": new Decimal(1),
     Hay: new Decimal(100),
+    "Mixed Grain": new Decimal(100),
+    NutriBarley: new Decimal(100),
     Bale: new Decimal(1),
     "Kernel Blend": new Decimal(100),
     "Rich Chicken": new Decimal(1),
@@ -1544,7 +1546,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       abc: {
         asleepAt: 0,
         awakeAt: 0,
-        experience: 60,
+        experience: 2640,
         id: "abc",
         type: "Chicken",
         createdAt: 0,
@@ -1561,7 +1563,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       abc: {
         asleepAt: 0,
         awakeAt: 0,
-        experience: 0,
+        experience: 8100,
         id: "abc",
         type: "Cow",
         createdAt: 0,
@@ -1573,7 +1575,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       def: {
         asleepAt: 0,
         awakeAt: 0,
-        experience: 0,
+        experience: 5400,
         id: "def",
         type: "Sheep",
         createdAt: 0,

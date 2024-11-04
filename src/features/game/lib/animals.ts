@@ -77,7 +77,8 @@ export function makeAnimalBuilding(
 }
 
 export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
-  return level === Object.keys(ANIMAL_LEVELS[animal]).length;
+  const maxLevel = Math.max(...Object.keys(ANIMAL_LEVELS[animal]).map(Number));
+  return level === maxLevel;
 };
 
 export function getAnimalLevel(experience: number, animal: AnimalType) {
