@@ -14,6 +14,7 @@ export type RecipeCollectibleName = Extract<
   | "Bonnie's Tombstone"
   | "Grubnash's Tombstone"
   | "Town Sign"
+  | "Golden Maple"
   | RecipeCraftableName
   | BedName,
   InventoryItemName
@@ -270,6 +271,12 @@ export const RECIPES: Recipes = {
   },
   "Royal Bed": {
     name: "Royal Bed",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Golden Maple": {
+    name: "Golden Maple",
     ingredients: [],
     time: 0,
     type: "collectible",
