@@ -1043,7 +1043,7 @@ describe("feedAnimal", () => {
               type: "Chicken",
               createdAt: 0,
               state: "idle",
-              experience: maxLevelXP + cycleXP + 60, // One Favourite Food feed into a new cycle
+              experience: maxLevelXP + cycleXP + 80, // One Favourite Food feed into a new cycle
               asleepAt: 0,
               awakeAt: 0,
               lovedAt: 0,
@@ -1064,7 +1064,7 @@ describe("feedAnimal", () => {
     expect(state.henHouse.animals["0"].state).toBe("happy");
     // Experience should continue accumulating
     expect(state.henHouse.animals["0"].experience).toBe(
-      maxLevelXP + cycleXP + 60 + 60,
+      maxLevelXP + cycleXP + 80 + 80,
     );
   });
 
@@ -1085,7 +1085,7 @@ describe("feedAnimal", () => {
           animals: {
             "0": {
               ...INITIAL_FARM.henHouse.animals["0"],
-              experience: maxLevelXP + cycleXP + cycleXP - 50,
+              experience: maxLevelXP + cycleXP + cycleXP - 70,
             },
           },
         },
@@ -1120,7 +1120,7 @@ describe("feedAnimal", () => {
               type: "Chicken",
               createdAt: 0,
               state: "happy",
-              experience: maxLevelXP + cycleXP * 2 - 60, // One feed away from cycle completion
+              experience: maxLevelXP + cycleXP * 2 - 80, // One feed away from cycle completion
               asleepAt: 0,
               awakeAt: 0,
               lovedAt: 0,
