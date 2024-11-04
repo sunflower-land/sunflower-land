@@ -1,6 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bumpkin, GameState } from "features/game/types/game";
+import { BedName, Bumpkin, GameState } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";
 import { Modal } from "components/ui/Modal";
@@ -14,6 +14,11 @@ import { BuyFarmHand } from "./BuyFarmHand";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { BEDS } from "features/game/types/beds";
+import { BED_WIDTH } from "features/island/collectibles/components/Bed";
+import { Label } from "components/ui/Label";
+import { Panel } from "components/ui/Panel";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   game: GameState;
@@ -29,6 +34,8 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
   const bumpkin = game.bumpkin as Bumpkin;
 
   const farmHands = game.farmHands.bumpkins;
+
+  const count = getKeys(farmHands).length + 1;
 
   const hasBedsAccess = hasFeatureAccess(game, "BEDS");
 
@@ -101,38 +108,103 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         onHide={() => setShowBuyFarmHandModal(false)}
       >
         {hasBedsAccess ? (
-          <CloseButtonPanel
-            onClose={() => setShowBuyFarmHandModal(false)}
-            title={"Beds Needed!"}
-          >
-            <div className="flex flex-col items-center">
-              <div className="p-2">
-                <div className="flex justify-center mb-2">
-                  <img
-                    src={ITEM_DETAILS["Basic Bed"].image}
-                    className="w-12 mx-1"
-                  />
-                  <img
-                    src={ITEM_DETAILS["Sturdy Bed"].image}
-                    className="w-12 mx-1"
-                  />
-                  <img
-                    src={ITEM_DETAILS["Floral Bed"].image}
-                    className="w-12 mx-1"
-                  />
-                </div>
-                <p className="text-sm mb-2">
-                  {t("bedsMigration.bedsNeededDescription")}
-                </p>
-                <p className="text-sm mb-2">
-                  {t("bedsMigration.bedsNeededDescription2")}
-                </p>
-              </div>
-              <Button onClick={() => setShowBuyFarmHandModal(false)}>
-                {t("close")}
-              </Button>
+          <Panel>
+            <div className="p-1 flex justify-between">
+              <Label type="default" icon={ITEM_DETAILS["Basic Bed"].image}>
+                {t("bedsMigration.label")}
+              </Label>
+              <Label type="default" icon={SUNNYSIDE.icons.player}>
+                {t("bedsMigration.farmHandCount", { count })}
+              </Label>
             </div>
-          </CloseButtonPanel>
+            <div className="flex p-2 flex-col space-y-1 mb-2 text-xs">
+              <span className="">
+                {t("bedsMigration.bedsNeededDescription")}
+              </span>
+              <span className="">
+                {t("bedsMigration.bedsNeededDescription2")}
+              </span>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="flex start"></div>
+
+              <div className="grid grid-cols-4 mb-2 w-full">
+                {getKeys(BEDS).map((bed, i) => {
+                  const equipments = [bumpkin, ...Object.values(farmHands)].map(
+                    (f) => f.equipped,
+                  );
+
+                  const isPlaced = isCollectibleBuilt({
+                    name: bed,
+                    game,
+                  });
+
+                  const equipment = equipments[i];
+
+                  return (
+                    <div
+                      className="flex flex-col items-center w-full"
+                      key={bed}
+                    >
+                      <Label
+                        type={
+                          isPlaced
+                            ? equipment
+                              ? "warning"
+                              : "success"
+                            : "default"
+                        }
+                      >
+                        <span className="text-xxs">
+                          {isPlaced
+                            ? equipment
+                              ? t("bedsMigration.status.occupied")
+                              : t("bedsMigration.status.unoccupied")
+                            : t("bedsMigration.status.notPlaced")}
+                        </span>
+                      </Label>
+                      <span className={`text-xxs text-center`}>
+                        {bed.split(" ")[0]}
+                      </span>
+                      <span className={`text-xxs text-center mb-1`}>
+                        {bed.split(" ")[1]}
+                      </span>
+
+                      <div
+                        className="flex justify-center relative"
+                        key={bed}
+                        style={{
+                          width: `${22 * PIXEL_SCALE}px`,
+                        }}
+                      >
+                        <div>
+                          <img
+                            src={ITEM_DETAILS[bed as BedName].image}
+                            style={{
+                              width: `${BED_WIDTH[bed as BedName] * PIXEL_SCALE}px`,
+                            }}
+                            className={`${isPlaced ? "opacity-100" : "opacity-50"}`}
+                          />
+                        </div>
+                        {equipment && (
+                          <div className="absolute">
+                            <NPC
+                              key={JSON.stringify(equipment)}
+                              parts={equipment}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <Button onClick={() => setShowBuyFarmHandModal(false)}>
+              {t("close")}
+            </Button>
+          </Panel>
         ) : (
           <BuyFarmHand
             gameState={game}
