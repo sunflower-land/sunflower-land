@@ -353,7 +353,6 @@ describe("feedAnimal", () => {
         inventory: {
           ...INITIAL_FARM.inventory,
           "Gold Egg": new Decimal(1),
-          Hay: new Decimal(1),
         },
         collectibles: {
           "Gold Egg": [
@@ -390,7 +389,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory.Hay).toStrictEqual(new Decimal(1));
+    expect(state.henHouse.animals[chickenId].experience).toBe(60);
   });
 
   it("picks the favourite food if Golden Egg is placed and feeding Chicken", () => {

@@ -37,6 +37,7 @@ import Decimal from "decimal.js-light";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
 import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -135,6 +136,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Chicken",
     foodQuantity: REQUIRED_FOOD_QTY.Chicken,
+    game,
+  });
+
+  const hasGoldEgg = isCollectibleBuilt({
+    name: "Gold Egg",
     game,
   });
 
@@ -275,6 +281,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
 
+    if (hasGoldEgg) {
+      feedChicken();
+      return;
+    }
+
     if (hasFoodSelected) {
       const foodCount =
         inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
@@ -299,6 +310,18 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoToolPopover)
       return t("animal.toolRequired", { tool: chicken.item });
     if (showNoMedicine) return t("animal.noMedicine");
+    if (showNotEnoughFood)
+      return t("animal.notEnoughFood", { amount: requiredFoodQty });
+  };
+
+  const getAnimalXPEarned = () => {
+    if (hasGoldEgg) {
+      return ANIMAL_FOOD_EXPERIENCE.Chicken[level][favFood];
+    }
+
+    return ANIMAL_FOOD_EXPERIENCE.Chicken[level][
+      selectedItem as AnimalFoodName
+    ];
   };
 
   const animalImageInfo = () => {
@@ -332,6 +355,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   if (chickenMachineState === "initial") return null;
 
   const level = getAnimalLevel(chicken.experience, "Chicken");
+  const xpIndicatorColor =
+    favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldEgg
+      ? "#71e358"
+      : "#fff";
+  const xpIndicatorAmount = getAnimalXPEarned();
 
   return (
     <>
@@ -459,12 +487,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         <span
           className="text-sm yield-text"
           style={{
-            color:
-              favFood === selectedItem || selectedItem === "Omnifeed"
-                ? "#71e358"
-                : "#fff",
+            color: xpIndicatorColor,
           }}
-        >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Chicken[level][selectedItem as AnimalFoodName])}`}</span>
+        >{`+${formatNumber(xpIndicatorAmount)}`}</span>
       </Transition>
       <Transition
         appear={true}
