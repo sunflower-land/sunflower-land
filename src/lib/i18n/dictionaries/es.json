@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "Este {{name}} te permite desbloquear un nuevo peón para ayudarte en tu granja.",
   "bedsMigration.bedsNeeded": "¡Se necesitan camas!",
   "bedsMigration.bedsNeededDescription": "Los peones necesitan camas para poder trabajar en la granja.",
-  "bedsMigration.bedsNeededDescription2": "¡Coloca camas para contratar más peones!",
   "farmHand": "Mano de granja",
   "description.petting.hand": "Animales de compañía. Utilízalo para mostrar afecto a tus animales.",
   "animal.toolRequired": "{{tool}} Obligatorio",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales.",
   "levelUpMax": "¡Nivel máximo!",
   "birdieplaza.choresAndRewards": "¡También puedes ganar {{seasonalTicket}} s con las tareas semanales, las recompensas diarias de los cofres, la extraña obsesión de Bert y el sistema de recompensas!",
-  "description.community.coin": "(WIP) Una moneda valiosa reservada para uso futuro en Sunflower Land."
+  "description.community.coin": "(WIP) Una moneda valiosa reservada para uso futuro en Sunflower Land.",
+  "bedsMigration.bedsNeededDescription2": "En cada cama única puede dormir un peón de granja.",
+  "bedsMigration.bedsNeededDescription3": "¡Coloca camas para contratar más peones!",
+  "bedsMigration.status.occupied": "Ocupado",
+  "bedsMigration.status.unoccupied": "Vacía",
+  "bedsMigration.status.notPlaced": "No colocado",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "Mis camas."
 }

@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "Mit {{name}} kannst du einen neuen Farmarbeiter freischalten, der auf deiner Farm hilft.",
   "bedsMigration.bedsNeeded": "Betten werden benötigt!",
   "bedsMigration.bedsNeededDescription": "Farmarbeiter brauchen Betten, um auf dem Hof arbeiten zu können.",
-  "bedsMigration.bedsNeededDescription2": "Platziere Betten, um mehr Landarbeiter einzustellen!",
   "farmHand": "Landarbeiter",
   "description.petting.hand": "Haustiere Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "animal.toolRequired": "{{tool}} Erforderlich",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Spielt Musik für Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "levelUpMax": "Maximales Level!",
   "birdieplaza.choresAndRewards": "Du kannst auch {{seasonalTicket}} s durch wöchentliche Aufgaben, tägliche Truhenbelohnungen, Bert's Odd Obsession und das Kopfgeldsystem verdienen!",
-  "description.community.coin": "(WIP) Eine wertvolle Münze, die für die zukünftige Verwendung in Sunflower Land reserviert ist."
+  "description.community.coin": "(WIP) Eine wertvolle Münze, die für die zukünftige Verwendung in Sunflower Land reserviert ist.",
+  "bedsMigration.bedsNeededDescription2": "In jedem einzigartigen Bett kann ein Landarbeiter schlafen.",
+  "bedsMigration.bedsNeededDescription3": "Platziere Betten, um mehr Landarbeiter einzustellen!",
+  "bedsMigration.status.occupied": "Besetzt",
+  "bedsMigration.status.unoccupied": "Leer",
+  "bedsMigration.status.notPlaced": "Nicht platziert",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "Meine Betten."
 }

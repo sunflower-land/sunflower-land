@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "Isso {{name}} permite que você desbloqueie um novo fazendeiro para ajudar na sua fazenda.",
   "bedsMigration.bedsNeeded": "Camas necessárias!",
   "bedsMigration.bedsNeededDescription": "Os fazendeiros precisam de camas para trabalhar na fazenda.",
-  "bedsMigration.bedsNeededDescription2": "Coloque camas para contratar mais fazendeiros!",
   "farmHand": "Farm Hand",
   "description.petting.hand": "Animais de estimação. Use isso para mostrar afeto aos seus animais.",
   "animal.toolRequired": "{{tool}} Obrigatório",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
   "levelUpMax": "Nível máximo!",
   "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s por meio de tarefas semanais, recompensas diárias no baú, Bert's Odd Obsession e sistema de recompensas!",
-  "description.community.coin": "(WIP) Uma moeda valiosa reservada para uso futuro em Sunflower Land."
+  "description.community.coin": "(WIP) Uma moeda valiosa reservada para uso futuro em Sunflower Land.",
+  "bedsMigration.bedsNeededDescription2": "Cada cama exclusiva pode acomodar um lavrador.",
+  "bedsMigration.bedsNeededDescription3": "Coloque camas para contratar mais fazendeiros!",
+  "bedsMigration.status.occupied": "Ocupado",
+  "bedsMigration.status.unoccupied": "Vazio",
+  "bedsMigration.status.notPlaced": "Não colocado",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "Minhas camas."
 }

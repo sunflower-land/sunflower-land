@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "この {{name}} を使うと、農場を手伝ってくれる新しいファームハンドをアンロックできます。",
   "bedsMigration.bedsNeeded": "ベッドが必要です！",
   "bedsMigration.bedsNeededDescription": "農家の人が農場で働くにはベッドが必要だ。",
-  "bedsMigration.bedsNeededDescription2": "ベッドを置いて農夫をもっと雇おう！",
   "farmHand": "ファームハンド",
   "description.petting.hand": "ペット、動物。これを使って動物への愛情を示しましょう。",
   "animal.toolRequired": "{{tool}} が必要です",
@@ -4217,5 +4216,12 @@
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
   "levelUpMax": "最大レベル！",
   "birdieplaza.choresAndRewards": "また、毎週の雑用、毎日のチェスト報酬、バートのオッドオブセッション、バウンティシステムによって {{seasonalTicket}} を獲得することもできます！",
-  "description.community.coin": "(WIP) 将来サンフラワーランドで使えるように予約されている貴重なコイン。"
+  "description.community.coin": "(WIP) 将来サンフラワーランドで使えるように予約されている貴重なコイン。",
+  "bedsMigration.bedsNeededDescription2": "それぞれの個性的なベッドで片手でも眠れます。",
+  "bedsMigration.bedsNeededDescription3": "ベッドを置いて農夫をもっと雇おう！",
+  "bedsMigration.status.occupied": "占領",
+  "bedsMigration.status.unoccupied": "空です",
+  "bedsMigration.status.notPlaced": "未配置",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "マイベッド."
 }

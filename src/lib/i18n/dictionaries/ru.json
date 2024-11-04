@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "Это {{name}} позволит вам найти нового фермера, который поможет вам на ферме.",
   "bedsMigration.bedsNeeded": "Нужны кровати!",
   "bedsMigration.bedsNeededDescription": "Работникам фермы нужны кровати для работы на ферме.",
-  "bedsMigration.bedsNeededDescription2": "Разместите кровати, чтобы нанять больше фермеров!",
   "farmHand": "Фермерская рука",
   "description.petting.hand": "Домашние животные. Используйте это, чтобы выразить привязанность к своим животным.",
   "animal.toolRequired": "{{tool}} Обязательно",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Играет музыку для животных. Используйте это, чтобы выразить привязанность к своим животным.",
   "levelUpMax": "Максимальный уровень!",
   "birdieplaza.choresAndRewards": "Вы также можете заработать {{seasonalTicket}} s, выполняя еженедельные задания по дому, ежедневные награды за сундуки, «Странную одержимость Берта» и систему наград!",
-  "description.community.coin": "(WIP) Ценная монета, зарезервированная для будущего использования в Sunflower Land."
+  "description.community.coin": "(WIP) Ценная монета, зарезервированная для будущего использования в Sunflower Land.",
+  "bedsMigration.bedsNeededDescription2": "На каждой уникальной кровати может разместиться одна рука фермера.",
+  "bedsMigration.bedsNeededDescription3": "Разместите кровати, чтобы нанять больше фермеров!",
+  "bedsMigration.status.occupied": "Оккупированный",
+  "bedsMigration.status.unoccupied": "Пусто",
+  "bedsMigration.status.notPlaced": "Не размещено",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "Мои кровати."
 }
