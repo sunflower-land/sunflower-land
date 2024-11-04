@@ -53,10 +53,11 @@ export function generateDeliveryTickets({
   ) {
     amount += 2;
   }
-
   if (
     getCurrentSeason() === "Bull Run" &&
-    isWearableActive({ game, name: "Cowboy Hat" })
+    (isWearableActive({ game, name: "Cowboy Hat" }) ||
+      isWearableActive({ game, name: "Cowboy Shirt" }) ||
+      isWearableActive({ game, name: "Cowboy Trouser" }))
   ) {
     amount += 1;
   }
