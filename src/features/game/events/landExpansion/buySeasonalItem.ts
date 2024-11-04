@@ -100,7 +100,7 @@ export function buySeasonalItem({
 
       if (
         tier === "epic" &&
-        seasonalItemsCrafted - reduction < seasonalStore.rare.requirement
+        seasonalItemsCrafted - reduction < seasonalStore.epic.requirement
       ) {
         throw new Error(
           "You need to buy more basic and rare items to unlock epic items",
@@ -109,7 +109,7 @@ export function buySeasonalItem({
 
       if (
         tier === "mega" &&
-        seasonalItemsCrafted - reduction < seasonalStore.epic.requirement
+        seasonalItemsCrafted - reduction < seasonalStore.mega.requirement
       ) {
         throw new Error("You need to buy more epic items to unlock mega items");
       }
