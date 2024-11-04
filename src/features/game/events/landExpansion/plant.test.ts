@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
@@ -1975,6 +1974,45 @@ describe("getCropTime", () => {
         name: "Soybean",
         plantedAt: expect.any(Number),
         amount: 2,
+      }),
+    );
+  });
+
+  it("adds +2 barley with Sheaf of Plenty placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Barley Seed": new Decimal(1),
+        },
+        collectibles: {
+          "Sheaf of Plenty": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Barley Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Barley",
+        plantedAt: expect.any(Number),
+        amount: 3,
       }),
     );
   });

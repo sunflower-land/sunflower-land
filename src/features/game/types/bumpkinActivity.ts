@@ -5,6 +5,7 @@ import { CropName, GreenHouseCropName, GreenHouseCropSeedName } from "./crops";
 import {
   AnimalFoodName,
   AnimalMedicineName,
+  AnimalResource,
   Bumpkin,
   Keys,
   LanternName,
@@ -91,6 +92,7 @@ export type AnimalFeedMixedEvent =
   `${AnimalFoodName | AnimalMedicineName} Mixed`;
 export type AnimalFeedEvent = `${Animal} Fed`;
 export type AnimalCuredEvent = `${Animal} Cured`;
+export type AnimalResourceEvent = `${AnimalResource} Collected`;
 
 export type BumpkinActivityName =
   | PlantGreenHouseFruitEvent
@@ -110,6 +112,7 @@ export type BumpkinActivityName =
   | AnimalFeedMixedEvent
   | AnimalFeedEvent
   | AnimalCuredEvent
+  | AnimalResourceEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"

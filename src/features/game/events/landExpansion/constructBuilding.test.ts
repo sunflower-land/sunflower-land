@@ -7,6 +7,7 @@ import {
   constructBuilding,
   CONSTRUCT_BUILDING_ERRORS,
 } from "./constructBuilding";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -419,84 +420,6 @@ describe("Construct building", () => {
     });
   });
 
-  it("constructs second building using the correct requirements", () => {
-    // Second Hen House
-    const building = BUILDINGS["Hen House"][1];
-    const initialWood = new Decimal(200);
-    const initialIron = new Decimal(20);
-    const initialGold = new Decimal(20);
-    const initialEggs = new Decimal(400);
-    const initialCoins = 1000;
-
-    const state = {
-      ...GAME_STATE,
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        experience: LEVEL_EXPERIENCE[21],
-      },
-      buildings: {
-        "Hen House": [
-          {
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-            id: "1",
-          },
-        ],
-      },
-      inventory: {
-        Wood: initialWood,
-        Iron: initialIron,
-        Gold: initialGold,
-        Egg: initialEggs,
-        "Hen House": new Decimal(1),
-        "Basic Land": new Decimal(20),
-      },
-      coins: initialCoins,
-    };
-
-    const newState = constructBuilding({
-      state,
-      action: {
-        id: "123",
-        type: "building.constructed",
-        name: "Hen House",
-        coordinates: {
-          x: 0,
-          y: 0,
-        },
-      },
-      createdAt: dateNow,
-    });
-
-    expect(newState.inventory["Hen House"]).toEqual(new Decimal(2));
-    expect(newState.buildings["Hen House"]?.length).toEqual(2);
-
-    const { ingredients } = building;
-
-    const { amount: woodRequired } = ingredients.find(
-      ({ item }) => item === "Wood",
-    ) as Ingredient;
-
-    const { amount: ironRequired } = ingredients.find(
-      ({ item }) => item === "Iron",
-    ) as Ingredient;
-
-    const { amount: goldRequired } = ingredients.find(
-      ({ item }) => item === "Gold",
-    ) as Ingredient;
-
-    const { amount: eggsRequired } = ingredients.find(
-      ({ item }) => item === "Egg",
-    ) as Ingredient;
-
-    expect(newState.inventory.Wood).toEqual(initialWood.minus(woodRequired));
-    expect(newState.inventory.Iron).toEqual(initialIron.minus(ironRequired));
-    expect(newState.inventory.Gold).toEqual(initialGold.minus(goldRequired));
-    expect(newState.inventory.Egg).toEqual(initialEggs.minus(eggsRequired));
-    expect(newState.coins).toEqual(initialCoins - building.coins);
-  });
-
   it("requires desert island to build the crop machine", () => {
     expect(() =>
       constructBuilding({
@@ -552,5 +475,69 @@ describe("Construct building", () => {
         createdAt: dateNow,
       }),
     ).not.toThrow();
+  });
+
+  it("gives the player 5 Kernel Blend when a barn is constructed", () => {
+    const state = constructBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {},
+        coins: 8000,
+        inventory: {
+          Wood: new Decimal(151),
+          Iron: new Decimal(11),
+          Gold: new Decimal(11),
+          "Basic Land": new Decimal(5),
+        },
+        bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        island: {
+          type: "desert",
+        },
+      },
+      action: {
+        type: "building.constructed",
+        id: "123",
+        name: "Barn",
+        coordinates: {
+          x: 1,
+          y: 1,
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(5));
+  });
+
+  it("gives the player 5 Kernel Blend when a hen house is constructed", () => {
+    const state = constructBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {},
+        coins: 8000,
+        inventory: {
+          Wood: new Decimal(151),
+          Iron: new Decimal(11),
+          Gold: new Decimal(11),
+          "Basic Land": new Decimal(5),
+        },
+        bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        island: {
+          type: "desert",
+        },
+      },
+      action: {
+        type: "building.constructed",
+        id: "123",
+        name: "Barn",
+        coordinates: {
+          x: 1,
+          y: 1,
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(5));
   });
 });

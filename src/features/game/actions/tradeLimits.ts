@@ -1,4 +1,6 @@
+import { hasFeatureAccess } from "lib/flags";
 import { FactionEmblem, InventoryItemName } from "../types/game";
+import { INITIAL_FARM } from "../lib/constants";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 2000,
@@ -31,6 +33,16 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Egg: 500,
   Honey: 100,
   Crimstone: 20,
+  ...(hasFeatureAccess(INITIAL_FARM, "ANIMALS_RESOURCE_TRADING")
+    ? {
+        Barley: 100,
+        Milk: 100,
+        Leather: 100,
+        Feather: 100,
+        Wool: 100,
+        "Merino Wool": 100,
+      }
+    : {}),
 };
 
 export const EMBLEM_TRADE_LIMITS: Record<FactionEmblem, number> = {
@@ -71,6 +83,16 @@ export const TRADE_MINIMUMS: Partial<Record<InventoryItemName, number>> = {
   Egg: 10,
   Honey: 5,
   Crimstone: 1,
+  ...(hasFeatureAccess(INITIAL_FARM, "ANIMALS_RESOURCE_TRADING")
+    ? {
+        Barley: 1,
+        Milk: 1,
+        Leather: 1,
+        Feather: 1,
+        Wool: 1,
+        "Merino Wool": 1,
+      }
+    : {}),
 };
 
 export const EMBLEM_TRADE_MINIMUMS: Record<FactionEmblem, number> = {

@@ -277,8 +277,7 @@ export type SettingMenuId =
   | "font"
 
   // Amoy Testnet Actions
-  | "mainnetHoardingCheck"
-  | "amoyHoardingCheck"
+  | "hoardingCheck"
 
   // Plaza Settings
   | "pickServer"
@@ -378,15 +377,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "amoy",
     content: AdminSettings,
   },
-  mainnetHoardingCheck: {
-    title: "Hoarding Check (Mainnet)",
-    parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} network="mainnet" />,
-  },
-  amoyHoardingCheck: {
+  hoardingCheck: {
     title: "Hoarding Check (Amoy)",
     parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
+    content: (props) => <DEV_HoarderCheck {...props} />,
   },
 
   // Plaza Settings

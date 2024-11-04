@@ -9,6 +9,7 @@ import { FactionName, MazeAttempt } from "features/game/types/game";
 import { getWeekKey } from "features/game/lib/factions";
 import { CompetitionName } from "features/game/types/competitions";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { MinigameName } from "features/game/types/minigames";
 
 const API_URL = CONFIG.API_URL;
 
@@ -276,3 +277,52 @@ export async function fetchLeaderboardData(
 //     return null;
 //   }
 // }
+
+export async function getPortalLeaderboard({
+  farmId,
+  name,
+  jwt,
+  from,
+  to,
+}: {
+  farmId: number;
+  name: MinigameName;
+  jwt: string;
+  from: string;
+  to: string;
+}) {
+  const cache = getCachedLeaderboardData({
+    name: `${name}-${from}-${to}portal` as any, // TODO
+    duration: 1 * 60 * 1000, // Every 1 minute
+  });
+
+  if (cache) {
+    return cache;
+  }
+
+  const url = `${API_URL}/leaderboard/portals/${farmId}?name=${name}&from=${from}&to=${to}`;
+
+  const response = await window.fetch(url, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${jwt}`,
+      // "X-Transaction-ID": request.transactionId,
+    },
+  });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status >= 400) {
+    return;
+  }
+
+  const data = await response.json();
+
+  // TODO
+  cacheLeaderboard({ name: `${name}-${from}-${to}portal` as any, data });
+
+  return data;
+}

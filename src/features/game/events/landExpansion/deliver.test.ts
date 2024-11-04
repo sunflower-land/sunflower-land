@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import {
   QUEST_NPC_NAMES,
@@ -9,7 +8,7 @@ import {
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { getSeasonalTicket } from "features/game/types/seasons";
 
-const FIRST_DAY_OF_SEASON = new Date("2023-11-01T16:00:00Z").getTime();
+const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
 
 describe("deliver", () => {
@@ -935,6 +934,228 @@ describe("deliver", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
   });
 
+  it("provides +1 tickets when Cowboy Hat is worn at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2024-11-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("provides +1 tickets when Cowboy Shirt is worn at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2024-11-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shirt: "Cowboy Shirt",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("provides +1 tickets when Cowboy Trouser is worn at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2024-11-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            pants: "Cowboy Trouser",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("stacks Cowboy Set boost at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2024-11-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+            shirt: "Cowboy Shirt",
+            pants: "Cowboy Trouser",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+  });
+
+  it("does not provide +1 tickets when Cowboy Hat is worn outside Bull Run Season", () => {
+    const mockDate = new Date("2024-10-30T15:00:00Z");
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2024-10-29T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Cowboy Hat",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+  });
+
   it("add 20% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
@@ -1226,7 +1447,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: new Date("2024-09-10").getTime(),
               from: "tango",
               items: {
                 Orange: 5,
@@ -1235,13 +1456,14 @@ describe("deliver", () => {
               reward: { coins: 320 },
             },
           ],
-          doubleDelivery: true,
+          doubleDelivery: "2024-09-10",
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: new Date("2024-09-10").getTime(),
     });
 
     expect(state.coins).toEqual(640);
@@ -1262,7 +1484,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: new Date("2024-09-10").getTime(),
               from: "guria",
               items: {
                 Orange: 5,
@@ -1271,13 +1493,14 @@ describe("deliver", () => {
               reward: { sfl: 1 },
             },
           ],
-          doubleDelivery: true,
+          doubleDelivery: "2024-09-10",
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: new Date("2024-09-10").getTime(),
     });
 
     expect(state.balance).toEqual(new Decimal(2));
@@ -1295,19 +1518,20 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: new Date("2024-09-10").getTime(),
               from: "tywin",
               items: { coins: 6400 },
               reward: {},
             },
           ],
-          doubleDelivery: true,
+          doubleDelivery: "2024-09-10",
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: new Date("2024-09-10").getTime(),
     });
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));

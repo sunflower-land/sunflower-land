@@ -27,19 +27,19 @@ export const HEN_HOUSE_VARIANTS: Record<
   Record<AnimalBuildingLevel, string>
 > = {
   basic: {
-    1: SUNNYSIDE.building.chickenHouse,
-    2: SUNNYSIDE.building.chickenHouse,
-    3: SUNNYSIDE.building.chickenHouse,
+    1: SUNNYSIDE.building.henHouseLevel1,
+    2: SUNNYSIDE.building.henHouseLevel2,
+    3: SUNNYSIDE.building.henHouseLevel3,
   },
   spring: {
-    1: SUNNYSIDE.building.chickenHouse,
-    2: SUNNYSIDE.building.chickenHouse,
-    3: SUNNYSIDE.building.chickenHouse,
+    1: SUNNYSIDE.building.henHouseLevel1,
+    2: SUNNYSIDE.building.henHouseLevel2,
+    3: SUNNYSIDE.building.henHouseLevel3,
   },
   desert: {
-    1: SUNNYSIDE.building.desertChickenHouse,
-    2: SUNNYSIDE.building.desertChickenHouse,
-    3: SUNNYSIDE.building.desertChickenHouse,
+    1: SUNNYSIDE.building.henHouseLevel1,
+    2: SUNNYSIDE.building.henHouseLevel2,
+    3: SUNNYSIDE.building.henHouseLevel3,
   },
 };
 

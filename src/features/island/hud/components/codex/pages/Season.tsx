@@ -3,6 +3,7 @@ import { TicketsLeaderboard } from "./TicketsLeaderboard";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { InnerPanel } from "components/ui/Panel";
 import {
+  hasSeasonEnded,
   SEASON_TICKET_NAME,
   SeasonName,
   secondsLeftInSeason,
@@ -13,6 +14,8 @@ import { secondsToString } from "lib/utils/time";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 import chores from "assets/icons/chores.webp";
+import lock from "assets/icons/lock.png";
+
 import { SeasonalAuctions } from "../components/SeasonalAuctions";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -95,7 +98,20 @@ export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
                 ticket: SEASON_TICKET_NAME[season],
               })}
             </Label>
+
+            {Date.now() < new Date("2024-11-06").getTime() && (
+              <Label icon={lock} type="danger">
+                {t("coming.soon")}
+              </Label>
+            )}
           </div>
+          {Date.now() < new Date("2024-11-06").getTime() && (
+            <div className="mb-2">
+              <span className="text-xs">
+                {t("season.codex.howToEarn.comingSoon")}
+              </span>
+            </div>
+          )}
           <NoticeboardItems
             iconWidth={8}
             items={[
@@ -124,12 +140,16 @@ export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
           <SeasonalStore readonly />
         </InnerPanel>
       )}
-      <InnerPanel className="mb-1">
-        <MegaStoreMonthly readonly />
-      </InnerPanel>
-      <InnerPanel className="mb-1">
-        <MegaStoreSeasonal readonly />
-      </InnerPanel>
+      {!hasSeasonEnded("Pharaoh's Treasure") && (
+        <InnerPanel className="mb-1">
+          <MegaStoreMonthly readonly />
+        </InnerPanel>
+      )}
+      {!hasSeasonEnded("Pharaoh's Treasure") && (
+        <InnerPanel className="mb-1">
+          <MegaStoreSeasonal readonly />
+        </InnerPanel>
+      )}
       <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
       <SeasonalMutants season={season} />
       <InnerPanel className="mb-1">

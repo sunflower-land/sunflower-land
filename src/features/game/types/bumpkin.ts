@@ -16,7 +16,6 @@ export type BumpkinBackground =
   | "Festival of Colors Background"
   | "Desert Background"
   | "Desert Camel Background"
-  | "Desert Camel Background"
   | "Pumpkin Plaza Background"
   | "Goblin Retreat Background"
   | "Kingdom Background";
@@ -128,13 +127,18 @@ export type BumpkinShirt =
   | "Sunflorian Armor"
   | "Explorer Shirt"
   | "Ankh Shirt"
-  | "Cowboy Shirt";
+  | "Cowboy Shirt"
+  | "Merino Jumper"
+  | "Fossil Armor"
+  | "Rice Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
   | "Fruit Picker Apron"
   | "Pirate General Coat"
-  | "Royal Robe";
+  | "Royal Robe"
+  | "Milk Apron"
+  | "Tomato Apron";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -181,7 +185,9 @@ export type BumpkinTool =
   | "Rock Hammer"
   | "Water Gourd"
   | "Ancient Shovel"
-  | "Infernal Bullwhip";
+  | "Infernal Bullwhip"
+  | "Shepherd Staff"
+  | "Sickle";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -203,7 +209,8 @@ export type BumpkinShoe =
   | "Sunflorian Sabatons"
   | "Bumpkin Sabatons"
   | "Desert Merchant Shoes"
-  | "Cowboy Boots";
+  | "Cowboy Boots"
+  | "Speed Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -218,7 +225,9 @@ export type BumpkinNecklace =
   | "Bumpkin Medallion"
   | "Goblin Medallion"
   | "Nightshade Medallion"
-  | "Sunflorian Medallion";
+  | "Sunflorian Medallion"
+  | "Dream Scarf"
+  | "Cowbell Necklace";
 
 export type BumpkinHat =
   | "Painter's Cap"
@@ -339,7 +348,10 @@ export type BumpkinPant =
   | "Explorer Shorts"
   | "Oil Overalls"
   | "Grape Pants"
-  | "Cowboy Trouser";
+  | "Cowboy Trouser"
+  | "Cowgirl Skirt"
+  | "Fossil Pants";
+
 export type BumpkinDress =
   | "Royal Dress"
   | "Cupid Dress"
@@ -405,7 +417,8 @@ export type BumpkinSuit =
   | "Elf Suit"
   | "Bee Suit"
   | "Beekeeper Suit"
-  | "Lucky Red Suit";
+  | "Lucky Red Suit"
+  | "Chicken Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -421,7 +434,8 @@ export type BumpkinWings =
   | "Bumpkin Quiver"
   | "Goblin Quiver"
   | "Nightshade Quiver"
-  | "Sunflorian Quiver";
+  | "Sunflorian Quiver"
+  | "Sol & Luna";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
@@ -846,6 +860,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   //GAM3S Wearable
   "Gam3s Cap": 395,
 
+  //Bull Run Season Wearables
   "Cowboy Hat": 396,
   "Cowboy Shirt": 397,
   "Cowboy Trouser": 398,
@@ -853,6 +868,20 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Infernal Bullwhip": 400,
   "White Sheep Onesie": 401,
   "Black Sheep Onesie": 402,
+  "Chicken Suit": 403,
+  "Cowgirl Skirt": 404,
+  "Merino Jumper": 405,
+  "Dream Scarf": 406,
+  "Cowbell Necklace": 407,
+  "Milk Apron": 408,
+  "Shepherd Staff": 409,
+  "Sol & Luna": 410,
+  "Fossil Armor": 411,
+  "Fossil Pants": 412,
+  "Rice Shirt": 413,
+  Sickle: 414,
+  "Speed Boots": 415,
+  "Tomato Apron": 416,
 };
 
 // The reverse of above
@@ -1316,4 +1345,18 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Infernal Bullwhip": "tool",
   "White Sheep Onesie": "onesie",
   "Black Sheep Onesie": "onesie",
+  "Chicken Suit": "suit",
+  "Cowgirl Skirt": "pants",
+  "Merino Jumper": "shirt",
+  "Dream Scarf": "necklace",
+  "Cowbell Necklace": "necklace",
+  "Milk Apron": "coat",
+  "Shepherd Staff": "tool",
+  "Sol & Luna": "wings",
+  "Fossil Armor": "shirt",
+  "Fossil Pants": "pants",
+  "Rice Shirt": "shirt",
+  Sickle: "tool",
+  "Speed Boots": "shoes",
+  "Tomato Apron": "coat",
 };

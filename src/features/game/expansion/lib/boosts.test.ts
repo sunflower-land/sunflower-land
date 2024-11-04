@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import { getSellPrice } from "./boosts";
 import { TEST_FARM } from "features/game/lib/constants";
 import { CROPS } from "features/game/types/crops";

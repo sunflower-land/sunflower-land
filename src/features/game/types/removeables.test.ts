@@ -1,7 +1,6 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { hasRemoveRestriction } from "./removeables";
-import { TEST_FARM } from "../lib/constants";
+import { INITIAL_FARM, TEST_FARM } from "../lib/constants";
 
 describe("canremove", () => {
   describe("prevents", () => {
@@ -15,17 +14,29 @@ describe("canremove", () => {
       });
       expect(restricted).toBe(true);
     });
+
     it("prevents a user from removing mutant chickens if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rich Chicken", "1", {
-        ...TEST_FARM,
-        inventory: {
-          "Rich Chicken": new Decimal(1),
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
+      const [restricted] = hasRemoveRestriction("Rich Chicken", "123", {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
           },
+        },
+        collectibles: {
+          "Rich Chicken": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
         },
       });
 
@@ -49,45 +60,28 @@ describe("canremove", () => {
       expect(restricted).toBe(true);
     });
 
-    it("prevents a user from removing Bale if some chicken is fed and within AoE", () => {
-      const [restricted] = hasRemoveRestriction("Bale", "1", {
-        ...TEST_FARM,
-        inventory: {
-          Bale: new Decimal(1),
+    it("prevents a user from removing rooster if some chicken is fed", () => {
+      const [restricted] = hasRemoveRestriction("Rooster", "123", {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
         },
         collectibles: {
-          Bale: [
+          Rooster: [
             {
-              id: "123",
-              coordinates: { x: 0, y: 0 },
+              coordinates: { x: 1, y: 1 },
               createdAt: 0,
+              id: "123",
               readyAt: 0,
             },
           ],
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
-            coordinates: { x: -1, y: 0 },
-          },
-        },
-      });
-
-      expect(restricted).toBe(true);
-    });
-
-    it("prevents a user from removing rooster if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rooster", "1", {
-        ...TEST_FARM,
-        inventory: {
-          Rooster: new Decimal(1),
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
-          },
         },
       });
 
@@ -384,9 +378,179 @@ describe("canremove", () => {
 
       expect(restricted).toBe(true);
     });
+
+    it("prevents a user from removing Alien Chicken when chickens are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Alien Chicken", "123", {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        collectibles: {
+          "Alien Chicken": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing Mootant when cows are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Mootant", "123", {
+        ...INITIAL_FARM,
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.barn.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        collectibles: {
+          Mootant: [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing Toxic Tuft when sheep are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Toxic Tuft", "123", {
+        ...INITIAL_FARM,
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.barn.animals["1"],
+              type: "Sheep",
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        collectibles: {
+          "Toxic Tuft": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
   });
 
   describe("enables", () => {
+    it("enables a user to remove Alien Chicken when no chickens are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Alien Chicken", "123", {
+        ...TEST_FARM,
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          animals: {
+            "1": {
+              ...TEST_FARM.henHouse.animals["1"],
+              asleepAt: 0,
+              awakeAt: 0,
+            },
+          },
+        },
+        collectibles: {
+          "Alien Chicken": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
+
+    it("enables a user to remove Mootant when no cows are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Mootant", "123", {
+        ...TEST_FARM,
+        barn: {
+          ...TEST_FARM.barn,
+          animals: {
+            "1": {
+              ...TEST_FARM.barn.animals["1"],
+              asleepAt: 0,
+              awakeAt: 0,
+            },
+          },
+        },
+        collectibles: {
+          Mootant: [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
+
+    it("enables a user to remove Toxic Tuft when no sheep are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Toxic Tuft", "123", {
+        ...TEST_FARM,
+        barn: {
+          ...TEST_FARM.barn,
+          animals: {
+            "1": {
+              ...TEST_FARM.barn.animals["1"],
+              type: "Sheep",
+              asleepAt: 0,
+              awakeAt: 0,
+            },
+          },
+        },
+        collectibles: {
+          "Toxic Tuft": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
+
     it("enables a user to remove Grinx Hammer 7 days after expanding", () => {
       const [restricted] = hasRemoveRestriction("Grinx's Hammer", "1", {
         ...TEST_FARM,
@@ -397,6 +561,7 @@ describe("canremove", () => {
       });
       expect(restricted).toBe(false);
     });
+
     it("enables users to remove crops", () => {
       const [restricted] = hasRemoveRestriction("Sunflower", "1", {
         ...TEST_FARM,
@@ -1350,6 +1515,31 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
+  it("prevents a user from removing Longhorn Cowfish when a cow is sleeping", () => {
+    const [restricted] = hasRemoveRestriction("Longhorn Cowfish", "123", {
+      ...TEST_FARM,
+      barn: {
+        ...TEST_FARM.barn,
+        animals: {
+          ...TEST_FARM.barn.animals,
+          "0": {
+            ...TEST_FARM.barn.animals["0"],
+            asleepAt: Date.now() - 10000,
+            awakeAt: Date.now() + 10000,
+          },
+        },
+      },
+      collectibles: {
+        "Longhorn Cowfish": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
   it("prevents a user from removing Crim Peckster when Crimstone is mined", () => {
     const [restricted] = hasRemoveRestriction("Crim Peckster", "1", {
       ...TEST_FARM,

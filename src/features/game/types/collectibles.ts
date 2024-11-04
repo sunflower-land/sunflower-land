@@ -96,7 +96,12 @@ export type SoldOutCollectibleName =
   | "Lemon Tea Bath"
   | "Tomato Clown"
   | "Pyramid"
-  | "Oasis";
+  | "Oasis"
+  | "Moo-ver"
+  | "Swiss Whiskers"
+  | "Cluckulator"
+  | "UFO"
+  | "Black Sheep";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"
@@ -140,6 +145,15 @@ export type MegaStoreCollectibleName =
   | "Lemon Frog"
   | "Scarab Beetle"
   | "Tomato Bombard";
+
+export type SeasonalCollectibleName =
+  // Animal Season
+  | "Cow Scratcher"
+  | "Spinning Wheel"
+  | "Sleepy Rug"
+  | "Meteorite"
+  | "Sheaf of Plenty"
+  | "Mechanical Bull";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"

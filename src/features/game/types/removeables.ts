@@ -10,7 +10,11 @@ import {
   GreenHouseFruitName,
   PatchFruitName,
 } from "features/game/types/fruits";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  BedName,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import {
   CropName,
   GREENHOUSE_CROPS,
@@ -34,6 +38,7 @@ import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
+import { BED_FARMHAND_COUNT } from "./beds";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -239,6 +244,35 @@ export function areAnyChickensFed(game: GameState): Restriction {
   return [chickensAreFed, translate("restrictionReason.chickensFed")];
 }
 
+export function areAnyChickensSleeping(game: GameState): Restriction {
+  const chickensAreSleeping = Object.values(game.henHouse.animals).some(
+    (animal) =>
+      animal.type === "Chicken" &&
+      animal.awakeAt &&
+      Date.now() < animal.awakeAt,
+  );
+
+  return [chickensAreSleeping, translate("restrictionReason.chickensFed")];
+}
+
+export function areAnySheepSleeping(game: GameState): Restriction {
+  const sheepAreSleeping = Object.values(game.barn.animals).some(
+    (animal) =>
+      animal.type === "Sheep" && animal.awakeAt && Date.now() < animal.awakeAt,
+  );
+
+  return [sheepAreSleeping, translate("restrictionReason.sheepSleeping")];
+}
+
+export function areAnyCowsSleeping(game: GameState): Restriction {
+  const cowAreFed = Object.values(game.barn.animals).some(
+    (animal) =>
+      animal.type === "Cow" && animal.awakeAt && Date.now() < animal.awakeAt,
+  );
+
+  return [cowAreFed, translate("restrictionReason.cowsSleeping")];
+}
+
 const MAX_DIGS = 25;
 export function areBonusTreasureHolesDug(game: GameState): Restriction {
   const holes = game.desert.digging.grid.flat().map((hole) => {
@@ -373,20 +407,48 @@ function hasSeedsCropsInMachine(game: GameState): Restriction {
   ];
 }
 
+export function isFarmhandUsingBed(
+  bedName: BedName,
+  game: GameState,
+): Restriction {
+  const isLastBed =
+    (game.collectibles[bedName]?.length ?? 0) +
+      (game.home.collectibles[bedName]?.length ?? 0) <=
+    1;
+
+  const farmHandCount = getKeys(game.farmHands.bumpkins).length + 1;
+  const farmHandInBed = farmHandCount >= BED_FARMHAND_COUNT[bedName];
+
+  return [isLastBed && farmHandInBed, "Farmhand is using bed"];
+}
+
+const newAnimalsStarted =
+  Date.now() > new Date("2024-11-04T00:00:00Z").getTime();
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
   // Mutant Chickens
-  "Undead Rooster": (game) => areAnyChickensFed(game),
-  "Ayam Cemani": (game) => areAnyChickensFed(game),
-  "El Pollo Veloz": (game) => areAnyChickensFed(game),
-  "Fat Chicken": (game) => areAnyChickensFed(game),
-  "Rich Chicken": (game) => areAnyChickensFed(game),
-  "Speed Chicken": (game) => areAnyChickensFed(game),
-  "Chicken Coop": (game) => areAnyChickensFed(game),
-  "Gold Egg": (game) => areAnyChickensFed(game),
-  Rooster: (game) => areAnyChickensFed(game),
-  Bale: (game) => areAnyChickensFed(game),
+  "Undead Rooster": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Ayam Cemani": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "El Pollo Veloz": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Rich Chicken": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Fat Chicken": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Speed Chicken": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Chicken Coop": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  "Gold Egg": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  Rooster: (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
+  Bale: (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Banana Chicken": (game) => areFruitsGrowing(game, "Banana"),
   "Crim Peckster": (game) => areAnyCrimstonesMined(game),
 
@@ -531,6 +593,25 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Lemon Shark": (game) => areFruitsGrowing(game, "Lemon"),
   "Lemon Frog": (game) => areFruitsGrowing(game, "Lemon"),
   "Reveling Lemon": (game) => areFruitsGrowing(game, "Lemon"),
+
+  "Basic Bed": (game) => isFarmhandUsingBed("Basic Bed", game),
+  "Fisher Bed": (game) => isFarmhandUsingBed("Fisher Bed", game),
+  "Floral Bed": (game) => isFarmhandUsingBed("Floral Bed", game),
+  "Sturdy Bed": (game) => isFarmhandUsingBed("Sturdy Bed", game),
+  "Desert Bed": (game) => isFarmhandUsingBed("Desert Bed", game),
+  "Cow Bed": (game) => isFarmhandUsingBed("Cow Bed", game),
+  "Pirate Bed": (game) => isFarmhandUsingBed("Pirate Bed", game),
+  "Royal Bed": (game) => isFarmhandUsingBed("Royal Bed", game),
+
+  // Bull Run
+  "Sheaf of Plenty": (game) => cropIsGrowing({ item: "Barley", game }),
+  Chicory: (game) => areFlowersGrowing(game),
+  "Moo-ver": (game) => areAnyCowsSleeping(game),
+  Cluckulator: (game) => areAnyChickensFed(game),
+  "Longhorn Cowfish": (game) => areAnyCowsSleeping(game),
+  "Toxic Tuft": (game) => areAnySheepSleeping(game),
+  Mootant: (game) => areAnyCowsSleeping(game),
+  "Alien Chicken": (game) => areAnyChickensSleeping(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
@@ -552,7 +633,8 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   "Acorn Hat": (game) => areAnyTreesChopped(game),
   Banana: (game) => areAnyFruitsGrowing(game),
   "Tree Hat": (game) => areAnyTreesChopped(game),
-  "Egg Head": (game) => areAnyChickensFed(game),
+  "Egg Head": (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   "Apple Head": (game) => areAnyFruitsGrowing(game),
 
   "Axe Head": () => [false, translate("restrictionReason.noRestriction")],
@@ -579,7 +661,8 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   Castle: (game) => areAnyMediumCropsGrowing(game),
   // TODO Port needs to be implemented
   Port: () => [false, translate("restrictionReason.noRestriction")],
-  Retreat: (game) => areAnyChickensFed(game),
+  Retreat: (game) =>
+    newAnimalsStarted ? areAnyChickensSleeping(game) : areAnyChickensFed(game),
   Saphiro: (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
   Snow: (game) => areAnyAdvancedCropsGrowing(game),
   Beach: (game) => areAnyFruitsGrowing(game),

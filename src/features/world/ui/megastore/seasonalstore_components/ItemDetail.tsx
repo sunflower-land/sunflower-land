@@ -33,13 +33,17 @@ import { getItemDescription } from "../SeasonalStore";
 import { getKeys } from "features/game/types/craftables";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import {
+  getSeasonalItemsCrafted,
+  isKeyBoughtWithinSeason,
+} from "features/game/events/landExpansion/buySeasonalItem";
 
 interface ItemOverlayProps {
   item: SeasonalStoreItem | null;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel;
-  tier?: "basic" | "rare" | "epic";
+  tier?: "basic" | "rare" | "epic" | "mega";
   isVisible: boolean;
   onClose: () => void;
   readonly?: boolean;
@@ -47,7 +51,6 @@ interface ItemOverlayProps {
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 const _keysBought = (state: MachineState) =>
   state.context.state.pumpkinPlaza.keysBought;
 
@@ -64,7 +67,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
   const keysBought = useSelector(gameService, _keysBought);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
@@ -83,36 +85,32 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const tiers =
     tier === "basic"
       ? "basic"
-      : tier === "epic"
-        ? "epic"
-        : tier === "rare"
-          ? "rare"
-          : "basic";
+      : tier === "rare"
+        ? "rare"
+        : tier === "epic"
+          ? "epic"
+          : tier === "mega"
+            ? "mega"
+            : "basic";
 
-  const tierItems =
-    tiers === "basic"
-      ? seasonalStore["basic"].items
-      : tiers === "rare"
-        ? seasonalStore["basic"].items
-        : tiers === "epic"
-          ? seasonalStore["rare"].items
-          : seasonalStore["basic"].items;
-  const seasonalCollectiblesCrafted = getKeys(inventory).filter((itemName) =>
-    tierItems.some((items: SeasonalStoreItem) =>
-      "collectible" in items ? items.collectible === itemName : false,
-    ),
-  ).length;
-  const seasonalWearablesCrafted = getKeys(wardrobe).filter((itemName) =>
-    tierItems.some((items: SeasonalStoreItem) =>
-      "wearable" in items ? items.wearable === itemName : false,
-    ),
-  ).length;
-
+  const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
+    state,
+    "inventory",
+    seasonalStore,
+    "collectible",
+    tiers,
+    true,
+  );
+  const seasonalWearablesCrafted = getSeasonalItemsCrafted(
+    state,
+    "wardrobe",
+    seasonalStore,
+    "wearable",
+    tiers,
+    true,
+  );
   const seasonalItemsCrafted =
     seasonalCollectiblesCrafted + seasonalWearablesCrafted;
-
-  const isRareUnlocked = seasonalItemsCrafted >= seasonalStore.rare.requirement;
-  const isEpicUnlocked = seasonalItemsCrafted >= seasonalStore.epic.requirement;
 
   const itemName = item
     ? isWearable
@@ -122,6 +120,18 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
+
+  const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
+  const isRareUnlocked =
+    tiers === "rare" &&
+    seasonalItemsCrafted - reduction >= seasonalStore.rare.requirement;
+  const isEpicUnlocked =
+    tiers === "epic" &&
+    seasonalItemsCrafted - reduction >= seasonalStore.epic.requirement;
+  const isMegaUnlocked =
+    tier === "mega" &&
+    seasonalItemsCrafted - reduction >= seasonalStore.mega.requirement;
+
   const keysBoughtAt = keysBought?.megastore[itemName as Keys]?.boughtAt;
   const keysBoughtToday =
     !!keysBoughtAt &&
@@ -156,9 +166,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     if (!item) return false;
 
     if (keysBoughtToday) return false;
+
     if (tier !== "basic") {
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
+      if (tier === "mega" && !isMegaUnlocked) return false;
     }
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {

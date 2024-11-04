@@ -17,7 +17,6 @@ import {
   LegacyItem,
   MOMEventItem,
   MarketItem,
-  MutantChicken,
   QuestItem,
   Shovel,
   ToolName,
@@ -36,7 +35,9 @@ import {
   InventoryItemName,
   LanternName,
   LoveAnimalItem,
+  MutantAnimal,
   Points,
+  RecipeCraftableName,
   SpecialEvent,
 } from "./game";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
@@ -49,6 +50,7 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
+  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -59,6 +61,7 @@ import { BuildingName } from "./buildings";
 import { ConsumableName } from "./consumables";
 import {
   AchievementDecorationName,
+  AnimalDecorationName,
   DECORATION_TEMPLATES,
   EventDecorationName,
   InteriorDecorationName,
@@ -97,6 +100,7 @@ const animalFood: Record<AnimalFoodName, () => boolean> = {
   "Kernel Blend": () => false,
   NutriBarley: () => false,
   "Mixed Grain": () => false,
+  Omnifeed: () => false,
 };
 
 const animalMedicine: Record<AnimalMedicineName, () => boolean> = {
@@ -330,7 +334,7 @@ const resources: Record<ResourceName, () => boolean> = {
   "Oil Reserve": () => false,
 };
 
-const mutantChickens: Record<MutantChicken, () => boolean> = {
+const mutantAnimals: Record<MutantAnimal, () => boolean> = {
   "Ayam Cemani": () => true,
   "Fat Chicken": () => true,
   "Rich Chicken": () => true,
@@ -339,8 +343,10 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "Banana Chicken": () => true,
   "Crim Peckster": () => true,
   "Knight Chicken": () => true,
-  "Pharaoh Chicken": () =>
-    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  "Pharaoh Chicken": () => true,
+  "Alien Chicken": () => hasSeasonEnded("Bull Run"),
+  "Toxic Tuft": () => hasSeasonEnded("Bull Run"),
+  Mootant: () => hasSeasonEnded("Bull Run"),
 };
 
 const flags: Record<Flag, () => boolean> = {
@@ -667,6 +673,10 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Paper Reed": () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
+const animalDecorations: Record<AnimalDecorationName, () => boolean> = {
+  Wagon: () => false,
+};
+
 const mutantCrop: Record<MutantCropName, () => boolean> = {
   "Stellar Sunflower": () => true,
   "Potent Potato": () => true,
@@ -786,6 +796,11 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Tomato Clown": () => canWithdrawTimebasedItem(new Date("2024-10-06")), // Last Auction 5th October
   Pyramid: () => true,
   Oasis: () => true,
+  "Moo-ver": () => false,
+  "Swiss Whiskers": () => false,
+  Cluckulator: () => false,
+  UFO: () => false,
+  "Black Sheep": () => false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -1000,6 +1015,7 @@ const fish: Record<FishName | MarineMarvelName | OldFishName, () => boolean> = {
   "Lemon Shark": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Crimson Carp": () => hasSeasonEnded("Clash of Factions"),
   "Battle Fish": () => hasSeasonEnded("Clash of Factions"),
+  "Longhorn Cowfish": () => hasSeasonEnded("Bull Run"),
 };
 
 const interiors: Record<InteriorDecorationName, () => boolean> = {
@@ -1047,6 +1063,15 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Lemon Frog": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Scarab Beetle": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Tomato Bombard": () => hasSeasonEnded("Pharaoh's Treasure"),
+};
+
+const seasonalStore: Record<SeasonalCollectibleName, () => boolean> = {
+  "Cow Scratcher": () => hasSeasonEnded("Bull Run"),
+  "Spinning Wheel": () => hasSeasonEnded("Bull Run"),
+  "Sleepy Rug": () => hasSeasonEnded("Bull Run"),
+  Meteorite: () => hasSeasonEnded("Bull Run"),
+  "Sheaf of Plenty": () => hasSeasonEnded("Bull Run"),
+  "Mechanical Bull": () => hasSeasonEnded("Bull Run"),
 };
 
 const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {
@@ -1123,6 +1148,7 @@ const factionShopFood: Record<FactionShopFoodName, () => boolean> = {
 const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
   "Desert Rose": () =>
     canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  Chicory: () => hasSeasonEnded("Bull Run"),
 };
 
 const animalResources: Record<AnimalResource, () => boolean> = {
@@ -1143,6 +1169,20 @@ const beds: Record<BedName, () => boolean> = {
   "Cow Bed": () => false,
   "Desert Bed": () => false,
   "Royal Bed": () => false,
+};
+
+const recipeCraftables: Record<RecipeCraftableName, () => boolean> = {
+  Cushion: () => false,
+  Timber: () => false,
+  "Bee Box": () => false,
+  Crimsteel: () => false,
+  "Merino Cushion": () => false,
+  "Kelp Fibre": () => false,
+  "Hardened Leather": () => false,
+  "Synthetic Fabric": () => false,
+  "Ocean's Treasure": () => false,
+  "Royal Bedding": () => false,
+  "Royal Ornament": () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -1168,7 +1208,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...warBanners,
   ...heliosBlacksmith,
   ...commodities,
-  ...mutantChickens,
+  ...mutantAnimals,
   ...flags,
   ...easterEggs,
   ...mutantCrop,
@@ -1197,6 +1237,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   "Basic Land": () => false,
   ...lanterns,
   ...megastore,
+  ...animalDecorations,
 
   // non-withdrawables
   ...skills,
@@ -1214,6 +1255,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...factionBanners,
   ...factionShopCollectibles,
   ...beds,
+  ...recipeCraftables,
+  ...seasonalStore,
 
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (acc, key) => ({
@@ -1668,11 +1711,40 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   //Gam3s Cap
   "Gam3s Cap": () => false,
 
-  "Cowboy Hat": () => false,
-  "Cowboy Shirt": () => false,
-  "Cowboy Trouser": () => false,
+  //Bull Run Season Wearables
+  "Cowboy Hat": () => hasSeasonEnded("Bull Run"),
+  "Cowboy Shirt": () => hasSeasonEnded("Bull Run"),
+  "Cowboy Trouser": () => hasSeasonEnded("Bull Run"),
   "Cowboy Boots": () => false,
-  "Infernal Bullwhip": () => false,
+  "Infernal Bullwhip": (state) =>
+    canWithdrawBoostedWearable("Infernal Bullwhip", state) &&
+    hasSeasonEnded("Bull Run"),
   "White Sheep Onesie": () => false,
-  "Black Sheep Onesie": () => false,
+  "Black Sheep Onesie": (state) =>
+    canWithdrawBoostedWearable("Black Sheep Onesie", state) &&
+    hasSeasonEnded("Bull Run"),
+  "Chicken Suit": (state) =>
+    canWithdrawBoostedWearable("Chicken Suit", state) &&
+    hasSeasonEnded("Bull Run"),
+  "Cowgirl Skirt": () => hasSeasonEnded("Bull Run"),
+  "Merino Jumper": (state) =>
+    canWithdrawBoostedWearable("Merino Jumper", state) &&
+    hasSeasonEnded("Bull Run"),
+  "Dream Scarf": (state) =>
+    canWithdrawBoostedWearable("Dream Scarf", state) &&
+    hasSeasonEnded("Bull Run"),
+  "Cowbell Necklace": (state) =>
+    canWithdrawBoostedWearable("Cowbell Necklace", state) &&
+    hasSeasonEnded("Bull Run"),
+  "Milk Apron": (state) =>
+    canWithdrawBoostedWearable("Milk Apron", state) &&
+    hasSeasonEnded("Bull Run"),
+  "Shepherd Staff": () => false,
+  "Sol & Luna": () => false,
+  "Fossil Armor": () => false,
+  "Fossil Pants": () => false,
+  "Rice Shirt": () => false,
+  Sickle: () => false,
+  "Speed Boots": () => false,
+  "Tomato Apron": () => false,
 };

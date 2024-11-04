@@ -363,6 +363,39 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     } as Record<ChoreV2Name, ChoreV2>,
   },
+  choreBoard: {
+    chores: {
+      "boneyard betty": {
+        name: "CHOP_1_TREE",
+        reward: {
+          coins: 100,
+          items: {},
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+      "chef ebon": {
+        name: "CHOP_1_TREE",
+        reward: {
+          items: {
+            Gem: 100,
+          },
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+      barlow: {
+        name: "CHOP_1_TREE",
+        reward: {
+          items: {
+            "Amber Fossil": 100,
+          },
+        },
+        initialProgress: 0,
+        startedAt: Date.now(),
+      },
+    },
+  },
   desert: {
     digging: {
       grid: [
@@ -390,9 +423,24 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Barn Delight": new Decimal(1),
+    Brush: new Decimal(1),
+    "Alien Chicken": new Decimal(1),
+    "Toxic Tuft": new Decimal(1),
+    Mootant: new Decimal(1),
+    Barn: new Decimal(1),
+    "Hen House": new Decimal(1),
+    Hay: new Decimal(100),
+    "Mixed Grain": new Decimal(100),
+    NutriBarley: new Decimal(100),
+    Bale: new Decimal(1),
+    "Kernel Blend": new Decimal(100),
+    "Rich Chicken": new Decimal(1),
+    Wrangler: new Decimal(1),
     "Bull Run Banner": new Decimal(1),
     "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
+    "Longhorn Cowfish": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Paint Can": new Decimal(1),
     "Jelly Lamp": new Decimal(1),
@@ -403,6 +451,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Camel Bone": new Decimal(1000),
     Sand: new Decimal(1000),
     Crab: new Decimal(1000),
+    Crimsteel: new Decimal(1000),
     "Old Bottle": new Decimal(1000),
     "Sea Cucumber": new Decimal(1000),
     Vase: new Decimal(1000),
@@ -464,7 +513,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Pickaxe: new Decimal(100),
     Warehouse: new Decimal(1),
     Wheat: new Decimal(100),
-    Oil: new Decimal(100),
+    Oil: new Decimal(250),
     "Sand Shovel": new Decimal(1),
     "Sand Drill": new Decimal(1),
     Manor: new Decimal(1),
@@ -487,6 +536,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Deli: new Decimal(1),
     Greenhouse: new Decimal(1),
     "Desert Gnome": new Decimal(1),
+    Chicory: new Decimal(1),
     Blossombeard: new Decimal(1),
     Gnome: new Decimal(1),
     Cobalt: new Decimal(1),
@@ -499,7 +549,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Baozi: new Decimal(10),
     Goblet: new Decimal(1),
     "Prize Ticket": new Decimal(10),
-    "Rich Chicken": new Decimal(1),
     "Fat Chicken": new Decimal(2),
     "Speed Chicken": new Decimal(2),
     "Mashed Potato": new Decimal(1),
@@ -528,6 +577,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Bumpkin Nutcracker": new Decimal(1),
     "Festive Tree": new Decimal(1),
     "Town Center": new Decimal(1),
+    "Gold Egg": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(3),
@@ -561,13 +611,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Egg: new Decimal(12),
     Beehive: new Decimal(1),
     Banana: new Decimal(12),
-    Crimstone: new Decimal(100),
+    Crimstone: new Decimal(70),
     Gem: new Decimal(200),
     Gold: new Decimal("400"),
     Iron: new Decimal("800"),
     Stone: new Decimal("1600"),
     Wood: new Decimal("8000"),
     "Mermaid Scale": new Decimal(1000),
+    "Basic Bed": new Decimal(1),
+    "Fisher Bed": new Decimal(1),
+    "Sturdy Bed": new Decimal(1),
     "Humming Bird": new Decimal(1),
     "Queen Bee": new Decimal(1),
     "Flower Fox": new Decimal(1),
@@ -582,6 +635,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Flower Cart": new Decimal(1),
     Capybara: new Decimal(1),
     "Golden Cauliflower": new Decimal(1),
+    "Petting Hand": new Decimal(1),
+    "Music Box": new Decimal(1),
 
     "Sunpetal Seed": new Decimal(20),
     "Bloom Seed": new Decimal(10),
@@ -708,6 +763,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sand Golem": new Decimal(1),
     "Scarab Beetle": new Decimal(1),
     Sundial: new Decimal(1),
+    Wagon: new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,
@@ -762,13 +818,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         id: "1",
         name: "Cow",
-        level: 2,
-        coins: 100,
+        level: 3,
+        items: {
+          Horseshoe: 1,
+        },
       },
       {
         id: "1",
         name: "Sheep",
-        level: 2,
+        level: 3,
         coins: 100,
       },
       {
@@ -781,7 +839,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1e",
         name: "Chicken",
         level: 1,
-        coins: 100,
+        items: {
+          Horseshoe: 7,
+        },
       },
       {
         id: "1ef",
@@ -996,6 +1056,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
           Sunflower: 20,
         },
       },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "pumpkin' pete",
+        reward: {
+          items: {},
+          coins: 0,
+        },
+        id: `pete-delivery`,
+        items: {
+          Sunflower: 20,
+        },
+      },
     ],
 
     milestone: {
@@ -1003,7 +1076,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
       claimedAt: new Date("2024-02-15").getTime(),
     },
-    doubleDelivery: false,
   },
 
   ...INITIAL_RESOURCES,
@@ -1019,7 +1091,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
         flower: {
           amount: 1,
           plantedAt: 0,
-          name: "Blue Balloon Flower",
+          name: "Red Pansy",
+          reward: {
+            items: [
+              {
+                name: "Chicory",
+                amount: 1,
+              },
+            ],
+          },
         },
       },
     },
@@ -1462,5 +1542,51 @@ export const STATIC_OFFLINE_FARM: GameState = {
     startedAt: 0,
     readyAt: 0,
     recipes: {},
+  },
+  henHouse: {
+    level: 1,
+    animals: {
+      abc: {
+        asleepAt: 0,
+        awakeAt: 0,
+        experience: 2640,
+        id: "abc",
+        type: "Chicken",
+        createdAt: 0,
+        coordinates: { x: 0, y: 0 },
+        lovedAt: 0,
+        state: "sick",
+        item: "Brush",
+      },
+    },
+  },
+  barn: {
+    level: 1,
+    animals: {
+      abc: {
+        asleepAt: 0,
+        awakeAt: 0,
+        experience: 8100,
+        id: "abc",
+        type: "Cow",
+        createdAt: 0,
+        coordinates: { x: 0, y: 0 },
+        lovedAt: 0,
+        state: "happy",
+        item: "Brush",
+      },
+      def: {
+        asleepAt: 0,
+        awakeAt: 0,
+        experience: 5400,
+        id: "def",
+        type: "Sheep",
+        createdAt: 0,
+        coordinates: { x: 0, y: 0 },
+        lovedAt: 0,
+        state: "happy",
+        item: "Brush",
+      },
+    },
   },
 };

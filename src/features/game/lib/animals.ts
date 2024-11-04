@@ -55,16 +55,17 @@ export function makeAnimalBuilding(
     .reduce<Record<string, Animal>>((animals, _, index) => {
       return {
         ...animals,
-        [index]: {
+        [String(index)]: {
           id: index.toString(),
-          type: animalType,
+          type: animalType as AnimalType,
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
-          experience: 1000,
+          experience: animalType === "Chicken" ? 40 : 80,
           createdAt: Date.now(),
           item: "Petting Hand",
           lovedAt: 0,
+          awakeAt: 0,
         },
       };
     }, {});
@@ -76,7 +77,8 @@ export function makeAnimalBuilding(
 }
 
 export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
-  return level === Object.keys(ANIMAL_LEVELS[animal]).length;
+  const maxLevel = Math.max(...Object.keys(ANIMAL_LEVELS[animal]).map(Number));
+  return level === maxLevel;
 };
 
 export function getAnimalLevel(experience: number, animal: AnimalType) {
@@ -101,9 +103,9 @@ export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
   const maxXp = Math.max(...Object.values(levelFood));
 
-  const favouriteFoods = getKeys(levelFood).filter(
-    (foodName) => levelFood[foodName] === maxXp,
-  );
+  const favouriteFoods = getKeys(levelFood)
+    .filter((foodName) => levelFood[foodName] === maxXp)
+    .filter((food) => food !== "Omnifeed");
 
   if (favouriteFoods.length !== 1) throw new Error("No favourite food");
 
@@ -158,6 +160,74 @@ function getEggYieldBoosts(game: GameState) {
   return boost;
 }
 
+function getFeatherYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Chicken Suit", game })) {
+    boost += 1;
+  }
+
+  if (isCollectibleBuilt({ name: "Alien Chicken", game })) {
+    boost += 0.1;
+  }
+
+  return boost;
+}
+
+function getWoolYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Black Sheep Onesie", game })) {
+    boost += 2;
+  }
+  if (isWearableActive({ name: "White Sheep Onesie", game })) {
+    boost += 0.25;
+  }
+  return boost;
+}
+
+function getMerinoWoolYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Merino Jumper", game })) {
+    boost += 1;
+  }
+
+  if (isCollectibleBuilt({ name: "Toxic Tuft", game })) {
+    boost += 0.1;
+  }
+
+  return boost;
+}
+
+function getMilkYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isWearableActive({ name: "Milk Apron", game })) {
+    boost += 0.5;
+  }
+
+  if (isWearableActive({ name: "Cowbell Necklace", game })) {
+    boost += 2;
+  }
+
+  return boost;
+}
+
+function getLeatherYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isCollectibleBuilt({ name: "Moo-ver", game })) {
+    boost += 0.25;
+  }
+
+  if (isCollectibleBuilt({ name: "Mootant", game })) {
+    boost += 0.1;
+  }
+
+  return boost;
+}
+
 export function getResourceDropAmount({
   game,
   animalType,
@@ -170,10 +240,37 @@ export function getResourceDropAmount({
   const { bumpkin, buds = {} } = game;
 
   const isChicken = animalType === "Chicken";
+  const isCow = animalType === "Cow";
+  const isSheep = animalType === "Sheep";
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
     amount += getEggYieldBoosts(game);
+  }
+
+  // Feather yield boosts
+  if (isChicken && resource === "Feather") {
+    amount += getFeatherYieldBoosts(game);
+  }
+
+  // Wool Yield Boost
+  if (isSheep && resource === "Wool") {
+    amount += getWoolYieldBoosts(game);
+  }
+
+  // Merino Wool Yield Boost
+  if (isSheep && resource === "Merino Wool") {
+    amount += getMerinoWoolYieldBoosts(game);
+  }
+
+  // Milk Yield Boost
+  if (isCow && resource === "Milk") {
+    amount += getMilkYieldBoosts(game);
+  }
+
+  // Leather Yield Boost
+  if (isCow && resource === "Leather") {
+    amount += getLeatherYieldBoosts(game);
   }
 
   // Cattlegrim boosts all produce
@@ -211,13 +308,27 @@ export function getBoostedFoodQuantity({
     animalType === "Chicken" &&
     isCollectibleBuilt({ name: "Fat Chicken", game })
   ) {
-    return foodQuantity * 0.9;
+    foodQuantity *= 0.9;
+  }
+
+  if (
+    animalType === "Chicken" &&
+    isCollectibleBuilt({ name: "Cluckulator", game })
+  ) {
+    foodQuantity *= 0.8;
+  }
+
+  if (
+    (animalType === "Sheep" || animalType === "Cow") &&
+    isWearableActive({ name: "Infernal Bullwhip", game })
+  ) {
+    foodQuantity *= 0.5;
   }
 
   return foodQuantity;
 }
 
-export function getBoostedAsleepAt({
+export function getBoostedAwakeAt({
   animalType,
   createdAt,
   game,
@@ -226,31 +337,45 @@ export function getBoostedAsleepAt({
   createdAt: number;
   game: GameState;
 }) {
-  let asleepAt = createdAt;
   const sleepDuration = ANIMAL_SLEEP_DURATION;
   const { bumpkin } = game;
+  const twoHoursInMs = 2 * 60 * 60 * 1000;
+
+  // Start with the base duration
+  let totalDuration = sleepDuration;
 
   const isChicken = animalType === "Chicken";
+  const isSheep = animalType === "Sheep";
 
+  // Apply fixed time reductions first
   if (isChicken) {
-    if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
-      asleepAt -= sleepDuration * 0.1;
-    }
-
     if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
-      asleepAt -= 4 * 60 * 60 * 1000;
+      totalDuration -= twoHoursInMs;
+    }
+
+    if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
+      totalDuration *= 0.9;
     }
   }
 
-  // Applies to all animals
+  if (isSheep) {
+    if (isWearableActive({ name: "Dream Scarf", game })) {
+      totalDuration *= 0.8;
+    }
+
+    if (isCollectibleBuilt({ name: "Farm Dog", game })) {
+      totalDuration *= 0.75;
+    }
+  }
+
   if (game.inventory["Wrangler"]?.gt(0)) {
-    asleepAt -= sleepDuration * 0.1;
+    totalDuration *= 0.9;
   }
 
-  // Applies to all animals
   if (bumpkin.skills["Stable Hand"]) {
-    asleepAt -= sleepDuration * 0.1;
+    totalDuration *= 0.9;
   }
 
-  return asleepAt;
+  // Add the boosted duration to the created time
+  return createdAt + totalDuration;
 }

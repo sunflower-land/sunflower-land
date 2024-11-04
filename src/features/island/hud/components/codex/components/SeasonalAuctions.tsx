@@ -75,10 +75,11 @@ function getSeasonalAuctions({
 
   // Filter out any not in this season
   details = getKeys(details).reduce((acc, name) => {
-    const hasNoSeasonAuctions = details[name].auctions.every((auction) => {
-      auction.startAt < startDate.getTime() ||
-        auction.startAt > endDate.getTime();
-    });
+    const hasNoSeasonAuctions = details[name].auctions.every(
+      (auction) =>
+        auction.startAt < startDate.getTime() ||
+        auction.startAt > endDate.getTime(),
+    );
 
     if (hasNoSeasonAuctions) {
       return acc;

@@ -5,7 +5,11 @@ import {
   MachineState,
 } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  Inventory,
+  InventoryItemName,
+  Wardrobe,
+} from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { useTranslation } from "react-i18next";
 import { Box } from "components/ui/Box";
@@ -21,23 +25,55 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { InnerPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { availableWardrobe } from "features/game/events/landExpansion/equip";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
-  "Wood",
-  "Stone",
-  "Wild Mushroom",
-  "White Pansy",
-  "Sunflower",
-  "Potato",
-  "Pumpkin",
-  "Wool",
-  "Iron",
-  "Feather",
+  "Basic Bed",
+  "Bee Box",
+  "Blue Pansy",
   "Carrot",
-  "Radish",
+  "Celestial Frostbloom",
+  "Coral",
+  "Crimsteel",
+  "Crimstone",
+  "Cushion",
+  "Feather",
+  "Gold",
+  "Hardened Leather",
+  "Honey",
+  "Iron",
+  "Kelp Fibre",
   "Leather",
+  "Merino Cushion",
+  "Merino Wool",
+  "Ocean's Treasure",
+  "Oil",
+  "Pearl",
+  "Pirate Bounty",
+  "Potato",
+  "Primula Enigma",
+  "Prism Petal",
+  "Pumpkin",
+  "Radish",
+  "Red Pansy",
+  "Royal Bedding",
+  "Royal Ornament",
+  "Seaweed",
+  "Stone",
+  "Sturdy Bed",
+  "Sunflower",
+  "Synthetic Fabric",
+  "Timber",
+  "Vase",
+  "White Pansy",
+  "Wild Mushroom",
+  "Wood",
+  "Wool",
+  "Yellow Pansy",
 ];
+
 const VALID_CRAFTING_WEARABLES: BumpkinItem[] = ["Basic Hair", "Farmer Pants"];
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -100,6 +136,22 @@ export const CraftTab: React.FC<Props> = ({
 
   const remainingInventory = useMemo(() => {
     const updatedInventory = { ...inventory };
+
+    // Removed placed items
+    getKeys(updatedInventory).forEach((itemName) => {
+      const placedCount =
+        (gameService.state.context.state.collectibles[
+          itemName as CollectibleName
+        ]?.length ?? 0) +
+        (gameService.state.context.state.home?.collectibles[
+          itemName as CollectibleName
+        ]?.length ?? 0);
+
+      updatedInventory[itemName] = (
+        updatedInventory[itemName] ?? new Decimal(0)
+      ).minus(placedCount);
+    });
+
     selectedItems.forEach((item) => {
       const collectible = item?.collectible;
       if (collectible && updatedInventory[collectible]) {
@@ -110,7 +162,8 @@ export const CraftTab: React.FC<Props> = ({
   }, [inventory, selectedItems]);
 
   const remainingWardrobe = useMemo(() => {
-    const updatedWardrobe = { ...wardrobe };
+    const updatedWardrobe = availableWardrobe(gameService.state.context.state);
+
     selectedItems.forEach((item) => {
       const wearable = item?.wearable;
       if (wearable && updatedWardrobe[wearable]) {
@@ -185,30 +238,63 @@ export const CraftTab: React.FC<Props> = ({
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
     ingredient: RecipeIngredient,
+    sourceIndex?: number,
   ) => {
-    if (isPending || isCrafting || !hasIngredient(ingredient)) {
+    if (isPending || isCrafting) {
+      e.preventDefault();
+      return;
+    }
+
+    // If dragging from grid, check if there's an ingredient
+    if (sourceIndex !== undefined && !selectedItems[sourceIndex]) {
+      e.preventDefault();
+      return;
+    }
+
+    // If dragging from resources, check if player has the ingredient
+    if (sourceIndex === undefined && !hasIngredient(ingredient)) {
       e.preventDefault();
       return;
     }
 
     setSelectedIngredient(ingredient);
-    e.dataTransfer.setData("application/json", JSON.stringify(ingredient));
+    e.dataTransfer.setData(
+      "application/json",
+      JSON.stringify({ ingredient, sourceIndex }),
+    );
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+  const handleDrop = (
+    e: React.DragEvent<HTMLDivElement>,
+    targetIndex: number,
+  ) => {
     try {
       const data = JSON.parse(e.dataTransfer.getData("application/json"));
-      const ingredient = data as RecipeIngredient;
+      const { ingredient, sourceIndex } = data as {
+        ingredient: RecipeIngredient;
+        sourceIndex?: number;
+      };
 
+      // If dragging from resources, check if player has enough
       if (
-        craftingStatus === "pending" &&
+        sourceIndex === undefined &&
         ingredient.collectible &&
         remainingInventory[ingredient.collectible]?.lessThanOrEqualTo(0)
-      )
+      ) {
         return;
+      }
 
       const newSelectedItems = [...selectedItems];
-      newSelectedItems[index] = ingredient;
+
+      // If dragging between grid squares, swap the ingredients
+      if (sourceIndex !== undefined) {
+        newSelectedItems[sourceIndex] = newSelectedItems[targetIndex];
+        newSelectedItems[targetIndex] = ingredient;
+      } else {
+        // If dragging from resources, just place the ingredient
+        newSelectedItems[targetIndex] = ingredient;
+      }
+
       setSelectedItems(newSelectedItems);
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -264,33 +350,55 @@ export const CraftTab: React.FC<Props> = ({
     gameService.send("crafting.collected");
   };
 
+  const handleClearIngredients = () => {
+    button.play();
+    setSelectedItems(Array(9).fill(null));
+    setSelectedIngredient(null);
+  };
+
   return (
     <>
       <div className="flex pl-1 pt-1">
-        <CraftStatus
-          isPending={isPending}
-          isCrafting={isCrafting}
-          isReady={isReady}
-        />
+        <div className="flex justify-between items-center w-full mr-1">
+          <CraftStatus
+            isPending={isPending}
+            isCrafting={isCrafting}
+            isReady={isReady}
+          />
+          <ButtonPanel
+            disabled={isPending || isCrafting || isCraftingBoxEmpty}
+            onClick={handleClearIngredients}
+          >
+            <SquareIcon icon={SUNNYSIDE.icons.cancel} width={5} />
+          </ButtonPanel>
+        </div>
       </div>
       <div className="flex mb-2">
         {/** Crafting Grid */}
         <div className="grid grid-cols-3 gap-1 flex-shrink-0">
           {selectedItems.map((item, index) => (
-            <Box
+            <div
+              className="flex "
               key={`${index}-${item}`}
-              image={
-                item?.collectible
-                  ? ITEM_DETAILS[item.collectible]?.image
-                  : item?.wearable
-                    ? getImageUrl(ITEM_IDS[item.wearable])
-                    : undefined
+              draggable={!isPending && !!item}
+              onDragStart={(e) =>
+                handleDragStart(e, item as RecipeIngredient, index)
               }
-              onClick={() => handleBoxSelect(index)}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, index)}
-              disabled={isPending}
-            />
+            >
+              <Box
+                image={
+                  item?.collectible
+                    ? ITEM_DETAILS[item.collectible]?.image
+                    : item?.wearable
+                      ? getImageUrl(ITEM_IDS[item.wearable])
+                      : undefined
+                }
+                onClick={() => handleBoxSelect(index)}
+                disabled={isPending}
+              />
+            </div>
           ))}
         </div>
 
@@ -327,17 +435,19 @@ export const CraftTab: React.FC<Props> = ({
               handleCollect={handleCollect}
               handleCraft={handleCraft}
               isCraftingBoxEmpty={isCraftingBoxEmpty}
+              selectedItems={selectedItems}
+              inventory={inventory}
+              wardrobe={wardrobe}
             />
           </div>
         </div>
       </div>
 
-      {/** Resources */}
-      <div className="flex flex-col">
+      <div className="flex flex-col max-h-72 overflow-y-auto scrollable">
         <Label type="default" className="mb-1 ml-1">
           {t("resources")}
         </Label>
-        <div className="flex flex-wrap max-h-48 overflow-y-auto">
+        <div className="flex flex-wrap">
           {VALID_CRAFTING_RESOURCES.map((itemName) => {
             const amount = remainingInventory[itemName] || new Decimal(0);
             return (
@@ -364,14 +474,10 @@ export const CraftTab: React.FC<Props> = ({
             );
           })}
         </div>
-      </div>
-
-      {/** Wearables */}
-      <div className="flex flex-col">
         <Label type="default" className="mb-1 ml-1 mt-1">
           {t("wearables")}
         </Label>
-        <div className="flex flex-wrap max-h-48 overflow-y-auto">
+        <div className="flex flex-wrap">
           {VALID_CRAFTING_WEARABLES.map((itemName) => {
             const amount = remainingWardrobe[itemName] || 0;
             return (
@@ -615,6 +721,9 @@ const CraftButton: React.FC<{
   handleCollect: () => void;
   handleCraft: () => void;
   isCraftingBoxEmpty: boolean;
+  selectedItems: (RecipeIngredient | null)[];
+  inventory: Inventory;
+  wardrobe: Wardrobe;
 }> = ({
   isCrafting,
   isPending,
@@ -622,8 +731,25 @@ const CraftButton: React.FC<{
   handleCollect,
   handleCraft,
   isCraftingBoxEmpty,
+  selectedItems,
+  inventory,
+  wardrobe,
 }) => {
   const { t } = useTranslation();
+
+  const hasRequiredIngredients = useMemo(() => {
+    return selectedItems.every((ingredient) => {
+      if (!ingredient) return true;
+
+      if (ingredient.collectible) {
+        return (inventory[ingredient.collectible] ?? new Decimal(0)).gte(1);
+      }
+      if (ingredient.wearable) {
+        return (wardrobe[ingredient.wearable] ?? 0) >= 1;
+      }
+      return true;
+    });
+  }, [selectedItems, inventory, wardrobe]);
 
   if (isCrafting && isReady) {
     return (
@@ -645,7 +771,7 @@ const CraftButton: React.FC<{
     <Button
       className="mt-2 whitespace-nowrap"
       onClick={handleCraft}
-      disabled={isCraftingBoxEmpty}
+      disabled={isCraftingBoxEmpty || !hasRequiredIngredients}
     >
       {`${t("craft")} 1`}
     </Button>

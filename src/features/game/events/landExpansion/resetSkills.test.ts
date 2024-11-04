@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { resetSkills } from "./resetSkills";
 import Decimal from "decimal.js-light";

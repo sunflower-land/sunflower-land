@@ -44,7 +44,11 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
-import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
+import {
+  TREASURE_TOOLS,
+  WORKBENCH_TOOLS,
+  LOVE_ANIMAL_TOOLS,
+} from "features/game/types/tools";
 import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
 import {
   WORM,
@@ -61,6 +65,7 @@ import {
   getGreenhouseCropTime,
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { ANIMAL_FOODS } from "features/game/types/animals";
+import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 
 interface Prop {
   gameState: GameState;
@@ -161,10 +166,12 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);
+  const animalTools = getItems(LOVE_ANIMAL_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES).filter(
     (resource) => resource !== "Egg",
   );
+  const craftingResources = getItems(RECIPE_CRAFTABLES);
   const animalResources = getItems(ANIMAL_RESOURCES);
   const animalFeeds = getItems(ANIMAL_FOODS);
 
@@ -195,7 +202,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     ...flowerSeeds,
     ...greenhouseSeeds,
   ];
-  const allTools = [...workbenchTools, ...treasureTools];
+  const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
+  const allResources = [...resources, ...craftingResources];
 
   const itemsSection = (
     title: string,
@@ -284,7 +292,11 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             [...exotic, ...exotics],
             ITEM_DETAILS["White Carrot"].image,
           )}
-          {itemsSection(t("resources"), resources, ITEM_DETAILS["Wood"].image)}
+          {itemsSection(
+            t("resources"),
+            allResources,
+            ITEM_DETAILS["Wood"].image,
+          )}
           {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
           {itemsSection("Feeds", animalFeeds, ITEM_DETAILS.Hay.image)}
           {itemsSection(

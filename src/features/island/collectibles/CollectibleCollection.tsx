@@ -62,7 +62,7 @@ import { RichBear } from "./components/RichBear";
 import { SunflowerBear } from "./components/SunflowerBear";
 import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
@@ -334,6 +334,14 @@ import { LemonShark } from "./components/LemonShark";
 import { BattleFish } from "./components/BattleFish";
 import { TomatoBombard } from "./components/TomatoBombard";
 import { BullRunBanner } from "./components/BullRunBanner";
+import { Bed } from "./components/Bed";
+import { Wagon } from "./components/Wagon";
+import { hasFeatureAccess } from "lib/flags";
+import { Chicory } from "./components/Chicory";
+import { LonghornCowfish } from "./components/LonghornCownfish";
+import { AlienChicken } from "./components/AlienChicken";
+import { ToxicTuft } from "./components/ToxicTuft";
+import { Mootant } from "./components/Mootants";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -482,6 +490,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Radiance Lantern": RadianceLantern,
   "Ocean Lantern": OceanLantern,
   "Solar Lantern": SolarLantern,
+  Wagon: Wagon,
 
   "Magic Bean": Bean,
 
@@ -605,6 +614,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
   "Lemon Shark": LemonShark,
+  "Longhorn Cowfish": LonghornCowfish,
 
   "Kraken Tentacle": KrakenTentacle,
 
@@ -738,6 +748,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
+  "Alien Chicken": AlienChicken,
+  "Toxic Tuft": ToxicTuft,
+  Mootant: Mootant,
+  Chicory: Chicory,
   "Adrift Ark": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1237,109 +1251,177 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Scarab Beetle"
     />
   ),
-  "Basic Bed": (props: CollectibleProps) => (
+  "Basic Bed": (props: CollectibleProps) => <Bed name="Basic Bed" />,
+  "Sturdy Bed": (props: CollectibleProps) => <Bed name="Sturdy Bed" />,
+  "Floral Bed": (props: CollectibleProps) => <Bed name="Floral Bed" />,
+  "Fisher Bed": (props: CollectibleProps) => <Bed name="Fisher Bed" />,
+  "Pirate Bed": (props: CollectibleProps) => <Bed name="Pirate Bed" />,
+  "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
+  "Desert Bed": (props: CollectibleProps) => <Bed name="Desert Bed" />,
+  "Royal Bed": (props: CollectibleProps) => <Bed name="Royal Bed" />,
+  "Cow Scratcher": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 17}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 17}px`,
       }}
-      image={ITEM_DETAILS["Basic Bed"].image}
-      alt="Basic Bed"
+      image={ITEM_DETAILS["Cow Scratcher"].image}
+      alt="Cow Scratcher"
     />
   ),
-  "Sturdy Bed": (props: CollectibleProps) => (
+  "Spinning Wheel": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+      }}
+      image={ITEM_DETAILS["Spinning Wheel"].image}
+      alt="Spinning Wheel"
+    />
+  ),
+  "Sleepy Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 48}px`,
       }}
-      image={ITEM_DETAILS["Sturdy Bed"].image}
-      alt="Sturdy Bed"
+      image={ITEM_DETAILS["Sleepy Rug"].image}
+      alt="Sleepy Rug"
     />
   ),
-  "Floral Bed": (props: CollectibleProps) => (
+  Meteorite: (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 33}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+      }}
+      image={ITEM_DETAILS["Meteorite"].image}
+      alt="Meteorite"
+    />
+  ),
+  "Sheaf of Plenty": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Sheaf of Plenty"].image}
+      alt="Sheaf of Plenty"
+    />
+  ),
+  "Mechanical Bull": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 32}px`,
       }}
-      image={ITEM_DETAILS["Floral Bed"].image}
-      alt="Floral Bed"
+      image={ITEM_DETAILS["Mechanical Bull"].image}
+      alt="Mechanical Bull"
     />
   ),
-  "Fisher Bed": (props: CollectibleProps) => (
+  "Moo-ver": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
       }}
-      image={ITEM_DETAILS["Fisher Bed"].image}
-      alt="Fisher Bed"
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["Moo-ver"].image}
+      alt="Moo-ver"
     />
   ),
-  "Pirate Bed": (props: CollectibleProps) => (
+  "Swiss Whiskers": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 21}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -4}px`,
       }}
-      image={ITEM_DETAILS["Pirate Bed"].image}
-      alt="Pirate Bed"
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Swiss Whiskers"].image}
+      alt="Swiss Whiskers"
     />
   ),
-  "Cow Bed": (props: CollectibleProps) => (
+  Cluckulator: (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
       }}
-      image={ITEM_DETAILS["Cow Bed"].image}
-      alt="Cow Bed"
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+      image={ITEM_DETAILS["Cluckulator"].image}
+      alt="Cluckulator"
     />
   ),
-  "Desert Bed": (props: CollectibleProps) => (
+  UFO: (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * -2}px`,
       }}
-      image={ITEM_DETAILS["Desert Bed"].image}
-      alt="Desert Bed"
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["UFO"].image}
+      alt="UFO"
     />
   ),
-  "Royal Bed": (props: CollectibleProps) => (
+  "Black Sheep": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * -3}px`,
       }}
-      image={ITEM_DETAILS["Royal Bed"].image}
-      alt="Royal Bed"
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+      image={ITEM_DETAILS["Black Sheep"].image}
+      alt="UFO"
     />
   ),
 };
@@ -1636,25 +1718,27 @@ export const READONLY_COLLECTIBLES: Record<
           top: `${PIXEL_SCALE * 5}px`,
         }}
       />
-      <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 16 * 4}px`,
-          height: `${PIXEL_SCALE * 16 * 4}px`,
-          left: `${PIXEL_SCALE * -13}px`,
-          top: `${PIXEL_SCALE * -11}px`,
-        }}
-      >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
+      {!hasFeatureAccess(INITIAL_FARM, "BALE_AOE_END") && (
+        <div
+          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 27}px`,
-            top: `${PIXEL_SCALE * 25}px`,
+            width: `${PIXEL_SCALE * 16 * 4}px`,
+            height: `${PIXEL_SCALE * 16 * 4}px`,
+            left: `${PIXEL_SCALE * -13}px`,
+            top: `${PIXEL_SCALE * -11}px`,
           }}
-        />
-      </div>
+        >
+          <img
+            src={lightning}
+            className="absolute bottom-0 opacity-50 animate-pulsate"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * 27}px`,
+              top: `${PIXEL_SCALE * 25}px`,
+            }}
+          />
+        </div>
+      )}
     </div>
   ),
   "Nyon Statue": () => (

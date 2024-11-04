@@ -34,6 +34,7 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
+  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -187,7 +188,14 @@ export type MutantChicken =
   | "Banana Chicken"
   | "Crim Peckster"
   | "Knight Chicken"
-  | "Pharaoh Chicken";
+  | "Pharaoh Chicken"
+  | "Alien Chicken";
+
+export type MutantCow = "Mootant";
+
+export type MutantSheep = "Toxic Tuft";
+
+export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
 export const BB_TO_GEM_RATIO = 20;
 
@@ -415,7 +423,7 @@ export type InventoryItemName =
   | EasterEventItemName
   | Food
   | MOMEventItem
-  | MutantChicken
+  | MutantAnimal
   | Coupons
   | Points
   | WarItems
@@ -453,7 +461,9 @@ export type InventoryItemName =
   | AnimalFoodName
   | AnimalMedicineName
   | LoveAnimalItem
-  | BedName;
+  | BedName
+  | RecipeCraftableName
+  | SeasonalCollectibleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -771,7 +781,8 @@ export type AnimalFoodName =
   | "Hay"
   | "Kernel Blend"
   | "NutriBarley"
-  | "Mixed Grain";
+  | "Mixed Grain"
+  | "Omnifeed";
 
 export type AnimalMedicineName = "Barn Delight";
 
@@ -784,6 +795,19 @@ export type BedName =
   | "Cow Bed"
   | "Desert Bed"
   | "Royal Bed";
+
+export type RecipeCraftableName =
+  | "Cushion"
+  | "Timber"
+  | "Bee Box"
+  | "Crimsteel"
+  | "Merino Cushion"
+  | "Kelp Fibre"
+  | "Hardened Leather"
+  | "Synthetic Fabric"
+  | "Ocean's Treasure"
+  | "Royal Bedding"
+  | "Royal Ornament";
 
 export type Party = {
   fulfilledAt?: number;
@@ -828,7 +852,7 @@ export type Delivery = {
     total: number;
     claimedAt?: number;
   };
-  doubleDelivery: boolean;
+  doubleDelivery?: string;
 };
 
 export type DailyRewards = {
@@ -1217,6 +1241,7 @@ export type Animal = {
   coordinates: Coordinates;
   experience: number;
   asleepAt: number;
+  awakeAt: number;
   lovedAt: number;
   item: LoveAnimalItem;
   multiplier?: number;

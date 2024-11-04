@@ -23,10 +23,18 @@ export const RECIPE_UNLOCKS: Partial<
 > = {
   "Basic Bed": {
     island: "basic",
+    expansion: 2,
+  },
+  "Fisher Bed": {
+    island: "basic",
     expansion: 6,
   },
-  "Sturdy Bed": { island: "spring", expansion: 1 },
-  "Floral Bed": { island: "spring", expansion: 12 },
+  "Floral Bed": { island: "spring", expansion: 1 },
+  "Sturdy Bed": { island: "spring", expansion: 12 },
+  "Desert Bed": { island: "desert", expansion: 1 },
+  "Cow Bed": { island: "desert", expansion: 12 },
+  "Pirate Bed": { island: "desert", expansion: 18 },
+  "Royal Bed": { island: "desert", expansion: 25 },
 };
 
 export const canDiscoverRecipe = (state: GameState, recipe: RecipeItemName) => {

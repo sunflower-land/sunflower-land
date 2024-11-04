@@ -405,10 +405,19 @@ import {
   discoverRecipe,
   DiscoverRecipeAction,
 } from "./landExpansion/discoverRecipe";
+import {
+  unlockFarmhand,
+  UnlockFarmhandAction,
+} from "./landExpansion/unlockFarmhand";
+import {
+  sacrificeBear,
+  SacrificeBearAction,
+} from "./landExpansion/sacrificeBear";
 
 export type PlayingEvent =
   | SellAnimalAction
   | SpeedUpBuilding
+  | SacrificeBearAction
   | SpeedUpCollectible
   | SellBountyAction
   | FeedMixedAction
@@ -527,7 +536,8 @@ export type PlayingEvent =
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | BuySeasonalItemAction
-  | DiscoverRecipeAction;
+  | DiscoverRecipeAction
+  | UnlockFarmhandAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -595,6 +605,7 @@ type Handlers<T> = {
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
+  "bear.sacrificed": sacrificeBear,
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,
   "recipe.spedUp": speedUpRecipe,
@@ -715,6 +726,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "produce.claimed": claimProduce,
   "seasonalItem.bought": buySeasonalItem,
   "recipe.discovered": discoverRecipe,
+  "farmHand.unlocked": unlockFarmhand,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

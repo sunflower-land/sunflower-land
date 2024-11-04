@@ -1,5 +1,5 @@
 import { BumpkinItem } from "../types/bumpkin";
-import { BedName, InventoryItemName } from "../types/game";
+import { BedName, InventoryItemName, RecipeCraftableName } from "../types/game";
 
 export type RecipeCollectibleName = Extract<
   | "Dirt Path"
@@ -14,6 +14,7 @@ export type RecipeCollectibleName = Extract<
   | "Bonnie's Tombstone"
   | "Grubnash's Tombstone"
   | "Town Sign"
+  | RecipeCraftableName
   | BedName,
   InventoryItemName
 >;
@@ -159,6 +160,72 @@ export const RECIPES: Recipes = {
     time: 0,
     type: "wearable",
   },
+  Cushion: {
+    name: "Cushion",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  Timber: {
+    name: "Timber",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Bee Box": {
+    name: "Bee Box",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  Crimsteel: {
+    name: "Crimsteel",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Merino Cushion": {
+    name: "Merino Cushion",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Kelp Fibre": {
+    name: "Kelp Fibre",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Hardened Leather": {
+    name: "Hardened Leather",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Synthetic Fabric": {
+    name: "Synthetic Fabric",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Ocean's Treasure": {
+    name: "Ocean's Treasure",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Royal Bedding": {
+    name: "Royal Bedding",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Royal Ornament": {
+    name: "Royal Ornament",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
   "Basic Bed": {
     name: "Basic Bed",
     ingredients: [],
@@ -207,4 +274,18 @@ export const RECIPES: Recipes = {
     time: 0,
     type: "collectible",
   },
+};
+
+export const RECIPE_CRAFTABLES: Record<RecipeCraftableName, null> = {
+  Cushion: null,
+  Timber: null,
+  "Bee Box": null,
+  Crimsteel: null,
+  "Merino Cushion": null,
+  "Kelp Fibre": null,
+  "Hardened Leather": null,
+  "Synthetic Fabric": null,
+  "Ocean's Treasure": null,
+  "Royal Bedding": null,
+  "Royal Ornament": null,
 };

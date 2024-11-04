@@ -30,15 +30,18 @@ export function loveAnimal({
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
 
-    if (createdAt > animal.asleepAt + 24 * 60 * 60 * 1000) {
+    if (createdAt > animal.awakeAt) {
       throw new Error("The animal is not sleeping");
     }
 
-    if (createdAt < animal.asleepAt + 8 * 60 * 60 * 1000) {
+    // You can love an animal twice in a night
+    const loveAnimalPeriod = (animal.awakeAt - animal.asleepAt) / 3;
+
+    if (createdAt < animal.asleepAt + loveAnimalPeriod) {
       throw new Error("The animal has not been sleeping for more than 8 hours");
     }
 
-    if (createdAt < animal.lovedAt + 8 * 60 * 60 * 1000) {
+    if (createdAt < animal.lovedAt + loveAnimalPeriod) {
       throw new Error("The animal was loved in the last 8 hours");
     }
 
@@ -50,6 +53,8 @@ export function loveAnimal({
       throw new Error(`Missing item, ${action.item}`);
     }
 
+    const level = getAnimalLevel(animal.experience, animal.type);
+
     animal.experience += ITEM_XP[action.item];
     animal.lovedAt = createdAt;
 
@@ -57,6 +62,10 @@ export function loveAnimal({
       getAnimalLevel(animal.experience, action.animal),
       Math.random,
     );
+
+    if (level !== getAnimalLevel(animal.experience, animal.type)) {
+      animal.state = "ready";
+    }
 
     return copy;
   });
@@ -148,10 +157,10 @@ const ANIMAL_ITEM_CHANCES: Record<
   },
 };
 
-const ITEM_XP: Record<LoveAnimalItem, number> = {
-  "Petting Hand": 2,
-  Brush: 5,
-  "Music Box": 10,
+export const ITEM_XP: Record<LoveAnimalItem, number> = {
+  "Petting Hand": 25,
+  Brush: 40,
+  "Music Box": 50,
 };
 
 function getAnimalItem(level: AnimalLevel, randomGenerator: () => number) {

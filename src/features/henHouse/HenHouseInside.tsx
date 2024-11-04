@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -26,9 +26,9 @@ import {
 import { Animal, AnimalBounty } from "features/game/types/game";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
-import { NPC } from "features/island/bumpkin/components/NPC";
-import { NPC_WEARABLES } from "lib/npcs";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
+import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
+import { hasReadGuide } from "features/game/expansion/components/animals/AnimalBuildingModal";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
@@ -43,7 +43,7 @@ export const ANIMAL_HOUSE_IMAGES: Record<
 
 export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
   const [selected, setSelected] = useState<Animal>();
@@ -61,12 +61,38 @@ export const HenHouseInside: React.FC = () => {
 
   const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
 
+  const {
+    x: floorX,
+    y: floorY,
+    height: floorHeight,
+    width: floorWidth,
+  } = ANIMAL_HOUSE_BOUNDS.henHouse[level];
+
+  const organizedAnimals = useMemo(() => {
+    const animals = getKeys(henHouse.animals).map((id) => ({
+      ...henHouse.animals[id],
+    }));
+
+    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Chicken.width);
+
+    return animals.map((animal, index) => {
+      const row = Math.floor(index / maxAnimalsPerRow);
+      const col = index % maxAnimalsPerRow;
+      return {
+        ...animal,
+        coordinates: {
+          x: col * ANIMALS.Chicken.width,
+          y: row * ANIMALS.Chicken.height,
+        },
+      };
+    });
+  }, [henHouse.animals, floorWidth]);
+
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <AnimalBuildingModal
           buildingName="Hen House"
-          show={showModal}
           onClose={() => setShowModal(false)}
           onExchanging={(deal) => {
             setShowModal(false);
@@ -132,11 +158,11 @@ export const HenHouseInside: React.FC = () => {
               )}
 
               <img
-                src={SUNNYSIDE.icons.upgradeBuildingIcon}
+                src={SUNNYSIDE.icons.upgrade_disc}
                 alt="Upgrade Building"
-                className="absolute bottom-[44px] right-[18px] cursor-pointer z-10"
+                className="absolute top-[18px] left-[18px] cursor-pointer z-10"
                 style={{
-                  width: `${PIXEL_SCALE * 16}px`,
+                  width: `${PIXEL_SCALE * 18}px`,
                 }}
                 onClick={() => setShowUpgradeModal(true)}
               />
@@ -154,33 +180,42 @@ export const HenHouseInside: React.FC = () => {
               <div
                 className="absolute"
                 style={{
-                  left: `${10 * PIXEL_SCALE}px`,
-                  top: `${0 * PIXEL_SCALE}px`,
-                  width: `${30 * PIXEL_SCALE}px`,
+                  // Center in parent
+                  top: `${-4 * PIXEL_SCALE}px`,
+                  left: "50%",
+                  transform: "translateX(-50%)",
                 }}
               >
                 <FeederMachine />
               </div>
 
-              {getKeys(henHouse.animals)
-                .map((id) => {
-                  const animal = henHouse.animals[id];
-                  const isValid = deal && isValidDeal({ animal, deal });
+              <MapPlacement
+                x={floorX}
+                y={floorY}
+                height={floorHeight}
+                width={floorWidth}
+              >
+                <div className="flex flex-wrap w-full h-full">
+                  {organizedAnimals.map((animal) => {
+                    const isValid = deal && isValidDeal({ animal, deal });
+                    const { width, height } = ANIMALS[animal.type];
 
-                  return (
-                    <MapPlacement
-                      key={`chicken-${id}`}
-                      x={animal.coordinates.x}
-                      y={animal.coordinates.y}
-                      height={ANIMALS.Chicken.height}
-                      width={ANIMALS.Chicken.width}
-                    >
+                    return (
                       <div
+                        id={`${animal.type.toLowerCase()}-${animal.id}`}
+                        key={`${animal.type.toLowerCase()}-${animal.id}`}
                         className={classNames({
                           "opacity-50": deal && !isValid,
                           "cursor-pointer": deal && isValid,
                           "pointer-events-none": deal && !isValid,
                         })}
+                        style={{
+                          position: "absolute",
+                          left: `${animal.coordinates.x * GRID_WIDTH_PX}px`,
+                          top: `${animal.coordinates.y * GRID_WIDTH_PX}px`,
+                          width: `${width * GRID_WIDTH_PX}px`,
+                          height: `${height * GRID_WIDTH_PX}px`,
+                        }}
                         onClick={(e) => {
                           if (deal) {
                             // Stop other clicks
@@ -193,12 +228,12 @@ export const HenHouseInside: React.FC = () => {
                           }
                         }}
                       >
-                        <Chicken disabled={!!deal} id={id} />
+                        <Chicken disabled={!!deal} id={animal.id} />
                       </div>
-                    </MapPlacement>
-                  );
-                })
-                .sort((a, b) => a.props.y - b.props.y)}
+                    );
+                  })}
+                </div>
+              </MapPlacement>
             </div>
           </div>
         </div>
@@ -214,100 +249,6 @@ export const HenHouseInside: React.FC = () => {
           }}
         />
       )}
-    </>
-  );
-};
-
-const message = () => {
-  if (Math.random() < 0.05) return "Feast";
-
-  if (Math.random() < 0.2) return "Gobble";
-  if (Math.random() < 0.5) return "Crunch";
-  return "Tasty...";
-};
-
-const GrabNab: React.FC = () => {
-  const [hint, _] = useState(message());
-  const [state, setState] = useState<"idle" | "typing">("idle");
-
-  useEffect(() => {
-    const speak = async () => {
-      setState("typing");
-
-      await new Promise((res) => setTimeout(() => setState("idle"), 1000));
-    };
-
-    speak();
-  }, [hint]);
-
-  return (
-    <>
-      <div>
-        {hint && (
-          <div
-            className={"absolute uppercase"}
-            style={{
-              fontFamily: "Teeny",
-              color: "black",
-              textShadow: "none",
-              top: `${PIXEL_SCALE * -4}px`,
-              left: `${PIXEL_SCALE * 12}px`,
-
-              borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
-              borderStyle: "solid",
-              borderTopWidth: `${PIXEL_SCALE * 2}px`,
-              borderRightWidth: `${PIXEL_SCALE * 2}px`,
-              borderBottomWidth: `${PIXEL_SCALE * 4}px`,
-              borderLeftWidth: `${PIXEL_SCALE * 5}px`,
-
-              borderImageSlice: "2 2 4 5 fill",
-              imageRendering: "pixelated",
-              borderImageRepeat: "stretch",
-              fontSize: "8px",
-            }}
-          >
-            <div
-              style={{
-                height: "12px",
-                minWidth: "30px",
-              }}
-            >
-              {state === "idle" && (
-                <span
-                  className="whitespace-nowrap"
-                  style={{
-                    fontSize: "10px",
-                    position: "relative",
-                    bottom: "4px",
-                    left: "-2px",
-                    wordSpacing: "-4px",
-                    color: "#262b45",
-                  }}
-                >
-                  {hint}
-                </span>
-              )}
-
-              {state === "typing" && (
-                <span
-                  style={{
-                    fontSize: "10px",
-                    position: "relative",
-                    bottom: "4px",
-                    left: "-2px",
-                    wordSpacing: "-4px",
-                    color: "#262b45",
-                  }}
-                >
-                  {"..."}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-
-        <NPC parts={NPC_WEARABLES["grabnab"]} />
-      </div>
     </>
   );
 };

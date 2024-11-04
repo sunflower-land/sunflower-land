@@ -1,9 +1,5 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { Animal } from "../types/game";
-import {
-  ANIMAL_NEEDS_LOVE_DURATION,
-  ANIMAL_SLEEP_DURATION,
-} from "../events/landExpansion/feedAnimal";
 
 interface TContext {
   animal?: Animal;
@@ -14,7 +10,6 @@ export type TState = {
     | "idle"
     | "happy"
     | "sad"
-    | "loved"
     | "sleeping"
     | "needsLove"
     | "sick"
@@ -49,15 +44,19 @@ export type AnimalMachineInterpreter = Interpreter<
 const isAnimalSleeping = (context: TContext) => {
   if (!context.animal) return false;
 
-  return context.animal.asleepAt + ANIMAL_SLEEP_DURATION > Date.now();
+  return context.animal.awakeAt > Date.now();
 };
 
 const isAnimalNeedsLove = (context: TContext) => {
   if (!context.animal) return false;
 
   return (
-    context.animal.asleepAt + ANIMAL_NEEDS_LOVE_DURATION < Date.now() &&
-    context.animal.lovedAt + ANIMAL_NEEDS_LOVE_DURATION < Date.now()
+    context.animal.asleepAt +
+      (context.animal.awakeAt - context.animal.asleepAt) / 3 <
+      Date.now() &&
+    context.animal.lovedAt +
+      (context.animal.awakeAt - context.animal.asleepAt) / 3 <
+      Date.now()
   );
 };
 
@@ -231,17 +230,6 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
     },
-    loved: {
-      after: {
-        2000: [
-          {
-            target: "sleeping",
-            cond: (context) => isAnimalSleeping(context),
-          },
-          { target: "idle" },
-        ],
-      },
-    },
     idle: {
       on: {
         FEED: [
@@ -295,6 +283,11 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
               !isAnimalSleeping(context) && context.animal?.state === "sick",
           },
           {
+            target: "ready",
+            cond: (context) =>
+              !isAnimalSleeping(context) && context.animal?.state === "ready",
+          },
+          {
             target: "idle",
             cond: (context) => !isAnimalSleeping(context),
           },
@@ -330,7 +323,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           },
         ],
         LOVE: {
-          target: "loved",
+          target: "sleeping",
           actions: assign({
             animal: (_, event) => (event as AnimalLoveEvent).animal,
           }),

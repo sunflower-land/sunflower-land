@@ -462,6 +462,13 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
+  if (
+    crop === "Barley" &&
+    isCollectibleBuilt({ name: "Sheaf of Plenty", game })
+  ) {
+    amount += 2;
+  }
+
   const collectibles = game.collectibles;
 
   if (

@@ -40,6 +40,7 @@ type GetReadyAtArgs = {
 export const BUILDING_OIL_BOOSTS: Record<CookingBuildingName, number> = {
   "Fire Pit": 0.2,
   Kitchen: 0.25,
+  "Smoothie Shack": 0.3,
   Bakery: 0.35,
   Deli: 0.4,
 };
@@ -135,6 +136,7 @@ export const BUILDING_DAILY_OIL_CONSUMPTION: Record<
 > = {
   "Fire Pit": 1,
   Kitchen: 5,
+  "Smoothie Shack": 8,
   Bakery: 10,
   Deli: 12,
 };

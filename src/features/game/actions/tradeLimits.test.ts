@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import { MAX_ITEMS } from "../lib/processEvent";
 import { InventoryItemName } from "../types/game";
 import { TRADE_LIMITS } from "./tradeLimits";

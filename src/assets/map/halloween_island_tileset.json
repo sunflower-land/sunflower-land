@@ -1,0 +1,15 @@
+[
+  {
+    "columns": 245,
+    "firstgid": 1,
+    "image": "halloween_island_tileset.png",
+    "imageheight": 1184,
+    "imagewidth": 3920,
+    "margin": 0,
+    "name": "Halloween Island Tileset",
+    "spacing": 0,
+    "tilecount": 18130,
+    "tileheight": 16,
+    "tilewidth": 16
+  }
+]

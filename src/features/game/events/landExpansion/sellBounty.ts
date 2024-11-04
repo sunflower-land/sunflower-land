@@ -1,8 +1,14 @@
 import Decimal from "decimal.js-light";
+import { isWearableActive } from "features/game/lib/wearables";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState } from "features/game/types/game";
+import { BountyRequest, GameState } from "features/game/types/game";
+import {
+  getCurrentSeason,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 import { produce } from "immer";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 
 export type SellBountyAction = {
   type: "bounty.sold";
@@ -13,12 +19,51 @@ type Options = {
   state: GameState;
   action: SellBountyAction;
   createdAt?: number;
+  farmId?: number;
 };
+
+export function generateBountyTicket({
+  game,
+  bounty,
+}: {
+  game: GameState;
+  bounty: BountyRequest;
+}) {
+  let amount = bounty.items?.[getSeasonalTicket()] ?? 0;
+
+  if (!amount) {
+    return 0;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Hat" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Shirt" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
+  }
+
+  return amount;
+}
 
 export function sellBounty({
   state,
   action,
   createdAt = Date.now(),
+  farmId = 0,
 }: Options): GameState {
   return produce(state, (draft) => {
     const request = draft.bounties.requests.find(
@@ -36,6 +81,22 @@ export function sellBounty({
       throw new Error("Bounty already completed");
     }
 
+    const { ticketTasksAreFrozen } = getSeasonChangeover({
+      now: createdAt,
+      id: farmId as number,
+    });
+
+    const tickets = generateBountyTicket({
+      game: draft,
+      bounty: request,
+    });
+
+    const isTicketOrder = tickets > 0;
+
+    if (isTicketOrder && ticketTasksAreFrozen) {
+      throw new Error("Ticket tasks are frozen");
+    }
+
     // Remove the item from the inventory
     const item = draft.inventory[request.name];
     if (!item || item.lte(0)) {
@@ -50,7 +111,10 @@ export function sellBounty({
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = draft.inventory[name] ?? new Decimal(0);
-      draft.inventory[name] = previous.add(request.items?.[name] ?? 0);
+      const seasonalTicket = getSeasonalTicket();
+      if (tickets > 0 && seasonalTicket === name) {
+        draft.inventory[name] = previous.add(tickets ?? 0);
+      } else draft.inventory[name] = previous.add(request.items?.[name] ?? 0);
     });
 
     // Mark bounty as completed

@@ -9,7 +9,7 @@ export function makeAnimals(count: number, type: AnimalType) {
     .reduce<Record<string, Animal>>((animals, _, index) => {
       return {
         ...animals,
-        [index]: {
+        [String(index)]: {
           id: index.toString(),
           type,
           state: "idle",
@@ -19,6 +19,7 @@ export function makeAnimals(count: number, type: AnimalType) {
           lovedAt: 0,
           item: "Petting Hand",
           createdAt: 0,
+          awakeAt: 0,
         },
       };
     }, {});

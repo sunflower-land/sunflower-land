@@ -32,6 +32,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { isMobile } from "mobile-device-detect";
 
 const MAX_NON_VIP_PURCHASES = 3;
 
@@ -389,7 +390,7 @@ const ListView: React.FC<ListViewProps> = ({
           {selected}
         </Label>
         {!!inventory[selected] && (
-          <Label type="warning" className="ml-auto">
+          <Label type="warning" className="ml-auto mr-2">
             {`${t("inventory")}: ${formatNumber(inventory[selected], { decimalPlaces: 0 })}`}
           </Label>
         )}
@@ -405,7 +406,7 @@ const ListView: React.FC<ListViewProps> = ({
             <OuterPanel className="mb-2" key={`data-${index}`}>
               <div className="flex justify-between">
                 <div className="justify-start">
-                  <div className="flex flex-wrap w-52 items-center">
+                  <div className="flex flex-wrap w-50 sm:w-52 items-center">
                     {getKeys(listing.items).map((item) => (
                       <Box
                         image={ITEM_DETAILS[item].image}
@@ -414,9 +415,9 @@ const ListView: React.FC<ListViewProps> = ({
                         key={`items-${index}`}
                       />
                     ))}
-                    <div className="ml-1">
+                    <div className="ml-0.5 sm:ml-1">
                       <div className="flex items-center mb-1">
-                        <img src={token} className="h-6 mr-1" />
+                        <img src={token} className="h-5 sm:h-6 mr-1" />
                         <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                       </div>
                       <p className="text-xxs">
@@ -479,7 +480,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   if (listing.farmId == farmId) {
     return (
-      <div className="flex items-start h-full">
+      <div className="flex items-center sm:h-full">
         <Label type="danger">{t("trading.your.listing")}</Label>
       </div>
     );
@@ -487,9 +488,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   if (selectedListing?.id == listing.id) {
     return (
       <Button disabled={loading} onClick={() => onConfirm(listing)}>
-        <div className="flex items-center gap-2">
-          <SquareIcon icon={SUNNYSIDE.icons.confirm} width={7} />
-          <span>{t("confirm")}</span>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <SquareIcon icon={SUNNYSIDE.icons.confirm} width={isMobile ? 6 : 7} />
+          <span className="text-xxs sm:text-sm">{t("confirm")}</span>
         </div>
       </Button>
     );

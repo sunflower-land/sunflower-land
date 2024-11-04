@@ -629,7 +629,8 @@ export function startGame(authContext: AuthContext) {
       initial: "loading",
       context: {
         fslId: "123",
-        farmId: Math.floor(Math.random() * 1000),
+        farmId:
+          CONFIG.NETWORK === "mainnet" ? 0 : Math.floor(Math.random() * 1000),
         actions: [],
         state: EMPTY,
         sessionId: INITIAL_SESSION,
@@ -854,7 +855,7 @@ export function startGame(authContext: AuthContext) {
               target: "specialOffer",
               cond: (context) =>
                 (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Clash of Factions Banner"] &&
+                !context.state.collectibles["Bull Run Banner"] &&
                 !getSeasonPassRead(),
             },
             {

@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
@@ -121,7 +120,7 @@ describe("cook", () => {
       },
     });
 
-    expect(state.inventory["Egg"]).toEqual(new Decimal(17));
+    expect(state.inventory["Egg"]).toEqual(new Decimal(12));
   });
 
   it("does not affect existing inventory", () => {
@@ -275,7 +274,7 @@ describe("cook", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          Egg: new Decimal(10),
+          Egg: new Decimal(20),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,

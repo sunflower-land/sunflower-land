@@ -1,6 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { loveAnimal } from "./loveAnimal";
 import Decimal from "decimal.js-light";
+import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
 
 describe("loveAnimal", () => {
   const now = Date.now();
@@ -17,6 +18,7 @@ describe("loveAnimal", () => {
                 id: "1",
                 type: "Cow",
                 asleepAt: 0,
+                awakeAt: 0,
                 lovedAt: 0,
                 coordinates: { x: 0, y: 0 },
                 createdAt: 0,
@@ -50,6 +52,7 @@ describe("loveAnimal", () => {
                 id: "1",
                 type: "Cow",
                 asleepAt: now - 1,
+                awakeAt: now - 1 + ANIMAL_SLEEP_DURATION,
                 lovedAt: now - 1,
                 coordinates: { x: 0, y: 0 },
                 createdAt: 0,
@@ -83,6 +86,7 @@ describe("loveAnimal", () => {
                 id: "1",
                 type: "Cow",
                 asleepAt: now - 17 * 60 * 60 * 1000,
+                awakeAt: now - 17 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
                 lovedAt: now - 7 * 60 * 60 * 1000,
                 coordinates: { x: 0, y: 0 },
                 createdAt: 0,
@@ -119,6 +123,7 @@ describe("loveAnimal", () => {
                 id: "1",
                 type: "Cow",
                 asleepAt: now - 17 * 60 * 60 * 1000,
+                awakeAt: now - 17 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
                 lovedAt: now - 17 * 60 * 60 * 1000,
                 coordinates: { x: 0, y: 0 },
                 createdAt: 0,
@@ -153,6 +158,7 @@ describe("loveAnimal", () => {
                 id: "1",
                 type: "Cow",
                 asleepAt: now - 17 * 60 * 60 * 1000,
+                awakeAt: now - 17 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
                 lovedAt: now - 17 * 60 * 60 * 1000,
                 coordinates: { x: 0, y: 0 },
                 createdAt: 0,
@@ -188,6 +194,7 @@ describe("loveAnimal", () => {
               id: "1",
               type: "Cow",
               asleepAt: now - 9 * 60 * 60 * 1000,
+              awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
               lovedAt: now - 17 * 60 * 60 * 1000,
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
@@ -207,7 +214,7 @@ describe("loveAnimal", () => {
       createdAt: now,
     });
 
-    expect(state.barn.animals["1"].experience).toBe(2);
+    expect(state.barn.animals["1"].experience).toBe(25);
   });
 
   it("sets the lovedAt timestamp", () => {
@@ -224,6 +231,7 @@ describe("loveAnimal", () => {
               id: "1",
               type: "Cow",
               asleepAt: now - 9 * 60 * 60 * 1000,
+              awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
               lovedAt: now - 17 * 60 * 60 * 1000,
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
@@ -262,6 +270,7 @@ describe("loveAnimal", () => {
               id: "1",
               type: "Cow",
               asleepAt: now - 9 * 60 * 60 * 1000,
+              awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
               lovedAt: 0,
               coordinates: { x: 0, y: 0 },
               createdAt: 0,

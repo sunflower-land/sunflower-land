@@ -48,6 +48,7 @@ describe("animal.sold", () => {
       }),
     ).toThrow("Bounty already completed");
   });
+
   it("requires player has a chicken", () => {
     expect(() =>
       sellAnimal({
@@ -109,6 +110,16 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 1000,
+            },
+          },
+        },
         bounties: {
           completed: [],
           requests: [
@@ -139,6 +150,16 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 1000,
+            },
+          },
+        },
         bounties: {
           completed: [],
           requests: [
@@ -162,11 +183,22 @@ describe("animal.sold", () => {
 
     expect(state.coins).toEqual(100);
   });
+
   it("exchanges tickets", () => {
     const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 1000,
+            },
+          },
+        },
         bounties: {
           completed: [],
           requests: [
@@ -198,6 +230,16 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 1000,
+            },
+          },
+        },
         bounties: {
           completed: [],
           requests: [
@@ -222,5 +264,88 @@ describe("animal.sold", () => {
 
     const deal = state.bounties.completed.find((deal) => deal.id === "123");
     expect(deal?.soldAt).toEqual(now);
+  });
+
+  it("gives 25% less coins when selling sick animals", () => {
+    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 60,
+              state: "sick",
+            },
+          },
+        },
+        bounties: {
+          completed: [],
+          requests: [
+            {
+              id: "123",
+              coins: 100,
+              items: {},
+              level: 1,
+              name: "Chicken",
+            },
+          ],
+        },
+      },
+      action: {
+        requestId: "123",
+        animalId,
+        type: "animal.sold",
+      },
+    });
+
+    // Check coins are halved
+    expect(state.coins).toEqual(75);
+  });
+
+  it("gives approx 25% less items (rounded down) when selling sick animals", () => {
+    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 60,
+              state: "sick",
+            },
+          },
+        },
+        bounties: {
+          completed: [],
+          requests: [
+            {
+              id: "123",
+              coins: 100,
+              items: {
+                "Amber Fossil": 7,
+              },
+              level: 1,
+              name: "Chicken",
+            },
+          ],
+        },
+      },
+      action: {
+        requestId: "123",
+        animalId,
+        type: "animal.sold",
+      },
+    });
+
+    // Check coins are halved
+    expect(state.coins).toEqual(75);
+    expect(state.inventory["Amber Fossil"]).toEqual(new Decimal(5));
   });
 });

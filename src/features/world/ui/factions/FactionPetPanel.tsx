@@ -52,6 +52,9 @@ import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
 import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
 import xpIcon from "assets/icons/xp.png";
 
+import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
+import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
+
 const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
   goblins: goblinEmblem,
   bumpkins: bumpkinEmblem,
@@ -391,7 +394,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                 <div id="select-box">
                                   <img
                                     className="absolute pointer-events-none"
-                                    src={SUNNYSIDE.ui.selectBoxTL}
+                                    src={halloweenSelectboxTL}
                                     style={{
                                       top: `${PIXEL_SCALE * -3}px`,
                                       left: `${PIXEL_SCALE * -3}px`,
@@ -400,7 +403,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                   />
                                   <img
                                     className="absolute pointer-events-none"
-                                    src={SUNNYSIDE.ui.selectBoxTR}
+                                    src={halloweenSelectboxTR}
                                     style={{
                                       top: `${PIXEL_SCALE * -3}px`,
                                       right: `${PIXEL_SCALE * -3}px`,

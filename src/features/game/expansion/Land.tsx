@@ -45,7 +45,6 @@ import { createPortal } from "react-dom";
 import { pickEmptyPosition } from "./placeable/lib/collisionDetection";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "./lib/constants";
 
-import { Recipe } from "features/island/recipes/Recipe";
 import Decimal from "decimal.js-light";
 import { RecipeItemName } from "../lib/crafting";
 import {
@@ -53,6 +52,7 @@ import {
   RECIPE_UNLOCKS,
 } from "../events/landExpansion/discoverRecipe";
 import { hasFeatureAccess } from "lib/flags";
+import { RecipeStack } from "features/island/recipes/RecipeStack";
 
 export const LAND_WIDTH = 6;
 
@@ -632,16 +632,39 @@ const getIslandElements = ({
   );
 
   if (hasFeatureAccess(game, "BEDS")) {
-    getRecipeLocations(game).forEach((recipe) => {
+    const recipeLocations = getRecipeLocations(game);
+    // Group recipes by location, to stop them overlapping
+    const recipeGroups = recipeLocations.reduce(
+      (groups, recipe) => {
+        const key = `${recipe.x},${recipe.y}`;
+        if (!groups[key]) {
+          groups[key] = [];
+        }
+        groups[key].push(recipe);
+        return groups;
+      },
+      {} as Record<
+        string,
+        (Coordinates & {
+          recipe: RecipeItemName;
+        })[]
+      >,
+    );
+
+    Object.entries(recipeGroups).forEach(([key, recipes]) => {
+      const [x, y] = key.split(",").map(Number);
       mapPlacements.push(
         <MapPlacement
-          key={`recipe-${recipe.recipe}`}
-          x={recipe.x}
-          y={recipe.y}
-          height={16}
-          width={16}
+          key={`recipe-group-${key}`}
+          x={x}
+          y={y}
+          height={1}
+          width={1}
         >
-          <Recipe recipe={recipe.recipe} />
+          <RecipeStack
+            key={`recipe-${recipes}`}
+            recipes={recipes.map((r) => r.recipe)}
+          />
         </MapPlacement>,
       );
     });

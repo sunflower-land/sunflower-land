@@ -13,10 +13,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router-dom";
-import {
-  ANIMAL_NEEDS_LOVE_DURATION,
-  ANIMAL_SLEEP_DURATION,
-} from "features/game/events/landExpansion/feedAnimal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 
@@ -28,23 +24,21 @@ const _betaInventory = (state: MachineState) => {
 
 const _hasHungryChickens = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
-    (animal) => animal.asleepAt + ANIMAL_SLEEP_DURATION < Date.now(),
+    (animal) => animal.awakeAt < Date.now(),
   );
 };
 
 const _hasAwakeSickChickens = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
-    (animal) =>
-      animal.state === "sick" &&
-      animal.asleepAt + ANIMAL_SLEEP_DURATION < Date.now(),
+    (animal) => animal.state === "sick" && animal.awakeAt < Date.now(),
   );
 };
 
 const _chickensNeedLove = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
     (animal) =>
-      animal.asleepAt + ANIMAL_NEEDS_LOVE_DURATION < Date.now() &&
-      animal.lovedAt + ANIMAL_NEEDS_LOVE_DURATION < Date.now(),
+      animal.asleepAt + (animal.awakeAt - animal.asleepAt) / 3 < Date.now() &&
+      animal.lovedAt + (animal.awakeAt - animal.asleepAt) / 3 < Date.now(),
   );
 };
 

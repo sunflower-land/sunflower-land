@@ -44,7 +44,7 @@ import { secondsTillReset } from "features/helios/components/hayseedHank/Hayseed
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { useNavigate } from "react-router-dom";
@@ -54,6 +54,9 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
+
+import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
+import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -246,7 +249,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
           <div id="select-box" className="hidden md:block">
             <img
               className="absolute pointer-events-none"
-              src={SUNNYSIDE.ui.selectBoxTL}
+              src={halloweenSelectboxTL}
               style={{
                 top: `${PIXEL_SCALE * -3}px`,
                 left: `${PIXEL_SCALE * -3}px`,
@@ -255,7 +258,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             />
             <img
               className="absolute pointer-events-none"
-              src={SUNNYSIDE.ui.selectBoxTR}
+              src={halloweenSelectboxTR}
               style={{
                 top: `${PIXEL_SCALE * -3}px`,
                 right: `${PIXEL_SCALE * -3}px`,
@@ -398,12 +401,13 @@ export const DeliveryOrders: React.FC<Props> = ({
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
-  const {
-    tasksStartAt,
-    tasksCloseAt,
-    ticketTasksAreFrozen,
-    ticketTasksAreClosing,
-  } = getSeasonChangeover({ id: gameService.state.context.farmId });
+  const { holiday } = getBumpkinHoliday({});
+
+  // Check if matches UTC date
+  const isHoliday = holiday === new Date().toISOString().split("T")[0];
+
+  const nextHolidayInSecs =
+    (new Date(holiday ?? 0).getTime() - Date.now()) / 1000;
 
   const level = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
@@ -441,7 +445,8 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between gap-1 flex-row w-full">
             <Label type="default">{t("deliveries")}</Label>
-            {state.delivery.doubleDelivery === true && (
+            {state.delivery.doubleDelivery ===
+              new Date().toISOString().substring(0, 10) && (
               <Label type="vibrant" icon={lightning}>
                 {t("double.rewards.deliveries")}
               </Label>
@@ -480,16 +485,14 @@ export const DeliveryOrders: React.FC<Props> = ({
             >
               {getSeasonalTicket()}
             </Label>
-            {ticketTasksAreFrozen && (
+            {isHoliday && (
               <Label type="formula" icon={lock} className="mt-1">
-                {secondsToString((tasksStartAt - Date.now()) / 1000, {
-                  length: "medium",
-                })}
+                {t("delivery.holiday")}
               </Label>
             )}
-            {ticketTasksAreClosing && (
+            {nextHolidayInSecs > 0 && nextHolidayInSecs < 24 * 60 * 60 && (
               <Label type="danger" icon={lock} className="mt-1">
-                {`${secondsToString((tasksCloseAt - Date.now()) / 1000, {
+                {`${secondsToString(nextHolidayInSecs, {
                   length: "medium",
                 })} left`}
               </Label>
@@ -502,10 +505,13 @@ export const DeliveryOrders: React.FC<Props> = ({
               })}
             </span>
           )}
-          {ticketTasksAreFrozen && (
+          {nextHolidayInSecs > 0 && nextHolidayInSecs < 24 * 60 * 60 && (
             <span className="text-xs mb-2">
-              {t("orderhelp.New.Season.arrival")}
+              {t("delivery.holiday.closingSoon")}
             </span>
+          )}
+          {isHoliday && (
+            <span className="text-xs mb-2">{t("delivery.holiday.closed")}</span>
           )}
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
@@ -780,11 +786,13 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </Label>
               </div>
               <div className="mb-1">
-                {state.delivery.doubleDelivery === true && !hasClaimedBonus && (
-                  <Label type="vibrant" icon={lightning}>
-                    {t("2x.rewards")}
-                  </Label>
-                )}
+                {state.delivery.doubleDelivery ===
+                  new Date().toISOString().substring(0, 10) &&
+                  !hasClaimedBonus && (
+                    <Label type="vibrant" icon={lightning}>
+                      {t("2x.rewards")}
+                    </Label>
+                  )}
               </div>
               <div>
                 {!previewOrder.completedAt &&
@@ -858,7 +866,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               )}
             </div>
           )}
-          {ticketTasksAreFrozen &&
+          {isHoliday &&
             !!generateDeliveryTickets({
               game: state,
               npc: previewOrder.from,

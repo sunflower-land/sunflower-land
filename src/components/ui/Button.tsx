@@ -3,10 +3,9 @@ import classnames from "classnames";
 import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
 
-import { SUNNYSIDE } from "assets/sunnyside";
-
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import halloweenButton from "assets/ui/halloweenButton.png";
 
 interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -60,14 +59,14 @@ export const Button: React.FC<Props> = ({
       type={type}
       disabled={disabled}
       style={{
-        borderImage: `url(${SUNNYSIDE.ui.primaryButton})`,
+        borderImage: `url(${halloweenButton})`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         borderImageSlice: "3 3 4 3 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
         borderRadius: `${PIXEL_SCALE * 5}px`,
-        color: "#674544",
+        color: "white",
       }}
       {...clickEvents}
     >

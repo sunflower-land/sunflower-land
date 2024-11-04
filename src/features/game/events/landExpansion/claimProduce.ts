@@ -8,11 +8,12 @@ import {
 import { GameState } from "features/game/types/game";
 import {
   getAnimalLevel,
-  getBoostedAsleepAt,
+  getBoostedAwakeAt,
   getResourceDropAmount,
 } from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/craftables";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type ClaimProduceAction = {
   type: "produce.claimed";
@@ -46,7 +47,7 @@ export function claimProduce({
       throw new Error("Animal is not ready to claim produce");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
+    const level = getAnimalLevel(animal.experience, action.animal);
 
     getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
       const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
@@ -63,9 +64,15 @@ export function claimProduce({
       copy.inventory[resource] = (
         copy.inventory[resource] ?? new Decimal(0)
       ).add(boostedAmount ?? new Decimal(0));
+
+      copy.bumpkin.activity = trackActivity(
+        `${resource} Collected`,
+        copy.bumpkin.activity,
+      );
     });
 
-    animal.asleepAt = getBoostedAsleepAt({
+    animal.asleepAt = createdAt;
+    animal.awakeAt = getBoostedAwakeAt({
       animalType: animal.type,
       createdAt,
       game: copy,

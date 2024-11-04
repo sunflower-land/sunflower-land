@@ -4,15 +4,13 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
-import React, { useState, useEffect, useContext } from "react";
-import { _megastore } from "./MegaStore";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
-import { getCurrentSeason } from "features/game/types/seasons";
+import React, { useState, useEffect } from "react";
+import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import {
   MEGASTORE,
   SeasonalStoreCollectible,
   SeasonalStoreItem,
+  SeasonalStoreTier,
   SeasonalStoreWearable,
 } from "features/game/types/megastore";
 
@@ -74,12 +72,10 @@ export const getItemDescription = (item: SeasonalStoreItem | null): string => {
 export const SeasonalStore: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
-  const { gameService } = useContext(Context);
-  const megastore = useSelector(gameService, _megastore);
   const [selectedItem, setSelectedItem] = useState<SeasonalStoreItem | null>(
     null,
   );
-  const [selectedTier, setSelectedTier] = useState<"basic" | "rare" | "epic">();
+  const [selectedTier, setSelectedTier] = useState<SeasonalStoreTier>();
 
   const [isVisible, setIsVisible] = useState(false);
   const createdAt = Date.now();
@@ -92,22 +88,21 @@ export const SeasonalStore: React.FC<{
 
   const handleClickItem = (
     item: SeasonalStoreItem,
-    tier: "basic" | "rare" | "epic",
+    tier: SeasonalStoreTier,
   ) => {
     setSelectedItem(item);
     setSelectedTier(tier);
   };
   const getTotalSecondsAvailable = () => {
-    const { from, to } = megastore.available;
+    const { startDate, endDate } = SEASONS[getCurrentSeason()];
 
-    return (to - from) / 1000;
+    return (endDate.getTime() - startDate.getTime()) / 1000;
   };
 
   const timeRemaining = getTimeLeft(
-    megastore.available.from,
+    SEASONS[getCurrentSeason()].startDate.getTime(),
     getTotalSecondsAvailable(),
   );
-
   const { t } = useAppTranslation();
 
   const currentSeason = getCurrentSeason(new Date(createdAt));
@@ -116,6 +111,7 @@ export const SeasonalStore: React.FC<{
   const basicAllItems = MEGASTORE[currentSeason].basic.items;
   const rareAllItems = MEGASTORE[currentSeason].rare.items;
   const epicAllItems = MEGASTORE[currentSeason].epic.items;
+  const megaItems = MEGASTORE[currentSeason].mega.items;
 
   return (
     <div className="relative h-full w-full">
@@ -133,7 +129,7 @@ export const SeasonalStore: React.FC<{
         </Label>
       </div>
       <div
-        className={classNames("flex flex-col p-2 pt-1 space-y-3 ", {
+        className={classNames("flex flex-col p-2 pt-1", {
           ["max-h-[450px] overflow-y-auto scrollable "]: !readonly,
         })}
       >
@@ -146,15 +142,21 @@ export const SeasonalStore: React.FC<{
           onItemClick={handleClickItem}
         />
         <ItemsList
-          itemsLabel={"Rare Item"}
+          itemsLabel={"Rare Items"}
           tier="rare"
           items={rareAllItems}
           onItemClick={handleClickItem}
         />
         <ItemsList
-          itemsLabel={"Epic Item"}
+          itemsLabel={"Epic Items"}
           tier="epic"
           items={epicAllItems}
+          onItemClick={handleClickItem}
+        />
+        <ItemsList
+          itemsLabel={"Mega Items"}
+          tier="mega"
+          items={megaItems}
           onItemClick={handleClickItem}
         />
       </div>
