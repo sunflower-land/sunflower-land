@@ -214,7 +214,7 @@ export const ItemsList: React.FC<Props> = ({
   return (
     <div className="flex flex-col mb-5">
       {itemsLabel && (
-        <div className="flex  z-10">
+        <div className="flex z-10">
           <div className="grow w-9/10">
             {itemsLabel && (
               <Label
@@ -311,7 +311,7 @@ export const ItemsList: React.FC<Props> = ({
                   }}
                   onClick={() => onItemClick(item, tier)}
                 >
-                  <div className="flex relative justify-center items-center w-full h-full">
+                  <div className="flex relative justify-center items-center w-full h-full z-20">
                     <SquareIcon icon={getItemImage(item)} width={20} />
                     {buff && (
                       <img
