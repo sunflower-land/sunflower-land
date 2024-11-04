@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "Ce {{name}} vous permet de débloquer un nouvel ouvrier agricole pour vous aider dans votre ferme.",
   "bedsMigration.bedsNeeded": "Des lits sont nécessaires !",
   "bedsMigration.bedsNeededDescription": "Les ouvriers agricoles ont besoin de lits pour travailler à la ferme.",
-  "bedsMigration.bedsNeededDescription2": "Placez des lits pour engager plus d'ouvriers agricoles !",
   "farmHand": "Farm Hand",
   "description.petting.hand": "Animaux de compagnie. Utilisez-le pour montrer de l'affection à vos animaux.",
   "animal.toolRequired": "{{tool}} Obligatoire",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
   "levelUpMax": "Niveau maximum !",
   "birdieplaza.choresAndRewards": "Vous pouvez également gagner {{seasonalTicket}} s grâce à des tâches hebdomadaires, à des récompenses de coffre quotidiennes, à l'obsession étrange de Bert et au système de primes !",
-  "description.community.coin": "(WIP) Une pièce de valeur réservée pour une utilisation future à Sunflower Land."
+  "description.community.coin": "(WIP) Une pièce de valeur réservée pour une utilisation future à Sunflower Land.",
+  "bedsMigration.bedsNeededDescription2": "Chaque lit unique peut accueillir un ouvrier de ferme.",
+  "bedsMigration.bedsNeededDescription3": "Placez des lits pour engager plus d'ouvriers agricoles !",
+  "bedsMigration.status.occupied": "Occupé",
+  "bedsMigration.status.unoccupied": "Vide",
+  "bedsMigration.status.notPlaced": "Non placé",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "Mes lits."
 }

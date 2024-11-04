@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "Bu {{name}}, çiftliğinize yardımcı olmak için yeni bir çiftlik işçisinin kilidini açmanıza olanak tanır.",
   "bedsMigration.bedsNeeded": "Yataklar Gerekli!",
   "bedsMigration.bedsNeededDescription": "Çiftlik ellerinin çiftlikte çalışmak için yataklara ihtiyacı var.",
-  "bedsMigration.bedsNeededDescription2": "Daha fazla çiftçi kiralamak için yatak yerleştirin!",
   "farmHand": "Çiftlik El",
   "description.petting.hand": "Evcil hayvanlar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
   "animal.toolRequired": "{{tool}} Gerekli",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Hayvanlara müzik çalar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
   "levelUpMax": "Maksimum Seviye!",
   "birdieplaza.choresAndRewards": "Ayrıca haftalık ev işleri, günlük sandık ödülleri, Bert'in Garip Takıntısı ve ödül sistemi ile {{seasonalTicket}} s kazanabilirsiniz!",
-  "description.community.coin": "(WIP) Ayçiçeği Ülkesinde gelecekte kullanılmak üzere ayrılmış değerli bir madeni para."
+  "description.community.coin": "(WIP) Ayçiçeği Ülkesinde gelecekte kullanılmak üzere ayrılmış değerli bir madeni para.",
+  "bedsMigration.bedsNeededDescription2": "Her benzersiz yatak bir çiftlik elini uyuyabilir.",
+  "bedsMigration.bedsNeededDescription3": "Daha fazla çiftçi kiralamak için yatak yerleştirin!",
+  "bedsMigration.status.occupied": "işgal",
+  "bedsMigration.status.unoccupied": "Boş",
+  "bedsMigration.status.notPlaced": "Yerleştirilmemiş",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "Yataklarım."
 }

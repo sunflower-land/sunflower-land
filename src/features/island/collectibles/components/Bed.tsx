@@ -17,7 +17,7 @@ interface BedProps {
   name: BedName;
 }
 
-const BED_WIDTH: Record<BedName, number> = {
+export const BED_WIDTH: Record<BedName, number> = {
   "Basic Bed": 16,
   "Floral Bed": 16,
   "Fisher Bed": 22,

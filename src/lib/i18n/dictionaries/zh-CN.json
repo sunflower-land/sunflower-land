@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "此 {{name}} 允许你解锁一个新的农场工人来帮助你的农场。",
   "bedsMigration.bedsNeeded": "需要床！",
   "bedsMigration.bedsNeededDescription": "农民需要床才能在农场工作。",
-  "bedsMigration.bedsNeededDescription2": "放置床位以雇用更多的农民！",
   "farmHand": "农场之手",
   "description.petting.hand": "宠物动物。用它来表达对动物的爱意。",
   "animal.toolRequired": "{{tool}} 必填项",
@@ -4217,5 +4216,12 @@
   "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
   "levelUpMax": "最高等级！",
   "birdieplaza.choresAndRewards": "你还可以通过每周琐事、每日宝箱奖励、伯特的 Odd Obsession 和赏金系统获得 {{seasonalTicket}} s！",
-  "description.community.coin": "(WIP) 一枚有价值的硬币，留待将来在向日葵之地使用。"
+  "description.community.coin": "(WIP) 一枚有价值的硬币，留待将来在向日葵之地使用。",
+  "bedsMigration.bedsNeededDescription2": "每张独特的床可以让一只农场的手睡觉。",
+  "bedsMigration.bedsNeededDescription3": "放置床位以雇用更多的农民！",
+  "bedsMigration.status.occupied": "已占领",
+  "bedsMigration.status.unoccupied": "空的",
+  "bedsMigration.status.notPlaced": "未放置",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "我的床。"
 }

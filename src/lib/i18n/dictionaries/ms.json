@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "{{name}} ini membolehkan anda membuka kunci ladang baharu untuk membantu di ladang anda.",
   "bedsMigration.bedsNeeded": "Katil Diperlukan!",
   "bedsMigration.bedsNeededDescription": "Tangan ladang memerlukan katil untuk bekerja di ladang.",
-  "bedsMigration.bedsNeededDescription2": "Letakkan katil untuk menyewa lebih banyak petani ladang!",
   "farmHand": "Tangan Ladang",
   "description.petting.hand": "Haiwan haiwan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
   "levelUpMax": "Tahap Maksimum!",
   "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan kerja mingguan, ganjaran dada harian, Bert's Odd Obsession dan sistem hadiah!",
-  "description.community.coin": "(WIP) Syiling bernilai yang dikhaskan untuk kegunaan masa depan di Tanah Sunflower."
+  "description.community.coin": "(WIP) Syiling bernilai yang dikhaskan untuk kegunaan masa depan di Tanah Sunflower.",
+  "bedsMigration.bedsNeededDescription2": "Setiap katil unik boleh tidur satu tangan ladang.",
+  "bedsMigration.bedsNeededDescription3": "Letakkan katil untuk menyewa lebih banyak petani ladang!",
+  "bedsMigration.status.occupied": "Diduduki",
+  "bedsMigration.status.unoccupied": "Kosong",
+  "bedsMigration.status.notPlaced": "Tidak Ditempatkan",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "Katil Saya."
 }

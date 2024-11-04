@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "이 {{name}} 를 사용하면 새 농부의 잠금을 해제하여 농장을 도울 수 있습니다.",
   "bedsMigration.bedsNeeded": "침대가 필요해요!",
   "bedsMigration.bedsNeededDescription": "농장주들이 농장에서 일하려면 침대가 필요합니다.",
-  "bedsMigration.bedsNeededDescription2": "더 많은 농부를 고용하려면 침대를 배치하세요!",
   "farmHand": "팜 핸드",
   "description.petting.hand": "애완 동물.이를 사용해 동물에게 애정을 표현하세요.",
   "animal.toolRequired": "{{tool}} 필수",
@@ -4217,5 +4216,12 @@
   "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
   "levelUpMax": "최대 레벨!",
   "birdieplaza.choresAndRewards": "또한 주간 집안일, 일일 상자 보상, 버트의 이상한 집착, 현상금 시스템을 통해서도 {{seasonalTicket}} 를 얻을 수 있습니다!",
-  "description.community.coin": "(WIP) 선플라워 랜드에서 나중에 사용할 수 있도록 예약되어 있는 가치 있는 주화입니다."
+  "description.community.coin": "(WIP) 선플라워 랜드에서 나중에 사용할 수 있도록 예약되어 있는 가치 있는 주화입니다.",
+  "bedsMigration.bedsNeededDescription2": "각각의 독특한 침대는 농장에서 한 손도 잘 수 있습니다.",
+  "bedsMigration.bedsNeededDescription3": "더 많은 농부를 고용하려면 침대를 배치하세요!",
+  "bedsMigration.status.occupied": "점령",
+  "bedsMigration.status.unoccupied": "비어 있습니다",
+  "bedsMigration.status.notPlaced": "배치되지 않음",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "마이 베드."
 }

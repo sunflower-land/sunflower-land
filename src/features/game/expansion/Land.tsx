@@ -658,8 +658,8 @@ const getIslandElements = ({
           key={`recipe-group-${key}`}
           x={x}
           y={y}
-          height={16}
-          width={16}
+          height={1}
+          width={1}
         >
           <RecipeStack
             key={`recipe-${recipes}`}

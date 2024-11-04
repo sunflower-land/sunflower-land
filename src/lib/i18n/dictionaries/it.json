@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "Questo {{name}} ti consente di sbloccare un nuovo bracciante che ti aiuti nella tua fattoria.",
   "bedsMigration.bedsNeeded": "Letti necessari!",
   "bedsMigration.bedsNeededDescription": "I braccianti hanno bisogno di letti per lavorare nella fattoria.",
-  "bedsMigration.bedsNeededDescription2": "Posiziona i letti per assumere altri braccianti agricoli!",
   "farmHand": "Mano della fattoria",
   "description.petting.hand": "Animali domestici. Usalo per mostrare affetto ai tuoi animali.",
   "animal.toolRequired": "{{tool}} Obbligatorio",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
   "levelUpMax": "Livello massimo!",
   "birdieplaza.choresAndRewards": "Puoi guadagnare {{seasonalTicket}} anche con le faccende settimanali, i premi giornalieri per i bauli, la strana ossessione di Bert e il sistema di ricompense!",
-  "description.community.coin": "(WIP) Una moneta di valore riservata per un uso futuro a Sunflower Land."
+  "description.community.coin": "(WIP) Una moneta di valore riservata per un uso futuro a Sunflower Land.",
+  "bedsMigration.bedsNeededDescription2": "Ogni letto unico può ospitare un lavoratore agricolo.",
+  "bedsMigration.bedsNeededDescription3": "Posiziona i letti per assumere altri braccianti agricoli!",
+  "bedsMigration.status.occupied": "Occupato",
+  "bedsMigration.status.unoccupied": "Vuoto",
+  "bedsMigration.status.notPlaced": "Non posizionato",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "I miei letti."
 }

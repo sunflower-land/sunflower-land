@@ -4049,7 +4049,6 @@
   "description.unlockFarmhand": "{{name}} ini memungkinkan Anda membuka kunci petani baru untuk membantu pertanian Anda.",
   "bedsMigration.bedsNeeded": "Tempat Tidur Dibutuhkan!",
   "bedsMigration.bedsNeededDescription": "Tangan petani membutuhkan tempat tidur untuk bekerja di pertanian.",
-  "bedsMigration.bedsNeededDescription2": "Tempatkan tempat tidur untuk menyewa lebih banyak petani!",
   "farmHand": "Tangan Pertanian",
   "description.petting.hand": "Hewan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
@@ -4217,5 +4216,12 @@
   "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
   "levelUpMax": "Tingkat Maks!",
   "birdieplaza.choresAndRewards": "Anda juga bisa mendapatkan {{seasonalTicket}} s dengan tugas mingguan, hadiah peti harian, Obsesi Aneh Bert, dan sistem hadiah!",
-  "description.community.coin": "(WIP) Koin bernilai yang disediakan untuk digunakan di masa mendatang di Sunflower Land."
+  "description.community.coin": "(WIP) Koin bernilai yang disediakan untuk digunakan di masa mendatang di Sunflower Land.",
+  "bedsMigration.bedsNeededDescription2": "Setiap tempat tidur unik dapat menampung satu petani.",
+  "bedsMigration.bedsNeededDescription3": "Tempatkan tempat tidur untuk menyewa lebih banyak petani!",
+  "bedsMigration.status.occupied": "Diduduki",
+  "bedsMigration.status.unoccupied": "Kosong",
+  "bedsMigration.status.notPlaced": "Tidak Ditempatkan",
+  "bedsMigration.farmHandCount": "{{count}} /8",
+  "bedsMigration.label": "Tempat Tidur Saya."
 }
