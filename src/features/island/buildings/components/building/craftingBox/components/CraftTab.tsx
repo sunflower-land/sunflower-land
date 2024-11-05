@@ -443,10 +443,25 @@ export const CraftTab: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="flex flex-col max-h-72 overflow-y-auto scrollable">
-        <Label type="default" className="mb-1 ml-1">
+      <div className="flex justify-between mb-1 ml-1 mr-2">
+        <Label type="default" className="">
           {t("resources")}
         </Label>
+        {selectedIngredient && (
+          <Label
+            type="chill"
+            className=""
+            icon={
+              selectedIngredient.collectible
+                ? ITEM_DETAILS[selectedIngredient.collectible].image
+                : undefined
+            }
+          >
+            {selectedIngredient.collectible ?? selectedIngredient.wearable}
+          </Label>
+        )}
+      </div>
+      <div className="flex flex-col max-h-72 overflow-y-auto scrollable pr-1">
         <div className="flex flex-wrap">
           {VALID_CRAFTING_RESOURCES.map((itemName) => {
             const amount = remainingInventory[itemName] || new Decimal(0);
@@ -466,9 +481,7 @@ export const CraftTab: React.FC<Props> = ({
                   onClick={() =>
                     handleIngredientSelect({ collectible: itemName })
                   }
-                  disabled={
-                    isPending || isCrafting || amount.lessThanOrEqualTo(0)
-                  }
+                  disabled={isPending || isCrafting}
                 />
               </div>
             );
@@ -492,7 +505,7 @@ export const CraftTab: React.FC<Props> = ({
                   image={getImageUrl(ITEM_IDS[itemName])}
                   isSelected={selectedIngredient?.wearable === itemName}
                   onClick={() => handleIngredientSelect({ wearable: itemName })}
-                  disabled={isPending || isCrafting || amount <= 0}
+                  disabled={isPending || isCrafting}
                 />
               </div>
             );
