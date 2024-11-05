@@ -1,4 +1,5 @@
 {
+  "ingredients": "Ingredients",
   "animals.buyAnimal": "Buy Animal",
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 SFL",
