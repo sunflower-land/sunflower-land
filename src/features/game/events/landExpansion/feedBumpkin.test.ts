@@ -810,7 +810,6 @@ describe("feedBumpkin", () => {
         .plus(500)
         .toNumber(),
     );
-    expect(result.bumpkin?.experience).toBe(5500);
   });
 
   it("does not apply Swiss Whiskers boost on food made without Cheese", () => {
