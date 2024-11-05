@@ -776,4 +776,73 @@ describe("feedBumpkin", () => {
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
     );
   });
+
+  it("gives +500 more experience when eating food made with Cheese when Swiss Whiskers is placed", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Pizza Margherita": new Decimal(2),
+        },
+        collectibles: {
+          "Swiss Whiskers": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Pizza Margherita",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Pizza Margherita"].experience)
+        .plus(500)
+        .toNumber(),
+    );
+    expect(result.bumpkin?.experience).toBe(5500);
+  });
+
+  it("does not apply Swiss Whiskers boost on food made without Cheese", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+        collectibles: {
+          "Swiss Whiskers": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
+    );
+  });
 });
