@@ -708,7 +708,6 @@ export const hasMoveRestriction = (
   state: GameState,
 ): Restriction => {
   const isAoEItem =
-    name === "Bale" ||
     name === "Basic Scarecrow" ||
     name === "Emerald Turtle" ||
     name === "Tin Turtle" ||
