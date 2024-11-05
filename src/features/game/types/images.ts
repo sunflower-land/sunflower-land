@@ -276,7 +276,7 @@ import blueCheese from "assets/food/blue_cheese.webp";
 import honeyCheddar from "assets/food/honey_chedder.webp";
 import capreseSalad from "assets/food/caprese_salad.webp";
 import sourShake from "assets/food/sour_shake.webp";
-import spaghettiAlLimone from "assets/food/spaghetti_al_limone.webp";
+import spaghettiAlLimone from "assets/food/spaghetti_al_limone2.webp";
 import lemonCheesecake from "assets/food/lemon_cheesecake.webp";
 import mashedPotato from "assets/food/mashed_potato.png";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";

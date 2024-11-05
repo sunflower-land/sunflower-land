@@ -795,7 +795,7 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
     ingredients: {
       Lemon: new Decimal(20),
       Cheese: new Decimal(5),
-      Egg: new Decimal(20),
+      Egg: new Decimal(40),
     },
   },
 };
