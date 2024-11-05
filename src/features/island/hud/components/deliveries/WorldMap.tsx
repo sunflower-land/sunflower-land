@@ -271,22 +271,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div
         style={{
           width: "12%",
-          height: "18%",
-          border: showDebugBorders ? "2px solid red" : "",
-          position: "absolute",
-          left: "23%",
-          bottom: "51%",
-        }}
-        className="flex justify-center items-center"
-      >
-        <Label className="shadow-md" type="vibrant">
-          <span className="text-xxs sm:text-sm">{t("world.newArea")}</span>
-        </Label>
-      </div>
-
-      <div
-        style={{
-          width: "12%",
           height: "38%",
           border: showDebugBorders ? "2px solid red" : "",
           position: "absolute",
