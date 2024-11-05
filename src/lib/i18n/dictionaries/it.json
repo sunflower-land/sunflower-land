@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 Pelle",
   "whatsOn.horseshoesText": "Completa le consegne per guadagnare ferri di cavallo.",
   "whatsOn.choresText": "Completa le faccende e le ricompense per guadagnare ferri di cavallo (11 novembre)",
-  "whatsOn.date.nov6Dec11": "6 novembre - 9 dicembre",
   "whatsOn.date.dec11Dec18": "9 dicembre - 16 dicembre",
   "animals.guide.feeder": "Prepara il cibo per i tuoi animali usando la mangiatoia.",
   "animals.guide.food_preference": "Gli animali preferiscono il loro cibo preferito ma mangeranno qualsiasi cibo.",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "Una bevanda al limone piccante e rinfrescante",
   "description.spaghettiLimone": "Un gustoso piatto di pasta con limone e formaggio",
   "description.lemonCheesecake": "Una cheesecake cremosa con un tocco di agrumi",
-  "gems.shipment.useGems": "Usa le gemme per sbloccare più scorte"
+  "gems.shipment.useGems": "Usa le gemme per sbloccare più scorte",
+  "whatsOn.date.nov6Dec11": "6 novembre - 31 gennaio"
 }

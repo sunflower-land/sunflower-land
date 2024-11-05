@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 Deri",
   "whatsOn.horseshoesText": "At nalı kazanmak için teslimatları tamamlayın.",
   "whatsOn.choresText": "At nalı kazanmak için ev işleri ve ödülleri tamamlayın (11 Kasım)",
-  "whatsOn.date.nov6Dec11": "6 Kasım - 9 Aralık",
   "whatsOn.date.dec11Dec18": "9 Aralık - 16 Aralık",
   "animals.guide.feeder": "Besleme makinesini kullanarak hayvanlarınız için yiyecek hazırlayın.",
   "animals.guide.food_preference": "Hayvanlar en sevdikleri yiyecekleri tercih ederler, ancak herhangi bir yemeği yerler.",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "Keskin ve ferahlatıcı bir limonlu içecek",
   "description.spaghettiLimone": "Limonlu ve peynirli lezzetli bir makarna yemeği",
   "description.lemonCheesecake": "Narenciye dokunuşlu kremalı peynirli kek",
-  "gems.shipment.useGems": "Daha fazla stok açmak için Mücevherleri kullanın"
+  "gems.shipment.useGems": "Daha fazla stok açmak için Mücevherleri kullanın",
+  "whatsOn.date.nov6Dec11": "6 Kasım - 31 Ocak"
 }

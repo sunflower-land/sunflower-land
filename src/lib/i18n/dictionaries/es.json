@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 Cuero",
   "whatsOn.horseshoesText": "Completa las entregas para ganar herraduras.",
   "whatsOn.choresText": "Completa tareas y recompensas para ganar herraduras (11 de noviembre)",
-  "whatsOn.date.nov6Dec11": "Del 6 de noviembre al 9 de diciembre",
   "whatsOn.date.dec11Dec18": "9 de diciembre - 16 de diciembre",
   "animals.guide.feeder": "Prepare la comida para sus animales con la máquina alimentadora.",
   "animals.guide.food_preference": "Los animales prefieren su comida favorita, pero comen cualquier alimento.",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "Una bebida de limón picante y refrescante",
   "description.spaghettiLimone": "Un sabroso plato de pasta con limón y queso",
   "description.lemonCheesecake": "Una tarta de queso cremosa con un toque cítrico",
-  "gems.shipment.useGems": "Usa gemas para desbloquear más existencias"
+  "gems.shipment.useGems": "Usa gemas para desbloquear más existencias",
+  "whatsOn.date.nov6Dec11": "Del 6 de noviembre al 31 de enero"
 }

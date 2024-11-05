@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 Couro",
   "whatsOn.horseshoesText": "Conclua as entregas para ganhar ferraduras.",
   "whatsOn.choresText": "Complete tarefas e recompensas para ganhar ferraduras (11 de novembro)",
-  "whatsOn.date.nov6Dec11": "6 de novembro a 9 de dezembro",
   "whatsOn.date.dec11Dec18": "9 de dezembro - 16 de dezembro",
   "animals.guide.feeder": "Prepare comida para seus animais usando a máquina alimentadora.",
   "animals.guide.food_preference": "Os animais preferem sua comida favorita, mas comem qualquer alimento.",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "Uma bebida de limão picante e refrescante",
   "description.spaghettiLimone": "Um prato de massa picante com limão e queijo",
   "description.lemonCheesecake": "Um cheesecake cremoso com um toque cítrico",
-  "gems.shipment.useGems": "Use gemas para desbloquear mais estoque"
+  "gems.shipment.useGems": "Use gemas para desbloquear mais estoque",
+  "whatsOn.date.nov6Dec11": "6 de novembro - 31 de janeiro"
 }

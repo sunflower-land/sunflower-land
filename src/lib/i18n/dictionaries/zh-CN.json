@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 皮革",
   "whatsOn.horseshoesText": "完成配送即可获得马蹄铁。",
   "whatsOn.choresText": "完成琐事和赏金以赚取马蹄铁（11 月 11 日）",
-  "whatsOn.date.nov6Dec11": "11 月 6 日至 12 月 9 日",
   "whatsOn.date.dec11Dec18": "12 月 9 日至 12 月 16 日",
   "animals.guide.feeder": "使用喂食机为您的动物准备食物。",
   "animals.guide.food_preference": "动物更喜欢自己喜欢的食物，但会吃任何食物。",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "一款浓郁清爽的柠檬饮品",
   "description.spaghettiLimone": "一道含有柠檬和奶酪的美味意大利面",
   "description.lemonCheesecake": "带有柑橘味的奶油芝士蛋糕",
-  "gems.shipment.useGems": "使用宝石解锁更多库存"
+  "gems.shipment.useGems": "使用宝石解锁更多库存",
+  "whatsOn.date.nov6Dec11": "11 月 6 日至 1 月 31 日"
 }

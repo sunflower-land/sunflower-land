@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 Kulit",
   "whatsOn.horseshoesText": "Lengkapkan penghantaran untuk mendapatkan tapak kuda.",
   "whatsOn.choresText": "Lengkapkan tugas & hadiah untuk mendapatkan kuda (11 Nov)",
-  "whatsOn.date.nov6Dec11": "6 November - 9 Dis",
   "whatsOn.date.dec11Dec18": "9 Disember - 16 Dis",
   "animals.guide.feeder": "Sediakan makanan untuk haiwan anda menggunakan mesin pengumpan.",
   "animals.guide.food_preference": "Haiwan lebih suka makanan kegemaran mereka tetapi akan makan apa-apa makanan.",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "Minuman lemon yang enak dan menyegarkan",
   "description.spaghettiLimone": "Hidangan pasta yang sedap dengan lemon dan keju",
   "description.lemonCheesecake": "Kek keju berkrim dengan sentuhan sitrus",
-  "gems.shipment.useGems": "Gunakan Permata untuk membuka kunci lebih banyak stok"
+  "gems.shipment.useGems": "Gunakan Permata untuk membuka kunci lebih banyak stok",
+  "whatsOn.date.nov6Dec11": "6 November - 31 Jan"
 }

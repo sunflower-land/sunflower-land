@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 가죽",
   "whatsOn.horseshoesText": "배달을 완료하면 말굽을 얻을 수 있습니다.",
   "whatsOn.choresText": "집안일과 현상금을 완료하여 말굽을 획득하세요 (11월 11일)",
-  "whatsOn.date.nov6Dec11": "11월 6일 - 12월 9일",
   "whatsOn.date.dec11Dec18": "12월 9일 - 12월 16일",
   "animals.guide.feeder": "피더 머신을 사용하여 동물을 위한 음식을 준비하세요.",
   "animals.guide.food_preference": "동물들은 좋아하는 음식을 선호하지만 어떤 음식이든 먹습니다.",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "톡 쏘는 상큼한 레몬 음료",
   "description.spaghettiLimone": "레몬과 치즈가 들어간 풍미 가득한 파스타 요리",
   "description.lemonCheesecake": "시트러스 트위스트가 가미된 크리미 치즈케이크",
-  "gems.shipment.useGems": "보석을 사용하여 더 많은 주식을 잠금 해제하세요"
+  "gems.shipment.useGems": "보석을 사용하여 더 많은 주식을 잠금 해제하세요",
+  "whatsOn.date.nov6Dec11": "11월 6일 - 1월 31일"
 }

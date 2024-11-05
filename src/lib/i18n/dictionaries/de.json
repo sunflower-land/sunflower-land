@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 Leder",
   "whatsOn.horseshoesText": "Schließe Lieferungen ab, um Hufeisen zu verdienen.",
   "whatsOn.choresText": "Erledige Hausarbeiten und Kopfgelder, um Hufeisen zu verdienen (11. November)",
-  "whatsOn.date.nov6Dec11": "6. November — 9. Dezember",
   "whatsOn.date.dec11Dec18": "9. Dezember — 16. Dezember",
   "animals.guide.feeder": "Bereiten Sie das Futter für Ihre Tiere mit der Futtermaschine zu.",
   "animals.guide.food_preference": "Tiere bevorzugen ihr Lieblingsfutter, fressen aber jedes Futter.",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "Ein würziger und erfrischender Zitronengetränk",
   "description.spaghettiLimone": "Ein pikantes Nudelgericht mit Zitrone und Käse",
   "description.lemonCheesecake": "Ein cremiger Käsekuchen mit einem Hauch von Zitrusfrüchten",
-  "gems.shipment.useGems": "Nutze Edelsteine, um mehr Aktien freizuschalten"
+  "gems.shipment.useGems": "Nutze Edelsteine, um mehr Aktien freizuschalten",
+  "whatsOn.date.nov6Dec11": "6. November — 31. Januar"
 }

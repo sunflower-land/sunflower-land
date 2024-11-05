@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 Cuir",
   "whatsOn.horseshoesText": "Effectuez des livraisons pour gagner des fers à cheval.",
   "whatsOn.choresText": "Accomplissez des corvées et des primes pour gagner des fers à cheval (11 novembre)",
-  "whatsOn.date.nov6Dec11": "6 novembre - 9 décembre",
   "whatsOn.date.dec11Dec18": "9 décembre - 16 décembre",
   "animals.guide.feeder": "Préparez la nourriture pour vos animaux à l'aide de la mangeoire.",
   "animals.guide.food_preference": "Les animaux préfèrent leur nourriture préférée, mais ils peuvent manger n'importe quelle nourriture.",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "Une boisson acidulée et rafraîchissante au citron",
   "description.spaghettiLimone": "Un plat de pâtes épicé au citron et au fromage",
   "description.lemonCheesecake": "Un cheesecake crémeux avec une touche d'agrumes",
-  "gems.shipment.useGems": "Utilisez des gemmes pour débloquer plus de stock"
+  "gems.shipment.useGems": "Utilisez des gemmes pour débloquer plus de stock",
+  "whatsOn.date.nov6Dec11": "6 novembre - 31 janvier"
 }

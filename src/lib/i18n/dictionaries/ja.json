@@ -4172,7 +4172,6 @@
   "description.mootant.boost": "+0.1 レザー",
   "whatsOn.horseshoesText": "配達を完了して蹄鉄を獲得しましょう。",
   "whatsOn.choresText": "雑用とバウンティを完了して蹄鉄を獲得 (11月11日)",
-  "whatsOn.date.nov6Dec11": "11月6日-12月9日",
   "whatsOn.date.dec11Dec18": "12月9日-12月16日",
   "animals.guide.feeder": "フィーダーマシンを使用して動物用の餌を準備します。",
   "animals.guide.food_preference": "動物は好きな食べ物を好みますが、どんな食べ物でも食べます。",
@@ -4232,5 +4231,6 @@
   "description.sourShake": "ピリッと爽やかなレモンドリンク",
   "description.spaghettiLimone": "レモンとチーズのピリッとしたパスタ料理",
   "description.lemonCheesecake": "柑橘系のひねりを加えたクリーミーなチーズケーキ",
-  "gems.shipment.useGems": "ジェムを使ってより多くの在庫をアンロックしよう"
+  "gems.shipment.useGems": "ジェムを使ってより多くの在庫をアンロックしよう",
+  "whatsOn.date.nov6Dec11": "11 月 6 日から 1 月 31 日まで"
 }
