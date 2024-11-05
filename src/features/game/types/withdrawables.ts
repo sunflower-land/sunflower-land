@@ -922,6 +922,10 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Splendor Flag": () => true,
   "Jelly Lamp": () => true,
   "Paint Can": () => true,
+
+  "Halloween Scarecrow": () => true,
+  "Vampire Bear": () => true,
+  "Super Totem": () => false,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
@@ -1755,7 +1759,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Sickle: () => false,
   "Speed Boots": () => false,
   "Tomato Apron": () => false,
-  "Adventurer's Suit": () => false,
-  "Adventurer's Torch": () => false,
-  "Pumpkin Head": () => false,
+  "Adventurer's Suit": () => true,
+  "Adventurer's Torch": () => true,
+  "Pumpkin Head": () => true,
 };
