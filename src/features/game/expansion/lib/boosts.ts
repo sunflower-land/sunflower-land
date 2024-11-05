@@ -166,7 +166,10 @@ export const getCookingTime = (
     reducedSecs = reducedSecs.mul(0.75);
   }
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 
