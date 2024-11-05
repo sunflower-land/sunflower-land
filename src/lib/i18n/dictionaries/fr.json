@@ -4231,5 +4231,6 @@
   "description.capreseSalad": "Une salade fraîche avec du fromage, des tomates et du chou frisé",
   "description.sourShake": "Une boisson acidulée et rafraîchissante au citron",
   "description.spaghettiLimone": "Un plat de pâtes épicé au citron et au fromage",
-  "description.lemonCheesecake": "Un cheesecake crémeux avec une touche d'agrumes"
+  "description.lemonCheesecake": "Un cheesecake crémeux avec une touche d'agrumes",
+  "gems.shipment.useGems": "Utilisez des gemmes pour débloquer plus de stock"
 }

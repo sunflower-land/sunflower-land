@@ -4231,5 +4231,6 @@
   "description.capreseSalad": "Ensalada fresca con queso, tomates y col rizada",
   "description.sourShake": "Una bebida de limón picante y refrescante",
   "description.spaghettiLimone": "Un sabroso plato de pasta con limón y queso",
-  "description.lemonCheesecake": "Una tarta de queso cremosa con un toque cítrico"
+  "description.lemonCheesecake": "Una tarta de queso cremosa con un toque cítrico",
+  "gems.shipment.useGems": "Usa gemas para desbloquear más existencias"
 }
