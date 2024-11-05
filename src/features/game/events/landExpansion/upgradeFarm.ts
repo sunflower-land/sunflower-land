@@ -719,9 +719,22 @@ export function expireItems({
       totem.createdAt + (EXPIRY_COOLDOWNS["Time Warp Totem"] ?? 0) < createdAt,
   ).length;
 
+  const inActiveSuperTotems = [
+    ...(game.collectibles["Super Totem"] ?? []),
+    ...(game.home.collectibles["Super Totem"] ?? []),
+  ].filter(
+    (totem) =>
+      totem.createdAt + (EXPIRY_COOLDOWNS["Super Totem"] ?? 0) < createdAt,
+  ).length;
+
   if (inActiveTimeWarps > 0) {
     const previous = game.inventory["Time Warp Totem"] ?? new Decimal(0);
     game.inventory["Time Warp Totem"] = previous.sub(inActiveTimeWarps);
+  }
+
+  if (inActiveSuperTotems > 0) {
+    const previous = game.inventory["Super Totem"] ?? new Decimal(0);
+    game.inventory["Super Totem"] = previous.sub(inActiveSuperTotems);
   }
 
   return game;
