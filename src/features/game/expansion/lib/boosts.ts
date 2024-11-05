@@ -47,12 +47,12 @@ export function isCropShortage({ game }: { game: GameState }) {
 
 export function isFoodMadeWithHoney(food: Consumable) {
   const cookable = COOKABLES[food.name as CookableName];
-  return cookable ? cookable.ingredients.Honey : false;
+  return !!cookable?.ingredients.Honey;
 }
 
 export function isFoodMadeWithCheese(food: Consumable) {
   const cookable = COOKABLES[food.name as CookableName];
-  return cookable ? cookable.ingredients.Cheese : false;
+  return !!cookable?.ingredients.Cheese;
 }
 
 export const CROP_SHORTAGE_HOURS = 2;
