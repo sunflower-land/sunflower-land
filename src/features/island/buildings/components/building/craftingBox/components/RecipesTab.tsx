@@ -15,6 +15,7 @@ import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
   Recipe,
+  RecipeIngredient,
   RecipeItemName,
   RECIPES,
   Recipes,
@@ -22,6 +23,7 @@ import {
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { Decimal } from "decimal.js";
+import { IngredientsInfoPanel } from "features/world/ui/IngredientsInfoPanel";
 
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
@@ -40,6 +42,7 @@ export const RecipesTab: React.FC<Props> = ({
   handleSetupRecipe,
 }) => {
   const { t } = useTranslation();
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   const recipes = useSelector(gameService, _craftingBoxRecipes);
 
@@ -101,9 +104,19 @@ export const RecipesTab: React.FC<Props> = ({
 
             return (
               <div
+                onClick={() => setSelectedRecipe(recipe)}
                 key={recipe.name}
-                className="flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400"
+                className="relative flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400 cursor-pointer"
               >
+                <IngredientsInfoPanel
+                  show={!!selectedRecipe && selectedRecipe.name === recipe.name}
+                  ingredients={
+                    selectedRecipe?.ingredients.filter(
+                      (ingredient) => ingredient !== null,
+                    ) as RecipeIngredient[]
+                  }
+                  onClick={() => setSelectedRecipe(null)}
+                />
                 <div className="flex justify-between">
                   <Label type="transparent" className="mb-1">
                     {recipe.name}
@@ -120,7 +133,10 @@ export const RecipesTab: React.FC<Props> = ({
                       onClick={
                         isPending || isCrafting || !canCraft
                           ? undefined
-                          : () => handleSetupRecipe(recipe)
+                          : (e) => {
+                              e.stopPropagation();
+                              handleSetupRecipe(recipe);
+                            }
                       }
                       disabled={isPending || isCrafting || !canCraft}
                     >
