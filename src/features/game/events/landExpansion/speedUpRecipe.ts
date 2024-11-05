@@ -75,16 +75,16 @@ export function makeGemHistory({
 }): GameState {
   const today = new Date().toISOString().substring(0, 10);
 
-  return produce(game, (game) => {
-    game.gems.history = game.gems.history ?? {};
+  game.gems.history = game.gems.history ?? {};
 
-    // Remove other dates
-    game.gems.history = {
-      [today]: {
-        spent: (game.gems.history[today]?.spent ?? 0) + amount,
-      },
-    };
-  });
+  // Remove other dates
+  game.gems.history = {
+    [today]: {
+      spent: (game.gems.history[today]?.spent ?? 0) + amount,
+    },
+  };
+
+  return game;
 }
 
 export function speedUpRecipe({
