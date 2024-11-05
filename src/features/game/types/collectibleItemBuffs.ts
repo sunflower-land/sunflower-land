@@ -801,4 +801,15 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: SUNNYSIDE.resource.leather,
   },
+  "King of Bears": {
+    shortDescription: translate("description.kingOfBears.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Honey.image,
+  },
+  "Super Totem": {
+    shortDescription: translate("description.superTotem.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
 };
