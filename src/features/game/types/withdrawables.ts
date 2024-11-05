@@ -1755,4 +1755,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Sickle: () => false,
   "Speed Boots": () => false,
   "Tomato Apron": () => false,
+  "Adventurer's Suit": () => false,
+  "Adventurer's Torch": () => false,
+  "Pumpkin Head": () => false,
 };
