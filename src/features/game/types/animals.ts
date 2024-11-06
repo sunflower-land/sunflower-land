@@ -210,7 +210,7 @@ export const ANIMAL_FOOD_EXPERIENCE: Record<
       Omnifeed: 60,
     },
     3: {
-      "Kernel Blend": 60,
+      "Kernel Blend": 10,
       Hay: 60,
       NutriBarley: 20,
       "Mixed Grain": 30,
