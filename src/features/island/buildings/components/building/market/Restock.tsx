@@ -160,15 +160,23 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
-      <div className="mt-1 flex flex-wrap h-40 scrollable overflow-y-scroll">
+      <div className="mt-1 flex flex-wrap h-40 scrollable">
         {Object.entries(INITIAL_STOCK(gameState.context.state)).map(
-          ([item, amount]) => (
-            <Box
-              key={item}
-              count={new Decimal(amount)}
-              image={ITEM_DETAILS[item as StockableName].image}
-            />
-          ),
+          ([item, amount]) => {
+            const remainingStock =
+              gameState.context.state.stock[item as StockableName] ?? 0;
+            const restockedAmount = amount.sub(remainingStock); // Restock the difference if there's remaining stock left
+
+            return (
+              restockedAmount.gt(0) && (
+                <Box
+                  key={item}
+                  count={restockedAmount}
+                  image={ITEM_DETAILS[item as StockableName].image}
+                />
+              )
+            );
+          },
         )}
       </div>
       <div className="flex justify-content-around mt-2 space-x-1">
@@ -243,13 +251,34 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
           <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
         </div>
         <div className="mt-1 flex flex-wrap">
-          {Object.entries(SHIPMENT_STOCK).map(([item, amount]) => (
-            <Box
-              key={item}
-              count={new Decimal(amount)}
-              image={ITEM_DETAILS[item as StockableName].image}
-            />
-          ))}
+          {Object.entries(SHIPMENT_STOCK).map(([item, amount]) => {
+            const totalStock = INITIAL_STOCK(gameState.context.state)[
+              item as StockableName
+            ];
+            const remainingStock =
+              gameState.context.state.stock[item as StockableName] ??
+              new Decimal(0);
+            let shipmentAmount = new Decimal(0);
+            if (
+              // If Shipment amount will exceed total stock
+              remainingStock.add(new Decimal(amount)).greaterThan(totalStock)
+            ) {
+              // restock the difference between remaining stock and total stock
+              shipmentAmount = remainingStock
+                .add(new Decimal(amount))
+                .sub(totalStock);
+            } else {
+              // Otherwise restock shipmentAmount
+              shipmentAmount = new Decimal(amount);
+            }
+            return (
+              <Box
+                key={item}
+                count={new Decimal(shipmentAmount)}
+                image={ITEM_DETAILS[item as StockableName].image}
+              />
+            );
+          })}
         </div>
         <p className="text-xs p-1 pb-1.5 italic">
           {`(${t("gems.shipment.useGems")})`}
@@ -279,15 +308,23 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
 
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
-      <div className="mt-1 flex flex-wrap h-40 scrollable overflow-y-scroll">
+      <div className="mt-1 flex flex-wrap h-40 scrollable">
         {Object.entries(INITIAL_STOCK(gameState.context.state)).map(
-          ([item, amount]) => (
-            <Box
-              key={item}
-              count={new Decimal(amount)}
-              image={ITEM_DETAILS[item as StockableName].image}
-            />
-          ),
+          ([item, amount]) => {
+            const remainingStock =
+              gameState.context.state.stock[item as StockableName] ?? 0;
+            const restockedAmount = amount.sub(remainingStock);
+
+            return (
+              restockedAmount.gt(0) && (
+                <Box
+                  key={item}
+                  count={restockedAmount}
+                  image={ITEM_DETAILS[item as StockableName].image}
+                />
+              )
+            );
+          },
         )}
       </div>
       <div className="flex justify-content-around mt-2 space-x-1">
