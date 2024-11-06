@@ -174,14 +174,14 @@ const RestockModal: React.FC<RestockModalProps> = ({
     }
   };
 
-  const toolsArray = Object.entries(INITIAL_STOCK(gameState.context.state))
+  const restockTools = Object.entries(INITIAL_STOCK(gameState.context.state))
     .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
     .filter(([item, amount]) => {
       const restockAmount = getRestockAmount(item as StockableName, amount);
       return restockAmount.gt(0);
     });
 
-  const seedsArray = Object.entries(INITIAL_STOCK(gameState.context.state))
+  const restockSeeds = Object.entries(INITIAL_STOCK(gameState.context.state))
     .filter((item) => item[0] in SEEDS())
     .filter(([item, amount]) => {
       const restockAmount = getRestockAmount(item as StockableName, amount);
@@ -203,7 +203,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
       <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
-        {toolsArray.length > 0 && (
+        {restockTools.length > 0 && (
           <Label
             icon={ITEM_DETAILS.Axe.image}
             type="default"
@@ -213,7 +213,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
           </Label>
         )}
         <div className="flex flex-wrap mb-2">
-          {toolsArray.map(([item, amount]) => {
+          {restockTools.map(([item, amount]) => {
             const restockAmount = getRestockAmount(
               item as StockableName,
               amount,
@@ -227,7 +227,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
             );
           })}
         </div>
-        {seedsArray.length > 0 && (
+        {restockSeeds.length > 0 && (
           <Label
             icon={CROP_LIFECYCLE.Sunflower.seed}
             type="default"
@@ -237,7 +237,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
           </Label>
         )}
         <div className="flex flex-wrap mb-2">
-          {seedsArray.map(([item, amount]) => {
+          {restockSeeds.map(([item, amount]) => {
             const restockAmount = getRestockAmount(
               item as StockableName,
               amount,
@@ -307,26 +307,26 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
     }
   };
 
-  const toolsArray = Object.entries(SHIPMENT_STOCK)
+  const restockTools = Object.entries(SHIPMENT_STOCK)
     .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
     .filter(([item, amount]) => {
       const shipmentAmount = getShipmentAmount(item as StockableName, amount);
       return shipmentAmount.gt(0);
     });
 
-  const seedsArray = Object.entries(SHIPMENT_STOCK)
+  const restockSeeds = Object.entries(SHIPMENT_STOCK)
     .filter((item) => item[0] in SEEDS())
     .filter(([item, amount]) => {
       const shipmentAmount = getShipmentAmount(item as StockableName, amount);
       return shipmentAmount.gt(0);
     });
 
-  const combinedArrayCondition = [...seedsArray, ...toolsArray].length <= 0;
+  const restockIsEmpty = [...restockSeeds, ...restockTools].length <= 0;
 
   if (showShipment) {
     return (
       <>
-        {combinedArrayCondition ? (
+        {restockIsEmpty ? (
           <div className="p-1">
             <Label type="danger" className="mb-2" icon={stockIcon}>
               {t("gems.noShipment")}
@@ -342,7 +342,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
           </div>
         )}
         <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
-          {toolsArray.length > 0 && (
+          {restockTools.length > 0 && (
             <Label
               icon={ITEM_DETAILS.Axe.image}
               type="default"
@@ -352,7 +352,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
             </Label>
           )}
           <div className="flex flex-wrap mb-2">
-            {toolsArray.map(([item, amount]) => {
+            {restockTools.map(([item, amount]) => {
               const shipmentAmount = getShipmentAmount(
                 item as StockableName,
                 amount,
@@ -366,7 +366,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
               );
             })}
           </div>
-          {seedsArray.length > 0 && (
+          {restockSeeds.length > 0 && (
             <Label
               icon={CROP_LIFECYCLE.Sunflower.seed}
               type="default"
@@ -376,7 +376,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
             </Label>
           )}
           <div className="flex flex-wrap mb-2">
-            {seedsArray.map(([item, amount]) => {
+            {restockSeeds.map(([item, amount]) => {
               const shipmentAmount = getShipmentAmount(
                 item as StockableName,
                 amount,
@@ -391,7 +391,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
             })}
           </div>
         </div>
-        {!combinedArrayCondition && (
+        {!restockIsEmpty && (
           <p className="text-xs p-1 pb-1.5 italic">{`(${t("gems.clearStock")})`}</p>
         )}
         <p className="text-xs p-1 pb-1.5 italic">
@@ -401,7 +401,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
           <Button className="mr-1" onClick={onClose}>
             {t("close")}
           </Button>
-          <Button onClick={replenish} disabled={combinedArrayCondition}>
+          <Button onClick={replenish} disabled={restockIsEmpty}>
             {t("restock")}
           </Button>
         </div>
