@@ -50,7 +50,6 @@ const featureFlags = {
   SKILLS_REVAMP: adminFeatureFlag,
   NEW_RESOURCES_GE: defaultFeatureFlag,
   GEM_BOOSTS: (game: GameState) => game.experiments.includes("GEM_BOOSTS"),
-  BULL_RUN_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   BALE_AOE_END: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 

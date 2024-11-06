@@ -1,4 +1,3 @@
-import desert_plaza from "assets/map/desert_plaza.json";
 import bull_run_plaza from "assets/map/bull_run_plaza.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -11,7 +10,6 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 
 export type FactionNPC = {
@@ -105,11 +103,10 @@ export class PlazaScene extends BaseScene {
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
   constructor({ gameState }: { gameState: GameState }) {
-    const showBullRunPlaza = hasFeatureAccess(gameState, "BULL_RUN_PLAZA");
     super({
       name: "plaza",
       map: {
-        json: showBullRunPlaza ? bull_run_plaza : desert_plaza,
+        json: bull_run_plaza,
         imageKey: "tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
@@ -442,9 +439,7 @@ export class PlazaScene extends BaseScene {
       });
 
     // Banner
-    const banner = hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")
-      ? "bull_run_banner"
-      : "pharaoh_banner";
+    const banner = "bull_run_banner";
     this.add.image(400, 225, banner).setDepth(100000000000);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
@@ -524,23 +519,19 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    if (hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")) {
-      const mechaBull = this.add.sprite(248, 244, "mecha_bull");
-      this.anims.create({
-        key: "mech_bull_anim",
-        frames: this.anims.generateFrameNumbers("mecha_bull", {
-          start: 0,
-          end: 7,
-        }),
-        repeat: -1,
-        frameRate: 10,
-      });
-      mechaBull.play("mech_bull_anim", true);
-    } else this.add.image(248, 244, "tomato_bombard");
+    const mechaBull = this.add.sprite(248, 244, "mecha_bull");
+    this.anims.create({
+      key: "mech_bull_anim",
+      frames: this.anims.generateFrameNumbers("mecha_bull", {
+        start: 0,
+        end: 7,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    mechaBull.play("mech_bull_anim", true);
 
-    const featuredHat = hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")
-      ? "cowboy_hat"
-      : "explorer_hat";
+    const featuredHat = "cowboy_hat";
     this.add.image(288.5, 248, featuredHat);
 
     if (this.textures.exists("sparkle")) {
