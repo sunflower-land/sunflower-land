@@ -454,7 +454,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (this.frontfx && this.backfx) {
       this.removeAura();
     }
-    if (this.clothing.aura !== undefined) {
+
+    if (this.clothing?.aura) {
+      if (!this.clothing?.aura) return; // Returns when no aura equipped
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const container = this;
       const auraName = this.clothing.aura;
