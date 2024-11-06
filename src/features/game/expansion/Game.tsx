@@ -42,7 +42,7 @@ import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
 import { OffersPopup } from "./components/Offers";
-import { PIXEL_SCALE, TEST_FARM } from "../lib/constants";
+import { isBuildingReady, PIXEL_SCALE, TEST_FARM } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
@@ -72,12 +72,6 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Button } from "components/ui/Button";
 import { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
-
-const _betaInventory = (state: MachineState) => {
-  const pass = state.context.state.inventory["Beta Pass"];
-
-  return { inventory: { "Beta Pass": pass } } as GameState;
-};
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -223,17 +217,16 @@ const GameContent: React.FC = () => {
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
-  const betaInventory = useSelector(gameService, _betaInventory);
   const [gameState] = useActor(gameService);
 
   const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
-    GreenHouse: (game) => game.inventory.Greenhouse !== undefined,
+    GreenHouse: (game) =>
+      !!game.buildings.Greenhouse && isBuildingReady(game.buildings.Greenhouse),
     Barn: (game) =>
-      game.inventory.Barn !== undefined &&
-      hasFeatureAccess(betaInventory, "ANIMAL_BUILDINGS"),
+      !!game.buildings.Barn && isBuildingReady(game.buildings.Barn),
     HenHouse: (game) =>
-      game.inventory["Hen House"] !== undefined &&
-      hasFeatureAccess(betaInventory, "ANIMAL_BUILDINGS"),
+      !!game.buildings["Hen House"] &&
+      isBuildingReady(game.buildings["Hen House"]),
   };
 
   const hasAccess = (pathName: string) => {
