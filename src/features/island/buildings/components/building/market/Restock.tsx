@@ -123,7 +123,19 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
   );
 };
 
-const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+interface RestockModalProps {
+  onClose: () => void;
+  shipmentTime?: {
+    hours: number;
+    minutes: number;
+    seconds: number;
+  };
+}
+
+const RestockModal: React.FC<RestockModalProps> = ({
+  onClose,
+  shipmentTime,
+}) => {
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
 
@@ -157,7 +169,12 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <Label type="danger" className="mb-2" icon={stockIcon}>
           {t("gems.outOfstock")}
         </Label>
-
+        {shipmentTime && (
+          <div className="flex flex-wrap mb-2">
+            <span className="mr-2">{t("gems.nextFreeShipment")}</span>
+            <TimerDisplay time={shipmentTime} />
+          </div>
+        )}
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
       <div className="mt-1 flex flex-wrap h-40 scrollable">
@@ -295,48 +312,5 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
 
   const { days, ...shipmentTime } = shipmentAt;
 
-  return (
-    <>
-      <div className="p-1">
-        <Label type="danger" className="mb-2" icon={stockIcon}>
-          {t("gems.outOfstock")}
-        </Label>
-        <div className="flex flex-wrap mb-2">
-          <span className="mr-2">{t("gems.nextFreeShipment")}</span>
-          <TimerDisplay time={shipmentTime} />
-        </div>
-
-        <p className="mb-1">{t("gems.buyReplenish")}</p>
-      </div>
-      <div className="mt-1 flex flex-wrap h-40 scrollable">
-        {Object.entries(INITIAL_STOCK(gameState.context.state)).map(
-          ([item, amount]) => {
-            const remainingStock =
-              gameState.context.state.stock[item as StockableName] ?? 0;
-            const restockedAmount = amount.sub(remainingStock);
-
-            return (
-              restockedAmount.gt(0) && (
-                <Box
-                  key={item}
-                  count={restockedAmount}
-                  image={ITEM_DETAILS[item as StockableName].image}
-                />
-              )
-            );
-          },
-        )}
-      </div>
-      <div className="flex justify-content-around mt-2 space-x-1">
-        <Button onClick={onClose}>{t("cancel")}</Button>
-        <Button className="relative" onClick={handleRestock}>
-          {t("restock")}
-          <img
-            src={ITEM_DETAILS["Gem"].image}
-            className="h-5 absolute right-1 top-1"
-          />
-        </Button>
-      </div>
-    </>
-  );
+  return <RestockModal shipmentTime={shipmentTime} onClose={onClose} />;
 };
