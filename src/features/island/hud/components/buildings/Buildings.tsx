@@ -15,15 +15,14 @@ import { ITEM_ICONS } from "../inventory/Chest";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { GameState, IslandType } from "features/game/types/game";
+import { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
 }
 
-const getValidBuildings = (state: GameState): BuildingName[] => {
+const getValidBuildings = (): BuildingName[] => {
   const UNSORTED_BUILDINGS = [
     "Kitchen",
     "Water Well",
@@ -39,7 +38,7 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     "Greenhouse",
     "Crop Machine",
     "Barn",
-    ...(hasFeatureAccess(state, "CRAFTING_BOX") ? ["Crafting Box"] : []),
+    "Crafting Box",
   ];
 
   const VALID_BUILDINGS = UNSORTED_BUILDINGS.sort(
@@ -190,7 +189,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getValidBuildings(state).map((name: BuildingName) => {
+          {getValidBuildings().map((name: BuildingName) => {
             const blueprints = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]
