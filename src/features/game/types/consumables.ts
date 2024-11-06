@@ -56,8 +56,7 @@ type BakeryCookableName =
   | CakeName
   | "Apple Pie"
   | "Kale & Mushroom Pie"
-  | "Cornbread"
-  | "Lemon Cheesecake";
+  | "Cornbread";
 
 type DeliCookableName =
   | "Shroom Syrup"
@@ -96,7 +95,12 @@ type FishCookableName =
   | "Fish n Chips"
   | "Sushi Roll";
 
-type CakeName = Cake | "Orange Cake" | "Eggplant Cake" | "Honey Cake";
+type CakeName =
+  | Cake
+  | "Orange Cake"
+  | "Eggplant Cake"
+  | "Honey Cake"
+  | "Lemon Cheesecake";
 
 export type CookableName =
   | FirePitCookableName
@@ -795,7 +799,7 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
     ingredients: {
       Lemon: new Decimal(20),
       Cheese: new Decimal(5),
-      Egg: new Decimal(20),
+      Egg: new Decimal(40),
     },
   },
 };
@@ -1067,6 +1071,7 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
   "Eggplant Cake": BAKERY_COOKABLES["Eggplant Cake"],
   "Orange Cake": BAKERY_COOKABLES["Orange Cake"],
   "Honey Cake": BAKERY_COOKABLES["Honey Cake"],
+  "Lemon Cheesecake": BAKERY_COOKABLES["Lemon Cheesecake"],
 };
 
 export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {

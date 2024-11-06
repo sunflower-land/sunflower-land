@@ -8,6 +8,7 @@ import { getKeys } from "features/game/types/craftables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const HARVEST_BEEHIVE_ERRORS = {
   BEEHIVE_NOT_PLACED: "harvestBeeHive.notPlaced",
@@ -84,6 +85,10 @@ export const getHoneyMultiplier = (game: GameState) => {
 
   if (bumpkin.skills["Flowery Abode"]) {
     multiplier -= 0.5;
+  }
+
+  if (isCollectibleBuilt({ name: "King of Bears", game })) {
+    multiplier += 0.25;
   }
 
   return multiplier;

@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "带有柑橘味的奶油芝士蛋糕",
   "gems.shipment.useGems": "使用宝石解锁更多库存",
   "whatsOn.date.nov6Dec11": "11 月 6 日至 1 月 31 日",
-  "ingredients": "食材"
+  "ingredients": "食材",
+  "landscape.superTotem.resourceNodeCondition": "在激活 {{selectedChestItem}} 之前，请确保没有矿物质或树木在再生，没有农作物或水果生长，烹饪建筑物不起作用。",
+  "landscape.timeWarpTotem.nonStack": "Boost 无法与 Super Totem 叠加",
+  "landscape.superTotem.nonStack": "Boost 无法与 Time Warp Totem 叠加",
+  "description.kingOfBears": "所有熊之王。它有能力生产更多的蜂蜜供自己食用。",
+  "description.halloweenScarecrow": "看上去很恐怖的稻草人",
+  "description.vampireBear": "别把我放在阳光下！",
+  "description.superTotem": "作物、树木、水果、烹饪和矿物质的速度为 2 倍。持续 7 天",
+  "description.kingOfBears.boost": "提高每个满蜂箱的蜂蜜产量 +0.25",
+  "description.superTotem.boost": "作物、矿物、水果、烹饪和植树时间减少 50%",
+  "description.super.totem.expired": "您的超级图腾已过期。前往南瓜广场，发现并制作更多魔法物品，提升你的耕作能力！",
+  "description.super.totem.temporarily": "超级图腾可暂时延长您的烹饪、作物、树木和矿物时间。充分利用它！"
 }

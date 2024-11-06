@@ -187,7 +187,8 @@ export type BumpkinTool =
   | "Ancient Shovel"
   | "Infernal Bullwhip"
   | "Shepherd Staff"
-  | "Sickle";
+  | "Sickle"
+  | "Adventurer's Torch";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -312,7 +313,8 @@ export type BumpkinHat =
   | "Nightshade Crown"
   | "Sunflorian Crown"
   | "Gam3s Cap"
-  | "Cowboy Hat";
+  | "Cowboy Hat"
+  | "Pumpkin Head";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -366,7 +368,8 @@ export type BumpkinDress =
   | "Blue Monarch Dress"
   | "Green Monarch Dress"
   | "Orange Monarch Dress"
-  | "Desert Merchant Suit";
+  | "Desert Merchant Suit"
+  | "Adventurer's Suit";
 
 export type BumpkinSecondaryTool =
   | "Sunflower Shield"
@@ -882,6 +885,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   Sickle: 414,
   "Speed Boots": 415,
   "Tomato Apron": 416,
+  "Adventurer's Suit": 417,
+  "Adventurer's Torch": 418,
+  "Pumpkin Head": 419,
 };
 
 // The reverse of above
@@ -1359,4 +1365,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   Sickle: "tool",
   "Speed Boots": "shoes",
   "Tomato Apron": "coat",
+  "Adventurer's Suit": "dress",
+  "Adventurer's Torch": "tool",
+  "Pumpkin Head": "hat",
 };

@@ -2221,6 +2221,9 @@
   "landscape.hourglass.resourceNodeCondition.blossom": "Please ensure no flowers are growing before activating the {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.ore": "Please ensure no minerals are regenerating before activating the {{selectedChestItem}}.",
   "landscape.timeWarpTotem.resourceNodeCondition": "Please ensure no minerals or trees are regenerating, no crops or fruits are growing, and no cooking buildings are working before activating the {{selectedChestItem}}.",
+  "landscape.superTotem.resourceNodeCondition": "Please ensure no minerals or trees are regenerating, no crops or fruits are growing, and no cooking buildings are working before activating the {{selectedChestItem}}.",
+  "landscape.timeWarpTotem.nonStack": "Boost doesn't stack with Super Totem",
+  "landscape.superTotem.nonStack": "Boost doesn't stack with Time Warp Totem",
   "leaderboard.leaderboard": "Leaderboard",
   "leaderboard.error": "Error loading leaderboard. Please try again later.",
   "leaderboard.initialising": "Calculating your rank. Please try again later.",
@@ -4233,5 +4236,13 @@
   "description.sourShake": "A tangy and refreshing lemon drink",
   "description.spaghettiLimone": "A zesty pasta dish with lemon and cheese",
   "description.lemonCheesecake": "A creamy cheesecake with a citrus twist",
-  "gems.shipment.useGems": "Use Gems to unlock more stock"
+  "gems.shipment.useGems": "Use Gems to unlock more stock",
+  "description.kingOfBears": "The king of all bears. It has the power to generate more honey for  its own consumption.",
+  "description.halloweenScarecrow": "A scary looking scarecrow",
+  "description.vampireBear": "Don't put me under the sun!",
+  "description.superTotem": "2x speed for crops, trees, fruits, cooking & minerals. Lasts for 7 days",
+  "description.kingOfBears.boost": "Increase Honey Yield per full beehive +0.25",
+  "description.superTotem.boost": "50% Reduction to Crop, Mineral, Fruit, Cooking and Tree Time",
+  "description.super.totem.expired": "Your Super Totem has expired. Head to the Pumpkin Plaza to discover and craft more magical items to boost your farming abilities!",
+  "description.super.totem.temporarily": "The Super Totem temporarily boosts your cooking, crops, trees & mineral time. Make the most of it!"
 }

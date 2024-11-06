@@ -111,7 +111,10 @@ export type EventDecorationName =
   | "Bumpkin Nutcracker"
   | "White Festive Fox"
   | "Grinx's Hammer"
-  | "Earn Alliance Banner";
+  | "Earn Alliance Banner"
+  | "Halloween Scarecrow"
+  | "Vampire Bear"
+  | "Super Totem";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -714,6 +717,18 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   Wagon: {
     height: 1,
     width: 1,
+  },
+  "Halloween Scarecrow": {
+    width: 1,
+    height: 1,
+  },
+  "Vampire Bear": {
+    width: 1,
+    height: 1,
+  },
+  "Super Totem": {
+    width: 1,
+    height: 1,
   },
 };
 

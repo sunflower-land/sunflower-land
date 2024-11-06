@@ -83,6 +83,7 @@ const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
 const _game = (state: MachineState) => state.context.state;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _animalItem = (state: AnimalMachineState) => state.context.animal?.item;
 
 export const getMedicineOption = (): {
   name: InventoryItemName;
@@ -129,7 +130,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [showFeedXP, setShowFeedXP] = useState(false);
   const [showNoToolPopover, setShowNoToolPopover] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
-  const [showLoveXp, setShowLoveXp] = useState(false);
+  const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenMachineState === "sleeping";
@@ -197,8 +198,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       item: item as LoveAnimalItem,
     });
 
-    setShowLoveXp(true);
-    setTimeout(() => setShowLoveXp(false), 700);
+    setShowLoveItem(item as LoveAnimalItem);
+    setTimeout(() => setShowLoveItem(undefined), 700);
 
     const updatedChicken = updatedState.context.state.henHouse.animals[id];
 
@@ -506,7 +507,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       <Transition
         appear={true}
         id="love-xp"
-        show={showLoveXp}
+        show={!!showLoveItem}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
         enterTo="opacity-100 -translate-y-0"
@@ -520,7 +521,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           style={{
             color: "#ffffff",
           }}
-        >{`+${formatNumber(ITEM_XP[chicken.item])}`}</span>
+        >{`+${formatNumber(ITEM_XP[showLoveItem!])}`}</span>
       </Transition>
     </>
   );

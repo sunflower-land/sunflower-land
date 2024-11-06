@@ -276,7 +276,7 @@ import blueCheese from "assets/food/blue_cheese.webp";
 import honeyCheddar from "assets/food/honey_chedder.webp";
 import capreseSalad from "assets/food/caprese_salad.webp";
 import sourShake from "assets/food/sour_shake.webp";
-import spaghettiAlLimone from "assets/food/spaghetti_al_limone.webp";
+import spaghettiAlLimone from "assets/food/spaghetti_al_limone2.webp";
 import lemonCheesecake from "assets/food/lemon_cheesecake.webp";
 import mashedPotato from "assets/food/mashed_potato.png";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
@@ -375,6 +375,9 @@ import snowglobe from "src/assets/decorations/snowglobe.gif";
 import shrub from "assets/decorations/shrub.png";
 import basicBear from "src/assets/sfts/bears/basic_bear.png";
 import kingOfBears from "src/assets/sfts/bears/king_of_bears.png";
+import halloweenScarecrow from "src/assets/sfts/halloween_scarecrow.webp";
+import vampireBear from "src/assets/sfts/bears/vampire_bear.webp";
+import superTotem from "src/assets/sfts/super_totem.webp";
 import chefBear from "src/assets/sfts/bears/chef_bear.png";
 import constructionBear from "src/assets/sfts/bears/construction_bear.png";
 import angelBear from "src/assets/sfts/bears/angel_bear.png";
@@ -4342,7 +4345,7 @@ export const ITEM_DETAILS: Items = {
   },
   "King of Bears": {
     image: kingOfBears,
-    description: "?",
+    description: translate("description.kingOfBears"),
   },
   "Moo-ver": {
     image: mooVer,
@@ -4419,5 +4422,17 @@ export const ITEM_DETAILS: Items = {
   "Lemon Cheesecake": {
     description: translate("description.lemonCheesecake"),
     image: lemonCheesecake,
+  },
+  "Halloween Scarecrow": {
+    description: translate("description.halloweenScarecrow"),
+    image: halloweenScarecrow,
+  },
+  "Vampire Bear": {
+    description: translate("description.vampireBear"),
+    image: vampireBear,
+  },
+  "Super Totem": {
+    description: translate("description.superTotem"),
+    image: superTotem,
   },
 };
