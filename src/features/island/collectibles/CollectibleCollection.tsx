@@ -62,7 +62,7 @@ import { RichBear } from "./components/RichBear";
 import { SunflowerBear } from "./components/SunflowerBear";
 import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
@@ -336,7 +336,6 @@ import { TomatoBombard } from "./components/TomatoBombard";
 import { BullRunBanner } from "./components/BullRunBanner";
 import { Bed } from "./components/Bed";
 import { Wagon } from "./components/Wagon";
-import { hasFeatureAccess } from "lib/flags";
 import { Chicory } from "./components/Chicory";
 import { LonghornCowfish } from "./components/LonghornCownfish";
 import { AlienChicken } from "./components/AlienChicken";
@@ -1252,14 +1251,24 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Scarab Beetle"
     />
   ),
-  "Basic Bed": (props: CollectibleProps) => <Bed name="Basic Bed" />,
-  "Fisher Bed": (props: CollectibleProps) => <Bed name="Fisher Bed" />,
-  "Floral Bed": (props: CollectibleProps) => <Bed name="Floral Bed" />,
-  "Sturdy Bed": (props: CollectibleProps) => <Bed name="Sturdy Bed" />,
-  "Desert Bed": (props: CollectibleProps) => <Bed name="Desert Bed" />,
-  "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
-  "Pirate Bed": (props: CollectibleProps) => <Bed name="Pirate Bed" />,
-  "Royal Bed": (props: CollectibleProps) => <Bed name="Royal Bed" />,
+  "Basic Bed": (props: CollectibleProps) => <Bed {...props} name="Basic Bed" />,
+  "Fisher Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Fisher Bed" />
+  ),
+  "Floral Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Floral Bed" />
+  ),
+  "Sturdy Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Sturdy Bed" />
+  ),
+  "Desert Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Desert Bed" />
+  ),
+  "Cow Bed": (props: CollectibleProps) => <Bed {...props} name="Cow Bed" />,
+  "Pirate Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Pirate Bed" />
+  ),
+  "Royal Bed": (props: CollectibleProps) => <Bed {...props} name="Royal Bed" />,
   "Cow Scratcher": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1765,27 +1774,6 @@ export const READONLY_COLLECTIBLES: Record<
           top: `${PIXEL_SCALE * 5}px`,
         }}
       />
-      {!hasFeatureAccess(INITIAL_FARM, "BALE_AOE_END") && (
-        <div
-          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 16 * 4}px`,
-            height: `${PIXEL_SCALE * 16 * 4}px`,
-            left: `${PIXEL_SCALE * -13}px`,
-            top: `${PIXEL_SCALE * -11}px`,
-          }}
-        >
-          <img
-            src={lightning}
-            className="absolute bottom-0 opacity-50 animate-pulsate"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * 27}px`,
-              top: `${PIXEL_SCALE * 25}px`,
-            }}
-          />
-        </div>
-      )}
     </div>
   ),
   "Nyon Statue": () => (
