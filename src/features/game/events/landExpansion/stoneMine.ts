@@ -45,7 +45,10 @@ export function getMinedAt({
     totalSeconds = totalSeconds * 0.8;
   }
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     totalSeconds = totalSeconds * 0.5;
   }
 

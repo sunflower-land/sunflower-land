@@ -896,6 +896,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Mootant: 2163,
   "Toxic Tuft": 2164,
   "Crop Circle": 2165,
+  "Halloween Scarecrow": 2166,
+  "Vampire Bear": 2167,
+  "Super Totem": 2168,
 };
 
 // The reverse of above

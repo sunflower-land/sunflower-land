@@ -517,6 +517,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   // Honey
   "Queen Bee": (game) => isProducingHoney(game),
   "Flower Fox": (game) => areFlowersGrowing(game),
+  "King of Bears": (game) => isProducingHoney(game),
 
   // Clash of Factions
   Soybliss: (game) => cropIsGrowing({ item: "Soybean", game }),
@@ -538,6 +539,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
     true,
     translate("restrictionReason.inUse"),
   ],
+  "Super Totem": (_: GameState) => [true, translate("restrictionReason.inUse")],
   "Gourmet Hourglass": (_: GameState) => [
     true,
     translate("restrictionReason.inUse"),

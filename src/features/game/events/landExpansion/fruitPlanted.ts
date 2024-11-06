@@ -62,7 +62,10 @@ export function getFruitTime({
 }) {
   let seconds = 1;
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     seconds = seconds * 0.5;
   }
 

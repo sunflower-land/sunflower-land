@@ -75,7 +75,10 @@ export function getChoppedAt({
     totalSeconds = totalSeconds * 0.9;
   }
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     totalSeconds = totalSeconds * 0.5;
   }
 

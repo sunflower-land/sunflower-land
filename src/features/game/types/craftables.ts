@@ -1374,6 +1374,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Alien Chicken": { width: 1, height: 1 },
   "Toxic Tuft": { width: 2, height: 1 },
   Mootant: { width: 2, height: 1 },
+  "Halloween Scarecrow": { width: 1, height: 1 },
+  "Vampire Bear": { width: 1, height: 1 },
+  "Super Totem": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

@@ -31,6 +31,7 @@ export const EXPIRY_COOLDOWNS: Partial<Record<CollectibleName, number>> = {
   "Orchard Hourglass": 6 * 60 * 60 * 1000,
   "Blossom Hourglass": 4 * 60 * 60 * 1000,
   "Fisher's Hourglass": 4 * 60 * 60 * 1000,
+  "Super Totem": 7 * 24 * 60 * 60 * 1000,
 };
 
 /**

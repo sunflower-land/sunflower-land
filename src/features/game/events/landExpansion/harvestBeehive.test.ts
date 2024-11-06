@@ -503,6 +503,55 @@ describe("harvestBeehive", () => {
     expect(gameState.inventory.Honey).toEqual(new Decimal(2));
   });
 
+  it("harvests a full beehive when King of Bears placed", () => {
+    const beehiveId = "1234";
+    const now = Date.now();
+    const tenMinutesAgo = now - 10 * 60 * 1000;
+
+    const gameState = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        collectibles: {
+          "King of Bears": [
+            {
+              id: "123",
+              createdAt: 0,
+              coordinates: { x: 1, y: 1 },
+              readyAt: 0,
+            },
+          ],
+        },
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: tenMinutesAgo,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      action: {
+        type: "beehive.harvested",
+        id: beehiveId,
+      },
+      createdAt: now,
+    });
+
+    expect(gameState.beehives?.[beehiveId]).toEqual({
+      ...DEFAULT_BEEHIVE,
+      swarm: expect.any(Boolean),
+      honey: {
+        updatedAt: expect.any(Number),
+        produced: 0,
+      },
+    });
+    expect(gameState.inventory.Honey).toEqual(new Decimal(1.25));
+  });
+
   it("harvests a full beehive wearing Honeycomb Shield and Bee Suit", () => {
     const beehiveId = "1234";
     const now = Date.now();

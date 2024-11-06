@@ -342,6 +342,7 @@ import { LonghornCowfish } from "./components/LonghornCownfish";
 import { AlienChicken } from "./components/AlienChicken";
 import { ToxicTuft } from "./components/ToxicTuft";
 import { Mootant } from "./components/Mootants";
+import { SuperTotem } from "./components/SuperTotem";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -1421,9 +1422,40 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 25}px`,
       }}
       image={ITEM_DETAILS["Black Sheep"].image}
-      alt="UFO"
+      alt="Black Sheep"
     />
   ),
+  "Halloween Scarecrow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Halloween Scarecrow"].image}
+      alt="Halloween Scarecrow"
+    />
+  ),
+  "Vampire Bear": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Vampire Bear"].image}
+      alt="Vampire Bear"
+    />
+  ),
+  "Super Totem": SuperTotem,
 };
 // Need readonly versions for some troublesome components while in design mode
 
