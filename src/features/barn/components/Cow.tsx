@@ -100,7 +100,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const cowMachineState = useSelector(cowService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
-  const [showLoveXP, setShowLoveXP] = useState(false);
+  const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
 
   useEffect(() => {
     if (cow.state === "sick" && cowMachineState !== "sick") {
@@ -181,8 +181,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       item: item as LoveAnimalItem,
     });
 
-    setShowLoveXP(true);
-    setTimeout(() => setShowLoveXP(false), 700);
+    setShowLoveItem(item as LoveAnimalItem);
+    setTimeout(() => setShowLoveItem(undefined), 700);
 
     const updatedCow = updatedState.context.state.barn.animals[id];
 
@@ -456,7 +456,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       <Transition
         appear={true}
         id="oil-reserve-collected-amount"
-        show={showLoveXP}
+        show={!!showLoveItem}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
         enterTo="opacity-100 -translate-y-0"
@@ -470,7 +470,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           style={{
             color: "#ffffff",
           }}
-        >{`+${formatNumber(ITEM_XP[cow.item])}`}</span>
+        >{`+${formatNumber(ITEM_XP[showLoveItem!])}`}</span>
       </Transition>
     </div>
   );

@@ -71,7 +71,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
-  const [showLoveXP, setShowLoveXP] = useState(false);
+  const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
@@ -135,8 +135,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       item: item as LoveAnimalItem,
     });
 
-    setShowLoveXP(true);
-    setTimeout(() => setShowLoveXP(false), 700);
+    setShowLoveItem(item as LoveAnimalItem);
+    setTimeout(() => setShowLoveItem(undefined), 700);
 
     const updatedSheep = updatedState.context.state.barn.animals[id];
 
@@ -411,7 +411,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       <Transition
         appear={true}
         id="food-xp-amount"
-        show={showLoveXP}
+        show={!!showLoveItem}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
         enterTo="opacity-100 -translate-y-0"
@@ -425,7 +425,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           style={{
             color: "#ffffff",
           }}
-        >{`+${formatNumber(ITEM_XP[sheep.item])}`}</span>
+        >{`+${formatNumber(ITEM_XP[showLoveItem!])}`}</span>
       </Transition>
     </div>
   );
