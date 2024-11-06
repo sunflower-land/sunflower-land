@@ -24,6 +24,9 @@ import confetti from "canvas-confetti";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
+import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
+import { SEEDS } from "features/game/types/seeds";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export const Restock: React.FC = () => {
   const { t } = useAppTranslation();
@@ -158,6 +161,33 @@ const RestockModal: React.FC<RestockModalProps> = ({
     onClose();
   };
 
+  const getRestockAmount = (item: StockableName, amount: Decimal): Decimal => {
+    const remainingStock = gameState.context.state.stock[item];
+
+    // If there's no stock left
+    if (!remainingStock) {
+      // return total stock amount
+      return amount;
+    } else {
+      // else return difference between total and remaining stock
+      return amount.sub(remainingStock);
+    }
+  };
+
+  const toolsArray = Object.entries(INITIAL_STOCK(gameState.context.state))
+    .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
+    .filter(([item, amount]) => {
+      const restockAmount = getRestockAmount(item as StockableName, amount);
+      return restockAmount.gt(0);
+    });
+
+  const seedsArray = Object.entries(INITIAL_STOCK(gameState.context.state))
+    .filter((item) => item[0] in SEEDS())
+    .filter(([item, amount]) => {
+      const restockAmount = getRestockAmount(item as StockableName, amount);
+      return restockAmount.gt(0);
+    });
+
   return (
     <>
       <div className="p-1">
@@ -172,24 +202,55 @@ const RestockModal: React.FC<RestockModalProps> = ({
         )}
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
-      <div className="mt-1 flex flex-wrap h-40 scrollable">
-        {Object.entries(INITIAL_STOCK(gameState.context.state)).map(
-          ([item, amount]) => {
-            const remainingStock =
-              gameState.context.state.stock[item as StockableName] ?? 0;
-            const restockedAmount = amount.sub(remainingStock); // Restock the difference if there's remaining stock left
-
-            return (
-              restockedAmount.gt(0) && (
-                <Box
-                  key={item}
-                  count={restockedAmount}
-                  image={ITEM_DETAILS[item as StockableName].image}
-                />
-              )
-            );
-          },
+      <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
+        {toolsArray.length > 0 && (
+          <Label
+            icon={ITEM_DETAILS.Axe.image}
+            type="default"
+            className="ml-2 mb-1"
+          >
+            {`Tools`}
+          </Label>
         )}
+        <div className="flex flex-wrap mb-2">
+          {toolsArray.map(([item, amount]) => {
+            const restockAmount = getRestockAmount(
+              item as StockableName,
+              amount,
+            );
+            return (
+              <Box
+                key={item}
+                count={restockAmount}
+                image={ITEM_DETAILS[item as StockableName].image}
+              />
+            );
+          })}
+        </div>
+        {seedsArray.length > 0 && (
+          <Label
+            icon={CROP_LIFECYCLE.Sunflower.seed}
+            type="default"
+            className="ml-2 mb-1"
+          >
+            {`Seeds`}
+          </Label>
+        )}
+        <div className="flex flex-wrap mb-2">
+          {seedsArray.map(([item, amount]) => {
+            const restockAmount = getRestockAmount(
+              item as StockableName,
+              amount,
+            );
+            return (
+              <Box
+                key={item}
+                count={restockAmount}
+                image={ITEM_DETAILS[item as StockableName].image}
+              />
+            );
+          })}
+        </div>
       </div>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
@@ -231,6 +292,34 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
     nextShipmentAt({ game: gameState.context.state }),
   );
 
+  const getShipmentAmount = (item: StockableName, amount: number): Decimal => {
+    const totalStock = INITIAL_STOCK(gameState.context.state)[item];
+    const remainingStock =
+      gameState.context.state.stock[item] ?? new Decimal(0);
+    // If shipment amount will exceed total stock
+    if (remainingStock.add(amount).gt(totalStock)) {
+      // return the difference between total and remaining stock
+      return totalStock.sub(remainingStock);
+    } else {
+      // else return shipment stock
+      return new Decimal(amount);
+    }
+  };
+
+  const toolsArray = Object.entries(SHIPMENT_STOCK)
+    .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
+    .filter(([item, amount]) => {
+      const shipmentAmount = getShipmentAmount(item as StockableName, amount);
+      return shipmentAmount.gt(0);
+    });
+
+  const seedsArray = Object.entries(SHIPMENT_STOCK)
+    .filter((item) => item[0] in SEEDS())
+    .filter(([item, amount]) => {
+      const shipmentAmount = getShipmentAmount(item as StockableName, amount);
+      return shipmentAmount.gt(0);
+    });
+
   if (showShipment) {
     return (
       <>
@@ -240,35 +329,55 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
           </Label>
           <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
         </div>
-        <div className="mt-1 flex flex-wrap">
-          {Object.entries(SHIPMENT_STOCK).map(([item, amount]) => {
-            const totalStock = INITIAL_STOCK(gameState.context.state)[
-              item as StockableName
-            ];
-            const remainingStock =
-              gameState.context.state.stock[item as StockableName] ??
-              new Decimal(0);
-            let shipmentAmount = new Decimal(0);
-            if (
-              // If Shipment amount will exceed total stock
-              remainingStock.add(new Decimal(amount)).greaterThan(totalStock)
-            ) {
-              // restock the difference between remaining stock and total stock
-              shipmentAmount = remainingStock
-                .add(new Decimal(amount))
-                .sub(totalStock);
-            } else {
-              // Otherwise restock shipmentAmount
-              shipmentAmount = new Decimal(amount);
-            }
-            return (
-              <Box
-                key={item}
-                count={new Decimal(shipmentAmount)}
-                image={ITEM_DETAILS[item as StockableName].image}
-              />
-            );
-          })}
+        <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
+          {toolsArray.length > 0 && (
+            <Label
+              icon={ITEM_DETAILS.Axe.image}
+              type="default"
+              className="ml-2 mb-1"
+            >
+              {`Tools`}
+            </Label>
+          )}
+          <div className="flex flex-wrap mb-2">
+            {toolsArray.map(([item, amount]) => {
+              const shipmentAmount = getShipmentAmount(
+                item as StockableName,
+                amount,
+              );
+              return (
+                <Box
+                  key={item}
+                  count={shipmentAmount}
+                  image={ITEM_DETAILS[item as StockableName].image}
+                />
+              );
+            })}
+          </div>
+          {seedsArray.length > 0 && (
+            <Label
+              icon={CROP_LIFECYCLE.Sunflower.seed}
+              type="default"
+              className="ml-2 mb-1"
+            >
+              {`Seeds`}
+            </Label>
+          )}
+          <div className="flex flex-wrap mb-2">
+            {seedsArray.map(([item, amount]) => {
+              const shipmentAmount = getShipmentAmount(
+                item as StockableName,
+                amount,
+              );
+              return (
+                <Box
+                  key={item}
+                  count={shipmentAmount}
+                  image={ITEM_DETAILS[item as StockableName].image}
+                />
+              );
+            })}
+          </div>
         </div>
         <p className="text-xs p-1 pb-1.5 italic">
           {`(${t("gems.shipment.useGems")})`}
