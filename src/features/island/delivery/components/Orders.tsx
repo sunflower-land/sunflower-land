@@ -55,9 +55,6 @@ import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 
-import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
-import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
-
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
   "corale",
@@ -249,7 +246,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
           <div id="select-box" className="hidden md:block">
             <img
               className="absolute pointer-events-none"
-              src={halloweenSelectboxTL}
+              src={SUNNYSIDE.ui.selectBoxTL}
               style={{
                 top: `${PIXEL_SCALE * -3}px`,
                 left: `${PIXEL_SCALE * -3}px`,
@@ -258,7 +255,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             />
             <img
               className="absolute pointer-events-none"
-              src={halloweenSelectboxTR}
+              src={SUNNYSIDE.ui.selectBoxTR}
               style={{
                 top: `${PIXEL_SCALE * -3}px`,
                 right: `${PIXEL_SCALE * -3}px`,

@@ -36,7 +36,6 @@ import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { FlowerBounties } from "./flowerShop/FlowerBounties";
-import { HalloweenNoticeboard } from "./HalloweenNoticeboard";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
 
@@ -126,10 +125,7 @@ type InteractableName =
   | "desert_book_2"
   | "desert_book_3"
   | "desert_book_4"
-  | "halloween_book"
-  | "halloween_noticeboard"
   | "world_map"
-  | "halloween_torch"
   | "halloween";
 
 class InteractableModalManager {
@@ -811,35 +807,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             <InlineDialogue message={t("easterEgg.desertBook4")} />
           </div>
         </CloseButtonPanel>
-      </Modal>
-
-      <Modal show={interactable === "halloween_book"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal}>
-          <div className="p-2">
-            <Label type="default" className="mb-2">
-              {t("easterEgg.halloweenBook")}
-            </Label>
-            <InlineDialogue message={t("easterEgg.halloweenBookText")} />
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal show={interactable === "halloween_torch"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal}>
-          <div className="p-2">
-            <Label type="default" className="mb-2">
-              {t("easterEgg.halloweenBook")}
-            </Label>
-            <InlineDialogue message={t("easterEgg.halloweenTorchText")} />
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal
-        show={interactable === "halloween_noticeboard"}
-        onHide={closeModal}
-      >
-        <HalloweenNoticeboard onClose={closeModal} />
       </Modal>
 
       <Modal

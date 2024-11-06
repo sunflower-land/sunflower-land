@@ -3,13 +3,11 @@ import classNames from "classnames";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 import {
-  pixelHalloweenInnerBorderStyle,
-  pixelHalloweenOuterBorderStyle,
+  pixelDarkBorderStyle,
+  pixelLightBorderStyle,
 } from "features/game/lib/style";
 
 import usedButton from "assets/ui/used_button.png";
-import halloweenPanelBg from "assets/ui/halloweenPanelBg.png";
-import halloweenButton from "assets/ui/halloweenButton.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
@@ -70,9 +68,9 @@ export const InnerPanel: React.FC<
     <div
       className={classNames(className)}
       style={{
-        ...pixelHalloweenInnerBorderStyle,
+        ...pixelLightBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        background: isDarkMode ? "#495682" : "#495682",
+        background: isDarkMode ? "#c28669" : "#e4a672",
         ...style,
       }}
       ref={divRef}
@@ -112,10 +110,9 @@ export const OuterPanel: React.FC<PanelProps> = ({
       <div
         // Fix for dark mode
 
-        className={classNames(className)}
+        className={classNames(className, "bg-[#c28569]")}
         style={{
-          ...pixelHalloweenOuterBorderStyle,
-          backgroundImage: `url(${halloweenPanelBg})`,
+          ...pixelDarkBorderStyle,
           padding: `${PIXEL_SCALE * 1}px`,
           ...(hasTabs
             ? {
@@ -158,14 +155,14 @@ export const ButtonPanel: React.FC<
         },
       )}
       style={{
-        ...pixelHalloweenOuterBorderStyle,
+        ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${frozen ? usedButton : halloweenButton}) 3 3 4 3 fill`,
+        borderImage: `url(${frozen ? usedButton : SUNNYSIDE.ui.primaryButton}) 3 3 4 3 fill`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
-        color: "#3A4466",
+        color: "#674544",
         ...style,
       }}
       {...otherDivProps}
