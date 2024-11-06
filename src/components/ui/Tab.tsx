@@ -2,9 +2,9 @@ import React from "react";
 
 import classNames from "classnames";
 import {
+  pixelTabBorderStartStyle,
+  pixelTabBorderMiddleStyle,
   pixelTabBorderVerticalMiddleStyle,
-  pixelHalloweenTabBorderMiddleStyle1,
-  pixelHalloweenTabBorderMiddleStyle2,
 } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -63,9 +63,7 @@ export const Tab: React.FC<Props> = ({
   const getBorderStyle = () => {
     if (vertical) return pixelTabBorderVerticalMiddleStyle;
 
-    return isFirstTab
-      ? pixelHalloweenTabBorderMiddleStyle1
-      : pixelHalloweenTabBorderMiddleStyle2;
+    return isFirstTab ? pixelTabBorderStartStyle : pixelTabBorderMiddleStyle;
   };
 
   return (
@@ -78,7 +76,7 @@ export const Tab: React.FC<Props> = ({
         paddingLeft: `${PIXEL_SCALE * 2}px`,
         paddingRight: `${PIXEL_SCALE * 2}px`,
         height: `${PIXEL_SCALE * 16}px`,
-        background: isDarkMode ? "#495682" : "#495682",
+        background: isDarkMode ? "#c28669" : "#e4a672",
       }}
     >
       {children}
