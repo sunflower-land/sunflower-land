@@ -202,14 +202,14 @@ const RestockModal: React.FC<RestockModalProps> = ({
         )}
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
-      <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
+      <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
         {toolsArray.length > 0 && (
           <Label
             icon={ITEM_DETAILS.Axe.image}
             type="default"
             className="ml-2 mb-1"
           >
-            {`Tools`}
+            {t("tools")}
           </Label>
         )}
         <div className="flex flex-wrap mb-2">
@@ -233,7 +233,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
             type="default"
             className="ml-2 mb-1"
           >
-            {`Seeds`}
+            {t("seeds")}
           </Label>
         )}
         <div className="flex flex-wrap mb-2">
@@ -252,6 +252,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
           })}
         </div>
       </div>
+      <p className="text-xs p-1 pb-1.5 italic">{`(${t("gems.clearStock")})`}</p>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
         <Button className="relative" onClick={handleRestock}>
@@ -320,23 +321,34 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
       return shipmentAmount.gt(0);
     });
 
+  const combinedArrayCondition = [...seedsArray, ...toolsArray].length <= 0;
+
   if (showShipment) {
     return (
       <>
-        <div className="p-1">
-          <Label type="default" className="mb-2" icon={stockIcon}>
-            {t("gems.shipment.arrived")}
-          </Label>
-          <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
-        </div>
-        <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
+        {combinedArrayCondition ? (
+          <div className="p-1">
+            <Label type="danger" className="mb-2" icon={stockIcon}>
+              {t("gems.noShipment")}
+            </Label>
+            <p className="text-sm mb-2">{t("gems.buyStock")}</p>
+          </div>
+        ) : (
+          <div className="p-1">
+            <Label type="default" className="mb-2" icon={stockIcon}>
+              {t("gems.shipment.arrived")}
+            </Label>
+            <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
+          </div>
+        )}
+        <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
           {toolsArray.length > 0 && (
             <Label
               icon={ITEM_DETAILS.Axe.image}
               type="default"
               className="ml-2 mb-1"
             >
-              {`Tools`}
+              {t("tools")}
             </Label>
           )}
           <div className="flex flex-wrap mb-2">
@@ -360,7 +372,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
               type="default"
               className="ml-2 mb-1"
             >
-              {`Seeds`}
+              {t("seeds")}
             </Label>
           )}
           <div className="flex flex-wrap mb-2">
@@ -379,6 +391,9 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
             })}
           </div>
         </div>
+        {!combinedArrayCondition && (
+          <p className="text-xs p-1 pb-1.5 italic">{`(${t("gems.clearStock")})`}</p>
+        )}
         <p className="text-xs p-1 pb-1.5 italic">
           {`(${t("gems.shipment.useGems")})`}
         </p>
@@ -386,7 +401,9 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
           <Button className="mr-1" onClick={onClose}>
             {t("close")}
           </Button>
-          <Button onClick={replenish}>{t("restock")}</Button>
+          <Button onClick={replenish} disabled={combinedArrayCondition}>
+            {t("restock")}
+          </Button>
         </div>
       </>
     );
