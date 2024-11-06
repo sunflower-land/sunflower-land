@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "Una tarta de queso cremosa con un toque cítrico",
   "gems.shipment.useGems": "Usa gemas para desbloquear más existencias",
   "whatsOn.date.nov6Dec11": "Del 6 de noviembre al 31 de enero",
-  "ingredients": "Ingredientes"
+  "ingredients": "Ingredientes",
+  "landscape.superTotem.resourceNodeCondition": "Antes de activar el {{selectedChestItem}}, asegúrate de que ningún mineral o árbol se esté regenerando, de que no haya cultivos ni frutos y de que no haya instalaciones para cocinar en funcionamiento.",
+  "landscape.timeWarpTotem.nonStack": "El impulso no se acumula con Super Totem",
+  "landscape.superTotem.nonStack": "El impulso no se acumula con Time Warp Totem",
+  "description.kingOfBears": "El rey de todos los osos. Tiene el poder de generar más miel para su propio consumo.",
+  "description.halloweenScarecrow": "Un espantapájaros de aspecto aterrador",
+  "description.vampireBear": "¡No me pongas bajo el sol!",
+  "description.superTotem": "El doble de velocidad para cultivos, árboles, frutas, alimentos y minerales. Dura 7 días",
+  "description.kingOfBears.boost": "Aumenta la producción de miel por colmena llena +0.25",
+  "description.superTotem.boost": "Reducción del 50% en el tiempo dedicado a la cosecha, los minerales, las frutas, la cocción y el árbol",
+  "description.super.totem.expired": "Tu supertótem ha caducado. ¡Dirígete a Pumpkin Plaza para descubrir y crear más objetos mágicos que potencien tus habilidades agrícolas!",
+  "description.super.totem.temporarily": "El supertótem aumenta temporalmente tu tiempo de cocción, cosechas, árboles y minerales. ¡Sácale el máximo partido!"
 }

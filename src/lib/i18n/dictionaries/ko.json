@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "시트러스 트위스트가 가미된 크리미 치즈케이크",
   "gems.shipment.useGems": "보석을 사용하여 더 많은 주식을 잠금 해제하세요",
   "whatsOn.date.nov6Dec11": "11월 6일 - 1월 31일",
-  "ingredients": "성분"
+  "ingredients": "성분",
+  "landscape.superTotem.resourceNodeCondition": "{{selectedChestItem}} 를 활성화하기 전에 재생 중인 미네랄이나 나무가 없는지, 작물이나 과일이 자라지 않는지, 조리용 건물이 작동하지 않는지 확인하십시오.",
+  "landscape.timeWarpTotem.nonStack": "부스트는 슈퍼 토템과 중첩되지 않습니다",
+  "landscape.superTotem.nonStack": "부스트는 타임 워프 토템과 중첩되지 않습니다.",
+  "description.kingOfBears": "모든 곰의 왕.꿀은 스스로 먹기 위해 더 많은 꿀을 생산할 수 있는 힘을 가지고 있습니다.",
+  "description.halloweenScarecrow": "무섭게 생긴 허수아비",
+  "description.vampireBear": "날 태양 아래 두지 마!",
+  "description.superTotem": "농작물, 나무, 과일, 요리 및 미네랄을 2배 빠르게 처리할 수 있습니다.7일 동안 지속됩니다.",
+  "description.kingOfBears.boost": "벌집 한 개당 벌꿀 생산량 증가 +0.25",
+  "description.superTotem.boost": "농작물, 광물, 과일, 요리 및 나무 심기 시간 50% 감소",
+  "description.super.totem.expired": "슈퍼 토템이 만료되었습니다.펌킨 플라자로 가서 더 많은 마법 아이템을 발견하고 제작하여 파밍 능력을 향상시키세요!",
+  "description.super.totem.temporarily": "슈퍼 토템은 요리, 농작물, 나무, 광물 섭취 시간을 일시적으로 늘려줍니다.최대한 활용하세요!"
 }

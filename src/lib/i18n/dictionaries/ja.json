@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "柑橘系のひねりを加えたクリーミーなチーズケーキ",
   "gems.shipment.useGems": "ジェムを使ってより多くの在庫をアンロックしよう",
   "whatsOn.date.nov6Dec11": "11 月 6 日から 1 月 31 日まで",
-  "ingredients": "原材料"
+  "ingredients": "原材料",
+  "landscape.superTotem.resourceNodeCondition": "{{selectedChestItem}} を有効にする前に、ミネラルや樹木が再生されておらず、作物や果物が育っておらず、調理施設が機能していないことを確認してください。",
+  "landscape.timeWarpTotem.nonStack": "ブーストがスーパートーテムと重複しない",
+  "landscape.superTotem.nonStack": "ブーストがタイムワープトーテムと重複しない",
+  "description.kingOfBears": "すべてのクマの王様。自分の消費分だけはちみつを多く生成する力がある。",
+  "description.halloweenScarecrow": "怖そうなかかし",
+  "description.vampireBear": "私を太陽の下に置かないで！",
+  "description.superTotem": "作物、樹木、果物、料理、ミネラルを2倍のスピードで。7日間持続します。",
+  "description.kingOfBears.boost": "蜂の巣1個あたりのハチミツ生産量増加 +0.25",
+  "description.superTotem.boost": "作物、ミネラル、フルーツ、調理、樹木にかかる時間を 50% 削減",
+  "description.super.totem.expired": "スーパートーテムの有効期限が切れました。パンプキンプラザに向かい、農業能力を高める魔法のアイテムをもっと見つけてクラフトしよう！",
+  "description.super.totem.temporarily": "スーパートーテムは、料理、作物、樹木、ミネラルタイムを一時的に増やします。それを最大限に活用しましょう！"
 }

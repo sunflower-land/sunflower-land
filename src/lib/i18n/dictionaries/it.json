@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "Una cheesecake cremosa con un tocco di agrumi",
   "gems.shipment.useGems": "Usa le gemme per sbloccare più scorte",
   "whatsOn.date.nov6Dec11": "6 novembre - 31 gennaio",
-  "ingredients": "ingredienti"
+  "ingredients": "ingredienti",
+  "landscape.superTotem.resourceNodeCondition": "Assicurati che nessun minerale o albero si stia rigenerando, che non crescano colture o frutti e che nessun edificio di cottura funzioni prima di attivare {{selectedChestItem}}.",
+  "landscape.timeWarpTotem.nonStack": "Il Boost non si accumula con Super Totem",
+  "landscape.superTotem.nonStack": "Il Boost non si accumula con Time Warp Totem",
+  "description.kingOfBears": "Il re di tutti gli orsi. Ha il potere di generare più miele per il proprio consumo.",
+  "description.halloweenScarecrow": "Uno spaventapasseri dall'aspetto spaventoso",
+  "description.vampireBear": "Non mettermi sotto il sole!",
+  "description.superTotem": "Velocità doppia per colture, alberi, frutta, cucina e minerali. Dura 7 giorni",
+  "description.kingOfBears.boost": "Aumenta la resa di miele per alveare intero +0,25",
+  "description.superTotem.boost": "Riduzione del 50% del tempo dedicato al raccolto, ai minerali, alla frutta, alla cottura e all'albero",
+  "description.super.totem.expired": "Il tuo Super Totem è scaduto. Vai al Pumpkin Plaza per scoprire e creare altri oggetti magici per potenziare le tue abilità agricole!",
+  "description.super.totem.temporarily": "Il Super Totem aumenta temporaneamente il tempo di cottura, i raccolti, gli alberi e i minerali. Sfruttalo al massimo!"
 }

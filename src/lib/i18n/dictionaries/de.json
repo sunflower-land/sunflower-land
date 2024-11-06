@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "Ein cremiger Käsekuchen mit einem Hauch von Zitrusfrüchten",
   "gems.shipment.useGems": "Nutze Edelsteine, um mehr Aktien freizuschalten",
   "whatsOn.date.nov6Dec11": "6. November — 31. Januar",
-  "ingredients": "Inhaltsstoffe"
+  "ingredients": "Inhaltsstoffe",
+  "landscape.superTotem.resourceNodeCondition": "Bitte stellen Sie sicher, dass sich keine Mineralien oder Bäume regenerieren, keine Pflanzen oder Früchte wachsen und keine Kochgebäude funktionieren, bevor Sie {{selectedChestItem}} aktivieren.",
+  "landscape.timeWarpTotem.nonStack": "Boost lässt sich nicht mit Super Totem stapeln",
+  "landscape.superTotem.nonStack": "Boost lässt sich nicht mit Time Warp Totem stapeln",
+  "description.kingOfBears": "Der König aller Bären. Er hat die Macht, mehr Honig für den eigenen Verzehr zu erzeugen.",
+  "description.halloweenScarecrow": "Eine gruselig aussehende Vogelscheuche",
+  "description.vampireBear": "Stell mich nicht unter die Sonne!",
+  "description.superTotem": "2-fache Geschwindigkeit für Pflanzen, Bäume, Obst, Kochen und Mineralien. Hält 7 Tage an",
+  "description.kingOfBears.boost": "Erhöhen Sie den Honigertrag pro vollem Bienenstock um +0,25",
+  "description.superTotem.boost": "50% Ermäßigung auf Ernte-, Mineral-, Obst-, Koch- und Baumzeit",
+  "description.super.totem.expired": "Dein Super Totem ist abgelaufen. Begib dich zum Pumpkin Plaza, um weitere magische Gegenstände zu entdecken und herzustellen, um deine landwirtschaftlichen Fähigkeiten zu verbessern!",
+  "description.super.totem.temporarily": "Das Super Totem erhöht vorübergehend deine Koch-, Ernte-, Baum- und Mineralzeit. Mach das Beste daraus!"
 }

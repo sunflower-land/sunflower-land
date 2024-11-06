@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "Narenciye dokunuşlu kremalı peynirli kek",
   "gems.shipment.useGems": "Daha fazla stok açmak için Mücevherleri kullanın",
   "whatsOn.date.nov6Dec11": "6 Kasım - 31 Ocak",
-  "ingredients": "Malzemeler"
+  "ingredients": "Malzemeler",
+  "landscape.superTotem.resourceNodeCondition": "Lütfen {{selectedChestItem}} özelliğini etkinleştirmeden önce hiçbir mineral veya ağaç yenilenmediğinden, mahsul veya meyve yetişmediğinden ve pişirme binalarının çalışmadığından emin olun.",
+  "landscape.timeWarpTotem.nonStack": "Boost, Süper Totem ile istiflenmez",
+  "landscape.superTotem.nonStack": "Boost, Time Warp Totem ile istiflenmez",
+  "description.kingOfBears": "Tüm ayıların kralı. Kendi tüketimi için daha fazla bal üretme gücüne sahiptir.",
+  "description.halloweenScarecrow": "Korkunç görünümlü bir korkuluk",
+  "description.vampireBear": "Beni güneşin altına sokma!",
+  "description.superTotem": "Mahsuller, ağaçlar, meyveler, yemek pişirme ve mineraller için 2x hız. 7 gün sürer",
+  "description.kingOfBears.boost": "Tam arı kovanı başına Bal Verimini Artırın +0.25",
+  "description.superTotem.boost": "Mahsul, Mineral, Meyve, Pişirme ve Ağaç Zamanında %50 İndirim",
+  "description.super.totem.expired": "Süper Totem'inizin süresi doldu. Çiftçilik yeteneklerinizi geliştirmek için daha fazla büyülü eşya keşfetmek ve üretmek için Pumpkin Plaza\"ya gidin!",
+  "description.super.totem.temporarily": "Süper Totem, yemek pişirmenizi, ekinlerinizi, ağaçlarınızı ve mineral zamanınızı geçici olarak artırır. En iyi şekilde yararlanın!"
 }

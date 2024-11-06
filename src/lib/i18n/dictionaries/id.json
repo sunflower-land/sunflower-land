@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "Kue keju krim dengan sentuhan jeruk",
   "gems.shipment.useGems": "Gunakan Permata untuk membuka lebih banyak stok",
   "whatsOn.date.nov6Dec11": "6 November - 31 Januari",
-  "ingredients": "Bahan"
+  "ingredients": "Bahan",
+  "landscape.superTotem.resourceNodeCondition": "Harap pastikan tidak ada mineral atau pohon yang beregenerasi, tidak ada tanaman atau buah-buahan yang tumbuh, dan tidak ada bangunan memasak yang berfungsi sebelum mengaktifkan {{selectedChestItem}}.",
+  "landscape.timeWarpTotem.nonStack": "Boost tidak menumpuk dengan Super Totem",
+  "landscape.superTotem.nonStack": "Boost tidak menumpuk dengan Time Warp Totem",
+  "description.kingOfBears": "Raja dari semua beruang. Ia memiliki kekuatan untuk menghasilkan lebih banyak madu untuk konsumsinya sendiri.",
+  "description.halloweenScarecrow": "Scarecrow yang tampak menakutkan",
+  "description.vampireBear": "Jangan letakkan aku di bawah matahari!",
+  "description.superTotem": "Kecepatan 2x untuk tanaman, pohon, buah-buahan, memasak & mineral. Berlangsung selama 7 hari",
+  "description.kingOfBears.boost": "Tingkatkan Hasil Madu per sarang lebah penuh +0,25",
+  "description.superTotem.boost": "Pengurangan 50% untuk Waktu Panen, Mineral, Buah, Memasak, dan Pohon",
+  "description.super.totem.expired": "Super Totem Anda telah kedaluwarsa. Pergilah ke Pumpkin Plaza untuk menemukan dan membuat lebih banyak item ajaib untuk meningkatkan kemampuan bertani Anda!",
+  "description.super.totem.temporarily": "Super Totem untuk sementara meningkatkan waktu memasak, tanaman, pohon & mineral Anda. Manfaatkan sebaik-baiknya!"
 }

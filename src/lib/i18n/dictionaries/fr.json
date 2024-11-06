@@ -4233,5 +4233,16 @@
   "description.lemonCheesecake": "Un cheesecake crémeux avec une touche d'agrumes",
   "gems.shipment.useGems": "Utilisez des gemmes pour débloquer plus de stock",
   "whatsOn.date.nov6Dec11": "6 novembre - 31 janvier",
-  "ingredients": "Ingrédients"
+  "ingredients": "Ingrédients",
+  "landscape.superTotem.resourceNodeCondition": "Assurez-vous qu'aucun minéral ou arbre ne se régénère, qu'aucune récolte ou aucun fruit ne pousse et qu'aucun bâtiment de cuisine ne fonctionne avant d'activer le {{selectedChestItem}}.",
+  "landscape.timeWarpTotem.nonStack": "Boost ne se cumule pas avec Super Totem",
+  "landscape.superTotem.nonStack": "Boost ne se cumule pas avec Time Warp Totem",
+  "description.kingOfBears": "Le roi de tous les ours. Il a le pouvoir de produire plus de miel pour sa propre consommation.",
+  "description.halloweenScarecrow": "Un épouvantail effrayant",
+  "description.vampireBear": "Ne me mettez pas au soleil !",
+  "description.superTotem": "Vitesse 2 fois supérieure pour les cultures, les arbres, les fruits, la cuisine et les minéraux. Dure 7 jours",
+  "description.kingOfBears.boost": "Augmente le rendement en miel par ruche complète de 0,25",
+  "description.superTotem.boost": "Réduction de 50 % du temps consacré à la récolte, aux minéraux, aux fruits, à la cuisson et à l'arbre",
+  "description.super.totem.expired": "Votre Super Totem a expiré. Rendez-vous au Pumpkin Plaza pour découvrir et fabriquer d'autres objets magiques qui amélioreront vos capacités agricoles !",
+  "description.super.totem.temporarily": "Le Super Totem augmente temporairement votre temps consacré à la cuisine, à vos récoltes, à vos arbres et à vos minéraux. Profitez-en au maximum !"
 }
