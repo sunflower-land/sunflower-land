@@ -17,7 +17,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Deliveries } from "./pages/Deliveries";
-import { Chores } from "./pages/Chores";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -32,7 +31,6 @@ import {
   getCurrentSeason,
   getSeasonalTicket,
 } from "features/game/types/seasons";
-import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FLOWERS } from "features/game/types/flowers";
 
@@ -134,22 +132,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: SUNNYSIDE.icons.player,
       count: incompleteDeliveries,
     },
-    ...(hasFeatureAccess(state, "CHORE_BOARD")
-      ? [
-          {
-            name: "Chore Board" as const,
-            icon: chores,
-            count: incompleteChores,
-          },
-        ]
-      : [
-          {
-            name: "Chores" as const,
-            icon: chores,
-            count: incompleteChores + inCompleteKingdomChores,
-          },
-        ]),
-
+    {
+      name: "Chore Board" as const,
+      icon: chores,
+      count: incompleteChores,
+    },
     {
       name: "Leaderboard" as const,
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
@@ -243,15 +230,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               })}
             > */}
             {currentTab === 0 && <Deliveries onClose={onHide} />}
-            {currentTab === 1 && (
-              <>
-                {hasFeatureAccess(state, "CHORE_BOARD") ? (
-                  <ChoreBoard />
-                ) : (
-                  <Chores farmId={farmId} />
-                )}
-              </>
-            )}
+            {currentTab === 1 && <ChoreBoard />}
             {currentTab === 2 && (
               <Season
                 id={id}
