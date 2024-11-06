@@ -27,9 +27,6 @@ function acknowledgeRead() {
   localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
 }
 
-function hasRead() {
-  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
-}
 interface Props {
   onClose: () => void;
   conversation?: ConversationName;
@@ -104,7 +101,7 @@ export const ShopItems: React.FC<Props> = ({
       onClose={onClose}
       container={OuterPanel}
     >
-      {tab === 0 && <Seeds onClose={onClose} />}
+      {tab === 0 && <Seeds />}
       {tab === 1 && <Crops />}
     </CloseButtonPanel>
   );

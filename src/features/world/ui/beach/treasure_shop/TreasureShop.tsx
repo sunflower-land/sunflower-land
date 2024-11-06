@@ -28,7 +28,7 @@ export const TreasureShop: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && <TreasureShopBuy onClose={onClose} />}
+      {tab === 0 && <TreasureShopBuy />}
       {tab === 1 && <TreasureShopSell />}
     </CloseButtonPanel>
   );

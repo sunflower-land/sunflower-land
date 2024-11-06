@@ -25,17 +25,12 @@ import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 
-interface Props {
-  onClose: () => void;
-}
-
-export const Restock: React.FC<Props> = ({ onClose }) => {
+export const Restock: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showConfirm, setShowConfirm] = useState(false);
-  const { openModal } = useContext(ModalContext);
 
   const hasGemExperiment = hasFeatureAccess(
     gameState.context.state,
@@ -46,7 +41,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
     nextShipmentAt({ game: gameState.context.state }),
   );
 
-  const { days, ...shipmentTime } = shipmentAt;
+  const { ...shipmentTime } = shipmentAt;
   const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
 
   const showShipment = hasGemExperiment && shipmentIsReady;
@@ -214,7 +209,6 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
   const { t } = useAppTranslation();
-  const { openModal } = useContext(ModalContext);
 
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -225,27 +219,6 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
   );
   const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
   const showShipment = hasGemExperiment && shipmentIsReady;
-
-  const canRestock = gameState.context.state.inventory["Gem"]?.gte(20);
-
-  const handleRestock = () => {
-    if (!canRestock) {
-      openModal("BUY_GEMS");
-      return;
-    }
-
-    gameService.send("shops.restocked");
-
-    gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: 1 * BB_TO_GEM_RATIO,
-      item: "Stock",
-      type: "Fee",
-    });
-
-    if (showAnimations) confetti();
-    onClose();
-  };
 
   const replenish = () => {
     gameService.send("shipment.restocked");
@@ -310,7 +283,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
     );
   }
 
-  const { days, ...shipmentTime } = shipmentAt;
+  const { ...shipmentTime } = shipmentAt;
 
   return <RestockModal shipmentTime={shipmentTime} onClose={onClose} />;
 };
