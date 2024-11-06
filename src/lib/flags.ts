@@ -48,7 +48,6 @@ const featureFlags = {
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
   SKILLS_REVAMP: adminFeatureFlag,
-  FSL: betaTimeBasedFeatureFlag(new Date("2024-10-10T00:00:00Z")),
   NEW_RESOURCES_GE: defaultFeatureFlag,
   ANIMAL_BUILDINGS: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   BARLEY: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
