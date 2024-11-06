@@ -1,7 +1,5 @@
-import { hasFeatureAccess } from "lib/flags";
 import { BB_TO_GEM_RATIO, Inventory } from "./game";
 import { SeasonalTicket, SEASONS } from "./seasons";
-import { TEST_FARM } from "../lib/constants";
 import Decimal from "decimal.js-light";
 
 export type GarbageName =
@@ -125,22 +123,14 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: 0.1,
     gems: 0,
   },
-  ...(SEASONS["Clash of Factions"].endDate.getTime() < Date.now()
-    ? {
-        Scroll: {
-          sellPrice: 0.1,
-          gems: 0,
-        },
-      }
-    : ({} as { Scroll: { sellPrice: number; gems: number } })),
-  ...(SEASONS["Pharaoh's Treasure"].endDate.getTime() < Date.now()
-    ? {
-        "Amber Fossil": {
-          sellPrice: 0.1,
-          gems: 0,
-        },
-      }
-    : ({} as { "Amber Fossil": { sellPrice: number; gems: number } })),
+  Scroll: {
+    sellPrice: 0.1,
+    gems: 0,
+  },
+  "Amber Fossil": {
+    sellPrice: 0.1,
+    gems: 0,
+  },
   ...(SEASONS["Bull Run"].endDate.getTime() < Date.now()
     ? {
         Horseshoe: {
@@ -150,31 +140,19 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
       }
     : ({} as { Horseshoe: { sellPrice: number; gems: number } })),
 
-  ...(hasFeatureAccess(TEST_FARM, "CHICKEN_GARBO")
-    ? {
-        Chicken: {
-          sellPrice: 200,
-          gems: 0,
-        },
-        "Hen House": {
-          sellPrice: 800,
-          gems: 0,
-          limit: 1,
-          items: {
-            Wood: new Decimal(200),
-            Iron: new Decimal(15),
-            Gold: new Decimal(15),
-            Egg: new Decimal(300),
-          },
-        },
-      }
-    : ({} as {
-        Chicken: { sellPrice: number; gems: number };
-        "Hen House": {
-          sellPrice: number;
-          gems: number;
-          limit: number;
-          items: Inventory;
-        };
-      })),
+  Chicken: {
+    sellPrice: 200,
+    gems: 0,
+  },
+  "Hen House": {
+    sellPrice: 800,
+    gems: 0,
+    limit: 1,
+    items: {
+      Wood: new Decimal(200),
+      Iron: new Decimal(15),
+      Gold: new Decimal(15),
+      Egg: new Decimal(300),
+    },
+  },
 };
