@@ -12,6 +12,8 @@ import {
   WORM,
   ComposterName,
   composterDetails,
+  CROP_COMPOST,
+  FRUIT_COMPOST,
 } from "features/game/types/composters";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
@@ -28,6 +30,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { setImageWidth } from "lib/images";
 import { Loading } from "features/auth/components";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { CollectibleName } from "features/game/types/craftables";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const WORM_OUTPUT: Record<ComposterName, string> = {
   "Compost Bin": "2-4",
@@ -345,20 +349,10 @@ export const ComposterModal: React.FC<Props> = ({
     const FertiliserLabel = () => {
       const fertiliser = composterDetails[composterName].produce;
 
-      if (fertiliser === "Sprout Mix") {
-        return (
-          <Label
-            icon={powerup}
-            secondaryIcon={SUNNYSIDE.icons.plant}
-            type="success"
-            className="text-xs whitespace-pre-line"
-          >
-            {"+0.2"} {t("crops")}
-          </Label>
-        );
-      }
-
       if (fertiliser === "Fruitful Blend") {
+        const compost = FRUIT_COMPOST[fertiliser];
+        const description = compost.description;
+
         return (
           <Label
             icon={powerup}
@@ -366,22 +360,50 @@ export const ComposterModal: React.FC<Props> = ({
             type="success"
             className="text-xs whitespace-pre-line"
           >
-            {"+0.1"} {t("fruit")}
+            {description}
           </Label>
         );
-      }
+      } else {
+        const compost = CROP_COMPOST[fertiliser];
+        let description = compost.description;
+        if (compost.boostedDescriptions !== undefined) {
+          for (const boostedDescription of compost.boostedDescriptions) {
+            if (
+              isCollectibleBuilt({
+                name: boostedDescription.name as CollectibleName,
+                game: state,
+              })
+            ) {
+              description = boostedDescription.description;
+            }
+          }
+        }
 
-      if (fertiliser === "Rapid Root") {
-        return (
-          <Label
-            icon={SUNNYSIDE.icons.stopwatch}
-            secondaryIcon={SUNNYSIDE.icons.plant}
-            type="info"
-            className="text-xs whitespace-pre-line"
-          >
-            {t("guide.compost.cropGrowthTime")}
-          </Label>
-        );
+        if (fertiliser === "Sprout Mix") {
+          return (
+            <Label
+              icon={powerup}
+              secondaryIcon={SUNNYSIDE.icons.plant}
+              type="success"
+              className="text-xs whitespace-pre-line"
+            >
+              {description}
+            </Label>
+          );
+        }
+
+        if (fertiliser === "Rapid Root") {
+          return (
+            <Label
+              icon={SUNNYSIDE.icons.stopwatch}
+              secondaryIcon={SUNNYSIDE.icons.plant}
+              type="info"
+              className="text-xs whitespace-pre-line"
+            >
+              {description}
+            </Label>
+          );
+        }
       }
 
       return null;
