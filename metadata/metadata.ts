@@ -10180,7 +10180,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "The king of all bears. It has the power to generate more honey for  its own consumption.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2166.png",
+    image: "../public/erc1155/images/2154.png",
     attributes: [
       { trait_type: "Boost", value: "Resource" },
       {
