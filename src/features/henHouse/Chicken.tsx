@@ -190,7 +190,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     loveChicken(chicken.item);
   };
 
-  const loveChicken = async (item = selectedItem) => {
+  const loveChicken = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.loved",
       animal: "Chicken",
