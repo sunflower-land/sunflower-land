@@ -97,6 +97,12 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
   states: {
     initial: {
       always: [
+        // Animal has levelled up due to affection. It should remain asleep and then can claim produce once it wakes.
+        {
+          target: "sleeping",
+          cond: (context) =>
+            context.animal?.state === "ready" && isAnimalSleeping(context),
+        },
         // Even if the animal is sick, it can still be ready to claim produce
         {
           target: "ready",
