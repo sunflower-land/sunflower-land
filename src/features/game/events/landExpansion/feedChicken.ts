@@ -6,7 +6,6 @@ import {
 } from "features/game/lib/constants";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type LandExpansionFeedChickenAction = {
   type: "chicken.fed";
@@ -70,46 +69,6 @@ export function feedChicken({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    if (hasFeatureAccess(stateCopy, "ANIMAL_BUILDINGS")) {
-      throw new Error("You can no longer feed chickens");
-    }
-    const { bumpkin, inventory, collectibles } = stateCopy;
-
-    if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin!");
-    }
-
-    const chickens = stateCopy.chickens || {};
-    const chicken = chickens[action.id];
-
-    if (!chicken) {
-      throw new Error("This chicken does not exist");
-    }
-
-    const isChickenHungry =
-      chicken?.fedAt && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG;
-
-    if (isChickenHungry) {
-      throw new Error("This chicken is not hungry");
-    }
-
-    const wheatRequired = getWheatRequiredToFeed(stateCopy);
-
-    if (
-      wheatRequired.gt(0) &&
-      (!inventory.Wheat || inventory.Wheat.lt(wheatRequired))
-    ) {
-      throw new Error("No wheat to feed chickens");
-    }
-
-    const currentWheat = inventory.Wheat || new Decimal(0);
-    inventory.Wheat = currentWheat.minus(wheatRequired);
-    chickens[action.id] = {
-      ...chickens[action.id],
-      fedAt: makeFedAt(inventory, stateCopy, createdAt, bumpkin),
-      multiplier: 1,
-    };
-
-    return stateCopy;
+    throw new Error("You can no longer feed chickens");
   });
 }

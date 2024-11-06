@@ -38,17 +38,11 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     "Premium Composter",
     "Greenhouse",
     "Crop Machine",
+    "Barn",
     ...(hasFeatureAccess(state, "CRAFTING_BOX") ? ["Crafting Box"] : []),
   ];
 
-  const CONDITIONAL_BUILDINGS = hasFeatureAccess(state, "ANIMAL_BUILDINGS")
-    ? ["Barn"]
-    : [];
-
-  const VALID_BUILDINGS = [
-    ...UNSORTED_BUILDINGS,
-    ...CONDITIONAL_BUILDINGS,
-  ].sort(
+  const VALID_BUILDINGS = UNSORTED_BUILDINGS.sort(
     (a, b) =>
       BUILDINGS[a as BuildingName][0].unlocksAtLevel -
       BUILDINGS[b as BuildingName][0].unlocksAtLevel,
