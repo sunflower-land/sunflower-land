@@ -192,7 +192,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         frameHeight: 19,
       });
 
-      idleLoader.once(`filecomplete-spritesheet-${this.idleSpriteKey}`, () => {
+      idleLoader.once(Phaser.Loader.Events.COMPLETE, () => {
         if (
           !scene.textures.exists(this.idleSpriteKey as string) ||
           this.ready
@@ -253,7 +253,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         frameHeight: 64,
       });
 
-      digLoader.once(`filecomplete-spritesheet-${this.digAnimationKey}`, () => {
+      digLoader.once(Phaser.Loader.Events.COMPLETE, () => {
         this.createDigAnimation();
         digLoader.removeAllListeners();
       });
@@ -268,13 +268,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         frameHeight: 64,
       });
 
-      drillLoader.once(
-        `filecomplete-spritesheet-${this.drillAnimationKey}`,
-        () => {
-          this.createDrillAnimation();
-          drillLoader.removeAllListeners();
-        },
-      );
+      drillLoader.once(Phaser.Loader.Events.COMPLETE, () => {
+        this.createDrillAnimation();
+        drillLoader.removeAllListeners();
+      });
     }
 
     scene.load.start();
@@ -491,27 +488,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           },
         );
 
-        backauraLoader.once(
-          `filecomplete-spritesheet-${this.backAuraKey}`,
-          () => {
-            if (
-              !container.scene.textures.exists(this.backAuraKey as string) ||
-              this.ready
-            ) {
-              return;
-            }
-            const backaura = container.scene.add
-              .sprite(0, -3, this.backAuraKey as string)
-              .setOrigin(0.5);
-            this.add(backaura);
-            this.moveTo(backaura, 1);
-            this.backfx = backaura;
+        backauraLoader.once(Phaser.Loader.Events.COMPLETE, () => {
+          if (
+            !container.scene.textures.exists(this.backAuraKey as string) ||
+            this.ready
+          ) {
+            return;
+          }
+          const backaura = container.scene.add
+            .sprite(0, -3, this.backAuraKey as string)
+            .setOrigin(0.5);
+          this.add(backaura);
+          this.moveTo(backaura, 1);
+          this.backfx = backaura;
 
-            this.createBackAuraAnimation();
-            this.backfx.play(this.backAuraAnimationKey as string, true);
-            backauraLoader.removeAllListeners();
-          },
-        );
+          this.createBackAuraAnimation();
+          this.backfx.play(this.backAuraAnimationKey as string, true);
+          backauraLoader.removeAllListeners();
+        });
       }
       //Front-Aura
       if (container.scene.textures.exists(this.frontAuraKey)) {
@@ -534,27 +528,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           },
         );
 
-        frontauraLoader.once(
-          `filecomplete-spritesheet-${this.frontAuraKey}`,
-          () => {
-            if (
-              !container.scene.textures.exists(this.frontAuraKey as string) ||
-              this.ready
-            ) {
-              return;
-            }
-            const frontaura = container.scene.add
-              .sprite(0, 2, this.frontAuraKey as string)
-              .setOrigin(0.5);
-            this.add(frontaura);
-            this.moveTo(frontaura, 3);
-            this.frontfx = frontaura;
+        frontauraLoader.once(Phaser.Loader.Events.COMPLETE, () => {
+          if (
+            !container.scene.textures.exists(this.frontAuraKey as string) ||
+            this.ready
+          ) {
+            return;
+          }
+          const frontaura = container.scene.add
+            .sprite(0, 2, this.frontAuraKey as string)
+            .setOrigin(0.5);
+          this.add(frontaura);
+          this.moveTo(frontaura, 3);
+          this.frontfx = frontaura;
 
-            this.createFrontAuraAnimation();
-            this.frontfx.play(this.frontAuraAnimationKey as string, true);
-            frontauraLoader.removeAllListeners();
-          },
-        );
+          this.createFrontAuraAnimation();
+          this.frontfx.play(this.frontAuraAnimationKey as string, true);
+          frontauraLoader.removeAllListeners();
+        });
       }
     }
   }
@@ -663,7 +654,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.scene.textures.once("addtexture", () => onLoad());
     } else {
       this.scene.load.image(key, url);
-      this.scene.load.once(`filecomplete-image-${key}`, () => onLoad());
+      this.scene.load.once(Phaser.Loader.Events.COMPLETE, () => onLoad());
       this.scene.load.start();
     }
   }
