@@ -61,6 +61,77 @@ export const DIGGING_FORMATIONS = {
     { x: 0, y: -2, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
 
+  ARTEFACT_ONE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_TWO: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_THREE: [{ x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] }],
+
+  ARTEFACT_FOUR: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+    { x: 0, y: 3, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_FIVE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -2, y: 0, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_SIX: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -2, y: -1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_SEVEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_EIGHT: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_NINE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 0, y: -1, name: "Camel Bone" },
+    { x: -1, y: -1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_TEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_ELEVEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_TWELVE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: -1, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
   // Small L - X Coins
   HIEROGLYPH: [
     { x: 0, y: 0, name: "Vase" },
@@ -123,16 +194,6 @@ export const DIGGING_FORMATIONS = {
   ],
   PIRATE_BOUNTY: [{ x: 0, y: 0, name: "Pirate Bounty" }],
 } satisfies Record<string, DiggingFormation>;
-
-export const DAILY_ARTEFACT: Record<number, DiggingFormationName> = {
-  0: "SUNDAY_ARTEFACT_FORMATION",
-  1: "MONDAY_ARTEFACT_FORMATION",
-  2: "TUESDAY_ARTEFACT_FORMATION",
-  3: "WEDNESDAY_ARTEFACT_FORMATION",
-  4: "THURSDAY_ARTEFACT_FORMATION",
-  5: "FRIDAY_ARTEFACT_FORMATION",
-  6: "SATURDAY_ARTEFACT_FORMATION",
-};
 
 export type DiggingFormationName = keyof typeof DIGGING_FORMATIONS;
 
