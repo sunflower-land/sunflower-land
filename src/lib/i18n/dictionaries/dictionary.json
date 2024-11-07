@@ -3718,7 +3718,7 @@
   "crafting.expansionSoon": "Your land will be ready soon...",
   "crafting.viewRecipes": "View recipes",
   "gems.buyReplenish": "Would you like to replenish the shops now for 20 Gems?",
-  "gems.clearStock": "You might want to buy all your stock before restocking",
+  "gems.purchasedStock": "Restocks purchased stock only",
   "gems.noShipment": "No Shipment",
   "gems.buyStock": "Please buy your stock to get your shipment.",
   "gems.replenish": "Replenish stock",
