@@ -109,10 +109,6 @@ import {
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
 import { restock, RestockAction } from "./landExpansion/restock";
 import { sellGarbage, SellGarbageAction } from "./landExpansion/garbageSold";
-import {
-  completeChore,
-  CompleteChoreAction,
-} from "./landExpansion/completeChore";
 import { placeTree, PlaceTreeAction } from "./landExpansion/placeTree";
 import { expandLand, ExpandLandAction } from "./landExpansion/expandLand";
 import { placePlot, PlacePlotAction } from "./landExpansion/placePlot";
@@ -459,7 +455,6 @@ export type PlayingEvent =
   | NPCRestockAction
   | SellGarbageAction
   // Chores
-  | CompleteChoreAction
   | SkipChoreAction
   | ExpandLandAction
   | MessageRead
@@ -652,7 +647,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "shops.restocked": restock,
   "npc.restocked": npcRestock,
   "garbage.sold": sellGarbage,
-  "chore.completed": completeChore,
   "chore.skipped": skipChore,
   "land.expanded": expandLand,
   "message.read": readMessage,
