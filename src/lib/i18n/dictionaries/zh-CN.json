@@ -3603,7 +3603,6 @@
   "crafting.readySoon": "{{name}} 即将准备就绪...",
   "crafting.expansionSoon": "你的土地很快就会准备就绪...",
   "crafting.viewRecipes": "查看食谱",
-  "gems.buyReplenish": "现在想在商店里补充 20 颗宝石吗？",
   "gems.replenish": "补充库存",
   "gems.nextFreeShipment": "下次免费配送：",
   "gems.outOfstock": "缺货",
@@ -4244,5 +4243,9 @@
   "description.superTotem.boost": "作物、矿物、水果、烹饪和植树时间减少 50%",
   "description.super.totem.expired": "您的超级图腾已过期。前往南瓜广场，发现并制作更多魔法物品，提升你的耕作能力！",
   "description.super.totem.temporarily": "超级图腾可暂时延长您的烹饪、作物、树木和矿物时间。充分利用它！",
-  "season.bullRun.bonus": "喂动物的饲料减少 10%"
+  "season.bullRun.bonus": "喂动物的饲料减少 10%",
+  "gems.buyReplenish": "你现在想在商店里补充 20 颗宝石吗？",
+  "gems.purchasedStock": "仅对已购买的股票进行补货",
+  "gems.noShipment": "不发货",
+  "gems.buyStock": "请购买您的库存以发货。"
 }

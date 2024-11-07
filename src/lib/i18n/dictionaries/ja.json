@@ -3603,7 +3603,6 @@
   "crafting.readySoon": "{{name}} はまもなく準備が整います...",
   "crafting.expansionSoon": "もうすぐ土地の準備が整います...",
   "crafting.viewRecipes": "レシピを見る",
-  "gems.buyReplenish": "今すぐショップにジェムを20個補充したいですか？",
   "gems.replenish": "在庫を補充",
   "gems.nextFreeShipment": "次回の無料配送:",
   "gems.outOfstock": "在庫切れ",
@@ -4244,5 +4243,9 @@
   "description.superTotem.boost": "作物、ミネラル、フルーツ、調理、樹木にかかる時間を 50% 削減",
   "description.super.totem.expired": "スーパートーテムの有効期限が切れました。パンプキンプラザに向かい、農業能力を高める魔法のアイテムをもっと見つけてクラフトしよう！",
   "description.super.totem.temporarily": "スーパートーテムは、料理、作物、樹木、ミネラルタイムを一時的に増やします。それを最大限に活用しましょう！",
-  "season.bullRun.bonus": "動物に給餌する飼料を 10% 削減"
+  "season.bullRun.bonus": "動物に給餌する飼料を 10% 削減",
+  "gems.buyReplenish": "今すぐショップにジェム20個を補充しませんか？",
+  "gems.purchasedStock": "購入した在庫のみ補充",
+  "gems.noShipment": "発送なし",
+  "gems.buyStock": "商品を受け取るには、在庫を購入してください。"
 }

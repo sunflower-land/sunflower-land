@@ -3603,7 +3603,6 @@
   "crafting.readySoon": "{{name}} yakında hazır olacak...",
   "crafting.expansionSoon": "Araziniz yakında hazır olacak...",
   "crafting.viewRecipes": "Tarifleri görüntüle",
-  "gems.buyReplenish": "Dükkanları şimdi 20 Mücevher karşılığında yenilemek ister misiniz?",
   "gems.replenish": "Stok yenileme",
   "gems.nextFreeShipment": "Sonraki ücretsiz gönderi:",
   "gems.outOfstock": "Stoklar tükendi",
@@ -4244,5 +4243,9 @@
   "description.superTotem.boost": "Mahsul, Mineral, Meyve, Pişirme ve Ağaç Zamanında %50 İndirim",
   "description.super.totem.expired": "Süper Totem'inizin süresi doldu. Çiftçilik yeteneklerinizi geliştirmek için daha fazla büyülü eşya keşfetmek ve üretmek için Pumpkin Plaza\"ya gidin!",
   "description.super.totem.temporarily": "Süper Totem, yemek pişirmenizi, ekinlerinizi, ağaçlarınızı ve mineral zamanınızı geçici olarak artırır. En iyi şekilde yararlanın!",
-  "season.bullRun.bonus": "Hayvanları beslemek için% 10 daha az yem"
+  "season.bullRun.bonus": "Hayvanları beslemek için% 10 daha az yem",
+  "gems.buyReplenish": "Dükkanları şimdi 20 Mücevher karşılığında yenilemek ister misiniz?",
+  "gems.purchasedStock": "Yalnızca satın alınan stokları yeniden stoklar",
+  "gems.noShipment": "Sevkiyat Yok",
+  "gems.buyStock": "Gönderinizi almak için lütfen stokunuzu satın alın."
 }

@@ -3603,7 +3603,6 @@
   "crafting.readySoon": "{{name}} sera bientôt prêt...",
   "crafting.expansionSoon": "Votre terrain sera bientôt prêt...",
   "crafting.viewRecipes": "Afficher les recettes",
-  "gems.buyReplenish": "Vous aimeriez réapprovisionner les boutiques dès maintenant pour 20 gemmes ?",
   "gems.replenish": "Réapprovisionner le stock",
   "gems.nextFreeShipment": "Prochaine livraison gratuite :",
   "gems.outOfstock": "En rupture de stock",
@@ -4244,5 +4243,9 @@
   "description.superTotem.boost": "Réduction de 50 % du temps consacré à la récolte, aux minéraux, aux fruits, à la cuisson et à l'arbre",
   "description.super.totem.expired": "Votre Super Totem a expiré. Rendez-vous au Pumpkin Plaza pour découvrir et fabriquer d'autres objets magiques qui amélioreront vos capacités agricoles !",
   "description.super.totem.temporarily": "Le Super Totem augmente temporairement votre temps consacré à la cuisine, à vos récoltes, à vos arbres et à vos minéraux. Profitez-en au maximum !",
-  "season.bullRun.bonus": "10 % de nourriture en moins pour nourrir les animaux"
+  "season.bullRun.bonus": "10 % de nourriture en moins pour nourrir les animaux",
+  "gems.buyReplenish": "Aimeriez-vous réapprovisionner les boutiques dès maintenant pour 20 gemmes ?",
+  "gems.purchasedStock": "Réapprovisionne uniquement les stocks achetés",
+  "gems.noShipment": "Pas d'expédition",
+  "gems.buyStock": "Veuillez acheter votre stock pour recevoir votre envoi."
 }

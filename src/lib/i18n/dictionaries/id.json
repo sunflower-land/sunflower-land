@@ -3603,7 +3603,6 @@
   "crafting.readySoon": "{{name}} akan segera siap...",
   "crafting.expansionSoon": "Tanah Anda akan segera siap...",
   "crafting.viewRecipes": "Lihat resep",
-  "gems.buyReplenish": "Ingin mengisi kembali toko sekarang untuk 20 Permata?",
   "gems.replenish": "Isi kembali stok",
   "gems.nextFreeShipment": "Pengiriman gratis berikutnya:",
   "gems.outOfstock": "Stok habis",
@@ -4244,5 +4243,9 @@
   "description.superTotem.boost": "Pengurangan 50% untuk Waktu Panen, Mineral, Buah, Memasak, dan Pohon",
   "description.super.totem.expired": "Super Totem Anda telah kedaluwarsa. Pergilah ke Pumpkin Plaza untuk menemukan dan membuat lebih banyak item ajaib untuk meningkatkan kemampuan bertani Anda!",
   "description.super.totem.temporarily": "Super Totem untuk sementara meningkatkan waktu memasak, tanaman, pohon & mineral Anda. Manfaatkan sebaik-baiknya!",
-  "season.bullRun.bonus": "10% lebih sedikit pakan untuk memberi makan hewan"
+  "season.bullRun.bonus": "10% lebih sedikit pakan untuk memberi makan hewan",
+  "gems.buyReplenish": "Apakah Anda ingin mengisi kembali toko sekarang untuk 20 Permata?",
+  "gems.purchasedStock": "Isi ulang stok yang dibeli saja",
+  "gems.noShipment": "Tidak Ada Pengiriman",
+  "gems.buyStock": "Silakan beli stok Anda untuk mendapatkan kiriman Anda."
 }

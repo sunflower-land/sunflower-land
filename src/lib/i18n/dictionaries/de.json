@@ -3603,7 +3603,6 @@
   "crafting.readySoon": "{{name}} wird bald fertig sein...",
   "crafting.expansionSoon": "Dein Land wird bald fertig sein...",
   "crafting.viewRecipes": "Rezepte ansehen",
-  "gems.buyReplenish": "Möchtest du die Läden jetzt für 20 Edelsteine auffüllen?",
   "gems.replenish": "Lagerbestand auffüllen",
   "gems.nextFreeShipment": "Nächste kostenlose Lieferung:",
   "gems.outOfstock": "Nicht vorrätig",
@@ -4244,5 +4243,9 @@
   "description.superTotem.boost": "50% Ermäßigung auf Ernte-, Mineral-, Obst-, Koch- und Baumzeit",
   "description.super.totem.expired": "Dein Super Totem ist abgelaufen. Begib dich zum Pumpkin Plaza, um weitere magische Gegenstände zu entdecken und herzustellen, um deine landwirtschaftlichen Fähigkeiten zu verbessern!",
   "description.super.totem.temporarily": "Das Super Totem erhöht vorübergehend deine Koch-, Ernte-, Baum- und Mineralzeit. Mach das Beste daraus!",
-  "season.bullRun.bonus": "10% weniger Futter für Tiere"
+  "season.bullRun.bonus": "10% weniger Futter für Tiere",
+  "gems.buyReplenish": "Möchtest du die Läden jetzt für 20 Edelsteine auffüllen?",
+  "gems.purchasedStock": "Nur gekaufte Aktien auffüllen",
+  "gems.noShipment": "Kein Versand",
+  "gems.buyStock": "Bitte kaufen Sie Ihre Aktie, um Ihre Sendung zu erhalten."
 }

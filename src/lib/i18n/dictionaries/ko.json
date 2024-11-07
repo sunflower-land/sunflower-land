@@ -3603,7 +3603,6 @@
   "crafting.readySoon": "{{name}} 가 곧 준비될 예정입니다...",
   "crafting.expansionSoon": "당신의 땅은 곧 준비될 것입니다...",
   "crafting.viewRecipes": "레시피 보기",
-  "gems.buyReplenish": "지금 상점에 보석 20개를 보충하고 싶으신가요?",
   "gems.replenish": "재고 보충",
   "gems.nextFreeShipment": "다음 무료 배송:",
   "gems.outOfstock": "재고 없음",
@@ -4244,5 +4243,9 @@
   "description.superTotem.boost": "농작물, 광물, 과일, 요리 및 나무 심기 시간 50% 감소",
   "description.super.totem.expired": "슈퍼 토템이 만료되었습니다.펌킨 플라자로 가서 더 많은 마법 아이템을 발견하고 제작하여 파밍 능력을 향상시키세요!",
   "description.super.totem.temporarily": "슈퍼 토템은 요리, 농작물, 나무, 광물 섭취 시간을 일시적으로 늘려줍니다.최대한 활용하세요!",
-  "season.bullRun.bonus": "동물 사료용 사료 10% 감소"
+  "season.bullRun.bonus": "동물 사료용 사료 10% 감소",
+  "gems.buyReplenish": "지금 상점에 보석 20개를 보충해 주시겠습니까?",
+  "gems.purchasedStock": "구매한 재고만 재입고",
+  "gems.noShipment": "배송 불가",
+  "gems.buyStock": "배송을 받으려면 재고를 구매하세요."
 }
