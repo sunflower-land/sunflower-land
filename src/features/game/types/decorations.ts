@@ -138,7 +138,7 @@ export const DECORATION_TEMPLATES = {
       width: 3,
       height: 2,
     },
-    isWithdrawable: () => false,
+    isWithdrawable: () => true,
   },
   "Goblin Gold Champion": {
     dimensions: {
