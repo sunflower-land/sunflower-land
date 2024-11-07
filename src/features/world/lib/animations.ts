@@ -34,5 +34,5 @@ export const getAnimationUrl = (
   bumpkinParts: BumpkinParts,
   animations: (keyof typeof ANIMATION)[],
 ) => {
-  return `${CONFIG.ANIMATION_URL}/animate/0_v1_${tokenUriBuilder(bumpkinParts)}/${animations.join("-")}`;
+  return `${CONFIG.ANIMATION_URL}/animate/0_v1_${tokenUriBuilder(bumpkinParts)}/${animations.join("_")}`;
 };
