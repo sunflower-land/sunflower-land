@@ -147,13 +147,11 @@ export const ButtonPanel: React.FC<
 
   return (
     <div
-      className={classNames(
-        className,
-        "hover:brightness-90 cursor-pointer relative",
-        {
-          "opacity-50": !!disabled,
-        },
-      )}
+      className={classNames(className, "relative", {
+        "opacity-50": !!disabled,
+        "cursor-pointer": !disabled,
+        "hover:brightness-90": !disabled,
+      })}
       style={{
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,

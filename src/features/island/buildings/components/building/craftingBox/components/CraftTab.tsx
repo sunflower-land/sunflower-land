@@ -356,6 +356,8 @@ export const CraftTab: React.FC<Props> = ({
     setSelectedIngredient(null);
   };
 
+  const isDisabled = isPending || isCrafting || isCraftingBoxEmpty;
+
   return (
     <>
       <div className="flex pl-1 pt-1">
@@ -366,8 +368,8 @@ export const CraftTab: React.FC<Props> = ({
             isReady={isReady}
           />
           <ButtonPanel
-            disabled={isPending || isCrafting || isCraftingBoxEmpty}
-            onClick={handleClearIngredients}
+            disabled={isDisabled}
+            onClick={isDisabled ? undefined : handleClearIngredients}
           >
             <SquareIcon icon={SUNNYSIDE.icons.cancel} width={5} />
           </ButtonPanel>
@@ -443,10 +445,8 @@ export const CraftTab: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="flex justify-between mb-1 ml-1 mr-2">
-        <Label type="default" className="">
-          {t("resources")}
-        </Label>
+      <div className="flex space-x-3 mb-1 ml-1 mr-2">
+        <Label type="default">{t("resources")}</Label>
         {selectedIngredient && (
           <Label
             type="chill"
