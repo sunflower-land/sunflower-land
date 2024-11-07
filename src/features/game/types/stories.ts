@@ -306,4 +306,59 @@ export const CHORE_DIALOGUES: Partial<Record<NPCName, string[]>> = {
     translate("npcDialogues.birdie.chore2"),
     translate("npcDialogues.birdie.chore3"),
   ],
+  grimbly: [
+    translate("npcDialogues.grimbly.chore1"),
+    translate("npcDialogues.grimbly.chore2"),
+    translate("npcDialogues.grimbly.chore3"),
+  ],
+  garth: [
+    translate("npcDialogues.garth.chore1"),
+    translate("npcDialogues.garth.chore2"),
+    translate("npcDialogues.garth.chore3"),
+  ],
+  grimtooth: [
+    translate("npcDialogues.grimtooth.chore1"),
+    translate("npcDialogues.grimtooth.chore2"),
+    translate("npcDialogues.grimtooth.chore3"),
+  ],
+  finn: [
+    translate("npcDialogues.finn.chore1"),
+    translate("npcDialogues.finn.chore2"),
+    translate("npcDialogues.finn.chore3"),
+  ],
+  victoria: [
+    translate("npcDialogues.victoria.chore1"),
+    translate("npcDialogues.victoria.chore2"),
+    translate("npcDialogues.victoria.chore3"),
+  ],
+  gambit: [
+    translate("npcDialogues.gambit.chore1"),
+    translate("npcDialogues.gambit.chore2"),
+    translate("npcDialogues.gambit.chore3"),
+  ],
+  grubnuk: [
+    translate("npcDialogues.grubnuk.chore1"),
+    translate("npcDialogues.grubnuk.chore2"),
+    translate("npcDialogues.grubnuk.chore3"),
+  ],
+  bert: [
+    translate("npcDialogues.bert.chore1"),
+    translate("npcDialogues.bert.chore2"),
+    translate("npcDialogues.bert.chore3"),
+  ],
+  tango: [
+    translate("npcDialogues.tango.chore1"),
+    translate("npcDialogues.tango.chore2"),
+    translate("npcDialogues.tango.chore3"),
+  ],
+  timmy: [
+    translate("npcDialogues.timmy.chore1"),
+    translate("npcDialogues.timmy.chore2"),
+    translate("npcDialogues.timmy.chore3"),
+  ],
+  corale: [
+    translate("npcDialogues.corale.chore1"),
+    translate("npcDialogues.corale.chore2"),
+    translate("npcDialogues.corale.chore3"),
+  ],
 };
