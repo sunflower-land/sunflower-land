@@ -4247,5 +4247,64 @@
   "description.kingOfBears.boost": "Increase Honey Yield per full beehive +0.25",
   "description.superTotem.boost": "50% Reduction to Crop, Mineral, Fruit, Cooking and Tree Time",
   "description.super.totem.expired": "Your Super Totem has expired. Head to the Pumpkin Plaza to discover and craft more magical items to boost your farming abilities!",
-  "description.super.totem.temporarily": "The Super Totem temporarily boosts your cooking, crops, trees & mineral time. Make the most of it!"
+  "description.super.totem.temporarily": "The Super Totem temporarily boosts your cooking, crops, trees & mineral time. Make the most of it!",
+  "npcDialogues.pumpkinPete.chore1": "Have you seen the strange objects in the sky? Keep an eye on your crops!",
+  "npcDialogues.pumpkinPete.chore2": "These new animal products are bringing so many new farming possibilities!",
+  "npcDialogues.pumpkinPete.chore3": "The Farmers Market is busier than ever with all these new resources!",
+
+  "npcDialogues.peggy.chore1": "I can barely keep up with all these new recipe requests! Everyone wants to try cooking with animal products.",
+  "npcDialogues.peggy.chore2": "These new cheese and egg recipes are keeping me busy in the kitchen.",
+  "npcDialogues.peggy.chore3": "I hope you're not using any gems in your cooking... that would be terrible!",
+
+  "npcDialogues.betty.chore1": "The Farmers Market has never been this busy! We're running low on wheat, corn, and barley.",
+  "npcDialogues.betty.chore2": "Everyone needs animal feed these days. The demand is through the roof!",
+  "npcDialogues.betty.chore3": "I'm saving every SFL I earn from the market for my own farm someday.",
+
+  "npcDialogues.miranda.chore1": "Have you tried growing tomatoes? I still can't decide if they're fruits or vegetables!",
+  "npcDialogues.miranda.chore2": "The sun is perfect for dancing today! Though I could do without the strange sightings in the sky...",
+  "npcDialogues.miranda.chore3": "Nothing beats a sunny day at the beach, especially with all this excitement about animals!",
+
+  "npcDialogues.blacksmith.chore1": "This crafting box launch has me worried about my business...",
+  "npcDialogues.blacksmith.chore2": "Quality tools for quality work - that's what I always say.",
+  "npcDialogues.blacksmith.chore3": "These new animal products better not affect the metal trade.",
+
+  "npcDialogues.raven.chore1": "I've been having visions... of a dark sheep that could change everything in Sunflower Land.",
+  "npcDialogues.raven.chore2": "The shadows whisper of strange creatures in our midst...",
+  "npcDialogues.raven.chore3": "These mysterious sightings... they have a dark energy about them.",
+
+  "npcDialogues.cornwell.chore1": "I sense a dangerous storm approaching... these are uncertain times.",
+  "npcDialogues.cornwell.chore2": "The crops tell me stories of change. We must prepare for what's coming.",
+  "npcDialogues.cornwell.chore3": "Keep your grain stores full - we may need them in the days ahead.",
+
+  "npcDialogues.finley.chore1": "You won't believe what I saw in the ocean - a strange cow-like creature!",
+  "npcDialogues.finley.chore2": "My brother Finn might tell tall tales, but what I saw was real.",
+  "npcDialogues.finley.chore3": "The waters have been different lately, something's changing out there.",
+
+  "npcDialogues.gordo.chore1": "Have you tried the new cheese recipes? Simply magnificent!",
+  "npcDialogues.gordo.chore2": "The new spaghetti and pizza dishes are to die for!",
+  "npcDialogues.gordo.chore3": "These animal products are revolutionizing our cuisine!",
+
+  "npcDialogues.tywin.chore1": "I'm implementing a new tax on all animal products. The crown must profit!",
+  "npcDialogues.tywin.chore2": "These new resources must be properly regulated and taxed.",
+  "npcDialogues.tywin.chore3": "The nobility requires only the finest animal products - see to it.",
+
+  "npcDialogues.oldSalty.chore1": "Arr, I've been collecting cow skulls from my treasure hunts. Curious findings...",
+  "npcDialogues.oldSalty.chore2": "The seas be changing, and strange creatures lurk in the depths.",
+  "npcDialogues.oldSalty.chore3": "These cow skulls I've been finding might be worth something someday!",
+
+  "npcDialogues.guria.chore1": "The spirits speak of a green creature, unlike any goblin I've known...",
+  "npcDialogues.guria.chore2": "My crystal ball shows strange shapes in the skies above our farms.",
+  "npcDialogues.guria.chore3": "The future is clouded with mysterious creatures and great change.",
+
+  "npcDialogues.petro.chore1": "This oil shortage is getting worse by the day!",
+  "npcDialogues.petro.chore2": "We need more resources to keep the machinery running smoothly.",
+  "npcDialogues.petro.chore3": "These mechanical problems won't fix themselves, bring me more oil!",
+
+  "npcDialogues.chase.chore1": "My animals have been acting strange lately. Some have gone missing!",
+  "npcDialogues.chase.chore2": "There are mysterious tracks in the fields - unlike anything I've seen before.",
+  "npcDialogues.chase.chore3": "Keep your animals close, strange things are happening in these parts.",
+
+  "npcDialogues.birdie.chore1": "The new Megastore format is absolutely fabulous! Such epic sales!",
+  "npcDialogues.birdie.chore2": "Have you seen the latest seasonal fashions? Simply stunning!",
+  "npcDialogues.birdie.chore3": "These new animal products are inspiring some amazing new designs!"
 }
