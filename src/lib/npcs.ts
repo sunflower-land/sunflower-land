@@ -106,8 +106,7 @@ export type NPCName =
   | "petro"
   | "pharaoh"
   | "worried pete"
-  | "chase" //cowboy
-  | "sheep"; //sheep;
+  | "chase"; //cowboy
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   richie: {
@@ -1191,16 +1190,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Infernal Bullwhip",
     background: "Pumpkin Plaza Background",
     shoes: "Cowboy Boots",
-  },
-  sheep: {
-    onesie: "White Sheep Onesie",
-    body: "Beige Farmer Potion",
-    hair: "Basic Hair",
-    pants: "Brown Suspenders",
-    shirt: "Trial Tee",
-    tool: "Hammer",
-    background: "Farm Background",
-    shoes: "Black Farmer Boots",
   },
 };
 
