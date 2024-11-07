@@ -392,13 +392,16 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
           </div>
         </div>
         {!restockIsEmpty && (
-          <p className="text-xs p-1 pb-1.5 italic">
-            {t("gems.purchasedStock")}
-          </p>
+          <>
+            <p className="text-xs p-1 pb-1.5 italic">
+              {t("gems.purchasedStock")}
+            </p>
+            <p className="text-xs p-1 pb-1.5 italic">
+              {`(${t("gems.shipment.useGems")})`}
+            </p>
+          </>
         )}
-        <p className="text-xs p-1 pb-1.5 italic">
-          {`(${t("gems.shipment.useGems")})`}
-        </p>
+
         <div className="flex">
           <Button className="mr-1" onClick={onClose}>
             {t("close")}
