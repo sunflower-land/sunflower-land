@@ -1043,6 +1043,7 @@ export type Fishing = {
   dailyAttempts?: {
     [date: string]: number;
   };
+  extraReels?: number;
 };
 
 export type Christmas = {
