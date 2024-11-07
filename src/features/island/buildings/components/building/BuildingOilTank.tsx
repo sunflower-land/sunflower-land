@@ -147,7 +147,7 @@ export const BuildingOilTank = ({
 
   return (
     <>
-      <div className="relative w-full">
+      <div className="relative w-full mb-1">
         {runtime === 0 ? (
           <Label
             type={"default"}
