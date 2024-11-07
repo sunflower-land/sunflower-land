@@ -137,7 +137,6 @@ import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
 import { Announcements } from "../types/announcements";
-import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
 import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
@@ -455,7 +454,6 @@ export type PlayingEvent =
   | NPCRestockAction
   | SellGarbageAction
   // Chores
-  | SkipChoreAction
   | ExpandLandAction
   | MessageRead
   | PickMushroomAction
@@ -647,7 +645,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "shops.restocked": restock,
   "npc.restocked": npcRestock,
   "garbage.sold": sellGarbage,
-  "chore.skipped": skipChore,
   "land.expanded": expandLand,
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
