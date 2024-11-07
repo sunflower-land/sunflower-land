@@ -240,10 +240,7 @@ import {
   FlowerShopTradedAction,
   tradeFlowerShop,
 } from "./landExpansion/tradeFlowerShop";
-import {
-  buyMegaStoreItem,
-  BuyMegaStoreItemAction,
-} from "./landExpansion/buyMegaStoreItem";
+
 import {
   completeSpecialEventTask,
   CompleteSpecialEventTaskAction,
@@ -499,7 +496,6 @@ export type PlayingEvent =
   | UpgradeFarmAction
   | PurchaseBannerAction
   | FlowerShopTradedAction
-  | BuyMegaStoreItemAction
   | CompleteSpecialEventTaskAction
   | GiftFlowersAction
   | ClaimGiftAction
@@ -693,7 +689,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "farm.upgraded": upgrade,
   "banner.purchased": purchaseBanner,
   "flowerShop.traded": tradeFlowerShop,
-  "megastoreItem.bought": buyMegaStoreItem,
   "specialEvent.taskCompleted": completeSpecialEventTask,
   "flowers.gifted": giftFlowers,
   "gift.claimed": claimGift,
