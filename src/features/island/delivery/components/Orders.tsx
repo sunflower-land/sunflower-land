@@ -40,7 +40,6 @@ import { Button } from "components/ui/Button";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
@@ -55,6 +54,7 @@ import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { secondsTillReset } from "lib/utils/time";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [

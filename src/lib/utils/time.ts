@@ -52,6 +52,21 @@ const timeUnitToString = (
   return `${value}${pluralizedUnit}`;
 };
 
+// UTC
+export function secondsTillReset() {
+  const currentTime = Date.now();
+
+  // Calculate the time until the next day in milliseconds
+  const nextDay = new Date(currentTime);
+  nextDay.setUTCHours(24, 0, 0, 0);
+  const timeUntilNextDay = nextDay.getTime() - currentTime;
+
+  // Convert milliseconds to seconds
+  const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
+
+  return secondsUntilNextDay;
+}
+
 export const secondsToString = (
   seconds: number,
   options: TimeFormatOptions,

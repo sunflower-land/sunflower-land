@@ -5,14 +5,14 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Guide } from "features/helios/components/hayseedHank/components/Guide";
+import { Guide } from "features/helios/components/guide/components/Guide";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PeteHelp } from "./PeteHelp";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
+import { GuidePath } from "features/helios/components/guide/lib/guide";
 import { MapPlacement } from "./MapPlacement";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
