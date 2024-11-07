@@ -199,7 +199,6 @@ import {
   placeCrimstone,
   PlaceCrimstoneAction,
 } from "./landExpansion/placeCrimstone";
-import { buyFarmhand, BuyFarmHandAction } from "./landExpansion/buyFarmHand";
 import {
   equipFarmhand,
   EquipFarmHandAction,
@@ -493,7 +492,6 @@ export type PlayingEvent =
   | BurnCollectibleAction
   | ClaimBonusAction
   | AccelerateComposterAction
-  | BuyFarmHandAction
   | EquipFarmHandAction
   | HarvestBeehiveAction
   | PlantFlowerAction
@@ -688,7 +686,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
   "compost.accelerated": accelerateComposter,
-  "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
   "beehive.harvested": harvestBeehive,
   "flower.planted": plantFlower,
