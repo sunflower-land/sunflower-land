@@ -59,7 +59,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
     setShow(true);
   }, []);
 
-  const idle = getAnimationUrl(parts, "idle_small");
+  const idle = getAnimationUrl(parts, ["idle_small"]);
   const auraBack =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[parts.aura]}.png`;
@@ -164,7 +164,7 @@ export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
     setShow(true);
   }, []);
 
-  const idle = getAnimationUrl(parts, "idle_small");
+  const idle = getAnimationUrl(parts, ["idle_small"]);
   const auraBack =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[parts.aura]}.png`;
@@ -252,7 +252,7 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
   parts,
   width,
 }) => {
-  const idle = getAnimationUrl(parts, "idle_small");
+  const idle = getAnimationUrl(parts, ["idle_small"]);
   const auraBack =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[parts.aura]}.png`;
