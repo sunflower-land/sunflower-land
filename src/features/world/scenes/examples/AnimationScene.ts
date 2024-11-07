@@ -28,11 +28,11 @@ export class ExampleAnimationScene extends Phaser.Scene {
       const url = getAnimationUrl(bumpkin, [animationName]);
       this.load.spritesheet(animationName, url, {
         frameWidth:
-          animationName === "idle_small" || animationName === "walking_small"
+          animationName === "idle-small" || animationName === "walking-small"
             ? 20
             : 96,
         frameHeight:
-          animationName === "idle_small" || animationName === "walking_small"
+          animationName === "idle-small" || animationName === "walking-small"
             ? 19
             : 64,
       });
