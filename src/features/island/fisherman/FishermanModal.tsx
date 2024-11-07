@@ -5,6 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
 import lightning from "assets/icons/lightning.png";
 import fullMoon from "assets/icons/full_moon.png";
+import powerup from "assets/icons/level_up.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -37,6 +38,12 @@ import {
   getBasketItems,
   getChestItems,
 } from "../hud/components/inventory/utils/inventory";
+import Decimal from "decimal.js-light";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { pixelDarkBorderStyle } from "features/game/lib/style";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -201,7 +208,9 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const dailyFishingMax = getDailyFishingLimit(state);
+  const { extraReels = 0 } = state.fishing;
+
+  const dailyFishingMax = getDailyFishingLimit(state) + extraReels;
   const dailyFishingCount = getDailyFishingCount(state);
   const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
   const missingRod =
@@ -480,6 +489,10 @@ export const FishermanModal: React.FC<Props> = ({
           icon: SUNNYSIDE.icons.expression_confused,
           name: t("guide"),
         },
+        {
+          icon: powerup,
+          name: "Extras",
+        },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
@@ -492,6 +505,114 @@ export const FishermanModal: React.FC<Props> = ({
           <FishingGuide onClose={() => setTab(0)} />
         </InnerPanel>
       )}
+      {tab === 2 && <FishermanExtras onClose={onClose} />}
     </CloseButtonPanel>
+  );
+};
+
+const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const { t } = useAppTranslation();
+  const [showConfirm, setShowConfirm] = useState(false);
+  const { inventory } = state;
+  const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(10);
+  const confirmBuyMoreReels = () => {
+    onClose();
+    gameService.send("fishing.reelsBought");
+
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: 10,
+      item: "FishingReels",
+      type: "Fee",
+    });
+  };
+
+  const { extraReels = 0 } = state.fishing;
+
+  const dailyFishingMax = getDailyFishingLimit(state) + extraReels;
+  const dailyFishingCount = getDailyFishingCount(state);
+
+  const reelsLeft = dailyFishingMax - dailyFishingCount;
+  return (
+    <>
+      {!showConfirm && (
+        <>
+          <div className="p-1">
+            <div className="flex items-center justify-between space-x-1 mb-1">
+              <Label type="default">{`Extra Reels`}</Label>
+              <Label type="default" icon={SUNNYSIDE.tools.fishing_rod}>
+                <span className="text">{`${reelsLeft} reels left`}</span>
+              </Label>
+            </div>
+            <span className="text-xs my-2">{`Ahhh you're looking for more reels? No worries! Check out the options below!`}</span>
+            <div className="flex flex-col my-2 space-y-1">
+              <div className="flex space-x-2">
+                <div
+                  className="bg-brown-600 cursor-pointer relative"
+                  style={{
+                    ...pixelDarkBorderStyle,
+                  }}
+                >
+                  <SquareIcon icon={getImageUrl(234)} width={20} />
+                </div>
+                <div className="flex flex-col justify-center space-y-1">
+                  <div className="flex flex-col space-y-0.5">
+                    <span className="text-xs">{"Angler Waders"}</span>{" "}
+                    <span className="text-xxs italic">
+                      {`Expert Angler Achievement`}
+                    </span>
+                  </div>
+                  <Label
+                    type={
+                      BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"]?.labelType ??
+                      "default"
+                    }
+                    icon={
+                      BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"]?.boostTypeIcon
+                    }
+                    secondaryIcon={
+                      BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"]?.boostedItemIcon
+                    }
+                  >
+                    {
+                      BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"]
+                        ?.shortDescription
+                    }
+                  </Label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Button
+            disabled={!canAfford}
+            onClick={canAfford ? () => setShowConfirm(true) : undefined}
+          >
+            <div className="flex items-center space-x-1">
+              <p>{`Buy 5 more reels with 10`}</p>
+              <img src={ITEM_DETAILS.Gem.image} className="w-4" />
+            </div>
+          </Button>
+        </>
+      )}
+      {showConfirm && (
+        <>
+          <div className="flex flex-col p-2 pb-0 items-center">
+            <span className="text-sm text-start w-full mb-1">
+              {t("desert.buyDigs.confirmation")}
+            </span>
+          </div>
+          <div className="flex justify-content-around mt-2 space-x-1">
+            <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
+            <Button onClick={confirmBuyMoreReels}>{t("confirm")}</Button>
+          </div>
+        </>
+      )}
+    </>
   );
 };
