@@ -23,7 +23,7 @@ import {
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
-import { IngredientsInfoPanel } from "features/world/ui/IngredientsInfoPanel";
+import { RecipeInfoPanel } from "./RecipeInfoPanel";
 import { getKeys } from "features/game/types/decorations";
 import { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
@@ -157,7 +157,7 @@ export const RecipesTab: React.FC<Props> = ({
                 key={recipe.name}
                 className="relative flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400 cursor-pointer"
               >
-                <IngredientsInfoPanel
+                <RecipeInfoPanel
                   show={!!selectedRecipe && selectedRecipe.name === recipe.name}
                   ingredients={
                     selectedRecipe?.ingredients.filter(

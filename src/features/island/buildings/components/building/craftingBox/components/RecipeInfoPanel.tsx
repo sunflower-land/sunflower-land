@@ -14,7 +14,7 @@ interface Props {
   onClick: () => void;
 }
 
-export const IngredientsInfoPanel: React.FC<Props> = ({
+export const RecipeInfoPanel: React.FC<Props> = ({
   show,
   ingredients,
   onClick,
@@ -55,13 +55,13 @@ export const IngredientsInfoPanel: React.FC<Props> = ({
       leave="transition-opacity duration-100"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
-      className="flex top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute z-40"
+      className="flex top-[20%] left-1/2 -translate-x-1/2 absolute z-40 w-[140px]"
       onClick={(e) => {
         e.stopPropagation();
         onClick();
       }}
     >
-      <InnerPanel className="drop-shadow-lg cursor-pointer max-w-md">
+      <InnerPanel className="drop-shadow-lg cursor-pointer w-full">
         <div className="flex flex-col mb-1">
           <div className="flex space-x-1 mb-1">
             <span className="text-xs whitespace-nowrap">
