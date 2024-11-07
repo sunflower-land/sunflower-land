@@ -11,7 +11,6 @@ import {
   isCookable,
 } from "features/game/types/consumables";
 import {
-  hasActiveSeasonBanner,
   isCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
@@ -23,6 +22,7 @@ import {
   FACTION_ITEMS,
   getFactionPetBoostMultiplier,
 } from "features/game/lib/factions";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const crops = CROPS;
 
@@ -268,7 +268,7 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
-  if (hasActiveSeasonBanner({ game })) {
+  if (hasVipAccess(game.inventory)) {
     boostedExp = boostedExp.mul(1.1);
   }
 

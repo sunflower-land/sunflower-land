@@ -37,7 +37,7 @@ import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
-import { hasActiveSeasonBanner } from "features/game/lib/collectibleBuilt";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -92,7 +92,7 @@ const isSeasonedPlayer = (state: MachineState) =>
   // - verified (personhood verification)
   state.context.verified &&
   // - has active seasonal banner
-  hasActiveSeasonBanner({ game: state.context.state });
+  hasVipAccess(state.context.state.inventory);
 
 interface Props {
   id: string;
