@@ -2973,7 +2973,6 @@
   "season.xp.boost": "Steigerung der XP um 10%",
   "season.lifetime.farmer": "Farmer auf Lebenszeit",
   "season.free.with.lifetime": "Kostenlos mit Lifetime Farmer",
-  "season.pharaohs.gift": "5 zusätzliche Wüstengrabungen",
   "season.ticket.bonus": "+2 {{item}} s (Lieferungen und Hausarbeiten)",
   "season.codex.intro": "Verdiene {{ticket}} s, um in dieser limitierten Saison exklusive Sammlerstücke und Wearables für deine Farm herzustellen... Beeil dich, bevor die Zeit abläuft!",
   "season.codex.howToEarn": "Wie verdiene ich {{ticket}} s?",
@@ -4244,5 +4243,6 @@
   "description.kingOfBears.boost": "Erhöhen Sie den Honigertrag pro vollem Bienenstock um +0,25",
   "description.superTotem.boost": "50% Ermäßigung auf Ernte-, Mineral-, Obst-, Koch- und Baumzeit",
   "description.super.totem.expired": "Dein Super Totem ist abgelaufen. Begib dich zum Pumpkin Plaza, um weitere magische Gegenstände zu entdecken und herzustellen, um deine landwirtschaftlichen Fähigkeiten zu verbessern!",
-  "description.super.totem.temporarily": "Das Super Totem erhöht vorübergehend deine Koch-, Ernte-, Baum- und Mineralzeit. Mach das Beste daraus!"
+  "description.super.totem.temporarily": "Das Super Totem erhöht vorübergehend deine Koch-, Ernte-, Baum- und Mineralzeit. Mach das Beste daraus!",
+  "season.bullRun.bonus": "10% weniger Futter für Tiere"
 }

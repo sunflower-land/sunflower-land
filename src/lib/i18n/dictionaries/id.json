@@ -2979,7 +2979,6 @@
   "season.xp.boost": "Peningkatan XP 10%",
   "season.lifetime.farmer": "Petani Seumur Hidup",
   "season.free.with.lifetime": "Gratis dengan Petani Seumur Hidup",
-  "season.pharaohs.gift": "5 Penggalian Gurun Ekstra",
   "season.ticket.bonus": "+2 {{item}} s (pengiriman & tugas)",
   "season.codex.intro": "Dapatkan {{ticket}} s untuk membuat koleksi eksklusif & pakaian yang dapat dikenakan untuk pertanian Anda di musim terbatas ini... Cepat sebelum waktu habis!",
   "season.codex.howToEarn": "Bagaimana cara mendapatkan {{ticket}} s?",
@@ -4244,5 +4243,6 @@
   "description.kingOfBears.boost": "Tingkatkan Hasil Madu per sarang lebah penuh +0,25",
   "description.superTotem.boost": "Pengurangan 50% untuk Waktu Panen, Mineral, Buah, Memasak, dan Pohon",
   "description.super.totem.expired": "Super Totem Anda telah kedaluwarsa. Pergilah ke Pumpkin Plaza untuk menemukan dan membuat lebih banyak item ajaib untuk meningkatkan kemampuan bertani Anda!",
-  "description.super.totem.temporarily": "Super Totem untuk sementara meningkatkan waktu memasak, tanaman, pohon & mineral Anda. Manfaatkan sebaik-baiknya!"
+  "description.super.totem.temporarily": "Super Totem untuk sementara meningkatkan waktu memasak, tanaman, pohon & mineral Anda. Manfaatkan sebaik-baiknya!",
+  "season.bullRun.bonus": "10% lebih sedikit pakan untuk memberi makan hewan"
 }

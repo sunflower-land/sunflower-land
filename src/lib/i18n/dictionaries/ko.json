@@ -2976,7 +2976,6 @@
   "season.xp.boost": "10% 경험치 부스트",
   "season.lifetime.farmer": "라이프타임 파머",
   "season.free.with.lifetime": "라이프타임 파머와 함께라면 무료",
-  "season.pharaohs.gift": "엑스트라 데저트 디그 5곳",
   "season.ticket.bonus": "+2 {{item}} s (배달 및 집안일)",
   "season.codex.intro": "이 기간 한정 시즌에 {{ticket}} s를 적립하여 농장을 위한 독점 수집품과 웨어러블을 만드세요... 시간이 끝나기 전에 서두르세요!",
   "season.codex.howToEarn": "{{ticket}} 를 어떻게 벌 수 있나요?",
@@ -4244,5 +4243,6 @@
   "description.kingOfBears.boost": "벌집 한 개당 벌꿀 생산량 증가 +0.25",
   "description.superTotem.boost": "농작물, 광물, 과일, 요리 및 나무 심기 시간 50% 감소",
   "description.super.totem.expired": "슈퍼 토템이 만료되었습니다.펌킨 플라자로 가서 더 많은 마법 아이템을 발견하고 제작하여 파밍 능력을 향상시키세요!",
-  "description.super.totem.temporarily": "슈퍼 토템은 요리, 농작물, 나무, 광물 섭취 시간을 일시적으로 늘려줍니다.최대한 활용하세요!"
+  "description.super.totem.temporarily": "슈퍼 토템은 요리, 농작물, 나무, 광물 섭취 시간을 일시적으로 늘려줍니다.최대한 활용하세요!",
+  "season.bullRun.bonus": "동물 사료용 사료 10% 감소"
 }

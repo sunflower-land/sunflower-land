@@ -2937,7 +2937,6 @@
   "season.xp.boost": "Aumento XP del 10%",
   "season.lifetime.farmer": "Agricoltore a vita",
   "season.free.with.lifetime": "Gratuito con Lifetime Farmer",
-  "season.pharaohs.gift": "5 scavi extra nel deserto",
   "season.ticket.bonus": "+2 {{item}} s (consegne e lavorazioni)",
   "season.codex.intro": "Guadagna {{ticket}} s per creare oggetti da collezione e indossabili esclusivi per la tua fattoria in questa stagione limitata... Affrettati prima che scada il tempo!",
   "season.codex.howToEarn": "Come guadagnare {{ticket}} s?",
@@ -4244,5 +4243,6 @@
   "description.kingOfBears.boost": "Aumenta la resa di miele per alveare intero +0,25",
   "description.superTotem.boost": "Riduzione del 50% del tempo dedicato al raccolto, ai minerali, alla frutta, alla cottura e all'albero",
   "description.super.totem.expired": "Il tuo Super Totem è scaduto. Vai al Pumpkin Plaza per scoprire e creare altri oggetti magici per potenziare le tue abilità agricole!",
-  "description.super.totem.temporarily": "Il Super Totem aumenta temporaneamente il tempo di cottura, i raccolti, gli alberi e i minerali. Sfruttalo al massimo!"
+  "description.super.totem.temporarily": "Il Super Totem aumenta temporaneamente il tempo di cottura, i raccolti, gli alberi e i minerali. Sfruttalo al massimo!",
+  "season.bullRun.bonus": "10% in meno di mangime per nutrire gli animali"
 }

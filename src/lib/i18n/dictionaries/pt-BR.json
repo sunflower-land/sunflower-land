@@ -3198,7 +3198,6 @@
   "season.xp.boost": "10% de aumento de XP",
   "season.lifetime.farmer": "Fazendeiro vitalício",
   "season.free.with.lifetime": "Grátis com Lifetime Farmer",
-  "season.pharaohs.gift": "5 escavações extras no deserto",
   "season.ticket.bonus": "+2 {{item}} s (entregas e tarefas)",
   "season.codex.intro": "Ganhe {{ticket}} s para criar itens colecionáveis e vestíveis exclusivos para sua fazenda nesta temporada limitada... Corra antes que o tempo acabe!",
   "season.codex.howToEarn": "Como ganhar {{ticket}} s?",
@@ -4244,5 +4243,6 @@
   "description.kingOfBears.boost": "Aumenta a produção de mel por colmeia cheia +0,25",
   "description.superTotem.boost": "Redução de 50% no tempo de colheita, minerais, frutas, cozimento e árvores",
   "description.super.totem.expired": "Seu Super Totem expirou. Vá até o Pumpkin Plaza para descobrir e criar mais itens mágicos para aumentar suas habilidades agrícolas!",
-  "description.super.totem.temporarily": "O Super Totem aumenta temporariamente sua culinária, colheitas, árvores e tempo mineral. Aproveite ao máximo!"
+  "description.super.totem.temporarily": "O Super Totem aumenta temporariamente sua culinária, colheitas, árvores e tempo mineral. Aproveite ao máximo!",
+  "season.bullRun.bonus": "10% menos ração para alimentar animais"
 }

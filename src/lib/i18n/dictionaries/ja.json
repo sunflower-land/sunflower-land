@@ -2979,7 +2979,6 @@
   "season.xp.boost": "10% 経験値ブースト",
   "season.lifetime.farmer": "ライフタイム・ファーマー",
   "season.free.with.lifetime": "ライフタイムファーマーで無料",
-  "season.pharaohs.gift": "デザートディグ5本追加",
   "season.ticket.bonus": "+ {{item}} (配送と雑用)",
   "season.codex.intro": "この限定シーズンに {{ticket}} を獲得して、農場限定の収集品やウェアラブルを作ってください... 時間がなくなる前に急いでください！",
   "season.codex.howToEarn": "{{ticket}} sを稼ぐにはどうすればいいですか？",
@@ -4244,5 +4243,6 @@
   "description.kingOfBears.boost": "蜂の巣1個あたりのハチミツ生産量増加 +0.25",
   "description.superTotem.boost": "作物、ミネラル、フルーツ、調理、樹木にかかる時間を 50% 削減",
   "description.super.totem.expired": "スーパートーテムの有効期限が切れました。パンプキンプラザに向かい、農業能力を高める魔法のアイテムをもっと見つけてクラフトしよう！",
-  "description.super.totem.temporarily": "スーパートーテムは、料理、作物、樹木、ミネラルタイムを一時的に増やします。それを最大限に活用しましょう！"
+  "description.super.totem.temporarily": "スーパートーテムは、料理、作物、樹木、ミネラルタイムを一時的に増やします。それを最大限に活用しましょう！",
+  "season.bullRun.bonus": "動物に給餌する飼料を 10% 削減"
 }

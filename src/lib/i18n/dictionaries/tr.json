@@ -3213,7 +3213,6 @@
   "season.xp.boost": "%10 DP artışı",
   "season.lifetime.farmer": "Ömür Boyu Çiftçi",
   "season.free.with.lifetime": "Lifetime Farmer ile Ücretsiz",
-  "season.pharaohs.gift": "5 Ekstra Çöl Kazısı",
   "season.ticket.bonus": "+2 {{item}} s (teslimatlar ve ev işleri)",
   "season.codex.intro": "Bu sınırlı sezonda çiftliğiniz için özel koleksiyon ve giyilebilir ürünler üretmek için {{ticket}} s kazanın... Zaman dolmadan acele edin!",
   "season.codex.howToEarn": "{{ticket}} s nasıl kazanılır?",
@@ -4244,5 +4243,6 @@
   "description.kingOfBears.boost": "Tam arı kovanı başına Bal Verimini Artırın +0.25",
   "description.superTotem.boost": "Mahsul, Mineral, Meyve, Pişirme ve Ağaç Zamanında %50 İndirim",
   "description.super.totem.expired": "Süper Totem'inizin süresi doldu. Çiftçilik yeteneklerinizi geliştirmek için daha fazla büyülü eşya keşfetmek ve üretmek için Pumpkin Plaza\"ya gidin!",
-  "description.super.totem.temporarily": "Süper Totem, yemek pişirmenizi, ekinlerinizi, ağaçlarınızı ve mineral zamanınızı geçici olarak artırır. En iyi şekilde yararlanın!"
+  "description.super.totem.temporarily": "Süper Totem, yemek pişirmenizi, ekinlerinizi, ağaçlarınızı ve mineral zamanınızı geçici olarak artırır. En iyi şekilde yararlanın!",
+  "season.bullRun.bonus": "Hayvanları beslemek için% 10 daha az yem"
 }

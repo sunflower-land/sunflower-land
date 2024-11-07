@@ -3075,7 +3075,6 @@
   "season.xp.boost": "10% XP 提升",
   "season.lifetime.farmer": "终身农民",
   "season.free.with.lifetime": "终身农民免费试用",
-  "season.pharaohs.gift": "5 个额外的沙漠挖掘",
   "season.ticket.bonus": "+2 {{item}} s（送货和杂务）",
   "season.codex.intro": "在这个限定季节里赚取 {{ticket}} s，为你的农场铸造专属收藏品和穿戴品... 在时间不多之前赶快行动吧！",
   "season.codex.howToEarn": "如何赚取 {{ticket}} s？",
@@ -4244,5 +4243,6 @@
   "description.kingOfBears.boost": "提高每个满蜂箱的蜂蜜产量 +0.25",
   "description.superTotem.boost": "作物、矿物、水果、烹饪和植树时间减少 50%",
   "description.super.totem.expired": "您的超级图腾已过期。前往南瓜广场，发现并制作更多魔法物品，提升你的耕作能力！",
-  "description.super.totem.temporarily": "超级图腾可暂时延长您的烹饪、作物、树木和矿物时间。充分利用它！"
+  "description.super.totem.temporarily": "超级图腾可暂时延长您的烹饪、作物、树木和矿物时间。充分利用它！",
+  "season.bullRun.bonus": "喂动物的饲料减少 10%"
 }
