@@ -43,7 +43,7 @@ export class ExampleRPGScene extends Phaser.Scene {
      * Use the helper function getAnimationUrl to generate to the correct URL
      */
     getKeys(ANIMATION).forEach((animationName) => {
-      const url = getAnimationUrl(bumpkin, animationName);
+      const url = getAnimationUrl(bumpkin, [animationName]);
       this.load.spritesheet(animationName, url, {
         frameWidth: 96,
         frameHeight: 64,

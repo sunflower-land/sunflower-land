@@ -47,8 +47,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private ready = false;
 
   // Animation Keys
-  private idleSpriteKey: string | undefined;
-  private walkingSpriteKey: string | undefined;
+  private spriteKey: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
@@ -151,21 +150,19 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   private async loadSprites(scene: Phaser.Scene) {
-    const keyName = tokenUriBuilder(this.clothing);
-    this.idleSpriteKey = `${keyName}-bumpkin-idle-sheet`;
-    this.walkingSpriteKey = `${keyName}-bumpkin-walking-sheet`;
-    this.idleAnimationKey = `${keyName}-bumpkin-idle`;
-    this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
-    this.digAnimationKey = `${keyName}-bumpkin-dig`;
-    this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
+    this.spriteKey = tokenUriBuilder(this.clothing);
+    this.idleAnimationKey = `${this.spriteKey}-bumpkin-idle`;
+    this.walkingAnimationKey = `${this.spriteKey}-bumpkin-walking`;
+    this.digAnimationKey = `${this.spriteKey}-bumpkin-dig`;
+    this.drillAnimationKey = `${this.spriteKey}-bumpkin-drilling`;
 
     await buildNPCSheets({
       parts: this.clothing,
     }); //Removing this causes Aura to not show onload
 
-    if (scene.textures.exists(this.idleSpriteKey)) {
+    if (scene.textures.exists(this.spriteKey)) {
       // If we have idle sheet then we can create the idle animation and set the sprite up straight away
-      const idle = scene.add.sprite(0, 0, this.idleSpriteKey).setOrigin(0.5);
+      const idle = scene.add.sprite(0, 2, this.spriteKey).setOrigin(0.5);
       this.add(idle);
       if (this.clothing.aura !== undefined) {
         this.moveTo(idle, 2);
@@ -186,22 +183,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
       this.ready = true;
     } else {
-      const url = getAnimationUrl(this.clothing, "idle_small");
-      const idleLoader = scene.load.spritesheet(this.idleSpriteKey, url, {
-        frameWidth: 20,
-        frameHeight: 19,
+      const url = getAnimationUrl(this.clothing, [
+        "idle",
+        "walking",
+        "dig",
+        "drilling",
+      ]);
+      const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
+        frameWidth: 96,
+        frameHeight: 64,
       });
 
-      idleLoader.once(`filecomplete-spritesheet-${this.idleSpriteKey}`, () => {
-        if (
-          !scene.textures.exists(this.idleSpriteKey as string) ||
-          this.ready
-        ) {
+      idleLoader.once(`filecomplete-spritesheet-${this.spriteKey}`, () => {
+        if (!scene.textures.exists(this.spriteKey as string) || this.ready) {
           return;
         }
 
         const idle = scene.add
-          .sprite(0, 0, this.idleSpriteKey as string)
+          .sprite(0, 2, this.spriteKey as string)
           .setOrigin(0.5);
         this.add(idle);
         if (this.clothing.aura !== undefined) {
@@ -216,7 +215,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           this.faceLeft();
         }
 
-        this.createIdleAnimation();
+        this.createIdleAnimation(0, 8);
+        this.createWalkingAnimation(8, 15);
+        this.createDigAnimation(15, 28);
+        this.createDrillAnimation(28, 37);
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
@@ -226,96 +228,46 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       });
     }
 
-    if (scene.textures.exists(this.walkingSpriteKey)) {
-      this.createWalkingAnimation();
-    } else {
-      const url = getAnimationUrl(this.clothing, "walking_small");
-      const walkingLoader = scene.load.spritesheet(this.walkingSpriteKey, url, {
-        frameWidth: 20,
-        frameHeight: 19,
-      });
-
-      walkingLoader.once(
-        `filecomplete-spritesheet-${this.walkingSpriteKey}`,
-        () => {
-          this.createWalkingAnimation();
-        },
-      );
-    }
-
-    // If the texture already exists, we can use it immediately
-    if (scene.textures.exists(this.digAnimationKey)) {
-      this.createDigAnimation();
-    } else {
-      const url = getAnimationUrl(this.clothing, "dig");
-      const digLoader = scene.load.spritesheet(this.digAnimationKey, url, {
-        frameWidth: 96,
-        frameHeight: 64,
-      });
-
-      digLoader.once(`filecomplete-spritesheet-${this.digAnimationKey}`, () => {
-        this.createDigAnimation();
-      });
-    }
-
-    if (scene.textures.exists(this.drillAnimationKey)) {
-      this.createDrillAnimation();
-    } else {
-      const url = getAnimationUrl(this.clothing, "drilling");
-      const drillLoader = scene.load.spritesheet(this.drillAnimationKey, url, {
-        frameWidth: 96,
-        frameHeight: 64,
-      });
-
-      drillLoader.once(
-        `filecomplete-spritesheet-${this.drillAnimationKey}`,
-        () => {
-          this.createDrillAnimation();
-        },
-      );
-    }
-
     scene.load.start();
   }
 
-  private createDrillAnimation() {
+  private createDrillAnimation(start: number, end: number) {
     if (!this.scene || !this.scene.anims) return;
 
     this.scene.anims.create({
       key: this.drillAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(
-        this.drillAnimationKey as string,
-      ),
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
       frameRate: 10,
       repeat: -1,
     });
   }
 
-  private createDigAnimation() {
+  private createDigAnimation(start: number, end: number) {
     if (!this.scene || !this.scene.anims) return;
 
     this.scene.anims.create({
       key: this.digAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(
-        this.digAnimationKey as string,
-      ),
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
       frameRate: 10,
       repeat: -1,
     });
   }
 
-  private createIdleAnimation() {
+  private createIdleAnimation(start: number, end: number) {
     if (!this.scene || !this.scene.anims) return;
 
     this.scene.anims.create({
       key: this.idleAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(
-        this.idleSpriteKey as string,
-        {
-          start: 0,
-          end: 8,
-        },
-      ),
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
       repeat: -1,
       frameRate: 10,
     });
@@ -355,18 +307,15 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
   }
 
-  private createWalkingAnimation() {
+  private createWalkingAnimation(start: number, end: number) {
     if (!this.scene || !this.scene.anims) return;
 
     this.scene.anims.create({
       key: this.walkingAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(
-        this.walkingSpriteKey as string,
-        {
-          start: 0,
-          end: 7,
-        },
-      ),
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
       repeat: -1,
       frameRate: 10,
     });

@@ -32,7 +32,7 @@ export enum ANIMATION {
 
 export const getAnimationUrl = (
   bumpkinParts: BumpkinParts,
-  animation: keyof typeof ANIMATION,
+  animations: (keyof typeof ANIMATION)[],
 ) => {
-  return `${CONFIG.ANIMATION_URL}/animate/0_v1_${tokenUriBuilder(bumpkinParts)}/${animation}`;
+  return `${CONFIG.ANIMATION_URL}/animate/0_v1_${tokenUriBuilder(bumpkinParts)}/${animations.join("_")}`;
 };
