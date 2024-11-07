@@ -20,6 +20,7 @@ import {
   GameState,
   InventoryItemName,
 } from "../types/game";
+import { getCurrentSeason } from "../types/seasons";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
@@ -323,6 +324,13 @@ export function getBoostedFoodQuantity({
     isWearableActive({ name: "Infernal Bullwhip", game })
   ) {
     foodQuantity *= 0.5;
+  }
+
+  if (
+    isCollectibleBuilt({ name: "Bull Run Banner", game }) &&
+    getCurrentSeason() === "Bull Run"
+  ) {
+    foodQuantity *= 0.9;
   }
 
   return foodQuantity;
