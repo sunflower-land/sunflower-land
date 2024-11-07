@@ -27,7 +27,6 @@ import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDi
 import { hasReadDigbyIntro } from "../ui/beach/Digby";
 import { isWearableActive } from "features/game/lib/wearables";
 import { EventObject } from "xstate/lib/types";
-import { EVENT_BUMPKINS, sheepPlace } from "../ui/npcs/Sheep";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -209,10 +208,6 @@ export class BeachScene extends BaseScene {
     // this.initialiseNPCs(filteredBumpkins);
 
     this.initialiseNPCs(BUMPKINS);
-    // Remove after release
-    if (sheepPlace() === this.sceneId) {
-      this.initialiseNPCs(EVENT_BUMPKINS);
-    }
     this.digbyProgressBar = new ProgressBarContainer(this, 337, 234);
 
     const fisher = new FishermanContainer({

@@ -9,8 +9,6 @@ import { interactableModalManager } from "../ui/InteractableModals";
 import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 
-import { EVENT_BUMPKINS, sheepPlace } from "../ui/npcs/Sheep"; // Remove after released
-
 const BUMPKINS: NPCBumpkin[] = [
   {
     x: 150,
@@ -68,10 +66,5 @@ export class WoodlandsScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(BUMPKINS);
-
-    // Remove after release
-    if (sheepPlace() === this.sceneId) {
-      this.initialiseNPCs(EVENT_BUMPKINS);
-    }
   }
 }
