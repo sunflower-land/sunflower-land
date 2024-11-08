@@ -126,13 +126,6 @@ export type InteriorDecorationName = "Rug" | "Wardrobe";
 export type AnimalDecorationName = "Wagon";
 
 export const DECORATION_TEMPLATES = {
-  "Crop Circle": {
-    dimensions: {
-      width: 2,
-      height: 2,
-    },
-    isWithdrawable: () => false,
-  },
   "King of Bears": {
     dimensions: {
       width: 3,

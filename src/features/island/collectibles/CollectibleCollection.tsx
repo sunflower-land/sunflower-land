@@ -1365,6 +1365,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Moo-ver"
     />
   ),
+  "Crop Circle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 39}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 39}px`,
+      }}
+      image={ITEM_DETAILS["Crop Circle"].image}
+      alt="Crop Circle"
+    />
+  ),
   "Swiss Whiskers": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

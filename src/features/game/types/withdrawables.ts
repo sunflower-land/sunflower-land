@@ -50,7 +50,6 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
-  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -88,6 +87,7 @@ import {
 import { canWithdrawBoostedWearable } from "./wearableValidation";
 import { FlowerName, FlowerSeedName, MutantFlowerName } from "./flowers";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
+import { SeasonalCollectibleName } from "./megastore";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -1084,6 +1084,7 @@ const seasonalStore: Record<SeasonalCollectibleName, () => boolean> = {
   Meteorite: () => hasSeasonEnded("Bull Run"),
   "Sheaf of Plenty": () => hasSeasonEnded("Bull Run"),
   "Mechanical Bull": () => hasSeasonEnded("Bull Run"),
+  "Crop Circle": () => hasSeasonEnded("Bull Run"),
 };
 
 const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {
