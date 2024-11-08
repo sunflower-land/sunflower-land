@@ -247,11 +247,11 @@ export const CraftingRequirements: React.FC<Props> = ({
         {/* Item ingredients requirements */}
         {!!requirements.resources && (
           <div
-            className="relative cursor-pointer"
+            className="relative cursor-pointer flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap"
             onClick={() => setShowIngredients(!showIngredients)}
           >
             <IngredientsPopover
-              className="-top-1 -left-[150%]"
+              className="-top-1 left-1 sm:-left-[150%]"
               show={showIngredients}
               ingredients={getKeys(requirements.resources ?? {})}
               onClick={() => setShowIngredients(false)}
