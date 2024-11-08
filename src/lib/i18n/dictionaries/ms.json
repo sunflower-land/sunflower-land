@@ -4244,7 +4244,6 @@
   "description.super.totem.temporarily": "Super Totem meningkatkan masa memasak, tanaman, pokok & mineral anda buat sementara waktu. Manfaatkannya sepenuhnya!",
   "season.bullRun.bonus": "10% kurang makanan untuk memberi makan haiwan",
   "gems.buyReplenish": "Adakah anda ingin menambah kedai-kedai sekarang dengan harga 20 Permata?",
-  "gems.purchasedStock": "Stok semula saham yang dibeli sahaja",
   "gems.noShipment": "Tiada Penghantaran",
   "gems.buyStock": "Sila beli stok anda untuk mendapatkan penghantaran anda.",
   "npcDialogues.pumpkinPete.chore1": "Pernahkah anda melihat objek aneh di langit? Perhatikan tanaman anda!",
@@ -4325,5 +4324,6 @@
   "npcDialogues.corale.chore1": "Terumbu karang berdengung dengan berita mengenai makhluk laut yang pelik!",
   "npcDialogues.corale.chore2": "Sesuatu yang besar mengganggu keseimbangan semula jadi lautan...",
   "npcDialogues.corale.chore3": "Ikan mengatakan bahawa mereka telah melihat bayang-bayang seperti lembu di perairan yang lebih dalam!",
-  "gems.shipment.shops": "Benih dan alat ini akan diisi semula di kedai-kedai."
+  "gems.shipment.shops": "Benih dan alat ini akan diisi semula di kedai-kedai.",
+  "gems.restockToMaxStock": "Mengisi semula stok maksimum"
 }

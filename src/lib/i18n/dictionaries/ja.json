@@ -4244,7 +4244,6 @@
   "description.super.totem.temporarily": "スーパートーテムは、料理、作物、樹木、ミネラルタイムを一時的に増やします。それを最大限に活用しましょう！",
   "season.bullRun.bonus": "動物に給餌する飼料を 10% 削減",
   "gems.buyReplenish": "今すぐショップにジェム20個を補充しませんか？",
-  "gems.purchasedStock": "購入した在庫のみ補充",
   "gems.noShipment": "発送なし",
   "gems.buyStock": "商品を受け取るには、在庫を購入してください。",
   "npcDialogues.pumpkinPete.chore1": "空に浮かぶ奇妙な物体を見たことがありますか？作物から目を離さないでください。",
@@ -4325,5 +4324,6 @@
   "npcDialogues.corale.chore1": "サンゴ礁は奇妙な海の生き物のニュースで賑わっています！",
   "npcDialogues.corale.chore2": "何か大きなものが海の自然のバランスを乱している...",
   "npcDialogues.corale.chore3": "魚は、深い海で牛のような影を見たことがあると言っています！",
-  "gems.shipment.shops": "これらの種と道具はショップで補充されます。"
+  "gems.shipment.shops": "これらの種と道具はショップで補充されます。",
+  "gems.restockToMaxStock": "最大在庫数まで補充"
 }

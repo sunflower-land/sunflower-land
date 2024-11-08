@@ -4244,7 +4244,6 @@
   "description.super.totem.temporarily": "Le Super Totem augmente temporairement votre temps consacré à la cuisine, à vos récoltes, à vos arbres et à vos minéraux. Profitez-en au maximum !",
   "season.bullRun.bonus": "10 % de nourriture en moins pour nourrir les animaux",
   "gems.buyReplenish": "Aimeriez-vous réapprovisionner les boutiques dès maintenant pour 20 gemmes ?",
-  "gems.purchasedStock": "Réapprovisionne uniquement les stocks achetés",
   "gems.noShipment": "Pas d'expédition",
   "gems.buyStock": "Veuillez acheter votre stock pour recevoir votre envoi.",
   "npcDialogues.pumpkinPete.chore1": "Avez-vous vu des objets étranges dans le ciel ? Surveillez vos récoltes !",
@@ -4325,5 +4324,6 @@
   "npcDialogues.corale.chore1": "Les récifs coralliens regorgent de nouvelles concernant d'étranges créatures marines !",
   "npcDialogues.corale.chore2": "Quelque chose d'important perturbe l'équilibre naturel de l'océan...",
   "npcDialogues.corale.chore3": "Les poissons disent avoir vu des ombres ressemblant à des vaches dans des eaux plus profondes !",
-  "gems.shipment.shops": "Ces semences et outils seront réapprovisionnés dans les magasins."
+  "gems.shipment.shops": "Ces semences et outils seront réapprovisionnés dans les magasins.",
+  "gems.restockToMaxStock": "Réapprovisionne jusqu'à la limite du stock"
 }

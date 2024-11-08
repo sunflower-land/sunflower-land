@@ -4244,7 +4244,6 @@
   "description.super.totem.temporarily": "슈퍼 토템은 요리, 농작물, 나무, 광물 섭취 시간을 일시적으로 늘려줍니다.최대한 활용하세요!",
   "season.bullRun.bonus": "동물 사료용 사료 10% 감소",
   "gems.buyReplenish": "지금 상점에 보석 20개를 보충해 주시겠습니까?",
-  "gems.purchasedStock": "구매한 재고만 재입고",
   "gems.noShipment": "배송 불가",
   "gems.buyStock": "배송을 받으려면 재고를 구매하세요.",
   "npcDialogues.pumpkinPete.chore1": "하늘에 있는 이상한 물체들을 보셨나요?농작물을 잘 살펴보세요!",
@@ -4325,5 +4324,6 @@
   "npcDialogues.corale.chore1": "산호초에는 이상한 바다 생물에 대한 소식이 가득합니다!",
   "npcDialogues.corale.chore2": "거대한 무언가가 바다의 자연 균형을 방해하고 있습니다...",
   "npcDialogues.corale.chore3": "물고기들은 깊은 바다에서 소 같은 그림자를 보았다고 합니다!",
-  "gems.shipment.shops": "이러한 씨앗과 도구는 상점에서 보충됩니다."
+  "gems.shipment.shops": "이러한 씨앗과 도구는 상점에서 보충됩니다.",
+  "gems.restockToMaxStock": "최대 재고까지 재입고"
 }

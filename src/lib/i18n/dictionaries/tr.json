@@ -4244,7 +4244,6 @@
   "description.super.totem.temporarily": "Süper Totem, yemek pişirmenizi, ekinlerinizi, ağaçlarınızı ve mineral zamanınızı geçici olarak artırır. En iyi şekilde yararlanın!",
   "season.bullRun.bonus": "Hayvanları beslemek için% 10 daha az yem",
   "gems.buyReplenish": "Dükkanları şimdi 20 Mücevher karşılığında yenilemek ister misiniz?",
-  "gems.purchasedStock": "Yalnızca satın alınan stokları yeniden stoklar",
   "gems.noShipment": "Sevkiyat Yok",
   "gems.buyStock": "Gönderinizi almak için lütfen stokunuzu satın alın.",
   "npcDialogues.pumpkinPete.chore1": "Gökyüzündeki garip nesneleri gördün mü? Ekinlerinize bir göz atın!",
@@ -4325,5 +4324,6 @@
   "npcDialogues.corale.chore1": "Mercan resifleri garip deniz canlıları hakkında haberlerle dolup taşıyor!",
   "npcDialogues.corale.chore2": "Büyük bir şey okyanusun doğal dengesini bozuyor...",
   "npcDialogues.corale.chore3": "Balıklar daha derin sularda inek benzeri gölgeler gördüklerini söylüyor!",
-  "gems.shipment.shops": "Bu tohumlar ve aletler dükkanlarda yenilenecek."
+  "gems.shipment.shops": "Bu tohumlar ve aletler dükkanlarda yenilenecek.",
+  "gems.restockToMaxStock": "Maksimum stoklara kadar stoklar"
 }

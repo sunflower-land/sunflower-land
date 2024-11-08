@@ -4244,7 +4244,6 @@
   "description.super.totem.temporarily": "超级图腾可暂时延长您的烹饪、作物、树木和矿物时间。充分利用它！",
   "season.bullRun.bonus": "喂动物的饲料减少 10%",
   "gems.buyReplenish": "你现在想在商店里补充 20 颗宝石吗？",
-  "gems.purchasedStock": "仅对已购买的股票进行补货",
   "gems.noShipment": "不发货",
   "gems.buyStock": "请购买您的库存以发货。",
   "npcDialogues.pumpkinPete.chore1": "你看到天空中的奇怪物体了吗？留意你的农作物！",
@@ -4325,5 +4324,6 @@
   "npcDialogues.corale.chore1": "珊瑚礁上充斥着有关奇怪海洋生物的新闻！",
   "npcDialogues.corale.chore2": "大东西正在扰乱海洋的自然平衡...",
   "npcDialogues.corale.chore3": "鱼说他们在更深的水域看到了像牛一样的阴影！",
-  "gems.shipment.shops": "这些种子和工具将在商店补充。"
+  "gems.shipment.shops": "这些种子和工具将在商店补充。",
+  "gems.restockToMaxStock": "补货至最大库存量"
 }

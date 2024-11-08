@@ -4244,7 +4244,6 @@
   "description.super.totem.temporarily": "Das Super Totem erhöht vorübergehend deine Koch-, Ernte-, Baum- und Mineralzeit. Mach das Beste daraus!",
   "season.bullRun.bonus": "10% weniger Futter für Tiere",
   "gems.buyReplenish": "Möchtest du die Läden jetzt für 20 Edelsteine auffüllen?",
-  "gems.purchasedStock": "Nur gekaufte Aktien auffüllen",
   "gems.noShipment": "Kein Versand",
   "gems.buyStock": "Bitte kaufen Sie Ihre Aktie, um Ihre Sendung zu erhalten.",
   "npcDialogues.pumpkinPete.chore1": "Hast du die seltsamen Objekte am Himmel gesehen? Behalte deine Pflanzen im Auge!",
@@ -4325,5 +4324,6 @@
   "npcDialogues.corale.chore1": "In den Korallenriffen wimmelt es nur so von Nachrichten über seltsame Meerestiere!",
   "npcDialogues.corale.chore2": "Etwas Großes stört das natürliche Gleichgewicht des Ozeans...",
   "npcDialogues.corale.chore3": "Die Fische sagen, sie hätten kuhähnliche Schatten in tieferen Gewässern gesehen!",
-  "gems.shipment.shops": "Diese Samen und Werkzeuge werden in den Geschäften nachgefüllt."
+  "gems.shipment.shops": "Diese Samen und Werkzeuge werden in den Geschäften nachgefüllt.",
+  "gems.restockToMaxStock": "Bis zum Maximalbestand auffüllen"
 }

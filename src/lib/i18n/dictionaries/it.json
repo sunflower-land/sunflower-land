@@ -4244,7 +4244,6 @@
   "description.super.totem.temporarily": "Il Super Totem aumenta temporaneamente il tempo di cottura, i raccolti, gli alberi e i minerali. Sfruttalo al massimo!",
   "season.bullRun.bonus": "10% in meno di mangime per nutrire gli animali",
   "gems.buyReplenish": "Vuoi rifornire subito i negozi per 20 gemme?",
-  "gems.purchasedStock": "Rifornisce solo le scorte acquistate",
   "gems.noShipment": "Nessuna spedizione",
   "gems.buyStock": "Acquista le scorte per ricevere la spedizione.",
   "npcDialogues.pumpkinPete.chore1": "Hai visto gli strani oggetti nel cielo? Tieni d'occhio i tuoi raccolti!",
@@ -4325,5 +4324,6 @@
   "npcDialogues.corale.chore1": "Le barriere coralline brulicano di notizie su strane creature marine!",
   "npcDialogues.corale.chore2": "Qualcosa di grosso sta disturbando l'equilibrio naturale dell'oceano...",
   "npcDialogues.corale.chore3": "I pesci dicono di aver visto ombre simili a mucche in acque più profonde!",
-  "gems.shipment.shops": "Questi semi e attrezzi verranno riforniti nei negozi."
+  "gems.shipment.shops": "Questi semi e attrezzi verranno riforniti nei negozi.",
+  "gems.restockToMaxStock": "Rifornimenti fino al massimo delle scorte"
 }
