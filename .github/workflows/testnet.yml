@@ -30,7 +30,7 @@ jobs:
         env:
           NODE_OPTIONS: --max-old-space-size=6144
           CI: false
-
+          SST_BUILD_CONCURRENCY: 8
           VITE_API_URL: ${{ secrets.API_URL }}
           VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
