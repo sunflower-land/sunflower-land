@@ -252,7 +252,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
           })}
         </div>
       </div>
-      <p className="text-xs p-1 pb-1.5 italic">{t("gems.purchasedStock")}</p>
+      <p className="text-xs p-1 pb-1.5 italic">{t("gems.restockToMaxStock")}</p>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
         <Button className="relative" onClick={handleRestock}>
@@ -394,7 +394,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
         {!restockIsEmpty && (
           <>
             <p className="text-xs p-1 pb-1.5 italic">
-              {t("gems.purchasedStock")}
+              {t("gems.restockToMaxStock")}
             </p>
             <p className="text-xs p-1 pb-1.5 italic">
               {`(${t("gems.shipment.useGems")})`}
