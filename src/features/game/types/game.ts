@@ -34,7 +34,6 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
-  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -85,6 +84,7 @@ import {
   RecipeWearableName,
 } from "../lib/crafting";
 import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
+import { SeasonalCollectibleName } from "./megastore";
 
 export type Reward = {
   coins?: number;

@@ -146,15 +146,6 @@ export type MegaStoreCollectibleName =
   | "Scarab Beetle"
   | "Tomato Bombard";
 
-export type SeasonalCollectibleName =
-  // Animal Season
-  | "Cow Scratcher"
-  | "Spinning Wheel"
-  | "Sleepy Rug"
-  | "Meteorite"
-  | "Sheaf of Plenty"
-  | "Mechanical Bull";
-
 export type GoblinBlacksmithItemName =
   | "Purple Trail"
   | "Obie"
