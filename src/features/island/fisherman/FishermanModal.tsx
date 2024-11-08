@@ -19,7 +19,6 @@ import {
   CHUM_AMOUNTS,
   CHUM_DETAILS,
   Chum,
-  FISH,
   FishingBait,
   getTide,
 } from "features/game/types/fishing";
@@ -55,6 +54,23 @@ function acknowledgeRead() {
 function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
+
+const getRemainingReels = (state: GameState, now = new Date()) => {
+  const date = now.toISOString().split("T")[0];
+  const { fishing } = state;
+  const reelCount = fishing.dailyAttempts?.[date] ?? 0;
+  const { extraReels = 0 } = fishing;
+  const regularMaxReels = getDailyFishingLimit(state);
+  let reelsLeft = regularMaxReels - reelCount;
+
+  if (reelsLeft < 0) {
+    reelsLeft = 0;
+  }
+
+  reelsLeft += extraReels;
+
+  return reelsLeft;
+};
 
 const RARE_CHUM: InventoryItemName[] = [
   "Rich Chicken",
@@ -211,17 +227,12 @@ const BaitSelection: React.FC<{
   const { extraReels = 0 } = state.fishing;
 
   const dailyFishingMax = getDailyFishingLimit(state) + extraReels;
-  const dailyFishingCount = getDailyFishingCount(state);
-  const reelsLeft = dailyFishingMax - dailyFishingCount;
+  const reelsLeft = getRemainingReels(state);
 
-  const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
+  const fishingLimitReached = reelsLeft <= 0;
   const missingRod =
     !isWearableActive({ name: "Ancient Rod", game: state }) &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
-
-  const catches = getKeys(FISH).filter((name) =>
-    FISH[name].baits.includes(bait),
-  );
 
   const tide = getTide();
   const weather = state.fishing.weather;
@@ -536,12 +547,7 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     });
   };
 
-  const { extraReels = 0 } = state.fishing;
-
-  const dailyFishingMax = getDailyFishingLimit(state) + extraReels;
-  const dailyFishingCount = getDailyFishingCount(state);
-
-  const reelsLeft = dailyFishingMax - dailyFishingCount;
+  const reelsLeft = getRemainingReels(state);
   return (
     <>
       {!showConfirm && (
