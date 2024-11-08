@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "Stoklar tükendi",
   "gems.shipment.success": "Woohoo, dükkanları yenilemek için ücretsiz bir stok sevkiyatı geldi.",
   "gems.shipment.arrived": "Gemi geldi",
-  "gems.shipment.shops": "Tüm tohumlar ve alet stokları mağazalarda yenilenecektir.",
   "description.barn": "Dört ayaklı arkadaşlarınız için güzel ve rahat bir ev.",
   "description.workbench": "Çiftliğinizde size yardımcı olacak araçlar, binalar ve destek öğeleri üretin",
   "faction.shop.title": "Fraksiyon Dükkanı",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "Ayılar bile bu gizemli gökyüzü manzaralarını merak ediyor!",
   "npcDialogues.corale.chore1": "Mercan resifleri garip deniz canlıları hakkında haberlerle dolup taşıyor!",
   "npcDialogues.corale.chore2": "Büyük bir şey okyanusun doğal dengesini bozuyor...",
-  "npcDialogues.corale.chore3": "Balıklar daha derin sularda inek benzeri gölgeler gördüklerini söylüyor!"
+  "npcDialogues.corale.chore3": "Balıklar daha derin sularda inek benzeri gölgeler gördüklerini söylüyor!",
+  "gems.shipment.shops": "Bu tohumlar ve aletler dükkanlarda yenilenecek."
 }

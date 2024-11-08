@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "在庫切れ",
   "gems.shipment.success": "Woohoo、ショップに補充するための在庫の無料発送が届きました。",
   "gems.shipment.arrived": "船が到着しました",
-  "gems.shipment.shops": "シードとツールストックはすべてショップで補充されます。",
   "description.barn": "4本足の友達のための素敵で居心地の良い家。",
   "description.workbench": "農場で役立つ道具、建物、ブーストアイテムを作ろう",
   "faction.shop.title": "ファクションショップ",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "クマでさえ、この不思議な空の目撃に興味津々です！",
   "npcDialogues.corale.chore1": "サンゴ礁は奇妙な海の生き物のニュースで賑わっています！",
   "npcDialogues.corale.chore2": "何か大きなものが海の自然のバランスを乱している...",
-  "npcDialogues.corale.chore3": "魚は、深い海で牛のような影を見たことがあると言っています！"
+  "npcDialogues.corale.chore3": "魚は、深い海で牛のような影を見たことがあると言っています！",
+  "gems.shipment.shops": "これらの種と道具はショップで補充されます。"
 }

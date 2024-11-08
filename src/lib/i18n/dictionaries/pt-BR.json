@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "Fora de estoque",
   "gems.shipment.success": "Uau, acaba de chegar uma remessa gratuita de estoque para reabastecer as lojas.",
   "gems.shipment.arrived": "O navio chegou",
-  "gems.shipment.shops": "Todas as sementes e o estoque de ferramentas serão reabastecidos nas lojas.",
   "description.barn": "Casa agradável e aconchegante para seus amigos de quatro patas.",
   "description.workbench": "Crie ferramentas, edifícios e itens de reforço para ajudá-lo em sua fazenda",
   "faction.shop.title": "Loja de facções",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "Até os ursos estão curiosos sobre esses misteriosos avistamentos do céu!",
   "npcDialogues.corale.chore1": "Os recifes de coral estão cheios de notícias sobre estranhas criaturas marinhas!",
   "npcDialogues.corale.chore2": "Algo grande está perturbando o equilíbrio natural do oceano...",
-  "npcDialogues.corale.chore3": "Os peixes dizem que viram sombras parecidas com vacas em águas mais profundas!"
+  "npcDialogues.corale.chore3": "Os peixes dizem que viram sombras parecidas com vacas em águas mais profundas!",
+  "gems.shipment.shops": "Essas sementes e ferramentas serão reabastecidas nas lojas."
 }

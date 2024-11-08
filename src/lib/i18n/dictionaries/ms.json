@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "Kehabisan stok",
   "gems.shipment.success": "Woohoo, penghantaran stok percuma baru sahaja tiba untuk menambah kedai-kedai.",
   "gems.shipment.arrived": "Kapal telah tiba",
-  "gems.shipment.shops": "Semua benih dan stok alat akan diisi semula di kedai-kedai.",
   "description.barn": "Rumah yang bagus dan selesa untuk rakan berkaki empat anda.",
   "description.workbench": "Alat kraf, bangunan dan item rangsangan untuk membantu anda di ladang anda",
   "faction.shop.title": "Kedai Faksi",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "Malah beruang ingin tahu tentang penampakan langit misteri ini!",
   "npcDialogues.corale.chore1": "Terumbu karang berdengung dengan berita mengenai makhluk laut yang pelik!",
   "npcDialogues.corale.chore2": "Sesuatu yang besar mengganggu keseimbangan semula jadi lautan...",
-  "npcDialogues.corale.chore3": "Ikan mengatakan bahawa mereka telah melihat bayang-bayang seperti lembu di perairan yang lebih dalam!"
+  "npcDialogues.corale.chore3": "Ikan mengatakan bahawa mereka telah melihat bayang-bayang seperti lembu di perairan yang lebih dalam!",
+  "gems.shipment.shops": "Benih dan alat ini akan diisi semula di kedai-kedai."
 }

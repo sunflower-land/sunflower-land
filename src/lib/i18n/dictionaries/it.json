@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "Esaurito",
   "gems.shipment.success": "Woohoo, è appena arrivata una spedizione gratuita di scorte per rifornire i negozi.",
   "gems.shipment.arrived": "La nave è arrivata",
-  "gems.shipment.shops": "Tutti i semi e le scorte di attrezzi verranno riforniti nei negozi.",
   "description.barn": "Casa bella e accogliente per i tuoi amici a quattro zampe.",
   "description.workbench": "Crea strumenti, edifici e potenzia oggetti per aiutarti nella tua fattoria",
   "faction.shop.title": "Faction Shop",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "Anche gli orsi sono incuriositi da questi misteriosi avvistamenti del cielo!",
   "npcDialogues.corale.chore1": "Le barriere coralline brulicano di notizie su strane creature marine!",
   "npcDialogues.corale.chore2": "Qualcosa di grosso sta disturbando l'equilibrio naturale dell'oceano...",
-  "npcDialogues.corale.chore3": "I pesci dicono di aver visto ombre simili a mucche in acque più profonde!"
+  "npcDialogues.corale.chore3": "I pesci dicono di aver visto ombre simili a mucche in acque più profonde!",
+  "gems.shipment.shops": "Questi semi e attrezzi verranno riforniti nei negozi."
 }

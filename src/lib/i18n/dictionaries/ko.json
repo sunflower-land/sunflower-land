@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "재고 없음",
   "gems.shipment.success": "우후, 상점을 보충하기 위해 무료 재고 배송이 막 도착했습니다.",
   "gems.shipment.arrived": "배가 도착했습니다",
-  "gems.shipment.shops": "모든 씨앗과 도구 재고는 상점에서 보충됩니다.",
   "description.barn": "네 발 달린 친구들을 위한 멋지고 아늑한 집입니다.",
   "description.workbench": "농장에서 도와줄 도구, 건물, 부스트 아이템 제작",
   "faction.shop.title": "팩션 샵",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "곰들도 이 신비한 하늘 광경에 호기심을 품고 있습니다!",
   "npcDialogues.corale.chore1": "산호초에는 이상한 바다 생물에 대한 소식이 가득합니다!",
   "npcDialogues.corale.chore2": "거대한 무언가가 바다의 자연 균형을 방해하고 있습니다...",
-  "npcDialogues.corale.chore3": "물고기들은 깊은 바다에서 소 같은 그림자를 보았다고 합니다!"
+  "npcDialogues.corale.chore3": "물고기들은 깊은 바다에서 소 같은 그림자를 보았다고 합니다!",
+  "gems.shipment.shops": "이러한 씨앗과 도구는 상점에서 보충됩니다."
 }

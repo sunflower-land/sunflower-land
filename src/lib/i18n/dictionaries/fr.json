@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "En rupture de stock",
   "gems.shipment.success": "Woohoo, une livraison gratuite de stock vient d'arriver pour réapprovisionner les boutiques.",
   "gems.shipment.arrived": "Le navire est arrivé",
-  "gems.shipment.shops": "Tous les stocks de semences et d'outils seront réapprovisionnés dans les magasins.",
   "description.barn": "Maison agréable et confortable pour vos amis à quatre pattes.",
   "description.workbench": "Fabriquez des outils, des bâtiments et des objets d'amélioration pour vous aider dans votre ferme",
   "faction.shop.title": "Boutique de factions",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "Même les ours sont curieux de découvrir ces mystérieuses observations du ciel !",
   "npcDialogues.corale.chore1": "Les récifs coralliens regorgent de nouvelles concernant d'étranges créatures marines !",
   "npcDialogues.corale.chore2": "Quelque chose d'important perturbe l'équilibre naturel de l'océan...",
-  "npcDialogues.corale.chore3": "Les poissons disent avoir vu des ombres ressemblant à des vaches dans des eaux plus profondes !"
+  "npcDialogues.corale.chore3": "Les poissons disent avoir vu des ombres ressemblant à des vaches dans des eaux plus profondes !",
+  "gems.shipment.shops": "Ces semences et outils seront réapprovisionnés dans les magasins."
 }

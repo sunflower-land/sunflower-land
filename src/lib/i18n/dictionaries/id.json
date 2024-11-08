@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "Stok habis",
   "gems.shipment.success": "Woohoo, pengiriman stok gratis baru saja tiba untuk mengisi kembali toko-toko.",
   "gems.shipment.arrived": "Kapal telah tiba",
-  "gems.shipment.shops": "Semua benih dan persediaan alat akan diisi ulang di toko-toko.",
   "description.barn": "Rumah yang bagus dan nyaman untuk teman berkaki empat Anda.",
   "description.workbench": "Alat kerajinan, bangunan, dan item tambahan untuk membantu Anda di pertanian Anda",
   "faction.shop.title": "Toko Fraksi",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "Bahkan beruang penasaran dengan penampakan langit misterius ini!",
   "npcDialogues.corale.chore1": "Terumbu karang dipenuhi dengan berita tentang makhluk laut yang aneh!",
   "npcDialogues.corale.chore2": "Sesuatu yang besar mengganggu keseimbangan alam lautan...",
-  "npcDialogues.corale.chore3": "Ikan mengatakan mereka telah melihat bayangan seperti sapi di perairan yang lebih dalam!"
+  "npcDialogues.corale.chore3": "Ikan mengatakan mereka telah melihat bayangan seperti sapi di perairan yang lebih dalam!",
+  "gems.shipment.shops": "Benih dan alat ini akan diisi ulang di toko-toko."
 }

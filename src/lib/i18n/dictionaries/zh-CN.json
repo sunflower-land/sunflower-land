@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "缺货",
   "gems.shipment.success": "哇，免费送货的库存刚刚到货，可以补货了。",
   "gems.shipment.arrived": "船已经到达",
-  "gems.shipment.shops": "所有种子和工具库存将在商店补充。",
   "description.barn": "漂亮舒适的房子，适合你的四条腿的朋友。",
   "description.workbench": "制作工具、建筑物和增强物品来帮助你在农场工作",
   "faction.shop.title": "派系商店",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "即使是熊也对这些神秘的天空目击感到好奇！",
   "npcDialogues.corale.chore1": "珊瑚礁上充斥着有关奇怪海洋生物的新闻！",
   "npcDialogues.corale.chore2": "大东西正在扰乱海洋的自然平衡...",
-  "npcDialogues.corale.chore3": "鱼说他们在更深的水域看到了像牛一样的阴影！"
+  "npcDialogues.corale.chore3": "鱼说他们在更深的水域看到了像牛一样的阴影！",
+  "gems.shipment.shops": "这些种子和工具将在商店补充。"
 }

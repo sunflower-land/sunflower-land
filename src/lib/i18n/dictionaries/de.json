@@ -3608,7 +3608,6 @@
   "gems.outOfstock": "Nicht vorrätig",
   "gems.shipment.success": "Woohoo, eine kostenlose Warenlieferung ist gerade eingetroffen, um die Geschäfte wieder aufzufüllen.",
   "gems.shipment.arrived": "Das Schiff ist eingetroffen",
-  "gems.shipment.shops": "Der gesamte Saatgut- und Werkzeugbestand wird in den Geschäften aufgefüllt.",
   "description.barn": "Schönes und gemütliches Haus für Ihre vierbeinigen Freunde.",
   "description.workbench": "Stelle Werkzeuge, Gebäude und Boost-Gegenstände her, um dir auf deiner Farm zu helfen",
   "faction.shop.title": "Fraktionsshop",
@@ -4325,5 +4324,6 @@
   "npcDialogues.timmy.chore3": "Sogar die Bären sind neugierig auf diese mysteriösen Himmelssichtungen!",
   "npcDialogues.corale.chore1": "In den Korallenriffen wimmelt es nur so von Nachrichten über seltsame Meerestiere!",
   "npcDialogues.corale.chore2": "Etwas Großes stört das natürliche Gleichgewicht des Ozeans...",
-  "npcDialogues.corale.chore3": "Die Fische sagen, sie hätten kuhähnliche Schatten in tieferen Gewässern gesehen!"
+  "npcDialogues.corale.chore3": "Die Fische sagen, sie hätten kuhähnliche Schatten in tieferen Gewässern gesehen!",
+  "gems.shipment.shops": "Diese Samen und Werkzeuge werden in den Geschäften nachgefüllt."
 }
