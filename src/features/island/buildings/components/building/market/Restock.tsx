@@ -202,7 +202,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
         )}
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
-      <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
+      <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
         {restockTools.length > 0 && (
           <Label
             icon={ITEM_DETAILS.Axe.image}
@@ -341,7 +341,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
             <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
           </div>
         )}
-        <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
+        <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
           {restockTools.length > 0 && (
             <Label
               icon={ITEM_DETAILS.Axe.image}
