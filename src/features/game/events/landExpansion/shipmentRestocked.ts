@@ -28,10 +28,9 @@ export const SHIPMENT_STOCK: Partial<Record<StockableName, number>> = {
   Axe: 50,
   Pickaxe: 15,
   "Stone Pickaxe": 5,
-  "Iron Pickaxe": 2,
-  "Gold Pickaxe": 2,
+  "Iron Pickaxe": 1,
   Rod: 10,
-  "Sand Shovel": 25,
+  "Sand Shovel": 5,
 };
 
 export function canRestockShipment({
