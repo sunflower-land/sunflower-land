@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { StockableName } from "features/game/lib/constants";
+import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -70,13 +70,23 @@ export function shipmentRestock({
       throw new Error("Already restocked today");
     }
 
-    game.stock = getKeys(SHIPMENT_STOCK).reduce((acc, name) => {
-      const previous = game.stock[name] ?? new Decimal(0);
-      const newAmount = new Decimal(SHIPMENT_STOCK[name] ?? 0);
+    game.stock = getKeys(INITIAL_STOCK(game)).reduce((acc, name) => {
+      let remainingStock = game.stock[name] ?? new Decimal(0);
+      const totalStock = INITIAL_STOCK(game)[name];
+      const shipmentAmount = SHIPMENT_STOCK[name] ?? 0;
+
+      // If shipment amount will exceed total stock
+      if (remainingStock.add(shipmentAmount).gt(totalStock)) {
+        // return the difference between total and remaining stock
+        remainingStock = remainingStock.add(totalStock.sub(remainingStock));
+      } else {
+        // else return shipment stock
+        remainingStock = remainingStock.add(shipmentAmount);
+      }
 
       return {
         ...acc,
-        [name]: previous.gt(newAmount) ? previous : newAmount,
+        [name]: remainingStock,
       };
     }, {});
 
