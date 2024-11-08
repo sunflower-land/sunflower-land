@@ -188,7 +188,7 @@ export const BuildingOilTank = ({
                     <div className="text-xs">
                       {t("cooking.building.runtime", {
                         time: secondsToString(runtime, {
-                          length: "short",
+                          length: "medium",
                           isShortFormat: true,
                           removeTrailingZeros: true,
                         }),
