@@ -40,11 +40,11 @@ export function castRod({
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
     }
-    const fishingLimit =
-      getDailyFishingLimit(game) + (game.fishing.extraReels ?? 0);
+    const { extraReels = 0 } = game.fishing;
+    const fishingLimit = getDailyFishingLimit(game) + extraReels;
 
     if (getDailyFishingCount(game) >= fishingLimit) {
-      throw new Error(translate("error.dailyAttemptsExhausted"));
+      throw new Error(`Daily attempts exhausted`);
     }
 
     const rodCount = game.inventory.Rod ?? new Decimal(0);
@@ -106,6 +106,10 @@ export function castRod({
       game.fishing.dailyAttempts = {
         [today]: 1,
       };
+    }
+
+    if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
+      game.fishing.extraReels = extraReels - 1;
     }
 
     bumpkin.activity = trackActivity("Rod Casted", bumpkin.activity);

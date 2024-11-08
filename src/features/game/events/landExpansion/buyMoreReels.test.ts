@@ -18,7 +18,7 @@ describe("buyMoreReels", () => {
     ).toThrow("Player does not have enough Gems to buy more reels");
   });
 
-  it("adds 5 extra digs", () => {
+  it("adds 5 extra reels", () => {
     const result = buyMoreReels({
       state: {
         ...TEST_FARM,

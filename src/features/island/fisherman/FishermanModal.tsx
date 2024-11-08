@@ -212,6 +212,8 @@ const BaitSelection: React.FC<{
 
   const dailyFishingMax = getDailyFishingLimit(state) + extraReels;
   const dailyFishingCount = getDailyFishingCount(state);
+  const reelsLeft = dailyFishingMax - dailyFishingCount;
+
   const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
   const missingRod =
     !isWearableActive({ name: "Ancient Rod", game: state }) &&
@@ -261,10 +263,7 @@ const BaitSelection: React.FC<{
             </div>
 
             <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-              {t("statements.daily.limit")}
-              {dailyFishingCount}
-              {"/"}
-              {dailyFishingMax}
+              {`${reelsLeft} reels left`}
             </Label>
           </div>
         </div>
