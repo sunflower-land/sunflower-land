@@ -216,9 +216,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         }
 
         this.createIdleAnimation(0, 8);
-        this.createWalkingAnimation(8, 15);
-        this.createDigAnimation(15, 28);
-        this.createDrillAnimation(28, 37);
+        this.createWalkingAnimation(9, 16);
+        this.createDigAnimation(17, 29);
+        this.createDrillAnimation(30, 38);
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
