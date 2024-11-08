@@ -505,7 +505,11 @@ export const FishermanModal: React.FC<Props> = ({
           <FishingGuide onClose={() => setTab(0)} />
         </InnerPanel>
       )}
-      {tab === 2 && <FishermanExtras onClose={onClose} />}
+      {tab === 2 && (
+        <InnerPanel>
+          <FishermanExtras onClose={onClose} />
+        </InnerPanel>
+      )}
     </CloseButtonPanel>
   );
 };
