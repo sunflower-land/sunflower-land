@@ -30,6 +30,7 @@ import {
   SeasonalStoreItem,
   SeasonalStoreTier,
   SeasonalStoreWearable,
+  SeasonalTierItemName,
 } from "features/game/types/megastore";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -74,20 +75,22 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        wardrobe[(item as SeasonalStoreWearable).wearable as BumpkinItem] ?? 0
+        state.bumpkin.activity[
+          `${(item as SeasonalStoreWearable).wearable as SeasonalTierItemName} Bought`
+        ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (
-        inventory[
-          (item as SeasonalStoreCollectible).collectible as InventoryItemName
-        ] ?? new Decimal(0)
-      ).toNumber();
+        state.bumpkin.activity[
+          `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
+        ] ?? 0
+      );
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
-        inventory[
-          (item as SeasonalStoreCollectible).collectible as InventoryItemName
-        ] ?? new Decimal(0)
-      ).toNumber();
+        state.bumpkin.activity[
+          `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
+        ] ?? 0
+      );
     }
 
     return 0;
@@ -184,12 +187,9 @@ export const ItemsList: React.FC<Props> = ({
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
+  // For Current Tier Key - Unlocked(0) / Locked(1)
   const isKeyCounted = isKeyBoughtWithinSeason(state, tiers) ? 0 : 1;
-  const isAllKeyBought =
-    isKeyBoughtWithinSeason(state, "basic") &&
-    isKeyBoughtWithinSeason(state, "rare") &&
-    isKeyBoughtWithinSeason(state, "epic");
-
+  // Reduction is by getting the lower tier of currrent tier
   const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
 
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;

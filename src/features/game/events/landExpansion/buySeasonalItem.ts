@@ -11,9 +11,11 @@ import {
   SeasonalStoreCollectible,
   SeasonalStoreItem,
   SeasonalStoreTier,
+  SeasonalTierItemName,
 } from "features/game/types/megastore";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export function isCollectible(
   item: SeasonalStoreItem,
@@ -174,6 +176,11 @@ export function buySeasonalItem({
         boughtAt: createdAt,
       };
     }
+
+    stateCopy.bumpkin.activity = trackActivity(
+      `${name as SeasonalTierItemName} Bought`,
+      stateCopy.bumpkin.activity,
+    );
     return stateCopy;
   });
 }
@@ -200,9 +207,10 @@ export function isKeyBoughtWithinSeason(
   const keyBoughtAt =
     game.pumpkinPlaza.keysBought?.megastore[tierKey as Keys]?.boughtAt;
   const seasonTime = SEASONS[getCurrentSeason()];
-  const currentKey = game.inventory[tierKey]; // used to check if player has key in inventory
+  const historyKey =
+    game.bumpkin.activity[`${tierKey as SeasonalTierItemName} Bought`];
   //If player has no history of buying keys at megastore
-  if (!keyBoughtAt && isLowerTier && !currentKey) return true;
+  if (!keyBoughtAt && isLowerTier && !historyKey) return true;
 
   // Returns false if key is bought outside current season, otherwise, true
   if (keyBoughtAt) {
@@ -265,13 +273,20 @@ export function getSeasonalItemsCrafted(
       (tierItem: SeasonalStoreItem) =>
         (itemType === "collectible" &&
           "collectible" in tierItem &&
-          tierItem.collectible === itemName) ||
+          tierItem.collectible === itemName &&
+          game.bumpkin.activity[
+            `${tierItem.collectible as SeasonalTierItemName} Bought`
+          ]) ||
         (itemType === "wearable" &&
           "wearable" in tierItem &&
-          tierItem.wearable === itemName) ||
+          tierItem.wearable === itemName &&
+          game.bumpkin.activity[
+            `${tierItem.wearable as SeasonalTierItemName} Bought`
+          ]) ||
         0,
     ),
   );
+
   if (!craftedItems) return 0;
 
   return craftedItems.length > 0 ? craftedItems.length : 0;
