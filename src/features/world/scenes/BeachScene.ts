@@ -67,7 +67,7 @@ export class BeachScene extends BaseScene {
   gridY = 128;
   cellSize = 16;
   digOffsetX = 7;
-  digOffsetY = 1;
+  digOffsetY = -1;
   percentageFoundLabel: Phaser.GameObjects.Text | undefined;
   digStatistics: DigAnalytics | undefined;
   isPlayerTweening = false;
