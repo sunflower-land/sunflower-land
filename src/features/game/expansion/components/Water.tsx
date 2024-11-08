@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import {
   GRID_WIDTH_PX,
@@ -18,7 +18,6 @@ import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
 import { GameState } from "features/game/types/game";
-import { Context } from "features/game/GameProvider";
 
 import { CONFIG } from "lib/config";
 import { LaTomatina } from "./LaTomatina";
@@ -30,18 +29,14 @@ import { WORKBENCH_TOOLS, TREASURE_TOOLS } from "features/game/types/tools";
 import Decimal from "decimal.js-light";
 
 interface Props {
-  townCenterBuilt: boolean;
   expansionCount: number;
   gameState: GameState;
 }
 
 export const WaterComponent: React.FC<Props> = ({
-  townCenterBuilt,
   expansionCount,
   gameState,
 }) => {
-  const { showAnimations } = useContext(Context);
-
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
 
