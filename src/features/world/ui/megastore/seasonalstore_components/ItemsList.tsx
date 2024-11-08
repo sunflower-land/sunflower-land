@@ -19,8 +19,7 @@ import lock from "assets/icons/lock.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName, Keys } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -50,9 +49,6 @@ interface Props {
   onItemClick: (item: SeasonalStoreItem, tier: SeasonalStoreTier) => void;
 }
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
-
 export const ItemsList: React.FC<Props> = ({
   items,
   type,
@@ -62,8 +58,6 @@ export const ItemsList: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
 
-  const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
   //For Discount
   const [
     {
