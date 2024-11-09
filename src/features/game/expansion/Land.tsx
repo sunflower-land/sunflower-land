@@ -684,7 +684,7 @@ export const Land: React.FC = () => {
   const paused = useSelector(gameService, isPaused);
 
   const { pathname } = useLocation();
-  const showMarketplace = pathname.includes("marketplace");
+  const showMarketplace = pathname.includes("marketplace") && false;
 
   const state = useSelector(gameService, selectGameState);
   const {
