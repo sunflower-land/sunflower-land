@@ -776,7 +776,11 @@ export const Land: React.FC = () => {
             <DirtRenderer island={island.type} grid={gameGrid} />
 
             {!landscaping && (
-              <Water expansionCount={expansionCount} gameState={state} />
+              <Water
+                expansionCount={expansionCount}
+                townCenterBuilt={(buildings["Town Center"]?.length ?? 0) >= 1}
+                gameState={state}
+              />
             )}
             {!landscaping && <UpcomingExpansion />}
 
