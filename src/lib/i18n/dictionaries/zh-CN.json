@@ -4325,5 +4325,5 @@
   "npcDialogues.corale.chore2": "大东西正在扰乱海洋的自然平衡...",
   "npcDialogues.corale.chore3": "鱼说他们在更深的水域看到了像牛一样的阴影！",
   "gems.shipment.shops": "这些种子和工具将在商店补充。",
-  "gems.restockToMaxStock": "补货至最大库存量"
+  "gems.purchasedStock": "仅对已购买的股票进行补货"
 }

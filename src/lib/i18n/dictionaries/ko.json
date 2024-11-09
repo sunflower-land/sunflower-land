@@ -4325,5 +4325,5 @@
   "npcDialogues.corale.chore2": "거대한 무언가가 바다의 자연 균형을 방해하고 있습니다...",
   "npcDialogues.corale.chore3": "물고기들은 깊은 바다에서 소 같은 그림자를 보았다고 합니다!",
   "gems.shipment.shops": "이러한 씨앗과 도구는 상점에서 보충됩니다.",
-  "gems.restockToMaxStock": "최대 재고까지 재입고"
+  "gems.purchasedStock": "구매한 재고만 재입고"
 }

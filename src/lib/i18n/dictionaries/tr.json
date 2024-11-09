@@ -4325,5 +4325,5 @@
   "npcDialogues.corale.chore2": "Büyük bir şey okyanusun doğal dengesini bozuyor...",
   "npcDialogues.corale.chore3": "Balıklar daha derin sularda inek benzeri gölgeler gördüklerini söylüyor!",
   "gems.shipment.shops": "Bu tohumlar ve aletler dükkanlarda yenilenecek.",
-  "gems.restockToMaxStock": "Maksimum stoklara kadar stoklar"
+  "gems.purchasedStock": "Yalnızca satın alınan stokları yeniden stoklar"
 }
