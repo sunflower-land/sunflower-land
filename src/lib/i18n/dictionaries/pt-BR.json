@@ -4325,5 +4325,5 @@
   "npcDialogues.corale.chore2": "Algo grande está perturbando o equilíbrio natural do oceano...",
   "npcDialogues.corale.chore3": "Os peixes dizem que viram sombras parecidas com vacas em águas mais profundas!",
   "gems.shipment.shops": "Essas sementes e ferramentas serão reabastecidas nas lojas.",
-  "gems.purchasedStock": "Reabastece somente ações compradas"
+  "gems.restockToMaxStock": "Reabastece até o estoque máximo"
 }

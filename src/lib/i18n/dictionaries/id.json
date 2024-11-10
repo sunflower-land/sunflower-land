@@ -4325,5 +4325,5 @@
   "npcDialogues.corale.chore2": "Sesuatu yang besar mengganggu keseimbangan alam lautan...",
   "npcDialogues.corale.chore3": "Ikan mengatakan mereka telah melihat bayangan seperti sapi di perairan yang lebih dalam!",
   "gems.shipment.shops": "Benih dan alat ini akan diisi ulang di toko-toko.",
-  "gems.purchasedStock": "Isi ulang stok yang dibeli saja"
+  "gems.restockToMaxStock": "Isi ulang hingga stok maksimum"
 }

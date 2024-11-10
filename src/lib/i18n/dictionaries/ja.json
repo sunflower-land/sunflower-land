@@ -4325,5 +4325,5 @@
   "npcDialogues.corale.chore2": "何か大きなものが海の自然のバランスを乱している...",
   "npcDialogues.corale.chore3": "魚は、深い海で牛のような影を見たことがあると言っています！",
   "gems.shipment.shops": "これらの種と道具はショップで補充されます。",
-  "gems.purchasedStock": "購入した在庫のみ補充"
+  "gems.restockToMaxStock": "最大在庫数まで補充"
 }
