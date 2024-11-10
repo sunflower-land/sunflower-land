@@ -788,17 +788,21 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     const poof = this.scene.add.sprite(0, 4, "poof").setOrigin(0.5);
     this.add(poof);
 
-    this.scene.anims.create({
-      key: `poof_anim`,
-      frames: this.scene.anims.generateFrameNumbers("poof", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: 0,
-      frameRate: 10,
-    });
+    if (this.scene.anims.exists("poof_anim")) {
+      poof.play("poof_anim", true);
+    } else {
+      this.scene.anims.create({
+        key: `poof_anim`,
+        frames: this.scene.anims.generateFrameNumbers("poof", {
+          start: 0,
+          end: 8,
+        }),
+        repeat: 0,
+        frameRate: 10,
+      });
 
-    poof.play(`poof_anim`, true);
+      poof.play(`poof_anim`, true);
+    }
 
     // Listen for the animation complete event
     poof.on("animationcomplete", function (animation: { key: string }) {
