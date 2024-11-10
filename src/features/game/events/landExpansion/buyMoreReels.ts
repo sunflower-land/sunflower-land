@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { getRemainingReels } from "./castRod";
 
 export type BuyMoreReelsAction = {
   type: "fishing.reelsBought";
@@ -20,6 +21,10 @@ export function buyMoreReels({ state }: Options) {
 
     if (gems.lt(10)) {
       throw new Error("Player does not have enough Gems to buy more reels");
+    }
+
+    if (getRemainingReels(game) > 0) {
+      throw new Error("Player has reels remaining");
     }
 
     const extraReels = game.fishing.extraReels ?? 0;

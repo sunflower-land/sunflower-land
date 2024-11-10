@@ -43,6 +43,7 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { getRemainingReels } from "features/game/events/landExpansion/castRod";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -54,23 +55,6 @@ function acknowledgeRead() {
 function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
-
-const getRemainingReels = (state: GameState, now = new Date()) => {
-  const date = now.toISOString().split("T")[0];
-  const { fishing } = state;
-  const reelCount = fishing.dailyAttempts?.[date] ?? 0;
-  const { extraReels = 0 } = fishing;
-  const regularMaxReels = getDailyFishingLimit(state);
-  let reelsLeft = regularMaxReels - reelCount;
-
-  if (reelsLeft < 0) {
-    reelsLeft = 0;
-  }
-
-  reelsLeft += extraReels;
-
-  return reelsLeft;
-};
 
 const RARE_CHUM: InventoryItemName[] = [
   "Rich Chicken",
@@ -598,9 +582,18 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </div>
             </div>
           </div>
+          {reelsLeft > 0 && (
+            <Label type="danger" className="m-1">
+              {`Finish your reels before buying more`}
+            </Label>
+          )}
           <Button
-            disabled={!canAfford}
-            onClick={canAfford ? () => setShowConfirm(true) : undefined}
+            disabled={!canAfford || reelsLeft > 0}
+            onClick={
+              canAfford || reelsLeft <= 0
+                ? () => setShowConfirm(true)
+                : undefined
+            }
           >
             <div className="flex items-center space-x-1">
               <p>{`Buy 5 more reels with 10`}</p>

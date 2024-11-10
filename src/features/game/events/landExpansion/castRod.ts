@@ -26,6 +26,23 @@ type Options = {
   createdAt?: number;
 };
 
+export const getRemainingReels = (state: GameState, now = new Date()) => {
+  const date = now.toISOString().split("T")[0];
+  const { fishing } = state;
+  const reelCount = fishing.dailyAttempts?.[date] ?? 0;
+  const { extraReels = 0 } = fishing;
+  const regularMaxReels = getDailyFishingLimit(state);
+  let reelsLeft = regularMaxReels - reelCount;
+
+  if (reelsLeft < 0) {
+    reelsLeft = 0;
+  }
+
+  reelsLeft += extraReels;
+
+  return reelsLeft;
+};
+
 export function castRod({
   state,
   action,
