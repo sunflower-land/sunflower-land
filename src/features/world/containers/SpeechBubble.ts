@@ -16,7 +16,7 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
 
     const bounds = this.text.getBounds();
 
-    this.bubble = (this.scene.add as any).rexNinePatch({
+    this.bubble = (this.scene.add as any).rexNinePatch2({
       x: bounds.centerX - 0.3,
       y: bounds.centerY + 0.5,
       width: bounds.width + 6,
