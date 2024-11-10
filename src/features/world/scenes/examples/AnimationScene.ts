@@ -3,6 +3,7 @@ import { ANIMATION, getAnimationUrl } from "../../lib/animations";
 import { getKeys } from "features/game/types/decorations";
 import { BaseScene } from "../BaseScene";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { SceneId } from "features/world/mmoMachine";
 
 /**
  * Using this file is as easy as 1, 2, 3!
@@ -11,6 +12,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
  * 3. Play Animation
  */
 export class ExampleAnimationScene extends Phaser.Scene {
+  sceneId: SceneId = "examples_animations";
   constructor() {
     super("examples_animations");
   }

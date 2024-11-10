@@ -11,6 +11,7 @@ import { Moderation } from "features/game/lib/gameMachine";
 import { MAX_PLAYERS } from "./lib/availableRooms";
 
 export type Scenes = {
+  phaser_preloader_scene: Room<PlazaRoomState> | undefined;
   plaza: Room<PlazaRoomState> | undefined;
   auction_house: Room<PlazaRoomState> | undefined;
   clothes_shop: Room<PlazaRoomState> | undefined;
@@ -28,6 +29,9 @@ export type Scenes = {
   nightshade_house: Room<PlazaRoomState> | undefined;
   bumpkin_house: Room<PlazaRoomState> | undefined;
   portal_example: Room<PlazaRoomState> | undefined;
+  halloween_island: Room<PlazaRoomState> | undefined;
+  examples_animations: Room<PlazaRoomState> | undefined;
+  examples_rpg: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;
