@@ -28,6 +28,7 @@ import {
   AnimalMedicineName,
   InventoryItemName,
   LoveAnimalItem,
+  MutantAnimal,
 } from "features/game/types/game";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -38,6 +39,7 @@ import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal
 import { formatNumber } from "lib/utils/formatNumber";
 import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -131,6 +133,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNoToolPopover, setShowNoToolPopover] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
+  const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenMachineState === "sleeping";
@@ -156,6 +159,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     name: "Gold Egg",
     game,
   });
+
+  // Check if the chicken has a mutant
+  const { name: mutantName } = chicken.reward?.items?.[0] ?? {};
 
   const feedChicken = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
@@ -260,6 +266,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onReadyClick = async () => {
+    if (mutantName && !showMutantAnimalModal) {
+      setShowMutantAnimalModal(true);
+      return;
+    }
+
     setShowDrops(true);
     playProduceDrop();
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -376,6 +387,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   return (
     <>
+      {mutantName && (
+        <MutantAnimalModal
+          mutant={mutantName as MutantAnimal}
+          show={!!showMutantAnimalModal}
+          onContinue={() => {
+            setShowMutantAnimalModal(false);
+            onReadyClick();
+          }}
+        />
+      )}
       <div
         className="relative cursor-pointer w-full h-full flex items-center justify-center"
         style={{

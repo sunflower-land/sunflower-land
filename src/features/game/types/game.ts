@@ -1246,6 +1246,7 @@ export type Animal = {
   lovedAt: number;
   item: LoveAnimalItem;
   multiplier?: number;
+  reward?: Reward;
 };
 
 export type AnimalBuilding = {
