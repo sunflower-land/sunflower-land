@@ -152,7 +152,6 @@ export const ItemsList: React.FC<Props> = ({
 
   const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
     state,
-    "inventory",
     seasonalStore,
     "collectible",
     tier,
@@ -160,7 +159,6 @@ export const ItemsList: React.FC<Props> = ({
   );
   const seasonalWearablesCrafted = getSeasonalItemsCrafted(
     state,
-    "wardrobe",
     seasonalStore,
     "wearable",
     tier,
