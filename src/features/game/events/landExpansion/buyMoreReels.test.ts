@@ -107,4 +107,33 @@ describe("buyMoreReels", () => {
 
     expect(result.inventory["Gem"]).toEqual(new Decimal(0));
   });
+
+  it("increases timesBought count by 1", () => {
+    const today = new Date().toISOString().split("T")[0];
+    const result = buyMoreReels({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          Gem: new Decimal(10),
+        },
+        fishing: {
+          weather: "Sunny",
+          wharf: {},
+          beach: {},
+          dailyAttempts: {
+            [date]: 20,
+          },
+          extraReels: {
+            timesBought: {
+              [today]: 0,
+            },
+            count: 0,
+          },
+        },
+      },
+      action: { type: "fishing.reelsBought" },
+    });
+    expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(1);
+  });
 });

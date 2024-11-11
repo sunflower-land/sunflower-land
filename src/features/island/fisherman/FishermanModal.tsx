@@ -45,6 +45,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { getRemainingReels } from "features/game/events/landExpansion/castRod";
 import { BuffLabel } from "features/game/types";
 import { BumpkinItem } from "features/game/types/bumpkin";
+import { getReelGemPrice } from "features/game/events/landExpansion/buyMoreReels";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -530,13 +531,14 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const { inventory } = state;
   const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(10);
+  const gemPrice = getReelGemPrice({ state });
   const confirmBuyMoreReels = () => {
     onClose();
     gameService.send("fishing.reelsBought");
 
     gameAnalytics.trackSink({
       currency: "Gem",
-      amount: 10,
+      amount: gemPrice,
       item: "FishingReels",
       type: "Fee",
     });
@@ -574,7 +576,7 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     </div>
                     <div className="flex flex-col justify-center space-y-1">
                       <div className="flex flex-col space-y-0.5">
-                        <span className="text-xs">{"Angler Waders"}</span>{" "}
+                        <span className="text-xs">{item}</span>
                         <span className="text-xxs italic">
                           {boostItem?.location}
                         </span>
@@ -606,7 +608,7 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             }
           >
             <div className="flex items-center space-x-1">
-              <p>{t("fishing.buyReels", { gemPrice: 10 })}</p>
+              <p>{t("fishing.buyReels", { gemPrice })}</p>
               <img src={ITEM_DETAILS.Gem.image} className="w-4" />
             </div>
           </Button>
@@ -616,7 +618,7 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <>
           <div className="flex flex-col p-2 pb-0 items-center">
             <span className="text-sm text-start w-full mb-1">
-              {t("desert.buyDigs.confirmation")}
+              {t("fishing.buyReels.confirmation", { gemPrice })}
             </span>
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">

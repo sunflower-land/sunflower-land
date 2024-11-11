@@ -1450,6 +1450,7 @@
   "fishing.lookingMoreReels": "Ahhh you're looking for more reels? No worries! Check out the options below!",
   "fishing.finishReels": "Finish your reels before buying more",
   "fishing.buyReels": "Buy 5 reels with {{gemPrice}} gems",
+  "fishing.buyReels.confirmation": "Are you sure you want to buy 5 reels for {{gemPrice}} gems?",
   "quest.basic.fish": "Catch each basic fish",
   "quest.advanced.fish": "Catch each advanced fish",
   "quest.all.fish": "Discover each basic, advanced, and expert fish",
