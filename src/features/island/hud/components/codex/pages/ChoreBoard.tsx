@@ -35,6 +35,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { CHORE_DETAILS } from "../lib/choreDetails";
 import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
 import { CHORE_DIALOGUES } from "features/game/types/stories";
+import { isMobile } from "mobile-device-detect";
 
 const formatNumber = (num: number, decimals = 2) => {
   // Check if the number has a fractional part
@@ -228,7 +229,9 @@ export const ChoreBoard: React.FC = () => {
                 }
                 onClick={() => {
                   handleCompleteChore(previewNpc);
-                  setSelectedId(undefined);
+                  if (isMobile) {
+                    setSelectedId(undefined);
+                  }
                 }}
               >
                 {t("chores.complete")}
