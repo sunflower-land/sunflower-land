@@ -26,6 +26,7 @@ import {
   AnimalMedicineName,
   InventoryItemName,
   LoveAnimalItem,
+  MutantAnimal,
 } from "features/game/types/game";
 import { Transition } from "@headlessui/react";
 import { ANIMAL_FOOD_EXPERIENCE } from "features/game/types/animals";
@@ -37,6 +38,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
 import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
+import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -101,6 +103,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
+  const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
   useEffect(() => {
     if (cow.state === "sick" && cowMachineState !== "sick") {
@@ -139,6 +142,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     foodQuantity: REQUIRED_FOOD_QTY.Cow,
     game,
   });
+
+  const { name: mutantName } = cow.reward?.items?.[0] ?? {};
 
   const feedCow = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
@@ -244,6 +249,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onReadyClick = async () => {
+    if (mutantName && !showMutantAnimalModal) {
+      setShowMutantAnimalModal(true);
+      return;
+    }
+
     setShowDrops(true);
     playProduceDrop();
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -338,140 +348,152 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const level = getAnimalLevel(cow.experience, "Cow");
 
   return (
-    <div
-      className="relative flex items-center justify-center cursor-pointer"
-      style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        height: `${GRID_WIDTH_PX * 2}px`,
-      }}
-      onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
-      onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
-    >
-      <div className="relative w-full h-full">
-        {showDrops && (
-          <ProduceDrops
-            multiplier={cow.multiplier ?? 0}
-            level={level}
-            animalType="Cow"
-            className="bottom-0 left-4 top-4"
-          />
-        )}
-        <img
-          src={animalImageInfo().image}
-          alt={`${capitalize(cowMachineState)} Cow`}
-          style={{
-            width: `${PIXEL_SCALE * animalImageInfo().width}px`,
+    <>
+      {mutantName && (
+        <MutantAnimalModal
+          mutant={mutantName as MutantAnimal}
+          show={!!showMutantAnimalModal}
+          onContinue={() => {
+            setShowMutantAnimalModal(false);
+            onReadyClick();
           }}
-          onClick={handleClick}
-          className={classNames(
-            "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-          )}
         />
-        {/* Emotion */}
-        {!idle && !needsLove && !sick && (
+      )}
+      <div
+        className="relative flex items-center justify-center cursor-pointer"
+        style={{
+          width: `${GRID_WIDTH_PX * 2}px`,
+          height: `${GRID_WIDTH_PX * 2}px`,
+        }}
+        onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
+        onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
+      >
+        <div className="relative w-full h-full">
+          {showDrops && (
+            <ProduceDrops
+              multiplier={cow.multiplier ?? 0}
+              level={level}
+              animalType="Cow"
+              className="bottom-0 left-4 top-4"
+            />
+          )}
           <img
-            src={ANIMAL_EMOTION_ICONS[cowMachineState].icon}
+            src={animalImageInfo().image}
             alt={`${capitalize(cowMachineState)} Cow`}
             style={{
-              width: `${ANIMAL_EMOTION_ICONS[cowMachineState].width}px`,
-              top: ANIMAL_EMOTION_ICONS[cowMachineState].top,
-              right: ANIMAL_EMOTION_ICONS[cowMachineState].right,
+              width: `${PIXEL_SCALE * animalImageInfo().width}px`,
             }}
-            className="absolute"
+            onClick={handleClick}
+            className={classNames(
+              "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+            )}
           />
-        )}
-        {/* Request */}
-        {idle && (
-          <RequestBubble
-            key={id}
-            top={PIXEL_SCALE * 1}
-            left={PIXEL_SCALE * 23}
-            request={favFood}
-            quantity={requiredFoodQty}
-          />
-        )}
-        {sick && (
-          <RequestBubble
-            top={PIXEL_SCALE * 2}
-            left={PIXEL_SCALE * 23}
-            request="Barn Delight"
-          />
-        )}
-        {needsLove && (
-          <RequestBubble
-            top={PIXEL_SCALE * 1}
-            left={PIXEL_SCALE * 23}
-            request={cow.item}
-          />
-        )}
-        {(sleeping || needsLove) && showWakesIn && (
-          <WakesIn awakeAt={cow.awakeAt} className="-top-10" />
-        )}
-        <InfoPopover
-          showPopover={
-            showNoToolPopover ||
-            showNoFoodSelected ||
-            showNoMedicine ||
-            showNotEnoughFood
-          }
-          className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
+          {/* Emotion */}
+          {!idle && !needsLove && !sick && (
+            <img
+              src={ANIMAL_EMOTION_ICONS[cowMachineState].icon}
+              alt={`${capitalize(cowMachineState)} Cow`}
+              style={{
+                width: `${ANIMAL_EMOTION_ICONS[cowMachineState].width}px`,
+                top: ANIMAL_EMOTION_ICONS[cowMachineState].top,
+                right: ANIMAL_EMOTION_ICONS[cowMachineState].right,
+              }}
+              className="absolute"
+            />
+          )}
+          {/* Request */}
+          {idle && (
+            <RequestBubble
+              key={id}
+              top={PIXEL_SCALE * 1}
+              left={PIXEL_SCALE * 23}
+              request={favFood}
+              quantity={requiredFoodQty}
+            />
+          )}
+          {sick && (
+            <RequestBubble
+              top={PIXEL_SCALE * 2}
+              left={PIXEL_SCALE * 23}
+              request="Barn Delight"
+            />
+          )}
+          {needsLove && (
+            <RequestBubble
+              top={PIXEL_SCALE * 1}
+              left={PIXEL_SCALE * 23}
+              request={cow.item}
+            />
+          )}
+          {(sleeping || needsLove) && showWakesIn && (
+            <WakesIn awakeAt={cow.awakeAt} className="-top-10" />
+          )}
+          <InfoPopover
+            showPopover={
+              showNoToolPopover ||
+              showNoFoodSelected ||
+              showNoMedicine ||
+              showNotEnoughFood
+            }
+            className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
+          >
+            <p className="text-xs p-0.5 py-1 font-secondary">
+              {getInfoPopoverMessage()}
+            </p>
+          </InfoPopover>
+        </div>
+        {/* Level Progress */}
+        <LevelProgress
+          animal={cow}
+          animalState={cowMachineState}
+          experience={cow.experience}
+          className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
+          // Don't block level up UI with wakes in panel if accidentally clicked
+          onLevelUp={() => setShowWakesIn(false)}
+        />
+        {/* Feed XP */}
+        <Transition
+          appear={true}
+          id="oil-reserve-collected-amount"
+          show={showFeedXP}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0 translate-y-4"
+          enterTo="opacity-100 -translate-y-0"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
         >
-          <p className="text-xs p-0.5 py-1 font-secondary">
-            {getInfoPopoverMessage()}
-          </p>
-        </InfoPopover>
+          <span
+            className="text-sm yield-text"
+            style={{
+              color:
+                favFood === selectedItem || selectedItem === "Omnifeed"
+                  ? "#71e358"
+                  : "#fff",
+            }}
+          >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Cow[level][selectedItem as AnimalFoodName])}`}</span>
+        </Transition>
+        <Transition
+          appear={true}
+          id="oil-reserve-collected-amount"
+          show={!!showLoveItem}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0 translate-y-4"
+          enterTo="opacity-100 -translate-y-0"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+        >
+          <span
+            className="text-sm yield-text"
+            style={{
+              color: "#ffffff",
+            }}
+          >{`+${formatNumber(ITEM_XP[showLoveItem!])}`}</span>
+        </Transition>
       </div>
-      {/* Level Progress */}
-      <LevelProgress
-        animal={cow}
-        animalState={cowMachineState}
-        experience={cow.experience}
-        className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
-        // Don't block level up UI with wakes in panel if accidentally clicked
-        onLevelUp={() => setShowWakesIn(false)}
-      />
-      {/* Feed XP */}
-      <Transition
-        appear={true}
-        id="oil-reserve-collected-amount"
-        show={showFeedXP}
-        enter="transition-opacity transition-transform duration-200"
-        enterFrom="opacity-0 translate-y-4"
-        enterTo="opacity-100 -translate-y-0"
-        leave="transition-opacity duration-100"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
-      >
-        <span
-          className="text-sm yield-text"
-          style={{
-            color:
-              favFood === selectedItem || selectedItem === "Omnifeed"
-                ? "#71e358"
-                : "#fff",
-          }}
-        >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Cow[level][selectedItem as AnimalFoodName])}`}</span>
-      </Transition>
-      <Transition
-        appear={true}
-        id="oil-reserve-collected-amount"
-        show={!!showLoveItem}
-        enter="transition-opacity transition-transform duration-200"
-        enterFrom="opacity-0 translate-y-4"
-        enterTo="opacity-100 -translate-y-0"
-        leave="transition-opacity duration-100"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
-      >
-        <span
-          className="text-sm yield-text"
-          style={{
-            color: "#ffffff",
-          }}
-        >{`+${formatNumber(ITEM_XP[showLoveItem!])}`}</span>
-      </Transition>
-    </div>
+    </>
   );
 };
