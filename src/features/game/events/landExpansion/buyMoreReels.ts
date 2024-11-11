@@ -58,7 +58,7 @@ export function getReelGemPrice({
   const { extraReels = { count: 0 } } = state.fishing;
   const { timesBought = {} } = extraReels;
   const basePrice = 10;
-  const gemMultiplier = 1; // can be changed depending on decided rate
+  const gemMultiplier = 2; // can be changed depending on decided rate
 
   if (!timesBought[today]) {
     return basePrice;
