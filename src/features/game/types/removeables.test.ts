@@ -1,9 +1,27 @@
 import Decimal from "decimal.js-light";
 import { hasRemoveRestriction } from "./removeables";
 import { INITIAL_FARM, TEST_FARM } from "../lib/constants";
+import { makeAnimals } from "../events/landExpansion/buyAnimal.test";
 
 describe("canremove", () => {
   describe("prevents", () => {
+    it("prevents a user from removing a Chicken Coop if they have a boosted number of chickens", () => {
+      const [restricted] = hasRemoveRestriction("Chicken Coop", "1", {
+        ...TEST_FARM,
+        inventory: {
+          "Chicken Coop": new Decimal(1),
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            ...makeAnimals(15, "Chicken"),
+          },
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
     it("prevents a user from removing Grinx Hammer if recently expanded", () => {
       const [restricted] = hasRemoveRestriction("Grinx's Hammer", "1", {
         ...TEST_FARM,
@@ -40,23 +58,6 @@ describe("canremove", () => {
               readyAt: 0,
             },
           ],
-        },
-      });
-
-      expect(restricted).toBe(true);
-    });
-
-    it("prevents a user from removing chicken coop if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Chicken Coop", "1", {
-        ...TEST_FARM,
-        inventory: {
-          "Chicken Coop": new Decimal(1),
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
-          },
         },
       });
 
