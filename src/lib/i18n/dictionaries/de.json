@@ -4325,5 +4325,6 @@
   "npcDialogues.corale.chore2": "Etwas Großes stört das natürliche Gleichgewicht des Ozeans...",
   "npcDialogues.corale.chore3": "Die Fische sagen, sie hätten kuhähnliche Schatten in tieferen Gewässern gesehen!",
   "gems.shipment.shops": "Diese Samen und Werkzeuge werden in den Geschäften nachgefüllt.",
-  "gems.restockToMaxStock": "Bis zum Maximalbestand auffüllen"
+  "gems.restockToMaxStock": "Bis zum Maximalbestand auffüllen",
+  "restrictionReason.hasBonusAnimals": "Bonustiere in {{building}}"
 }

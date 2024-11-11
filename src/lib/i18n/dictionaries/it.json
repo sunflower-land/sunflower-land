@@ -4325,5 +4325,6 @@
   "npcDialogues.corale.chore2": "Qualcosa di grosso sta disturbando l'equilibrio naturale dell'oceano...",
   "npcDialogues.corale.chore3": "I pesci dicono di aver visto ombre simili a mucche in acque più profonde!",
   "gems.shipment.shops": "Questi semi e attrezzi verranno riforniti nei negozi.",
-  "gems.restockToMaxStock": "Rifornimenti fino al massimo delle scorte"
+  "gems.restockToMaxStock": "Rifornimenti fino al massimo delle scorte",
+  "restrictionReason.hasBonusAnimals": "Animali bonus in {{building}}"
 }

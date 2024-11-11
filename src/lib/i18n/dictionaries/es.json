@@ -4325,5 +4325,6 @@
   "npcDialogues.corale.chore2": "Algo grande está perturbando el equilibrio natural del océano...",
   "npcDialogues.corale.chore3": "¡Los peces dicen que han visto sombras parecidas a vacas en aguas más profundas!",
   "gems.shipment.shops": "Estas semillas y herramientas se repondrán en las tiendas.",
-  "gems.restockToMaxStock": "Reabastece hasta el máximo de existencias"
+  "gems.restockToMaxStock": "Reabastece hasta el máximo de existencias",
+  "restrictionReason.hasBonusAnimals": "Animales adicionales en {{building}}"
 }
