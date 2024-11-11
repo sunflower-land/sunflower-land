@@ -3,79 +3,15 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { MutantAnimal } from "features/game/types/game";
 
-import richChicken from "assets/animals/chickens/rich_chicken.png";
-import fatChicken from "assets/animals/chickens/fat_chicken.png";
-import speedChicken from "assets/animals/chickens/speed_chicken.png";
-import ayamCemani from "assets/animals/chickens/ayam_cemani.png";
-import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
-import bananaChicken from "assets/animals/chickens/banana_chicken.png";
-import crimPeckster from "assets/animals/chickens/crim_peckster.png";
-import knightChicken from "assets/animals/chickens/knight_chicken.png";
-import pharaohChicken from "assets/animals/chickens/pharaoh_chicken.webp";
-import alienChicken from "assets/sfts/alien_chicken.webp";
-import toxicTuft from "assets/sfts/toxic_tuft.webp";
-import mootant from "assets/sfts/mootant.webp";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 import { Button } from "components/ui/Button";
-import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-const mutants: Record<
-  MutantAnimal | "Speed Chicken" | "Fat Chicken" | "Rich Chicken",
-  {
-    description: string;
-    image: string;
-  }
-> = {
-  "Speed Chicken": {
-    description: translate("description.speed.chicken.one"),
-    image: speedChicken,
-  },
-  "Fat Chicken": {
-    description: translate("description.fat.chicken.one"),
-    image: fatChicken,
-  },
-  "Rich Chicken": {
-    description: translate("description.rich.chicken.one"),
-    image: richChicken,
-  },
-  "Ayam Cemani": {
-    description: translate("description.ayam.cemani"),
-    image: ayamCemani,
-  },
-  "El Pollo Veloz": {
-    description: translate("description.el.pollo.veloz.one"),
-    image: elPolloVeloz,
-  },
-  "Banana Chicken": {
-    description: translate("description.banana.chicken"),
-    image: bananaChicken,
-  },
-  "Crim Peckster": {
-    description: translate("description.crim.peckster"),
-    image: crimPeckster,
-  },
-  "Knight Chicken": {
-    description: translate("description.knight.chicken"),
-    image: knightChicken,
-  },
-  "Pharaoh Chicken": {
-    description: translate("description.pharaoh.chicken"),
-    image: pharaohChicken,
-  },
-  "Alien Chicken": {
-    description: translate("description.alien.chicken"),
-    image: alienChicken,
-  },
-  "Toxic Tuft": {
-    description: translate("description.toxic.tuft"),
-    image: toxicTuft,
-  },
-  Mootant: {
-    description: translate("description.mootant"),
-    image: mootant,
-  },
-};
+import { Label } from "components/ui/Label";
+import chest from "assets/icons/chest.png";
+import lightning from "assets/icons/lightning.png";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   mutant: MutantAnimal;
@@ -85,24 +21,52 @@ interface Props {
 
 export const MutantAnimalModal = ({ mutant, show, onContinue }: Props) => {
   const { t } = useAppTranslation();
+  const boost = COLLECTIBLE_BUFF_LABELS[mutant];
+  const isPermanentMutant = (name: string): boolean => {
+    const permanentMutants = ["Speed Chicken", "Rich Chicken", "Fat Chicken"];
+    return permanentMutants.includes(name);
+  };
   return (
-    <Modal show={show}>
+    <Modal show={show} dialogClassName="max-w-[480px]">
       <Panel>
-        <div className="p-2">
-          <h1 className="text-lg text-center">
+        <div className="flex flex-wrap justify-between m-1 mx-1 ml-2 mb-1">
+          <Label type="warning" icon={chest}>
+            {t("reward")}
+          </Label>
+          {isPermanentMutant(mutant) ? (
+            <Label type="vibrant" secondaryIcon={lightning}>
+              {t("permanent")}
+            </Label>
+          ) : (
+            <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+              {t("seasonal")}
+            </Label>
+          )}
+        </div>
+        <div className="flex flex-col justify-center items-center mb-2 mx-1 sm:mx-2">
+          <p className="text-base mb-2">
             {mutant}
             {"!"}
-          </h1>
-          <div className="flex my-4 justify-center">
-            <img src={mutants[mutant].image} style={{ width: "50px" }} />
-          </div>
-          <p className="text-sm mb-2">{t("statements.mutant.animal")}</p>
-          <p className="text-sm mb-2">{mutants[mutant].description}</p>
+          </p>
+          <img src={ITEM_DETAILS[mutant].image} className="h-14 mb-2" />
+          <span className="text-xs text-center mb-2">
+            {t("statements.mutant.animal")}
+          </span>
+          <span className="text-xs text-center mb-2">
+            {ITEM_DETAILS[mutant].description}
+          </span>
+          {boost && (
+            <Label
+              className="my-1"
+              type={boost.labelType}
+              icon={boost.boostTypeIcon}
+              secondaryIcon={boost?.boostedItemIcon}
+            >
+              {boost.shortDescription}
+            </Label>
+          )}
         </div>
-
-        <div className="flex">
-          <Button onClick={onContinue}>{t("continue")}</Button>
-        </div>
+        <Button onClick={onContinue}>{t("continue")}</Button>
       </Panel>
     </Modal>
   );
