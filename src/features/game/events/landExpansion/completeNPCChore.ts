@@ -50,14 +50,14 @@ export function completeNPCChore({
       throw new Error("Chore requirements not met");
     }
 
-    // Mark chore as completed
-    chore.completedAt = createdAt;
-
     const items = generateChoreRewards({
       game: draft,
       chore,
       now: new Date(createdAt),
     });
+
+    // Mark chore as completed
+    chore.completedAt = createdAt;
 
     // Add rewards to inventory
     Object.entries(items).forEach(([itemName, amount]) => {
@@ -101,32 +101,34 @@ export function generateChoreRewards({
 
   if (!items[getSeasonalTicket(now)]) return items;
 
-  if (
-    !!game.inventory[getSeasonalBanner(now)] ||
-    !!game.inventory["Lifetime Farmer Banner"]
-  ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 2;
-  }
+  if (!chore.completedAt) {
+    if (
+      !!game.inventory[getSeasonalBanner(now)] ||
+      !!game.inventory["Lifetime Farmer Banner"]
+    ) {
+      items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 2;
+    }
 
-  if (
-    getCurrentSeason() === "Bull Run" &&
-    isWearableActive({ game, name: "Cowboy Hat" })
-  ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
-  }
+    if (
+      getCurrentSeason() === "Bull Run" &&
+      isWearableActive({ game, name: "Cowboy Hat" })
+    ) {
+      items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    }
 
-  if (
-    getCurrentSeason() === "Bull Run" &&
-    isWearableActive({ game, name: "Cowboy Shirt" })
-  ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
-  }
+    if (
+      getCurrentSeason() === "Bull Run" &&
+      isWearableActive({ game, name: "Cowboy Shirt" })
+    ) {
+      items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    }
 
-  if (
-    getCurrentSeason() === "Bull Run" &&
-    isWearableActive({ game, name: "Cowboy Trouser" })
-  ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    if (
+      getCurrentSeason() === "Bull Run" &&
+      isWearableActive({ game, name: "Cowboy Trouser" })
+    ) {
+      items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    }
   }
 
   return items;
