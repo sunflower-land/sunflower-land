@@ -23,6 +23,7 @@ import {
 import { getCurrentSeason } from "../types/seasons";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
+import { hasVipAccess } from "./vipAccess";
 import { isWearableActive } from "./wearables";
 
 export const makeAnimalBuildingKey = (
@@ -327,7 +328,7 @@ export function getBoostedFoodQuantity({
   }
 
   if (
-    isCollectibleBuilt({ name: "Bull Run Banner", game }) &&
+    hasVipAccess(game.inventory) &&
     getCurrentSeason() === "Bull Run"
   ) {
     foodQuantity *= 0.9;
