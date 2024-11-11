@@ -17,8 +17,7 @@ const EXTRA_REELS_AMOUNT = 5;
 
 export function buyMoreReels({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
-    const now = new Date(createdAt);
-    const today = new Date(now).toISOString().split("T")[0];
+    const today = new Date(createdAt).toISOString().split("T")[0];
     const gems = game.inventory["Gem"] ?? new Decimal(0);
 
     if (gems.lt(10)) {
@@ -55,8 +54,7 @@ export function getReelGemPrice({
   state: GameState;
   createdAt?: number;
 }): number {
-  const now = new Date(createdAt);
-  const today = new Date(now).toISOString().split("T")[0];
+  const today = new Date(createdAt).toISOString().split("T")[0];
   const { extraReels = { count: 0 } } = state.fishing;
   const { timesBought = {} } = extraReels;
   const basePrice = 10;

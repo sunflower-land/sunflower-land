@@ -25,10 +25,7 @@ import {
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
-import {
-  getDailyFishingCount,
-  getDailyFishingLimit,
-} from "features/game/types/fishing";
+import { getDailyFishingCount } from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -211,9 +208,6 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const { extraReels = { count: 0 } } = state.fishing;
-
-  const dailyFishingMax = getDailyFishingLimit(state) + extraReels.count;
   const reelsLeft = getRemainingReels(state);
 
   const fishingLimitReached = reelsLeft <= 0;
@@ -222,7 +216,7 @@ const BaitSelection: React.FC<{
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
   const tide = getTide();
-  const weather = state.fishing.weather;
+  const { weather } = state.fishing;
 
   return (
     <>
@@ -236,7 +230,7 @@ const BaitSelection: React.FC<{
                   type="formula"
                   className="mr-2"
                 >
-                  {"Dusktide"}
+                  {t("fishing.dusktide")}
                 </Label>
               ) : (
                 <Label
@@ -347,7 +341,7 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          {t("fishermanModal.dailyLimitReached", { limit: dailyFishingMax })}
+          {t("fishermanModal.dailyLimitReached")}
         </Label>
       )}
 
