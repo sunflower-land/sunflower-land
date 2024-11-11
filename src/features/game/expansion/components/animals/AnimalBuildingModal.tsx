@@ -19,7 +19,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getTotalAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
+import { getBoostedAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
 import { Label } from "components/ui/Label";
 import { pickRandomPositionInAnimalHouse } from "features/game/expansion/placeable/lib/collisionDetection";
 
@@ -121,7 +121,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     bumpkinLevel >= ANIMALS[selectedName].levelRequired;
 
   const atMaxCapacity =
-    getTotalAnimalsInBuilding() >= getTotalAnimalCapacity(buildingKey, state);
+    getTotalAnimalsInBuilding() >= getBoostedAnimalCapacity(buildingKey, state);
 
   if (showIntro) {
     return (
@@ -215,7 +215,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                 type={atMaxCapacity ? "danger" : "info"}
                 className="absolute bottom-3 sm:bottom-2 left-2"
               >
-                {`${getTotalAnimalsInBuilding()}/${getTotalAnimalCapacity(
+                {`${getTotalAnimalsInBuilding()}/${getBoostedAnimalCapacity(
                   buildingKey,
                   state,
                 )} ${t("capacity")}`}

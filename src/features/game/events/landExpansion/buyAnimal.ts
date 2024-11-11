@@ -39,7 +39,7 @@ export const getBaseAnimalCapacity = (level: number): number => {
   return baseCapacity;
 };
 
-export const getTotalAnimalCapacity = (
+export const getBoostedAnimalCapacity = (
   buildingKey: keyof GameState,
   game: GameState,
 ): number => {
@@ -100,7 +100,7 @@ export function buyAnimal({
       buildingRequired as AnimalBuildingType,
     );
 
-    const capacity = getTotalAnimalCapacity(buildingKey, copy);
+    const capacity = getBoostedAnimalCapacity(buildingKey, copy);
     const totalAnimalsInBuilding = getKeys(copy[buildingKey].animals).length;
 
     if (totalAnimalsInBuilding >= capacity) {

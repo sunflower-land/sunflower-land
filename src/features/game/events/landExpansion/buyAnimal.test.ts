@@ -1,5 +1,5 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { buyAnimal, getTotalAnimalCapacity } from "./buyAnimal";
+import { buyAnimal, getBoostedAnimalCapacity } from "./buyAnimal";
 import { Animal } from "features/game/types/game";
 import { AnimalType } from "features/game/types/animals";
 
@@ -292,13 +292,13 @@ describe("buyAnimal", () => {
 describe("getAnimalCapacity", () => {
   it("returns 10 for level 1 with no coop", () => {
     expect(
-      getTotalAnimalCapacity("henHouse", { ...TEST_FARM, collectibles: {} }),
+      getBoostedAnimalCapacity("henHouse", { ...TEST_FARM, collectibles: {} }),
     ).toBe(10);
   });
 
   it("returns 15 from level 1 with coop", () => {
     expect(
-      getTotalAnimalCapacity("henHouse", {
+      getBoostedAnimalCapacity("henHouse", {
         ...TEST_FARM,
         collectibles: {
           "Chicken Coop": [
@@ -316,7 +316,7 @@ describe("getAnimalCapacity", () => {
 
   it("returns 25 from level 2 with coop", () => {
     expect(
-      getTotalAnimalCapacity("henHouse", {
+      getBoostedAnimalCapacity("henHouse", {
         ...TEST_FARM,
         henHouse: {
           ...TEST_FARM.henHouse,
@@ -338,7 +338,7 @@ describe("getAnimalCapacity", () => {
 
   it("returns 20 from level 3 with no coop", () => {
     expect(
-      getTotalAnimalCapacity("henHouse", {
+      getBoostedAnimalCapacity("henHouse", {
         ...TEST_FARM,
         henHouse: {
           ...TEST_FARM.henHouse,
@@ -350,7 +350,7 @@ describe("getAnimalCapacity", () => {
 
   it("returns 35 from level 3 with coop", () => {
     expect(
-      getTotalAnimalCapacity("henHouse", {
+      getBoostedAnimalCapacity("henHouse", {
         ...TEST_FARM,
         henHouse: {
           ...TEST_FARM.henHouse,
