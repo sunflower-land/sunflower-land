@@ -524,8 +524,8 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const [showConfirm, setShowConfirm] = useState(false);
   const { inventory } = state;
-  const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(10);
   const gemPrice = getReelGemPrice({ state });
+  const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(gemPrice);
   const confirmBuyMoreReels = () => {
     onClose();
     gameService.send("fishing.reelsBought");

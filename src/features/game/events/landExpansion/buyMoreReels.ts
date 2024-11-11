@@ -19,8 +19,9 @@ export function buyMoreReels({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     const today = new Date(createdAt).toISOString().split("T")[0];
     const gems = game.inventory["Gem"] ?? new Decimal(0);
+    const gemPrice = getReelGemPrice({ state: game, createdAt });
 
-    if (gems.lt(10)) {
+    if (gems.lt(gemPrice)) {
       throw new Error("Player does not have enough Gems to buy more reels");
     }
 
@@ -28,7 +29,6 @@ export function buyMoreReels({ state, createdAt = Date.now() }: Options) {
       throw new Error("Player has reels remaining");
     }
 
-    const gemPrice = getReelGemPrice({ state: game, createdAt });
     game.inventory["Gem"] = gems.sub(gemPrice);
 
     const { extraReels = { count: 0 } } = game.fishing;
