@@ -9,7 +9,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import chest from "assets/icons/chest.png";
-import lightning from "assets/icons/lightning.png";
+import Crown from "assets/icons/vip.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -29,12 +29,12 @@ export const MutantAnimalModal = ({ mutant, show, onContinue }: Props) => {
   return (
     <Modal show={show} dialogClassName="max-w-[480px]">
       <Panel>
-        <div className="flex flex-wrap justify-between m-1 mx-1 ml-2 mb-1">
+        <div className="flex flex-wrap justify-between m-1 ml-2 mb-1">
           <Label type="warning" icon={chest}>
             {t("reward")}
           </Label>
           {isPermanentMutant(mutant) ? (
-            <Label type="vibrant" secondaryIcon={lightning}>
+            <Label className="mr-0.5" type="vibrant" secondaryIcon={Crown}>
               {t("permanent")}
             </Label>
           ) : (
