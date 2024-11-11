@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "6 ноября - 31 января",
   "ingredients": "Ингредиенты",
   "landscape.superTotem.resourceNodeCondition": "Пожалуйста, убедитесь, что минералы, деревья не восстанавливаются, не растут сельскохозяйственные культуры или фрукты, а также не работают кухонные помещения, прежде чем активировать {{selectedChestItem}}.",
-  "landscape.timeWarpTotem.nonStack": "Буст не суммируется с супертотемом",
-  "landscape.superTotem.nonStack": "Буст не суммируется с тотемом Time Warp",
   "description.kingOfBears": "Король всех медведей. Он способен производить больше меда для собственного потребления.",
   "description.halloweenScarecrow": "Страшно выглядящее пугало",
   "description.vampireBear": "Не ставьте меня под солнце!",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "Рыбы говорят, что видели тени, похожие на коров, в более глубоких водах!",
   "gems.shipment.shops": "Эти семена и инструменты будут пополняться в магазинах.",
   "gems.restockToMaxStock": "Пополняет запасы до максимального количества",
-  "restrictionReason.hasBonusAnimals": "Бонусные животные в {{building}}"
+  "restrictionReason.hasBonusAnimals": "Бонусные животные в {{building}}",
+  "landscape.timeWarpTotem.nonStack": "Временная деформация и супертотем не суммируются."
 }

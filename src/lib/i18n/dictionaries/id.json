@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "6 November - 31 Januari",
   "ingredients": "Bahan",
   "landscape.superTotem.resourceNodeCondition": "Harap pastikan tidak ada mineral atau pohon yang beregenerasi, tidak ada tanaman atau buah-buahan yang tumbuh, dan tidak ada bangunan memasak yang berfungsi sebelum mengaktifkan {{selectedChestItem}}.",
-  "landscape.timeWarpTotem.nonStack": "Boost tidak menumpuk dengan Super Totem",
-  "landscape.superTotem.nonStack": "Boost tidak menumpuk dengan Time Warp Totem",
   "description.kingOfBears": "Raja dari semua beruang. Ia memiliki kekuatan untuk menghasilkan lebih banyak madu untuk konsumsinya sendiri.",
   "description.halloweenScarecrow": "Scarecrow yang tampak menakutkan",
   "description.vampireBear": "Jangan letakkan aku di bawah matahari!",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "Ikan mengatakan mereka telah melihat bayangan seperti sapi di perairan yang lebih dalam!",
   "gems.shipment.shops": "Benih dan alat ini akan diisi ulang di toko-toko.",
   "gems.restockToMaxStock": "Isi ulang hingga stok maksimum",
-  "restrictionReason.hasBonusAnimals": "Bonus hewan di {{building}}"
+  "restrictionReason.hasBonusAnimals": "Bonus hewan di {{building}}",
+  "landscape.timeWarpTotem.nonStack": "Time Warp dan Super Totem tidak menumpuk."
 }

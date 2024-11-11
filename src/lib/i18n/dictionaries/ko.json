@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "11월 6일 - 1월 31일",
   "ingredients": "성분",
   "landscape.superTotem.resourceNodeCondition": "{{selectedChestItem}} 를 활성화하기 전에 재생 중인 미네랄이나 나무가 없는지, 작물이나 과일이 자라지 않는지, 조리용 건물이 작동하지 않는지 확인하십시오.",
-  "landscape.timeWarpTotem.nonStack": "부스트는 슈퍼 토템과 중첩되지 않습니다",
-  "landscape.superTotem.nonStack": "부스트는 타임 워프 토템과 중첩되지 않습니다.",
   "description.kingOfBears": "모든 곰의 왕.꿀은 스스로 먹기 위해 더 많은 꿀을 생산할 수 있는 힘을 가지고 있습니다.",
   "description.halloweenScarecrow": "무섭게 생긴 허수아비",
   "description.vampireBear": "날 태양 아래 두지 마!",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "물고기들은 깊은 바다에서 소 같은 그림자를 보았다고 합니다!",
   "gems.shipment.shops": "이러한 씨앗과 도구는 상점에서 보충됩니다.",
   "gems.restockToMaxStock": "최대 재고까지 재입고",
-  "restrictionReason.hasBonusAnimals": "{{building}} 의 보너스 동물"
+  "restrictionReason.hasBonusAnimals": "{{building}} 의 보너스 동물",
+  "landscape.timeWarpTotem.nonStack": "타임 워프와 슈퍼 토템은 중첩되지 않습니다."
 }

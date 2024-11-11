@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "11 月 6 日から 1 月 31 日まで",
   "ingredients": "原材料",
   "landscape.superTotem.resourceNodeCondition": "{{selectedChestItem}} を有効にする前に、ミネラルや樹木が再生されておらず、作物や果物が育っておらず、調理施設が機能していないことを確認してください。",
-  "landscape.timeWarpTotem.nonStack": "ブーストがスーパートーテムと重複しない",
-  "landscape.superTotem.nonStack": "ブーストがタイムワープトーテムと重複しない",
   "description.kingOfBears": "すべてのクマの王様。自分の消費分だけはちみつを多く生成する力がある。",
   "description.halloweenScarecrow": "怖そうなかかし",
   "description.vampireBear": "私を太陽の下に置かないで！",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "魚は、深い海で牛のような影を見たことがあると言っています！",
   "gems.shipment.shops": "これらの種と道具はショップで補充されます。",
   "gems.restockToMaxStock": "最大在庫数まで補充",
-  "restrictionReason.hasBonusAnimals": "{{building}} のボーナス動物"
+  "restrictionReason.hasBonusAnimals": "{{building}} のボーナス動物",
+  "landscape.timeWarpTotem.nonStack": "タイムワープとスーパートーテムはスタックしません。"
 }

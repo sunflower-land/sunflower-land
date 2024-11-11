@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "6 de novembro - 31 de janeiro",
   "ingredients": "ingredientes",
   "landscape.superTotem.resourceNodeCondition": "Certifique-se de que nenhum mineral ou árvore esteja se regenerando, que nenhuma safra ou fruta esteja crescendo e que nenhum prédio de cozinha esteja funcionando antes de ativar o {{selectedChestItem}}.",
-  "landscape.timeWarpTotem.nonStack": "O Boost não se acumula com o Super Totem",
-  "landscape.superTotem.nonStack": "O Boost não se acumula com o Time Warp Totem",
   "description.kingOfBears": "O rei de todos os ursos. Tem o poder de gerar mais mel para consumo próprio.",
   "description.halloweenScarecrow": "Um espantalho assustador",
   "description.vampireBear": "Não me coloque sob o sol!",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "Os peixes dizem que viram sombras parecidas com vacas em águas mais profundas!",
   "gems.shipment.shops": "Essas sementes e ferramentas serão reabastecidas nas lojas.",
   "gems.restockToMaxStock": "Reabastece até o estoque máximo",
-  "restrictionReason.hasBonusAnimals": "Animais bônus em {{building}}"
+  "restrictionReason.hasBonusAnimals": "Animais bônus em {{building}}",
+  "landscape.timeWarpTotem.nonStack": "Time Warp e Super Totem não se acumulam."
 }

@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "6 novembre - 31 gennaio",
   "ingredients": "ingredienti",
   "landscape.superTotem.resourceNodeCondition": "Assicurati che nessun minerale o albero si stia rigenerando, che non crescano colture o frutti e che nessun edificio di cottura funzioni prima di attivare {{selectedChestItem}}.",
-  "landscape.timeWarpTotem.nonStack": "Il Boost non si accumula con Super Totem",
-  "landscape.superTotem.nonStack": "Il Boost non si accumula con Time Warp Totem",
   "description.kingOfBears": "Il re di tutti gli orsi. Ha il potere di generare più miele per il proprio consumo.",
   "description.halloweenScarecrow": "Uno spaventapasseri dall'aspetto spaventoso",
   "description.vampireBear": "Non mettermi sotto il sole!",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "I pesci dicono di aver visto ombre simili a mucche in acque più profonde!",
   "gems.shipment.shops": "Questi semi e attrezzi verranno riforniti nei negozi.",
   "gems.restockToMaxStock": "Rifornimenti fino al massimo delle scorte",
-  "restrictionReason.hasBonusAnimals": "Animali bonus in {{building}}"
+  "restrictionReason.hasBonusAnimals": "Animali bonus in {{building}}",
+  "landscape.timeWarpTotem.nonStack": "Time Warp e Super Totem non si sommano."
 }

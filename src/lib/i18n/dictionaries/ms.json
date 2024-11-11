@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "6 November - 31 Jan",
   "ingredients": "Bahan-bahan",
   "landscape.superTotem.resourceNodeCondition": "Sila pastikan tiada mineral atau pokok tumbuh semula, tiada tanaman atau buah-buahan yang tumbuh, dan tiada bangunan memasak berfungsi sebelum mengaktifkan {{selectedChestItem}}.",
-  "landscape.timeWarpTotem.nonStack": "Boost tidak disusun dengan Super Totem",
-  "landscape.superTotem.nonStack": "Boost tidak disusun dengan Time Warp Totem",
   "description.kingOfBears": "Raja semua beruang. Ia mempunyai kuasa untuk menghasilkan lebih banyak madu untuk penggunaannya sendiri.",
   "description.halloweenScarecrow": "Penjahat yang kelihatan menakutkan",
   "description.vampireBear": "Jangan letakkan saya di bawah matahari!",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "Ikan mengatakan bahawa mereka telah melihat bayang-bayang seperti lembu di perairan yang lebih dalam!",
   "gems.shipment.shops": "Benih dan alat ini akan diisi semula di kedai-kedai.",
   "gems.restockToMaxStock": "Mengisi semula stok maksimum",
-  "restrictionReason.hasBonusAnimals": "Haiwan bonus dalam {{building}}"
+  "restrictionReason.hasBonusAnimals": "Haiwan bonus dalam {{building}}",
+  "landscape.timeWarpTotem.nonStack": "Time Warp dan Super Totem tidak disusun."
 }

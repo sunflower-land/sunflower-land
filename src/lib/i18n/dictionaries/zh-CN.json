@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "11 月 6 日至 1 月 31 日",
   "ingredients": "食材",
   "landscape.superTotem.resourceNodeCondition": "在激活 {{selectedChestItem}} 之前，请确保没有矿物质或树木在再生，没有农作物或水果生长，烹饪建筑物不起作用。",
-  "landscape.timeWarpTotem.nonStack": "Boost 无法与 Super Totem 叠加",
-  "landscape.superTotem.nonStack": "Boost 无法与 Time Warp Totem 叠加",
   "description.kingOfBears": "所有熊之王。它有能力生产更多的蜂蜜供自己食用。",
   "description.halloweenScarecrow": "看上去很恐怖的稻草人",
   "description.vampireBear": "别把我放在阳光下！",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "鱼说他们在更深的水域看到了像牛一样的阴影！",
   "gems.shipment.shops": "这些种子和工具将在商店补充。",
   "gems.restockToMaxStock": "补货至最大库存量",
-  "restrictionReason.hasBonusAnimals": "{{building}} 中的奖励动物"
+  "restrictionReason.hasBonusAnimals": "{{building}} 中的奖励动物",
+  "landscape.timeWarpTotem.nonStack": "Time Warp 和 Super Totem 无法堆叠。"
 }

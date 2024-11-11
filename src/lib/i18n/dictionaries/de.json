@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "6. November — 31. Januar",
   "ingredients": "Inhaltsstoffe",
   "landscape.superTotem.resourceNodeCondition": "Bitte stellen Sie sicher, dass sich keine Mineralien oder Bäume regenerieren, keine Pflanzen oder Früchte wachsen und keine Kochgebäude funktionieren, bevor Sie {{selectedChestItem}} aktivieren.",
-  "landscape.timeWarpTotem.nonStack": "Boost lässt sich nicht mit Super Totem stapeln",
-  "landscape.superTotem.nonStack": "Boost lässt sich nicht mit Time Warp Totem stapeln",
   "description.kingOfBears": "Der König aller Bären. Er hat die Macht, mehr Honig für den eigenen Verzehr zu erzeugen.",
   "description.halloweenScarecrow": "Eine gruselig aussehende Vogelscheuche",
   "description.vampireBear": "Stell mich nicht unter die Sonne!",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "Die Fische sagen, sie hätten kuhähnliche Schatten in tieferen Gewässern gesehen!",
   "gems.shipment.shops": "Diese Samen und Werkzeuge werden in den Geschäften nachgefüllt.",
   "gems.restockToMaxStock": "Bis zum Maximalbestand auffüllen",
-  "restrictionReason.hasBonusAnimals": "Bonustiere in {{building}}"
+  "restrictionReason.hasBonusAnimals": "Bonustiere in {{building}}",
+  "landscape.timeWarpTotem.nonStack": "Time Warp und Super Totem lassen sich nicht stapeln."
 }

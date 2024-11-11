@@ -4232,8 +4232,6 @@
   "whatsOn.date.nov6Dec11": "Del 6 de noviembre al 31 de enero",
   "ingredients": "Ingredientes",
   "landscape.superTotem.resourceNodeCondition": "Antes de activar el {{selectedChestItem}}, asegúrate de que ningún mineral o árbol se esté regenerando, de que no haya cultivos ni frutos y de que no haya instalaciones para cocinar en funcionamiento.",
-  "landscape.timeWarpTotem.nonStack": "El impulso no se acumula con Super Totem",
-  "landscape.superTotem.nonStack": "El impulso no se acumula con Time Warp Totem",
   "description.kingOfBears": "El rey de todos los osos. Tiene el poder de generar más miel para su propio consumo.",
   "description.halloweenScarecrow": "Un espantapájaros de aspecto aterrador",
   "description.vampireBear": "¡No me pongas bajo el sol!",
@@ -4326,5 +4324,6 @@
   "npcDialogues.corale.chore3": "¡Los peces dicen que han visto sombras parecidas a vacas en aguas más profundas!",
   "gems.shipment.shops": "Estas semillas y herramientas se repondrán en las tiendas.",
   "gems.restockToMaxStock": "Reabastece hasta el máximo de existencias",
-  "restrictionReason.hasBonusAnimals": "Animales adicionales en {{building}}"
+  "restrictionReason.hasBonusAnimals": "Animales adicionales en {{building}}",
+  "landscape.timeWarpTotem.nonStack": "Time Warp y Super Totem no se acumulan."
 }
