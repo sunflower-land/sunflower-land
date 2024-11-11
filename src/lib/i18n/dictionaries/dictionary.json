@@ -3470,6 +3470,7 @@
   "worm.grub": "A juicy grub - perfect for advanced fish.",
   "worm.redWiggler": "An exotic worm that entices rare fish.",
   "restrictionReason.isGrowing": "{{item}} is growing",
+  "restrictionReason.hasBonusAnimals": "Bonus animals in {{building}}",
   "restrictionReason.beanPlanted": "Magic Bean is planted",
   "restrictionReason.cropsGrowing": "Crops are growing",
   "restrictionReason.?cropGrowing": "{{crop}} is growing",
