@@ -95,7 +95,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
     state,
-    "inventory",
     seasonalStore,
     "collectible",
     tiers,
@@ -103,7 +102,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   );
   const seasonalWearablesCrafted = getSeasonalItemsCrafted(
     state,
-    "wardrobe",
     seasonalStore,
     "wearable",
     tiers,

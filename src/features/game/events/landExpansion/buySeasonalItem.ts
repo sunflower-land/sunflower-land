@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 
 import { produce } from "immer";
@@ -65,7 +64,6 @@ export function buySeasonalItem({
 
     const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
       state,
-      "inventory",
       seasonalStore,
       "collectible",
       tier,
@@ -73,7 +71,6 @@ export function buySeasonalItem({
     );
     const seasonalWearablesCrafted = getSeasonalItemsCrafted(
       state,
-      "wardrobe",
       seasonalStore,
       "wearable",
       tier,
@@ -259,7 +256,6 @@ export function getTierItems(
 
 export function getSeasonalItemsCrafted(
   game: GameState,
-  items: "wardrobe" | "inventory",
   seasonalStore: SeasonalStore,
   itemType: "collectible" | "wearable",
   tier: keyof SeasonalStore,
@@ -268,23 +264,18 @@ export function getSeasonalItemsCrafted(
   const tierItems = getTierItems(seasonalStore, tier, isLowerTier);
   if (!tierItems) return 0;
 
-  const craftedItems = getKeys(game[items]).filter((itemName) =>
-    tierItems.some(
-      (tierItem: SeasonalStoreItem) =>
-        (itemType === "collectible" &&
-          "collectible" in tierItem &&
-          tierItem.collectible === itemName &&
-          game.bumpkin.activity[
-            `${tierItem.collectible as SeasonalTierItemName} Bought`
-          ]) ||
-        (itemType === "wearable" &&
-          "wearable" in tierItem &&
-          tierItem.wearable === itemName &&
-          game.bumpkin.activity[
-            `${tierItem.wearable as SeasonalTierItemName} Bought`
-          ]) ||
-        0,
-    ),
+  const craftedItems = tierItems.filter(
+    (tierItem: SeasonalStoreItem) =>
+      (itemType === "collectible" &&
+        "collectible" in tierItem &&
+        game.bumpkin.activity[
+          `${tierItem.collectible as SeasonalTierItemName} Bought`
+        ]) ||
+      (itemType === "wearable" &&
+        "wearable" in tierItem &&
+        game.bumpkin.activity[
+          `${tierItem.wearable as SeasonalTierItemName} Bought`
+        ]),
   );
 
   if (!craftedItems) return 0;
