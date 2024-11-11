@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { getKeys } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
@@ -31,7 +31,6 @@ import {
 } from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
-import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getBasketItems,
@@ -44,6 +43,8 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { getRemainingReels } from "features/game/events/landExpansion/castRod";
+import { BuffLabel } from "features/game/types";
+import { BumpkinItem } from "features/game/types/bumpkin";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -182,6 +183,7 @@ const BaitSelection: React.FC<{
     if (hasRequirements) {
       setChum(lastSelectedChum as Chum);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [showChum, setShowChum] = useState(false);
@@ -241,7 +243,7 @@ const BaitSelection: React.FC<{
                   type="default"
                   className="mr-2"
                 >
-                  {"Dawnlight"}
+                  {t("fishing.dawnlight")}
                 </Label>
               )}
 
@@ -258,7 +260,7 @@ const BaitSelection: React.FC<{
             </div>
 
             <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-              {`${reelsLeft} reels left`}
+              {t("fishing.reelsLeft", { reelsLeft })}
             </Label>
           </div>
         </div>
@@ -421,10 +423,10 @@ export const FishermanModal: React.FC<Props> = ({
               }),
             },
             {
-              text: translate("fishermanModal.fishBenefits"),
+              text: t("fishermanModal.fishBenefits"),
             },
             {
-              text: translate("fishermanModal.baitAndResources"),
+              text: t("fishermanModal.baitAndResources"),
             },
           ]}
           onClose={() => {
@@ -442,10 +444,10 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: translate("fishermanModal.crazyHappening"),
+              text: t("fishermanModal.crazyHappening"),
             },
             {
-              text: translate("fishermanModal.bonusFish"),
+              text: t("fishermanModal.bonusFish"),
             },
           ]}
           onClose={() => {
@@ -462,7 +464,7 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: translate("fishermanModal.fullMoon"),
+              text: t("fishermanModal.fullMoon"),
             },
           ]}
           onClose={() => {
@@ -478,14 +480,14 @@ export const FishermanModal: React.FC<Props> = ({
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES[npc]}
       tabs={[
-        { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
+        { icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
         {
           icon: SUNNYSIDE.icons.expression_confused,
           name: t("guide"),
         },
         {
           icon: powerup,
-          name: "Extras",
+          name: t("fishing.extras"),
         },
       ]}
       currentTab={tab}
@@ -506,6 +508,15 @@ export const FishermanModal: React.FC<Props> = ({
       )}
     </CloseButtonPanel>
   );
+};
+
+const BoostReelItems: Partial<
+  Record<BumpkinItem | CollectibleName, BuffLabel & { location: string }>
+> = {
+  "Angler Waders": {
+    ...(BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"] as BuffLabel),
+    location: "Expert Angler Achievement",
+  },
 };
 
 const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -540,51 +551,50 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <div className="flex items-center justify-between space-x-1 mb-1">
               <Label type="default">{`Extra Reels`}</Label>
               <Label type="default" icon={SUNNYSIDE.tools.fishing_rod}>
-                <span className="text">{`${reelsLeft} reels left`}</span>
+                <span className="text">
+                  {t("fishing.reelsLeft", { reelsLeft })}
+                </span>
               </Label>
             </div>
-            <span className="text-xs my-2">{`Ahhh you're looking for more reels? No worries! Check out the options below!`}</span>
+            <span className="text-xs my-2">
+              {t("fishing.lookingMoreReels")}
+            </span>
             <div className="flex flex-col my-2 space-y-1">
-              <div className="flex space-x-2">
-                <div
-                  className="bg-brown-600 cursor-pointer relative"
-                  style={{
-                    ...pixelDarkBorderStyle,
-                  }}
-                >
-                  <SquareIcon icon={getImageUrl(234)} width={20} />
-                </div>
-                <div className="flex flex-col justify-center space-y-1">
-                  <div className="flex flex-col space-y-0.5">
-                    <span className="text-xs">{"Angler Waders"}</span>{" "}
-                    <span className="text-xxs italic">
-                      {`Expert Angler Achievement`}
-                    </span>
+              {getKeys(BoostReelItems).map((item) => {
+                const boostItem = BoostReelItems[item];
+                return (
+                  <div key={item} className="flex space-x-2">
+                    <div
+                      className="bg-brown-600 cursor-pointer relative"
+                      style={{
+                        ...pixelDarkBorderStyle,
+                      }}
+                    >
+                      <SquareIcon icon={getImageUrl(234)} width={20} />
+                    </div>
+                    <div className="flex flex-col justify-center space-y-1">
+                      <div className="flex flex-col space-y-0.5">
+                        <span className="text-xs">{"Angler Waders"}</span>{" "}
+                        <span className="text-xxs italic">
+                          {boostItem?.location}
+                        </span>
+                      </div>
+                      <Label
+                        type={boostItem?.labelType ?? "default"}
+                        icon={boostItem?.boostTypeIcon}
+                        secondaryIcon={boostItem?.boostedItemIcon}
+                      >
+                        {boostItem?.shortDescription}
+                      </Label>
+                    </div>
                   </div>
-                  <Label
-                    type={
-                      BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"]?.labelType ??
-                      "default"
-                    }
-                    icon={
-                      BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"]?.boostTypeIcon
-                    }
-                    secondaryIcon={
-                      BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"]?.boostedItemIcon
-                    }
-                  >
-                    {
-                      BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"]
-                        ?.shortDescription
-                    }
-                  </Label>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
           {reelsLeft > 0 && (
             <Label type="danger" className="m-1">
-              {`Finish your reels before buying more`}
+              {t("fishing.finishReels")}
             </Label>
           )}
           <Button
@@ -596,7 +606,7 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             }
           >
             <div className="flex items-center space-x-1">
-              <p>{`Buy 5 more reels with 10`}</p>
+              <p>{t("fishing.buyReels", { gemPrice: 10 })}</p>
               <img src={ITEM_DETAILS.Gem.image} className="w-4" />
             </div>
           </Button>
