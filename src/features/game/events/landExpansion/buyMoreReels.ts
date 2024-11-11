@@ -21,12 +21,12 @@ export function buyMoreReels({ state, createdAt = Date.now() }: Options) {
     const gems = game.inventory["Gem"] ?? new Decimal(0);
     const gemPrice = getReelGemPrice({ state: game, createdAt });
 
-    if (gems.lt(gemPrice)) {
-      throw new Error("Player does not have enough Gems to buy more reels");
-    }
-
     if (getRemainingReels(game) > 0) {
       throw new Error("Player has reels remaining");
+    }
+
+    if (gems.lt(gemPrice)) {
+      throw new Error("Player does not have enough Gems to buy more reels");
     }
 
     game.inventory["Gem"] = gems.sub(gemPrice);
