@@ -3,7 +3,9 @@ import { getAnimalLevel } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { produce } from "immer";
+import { generateBountyTicket } from "./sellBounty";
 
 export function isValidDeal({
   animal,
@@ -83,7 +85,16 @@ export function sellAnimal({
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = game.inventory[name] ?? new Decimal(0);
-      const amount = request.items?.[name] ?? 0;
+      let amount = request.items?.[name] ?? 0;
+
+      if (name === getSeasonalTicket(new Date(createdAt))) {
+        amount = generateBountyTicket({
+          game,
+          bounty: request,
+          now: createdAt,
+        });
+      }
+
       game.inventory[name] = previous.add(
         isSick ? getSickAnimalRewardAmount(amount) : amount,
       );
