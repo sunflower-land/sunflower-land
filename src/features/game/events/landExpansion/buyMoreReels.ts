@@ -27,10 +27,10 @@ export function buyMoreReels({ state }: Options) {
       throw new Error("Player has reels remaining");
     }
 
-    const extraReels = game.fishing.extraReels ?? 0;
+    const { extraReels = { count: 0 } } = game.fishing;
     game.inventory["Gem"] = gems.sub(10);
 
-    game.fishing.extraReels = extraReels + EXTRA_REELS_AMOUNT;
+    extraReels.count += EXTRA_REELS_AMOUNT;
 
     return game;
   });

@@ -210,9 +210,9 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const { extraReels = 0 } = state.fishing;
+  const { extraReels = { count: 0 } } = state.fishing;
 
-  const dailyFishingMax = getDailyFishingLimit(state) + extraReels;
+  const dailyFishingMax = getDailyFishingLimit(state) + extraReels.count;
   const reelsLeft = getRemainingReels(state);
 
   const fishingLimitReached = reelsLeft <= 0;

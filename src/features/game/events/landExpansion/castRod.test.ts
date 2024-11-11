@@ -335,11 +335,13 @@ describe("castRod", () => {
           dailyAttempts: {
             [date]: 20,
           },
-          extraReels: 5,
+          extraReels: {
+            count: 5,
+          },
         },
       },
     });
-    expect(state.fishing.extraReels).toEqual(4);
+    expect(state.fishing.extraReels?.count).toEqual(4);
   });
 
   it("does not subtract extra reels when daily limit not hit yet", () => {
@@ -360,10 +362,12 @@ describe("castRod", () => {
           dailyAttempts: {
             [date]: 1,
           },
-          extraReels: 5,
+          extraReels: {
+            count: 5,
+          },
         },
       },
     });
-    expect(state.fishing.extraReels).toEqual(5);
+    expect(state.fishing.extraReels?.count).toEqual(5);
   });
 });

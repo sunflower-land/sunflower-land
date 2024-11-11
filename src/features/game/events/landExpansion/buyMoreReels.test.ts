@@ -20,7 +20,9 @@ describe("buyMoreReels", () => {
             dailyAttempts: {
               [date]: 20,
             },
-            extraReels: 0,
+            extraReels: {
+              count: 0,
+            },
           },
         },
         action: { type: "fishing.reelsBought" },
@@ -44,7 +46,9 @@ describe("buyMoreReels", () => {
             dailyAttempts: {
               [date]: 1,
             },
-            extraReels: 0,
+            extraReels: {
+              count: 0,
+            },
           },
         },
         action: { type: "fishing.reelsBought" },
@@ -67,13 +71,15 @@ describe("buyMoreReels", () => {
           dailyAttempts: {
             [date]: 20,
           },
-          extraReels: 0,
+          extraReels: {
+            count: 0,
+          },
         },
       },
       action: { type: "fishing.reelsBought" },
     });
 
-    expect(result.fishing.extraReels).toEqual(5);
+    expect(result.fishing.extraReels?.count).toEqual(5);
   });
 
   it("removes Gems from the player's inventory", () => {
@@ -91,7 +97,9 @@ describe("buyMoreReels", () => {
           dailyAttempts: {
             [date]: 20,
           },
-          extraReels: 0,
+          extraReels: {
+            count: 0,
+          },
         },
       },
       action: { type: "fishing.reelsBought" },
