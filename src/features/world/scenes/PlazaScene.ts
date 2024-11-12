@@ -627,7 +627,7 @@ export class PlazaScene extends BaseScene {
     const server = this.mmoService?.state.context.server;
     if (!server) return;
 
-    server.state.actions.onAdd(async (action) => {
+    /* server.state.actions.onAdd(async (action) => {
       if (
         action.event === "open_clubhouse" &&
         !!this.layers["Club House Door"].visible
@@ -638,7 +638,7 @@ export class PlazaScene extends BaseScene {
 
         this.layers["Club House Door"].setVisible(true);
       }
-    });
+    }); */
   }
 
   syncPlaceables() {

@@ -254,12 +254,12 @@ export const PhaserComponent: React.FC<Props> = ({
     const listener = (e: EventObject) => {
       switch (e.type) {
         case "bumpkin.equipped":
-          mmoService.state.context.server?.send(0, {
+          mmoService.state.context.server?.send("player:clothing:update", {
             clothing: (e as EquipBumpkinAction).equipment,
           });
           break;
         case "UPDATE_USERNAME":
-          mmoService.state.context.server?.send(0, {
+          mmoService.state.context.server?.send("player:username:change", {
             username: (e as UpdateUsernameEvent).username,
           });
           break;
@@ -307,19 +307,19 @@ export const PhaserComponent: React.FC<Props> = ({
           gameState={gameService.state.context.state}
           scene={scene}
           onMessage={(m) => {
-            mmoService.state.context.server?.send(0, {
+            mmoService.state.context.server?.send("player:message", {
               text: m.text ?? "?",
             });
           }}
           messages={[]}
           isMuted={isMuted ? true : false}
           onReact={(reaction) => {
-            mmoService.state.context.server?.send(0, {
+            mmoService.state.context.server?.send("player:reaction", {
               reaction: { reaction },
             });
           }}
           onBudPlace={(tokenId) => {
-            mmoService.state.context.server?.send(0, {
+            mmoService.state.context.server?.send("player:bud:place", {
               budId: tokenId,
             });
           }}

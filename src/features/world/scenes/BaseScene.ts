@@ -111,7 +111,11 @@ export abstract class BaseScene extends Phaser.Scene {
   currentPlayer: BumpkinContainer | undefined;
   isFacingLeft = false;
   movementAngle: number | undefined;
-  serverPosition: { x: number; y: number } = { x: 0, y: 0 };
+  serverPosition: { x: number; y: number; tick: number } = {
+    x: 0,
+    y: 0,
+    tick: 0,
+  };
   packetSentAt = 0;
 
   playerEntities: {
@@ -339,6 +343,8 @@ export abstract class BaseScene extends Phaser.Scene {
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
       errorLogger(JSON.stringify(error));
     }
 
@@ -516,7 +522,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const removeMessageListener = server.state.messages.onAdd((message) => {
       // Old message
-      if (message.sentAt < Date.now() - 5000) {
+      if (message.createdAt < Date.now() - 5000) {
         return;
       }
 
@@ -528,42 +534,18 @@ export abstract class BaseScene extends Phaser.Scene {
         return;
       }
 
-      if (this.playerEntities[message.sessionId]) {
+      if (this.playerEntities[message.authorSessionId]) {
         // Avoid rendering speech bubbles for players that are too far away (CPU intensive)
         const distance = this.calculateDistanceBetweenPlayers(
-          this.playerEntities[message.sessionId],
+          this.playerEntities[message.authorSessionId],
           this.currentPlayer as BumpkinContainer,
         );
 
         if (distance < 150) {
-          this.playerEntities[message.sessionId].speak(message.text);
+          this.playerEntities[message.authorSessionId].speak(message.text);
         }
-      } else if (message.sessionId === server.sessionId) {
+      } else if (message.authorSessionId === server.sessionId) {
         this.currentPlayer?.speak(message.text);
-      }
-    });
-
-    const removeReactionListener = server.state.reactions.onAdd((reaction) => {
-      // Old message
-      if (reaction.sentAt < Date.now() - 5000) {
-        return;
-      }
-
-      if (reaction.sceneId !== this.options.name) {
-        return;
-      }
-
-      if (!this.scene?.isActive()) {
-        return;
-      }
-
-      if (this.playerEntities[reaction.sessionId]) {
-        this.playerEntities[reaction.sessionId].react(
-          reaction.reaction,
-          reaction.quantity,
-        );
-      } else if (reaction.sessionId === server.sessionId) {
-        this.currentPlayer?.react(reaction.reaction, reaction.quantity);
       }
     });
 
@@ -572,7 +554,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
     this.events.on("shutdown", () => {
       removeMessageListener();
-      removeReactionListener();
 
       window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
     });
@@ -991,12 +972,13 @@ export abstract class BaseScene extends Phaser.Scene {
     this.serverPosition = {
       x: this.currentPlayer.x,
       y: this.currentPlayer.y,
+      tick: this.currentTick,
     };
     this.packetSentAt = Date.now();
 
     const server = this.mmoServer;
     if (server) {
-      server.send(0, this.serverPosition);
+      server.send("player:move", this.serverPosition);
     }
   }
 
