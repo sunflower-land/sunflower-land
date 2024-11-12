@@ -1,17 +1,13 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { EventObject, Interpreter, State } from "xstate";
 
 export const useOnMachineTransition = <TContext, TEvent extends EventObject>(
-  service: Interpreter<TContext, any, TEvent>, // The XState service (interpreter)
-  prevState: string, // The previous state to check
-  newState: string, // The new state to check
-  callback: () => void, // The callback function to run
-  shouldListen = true, // Whether to listen to the transition
+  service: Interpreter<TContext, any, TEvent>,
+  prevState: string,
+  newState: string,
+  callback: () => void,
+  shouldListen = true,
 ) => {
-  const memoizedCallback = useCallback(() => {
-    callback();
-  }, [callback]);
-
   useEffect(() => {
     if (!shouldListen) return;
 
@@ -20,7 +16,7 @@ export const useOnMachineTransition = <TContext, TEvent extends EventObject>(
 
       // Check if the state transitioned from prevState to newState
       if (state.history?.matches(prevState) && state.matches(newState)) {
-        memoizedCallback();
+        callback();
       }
     };
 
@@ -28,7 +24,7 @@ export const useOnMachineTransition = <TContext, TEvent extends EventObject>(
     service.onTransition(handleTransition);
 
     return () => {
-      service.off(handleTransition); // Correct cleanup using `service.off()`
+      service.off(handleTransition);
     };
-  }, []); // Add dependencies for the hook
+  }, []); // Empty dependency array is fine since we only want to set up the listener once
 };

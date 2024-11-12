@@ -1,5 +1,5 @@
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 
 import trade from "assets/icons/trade.png";
@@ -15,6 +15,9 @@ import { useNavigate } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
 import { getItemId, getTradeType } from "features/marketplace/lib/offers";
+import { Modal } from "components/ui/Modal";
+import { NPC_WEARABLES } from "lib/npcs";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
 export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
@@ -27,11 +30,11 @@ export const MyListings: React.FC = () => {
   const { trades } = gameState.context.state;
   const listings = trades.listings ?? {};
 
-  const claim = (id: string) => {
-    const listing = listings[id];
+  const claim = () => {
+    const listing = listings[claimId as string];
 
     gameService.send("purchase.claimed", {
-      tradeId: id,
+      tradeId: claimId,
     });
 
     const itemId = getItemId({ details: listing });
@@ -52,56 +55,82 @@ export const MyListings: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <InnerPanel className="mb-2">
-      <div className="p-2">
-        <Label className="mb-2" type="default" icon={trade}>
-          {t("marketplace.myListings")}
-        </Label>
-        <div className="flex flex-wrap">
-          {getKeys(listings).length === 0 && (
-            <p className="text-sm">{t("marketplace.noMyListings")}</p>
-          )}
-          {getKeys(listings).map((id) => {
-            const listing = listings[id];
+    <>
+      {" "}
+      <Modal show={!!claimId} onHide={() => setClaimId(undefined)}>
+        <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
+          <ClaimReward
+            onClaim={claim}
+            onClose={() => setClaimId(undefined)}
+            reward={{
+              createdAt: Date.now(),
+              id: "purchase-claimed",
+              items:
+                listings[claimId as string]?.collection === "collectibles"
+                  ? listings[claimId as string].items
+                  : {},
+              wearables:
+                listings[claimId as string]?.collection === "wearables"
+                  ? listings[claimId as string].items
+                  : {},
+              sfl: 0,
+              coins: 0,
+              message: t("marketplace.itemSold"),
+            }}
+          />
+        </Panel>
+      </Modal>
+      <InnerPanel className="mb-2">
+        <div className="p-2">
+          <Label className="mb-2" type="default" icon={trade}>
+            {t("marketplace.myListings")}
+          </Label>
+          <div className="flex flex-wrap">
+            {getKeys(listings).length === 0 && (
+              <p className="text-sm">{t("marketplace.noMyListings")}</p>
+            )}
+            {getKeys(listings).map((id) => {
+              const listing = listings[id];
 
-            // TODO - more listed types. Only resources currently support
-            const itemName = getKeys(
-              listing.items ?? {},
-            )[0] as InventoryItemName;
-            const itemId = KNOWN_IDS[itemName];
-            const collection = getCollectionName(itemName);
-            const details = getTradeableDisplay({
-              id: itemId,
-              type: collection,
-            });
+              // TODO - more listed types. Only resources currently support
+              const itemName = getKeys(
+                listing.items ?? {},
+              )[0] as InventoryItemName;
+              const itemId = KNOWN_IDS[itemName];
+              const collection = getCollectionName(itemName);
+              const details = getTradeableDisplay({
+                id: itemId,
+                type: collection,
+              });
 
-            return (
-              <div
-                className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 pr-1 pb-1"
-                key={id}
-              >
-                <ListViewCard
-                  name={details.name}
-                  hasBoost={!!details.buff}
-                  price={new Decimal(listing.sfl)}
-                  image={details.image}
-                  supply={0}
-                  type={details.type}
-                  id={itemId}
-                  isSold={!!listing.fulfilledAt}
-                  onClick={
-                    listing.fulfilledAt
-                      ? () => setClaimId(id)
-                      : () => {
-                          navigate(`/marketplace/${details.type}/${itemId}`);
-                        }
-                  }
-                />
-              </div>
-            );
-          })}
+              return (
+                <div
+                  className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 pr-1 pb-1"
+                  key={id}
+                >
+                  <ListViewCard
+                    name={details.name}
+                    hasBoost={!!details.buff}
+                    price={new Decimal(listing.sfl)}
+                    image={details.image}
+                    supply={0}
+                    type={details.type}
+                    id={itemId}
+                    isSold={!!listing.fulfilledAt}
+                    onClick={
+                      listing.fulfilledAt
+                        ? () => setClaimId(id)
+                        : () => {
+                            navigate(`/marketplace/${details.type}/${itemId}`);
+                          }
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </InnerPanel>
+      </InnerPanel>
+    </>
   );
 };

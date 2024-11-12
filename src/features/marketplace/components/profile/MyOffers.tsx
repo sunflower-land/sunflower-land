@@ -117,7 +117,7 @@ export const MyOffers: React.FC = () => {
             {getKeys(offers).map((id) => {
               const offer = offers[id];
 
-              const itemId = getItemId({ offer });
+              const itemId = getItemId({ details: offer });
               const details = getTradeableDisplay({
                 id: itemId,
                 type: offer.collection,
