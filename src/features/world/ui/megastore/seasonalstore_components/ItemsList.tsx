@@ -207,7 +207,7 @@ export const ItemsList: React.FC<Props> = ({
     <div className="flex flex-col mb-5">
       {itemsLabel && (
         <div className="flex z-10">
-          <div className="grow w-9/10">
+          <div className="grow w-9/10 mb-1">
             {itemsLabel && (
               <Label
                 iconWidth={10}
