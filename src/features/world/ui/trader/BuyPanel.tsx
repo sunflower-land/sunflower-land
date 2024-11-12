@@ -80,7 +80,7 @@ export const BuyPanel: React.FC<
 
   return (
     <div className="flex flex-col divide-brown-600">
-      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
+      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1">
         <VIPAccess
           isVIP={isVIP}
           onUpgrade={() => openModal("BUY_BANNER")}

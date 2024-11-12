@@ -36,8 +36,8 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
       return game;
     }
 
-    const id = getItemId({ offer });
-    if (offer.collection === "collectibles") {
+    const id = getItemId({ details: offer });
+    if (offer.collection === "resources") {
       const name = KNOWN_ITEMS[id];
       game.inventory[name] = (game.inventory[name] ?? new Decimal(0)).add(1);
     }

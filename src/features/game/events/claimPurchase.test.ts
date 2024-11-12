@@ -23,6 +23,7 @@ describe("purchase.claimed", () => {
           trades: {
             listings: {
               "123": {
+                collection: "collectibles",
                 items: {
                   "Rich Chicken": 1,
                 },
@@ -47,6 +48,7 @@ describe("purchase.claimed", () => {
         trades: {
           listings: {
             "123": {
+              collection: "collectibles",
               items: {
                 "Rich Chicken": 1,
               },
@@ -75,6 +77,7 @@ describe("purchase.claimed", () => {
         trades: {
           listings: {
             "123": {
+              collection: "collectibles",
               items: {
                 "Rich Chicken": 1,
               },
@@ -102,6 +105,7 @@ describe("purchase.claimed", () => {
         trades: {
           listings: {
             "123": {
+              collection: "collectibles",
               items: {
                 "Rich Chicken": 1,
               },

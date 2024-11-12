@@ -40,7 +40,7 @@ export const RemoveOffer: React.FC<Props> = ({
     return null;
   }
 
-  const itemId = getItemId({ offer });
+  const itemId = getItemId({ details: offer });
   const display = getTradeableDisplay({ id: itemId, type: offer.collection });
 
   return (
