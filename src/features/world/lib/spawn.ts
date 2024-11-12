@@ -1,6 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { SceneId } from "../mmoMachine";
-import { CONFIG } from "lib/config";
 
 export type SpawnLocation = Record<
   SceneId,
@@ -116,19 +115,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
     },
   },
   beach: {
-    default:
-      CONFIG.NETWORK === "amoy"
-        ? {
-            // // For artefact area
-            x: 256,
-            y: 159,
-            // x: 528,
-            // y: 736,
-          }
-        : {
-            x: 528,
-            y: 736,
-          },
+    default: {
+      x: 528,
+      y: 736,
+    },
     kingdom: {
       x: 532,
       y: 257,
