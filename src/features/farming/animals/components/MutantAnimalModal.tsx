@@ -9,7 +9,6 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import chest from "assets/icons/chest.png";
-import Crown from "assets/icons/vip.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -22,38 +21,29 @@ interface Props {
 export const MutantAnimalModal = ({ mutant, show, onContinue }: Props) => {
   const { t } = useAppTranslation();
   const boost = COLLECTIBLE_BUFF_LABELS[mutant];
-  const isPermanentMutant = (name: string): boolean => {
-    const permanentMutants = ["Speed Chicken", "Rich Chicken", "Fat Chicken"];
-    return permanentMutants.includes(name);
-  };
+
   return (
     <Modal show={show} dialogClassName="max-w-[480px]">
       <Panel>
-        <div className="flex flex-wrap justify-between m-1 ml-2 mb-1">
+        <div className="flex flex-wrap justify-between m-1 ml-2 mb-2">
           <Label type="warning" icon={chest}>
             {t("reward")}
           </Label>
-          {isPermanentMutant(mutant) ? (
-            <Label className="mr-0.5" type="vibrant" secondaryIcon={Crown}>
-              {t("permanent")}
-            </Label>
-          ) : (
-            <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-              {t("seasonal")}
-            </Label>
-          )}
+          <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+            {t("seasonal")}
+          </Label>
         </div>
         <div className="flex flex-col justify-center items-center mb-2 mx-1 sm:mx-2">
           <p className="text-base mb-2">
             {mutant}
             {"!"}
           </p>
-          <img src={ITEM_DETAILS[mutant].image} className="h-14 mb-2" />
+          <img src={ITEM_DETAILS[mutant]?.image} className="h-14 mb-2" />
           <span className="text-xs text-center mb-2">
             {t("statements.mutant.animal")}
           </span>
           <span className="text-xs text-center mb-2">
-            {ITEM_DETAILS[mutant].description}
+            {ITEM_DETAILS[mutant]?.description}
           </span>
           {boost && (
             <Label
