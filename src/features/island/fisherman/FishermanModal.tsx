@@ -38,11 +38,11 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import { getRemainingReels } from "features/game/events/landExpansion/castRod";
 import { BuffLabel } from "features/game/types";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getReelGemPrice } from "features/game/events/landExpansion/buyMoreReels";
+import { getItemImage } from "features/world/ui/beach/Digby";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -566,7 +566,7 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                         ...pixelDarkBorderStyle,
                       }}
                     >
-                      <SquareIcon icon={getImageUrl(234)} width={20} />
+                      <SquareIcon icon={getItemImage(item)} width={20} />
                     </div>
                     <div className="flex flex-col justify-center space-y-1">
                       <div className="flex flex-col space-y-0.5">
