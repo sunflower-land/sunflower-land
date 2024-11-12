@@ -11,6 +11,7 @@ type EffectName =
   | "marketplace.offerMade"
   | "marketplace.offerAccepted"
   | "marketplace.offerCancelled"
+  | "marketplace.listingCancelled"
   | "reward.airdropped";
 
 export type StateName =
@@ -30,6 +31,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "marketplace.offerMade": "marketplaceOffering",
   "marketplace.offerAccepted": "marketplaceAccepting",
   "marketplace.offerCancelled": "marketplaceCancelling",
+  "marketplace.listingCancelled": "marketplaceCancelling",
   "reward.airdropped": "airdroppingReward",
 };
 
