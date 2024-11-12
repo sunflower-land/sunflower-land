@@ -63,6 +63,6 @@ export function getReelGemPrice({
   if (!timesBought[today]) {
     return basePrice;
   } else {
-    return basePrice + timesBought[today] * gemMultiplier;
+    return basePrice * gemMultiplier ** timesBought[today]; // multiples basePrice (10) with gemMultiplier to the power of timesBought[today], eg. 10, 20, 40, 80, 160
   }
 }

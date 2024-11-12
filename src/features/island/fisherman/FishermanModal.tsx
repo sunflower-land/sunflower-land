@@ -152,7 +152,8 @@ const BAIT: FishingBait[] = [
 
 const BaitSelection: React.FC<{
   onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
-}> = ({ onCast }) => {
+  onClickBuy: () => void;
+}> = ({ onCast, onClickBuy }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -255,7 +256,9 @@ const BaitSelection: React.FC<{
             </div>
 
             <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-              {t("fishing.reelsLeft", { reelsLeft })}
+              {reelsLeft === 1
+                ? t("fishing.oneReelLeft")
+                : t("fishing.reelsLeft", { reelsLeft })}
             </Label>
           </div>
         </div>
@@ -351,19 +354,28 @@ const BaitSelection: React.FC<{
         </Label>
       )}
 
-      <Button
-        onClick={() => onCast(bait, chum)}
-        disabled={
-          fishingLimitReached ||
-          missingRod ||
-          !items[bait as InventoryItemName]?.gte(1)
-        }
-      >
-        <div className="flex items-center">
-          <span className="text-sm mr-1">{"Cast"}</span>
-          <img src={SUNNYSIDE.tools.fishing_rod} className="h-5" />
-        </div>
-      </Button>
+      {fishingLimitReached ? (
+        <Button disabled={!fishingLimitReached} onClick={onClickBuy}>
+          <div className="flex items-center">
+            {`Buy more reels`}
+            <img src={ITEM_DETAILS.Gem.image} className="h-5" />
+          </div>
+        </Button>
+      ) : (
+        <Button
+          onClick={() => onCast(bait, chum)}
+          disabled={
+            fishingLimitReached ||
+            missingRod ||
+            !items[bait as InventoryItemName]?.gte(1)
+          }
+        >
+          <div className="flex items-center">
+            <span className="text-sm mr-1">{"Cast"}</span>
+            <img src={SUNNYSIDE.tools.fishing_rod} className="h-5" />
+          </div>
+        </Button>
+      )}
     </>
   );
 };
@@ -489,7 +501,9 @@ export const FishermanModal: React.FC<Props> = ({
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && <BaitSelection onCast={onCast} />}
+      {tab === 0 && (
+        <BaitSelection onCast={onCast} onClickBuy={() => setTab(2)} />
+      )}
 
       {tab === 1 && (
         <InnerPanel>
@@ -498,7 +512,7 @@ export const FishermanModal: React.FC<Props> = ({
       )}
       {tab === 2 && (
         <InnerPanel>
-          <FishermanExtras onClose={onClose} />
+          <FishermanExtras onBuy={() => setTab(0)} />
         </InnerPanel>
       )}
     </CloseButtonPanel>
@@ -514,7 +528,7 @@ const BoostReelItems: Partial<
   },
 };
 
-const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -527,7 +541,7 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const gemPrice = getReelGemPrice({ state });
   const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(gemPrice);
   const confirmBuyMoreReels = () => {
-    onClose();
+    onBuy();
     gameService.send("fishing.reelsBought");
 
     gameAnalytics.trackSink({
@@ -547,9 +561,9 @@ const FishermanExtras: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <div className="flex items-center justify-between space-x-1 mb-1">
               <Label type="default">{`Extra Reels`}</Label>
               <Label type="default" icon={SUNNYSIDE.tools.fishing_rod}>
-                <span className="text">
-                  {t("fishing.reelsLeft", { reelsLeft })}
-                </span>
+                {reelsLeft === 1
+                  ? t("fishing.oneReelLeft")
+                  : t("fishing.reelsLeft", { reelsLeft })}
               </Label>
             </div>
             <span className="text-xs my-2">

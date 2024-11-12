@@ -1,6 +1,6 @@
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_FARM } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
-import { buyMoreReels } from "./buyMoreReels";
+import { buyMoreReels, getReelGemPrice } from "./buyMoreReels";
 
 const date = new Date().toISOString().split("T")[0];
 describe("buyMoreReels", () => {
@@ -8,9 +8,9 @@ describe("buyMoreReels", () => {
     expect(() => {
       buyMoreReels({
         state: {
-          ...TEST_FARM,
+          ...INITIAL_FARM,
           inventory: {
-            ...TEST_FARM.inventory,
+            ...INITIAL_FARM.inventory,
             Gem: undefined,
           },
           fishing: {
@@ -34,9 +34,9 @@ describe("buyMoreReels", () => {
     expect(() => {
       buyMoreReels({
         state: {
-          ...TEST_FARM,
+          ...INITIAL_FARM,
           inventory: {
-            ...TEST_FARM.inventory,
+            ...INITIAL_FARM.inventory,
             Gem: new Decimal(20),
           },
           fishing: {
@@ -59,9 +59,9 @@ describe("buyMoreReels", () => {
   it("adds 5 extra reels", () => {
     const result = buyMoreReels({
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         inventory: {
-          ...TEST_FARM.inventory,
+          ...INITIAL_FARM.inventory,
           Gem: new Decimal(10),
         },
         fishing: {
@@ -85,9 +85,9 @@ describe("buyMoreReels", () => {
   it("removes Gems from the player's inventory", () => {
     const result = buyMoreReels({
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         inventory: {
-          ...TEST_FARM.inventory,
+          ...INITIAL_FARM.inventory,
           Gem: new Decimal(10),
         },
         fishing: {
@@ -112,9 +112,9 @@ describe("buyMoreReels", () => {
     const today = new Date().toISOString().split("T")[0];
     const result = buyMoreReels({
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         inventory: {
-          ...TEST_FARM.inventory,
+          ...INITIAL_FARM.inventory,
           Gem: new Decimal(10),
         },
         fishing: {
@@ -135,5 +135,35 @@ describe("buyMoreReels", () => {
       action: { type: "fishing.reelsBought" },
     });
     expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(1);
+  });
+
+  it("increases price of gems by 2x after buying once", () => {
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    const price = getReelGemPrice({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(10),
+        },
+        fishing: {
+          weather: "Sunny",
+          wharf: {},
+          beach: {},
+          dailyAttempts: {
+            [date]: 20,
+          },
+          extraReels: {
+            timesBought: {
+              [today]: 1,
+            },
+            count: 0,
+          },
+        },
+      },
+      createdAt: Date.now(),
+    });
+    expect(price).toEqual(20);
   });
 });

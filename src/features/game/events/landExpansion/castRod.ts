@@ -115,6 +115,10 @@ export function castRod({
       },
     };
 
+    if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
+      extraReels.count -= 1;
+    }
+
     // Track daily attempts
     if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {
       game.fishing.dailyAttempts[today] += 1;
@@ -122,10 +126,6 @@ export function castRod({
       game.fishing.dailyAttempts = {
         [today]: 1,
       };
-    }
-
-    if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
-      extraReels.count -= 1;
     }
 
     bumpkin.activity = trackActivity("Rod Casted", bumpkin.activity);
