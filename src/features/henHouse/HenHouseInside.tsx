@@ -1,4 +1,10 @@
-import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
+import React, {
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -55,9 +61,29 @@ export const HenHouseInside: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
 
+  const [orderedIds, setOrderedIds] = useState<string[]>([]);
+
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
+
+  useEffect(() => {
+    if (orderedIds.length === 0) {
+      // Initial load - sort by experience
+      const sortedIds = getKeys(henHouse.animals).sort(
+        (a, b) =>
+          henHouse.animals[b].experience - henHouse.animals[a].experience,
+      );
+      setOrderedIds(sortedIds);
+    } else {
+      // Add any new animals to the end
+      const currentIds = getKeys(henHouse.animals);
+      const newIds = currentIds.filter((id) => !orderedIds.includes(id));
+      if (newIds.length > 0) {
+        setOrderedIds((prev) => [...prev, ...newIds]);
+      }
+    }
+  }, [henHouse.animals]);
 
   const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
 
@@ -69,26 +95,23 @@ export const HenHouseInside: React.FC = () => {
   } = ANIMAL_HOUSE_BOUNDS.henHouse[level];
 
   const organizedAnimals = useMemo(() => {
-    const animals = getKeys(henHouse.animals)
-      .map((id) => ({
-        ...henHouse.animals[id],
-      }))
-      .sort((a, b) => b.experience - a.experience);
-
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Chicken.width);
 
-    return animals.map((animal, index) => {
-      const row = Math.floor(index / maxAnimalsPerRow);
-      const col = index % maxAnimalsPerRow;
-      return {
-        ...animal,
-        coordinates: {
-          x: col * ANIMALS.Chicken.width,
-          y: row * ANIMALS.Chicken.height,
-        },
-      };
-    });
-  }, [henHouse.animals, floorWidth]);
+    return orderedIds
+      .filter((id) => henHouse.animals[id]) // Remove any sold animals
+      .map((id, index) => {
+        const animal = henHouse.animals[id];
+        const row = Math.floor(index / maxAnimalsPerRow);
+        const col = index % maxAnimalsPerRow;
+        return {
+          ...animal,
+          coordinates: {
+            x: col * ANIMALS.Chicken.width,
+            y: row * ANIMALS.Chicken.height,
+          },
+        };
+      });
+  }, [orderedIds, henHouse.animals, floorWidth]);
 
   return (
     <>
