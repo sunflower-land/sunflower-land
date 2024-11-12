@@ -1726,4 +1726,34 @@ describe("claimProduce", () => {
 
     expect(state.inventory["Alien Chicken"]).toEqual(new Decimal(1));
   });
+
+  it("removes a mutant chicken reward after it is claimed", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              reward: {
+                items: [
+                  {
+                    name: "Alien Chicken",
+                    amount: 1,
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: "0" },
+    });
+
+    expect(state.inventory["Alien Chicken"]).toEqual(new Decimal(1));
+    expect(state.henHouse.animals["0"].reward).toBeUndefined();
+  });
 });
