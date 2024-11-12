@@ -303,7 +303,7 @@ export const ItemsList: React.FC<Props> = ({
                   }}
                   onClick={() => onItemClick(item, tier)}
                 >
-                  <div className="flex relative justify-center items-center w-full h-full z-20">
+                  <div className="flex justify-center items-center w-full h-full z-20">
                     <SquareIcon icon={getItemImage(item)} width={20} />
                     {buff && (
                       <img
