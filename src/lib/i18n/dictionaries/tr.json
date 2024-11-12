@@ -4158,8 +4158,6 @@
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} önce",
-  "megaStore.tier.rare.requirements": "Nadir eşyaların kilidini açmak için 4 temel öğe satın alın.",
-  "megaStore.tier.epic.requirements": "Destansı eşyaların kilidini açmak için 4 nadir eşya satın alın.",
   "statements.mutant.animal": "Tebrikler, mutant bir hayvan keşfettin!",
   "competition.highscore": "En Yüksek Puanlar",
   "competition.accumulator": "Birikmiş Puanlar",
@@ -4199,7 +4197,6 @@
   "description.gold.egg": "Altın yumurta. İçinde bulunanın iyi şansın taşıyıcısı olduğu biliniyor.",
   "season.codex.howToEarn.two": "Bumpkins için işleri tamamla. (11 Kasım)",
   "season.codex.howToEarn.three": "Hayvan ve çiçek ödüllerini takas et! (11 Kasım)",
-  "megaStore.tier.mega.requirements": "Mega eşyaların kilidini açmak için 4 destansı eşya satın alın.",
   "description.cowboyHat.boost": "+1 Horseshoes",
   "description.cowboyShirt.boost": "+1 Horseshoes",
   "description.cowboyTrouser.boost": "+1 Horseshoes",
@@ -4325,5 +4322,8 @@
   "gems.shipment.shops": "Bu tohumlar ve aletler dükkanlarda yenilenecek.",
   "gems.restockToMaxStock": "Maksimum stoklara kadar stoklar",
   "restrictionReason.hasBonusAnimals": "Bonus hayvanlar {{building}}",
-  "landscape.timeWarpTotem.nonStack": "Time Warp ve Super Totem yığınmaz."
+  "landscape.timeWarpTotem.nonStack": "Time Warp ve Super Totem yığınmaz.",
+  "megaStore.tier.rare.requirements": "Nadir eşyaların kilidini açmak için 4 farklı temel öğe satın alın.",
+  "megaStore.tier.epic.requirements": "Destansı eşyaların kilidini açmak için 4 farklı nadir eşya satın alın.",
+  "megaStore.tier.mega.requirements": "Mega eşyaların kilidini açmak için 4 farklı destansı öğe satın alın."
 }

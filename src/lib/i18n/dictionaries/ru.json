@@ -4158,8 +4158,6 @@
   "time.mss.med": " мс",
   "time.millisecond.short": " мс",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} назад",
-  "megaStore.tier.rare.requirements": "Купите 4 основных предмета, чтобы разблокировать редкие предметы.",
-  "megaStore.tier.epic.requirements": "Купите 4 редких предмета, чтобы разблокировать эпические предметы.",
   "statements.mutant.animal": "Поздравляем, вы обнаружили животные-мутанта!",
   "competition.highscore": "Самые высокие баллы",
   "competition.accumulator": "Накопленные очки",
@@ -4199,7 +4197,6 @@
   "description.gold.egg": "Золотое яйцо. Известно, что то, что лежит внутри, приносит удачу.",
   "season.codex.howToEarn.two": "Выполните работу по дому для Бампкинсов. (11 ноября)",
   "season.codex.howToEarn.three": "Торгуйте наградами за животных и цветы! (11 ноября)",
-  "megaStore.tier.mega.requirements": "Купите 4 эпических предмета, чтобы разблокировать мегапредметы.",
   "description.cowboyHat.boost": "+1 Подковы",
   "description.cowboyShirt.boost": "+1 Подковы",
   "description.cowboyTrouser.boost": "+1 Подковы",
@@ -4325,5 +4322,8 @@
   "gems.shipment.shops": "Эти семена и инструменты будут пополняться в магазинах.",
   "gems.restockToMaxStock": "Пополняет запасы до максимального количества",
   "restrictionReason.hasBonusAnimals": "Бонусные животные в {{building}}",
-  "landscape.timeWarpTotem.nonStack": "Временная деформация и супертотем не суммируются."
+  "landscape.timeWarpTotem.nonStack": "Временная деформация и супертотем не суммируются.",
+  "megaStore.tier.rare.requirements": "Купите 4 разных базовых предмета, чтобы разблокировать редкие предметы.",
+  "megaStore.tier.epic.requirements": "Купите 4 разных редких предмета, чтобы разблокировать эпические предметы.",
+  "megaStore.tier.mega.requirements": "Купите 4 разных эпических предмета, чтобы разблокировать мегапредметы."
 }

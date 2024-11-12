@@ -4158,8 +4158,6 @@
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} lalu",
-  "megaStore.tier.rare.requirements": "Beli 4 item dasar untuk membuka kunci item langka.",
-  "megaStore.tier.epic.requirements": "Beli 4 item langka untuk membuka item epik.",
   "statements.mutant.animal": "Selamat, Anda telah menemukan hewan mutan!",
   "competition.highscore": "Skor Tertinggi",
   "competition.accumulator": "Skor Akumulasi",
@@ -4199,7 +4197,6 @@
   "description.gold.egg": "Telur emas. Apa yang ada di dalamnya dikenal sebagai pembawa keberuntungan.",
   "season.codex.howToEarn.two": "Selesaikan tugas untuk Bumpkins. (11 November)",
   "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga! (11 November)",
-  "megaStore.tier.mega.requirements": "Beli 4 item epik untuk membuka item mega.",
   "description.cowboyHat.boost": "+1 Horseshoes",
   "description.cowboyShirt.boost": "+1 Horseshoes",
   "description.cowboyTrouser.boost": "+1 Horseshoes",
@@ -4325,5 +4322,8 @@
   "gems.shipment.shops": "Benih dan alat ini akan diisi ulang di toko-toko.",
   "gems.restockToMaxStock": "Isi ulang hingga stok maksimum",
   "restrictionReason.hasBonusAnimals": "Bonus hewan di {{building}}",
-  "landscape.timeWarpTotem.nonStack": "Time Warp dan Super Totem tidak menumpuk."
+  "landscape.timeWarpTotem.nonStack": "Time Warp dan Super Totem tidak menumpuk.",
+  "megaStore.tier.rare.requirements": "Beli 4 item dasar yang berbeda untuk membuka kunci item langka.",
+  "megaStore.tier.epic.requirements": "Beli 4 item langka yang berbeda untuk membuka kunci item epik.",
+  "megaStore.tier.mega.requirements": "Beli 4 item epik yang berbeda untuk membuka item mega."
 }

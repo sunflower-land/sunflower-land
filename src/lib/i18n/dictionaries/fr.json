@@ -4158,8 +4158,6 @@
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} il y a",
-  "megaStore.tier.rare.requirements": "Achetez 4 objets de base pour débloquer des objets rares.",
-  "megaStore.tier.epic.requirements": "Achetez 4 objets rares pour débloquer des objets épiques.",
   "statements.mutant.animal": "Félicitations, vous venez de découvrir un animal mutant !",
   "competition.highscore": "Scores les plus élevés",
   "competition.accumulator": "Scores cumulés",
@@ -4199,7 +4197,6 @@
   "description.gold.egg": "Un œuf d'or. Ce qui se trouve à l'intérieur est connu pour être porteur de bonne fortune.",
   "season.codex.howToEarn.two": "Terminez les corvées pour Bumpkins. (11 novembre)",
   "season.codex.howToEarn.three": "Échangez des primes d'animaux et de fleurs ! (11 novembre)",
-  "megaStore.tier.mega.requirements": "Achetez 4 objets épiques pour débloquer de méga-objets.",
   "description.cowboyHat.boost": "+1 Fers à cheval",
   "description.cowboyShirt.boost": "+1 Fers à cheval",
   "description.cowboyTrouser.boost": "+1 Fers à cheval",
@@ -4325,5 +4322,8 @@
   "gems.shipment.shops": "Ces semences et outils seront réapprovisionnés dans les magasins.",
   "gems.restockToMaxStock": "Réapprovisionne jusqu'à la limite du stock",
   "restrictionReason.hasBonusAnimals": "Animaux bonus en {{building}}",
-  "landscape.timeWarpTotem.nonStack": "Time Warp et Super Totem ne se cumulent pas."
+  "landscape.timeWarpTotem.nonStack": "Time Warp et Super Totem ne se cumulent pas.",
+  "megaStore.tier.rare.requirements": "Achetez 4 objets de base différents pour débloquer des objets rares.",
+  "megaStore.tier.epic.requirements": "Achetez 4 objets rares différents pour débloquer des objets épiques.",
+  "megaStore.tier.mega.requirements": "Achetez 4 objets épiques différents pour débloquer des méga-objets."
 }

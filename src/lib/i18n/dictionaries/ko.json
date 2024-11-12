@@ -4158,8 +4158,6 @@
   "time.mss.med": "질량",
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 전",
-  "megaStore.tier.rare.requirements": "기본 아이템 4개를 구매하면 희귀 아이템을 잠금 해제할 수 있습니다.",
-  "megaStore.tier.epic.requirements": "희귀 아이템 4개를 구매하여 에픽 아이템을 잠금 해제하세요.",
   "statements.mutant.animal": "축하합니다. 돌연변이 동물을 발견하셨군요!",
   "competition.highscore": "최고 점수",
   "competition.accumulator": "누적 점수",
@@ -4199,7 +4197,6 @@
   "description.gold.egg": "황금 달걀.안에 있는 것은 행운을 가져다주는 존재로 알려져 있습니다.",
   "season.codex.howToEarn.two": "범프킨의 집안일을 완료하세요.(11월 11일)",
   "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!(11월 11일)",
-  "megaStore.tier.mega.requirements": "에픽 아이템 4개를 구매하여 메가 아이템을 잠금 해제하세요.",
   "description.cowboyHat.boost": "+1 호스슈즈",
   "description.cowboyShirt.boost": "+1 호스슈즈",
   "description.cowboyTrouser.boost": "+1 호스슈즈",
@@ -4325,5 +4322,8 @@
   "gems.shipment.shops": "이러한 씨앗과 도구는 상점에서 보충됩니다.",
   "gems.restockToMaxStock": "최대 재고까지 재입고",
   "restrictionReason.hasBonusAnimals": "{{building}} 의 보너스 동물",
-  "landscape.timeWarpTotem.nonStack": "타임 워프와 슈퍼 토템은 중첩되지 않습니다."
+  "landscape.timeWarpTotem.nonStack": "타임 워프와 슈퍼 토템은 중첩되지 않습니다.",
+  "megaStore.tier.rare.requirements": "기본 아이템 4개를 구매하여 희귀 아이템을 잠금 해제하세요.",
+  "megaStore.tier.epic.requirements": "희귀 아이템 4개를 구매하여 에픽 아이템을 잠금 해제하세요.",
+  "megaStore.tier.mega.requirements": "4개의 다양한 에픽 아이템을 구매하여 메가 아이템을 잠금 해제하세요."
 }

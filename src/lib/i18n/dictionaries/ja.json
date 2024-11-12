@@ -4158,8 +4158,6 @@
   "time.mss.med": "混同だ",
   "time.millisecond.short": "ミリ秒",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 前",
-  "megaStore.tier.rare.requirements": "基本アイテムを4つ購入すると、レアアイテムのロックが解除されます。",
-  "megaStore.tier.epic.requirements": "レアなアイテムを4つ購入して、エピックアイテムをアンロックしましょう。",
   "statements.mutant.animal": "おめでとう、突然変異動物を発見したね！",
   "competition.highscore": "最高得点",
   "competition.accumulator": "累積スコア",
@@ -4199,7 +4197,6 @@
   "description.gold.egg": "黄金の卵。中に入っているものは幸運の持ち主として知られています。",
   "season.codex.howToEarn.two": "バンプキンズの雑用を全部やりましょう。(11 月 11 日)",
   "season.codex.howToEarn.three": "動物や花の賞金を交換しよう！(11月11日)",
-  "megaStore.tier.mega.requirements": "4つのエピックアイテムを購入して、メガアイテムのロックを解除してください。",
   "description.cowboyHat.boost": "+1 ホースシュー",
   "description.cowboyShirt.boost": "+1 ホースシュー",
   "description.cowboyTrouser.boost": "+1 ホースシュー",
@@ -4325,5 +4322,8 @@
   "gems.shipment.shops": "これらの種と道具はショップで補充されます。",
   "gems.restockToMaxStock": "最大在庫数まで補充",
   "restrictionReason.hasBonusAnimals": "{{building}} のボーナス動物",
-  "landscape.timeWarpTotem.nonStack": "タイムワープとスーパートーテムはスタックしません。"
+  "landscape.timeWarpTotem.nonStack": "タイムワープとスーパートーテムはスタックしません。",
+  "megaStore.tier.rare.requirements": "4種類の基本アイテムを購入して、レアアイテムのロックを解除してください。",
+  "megaStore.tier.epic.requirements": "4種類のレアアイテムを購入して、エピックアイテムをアンロックしましょう。",
+  "megaStore.tier.mega.requirements": "4種類のエピックアイテムを購入して、メガアイテムのロックを解除してください。"
 }

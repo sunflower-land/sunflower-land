@@ -4158,8 +4158,6 @@
   "time.mss.med": "bagunça",
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} atrás",
-  "megaStore.tier.rare.requirements": "Compre 4 itens básicos para desbloquear itens raros.",
-  "megaStore.tier.epic.requirements": "Compre 4 itens raros para desbloquear itens épicos.",
   "statements.mutant.animal": "Parabéns, você descobriu um animal mutante!",
   "competition.highscore": "Pontuações mais altas",
   "competition.accumulator": "Pontuações acumuladas",
@@ -4199,7 +4197,6 @@
   "description.gold.egg": "Um ovo dourado. O que está lá dentro é conhecido por ser o portador da boa sorte.",
   "season.codex.howToEarn.two": "Complete tarefas para Bumpkins. (11 de novembro)",
   "season.codex.howToEarn.three": "Troque recompensas por animais e flores! (11 de novembro)",
-  "megaStore.tier.mega.requirements": "Compre 4 itens épicos para desbloquear mega itens.",
   "description.cowboyHat.boost": "+1 Ferraduras",
   "description.cowboyShirt.boost": "+1 Ferraduras",
   "description.cowboyTrouser.boost": "+1 Ferraduras",
@@ -4325,5 +4322,8 @@
   "gems.shipment.shops": "Essas sementes e ferramentas serão reabastecidas nas lojas.",
   "gems.restockToMaxStock": "Reabastece até o estoque máximo",
   "restrictionReason.hasBonusAnimals": "Animais bônus em {{building}}",
-  "landscape.timeWarpTotem.nonStack": "Time Warp e Super Totem não se acumulam."
+  "landscape.timeWarpTotem.nonStack": "Time Warp e Super Totem não se acumulam.",
+  "megaStore.tier.rare.requirements": "Compre 4 itens básicos diferentes para desbloquear itens raros.",
+  "megaStore.tier.epic.requirements": "Compre 4 itens raros diferentes para desbloquear itens épicos.",
+  "megaStore.tier.mega.requirements": "Compre 4 itens épicos diferentes para desbloquear mega itens."
 }

@@ -4158,8 +4158,6 @@
   "time.mss.med": "mss",
   "time.millisecond.short": "ms",
   "time.milliseconds.ago": "{{time}} {{millisecondORmilliseconds}} 之前",
-  "megaStore.tier.rare.requirements": "购买 4 件基础物品即可解锁稀有物品。",
-  "megaStore.tier.epic.requirements": "购买 4 件稀有物品来解锁史诗物品。",
   "statements.mutant.animal": "恭喜，你发现了一只突变动物！",
   "competition.highscore": "最高分数",
   "competition.accumulator": "累积分数",
@@ -4199,7 +4197,6 @@
   "description.gold.egg": "一个金蛋。众所周知，里面的东西是好运的载体。",
   "season.codex.howToEarn.two": "为 Bumpkins 完成家务。（11月11日）",
   "season.codex.howToEarn.three": "交易动物和花卉赏金！（11月11日）",
-  "megaStore.tier.mega.requirements": "购买 4 件史诗物品即可解锁巨型物品。",
   "description.cowboyHat.boost": "+1 马蹄铁",
   "description.cowboyShirt.boost": "+1 马蹄铁",
   "description.cowboyTrouser.boost": "+1 马蹄铁",
@@ -4325,5 +4322,8 @@
   "gems.shipment.shops": "这些种子和工具将在商店补充。",
   "gems.restockToMaxStock": "补货至最大库存量",
   "restrictionReason.hasBonusAnimals": "{{building}} 中的奖励动物",
-  "landscape.timeWarpTotem.nonStack": "Time Warp 和 Super Totem 无法堆叠。"
+  "landscape.timeWarpTotem.nonStack": "Time Warp 和 Super Totem 无法堆叠。",
+  "megaStore.tier.rare.requirements": "购买 4 种不同的基础物品来解锁稀有物品。",
+  "megaStore.tier.epic.requirements": "购买 4 种不同的稀有物品来解锁史诗物品。",
+  "megaStore.tier.mega.requirements": "购买 4 种不同的史诗物品来解锁巨型物品。"
 }
