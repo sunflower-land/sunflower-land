@@ -342,6 +342,7 @@ import { LonghornCowfish } from "./components/LonghornCownfish";
 import { AlienChicken } from "./components/AlienChicken";
 import { ToxicTuft } from "./components/ToxicTuft";
 import { Mootant } from "./components/Mootants";
+import { SuperTotem } from "./components/SuperTotem";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -1252,12 +1253,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Basic Bed": (props: CollectibleProps) => <Bed name="Basic Bed" />,
-  "Sturdy Bed": (props: CollectibleProps) => <Bed name="Sturdy Bed" />,
-  "Floral Bed": (props: CollectibleProps) => <Bed name="Floral Bed" />,
   "Fisher Bed": (props: CollectibleProps) => <Bed name="Fisher Bed" />,
-  "Pirate Bed": (props: CollectibleProps) => <Bed name="Pirate Bed" />,
-  "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
+  "Floral Bed": (props: CollectibleProps) => <Bed name="Floral Bed" />,
+  "Sturdy Bed": (props: CollectibleProps) => <Bed name="Sturdy Bed" />,
   "Desert Bed": (props: CollectibleProps) => <Bed name="Desert Bed" />,
+  "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
+  "Pirate Bed": (props: CollectibleProps) => <Bed name="Pirate Bed" />,
   "Royal Bed": (props: CollectibleProps) => <Bed name="Royal Bed" />,
   "Cow Scratcher": (props: CollectibleProps) => (
     <ImageStyle
@@ -1364,6 +1365,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Moo-ver"
     />
   ),
+  "Crop Circle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 39}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 39}px`,
+      }}
+      image={ITEM_DETAILS["Crop Circle"].image}
+      alt="Crop Circle"
+    />
+  ),
   "Swiss Whiskers": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1421,9 +1437,40 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 25}px`,
       }}
       image={ITEM_DETAILS["Black Sheep"].image}
-      alt="UFO"
+      alt="Black Sheep"
     />
   ),
+  "Halloween Scarecrow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Halloween Scarecrow"].image}
+      alt="Halloween Scarecrow"
+    />
+  ),
+  "Vampire Bear": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Vampire Bear"].image}
+      alt="Vampire Bear"
+    />
+  ),
+  "Super Totem": SuperTotem,
 };
 // Need readonly versions for some troublesome components while in design mode
 

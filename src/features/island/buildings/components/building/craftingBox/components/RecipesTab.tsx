@@ -15,13 +15,18 @@ import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
   Recipe,
+  RecipeIngredient,
   RecipeItemName,
   RECIPES,
   Recipes,
 } from "features/game/lib/crafting";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { ITEM_IDS } from "features/game/types/bumpkin";
-import { Decimal } from "decimal.js";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import Decimal from "decimal.js-light";
+import { RecipeInfoPanel } from "./RecipeInfoPanel";
+import { getKeys } from "features/game/types/decorations";
+import { CollectibleName } from "features/game/types/craftables";
+import { availableWardrobe } from "features/game/events/landExpansion/equip";
 
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
@@ -40,6 +45,7 @@ export const RecipesTab: React.FC<Props> = ({
   handleSetupRecipe,
 }) => {
   const { t } = useTranslation();
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   const recipes = useSelector(gameService, _craftingBoxRecipes);
 
@@ -71,15 +77,61 @@ export const RecipesTab: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
 
+  const remainingInventory = useMemo(() => {
+    const updatedInventory = { ...inventory };
+
+    // Removed placed items
+    getKeys(updatedInventory).forEach((itemName) => {
+      const placedCount =
+        (gameService.state.context.state.collectibles[
+          itemName as CollectibleName
+        ]?.length ?? 0) +
+        (gameService.state.context.state.home?.collectibles[
+          itemName as CollectibleName
+        ]?.length ?? 0);
+
+      updatedInventory[itemName] = (
+        updatedInventory[itemName] ?? new Decimal(0)
+      ).minus(placedCount);
+    });
+
+    return updatedInventory;
+  }, [inventory]);
+
+  const remainingWardrobe = useMemo(() => {
+    const updatedWardrobe = availableWardrobe(gameService.state.context.state);
+
+    return updatedWardrobe;
+  }, [wardrobe]);
+
   const hasRequiredIngredients = (recipe: Recipe) => {
-    return recipe.ingredients.every((ingredient) => {
+    // Track required amounts for each ingredient
+    const requiredAmounts: Record<string, number> = {};
+
+    // Count up total required for each ingredient
+    recipe.ingredients.forEach((ingredient) => {
       if (ingredient?.collectible) {
-        return (inventory[ingredient.collectible] ?? new Decimal(0)).gte(1);
+        requiredAmounts[ingredient.collectible] =
+          (requiredAmounts[ingredient.collectible] || 0) + 1;
       }
       if (ingredient?.wearable) {
-        return (wardrobe[ingredient.wearable] ?? 0) >= 1;
+        requiredAmounts[ingredient.wearable] =
+          (requiredAmounts[ingredient.wearable] || 0) + 1;
       }
-      return true;
+    });
+
+    // Check if we have enough of each required ingredient
+    return Object.entries(requiredAmounts).every(([item, amount]) => {
+      const inventoryAmount = remainingInventory[item as CollectibleName];
+      if (inventoryAmount) {
+        return inventoryAmount.gte(amount);
+      }
+
+      const wardrobeAmount = remainingWardrobe[item as BumpkinItem];
+      if (wardrobeAmount) {
+        return wardrobeAmount >= amount;
+      }
+      return false;
     });
   };
 
@@ -101,9 +153,19 @@ export const RecipesTab: React.FC<Props> = ({
 
             return (
               <div
+                onClick={() => setSelectedRecipe(recipe)}
                 key={recipe.name}
-                className="flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400"
+                className="relative flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400 cursor-pointer"
               >
+                <RecipeInfoPanel
+                  show={!!selectedRecipe && selectedRecipe.name === recipe.name}
+                  ingredients={
+                    selectedRecipe?.ingredients.filter(
+                      (ingredient) => ingredient !== null,
+                    ) as RecipeIngredient[]
+                  }
+                  onClick={() => setSelectedRecipe(null)}
+                />
                 <div className="flex justify-between">
                   <Label type="transparent" className="mb-1">
                     {recipe.name}
@@ -120,7 +182,10 @@ export const RecipesTab: React.FC<Props> = ({
                       onClick={
                         isPending || isCrafting || !canCraft
                           ? undefined
-                          : () => handleSetupRecipe(recipe)
+                          : (e) => {
+                              e.stopPropagation();
+                              handleSetupRecipe(recipe);
+                            }
                       }
                       disabled={isPending || isCrafting || !canCraft}
                     >

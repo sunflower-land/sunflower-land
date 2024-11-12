@@ -9795,13 +9795,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2140.png",
     name: "Basic Bed",
   },
-  "Sturdy Bed": {
-    description: "A sturdy bed for your Bumpkin to rest.",
+  "Fisher Bed": {
+    description: "A fisherman's bed for your Bumpkin to rest.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2141.png",
-    name: "Sturdy Bed",
+    image: "../public/erc1155/images/2143.png",
+    name: "Fisher Bed",
   },
   "Floral Bed": {
     description: "A floral bed for your Bumpkin to rest.",
@@ -9811,21 +9811,21 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2142.png",
     name: "Floral Bed",
   },
-  "Fisher Bed": {
-    description: "A fisherman's bed for your Bumpkin to rest.",
+  "Sturdy Bed": {
+    description: "A sturdy bed for your Bumpkin to rest.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2143.png",
-    name: "Fisher Bed",
+    image: "../public/erc1155/images/2141.png",
+    name: "Sturdy Bed",
   },
-  "Pirate Bed": {
-    description: "A pirate bed for your Bumpkin to rest.",
+  "Desert Bed": {
+    description: "A desert bed for your Bumpkin to rest.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2144.png",
-    name: "Pirate Bed",
+    image: "../public/erc1155/images/2146.png",
+    name: "Desert Bed",
   },
   "Cow Bed": {
     description: "A cow bed for your Bumpkin to rest.",
@@ -9835,13 +9835,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2145.png",
     name: "Cow Bed",
   },
-  "Desert Bed": {
-    description: "A desert bed for your Bumpkin to rest.",
+  "Pirate Bed": {
+    description: "A pirate bed for your Bumpkin to rest.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "No" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2146.png",
-    name: "Desert Bed",
+    image: "../public/erc1155/images/2144.png",
+    name: "Pirate Bed",
   },
   "Royal Bed": {
     description: "A royal bed for your Bumpkin to rest.",
@@ -10085,6 +10085,156 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2161.png",
     name: "Black Sheep",
+  },
+  Cheese: {
+    name: "Cheese",
+    description: "A delicious dairy delight made from fresh milk",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/578.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Pizza Margherita": {
+    name: "Pizza Margherita",
+    description: "A classic Italian pizza with tomatoes and cheese",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/579.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Blue Cheese": {
+    name: "Blue Cheese",
+    description: "A strong flavored cheese with blue mold",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/580.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Honey Cheddar": {
+    name: "Honey Cheddar",
+    description: "A sweet and savory cheese infused with honey",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/581.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Caprese Salad": {
+    name: "Caprese Salad",
+    description: "A fresh salad with cheese, tomatoes and kale",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/582.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Sour Shake": {
+    name: "Sour Shake",
+    description: "A tangy and refreshing lemon drink",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/583.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Spaghetti al Limone": {
+    name: "Spaghetti al Limone",
+    description: "A zesty pasta dish with lemon and cheese",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/584.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Lemon Cheesecake": {
+    name: "Lemon Cheesecake",
+    description: "A creamy cheesecake with a citrus twist",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/585.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "King of Bears": {
+    name: "King of Bears",
+    description:
+      "The king of all bears. It has the power to generate more honey for  its own consumption.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2154.png",
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Honey Yield per full beehive",
+        value: 0.25,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Halloween Scarecrow": {
+    name: "Halloween Scarecrow",
+    description: "A scary looking scarecrow",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2166.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Vampire Bear": {
+    name: "Vampire Bear",
+    description: "Don't put me under the sun!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2167.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Super Totem": {
+    name: "Super Totem",
+    description:
+      "2x speed for crops, trees, fruits, cooking & minerals. Lasts for 7 days",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2168.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cooking, Crop, Fruit, Tree and Mineral Time",
+        value: -50,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Boost Duration (days)",
+        value: 7,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
 };
 
@@ -15525,5 +15675,40 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/416.png",
     name: "Tomato Apron",
+  },
+  "Adventurer's Suit": {
+    description:
+      "The suit of an adventurer mysteriously found in the forest...",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Dress" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/417.png",
+    name: "Adventurer's Suit",
+  },
+  "Adventurer's Torch": {
+    description: "A torch of an adventurer mysteriously found in the forest.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/418.png",
+    name: "Adventurer's Torch",
+  },
+  "Pumpkin Head": {
+    description:
+      "A special hat for the bravest bumpkins that conquered the Halloween maze!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/419.png",
+    name: "Adventurer's Suit",
   },
 };

@@ -1,6 +1,6 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getInstantGems } from "./speedUpRecipe";
+import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 
 export type InstantExpand = {
@@ -29,7 +29,11 @@ export function speedUpExpansion({
       throw new Error("Expansion already complete");
     }
 
-    const gems = getInstantGems({ readyAt: expansion.readyAt, now: createdAt });
+    const gems = getInstantGems({
+      readyAt: expansion.readyAt,
+      now: createdAt,
+      game,
+    });
 
     if (!game.inventory["Gem"]?.gte(gems)) {
       throw new Error("Insufficient Gems");
@@ -38,6 +42,8 @@ export function speedUpExpansion({
     game.inventory["Gem"] = (game.inventory["Gem"] ?? new Decimal(0)).sub(gems);
 
     expansion.readyAt = createdAt;
+
+    game = makeGemHistory({ game, amount: gems });
 
     return game;
   });

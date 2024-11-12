@@ -6,7 +6,6 @@ import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
 
-import { Sheep } from "./npcs/Sheep";
 import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
@@ -106,7 +105,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             ]}
           />
         )}
-        {npc === "sheep" && <Sheep onClose={closeModal} />}
         {npc === "flopsy" && (
           <CloseButtonPanel
             title="Enjoying Easter?"

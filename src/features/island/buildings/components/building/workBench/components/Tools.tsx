@@ -28,17 +28,13 @@ import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { hasFeatureAccess } from "lib/flags";
 
-interface Props {
-  onClose: (e?: SyntheticEvent) => void;
-}
-
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
 ): toolName is LoveAnimalItem => {
   return toolName in LOVE_ANIMAL_TOOLS;
 };
 
-export const Tools: React.FC<Props> = ({ onClose }) => {
+export const Tools: React.FC = () => {
   const [selectedName, setSelectedName] = useState<
     WorkbenchToolName | LoveAnimalItem
   >("Axe");
@@ -136,7 +132,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     }
 
     if (stock.equals(0)) {
-      return <Restock onClose={onClose} />;
+      return <Restock />;
     }
 
     return (

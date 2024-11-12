@@ -1,9 +1,27 @@
 import Decimal from "decimal.js-light";
 import { hasRemoveRestriction } from "./removeables";
 import { INITIAL_FARM, TEST_FARM } from "../lib/constants";
+import { makeAnimals } from "../events/landExpansion/buyAnimal.test";
 
 describe("canremove", () => {
   describe("prevents", () => {
+    it("prevents a user from removing a Chicken Coop if they have a boosted number of chickens", () => {
+      const [restricted] = hasRemoveRestriction("Chicken Coop", "1", {
+        ...TEST_FARM,
+        inventory: {
+          "Chicken Coop": new Decimal(1),
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            ...makeAnimals(15, "Chicken"),
+          },
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
     it("prevents a user from removing Grinx Hammer if recently expanded", () => {
       const [restricted] = hasRemoveRestriction("Grinx's Hammer", "1", {
         ...TEST_FARM,
@@ -15,15 +33,18 @@ describe("canremove", () => {
       expect(restricted).toBe(true);
     });
 
-    it("prevents a user from removing mutant chickens if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rich Chicken", "123", {
-        ...INITIAL_FARM,
+    it("prevents a user from removing mutant chickens if some chicken are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Rich Chicken", "1", {
+        ...TEST_FARM,
+        inventory: {
+          "Rich Chicken": new Decimal(1),
+        },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...TEST_FARM.henHouse,
           animals: {
-            "1": {
-              ...INITIAL_FARM.henHouse.animals["1"],
-              asleepAt: Date.now() - 1000,
+            1: {
+              ...TEST_FARM.henHouse.animals[1],
+              asleepAt: Date.now(),
               awakeAt: Date.now() + 10000,
             },
           },
@@ -43,35 +64,11 @@ describe("canremove", () => {
       expect(restricted).toBe(true);
     });
 
-    it("prevents a user from removing chicken coop if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Chicken Coop", "1", {
+    it("prevents a user from removing Bale if some chickens are sleeping and within AoE", () => {
+      const [restricted] = hasRemoveRestriction("Bale", "1", {
         ...TEST_FARM,
         inventory: {
-          "Chicken Coop": new Decimal(1),
-        },
-        chickens: {
-          1: {
-            multiplier: 1,
-            fedAt: Date.now(),
-          },
-        },
-      });
-
-      expect(restricted).toBe(true);
-    });
-
-    it("prevents a user from removing rooster if some chicken is fed", () => {
-      const [restricted] = hasRemoveRestriction("Rooster", "123", {
-        ...INITIAL_FARM,
-        henHouse: {
-          ...INITIAL_FARM.henHouse,
-          animals: {
-            "1": {
-              ...INITIAL_FARM.henHouse.animals["1"],
-              asleepAt: Date.now() - 1000,
-              awakeAt: Date.now() + 10000,
-            },
-          },
+          Bale: new Decimal(1),
         },
         collectibles: {
           Rooster: [
@@ -82,6 +79,37 @@ describe("canremove", () => {
               readyAt: 0,
             },
           ],
+        },
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          animals: {
+            1: {
+              ...TEST_FARM.henHouse.animals[1],
+              asleepAt: Date.now(),
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing rooster if some chicken are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Rooster", "1", {
+        ...TEST_FARM,
+        inventory: {
+          Rooster: new Decimal(1),
+        },
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          animals: {
+            1: {
+              ...TEST_FARM.henHouse.animals[1],
+              asleepAt: Date.now(),
+              awakeAt: Date.now() + 10000,
+            },
+          },
         },
       });
 
@@ -466,6 +494,18 @@ describe("canremove", () => {
   });
 
   describe("enables", () => {
+    it("enables a user to remove a chicken coop when they have a base amount or less chickens", () => {
+      const [restricted] = hasRemoveRestriction("Chicken Coop", "1", {
+        ...TEST_FARM,
+        henHouse: {
+          level: 1,
+          animals: makeAnimals(10, "Chicken"),
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
+
     it("enables a user to remove Alien Chicken when no chickens are sleeping", () => {
       const [restricted] = hasRemoveRestriction("Alien Chicken", "123", {
         ...TEST_FARM,

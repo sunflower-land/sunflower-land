@@ -25,6 +25,7 @@ import {
   AnimalMedicineName,
   InventoryItemName,
   LoveAnimalItem,
+  MutantAnimal,
 } from "features/game/types/game";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -37,6 +38,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { ANIMAL_FOOD_EXPERIENCE } from "features/game/types/animals";
 import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
+import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -71,7 +73,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
-  const [showLoveXP, setShowLoveXP] = useState(false);
+  const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
+  const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
@@ -93,6 +96,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     foodQuantity: REQUIRED_FOOD_QTY.Sheep,
     game,
   });
+
+  const { name: mutantName } = sheep.reward?.items?.[0] ?? {};
 
   const feedSheep = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
@@ -135,8 +140,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       item: item as LoveAnimalItem,
     });
 
-    setShowLoveXP(true);
-    setTimeout(() => setShowLoveXP(false), 700);
+    setShowLoveItem(item as LoveAnimalItem);
+    setTimeout(() => setShowLoveItem(undefined), 700);
 
     const updatedSheep = updatedState.context.state.barn.animals[id];
 
@@ -198,6 +203,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onReadyClick = async () => {
+    if (mutantName && !showMutantAnimalModal) {
+      setShowMutantAnimalModal(true);
+      return;
+    }
+
     setShowDrops(true);
     playProduceDrop();
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -256,6 +266,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoToolPopover)
       return t("animal.toolRequired", { tool: sheep.item });
     if (showNoMedicine) return t("animal.noMedicine");
+    if (showNotEnoughFood)
+      return t("animal.notEnoughFood", { amount: requiredFoodQty });
   };
 
   const animalImageInfo = () => {
@@ -291,140 +303,152 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const level = getAnimalLevel(sheep.experience, "Sheep");
 
   return (
-    <div
-      className="relative flex items-center justify-center cursor-pointer"
-      style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        height: `${GRID_WIDTH_PX * 2}px`,
-      }}
-      onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
-      onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
-    >
-      <div className="relative w-full h-full">
-        {showDrops && (
-          <ProduceDrops
-            multiplier={sheep.multiplier ?? 0}
-            level={level}
-            animalType="Sheep"
-            className="bottom-0 left-5 top-4"
-          />
-        )}
-        <img
-          // NOTE: Update to cow sleeping when available
-          src={animalImageInfo().image}
-          alt={`${capitalize(sheepState)} Sheep`}
-          style={{
-            width: `${PIXEL_SCALE * animalImageInfo().width}px`,
+    <>
+      {mutantName && (
+        <MutantAnimalModal
+          mutant={mutantName as MutantAnimal}
+          show={!!showMutantAnimalModal}
+          onContinue={() => {
+            setShowMutantAnimalModal(false);
+            onReadyClick();
           }}
-          onClick={handleClick}
-          className={classNames(
-            "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-          )}
         />
-        {/* Emotion */}
-        {!idle && !needsLove && !sick && (
+      )}
+      <div
+        className="relative flex items-center justify-center cursor-pointer"
+        style={{
+          width: `${GRID_WIDTH_PX * 2}px`,
+          height: `${GRID_WIDTH_PX * 2}px`,
+        }}
+        onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
+        onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
+      >
+        <div className="relative w-full h-full">
+          {showDrops && (
+            <ProduceDrops
+              multiplier={sheep.multiplier ?? 0}
+              level={level}
+              animalType="Sheep"
+              className="bottom-0 left-5 top-4"
+            />
+          )}
           <img
-            src={ANIMAL_EMOTION_ICONS[sheepState].icon}
+            // NOTE: Update to cow sleeping when available
+            src={animalImageInfo().image}
             alt={`${capitalize(sheepState)} Sheep`}
             style={{
-              width: `${ANIMAL_EMOTION_ICONS[sheepState].width}px`,
-              top: ANIMAL_EMOTION_ICONS[sheepState].top,
-              right: ANIMAL_EMOTION_ICONS[sheepState].right,
+              width: `${PIXEL_SCALE * animalImageInfo().width}px`,
             }}
-            className="absolute"
+            onClick={handleClick}
+            className={classNames(
+              "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+            )}
           />
-        )}
-        {/* Request */}
-        {idle && (
-          <RequestBubble
-            top={PIXEL_SCALE * 1}
-            left={PIXEL_SCALE * 23}
-            request={favFood}
-            quantity={requiredFoodQty}
-          />
-        )}
-        {sick && (
-          <RequestBubble
-            top={PIXEL_SCALE * 2}
-            left={PIXEL_SCALE * 23}
-            request="Barn Delight"
-          />
-        )}
-        {needsLove && (
-          <RequestBubble
-            top={PIXEL_SCALE * 1}
-            left={PIXEL_SCALE * 23}
-            request={sheep.item}
-          />
-        )}
-        {sleeping && showWakesIn && (
-          <WakesIn awakeAt={sheep.awakeAt} className="-top-10" />
-        )}
-        <InfoPopover
-          showPopover={
-            showNoToolPopover ||
-            showNoFoodSelected ||
-            showNoMedicine ||
-            showNotEnoughFood
-          }
-          className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
+          {/* Emotion */}
+          {!idle && !needsLove && !sick && (
+            <img
+              src={ANIMAL_EMOTION_ICONS[sheepState].icon}
+              alt={`${capitalize(sheepState)} Sheep`}
+              style={{
+                width: `${ANIMAL_EMOTION_ICONS[sheepState].width}px`,
+                top: ANIMAL_EMOTION_ICONS[sheepState].top,
+                right: ANIMAL_EMOTION_ICONS[sheepState].right,
+              }}
+              className="absolute"
+            />
+          )}
+          {/* Request */}
+          {idle && (
+            <RequestBubble
+              top={PIXEL_SCALE * 1}
+              left={PIXEL_SCALE * 23}
+              request={favFood}
+              quantity={requiredFoodQty}
+            />
+          )}
+          {sick && (
+            <RequestBubble
+              top={PIXEL_SCALE * 2}
+              left={PIXEL_SCALE * 23}
+              request="Barn Delight"
+            />
+          )}
+          {needsLove && (
+            <RequestBubble
+              top={PIXEL_SCALE * 1}
+              left={PIXEL_SCALE * 23}
+              request={sheep.item}
+            />
+          )}
+          {sleeping && showWakesIn && (
+            <WakesIn awakeAt={sheep.awakeAt} className="-top-10" />
+          )}
+          <InfoPopover
+            showPopover={
+              showNoToolPopover ||
+              showNoFoodSelected ||
+              showNoMedicine ||
+              showNotEnoughFood
+            }
+            className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
+          >
+            <p className="text-xs p-0.5 py-1 font-secondary">
+              {getInfoPopoverMessage()}
+            </p>
+          </InfoPopover>
+        </div>
+        {/* Level Progress */}
+        <LevelProgress
+          animal={sheep}
+          animalState={sheepState}
+          experience={sheep.experience}
+          className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
+          // Don't block level up UI with wakes in panel if accidentally clicked
+          onLevelUp={() => setShowWakesIn(false)}
+        />
+        {/* Feed XP */}
+        <Transition
+          appear={true}
+          id="food-xp-amount"
+          show={showFeedXP}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0 translate-y-4"
+          enterTo="opacity-100 -translate-y-0"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
         >
-          <p className="text-xs p-0.5 py-1 font-secondary">
-            {getInfoPopoverMessage()}
-          </p>
-        </InfoPopover>
+          <span
+            className="text-sm yield-text"
+            style={{
+              color:
+                favFood === selectedItem || selectedItem === "Omnifeed"
+                  ? "#71e358"
+                  : "#fff",
+            }}
+          >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Sheep[level][selectedItem as AnimalFoodName])}`}</span>
+        </Transition>
+        <Transition
+          appear={true}
+          id="food-xp-amount"
+          show={!!showLoveItem}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0 translate-y-4"
+          enterTo="opacity-100 -translate-y-0"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+        >
+          <span
+            className="text-sm yield-text"
+            style={{
+              color: "#ffffff",
+            }}
+          >{`+${formatNumber(ITEM_XP[showLoveItem!])}`}</span>
+        </Transition>
       </div>
-      {/* Level Progress */}
-      <LevelProgress
-        animal={sheep}
-        animalState={sheepState}
-        experience={sheep.experience}
-        className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
-        // Don't block level up UI with wakes in panel if accidentally clicked
-        onLevelUp={() => setShowWakesIn(false)}
-      />
-      {/* Feed XP */}
-      <Transition
-        appear={true}
-        id="food-xp-amount"
-        show={showFeedXP}
-        enter="transition-opacity transition-transform duration-200"
-        enterFrom="opacity-0 translate-y-4"
-        enterTo="opacity-100 -translate-y-0"
-        leave="transition-opacity duration-100"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
-      >
-        <span
-          className="text-sm yield-text"
-          style={{
-            color:
-              favFood === selectedItem || selectedItem === "Omnifeed"
-                ? "#71e358"
-                : "#fff",
-          }}
-        >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Sheep[level][selectedItem as AnimalFoodName])}`}</span>
-      </Transition>
-      <Transition
-        appear={true}
-        id="food-xp-amount"
-        show={showLoveXP}
-        enter="transition-opacity transition-transform duration-200"
-        enterFrom="opacity-0 translate-y-4"
-        enterTo="opacity-100 -translate-y-0"
-        leave="transition-opacity duration-100"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex -top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
-      >
-        <span
-          className="text-sm yield-text"
-          style={{
-            color: "#ffffff",
-          }}
-        >{`+${formatNumber(ITEM_XP[sheep.item])}`}</span>
-      </Transition>
-    </div>
+    </>
   );
 };

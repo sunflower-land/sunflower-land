@@ -34,7 +34,6 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
-  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -84,6 +83,8 @@ import {
   Recipes,
   RecipeWearableName,
 } from "../lib/crafting";
+import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
+import { SeasonalCollectibleName } from "./megastore";
 
 export type Reward = {
   coins?: number;
@@ -788,12 +789,12 @@ export type AnimalMedicineName = "Barn Delight";
 
 export type BedName =
   | "Basic Bed"
-  | "Sturdy Bed"
-  | "Floral Bed"
   | "Fisher Bed"
-  | "Pirate Bed"
-  | "Cow Bed"
+  | "Floral Bed"
+  | "Sturdy Bed"
   | "Desert Bed"
+  | "Cow Bed"
+  | "Pirate Bed"
   | "Royal Bed";
 
 export type RecipeCraftableName =
@@ -1245,10 +1246,11 @@ export type Animal = {
   lovedAt: number;
   item: LoveAnimalItem;
   multiplier?: number;
+  reward?: Reward;
 };
 
 export type AnimalBuilding = {
-  level: number;
+  level: AnimalBuildingLevel;
   animals: Record<string, Animal>;
 };
 
@@ -1265,6 +1267,10 @@ export interface GameState {
 
   shipments: {
     restockedAt?: number;
+  };
+
+  gems: {
+    history?: Record<string, { spent: number }>;
   };
 
   // There are more fields but unused

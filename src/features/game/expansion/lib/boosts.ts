@@ -47,7 +47,12 @@ export function isCropShortage({ game }: { game: GameState }) {
 
 export function isFoodMadeWithHoney(food: Consumable) {
   const cookable = COOKABLES[food.name as CookableName];
-  return cookable ? cookable.ingredients.Honey : false;
+  return !!cookable?.ingredients.Honey;
+}
+
+export function isFoodMadeWithCheese(food: Consumable) {
+  const cookable = COOKABLES[food.name as CookableName];
+  return !!cookable?.ingredients.Cheese;
 }
 
 export const CROP_SHORTAGE_HOURS = 2;
@@ -161,7 +166,10 @@ export const getCookingTime = (
     reducedSecs = reducedSecs.mul(0.75);
   }
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 
@@ -299,6 +307,14 @@ export const getFoodExpBoost = (
 
   if (isFoodMadeWithHoney(food) && skills["Buzzworthy Treats"]) {
     boostedExp = boostedExp.mul(1.1);
+  }
+
+  // Swiss Whiskers - +500 exp on cheese recipes
+  if (
+    isFoodMadeWithCheese(food) &&
+    isCollectibleBuilt({ name: "Swiss Whiskers", game })
+  ) {
+    boostedExp = boostedExp.plus(500);
   }
 
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));

@@ -158,7 +158,10 @@ export function getCropTime({
 
   seconds = seconds * getBudSpeedBoosts(buds ?? {}, crop);
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     seconds = seconds * 0.5;
   }
 

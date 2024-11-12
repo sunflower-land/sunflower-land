@@ -52,11 +52,7 @@ import {
   isMediumCrop,
 } from "features/game/events/landExpansion/harvest";
 
-interface Props {
-  onClose: () => void;
-}
-
-export const Seeds: React.FC<Props> = ({ onClose }) => {
+export const Seeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
@@ -134,7 +130,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     // return delayed sync when no stock
     if (stock.lessThanOrEqualTo(0)) {
-      return <Restock onClose={onClose} />;
+      return <Restock />;
     }
 
     // return message if inventory is full

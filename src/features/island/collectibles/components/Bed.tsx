@@ -19,12 +19,12 @@ interface BedProps {
 
 export const BED_WIDTH: Record<BedName, number> = {
   "Basic Bed": 16,
-  "Floral Bed": 16,
   "Fisher Bed": 22,
-  "Cow Bed": 22,
+  "Floral Bed": 16,
   "Sturdy Bed": 18,
-  "Pirate Bed": 16,
   "Desert Bed": 16,
+  "Cow Bed": 22,
+  "Pirate Bed": 16,
   "Royal Bed": 16,
 };
 

@@ -36,7 +36,7 @@ const Complete: React.FC<CompleteProps> = ({
   return (
     <>
       <Button
-        disabled={flowerCount < 1}
+        disabled={!alreadyComplete && flowerCount < 1}
         onClick={() =>
           gameService.send("flowerShop.traded", { flower: desiredFlower })
         }

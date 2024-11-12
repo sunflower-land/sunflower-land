@@ -30,23 +30,26 @@ import { isBudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { IslandType } from "features/game/types/game";
+import { GameState, IslandType } from "features/game/types/game";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 
 export const PLACEABLES: (
-  island: IslandType,
-) => Record<PlaceableName | "Bud", React.FC<any>> = (island) => ({
-  Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
-  ...READONLY_COLLECTIBLES,
-  ...READONLY_RESOURCE_COMPONENTS(island),
-  ...READONLY_BUILDINGS(island),
-  "Dirt Path": () => (
-    <img
-      src={DIRT_PATH_VARIANTS[island]}
-      style={{ width: `${PIXEL_SCALE * 22}px` }}
-    />
-  ),
-});
+  state: GameState,
+) => Record<PlaceableName | "Bud", React.FC<any>> = (state) => {
+  const island: IslandType = state.island.type;
+  return {
+    Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
+    ...READONLY_COLLECTIBLES,
+    ...READONLY_RESOURCE_COMPONENTS(island),
+    ...READONLY_BUILDINGS(state),
+    "Dirt Path": () => (
+      <img
+        src={DIRT_PATH_VARIANTS[island]}
+        style={{ width: `${PIXEL_SCALE * 22}px` }}
+      />
+    ),
+  };
+};
 
 // TODO - get dynamic bounds for placeable
 // const BOUNDS_MIN_X = -15
@@ -162,8 +165,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   }
 
   const Collectible = isBudName(placeable)
-    ? PLACEABLES(gameState.context.state.island.type)["Bud"]
-    : PLACEABLES(gameState.context.state.island.type)[placeable];
+    ? PLACEABLES(gameState.context.state)["Bud"]
+    : PLACEABLES(gameState.context.state)[placeable];
 
   return (
     <>

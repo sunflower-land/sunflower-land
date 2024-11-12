@@ -423,6 +423,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    Tomato: new Decimal(100),
+    Cheese: new Decimal(100),
     "Barn Delight": new Decimal(1),
     Brush: new Decimal(1),
     "Alien Chicken": new Decimal(1),
@@ -945,6 +947,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         coordinates: {
           x: 2,
+          y: -2,
+        },
+        createdAt: 0,
+        id: "1",
+        readyAt: 0,
+      },
+    ],
+    Kitchen: [
+      {
+        coordinates: {
+          x: 8,
           y: -2,
         },
         createdAt: 0,
@@ -1541,7 +1554,52 @@ export const STATIC_OFFLINE_FARM: GameState = {
     item: undefined,
     startedAt: 0,
     readyAt: 0,
-    recipes: {},
+    recipes: {
+      "White Tulips": {
+        name: "White Tulips",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { collectible: "White Pansy" },
+          null,
+          null,
+          { collectible: "Stone" },
+        ],
+        time: 5 * 60 * 1000,
+        type: "collectible",
+      },
+      "Red Farmer Shirt": {
+        name: "Red Farmer Shirt",
+        ingredients: [
+          { collectible: "Radish" },
+          { collectible: "Wool" },
+          { collectible: "Radish" },
+          { collectible: "Wool" },
+          { collectible: "Radish" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Radish" },
+          { collectible: "Wool" },
+        ],
+        time: 15 * 60 * 1000,
+        type: "wearable",
+      },
+      "Rancher Hair": {
+        name: "Rancher Hair",
+        ingredients: [
+          { collectible: "Carrot" },
+          { collectible: "Carrot" },
+          { collectible: "Carrot" },
+          { collectible: "Carrot" },
+          { wearable: "Basic Hair" },
+          { collectible: "Carrot" },
+        ],
+        time: 15 * 60 * 1000,
+        type: "wearable",
+      },
+    },
   },
   henHouse: {
     level: 1,

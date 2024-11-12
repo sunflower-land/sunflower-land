@@ -25,8 +25,6 @@ import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
 import { hasReadCropsAndChickensNotice } from "../ui/portals/CropsAndChickens";
 
-import { EVENT_BUMPKINS, sheepPlace } from "../ui/npcs/Sheep"; // Remove after released
-
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
     x: 305,
@@ -175,10 +173,6 @@ export class KingdomScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(KINGDOM_NPCS);
-    // Remove after release
-    if (sheepPlace() === this.sceneId) {
-      this.initialiseNPCs(EVENT_BUMPKINS);
-    }
     this.addShopDisplayItems();
 
     const chickenRescuePortal = this.add.sprite(285, 515, "portal");

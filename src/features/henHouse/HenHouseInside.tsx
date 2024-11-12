@@ -69,9 +69,11 @@ export const HenHouseInside: React.FC = () => {
   } = ANIMAL_HOUSE_BOUNDS.henHouse[level];
 
   const organizedAnimals = useMemo(() => {
-    const animals = getKeys(henHouse.animals).map((id) => ({
-      ...henHouse.animals[id],
-    }));
+    const animals = getKeys(henHouse.animals)
+      .map((id) => ({
+        ...henHouse.animals[id],
+      }))
+      .sort((a, b) => b.experience - a.experience);
 
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Chicken.width);
 

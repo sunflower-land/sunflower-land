@@ -121,7 +121,7 @@ function dugToGrid(dug: Desert["digging"]["grid"]): DiggingGrid {
   return grid;
 }
 
-const Pattern: React.FC<{
+export const Pattern: React.FC<{
   pattern: DiggingFormation;
   isDiscovered: boolean;
 }> = ({ pattern, isDiscovered }) => {

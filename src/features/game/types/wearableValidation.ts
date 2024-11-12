@@ -1,6 +1,6 @@
 import { BumpkinItem } from "./bumpkin";
 import {
-  areAnyChickensFed,
+  areAnyChickensSleeping,
   areAnyCrimstonesMined,
   areAnyFruitsGrowing,
   areAnyOilReservesDrilled,
@@ -13,11 +13,11 @@ import {
   isCrimstoneHammerActive,
   areAnyOGFruitsGrowing,
   hasFishedToday,
-  areBonusTreasureHolesDug,
   areAnyCropsOrGreenhouseCropsGrowing,
   hasOpenedPirateChest,
   areAnySheepSleeping,
   areAnyCowsSleeping,
+  areTreasureHolesDug,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -55,7 +55,7 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Grape Pants": (state) =>
     !greenhouseCropIsGrowing({ crop: "Grape", game: state })[0],
   "Lemon Shield": (state) => !areFruitsGrowing(state, "Lemon")[0],
-  Cattlegrim: (state) => !areAnyChickensFed(state)[0],
+  Cattlegrim: (state) => !areAnyChickensSleeping(state)[0],
   "Luna's Hat": (state) =>
     !(
       state.buildings["Fire Pit"]?.[0].crafting ||
@@ -77,14 +77,15 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Dev Wrench": (state) => !areAnyOilReservesDrilled(state)[0],
   "Oil Overalls": (state) => !areAnyOilReservesDrilled(state)[0],
   "Hornet Mask": (state) => isBeehivesFull(state)[0],
-  "Ancient Shovel": (state) => areBonusTreasureHolesDug(state)[0],
+  "Ancient Shovel": (state) =>
+    areTreasureHolesDug({ game: state, minHoles: 0 })[0],
   "Pirate Potion": (state) => !hasOpenedPirateChest(state)[0],
   "Dream Scarf": (state) => !areAnySheepSleeping(state)[0],
   "Milk Apron": (state) => !areAnyCowsSleeping(state)[0],
   "Infernal Bullwhip": (state) =>
     !areAnySheepSleeping(state)[0] || !areAnyCowsSleeping(state)[0],
   "Black Sheep Onesie": (state) => !areAnySheepSleeping(state)[0],
-  "Chicken Suit": (state) => !areAnyChickensFed(state)[0],
+  "Chicken Suit": (state) => !areAnyChickensSleeping(state)[0],
   "Merino Jumper": (state) => !areAnySheepSleeping(state)[0],
   "Cowbell Necklace": (state) => !areAnyCowsSleeping(state)[0],
 };

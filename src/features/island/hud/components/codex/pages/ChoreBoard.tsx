@@ -9,11 +9,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import {
-  BEACH_BUMPKINS,
-  KINGDOM_BUMPKINS,
-  RETREAT_BUMPKINS,
-} from "features/island/delivery/components/Orders";
+
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
@@ -38,6 +34,8 @@ import lockIcon from "assets/icons/lock.png";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { CHORE_DETAILS } from "../lib/choreDetails";
 import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
+import { CHORE_DIALOGUES } from "features/game/types/stories";
+import { isMobile } from "mobile-device-detect";
 
 const formatNumber = (num: number, decimals = 2) => {
   // Check if the number has a fractional part
@@ -65,12 +63,11 @@ export const ChoreBoard: React.FC = () => {
   const previewNpc = selectedId ?? getKeys(chores)[0];
   const previewChore = chores[previewNpc];
 
-  const getLocationName = (npcName: NPCName) => {
-    if (RETREAT_BUMPKINS.includes(npcName)) return t("island.goblin.retreat");
-    if (BEACH_BUMPKINS.includes(npcName)) return t("island.beach");
-    if (KINGDOM_BUMPKINS.includes(npcName)) return t("island.kingdom");
-    return t("island.pumpkin.plaza");
-  };
+  const messages = CHORE_DIALOGUES[previewNpc];
+
+  // Pick random message based on day of week
+  const dayOfWeek = new Date().getDate();
+  const dialogue = messages?.[dayOfWeek % messages.length];
 
   const level = getBumpkinLevel(
     gameService.state.context.state.bumpkin.experience ?? 0,
@@ -203,6 +200,8 @@ export const ChoreBoard: React.FC = () => {
           </div>
 
           <div className="flex-1 space-y-2 p-1 w-full">
+            {dialogue && <p className="text-xs">{dialogue}</p>}
+
             <div className="text-xs flex justify-between flex-wrap items-center mb-2">
               <Label type="default">
                 {CHORE_DETAILS[previewChore.name].description}
@@ -228,7 +227,12 @@ export const ChoreBoard: React.FC = () => {
                     game: gameService.state.context.state,
                   }) < NPC_CHORES[previewChore.name].requirement
                 }
-                onClick={() => handleCompleteChore(previewNpc)}
+                onClick={() => {
+                  handleCompleteChore(previewNpc);
+                  if (isMobile) {
+                    setSelectedId(undefined);
+                  }
+                }}
               >
                 {t("chores.complete")}
                 <div className="flex absolute right-0 -top-5">

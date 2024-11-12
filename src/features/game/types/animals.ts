@@ -130,20 +130,20 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
 };
 
 export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
-  Hay: {
-    name: "Hay",
-    type: "food",
-    description: translate("description.hay"),
-    ingredients: {
-      Wheat: new Decimal(1),
-    },
-  },
   "Kernel Blend": {
     name: "Kernel Blend",
     type: "food",
     description: translate("description.kernel.blend"),
     ingredients: {
       Corn: new Decimal(1),
+    },
+  },
+  Hay: {
+    name: "Hay",
+    type: "food",
+    description: translate("description.hay"),
+    ingredients: {
+      Wheat: new Decimal(1),
     },
   },
   NutriBarley: {
@@ -210,7 +210,7 @@ export const ANIMAL_FOOD_EXPERIENCE: Record<
       Omnifeed: 60,
     },
     3: {
-      "Kernel Blend": 100,
+      "Kernel Blend": 10,
       Hay: 60,
       NutriBarley: 20,
       "Mixed Grain": 30,

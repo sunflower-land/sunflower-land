@@ -1320,6 +1320,118 @@ describe("plantGreenhouse", () => {
     });
   });
 
+  it("applies Super Totem speed boost", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
+      },
+    });
+  });
+
+  it("doesn't stack Super Totem and Time Warp totem", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+          "Super Totem": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
+      },
+    });
+  });
+
   it("applies Saphiro bud speed boost", () => {
     const now = Date.now();
     const state = plantGreenhouse({
@@ -1406,6 +1518,58 @@ describe("plantGreenhouse", () => {
         },
         collectibles: {
           "Time Warp Totem": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Grape",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
+      },
+    });
+  });
+
+  it("applies Super Totem normal fruit speed boosts", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Grape Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Super Totem": [
             {
               id: "1",
               createdAt: now,

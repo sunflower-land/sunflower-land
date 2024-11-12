@@ -55,9 +55,6 @@ import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 
-import halloweenSelectboxTL from "assets/ui/halloweenSelectbox_tl.png";
-import halloweenSelectboxTR from "assets/ui/halloweenSelectbox_tr.png";
-
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
   "corale",
@@ -249,7 +246,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
           <div id="select-box" className="hidden md:block">
             <img
               className="absolute pointer-events-none"
-              src={halloweenSelectboxTL}
+              src={SUNNYSIDE.ui.selectBoxTL}
               style={{
                 top: `${PIXEL_SCALE * -3}px`,
                 left: `${PIXEL_SCALE * -3}px`,
@@ -258,7 +255,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             />
             <img
               className="absolute pointer-events-none"
-              src={halloweenSelectboxTR}
+              src={SUNNYSIDE.ui.selectBoxTR}
               style={{
                 top: `${PIXEL_SCALE * -3}px`,
                 right: `${PIXEL_SCALE * -3}px`,
@@ -352,10 +349,11 @@ export const DeliveryOrders: React.FC<Props> = ({
   }
   const completedAt = state.npcs?.[previewOrder.from]?.deliveryCompletedAt;
 
+  const dateKey = new Date().toISOString().substring(0, 10);
+
   const hasClaimedBonus =
     !!completedAt &&
-    new Date(completedAt).toISOString().substring(0, 10) ===
-      new Date().toISOString().substring(0, 10);
+    new Date(completedAt).toISOString().substring(0, 10) === dateKey;
   const canSkip =
     getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
 
@@ -445,8 +443,7 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between gap-1 flex-row w-full">
             <Label type="default">{t("deliveries")}</Label>
-            {state.delivery.doubleDelivery ===
-              new Date().toISOString().substring(0, 10) && (
+            {state.delivery.doubleDelivery === dateKey && (
               <Label type="vibrant" icon={lightning}>
                 {t("double.rewards.deliveries")}
               </Label>
@@ -786,8 +783,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </Label>
               </div>
               <div className="mb-1">
-                {state.delivery.doubleDelivery ===
-                  new Date().toISOString().substring(0, 10) &&
+                {state.delivery.doubleDelivery === dateKey &&
                   !hasClaimedBonus && (
                     <Label type="vibrant" icon={lightning}>
                       {t("2x.rewards")}

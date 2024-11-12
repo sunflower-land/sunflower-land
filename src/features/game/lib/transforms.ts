@@ -52,6 +52,7 @@ export function makeGame(farm: any): GameState {
     choreBoard: farm.choreBoard,
 
     shipments: farm.shipments,
+    gems: farm.gems,
 
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,

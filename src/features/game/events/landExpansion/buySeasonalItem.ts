@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 
 import { produce } from "immer";
@@ -11,9 +10,11 @@ import {
   SeasonalStoreCollectible,
   SeasonalStoreItem,
   SeasonalStoreTier,
+  SeasonalTierItemName,
 } from "features/game/types/megastore";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export function isCollectible(
   item: SeasonalStoreItem,
@@ -63,7 +64,6 @@ export function buySeasonalItem({
 
     const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
       state,
-      "inventory",
       seasonalStore,
       "collectible",
       tier,
@@ -71,7 +71,6 @@ export function buySeasonalItem({
     );
     const seasonalWearablesCrafted = getSeasonalItemsCrafted(
       state,
-      "wardrobe",
       seasonalStore,
       "wearable",
       tier,
@@ -174,6 +173,11 @@ export function buySeasonalItem({
         boughtAt: createdAt,
       };
     }
+
+    stateCopy.bumpkin.activity = trackActivity(
+      `${name as SeasonalTierItemName} Bought`,
+      stateCopy.bumpkin.activity,
+    );
     return stateCopy;
   });
 }
@@ -200,15 +204,20 @@ export function isKeyBoughtWithinSeason(
   const keyBoughtAt =
     game.pumpkinPlaza.keysBought?.megastore[tierKey as Keys]?.boughtAt;
   const seasonTime = SEASONS[getCurrentSeason()];
+  const historyKey =
+    game.bumpkin.activity[`${tierKey as SeasonalTierItemName} Bought`];
+  //If player has no history of buying keys at megastore
+  if (!keyBoughtAt && isLowerTier && !historyKey) return true;
 
+  // Returns false if key is bought outside current season, otherwise, true
   if (keyBoughtAt) {
     const isWithinSeason =
       new Date(keyBoughtAt) >= seasonTime.startDate &&
       new Date(keyBoughtAt) <= seasonTime.endDate;
-
     return isWithinSeason;
   }
 
+  // This will only be triggered if isLowerTier is false
   return false;
 }
 
@@ -247,7 +256,6 @@ export function getTierItems(
 
 export function getSeasonalItemsCrafted(
   game: GameState,
-  items: "wardrobe" | "inventory",
   seasonalStore: SeasonalStore,
   itemType: "collectible" | "wearable",
   tier: keyof SeasonalStore,
@@ -256,18 +264,20 @@ export function getSeasonalItemsCrafted(
   const tierItems = getTierItems(seasonalStore, tier, isLowerTier);
   if (!tierItems) return 0;
 
-  const craftedItems = getKeys(game[items]).filter((itemName) =>
-    tierItems.some(
-      (tierItem: SeasonalStoreItem) =>
-        (itemType === "collectible" &&
-          "collectible" in tierItem &&
-          tierItem.collectible === itemName) ||
-        (itemType === "wearable" &&
-          "wearable" in tierItem &&
-          tierItem.wearable === itemName) ||
-        0,
-    ),
+  const craftedItems = tierItems.filter(
+    (tierItem: SeasonalStoreItem) =>
+      (itemType === "collectible" &&
+        "collectible" in tierItem &&
+        game.bumpkin.activity[
+          `${tierItem.collectible as SeasonalTierItemName} Bought`
+        ]) ||
+      (itemType === "wearable" &&
+        "wearable" in tierItem &&
+        game.bumpkin.activity[
+          `${tierItem.wearable as SeasonalTierItemName} Bought`
+        ]),
   );
+
   if (!craftedItems) return 0;
 
   return craftedItems.length > 0 ? craftedItems.length : 0;

@@ -339,12 +339,13 @@ export const Gifts: React.FC<{
 
   let translated: string = t(message);
 
+  const dateKey = new Date().toISOString().substring(0, 10);
+
   const giftedAt = game.npcs?.[name]?.friendship?.giftedAt ?? 0;
   // GiftedAt is the same UTC day as right now
   const isLocked =
     giftedAt > 0 &&
-    new Date(giftedAt).toISOString().substring(0, 10) ===
-      new Date().toISOString().substring(0, 10);
+    new Date(giftedAt).toISOString().substring(0, 10) === dateKey;
 
   if (isLocked) {
     translated = `${translated} ${t("npcDialogues.default.locked")}`;
@@ -608,6 +609,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const tickets = generateDeliveryTickets({ game, npc });
 
+  const dateKey = new Date().toISOString().substring(0, 10);
+
   let message = intro;
 
   if (delivery && !delivery.completedAt && hasDelivery) {
@@ -621,7 +624,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       npc === "pumpkin' pete" &&
       (game.npcs?.[npc]?.friendship?.points ?? 0) > 2 &&
       game.delivery.doubleDelivery &&
-      game.delivery.doubleDelivery !== new Date().toISOString().substring(0, 10)
+      game.delivery.doubleDelivery !== dateKey
     ) {
       message = t("double.delivery.hint", {
         date: game.delivery.doubleDelivery ?? "",
@@ -652,8 +655,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const hasClaimedBonus =
     !!completedAt &&
-    new Date(completedAt).toISOString().substring(0, 10) ===
-      new Date().toISOString().substring(0, 10);
+    new Date(completedAt).toISOString().substring(0, 10) === dateKey;
 
   if (gift) {
     return (
@@ -717,8 +719,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
-                  {game.delivery.doubleDelivery ===
-                    new Date().toISOString().substring(0, 10) &&
+                  {game.delivery.doubleDelivery === dateKey &&
                   !hasClaimedBonus ? (
                     <Label type="vibrant" icon={lightning}>
                       {t("double.rewards.delivery")}

@@ -18,7 +18,6 @@ import {
   HeliosBlacksmithItem,
   MegaStoreCollectibleName,
   PotionHouseItemName,
-  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -29,6 +28,7 @@ import { EpicFlowerName, MutantFlowerName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
+import { SeasonalCollectibleName } from "./megastore";
 
 export { FLAGS };
 
@@ -1365,6 +1365,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Meteorite: { width: 2, height: 2 },
   "Sheaf of Plenty": { width: 1, height: 2 },
   "Mechanical Bull": { width: 2, height: 2 },
+  "Crop Circle": { width: 2, height: 2 },
   "Moo-ver": { width: 2, height: 2 },
   "Swiss Whiskers": { width: 1, height: 1 },
   Cluckulator: { width: 1, height: 2 },
@@ -1374,6 +1375,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Alien Chicken": { width: 1, height: 1 },
   "Toxic Tuft": { width: 2, height: 1 },
   Mootant: { width: 2, height: 1 },
+  "Halloween Scarecrow": { width: 1, height: 1 },
+  "Vampire Bear": { width: 1, height: 1 },
+  "Super Totem": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

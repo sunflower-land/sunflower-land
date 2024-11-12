@@ -684,9 +684,10 @@ export const Land: React.FC = () => {
   const paused = useSelector(gameService, isPaused);
 
   const { pathname } = useLocation();
-  const showMarketplace = pathname.includes("marketplace");
-
   const state = useSelector(gameService, selectGameState);
+  const showMarketplace =
+    pathname.includes("marketplace") && hasFeatureAccess(state, "MARKETPLACE");
+
   const {
     expansionConstruction,
     buildings,
@@ -776,11 +777,7 @@ export const Land: React.FC = () => {
             <DirtRenderer island={island.type} grid={gameGrid} />
 
             {!landscaping && (
-              <Water
-                expansionCount={expansionCount}
-                townCenterBuilt={(buildings["Town Center"]?.length ?? 0) >= 1}
-                gameState={state}
-              />
+              <Water expansionCount={expansionCount} gameState={state} />
             )}
             {!landscaping && <UpcomingExpansion />}
 

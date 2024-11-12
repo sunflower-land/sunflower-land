@@ -50,7 +50,6 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
-  SeasonalCollectibleName,
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
@@ -88,6 +87,7 @@ import {
 import { canWithdrawBoostedWearable } from "./wearableValidation";
 import { FlowerName, FlowerSeedName, MutantFlowerName } from "./flowers";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
+import { SeasonalCollectibleName } from "./megastore";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -610,6 +610,14 @@ const consumables: Record<ConsumableName, () => boolean> = {
   "The Lot": () => false,
   "Tofu Scramble": () => false,
   Antipasto: () => false,
+  Cheese: () => false,
+  "Pizza Margherita": () => false,
+  "Blue Cheese": () => false,
+  "Honey Cheddar": () => false,
+  "Caprese Salad": () => false,
+  "Sour Shake": () => false,
+  "Spaghetti al Limone": () => false,
+  "Lemon Cheesecake": () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -914,6 +922,10 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Splendor Flag": () => true,
   "Jelly Lamp": () => true,
   "Paint Can": () => true,
+
+  "Halloween Scarecrow": () => true,
+  "Vampire Bear": () => true,
+  "Super Totem": () => false,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
@@ -1072,6 +1084,7 @@ const seasonalStore: Record<SeasonalCollectibleName, () => boolean> = {
   Meteorite: () => hasSeasonEnded("Bull Run"),
   "Sheaf of Plenty": () => hasSeasonEnded("Bull Run"),
   "Mechanical Bull": () => hasSeasonEnded("Bull Run"),
+  "Crop Circle": () => hasSeasonEnded("Bull Run"),
 };
 
 const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {
@@ -1162,12 +1175,12 @@ const animalResources: Record<AnimalResource, () => boolean> = {
 
 const beds: Record<BedName, () => boolean> = {
   "Basic Bed": () => false,
-  "Sturdy Bed": () => false,
-  "Floral Bed": () => false,
   "Fisher Bed": () => false,
-  "Pirate Bed": () => false,
-  "Cow Bed": () => false,
+  "Floral Bed": () => false,
+  "Sturdy Bed": () => false,
   "Desert Bed": () => false,
+  "Cow Bed": () => false,
+  "Pirate Bed": () => false,
   "Royal Bed": () => false,
 };
 
@@ -1747,4 +1760,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Sickle: () => false,
   "Speed Boots": () => false,
   "Tomato Apron": () => false,
+  "Adventurer's Suit": () => true,
+  "Adventurer's Torch": () => true,
+  "Pumpkin Head": () => true,
 };

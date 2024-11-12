@@ -20,7 +20,6 @@ import { PlaceableController } from "features/farming/hud/components/PlaceableCo
 import { LandscapingChest } from "./components/LandscapingChest";
 import { getChestItems } from "./components/inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
-import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
@@ -56,7 +55,6 @@ const LandscapingHudComponent: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const [showDecorations, setShowDecorations] = useState(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
 
   const button = useSound("button");
@@ -163,36 +161,6 @@ const LandscapingHudComponent: React.FC<{
                 />
               </div>
 
-              {location === "farm" && (
-                <div
-                  onClick={() => {
-                    setShowDecorations(true);
-                  }}
-                  className="w-full z-10 cursor-pointer hover:img-highlight relative"
-                  style={{
-                    width: `${PIXEL_SCALE * 22}px`,
-                    height: `${PIXEL_SCALE * 22}px`,
-                    marginBottom: `${PIXEL_SCALE * 5}px`,
-                  }}
-                >
-                  <img
-                    src={SUNNYSIDE.ui.round_button}
-                    className="absolute"
-                    style={{
-                      width: `${PIXEL_SCALE * 22}px`,
-                    }}
-                  />
-                  <img
-                    src={SUNNYSIDE.icons.decorationbush}
-                    className="absolute"
-                    style={{
-                      top: `${PIXEL_SCALE * 5}px`,
-                      left: `${PIXEL_SCALE * 5}px`,
-                      width: `${PIXEL_SCALE * 12}px`,
-                    }}
-                  />
-                </div>
-              )}
               <Chest
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {
@@ -288,11 +256,6 @@ const LandscapingHudComponent: React.FC<{
           )}
         </div>
       )}
-
-      <CraftDecorationsModal
-        onHide={() => setShowDecorations(false)}
-        show={showDecorations}
-      />
 
       <PlaceableController location={location} />
     </HudContainer>

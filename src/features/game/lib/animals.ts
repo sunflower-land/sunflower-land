@@ -20,8 +20,10 @@ import {
   GameState,
   InventoryItemName,
 } from "../types/game";
+import { getCurrentSeason } from "../types/seasons";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
+import { hasVipAccess } from "./vipAccess";
 import { isWearableActive } from "./wearables";
 
 export const makeAnimalBuildingKey = (
@@ -323,6 +325,10 @@ export function getBoostedFoodQuantity({
     isWearableActive({ name: "Infernal Bullwhip", game })
   ) {
     foodQuantity *= 0.5;
+  }
+
+  if (hasVipAccess(game.inventory) && getCurrentSeason() === "Bull Run") {
+    foodQuantity *= 0.9;
   }
 
   return foodQuantity;

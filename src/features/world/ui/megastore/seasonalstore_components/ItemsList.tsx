@@ -19,8 +19,7 @@ import lock from "assets/icons/lock.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName, Keys } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -30,6 +29,7 @@ import {
   SeasonalStoreItem,
   SeasonalStoreTier,
   SeasonalStoreWearable,
+  SeasonalTierItemName,
 } from "features/game/types/megastore";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -49,9 +49,6 @@ interface Props {
   onItemClick: (item: SeasonalStoreItem, tier: SeasonalStoreTier) => void;
 }
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
-
 export const ItemsList: React.FC<Props> = ({
   items,
   type,
@@ -61,8 +58,6 @@ export const ItemsList: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
 
-  const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
   //For Discount
   const [
     {
@@ -74,20 +69,22 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        wardrobe[(item as SeasonalStoreWearable).wearable as BumpkinItem] ?? 0
+        state.bumpkin.activity[
+          `${(item as SeasonalStoreWearable).wearable as SeasonalTierItemName} Bought`
+        ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (
-        inventory[
-          (item as SeasonalStoreCollectible).collectible as InventoryItemName
-        ] ?? new Decimal(0)
-      ).toNumber();
+        state.bumpkin.activity[
+          `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
+        ] ?? 0
+      );
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
-        inventory[
-          (item as SeasonalStoreCollectible).collectible as InventoryItemName
-        ] ?? new Decimal(0)
-      ).toNumber();
+        state.bumpkin.activity[
+          `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
+        ] ?? 0
+      );
     }
 
     return 0;
@@ -155,7 +152,6 @@ export const ItemsList: React.FC<Props> = ({
 
   const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
     state,
-    "inventory",
     seasonalStore,
     "collectible",
     tier,
@@ -163,7 +159,6 @@ export const ItemsList: React.FC<Props> = ({
   );
   const seasonalWearablesCrafted = getSeasonalItemsCrafted(
     state,
-    "wardrobe",
     seasonalStore,
     "wearable",
     tier,
@@ -184,12 +179,9 @@ export const ItemsList: React.FC<Props> = ({
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
+  // For Current Tier Key - Unlocked(0) / Locked(1)
   const isKeyCounted = isKeyBoughtWithinSeason(state, tiers) ? 0 : 1;
-  const isAllKeyBought =
-    isKeyBoughtWithinSeason(state, "basic") &&
-    isKeyBoughtWithinSeason(state, "rare") &&
-    isKeyBoughtWithinSeason(state, "epic");
-
+  // Reduction is by getting the lower tier of currrent tier
   const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
 
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;

@@ -22,7 +22,8 @@ type FirePitCookableName =
   | "Gumbo"
   | "Antipasto"
   | "Rice Bun"
-  | "Fried Tofu";
+  | "Fried Tofu"
+  | "Pizza Margherita";
 
 type KitchenCookableName =
   | "Beetroot Blaze"
@@ -47,7 +48,9 @@ type KitchenCookableName =
   | "Ocean's Olive"
   | "Seafood Basket"
   | "Fish n Chips"
-  | "Sushi Roll";
+  | "Sushi Roll"
+  | "Caprese Salad"
+  | "Spaghetti al Limone";
 
 type BakeryCookableName =
   | CakeName
@@ -61,7 +64,10 @@ type DeliCookableName =
   | "Fermented Carrots"
   | "Sauerkraut"
   | "Fancy Fries"
-  | "Fermented Fish";
+  | "Fermented Fish"
+  | "Cheese"
+  | "Blue Cheese"
+  | "Honey Cheddar";
 
 type JuiceName =
   | "Apple Juice"
@@ -74,7 +80,8 @@ type JuiceName =
   | "Quick Juice"
   | "Slow Juice"
   | "The Lot"
-  | "Carrot Juice";
+  | "Carrot Juice"
+  | "Sour Shake";
 
 type FishCookableName =
   | "Chowder"
@@ -88,7 +95,12 @@ type FishCookableName =
   | "Fish n Chips"
   | "Sushi Roll";
 
-type CakeName = Cake | "Orange Cake" | "Eggplant Cake" | "Honey Cake";
+type CakeName =
+  | Cake
+  | "Orange Cake"
+  | "Eggplant Cake"
+  | "Honey Cake"
+  | "Lemon Cheesecake";
 
 export type CookableName =
   | FirePitCookableName
@@ -278,6 +290,18 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     ingredients: {
       Olive: new Decimal(2),
       Grape: new Decimal(2),
+    },
+  },
+  "Pizza Margherita": {
+    name: "Pizza Margherita",
+    description: translate("description.pizzaMargherita"),
+    building: "Fire Pit",
+    experience: 25000,
+    cookingSeconds: 20 * 60 * 60,
+    ingredients: {
+      Tomato: new Decimal(30),
+      Cheese: new Decimal(5),
+      Wheat: new Decimal(20),
     },
   },
 };
@@ -548,6 +572,30 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
       Rice: new Decimal(2),
     },
   },
+  "Caprese Salad": {
+    name: "Caprese Salad",
+    description: translate("description.capreseSalad"),
+    building: "Kitchen",
+    experience: 6000,
+    cookingSeconds: 3 * 60 * 60,
+    ingredients: {
+      Cheese: new Decimal(1),
+      Tomato: new Decimal(25),
+      Kale: new Decimal(20),
+    },
+  },
+  "Spaghetti al Limone": {
+    name: "Spaghetti al Limone",
+    description: translate("description.spaghettiLimone"),
+    building: "Kitchen",
+    experience: 15000,
+    cookingSeconds: 15 * 60 * 60,
+    ingredients: {
+      Wheat: new Decimal(10),
+      Lemon: new Decimal(15),
+      Cheese: new Decimal(3),
+    },
+  },
 };
 
 export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
@@ -742,6 +790,18 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
       Egg: new Decimal(30),
     },
   },
+  "Lemon Cheesecake": {
+    name: "Lemon Cheesecake",
+    description: translate("description.lemonCheesecake"),
+    building: "Bakery",
+    experience: 30000,
+    cookingSeconds: 30 * 60 * 60,
+    ingredients: {
+      Lemon: new Decimal(20),
+      Cheese: new Decimal(5),
+      Egg: new Decimal(40),
+    },
+  },
 };
 
 export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
@@ -805,6 +865,38 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
     ingredients: {
       "Magic Mushroom": new Decimal(3),
       Honey: new Decimal(20),
+    },
+  },
+  Cheese: {
+    name: "Cheese",
+    description: translate("description.cheese"),
+    building: "Deli",
+    experience: 1,
+    cookingSeconds: 20 * 60,
+    ingredients: {
+      Milk: new Decimal(3),
+    },
+  },
+  "Blue Cheese": {
+    name: "Blue Cheese",
+    description: translate("description.blueCheese"),
+    building: "Deli",
+    experience: 6000,
+    cookingSeconds: 3 * 60 * 60,
+    ingredients: {
+      Cheese: new Decimal(2),
+      Blueberry: new Decimal(10),
+    },
+  },
+  "Honey Cheddar": {
+    name: "Honey Cheddar",
+    description: translate("description.honeyCheddar"),
+    building: "Deli",
+    experience: 15000,
+    cookingSeconds: 12 * 60 * 60,
+    ingredients: {
+      Cheese: new Decimal(3),
+      Honey: new Decimal(5),
     },
   },
 };
@@ -932,6 +1024,16 @@ export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
       Kale: new Decimal(100),
     },
   },
+  "Sour Shake": {
+    name: "Sour Shake",
+    description: translate("description.sourShake"),
+    building: "Smoothie Shack",
+    experience: 1000,
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Lemon: new Decimal(20),
+    },
+  },
 };
 
 export const COOKABLES: Record<CookableName, Cookable> = {
@@ -969,6 +1071,7 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
   "Eggplant Cake": BAKERY_COOKABLES["Eggplant Cake"],
   "Orange Cake": BAKERY_COOKABLES["Orange Cake"],
   "Honey Cake": BAKERY_COOKABLES["Honey Cake"],
+  "Lemon Cheesecake": BAKERY_COOKABLES["Lemon Cheesecake"],
 };
 
 export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {

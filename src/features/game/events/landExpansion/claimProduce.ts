@@ -71,6 +71,15 @@ export function claimProduce({
       );
     });
 
+    // Apply reward items if any
+    if (animal.reward?.items) {
+      animal.reward.items.forEach((rewardItem) => {
+        copy.inventory[rewardItem.name] = (
+          copy.inventory[rewardItem.name] ?? new Decimal(0)
+        ).add(rewardItem.amount);
+      });
+    }
+
     animal.asleepAt = createdAt;
     animal.awakeAt = getBoostedAwakeAt({
       animalType: animal.type,

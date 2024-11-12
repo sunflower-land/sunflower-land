@@ -2,6 +2,30 @@ import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 import { SeasonName } from "./seasons";
 
+export type SeasonalTierItemName =
+  | SeasonalCollectibleName
+  | SeasonalWearableName
+  | MegastoreKeys;
+
+export type SeasonalCollectibleName =
+  | "Cow Scratcher"
+  | "Spinning Wheel"
+  | "Sleepy Rug"
+  | "Meteorite"
+  | "Sheaf of Plenty"
+  | "Mechanical Bull"
+  | "Crop Circle";
+
+export type SeasonalWearableName =
+  | "Cowboy Hat"
+  | "Cowgirl Skirt"
+  | "Cowboy Shirt"
+  | "Dream Scarf"
+  | "Milk Apron"
+  | "Cowboy Trouser";
+
+export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
+
 type SeasonalStoreBase = {
   cost: {
     items: Partial<Record<InventoryItemName, number>>;

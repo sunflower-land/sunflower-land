@@ -14,6 +14,7 @@ export type RecipeCollectibleName = Extract<
   | "Bonnie's Tombstone"
   | "Grubnash's Tombstone"
   | "Town Sign"
+  | "Golden Maple"
   | RecipeCraftableName
   | BedName,
   InventoryItemName
@@ -232,8 +233,8 @@ export const RECIPES: Recipes = {
     time: 0,
     type: "collectible",
   },
-  "Sturdy Bed": {
-    name: "Sturdy Bed",
+  "Fisher Bed": {
+    name: "Fisher Bed",
     ingredients: [],
     time: 0,
     type: "collectible",
@@ -244,8 +245,14 @@ export const RECIPES: Recipes = {
     time: 0,
     type: "collectible",
   },
-  "Fisher Bed": {
-    name: "Fisher Bed",
+  "Sturdy Bed": {
+    name: "Sturdy Bed",
+    ingredients: [],
+    time: 0,
+    type: "collectible",
+  },
+  "Desert Bed": {
+    name: "Desert Bed",
     ingredients: [],
     time: 0,
     type: "collectible",
@@ -262,14 +269,14 @@ export const RECIPES: Recipes = {
     time: 0,
     type: "collectible",
   },
-  "Desert Bed": {
-    name: "Desert Bed",
+  "Royal Bed": {
+    name: "Royal Bed",
     ingredients: [],
     time: 0,
     type: "collectible",
   },
-  "Royal Bed": {
-    name: "Royal Bed",
+  "Golden Maple": {
+    name: "Golden Maple",
     ingredients: [],
     time: 0,
     type: "collectible",

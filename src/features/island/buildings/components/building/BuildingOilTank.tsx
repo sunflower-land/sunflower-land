@@ -147,7 +147,7 @@ export const BuildingOilTank = ({
 
   return (
     <>
-      <div className="relative w-full">
+      <div className="relative w-full mb-1">
         {runtime === 0 ? (
           <Label
             type={"default"}
@@ -188,7 +188,7 @@ export const BuildingOilTank = ({
                     <div className="text-xs">
                       {t("cooking.building.runtime", {
                         time: secondsToString(runtime, {
-                          length: "short",
+                          length: "medium",
                           isShortFormat: true,
                           removeTrailingZeros: true,
                         }),

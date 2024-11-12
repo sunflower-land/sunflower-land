@@ -95,9 +95,6 @@ export type StockableName = Extract<
   | "Lily Seed"
   | "Sand Shovel"
   | "Sand Drill"
-  | "Chicken"
-  | "Magic Bean"
-  | "Immortal Pear"
 >;
 
 export const INITIAL_STOCK = (
@@ -184,9 +181,6 @@ export const INITIAL_STOCK = (
 
     "Sand Shovel": new Decimal(50),
     "Sand Drill": new Decimal(10),
-    Chicken: new Decimal(5),
-    "Magic Bean": new Decimal(5),
-    "Immortal Pear": new Decimal(1),
   };
 };
 
@@ -446,6 +440,7 @@ export const INITIAL_FARM: GameState = {
   },
 
   shipments: {},
+  gems: {},
 
   bumpkin: INITIAL_BUMPKIN,
 
@@ -739,6 +734,7 @@ export const TEST_FARM: GameState = {
     prizes: {},
   },
   shipments: {},
+  gems: {},
   competitions: {
     progress: {},
   },
@@ -1049,6 +1045,7 @@ export const EMPTY: GameState = {
     prizes: {},
   },
   shipments: {},
+  gems: {},
   previousInventory: {},
   chickens: {},
   choreBoard: INITIAL_CHORE_BOARD,
