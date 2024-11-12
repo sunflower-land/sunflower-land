@@ -69,7 +69,8 @@ export type ServerId =
   | "sunflorea_dream"
   | "sunflorea_oasis"
   | "sunflorea_brazil"
-  | "sunflorea_magic";
+  | "sunflorea_magic"
+  | "testroom";
 
 export type ServerName =
   | "Bliss"
@@ -77,8 +78,9 @@ export type ServerName =
   | "Oasis"
   | "Brazil"
   | "Magic"
-  | "Bumpkin Bazaar";
-export type ServerPurpose = "Chill & Chat" | "Trading";
+  | "Bumpkin Bazaar"
+  | "Test Room";
+export type ServerPurpose = "Chill & Chat" | "Trading" | "Testing";
 
 export type Server = {
   name: ServerName;
@@ -111,7 +113,12 @@ const SERVERS: Server[] = [
     population: 0,
     purpose: "Chill & Chat",
   },
-  // { name: "Magic", id: "sunflorea_magic", population: 0 },
+  {
+    name: "Test Room",
+    id: "testroom",
+    population: 0,
+    purpose: "Testing",
+  },
 ];
 
 export interface MMOContext {
