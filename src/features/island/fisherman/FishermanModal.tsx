@@ -255,7 +255,10 @@ const BaitSelection: React.FC<{
               )}
             </div>
 
-            <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
+            <Label
+              icon={SUNNYSIDE.tools.fishing_rod}
+              type={reelsLeft <= 0 ? "danger" : "default"}
+            >
               {reelsLeft === 1
                 ? t("fishing.oneReelLeft")
                 : t("fishing.reelsLeft", { reelsLeft })}
@@ -344,7 +347,7 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          {t("fishermanModal.dailyLimitReached")}
+          {t("fishermanModal.fishingLimitReached")}
         </Label>
       )}
 
@@ -357,7 +360,7 @@ const BaitSelection: React.FC<{
       {fishingLimitReached ? (
         <Button disabled={!fishingLimitReached} onClick={onClickBuy}>
           <div className="flex items-center">
-            {`Buy more reels`}
+            {t("fishing.buyMoreReels")}
             <img src={ITEM_DETAILS.Gem.image} className="h-5" />
           </div>
         </Button>
@@ -371,7 +374,7 @@ const BaitSelection: React.FC<{
           }
         >
           <div className="flex items-center">
-            <span className="text-sm mr-1">{"Cast"}</span>
+            <span className="text-sm mr-1">{t("fishing.cast")}</span>
             <img src={SUNNYSIDE.tools.fishing_rod} className="h-5" />
           </div>
         </Button>
@@ -559,8 +562,11 @@ const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
         <>
           <div className="p-1">
             <div className="flex items-center justify-between space-x-1 mb-1">
-              <Label type="default">{`Extra Reels`}</Label>
-              <Label type="default" icon={SUNNYSIDE.tools.fishing_rod}>
+              <Label type="default">{t("fishing.extraReels")}</Label>
+              <Label
+                type={reelsLeft <= 0 ? "danger" : "default"}
+                icon={SUNNYSIDE.tools.fishing_rod}
+              >
                 {reelsLeft === 1
                   ? t("fishing.oneReelLeft")
                   : t("fishing.reelsLeft", { reelsLeft })}
