@@ -1017,6 +1017,9 @@ export type TradeListing = {
   createdAt: number;
   boughtAt?: number;
   buyerId?: number;
+  fulfilledAt?: number;
+  fulfilledById?: number;
+  signature?: string;
 };
 
 export type TradeOffer = {
