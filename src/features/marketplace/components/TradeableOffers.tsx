@@ -20,7 +20,7 @@ import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 import { TradeableDisplay } from "../lib/tradeables";
-import { getOfferItem } from "../lib/offers";
+import { getItemId } from "../lib/offers";
 import { getKeys } from "features/game/types/decorations";
 import { RemoveOffer } from "./RemoveOffer";
 import {
@@ -212,7 +212,7 @@ export const YourOffer: React.FC<{
 
   const offerIds = getKeys(offers).filter((offerId) => {
     const offer = offers[offerId];
-    const itemId = getOfferItem({ offer });
+    const itemId = getItemId({ details: offer });
 
     if (offer.fulfilledAt) return false;
 

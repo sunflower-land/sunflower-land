@@ -1015,11 +1015,12 @@ export type TradeListing = {
   items: Partial<Record<MarketplaceTradeableName, number>>;
   sfl: number;
   createdAt: number;
+  collection: CollectionName;
   boughtAt?: number;
   buyerId?: number;
+  signature?: string;
   fulfilledAt?: number;
   fulfilledById?: number;
-  signature?: string;
 };
 
 export type TradeOffer = {
