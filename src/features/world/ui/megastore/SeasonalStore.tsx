@@ -114,7 +114,26 @@ export const SeasonalStore: React.FC<{
   const megaItems = MEGASTORE[currentSeason].mega.items;
 
   return (
-    <div className="relative h-full w-full">
+    <>
+      <ModalOverlay
+        show={!!selectedItem}
+        onBackdropClick={() => setSelectedItem(null)}
+      >
+        <ItemDetail
+          isVisible={isVisible}
+          item={selectedItem}
+          tier={selectedTier}
+          image={getItemImage(selectedItem)}
+          buff={getItemBuffLabel(selectedItem)}
+          isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
+          onClose={() => {
+            setSelectedItem(null);
+            setSelectedTier("basic"); // Reset tier on close
+          }}
+          readonly={readonly}
+        />
+      </ModalOverlay>
+
       <div className="flex justify-between px-2 flex-wrap pb-1">
         <Label type="default" className="mb-1">
           {"Stella"}
@@ -130,7 +149,7 @@ export const SeasonalStore: React.FC<{
       </div>
       <div
         className={classNames("flex flex-col p-2 pt-1", {
-          ["max-h-[450px] overflow-y-auto scrollable "]: !readonly,
+          ["max-h-[300px] overflow-y-auto scrollable "]: !readonly,
         })}
       >
         <span className="text-xs pb-1">
@@ -160,25 +179,6 @@ export const SeasonalStore: React.FC<{
           onItemClick={handleClickItem}
         />
       </div>
-
-      <ModalOverlay
-        show={!!selectedItem}
-        onBackdropClick={() => setSelectedItem(null)}
-      >
-        <ItemDetail
-          isVisible={isVisible}
-          item={selectedItem}
-          tier={selectedTier}
-          image={getItemImage(selectedItem)}
-          buff={getItemBuffLabel(selectedItem)}
-          isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
-          onClose={() => {
-            setSelectedItem(null);
-            setSelectedTier("basic"); // Reset tier on close
-          }}
-          readonly={readonly}
-        />
-      </ModalOverlay>
-    </div>
+    </>
   );
 };
