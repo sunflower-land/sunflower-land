@@ -1043,6 +1043,14 @@ export type Fishing = {
   dailyAttempts?: {
     [date: string]: number;
   };
+  extraReels?: ExtraReels;
+};
+
+export type ExtraReels = {
+  timesBought?: {
+    [date: string]: number;
+  };
+  count: number;
 };
 
 export type Christmas = {

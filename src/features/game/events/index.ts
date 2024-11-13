@@ -413,6 +413,7 @@ import {
   sacrificeBear,
   SacrificeBearAction,
 } from "./landExpansion/sacrificeBear";
+import { buyMoreReels, BuyMoreReelsAction } from "./landExpansion/buyMoreReels";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -527,6 +528,7 @@ export type PlayingEvent =
   | FeedFactionPetAction
   | LeaveFactionAction
   | BuyMoreDigsAction
+  | BuyMoreReelsAction
   | BuyAnimalAction
   | FeedAnimalAction
   | LoveAnimalAction
@@ -727,6 +729,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "seasonalItem.bought": buySeasonalItem,
   "recipe.discovered": discoverRecipe,
   "farmHand.unlocked": unlockFarmhand,
+  "fishing.reelsBought": buyMoreReels,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

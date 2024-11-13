@@ -79,6 +79,12 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: CROP_LIFECYCLE.Parsnip.crop,
     },
+    "Sunflower Shield": {
+      shortDescription: translate("bumpkinItemBuff.sunflower.shield.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: CROP_LIFECYCLE.Sunflower.crop,
+    },
     "Sunflower Amulet": {
       shortDescription: translate("bumpkinItemBuff.sunflower.amulet.boost"),
       labelType: "success",
