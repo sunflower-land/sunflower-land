@@ -130,7 +130,7 @@ export const Seeds: React.FC = () => {
 
     // return delayed sync when no stock
     if (stock.lessThanOrEqualTo(0)) {
-      return <Restock npc="betty" />;
+      return <Restock />;
     }
 
     // return message if inventory is full
