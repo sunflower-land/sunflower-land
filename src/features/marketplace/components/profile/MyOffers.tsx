@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
-import { getItemId, getTradeType } from "../../lib/offers";
+import { getItemId } from "../../lib/offers";
 import Decimal from "decimal.js-light";
 import { useNavigate } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -21,6 +21,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { NPC_WEARABLES } from "lib/npcs";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ListViewCard } from "../ListViewCard";
+import { getTradeType } from "features/marketplace/lib/getTradeType";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
