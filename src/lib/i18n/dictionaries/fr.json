@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "Êtes-vous sûr de vouloir acheter 5 rouleaux pour {{gemPrice}} gemmes ?",
   "fishing.extraReels": "Bobines supplémentaires",
   "fishing.cast": "distribution",
-  "fishing.buyMoreReels": "Achetez plus de bobines"
+  "fishing.buyMoreReels": "Achetez plus de bobines",
+  "bumpkinItemBuff.sunflower.shield.boost": "Graines de tournesol gratuites"
 }

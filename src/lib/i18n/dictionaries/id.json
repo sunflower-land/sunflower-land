@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "Apakah Anda yakin ingin membeli 5 gulungan untuk {{gemPrice}} permata?",
   "fishing.extraReels": "Gulungan Ekstra",
   "fishing.cast": "Pemeran",
-  "fishing.buyMoreReels": "Beli lebih banyak gulungan"
+  "fishing.buyMoreReels": "Beli lebih banyak gulungan",
+  "bumpkinItemBuff.sunflower.shield.boost": "Biji Bunga Matahari Gratis"
 }

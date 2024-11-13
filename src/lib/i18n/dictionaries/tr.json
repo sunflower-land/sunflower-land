@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "{{gemPrice}} mücevherler için 5 makara satın almak istediğinizden emin misiniz?",
   "fishing.extraReels": "Ekstra Makaralar",
   "fishing.cast": "Döküm",
-  "fishing.buyMoreReels": "Daha fazla makara satın alın"
+  "fishing.buyMoreReels": "Daha fazla makara satın alın",
+  "bumpkinItemBuff.sunflower.shield.boost": "Ücretsiz Ayçiçeği Tohumları"
 }

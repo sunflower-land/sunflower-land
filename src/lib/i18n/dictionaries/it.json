@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "Sei sicuro di voler acquistare 5 rulli per {{gemPrice}} gemme?",
   "fishing.extraReels": "Bobine extra",
   "fishing.cast": "Cast",
-  "fishing.buyMoreReels": "Acquista più rulli"
+  "fishing.buyMoreReels": "Acquista più rulli",
+  "bumpkinItemBuff.sunflower.shield.boost": "Semi di girasole gratis"
 }

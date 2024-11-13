@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "Bist du sicher, dass du 5 Walzen für {{gemPrice}} Edelsteine kaufen willst?",
   "fishing.extraReels": "Zusätzliche Rollen",
   "fishing.cast": "Besetzung",
-  "fishing.buyMoreReels": "Kaufe mehr Rollen"
+  "fishing.buyMoreReels": "Kaufe mehr Rollen",
+  "bumpkinItemBuff.sunflower.shield.boost": "Kostenlose Sonnenblumenkerne"
 }
