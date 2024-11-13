@@ -49,7 +49,9 @@ export function enhancedRestock({ state, action }: Options): GameState {
     const gems = game.inventory["Gem"] ?? new Decimal(0);
     const { npc } = action;
 
-    if (gems.lt(RestockItems[npc]?.gemPrice)) {
+    const { restockItem, gemPrice } = RestockItems[npc];
+
+    if (gems.lt(gemPrice)) {
       throw new Error("You do not have enough Gems");
     }
 
@@ -57,16 +59,14 @@ export function enhancedRestock({ state, action }: Options): GameState {
       return {
         ...acc,
         [name]:
-          name in RestockItems[npc].restockItem
-            ? INITIAL_STOCK(game)[name]
-            : game.stock[name],
+          name in restockItem ? INITIAL_STOCK(game)[name] : game.stock[name],
       };
     }, {});
-    game.inventory["Gem"] = gems.sub(RestockItems[npc]?.gemPrice);
+    game.inventory["Gem"] = gems.sub(gemPrice);
 
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
     onboardingAnalytics.logEvent("spend_virtual_currency", {
-      value: 1,
+      value: gemPrice,
       virtual_currency_name: "Gem",
       item_name: "Restock",
     });
