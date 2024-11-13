@@ -34,6 +34,8 @@ import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
+import { hasFeatureAccess } from "lib/flags";
+import { EnhancedRestock } from "features/island/buildings/components/building/market/EnhancedRestock";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -88,7 +90,11 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
       actionView={
         <>
           {stock.equals(0) ? (
-            <Restock />
+            hasFeatureAccess(state, "ENHANCED_RESTOCK") ? (
+              <EnhancedRestock npc={"jafar"} />
+            ) : (
+              <Restock />
+            )
           ) : (
             <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
               <Button

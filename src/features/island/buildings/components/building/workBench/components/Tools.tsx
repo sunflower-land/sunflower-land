@@ -27,6 +27,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { hasFeatureAccess } from "lib/flags";
+import { EnhancedRestock } from "../../market/EnhancedRestock";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -132,6 +133,8 @@ export const Tools: React.FC = () => {
     }
 
     if (stock.equals(0)) {
+      if (hasFeatureAccess(state, "ENHANCED_RESTOCK"))
+        return <EnhancedRestock npc={"blacksmith"} />;
       return <Restock />;
     }
 

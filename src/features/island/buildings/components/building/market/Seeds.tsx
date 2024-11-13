@@ -51,6 +51,7 @@ import {
   isBasicCrop,
   isMediumCrop,
 } from "features/game/events/landExpansion/harvest";
+import { EnhancedRestock } from "./EnhancedRestock";
 
 export const Seeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
@@ -130,6 +131,8 @@ export const Seeds: React.FC = () => {
 
     // return delayed sync when no stock
     if (stock.lessThanOrEqualTo(0)) {
+      if (hasFeatureAccess(state, "ENHANCED_RESTOCK"))
+        return <EnhancedRestock npc={"betty"} />;
       return <Restock />;
     }
 
