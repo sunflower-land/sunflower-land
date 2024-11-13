@@ -180,7 +180,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       });
       if (!hasRequirements) return false;
     }
-    if (item) return sflBalance.greaterThanOrEqualTo(new Decimal(sfl));
+    if (item)
+      return sflBalance.greaterThanOrEqualTo(
+        SFLDiscount(state, new Decimal(sfl)),
+      );
   };
 
   const trackAnalytics = () => {
