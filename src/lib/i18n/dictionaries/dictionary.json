@@ -3446,6 +3446,7 @@
   "withdraw.send.wallet": "Sent to your wallet",
   "withdraw.choose": "Choose amount to withdraw",
   "withdraw.receive": "You will receive: {{sflReceived}} SFL",
+  "withdraw.taxFree": "Goblins tax you on SFL earned in-game. This excludes deposits & the marketplace.",
   "withdraw.select.item": "Select items to withdraw",
   "withdraw.opensea": "Once withdrawn, you will be able to view your items on OpenSea.",
   "withdraw.restricted": "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",

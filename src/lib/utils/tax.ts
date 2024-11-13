@@ -5,32 +5,51 @@ import { GameState } from "features/game/types/game";
  * Returns the tax rate when withdrawing SFL
  * Smart contract uses a base rate of 1000 for decimal precision. 10% = 100
  */
-export function getTax({ amount, game }: { amount: Decimal; game: GameState }) {
-  // 10%
-  let tax = 100;
-
+function getTaxPercentage(amount: Decimal) {
   if (amount.lessThan(10)) {
-    // 30%
-    tax = 300;
-  } else if (amount.lessThan(100)) {
-    // 25%
-    tax = 250;
-  } else if (amount.lessThan(1000)) {
-    // 20%
-    tax = 200;
-  } else if (amount.lessThan(5000)) {
-    // 15%
-    tax = 150;
+    return 30;
   }
+
+  if (amount.lessThan(100)) {
+    return 25;
+  }
+
+  if (amount.lessThan(1000)) {
+    // 20%
+    return 20;
+  }
+
+  if (amount.lessThan(5000)) {
+    // 15%
+    return 15;
+  }
+
+  // 10%
+  return 10;
+}
+
+export function getTax({
+  amount,
+  game,
+}: {
+  amount: Decimal;
+  game: GameState;
+}): number {
+  amount = amount.sub(game.bank.taxFreeSFL);
+
+  if (amount.lte(0)) return 0;
+
+  let percentage = getTaxPercentage(amount);
 
   if (game.island.type !== "basic") {
-    tax -= 25; // 2.5% reduction
+    percentage -= 2.5; // 2.5%
   }
-
+  // Liquidity providers get 50% off fees
   if (game.inventory["Liquidity Provider"]?.gte(1)) {
-    tax = tax / 2;
+    percentage = percentage * 0.5;
   }
 
-  // 50% reduced fee if LP badge exists
-  return Math.floor(tax);
+  const tax = amount.mul(percentage / 100).toNumber();
+
+  return tax;
 }

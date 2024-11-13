@@ -1266,8 +1266,13 @@ export type AnimalBuilding = {
   animals: Record<string, Animal>;
 };
 
+export type Bank = {
+  taxFreeSFL: number;
+};
+
 export interface GameState {
   home: Home;
+  bank: Bank;
 
   rewards: Rewards;
 

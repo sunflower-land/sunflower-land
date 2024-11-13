@@ -41,11 +41,10 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
   useEffect(() => {
     // Use base 1000
-    const _tax =
-      getTax({
-        amount: typeof amount !== "string" ? amount : new Decimal(0),
-        game: state,
-      }) / 10;
+    const _tax = getTax({
+      amount: typeof amount !== "string" ? amount : new Decimal(0),
+      game: state,
+    });
 
     setTax(_tax);
   }, [amount]);
@@ -100,7 +99,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
                 }}
               />
             )}
-            {`${tax}% ${t("fee")} `}
+            {`${tax} ${t("fee")} `}
             <a
               className="underline hover:text-blue-500"
               href="https://docs.sunflower-land.com/fundamentals/withdrawing"
@@ -110,6 +109,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
               {t("read.more")}
             </a>
           </p>
+          <p className="text-xs mt-1">{t("withdraw.taxFree")}</p>
         </div>
 
         <Label type="warning" className="my-4">
