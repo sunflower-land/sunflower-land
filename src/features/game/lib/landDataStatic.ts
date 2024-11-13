@@ -929,6 +929,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   trades: {
     listings: {
       "1": {
+        collection: "resources",
         createdAt: 0,
         items: { Sunflower: 10 },
         sfl: 10,
@@ -936,6 +937,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         buyerId: 1,
       },
       "2": {
+        collection: "resources",
         createdAt: 0,
         items: { Sunflower: 10 },
         sfl: 5,
@@ -1041,7 +1043,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     ],
   },
-  collectibles: {},
+  collectibles: {
+    "Gold Egg": [
+      {
+        id: "1",
+        coordinates: { x: 0, y: 0 },
+        readyAt: 0,
+        createdAt: 0,
+      },
+    ],
+  },
   pumpkinPlaza: {
     raffle: {
       entries: {
@@ -1607,13 +1618,49 @@ export const STATIC_OFFLINE_FARM: GameState = {
       abc: {
         asleepAt: 0,
         awakeAt: 0,
-        experience: 2640,
+        experience: 2720,
         id: "abc",
         type: "Chicken",
         createdAt: 0,
         coordinates: { x: 0, y: 0 },
         lovedAt: 0,
-        state: "sick",
+        state: "idle",
+        item: "Brush",
+      },
+      c: {
+        asleepAt: 0,
+        awakeAt: 0,
+        experience: 2020,
+        id: "c",
+        type: "Chicken",
+        createdAt: 0,
+        coordinates: { x: 0, y: 0 },
+        lovedAt: 0,
+        state: "idle",
+        item: "Brush",
+      },
+      blah: {
+        asleepAt: 0,
+        awakeAt: 0,
+        experience: 1120,
+        id: "blah",
+        type: "Chicken",
+        createdAt: 0,
+        coordinates: { x: 0, y: 0 },
+        lovedAt: 0,
+        state: "idle",
+        item: "Brush",
+      },
+      "123": {
+        asleepAt: 0,
+        awakeAt: 0,
+        experience: 20,
+        id: "123",
+        type: "Chicken",
+        createdAt: 0,
+        coordinates: { x: 0, y: 0 },
+        lovedAt: 0,
+        state: "idle",
         item: "Brush",
       },
     },
@@ -1624,14 +1671,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
       abc: {
         asleepAt: 0,
         awakeAt: 0,
-        experience: 8100,
+        experience: 8310,
         id: "abc",
         type: "Cow",
         createdAt: 0,
         coordinates: { x: 0, y: 0 },
         lovedAt: 0,
-        state: "happy",
+        state: "ready",
         item: "Brush",
+        reward: {
+          items: [
+            {
+              name: "Mootant",
+              amount: 1,
+            },
+          ],
+        },
       },
       def: {
         asleepAt: 0,

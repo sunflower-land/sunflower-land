@@ -1,15 +1,27 @@
 import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
 import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import { InventoryItemName, TradeOffer } from "features/game/types/game";
-import { CollectionName } from "features/game/types/marketplace";
+import { InventoryItemName } from "features/game/types/game";
+import {
+  CollectionName,
+  MarketplaceTradeableName,
+} from "features/game/types/marketplace";
 import {
   BUMPKIN_WITHDRAWABLES,
   WITHDRAWABLES,
 } from "features/game/types/withdrawables";
 
-export function getOfferItem({ offer }: { offer: TradeOffer }): number {
-  const { collection, items } = offer;
+interface MarketplaceItemDetails {
+  collection: CollectionName;
+  items: Partial<Record<MarketplaceTradeableName, number>>;
+}
+
+export function getItemId({
+  details,
+}: {
+  details: MarketplaceItemDetails;
+}): number {
+  const { collection, items } = details;
   const name = getKeys(items ?? {})[0]; // Currently only one item supported
 
   if (collection === "buds") {

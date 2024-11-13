@@ -150,6 +150,7 @@ export const Tradeable: React.FC = () => {
           onListClose={() => {
             setShowListItem(false);
           }}
+          onPurchase={load}
         />
 
         <TradeableOffers

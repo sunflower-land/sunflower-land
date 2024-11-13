@@ -414,6 +414,7 @@ import {
   SacrificeBearAction,
 } from "./landExpansion/sacrificeBear";
 import { buyMoreReels, BuyMoreReelsAction } from "./landExpansion/buyMoreReels";
+import { ClaimPurchaseAction, claimPurchase } from "./claimPurchase";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -539,7 +540,8 @@ export type PlayingEvent =
   | ClaimProduceAction
   | BuySeasonalItemAction
   | DiscoverRecipeAction
-  | UnlockFarmhandAction;
+  | UnlockFarmhandAction
+  | ClaimPurchaseAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -730,6 +732,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "recipe.discovered": discoverRecipe,
   "farmHand.unlocked": unlockFarmhand,
   "fishing.reelsBought": buyMoreReels,
+  "purchase.claimed": claimPurchase,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
