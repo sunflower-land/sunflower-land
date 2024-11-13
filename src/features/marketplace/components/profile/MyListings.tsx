@@ -1,5 +1,5 @@
 import { Label } from "components/ui/Label";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 
 import trade from "assets/icons/trade.png";
@@ -16,8 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
 import { getItemId, getTradeType } from "features/marketplace/lib/offers";
 import { Modal } from "components/ui/Modal";
-import { NPC_WEARABLES } from "lib/npcs";
-import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import { ClaimPurchase } from "./ClaimPurchase";
 
 export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
@@ -56,29 +55,14 @@ export const MyListings: React.FC = () => {
 
   return (
     <>
-      {" "}
       <Modal show={!!claimId} onHide={() => setClaimId(undefined)}>
-        <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
-          <ClaimReward
+        {claimId && (
+          <ClaimPurchase
+            sfl={listings[claimId as string].sfl}
             onClaim={claim}
             onClose={() => setClaimId(undefined)}
-            reward={{
-              createdAt: Date.now(),
-              id: "purchase-claimed",
-              items:
-                listings[claimId as string]?.collection === "collectibles"
-                  ? listings[claimId as string].items
-                  : {},
-              wearables:
-                listings[claimId as string]?.collection === "wearables"
-                  ? listings[claimId as string].items
-                  : {},
-              sfl: 0,
-              coins: 0,
-              message: t("marketplace.itemSold"),
-            }}
           />
-        </Panel>
+        )}
       </Modal>
       <InnerPanel className="mb-2">
         <div className="p-2">
