@@ -132,7 +132,7 @@ export const Tools: React.FC = () => {
     }
 
     if (stock.equals(0)) {
-      return <Restock />;
+      return <Restock npc="blacksmith" />;
     }
 
     return (

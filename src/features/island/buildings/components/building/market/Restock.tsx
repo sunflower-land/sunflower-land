@@ -7,7 +7,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import stockIcon from "assets/icons/stock.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
@@ -28,7 +28,7 @@ import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { SEEDS } from "features/game/types/seeds";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
-export const Restock: React.FC = () => {
+export const Restock: React.FC<{ npc: NPCName }> = ({ npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -54,7 +54,10 @@ export const Restock: React.FC = () => {
       <>
         <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
           <Panel className="sm:w-4/5 m-auto">
-            <ExperimentRestockModal onClose={() => setShowConfirm(false)} />
+            <ExperimentRestockModal
+              onClose={() => setShowConfirm(false)}
+              npc={npc}
+            />
           </Panel>
         </Modal>
         <Button className="relative" onClick={() => setShowConfirm(true)}>
@@ -93,7 +96,10 @@ export const Restock: React.FC = () => {
 
         <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
           <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES.betty}>
-            <ExperimentRestockModal onClose={() => setShowConfirm(false)} />
+            <ExperimentRestockModal
+              onClose={() => setShowConfirm(false)}
+              npc={npc}
+            />
           </Panel>
         </Modal>
       </>
@@ -114,7 +120,7 @@ export const Restock: React.FC = () => {
 
       <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
         <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES.betty}>
-          <RestockModal onClose={() => setShowConfirm(false)} />
+          <RestockModal onClose={() => setShowConfirm(false)} npc={npc} />
         </Panel>
       </Modal>
     </>
@@ -128,11 +134,13 @@ interface RestockModalProps {
     minutes: number;
     seconds: number;
   };
+  npc: NPCName;
 }
 
 const RestockModal: React.FC<RestockModalProps> = ({
   onClose,
   shipmentTime,
+  npc,
 }) => {
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
@@ -148,7 +156,9 @@ const RestockModal: React.FC<RestockModalProps> = ({
       return;
     }
 
-    gameService.send("shops.restocked");
+    gameService.send("shops.restocked", {
+      npc,
+    });
 
     gameAnalytics.trackSink({
       currency: "Gem",
@@ -267,9 +277,10 @@ const RestockModal: React.FC<RestockModalProps> = ({
   );
 };
 
-const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
-  onClose,
-}) => {
+const ExperimentRestockModal: React.FC<{
+  onClose: () => void;
+  npc: NPCName;
+}> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
 
   const { gameService, showAnimations } = useContext(Context);
@@ -416,5 +427,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
 
   const { ...shipmentTime } = shipmentAt;
 
-  return <RestockModal shipmentTime={shipmentTime} onClose={onClose} />;
+  return (
+    <RestockModal shipmentTime={shipmentTime} onClose={onClose} npc={npc} />
+  );
 };

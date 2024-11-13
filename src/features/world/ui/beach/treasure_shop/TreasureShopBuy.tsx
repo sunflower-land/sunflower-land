@@ -88,7 +88,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
       actionView={
         <>
           {stock.equals(0) ? (
-            <Restock />
+            <Restock npc="jafar" />
           ) : (
             <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
               <Button
