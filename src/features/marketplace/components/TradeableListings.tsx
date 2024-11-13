@@ -25,14 +25,12 @@ import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
 import * as Auth from "features/auth/lib/Provider";
 import { getKeys } from "features/game/types/decorations";
-import { getOfferItem } from "../lib/offers";
 import { RemoveListing } from "./RemoveListing";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 
 import sflIcon from "assets/icons/sfl.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getListingCollection, getListingItem } from "../lib/listings";
-import { TradeListing } from "features/game/types/game";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -196,6 +194,8 @@ export const YourListings: React.FC<{
     return listingCollection === collection && itemId === id;
   });
 
+  if (listingIds.length === 0) return null;
+
   const handleHide = () => {
     if (isCancellingListing) return;
 
@@ -207,7 +207,7 @@ export const YourListings: React.FC<{
       <Modal show={!!removeListingId} onHide={handleHide}>
         <RemoveListing
           collection={collection}
-          listingId={removeListingId}
+          listingIds={removeListingId ? [removeListingId] : []}
           authToken={authToken}
           onClose={() => setRemoveListingId(undefined)}
         />
@@ -216,13 +216,16 @@ export const YourListings: React.FC<{
         <div className="p-2">
           <div className="flex justify-between mb-2">
             <Label icon={SUNNYSIDE.icons.player_small} type="default">
-              {t("trading.your.listing")}
+              {t("marketplace.yourListings")}
             </Label>
           </div>
           {listingIds.map((listingId) => {
             const listing = listings[listingId];
             return (
-              <div className="flex items-center justify-between">
+              <div
+                className="flex items-center justify-between"
+                key={listingId}
+              >
                 <div className="flex items-center">
                   <img src={sflIcon} className="h-8 mr-2" />
                   <p className="text-base">{`${listing.sfl} SFL`}</p>
