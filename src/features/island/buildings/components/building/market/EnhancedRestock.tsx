@@ -160,7 +160,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
       return;
     }
 
-    gameService.send("shops.restocked", {
+    gameService.send("shops.restocked.enhanced", {
       npc,
     });
 
@@ -219,6 +219,8 @@ const RestockModal: React.FC<RestockModalProps> = ({
     }
   };
 
+  const { gemPrice } = RestockItems[npc];
+
   return (
     <>
       <div className="p-1">
@@ -232,7 +234,10 @@ const RestockModal: React.FC<RestockModalProps> = ({
           </div>
         )}
         <p className="mb-1">
-          {t("gems.buyReplenish", { shopName: getShopName() ?? "" })}
+          {t("gems.buyReplenish.enhanced", {
+            shopName: getShopName() ?? "",
+            gemPrice,
+          })}
         </p>
       </div>
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
