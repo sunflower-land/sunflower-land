@@ -114,7 +114,7 @@ export const EnhancedRestock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
     <>
       <Button className="mt-1 relative" onClick={() => setShowConfirm(true)}>
         <div className="flex items-center h-4 ">
-          <p>{t("restock")}</p>
+          <p className="mr-1">{`${t("restock")}: ${RestockItems[npc].gemPrice}`}</p>
           <img
             src={ITEM_DETAILS["Gem"].image}
             className="h-5 absolute right-1 top-1"
