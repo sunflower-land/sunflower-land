@@ -208,18 +208,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
       return restockAmount.gt(0);
     });
 
-  const getShopName = () => {
-    switch (npc) {
-      case "betty":
-        return "market";
-      case "blacksmith":
-        return "workbench";
-      case "jafar":
-        return "treasure shop";
-    }
-  };
-
-  const { gemPrice } = RestockItems[npc];
+  const { gemPrice, shopName } = RestockItems[npc];
 
   return (
     <>
@@ -235,7 +224,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
         )}
         <p className="mb-1">
           {t("gems.buyReplenish.enhanced", {
-            shopName: getShopName() ?? "",
+            shopName,
             gemPrice,
           })}
         </p>

@@ -20,21 +20,27 @@ type Options = {
   action: EnhancedRestockAction;
 };
 
-export const RestockItems: Record<
-  RestockNPC,
-  { restockItem: any; gemPrice: number }
-> = {
+type RestockObject = {
+  restockItem: any;
+  gemPrice: number;
+  shopName: "market" | "workbench" | "treasure shop";
+};
+
+export const RestockItems: Record<RestockNPC, RestockObject> = {
   betty: {
     restockItem: SEEDS(),
     gemPrice: 15,
+    shopName: "market",
   },
   blacksmith: {
     restockItem: WORKBENCH_TOOLS,
     gemPrice: 10,
+    shopName: "workbench",
   },
   jafar: {
     restockItem: TREASURE_TOOLS,
     gemPrice: 5,
+    shopName: "treasure shop",
   },
 };
 
