@@ -7,7 +7,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import stockIcon from "assets/icons/stock.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { NPC_WEARABLES, NPCName } from "lib/npcs";
+import { NPC_WEARABLES } from "lib/npcs";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
@@ -27,8 +27,12 @@ import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { SEEDS } from "features/game/types/seeds";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import {
+  RestockItems,
+  RestockNPC,
+} from "features/game/events/landExpansion/restock";
 
-export const Restock: React.FC<{ npc: NPCName }> = ({ npc }) => {
+export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -86,7 +90,7 @@ export const Restock: React.FC<{ npc: NPCName }> = ({ npc }) => {
         </div>
         <Button className="mt-1 relative" onClick={() => setShowConfirm(true)}>
           <div className="flex items-center h-4 ">
-            <p>{t("restock")}</p>
+            <p className="mr-1">{`${t("restock")}: ${RestockItems[npc].gemPrice}`}</p>
             <img
               src={ITEM_DETAILS["Gem"].image}
               className="h-5 absolute right-1 top-1"
@@ -134,7 +138,7 @@ interface RestockModalProps {
     minutes: number;
     seconds: number;
   };
-  npc: NPCName;
+  npc: RestockNPC;
 }
 
 const RestockModal: React.FC<RestockModalProps> = ({
@@ -183,20 +187,37 @@ const RestockModal: React.FC<RestockModalProps> = ({
       return amount.sub(remainingStock);
     }
   };
-
   const restockTools = Object.entries(INITIAL_STOCK(gameState.context.state))
-    .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
+    .filter((item) => {
+      if (npc === "blacksmith") {
+        return item[0] in WORKBENCH_TOOLS;
+      }
+      if (npc === "jafar") {
+        return item[0] in TREASURE_TOOLS;
+      }
+    })
     .filter(([item, amount]) => {
       const restockAmount = getRestockAmount(item as StockableName, amount);
       return restockAmount.gt(0);
     });
 
   const restockSeeds = Object.entries(INITIAL_STOCK(gameState.context.state))
-    .filter((item) => item[0] in SEEDS())
+    .filter((item) => npc === "betty" && item[0] in SEEDS())
     .filter(([item, amount]) => {
       const restockAmount = getRestockAmount(item as StockableName, amount);
       return restockAmount.gt(0);
     });
+
+  const getShopName = () => {
+    switch (npc) {
+      case "betty":
+        return "market";
+      case "blacksmith":
+        return "workbench";
+      case "jafar":
+        return "treasure shop";
+    }
+  };
 
   return (
     <>
@@ -210,67 +231,75 @@ const RestockModal: React.FC<RestockModalProps> = ({
             <TimerDisplay time={shipmentTime} />
           </div>
         )}
-        <p className="mb-1">{t("gems.buyReplenish")}</p>
+        <p className="mb-1">
+          {t("gems.buyReplenish", { shopName: getShopName() })}
+        </p>
       </div>
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
         {restockTools.length > 0 && (
-          <Label
-            icon={ITEM_DETAILS.Axe.image}
-            type="default"
-            className="ml-2 mb-1"
-          >
-            {t("tools")}
-          </Label>
+          <>
+            <Label
+              icon={ITEM_DETAILS.Axe.image}
+              type="default"
+              className="ml-2 mb-1"
+            >
+              {t("tools")}
+            </Label>
+            <div className="flex flex-wrap mb-2">
+              {restockTools.map(([item, amount]) => {
+                const restockAmount = getRestockAmount(
+                  item as StockableName,
+                  amount,
+                );
+                return (
+                  <Box
+                    key={item}
+                    count={restockAmount}
+                    image={ITEM_DETAILS[item as StockableName].image}
+                  />
+                );
+              })}
+            </div>
+          </>
         )}
-        <div className="flex flex-wrap mb-2">
-          {restockTools.map(([item, amount]) => {
-            const restockAmount = getRestockAmount(
-              item as StockableName,
-              amount,
-            );
-            return (
-              <Box
-                key={item}
-                count={restockAmount}
-                image={ITEM_DETAILS[item as StockableName].image}
-              />
-            );
-          })}
-        </div>
         {restockSeeds.length > 0 && (
-          <Label
-            icon={CROP_LIFECYCLE.Sunflower.seed}
-            type="default"
-            className="ml-2 mb-1"
-          >
-            {t("seeds")}
-          </Label>
+          <>
+            <Label
+              icon={CROP_LIFECYCLE.Sunflower.seed}
+              type="default"
+              className="ml-2 mb-1"
+            >
+              {t("seeds")}
+            </Label>
+            <div className="flex flex-wrap mb-2">
+              {restockSeeds.map(([item, amount]) => {
+                const restockAmount = getRestockAmount(
+                  item as StockableName,
+                  amount,
+                );
+                return (
+                  <Box
+                    key={item}
+                    count={restockAmount}
+                    image={ITEM_DETAILS[item as StockableName].image}
+                  />
+                );
+              })}
+            </div>
+          </>
         )}
-        <div className="flex flex-wrap mb-2">
-          {restockSeeds.map(([item, amount]) => {
-            const restockAmount = getRestockAmount(
-              item as StockableName,
-              amount,
-            );
-            return (
-              <Box
-                key={item}
-                count={restockAmount}
-                image={ITEM_DETAILS[item as StockableName].image}
-              />
-            );
-          })}
-        </div>
       </div>
       <p className="text-xs p-1 pb-1.5 italic">{t("gems.restockToMaxStock")}</p>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
         <Button className="relative" onClick={handleRestock}>
-          {t("restock")}
-          <img
-            src={ITEM_DETAILS["Gem"].image}
-            className="h-5 absolute right-1 top-1"
-          />
+          <div className="flex items-center h-4 ">
+            <p className="mr-1">{`${t("restock")}: ${RestockItems[npc].gemPrice}`}</p>
+            <img
+              src={ITEM_DETAILS["Gem"].image}
+              className="h-5 absolute right-1 top-1"
+            />
+          </div>
         </Button>
       </div>
     </>
@@ -279,7 +308,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
 
 const ExperimentRestockModal: React.FC<{
   onClose: () => void;
-  npc: NPCName;
+  npc: RestockNPC;
 }> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
 
