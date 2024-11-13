@@ -4339,5 +4339,6 @@
   "fishing.buyMoreReels": "Купите больше катушек",
   "bumpkinItemBuff.sunflower.shield.boost": "Бесплатные семена подсолнечника",
   "marketplace.itemSold": "Товар продан",
-  "marketplace.congratulationsItemSold": "Поздравляем, ваш товар продан!"
+  "marketplace.congratulationsItemSold": "Поздравляем, ваш товар продан!",
+  "withdraw.taxFree": "Гоблины облагают вас налогом на SFL, заработанные в игре. Сюда не входят депозиты и рынок."
 }

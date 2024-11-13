@@ -4339,5 +4339,6 @@
   "fishing.buyMoreReels": "더 많은 릴 구매하기",
   "bumpkinItemBuff.sunflower.shield.boost": "무료 해바라기 씨",
   "marketplace.itemSold": "아이템 판매",
-  "marketplace.congratulationsItemSold": "축하합니다. 상품이 판매되었습니다!"
+  "marketplace.congratulationsItemSold": "축하합니다. 상품이 판매되었습니다!",
+  "withdraw.taxFree": "고블린은 게임 내에서 획득한 SFL에 세금을 부과합니다.예금 및 마켓플레이스는 제외됩니다."
 }

@@ -4339,5 +4339,6 @@
   "fishing.buyMoreReels": "Daha fazla makara satın alın",
   "bumpkinItemBuff.sunflower.shield.boost": "Ücretsiz Ayçiçeği Tohumları",
   "marketplace.itemSold": "Ürün satıldı",
-  "marketplace.congratulationsItemSold": "Tebrikler, öğeniz satıldı!"
+  "marketplace.congratulationsItemSold": "Tebrikler, öğeniz satıldı!",
+  "withdraw.taxFree": "Goblinler oyun içinde kazanılan SFL üzerinden sizi vergi alır. Bu, mevduat ve pazarı hariç tutar."
 }

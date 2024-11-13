@@ -4339,5 +4339,6 @@
   "fishing.buyMoreReels": "リールをさらに購入",
   "bumpkinItemBuff.sunflower.shield.boost": "無料のひまわりの種",
   "marketplace.itemSold": "商品が販売されました",
-  "marketplace.congratulationsItemSold": "おめでとうございます。商品は売れました。"
+  "marketplace.congratulationsItemSold": "おめでとうございます。商品は売れました。",
+  "withdraw.taxFree": "ゴブリンはゲーム内で獲得したSFLに課税します。これにはデポジットとマーケットプレイスは含まれません。"
 }

@@ -4339,5 +4339,6 @@
   "fishing.buyMoreReels": "Achetez plus de bobines",
   "bumpkinItemBuff.sunflower.shield.boost": "Graines de tournesol gratuites",
   "marketplace.itemSold": "Article vendu",
-  "marketplace.congratulationsItemSold": "Félicitations, votre article est vendu !"
+  "marketplace.congratulationsItemSold": "Félicitations, votre article est vendu !",
+  "withdraw.taxFree": "Les gobelins vous taxent sur la SFL gagnée en jeu. Cela exclut les dépôts et le marché."
 }

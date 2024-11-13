@@ -4339,5 +4339,6 @@
   "fishing.buyMoreReels": "Compre mais bobinas",
   "bumpkinItemBuff.sunflower.shield.boost": "Sementes de girassol grátis",
   "marketplace.itemSold": "Item vendido",
-  "marketplace.congratulationsItemSold": "Parabéns, seu item foi vendido!"
+  "marketplace.congratulationsItemSold": "Parabéns, seu item foi vendido!",
+  "withdraw.taxFree": "Os goblins tributam você sobre o SFL obtido no jogo. Isso exclui depósitos e o mercado."
 }

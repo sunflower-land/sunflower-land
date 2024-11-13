@@ -4339,5 +4339,6 @@
   "fishing.buyMoreReels": "购买更多卷轴",
   "bumpkinItemBuff.sunflower.shield.boost": "免费向日葵种子",
   "marketplace.itemSold": "物品已售出",
-  "marketplace.congratulationsItemSold": "恭喜，你的物品已售出！"
+  "marketplace.congratulationsItemSold": "恭喜，你的物品已售出！",
+  "withdraw.taxFree": "哥布林会根据游戏中获得的 SFL 向你征税。这不包括存款和市场。"
 }
