@@ -154,7 +154,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 };
 
 const _isCancellingOffer = (state: MachineState) =>
-  state.matches("marketplaceCancelling");
+  state.matches("marketplaceListingCancelling");
 const _trades = (state: MachineState) => state.context.state.trades;
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -176,7 +176,7 @@ export const YourListings: React.FC<{
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
-    "marketplaceCancellingSuccess",
+    "marketplaceCancellingListingSuccess",
     "playing",
     onListingRemoved,
   );

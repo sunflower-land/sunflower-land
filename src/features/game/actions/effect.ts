@@ -20,6 +20,7 @@ export type StateName =
   | "marketplaceOffering"
   | "marketplaceAccepting"
   | "marketplaceCancelling"
+  | "marketplaceListingCancelling"
   | "airdroppingReward";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
@@ -31,7 +32,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "marketplace.offerMade": "marketplaceOffering",
   "marketplace.offerAccepted": "marketplaceAccepting",
   "marketplace.offerCancelled": "marketplaceCancelling",
-  "marketplace.listingCancelled": "marketplaceCancelling",
+  "marketplace.listingCancelled": "marketplaceListingCancelling",
   "reward.airdropped": "airdroppingReward",
 };
 
