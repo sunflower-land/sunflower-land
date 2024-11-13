@@ -14,7 +14,8 @@ import Decimal from "decimal.js-light";
 import { useNavigate } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
-import { getItemId, getTradeType } from "features/marketplace/lib/offers";
+import { getItemId } from "features/marketplace/lib/offers";
+import { getTradeType } from "features/marketplace/lib/getTradeType";
 import { Modal } from "components/ui/Modal";
 import { ClaimPurchase } from "./ClaimPurchase";
 
