@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "¿Estás seguro de que quieres comprar 5 carretes por gemas de {{gemPrice}}?",
   "fishing.extraReels": "Carretes adicionales",
   "fishing.cast": "Elenco",
-  "fishing.buyMoreReels": "Compra más carretes"
+  "fishing.buyMoreReels": "Compra más carretes",
+  "bumpkinItemBuff.sunflower.shield.boost": "Semillas de girasol gratis"
 }

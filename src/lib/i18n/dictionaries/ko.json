@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "정말 {{gemPrice}} 보석으로 릴 5개를 사고 싶으신가요?",
   "fishing.extraReels": "엑스트라 릴",
   "fishing.cast": "출연진",
-  "fishing.buyMoreReels": "더 많은 릴 구매하기"
+  "fishing.buyMoreReels": "더 많은 릴 구매하기",
+  "bumpkinItemBuff.sunflower.shield.boost": "무료 해바라기 씨"
 }

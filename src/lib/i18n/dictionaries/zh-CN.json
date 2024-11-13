@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "你确定要用 {{gemPrice}} 宝石购买 5 个卷轴吗？",
   "fishing.extraReels": "额外卷轴",
   "fishing.cast": "演员",
-  "fishing.buyMoreReels": "购买更多卷轴"
+  "fishing.buyMoreReels": "购买更多卷轴",
+  "bumpkinItemBuff.sunflower.shield.boost": "免费向日葵种子"
 }

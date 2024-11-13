@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "Вы действительно хотите купить 5 барабанов за драгоценные камни {{gemPrice}}?",
   "fishing.extraReels": "Дополнительные катушки",
   "fishing.cast": "В ролях",
-  "fishing.buyMoreReels": "Купите больше катушек"
+  "fishing.buyMoreReels": "Купите больше катушек",
+  "bumpkinItemBuff.sunflower.shield.boost": "Бесплатные семена подсолнечника"
 }

@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "{{gemPrice}} ジェム用に5リールを購入してもよろしいですか？",
   "fishing.extraReels": "エクストラリール",
   "fishing.cast": "キャスト",
-  "fishing.buyMoreReels": "リールをさらに購入"
+  "fishing.buyMoreReels": "リールをさらに購入",
+  "bumpkinItemBuff.sunflower.shield.boost": "無料のひまわりの種"
 }

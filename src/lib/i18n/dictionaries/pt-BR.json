@@ -4336,5 +4336,6 @@
   "fishing.buyReels.confirmation": "Tem certeza de que deseja comprar 5 cilindros por {{gemPrice}} gemas?",
   "fishing.extraReels": "Bobinas extras",
   "fishing.cast": "Elenco",
-  "fishing.buyMoreReels": "Compre mais bobinas"
+  "fishing.buyMoreReels": "Compre mais bobinas",
+  "bumpkinItemBuff.sunflower.shield.boost": "Sementes de girassol grátis"
 }
