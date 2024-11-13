@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "Gulungan Tambahan",
   "fishing.cast": "Pelakon",
   "fishing.buyMoreReels": "Beli lebih banyak gulungan",
-  "bumpkinItemBuff.sunflower.shield.boost": "Biji Bunga Matahari Percuma"
+  "bumpkinItemBuff.sunflower.shield.boost": "Biji Bunga Matahari Percuma",
+  "marketplace.itemSold": "Item dijual",
+  "marketplace.congratulationsItemSold": "Tahniah, item anda telah dijual!"
 }

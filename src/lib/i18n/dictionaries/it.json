@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "Bobine extra",
   "fishing.cast": "Cast",
   "fishing.buyMoreReels": "Acquista più rulli",
-  "bumpkinItemBuff.sunflower.shield.boost": "Semi di girasole gratis"
+  "bumpkinItemBuff.sunflower.shield.boost": "Semi di girasole gratis",
+  "marketplace.itemSold": "Articolo venduto",
+  "marketplace.congratulationsItemSold": "Congratulazioni, il tuo articolo è stato venduto!"
 }

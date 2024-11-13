@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "Bobines supplémentaires",
   "fishing.cast": "distribution",
   "fishing.buyMoreReels": "Achetez plus de bobines",
-  "bumpkinItemBuff.sunflower.shield.boost": "Graines de tournesol gratuites"
+  "bumpkinItemBuff.sunflower.shield.boost": "Graines de tournesol gratuites",
+  "marketplace.itemSold": "Article vendu",
+  "marketplace.congratulationsItemSold": "Félicitations, votre article est vendu !"
 }

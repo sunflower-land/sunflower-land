@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "额外卷轴",
   "fishing.cast": "演员",
   "fishing.buyMoreReels": "购买更多卷轴",
-  "bumpkinItemBuff.sunflower.shield.boost": "免费向日葵种子"
+  "bumpkinItemBuff.sunflower.shield.boost": "免费向日葵种子",
+  "marketplace.itemSold": "物品已售出",
+  "marketplace.congratulationsItemSold": "恭喜，你的物品已售出！"
 }

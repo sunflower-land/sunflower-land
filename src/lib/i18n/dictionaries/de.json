@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "Zusätzliche Rollen",
   "fishing.cast": "Besetzung",
   "fishing.buyMoreReels": "Kaufe mehr Rollen",
-  "bumpkinItemBuff.sunflower.shield.boost": "Kostenlose Sonnenblumenkerne"
+  "bumpkinItemBuff.sunflower.shield.boost": "Kostenlose Sonnenblumenkerne",
+  "marketplace.itemSold": "Artikel verkauft",
+  "marketplace.congratulationsItemSold": "Herzlichen Glückwunsch, Ihr Artikel wurde verkauft!"
 }

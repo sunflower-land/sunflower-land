@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "エクストラリール",
   "fishing.cast": "キャスト",
   "fishing.buyMoreReels": "リールをさらに購入",
-  "bumpkinItemBuff.sunflower.shield.boost": "無料のひまわりの種"
+  "bumpkinItemBuff.sunflower.shield.boost": "無料のひまわりの種",
+  "marketplace.itemSold": "商品が販売されました",
+  "marketplace.congratulationsItemSold": "おめでとうございます。商品は売れました。"
 }

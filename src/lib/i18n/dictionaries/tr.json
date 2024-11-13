@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "Ekstra Makaralar",
   "fishing.cast": "Döküm",
   "fishing.buyMoreReels": "Daha fazla makara satın alın",
-  "bumpkinItemBuff.sunflower.shield.boost": "Ücretsiz Ayçiçeği Tohumları"
+  "bumpkinItemBuff.sunflower.shield.boost": "Ücretsiz Ayçiçeği Tohumları",
+  "marketplace.itemSold": "Ürün satıldı",
+  "marketplace.congratulationsItemSold": "Tebrikler, öğeniz satıldı!"
 }

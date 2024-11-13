@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "Дополнительные катушки",
   "fishing.cast": "В ролях",
   "fishing.buyMoreReels": "Купите больше катушек",
-  "bumpkinItemBuff.sunflower.shield.boost": "Бесплатные семена подсолнечника"
+  "bumpkinItemBuff.sunflower.shield.boost": "Бесплатные семена подсолнечника",
+  "marketplace.itemSold": "Товар продан",
+  "marketplace.congratulationsItemSold": "Поздравляем, ваш товар продан!"
 }

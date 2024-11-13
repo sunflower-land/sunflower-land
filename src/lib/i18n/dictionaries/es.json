@@ -4337,5 +4337,7 @@
   "fishing.extraReels": "Carretes adicionales",
   "fishing.cast": "Elenco",
   "fishing.buyMoreReels": "Compra más carretes",
-  "bumpkinItemBuff.sunflower.shield.boost": "Semillas de girasol gratis"
+  "bumpkinItemBuff.sunflower.shield.boost": "Semillas de girasol gratis",
+  "marketplace.itemSold": "Artículo vendido",
+  "marketplace.congratulationsItemSold": "¡Enhorabuena, tu artículo se ha vendido!"
 }
