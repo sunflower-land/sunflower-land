@@ -21,7 +21,7 @@ type Options = {
 };
 
 type RestockObject = {
-  restockItem: any;
+  restockItem: object;
   gemPrice: number;
   shopName: "market" | "workbench" | "treasure shop";
 };
