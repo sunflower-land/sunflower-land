@@ -50,7 +50,7 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
 
   const showShipment = hasGemExperiment && shipmentIsReady;
-  const { category } = RestockItems[npc];
+  const { category, gemPrice } = RestockItems[npc];
 
   const hideConfirmModal = () => setShowConfirm(false);
   const showConfirmModal = () => setShowConfirm(true);
@@ -93,9 +93,14 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
               className="mt-1 relative"
               onClick={() => setShowEnhancedConfirm(true)}
             >
-              <div className="flex items-center h-auto">
-                <p className="mr-1">{t("restock.category", { category })}</p>
-                <img src={ITEM_DETAILS["Gem"].image} className="h-5 ml-2" />
+              <div className="flex flex-row h-auto items-center justify-between">
+                <div className="flex mr-1">
+                  {t("restock.category", { category })}
+                </div>
+                <div className="flex items-center mr-3">
+                  <p className="mr-1">{gemPrice}</p>
+                  <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+                </div>
               </div>
             </Button>
             <Modal
@@ -115,9 +120,12 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
           </>
         )}
         <Button className="mt-1 relative" onClick={showConfirmModal}>
-          <div className="flex items-center h-auto">
-            <p className="mr-1">{t("restock.all")}</p>
-            <img src={ITEM_DETAILS["Gem"].image} className="h-5 ml-2" />
+          <div className="flex flex-row h-auto items-center justify-between">
+            <div className="flex mr-1">{t("restock.all")}</div>
+            <div className="flex items-center">
+              <p className="mr-1">{`20`}</p>
+              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+            </div>
           </div>
         </Button>
         <Modal show={showConfirm} onHide={hideConfirmModal}>
