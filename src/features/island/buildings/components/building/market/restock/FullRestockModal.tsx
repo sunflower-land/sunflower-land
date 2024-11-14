@@ -28,7 +28,7 @@ interface RestockModalProps {
   };
 }
 
-export const RestockModal: React.FC<RestockModalProps> = ({
+export const FullRestockModal: React.FC<RestockModalProps> = ({
   onClose,
   shipmentTime,
 }) => {

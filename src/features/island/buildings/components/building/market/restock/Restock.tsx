@@ -21,7 +21,7 @@ import stockIcon from "assets/icons/stock.webp";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { NPC_WEARABLES } from "lib/npcs";
 import { EnhancedRestockModal } from "./EnhancedRestockModal";
-import { RestockModal } from "./RestockModal";
+import { FullRestockModal } from "./FullRestockModal";
 import { ShipmentRestockModal } from "./ShipmentRestockModal";
 
 export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
@@ -130,7 +130,7 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
         </Button>
         <Modal show={showConfirm} onHide={hideConfirmModal}>
           <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES[npc]}>
-            <RestockModal onClose={hideConfirmModal} />
+            <FullRestockModal onClose={hideConfirmModal} />
           </Panel>
         </Modal>
       </div>
