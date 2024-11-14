@@ -1615,46 +1615,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   henHouse: {
-    level: 3,
+    level: 2,
     animals: {
-      ...makeAnimals(35, "Chicken"),
+      ...makeAnimals(25, "Chicken"),
     },
   },
   barn: {
-    level: 1,
+    level: 2,
     animals: {
-      abc: {
-        asleepAt: 0,
-        awakeAt: 0,
-        experience: 8310,
-        id: "abc",
-        type: "Cow",
-        createdAt: 0,
-        coordinates: { x: 0, y: 0 },
-        lovedAt: 0,
-        state: "ready",
-        item: "Brush",
-        reward: {
-          items: [
-            {
-              name: "Mootant",
-              amount: 1,
-            },
-          ],
-        },
-      },
-      def: {
-        asleepAt: 0,
-        awakeAt: 0,
-        experience: 5400,
-        id: "def",
-        type: "Sheep",
-        createdAt: 0,
-        coordinates: { x: 0, y: 0 },
-        lovedAt: 0,
-        state: "happy",
-        item: "Brush",
-      },
+      ...makeAnimals(25, "Cow"),
     },
   },
 };

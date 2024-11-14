@@ -216,13 +216,13 @@ export const ANIMAL_HOUSE_BOUNDS: Record<
       height: 8,
       width: 8,
       x: -4,
-      y: 4,
+      y: 5,
     },
     2: {
       height: 10,
       width: 10,
       x: -5,
-      y: 5,
+      y: 6,
     },
     3: {
       height: 12,
@@ -236,13 +236,13 @@ export const ANIMAL_HOUSE_BOUNDS: Record<
       height: 8,
       width: 8,
       x: -4,
-      y: 4,
+      y: 5,
     },
     2: {
       height: 10,
       width: 10,
       x: -5,
-      y: 5,
+      y: 6,
     },
     3: {
       height: 12,
