@@ -4340,5 +4340,6 @@
   "bumpkinItemBuff.sunflower.shield.boost": "Kostenlose Sonnenblumenkerne",
   "marketplace.itemSold": "Artikel verkauft",
   "marketplace.congratulationsItemSold": "Herzlichen Glückwunsch, Ihr Artikel wurde verkauft!",
-  "withdraw.taxFree": "Goblins besteuern dich auf SFL, die du im Spiel verdient hast. Davon ausgenommen sind Einzahlungen und der Marktplatz."
+  "withdraw.taxFree": "Goblins besteuern dich auf SFL, die du im Spiel verdient hast. Davon ausgenommen sind Einzahlungen und der Marktplatz.",
+  "marketplace.youHaveHadSales": "Ihr (e) Artikel wurde (n) verkauft, während Sie weg waren!"
 }

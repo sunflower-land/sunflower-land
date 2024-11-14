@@ -4340,5 +4340,6 @@
   "bumpkinItemBuff.sunflower.shield.boost": "Semillas de girasol gratis",
   "marketplace.itemSold": "Artículo vendido",
   "marketplace.congratulationsItemSold": "¡Enhorabuena, tu artículo se ha vendido!",
-  "withdraw.taxFree": "Los duendes te cobran impuestos por el SFL ganado en el juego. Esto excluye los depósitos y el mercado."
+  "withdraw.taxFree": "Los duendes te cobran impuestos por el SFL ganado en el juego. Esto excluye los depósitos y el mercado.",
+  "marketplace.youHaveHadSales": "¡Tu (s) artículo (s) se vendió (n) mientras estabas fuera!"
 }

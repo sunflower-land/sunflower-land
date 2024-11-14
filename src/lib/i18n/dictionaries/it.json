@@ -4340,5 +4340,6 @@
   "bumpkinItemBuff.sunflower.shield.boost": "Semi di girasole gratis",
   "marketplace.itemSold": "Articolo venduto",
   "marketplace.congratulationsItemSold": "Congratulazioni, il tuo articolo è stato venduto!",
-  "withdraw.taxFree": "I goblin ti tassano sugli SFL guadagnati nel gioco. Sono esclusi i depositi e il marketplace."
+  "withdraw.taxFree": "I goblin ti tassano sugli SFL guadagnati nel gioco. Sono esclusi i depositi e il marketplace.",
+  "marketplace.youHaveHadSales": "I tuoi articoli sono stati venduti mentre eri via!"
 }
