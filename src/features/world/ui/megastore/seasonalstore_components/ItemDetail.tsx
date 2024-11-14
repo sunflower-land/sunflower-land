@@ -95,7 +95,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
     state,
-    "inventory",
     seasonalStore,
     "collectible",
     tiers,
@@ -103,7 +102,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   );
   const seasonalWearablesCrafted = getSeasonalItemsCrafted(
     state,
-    "wardrobe",
     seasonalStore,
     "wearable",
     tiers,
@@ -182,7 +180,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       });
       if (!hasRequirements) return false;
     }
-    if (item) return sflBalance.greaterThanOrEqualTo(new Decimal(sfl));
+    if (item)
+      return sflBalance.greaterThanOrEqualTo(
+        SFLDiscount(state, new Decimal(sfl)),
+      );
   };
 
   const trackAnalytics = () => {

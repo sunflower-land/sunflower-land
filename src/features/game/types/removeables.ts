@@ -20,7 +20,6 @@ import {
   GreenHouseCropName,
 } from "features/game/types/crops";
 import { canMine } from "../expansion/lib/utils";
-import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
 import { Bud, StemTrait, TypeTrait } from "./buds";
 import {
   isAdvancedCrop,
@@ -38,6 +37,8 @@ import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
 import { BED_FARMHAND_COUNT } from "./beds";
+import { AnimalType } from "./animals";
+import { getBaseAnimalCapacity } from "../events/landExpansion/buyAnimal";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -418,8 +419,16 @@ export function isFarmhandUsingBed(
   return [isLastBed && farmHandInBed, "Farmhand is using bed"];
 }
 
-const newAnimalsStarted =
-  Date.now() > new Date("2024-11-04T00:00:00Z").getTime();
+function hasBonusAnimals(game: GameState, animalType: AnimalType): Restriction {
+  const buildingKey = animalType === "Chicken" ? "henHouse" : "barn";
+  const { animals, level } = game[buildingKey];
+  const animalCount = getKeys(animals).length;
+  const baseCapacity = getBaseAnimalCapacity(level);
+
+  const bonusAnimalCount = animalCount - baseCapacity;
+
+  return [bonusAnimalCount > 0, translate("restrictionReason.hasBonusAnimals")];
+}
 
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
@@ -431,12 +440,12 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Rich Chicken": (game) => areAnyChickensSleeping(game),
   "Fat Chicken": (game) => areAnyChickensSleeping(game),
   "Speed Chicken": (game) => areAnyChickensSleeping(game),
-  "Chicken Coop": (game) => areAnyChickensSleeping(game),
   "Gold Egg": (game) => areAnyChickensSleeping(game),
   Rooster: (game) => areAnyChickensSleeping(game),
   Bale: (game) => areAnyChickensSleeping(game),
   "Banana Chicken": (game) => areFruitsGrowing(game, "Banana"),
   "Crim Peckster": (game) => areAnyCrimstonesMined(game),
+  "Chicken Coop": (game) => hasBonusAnimals(game, "Chicken"),
 
   // Crop Boosts
   Nancy: (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
@@ -699,11 +708,6 @@ export const hasRemoveRestriction = (
     if (rubbedCount > 0) {
       return [true, translate("restrictionReason.genieLampRubbed")];
     }
-  }
-
-  if (name === "Chicken Coop") {
-    if (areUnsupportedChickensBrewing(state))
-      return [true, translate("restrictionReason.chickensFed")];
   }
 
   const removeRestriction = REMOVAL_RESTRICTIONS[name];

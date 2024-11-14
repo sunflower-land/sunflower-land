@@ -26,6 +26,7 @@ describe("cancelTrade", () => {
           trades: {
             listings: {
               "123": {
+                collection: "resources",
                 createdAt: 1000000,
                 sfl: 5,
                 items: {
@@ -53,6 +54,7 @@ describe("cancelTrade", () => {
         trades: {
           listings: {
             "123": {
+              collection: "resources",
               createdAt: 1000000,
               sfl: 5,
               items: {
@@ -77,6 +79,7 @@ describe("cancelTrade", () => {
         trades: {
           listings: {
             "123": {
+              collection: "resources",
               createdAt: 1000000,
               sfl: 5,
               items: {

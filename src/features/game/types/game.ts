@@ -1015,8 +1015,12 @@ export type TradeListing = {
   items: Partial<Record<MarketplaceTradeableName, number>>;
   sfl: number;
   createdAt: number;
+  collection: CollectionName;
   boughtAt?: number;
   buyerId?: number;
+  signature?: string;
+  fulfilledAt?: number;
+  fulfilledById?: number;
 };
 
 export type TradeOffer = {
@@ -1043,6 +1047,14 @@ export type Fishing = {
   dailyAttempts?: {
     [date: string]: number;
   };
+  extraReels?: ExtraReels;
+};
+
+export type ExtraReels = {
+  timesBought?: {
+    [date: string]: number;
+  };
+  count: number;
 };
 
 export type Christmas = {
@@ -1246,6 +1258,7 @@ export type Animal = {
   lovedAt: number;
   item: LoveAnimalItem;
   multiplier?: number;
+  reward?: Reward;
 };
 
 export type AnimalBuilding = {
@@ -1253,8 +1266,13 @@ export type AnimalBuilding = {
   animals: Record<string, Animal>;
 };
 
+export type Bank = {
+  taxFreeSFL: number;
+};
+
 export interface GameState {
   home: Home;
+  bank: Bank;
 
   rewards: Rewards;
 

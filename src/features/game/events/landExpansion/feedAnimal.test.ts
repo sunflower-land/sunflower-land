@@ -1020,6 +1020,59 @@ describe("feedAnimal", () => {
     expect(state.henHouse.animals["0"].state).toBe("ready");
   });
 
+  it("sets animal to ready state when completing a cycle at max level with a Gold Egg", () => {
+    // Setup chicken at max level (15)
+    const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
+    // Add enough XP to complete one cycle (240 XP - difference between level 14-15)
+    const cycleXP = ANIMAL_LEVELS["Chicken"][15] - ANIMAL_LEVELS["Chicken"][14];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Mixed Grain": new Decimal(1),
+        },
+        collectibles: {
+          "Gold Egg": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              coordinates: { x: 0, y: 0 },
+              id: "0",
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: maxLevelXP + cycleXP - 60, // One Favourite Food feed away from cycle
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Mixed Grain",
+      },
+    });
+
+    expect(state.henHouse.animals["0"].state).toBe("ready");
+  });
+
   it("maintains correct state through multiple cycles", () => {
     // Setup chicken at max level (15)
     const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
@@ -1100,6 +1153,7 @@ describe("feedAnimal", () => {
 
     expect(state.henHouse.animals["0"].state).toBe("ready");
   });
+
   it("correctly transitions to ready state at exact cycle completion", () => {
     const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
     const cycleXP = ANIMAL_LEVELS["Chicken"][15] - ANIMAL_LEVELS["Chicken"][14];

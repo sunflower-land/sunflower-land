@@ -169,16 +169,17 @@ const PanelContent: React.FC<PanelContentProps> = ({
                 t("landscape.confirmation.hourglass.one", {
                   selectedChestItem,
                 }),
-                selectedChestItem === "Time Warp Totem" ? (
-                  <strong>{t("landscape.timeWarpTotem.nonStack")}</strong>
-                ) : selectedChestItem === "Super Totem" ? (
-                  <strong>{t("landscape.superTotem.nonStack")}</strong>
-                ) : (
-                  ""
-                ),
                 t("landscape.confirmation.hourglass.two", {
                   selectedChestItem,
                 }),
+                selectedChestItem === "Time Warp Totem" ||
+                selectedChestItem === "Super Totem" ? (
+                  <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
+                    {t("landscape.timeWarpTotem.nonStack")}
+                  </Label>
+                ) : (
+                  ""
+                ),
               ]
         }
         onCancel={() => showConfirmationModal(false)}

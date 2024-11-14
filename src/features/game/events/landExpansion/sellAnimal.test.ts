@@ -348,4 +348,78 @@ describe("animal.sold", () => {
     expect(state.coins).toEqual(75);
     expect(state.inventory["Amber Fossil"]).toEqual(new Decimal(5));
   });
+
+  it("rewards +1 Horseshoe when Cowboy Hat is worn during Bull Run Season", () => {
+    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            hat: "Cowboy Hat",
+          },
+        },
+        bounties: {
+          completed: [],
+          requests: [
+            {
+              id: "123",
+              items: { Horseshoe: 7 },
+              level: 0,
+              name: "Chicken",
+            },
+          ],
+        },
+      },
+      action: {
+        requestId: "123",
+        animalId,
+
+        type: "animal.sold",
+      },
+      createdAt: new Date("2024-11-03").getTime(),
+    });
+
+    expect(state.inventory["Horseshoe"]).toEqual(new Decimal(8));
+  });
+
+  it("stacks Cowboy Set boosts at Bull Run Season", () => {
+    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            hat: "Cowboy Hat",
+            shirt: "Cowboy Shirt",
+            pants: "Cowboy Trouser",
+          },
+        },
+        bounties: {
+          completed: [],
+          requests: [
+            {
+              id: "123",
+              items: { Horseshoe: 7 },
+              level: 0,
+              name: "Chicken",
+            },
+          ],
+        },
+      },
+      action: {
+        requestId: "123",
+        animalId,
+
+        type: "animal.sold",
+      },
+      createdAt: new Date("2024-11-03").getTime(),
+    });
+
+    expect(state.inventory["Horseshoe"]).toEqual(new Decimal(10));
+  });
 });

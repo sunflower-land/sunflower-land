@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
-import { getOfferItem } from "../lib/offers";
+import { getItemId } from "../lib/offers";
 import { TradeOffer } from "features/game/types/game";
 import { TradeableSummary } from "./TradeableSummary";
 
@@ -40,7 +40,7 @@ export const RemoveOffer: React.FC<Props> = ({
     return null;
   }
 
-  const itemId = getOfferItem({ offer });
+  const itemId = getItemId({ details: offer });
   const display = getTradeableDisplay({ id: itemId, type: offer.collection });
 
   return (

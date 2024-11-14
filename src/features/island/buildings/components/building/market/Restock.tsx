@@ -202,7 +202,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
         )}
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
-      <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
+      <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
         {restockTools.length > 0 && (
           <Label
             icon={ITEM_DETAILS.Axe.image}
@@ -252,7 +252,7 @@ const RestockModal: React.FC<RestockModalProps> = ({
           })}
         </div>
       </div>
-      <p className="text-xs p-1 pb-1.5 italic">{t("gems.purchasedStock")}</p>
+      <p className="text-xs p-1 pb-1.5 italic">{t("gems.restockToMaxStock")}</p>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
         <Button className="relative" onClick={handleRestock}>
@@ -341,7 +341,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
             <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
           </div>
         )}
-        <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
+        <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
           {restockTools.length > 0 && (
             <Label
               icon={ITEM_DETAILS.Axe.image}
@@ -394,7 +394,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
         {!restockIsEmpty && (
           <>
             <p className="text-xs p-1 pb-1.5 italic">
-              {t("gems.purchasedStock")}
+              {t("gems.restockToMaxStock")}
             </p>
             <p className="text-xs p-1 pb-1.5 italic">
               {`(${t("gems.shipment.useGems")})`}

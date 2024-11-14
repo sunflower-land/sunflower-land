@@ -152,7 +152,6 @@ export const ItemsList: React.FC<Props> = ({
 
   const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
     state,
-    "inventory",
     seasonalStore,
     "collectible",
     tier,
@@ -160,7 +159,6 @@ export const ItemsList: React.FC<Props> = ({
   );
   const seasonalWearablesCrafted = getSeasonalItemsCrafted(
     state,
-    "wardrobe",
     seasonalStore,
     "wearable",
     tier,
@@ -209,7 +207,7 @@ export const ItemsList: React.FC<Props> = ({
     <div className="flex flex-col mb-5">
       {itemsLabel && (
         <div className="flex z-10">
-          <div className="grow w-9/10">
+          <div className="grow w-9/10 mb-1">
             {itemsLabel && (
               <Label
                 iconWidth={10}
@@ -305,7 +303,7 @@ export const ItemsList: React.FC<Props> = ({
                   }}
                   onClick={() => onItemClick(item, tier)}
                 >
-                  <div className="flex relative justify-center items-center w-full h-full z-20">
+                  <div className="flex justify-center items-center w-full h-full z-20">
                     <SquareIcon icon={getItemImage(item)} width={20} />
                     {buff && (
                       <img

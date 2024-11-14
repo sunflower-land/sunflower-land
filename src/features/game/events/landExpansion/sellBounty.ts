@@ -25,11 +25,13 @@ type Options = {
 export function generateBountyTicket({
   game,
   bounty,
+  now = Date.now(),
 }: {
   game: GameState;
   bounty: BountyRequest;
+  now?: number;
 }) {
-  let amount = bounty.items?.[getSeasonalTicket()] ?? 0;
+  let amount = bounty.items?.[getSeasonalTicket(new Date(now))] ?? 0;
 
   if (!amount) {
     return 0;
