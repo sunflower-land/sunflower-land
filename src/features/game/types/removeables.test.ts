@@ -1,8 +1,7 @@
 import Decimal from "decimal.js-light";
 import { hasRemoveRestriction } from "./removeables";
 import { INITIAL_FARM, TEST_FARM } from "../lib/constants";
-import { makeAnimals } from "../events/landExpansion/buyAnimal.test";
-
+import { makeAnimals } from "../lib/animals";
 describe("canremove", () => {
   describe("prevents", () => {
     it("prevents a user from removing a Chicken Coop if they have a boosted number of chickens", () => {
