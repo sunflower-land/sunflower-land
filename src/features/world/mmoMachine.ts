@@ -135,7 +135,7 @@ export interface MMOContext {
   previousSceneId: SceneId | null;
   experience: number;
   isCommunity?: boolean;
-  moderation: Moderation;
+  moderation: Moderation[];
 }
 
 export type MMOState = {
@@ -204,10 +204,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     previousSceneId: null,
     experience: 0,
     isCommunity: false,
-    moderation: {
-      kicked: [],
-      muted: [],
-    },
+    moderation: [],
   },
   exit: (context) => context.server?.leave(),
   states: {
@@ -432,7 +429,10 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
         assign({
           sceneId: (_, event) => event.sceneId,
         }),
-        (context, event) => context.server?.send(0, { sceneId: event.sceneId }),
+        (context, event) =>
+          context.server?.send("player:scene:switch", {
+            sceneId: event.sceneId,
+          }),
       ],
     },
     UPDATE_PREVIOUS_SCENE: {

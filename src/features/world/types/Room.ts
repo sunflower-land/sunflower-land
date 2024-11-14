@@ -23,7 +23,7 @@ export interface Player extends Schema {
   clothing: BumpkinParts & { updatedAt: number };
   npc: NPCName;
   sceneId: SceneId;
-  moderation: Moderation;
+  moderation: Moderation[];
 
   inputQueue: InputData[];
 }

@@ -138,7 +138,7 @@ export interface Context {
   announcements: Announcements;
   auctionResults?: AuctionResults;
   promoCode?: string;
-  moderation: Moderation;
+  moderation: Moderation[];
   saveQueued: boolean;
   linkedWallet?: string;
   wallet?: string;
@@ -152,17 +152,14 @@ export interface Context {
 }
 
 export type Moderation = {
-  muted: {
-    mutedAt: number;
-    mutedBy: number;
-    reason: string;
-    mutedUntil: number;
-  }[];
-  kicked: {
-    kickedAt: number;
-    kickedBy: number;
-    reason: string;
-  }[];
+  type: "mute" | "kick" | "delete_message" | "unmute";
+  farmId: number;
+  authorId: number;
+
+  arg: string;
+  createdAt: number;
+  expiresAt?: number;
+  deletedAt?: number;
 };
 
 type CommunityEvent = {
@@ -635,10 +632,7 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         sessionId: INITIAL_SESSION,
         announcements: {},
-        moderation: {
-          muted: [],
-          kicked: [],
-        },
+        moderation: [],
         saveQueued: false,
         verified: !CONFIG.API_URL,
         purchases: [],

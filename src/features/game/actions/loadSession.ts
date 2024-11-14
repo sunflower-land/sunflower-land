@@ -26,7 +26,7 @@ type Response = {
 
   verified: boolean;
   promoCode?: string;
-  moderation: Moderation;
+  moderation: Moderation[];
   sessionId: string;
   analyticsId: string;
   linkedWallet?: string;
@@ -115,7 +115,7 @@ export async function loadSession(request: Request): Promise<Response> {
     status?: "COOL_DOWN";
     announcements: Announcements;
     verified: boolean;
-    moderation: Moderation;
+    moderation: Moderation[];
     promoCode?: string;
     sessionId: string;
     farmId: string;
