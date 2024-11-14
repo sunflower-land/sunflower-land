@@ -59,7 +59,7 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
     return (
       <>
         <Button className="relative" onClick={showConfirmModal}>
-          <div className="flex items-center h-4 ">
+          <div className="flex items-center h-4">
             <p>{t("restock")}</p>
             <img src={stockIcon} className="h-6 absolute right-1 top-0" />
           </div>
@@ -78,15 +78,11 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
       {hasGemExperiment && (
         <>
           <div className="flex justify-center items-center">
-            {/* <img src={stockIcon} className="h-5 mr-1" /> */}
             <p className="text-xxs">{t("gems.nextFreeShipment")}</p>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center mb-2">
             <img src={stockIcon} className="h-5 mr-1" />
             <TimerDisplay time={shipmentTime} />
-          </div>
-          <div className="my-1 flex flex-col mb-1 flex-1 items-center justify-end">
-            <div className="flex items-center"></div>
           </div>
         </>
       )}
