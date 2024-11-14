@@ -58,7 +58,7 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
 
   const showShipment = hasGemExperiment && shipmentIsReady;
-  const { shopName } = RestockItems[npc];
+  const { category } = RestockItems[npc];
 
   if (showShipment) {
     return (
@@ -95,53 +95,46 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
           </div>
         </>
       )}
-      {hasEnhancedRestockAccess && (
-        <>
-          <Button
-            className="mt-1 relative h-auto"
-            onClick={() => setShowEnhancedConfirm(true)}
-          >
-            <div className="flex items-center h-4 ">
-              <p className="mr-1">{`${t("restock")} ${shopName}`}</p>
-              <img
-                src={ITEM_DETAILS["Gem"].image}
-                className="h-5 absolute right-1 top-1"
-              />
-            </div>
-          </Button>
-          <Modal
-            show={showEnhancedConfirm}
-            onHide={() => setShowEnhancedConfirm(false)}
-          >
-            <Panel
-              className="sm:w-4/5 m-auto"
-              bumpkinParts={NPC_WEARABLES[npc]}
+      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+        {hasEnhancedRestockAccess && (
+          <>
+            <Button
+              className="mt-1 relative"
+              onClick={() => setShowEnhancedConfirm(true)}
             >
-              <EnhancedRestockModal
-                onClose={() => setShowEnhancedConfirm(false)}
-                npc={npc}
-              />
-            </Panel>
-          </Modal>
-        </>
-      )}
-      <Button
-        className="mt-1 relative h-auto"
-        onClick={() => setShowConfirm(true)}
-      >
-        <div className="flex items-center h-4">
-          <p className="mr-1">{`Restock all`}</p>
-          <img
-            src={ITEM_DETAILS["Gem"].image}
-            className="h-5 absolute right-1 top-1"
-          />
-        </div>
-      </Button>
-      <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
-        <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES[npc]}>
-          <RestockModal onClose={() => setShowConfirm(false)} />
-        </Panel>
-      </Modal>
+              <div className="flex items-center h-auto">
+                <p className="mr-1">{`${t("restock")} ${category}`}</p>
+                <img src={ITEM_DETAILS["Gem"].image} className="h-5 ml-2" />
+              </div>
+            </Button>
+            <Modal
+              show={showEnhancedConfirm}
+              onHide={() => setShowEnhancedConfirm(false)}
+            >
+              <Panel
+                className="sm:w-4/5 m-auto"
+                bumpkinParts={NPC_WEARABLES[npc]}
+              >
+                <EnhancedRestockModal
+                  onClose={() => setShowEnhancedConfirm(false)}
+                  npc={npc}
+                />
+              </Panel>
+            </Modal>
+          </>
+        )}
+        <Button className="mt-1 relative" onClick={() => setShowConfirm(true)}>
+          <div className="flex items-center h-auto">
+            <p className="mr-1">{`Restock all`}</p>
+            <img src={ITEM_DETAILS["Gem"].image} className="h-5 ml-2" />
+          </div>
+        </Button>
+        <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
+          <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES[npc]}>
+            <RestockModal onClose={() => setShowConfirm(false)} />
+          </Panel>
+        </Modal>
+      </div>
     </>
   );
 };
