@@ -24,11 +24,11 @@ export const MarketplaceSalesPopup: React.FC = () => {
   const { t } = useAppTranslation();
 
   const { trades } = state.context.state;
-  const soldListings = getKeys(trades.listings ?? {}).filter(
+  const soldListingIds = getKeys(trades.listings ?? {}).filter(
     (id) => !!trades.listings?.[id].fulfilledAt,
   );
 
-  if (soldListings.length === 0) {
+  if (soldListingIds.length === 0) {
     return (
       <div>
         <Button onClick={() => gameService.send("RESET")}>
@@ -38,26 +38,28 @@ export const MarketplaceSalesPopup: React.FC = () => {
     );
   }
 
-  const close = () => {
-    gameService.send("CLOSE");
-  };
-
-  const claim = (listingId: string) => {
+  const claimAll = () => {
     gameService.send("purchase.claimed", {
-      tradeId: listingId,
+      tradeIds: soldListingIds,
     });
+
+    if (soldListingIds.some((id) => trades.listings?.[id].signature)) {
+      gameService.send("RESET");
+    }
+
+    gameService.send("CLOSE");
   };
 
   return (
     <>
       <div className="p-1">
-        <Label className="ml-2 mb-2 mt-1" type="default" icon={trade}>
+        <Label className="ml-2 mb-2 mt-1" type="success" icon={trade}>
           {t("marketplace.itemSold")}
         </Label>
         <div className="mb-2 ml-1">
           <InlineDialogue message={t("marketplace.youHaveHadSales")} />
         </div>
-        {soldListings.map((listingId) => {
+        {soldListingIds.map((listingId) => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const listing = trades.listings![listingId];
           const itemName = getKeys(listing.items)[0];
@@ -82,15 +84,12 @@ export const MarketplaceSalesPopup: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <Button className="max-w-xs" onClick={() => claim(listingId)}>
-                  {t("claim")}
-                </Button>
               </div>
             </div>
           );
         })}
       </div>
-      <Button onClick={close}>{t("close")}</Button>
+      <Button onClick={() => claimAll()}>{t("claim")}</Button>
     </>
   );
 };

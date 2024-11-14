@@ -2384,7 +2384,7 @@
   "marketplace.offerClaimed": "Congratulations, your offer was accepted!",
   "marketplace.itemSold": "Item sold",
   "marketplace.congratulationsItemSold": "Congratulations, your item has sold!",
-  "marketplace.youHaveHadSales": "Something sold while you were away!",
+  "marketplace.youHaveHadSales": "You item(s) sold while you were away!",
   "megaStore.visit": "Visit the Megastore in the plaza before time runs out!",
   "megaStore.message": "Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.",
   "megaStore.month.sale": "This month's sales",

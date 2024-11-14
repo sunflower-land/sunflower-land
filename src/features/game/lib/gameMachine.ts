@@ -975,9 +975,6 @@ export function startGame(authContext: AuthContext) {
             RESET: {
               target: "refreshing",
             },
-            CLOSE: {
-              target: "playing",
-            },
           },
         },
         marketplaceSale: {
