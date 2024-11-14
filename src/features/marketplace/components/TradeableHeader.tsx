@@ -127,6 +127,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, filteredListings[0]);
 
+  const balance = gameService.getSnapshot().context.state.balance;
+
   // TODO: Remove cheapest listing conditions for buds
 
   // Handle instant purchase
@@ -224,6 +226,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               {cheapestListing && (
                 <Button
                   onClick={() => setShowPurchaseModal(true)}
+                  disabled={!balance.gt(cheapestListing.sfl)}
                   className="mr-1 w-full sm:w-auto"
                 >
                   {t("marketplace.buyNow")}
@@ -244,6 +247,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           {cheapestListing && (
             <Button
               onClick={() => setShowPurchaseModal(true)}
+              disabled={!balance.gt(cheapestListing.sfl)}
               className="mr-1 w-full sm:w-auto"
             >
               {t("marketplace.buyNow")}
