@@ -40,7 +40,6 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
     : state.balance;
 
   useEffect(() => {
-    // Use base 1000
     const _tax = getTax({
       amount: typeof amount !== "string" ? amount : new Decimal(0),
       game: state,
@@ -114,7 +113,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
         <Label type="warning" className="my-4">
           {t("withdraw.receive", {
-            sflReceived: formatNumber(amount.mul((100 - tax) / 100), {
+            sflReceived: formatNumber(amount.sub(tax), {
               decimalPlaces: 4,
             }),
           })}
