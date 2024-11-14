@@ -89,18 +89,13 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
   return (
     <>
       <div className="p-1">
-        <Label type="danger" className="mb-2" icon={stockIcon}>
-          {t("gems.outOfstock")}
+        <Label type="default" className="mb-2" icon={stockIcon}>
+          {t("restock")}
         </Label>
-        {shipmentTime && (
-          <div className="flex flex-wrap mb-2">
-            <span className="mr-2">{t("gems.nextFreeShipment")}</span>
-            <TimerDisplay time={shipmentTime} />
-          </div>
-        )}
         <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
+        <div className="mb-2 text-xs">{`The following items will be restocked:`}</div>
         {restockTools.length > 0 && (
           <Label
             icon={ITEM_DETAILS.Axe.image}
@@ -150,7 +145,13 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
           })}
         </div>
       </div>
-      <p className="text-xs p-1 pb-1.5 italic">{t("gems.restockToMaxStock")}</p>
+      <p className="text-xs p-1 pb-1.5 italic">{t("gems.restockToMaxStock")}</p>{" "}
+      {shipmentTime && (
+        <div className="px-1 text-xs flex flex-wrap mb-2">
+          <span className="mr-2">{t("gems.nextFreeShipment")}</span>
+          <TimerDisplay time={shipmentTime} />
+        </div>
+      )}
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
         <Button className="relative" onClick={handleRestock}>
