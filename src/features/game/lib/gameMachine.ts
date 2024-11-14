@@ -530,6 +530,7 @@ export type BlockchainState = {
     | "buds"
     | "airdrop"
     | "offers"
+    | "marketplaceSale"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -899,6 +900,13 @@ export function startGame(authContext: AuthContext) {
                 ),
             },
             {
+              target: "marketplaceSale",
+              cond: (context: Context) =>
+                getKeys(context.state.trades.listings ?? {}).some(
+                  (id) => !!context.state.trades.listings![id].fulfilledAt,
+                ),
+            },
+            {
               target: "playing",
             },
           ],
@@ -964,6 +972,16 @@ export function startGame(authContext: AuthContext) {
         offers: {
           on: {
             "offer.claimed": (GAME_EVENT_HANDLERS as any)["offer.claimed"],
+            RESET: {
+              target: "refreshing",
+            },
+          },
+        },
+        marketplaceSale: {
+          on: {
+            "purchase.claimed": (GAME_EVENT_HANDLERS as any)[
+              "purchase.claimed"
+            ],
             RESET: {
               target: "refreshing",
             },

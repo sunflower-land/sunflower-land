@@ -9,10 +9,10 @@ describe("purchase.claimed", () => {
         state: TEST_FARM,
         action: {
           type: "purchase.claimed",
-          tradeId: "123",
+          tradeIds: ["123"],
         },
       }),
-    ).toThrow("Purchase does not exist");
+    ).toThrow("One or more purchases do not exist");
   });
 
   it("throws an error if the purchase has not been fulfilled", () => {
@@ -35,10 +35,10 @@ describe("purchase.claimed", () => {
         },
         action: {
           type: "purchase.claimed",
-          tradeId: "123",
+          tradeIds: ["123"],
         },
       }),
-    ).toThrow("Purchase has not been fulfilled");
+    ).toThrow("One or more purchases have not been fulfilled");
   });
 
   it("does not give the sfl if the trade is on chain", () => {
@@ -63,7 +63,7 @@ describe("purchase.claimed", () => {
       },
       action: {
         type: "purchase.claimed",
-        tradeId: "123",
+        tradeIds: ["123"],
       },
     });
 
@@ -91,14 +91,14 @@ describe("purchase.claimed", () => {
       },
       action: {
         type: "purchase.claimed",
-        tradeId: "123",
+        tradeIds: ["123"],
       },
     });
 
     expect(state.balance).toStrictEqual(new Decimal(13));
   });
 
-  it("removes the trade from the farm", () => {
+  it("removes the trades from the farm", () => {
     const state = claimPurchase({
       state: {
         ...TEST_FARM,
@@ -119,10 +119,97 @@ describe("purchase.claimed", () => {
       },
       action: {
         type: "purchase.claimed",
-        tradeId: "123",
+        tradeIds: ["123"],
       },
     });
 
     expect(state.trades.listings?.["123"]).toBeUndefined();
+  });
+
+  it("gives the sfl for multiple instant trades", () => {
+    const state = claimPurchase({
+      state: {
+        ...TEST_FARM,
+        trades: {
+          listings: {
+            "123": {
+              collection: "collectibles",
+              items: {
+                "Rich Chicken": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+            "124": {
+              collection: "collectibles",
+              items: {
+                "Fat Chicken": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+          },
+        },
+      },
+      action: {
+        type: "purchase.claimed",
+        tradeIds: ["123", "124"],
+      },
+    });
+
+    expect(state.balance).toStrictEqual(new Decimal(26));
+  });
+
+  it("applies the sfl from 2 instant trades but not on chain trades", () => {
+    const state = claimPurchase({
+      state: {
+        ...TEST_FARM,
+        trades: {
+          listings: {
+            "123": {
+              collection: "collectibles",
+              items: {
+                "Rich Chicken": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+            "124": {
+              collection: "collectibles",
+              items: {
+                "Fat Chicken": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+            "125": {
+              collection: "collectibles",
+              items: {
+                "Rich Chicken": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              signature: "125",
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+          },
+        },
+      },
+      action: {
+        type: "purchase.claimed",
+        tradeIds: ["123", "124", "125"],
+      },
+    });
+
+    expect(state.balance).toStrictEqual(new Decimal(26));
   });
 });

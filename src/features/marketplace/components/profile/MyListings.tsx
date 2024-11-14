@@ -34,7 +34,7 @@ export const MyListings: React.FC = () => {
     const listing = listings[claimId as string];
 
     gameService.send("purchase.claimed", {
-      tradeId: claimId,
+      tradeIds: [claimId],
     });
 
     const itemId = getItemId({ details: listing });
