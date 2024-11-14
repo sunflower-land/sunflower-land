@@ -385,3 +385,25 @@ export function getBoostedAwakeAt({
   // Add the boosted duration to the created time
   return createdAt + totalDuration;
 }
+
+export function makeAnimals(count: number, type: AnimalType) {
+  return new Array(count)
+    .fill(0)
+    .reduce<Record<string, Animal>>((animals, _, index) => {
+      return {
+        ...animals,
+        [String(index)]: {
+          id: index.toString(),
+          type,
+          state: "idle",
+          coordinates: { x: index, y: index },
+          experience: 0,
+          asleepAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
+          createdAt: 0,
+          awakeAt: 0,
+        },
+      };
+    }, {});
+}

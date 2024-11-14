@@ -7,6 +7,8 @@ import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { TEST_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 import { EMPTY, makeMegaStoreAvailableDates } from "./constants";
+import { makeAnimals } from "./animals";
+
 export const INITIAL_RESOURCES: Pick<
   GameState,
   | "crops"
@@ -1613,93 +1615,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   henHouse: {
-    level: 1,
+    level: 2,
     animals: {
-      abc: {
-        asleepAt: 0,
-        awakeAt: 0,
-        experience: 2720,
-        id: "abc",
-        type: "Chicken",
-        createdAt: 0,
-        coordinates: { x: 0, y: 0 },
-        lovedAt: 0,
-        state: "idle",
-        item: "Brush",
-      },
-      c: {
-        asleepAt: 0,
-        awakeAt: 0,
-        experience: 2020,
-        id: "c",
-        type: "Chicken",
-        createdAt: 0,
-        coordinates: { x: 0, y: 0 },
-        lovedAt: 0,
-        state: "idle",
-        item: "Brush",
-      },
-      blah: {
-        asleepAt: 0,
-        awakeAt: 0,
-        experience: 1120,
-        id: "blah",
-        type: "Chicken",
-        createdAt: 0,
-        coordinates: { x: 0, y: 0 },
-        lovedAt: 0,
-        state: "idle",
-        item: "Brush",
-      },
-      "123": {
-        asleepAt: 0,
-        awakeAt: 0,
-        experience: 20,
-        id: "123",
-        type: "Chicken",
-        createdAt: 0,
-        coordinates: { x: 0, y: 0 },
-        lovedAt: 0,
-        state: "idle",
-        item: "Brush",
-      },
+      ...makeAnimals(25, "Chicken"),
     },
   },
   barn: {
-    level: 1,
+    level: 2,
     animals: {
-      abc: {
-        asleepAt: 0,
-        awakeAt: 0,
-        experience: 8310,
-        id: "abc",
-        type: "Cow",
-        createdAt: 0,
-        coordinates: { x: 0, y: 0 },
-        lovedAt: 0,
-        state: "ready",
-        item: "Brush",
-        reward: {
-          items: [
-            {
-              name: "Mootant",
-              amount: 1,
-            },
-          ],
-        },
-      },
-      def: {
-        asleepAt: 0,
-        awakeAt: 0,
-        experience: 5400,
-        id: "def",
-        type: "Sheep",
-        createdAt: 0,
-        coordinates: { x: 0, y: 0 },
-        lovedAt: 0,
-        state: "happy",
-        item: "Brush",
-      },
+      ...makeAnimals(25, "Cow"),
     },
   },
 };
