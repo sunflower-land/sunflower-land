@@ -228,7 +228,7 @@ export const ANIMAL_HOUSE_BOUNDS: Record<
       height: 12,
       width: 12,
       x: -6,
-      y: 6,
+      y: 7,
     },
   },
   barn: {
@@ -248,7 +248,7 @@ export const ANIMAL_HOUSE_BOUNDS: Record<
       height: 12,
       width: 12,
       x: -6,
-      y: 6,
+      y: 7,
     },
   },
 };

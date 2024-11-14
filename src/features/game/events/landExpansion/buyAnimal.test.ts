@@ -1,29 +1,6 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { buyAnimal, getBoostedAnimalCapacity } from "./buyAnimal";
-import { Animal } from "features/game/types/game";
-import { AnimalType } from "features/game/types/animals";
-
-export function makeAnimals(count: number, type: AnimalType) {
-  return new Array(count)
-    .fill(0)
-    .reduce<Record<string, Animal>>((animals, _, index) => {
-      return {
-        ...animals,
-        [String(index)]: {
-          id: index.toString(),
-          type,
-          state: "idle",
-          coordinates: { x: index, y: index },
-          experience: 0,
-          asleepAt: 0,
-          lovedAt: 0,
-          item: "Petting Hand",
-          createdAt: 0,
-          awakeAt: 0,
-        },
-      };
-    }, {});
-}
+import { makeAnimals } from "features/game/lib/animals";
 
 describe("buyAnimal", () => {
   const leveledUpBumpkin = { ...INITIAL_BUMPKIN, experience: 300000 };
