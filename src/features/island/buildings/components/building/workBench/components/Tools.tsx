@@ -26,7 +26,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { hasFeatureAccess } from "lib/flags";
-import { Restock } from "../../market/RestockButton";
+import { Restock } from "../../market/restock/Restock";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,

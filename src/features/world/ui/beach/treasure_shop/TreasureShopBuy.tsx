@@ -33,7 +33,7 @@ import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
-import { Restock } from "features/island/buildings/components/building/market/RestockButton";
+import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;

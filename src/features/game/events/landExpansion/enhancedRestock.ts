@@ -32,19 +32,19 @@ export const RestockItems: Record<RestockNPC, RestockObject> = {
   betty: {
     restockItem: SEEDS(),
     gemPrice: 12,
-    shopName: "market",
+    shopName: translate("market"),
     category: translate("seeds").toLocaleLowerCase(),
   },
   blacksmith: {
     restockItem: WORKBENCH_TOOLS,
     gemPrice: 8,
-    shopName: "workbench",
+    shopName: translate("workbench"),
     category: translate("tools").toLocaleLowerCase(),
   },
   jafar: {
     restockItem: TREASURE_TOOLS,
     gemPrice: 5,
-    shopName: "treasure shop",
+    shopName: translate("treasure.shop"),
     category: translate("tools").toLocaleLowerCase(),
   },
 };

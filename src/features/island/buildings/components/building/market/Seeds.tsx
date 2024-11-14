@@ -50,7 +50,7 @@ import {
   isBasicCrop,
   isMediumCrop,
 } from "features/game/events/landExpansion/harvest";
-import { Restock } from "./RestockButton";
+import { Restock } from "./restock/Restock";
 
 export const Seeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");

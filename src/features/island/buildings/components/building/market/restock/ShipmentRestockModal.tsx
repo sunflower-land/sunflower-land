@@ -3,143 +3,19 @@ import confetti from "canvas-confetti";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Modal } from "components/ui/Modal";
-import { Panel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
-import {
-  RestockItems,
-  RestockNPC,
-} from "features/game/events/landExpansion/enhancedRestock";
-import {
-  nextShipmentAt,
-  canRestockShipment,
-  SHIPMENT_STOCK,
-} from "features/game/events/landExpansion/shipmentRestocked";
+import { SHIPMENT_STOCK } from "features/game/events/landExpansion/shipmentRestocked";
 import { Context } from "features/game/GameProvider";
 import { StockableName, INITIAL_STOCK } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS } from "features/game/types/seeds";
 import { WORKBENCH_TOOLS, TREASURE_TOOLS } from "features/game/types/tools";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext, useState } from "react";
-
+import React, { useContext } from "react";
 import stockIcon from "assets/icons/stock.webp";
-import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
-import { NPC_WEARABLES } from "lib/npcs";
-import { EnhancedRestockModal } from "./EnhancedRestock";
-import { RestockModal } from "./Restock";
 
-export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
-  const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [showEnhancedConfirm, setShowEnhancedConfirm] = useState(false);
-
-  const hasGemExperiment = hasFeatureAccess(
-    gameState.context.state,
-    "GEM_BOOSTS",
-  );
-
-  const hasEnhancedRestockAccess = hasFeatureAccess(
-    gameState.context.state,
-    "ENHANCED_RESTOCK",
-  );
-
-  const shipmentAt = useCountdown(
-    nextShipmentAt({ game: gameState.context.state }),
-  );
-
-  const { ...shipmentTime } = shipmentAt;
-  const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
-
-  const showShipment = hasGemExperiment && shipmentIsReady;
-  const { category } = RestockItems[npc];
-
-  if (showShipment) {
-    return (
-      <>
-        <Button className="relative" onClick={() => setShowConfirm(true)}>
-          <div className="flex items-center h-4 ">
-            <p>{t("restock")}</p>
-            <img src={stockIcon} className="h-6 absolute right-1 top-0" />
-          </div>
-        </Button>
-        <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
-          <Panel className="sm:w-4/5 m-auto">
-            <ExperimentRestockModal onClose={() => setShowConfirm(false)} />
-          </Panel>
-        </Modal>
-      </>
-    );
-  }
-
-  return (
-    <>
-      {hasGemExperiment && (
-        <>
-          <div className="flex justify-center items-center">
-            {/* <img src={stockIcon} className="h-5 mr-1" /> */}
-            <p className="text-xxs">{t("gems.nextFreeShipment")}</p>
-          </div>
-          <div className="flex justify-center items-center">
-            <img src={stockIcon} className="h-5 mr-1" />
-            <TimerDisplay time={shipmentTime} />
-          </div>
-          <div className="my-1 flex flex-col mb-1 flex-1 items-center justify-end">
-            <div className="flex items-center"></div>
-          </div>
-        </>
-      )}
-      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-        {hasEnhancedRestockAccess && (
-          <>
-            <Button
-              className="mt-1 relative"
-              onClick={() => setShowEnhancedConfirm(true)}
-            >
-              <div className="flex items-center h-auto">
-                <p className="mr-1">{`${t("restock")} ${category}`}</p>
-                <img src={ITEM_DETAILS["Gem"].image} className="h-5 ml-2" />
-              </div>
-            </Button>
-            <Modal
-              show={showEnhancedConfirm}
-              onHide={() => setShowEnhancedConfirm(false)}
-            >
-              <Panel
-                className="sm:w-4/5 m-auto"
-                bumpkinParts={NPC_WEARABLES[npc]}
-              >
-                <EnhancedRestockModal
-                  onClose={() => setShowEnhancedConfirm(false)}
-                  npc={npc}
-                />
-              </Panel>
-            </Modal>
-          </>
-        )}
-        <Button className="mt-1 relative" onClick={() => setShowConfirm(true)}>
-          <div className="flex items-center h-auto">
-            <p className="mr-1">{`Restock all`}</p>
-            <img src={ITEM_DETAILS["Gem"].image} className="h-5 ml-2" />
-          </div>
-        </Button>
-        <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
-          <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES[npc]}>
-            <RestockModal onClose={() => setShowConfirm(false)} />
-          </Panel>
-        </Modal>
-      </div>
-    </>
-  );
-};
-
-const ExperimentRestockModal: React.FC<{
+export const ShipmentRestockModal: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
   const { t } = useAppTranslation();
