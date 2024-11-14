@@ -5,6 +5,7 @@ import { GameState } from "features/game/types/game";
 import { SEEDS } from "features/game/types/seeds";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { produce } from "immer";
+import { translate } from "lib/i18n/translate";
 import { NPCName } from "lib/npcs";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
@@ -23,24 +24,28 @@ type Options = {
 type RestockObject = {
   restockItem: object;
   gemPrice: number;
-  shopName: "market" | "workbench" | "treasure shop";
+  shopName: string;
+  category: string;
 };
 
 export const RestockItems: Record<RestockNPC, RestockObject> = {
   betty: {
     restockItem: SEEDS(),
-    gemPrice: 15,
+    gemPrice: 12,
     shopName: "market",
+    category: translate("seeds").toLocaleLowerCase(),
   },
   blacksmith: {
     restockItem: WORKBENCH_TOOLS,
-    gemPrice: 10,
+    gemPrice: 8,
     shopName: "workbench",
+    category: translate("tools").toLocaleLowerCase(),
   },
   jafar: {
     restockItem: TREASURE_TOOLS,
     gemPrice: 5,
     shopName: "treasure shop",
+    category: translate("tools").toLocaleLowerCase(),
   },
 };
 
