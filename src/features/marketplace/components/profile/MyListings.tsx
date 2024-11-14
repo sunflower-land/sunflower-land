@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
 import { getItemId } from "features/marketplace/lib/offers";
-import { getTradeType } from "features/marketplace/lib/getTradeType";
 import { Modal } from "components/ui/Modal";
 import { ClaimPurchase } from "./ClaimPurchase";
 
@@ -40,10 +39,7 @@ export const MyListings: React.FC = () => {
     const itemId = getItemId({ details: listing });
 
     // For on chain items let's fire a refresh
-    const tradeType = getTradeType({
-      collection: listing.collection,
-      id: itemId,
-    });
+    const tradeType = listing.signature ? "onchain" : "instant";
 
     if (tradeType === "onchain") {
       gameService.send("RESET");

@@ -8,6 +8,7 @@ import {
   CollectionName,
   TradeableDetails,
   Tradeable,
+  Listing,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
@@ -28,6 +29,7 @@ type PurchaseModalContentProps = {
   authToken: string;
   listingId: string;
   tradeable: Tradeable;
+  listing: Listing;
   collection: CollectionName;
   price: number;
   onClose: () => void;
@@ -40,6 +42,7 @@ const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   price,
   listingId,
   onClose,
+  listing,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -66,7 +69,7 @@ const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
       <div className="p-2">
         <div className="flex justify-between">
           <Label type="default" className="mb-2 -ml-1">{`Purchase`}</Label>
-          {tradeable?.type === "onchain" && (
+          {listing.type === "onchain" && (
             <Label type="formula" icon={walletIcon} className="-mr-1 mb-2">
               {t("marketplace.walletRequired")}
             </Label>
@@ -79,7 +82,7 @@ const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
         <Button onClick={onClose}>{t("cancel")}</Button>
         <Button onClick={() => confirm()} className="relative">
           <span>{t("confirm")}</span>
-          {tradeable?.type === "onchain" && (
+          {listing.type === "onchain" && (
             <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
           )}
         </Button>
@@ -132,7 +135,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     "marketplacePurchasingSuccess",
     "playing",
     onPurchase,
-    tradeable?.type === "instant",
+    cheapestListing?.type === "instant",
   );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -140,7 +143,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     "marketplacePurchasing",
     "marketplacePurchasingSuccess",
     confetti,
-    tradeable?.type === "instant",
+    cheapestListing?.type === "instant",
   );
 
   // Auto close this success modal because the transaction modal will be shown
@@ -159,7 +162,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
       {cheapestListing && (
         <Modal show={showPurchaseModal}>
           <Panel>
-            {(tradeable as Tradeable).type === "onchain" ? (
+            {cheapestListing.type === "onchain" ? (
               <GameWallet action="marketplace">
                 <PurchaseModalContent
                   authToken={authToken}
@@ -168,6 +171,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   collection={collection}
                   tradeable={tradeable as Tradeable}
                   onClose={() => setShowPurchaseModal(false)}
+                  listing={cheapestListing}
                 />
               </GameWallet>
             ) : (
@@ -178,6 +182,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 collection={collection}
                 tradeable={tradeable as Tradeable}
                 onClose={() => setShowPurchaseModal(false)}
+                listing={cheapestListing}
               />
             )}
           </Panel>
@@ -193,7 +198,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2" />
               <p className="capitalize underline">{collection}</p>
             </div>
-            {tradeable?.type === "onchain" && (
+            {cheapestListing?.type === "onchain" && (
               <Label type="formula" className="mr-2" icon={walletIcon}>
                 {t("marketplace.walletRequired")}
               </Label>

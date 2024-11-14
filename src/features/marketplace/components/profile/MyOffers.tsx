@@ -21,7 +21,6 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { NPC_WEARABLES } from "lib/npcs";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ListViewCard } from "../ListViewCard";
-import { getTradeType } from "features/marketplace/lib/getTradeType";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -57,9 +56,7 @@ export const MyOffers: React.FC = () => {
 
     // For on chain items let's fire a refresh
     const itemId = getItemId({ details: offer });
-    if (
-      getTradeType({ collection: offer.collection, id: itemId }) === "onchain"
-    ) {
+    if (offer.signature) {
       gameService.send("RESET");
     }
 
