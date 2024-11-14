@@ -30,12 +30,12 @@ type RestockObject = {
 export const RestockItems: Record<RestockNPC, RestockObject> = {
   betty: {
     restockItem: SEEDS(),
-    gemPrice: 12,
+    gemPrice: 15,
     shopName: translate("market"),
   },
   blacksmith: {
     restockItem: WORKBENCH_TOOLS,
-    gemPrice: 8,
+    gemPrice: 10,
     shopName: translate("workbench"),
   },
   jafar: {
