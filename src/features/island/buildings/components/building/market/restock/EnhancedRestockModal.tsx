@@ -84,7 +84,7 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
   };
 
   const { gemPrice, shopName, restockItem, categoryLabel } = RestockItems[npc];
-  const { name, icon } = categoryLabel;
+  const { labelText, icon } = categoryLabel;
 
   const restockItems = Object.entries(INITIAL_STOCK(state))
     .filter((item) => item[0] in restockItem)
@@ -113,22 +113,16 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
         {restockItems.length > 0 && (
           <>
             <Label icon={icon} type="default" className="ml-2 mb-1 capitalize">
-              {name}
+              {labelText}
             </Label>
             <div className="flex flex-wrap mb-2">
-              {restockItems.map(([item, amount]) => {
-                const restockAmount = getRestockAmount(
-                  item as StockableName,
-                  amount,
-                );
-                return (
-                  <Box
-                    key={item}
-                    count={restockAmount}
-                    image={ITEM_DETAILS[item as StockableName].image}
-                  />
-                );
-              })}
+              {restockItems.map(([item, amount]) => (
+                <Box
+                  key={item}
+                  count={getRestockAmount(item as StockableName, amount)}
+                  image={ITEM_DETAILS[item as StockableName].image}
+                />
+              ))}
             </div>
           </>
         )}

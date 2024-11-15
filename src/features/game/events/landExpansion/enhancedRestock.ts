@@ -22,23 +22,23 @@ type Options = {
   action: EnhancedRestockAction;
 };
 
-type RestockObject = {
+type Restock = {
   restockItem: object;
   gemPrice: number;
   shopName: string;
   categoryLabel: {
-    name: string;
+    labelText: string;
     icon: string;
   };
 };
 
-export const RestockItems: Record<RestockNPC, RestockObject> = {
+export const RestockItems: Record<RestockNPC, Restock> = {
   betty: {
     restockItem: SEEDS(),
     gemPrice: 15,
     shopName: translate("market"),
     categoryLabel: {
-      name: translate("seeds"),
+      labelText: translate("seeds"),
       icon: ITEM_DETAILS["Sunflower Seed"].image,
     },
   },
@@ -47,7 +47,7 @@ export const RestockItems: Record<RestockNPC, RestockObject> = {
     gemPrice: 10,
     shopName: translate("workbench"),
     categoryLabel: {
-      name: translate("workbench.tools"),
+      labelText: translate("workbench.tools"),
       icon: ITEM_DETAILS.Axe.image,
     },
   },
@@ -56,7 +56,7 @@ export const RestockItems: Record<RestockNPC, RestockObject> = {
     gemPrice: 5,
     shopName: translate("treasure.shop"),
     categoryLabel: {
-      name: translate("treasure.tools"),
+      labelText: translate("treasure.tools"),
       icon: ITEM_DETAILS["Sand Shovel"].image,
     },
   },

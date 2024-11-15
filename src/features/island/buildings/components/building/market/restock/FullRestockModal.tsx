@@ -116,19 +116,13 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
           </Label>
         )}
         <div className="flex flex-wrap mb-2">
-          {restockTools.map(([item, amount]) => {
-            const restockAmount = getRestockAmount(
-              item as StockableName,
-              amount,
-            );
-            return (
-              <Box
-                key={item}
-                count={restockAmount}
-                image={ITEM_DETAILS[item as StockableName].image}
-              />
-            );
-          })}
+          {restockTools.map(([item, amount]) => (
+            <Box
+              key={item}
+              count={getRestockAmount(item as StockableName, amount)}
+              image={ITEM_DETAILS[item as StockableName].image}
+            />
+          ))}
         </div>
         {restockSeeds.length > 0 && (
           <Label
@@ -140,19 +134,13 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
           </Label>
         )}
         <div className="flex flex-wrap mb-2">
-          {restockSeeds.map(([item, amount]) => {
-            const restockAmount = getRestockAmount(
-              item as StockableName,
-              amount,
-            );
-            return (
-              <Box
-                key={item}
-                count={restockAmount}
-                image={ITEM_DETAILS[item as StockableName].image}
-              />
-            );
-          })}
+          {restockSeeds.map(([item, amount]) => (
+            <Box
+              key={item}
+              count={getRestockAmount(item as StockableName, amount)}
+              image={ITEM_DETAILS[item as StockableName].image}
+            />
+          ))}
         </div>
       </div>
       <p className="text-xs p-1 pb-1.5 italic">{t("gems.restockToMaxStock")}</p>{" "}

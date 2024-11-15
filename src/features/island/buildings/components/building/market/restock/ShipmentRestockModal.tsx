@@ -88,19 +88,13 @@ export const ShipmentRestockModal: React.FC<{
           </Label>
         )}
         <div className="flex flex-wrap mb-2">
-          {restockTools.map(([item, amount]) => {
-            const shipmentAmount = getShipmentAmount(
-              item as StockableName,
-              amount,
-            );
-            return (
-              <Box
-                key={item}
-                count={shipmentAmount}
-                image={ITEM_DETAILS[item as StockableName].image}
-              />
-            );
-          })}
+          {restockTools.map(([item, amount]) => (
+            <Box
+              key={item}
+              count={getShipmentAmount(item as StockableName, amount)}
+              image={ITEM_DETAILS[item as StockableName].image}
+            />
+          ))}
         </div>
         {restockSeeds.length > 0 && (
           <Label
@@ -112,19 +106,13 @@ export const ShipmentRestockModal: React.FC<{
           </Label>
         )}
         <div className="flex flex-wrap mb-2">
-          {restockSeeds.map(([item, amount]) => {
-            const shipmentAmount = getShipmentAmount(
-              item as StockableName,
-              amount,
-            );
-            return (
-              <Box
-                key={item}
-                count={shipmentAmount}
-                image={ITEM_DETAILS[item as StockableName].image}
-              />
-            );
-          })}
+          {restockSeeds.map(([item, amount]) => (
+            <Box
+              key={item}
+              count={getShipmentAmount(item as StockableName, amount)}
+              image={ITEM_DETAILS[item as StockableName].image}
+            />
+          ))}
         </div>
       </div>
       {!restockIsEmpty && (

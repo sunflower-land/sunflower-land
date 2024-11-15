@@ -130,7 +130,7 @@ const RestockSelectionModal: React.FC<{
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEnhancedConfirm, setShowEnhancedConfirm] = useState(false);
   const { shopName, gemPrice, categoryLabel } = RestockItems[npc];
-  const { name, icon } = categoryLabel;
+  const { labelText, icon } = categoryLabel;
   const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
 
   const { ...shipmentTime } = shipmentAt;
@@ -174,7 +174,7 @@ const RestockSelectionModal: React.FC<{
             <div className="flex flex-col ml-1 mb-0.5">
               <span className="text-xs mb-1">{t("restocks")}</span>
               <Label type="default" icon={icon} className="ml-1 capitalize">
-                {name}
+                {labelText}
               </Label>
             </div>
           </OuterPanel>
@@ -201,7 +201,7 @@ const RestockSelectionModal: React.FC<{
               <span className="text-xs mb-1">{t("restocks")}</span>
               <div>
                 {getKeys(RestockItems).map((npc) => {
-                  const { name, icon } = RestockItems[npc].categoryLabel;
+                  const { labelText, icon } = RestockItems[npc].categoryLabel;
                   return (
                     <Label
                       key={npc}
@@ -209,7 +209,7 @@ const RestockSelectionModal: React.FC<{
                       icon={icon}
                       className="mb-1 ml-1 capitalize"
                     >
-                      {name}
+                      {labelText}
                     </Label>
                   );
                 })}
