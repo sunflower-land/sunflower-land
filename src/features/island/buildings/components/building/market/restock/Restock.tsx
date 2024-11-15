@@ -214,6 +214,13 @@ const RestockSelectionModal: React.FC<{
               </div>
             </div>
           </OuterPanel>
+          {shipmentTime && (
+            <div className="px-1 text-xs flex flex-wrap mt-2">
+              <span className="mr-2">{t("gems.nextFreeShipment")}</span>
+              <TimerDisplay time={shipmentTime} />
+              <img src={stockIcon} className="h-5 ml-1" />
+            </div>
+          )}
         </>
       )}
       {showEnhancedConfirm && (
