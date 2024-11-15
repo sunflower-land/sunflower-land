@@ -91,6 +91,9 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
     .filter(([item, amount]) =>
       getRestockAmount(item as StockableName, amount).gt(0),
     );
+  const hasEnoughGems = (state.inventory.Gem ?? new Decimal(0)).gte(
+    new Decimal(gemPrice),
+  );
 
   return (
     <>
@@ -139,9 +142,13 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
       )}
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
-        <Button className="relative" onClick={handleRestock}>
+        <Button
+          className="relative"
+          onClick={handleRestock}
+          disabled={!hasEnoughGems}
+        >
           <div className="flex items-center h-4 ">
-            <p className="mr-1">{`${t("restock")} ${RestockItems[npc].gemPrice}`}</p>
+            <p className="mr-1">{`${t("restock")} ${gemPrice}`}</p>
             <img
               src={ITEM_DETAILS["Gem"].image}
               className="h-5 absolute right-1 top-1"

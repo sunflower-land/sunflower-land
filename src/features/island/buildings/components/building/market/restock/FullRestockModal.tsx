@@ -38,9 +38,13 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
   const { openModal } = useContext(ModalContext);
 
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
-  const canRestock = gameState.context.state.inventory["Gem"]?.gte(20);
+  const canRestock = state.inventory["Gem"]?.gte(20);
 
   const handleRestock = () => {
     if (!canRestock) {
@@ -62,7 +66,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
   };
 
   const getRestockAmount = (item: StockableName, amount: Decimal): Decimal => {
-    const remainingStock = gameState.context.state.stock[item];
+    const remainingStock = state.stock[item];
 
     // If there's no stock left
     if (!remainingStock) {
@@ -74,19 +78,23 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
     }
   };
 
-  const restockTools = Object.entries(INITIAL_STOCK(gameState.context.state))
+  const restockTools = Object.entries(INITIAL_STOCK(state))
     .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
     .filter(([item, amount]) => {
       const restockAmount = getRestockAmount(item as StockableName, amount);
       return restockAmount.gt(0);
     });
 
-  const restockSeeds = Object.entries(INITIAL_STOCK(gameState.context.state))
+  const restockSeeds = Object.entries(INITIAL_STOCK(state))
     .filter((item) => item[0] in SEEDS())
     .filter(([item, amount]) => {
       const restockAmount = getRestockAmount(item as StockableName, amount);
       return restockAmount.gt(0);
     });
+
+  const hasGemsFullRestock = (state.inventory.Gem ?? new Decimal(0)).gte(
+    new Decimal(20),
+  );
 
   return (
     <>
@@ -156,7 +164,11 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
       )}
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
-        <Button className="relative" onClick={handleRestock}>
+        <Button
+          className="relative"
+          onClick={handleRestock}
+          disabled={!hasGemsFullRestock}
+        >
           {`${t("restock")} 20`}
           <img
             src={ITEM_DETAILS["Gem"].image}
