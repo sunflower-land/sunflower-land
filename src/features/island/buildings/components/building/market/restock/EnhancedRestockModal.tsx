@@ -15,9 +15,6 @@ import confetti from "canvas-confetti";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
-import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
-import { SEEDS } from "features/game/types/seeds";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import {
   RestockItems,
   RestockNPC,
@@ -86,28 +83,14 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
     }
   };
 
-  const restockTools = Object.entries(INITIAL_STOCK(state))
-    .filter((item) => {
-      if (npc === "blacksmith") {
-        return item[0] in WORKBENCH_TOOLS;
-      }
-      if (npc === "jafar") {
-        return item[0] in TREASURE_TOOLS;
-      }
-    })
-    .filter(([item, amount]) => {
-      const restockAmount = getRestockAmount(item as StockableName, amount);
-      return restockAmount.gt(0);
-    });
+  const { gemPrice, shopName, restockItem, categoryLabel } = RestockItems[npc];
+  const { name, icon } = categoryLabel;
 
-  const restockSeeds = Object.entries(INITIAL_STOCK(state))
-    .filter((item) => npc === "betty" && item[0] in SEEDS())
-    .filter(([item, amount]) => {
-      const restockAmount = getRestockAmount(item as StockableName, amount);
-      return restockAmount.gt(0);
-    });
-
-  const { gemPrice, shopName } = RestockItems[npc];
+  const restockItems = Object.entries(INITIAL_STOCK(state))
+    .filter((item) => item[0] in restockItem)
+    .filter(([item, amount]) =>
+      getRestockAmount(item as StockableName, amount).gt(0),
+    );
 
   return (
     <>
@@ -123,44 +106,14 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
         </p>
       </div>
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
-        <div className="mb-2 text-xs">{`The following items will be restocked:`}</div>
-        {restockTools.length > 0 && (
+        <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
+        {restockItems.length > 0 && (
           <>
-            <Label
-              icon={ITEM_DETAILS.Axe.image}
-              type="default"
-              className="ml-2 mb-1"
-            >
-              {t("tools")}
+            <Label icon={icon} type="default" className="ml-2 mb-1 capitalize">
+              {name}
             </Label>
             <div className="flex flex-wrap mb-2">
-              {restockTools.map(([item, amount]) => {
-                const restockAmount = getRestockAmount(
-                  item as StockableName,
-                  amount,
-                );
-                return (
-                  <Box
-                    key={item}
-                    count={restockAmount}
-                    image={ITEM_DETAILS[item as StockableName].image}
-                  />
-                );
-              })}
-            </div>
-          </>
-        )}
-        {restockSeeds.length > 0 && (
-          <>
-            <Label
-              icon={CROP_LIFECYCLE.Sunflower.seed}
-              type="default"
-              className="ml-2 mb-1"
-            >
-              {t("seeds")}
-            </Label>
-            <div className="flex flex-wrap mb-2">
-              {restockSeeds.map(([item, amount]) => {
+              {restockItems.map(([item, amount]) => {
                 const restockAmount = getRestockAmount(
                   item as StockableName,
                   amount,

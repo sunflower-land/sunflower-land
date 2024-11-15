@@ -3745,6 +3745,7 @@
   "restock.full": "Full Restock",
   "restock.outOfStock": "Looks like you ran out of stock!",
   "restock.selectOption": "Select your desired restock option:",
+  "restock.itemsToRestock": "The following items will be restocked:",
   "market": "market",
   "workbench": "workbench",
   "treasure.shop": "treasure shop",
