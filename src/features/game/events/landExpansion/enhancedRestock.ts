@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS } from "features/game/types/seeds";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { produce } from "immer";
@@ -25,6 +26,10 @@ type RestockObject = {
   restockItem: object;
   gemPrice: number;
   shopName: string;
+  categoryLabel: {
+    name: string;
+    icon: string;
+  };
 };
 
 export const RestockItems: Record<RestockNPC, RestockObject> = {
@@ -32,16 +37,28 @@ export const RestockItems: Record<RestockNPC, RestockObject> = {
     restockItem: SEEDS(),
     gemPrice: 15,
     shopName: translate("market"),
+    categoryLabel: {
+      name: translate("seeds"),
+      icon: ITEM_DETAILS["Sunflower Seed"].image,
+    },
   },
   blacksmith: {
     restockItem: WORKBENCH_TOOLS,
     gemPrice: 10,
     shopName: translate("workbench"),
+    categoryLabel: {
+      name: "Workbench Tools",
+      icon: ITEM_DETAILS.Axe.image,
+    },
   },
   jafar: {
     restockItem: TREASURE_TOOLS,
     gemPrice: 5,
     shopName: translate("treasure.shop"),
+    categoryLabel: {
+      name: "Treasure Tools",
+      icon: ITEM_DETAILS["Sand Shovel"].image,
+    },
   },
 };
 

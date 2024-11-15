@@ -26,32 +26,26 @@ import { EnhancedRestockModal } from "./EnhancedRestockModal";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/decorations";
-import { InventoryItemName } from "features/game/types/game";
-import { INITIAL_STOCK } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const hasGemExperiment = hasFeatureAccess(
-    gameState.context.state,
-    "GEM_BOOSTS",
-  );
-  const hasEnhancedRestockAccess = hasFeatureAccess(
-    gameState.context.state,
-    "ENHANCED_RESTOCK",
-  );
+  const hasGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
+  const hasEnhancedRestockAccess = hasFeatureAccess(state, "ENHANCED_RESTOCK");
 
-  const shipmentAt = useCountdown(
-    nextShipmentAt({ game: gameState.context.state }),
-  );
+  const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
 
   const { ...shipmentTime } = shipmentAt;
-  const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
+  const shipmentIsReady = canRestockShipment({ game: state });
 
   const showShipment = hasGemExperiment && shipmentIsReady;
 
@@ -105,7 +99,10 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
           onClose={hideConfirmModal}
         >
           {hasEnhancedRestockAccess ? (
-            <RestockSelectionModal npc={npc} />
+            <RestockSelectionModal
+              npc={npc}
+              hasGemExperiment={hasGemExperiment}
+            />
           ) : (
             <FullRestockModal onClose={hideConfirmModal} />
           )}
@@ -117,7 +114,8 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
 
 const RestockSelectionModal: React.FC<{
   npc: RestockNPC;
-}> = ({ npc }) => {
+  hasGemExperiment: boolean;
+}> = ({ npc, hasGemExperiment }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
@@ -128,7 +126,8 @@ const RestockSelectionModal: React.FC<{
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEnhancedConfirm, setShowEnhancedConfirm] = useState(false);
-  const { shopName, gemPrice, restockItem } = RestockItems[npc];
+  const { shopName, gemPrice, categoryLabel } = RestockItems[npc];
+  const { name, icon } = categoryLabel;
   const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
 
   const { ...shipmentTime } = shipmentAt;
@@ -171,15 +170,9 @@ const RestockSelectionModal: React.FC<{
             </div>
             <div className="flex flex-col ml-1 mb-0.5">
               <span className="text-xs mb-1">{t("restocks")}</span>
-              <div className="flex items-center space-x-1 overflow-x-auto scrollable">
-                {getKeys(restockItem).map((name) => (
-                  <img
-                    key={name}
-                    src={ITEM_DETAILS[name as InventoryItemName].image}
-                    className="h-6 mb-1"
-                  />
-                ))}
-              </div>
+              <Label type="default" icon={icon} className="ml-1">
+                {name}
+              </Label>
             </div>
           </OuterPanel>
           <OuterPanel className="mt-1">
@@ -203,18 +196,24 @@ const RestockSelectionModal: React.FC<{
             </div>
             <div className="flex flex-col ml-1 mb-0.5">
               <span className="text-xs mb-1">{t("restocks")}</span>
-              <div className="flex items-center space-x-1 overflow-x-auto scrollable">
-                {getKeys(INITIAL_STOCK(state)).map((name) => (
-                  <img
-                    key={name}
-                    src={ITEM_DETAILS[name].image}
-                    className="h-6 mb-1"
-                  />
-                ))}
+              <div>
+                {getKeys(RestockItems).map((npc) => {
+                  const { name, icon } = RestockItems[npc].categoryLabel;
+                  return (
+                    <Label
+                      key={npc}
+                      type="default"
+                      icon={icon}
+                      className="mb-1 ml-1"
+                    >
+                      {name}
+                    </Label>
+                  );
+                })}
               </div>
             </div>
           </OuterPanel>
-          {shipmentTime && (
+          {hasGemExperiment && shipmentTime && (
             <div className="px-1 text-xs flex flex-wrap mt-2">
               <span className="mr-2">{t("gems.nextFreeShipment")}</span>
               <TimerDisplay time={shipmentTime} />

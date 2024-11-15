@@ -155,7 +155,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
         <Button className="relative" onClick={handleRestock}>
-          {t("restock")}
+          {`${t("restock")} 20`}
           <img
             src={ITEM_DETAILS["Gem"].image}
             className="h-5 absolute right-1 top-1"
