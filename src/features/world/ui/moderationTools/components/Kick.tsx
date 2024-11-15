@@ -39,7 +39,7 @@ export const KickModal: React.FC<Props> = ({
       .then((r) => {
         r.success ? setKickStatus("success") : setKickStatus("error");
 
-        scene.mmoService.state.context.server?.send("moderation_event", {
+        scene.mmoService.state.context.server?.send("moderation:event", {
           type: "kick",
           farmId: farmId as number,
           arg: reason,

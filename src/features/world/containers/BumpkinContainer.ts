@@ -41,6 +41,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public label: Label | undefined;
   public backfx: Phaser.GameObjects.Sprite | undefined;
   public frontfx: Phaser.GameObjects.Sprite | undefined;
+  public previousPosition:
+    | { x: number; y: number; timestamp: number }
+    | undefined;
 
   public clothing: Player["clothing"];
   public faction: FactionName | undefined;

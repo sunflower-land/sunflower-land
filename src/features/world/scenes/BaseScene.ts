@@ -41,6 +41,7 @@ import {
   PlazaShaders,
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
+import { EventManager } from "../lib/EventManager";
 
 export type NPCBumpkin = {
   x: number;
@@ -52,11 +53,12 @@ export type NPCBumpkin = {
   hideLabel?: boolean;
 };
 
-// 3 Times per second send position to server
 const SEND_PACKET_RATE = 10;
 const NAME_TAG_OFFSET_PX = 12;
 
 const WALKING_SPEED = 50;
+const PREDICTION_TIME = 0.05;
+const INTERPOLATION_RATE = 0.065;
 
 type BaseSceneOptions = {
   name: SceneId;
@@ -94,6 +96,7 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
 };
 
 export abstract class BaseScene extends Phaser.Scene {
+  private eventManager: EventManager | undefined;
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
 
@@ -181,6 +184,7 @@ export abstract class BaseScene extends Phaser.Scene {
     super(defaultedOptions.name);
 
     this.options = defaultedOptions;
+    this.eventManager = undefined;
   }
 
   private onAudioMuted = (event: CustomEvent) => {
@@ -520,42 +524,15 @@ export abstract class BaseScene extends Phaser.Scene {
     const server = this.mmoServer;
     if (!server) return;
 
-    const removeMessageListener = server.state.messages.onAdd((message) => {
-      // Old message
-      if (message.createdAt < Date.now() - 5000) {
-        return;
-      }
-
-      if (message.sceneId !== this.options.name) {
-        return;
-      }
-
-      if (!this.scene?.isActive()) {
-        return;
-      }
-
-      if (this.playerEntities[message.authorSessionId]) {
-        // Avoid rendering speech bubbles for players that are too far away (CPU intensive)
-        const distance = this.calculateDistanceBetweenPlayers(
-          this.playerEntities[message.authorSessionId],
-          this.currentPlayer as BumpkinContainer,
-        );
-
-        if (distance < 150) {
-          this.playerEntities[message.authorSessionId].speak(message.text);
-        }
-      } else if (message.authorSessionId === server.sessionId) {
-        this.currentPlayer?.speak(message.text);
-      }
-    });
-
-    // send the scene player is in
-    // this.room.send()
+    this.eventManager = new EventManager(this);
 
     this.events.on("shutdown", () => {
-      removeMessageListener();
-
       window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
+      window.removeEventListener(
+        PLAZA_SHADER_EVENT as any,
+        this.onSetPlazaShader,
+      );
+      this.eventManager?.destroy();
     });
   }
 
@@ -831,12 +808,20 @@ export abstract class BaseScene extends Phaser.Scene {
   update(): void {
     this.currentTick++;
 
+    const before = Date.now();
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
     this.updateShaders();
     this.updateUsernames();
     this.updateFactions();
+    const after = Date.now();
+
+    const elapsed = after - before;
+    if (elapsed > 1000 / 60) {
+      // eslint-disable-next-line no-console
+      console.warn(`Update took too long: ${elapsed}ms`);
+    }
   }
 
   keysToAngle(
@@ -872,7 +857,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
     if (this.currentPlayer.faction !== faction) {
       this.currentPlayer.faction = faction;
-      this.mmoServer?.send(0, { faction });
+      this.mmoServer?.send("player:faction:update", { faction });
       this.checkAndUpdateNameColor(
         this.currentPlayer,
         faction ? FACTION_NAME_COLORS[faction] : "white",
@@ -970,8 +955,8 @@ export abstract class BaseScene extends Phaser.Scene {
     if (xDiff < 1 && yDiff < 1) return;
 
     this.serverPosition = {
-      x: this.currentPlayer.x,
-      y: this.currentPlayer.y,
+      x: Number(this.currentPlayer.x.toFixed(2)),
+      y: Number(this.currentPlayer.y.toFixed(2)),
       tick: this.currentTick,
     };
     this.packetSentAt = Date.now();
@@ -1087,28 +1072,16 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
+  // TODO: Refactor this, it's a mess, a working mess at least
   renderPlayers() {
     const server = this.mmoServer;
     if (!server) return;
 
-    const playerInVIP = this.physics.world.overlap(
+    const currentTime = Date.now();
+
+    const isPlayerInHiddenColliders = this.physics.world.overlap(
       this.hiddenColliders as Phaser.GameObjects.Group,
       this.currentPlayer,
-    );
-
-    const playerCount = server.state.players.size;
-
-    // Calculate interpolation rate dynamically based on player count
-    // minRate is the slowest interpolation (e.g., 0.03 for smooth movement)
-    // maxRate is the fastest interpolation (e.g., 0.15 for lag reduction with many players)
-    // Adjust the rate progressively between minRate and maxRate based on player count
-    const minRate = 0.03;
-    const maxRate = 0.15;
-    const threshold = 200; // Player count at which maxRate is reached
-
-    const interpolationRate = Math.min(
-      maxRate,
-      minRate + ((maxRate - minRate) * playerCount) / threshold,
     );
 
     server.state.players.forEach((player, sessionId) => {
@@ -1118,36 +1091,69 @@ export abstract class BaseScene extends Phaser.Scene {
       const entity = this.playerEntities[sessionId];
       if (!entity?.active) return;
 
-      // Update position based on dynamic interpolation rate
-      const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
-      if (distance > 2) {
-        entity.x = Phaser.Math.Linear(entity.x, player.x, interpolationRate);
-        entity.y = Phaser.Math.Linear(entity.y, player.y, interpolationRate);
-        entity.setDepth(entity.y);
+      const isEntityInHiddenColliders = this.physics.world.overlap(
+        this.hiddenColliders as Phaser.GameObjects.Group,
+        entity,
+      );
+
+      const hidden = !isPlayerInHiddenColliders && isEntityInHiddenColliders;
+      if (hidden === entity.visible) {
+        entity.setVisible(!hidden);
       }
 
-      // Visibility and direction updates
-      if (this.currentTick % 5 === 0) {
-        const overlap = this.physics.world.overlap(
-          this.hiddenColliders as Phaser.GameObjects.Group,
-          entity,
-        );
-        const hidden = !playerInVIP && overlap;
-
-        if (hidden !== entity.visible) entity.setVisible(!hidden);
+      // Initialize previous position if it doesn't exist
+      if (!entity.previousPosition) {
+        entity.previousPosition = {
+          x: player.x,
+          y: player.y,
+          timestamp: currentTime,
+        };
+        return;
       }
+
+      // Calculate time delta (in seconds) for velocity calculation
+      const timeDelta =
+        (currentTime - entity.previousPosition.timestamp) / 1000;
+
+      // Calculate velocity (simple estimation)
+      const velocityX = (player.x - entity.previousPosition.x) / timeDelta;
+      const velocityY = (player.y - entity.previousPosition.y) / timeDelta;
+
+      // Predict next position based on current velocity
+      const predictedX = player.x + velocityX * PREDICTION_TIME;
+      const predictedY = player.y + velocityY * PREDICTION_TIME;
+
+      // Smoothly interpolate towards predicted position
+      entity.x = Phaser.Math.Linear(entity.x, predictedX, INTERPOLATION_RATE);
+      entity.y = Phaser.Math.Linear(entity.y, predictedY, INTERPOLATION_RATE);
+      entity.setDepth(entity.y);
+
+      // Update movement state (idle/walk) based on distance to server position
+      const distanceToServer = Phaser.Math.Distance.Between(
+        entity.x,
+        entity.y,
+        player.x,
+        player.y,
+      );
 
       if (player.x > entity.x) {
         entity.faceRight();
-      } else if (player.x < entity.x) {
+      } else {
         entity.faceLeft();
       }
 
-      if (distance < 2) {
+      if (distanceToServer < 2) {
         entity.idle();
       } else {
         entity.walk();
       }
+
+      // Update previous position for next frame's velocity calculation
+      entity.previousPosition = {
+        x: player.x,
+        y: player.y,
+        timestamp: currentTime,
+      };
     });
   }
 

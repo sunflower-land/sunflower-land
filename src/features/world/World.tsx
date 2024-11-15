@@ -146,7 +146,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       <PhaserComponent
         mmoService={mmoService}
         isCommunity={isCommunity}
-        inventory={gameState.context.state.inventory}
         route={name as SceneId}
       />
 
@@ -155,6 +154,8 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
           onClose={() => {
             mmoService.send("CONTINUE");
             // BUG - need to call twice?
+            mmoService.send("CONTINUE");
+            // Idk but I just wanted to call it a third time just to see what happens
             mmoService.send("CONTINUE");
           }}
         />

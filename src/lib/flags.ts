@@ -19,10 +19,35 @@ export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
 /**
  * Adam: 1
  * Spencer: 3
- * Sacul: 51
+ * Sacul: 51 <- Look mom I'm famous
  * Craig: 39488
  * Elias: 128727
  */
+
+export const MODERATOR_IDS = [
+  // Core Team, Engineers and Community Managers
+  ...ADMIN_IDS,
+  45, // Chicken
+  130170, // Dcol
+  29, // Aeon
+  7841, // Labochi
+  56, // Birb
+  73795, // LittleEins
+  21303, // Oniel
+  2253, // Celinho
+
+  // Moderators
+  53865, // kegw
+  4280, // henry
+  201, // subzero
+  69166, // sushi
+  13, // pecelTumpang
+  9609, // vitt0c
+  8084, // azaro
+  9239, // Mama Mahalkoe
+  145238, // Droid
+  202687, // TheWheatcher
+];
 
 type FeatureFlag = (game: GameState) => boolean;
 

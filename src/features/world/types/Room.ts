@@ -5,70 +5,60 @@ import { SceneId } from "../mmoMachine";
 import { Moderation } from "features/game/lib/gameMachine";
 import { FactionName } from "features/game/types/game";
 
-export interface InputData {
-  x: number;
-  y: number;
-  tick: number;
-  text: string;
-}
-
 export interface Player extends Schema {
-  username: string;
-  farmId: number;
+  username?: string;
   faction?: FactionName;
+  sceneId: SceneId;
+  tick: number;
+
+  farmId: number;
+  experience: number;
   x: number;
   y: number;
-  experience: number;
-  tick: number;
   clothing: BumpkinParts & { updatedAt: number };
-  npc: NPCName;
-  sceneId: SceneId;
   moderation: Moderation[];
 
-  inputQueue: InputData[];
+  npc?: NPCName;
 }
 
 export interface Bud extends Schema {
-  farmId: number;
+  createdAt: number;
+  expiresAt: number;
+  authorId: number;
+  authorSessionId: string;
+  budId: string;
+  sceneId: SceneId;
   x: number;
   y: number;
-  id: number;
-  sceneId: SceneId;
-}
-
-export interface Bud extends Schema {
-  farmId: number;
-  x: number;
-  y: number;
-  sceneId: SceneId;
-  id: number;
 }
 
 export interface Message extends Schema {
-  text: string;
-  farmId?: number;
-  authorSessionId: string;
-  sceneId: SceneId;
   createdAt: number;
+  sceneId: SceneId;
+  text: string;
+  username: string;
+  authorSessionId: string;
+  authorId: number;
+  messageId: string;
 }
 
 export interface Reaction extends Schema {
+  createdAt: number;
   reaction: "heart" | "sad" | "happy";
-  quantity?: number;
-  farmId?: number;
   sessionId: string;
+  farmId: number;
   sceneId: SceneId;
-  sentAt: number;
 }
 
-export interface Action extends Schema {
-  farmId?: number;
+export interface Toast extends Schema {
+  createdAt: number;
+  reaction: "heart" | "sad" | "happy";
+  quantity: number;
+  sessionId: string;
+  farmId: number;
   sceneId: SceneId;
-  sentAt: number;
-  event: string;
-  x?: number;
-  y?: number;
 }
+
 export interface Trade extends Schema {
   text: string;
   sellerId: string;
@@ -87,7 +77,4 @@ export interface PlazaRoomState extends Schema {
   buds: MapSchema<Bud>;
 
   messages: ArraySchema<Message>;
-  reactions: ArraySchema<Reaction>;
-  trades: ArraySchema<Trade>;
-  actions: ArraySchema<Action>;
 }

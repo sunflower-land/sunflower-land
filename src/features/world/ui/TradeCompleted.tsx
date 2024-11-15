@@ -27,12 +27,11 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
   const { t } = useAppTranslation();
 
   useEffect(() => {
-    mmoService?.state?.context?.server?.state?.trades?.onAdd((trade) => {
+    mmoService?.state?.context?.server?.onMessage("trade:bought", (trade) => {
       if (trade.buyerId && Number(trade.sellerId) === farmId) {
         setTrade(trade);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { gameService } = useContext(Context);

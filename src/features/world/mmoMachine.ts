@@ -463,17 +463,23 @@ export async function fetchAvailableServers(): Promise<Server[]> {
 
 /**
  * Simple bus to send MMO events from game
+ * @class MMOBus
+ * @param {string} type - Event type
+ * @param {any} message - Event message
+ * @export MMOBus
+ * @function send
+ * @function listen
  */
 class MMOBus {
-  private listener?: (message: any) => void;
+  private listener?: (type: string, message: any) => void;
 
-  public send(message: any) {
+  public send(type: string, message: any) {
     if (this.listener) {
-      this.listener(message);
+      this.listener(type, message);
     }
   }
 
-  public listen(cb: (message: any) => void) {
+  public listen(cb: (type: string, message: any) => void) {
     this.listener = cb;
   }
 }

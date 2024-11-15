@@ -213,7 +213,7 @@ export class PlazaScene extends BaseScene {
   }
 
   updateColyseus(faction: string) {
-    this.mmoService?.state.context.server?.send(0, {
+    this.mmoService?.state.context.server?.send("player:faction:update", {
       faction,
     });
   }
@@ -591,7 +591,7 @@ export class PlazaScene extends BaseScene {
       .find((object) => object.data?.list?.id === "clubhouse_door");
 
     // TODO
-    const canAccess = Object.keys(this.gameState.buds ?? {}).length > 0;
+    const canAccess = true;
 
     if (door && canAccess) {
       this.physics.world.disable(door);
@@ -616,7 +616,7 @@ export class PlazaScene extends BaseScene {
       chest.setVisible(!isOpen);
 
       if (wasOpen === isOpen) {
-        this.mmoService?.state.context.server?.send(0, {
+        this.mmoService?.state.context.server?.send("map:clubhouse:open", {
           action: "open_clubhouse",
         });
       }
@@ -665,7 +665,7 @@ export class PlazaScene extends BaseScene {
 
       if (!this.placeables[sessionId]) {
         this.placeables[sessionId] = new PlaceableContainer({
-          sprite: `https://${budImageDomain}.sunflower-land.com/sheets/idle/${bud.id}.webp`,
+          sprite: `https://${budImageDomain}.sunflower-land.com/sheets/idle/${bud.budId}.webp`,
           x: bud.x,
           y: bud.y,
           scene: this,

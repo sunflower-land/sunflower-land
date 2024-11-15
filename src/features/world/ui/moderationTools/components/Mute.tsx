@@ -58,7 +58,7 @@ export const MuteModal: React.FC<Props> = ({
         if (r.success) {
           setMuteStatus("success");
 
-          scene.mmoService.state.context.server?.send("moderation_event", {
+          scene.mmoService.state.context.server?.send("moderation:event", {
             type: "mute",
             farmId: farmId as number,
             arg: reason,

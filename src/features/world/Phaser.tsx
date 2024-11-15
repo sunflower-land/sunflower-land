@@ -7,7 +7,12 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { MachineInterpreter, MachineState, SceneId } from "./mmoMachine";
+import {
+  MachineInterpreter,
+  MachineState,
+  mmoBus,
+  SceneId,
+} from "./mmoMachine";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -25,12 +30,10 @@ import { Context } from "features/game/GameProvider";
 import { EventObject } from "xstate";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
-import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
-import { Inventory } from "features/game/types/game";
 import { Loading } from "features/auth/components";
 import { ToastContext } from "features/game/toast/ToastProvider";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MODERATOR_IDS } from "lib/flags";
 
 // Import UIs
 import { ModerationTools } from "./ui/moderationTools/ModerationTools";
@@ -70,8 +73,6 @@ import WorldIcon from "assets/icons/world.png";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
-const _rawToken = (state: AuthMachineState) =>
-  state.context.user.rawToken ?? "";
 
 type Player = {
   playerId: string;
@@ -95,14 +96,12 @@ export type ModerationEvent = {
 interface Props {
   isCommunity: boolean;
   mmoService: MachineInterpreter;
-  inventory: Inventory;
   route: SceneId;
 }
 
 export const PhaserComponent: React.FC<Props> = ({
   isCommunity,
   mmoService,
-  inventory,
   route,
 }) => {
   const { t } = useAppTranslation();
@@ -113,7 +112,7 @@ export const PhaserComponent: React.FC<Props> = ({
   const { toastsList } = useContext(ToastContext);
   const [
     {
-      context: { state },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
 
@@ -128,23 +127,6 @@ export const PhaserComponent: React.FC<Props> = ({
   const game = useRef<Game>();
   const mmoState = useSelector(mmoService, _roomState);
   const scene = useSelector(mmoService, _scene);
-  const rawToken = useSelector(authService, _rawToken);
-
-  // Scenes
-  const scenes = [
-    Preloader,
-    new WoodlandsScene({ gameState: gameService.state.context.state }),
-    BeachScene,
-    new PlazaScene({ gameState: gameService.state.context.state }),
-    RetreatScene,
-    KingdomScene,
-    GoblinHouseScene,
-    SunflorianHouseScene,
-    NightshadeHouseScene,
-    BumpkinHouseScene,
-    ExampleAnimationScene,
-    ExampleRPGScene,
-  ];
 
   const init = useCallback(() => {
     if (game.current) {
@@ -194,7 +176,20 @@ export const PhaserComponent: React.FC<Props> = ({
           gravity: { x: 0, y: 0 },
         },
       },
-      scene: scenes,
+      scene: [
+        Preloader,
+        new WoodlandsScene({ gameState: gameService.state.context.state }),
+        BeachScene,
+        new PlazaScene({ gameState: gameService.state.context.state }),
+        RetreatScene,
+        KingdomScene,
+        GoblinHouseScene,
+        SunflorianHouseScene,
+        NightshadeHouseScene,
+        BumpkinHouseScene,
+        ExampleAnimationScene,
+        ExampleRPGScene,
+      ],
       loader: {
         crossOrigin: "anonymous",
       },
@@ -211,44 +206,13 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current.registry.set("selectedItem", selectedItem);
     game.current.registry.set("shortcutItem", shortcutItem);
 
+    // Set moderation permissions
+    setIsModerator(MODERATOR_IDS.includes(farmId));
+
     setPhaserLoaded(true);
   }, []);
 
-  const injectCommunityAPI = useCallback(() => {
-    (window as any).CommunityAPI = prepareAPI({
-      farmId: gameService.state.context.farmId,
-      jwt: rawToken,
-      gameService,
-    });
-  }, [rawToken]);
-
-  const updateModerationStatus = useCallback(() => {
-    const { wardrobe, inventory } = gameService.state.context.state;
-    const status = !!inventory["Beta Pass"] && !!wardrobe.Halo;
-
-    setIsModerator(status);
-  }, []);
-
-  const handleModerationEvent = useCallback((event: ModerationEvent) => {
-    const { farmId } = gameService.state.context;
-    if (!farmId) return;
-
-    switch (event.type) {
-      case "kick":
-        setKickEvent(event);
-        break;
-      case "mute":
-        setIsMuted(event);
-        setMuteEvent(event);
-        break;
-      default:
-        break;
-    }
-  }, []);
-
   useEffect(() => {
-    injectCommunityAPI();
-    updateModerationStatus();
     init();
 
     const listener = (e: EventObject) => {
@@ -273,11 +237,62 @@ export const PhaserComponent: React.FC<Props> = ({
       game.current?.destroy(true);
       gameService.off(listener);
     };
-  }, [init, injectCommunityAPI, updateModerationStatus]);
+  }, [init, mmoService, gameService]);
 
+  // When server changes, update game registry
   useEffect(() => {
     game.current?.registry.set("mmoServer", mmoService.state.context.server);
   }, [mmoService.state.context.server]);
+
+  // When selected item changes in context, update game registry
+  useEffect(() => {
+    game.current?.registry.set("selectedItem", selectedItem);
+  }, [selectedItem]);
+
+  // When route changes, change scene
+  useEffect(() => {
+    if (!phaserLoaded) return;
+
+    const activeScene = game.current?.scene
+      .getScenes(false)
+      .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
+
+    if (activeScene) {
+      // Stop the current scene and start the new one
+      activeScene.scene.stop();
+      game.current?.scene.start(route);
+
+      // mmoService events
+      mmoService.send("SWITCH_SCENE", { scene: route });
+      mmoService.send("UPDATE_PREVIOUS_SCENE", {
+        previousSceneId:
+          game.current?.scene.getScenes(true)[0]?.scene.key ?? scene,
+      });
+    }
+  }, [route]);
+
+  // mmoBus services & moderation events listener
+  useEffect(() => {
+    // TODO: implement moderation events
+    // ...
+
+    // 🚌
+    mmoBus.listen((type, message) => {
+      mmoService.state.context.server?.send(type, message);
+    });
+  }, [mmoService.state.context.server]);
+
+  // Toasts
+  useEffect(() => {
+    const item = toastsList.filter((t) => !t.hidden)[0];
+
+    if (item && item.difference.gt(0)) {
+      mmoService.state.context.server?.send("player:toast", {
+        icon: item.item,
+        quantity: item.difference.toNumber(),
+      });
+    }
+  }, [toastsList]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -305,24 +320,8 @@ export const PhaserComponent: React.FC<Props> = ({
         <ChatUI
           farmId={gameService.state.context.farmId}
           gameState={gameService.state.context.state}
+          mmoService={mmoService.state.context.server}
           scene={scene}
-          onMessage={(m) => {
-            mmoService.state.context.server?.send("player:message", {
-              text: m.text ?? "?",
-            });
-          }}
-          messages={[]}
-          isMuted={isMuted ? true : false}
-          onReact={(reaction) => {
-            mmoService.state.context.server?.send("player:reaction", {
-              reaction: { reaction },
-            });
-          }}
-          onBudPlace={(tokenId) => {
-            mmoService.state.context.server?.send("player:bud:place", {
-              budId: tokenId,
-            });
-          }}
         />
         {isModerator && !isCommunity && (
           <ModerationTools

@@ -1713,12 +1713,10 @@ export function startGame(authContext: AuthContext) {
                     state: event.data.farm,
                   })),
                   (_, event) => {
-                    mmoBus.send({
-                      trade: {
-                        buyerId: event.data.buyerId,
-                        sellerId: event.data.sellerId,
-                        tradeId: event.data.listingId,
-                      },
+                    mmoBus.send("trade:bought", {
+                      buyerId: event.data.buyerId,
+                      sellerId: event.data.sellerId,
+                      tradeId: event.data.listingId,
                     });
                   },
                 ],

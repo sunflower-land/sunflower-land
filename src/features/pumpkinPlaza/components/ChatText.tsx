@@ -5,16 +5,19 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SceneId } from "features/world/mmoMachine";
 
 interface Props {
   messages: {
-    farmId: number;
-    sessionId: string;
+    createdAt: number;
+    sceneId: SceneId;
     text: string;
     username: string;
+    authorSessionId: string;
+    authorId: number;
+    messageId: string;
   }[];
   onMessage: (text: string) => void;
-  onCommand: (command: string) => void;
   cooledDownAt?: number;
 }
 
@@ -31,7 +34,6 @@ const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 export const ChatText: React.FC<Props> = ({
   messages,
   onMessage,
-  onCommand,
   cooledDownAt,
 }) => {
   const ref = useRef<HTMLInputElement>();
@@ -50,12 +52,7 @@ export const ChatText: React.FC<Props> = ({
     const keyDownListener = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         event.preventDefault();
-        if (valid && !text?.trim().startsWith("/")) {
-          send();
-        } else {
-          onCommand(text);
-          setText("");
-        }
+        send();
       }
     };
 
@@ -132,7 +129,7 @@ export const ChatText: React.FC<Props> = ({
             .slice(0, 1000)
             .reverse()
             .map((message, i) => {
-              if (!message.farmId)
+              if (!message.authorId)
                 return (
                   <p key={`${i}-${message.text}`} className="text-amber-300">
                     {message.text}
@@ -141,19 +138,17 @@ export const ChatText: React.FC<Props> = ({
 
               if (message.username)
                 return (
-                  <p key={`${i}-${message.farmId}`} className="text-white">
-                    {message.username}
-                    {":"} {message.text}
+                  <p key={`${i}-${message.authorId}`} className="text-white">
+                    {`${message.username}: ${message.text}`}
                   </p>
                 );
 
               return (
                 <p
-                  key={`${i}-${message.farmId}`}
+                  key={`${i}-${message.authorId}`}
                   className="pt-0.5 -indent-6 pl-6 text-white"
                 >
-                  {`[${message.farmId}]`}
-                  {":"} {message.text}
+                  {`${message.authorId}: ${message.text}`}
                 </p>
               );
             })}
