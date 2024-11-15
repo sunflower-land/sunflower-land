@@ -804,11 +804,11 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Tomato Clown": () => canWithdrawTimebasedItem(new Date("2024-10-06")), // Last Auction 5th October
   Pyramid: () => true,
   Oasis: () => true,
-  "Moo-ver": () => false,
-  "Swiss Whiskers": () => false,
-  Cluckulator: () => false,
-  UFO: () => false,
-  "Black Sheep": () => false,
+  "Moo-ver": () => hasSeasonEnded("Bull Run"),
+  "Swiss Whiskers": () => hasSeasonEnded("Bull Run"),
+  Cluckulator: () => hasSeasonEnded("Bull Run"),
+  UFO: () => hasSeasonEnded("Bull Run"),
+  "Black Sheep": () => hasSeasonEnded("Bull Run"),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -1752,7 +1752,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Milk Apron": (state) =>
     canWithdrawBoostedWearable("Milk Apron", state) &&
     hasSeasonEnded("Bull Run"),
-  "Shepherd Staff": () => false,
+  "Shepherd Staff": () => hasSeasonEnded("Bull Run"),
   "Sol & Luna": () => false,
   "Fossil Armor": () => false,
   "Fossil Pants": () => false,
