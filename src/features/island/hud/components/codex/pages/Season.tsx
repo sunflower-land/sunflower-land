@@ -3,7 +3,6 @@ import { TicketsLeaderboard } from "./TicketsLeaderboard";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { InnerPanel } from "components/ui/Panel";
 import {
-  hasSeasonEnded,
   SEASON_TICKET_NAME,
   SeasonName,
   secondsLeftInSeason,
@@ -22,10 +21,7 @@ import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MegaStoreMonthly } from "features/world/ui/megastore/MegaStoreMonthly";
-import { MegaStoreSeasonal } from "features/world/ui/megastore/MegaStoreSeasonal";
 import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
-import { hasFeatureAccess } from "lib/flags";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 const SEASON_GRAPHICS: Record<SeasonName, string> = {
@@ -131,25 +127,9 @@ export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
           />
         </div>
       </InnerPanel>
-      {/*Update logic after release*/}
-      {hasFeatureAccess(
-        gameService.getSnapshot().context.state,
-        "SEASONAL_TIERS",
-      ) && (
-        <InnerPanel className="mb-1">
-          <SeasonalStore readonly />
-        </InnerPanel>
-      )}
-      {!hasSeasonEnded("Pharaoh's Treasure") && (
-        <InnerPanel className="mb-1">
-          <MegaStoreMonthly readonly />
-        </InnerPanel>
-      )}
-      {!hasSeasonEnded("Pharaoh's Treasure") && (
-        <InnerPanel className="mb-1">
-          <MegaStoreSeasonal readonly />
-        </InnerPanel>
-      )}
+      <InnerPanel className="mb-1">
+        <SeasonalStore readonly />
+      </InnerPanel>
       <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
       <SeasonalMutants season={season} />
       <InnerPanel className="mb-1">
