@@ -155,8 +155,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
             mmoService.send("CONTINUE");
             // BUG - need to call twice?
             mmoService.send("CONTINUE");
-            // Idk but I just wanted to call it a third time just to see what happens
-            mmoService.send("CONTINUE");
           }}
         />
       </Modal>
