@@ -19,7 +19,7 @@ import { Button } from "components/ui/Button";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "./chests/ChestRevealing";
 import { secondsToString } from "lib/utils/time";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { secondsTillReset } from "lib/utils/time";
 import { AdminSettings } from "features/island/hud/components/settings-menu/general-settings/AdminSettings";
 import { CONFIG } from "lib/config";
 

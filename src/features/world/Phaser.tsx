@@ -180,7 +180,7 @@ export const PhaserComponent: React.FC<Props> = ({
         Preloader,
         new WoodlandsScene({ gameState: gameService.state.context.state }),
         BeachScene,
-        new PlazaScene({ gameState: gameService.state.context.state }),
+        PlazaScene,
         RetreatScene,
         KingdomScene,
         GoblinHouseScene,

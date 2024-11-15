@@ -7,7 +7,6 @@ import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
 
 import { Birdie } from "./npcs/Birdie";
-import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { Bert } from "./npcs/Bert";
 import { Finn } from "./npcs/Finn";
@@ -26,7 +25,6 @@ import { KingdomChoresPanel } from "./factions/chores/KingdomChoresPanel";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
-import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
 import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
@@ -36,6 +34,7 @@ import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 import { HalloweenNPC } from "./npcs/HalloweenNPC";
+import { FlowerBounties } from "./flowerShop/FlowerBounties";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -116,7 +115,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         )}
         {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
-        {npc === "poppy" && <FlowerShop onClose={closeModal} />}
+        {npc === "poppy" && <FlowerBounties onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
@@ -185,7 +184,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           </CloseButtonPanel>
         )}
         {npc === "jafar" && <TreasureShop onClose={closeModal} />}
-        {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
             onClose={closeModal}
