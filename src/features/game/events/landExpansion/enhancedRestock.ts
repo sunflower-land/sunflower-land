@@ -47,7 +47,7 @@ export const RestockItems: Record<RestockNPC, RestockObject> = {
     gemPrice: 10,
     shopName: translate("workbench"),
     categoryLabel: {
-      name: "Workbench Tools",
+      name: translate("workbench.tools"),
       icon: ITEM_DETAILS.Axe.image,
     },
   },
@@ -56,7 +56,7 @@ export const RestockItems: Record<RestockNPC, RestockObject> = {
     gemPrice: 5,
     shopName: translate("treasure.shop"),
     categoryLabel: {
-      name: "Treasure Tools",
+      name: translate("treasure.tools"),
       icon: ITEM_DETAILS["Sand Shovel"].image,
     },
   },

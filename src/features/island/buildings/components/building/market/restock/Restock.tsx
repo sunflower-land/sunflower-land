@@ -160,20 +160,20 @@ const RestockSelectionModal: React.FC<{
               <Button
                 onClick={() => setShowEnhancedConfirm(true)}
                 disabled={!hasEnoughGems}
-                className="justify-between relative text-xs w-20 h-10"
+                className="justify-between relative text-xs w-20 h-auto"
               >
                 <div className="flex flex-row items-center h-4 ">
                   <p>{gemPrice}</p>
                   <img
                     src={ITEM_DETAILS["Gem"].image}
-                    className="h-5 absolute right-1 top-0"
+                    className="h-5 absolute right-1 top-1"
                   />
                 </div>
               </Button>
             </div>
             <div className="flex flex-col ml-1 mb-0.5">
               <span className="text-xs mb-1">{t("restocks")}</span>
-              <Label type="default" icon={icon} className="ml-1">
+              <Label type="default" icon={icon} className="ml-1 capitalize">
                 {name}
               </Label>
             </div>
@@ -186,13 +186,13 @@ const RestockSelectionModal: React.FC<{
               <Button
                 onClick={() => setShowConfirm(true)}
                 disabled={!hasGemsFullRestock}
-                className="justify-between relative text-xs w-20 h-10"
+                className="justify-between relative text-xs w-20 h-auto"
               >
-                <div className="flex flex-row items-center h-4 ">
+                <div className="flex flex-row items-center h-4">
                   <p>{20}</p>
                   <img
                     src={ITEM_DETAILS["Gem"].image}
-                    className="h-5 absolute right-1 top-0"
+                    className="h-5 absolute right-1 top-1"
                   />
                 </div>
               </Button>
@@ -207,7 +207,7 @@ const RestockSelectionModal: React.FC<{
                       key={npc}
                       type="default"
                       icon={icon}
-                      className="mb-1 ml-1"
+                      className="mb-1 ml-1 capitalize"
                     >
                       {name}
                     </Label>

@@ -3748,6 +3748,8 @@
   "market": "market",
   "workbench": "workbench",
   "treasure.shop": "treasure shop",
+  "workbench.tools": "workbench tools",
+  "treasure.tools": "treasure tools",
   "gems.restockToMaxStock": "Restocks up to maximum stock",
   "gems.noShipment": "No Shipment",
   "gems.buyStock": "Please buy your stock to get your shipment.",
