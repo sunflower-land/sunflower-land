@@ -31,20 +31,26 @@ interface RestockModalProps {
     seconds: number;
   };
   npc: RestockNPC;
+  hasGemExperiment: boolean;
 }
 
 export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
   onClose,
   shipmentTime,
   npc,
+  hasGemExperiment,
 }) => {
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
 
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
-  const canRestock = gameState.context.state.inventory["Gem"]?.gte(20);
+  const canRestock = state.inventory["Gem"]?.gte(20);
 
   const handleRestock = () => {
     if (!canRestock) {
@@ -68,7 +74,7 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
   };
 
   const getRestockAmount = (item: StockableName, amount: Decimal): Decimal => {
-    const remainingStock = gameState.context.state.stock[item];
+    const remainingStock = state.stock[item];
 
     // If there's no stock left
     if (!remainingStock) {
@@ -80,7 +86,7 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
     }
   };
 
-  const restockTools = Object.entries(INITIAL_STOCK(gameState.context.state))
+  const restockTools = Object.entries(INITIAL_STOCK(state))
     .filter((item) => {
       if (npc === "blacksmith") {
         return item[0] in WORKBENCH_TOOLS;
@@ -94,7 +100,7 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
       return restockAmount.gt(0);
     });
 
-  const restockSeeds = Object.entries(INITIAL_STOCK(gameState.context.state))
+  const restockSeeds = Object.entries(INITIAL_STOCK(state))
     .filter((item) => npc === "betty" && item[0] in SEEDS())
     .filter(([item, amount]) => {
       const restockAmount = getRestockAmount(item as StockableName, amount);
@@ -172,7 +178,7 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
         )}
       </div>
       <p className="text-xs p-1 pb-1.5 italic">{t("gems.restockToMaxStock")}</p>
-      {shipmentTime && (
+      {hasGemExperiment && shipmentTime && (
         <div className="px-1 text-xs flex flex-wrap mb-2">
           <span className="mr-2">{t("gems.nextFreeShipment")}</span>
           <TimerDisplay time={shipmentTime} />

@@ -104,7 +104,10 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
               hasGemExperiment={hasGemExperiment}
             />
           ) : (
-            <FullRestockModal onClose={hideConfirmModal} />
+            <FullRestockModal
+              onClose={hideConfirmModal}
+              hasGemExperiment={hasGemExperiment}
+            />
           )}
         </CloseButtonPanel>
       </Modal>
@@ -227,12 +230,14 @@ const RestockSelectionModal: React.FC<{
           onClose={() => setShowEnhancedConfirm(false)}
           shipmentTime={shipmentTime}
           npc={npc}
+          hasGemExperiment={hasGemExperiment}
         />
       )}
       {showConfirm && (
         <FullRestockModal
           onClose={() => setShowConfirm(false)}
           shipmentTime={shipmentTime}
+          hasGemExperiment={hasGemExperiment}
         />
       )}
     </>
