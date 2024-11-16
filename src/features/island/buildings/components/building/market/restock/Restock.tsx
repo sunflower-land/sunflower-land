@@ -24,7 +24,6 @@ import { FullRestockModal } from "./FullRestockModal";
 import { ShipmentRestockModal } from "./ShipmentRestockModal";
 import { EnhancedRestockModal } from "./EnhancedRestockModal";
 import { Label } from "components/ui/Label";
-import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/decorations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
@@ -134,12 +133,6 @@ const RestockSelectionModal: React.FC<{
   const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
 
   const { ...shipmentTime } = shipmentAt;
-  const hasEnoughGems = (state.inventory.Gem ?? new Decimal(0)).gte(
-    new Decimal(gemPrice),
-  );
-  const hasGemsFullRestock = (state.inventory.Gem ?? new Decimal(0)).gte(
-    new Decimal(20),
-  );
 
   return (
     <>
@@ -159,7 +152,6 @@ const RestockSelectionModal: React.FC<{
               </Label>
               <Button
                 onClick={() => setShowEnhancedConfirm(true)}
-                disabled={!hasEnoughGems}
                 className="justify-between relative text-xs w-20 h-auto"
               >
                 <div className="flex flex-row items-center h-4 ">
@@ -185,7 +177,6 @@ const RestockSelectionModal: React.FC<{
               </Label>
               <Button
                 onClick={() => setShowConfirm(true)}
-                disabled={!hasGemsFullRestock}
                 className="justify-between relative text-xs w-20 h-auto"
               >
                 <div className="flex flex-row items-center h-4">

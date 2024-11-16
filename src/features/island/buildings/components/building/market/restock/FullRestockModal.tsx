@@ -7,7 +7,6 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import stockIcon from "assets/icons/stock.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BB_TO_GEM_RATIO } from "features/game/types/game";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 
 import { Label } from "components/ui/Label";
@@ -56,7 +55,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
 
     gameAnalytics.trackSink({
       currency: "Gem",
-      amount: 1 * BB_TO_GEM_RATIO,
+      amount: 20,
       item: "Stock",
       type: "Fee",
     });
@@ -91,10 +90,6 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
       const restockAmount = getRestockAmount(item as StockableName, amount);
       return restockAmount.gt(0);
     });
-
-  const hasGemsFullRestock = (state.inventory.Gem ?? new Decimal(0)).gte(
-    new Decimal(20),
-  );
 
   return (
     <>
@@ -152,11 +147,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
       )}
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
-        <Button
-          className="relative"
-          onClick={handleRestock}
-          disabled={!hasGemsFullRestock}
-        >
+        <Button className="relative" onClick={handleRestock}>
           {`${t("restock")} 20`}
           <img
             src={ITEM_DETAILS["Gem"].image}
