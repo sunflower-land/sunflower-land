@@ -103,7 +103,7 @@ export const AcceptOffer: React.FC<{
             <Label type="default" className="-ml-1">
               {t("marketplace.acceptOffer")}
             </Label>
-            {tradeable?.type === "onchain" && (
+            {offer.type === "onchain" && (
               <Label type="formula" icon={walletIcon} className="-mr-1">
                 {t("marketplace.walletRequired")}
               </Label>
@@ -129,7 +129,7 @@ export const AcceptOffer: React.FC<{
             className="relative"
           >
             <span>{t("confirm")}</span>
-            {tradeable?.type === "onchain" && (
+            {offer.type === "onchain" && (
               <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
             )}
           </Button>
@@ -138,7 +138,7 @@ export const AcceptOffer: React.FC<{
     );
   };
 
-  if (tradeable?.type === "onchain") {
+  if (offer.type === "onchain") {
     return (
       <GameWallet action="marketplace">
         <Content />
