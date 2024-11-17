@@ -150,24 +150,28 @@ const RestockSelectionModal: React.FC<{
               <Label type="default" className="capitalize">
                 {t("restock.shop", { shopName })}
               </Label>
-              <Button
-                onClick={() => setShowEnhancedConfirm(true)}
-                className="justify-between relative text-xs w-20 h-auto"
-              >
-                <div className="flex flex-row items-center h-4 ">
-                  <p>{gemPrice}</p>
-                  <img
-                    src={ITEM_DETAILS["Gem"].image}
-                    className="h-5 absolute right-1 top-1"
-                  />
-                </div>
-              </Button>
             </div>
-            <div className="flex flex-col ml-1 mb-0.5">
-              <span className="text-xs mb-1">{t("restocks")}</span>
-              <Label type="default" icon={icon} className="ml-1 capitalize">
-                {labelText}
-              </Label>
+            <div className="flex justify-between w-full mb-1">
+              <div className="flex flex-col ml-1 mb-0.5">
+                <span className="text-xs mb-1">{t("restocks")}</span>
+                <Label type="default" icon={icon} className="ml-1 capitalize">
+                  {labelText}
+                </Label>
+              </div>
+              <div className="flex flex-col justify-end">
+                <Button
+                  onClick={() => setShowEnhancedConfirm(true)}
+                  className="justify-between relative text-xs w-20 h-10"
+                >
+                  <div className="flex flex-row items-center h-4 ">
+                    <p>{gemPrice}</p>
+                    <img
+                      src={ITEM_DETAILS["Gem"].image}
+                      className="h-5 absolute right-1 top-0"
+                    />
+                  </div>
+                </Button>
+              </div>
             </div>
           </OuterPanel>
           <OuterPanel className="mt-1">
@@ -175,35 +179,39 @@ const RestockSelectionModal: React.FC<{
               <Label type="default" className="capitalize">
                 {t("restock.full")}
               </Label>
-              <Button
-                onClick={() => setShowConfirm(true)}
-                className="justify-between relative text-xs w-20 h-auto"
-              >
-                <div className="flex flex-row items-center h-4">
-                  <p>{20}</p>
-                  <img
-                    src={ITEM_DETAILS["Gem"].image}
-                    className="h-5 absolute right-1 top-1"
-                  />
-                </div>
-              </Button>
             </div>
-            <div className="flex flex-col ml-1 mb-0.5">
-              <span className="text-xs mb-1">{t("restocks")}</span>
-              <div>
-                {getKeys(RestockItems).map((npc) => {
-                  const { labelText, icon } = RestockItems[npc].categoryLabel;
-                  return (
-                    <Label
-                      key={npc}
-                      type="default"
-                      icon={icon}
-                      className="mb-1 ml-1 capitalize"
-                    >
-                      {labelText}
-                    </Label>
-                  );
-                })}
+            <div className="flex justify-between w-full mb-1">
+              <div className="flex flex-col ml-1 mb-0.5">
+                <span className="text-xs">{t("restocks")}</span>
+                <div>
+                  {getKeys(RestockItems).map((npc) => {
+                    const { labelText, icon } = RestockItems[npc].categoryLabel;
+                    return (
+                      <Label
+                        key={npc}
+                        type="default"
+                        icon={icon}
+                        className="mt-1 ml-1 capitalize"
+                      >
+                        {labelText}
+                      </Label>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex flex-col justify-end">
+                <Button
+                  onClick={() => setShowConfirm(true)}
+                  className="justify-between relative text-xs w-20 h-10"
+                >
+                  <div className="flex flex-row items-center h-4">
+                    <p>{20}</p>
+                    <img
+                      src={ITEM_DETAILS["Gem"].image}
+                      className="h-5 absolute right-1 top-0"
+                    />
+                  </div>
+                </Button>
               </div>
             </div>
           </OuterPanel>
