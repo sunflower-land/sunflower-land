@@ -21,7 +21,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -61,7 +60,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -101,7 +99,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -141,7 +138,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [cowId]: {
-              coordinates: { x: 0, y: 0 },
               id: cowId,
               type: "Cow",
               createdAt: 0,
@@ -203,7 +199,6 @@ describe("feedAnimal", () => {
             ...INITIAL_FARM.barn,
             animals: {
               [cowId]: {
-                coordinates: { x: 0, y: 0 },
                 id: cowId,
                 type: "Cow",
                 createdAt: 0,
@@ -241,7 +236,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [cowId]: {
-              coordinates: { x: 0, y: 0 },
               id: cowId,
               type: "Cow",
               createdAt: 0,
@@ -282,7 +276,6 @@ describe("feedAnimal", () => {
             ...INITIAL_FARM.henHouse,
             animals: {
               [chickenId]: {
-                coordinates: { x: 0, y: 0 },
                 id: chickenId,
                 type: "Chicken",
                 createdAt: 0,
@@ -320,7 +313,6 @@ describe("feedAnimal", () => {
             ...INITIAL_FARM.henHouse,
             animals: {
               [chickenId]: {
-                coordinates: { x: 0, y: 0 },
                 id: chickenId,
                 type: "Chicken",
                 createdAt: 0,
@@ -368,7 +360,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -417,7 +408,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -467,7 +457,6 @@ describe("feedAnimal", () => {
             ...INITIAL_FARM.barn,
             animals: {
               [cowId]: {
-                coordinates: { x: 0, y: 0 },
                 id: cowId,
                 type: "Cow",
                 createdAt: 0,
@@ -506,7 +495,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -546,7 +534,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -586,7 +573,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -626,7 +612,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -669,7 +654,6 @@ describe("feedAnimal", () => {
             ...INITIAL_FARM.henHouse,
             animals: {
               [chickenId]: {
-                coordinates: { x: 0, y: 0 },
                 id: chickenId,
                 type: "Chicken",
                 createdAt: 0,
@@ -705,7 +689,6 @@ describe("feedAnimal", () => {
             ...INITIAL_FARM.henHouse,
             animals: {
               [chickenId]: {
-                coordinates: { x: 0, y: 0 },
                 id: chickenId,
                 type: "Chicken",
                 createdAt: 0,
@@ -745,7 +728,6 @@ describe("feedAnimal", () => {
             ...INITIAL_FARM.henHouse,
             animals: {
               [chickenId]: {
-                coordinates: { x: 0, y: 0 },
                 id: chickenId,
                 type: "Chicken",
                 createdAt: 0,
@@ -995,7 +977,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             "0": {
-              coordinates: { x: 0, y: 0 },
               id: "0",
               type: "Chicken",
               createdAt: 0,
@@ -1048,7 +1029,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             "0": {
-              coordinates: { x: 0, y: 0 },
               id: "0",
               type: "Chicken",
               createdAt: 0,
@@ -1091,7 +1071,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             "0": {
-              coordinates: { x: 0, y: 0 },
               id: "0",
               type: "Chicken",
               createdAt: 0,
@@ -1169,7 +1148,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             "0": {
-              coordinates: { x: 0, y: 0 },
               id: "0",
               type: "Chicken",
               createdAt: 0,
@@ -1215,7 +1193,6 @@ describe("feedAnimal", () => {
           ...INITIAL_FARM.barn,
           animals: {
             "0": {
-              coordinates: { x: 0, y: 0 },
               id: "0",
               type: "Cow",
               createdAt: 0,
