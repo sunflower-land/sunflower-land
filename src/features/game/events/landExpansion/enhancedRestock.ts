@@ -1,10 +1,11 @@
+import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS } from "features/game/types/seeds";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { NPCName } from "lib/npcs";
@@ -39,7 +40,7 @@ export const RestockItems: Record<RestockNPC, Restock> = {
     shopName: translate("market"),
     categoryLabel: {
       labelText: translate("seeds"),
-      icon: ITEM_DETAILS["Sunflower Seed"].image,
+      icon: CROP_LIFECYCLE.Sunflower.seed,
     },
   },
   blacksmith: {
@@ -48,7 +49,7 @@ export const RestockItems: Record<RestockNPC, Restock> = {
     shopName: translate("workbench"),
     categoryLabel: {
       labelText: translate("workbench.tools"),
-      icon: ITEM_DETAILS.Axe.image,
+      icon: SUNNYSIDE.tools.axe,
     },
   },
   jafar: {
@@ -57,7 +58,7 @@ export const RestockItems: Record<RestockNPC, Restock> = {
     shopName: translate("treasure.shop"),
     categoryLabel: {
       labelText: translate("treasure.tools"),
-      icon: ITEM_DETAILS["Sand Shovel"].image,
+      icon: SUNNYSIDE.tools.sand_shovel,
     },
   },
 };
