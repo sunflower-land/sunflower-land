@@ -14,7 +14,6 @@ export type CookingBuildingName =
 
 export type BuildingName =
   | CookingBuildingName
-  | "Smoothie Shack"
   | "Market"
   | "Town Center"
   | "Workbench"
