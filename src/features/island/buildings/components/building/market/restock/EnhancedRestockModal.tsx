@@ -47,7 +47,8 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
     },
   ] = useActor(gameService);
 
-  const canRestock = state.inventory["Gem"]?.gte(20);
+  const { gemPrice, shopName, restockItem, categoryLabel } = RestockItems[npc];
+  const canRestock = state.inventory["Gem"]?.gte(gemPrice);
 
   const handleRestock = () => {
     if (!canRestock) {
@@ -83,7 +84,6 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
     }
   };
 
-  const { gemPrice, shopName, restockItem, categoryLabel } = RestockItems[npc];
   const { labelText, icon } = categoryLabel;
 
   const restockItems = Object.entries(INITIAL_STOCK(state))
