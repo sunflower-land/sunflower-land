@@ -4341,5 +4341,6 @@
   "marketplace.itemSold": "Barang terjual",
   "marketplace.congratulationsItemSold": "Selamat, barang Anda telah terjual!",
   "withdraw.taxFree": "Goblin mengenakan pajak atas SFL yang diperoleh dalam game. Ini tidak termasuk deposito & pasar.",
-  "marketplace.youHaveHadSales": "Barang Anda dijual saat Anda pergi!"
+  "marketplace.youHaveHadSales": "Barang Anda dijual saat Anda pergi!",
+  "bounties.board.ticketAmount": "Jumlah {{seasonalTicket}} s akan bervariasi setiap minggu berdasarkan permintaan."
 }

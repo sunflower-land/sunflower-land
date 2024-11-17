@@ -4341,5 +4341,6 @@
   "marketplace.itemSold": "Товар продан",
   "marketplace.congratulationsItemSold": "Поздравляем, ваш товар продан!",
   "withdraw.taxFree": "Гоблины облагают вас налогом на SFL, заработанные в игре. Сюда не входят депозиты и рынок.",
-  "marketplace.youHaveHadSales": "Ваш товар (ы) продан, пока вас не было!"
+  "marketplace.youHaveHadSales": "Ваш товар (ы) продан, пока вас не было!",
+  "bounties.board.ticketAmount": "Сумма {{seasonalTicket}} будет меняться каждую неделю в зависимости от запросов."
 }

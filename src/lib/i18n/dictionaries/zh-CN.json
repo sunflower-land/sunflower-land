@@ -4341,5 +4341,6 @@
   "marketplace.itemSold": "物品已售出",
   "marketplace.congratulationsItemSold": "恭喜，你的物品已售出！",
   "withdraw.taxFree": "哥布林会根据游戏中获得的 SFL 向你征税。这不包括存款和市场。",
-  "marketplace.youHaveHadSales": "你不在的时候卖掉了物品！"
+  "marketplace.youHaveHadSales": "你不在的时候卖掉了物品！",
+  "bounties.board.ticketAmount": "{{seasonalTicket}} 的金额每周将根据请求而有所不同。"
 }

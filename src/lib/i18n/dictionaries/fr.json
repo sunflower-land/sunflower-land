@@ -4341,5 +4341,6 @@
   "marketplace.itemSold": "Article vendu",
   "marketplace.congratulationsItemSold": "Félicitations, votre article est vendu !",
   "withdraw.taxFree": "Les gobelins vous taxent sur la SFL gagnée en jeu. Cela exclut les dépôts et le marché.",
-  "marketplace.youHaveHadSales": "Vos articles ont été vendus pendant votre absence !"
+  "marketplace.youHaveHadSales": "Vos articles ont été vendus pendant votre absence !",
+  "bounties.board.ticketAmount": "Le montant de {{seasonalTicket}} s variera chaque semaine en fonction des demandes."
 }

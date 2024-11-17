@@ -4341,5 +4341,6 @@
   "marketplace.itemSold": "Item dijual",
   "marketplace.congratulationsItemSold": "Tahniah, item anda telah dijual!",
   "withdraw.taxFree": "Goblin mengenakan cukai anda ke atas SFL yang diperoleh dalam permainan. Ini tidak termasuk deposit & pasaran.",
-  "marketplace.youHaveHadSales": "Item anda dijual semasa anda tiada!"
+  "marketplace.youHaveHadSales": "Item anda dijual semasa anda tiada!",
+  "bounties.board.ticketAmount": "Jumlah {{seasonalTicket}} s akan berbeza-beza setiap minggu berdasarkan permintaan."
 }

@@ -3773,6 +3773,7 @@
   "bounties.animal.intro.three": "Every week, I'll have fresh deals for you. Bring me your finest animals, and I'll make it worth your while. Just... don't ask too many questions!",
   "bounties.board": "Bounty board",
   "bounties.board.info": "Trade this week's bounties before time runs out.",
+  "bounties.board.ticketAmount": "The amount of {{seasonalTicket}}s will vary each week based on the requests.",
   "bounties.board.empty": "There are no deals available right now.",
   "bounties.sold": "Sold",
   "bounties.sell.coins": "Are you sure you want to sell this for {{amount}} coins?",
