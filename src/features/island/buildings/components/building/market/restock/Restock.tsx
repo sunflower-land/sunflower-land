@@ -130,7 +130,13 @@ const RestockSelectionModal: React.FC<{
             <span className="mb-1">
               {t("restock.outOfStock", { npc: capitalize(npc) })}
             </span>
-            <span>{t("restock.selectOption")}</span>
+            <p>
+              {t(
+                hasEnhancedRestockAccess || hasGemExperiment
+                  ? "restock.selectOption"
+                  : "restock.moreStock",
+              )}
+            </p>
           </div>
           {hasEnhancedRestockAccess && (
             <Button
@@ -208,7 +214,9 @@ const RestockSelectionModal: React.FC<{
               onClick={() => setShowShipmentConfirm(true)}
               disabled={!showShipment}
             >
-              <p className="capitalize text-left p-1 mb-1">{`Daily Shipment Restock`}</p>
+              <p className="capitalize text-left p-1 mb-1">
+                {t("restock.dailyShipment")}
+              </p>
               <div className="flex w-full mb-1">
                 <div className="pb-1 mr-2 w-11">
                   <div className="absolute left-0">
@@ -227,14 +235,14 @@ const RestockSelectionModal: React.FC<{
                     icon={CROP_LIFECYCLE.Sunflower.seed}
                     className="mt-1 ml-1 capitalize"
                   >
-                    {`Basic Seeds`}
+                    {t("basic.seeds")}
                   </Label>
                   <Label
                     type="default"
                     icon={CROP_LIFECYCLE.Carrot.seed}
                     className="mt-1 ml-1 capitalize"
                   >
-                    {`Medium Seeds`}
+                    {t("medium.seeds")}
                   </Label>
                   <Label
                     type="default"
