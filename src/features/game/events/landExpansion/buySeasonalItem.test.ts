@@ -13,7 +13,7 @@ describe("buySeasonalItem", () => {
     wardrobe: {},
   };
 
-  const mockDate = new Date("2024-08-01T00:00:00Z").getTime();
+  const mockDate = new Date("2024-11-01T00:00:00Z").getTime();
 
   // Remove beforeEach and afterEach hooks
 
