@@ -1,12 +1,12 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { enhancedRestock } from "./enhancedRestock";
+import { npcRestock } from "./npcRestock";
 import Decimal from "decimal.js-light";
 import { PlacedItem } from "features/game/types/game";
 
-describe("enhancedRestock", () => {
+describe("npcRestock", () => {
   it("throws an error if player doesn't have enough gems for restock", () => {
     expect(() => {
-      enhancedRestock({
+      npcRestock({
         state: {
           ...INITIAL_FARM,
           inventory: {
@@ -15,7 +15,7 @@ describe("enhancedRestock", () => {
           },
         },
         action: {
-          type: "shops.restocked.enhanced",
+          type: "npc.restocked",
           npc: "betty",
         },
       });
@@ -23,7 +23,7 @@ describe("enhancedRestock", () => {
   });
 
   it("restocks only the market", () => {
-    const state = enhancedRestock({
+    const state = npcRestock({
       state: {
         ...INITIAL_FARM,
         inventory: {
@@ -37,7 +37,7 @@ describe("enhancedRestock", () => {
         },
       },
       action: {
-        type: "shops.restocked.enhanced",
+        type: "npc.restocked",
         npc: "betty",
       },
     });
@@ -46,7 +46,7 @@ describe("enhancedRestock", () => {
     expect(state.stock.Axe).toEqual(new Decimal(100));
   });
   it("restocks only the workbench", () => {
-    const state = enhancedRestock({
+    const state = npcRestock({
       state: {
         ...INITIAL_FARM,
         inventory: {
@@ -60,7 +60,7 @@ describe("enhancedRestock", () => {
         },
       },
       action: {
-        type: "shops.restocked.enhanced",
+        type: "npc.restocked",
         npc: "blacksmith",
       },
     });
@@ -69,7 +69,7 @@ describe("enhancedRestock", () => {
     expect(state.stock.Axe).toEqual(new Decimal(200));
   });
   it("restocks only the treasure shop tools", () => {
-    const state = enhancedRestock({
+    const state = npcRestock({
       state: {
         ...INITIAL_FARM,
         inventory: {
@@ -84,7 +84,7 @@ describe("enhancedRestock", () => {
         },
       },
       action: {
-        type: "shops.restocked.enhanced",
+        type: "npc.restocked",
         npc: "jafar",
       },
     });
@@ -101,7 +101,7 @@ describe("enhancedRestock", () => {
       createdAt: 0,
       readyAt: 0,
     };
-    const state = enhancedRestock({
+    const state = npcRestock({
       state: {
         ...INITIAL_FARM,
         inventory: {
@@ -120,7 +120,7 @@ describe("enhancedRestock", () => {
         },
       },
       action: {
-        type: "shops.restocked.enhanced",
+        type: "npc.restocked",
         npc: "betty",
       },
     });
@@ -136,7 +136,7 @@ describe("enhancedRestock", () => {
       createdAt: 0,
       readyAt: 0,
     };
-    const state = enhancedRestock({
+    const state = npcRestock({
       state: {
         ...INITIAL_FARM,
         inventory: {
@@ -155,7 +155,7 @@ describe("enhancedRestock", () => {
         },
       },
       action: {
-        type: "shops.restocked.enhanced",
+        type: "npc.restocked",
         npc: "blacksmith",
       },
     });
@@ -171,7 +171,7 @@ describe("enhancedRestock", () => {
       createdAt: 0,
       readyAt: 0,
     };
-    const state = enhancedRestock({
+    const state = npcRestock({
       state: {
         ...INITIAL_FARM,
         inventory: {
@@ -190,7 +190,7 @@ describe("enhancedRestock", () => {
         },
       },
       action: {
-        type: "shops.restocked.enhanced",
+        type: "npc.restocked",
         npc: "jafar",
       },
     });

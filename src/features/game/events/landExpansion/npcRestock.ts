@@ -13,14 +13,14 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 export type RestockNPC = Extract<NPCName, "betty" | "jafar" | "blacksmith">;
 
-export type EnhancedRestockAction = {
-  type: "shops.restocked.enhanced";
+export type NPCRestockAction = {
+  type: "npc.restocked";
   npc: RestockNPC;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: EnhancedRestockAction;
+  action: NPCRestockAction;
 };
 
 type Restock = {
@@ -63,7 +63,7 @@ export const RestockItems: Record<RestockNPC, Restock> = {
   },
 };
 
-export function enhancedRestock({ state, action }: Options): GameState {
+export function npcRestock({ state, action }: Options): GameState {
   return produce(state, (game) => {
     const gems = game.inventory["Gem"] ?? new Decimal(0);
     const { npc } = action;

@@ -415,10 +415,7 @@ import {
 } from "./landExpansion/sacrificeBear";
 import { buyMoreReels, BuyMoreReelsAction } from "./landExpansion/buyMoreReels";
 import { ClaimPurchaseAction, claimPurchase } from "./claimPurchase";
-import {
-  enhancedRestock,
-  EnhancedRestockAction,
-} from "./landExpansion/enhancedRestock";
+import { npcRestock, NPCRestockAction } from "./landExpansion/npcRestock";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -469,7 +466,7 @@ export type PlayingEvent =
   | CraftCollectibleAction
   | SellTreasureAction
   | RestockAction
-  | EnhancedRestockAction
+  | NPCRestockAction
   | SellGarbageAction
   // Chores
   | CompleteChoreAction
@@ -666,7 +663,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.crafted": craftCollectible,
   "treasure.sold": sellTreasure,
   "shops.restocked": restock,
-  "shops.restocked.enhanced": enhancedRestock,
+  "npc.restocked": npcRestock,
   "garbage.sold": sellGarbage,
   "chore.completed": completeChore,
   "chore.skipped": skipChore,

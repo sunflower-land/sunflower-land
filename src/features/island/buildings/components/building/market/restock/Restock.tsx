@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 import {
   RestockItems,
   RestockNPC,
-} from "features/game/events/landExpansion/enhancedRestock";
+} from "features/game/events/landExpansion/npcRestock";
 import {
   nextShipmentAt,
   canRestockShipment,
@@ -20,7 +20,7 @@ import stockIcon from "assets/icons/stock.webp";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { NPC_WEARABLES } from "lib/npcs";
 import { FullRestockModal } from "./FullRestockModal";
-import { EnhancedRestockModal } from "./EnhancedRestockModal";
+import { NPCRestockModal } from "./NPCRestockModal";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/decorations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -115,7 +115,7 @@ const RestockSelectionModal: React.FC<{
   const { shopName, gemPrice, categoryLabel } = RestockItems[npc];
   const { labelText, icon } = categoryLabel;
   const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
-  const hasEnhancedRestockAccess = hasFeatureAccess(state, "ENHANCED_RESTOCK");
+  const hasnpcRestockAccess = hasFeatureAccess(state, "ENHANCED_RESTOCK");
 
   const { ...shipmentTime } = shipmentAt;
 
@@ -130,15 +130,8 @@ const RestockSelectionModal: React.FC<{
             <span className="mb-1">
               {t("restock.outOfStock", { npc: capitalize(npc) })}
             </span>
-            <p>
-              {t(
-                hasEnhancedRestockAccess || hasGemExperiment
-                  ? "restock.selectOption"
-                  : "restock.moreStock",
-              )}
-            </p>
           </div>
-          {hasEnhancedRestockAccess && (
+          {hasnpcRestockAccess && (
             <Button
               onClick={() => setShowEnhancedConfirm(true)}
               disabled={showShipment}
@@ -281,7 +274,7 @@ const RestockSelectionModal: React.FC<{
         </>
       )}
       {showEnhancedConfirm && (
-        <EnhancedRestockModal
+        <NPCRestockModal
           onClose={() => setShowEnhancedConfirm(false)}
           shipmentTime={shipmentTime}
           npc={npc}

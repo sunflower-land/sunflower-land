@@ -17,7 +17,7 @@ import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 import {
   RestockItems,
   RestockNPC,
-} from "features/game/events/landExpansion/enhancedRestock";
+} from "features/game/events/landExpansion/npcRestock";
 
 interface RestockModalProps {
   onClose: () => void;
@@ -30,7 +30,7 @@ interface RestockModalProps {
   hasGemExperiment: boolean;
 }
 
-export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
+export const NPCRestockModal: React.FC<RestockModalProps> = ({
   onClose,
   shipmentTime,
   npc,
@@ -55,7 +55,7 @@ export const EnhancedRestockModal: React.FC<RestockModalProps> = ({
       return;
     }
 
-    gameService.send("shops.restocked.enhanced", {
+    gameService.send("npc.restocked", {
       npc,
     });
 
