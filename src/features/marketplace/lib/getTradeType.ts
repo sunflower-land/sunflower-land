@@ -1248,20 +1248,39 @@ export const ITEM_TRADE_TYPES: Record<
   "Egg Basket": "instant",
 };
 
+// Anything above this limit must be done onchain
+export const MAX_INSTANT_SFL_TRADE = 250;
+
 export const getTradeType = ({
   collection,
   id,
+  trade,
 }: {
   collection: CollectionName;
   id: number;
+  trade: {
+    sfl: number;
+  };
 }) => {
   if (collection === "buds") return "onchain";
   if (collection === "wearables") {
     const item = ITEM_NAMES[id];
 
+    if (trade.sfl > MAX_INSTANT_SFL_TRADE) {
+      return "onchain";
+    }
+
     return ITEM_TRADE_TYPES[item];
   }
 
-  // Resources + Collectibles
+  if (collection === "collectibles") {
+    if (trade.sfl > MAX_INSTANT_SFL_TRADE) {
+      return "onchain";
+    }
+
+    return ITEM_TRADE_TYPES[KNOWN_ITEMS[id]];
+  }
+
+  // Resources
   return ITEM_TRADE_TYPES[KNOWN_ITEMS[id]];
 };

@@ -6,7 +6,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ContentComponentProps } from "../GameOptions";
 import { readContract } from "viem/actions";
-import { createPublicClient, encodePacked, http } from "viem";
+import { createPublicClient, encodePacked, http, keccak256 } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";
 import { CONFIG } from "lib/config";
 
@@ -95,10 +95,10 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       const getOnChainMax = async (wearableName: string) => {
         const id = ITEM_IDS[wearableName as BumpkinItem];
 
-        const storage = encodePacked(["uint256, uint"], [id, 9] as any);
+        const storage = encodePacked(["uint256", "uint256"], [id, 9] as any);
         const hex = await publicClient.getStorageAt({
           address: gameContract,
-          slot: storage,
+          slot: keccak256(storage),
         });
 
         return parseInt(hex as any, 16);

@@ -18,7 +18,6 @@ describe("cureAnimal", () => {
         ...TEST_FARM.henHouse,
         animals: {
           [chickenId]: {
-            coordinates: { x: 0, y: 0 },
             id: chickenId,
             type: "Chicken",
             createdAt: 0,
@@ -54,7 +53,6 @@ describe("cureAnimal", () => {
         ...TEST_FARM.henHouse,
         animals: {
           [chickenId]: {
-            coordinates: { x: 0, y: 0 },
             id: chickenId,
             type: "Chicken",
             createdAt: 0,
@@ -116,7 +114,6 @@ describe("cureAnimal", () => {
         ...TEST_FARM.henHouse,
         animals: {
           [chickenId]: {
-            coordinates: { x: 0, y: 0 },
             id: chickenId,
             type: "Chicken",
             createdAt: 0,

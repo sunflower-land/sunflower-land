@@ -24,7 +24,7 @@ interface Props {
   name: ComposterName;
 }
 export const Composter: React.FC<Props> = ({ name }) => {
-  const { gameService, showTimers } = useContext(Context);
+  const { gameService, showAnimations, showTimers } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   const [renderKey, setRender] = useState<number>(0);
@@ -155,7 +155,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
         >
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="ready"
+            className={showAnimations ? "ready" : ""}
             style={{
               width: `${PIXEL_SCALE * 4}px`,
             }}

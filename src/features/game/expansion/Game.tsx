@@ -42,6 +42,7 @@ import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
 import { OffersPopup } from "./components/Offers";
+import { MarketplaceSalesPopup } from "./components/MarketplaceSalesPopup";
 import { isBuildingReady, PIXEL_SCALE, TEST_FARM } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
@@ -137,6 +138,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   blacklisted: true,
   airdrop: true,
   offers: true,
+  marketplaceSale: true,
   portalling: true,
   provingPersonhood: false,
   sellMarketResource: false,
@@ -209,6 +211,8 @@ const isEffectFailure = (state: MachineState) =>
   Object.values(EFFECT_EVENTS).some((stateName) =>
     state.matches(`${stateName}Failure`),
   );
+const hasMarketplaceSales = (state: MachineState) =>
+  state.matches("marketplaceSale");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -369,6 +373,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const effectPending = useSelector(gameService, isEffectPending);
   const effectSuccess = useSelector(gameService, isEffectSuccess);
   const effectFailure = useSelector(gameService, isEffectFailure);
+  const showSales = useSelector(gameService, hasMarketplaceSales);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
@@ -586,6 +591,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}
             {showOffers && <OffersPopup />}
+            {showSales && <MarketplaceSalesPopup />}
             {specialOffer && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}

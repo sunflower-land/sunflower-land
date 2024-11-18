@@ -49,10 +49,6 @@ describe("buyAnimal", () => {
         action: {
           id: "0",
           animal: "Chicken",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
           type: "animal.bought",
         },
       }),
@@ -71,10 +67,6 @@ describe("buyAnimal", () => {
         action: {
           id: "0",
           animal: "Chicken",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
           type: "animal.bought",
         },
       });
@@ -93,10 +85,6 @@ describe("buyAnimal", () => {
         action: {
           id: "0",
           animal: "Chicken",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
           type: "animal.bought",
         },
       });
@@ -129,49 +117,10 @@ describe("buyAnimal", () => {
         action: {
           id: "0",
           animal: "Chicken",
-          coordinates: {
-            x: -2,
-            y: -2,
-          },
           type: "animal.bought",
         },
       });
     }).toThrow("You do not have the capacity for this animal");
-  });
-
-  it("throws and error if the coordinates collide with another animal", () => {
-    expect(() => {
-      buyAnimal({
-        state: {
-          ...TEST_FARM,
-          coins: 1000,
-          bumpkin: leveledUpBumpkin,
-          buildings: {
-            "Hen House": [
-              {
-                coordinates: { x: 0, y: 0 },
-                createdAt: 0,
-                id: "123",
-                readyAt: 0,
-              },
-            ],
-          },
-          henHouse: {
-            level: 1,
-            animals: makeAnimals(3, "Chicken"),
-          },
-        },
-        action: {
-          id: "0",
-          animal: "Chicken",
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
-          type: "animal.bought",
-        },
-      });
-    }).toThrow("Animal collides");
   });
 
   it("subtracts the price of the animal (cow) from the farm's coins", () => {
@@ -198,10 +147,6 @@ describe("buyAnimal", () => {
       action: {
         id: "0",
         animal: "Cow",
-        coordinates: {
-          x: -2,
-          y: -2,
-        },
         type: "animal.bought",
       },
     });
@@ -233,10 +178,6 @@ describe("buyAnimal", () => {
       action: {
         id: "0",
         animal: "Cow",
-        coordinates: {
-          x: -2,
-          y: -2,
-        },
         type: "animal.bought",
       },
     });
@@ -247,7 +188,6 @@ describe("buyAnimal", () => {
         type: "Cow",
         state: "idle",
         createdAt: expect.any(Number),
-        coordinates: { x: -2, y: -2 },
       },
     });
   });
@@ -276,10 +216,6 @@ describe("buyAnimal", () => {
       action: {
         id: "0",
         animal: "Cow",
-        coordinates: {
-          x: -2,
-          y: -2,
-        },
         type: "animal.bought",
       },
     });

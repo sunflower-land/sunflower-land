@@ -1,9 +1,10 @@
 import { produce } from "immer";
 import { GameState } from "../types/game";
+import { getKeys } from "../types/decorations";
 
 export type ClaimPurchaseAction = {
   type: "purchase.claimed";
-  tradeId: string;
+  tradeIds: string[];
 };
 
 type Options = {
@@ -14,21 +15,35 @@ type Options = {
 
 export function claimPurchase({ state, action }: Options) {
   return produce(state, (game) => {
-    const purchase = game.trades.listings?.[action.tradeId];
+    const purchaseIds = getKeys(game.trades.listings ?? {}).filter(
+      (listingId) => action.tradeIds.includes(listingId),
+    );
 
-    if (!purchase) {
-      throw new Error("Purchase does not exist");
+    if (purchaseIds.length !== action.tradeIds.length) {
+      throw new Error("One or more purchases do not exist");
     }
 
-    if (!purchase.fulfilledAt) {
-      throw new Error("Purchase has not been fulfilled");
+    if (
+      purchaseIds.some(
+        (purchaseId) => !game.trades.listings?.[purchaseId].fulfilledAt,
+      )
+    ) {
+      throw new Error("One or more purchases have not been fulfilled");
     }
 
-    delete game.trades.listings?.[action.tradeId];
+    const instantPurchases = purchaseIds.filter((purchaseId) => {
+      return !game.trades.listings?.[purchaseId].signature;
+    });
 
-    if (purchase.signature) return game;
+    instantPurchases.forEach((purchaseId) => {
+      game.balance = game.balance.plus(
+        game.trades.listings?.[purchaseId].sfl ?? 0,
+      );
+    });
 
-    game.balance = game.balance.plus(purchase.sfl);
+    purchaseIds.forEach((purchaseId) => {
+      delete game.trades.listings?.[purchaseId];
+    });
 
     return game;
   });

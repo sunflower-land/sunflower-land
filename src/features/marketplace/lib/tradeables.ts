@@ -1,11 +1,13 @@
 import { BuffLabel, KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
-import { BudName } from "features/game/types/buds";
 import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CollectionName } from "features/game/types/marketplace";
+import {
+  CollectionName,
+  MarketplaceTradeableName,
+} from "features/game/types/marketplace";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 
@@ -62,7 +64,7 @@ export function getTradeableDisplay({
 }
 
 export function getCollectionName(
-  itemName: InventoryItemName | BumpkinItem | BudName,
+  itemName: MarketplaceTradeableName,
 ): CollectionName {
   if ((itemName as InventoryItemName) in KNOWN_IDS) {
     return "collectibles";

@@ -13,7 +13,6 @@ import {
   LOVE_ANIMAL_TOOLS,
 } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
-import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { makeBulkBuyTools } from "../../market/lib/makeBulkBuyAmount";
@@ -27,6 +26,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { hasFeatureAccess } from "lib/flags";
+import { Restock } from "../../market/restock/Restock";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -132,7 +132,7 @@ export const Tools: React.FC = () => {
     }
 
     if (stock.equals(0)) {
-      return <Restock />;
+      return <Restock npc={"blacksmith"} />;
     }
 
     return (
