@@ -133,7 +133,10 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
         },
       }
     : ({} as { Scroll: { sellPrice: number; gems: number } })),
-  ...({} as { "Amber Fossil": { sellPrice: number; gems: number } }),
+  "Amber Fossil": {
+    sellPrice: 0.1,
+    gems: 0,
+  },
   ...(SEASONS["Bull Run"].endDate.getTime() < Date.now()
     ? {
         Horseshoe: {
