@@ -145,8 +145,7 @@ export type MMOState = {
     | "connecting"
     | "connected"
     | "kicked"
-    | "reconnecting"
-    | "exploring"; // Community island
+    | "reconnecting";
   context: MMOContext;
 };
 
@@ -220,7 +219,9 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     },
     idle: {
       on: {
-        CONNECT: "exploring",
+        CONNECT: {
+          target: "connecting",
+        },
       },
     },
 
@@ -275,47 +276,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             actions: assign({
               client: (_, event) => event.data.client,
               availableServers: (_, event) => event.data.servers,
-            }),
-          },
-        ],
-        onError: {
-          target: "error",
-        },
-      },
-    },
-
-    // Connect to URL and room in same call (community island)
-    exploring: {
-      invoke: {
-        id: "exploring",
-        src: (context, event) => async () => {
-          const { url, serverId } = event as ConnectEvent;
-
-          const client = new Client(url);
-
-          // Join server based on what was selected
-          const server = await client?.joinOrCreate<PlazaRoomState>(serverId, {
-            jwt: context.jwt,
-            bumpkin: context.bumpkin,
-            farmId: context.farmId,
-            x: SPAWNS().plaza.default.x,
-            y: SPAWNS().plaza.default.y,
-            sceneId: context.sceneId,
-            experience: context.experience,
-            moderation: context.moderation,
-            username: context.username,
-            faction: context.faction,
-          });
-
-          return { server, client, serverId };
-        },
-        onDone: [
-          {
-            target: "joined",
-            actions: assign({
-              server: (_, event) => event.data.server,
-              client: (_, event) => event.data.client,
-              serverId: (_, event) => event.data.serverId,
             }),
           },
         ],

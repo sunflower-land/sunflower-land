@@ -1,4 +1,4 @@
-import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
+import { removeMinigameJWTs } from "features/world/ui/portals/actions/portal";
 import { decodeToken } from "./login";
 
 const host = window.location.host.replace(/^www\./, "");

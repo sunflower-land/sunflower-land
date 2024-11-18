@@ -14,7 +14,7 @@ import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 
-import { portal } from "../community/actions/portal";
+import { portal } from "./actions/portal";
 import { Loading } from "features/auth/components";
 import { InventoryItemName } from "features/game/types/game";
 import { Box } from "components/ui/Box";

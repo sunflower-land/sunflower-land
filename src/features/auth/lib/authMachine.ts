@@ -10,7 +10,7 @@ import { loadSession, savePromoCode } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, UTM } from "../actions/signup";
 import { claimFarm } from "../actions/claimFarm";
-import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
+import { removeMinigameJWTs } from "features/world/ui/portals/actions/portal";
 
 export const ART_MODE = !CONFIG.API_URL;
 
