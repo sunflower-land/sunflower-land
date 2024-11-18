@@ -18,6 +18,7 @@ import {
   areAnySheepSleeping,
   areAnyCowsSleeping,
   areTreasureHolesDug,
+  areAnyCookingBuildingWorking,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -56,14 +57,8 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
     !greenhouseCropIsGrowing({ crop: "Grape", game: state })[0],
   "Lemon Shield": (state) => !areFruitsGrowing(state, "Lemon")[0],
   Cattlegrim: (state) => !areAnyChickensSleeping(state)[0],
-  "Luna's Hat": (state) =>
-    !(
-      state.buildings["Fire Pit"]?.[0].crafting ||
-      state.buildings["Kitchen"]?.[0].crafting ||
-      state.buildings["Bakery"]?.[0].crafting ||
-      state.buildings["Deli"]?.[0].crafting ||
-      state.buildings["Smoothie Shack"]?.[0].crafting
-    ),
+
+  "Luna's Hat": (state) => !areAnyCookingBuildingWorking(state)[0],
   "Ancient Rod": (state) => !hasFishedToday(state)[0],
   "Flower Crown": (state) => !areFlowersGrowing(state)[0],
   "Beekeeper Hat": (state) => !isProducingHoney(state)[0],
