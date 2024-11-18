@@ -15,21 +15,24 @@ type Options = {
 };
 
 export const SHIPMENT_STOCK: Partial<Record<StockableName, number>> = {
+  // Basic Crops
   "Sunflower Seed": 100,
   "Potato Seed": 50,
   "Pumpkin Seed": 30,
+  // Medium Crops
   "Carrot Seed": 20,
   "Cabbage Seed": 20,
   "Soybean Seed": 20,
   "Beetroot Seed": 20,
   "Cauliflower Seed": 20,
   "Parsnip Seed": 10,
-
+  // Tools
   Axe: 50,
   Pickaxe: 15,
   "Stone Pickaxe": 5,
   "Iron Pickaxe": 1,
   Rod: 10,
+  // Sand Shovel
   "Sand Shovel": 5,
 };
 

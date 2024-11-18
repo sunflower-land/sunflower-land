@@ -25,7 +25,7 @@ export function restock({ state }: Options): GameState {
 
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
     onboardingAnalytics.logEvent("spend_virtual_currency", {
-      value: 1,
+      value: 1 * BB_TO_GEM_RATIO,
       virtual_currency_name: "Gem",
       item_name: "Restock",
     });
