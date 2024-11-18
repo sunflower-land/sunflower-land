@@ -537,27 +537,27 @@ export const NPC_CHORES = {
     activity: "Coins Spent",
     amount: 3000,
   }),
-  "Harvest 50 Carrots": bumpkinActivityTask({
+  "Harvest Carrots 50 times": bumpkinActivityTask({
     activity: "Carrot Harvested",
     amount: 50,
   }),
-  "Harvest 75 Carrots": bumpkinActivityTask({
+  "Harvest Carrots 75 times": bumpkinActivityTask({
     activity: "Carrot Harvested",
     amount: 75,
   }),
-  "Harvest 100 Carrots": bumpkinActivityTask({
+  "Harvest Carrots 100 times": bumpkinActivityTask({
     activity: "Carrot Harvested",
     amount: 100,
   }),
-  "Harvest 25 Cabbage": bumpkinActivityTask({
+  "Harvest Cabbage 25 times": bumpkinActivityTask({
     activity: "Cabbage Harvested",
     amount: 25,
   }),
-  "Harvest 50 Cabbage": bumpkinActivityTask({
+  "Harvest Cabbage 50 times": bumpkinActivityTask({
     activity: "Cabbage Harvested",
     amount: 50,
   }),
-  "Harvest 75 Cabbage": bumpkinActivityTask({
+  "Harvest Cabbage 75 times": bumpkinActivityTask({
     activity: "Cabbage Harvested",
     amount: 75,
   }),
@@ -626,39 +626,39 @@ export const NPC_CHORES = {
     activity: "Coins Earned",
     amount: 5000,
   }),
-  "Harvest 15 Soybeans": bumpkinActivityTask({
+  "Harvest Soybean 15 times": bumpkinActivityTask({
     activity: "Soybean Harvested",
     amount: 15,
   }),
-  "Harvest 30 Soybeans": bumpkinActivityTask({
+  "Harvest Soybean 30 times": bumpkinActivityTask({
     activity: "Soybean Harvested",
     amount: 30,
   }),
-  "Harvest 50 Soybeans": bumpkinActivityTask({
+  "Harvest Soybean 50 times": bumpkinActivityTask({
     activity: "Soybean Harvested",
     amount: 50,
   }),
-  "Harvest 15 Beetroots": bumpkinActivityTask({
+  "Harvest Beetroot 15 times": bumpkinActivityTask({
     activity: "Beetroot Harvested",
     amount: 15,
   }),
-  "Harvest 25 Beetroots": bumpkinActivityTask({
+  "Harvest Beetroot 25 times": bumpkinActivityTask({
     activity: "Beetroot Harvested",
     amount: 25,
   }),
-  "Harvest 35 Beetroots": bumpkinActivityTask({
+  "Harvest Beetroot 35 times": bumpkinActivityTask({
     activity: "Beetroot Harvested",
     amount: 35,
   }),
-  "Harvest 10 Cauliflowers": bumpkinActivityTask({
+  "Harvest Cauliflower 10 times": bumpkinActivityTask({
     activity: "Cauliflower Harvested",
     amount: 10,
   }),
-  "Harvest 20 Cauliflowers": bumpkinActivityTask({
+  "Harvest Cauliflower 20 times": bumpkinActivityTask({
     activity: "Cauliflower Harvested",
     amount: 20,
   }),
-  "Harvest 30 Cauliflowers": bumpkinActivityTask({
+  "Harvest Cauliflower 30 times": bumpkinActivityTask({
     activity: "Cauliflower Harvested",
     amount: 30,
   }),
@@ -822,39 +822,39 @@ export const NPC_CHORES = {
   // "Drill 9 Oil Reserves": bumpkinActivityTask({ activity: "Oil Reserve Drilled", amount: 9 }),
   // "Drill 10 Oil Reserves": bumpkinActivityTask({ activity: "Oil Reserve Drilled", amount: 10 }),
 
-  "Pick 12 Grapes": bumpkinActivityTask({
+  "Pick Grapes 12 times": bumpkinActivityTask({
     activity: "Grape Harvested",
     amount: 12,
   }),
-  "Pick 16 Grapes": bumpkinActivityTask({
+  "Pick Grapes 16 times": bumpkinActivityTask({
     activity: "Grape Harvested",
     amount: 16,
   }),
-  "Pick 20 Grapes": bumpkinActivityTask({
+  "Pick Grapes 20 times": bumpkinActivityTask({
     activity: "Grape Harvested",
     amount: 20,
   }),
-  "Harvest 8 Rice": bumpkinActivityTask({
+  "Harvest Rice 8 times": bumpkinActivityTask({
     activity: "Rice Harvested",
     amount: 8,
   }),
-  "Harvest 10 Rice": bumpkinActivityTask({
+  "Harvest Rice 10 times": bumpkinActivityTask({
     activity: "Rice Harvested",
     amount: 10,
   }),
-  "Harvest 12 Rice": bumpkinActivityTask({
+  "Harvest Rice 12 times": bumpkinActivityTask({
     activity: "Rice Harvested",
     amount: 12,
   }),
-  "Harvest 4 Olives": bumpkinActivityTask({
+  "Harvest Olives 4 times": bumpkinActivityTask({
     activity: "Olive Harvested",
     amount: 4,
   }),
-  "Harvest 6 Olives": bumpkinActivityTask({
+  "Harvest Olives 6 times": bumpkinActivityTask({
     activity: "Olive Harvested",
     amount: 6,
   }),
-  "Harvest 8 Olives": bumpkinActivityTask({
+  "Harvest Olives 8 times": bumpkinActivityTask({
     activity: "Olive Harvested",
     amount: 8,
   }),
@@ -895,47 +895,47 @@ export const NPC_CHORES = {
   // "Earn 2500 Points in Crops & Chickens": bumpkinActivityTask({ activity: "Points Earned", amount: 2500 }),
   // "Earn 5000 Points in Fruit Dash": bumpkinActivityTask({ activity: "Points Earned", amount: 5000 }),
 
-  "Grow 3 Red Balloon Flower": farmActivityTask({
+  "Grow Red Balloon Flower 3 times": farmActivityTask({
     activity: "Red Balloon Flower Harvested",
     amount: 3,
   }),
-  "Grow 4 Red Balloon Flower": farmActivityTask({
+  "Grow Red Balloon Flower 4 times": farmActivityTask({
     activity: "Red Balloon Flower Harvested",
     amount: 4,
   }),
-  "Grow 5 Red Balloon Flower": farmActivityTask({
+  "Grow Red Balloon Flower 5 times": farmActivityTask({
     activity: "Red Balloon Flower Harvested",
     amount: 5,
   }),
-  "Grow 3 Blue Balloon Flower": farmActivityTask({
+  "Grow Blue Balloon Flower 3 times": farmActivityTask({
     activity: "Blue Balloon Flower Harvested",
     amount: 3,
   }),
-  "Grow 4 Blue Balloon Flower": farmActivityTask({
+  "Grow Blue Balloon Flower 4 times": farmActivityTask({
     activity: "Blue Balloon Flower Harvested",
     amount: 4,
   }),
-  "Grow 5 Blue Balloon Flower": farmActivityTask({
+  "Grow Blue Balloon Flower 5 times": farmActivityTask({
     activity: "Blue Balloon Flower Harvested",
     amount: 5,
   }),
-  "Grow 3 Purple Daffodil": farmActivityTask({
+  "Grow Purple Daffodil 3 times": farmActivityTask({
     activity: "Purple Daffodil Harvested",
     amount: 3,
   }),
-  "Grow 4 Purple Daffodil": farmActivityTask({
+  "Grow Purple Daffodil 4 times": farmActivityTask({
     activity: "Purple Daffodil Harvested",
     amount: 4,
   }),
-  "Grow 5 Purple Daffodil": farmActivityTask({
+  "Grow Purple Daffodil 5 times": farmActivityTask({
     activity: "Purple Daffodil Harvested",
     amount: 5,
   }),
-  "Grow 2 Red Daffodil": farmActivityTask({
+  "Grow Red Daffodil 2 times": farmActivityTask({
     activity: "Red Daffodil Harvested",
     amount: 2,
   }),
-  "Grow 3 Red Daffodil": farmActivityTask({
+  "Grow Red Daffodil 3 times": farmActivityTask({
     activity: "Red Daffodil Harvested",
     amount: 3,
   }),
@@ -995,47 +995,47 @@ export const NPC_CHORES = {
   "Mine 3 Stones": bumpkinActivityTask({ activity: "Stone Mined", amount: 3 }),
   "Mine 4 Stones": bumpkinActivityTask({ activity: "Stone Mined", amount: 4 }),
 
-  "Grow 3 Yellow Carnation": farmActivityTask({
+  "Grow Yellow Carnation 3 times": farmActivityTask({
     activity: "Yellow Carnation Harvested",
     amount: 3,
   }),
-  "Grow 3 Blue Carnation": farmActivityTask({
+  "Grow Blue Carnation 3 times": farmActivityTask({
     activity: "Blue Carnation Harvested",
     amount: 3,
   }),
-  "Grow 3 White Carnation": farmActivityTask({
+  "Grow White Carnation 3 times": farmActivityTask({
     activity: "White Carnation Harvested",
     amount: 3,
   }),
-  "Grow 3 Red Lotus": farmActivityTask({
+  "Grow Red Lotus 3 times": farmActivityTask({
     activity: "Red Lotus Harvested",
     amount: 3,
   }),
-  "Grow 3 Yellow Lotus": farmActivityTask({
+  "Grow Yellow Lotus 3 times": farmActivityTask({
     activity: "Yellow Lotus Harvested",
     amount: 3,
   }),
-  "Grow 3 White Lotus": farmActivityTask({
+  "Grow White Lotus 3 times": farmActivityTask({
     activity: "White Lotus Harvested",
     amount: 3,
   }),
-  "Grow 3 Blue Pansy": farmActivityTask({
+  "Grow Blue Pansy 3 times": farmActivityTask({
     activity: "Blue Pansy Harvested",
     amount: 3,
   }),
-  "Grow 3 White Pansy": farmActivityTask({
+  "Grow White Pansy 3 times": farmActivityTask({
     activity: "White Pansy Harvested",
     amount: 3,
   }),
-  "Grow 3 White Cosmos": farmActivityTask({
+  "Grow White Cosmos 3 times": farmActivityTask({
     activity: "White Cosmos Harvested",
     amount: 3,
   }),
-  "Grow 6 Purple Daffodil": farmActivityTask({
+  "Grow 6 Purple Daffodil 6 times": farmActivityTask({
     activity: "Purple Daffodil Harvested",
     amount: 6,
   }),
-  "Grow 6 Red Balloon Flower": farmActivityTask({
+  "Grow 6 Red Balloon Flower 6 times": farmActivityTask({
     activity: "Red Balloon Flower Harvested",
     amount: 6,
   }),
