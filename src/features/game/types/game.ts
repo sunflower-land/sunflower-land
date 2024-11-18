@@ -1251,7 +1251,6 @@ export type Animal = {
   type: AnimalType;
   state: AnimalState;
   createdAt: number;
-  coordinates: Coordinates;
   experience: number;
   asleepAt: number;
   awakeAt: number;
