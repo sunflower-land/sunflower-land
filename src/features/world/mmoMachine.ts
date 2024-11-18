@@ -219,9 +219,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     },
     idle: {
       on: {
-        CONNECT: {
-          target: "connecting",
-        },
+        CONNECT: "connecting",
       },
     },
 

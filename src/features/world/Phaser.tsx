@@ -261,13 +261,6 @@ export const PhaserComponent: React.FC<Props> = ({
       // Stop the current scene and start the new one
       activeScene.scene.stop();
       game.current?.scene.start(route);
-
-      // mmoService events
-      mmoService.send("SWITCH_SCENE", { scene: route });
-      mmoService.send("UPDATE_PREVIOUS_SCENE", {
-        previousSceneId:
-          game.current?.scene.getScenes(true)[0]?.scene.key ?? scene,
-      });
     }
   }, [route]);
 
