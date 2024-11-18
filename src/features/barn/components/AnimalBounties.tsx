@@ -95,7 +95,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                   <Label
                     type="formula"
                     className="absolute -top-3.5  -left-2"
-                  >{`Lvl ${deal.level}`}</Label>
+                  >{`Lvl ${deal.level}+`}</Label>
 
                   {!!isSold && (
                     <Label
