@@ -663,15 +663,15 @@ export const NPC_CHORES = {
     amount: 30,
   }),
 
-  "Collect 10 Eggs": bumpkinActivityTask({
+  "Collect Eggs 10 times": bumpkinActivityTask({
     activity: "Egg Collected",
     amount: 10,
   }),
-  "Collect 15 Eggs": bumpkinActivityTask({
+  "Collect Eggs 15 times": bumpkinActivityTask({
     activity: "Egg Collected",
     amount: 15,
   }),
-  "Collect 20 Eggs": bumpkinActivityTask({
+  "Collect Eggs 20 times": bumpkinActivityTask({
     activity: "Egg Collected",
     amount: 20,
   }),
@@ -1040,15 +1040,15 @@ export const NPC_CHORES = {
     amount: 6,
   }),
 
-  "Collect 40 Eggs": bumpkinActivityTask({
+  "Collect Eggs 40 times": bumpkinActivityTask({
     activity: "Egg Collected",
     amount: 40,
   }),
-  "Collect 60 Eggs": bumpkinActivityTask({
+  "Collect Eggs 60 times": bumpkinActivityTask({
     activity: "Egg Collected",
     amount: 60,
   }),
-  "Collect 80 Eggs": bumpkinActivityTask({
+  "Collect Eggs 80 times": bumpkinActivityTask({
     activity: "Egg Collected",
     amount: 80,
   }),
