@@ -800,7 +800,6 @@ export abstract class BaseScene extends Phaser.Scene {
     const entity = this.playerEntities[sessionId];
     if (entity) {
       entity.disappear();
-      entity.destroy();
       delete this.playerEntities[sessionId];
     }
   }
