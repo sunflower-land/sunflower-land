@@ -55,7 +55,7 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
 
   return (
     <>
-      {!showShipment && (
+      {!shipmentIsReady && hasGemExperiment && (
         <>
           <div className="flex justify-center items-center">
             <p className="text-xxs">{t("gems.nextFreeShipment")}</p>
