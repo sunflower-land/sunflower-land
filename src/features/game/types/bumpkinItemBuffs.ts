@@ -79,6 +79,12 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: CROP_LIFECYCLE.Parsnip.crop,
     },
+    "Sunflower Shield": {
+      shortDescription: translate("bumpkinItemBuff.sunflower.shield.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: CROP_LIFECYCLE.Sunflower.crop,
+    },
     "Sunflower Amulet": {
       shortDescription: translate("bumpkinItemBuff.sunflower.amulet.boost"),
       labelType: "success",
@@ -530,5 +536,72 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
     },
+    "Cowboy Hat": {
+      shortDescription: translate("description.cowboyHat.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+    },
+    "Cowboy Shirt": {
+      shortDescription: translate("description.cowboyShirt.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+    },
+    "Cowboy Trouser": {
+      shortDescription: translate("description.cowboyTrouser.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+    },
+    "Milk Apron": {
+      shortDescription: translate("description.milkApron.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.milk,
+    },
+    "Dream Scarf": {
+      shortDescription: translate("description.dreamScarf.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+    },
+    "Infernal Bullwhip": {
+      shortDescription: translate("description.infernalBullwhip.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
+    },
+    "Chicken Suit": {
+      shortDescription: translate("description.chickenSuit.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.feather,
+    },
+    "Cowbell Necklace": {
+      shortDescription: translate("description.cowbellNecklace.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.milk,
+    },
+    "Black Sheep Onesie": {
+      shortDescription: translate("description.blackSheepOnesie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.wool,
+    },
+    "Merino Jumper": {
+      shortDescription: translate("description.merinoJumper.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.merino_wool,
+    },
+    "White Sheep Onesie": {
+      shortDescription: translate("description.whiteSheepOnesie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.wool,
+    },
+
     ...SPECIAL_ITEM_LABELS,
   };

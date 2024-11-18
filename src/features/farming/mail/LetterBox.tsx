@@ -10,7 +10,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Mail } from "./components/Mail";
 import { Message } from "./components/Message";
-import { Panel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
@@ -21,6 +21,7 @@ import letter from "assets/icons/letter.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PWAInstallMessage } from "./components/PWAInstallMessage";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
+import { WhatsOn } from "./components/WhatsOn";
 
 const _announcements = (state: MachineState) => state.context.announcements;
 const _mailbox = (state: MachineState) => state.context.state.mailbox;
@@ -85,14 +86,21 @@ export const LetterBox: React.FC = () => {
     return (
       <CloseButtonPanel
         onClose={close}
-        tabs={[{ icon: letter, name: t("mailbox") }]}
+        tabs={[
+          { icon: letter, name: t("mailbox") },
+          { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
+        ]}
         currentTab={tab}
         setCurrentTab={setTab}
+        container={OuterPanel}
       >
-        <Mail setSelected={setSelected} announcements={announcements} />
+        {tab === 0 && (
+          <Mail setSelected={setSelected} announcements={announcements} />
+        )}
+        {tab === 1 && <WhatsOn />}
       </CloseButtonPanel>
     );
-  }, [selected, announcements]);
+  }, [selected, announcements, tab]);
 
   return (
     <>

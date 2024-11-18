@@ -262,7 +262,7 @@ export const BuyGems: React.FC<Props> = ({
                   />
                 )}
 
-                <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>
+                <span className="whitespace-nowrap mb-2 mt-0.5">{`${price.amount} x`}</span>
                 <div className="flex flex-1 justify-center items-center mb-6 w-full">
                   <img
                     src={ITEM_DETAILS.Gem.image}

@@ -64,6 +64,31 @@ describe("buySeasonalItem", () => {
     ).toThrow("Insufficient Wood");
   });
 
+  it("should return 992.5 when inventory has Witches' Eve Banner", () => {
+    // Date during Witches' Eve Season
+    const mockedDate = new Date(2023, 8, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockedDate);
+
+    const state = {
+      ...mockState,
+      inventory: {
+        "Witches' Eve Banner": new Decimal(1),
+        Wood: new Decimal(100),
+      },
+    };
+    const result = buySeasonalItem({
+      state: state,
+      action: {
+        type: "seasonalItem.bought",
+        name: "Treasure Key",
+        tier: "basic",
+      },
+      createdAt: mockDate,
+    });
+    expect(result.balance).toEqual(new Decimal(992.5));
+  });
+
   it("subtracts SFL when buying an item", () => {
     const result = buySeasonalItem({
       state: mockState,
@@ -75,7 +100,7 @@ describe("buySeasonalItem", () => {
       createdAt: mockDate,
     });
 
-    expect(result.balance).toEqual(new Decimal(999));
+    expect(result.balance).toEqual(new Decimal(990));
   });
 
   it("subtracts items when buying an item", () => {
@@ -118,5 +143,57 @@ describe("buySeasonalItem", () => {
     });
 
     expect(result.wardrobe["Red Farmer Shirt"]).toEqual(1);
+  });
+
+  it("throws an error if key already bought today", () => {
+    expect(() =>
+      buySeasonalItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Treasure Key": new Decimal(0),
+            Wood: new Decimal(100),
+          },
+          pumpkinPlaza: {
+            keysBought: {
+              factionShop: {},
+              treasureShop: {},
+              megastore: {
+                "Treasure Key": { boughtAt: new Date("2024-08-09").getTime() },
+              },
+            },
+          },
+        },
+        action: {
+          type: "seasonalItem.bought",
+          name: "Treasure Key",
+          tier: "basic",
+        },
+        createdAt: new Date("2024-08-09").getTime(),
+      }),
+    ).toThrow("Already bought today");
+  });
+
+  it("updates createdAt when key is bought", () => {
+    const state = buySeasonalItem({
+      state: {
+        ...mockState,
+        inventory: {
+          "Treasure Key": new Decimal(0),
+          Wood: new Decimal(100),
+        },
+      },
+      action: {
+        type: "seasonalItem.bought",
+        name: "Treasure Key",
+        tier: "basic",
+      },
+      createdAt: new Date("2024-09-01").getTime(),
+    });
+    expect(state.inventory["Treasure Key"]).toStrictEqual(new Decimal(1));
+    expect(state.inventory.Wood).toStrictEqual(new Decimal(0));
+    expect(
+      state.pumpkinPlaza.keysBought?.megastore["Treasure Key"]?.boughtAt,
+    ).toEqual(new Date("2024-09-01").getTime());
   });
 });

@@ -317,4 +317,57 @@ describe("castRod", () => {
 
     expect(state.inventory.Rod).toEqual(new Decimal(3));
   });
+  it("subtracts extra reels", () => {
+    const now = Date.now();
+    const date = new Date(now).toISOString().split("T")[0];
+    const state = castRod({
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
+      state: {
+        ...farm,
+        inventory: {
+          Rod: new Decimal(20),
+          Earthworm: new Decimal(20),
+        },
+        fishing: {
+          weather: "Windy",
+          wharf: {},
+          beach: {},
+          dailyAttempts: {
+            [date]: 20,
+          },
+          extraReels: {
+            count: 5,
+          },
+        },
+      },
+    });
+    expect(state.fishing.extraReels?.count).toEqual(4);
+  });
+
+  it("does not subtract extra reels when daily limit not hit yet", () => {
+    const now = Date.now();
+    const date = new Date(now).toISOString().split("T")[0];
+    const state = castRod({
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
+      state: {
+        ...farm,
+        inventory: {
+          Rod: new Decimal(20),
+          Earthworm: new Decimal(20),
+        },
+        fishing: {
+          weather: "Windy",
+          wharf: {},
+          beach: {},
+          dailyAttempts: {
+            [date]: 1,
+          },
+          extraReels: {
+            count: 5,
+          },
+        },
+      },
+    });
+    expect(state.fishing.extraReels?.count).toEqual(5);
+  });
 });

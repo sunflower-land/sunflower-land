@@ -5,11 +5,12 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
+  getCurrentSeason,
   getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { NPCName } from "lib/npcs";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
@@ -53,14 +54,37 @@ export function generateDeliveryTickets({
     amount += 2;
   }
 
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Hat" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Shirt" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
+  }
+
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
+
+  const dateKey = new Date(now).toISOString().substring(0, 10);
 
   const hasClaimedBonus =
     !!completedAt &&
-    new Date(completedAt).toISOString().substring(0, 10) ===
-      new Date().toISOString().substring(0, 10);
+    new Date(completedAt).toISOString().substring(0, 10) === dateKey;
+
   // Leave this at the end as it will multiply the whole amount by 2
-  if (game.delivery.doubleDelivery === true && !hasClaimedBonus) {
+  if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
     amount *= 2;
   }
 
@@ -182,7 +206,11 @@ export function populateOrders(
   return orders;
 }
 
-export function getOrderSellPrice<T>(game: GameState, order: Order): T {
+export function getOrderSellPrice<T>(
+  game: GameState,
+  order: Order,
+  now: Date = new Date(),
+): T {
   let mul = 1;
 
   // Michelin Stars - 5% bonus
@@ -254,12 +282,13 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
 
   const completedAt = game.npcs?.[order.from]?.deliveryCompletedAt;
 
+  const dateKey = new Date(now).toISOString().substring(0, 10);
   const hasClaimedBonus =
     !!completedAt &&
-    new Date(completedAt).toISOString().substring(0, 10) ===
-      new Date().toISOString().substring(0, 10);
+    new Date(completedAt).toISOString().substring(0, 10) === dateKey;
+
   // Leave this at the end as it will multiply the whole amount by 2
-  if (game.delivery.doubleDelivery === true && !hasClaimedBonus) {
+  if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
     mul *= 2;
   }
 
@@ -274,7 +303,6 @@ export function deliverOrder({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
 }: Options): GameState {
   return produce(state, (game) => {
     const bumpkin = game.bumpkin;
@@ -297,10 +325,10 @@ export function deliverOrder({
       throw new Error("Order is already completed");
     }
 
-    const { ticketTasksAreFrozen } = getSeasonChangeover({
-      id: farmId,
-      now: createdAt,
-    });
+    const { holiday } = getBumpkinHoliday({ now: createdAt });
+
+    const ticketTasksAreFrozen =
+      holiday === new Date(createdAt).toISOString().split("T")[0];
 
     const tickets = generateDeliveryTickets({
       game,
@@ -345,14 +373,18 @@ export function deliverOrder({
     });
 
     if (order.reward.sfl) {
-      const sfl = getOrderSellPrice<Decimal>(game, order);
+      const sfl = getOrderSellPrice<Decimal>(game, order, new Date(createdAt));
       game.balance = game.balance.add(sfl);
 
       bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
     }
 
     if (order.reward.coins) {
-      const coinsReward = getOrderSellPrice<number>(game, order);
+      const coinsReward = getOrderSellPrice<number>(
+        game,
+        order,
+        new Date(createdAt),
+      );
 
       game.coins = game.coins + coinsReward;
 
@@ -401,10 +433,7 @@ export function deliverOrder({
 
     game.npcs = {
       ...npcs,
-      [order.from]: {
-        ...npc,
-        deliveryCompletedAt: createdAt,
-      },
+      [order.from]: npc,
     };
 
     // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);

@@ -16,9 +16,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
+import { getBoostedAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
 import { Label } from "components/ui/Label";
-import { pickRandomPositionInAnimalHouse } from "features/game/expansion/placeable/lib/collisionDetection";
 
 import coinsIcon from "assets/icons/coins.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -51,20 +50,10 @@ export const BarnModal: React.FC<Props> = ({ show, buildingKey, onClose }) => {
   const [selectedName, setSelectedName] = useState<AnimalType>(barnAnimals[0]);
 
   const handleBuyAnimal = () => {
-    const position = pickRandomPositionInAnimalHouse(
-      state,
-      buildingKey,
-      selectedName,
-    );
-
     gameService.send({
       type: "animal.bought",
       animal: selectedName,
       id: uuidv4().slice(0, 8),
-      coordinates: {
-        x: position.x,
-        y: position.y,
-      },
     });
 
     onClose();
@@ -83,7 +72,7 @@ export const BarnModal: React.FC<Props> = ({ show, buildingKey, onClose }) => {
   };
 
   const atMaxCapacity =
-    getAnimalCount() >= getAnimalCapacity(buildingKey, state);
+    getAnimalCount() >= getBoostedAnimalCapacity(buildingKey, state);
 
   return (
     <Modal show={show} onHide={onClose}>
@@ -100,7 +89,7 @@ export const BarnModal: React.FC<Props> = ({ show, buildingKey, onClose }) => {
               details={{
                 item: selectedName,
               }}
-              limit={getAnimalCapacity("barn", state)}
+              limit={getBoostedAnimalCapacity("barn", state)}
               requirements={{
                 coins: ANIMALS[selectedName].coins,
                 showCoinsIfFree: true,

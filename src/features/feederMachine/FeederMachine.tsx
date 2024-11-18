@@ -16,6 +16,14 @@ export const FeederMachine: React.FC = () => {
         onClick={() => setFeederMachineModal(true)}
       >
         <img
+          src={SUNNYSIDE.animalFoods.grinder}
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+          }}
+          // Hover parent
+          className="absolute top-0 -right-4 z-20"
+        />
+        <img
           src={feederMachineImage}
           className="relative z-0"
           style={{

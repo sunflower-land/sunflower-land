@@ -31,6 +31,8 @@ type Options = {
 };
 
 export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
+  const { bumpkin } = game;
+
   let seconds = FLOWER_SEEDS()[seed].plantSeconds;
 
   // If wearing Flower Crown 2x speed
@@ -45,6 +47,14 @@ export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
 
   if (isCollectibleActive({ name: "Blossom Hourglass", game })) {
     seconds *= 0.75;
+  }
+
+  if (bumpkin.skills["Blooming Boost"]) {
+    seconds *= 0.9;
+  }
+
+  if (bumpkin.skills["Flower Power"]) {
+    seconds *= 0.8;
   }
 
   return seconds;

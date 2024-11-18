@@ -8,7 +8,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 type BaseProps = {
   options: {
@@ -47,6 +47,19 @@ export const QuickSelect: React.FC<Props> = ({
 
   const { t } = useAppTranslation();
 
+  const [showEmptyPanel, setShowEmptyPanel] = useState(true);
+  const available = options.filter((option) => inventory[option.name]?.gte(1));
+
+  useEffect(() => {
+    if (available.length === 0) {
+      const timer = setTimeout(() => {
+        setShowEmptyPanel(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [available.length]);
+
   // Function to handle click events outside the component
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -74,11 +87,16 @@ export const QuickSelect: React.FC<Props> = ({
     onClose();
   };
 
-  const available = options.filter((option) => inventory[option.name]?.gte(1));
-
   if (available.length === 0) {
     return (
-      <div ref={ref} className="absolute">
+      <div
+        ref={ref}
+        className="absolute transition-opacity duration-300"
+        style={{ opacity: showEmptyPanel ? 1 : 0 }}
+        onTransitionEnd={() => {
+          if (!showEmptyPanel) onClose();
+        }}
+      >
         <InnerPanel style={{ maxWidth: "295px" }} className="shadow-2xl">
           <span className="text-xs p-0.5 py-1 font-secondary">
             {emptyMessage ||

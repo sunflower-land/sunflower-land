@@ -17,6 +17,8 @@ import cloneDeep from "lodash.clonedeep";
  */
 
 const getHoneyProductionSpeed = (game: GameState) => {
+  const { bumpkin } = game;
+
   let speed = 1;
 
   if (isCollectibleBuilt({ name: "Queen Bee", game })) {
@@ -26,6 +28,15 @@ const getHoneyProductionSpeed = (game: GameState) => {
   if (isWearableActive({ name: "Beekeeper Hat", game })) {
     speed += 0.2;
   }
+
+  if (bumpkin.skills["Hyper Bees"]) {
+    speed += 0.1;
+  }
+
+  if (bumpkin.skills["Flowery Abode"]) {
+    speed += 0.5;
+  }
+
   return speed;
 };
 
@@ -130,7 +141,6 @@ const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
       const honey = Math.max(end - start, 0);
 
       const rate = attachedFlower.rate ?? 1;
-
       const totalHoney = honey * rate;
       hive.honey.produced += totalHoney;
     });

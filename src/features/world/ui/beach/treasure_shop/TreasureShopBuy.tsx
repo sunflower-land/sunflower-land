@@ -10,7 +10,6 @@ import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TREASURE_TOOLS, TreasureToolName } from "features/game/types/tools";
 import { makeBulkBuyTools } from "features/island/buildings/components/building/market/lib/makeBulkBuyAmount";
-import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   TREASURE_COLLECTIBLE_ITEM,
@@ -34,13 +33,13 @@ import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
+import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
-  onClose: () => void;
 }
 
-const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
+const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
 
   const { gameService, shortcutItem } = useContext(Context);
@@ -89,7 +88,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
       actionView={
         <>
           {stock.equals(0) ? (
-            <Restock onClose={onClose} />
+            <Restock npc={"jafar"} />
           ) : (
             <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
               <Button
@@ -119,12 +118,10 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
 
 interface CollectibleContentProps {
   selectedName: TreasureCollectibleItem | Keys;
-  onClose: () => void;
 }
 
 const CollectibleContent: React.FC<CollectibleContentProps> = ({
   selectedName,
-  onClose,
 }) => {
   const { t } = useAppTranslation();
 
@@ -216,17 +213,13 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
 
 interface WearableContentProps {
   selectedName: keyof ArtefactShopWearables;
-  onClose: () => void;
 }
 
-const WearableContent: React.FC<WearableContentProps> = ({
-  selectedName,
-  onClose,
-}) => {
+const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
 
   const selected = ARTEFACT_SHOP_WEARABLES[selectedName];
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },
@@ -296,17 +289,13 @@ const WearableContent: React.FC<WearableContentProps> = ({
   );
 };
 
-interface Props {
-  onClose: (e?: SyntheticEvent) => void;
-}
-
 type ArtefactShopItems =
   | TreasureToolName
   | TreasureCollectibleItem
   | BumpkinItem
   | Keys;
 
-export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
+export const TreasureShopBuy: React.FC = () => {
   const { t } = useAppTranslation();
 
   const [selectedName, setSelectedName] =
@@ -376,11 +365,11 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
       divRef={divRef}
       panel={
         isTool(selectedName) ? (
-          <ToolContent onClose={onClose} selectedName={selectedName} />
+          <ToolContent selectedName={selectedName} />
         ) : isCollectible(selectedName) || isKey(selectedName) ? (
-          <CollectibleContent onClose={onClose} selectedName={selectedName} />
+          <CollectibleContent selectedName={selectedName} />
         ) : (
-          <WearableContent onClose={onClose} selectedName={selectedName} />
+          <WearableContent selectedName={selectedName} />
         )
       }
       content={

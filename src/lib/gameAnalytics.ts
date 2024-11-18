@@ -133,6 +133,7 @@ class GameAnalyticTracker {
       | "Stock"
       | "Trade"
       | "DesertDigs"
+      | "FishingReels"
       | "Instant Expand"
       | "Instant Build"
       | "Instant Cook";

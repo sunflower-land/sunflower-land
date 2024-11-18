@@ -158,7 +158,10 @@ export function getCropTime({
 
   seconds = seconds * getBudSpeedBoosts(buds ?? {}, crop);
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     seconds = seconds * 0.5;
   }
 
@@ -455,6 +458,13 @@ export function getCropYieldAmount({
 
   if (crop === "Corn" && isWearableActive({ name: "Corn Onesie", game })) {
     amount += 0.1;
+  }
+
+  if (
+    crop === "Barley" &&
+    isCollectibleBuilt({ name: "Sheaf of Plenty", game })
+  ) {
+    amount += 2;
   }
 
   const collectibles = game.collectibles;

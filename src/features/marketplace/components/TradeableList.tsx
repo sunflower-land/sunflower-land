@@ -27,6 +27,7 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { TradeableSummary } from "./TradeableSummary";
+import { getTradeType } from "../lib/getTradeType";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -56,6 +57,14 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const { state } = gameState.context;
   const quantity = 1;
+
+  const tradeType = getTradeType({
+    collection: display.type,
+    id,
+    trade: {
+      sfl: price,
+    },
+  });
 
   // Check inventory count
   const getCount = () => {
@@ -96,7 +105,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       return;
     }
 
-    if (tradeable?.type === "onchain") {
+    if (tradeType === "onchain") {
       setIsSigning(true);
       return;
     }
@@ -227,7 +236,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             type: `${display.type.slice(0, display.type.length - 1)}`,
           })}
         </Label>
-        {tradeable?.type === "onchain" && (
+        {tradeType === "onchain" && (
           <Label type="formula" icon={walletIcon} className="my-1 mr-0.5">
             {t("marketplace.walletRequired")}
           </Label>
@@ -321,7 +330,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               className="relative"
             >
               <span>{t("list")}</span>
-              {tradeable?.type === "onchain" && (
+              {tradeType === "onchain" && (
                 <img
                   src={walletIcon}
                   className="absolute right-1 top-0.5 h-7"

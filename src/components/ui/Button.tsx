@@ -2,7 +2,6 @@ import React from "react";
 import classnames from "classnames";
 import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
-
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useLongPress } from "lib/utils/hooks/useLongPress";
@@ -67,7 +66,6 @@ export const Button: React.FC<Props> = ({
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
         borderRadius: `${PIXEL_SCALE * 5}px`,
-        color: "#674544",
       }}
       {...clickEvents}
     >

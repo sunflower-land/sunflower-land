@@ -270,6 +270,7 @@ export const Cooking: React.FC<{
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
+    game: state,
   });
 
   return (

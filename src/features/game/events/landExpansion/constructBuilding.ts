@@ -113,6 +113,11 @@ export function constructBuilding({
     stateCopy.inventory[action.name] = buildingInventory.add(1);
     stateCopy.buildings[action.name] = [...placed, newBuilding];
 
+    if (action.name === "Barn" || action.name === "Hen House") {
+      stateCopy.inventory["Kernel Blend"] =
+        stateCopy.inventory["Kernel Blend"]?.add(5) || new Decimal(5);
+    }
+
     return stateCopy;
   });
 }

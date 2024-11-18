@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
@@ -121,7 +120,7 @@ describe("cook", () => {
       },
     });
 
-    expect(state.inventory["Egg"]).toEqual(new Decimal(17));
+    expect(state.inventory["Egg"]).toEqual(new Decimal(12));
   });
 
   it("does not affect existing inventory", () => {
@@ -275,7 +274,7 @@ describe("cook", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          Egg: new Decimal(10),
+          Egg: new Decimal(20),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
@@ -469,6 +468,76 @@ describe("getReadyAt", () => {
         ...TEST_FARM,
         collectibles: {
           "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.5;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies Super Totem", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.5;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("doesn't stack Super Totem and Time Warp Totem", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+          "Super Totem": [
             {
               id: "123",
               createdAt: now,

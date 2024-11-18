@@ -52,7 +52,8 @@ export type MarineMarvelName =
   | "Gilded Swordfish"
   | "Crimson Carp"
   | "Battle Fish"
-  | "Lemon Shark";
+  | "Lemon Shark"
+  | "Longhorn Cowfish";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -86,6 +87,7 @@ export type Chum = Extract<
   | "Corn"
   | "Wheat"
   | "Kale"
+  | "Barley"
   | "Blueberry"
   | "Orange"
   | "Apple"
@@ -124,6 +126,7 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   Radish: 5,
   Wheat: 5,
   Kale: 5,
+  Barley: 3,
   Blueberry: 3,
   Orange: 3,
   Apple: 3,
@@ -162,6 +165,7 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Radish: translate("chumDetails.radish"),
   Wheat: translate("chumDetails.wheat"),
   Kale: translate("chumDetails.kale"),
+  Barley: "",
   Blueberry: translate("chumDetails.blueberry"),
   Orange: translate("chumDetails.orange"),
   Apple: translate("chumDetails.apple"),
@@ -191,7 +195,10 @@ type Fish = {
 };
 
 export const SEASONAL_FISH: Record<
-  Extract<MarineMarvelName, "Crimson Carp" | "Lemon Shark" | "Battle Fish">,
+  Extract<
+    MarineMarvelName,
+    "Crimson Carp" | "Lemon Shark" | "Battle Fish" | "Longhorn Cowfish"
+  >,
   Fish
 > = {
   "Crimson Carp": {
@@ -206,6 +213,11 @@ export const SEASONAL_FISH: Record<
   },
   "Lemon Shark": {
     baits: ["Grub", "Fishing Lure"],
+    type: "marine marvel",
+    locations: ["wharf", "beach"],
+  },
+  "Longhorn Cowfish": {
+    baits: ["Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf", "beach"],
   },

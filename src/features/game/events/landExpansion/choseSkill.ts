@@ -32,6 +32,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
   const { bumpkin } = stateCopy;
+
   if (bumpkin == undefined) {
     throw new Error("You do not have a Bumpkin!");
   }
@@ -55,6 +56,8 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("You already have this skill");
   }
 
+  // Add the selected skill to the bumpkin's skills
   bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
+
   return stateCopy;
 }

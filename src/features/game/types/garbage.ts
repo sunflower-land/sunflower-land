@@ -141,6 +141,15 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
         },
       }
     : ({} as { "Amber Fossil": { sellPrice: number; gems: number } })),
+  ...(SEASONS["Bull Run"].endDate.getTime() < Date.now()
+    ? {
+        Horseshoe: {
+          sellPrice: 0.1,
+          gems: 0,
+        },
+      }
+    : ({} as { Horseshoe: { sellPrice: number; gems: number } })),
+
   ...(hasFeatureAccess(TEST_FARM, "CHICKEN_GARBO")
     ? {
         Chicken: {

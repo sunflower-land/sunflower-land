@@ -226,10 +226,10 @@ export const ChampionsPrizes: React.FC = () => {
   const week = getWeekKey();
   const ticket = getSeasonalTicket(new Date(week));
 
-  const { startDate, endDate } = SEASONS["Pharaoh's Treasure"];
+  const { startDate } = SEASONS["Pharaoh's Treasure"];
   const isPharaohsTreasure =
     new Date(week) >= new Date(startDate) &&
-    new Date(week) <= new Date(endDate);
+    new Date(week) <= new Date("2024-10-21");
 
   const MONTHLY_PRIZES = BONUS_FACTION_PRIZES[week];
 

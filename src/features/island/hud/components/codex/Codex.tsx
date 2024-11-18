@@ -28,7 +28,10 @@ import { Leaderboards } from "features/game/expansion/components/leaderboard/act
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { Season } from "./pages/Season";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import {
+  getCurrentSeason,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
 
@@ -100,7 +103,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     (order) => !order.completedAt,
   ).length;
 
-  const incompleteChores = Object.values(state.chores?.chores ?? {}).filter(
+  const incompleteChores = Object.values(state.choreBoard?.chores ?? {}).filter(
     (chore) => !chore.completedAt,
   ).length;
 
@@ -115,11 +118,22 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: SUNNYSIDE.icons.player,
       count: incompleteDeliveries,
     },
-    {
-      name: "Chores",
-      icon: chores,
-      count: incompleteChores + inCompleteKingdomChores,
-    },
+    ...(hasFeatureAccess(state, "CHORE_BOARD")
+      ? [
+          {
+            name: "Chore Board" as const,
+            icon: chores,
+            count: incompleteChores,
+          },
+        ]
+      : [
+          {
+            name: "Chores" as const,
+            icon: chores,
+            count: incompleteChores + inCompleteKingdomChores,
+          },
+        ]),
+
     {
       name: "Leaderboard" as const,
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
@@ -141,16 +155,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           {
             name: "Marks" as const,
             icon: factions,
-            count: 0,
-          },
-        ]
-      : []),
-
-    ...(hasFeatureAccess(state, "CHORE_BOARD")
-      ? [
-          {
-            name: "Chore Board" as const,
-            icon: chores,
             count: 0,
           },
         ]
@@ -225,7 +229,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 0 && <Deliveries onClose={onHide} />}
             {currentTab === 1 && (
               <>
-                <Chores farmId={farmId} />
+                {hasFeatureAccess(state, "CHORE_BOARD") ? (
+                  <ChoreBoard />
+                ) : (
+                  <Chores farmId={farmId} />
+                )}
               </>
             )}
             {currentTab === 2 && (
@@ -233,6 +241,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 id={id}
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
+                season={getCurrentSeason()}
               />
             )}
             {currentTab === 3 && (
@@ -249,12 +258,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 playerId={id}
                 faction={state.faction.name}
               />
-            )}
-
-            {currentTab === 6 && (
-              <>
-                <ChoreBoard />
-              </>
             )}
           </div>
         </OuterPanel>

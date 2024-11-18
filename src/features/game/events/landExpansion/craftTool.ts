@@ -6,6 +6,7 @@ import {
   Tool,
   WorkbenchToolName,
   WORKBENCH_TOOLS,
+  LOVE_ANIMAL_TOOLS,
 } from "features/game/types/tools";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
@@ -32,6 +33,7 @@ export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
   ...WORKBENCH_TOOLS,
   ...TREASURE_TOOLS,
   ...PURCHASEABLE_BAIT,
+  ...LOVE_ANIMAL_TOOLS,
 };
 
 type Options = {

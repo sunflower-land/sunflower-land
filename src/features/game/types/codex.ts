@@ -5,6 +5,7 @@ export type CodexCategoryName =
   | "Fish"
   | "Flowers"
   | "Season"
+  | "Bull Run"
   | "Deliveries"
   | "Chores"
   | "Bumpkins"

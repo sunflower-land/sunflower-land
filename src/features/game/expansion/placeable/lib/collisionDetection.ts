@@ -1,5 +1,4 @@
 import {
-  AnimalBuilding,
   AnimalBuildingKey,
   Collectibles,
   GameState,
@@ -22,7 +21,9 @@ import {
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
 import { PlaceableLocation } from "features/game/types/collectibles";
-import { ANIMALS, AnimalType } from "features/game/types/animals";
+import { AnimalType } from "features/game/types/animals";
+import { hasFeatureAccess } from "lib/flags";
+import { INITIAL_FARM } from "features/game/lib/constants";
 
 type BoundingBox = Position;
 
@@ -205,7 +206,7 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
   },
 };
 
-const ANIMAL_HOUSE_BOUNDS: Record<
+export const ANIMAL_HOUSE_BOUNDS: Record<
   AnimalBuildingKey,
   Record<number, BoundingBox>
 > = {
@@ -214,19 +215,19 @@ const ANIMAL_HOUSE_BOUNDS: Record<
       height: 8,
       width: 8,
       x: -4,
-      y: 4,
+      y: 5,
     },
     2: {
       height: 10,
       width: 10,
       x: -5,
-      y: 5,
+      y: 6,
     },
     3: {
       height: 12,
       width: 12,
       x: -6,
-      y: 6,
+      y: 7,
     },
   },
   barn: {
@@ -234,19 +235,19 @@ const ANIMAL_HOUSE_BOUNDS: Record<
       height: 8,
       width: 8,
       x: -4,
-      y: 4,
+      y: 5,
     },
     2: {
       height: 10,
       width: 10,
       x: -5,
-      y: 5,
+      y: 6,
     },
     3: {
       height: 12,
       width: 12,
       x: -6,
-      y: 6,
+      y: 7,
     },
   },
 };
@@ -265,6 +266,8 @@ const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Bumpkin Faction Rug",
   "Goblin Faction Rug",
   "Nightshade Faction Rug",
+  "Sleepy Rug",
+  "Crop Circle",
 ];
 
 function detectHomeCollision({
@@ -328,38 +331,6 @@ function detectHomeCollision({
   );
 }
 
-function detectAnimalHouseCollision({
-  state,
-  position,
-  location,
-}: {
-  state: GameState;
-  position: BoundingBox;
-  location: PlaceableLocation;
-}) {
-  const buildingKey = location as AnimalBuildingKey;
-  const building = state[buildingKey] as AnimalBuilding;
-  const bounds = ANIMAL_HOUSE_BOUNDS[buildingKey][building.level];
-
-  const isOutside = !isOverlapping(position, bounds);
-  if (isOutside) return true;
-
-  // TODO: Add any static objects that are inside the animal houses eg. feeders
-
-  const placedAnimalBounds = Object.values(building.animals).map((animal) => {
-    return {
-      x: animal.coordinates.x,
-      y: animal.coordinates.y,
-      height: ANIMALS[animal.type].height,
-      width: ANIMALS[animal.type].width,
-    };
-  });
-
-  return placedAnimalBounds.some((animalBoundingBox) =>
-    isOverlapping(position, animalBoundingBox),
-  );
-}
-
 function detectChickenCollision(state: GameState, boundingBox: BoundingBox) {
   const { chickens } = state;
 
@@ -398,6 +369,21 @@ function detectMushroomCollision(state: GameState, boundingBox: BoundingBox) {
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(boundingBox, resourceBoundingBox),
+  );
+}
+
+function detectAirdropCollision(state: GameState, boundingBox: BoundingBox) {
+  const { airdrops } = state;
+  if (!airdrops) return false;
+
+  return airdrops.some(
+    (airdrop) =>
+      !!airdrop.coordinates &&
+      isOverlapping(boundingBox, {
+        ...airdrop.coordinates,
+        width: 1,
+        height: 1,
+      }),
   );
 }
 
@@ -525,10 +511,6 @@ export function detectCollision({
   position: Position;
   name: InventoryItemName | AnimalType;
 }) {
-  if (location === "henHouse" || location === "barn") {
-    return detectAnimalHouseCollision({ state, position, location });
-  }
-
   const item = name as InventoryItemName;
 
   if (location === "home") {
@@ -542,7 +524,8 @@ export function detectCollision({
     detectPlaceableCollision(state, position, item) ||
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
-    detectMushroomCollision(state, position)
+    detectMushroomCollision(state, position) ||
+    detectAirdropCollision(state, position)
   );
 }
 
@@ -633,13 +616,24 @@ export function isWithinAOE(
         (dxTurtle !== 0 || dyTurtle !== 0)
       );
     }
-    case "Sir Goldensnout":
-    case "Bale": {
+    case "Sir Goldensnout": {
       const dxRect = effectItem.x - x;
       const dyRect = effectItem.y - y;
       return (
         dxRect >= -1 && dxRect <= width && dyRect <= 1 && dyRect >= -height
       );
+    }
+
+    case "Bale": {
+      if (!hasFeatureAccess(INITIAL_FARM, "BALE_AOE_END")) {
+        const dxRect = effectItem.x - x;
+        const dyRect = effectItem.y - y;
+        return (
+          dxRect >= -1 && dxRect <= width && dyRect <= 1 && dyRect >= -height
+        );
+      }
+
+      return false;
     }
 
     case "Queen Cornelia": {
@@ -708,32 +702,3 @@ export function pickEmptyPosition({
 
   return availablePositions[0];
 }
-
-export const pickRandomPositionInAnimalHouse = (
-  gameState: GameState,
-  buildingKey: AnimalBuildingKey,
-  animal: AnimalType,
-): Position => {
-  const buildingLevel = gameState[buildingKey].level;
-  const buildingBounds = ANIMAL_HOUSE_BOUNDS[buildingKey][buildingLevel];
-  const positionsInBounding = splitBoundingBox(
-    buildingBounds,
-    ANIMALS[animal].height,
-    ANIMALS[animal].width,
-  );
-
-  const position = positionsInBounding.find(
-    (boundingBox) =>
-      detectAnimalHouseCollision({
-        state: gameState,
-        position: boundingBox,
-        location: buildingKey,
-      }) === false,
-  );
-
-  if (!position) {
-    throw new Error("No available position in animal house");
-  }
-
-  return position;
-};

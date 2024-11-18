@@ -106,7 +106,8 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
               <InlineDialogue
                 message={t("upgrade.intro", {
                   building: buildingName,
-                  animals: "chickens",
+                  animals:
+                    buildingName === "Barn" ? "sheep and cows" : "chickens",
                 })}
               />
             </div>

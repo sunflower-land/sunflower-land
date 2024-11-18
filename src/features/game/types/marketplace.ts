@@ -11,7 +11,6 @@ export type Tradeable = {
   id: number;
   floor: number;
   supply: number;
-  type: "onchain" | "instant";
 };
 
 export type Offer = {
@@ -20,14 +19,16 @@ export type Offer = {
   quantity: number;
   offeredById: number;
   offeredAt: number;
+  type: "onchain" | "instant";
 };
 
-type Listing = {
+export type Listing = {
   id: string;
   sfl: number;
   quantity: number;
   listedById: number;
   listedAt: number;
+  type: "onchain" | "instant";
 };
 
 export type PriceHistory = {

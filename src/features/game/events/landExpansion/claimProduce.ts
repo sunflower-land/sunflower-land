@@ -6,9 +6,14 @@ import {
   AnimalType,
 } from "features/game/types/animals";
 import { GameState } from "features/game/types/game";
-import { getAnimalLevel } from "features/game/lib/animals";
+import {
+  getAnimalLevel,
+  getBoostedAwakeAt,
+  getResourceDropAmount,
+} from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/craftables";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type ClaimProduceAction = {
   type: "produce.claimed";
@@ -42,17 +47,50 @@ export function claimProduce({
       throw new Error("Animal is not ready to claim produce");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
+    const level = getAnimalLevel(animal.experience, action.animal);
 
     getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
-      const amount = ANIMAL_RESOURCE_DROP[action.animal][level][resource];
+      const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
+        resource
+      ] as Decimal;
+      const boostedAmount = getResourceDropAmount({
+        game: copy,
+        animalType: action.animal,
+        baseAmount: baseAmount.toNumber(),
+        resource,
+        multiplier: animal.multiplier ?? 0,
+      });
+
       copy.inventory[resource] = (
         copy.inventory[resource] ?? new Decimal(0)
-      ).add(amount ?? new Decimal(0));
+      ).add(boostedAmount ?? new Decimal(0));
+
+      copy.bumpkin.activity = trackActivity(
+        `${resource} Collected`,
+        copy.bumpkin.activity,
+      );
     });
 
+    // Apply reward items if any
+    if (animal.reward?.items) {
+      animal.reward.items.forEach((rewardItem) => {
+        copy.inventory[rewardItem.name] = (
+          copy.inventory[rewardItem.name] ?? new Decimal(0)
+        ).add(rewardItem.amount);
+      });
+
+      // Remove reward items from the animal
+      delete animal.reward;
+    }
+
     animal.asleepAt = createdAt;
+    animal.awakeAt = getBoostedAwakeAt({
+      animalType: animal.type,
+      createdAt,
+      game: copy,
+    });
     animal.state = "idle";
+    animal.multiplier = 1;
 
     return copy;
   });

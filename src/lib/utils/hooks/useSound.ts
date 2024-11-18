@@ -154,6 +154,11 @@ const HOWLERS = {
     preload: false,
     volume: 0.05,
   }),
+  cure_animal: new Howl({
+    src: SOUNDS.animals.cure_animal,
+    preload: false,
+    volume: 0.05,
+  }),
 };
 
 let lastSoundPlayedAt = 0;

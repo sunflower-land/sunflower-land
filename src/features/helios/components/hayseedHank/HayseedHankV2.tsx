@@ -76,6 +76,21 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
     );
   }
 
+  if (Date.now() > new Date("2024-11-01T00:00:00").getTime()) {
+    return (
+      <CloseButtonPanel
+        bumpkinParts={NPC_WEARABLES.hank}
+        onClose={onClose}
+        container={OuterPanel}
+        title={t("hayseedHankv2.title")}
+      >
+        <div className="p-2 text-sm">
+          <p>{t("chores.ended")}</p>
+        </div>
+      </CloseButtonPanel>
+    );
+  }
+
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.hank}

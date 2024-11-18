@@ -95,9 +95,6 @@ export type StockableName = Extract<
   | "Lily Seed"
   | "Sand Shovel"
   | "Sand Drill"
-  | "Chicken"
-  | "Magic Bean"
-  | "Immortal Pear"
 >;
 
 export const INITIAL_STOCK = (
@@ -109,8 +106,8 @@ export const INITIAL_STOCK = (
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
     "Gold Pickaxe": new Decimal(5),
-    "Oil Drill": new Decimal(5),
     Rod: new Decimal(50),
+    "Oil Drill": new Decimal(5),
   };
 
   // increase in 50% tool stock if you have a toolshed
@@ -179,14 +176,11 @@ export const INITIAL_STOCK = (
   return {
     // Tools
     ...tools,
-    // Seeds
-    ...seeds,
 
     "Sand Shovel": new Decimal(50),
     "Sand Drill": new Decimal(10),
-    Chicken: new Decimal(5),
-    "Magic Bean": new Decimal(5),
-    "Immortal Pear": new Decimal(1),
+    // Seeds
+    ...seeds,
   };
 };
 
@@ -438,6 +432,7 @@ export const INITIAL_FARM: GameState = {
   previousInventory: {},
   wardrobe: {},
   previousWardrobe: {},
+  bank: { taxFreeSFL: 0 },
 
   choreBoard: INITIAL_CHORE_BOARD,
 
@@ -446,6 +441,7 @@ export const INITIAL_FARM: GameState = {
   },
 
   shipments: {},
+  gems: {},
 
   bumpkin: INITIAL_BUMPKIN,
 
@@ -475,7 +471,7 @@ export const INITIAL_FARM: GameState = {
     requests: [
       {
         id: "1",
-        name: "Chicken",
+        name: "Cow",
         level: 1,
         coins: 100,
       },
@@ -671,7 +667,6 @@ export const INITIAL_FARM: GameState = {
       goal: 10,
       total: 10,
     },
-    doubleDelivery: false,
   },
   farmActivity: {},
   milestones: {},
@@ -740,6 +735,7 @@ export const TEST_FARM: GameState = {
     prizes: {},
   },
   shipments: {},
+  gems: {},
   competitions: {
     progress: {},
   },
@@ -749,6 +745,7 @@ export const TEST_FARM: GameState = {
     choresSkipped: 0,
   },
   stock: INITIAL_STOCK(),
+  bank: { taxFreeSFL: 0 },
   chickens: {},
   experiments: [],
   farmActivity: {},
@@ -864,7 +861,6 @@ export const TEST_FARM: GameState = {
       goal: 10,
       total: 10,
     },
-    doubleDelivery: false,
   },
   auctioneer: {},
   buildings: {
@@ -1045,12 +1041,14 @@ export const EMPTY: GameState = {
     requests: [],
   },
   rewards: INITIAL_REWARDS,
+  bank: { taxFreeSFL: 0 },
   experiments: [],
   minigames: {
     games: {},
     prizes: {},
   },
   shipments: {},
+  gems: {},
   previousInventory: {},
   chickens: {},
   choreBoard: INITIAL_CHORE_BOARD,
@@ -1085,7 +1083,6 @@ export const EMPTY: GameState = {
       goal: 10,
       total: 10,
     },
-    doubleDelivery: false,
   },
   home: { collectibles: {} },
   island: { type: "basic" },

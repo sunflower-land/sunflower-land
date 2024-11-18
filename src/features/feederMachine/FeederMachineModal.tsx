@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
-import { AnimalFoodName } from "features/game/types/game";
+import { AnimalFoodName, AnimalMedicineName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { getKeys } from "features/game/types/decorations";
@@ -12,18 +12,38 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
-import { ANIMAL_FOODS } from "features/game/types/animals";
+import { ANIMAL_FOODS, Feed, FeedType } from "features/game/types/animals";
+import { Label } from "components/ui/Label";
 
 interface Props {
   show: boolean;
   onClose: () => void;
 }
 
+const FOOD_TYPE_TERMS = {
+  food: "feeder.foodTypes.food",
+  medicine: "feeder.foodTypes.medicine",
+} as const;
+
 export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService, shortcutItem } = useContext(Context);
-  const [selectedName, setSelectedName] = useState<AnimalFoodName>("Hay");
+  const [selectedName, setSelectedName] = useState<
+    AnimalFoodName | AnimalMedicineName
+  >("Hay");
   const { coins, ingredients } = ANIMAL_FOODS[selectedName];
+
+  const groupedItems = getKeys(ANIMAL_FOODS).reduce(
+    (acc, item) => {
+      const type = ANIMAL_FOODS[item].type;
+      if (!acc[type]) {
+        acc[type] = [];
+      }
+      acc[type].push(ANIMAL_FOODS[item]);
+      return acc;
+    },
+    {} as Record<FeedType, Feed[]>,
+  );
 
   const [
     {
@@ -31,9 +51,9 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
     },
   ] = useActor(gameService);
 
-  const onFeedClick = (feed: AnimalFoodName) => {
-    setSelectedName(feed);
-    shortcutItem(feed);
+  const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
+    setSelectedName(item);
+    shortcutItem(item);
   };
 
   const lessIngredients = (amount = 1) =>
@@ -49,7 +69,7 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
 
   const mix = (amount = 1) => {
     gameService.send("feed.mixed", {
-      feed: selectedName,
+      item: selectedName,
       amount,
     });
 
@@ -82,24 +102,37 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
                   >
                     {t("mix.one")}
                   </Button>
+                  <Button
+                    disabled={lessFunds(10) || lessIngredients(10)}
+                    onClick={() => mix(10)}
+                  >
+                    {t("mix.ten")}
+                  </Button>
                 </div>
               }
             />
           }
           content={
-            <>
-              {getKeys(ANIMAL_FOODS).map((feed) => {
-                return (
-                  <Box
-                    key={feed}
-                    isSelected={selectedName === feed}
-                    onClick={() => onFeedClick(feed)}
-                    image={ITEM_DETAILS[feed].image}
-                    count={state.inventory[feed]}
-                  />
-                );
-              })}
-            </>
+            <div className="flex flex-col">
+              {Object.entries(groupedItems).map(([type, items]) => (
+                <div key={type} className="flex flex-col">
+                  <Label type="default" className="mb-1">
+                    {t(FOOD_TYPE_TERMS[type as FeedType])}
+                  </Label>
+                  <div className="flex flex-wrap mb-2">
+                    {items.map((item) => (
+                      <Box
+                        key={item.name}
+                        isSelected={selectedName === item.name}
+                        onClick={() => onSelect(item.name)}
+                        image={ITEM_DETAILS[item.name].image}
+                        count={state.inventory[item.name]}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           }
         />
       </CloseButtonPanel>

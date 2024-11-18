@@ -10,6 +10,8 @@ import {
   DESERT_GRID_HEIGHT,
   getTreasureCount,
   getTreasuresFound,
+  getArtefactsFound,
+  SEASONAL_ARTEFACT,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -119,7 +121,7 @@ function dugToGrid(dug: Desert["digging"]["grid"]): DiggingGrid {
   return grid;
 }
 
-const Pattern: React.FC<{
+export const Pattern: React.FC<{
   pattern: DiggingFormation;
   isDiscovered: boolean;
 }> = ({ pattern, isDiscovered }) => {
@@ -202,9 +204,8 @@ export const DailyPuzzle: React.FC = () => {
 
   const { t } = useAppTranslation();
 
-  const treasureCount = getTreasureCount({ game: gameState.context.state });
-  const treasuresFound = getTreasuresFound({ game: gameState.context.state });
-  const percentage = Math.round((treasuresFound.length / treasureCount) * 100);
+  const artefactsFound = getArtefactsFound({ game: gameState.context.state });
+  const percentage = Math.round((artefactsFound / 3) * 100);
 
   const hasClaimedReward =
     new Date().toISOString().substring(0, 10) ===
@@ -306,11 +307,20 @@ export const DailyPuzzle: React.FC = () => {
                 height: 7,
               }}
             />
+            <span className="text-xs ml-2">{`${artefactsFound}/3`}</span>
+            <img
+              src={ITEM_DETAILS[SEASONAL_ARTEFACT[getCurrentSeason()]].image}
+              className="h-5 ml-1"
+            />
           </div>
         </div>
 
         <div className="mb-2">
-          <span className="text-xs">{t("digby.streakReward")}</span>
+          <span className="text-xs">
+            {t("digby.streakReward", {
+              name: SEASONAL_ARTEFACT[getCurrentSeason()],
+            })}
+          </span>
         </div>
       </div>
       {!hasClaimedReward && (

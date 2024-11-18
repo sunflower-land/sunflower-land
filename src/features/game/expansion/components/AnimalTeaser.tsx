@@ -19,7 +19,7 @@ export const TeaserAnimal: React.FC<{ onClose: () => void }> = () => {
   return (
     <>
       <div className="p-2">
-        <p className="text-sm mb-2">{t("teaser.intro")}</p>
+        <p className="text-sm mb-2"></p>
       </div>
     </>
   );

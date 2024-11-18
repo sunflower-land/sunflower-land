@@ -9,16 +9,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import {
-  BEACH_BUMPKINS,
-  KINGDOM_BUMPKINS,
-  RETREAT_BUMPKINS,
-} from "features/island/delivery/components/Orders";
+
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 
@@ -35,11 +30,18 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Button } from "components/ui/Button";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lockIcon from "assets/icons/lock.png";
-import giftIcon from "assets/icons/gift.png";
 
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { CHORE_DETAILS } from "../lib/choreDetails";
 import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
+import { CHORE_DIALOGUES } from "features/game/types/stories";
+import { isMobile } from "mobile-device-detect";
+
+const formatNumber = (num: number, decimals = 2) => {
+  // Check if the number has a fractional part
+  return num % 1 === 0 ? num : num.toFixed(decimals);
+};
+
 export const ChoreBoard: React.FC = () => {
   const { gameService } = useContext(Context);
 
@@ -61,19 +63,11 @@ export const ChoreBoard: React.FC = () => {
   const previewNpc = selectedId ?? getKeys(chores)[0];
   const previewChore = chores[previewNpc];
 
-  const getLocationName = (npcName: NPCName) => {
-    if (RETREAT_BUMPKINS.includes(npcName)) return t("island.goblin.retreat");
-    if (BEACH_BUMPKINS.includes(npcName)) return t("island.beach");
-    if (KINGDOM_BUMPKINS.includes(npcName)) return t("island.kingdom");
-    return t("island.pumpkin.plaza");
-  };
+  const messages = CHORE_DIALOGUES[previewNpc];
 
-  const {
-    tasksStartAt,
-    tasksCloseAt,
-    ticketTasksAreFrozen,
-    ticketTasksAreClosing,
-  } = getSeasonChangeover({ id: gameService.state.context.farmId });
+  // Pick random message based on day of week
+  const dayOfWeek = new Date().getDate();
+  const dialogue = messages?.[dayOfWeek % messages.length];
 
   const level = getBumpkinLevel(
     gameService.state.context.state.bumpkin.experience ?? 0,
@@ -119,7 +113,7 @@ export const ChoreBoard: React.FC = () => {
           })}
         </p>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
+        <div className="grid grid-cols-2 sm:grid-cols-3 w-full ">
           {getKeys(chores)
             .filter((npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName])
             .map((chore) => (
@@ -206,16 +200,20 @@ export const ChoreBoard: React.FC = () => {
           </div>
 
           <div className="flex-1 space-y-2 p-1 w-full">
+            {dialogue && <p className="text-xs">{dialogue}</p>}
+
             <div className="text-xs flex justify-between flex-wrap items-center mb-2">
               <Label type="default">
                 {CHORE_DETAILS[previewChore.name].description}
               </Label>
-              <p>{`${Math.min(
-                getChoreProgress({
-                  chore: previewChore,
-                  game: gameService.state.context.state,
-                }),
-                NPC_CHORES[previewChore.name].requirement,
+              <p>{`${formatNumber(
+                Math.min(
+                  getChoreProgress({
+                    chore: previewChore,
+                    game: gameService.state.context.state,
+                  }),
+                  NPC_CHORES[previewChore.name].requirement,
+                ),
               )}/${NPC_CHORES[previewChore.name].requirement}`}</p>
             </div>
 
@@ -223,28 +221,23 @@ export const ChoreBoard: React.FC = () => {
               <Button
                 className="h-12 relative !mt-4"
                 disabled={
-                  ticketTasksAreFrozen ||
-                  ticketTasksAreClosing ||
                   !!previewChore.completedAt ||
                   getChoreProgress({
                     chore: previewChore,
                     game: gameService.state.context.state,
                   }) < NPC_CHORES[previewChore.name].requirement
                 }
-                onClick={() => handleCompleteChore(previewNpc)}
+                onClick={() => {
+                  handleCompleteChore(previewNpc);
+                  if (isMobile) {
+                    setSelectedId(undefined);
+                  }
+                }}
               >
                 {t("chores.complete")}
-                <Label
-                  type={"warning"}
-                  icon={ITEM_DETAILS[getSeasonalTicket()].image}
-                  className="flex absolute right-0 -top-5"
-                >
-                  {generateChoreRewards({
-                    game: gameService.state.context.state,
-                    chore: previewChore,
-                    now: new Date(),
-                  })[getSeasonalTicket()] ?? 0}
-                </Label>
+                <div className="flex absolute right-0 -top-5">
+                  <ChoreRewardLabel chore={previewChore} />
+                </div>
               </Button>
             )}
 
@@ -255,15 +248,6 @@ export const ChoreBoard: React.FC = () => {
               </div>
             )}
           </div>
-          {ticketTasksAreFrozen && (
-            <Label
-              type="danger"
-              className="mb-1"
-              icon={SUNNYSIDE.icons.stopwatch}
-            >
-              {t("deliveries.closed")}
-            </Label>
-          )}
         </InnerPanel>
       )}
     </div>
@@ -287,21 +271,25 @@ export const ChoreCard: React.FC<{
     <div className="py-1 px-1" key={npc}>
       <ButtonPanel
         onClick={() => onClick(npc)}
-        className={classNames("w-full relative", {
-          "sm:!bg-brown-200": npc === selected,
+        className={classNames("w-full relative cursor-pointer", {
+          "!bg-red": !!chore.completedAt,
         })}
-        style={{ paddingBottom: "10px" }}
+        frozen={!!chore.completedAt}
+        style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
-        <Label type={"warning"} className="flex absolute -right-2 -top-4">
-          {rewards[getSeasonalTicket()] ?? 0}
-        </Label>
+        <div className="flex absolute -right-2 -top-4">
+          <ChoreRewardLabel chore={chore} />
+        </div>
 
         {!chore.completedAt &&
           getChoreProgress({
             chore,
             game,
           }) >= NPC_CHORES[chore.name].requirement && (
-            <img src={giftIcon} className="h-6 absolute -top-4 -left-3" />
+            <img
+              src={SUNNYSIDE.icons.heart}
+              className="h-6 absolute -top-4 -left-3"
+            />
           )}
 
         {chore.completedAt && (
@@ -310,12 +298,12 @@ export const ChoreCard: React.FC<{
           </div>
         )}
         <div className="flex flex-col">
-          <div className="flex items-center">
+          <div className="flex items-center justify-center">
             <div className="relative mb-2 mr-0.5 ">
               <NPCIcon parts={NPC_WEARABLES[npc]} />
             </div>
-            <div className="flex flex-col items-center flex-1">
-              <img className="h-8" src={CHORE_DETAILS[chore.name].icon} />
+            <div className="flex flex-col items-center">
+              <img className="h-6" src={CHORE_DETAILS[chore.name].icon} />
             </div>
           </div>
         </div>
@@ -389,5 +377,41 @@ export const LockedChoreCard: React.FC<{
         </Label>
       </ButtonPanel>
     </div>
+  );
+};
+
+export const ChoreRewardLabel: React.FC<{
+  chore: NpcChore;
+}> = ({ chore }) => {
+  const { gameService } = useContext(Context);
+
+  if (chore.reward.items[getSeasonalTicket()]) {
+    return (
+      <Label type={"warning"} icon={ITEM_DETAILS[getSeasonalTicket()].image}>
+        {generateChoreRewards({
+          game: gameService.state.context.state,
+          chore,
+          now: new Date(),
+        })[getSeasonalTicket()] ?? 0}
+      </Label>
+    );
+  }
+
+  if (chore.reward.coins) {
+    return (
+      <Label type={"warning"} icon={SUNNYSIDE.ui.coins}>
+        {chore.reward.coins}
+      </Label>
+    );
+  }
+
+  const item = Object.keys(chore.reward.items)[0] as InventoryItemName;
+
+  if (!item) return null;
+
+  return (
+    <Label type={"warning"} icon={ITEM_DETAILS[item].image}>
+      {chore.reward.items[item]}
+    </Label>
   );
 };

@@ -177,7 +177,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                               </Label>
                             </div>
                             {selectedRequestIdx === idx && (
-                              <div id="select-box">
+                              <div id="select-box" className="block">
                                 <img
                                   className="absolute pointer-events-none"
                                   src={SUNNYSIDE.ui.selectBoxTL}

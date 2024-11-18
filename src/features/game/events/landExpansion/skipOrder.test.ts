@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import { GameState, Order } from "features/game/types/game";
 import { skipOrder } from "./skipOrder";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";

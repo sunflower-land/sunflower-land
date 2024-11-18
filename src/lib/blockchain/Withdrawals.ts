@@ -15,7 +15,9 @@ export type WithdrawSFLParams = {
   sender: string;
   sfl: string;
   deadline: number;
-  tax: number;
+  teamTax: number;
+  communityTax: number;
+  wishingWellTax: number;
 };
 
 export async function withdrawSFLTransaction({
@@ -25,7 +27,9 @@ export async function withdrawSFLTransaction({
   nextSessionId,
   deadline,
   farmId,
-  tax,
+  teamTax,
+  communityTax,
+  wishingWellTax,
   sfl,
 }: WithdrawSFLParams): Promise<string> {
   const oldSessionId = sessionId;
@@ -41,7 +45,9 @@ export async function withdrawSFLTransaction({
       BigInt(deadline),
       BigInt(farmId),
       BigInt(sfl),
-      BigInt(tax),
+      BigInt(teamTax),
+      BigInt(communityTax),
+      BigInt(wishingWellTax),
     ],
     account: sender as `0x${string}`,
   });

@@ -1,15 +1,11 @@
 import Decimal from "decimal.js-light";
+import { getAnimalLevel } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { produce } from "immer";
-
-// TEMP level function
-export function getAnimalLevel({ animal }: { animal: Animal }) {
-  if (animal.experience < 5) return 1;
-
-  return 2;
-}
+import { generateBountyTicket } from "./sellBounty";
 
 export function isValidDeal({
   animal,
@@ -22,7 +18,7 @@ export function isValidDeal({
     return false;
   }
 
-  if (getAnimalLevel({ animal }) < deal.level) {
+  if (getAnimalLevel(animal.experience, animal.type) < deal.level) {
     return false;
   }
 
@@ -40,6 +36,10 @@ type Options = {
   action: SellAnimalAction;
   createdAt?: number;
 };
+
+export function getSickAnimalRewardAmount(amount: number) {
+  return Math.floor(amount * 0.75);
+}
 
 export function sellAnimal({
   state,
@@ -73,15 +73,31 @@ export function sellAnimal({
       throw new Error("Animal does not meet requirements");
     }
 
+    const isSick = animal.state === "sick";
+
     delete animals[action.animalId];
 
     if (request.coins) {
-      game.coins += request.coins;
+      game.coins += isSick
+        ? getSickAnimalRewardAmount(request.coins)
+        : request.coins;
     }
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = game.inventory[name] ?? new Decimal(0);
-      game.inventory[name] = previous.add(request.items?.[name] ?? 0);
+      let amount = request.items?.[name] ?? 0;
+
+      if (name === getSeasonalTicket(new Date(createdAt))) {
+        amount = generateBountyTicket({
+          game,
+          bounty: request,
+          now: createdAt,
+        });
+      }
+
+      game.inventory[name] = previous.add(
+        isSick ? getSickAnimalRewardAmount(amount) : amount,
+      );
     });
 
     game.bounties.completed = [

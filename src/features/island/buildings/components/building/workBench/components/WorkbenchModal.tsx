@@ -48,7 +48,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && <Tools onClose={onClose} />}
+      {tab === 0 && <Tools />}
       {tab === 1 && <IslandBlacksmithItems />}
       {tab === 2 && <Buildings onClose={onClose} />}
     </CloseButtonPanel>

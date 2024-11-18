@@ -271,6 +271,7 @@ export const Building: React.FC<{
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
+    game: state,
   });
 
   useEffect(() => {

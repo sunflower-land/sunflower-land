@@ -21,7 +21,7 @@ import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { TradeableHeader } from "./TradeableHeader";
 import { TradeableInfo } from "./TradeableInfo";
-import { TradeableListings } from "./TradeableListings";
+import { TradeableListings, YourListings } from "./TradeableListings";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -108,7 +108,6 @@ export const Tradeable: React.FC = () => {
             onListClick={() => setShowListItem(true)}
           />
         </div>
-
         <TradeableInfo display={display} tradeable={tradeable} />
       </div>
       <div className="w-full">
@@ -132,6 +131,12 @@ export const Tradeable: React.FC = () => {
           id={Number(id)}
         />
 
+        <YourListings
+          onListingRemoved={load}
+          collection={collection as CollectionName}
+          id={Number(id)}
+        />
+
         <PriceHistory history={tradeable?.history} />
 
         <TradeableListings
@@ -150,6 +155,7 @@ export const Tradeable: React.FC = () => {
           onListClose={() => {
             setShowListItem(false);
           }}
+          onPurchase={load}
         />
 
         <TradeableOffers

@@ -328,13 +328,10 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 <SquareIcon icon={xpIcon} width={7} />
                 <span>{t("season.xp.boost")}</span>
               </div>
-              {getCurrentSeason() === "Pharaoh's Treasure" && (
+              {getCurrentSeason() === "Bull Run" && (
                 <div className="flex items-center space-x-2">
-                  <SquareIcon
-                    icon={ITEM_DETAILS["Sand Shovel"].image}
-                    width={7}
-                  />
-                  <span>{t("season.pharaohs.gift")}</span>
+                  <SquareIcon icon={SUNNYSIDE.animals.cowIdle} width={7} />
+                  <span>{t("season.bullRun.bonus")}</span>
                 </div>
               )}
               {hasDiscount && !hasSeasonBanner && (

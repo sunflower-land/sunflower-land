@@ -67,11 +67,13 @@ export const PlayerList: React.FC<Props> = ({
         <>
           <div className="flex flex-col items-start gap-2 ml-1 mt-2 h-96 overflow-y-auto scrollable">
             {Players.map((player) => {
-              const latestMute = player.moderation?.muted.sort(
+              /* const latestMute = player.moderation?.muted.sort(
                 (a, b) => b.mutedUntil - a.mutedUntil,
               )[0];
 
-              const isMuted = latestMute && latestMute.mutedUntil > Date.now();
+              const isMuted = latestMute && latestMute.mutedUntil > Date.now(); */
+              const latestMute = { mutedUntil: 0 };
+              const isMuted = false;
 
               return (
                 <OuterPanel className="w-full" key={player.playerId}>

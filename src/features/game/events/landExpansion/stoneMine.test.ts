@@ -213,6 +213,62 @@ describe("getMinedAt", () => {
     expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
   });
 
+  it("stone replenishes faster with Super Totem", () => {
+    const now = Date.now();
+
+    const time = getMinedAt({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      skills: {},
+      createdAt: now,
+    });
+
+    expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+  });
+
+  it("doesn't stack Super Totem and Time Warp Totem", () => {
+    const now = Date.now();
+
+    const time = getMinedAt({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      skills: {},
+      createdAt: now,
+    });
+
+    expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+  });
+
   it("reduces the cooldown time with Speed Miner Skill", () => {
     const now = Date.now();
 

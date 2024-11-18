@@ -6,14 +6,15 @@ import { Label } from "components/ui/Label";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/types/decorations";
 import { FLOWERS } from "features/game/types/flowers";
 import { BountyRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -104,17 +105,18 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
               (request) => request.id === deal.id,
             );
 
-            const isDisabled = isSold || !state.inventory[deal.name]?.gt(0);
+            const isDisabled = !state.inventory[deal.name]?.gt(0);
 
             return (
               <div
                 key={deal.id}
-                className={classNames("w-1/3 sm:w-1/4 pr-1.5 pb-1.5", {
+                className={classNames("w-full pb-0.5", {
                   "pointer-events-none": isSold,
                 })}
               >
                 <ButtonPanel
                   disabled={isDisabled}
+                  frozen={isSold}
                   className="h-full"
                   onClick={() => {
                     if (isDisabled) {
@@ -123,66 +125,47 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
                     setDeal(deal);
                   }}
                 >
-                  <div className="flex justify-center items-center my-2 mb-6">
+                  <div className="flex items-center">
                     <div className="relative mr-2">
                       <img
                         src={ITEM_DETAILS[deal.name].image}
                         className="h-8 z-20"
                       />
                     </div>
-                    <span className="text-xxs flex-1 text-left leading-snug">
-                      {deal.name}
-                    </span>
+                    <div className="flex items-center flex-wrap justify-between w-full">
+                      <p className="text-xs text-left leading-snug">
+                        {deal.name}
+                      </p>
+
+                      {!isSold && !!deal.coins && (
+                        <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
+                          {deal.coins}
+                        </Label>
+                      )}
+
+                      {!isSold &&
+                        getKeys(deal.items ?? {}).map((name) => {
+                          return (
+                            <Label
+                              key={name}
+                              type="warning"
+                              icon={ITEM_DETAILS[name].image}
+                            >
+                              {name !== getSeasonalTicket()
+                                ? deal.items?.[name]
+                                : generateBountyTicket({
+                                    game: state,
+                                    bounty: deal,
+                                  })}
+                            </Label>
+                          );
+                        })}
+
+                      {!!isSold && (
+                        <Label type="success">{t("completed")}</Label>
+                      )}
+                    </div>
                   </div>
-
-                  {!!isSold && (
-                    <Label
-                      type="success"
-                      className={"absolute -top-3.5 text-center p-1 "}
-                      style={{
-                        right: `${PIXEL_SCALE * -3}px`,
-                        // width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                        height: "25px",
-                      }}
-                    >
-                      {t("bounties.sold")}
-                    </Label>
-                  )}
-
-                  {!!deal.coins && (
-                    <Label
-                      type="warning"
-                      icon={SUNNYSIDE.ui.coinsImg}
-                      className={"absolute -bottom-2 text-center p-1 "}
-                      style={{
-                        left: `${PIXEL_SCALE * -3}px`,
-                        right: `${PIXEL_SCALE * -3}px`,
-                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                        height: "25px",
-                      }}
-                    >
-                      {deal.coins}
-                    </Label>
-                  )}
-
-                  {getKeys(deal.items ?? {}).map((name) => {
-                    return (
-                      <Label
-                        key={name}
-                        type="warning"
-                        icon={ITEM_DETAILS[name].image}
-                        className={"absolute -bottom-2 text-center p-1 "}
-                        style={{
-                          left: `${PIXEL_SCALE * -3}px`,
-                          right: `${PIXEL_SCALE * -3}px`,
-                          width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                          height: "25px",
-                        }}
-                      >
-                        {deal.items?.[name]}
-                      </Label>
-                    );
-                  })}
                 </ButtonPanel>
               </div>
             );
@@ -199,6 +182,7 @@ const Deal: React.FC<{
   onSold: () => void;
 }> = ({ deal, onClose, onSold }) => {
   const { gameService } = useContext(Context);
+  const state = gameService.getSnapshot().context.state;
 
   const { t } = useAppTranslation();
   const sell = () => {
@@ -232,7 +216,12 @@ const Deal: React.FC<{
 
           {getKeys(deal.items ?? {}).map((name) => (
             <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
-              {deal.items?.[name]}
+              {name !== getSeasonalTicket()
+                ? deal.items?.[name]
+                : generateBountyTicket({
+                    game: state,
+                    bounty: deal,
+                  })}
             </Label>
           ))}
         </div>
@@ -242,7 +231,17 @@ const Deal: React.FC<{
             ? t("bounties.sell.coins", { amount: deal.coins })
             : t("bounties.sell.items", {
                 amount: getKeys(deal.items ?? {})
-                  .map((name) => `${deal.items?.[name]} x ${name}`)
+                  .map(
+                    (name) =>
+                      `${
+                        name !== getSeasonalTicket()
+                          ? deal.items?.[name]
+                          : generateBountyTicket({
+                              game: state,
+                              bounty: deal,
+                            })
+                      } x ${name}`,
+                  )
                   .join(" - "),
               })}
         </p>

@@ -13,6 +13,7 @@ import {
 } from "../types/decorations";
 import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_IDS } from "../types";
+import { ANIMAL_FOODS } from "../types/animals";
 
 export const MAX_ITEMS: Inventory = {
   Sunflower: new Decimal(30000),
@@ -58,6 +59,10 @@ export const MAX_ITEMS: Inventory = {
   "Knight Chicken": new Decimal(5),
   "Desert Rose": new Decimal(5),
   "Pharaoh Chicken": new Decimal(5),
+  Chicory: new Decimal(5),
+  "Alien Chicken": new Decimal(5),
+  "Toxic Tuft": new Decimal(5),
+  Mootant: new Decimal(5),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1250),
@@ -189,6 +194,7 @@ export const MAX_ITEMS: Inventory = {
   "Tulip Bulb": new Decimal(1500),
   Scroll: new Decimal(1500),
   "Amber Fossil": new Decimal(1500),
+  Horseshoe: new Decimal(1500),
   "Bud Ticket": new Decimal(1),
 
   // Potion House
@@ -334,6 +340,14 @@ export const MAX_ITEMS: Inventory = {
       }),
       {},
     ),
+
+  ...(Object.keys(ANIMAL_FOODS) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(1500),
+    }),
+    {},
+  ),
 };
 
 /**

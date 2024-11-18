@@ -54,6 +54,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
       0;
     const gems = getInstantGems({
       readyAt: readyAt as number,
+      game: gameService.getSnapshot().context.state,
     });
 
     gameService.send("expansion.spedUp");

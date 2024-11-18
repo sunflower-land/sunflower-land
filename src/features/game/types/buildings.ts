@@ -5,11 +5,15 @@ import { ResourceName } from "./resources";
 
 export type Home = "Tent" | "House" | "Manor";
 
-export type CookingBuildingName = "Fire Pit" | "Kitchen" | "Bakery" | "Deli";
+export type CookingBuildingName =
+  | "Fire Pit"
+  | "Kitchen"
+  | "Bakery"
+  | "Deli"
+  | "Smoothie Shack";
 
 export type BuildingName =
   | CookingBuildingName
-  | "Smoothie Shack"
   | "Market"
   | "Town Center"
   | "Workbench"
@@ -217,29 +221,6 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
         {
           item: "Gold",
           amount: new Decimal(5),
-        },
-      ],
-    },
-    {
-      unlocksAtLevel: 20,
-      coins: 800,
-      constructionSeconds: 60 * 60 * 3,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(200),
-        },
-        {
-          item: "Iron",
-          amount: new Decimal(15),
-        },
-        {
-          item: "Gold",
-          amount: new Decimal(15),
-        },
-        {
-          item: "Egg",
-          amount: new Decimal(300),
         },
       ],
     },

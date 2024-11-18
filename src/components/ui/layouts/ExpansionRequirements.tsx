@@ -186,6 +186,7 @@ export const Expanding: React.FC<{
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
+    game: state,
   });
 
   const hasAccess =

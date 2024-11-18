@@ -138,7 +138,7 @@ export const PhaserComponent: React.FC<Props> = ({
     Preloader,
     new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
-    PlazaScene,
+    new PlazaScene({ gameState: gameService.state.context.state }),
     RetreatScene,
     KingdomScene,
     GoblinHouseScene,
@@ -164,22 +164,7 @@ export const PhaserComponent: React.FC<Props> = ({
     isModerator ? setIsModerator(true) : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
 
     // Check if user is muted and if so, apply mute details to isMuted state
-    const userModLogs = gameService.state.context.moderation;
-
-    if (userModLogs.muted.length > 0) {
-      const latestMute = userModLogs.muted.sort(
-        (a, b) => b.mutedUntil - a.mutedUntil,
-      )[0];
-
-      if (latestMute.mutedUntil > new Date().getTime()) {
-        setIsMuted({
-          type: "mute",
-          farmId: gameService.state.context.farmId as number,
-          arg: latestMute.reason,
-          mutedUntil: latestMute.mutedUntil,
-        });
-      }
-    }
+    // Removed for now, will be added back later in a next PR
   }, []);
 
   useEffect(() => {
