@@ -814,7 +814,6 @@ export abstract class BaseScene extends Phaser.Scene {
     this.updateOtherPlayers();
     this.updateShaders();
     this.updateUsernames();
-    this.updateFactions();
     const after = Date.now();
 
     const elapsed = after - before;
@@ -858,10 +857,6 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.currentPlayer.faction !== faction) {
       this.currentPlayer.faction = faction;
       this.mmoServer?.send("player:faction:update", { faction });
-      this.checkAndUpdateNameColor(
-        this.currentPlayer,
-        faction ? FACTION_NAME_COLORS[faction] : "white",
-      );
     }
 
     // joystick is active if force is greater than zero
@@ -1040,35 +1035,16 @@ export abstract class BaseScene extends Phaser.Scene {
     server.state.players.forEach((player, sessionId) => {
       const entity = this.playerEntities[sessionId];
       const nameTag = entity?.getByName("nameTag") as Phaser.GameObjects.Text;
+      const faction = player.faction;
+      const color = faction ? FACTION_NAME_COLORS[faction] : "#fff";
 
       if (nameTag && player.username && nameTag.text !== player.username) {
         nameTag.setText(player.username);
       }
-    });
-  }
 
-  checkAndUpdateNameColor(entity: BumpkinContainer, color: string) {
-    const nameTag = entity.getByName("nameTag") as
-      | Phaser.GameObjects.Text
-      | undefined;
-
-    if (nameTag && nameTag.style.color !== color) {
-      nameTag.setColor(color);
-    }
-  }
-
-  updateFactions() {
-    if (this.currentTick % 30 !== 0) return; // Update every 30 frames
-    const server = this.mmoServer;
-    if (!server) return;
-
-    server.state.players.forEach((player, sessionId) => {
-      if (!player.faction) return;
-
-      const entity = this.playerEntities[sessionId];
-      const faction = player.faction;
-      const color = faction ? FACTION_NAME_COLORS[faction] : "#fff";
-      this.checkAndUpdateNameColor(entity, color);
+      if (nameTag && nameTag.style.color !== color) {
+        nameTag.setColor(color);
+      }
     });
   }
 
