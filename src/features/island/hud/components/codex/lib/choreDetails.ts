@@ -290,11 +290,11 @@ export const CHORE_DETAILS: Record<
     description: translate("chore.harvest.150.parsnip"),
     icon: ITEM_DETAILS.Parsnip.image,
   },
-  "Harvest Eggplant 80 times": {
+  "Harvest Eggplants 80 times": {
     description: translate("chore.harvest.80.eggplant"),
     icon: ITEM_DETAILS.Eggplant.image,
   },
-  "Harvest Eggplant 120 times": {
+  "Harvest Eggplants 120 times": {
     description: translate("chore.harvest.120.eggplant"),
     icon: ITEM_DETAILS.Eggplant.image,
   },

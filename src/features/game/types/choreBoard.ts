@@ -315,11 +315,11 @@ export const NPC_CHORES = {
     activity: "Parsnip Harvested",
     amount: 150,
   }),
-  "Harvest Eggplant 80 times": bumpkinActivityTask({
+  "Harvest Eggplants 80 times": bumpkinActivityTask({
     activity: "Eggplant Harvested",
     amount: 80,
   }),
-  "Harvest Eggplant 120 times": bumpkinActivityTask({
+  "Harvest Eggplants 120 times": bumpkinActivityTask({
     activity: "Eggplant Harvested",
     amount: 120,
   }),
