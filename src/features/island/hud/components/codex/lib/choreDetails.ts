@@ -266,71 +266,71 @@ export const CHORE_DETAILS: Record<
     description: translate("chore.cook.7.goblins.treat"),
     icon: ITEM_DETAILS["Goblin's Treat"].image,
   },
-  "Harvest 250 Beetroot": {
+  "Harvest Beetroot 250 times": {
     description: translate("chore.harvest.250.beetroot"),
     icon: ITEM_DETAILS.Beetroot.image,
   },
-  "Harvest 300 Beetroot": {
+  "Harvest Beetroot 300 times": {
     description: translate("chore.harvest.300.beetroot"),
     icon: ITEM_DETAILS.Beetroot.image,
   },
-  "Harvest 180 Cauliflower": {
+  "Harvest Cauliflower 180 times": {
     description: translate("chore.harvest.180.cauliflower"),
     icon: ITEM_DETAILS.Cauliflower.image,
   },
-  "Harvest 200 Cauliflower": {
+  "Harvest Cauliflower 200 times": {
     description: translate("chore.harvest.200.cauliflower"),
     icon: ITEM_DETAILS.Cauliflower.image,
   },
-  "Harvest 100 Parsnip": {
+  "Harvest Parsnip 100 times": {
     description: translate("chore.harvest.100.parsnip"),
     icon: ITEM_DETAILS.Parsnip.image,
   },
-  "Harvest 150 Parsnip": {
+  "Harvest Parsnip 150 times": {
     description: translate("chore.harvest.150.parsnip"),
     icon: ITEM_DETAILS.Parsnip.image,
   },
-  "Harvest 80 Eggplant": {
+  "Harvest Eggplant 80 times": {
     description: translate("chore.harvest.80.eggplant"),
     icon: ITEM_DETAILS.Eggplant.image,
   },
-  "Harvest 120 Eggplant": {
+  "Harvest Eggplant 120 times": {
     description: translate("chore.harvest.120.eggplant"),
     icon: ITEM_DETAILS.Eggplant.image,
   },
-  "Harvest 150 Sunflowers": {
+  "Harvest Sunflowers 150 times": {
     description: translate("chore.harvest.150.sunflowers"),
     icon: ITEM_DETAILS.Sunflower.image,
   },
-  "Harvest 200 Sunflowers": {
+  "Harvest Sunflowers 200 times": {
     description: translate("chore.harvest.200.sunflowers"),
     icon: ITEM_DETAILS.Sunflower.image,
   },
-  "Harvest 250 Sunflowers": {
+  "Harvest Sunflowers 250 times": {
     description: translate("chore.harvest.250.sunflowers"),
     icon: ITEM_DETAILS.Sunflower.image,
   },
-  "Harvest 100 Potatoes": {
+  "Harvest Potato 100 times": {
     description: translate("chore.harvest.100.potatoes"),
     icon: ITEM_DETAILS.Potato.image,
   },
-  "Harvest 125 Potatoes": {
+  "Harvest Potato 125 times": {
     description: translate("chore.harvest.125.potatoes"),
     icon: ITEM_DETAILS.Potato.image,
   },
-  "Harvest 150 Potatoes": {
+  "Harvest Potato 150 times": {
     description: translate("chore.harvest.150.potatoes"),
     icon: ITEM_DETAILS.Potato.image,
   },
-  "Harvest 75 Pumpkins": {
+  "Harvest Pumpkin 75 times": {
     description: translate("chore.harvest.75.pumpkins"),
     icon: ITEM_DETAILS.Pumpkin.image,
   },
-  "Harvest 100 Pumpkins": {
+  "Harvest Pumpkin 100 times": {
     description: translate("chore.harvest.100.pumpkins"),
     icon: ITEM_DETAILS.Pumpkin.image,
   },
-  "Harvest 125 Pumpkins": {
+  "Harvest Pumpkin 125 times": {
     description: translate("chore.harvest.125.pumpkins"),
     icon: ITEM_DETAILS.Pumpkin.image,
   },
