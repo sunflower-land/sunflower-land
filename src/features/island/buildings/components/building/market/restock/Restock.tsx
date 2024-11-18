@@ -1,7 +1,6 @@
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
-import { OuterPanel } from "components/ui/Panel";
 import {
   RestockItems,
   RestockNPC,
@@ -29,6 +28,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ShipmentRestockModal } from "./ShipmentRestockModal";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { capitalize } from "lodash";
 
 export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   const { t } = useAppTranslation();
@@ -42,7 +42,6 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const hasGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
-  const hasEnhancedRestockAccess = hasFeatureAccess(state, "ENHANCED_RESTOCK");
 
   const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
 
@@ -86,18 +85,11 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
           bumpkinParts={NPC_WEARABLES[npc]}
           onClose={hideConfirmModal}
         >
-          {hasEnhancedRestockAccess ? (
-            <RestockSelectionModal
-              npc={npc}
-              hasGemExperiment={hasGemExperiment}
-              showShipment={showShipment}
-            />
-          ) : (
-            <FullRestockModal
-              onClose={hideConfirmModal}
-              hasGemExperiment={hasGemExperiment}
-            />
-          )}
+          <RestockSelectionModal
+            npc={npc}
+            hasGemExperiment={hasGemExperiment}
+            showShipment={showShipment}
+          />
         </CloseButtonPanel>
       </Modal>
     </>
@@ -123,6 +115,7 @@ const RestockSelectionModal: React.FC<{
   const { shopName, gemPrice, categoryLabel } = RestockItems[npc];
   const { labelText, icon } = categoryLabel;
   const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
+  const hasEnhancedRestockAccess = hasFeatureAccess(state, "ENHANCED_RESTOCK");
 
   const { ...shipmentTime } = shipmentAt;
 
@@ -134,75 +127,58 @@ const RestockSelectionModal: React.FC<{
             <Label type="default" className="mb-2" icon={stockIcon}>
               {t("restock")}
             </Label>
-            <span className="mb-1">{t("restock.outOfStock", { npc })}</span>
+            <span className="mb-1">
+              {t("restock.outOfStock", { npc: capitalize(npc) })}
+            </span>
             <span>{t("restock.selectOption")}</span>
           </div>
-          <OuterPanel>
-            <div className="flex justify-between w-full mb-1">
-              <Label type="transparent" className="capitalize">
+          {hasEnhancedRestockAccess && (
+            <Button
+              onClick={() => setShowEnhancedConfirm(true)}
+              disabled={showShipment}
+              className="flex justify-between relative"
+            >
+              <p className="capitalize p-1 mb-1">
                 {t("restock.shop", { shopName })}
+              </p>
+              <div className="flex w-full mb-1">
+                <div className="pb-1 mr-2 w-11 relative">
+                  <NPCIcon parts={NPC_WEARABLES[npc]} />
+                </div>
+                <div className="flex flex-col ml-3 mt-2">
+                  <Label type="default" icon={icon} className="ml-1 capitalize">
+                    {labelText}
+                  </Label>
+                </div>
+              </div>
+              <Label type="warning" className="absolute right-0 top-0 w-20 h-8">
+                <p className="mr-4">{gemPrice}</p>
+                <img
+                  src={ITEM_DETAILS["Gem"].image}
+                  className="h-5 absolute right-1 top-0"
+                />
               </Label>
-              <div className="flex flex-col justify-end ml-auto">
-                <Button
-                  onClick={() => setShowEnhancedConfirm(true)}
-                  disabled={showShipment}
-                  className="justify-between relative text-xs w-20 h-10 mr-1"
-                >
-                  <div className="flex flex-row items-center h-4">
-                    <p>{gemPrice}</p>
-                    <img
-                      src={ITEM_DETAILS["Gem"].image}
-                      className="h-5 absolute right-1 top-0"
-                    />
-                  </div>
-                </Button>
-              </div>
-            </div>
-            <div className="flex w-full mb-1">
-              <div className="pb-1 mr-2 w-11 relative">
-                <NPCIcon parts={NPC_WEARABLES[npc]} />
-              </div>
-              <div className="flex flex-col ml-1">
-                <Label type="default" icon={icon} className="ml-1 capitalize">
-                  {labelText}
-                </Label>
-              </div>
-            </div>
-          </OuterPanel>
-          <OuterPanel className="mt-1">
-            <div className="flex justify-between w-full mb-1">
-              <Label type="transparent" className="capitalize">
-                {t("restock.full")}
-              </Label>
-              <div className="flex flex-col justify-end ml-auto">
-                <Button
-                  onClick={() => setShowConfirm(true)}
-                  disabled={showShipment}
-                  className="justify-between relative text-xs w-20 h-10 mr-1"
-                >
-                  <div className="flex flex-row items-center h-4">
-                    <p>{20}</p>
-                    <img
-                      src={ITEM_DETAILS["Gem"].image}
-                      className="h-5 absolute right-1 top-0"
-                    />
-                  </div>
-                </Button>
-              </div>
-            </div>
+            </Button>
+          )}
+          <Button
+            className="relative mt-1 justify-between"
+            onClick={() => setShowConfirm(true)}
+            disabled={showShipment}
+          >
+            <p className="capitalize p-1 mb-1 text-left">{t("restock.full")}</p>
             <div className="flex w-full mb-1">
               <div className="pb-1 mr-2 w-11">
-                <div className="absolute left-3">
+                <div className="absolute left-0">
                   <NPCIcon parts={NPC_WEARABLES.betty} />
                 </div>
-                <div className="absolute left-6">
+                <div className="absolute left-3">
                   <NPCIcon parts={NPC_WEARABLES.blacksmith} />
                 </div>
-                <div className="absolute left-9">
+                <div className="absolute left-6">
                   <NPCIcon parts={NPC_WEARABLES.jafar} />
                 </div>
               </div>
-              <div className="flex flex-row flex-wrap ml-1 mb-0.5">
+              <div className="flex flex-row flex-wrap ml-3 mb-0.5">
                 {getKeys(RestockItems).map((npc) => {
                   const { labelText, icon } = RestockItems[npc].categoryLabel;
                   return (
@@ -217,43 +193,35 @@ const RestockSelectionModal: React.FC<{
                   );
                 })}
               </div>
+              <Label type="warning" className="absolute right-0 top-0 w-20 h-8">
+                <p className="mr-4">{20}</p>
+                <img
+                  src={ITEM_DETAILS["Gem"].image}
+                  className="h-5 absolute right-1 top-0"
+                />
+              </Label>
             </div>
-          </OuterPanel>
+          </Button>
           {hasGemExperiment && (
-            <OuterPanel className="mt-1">
-              <div className="flex justify-between w-full mb-1">
-                <Label type="transparent" className="capitalize">
-                  {`Daily Shipment Restock`}
-                </Label>
-                <div className="flex flex-col justify-end ml-auto">
-                  <Button
-                    onClick={() => setShowShipmentConfirm(true)}
-                    disabled={!showShipment}
-                    className="justify-between relative text-xs w-24 h-10 mr-1"
-                  >
-                    <div className="flex flex-row items-center h-4">
-                      <p>{`Free`}</p>
-                      <img
-                        src={stockIcon}
-                        className="h-5 absolute right-1 top-0"
-                      />
-                    </div>
-                  </Button>
-                </div>
-              </div>
+            <Button
+              className="relative mt-1 justify-between"
+              onClick={() => setShowShipmentConfirm(true)}
+              disabled={!showShipment}
+            >
+              <p className="capitalize text-left p-1 mb-1">{`Daily Shipment Restock`}</p>
               <div className="flex w-full mb-1">
                 <div className="pb-1 mr-2 w-11">
-                  <div className="absolute left-3">
+                  <div className="absolute left-0">
                     <NPCIcon parts={NPC_WEARABLES.betty} />
                   </div>
-                  <div className="absolute left-6">
+                  <div className="absolute left-3">
                     <NPCIcon parts={NPC_WEARABLES.blacksmith} />
                   </div>
-                  <div className="absolute left-9">
+                  <div className="absolute left-6">
                     <NPCIcon parts={NPC_WEARABLES.jafar} />
                   </div>
                 </div>
-                <div className="flex flex-row flex-wrap ml-5 mb-0.5">
+                <div className="flex flex-row flex-wrap ml-7 mb-0.5">
                   <Label
                     type="default"
                     icon={CROP_LIFECYCLE.Sunflower.seed}
@@ -283,9 +251,16 @@ const RestockSelectionModal: React.FC<{
                     {`Sand Shovel`}
                   </Label>
                 </div>
+                <Label
+                  type="success"
+                  className="absolute right-0 top-0 w-20 h-8"
+                >
+                  <p className="mr-4">{`Free`}</p>
+                  <img src={stockIcon} className="h-5 absolute right-1 top-0" />
+                </Label>
               </div>
               {showShipment ? (
-                <div className="text-xs">{`Your daily free shipment has arrived!`}</div>
+                <div className="text-xs text-left">{`Your daily free shipment has arrived!`}</div>
               ) : (
                 <div className="px-1 text-xs flex flex-wrap mt-2">
                   <span className="mr-2">{t("gems.nextFreeShipment")}</span>
@@ -293,7 +268,7 @@ const RestockSelectionModal: React.FC<{
                   <img src={stockIcon} className="h-5 ml-1" />
                 </div>
               )}
-            </OuterPanel>
+            </Button>
           )}
         </>
       )}
