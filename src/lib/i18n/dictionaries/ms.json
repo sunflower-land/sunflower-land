@@ -4342,5 +4342,12 @@
   "marketplace.congratulationsItemSold": "Tahniah, item anda telah dijual!",
   "withdraw.taxFree": "Goblin mengenakan cukai anda ke atas SFL yang diperoleh dalam permainan. Ini tidak termasuk deposit & pasaran.",
   "marketplace.youHaveHadSales": "Item anda dijual semasa anda tiada!",
-  "bounties.board.ticketAmount": "Jumlah {{seasonalTicket}} s akan berbeza-beza setiap minggu berdasarkan permintaan."
+  "bounties.board.ticketAmount": "Jumlah {{seasonalTicket}} s akan berbeza-beza setiap minggu berdasarkan permintaan.",
+  "marketplace.listing.cancelling": "Membatalkan penyenaraian",
+  "marketplace.listing.cancelling.success": "Tahniah, anda telah berjaya membatalkan penyenaraian anda!",
+  "marketplace.listing.cancelling.failure": "Oops, ada yang salah. Sila cuba lagi.",
+  "marketplace.yourListings": "Penyenaraian anda",
+  "marketplace.cancelListing": "Batalkan Penyenaraian",
+  "marketplace.cancelListing.areYouSure": "Adakah anda pasti mahu membatalkan penyenaraian ini?",
+  "marketplace.cancelListing.selectListing": "Sila pilih penyenaraian yang ingin anda batalkan."
 }

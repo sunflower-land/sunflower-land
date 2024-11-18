@@ -4342,5 +4342,12 @@
   "marketplace.congratulationsItemSold": "¡Enhorabuena, tu artículo se ha vendido!",
   "withdraw.taxFree": "Los duendes te cobran impuestos por el SFL ganado en el juego. Esto excluye los depósitos y el mercado.",
   "marketplace.youHaveHadSales": "¡Tu (s) artículo (s) se vendió (n) mientras estabas fuera!",
-  "bounties.board.ticketAmount": "La cantidad de {{seasonalTicket}} variará cada semana en función de las solicitudes."
+  "bounties.board.ticketAmount": "La cantidad de {{seasonalTicket}} variará cada semana en función de las solicitudes.",
+  "marketplace.listing.cancelling": "Cancelación del anuncio",
+  "marketplace.listing.cancelling.success": "¡Enhorabuena, has cancelado correctamente tu anuncio!",
+  "marketplace.listing.cancelling.failure": "Vaya, algo salió mal. Por favor, inténtelo de nuevo.",
+  "marketplace.yourListings": "Tus anuncios",
+  "marketplace.cancelListing": "Cancelar anuncio",
+  "marketplace.cancelListing.areYouSure": "¿Estás seguro de que quieres cancelar este anuncio?",
+  "marketplace.cancelListing.selectListing": "Selecciona el anuncio que deseas cancelar."
 }

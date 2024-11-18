@@ -4342,5 +4342,12 @@
   "marketplace.congratulationsItemSold": "축하합니다. 상품이 판매되었습니다!",
   "withdraw.taxFree": "고블린은 게임 내에서 획득한 SFL에 세금을 부과합니다.예금 및 마켓플레이스는 제외됩니다.",
   "marketplace.youHaveHadSales": "외출하신 동안 상품을 판매했습니다!",
-  "bounties.board.ticketAmount": "{{seasonalTicket}} 의 금액은 요청에 따라 매주 달라집니다."
+  "bounties.board.ticketAmount": "{{seasonalTicket}} 의 금액은 요청에 따라 매주 달라집니다.",
+  "marketplace.listing.cancelling": "리스팅 취소",
+  "marketplace.listing.cancelling.success": "축하합니다. 리스팅이 성공적으로 취소되었습니다!",
+  "marketplace.listing.cancelling.failure": "죄송합니다. 문제가 발생했습니다.다시 시도해 주세요.",
+  "marketplace.yourListings": "내 리스팅",
+  "marketplace.cancelListing": "리스팅 취소",
+  "marketplace.cancelListing.areYouSure": "정말 이 리스팅을 취소하시겠습니까?",
+  "marketplace.cancelListing.selectListing": "취소하려는 리스팅을 선택하십시오."
 }

@@ -4342,5 +4342,12 @@
   "marketplace.congratulationsItemSold": "恭喜，你的物品已售出！",
   "withdraw.taxFree": "哥布林会根据游戏中获得的 SFL 向你征税。这不包括存款和市场。",
   "marketplace.youHaveHadSales": "你不在的时候卖掉了物品！",
-  "bounties.board.ticketAmount": "{{seasonalTicket}} 的金额每周将根据请求而有所不同。"
+  "bounties.board.ticketAmount": "{{seasonalTicket}} 的金额每周将根据请求而有所不同。",
+  "marketplace.listing.cancelling": "取消清单",
+  "marketplace.listing.cancelling.success": "恭喜，您已成功取消房源！",
+  "marketplace.listing.cancelling.failure": "哎呀，出了点问题。请重试。",
+  "marketplace.yourListings": "您的房源",
+  "marketplace.cancelListing": "取消清单",
+  "marketplace.cancelListing.areYouSure": "您确定要取消此清单吗？",
+  "marketplace.cancelListing.selectListing": "请选择您要取消的清单。"
 }

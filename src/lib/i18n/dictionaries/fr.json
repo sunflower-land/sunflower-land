@@ -4342,5 +4342,12 @@
   "marketplace.congratulationsItemSold": "Félicitations, votre article est vendu !",
   "withdraw.taxFree": "Les gobelins vous taxent sur la SFL gagnée en jeu. Cela exclut les dépôts et le marché.",
   "marketplace.youHaveHadSales": "Vos articles ont été vendus pendant votre absence !",
-  "bounties.board.ticketAmount": "Le montant de {{seasonalTicket}} s variera chaque semaine en fonction des demandes."
+  "bounties.board.ticketAmount": "Le montant de {{seasonalTicket}} s variera chaque semaine en fonction des demandes.",
+  "marketplace.listing.cancelling": "Annulation de l'annonce",
+  "marketplace.listing.cancelling.success": "Félicitations, vous avez annulé votre annonce avec succès !",
+  "marketplace.listing.cancelling.failure": "Oups, quelque chose s'est mal passé. Veuillez réessayer.",
+  "marketplace.yourListings": "Vos annonces",
+  "marketplace.cancelListing": "Annuler l'annonce",
+  "marketplace.cancelListing.areYouSure": "Êtes-vous sûr de vouloir annuler cette annonce ?",
+  "marketplace.cancelListing.selectListing": "Sélectionnez l'annonce que vous souhaitez annuler."
 }
