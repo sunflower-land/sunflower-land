@@ -162,51 +162,51 @@ export const NPC_CHORES = {
     amount: 65,
   }),
 
-  "Harvest 450 Parsnips": bumpkinActivityTask({
+  "Harvest Parsnips 450 times": bumpkinActivityTask({
     activity: "Parsnip Harvested",
     amount: 450,
   }),
-  "Harvest 500 Parsnips": bumpkinActivityTask({
+  "Harvest Parsnips 500 times": bumpkinActivityTask({
     activity: "Parsnip Harvested",
     amount: 500,
   }),
-  "Harvest 250 Eggplants": bumpkinActivityTask({
+  "Harvest Eggplants 250 times": bumpkinActivityTask({
     activity: "Eggplant Harvested",
     amount: 250,
   }),
-  "Harvest 300 Eggplants": bumpkinActivityTask({
+  "Harvest Eggplants 300 times": bumpkinActivityTask({
     activity: "Eggplant Harvested",
     amount: 300,
   }),
-  "Harvest 275 Corn": bumpkinActivityTask({
+  "Harvest Corn 275 times": bumpkinActivityTask({
     activity: "Corn Harvested",
     amount: 275,
   }),
-  "Harvest 300 Corn": bumpkinActivityTask({
+  "Harvest Corn 300 times": bumpkinActivityTask({
     activity: "Corn Harvested",
     amount: 300,
   }),
-  "Harvest 200 Radishes": bumpkinActivityTask({
+  "Harvest Radish 200 times": bumpkinActivityTask({
     activity: "Radish Harvested",
     amount: 200,
   }),
-  "Harvest 240 Radishes": bumpkinActivityTask({
+  "Harvest Radish 240 times": bumpkinActivityTask({
     activity: "Radish Harvested",
     amount: 240,
   }),
-  "Harvest 200 Wheat": bumpkinActivityTask({
+  "Harvest Wheat 200 times": bumpkinActivityTask({
     activity: "Wheat Harvested",
     amount: 200,
   }),
-  "Harvest 240 Wheat": bumpkinActivityTask({
+  "Harvest Wheat 240 times": bumpkinActivityTask({
     activity: "Wheat Harvested",
     amount: 240,
   }),
-  "Harvest 175 Kale": bumpkinActivityTask({
+  "Harvest Kale 175 times": bumpkinActivityTask({
     activity: "Kale Harvested",
     amount: 175,
   }),
-  "Harvest 200 Kale": bumpkinActivityTask({
+  "Harvest Kale 200 times": bumpkinActivityTask({
     activity: "Kale Harvested",
     amount: 200,
   }),
