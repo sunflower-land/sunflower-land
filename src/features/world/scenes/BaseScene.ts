@@ -41,7 +41,7 @@ import {
   PlazaShaders,
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
-import { EventManager } from "../lib/EventManager";
+import { EventManager } from "../managers/EventManager";
 
 export type NPCBumpkin = {
   x: number;
@@ -53,12 +53,13 @@ export type NPCBumpkin = {
   hideLabel?: boolean;
 };
 
-const SEND_PACKET_RATE = 10;
-const NAME_TAG_OFFSET_PX = 12;
-
-const WALKING_SPEED = 50;
-const PREDICTION_TIME = 0.05;
-const INTERPOLATION_RATE = 0.065;
+export const CONFIG = {
+  SEND_PACKET_RATE: 10,
+  NAME_TAG_OFFSET_PX: 12,
+  WALKING_SPEED: 50,
+  PREDICTION_TIME: 0.05,
+  INTERPOLATION_RATE: 0.065,
+};
 
 type BaseSceneOptions = {
   name: SceneId;
@@ -780,7 +781,7 @@ export abstract class BaseScene extends Phaser.Scene {
     text: string;
     color?: string;
   }) {
-    const textObject = this.add.text(x, y + NAME_TAG_OFFSET_PX, text, {
+    const textObject = this.add.text(x, y + CONFIG.NAME_TAG_OFFSET_PX, text, {
       fontSize: "4px",
       fontFamily: "monospace",
       resolution: 4,
@@ -842,7 +843,7 @@ export abstract class BaseScene extends Phaser.Scene {
   get walkingSpeed() {
     if (this.isCameraFading) return 0;
 
-    return WALKING_SPEED;
+    return CONFIG.WALKING_SPEED;
   }
 
   updatePlayer() {
@@ -941,7 +942,7 @@ export abstract class BaseScene extends Phaser.Scene {
     if (!this.currentPlayer) return;
 
     // Check if enough time has passed since the last update
-    if (Date.now() - this.packetSentAt < 1000 / SEND_PACKET_RATE) return;
+    if (Date.now() - this.packetSentAt < 1000 / CONFIG.SEND_PACKET_RATE) return;
 
     // Only send if there is a significant change in position
     const xDiff = Math.abs(this.currentPlayer.x - this.serverPosition.x);
@@ -1095,12 +1096,20 @@ export abstract class BaseScene extends Phaser.Scene {
       const velocityY = (player.y - entity.previousPosition.y) / timeDelta;
 
       // Predict next position based on current velocity
-      const predictedX = player.x + velocityX * PREDICTION_TIME;
-      const predictedY = player.y + velocityY * PREDICTION_TIME;
+      const predictedX = player.x + velocityX * CONFIG.PREDICTION_TIME;
+      const predictedY = player.y + velocityY * CONFIG.PREDICTION_TIME;
 
       // Smoothly interpolate towards predicted position
-      entity.x = Phaser.Math.Linear(entity.x, predictedX, INTERPOLATION_RATE);
-      entity.y = Phaser.Math.Linear(entity.y, predictedY, INTERPOLATION_RATE);
+      entity.x = Phaser.Math.Linear(
+        entity.x,
+        predictedX,
+        CONFIG.INTERPOLATION_RATE,
+      );
+      entity.y = Phaser.Math.Linear(
+        entity.y,
+        predictedY,
+        CONFIG.INTERPOLATION_RATE,
+      );
       entity.setDepth(entity.y);
 
       // Update movement state (idle/walk) based on distance to server position
