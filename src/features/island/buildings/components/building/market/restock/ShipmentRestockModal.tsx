@@ -75,10 +75,10 @@ export const ShipmentRestockModal: React.FC<{
             {t("gems.shipment.arrived")}
           </Label>
           <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
+          <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
         </div>
       )}
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
-        <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
         {restockTools.length > 0 && (
           <Label
             icon={ITEM_DETAILS.Axe.image}

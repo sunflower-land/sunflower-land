@@ -103,9 +103,9 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
             gemPrice,
           })}
         </p>
+        <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
       </div>
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
-        <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
         {restockItems.length > 0 && (
           <>
             <Label icon={icon} type="default" className="ml-2 mb-1 capitalize">
