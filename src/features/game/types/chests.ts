@@ -27,7 +27,6 @@ const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
       { items: { "Crop Circle": 1 }, weighting: weight * (multiplier / 25) },
 
       // Wearables
-      { wearables: { "Wool Scarf": 1 }, weighting: weight * (multiplier / 2) },
       {
         wearables: { "Cowgirl Skirt": 1 },
         weighting: weight * (multiplier / 2),
