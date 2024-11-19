@@ -17,7 +17,10 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 // Function imports
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
+import {
+  getAvailableBumpkinSkillPoints,
+  getUnlockedTierForTree,
+} from "features/game/events/landExpansion/choseSkill";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 // Icon imports
@@ -51,16 +54,12 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   // Functions
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableTier = getUnlockedTierForTree(selectedSkill.tree, bumpkin);
   const hasSelectedSkill = !!bumpkin?.skills[selectedSkill.name];
-  const claimedSkillsFromPath = Object.keys(bumpkin?.skills || {}).filter(
-    (skill) => {
-      return skillsInPath.find((pathSkill) => pathSkill.name === skill);
-    },
-  );
   const missingPointRequirement =
     selectedSkill.requirements.points > availableSkillPoints;
   const missingSkillsRequirement =
-    selectedSkill.requirements.skill > claimedSkillsFromPath.length;
+    selectedSkill.requirements.tier > availableTier;
 
   // Claim
   const handleClaim = () => {
@@ -206,32 +205,19 @@ export const SkillPathDetails: React.FC<Props> = ({
           {/* Skills */}
           {Object.entries(createRevampSkillPath(skillsInPath)).map(
             ([tier, skills]) => {
-              const requirements = skills[0].requirements.skill;
-              const tierUnlocked = requirements <= claimedSkillsFromPath.length;
+              const requirements = skills[0].requirements.tier;
+              const tierUnlocked = requirements <= availableTier;
 
               return (
                 <div key={tier} className="flex flex-col">
-                  {requirements !== 0 && !tierUnlocked && (
-                    <Label
-                      type="warning"
-                      icon={SUNNYSIDE.icons.lock}
-                      className="ml-2"
-                    >
-                      {requirements +
-                        " " +
-                        selectedSkillPath +
-                        " Skills Required"}
-                    </Label>
-                  )}
-                  {requirements !== 0 && tierUnlocked && (
-                    <Label
-                      type="default"
-                      icon={SUNNYSIDE.icons.confirm}
-                      className="ml-2"
-                    >
-                      {`Tier ${tier} unlocked`}
-                    </Label>
-                  )}
+                  <Label
+                    type={tierUnlocked ? "default" : "warning"}
+                    className={tierUnlocked ? "ml-1" : "ml-2"}
+                    icon={tierUnlocked ? undefined : SUNNYSIDE.icons.lock}
+                  >
+                    {`Tier ${tier}`}
+                  </Label>
+
                   <div className="flex flex-wrap mb-2">
                     {renderSkillTier(skills)}
                   </div>
