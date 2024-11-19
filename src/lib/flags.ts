@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
@@ -14,28 +14,6 @@ const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
   return defaultFeatureFlag(game) || Date.now() > date.getTime();
 };
 
-/*
- * How to Use:
- * Add the feature name to this list when working on a new feature.
- * When the feature is ready for public release, delete the feature from this list.
- *
- * Do not delete JEST_TEST.
- */
-export type FeatureName =
-  | "JEST_TEST"
-  | "PORTALS"
-  | "EASTER"
-  | "CROP_QUICK_SELECT"
-  | "SKILLS_REVAMP"
-  | "MARKETPLACE"
-  | "ONBOARDING_REWARDS"
-  | "FRUIT_DASH"
-  | "NEW_RESOURCES_GE"
-  | "FSL"
-  | "ANIMAL_BUILDINGS"
-  | "BARLEY"
-  | "GEM_BOOSTS";
-
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
 /**
@@ -46,26 +24,43 @@ export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
  * Elias: 128727
  */
 
-type FeatureFlag = (game: GameState) => boolean;
+export type FeatureFlag = (game: GameState) => boolean;
 
 export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 
-const featureFlags: Record<FeatureName, FeatureFlag> = {
-  ONBOARDING_REWARDS: (game) =>
+/*
+ * How to Use:
+ * Add the feature name to this list when working on a new feature.
+ * When the feature is ready for public release, delete the feature from this list.
+ *
+ * Do not delete JEST_TEST.
+ */
+const featureFlags = {
+  CHORE_BOARD: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  ONBOARDING_REWARDS: (game: GameState) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
+  SEASONAL_TIERS: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   MARKETPLACE: testnetFeatureFlag,
   CROP_QUICK_SELECT: () => false,
-  FRUIT_DASH: betaTimeBasedFeatureFlag(new Date("2024-09-10T00:00:00Z")),
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
   SKILLS_REVAMP: testnetFeatureFlag,
-  FSL: defaultFeatureFlag,
+  FSL: betaTimeBasedFeatureFlag(new Date("2024-10-10T00:00:00Z")),
   NEW_RESOURCES_GE: defaultFeatureFlag,
-  ANIMAL_BUILDINGS: testnetFeatureFlag,
-  BARLEY: testnetFeatureFlag,
-  GEM_BOOSTS: (game) => game.experiments.includes("GEM_BOOSTS"),
-};
+  ANIMAL_BUILDINGS: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
+  BARLEY: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
+  GEM_BOOSTS: (game: GameState) => game.experiments.includes("GEM_BOOSTS"),
+  CHICKEN_GARBO: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
+  CRAFTING_BOX: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
+  FLOWER_BOUNTIES: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  BEDS: timeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
+  BULL_RUN_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  BALE_AOE_END: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
+  ENHANCED_RESTOCK: defaultFeatureFlag,
+} satisfies Record<string, FeatureFlag>;
+
+export type FeatureName = keyof typeof featureFlags;
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
   return featureFlags[featureName](game);

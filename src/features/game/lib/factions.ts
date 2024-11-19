@@ -20,7 +20,7 @@ export const START_DATE = new Date("2024-06-24T00:00:00Z");
  * Begins on Monday 24th June
  * E.g returns start of the week - "2024-06-24"
  */
-export function getFactionWeek({
+export function getWeekKey({
   date = new Date(),
 }: { date?: Date } = {}): string {
   const proposedDate = new Date(date);
@@ -48,9 +48,9 @@ export function getFactionWeek({
 }
 
 export function getPreviousWeek() {
-  const current = getFactionWeek();
+  const current = getWeekKey();
 
-  return getFactionWeek({
+  return getWeekKey({
     date: new Date(new Date(current).getTime() - 7 * 24 * 60 * 60 * 1000),
   });
 }
@@ -77,16 +77,22 @@ export function getWeekNumber({
   return Math.floor(dayDifference / 7) + 1;
 }
 
-export function secondsTillWeekReset(): number {
-  const weekStart = getFactionWeek();
+export function weekResetsAt(): number {
+  const weekStart = getWeekKey();
   const weekEnd = new Date(
     new Date(weekStart).getTime() + 7 * 24 * 60 * 60 * 1000,
   );
 
+  return weekEnd.getTime();
+}
+
+export function secondsTillWeekReset(): number {
+  const weekEnd = weekResetsAt();
+
   const currentTime = Date.now();
 
   // Calculate the time until the next faction week start in milliseconds
-  const timeUntilNextFactionWeek = weekEnd.getTime() - currentTime;
+  const timeUntilNextFactionWeek = weekEnd - currentTime;
 
   // Convert milliseconds to seconds
   const secondsUntilNextFactionWeek = timeUntilNextFactionWeek / 1000;
@@ -101,7 +107,7 @@ export function secondsTillWeekReset(): number {
 export function getFactionWeekEndTime({
   date = new Date(),
 }: { date?: Date } = {}): number {
-  const start = new Date(getFactionWeek({ date }));
+  const start = new Date(getWeekKey({ date }));
   start.setUTCDate(start.getUTCDate() + 7);
 
   return start.getTime();
@@ -603,8 +609,8 @@ export function getFactionPetBoostMultiplier(game: GameState) {
 
   if (!faction) return 1;
 
-  const week = getFactionWeek({ date: new Date() });
-  const lastWeek = getFactionWeek({
+  const week = getWeekKey({ date: new Date() });
+  const lastWeek = getWeekKey({
     date: new Date(new Date(week).getTime() - 7 * 24 * 60 * 60 * 1000),
   });
 

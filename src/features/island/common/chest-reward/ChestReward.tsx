@@ -56,7 +56,6 @@ export const ChestReward: React.FC<Props> = ({
 
   const open = () => {
     setOpened(true);
-    onOpen();
   };
 
   const fail = () => {
@@ -70,10 +69,15 @@ export const ChestReward: React.FC<Props> = ({
     setOpened(false);
   };
 
+  const claimAndClose = () => {
+    onOpen();
+    close(true);
+  };
+
   const { items, sfl, coins } = reward;
 
   return (
-    <Modal show={true}>
+    <Modal show={true} onHide={opened ? () => claimAndClose() : undefined}>
       <Panel>
         {loading && <Loading />}
         {opened ? (
@@ -93,7 +97,7 @@ export const ChestReward: React.FC<Props> = ({
               coins: coins ?? 0,
               message: translate("reward.woohoo"),
             }}
-            onClose={() => close(true)}
+            onClose={claimAndClose}
           />
         ) : (
           <div

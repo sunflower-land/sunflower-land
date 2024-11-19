@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { harvestFlower } from "./harvestFlower";
 import Decimal from "decimal.js-light";

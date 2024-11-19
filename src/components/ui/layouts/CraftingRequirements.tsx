@@ -4,7 +4,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { useState } from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -19,6 +19,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
+import { IngredientsPopover } from "../IngredientsPopover";
 
 /**
  * The props for the details for items.
@@ -84,6 +85,7 @@ interface RequirementsProps {
  * @param boost The available boost of the item.
  * @param requirements The item quantity requirement.
  * @param actionView The view for displaying the crafting action.
+ * @param label Information label for the item.
  */
 interface Props {
   gameState: GameState;
@@ -95,6 +97,7 @@ interface Props {
   limit?: number;
   actionView?: JSX.Element;
   hideDescription?: boolean;
+  label?: JSX.Element;
 }
 
 function getDetails(
@@ -147,8 +150,10 @@ export const CraftingRequirements: React.FC<Props> = ({
   requirements,
   actionView,
   hideDescription,
+  label,
 }: Props) => {
   const { t } = useAppTranslation();
+  const [showIngredients, setShowIngredients] = useState(false);
   const getStock = () => {
     if (!stock) return <></>;
 
@@ -188,7 +193,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
+        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 mb-1">
           {icon && !!details.item && (
             <div className="sm:mt-2">
               <SquareIcon icon={icon} width={14} />
@@ -238,20 +243,33 @@ export const CraftingRequirements: React.FC<Props> = ({
     if (!requirements) return <></>;
 
     return (
-      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
+      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Item ingredients requirements */}
-        {!!requirements.resources &&
-          getKeys(requirements.resources).map((ingredientName, index) => (
-            <RequirementLabel
-              key={index}
-              type="item"
-              item={ingredientName}
-              balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
-              requirement={
-                (requirements.resources ?? {})[ingredientName] ?? new Decimal(0)
-              }
+        {!!requirements.resources && (
+          <div
+            className="relative cursor-pointer flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap"
+            onClick={() => setShowIngredients(!showIngredients)}
+          >
+            <IngredientsPopover
+              className="-top-1 left-1 sm:-left-[150%]"
+              show={showIngredients}
+              ingredients={getKeys(requirements.resources ?? {})}
+              onClick={() => setShowIngredients(false)}
             />
-          ))}
+            {getKeys(requirements.resources).map((ingredientName, index) => (
+              <RequirementLabel
+                key={index}
+                type="item"
+                item={ingredientName}
+                balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
+                requirement={
+                  (requirements.resources ?? {})[ingredientName] ??
+                  new Decimal(0)
+                }
+              />
+            ))}
+          </div>
+        )}
 
         {/* SFL requirement */}
         {!!requirements.sfl &&
@@ -303,6 +321,8 @@ export const CraftingRequirements: React.FC<Props> = ({
             requirement={requirements.level}
           />
         )}
+
+        {label}
       </div>
     );
   };

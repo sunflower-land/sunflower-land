@@ -32,27 +32,26 @@ export const GarbageSale: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const price = selected.sellPrice;
-  const amount = inventory[selectedName] || new Decimal(0);
+  // Undefined if zero
+  const price = selected.sellPrice || undefined;
+  const gems = selected.gems || undefined;
+  const items = selected.items || undefined;
+
+  const getAmount = (name: GarbageName) => {
+    const selected = GARBAGE[name];
+
+    let amount = inventory[name] || new Decimal(0);
+    if (amount.gte(selected.limit ?? 0)) {
+      amount = amount.minus(selected.limit ?? 0);
+    }
+    return amount;
+  };
 
   const sell = (amount = 1) => {
     gameService.send("garbage.sold", {
       item: selectedName,
       amount,
     });
-  };
-
-  const Action = () => {
-    return (
-      <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
-        <Button disabled={amount.lt(1)} onClick={() => sell(1)}>
-          {t("sell.one")}
-        </Button>
-        <Button disabled={amount.lt(10)} onClick={() => sell(10)}>
-          {t("sell.ten")}
-        </Button>
-      </div>
-    );
   };
 
   return (
@@ -64,8 +63,10 @@ export const GarbageSale: React.FC = () => {
           }}
           properties={{
             coins: price,
+            gems,
+            items,
           }}
-          actionView={Action()}
+          actionView={<Action amount={getAmount(selectedName)} sell={sell} />}
         />
       }
       content={
@@ -76,11 +77,29 @@ export const GarbageSale: React.FC = () => {
               key={name}
               onClick={() => setSelectedName(name)}
               image={ITEM_DETAILS[name].image}
-              count={inventory[name] || new Decimal(0)}
+              count={getAmount(name)}
             />
           ))}
         </>
       }
     />
+  );
+};
+
+const Action: React.FC<{
+  amount: Decimal;
+  sell: (amount?: number) => void;
+}> = ({ amount, sell }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
+      <Button disabled={amount.lt(1)} onClick={() => sell(1)}>
+        {t("sell.one")}
+      </Button>
+      <Button disabled={amount.lt(10)} onClick={() => sell(10)}>
+        {t("sell.ten")}
+      </Button>
+    </div>
   );
 };

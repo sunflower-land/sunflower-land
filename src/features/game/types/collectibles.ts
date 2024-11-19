@@ -3,7 +3,7 @@ import { GameState, Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 
-export type PlaceableLocation = "farm" | "home" | "henHouse" | "barn";
+export type PlaceableLocation = "farm" | "home";
 
 export type SeasonPassName =
   | "Dawn Breaker Banner"
@@ -20,8 +20,8 @@ export type PurchasableItems =
   | "Spring Blossom Banner"
   | "Clash of Factions Banner"
   | "Lifetime Farmer Banner"
-  | "Pharaoh's Treasure Banner";
-
+  | "Pharaoh's Treasure Banner"
+  | "Bull Run Banner";
 export type HeliosBlacksmithItem =
   | "Immortal Pear"
   | "Basic Scarecrow"
@@ -96,7 +96,12 @@ export type SoldOutCollectibleName =
   | "Lemon Tea Bath"
   | "Tomato Clown"
   | "Pyramid"
-  | "Oasis";
+  | "Oasis"
+  | "Moo-ver"
+  | "Swiss Whiskers"
+  | "Cluckulator"
+  | "UFO"
+  | "Black Sheep";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

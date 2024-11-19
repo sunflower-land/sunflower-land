@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { StockableName } from "features/game/lib/constants";
+import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -14,47 +14,26 @@ type Options = {
   createdAt?: number;
 };
 
-export const SHIPMENT_STOCK: Record<StockableName, number> = {
+export const SHIPMENT_STOCK: Partial<Record<StockableName, number>> = {
+  // Basic Crops
   "Sunflower Seed": 100,
   "Potato Seed": 50,
   "Pumpkin Seed": 30,
+  // Medium Crops
   "Carrot Seed": 20,
   "Cabbage Seed": 20,
   "Soybean Seed": 20,
   "Beetroot Seed": 20,
   "Cauliflower Seed": 20,
   "Parsnip Seed": 10,
-  "Eggplant Seed": 10,
-  "Corn Seed": 5,
-  "Radish Seed": 10,
-  "Wheat Seed": 5,
-  "Kale Seed": 5,
-  "Grape Seed": 5,
-  "Olive Seed": 5,
-  "Rice Seed": 5,
-  "Tomato Seed": 4,
-  "Blueberry Seed": 4,
-  "Orange Seed": 4,
-  "Apple Seed": 4,
-  "Banana Plant": 4,
-  "Lemon Seed": 4,
-  "Sunpetal Seed": 5,
-  "Bloom Seed": 3,
-  "Lily Seed": 2,
-
-  "Sand Drill": 10,
-  "Sand Shovel": 25,
-  Chicken: 5,
-  "Magic Bean": 5,
-  "Immortal Pear": 1,
-
+  // Tools
   Axe: 50,
   Pickaxe: 15,
   "Stone Pickaxe": 5,
-  "Iron Pickaxe": 2,
-  "Gold Pickaxe": 2,
-  "Oil Drill": 2,
+  "Iron Pickaxe": 1,
   Rod: 10,
+  // Sand Shovel
+  "Sand Shovel": 5,
 };
 
 export function canRestockShipment({
@@ -93,13 +72,23 @@ export function shipmentRestock({
       throw new Error("Already restocked today");
     }
 
-    game.stock = getKeys(SHIPMENT_STOCK).reduce((acc, name) => {
-      const previous = game.stock[name] ?? new Decimal(0);
-      const newAmount = new Decimal(SHIPMENT_STOCK[name]);
+    game.stock = getKeys(INITIAL_STOCK(game)).reduce((acc, name) => {
+      let remainingStock = game.stock[name] ?? new Decimal(0);
+      const totalStock = INITIAL_STOCK(game)[name];
+      const shipmentAmount = SHIPMENT_STOCK[name] ?? 0;
+
+      // If shipment amount will exceed total stock
+      if (remainingStock.add(shipmentAmount).gt(totalStock)) {
+        // return the difference between total and remaining stock
+        remainingStock = remainingStock.add(totalStock.sub(remainingStock));
+      } else {
+        // else return shipment stock
+        remainingStock = remainingStock.add(shipmentAmount);
+      }
 
       return {
         ...acc,
-        [name]: previous.gt(newAmount) ? previous : newAmount,
+        [name]: remainingStock,
       };
     }, {});
 

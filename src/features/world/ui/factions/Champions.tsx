@@ -13,7 +13,7 @@ import {
   BONUS_FACTION_PRIZES,
   FACTION_PRIZES,
   getFactionScores,
-  getFactionWeek,
+  getWeekKey,
   getPreviousWeek,
   getWeekNumber,
 } from "features/game/lib/factions";
@@ -35,6 +35,8 @@ import { Fireworks } from "./components/Fireworks";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
+import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
+import { NPC } from "features/island/bumpkin/components/NPC";
 
 interface Props {
   onClose: () => void;
@@ -145,7 +147,7 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
           </tr>
         </thead>
         <tbody>
-          {topRanks.slice(0, 7).map(({ id, rank, count }, index) => (
+          {topRanks.slice(0, 7).map(({ id, rank, count, bumpkin }, index) => (
             <tr
               key={index}
               className={classNames({
@@ -153,12 +155,22 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
               })}
             >
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                {rank ?? index + 1}
+                {toOrdinalSuffix(rank ?? index + 1)}
               </td>
-              <td style={{ border: "1px solid #b96f50" }} className="truncate">
-                <div className="flex items-center space-x-1">
-                  <span className="p-1.5">{id}</span>
-                </div>
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 text-left pl-8 relative truncate"
+              >
+                {bumpkin && (
+                  <div
+                    className="absolute"
+                    style={{ left: "4px", top: "-7px" }}
+                  >
+                    <NPC width={20} parts={bumpkin} />
+                  </div>
+                )}
+
+                {id}
               </td>
 
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
@@ -203,11 +215,21 @@ type PrizeRow = FactionPrize & { from: number; to?: number };
 
 export const ChampionsPrizes: React.FC = () => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const currentFaction = state.faction?.name;
 
-  const week = getFactionWeek();
+  const week = getWeekKey();
   const ticket = getSeasonalTicket(new Date(week));
+
+  const { startDate } = SEASONS["Pharaoh's Treasure"];
   const isPharaohsTreasure =
-    new Date(week) >= new Date(SEASONS["Pharaoh's Treasure"].startDate);
+    new Date(week) >= new Date(startDate) &&
+    new Date(week) <= new Date("2024-10-21");
 
   const MONTHLY_PRIZES = BONUS_FACTION_PRIZES[week];
 
@@ -277,7 +299,8 @@ export const ChampionsPrizes: React.FC = () => {
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
           {prizes.map((prize, index) => {
-            const trophy = TROPHIES["goblins"][index + 1];
+            const trophy =
+              currentFaction && TROPHIES[currentFaction][index + 1];
             const bonus = MONTHLY_PRIZES?.[prize.from];
 
             return (

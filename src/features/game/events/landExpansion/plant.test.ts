@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
@@ -1979,6 +1978,45 @@ describe("getCropTime", () => {
     );
   });
 
+  it("adds +2 barley with Sheaf of Plenty placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Barley Seed": new Decimal(1),
+        },
+        collectibles: {
+          "Sheaf of Plenty": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Barley Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Barley",
+        plantedAt: expect.any(Number),
+        amount: 3,
+      }),
+    );
+  });
+
   it("applies a +5% speed boost with Green Thumb 2 skill", () => {
     const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({
@@ -3213,6 +3251,114 @@ describe("getCropYield", () => {
           ...TEST_FARM,
           collectibles: {
             "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now - 30 * 1000);
+    });
+
+    it("crop replenishes faster with Super Totem", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        buds: {},
+        crop: "Sunflower",
+        inventory: {},
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Super Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now - 30 * 1000);
+    });
+
+    it("does not apply a boost if the Super Totem has expired", () => {
+      const now = Date.now();
+      const nineDaysAgo = now - 9 * 24 * 60 * 60 * 1000;
+
+      const time = getPlantedAt({
+        crop: "Corn",
+        buds: {},
+        inventory: {},
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Super Totem": [
+              {
+                id: "123",
+                createdAt: nineDaysAgo,
+                coordinates: { x: 1, y: 1 },
+                readyAt: nineDaysAgo,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now);
+    });
+
+    it("doesn't stack Super Totem and Time Warp totem", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        buds: {},
+        crop: "Sunflower",
+        inventory: {},
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+            "Super Totem": [
               {
                 id: "123",
                 createdAt: now,

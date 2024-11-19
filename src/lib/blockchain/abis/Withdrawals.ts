@@ -21,11 +21,7 @@ export default [
         name: "_farm",
         type: "address",
       },
-      {
-        internalType: "contract Bumpkin",
-        name: "_bumpkin",
-        type: "address",
-      },
+      { internalType: "contract Bumpkin", name: "_bumpkin", type: "address" },
       {
         internalType: "contract BumpkinDetails",
         name: "_bumpkinDetails",
@@ -38,16 +34,8 @@ export default [
       },
       { internalType: "contract Buds", name: "_buds", type: "address" },
       { internalType: "address", name: "_wishingWell", type: "address" },
-      {
-        internalType: "address",
-        name: "_withdrawFeeWallet",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_communityTreasury",
-        type: "address",
-      },
+      { internalType: "address", name: "_withdrawFeeWallet", type: "address" },
+      { internalType: "address", name: "_communityTreasury", type: "address" },
       { internalType: "address", name: "_signer", type: "address" },
     ],
     stateMutability: "nonpayable",
@@ -97,11 +85,7 @@ export default [
     inputs: [],
     name: "bumpkinDetails",
     outputs: [
-      {
-        internalType: "contract BumpkinDetails",
-        name: "",
-        type: "address",
-      },
+      { internalType: "contract BumpkinDetails", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
@@ -110,19 +94,8 @@ export default [
     inputs: [],
     name: "bumpkinWearables",
     outputs: [
-      {
-        internalType: "contract BumpkinWearables",
-        name: "",
-        type: "address",
-      },
+      { internalType: "contract BumpkinWearables", name: "", type: "address" },
     ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "communityTax",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -144,11 +117,7 @@ export default [
     inputs: [],
     name: "farm",
     outputs: [
-      {
-        internalType: "contract SunflowerLand",
-        name: "",
-        type: "address",
-      },
+      { internalType: "contract SunflowerLand", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
@@ -236,19 +205,8 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "_tax", type: "uint256" }],
-    name: "setCommunityTax",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
-      {
-        internalType: "address",
-        name: "_communityTreasury",
-        type: "address",
-      },
+      { internalType: "address", name: "_communityTreasury", type: "address" },
     ],
     name: "setCommunityTreasuy",
     outputs: [],
@@ -302,13 +260,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "_tax", type: "uint256" }],
-    name: "setWishingWellTax",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "token",
     outputs: [
@@ -344,8 +295,14 @@ export default [
   },
   {
     inputs: [],
-    name: "wishingWellTax",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "uniswapV2Router",
+    outputs: [
+      {
+        internalType: "contract IUniswapV2Router02",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -371,16 +328,8 @@ export default [
       { internalType: "uint256", name: "deadline", type: "uint256" },
       { internalType: "uint256", name: "farmId", type: "uint256" },
       { internalType: "uint256", name: "bumpkinId", type: "uint256" },
-      {
-        internalType: "uint256[]",
-        name: "wearableIds",
-        type: "uint256[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "wearableAmounts",
-        type: "uint256[]",
-      },
+      { internalType: "uint256[]", name: "wearableIds", type: "uint256[]" },
+      { internalType: "uint256[]", name: "wearableAmounts", type: "uint256[]" },
       { internalType: "string", name: "tokenUri", type: "string" },
     ],
     name: "withdrawBumpkin",
@@ -411,7 +360,9 @@ export default [
       { internalType: "uint256", name: "deadline", type: "uint256" },
       { internalType: "uint256", name: "farmId", type: "uint256" },
       { internalType: "uint256", name: "sfl", type: "uint256" },
-      { internalType: "uint256", name: "tax", type: "uint256" },
+      { internalType: "uint256", name: "teamTax", type: "uint256" },
+      { internalType: "uint256", name: "communityTax", type: "uint256" },
+      { internalType: "uint256", name: "wishingWellTax", type: "uint256" },
     ],
     name: "withdrawSFL",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
@@ -433,4 +384,4 @@ export default [
     stateMutability: "nonpayable",
     type: "function",
   },
-] as const;
+];

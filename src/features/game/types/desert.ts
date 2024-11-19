@@ -1,5 +1,6 @@
 import { getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
+import { getCurrentSeason, SeasonName } from "./seasons";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;
@@ -8,64 +9,127 @@ type FormationPlot = { x: number; y: number; name: InventoryItemName };
 
 export type DiggingFormation = FormationPlot[];
 
+export const SEASONAL_ARTEFACT: Record<SeasonName, InventoryItemName> = {
+  "Bull Run": "Cow Skull",
+  "Pharaoh's Treasure": "Scarab",
+  "Solar Flare": "Scarab",
+  "Dawn Breaker": "Scarab",
+  "Witches' Eve": "Scarab",
+  "Catch the Kraken": "Scarab",
+  "Spring Blossom": "Scarab",
+  "Clash of Factions": "Scarab",
+};
+
 export const DIGGING_FORMATIONS = {
   // Horizontal Zig Zag - X Coins
   MONDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Camel Bone" },
     { x: 0, y: -1, name: "Camel Bone" },
-    { x: 1, y: -1, name: "Scarab" },
+    { x: 1, y: -1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
   // Upside T - X Coins
   TUESDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Scarab" },
-    { x: 2, y: 0, name: "Camel Bone" },
-    { x: 1, y: 1, name: "Camel Bone" },
+    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
     { x: 1, y: 2, name: "Camel Bone" },
   ],
 
   // Star - X Coins
   WEDNESDAY_ARTEFACT_FORMATION: [
     { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 1, name: "Camel Bone" },
-    { x: 2, y: 0, name: "Camel Bone" },
-    { x: 1, y: -1, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Scarab" },
+    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
 
   // Square - X Coins
   THURSDAY_ARTEFACT_FORMATION: [
     { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Camel Bone" },
-    { x: 0, y: -1, name: "Camel Bone" },
-    { x: 1, y: -1, name: "Scarab" },
+    { x: 1, y: -1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
 
   // Horizontal - X Coins
   FRIDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Camel Bone" },
     { x: 2, y: 0, name: "Camel Bone" },
-    { x: 3, y: 0, name: "Scarab" },
+    { x: 3, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
   ],
 
   // U Shape - X Coins
   SATURDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
-    { x: 0, y: -1, name: "Camel Bone" },
-    { x: 1, y: 0, name: "Scarab" },
+    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
     { x: 1, y: -1, name: "Camel Bone" },
-    { x: 2, y: 0, name: "Camel Bone" },
-    { x: 2, y: -1, name: "Camel Bone" },
   ],
 
   // Horizontal - X Coins
   SUNDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 0, y: -2, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+  ],
+
+  ARTEFACT_ONE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_TWO: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_THREE: [{ x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] }],
+
+  ARTEFACT_FOUR: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+    { x: 0, y: 3, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_FIVE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -2, y: 0, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_SIX: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -2, y: -1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_SEVEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_EIGHT: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_NINE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
     { x: 0, y: -1, name: "Camel Bone" },
-    { x: 0, y: -2, name: "Scarab" },
-    { x: 0, y: -3, name: "Camel Bone" },
+    { x: -1, y: -1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_TEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_ELEVEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_TWELVE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: -1, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
   ],
 
   // Small L - X Coins
@@ -130,16 +194,6 @@ export const DIGGING_FORMATIONS = {
   ],
   PIRATE_BOUNTY: [{ x: 0, y: 0, name: "Pirate Bounty" }],
 } satisfies Record<string, DiggingFormation>;
-
-export const DAILY_ARTEFACT: Record<number, DiggingFormationName> = {
-  0: "SUNDAY_ARTEFACT_FORMATION",
-  1: "MONDAY_ARTEFACT_FORMATION",
-  2: "TUESDAY_ARTEFACT_FORMATION",
-  3: "WEDNESDAY_ARTEFACT_FORMATION",
-  4: "THURSDAY_ARTEFACT_FORMATION",
-  5: "FRIDAY_ARTEFACT_FORMATION",
-  6: "SATURDAY_ARTEFACT_FORMATION",
-};
 
 export type DiggingFormationName = keyof typeof DIGGING_FORMATIONS;
 
@@ -207,6 +261,12 @@ export function getTreasuresFound({ game }: { game: GameState }) {
       );
     })
     .map((hole) => getKeys(hole.items)[0]);
+}
+
+export function getArtefactsFound({ game }: { game: GameState }) {
+  return game.desert.digging.grid.flat().filter((hole) => {
+    return getKeys(hole.items)[0] === SEASONAL_ARTEFACT[getCurrentSeason()];
+  }).length;
 }
 
 export function getTreasureCount({ game }: { game: GameState }) {

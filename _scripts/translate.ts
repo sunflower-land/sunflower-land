@@ -6,7 +6,7 @@ import ENGLISH_TERMS from "../src/lib/i18n/dictionaries/dictionary.json";
 import {
   LanguageCode,
   languageDetails,
-} from "../src/lib/i18n/dictionaries/dictionary";
+} from "../src/lib/i18n/dictionaries/language";
 import { getKeys } from "../src/features/game/types/decorations";
 import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 

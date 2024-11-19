@@ -9,8 +9,6 @@ import { getRelativeTime, secondsToString } from "lib/utils/time";
 
 import { FactionName } from "features/game/types/game";
 
-import chevron from "assets/icons/factions/sunflorians/chevron_one.webp";
-
 import mark from "assets/icons/faction_mark.webp";
 import trophy from "assets/icons/trophy.png";
 
@@ -25,10 +23,12 @@ import {
 } from "features/game/lib/factions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { NPC, NPCIcon } from "features/island/bumpkin/components/NPC";
 import { formatNumber, shortenCount } from "lib/utils/formatNumber";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { ChampionsPrizes } from "features/world/ui/factions/Champions";
+import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
+import { KingdomChores } from "features/world/ui/factions/chores/KingdomChoresCodex";
 
 const npcs: Record<FactionName, NPCName> = {
   nightshades: "nyx",
@@ -166,6 +166,7 @@ export const FactionLeaderboard: React.FC<Props> = ({
           </div>
         </div>
         <ChampionsPrizes />
+        <KingdomChores />
       </div>
     </InnerPanel>
   );
@@ -232,29 +233,24 @@ export const FactionDetails: React.FC<{
           </tr>
         </thead>
         <tbody>
-          {topTen.slice(0, 7).map(({ id, rank, count }, index) => (
+          {topTen.slice(0, 7).map(({ id, rank, count, bumpkin }, index) => (
             <tr
               key={index}
               className={classNames({
-                "bg-[#ead4aa]": id === playerId,
+                "bg-[#ead4aa]": index % 2 === 0,
               })}
             >
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                {rank ?? index + 1}
+                {toOrdinalSuffix(rank ?? index + 1)}
               </td>
-              <td style={{ border: "1px solid #b96f50" }} className="truncate">
-                <div className="flex items-center space-x-1">
-                  <span className="p-1.5">{id}</span>
-                  {faction === "nightshades" && (
-                    <img src={chevron} className="h-auto" />
-                  )}
-                  {faction === "goblins" && (
-                    <img src={chevron} className="h-auto" />
-                  )}
-                  {faction === "bumpkins" && (
-                    <img src={chevron} className="h-auto" />
-                  )}
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 text-left pl-8 relative truncate"
+              >
+                <div className="absolute" style={{ left: "4px", top: "-7px" }}>
+                  <NPC width={20} parts={bumpkin} />
                 </div>
+                {id}
               </td>
 
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
@@ -274,29 +270,24 @@ export const FactionDetails: React.FC<{
               </div>
             </td>
           </tr>
-          {ranks.slice(0, 3).map(({ id, rank, count }, index) => (
+          {ranks.slice(0, 3).map(({ id, rank, count, bumpkin }, index) => (
             <tr
               key={index}
-              className={classNames({
-                "bg-[#ead4aa]": id === playerId,
+              className={classNames("relative", {
+                "bg-[#ead4aa]": index % 2 === 0,
               })}
             >
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                {rank ?? index + 1}
+                {toOrdinalSuffix(rank ?? index + 1)}
               </td>
-              <td style={{ border: "1px solid #b96f50" }} className="truncate">
-                <div className="flex items-center space-x-1">
-                  <span className="p-1.5">{id}</span>
-                  {faction === "nightshades" && (
-                    <img src={chevron} className="h-auto" />
-                  )}
-                  {faction === "goblins" && (
-                    <img src={chevron} className="h-auto" />
-                  )}
-                  {faction === "bumpkins" && (
-                    <img src={chevron} className="h-auto" />
-                  )}
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 text-left pl-8 relative truncate"
+              >
+                <div className="absolute" style={{ left: "4px", top: "-7px" }}>
+                  <NPC width={20} parts={bumpkin} />
                 </div>
+                {id}
               </td>
 
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">

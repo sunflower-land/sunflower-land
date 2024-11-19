@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import { TEST_FARM } from "../lib/constants";
 import { BUMPKIN_WITHDRAWABLES, WITHDRAWABLES } from "./withdrawables";
 import { GameState } from "./game";
@@ -66,7 +64,7 @@ describe("withdrawables", () => {
       const timers = jest.useFakeTimers();
       timers.setSystemTime(new Date("Thu August 7 2023 10:01:00 GMT+1000"));
 
-      const enabled = BUMPKIN_WITHDRAWABLES["Pan"]();
+      const enabled = BUMPKIN_WITHDRAWABLES["Rock Hammer"]();
       expect(enabled).toBeFalsy();
     });
 
@@ -74,7 +72,7 @@ describe("withdrawables", () => {
       const timers = jest.useFakeTimers();
       timers.setSystemTime(new Date("Thu July 7 2023 10:01:00 GMT+1000"));
 
-      const enabled = WITHDRAWABLES["Rice Panda"]();
+      const enabled = WITHDRAWABLES["Sand Golem"]();
       expect(enabled).toBeFalsy();
     });
 
@@ -237,21 +235,21 @@ describe("withdrawables", () => {
       expect(enabled).toBeFalsy();
     });
 
-    it("prevents withdrawal of Cattlegrim when no chickens are fed", () => {
+    it("prevents withdrawal of Cattlegrim when chickens are sleeping", () => {
       // Item is time restriction is over
       const timers = jest.useFakeTimers();
       timers.setSystemTime(new Date("Thu October 7 2023 10:01:00 GMT+1000"));
 
       const state: GameState = {
         ...TEST_FARM,
-        chickens: {
-          1: {
-            coordinates: {
-              x: 5,
-              y: 10,
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          animals: {
+            1: {
+              ...TEST_FARM.henHouse.animals[1],
+              asleepAt: Date.now(),
+              awakeAt: Date.now() + 10000,
             },
-            fedAt: Date.now(),
-            multiplier: 1,
           },
         },
       };
@@ -480,21 +478,12 @@ describe("withdrawables", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("enables withdrawal of Cattlegrim when no chickens are fed", () => {
+  it("enables withdrawal of Cattlegrim when no chickens are sleeping ", () => {
     const timers = jest.useFakeTimers();
     timers.setSystemTime(new Date("Thu October 7 2023 10:01:00 GMT+1000"));
 
     const state: GameState = {
       ...TEST_FARM,
-      chickens: {
-        1: {
-          coordinates: {
-            x: 5,
-            y: 10,
-          },
-          multiplier: 1,
-        },
-      },
     };
 
     const enabled = BUMPKIN_WITHDRAWABLES["Cattlegrim"](state);

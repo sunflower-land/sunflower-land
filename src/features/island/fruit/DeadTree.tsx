@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { InfoPopover } from "../common/InfoPopover";
-import { FRUIT_LIFECYCLE } from "./fruits";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
+import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
-  fruitName: FruitName;
+  patchFruitName: PatchFruitName;
   hasAxes: boolean;
 }
 
-export const DeadTree = ({ fruitName, hasAxes }: Props) => {
-  const { isBush } = FRUIT()[fruitName];
+export const DeadTree = ({ patchFruitName, hasAxes }: Props) => {
+  const { isBush } = PATCH_FRUIT()[patchFruitName];
   const [showNoToolWarning, setShowNoToolWarning] = useState<boolean>(false);
 
   const handleHover = () => {
@@ -39,7 +39,7 @@ export const DeadTree = ({ fruitName, hasAxes }: Props) => {
       >
         {/* Dead tree/bush */}
         <img
-          src={FRUIT_LIFECYCLE[fruitName].dead}
+          src={PATCH_FRUIT_LIFECYCLE[patchFruitName].dead}
           className="absolute"
           style={{
             bottom: `${PIXEL_SCALE * (isBush ? 9 : 5)}px`,

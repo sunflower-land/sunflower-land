@@ -6,7 +6,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 
 const IMAGES: Partial<Record<InventoryItemName, string>> = {
-  Gem: "src/assets/icons/gem.webp",
+  Mog: "src/assets/sfts/morchi_mog.webp",
 };
 
 const WIDTH = 1920;

@@ -41,7 +41,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
   onClick,
   children,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const [warning, setWarning] = useState<JSX.Element>();
 
@@ -136,7 +136,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
         >
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="ready"
+            className={showAnimations ? "ready" : ""}
             style={{
               width: `${PIXEL_SCALE * 4}px`,
             }}

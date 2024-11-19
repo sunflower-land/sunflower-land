@@ -37,7 +37,10 @@ type GetMinedAtArgs = {
 export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
   let totalSeconds = GOLD_RECOVERY_TIME;
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     totalSeconds = totalSeconds * 0.5;
   }
 

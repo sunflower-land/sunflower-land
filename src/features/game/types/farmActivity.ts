@@ -1,10 +1,12 @@
 import { GameState, InventoryItemName } from "./game";
 import { FlowerName } from "./flowers";
+import { AnimalType } from "./animals";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
+export type BountiedEvent = `${AnimalType | FlowerName} Bountied`;
 
-export type FarmActivityName = CaughtEvent | HarvestedEvent;
+export type FarmActivityName = CaughtEvent | HarvestedEvent | BountiedEvent;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

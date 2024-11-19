@@ -7,19 +7,19 @@ import {
   GreenHouseCropSeedName,
 } from "./crops";
 import {
-  FRUIT_SEEDS,
-  FruitName,
-  FruitSeedName,
   GREENHOUSE_FRUIT_SEEDS,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PATCH_FRUIT_SEEDS,
+  PatchFruitName,
+  PatchFruitSeedName,
 } from "./fruits";
 import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
 import { ResourceName } from "./resources";
 
 export type SeedName =
   | CropSeedName
-  | FruitSeedName
+  | PatchFruitSeedName
   | FlowerSeedName
   | GreenHouseCropSeedName
   | GreenHouseFruitSeedName;
@@ -32,7 +32,7 @@ export type Seed = {
   plantingSpot: ResourceName | "Greenhouse";
   yield?:
     | CropName
-    | FruitName
+    | PatchFruitName
     | FlowerSeedName
     | GreenHouseCropName
     | GreenHouseFruitName;
@@ -41,7 +41,7 @@ export type Seed = {
 
 export const SEEDS: () => Record<SeedName, Seed> = () => ({
   ...CROP_SEEDS,
-  ...FRUIT_SEEDS(),
+  ...PATCH_FRUIT_SEEDS(),
   ...FLOWER_SEEDS(),
   ...GREENHOUSE_FRUIT_SEEDS(),
   ...GREENHOUSE_SEEDS,

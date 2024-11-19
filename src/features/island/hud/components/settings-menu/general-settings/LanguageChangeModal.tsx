@@ -5,10 +5,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Panel } from "components/ui/Panel";
 import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  LanguageCode,
-  languageDetails,
-} from "lib/i18n/dictionaries/dictionary";
+import { LanguageCode, languageDetails } from "lib/i18n/dictionaries/language";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { getKeys } from "features/game/types/decorations";
 

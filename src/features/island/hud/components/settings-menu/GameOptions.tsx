@@ -178,7 +178,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         )}
       </Button>
       {(CONFIG.NETWORK === "amoy" ||
-        !!gameService.state?.context?.state.wardrobe.Halo) && (
+        !!gameService.state?.context?.state.wardrobe.Halo ||
+        !!gameService.state?.context?.state.wardrobe["Gift Giver"]) && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
           <span>{t("gameOptions.developerOptions")}</span>
         </Button>
@@ -192,12 +193,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
         <span>{t("gameOptions.plazaSettings")}</span>
       </Button>
-      {(CONFIG.NETWORK === "amoy" ||
-        gameService.state.context.farmId === 1) && (
-        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("admin")}>
-          <span>{`Admin`}</span>
-        </Button>
-      )}
       <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
         {t("gameOptions.logout")}
       </Button>
@@ -282,8 +277,7 @@ export type SettingMenuId =
   | "font"
 
   // Amoy Testnet Actions
-  | "mainnetHoardingCheck"
-  | "amoyHoardingCheck"
+  | "hoardingCheck"
 
   // Plaza Settings
   | "pickServer"
@@ -301,11 +295,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.title"),
     parent: "main",
     content: GameOptions,
-  },
-  admin: {
-    title: `Admin`,
-    parent: "main",
-    content: AdminSettings,
   },
   installApp: {
     title: translate("install.app"),
@@ -382,21 +371,21 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: FontSettings,
   },
 
-  // Amoy Testnet Actions
-  mainnetHoardingCheck: {
-    title: "Hoarding Check (Mainnet)",
+  // Developer Options
+  admin: {
+    title: `Admin`,
     parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} network="mainnet" />,
+    content: AdminSettings,
   },
-  amoyHoardingCheck: {
+  hoardingCheck: {
     title: "Hoarding Check (Amoy)",
     parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
+    content: (props) => <DEV_HoarderCheck {...props} />,
   },
 
   // Plaza Settings
   pickServer: {
-    title: "Pick Server",
+    title: translate("gameOptions.plazaSettings.pickServer"),
     parent: "plaza",
     content: PickServer,
   },

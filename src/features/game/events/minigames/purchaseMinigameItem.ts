@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS, CropName } from "features/game/types/crops";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { GameState } from "features/game/types/game";
 import {
   MinigameName,
@@ -10,16 +10,16 @@ import {
 import { COMMODITIES, CommodityName } from "features/game/types/resources";
 import { produce } from "immer";
 
-export type MinigameCurrency = CropName | FruitName | CommodityName;
+export type MinigameCurrency = CropName | PatchFruitName | CommodityName;
 
 const SFL_LIMIT = 100;
 
 export const MINIGAME_CURRENCY_LIMITS: Record<MinigameCurrency, number> = {
   ...getKeys(COMMODITIES).reduce(
     (acc, name) => ({ ...acc, [name]: 1000 }),
-    {} as Record<FruitName, number>,
+    {} as Record<PatchFruitName, number>,
   ),
-  ...getKeys(FRUIT()).reduce(
+  ...getKeys(PATCH_FRUIT()).reduce(
     (acc, name) => ({ ...acc, [name]: 1000 }),
     {} as Record<CommodityName, number>,
   ),

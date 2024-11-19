@@ -6,6 +6,7 @@ import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_ba
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
+import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
 import { BeachBountySeasonalArtefact } from "./treasure";
 
 export type SeasonName =
@@ -15,7 +16,8 @@ export type SeasonName =
   | "Catch the Kraken"
   | "Spring Blossom"
   | "Clash of Factions"
-  | "Pharaoh's Treasure";
+  | "Pharaoh's Treasure"
+  | "Bull Run";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
@@ -48,6 +50,10 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
     startDate: new Date("2024-08-01T00:00:00.000Z"),
     endDate: new Date("2024-11-01T00:00:00.000Z"),
   },
+  "Bull Run": {
+    startDate: new Date("2024-11-01T00:00:00.000Z"),
+    endDate: new Date("2025-02-01T00:00:00.000Z"),
+  },
 };
 
 export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
@@ -59,7 +65,8 @@ export type SeasonalTicket =
   | "Mermaid Scale"
   | "Tulip Bulb"
   | "Scroll"
-  | "Amber Fossil";
+  | "Amber Fossil"
+  | "Horseshoe";
 
 export type SeasonalBanner =
   | "Solar Flare Banner"
@@ -68,7 +75,8 @@ export type SeasonalBanner =
   | "Catch the Kraken Banner"
   | "Spring Blossom Banner"
   | "Clash of Factions Banner"
-  | "Pharaoh's Treasure Banner";
+  | "Pharaoh's Treasure Banner"
+  | "Bull Run Banner";
 
 export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Solar Flare Banner": "Solar Flare",
@@ -78,6 +86,7 @@ export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Spring Blossom Banner": "Spring Blossom",
   "Clash of Factions Banner": "Clash of Factions",
   "Pharaoh's Treasure Banner": "Pharaoh's Treasure",
+  "Bull Run Banner": "Bull Run",
 };
 
 export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
@@ -88,6 +97,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Spring Blossom": "Tulip Bulb",
   "Clash of Factions": "Scroll",
   "Pharaoh's Treasure": "Amber Fossil",
+  "Bull Run": "Horseshoe",
 };
 
 export const SEASON_ARTEFACT_NAME: Record<
@@ -101,6 +111,7 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Spring Blossom": "Scarab",
   "Clash of Factions": "Scarab",
   "Pharaoh's Treasure": "Scarab",
+  "Bull Run": "Cow Skull",
 };
 
 export function getCurrentSeason(now = new Date()): SeasonName {
@@ -168,6 +179,7 @@ export function getSeasonalBannerImage() {
     "Spring Blossom Banner": springBlossomBanner,
     "Clash of Factions Banner": clashOfFactionsBanner,
     "Pharaoh's Treasure Banner": pharaohsTreasureBanner,
+    "Bull Run Banner": bullsRunBanner,
   };
   return banners[getSeasonalBanner()];
 }

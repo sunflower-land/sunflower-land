@@ -38,7 +38,12 @@ type TimeObject = {
 };
 
 export const TimerDisplay = ({ time, fontSize, color }: TimeObject) => {
-  const timeKeys = getKeys(time);
+  let timeKeys = getKeys(time);
+
+  // remove day keys if days is 0
+  if (time.days === 0) {
+    timeKeys = timeKeys.filter((key) => key !== "days");
+  }
 
   const times = timeKeys.map((key) => {
     const value = time[key as keyof TimeObject["time"]]
@@ -47,6 +52,7 @@ export const TimerDisplay = ({ time, fontSize, color }: TimeObject) => {
 
     return value;
   });
+
   return (
     <span
       className="font-secondary"

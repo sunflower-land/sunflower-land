@@ -280,6 +280,60 @@ describe("mineGold", () => {
       expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
     });
 
+    it("gold replenishes faster with Super Totem", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Super Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+    });
+
+    it("doesn't stack Super Totem and Time Warp Totem", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+            "Super Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+    });
+
     it("applies a boost of -10% recovery time when Midas Sprint skill is active", () => {
       const now = Date.now();
       const time = getMinedAt({

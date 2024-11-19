@@ -32,13 +32,13 @@ export type BumpkinRevampSkillName =
   | "Green Thumb 2"
   | "Young Farmer"
   | "Experienced Farmer"
+  | "Betty's Friend"
   | "Efficient Bin"
   | "Turbo Charged"
   | "Old Farmer"
   | "Strong Roots"
   | "Coin Swindler"
   | "Golden Sunflower"
-  | "Betty's Friend"
   | "Chonky Scarecrow"
   | "Horror Mike"
   | "Instant Growth"
@@ -63,12 +63,14 @@ export type BumpkinRevampSkillName =
   | "Fruity Woody"
   | "Tough Tree"
   | "Feller's Discount"
+  | "Money Tree"
   | "Tree Turnaround"
   | "Tree Blitz"
   // Fishing
   | "Swift Decomposer"
   | "Fisherman's 5 Fold"
   | "Wormy Treat"
+  | "Fishy Chance"
   | "Grubby Treat"
   | "Wriggly Treat"
   | "Fishy Fortune"
@@ -76,6 +78,7 @@ export type BumpkinRevampSkillName =
   | "Composting Bonanza"
   | "Frenzied Fish"
   | "Composting Overhaul"
+  | "More With Less"
   // Animals
   | "Eggcellent Production"
   | "Fowl Acceleration"
@@ -111,12 +114,15 @@ export type BumpkinRevampSkillName =
   | "Fast Feasts"
   | "Nom Nom"
   | "Munching Mastery"
+  | "Swift Sizzle"
   | "Frosted Cakes"
   | "Juicy Boost"
   | "Double Nom"
+  | "Turbo Fry"
   | "Instant Gratification"
-  | "Rapid Deli Dash"
-  | "Firey Jackpot"
+  | "Drive-Through Deli"
+  | "Fiery Jackpot"
+  | "Fry Frenzy"
   // Bees & Flowers
   | "Sweet Bonus"
   | "Hyper Bees"
@@ -128,20 +134,16 @@ export type BumpkinRevampSkillName =
   | "Flower Power"
   | "Petalled Perk"
   | "Flowery Abode"
-  // Oil
-  | "Oil Extraction"
-  | "Swift Sizzle"
-  | "Turbo Fry"
-  | "Oil Be Back"
-  | "Grease Lightning"
-  | "Fry Frenzy"
-  // Machinary
+  // Machinery
   | "Crop Processor Unit"
   | "Oil Gadget"
+  | "Oil Extraction"
   | "Crop Extension Module"
   | "Rapid Rig"
+  | "Oil Be Back"
   | "Field Extension Module"
-  | "Efficiency Extension Module";
+  | "Efficiency Extension Module"
+  | "Grease Lightning";
 
 export type BumpkinSkillTree =
   | "Crops"
@@ -160,8 +162,7 @@ export type BumpkinRevampSkillTree =
   | "Mining"
   | "Cooking"
   | "Bees & Flowers"
-  | "Oil"
-  | "Machinary";
+  | "Machinery";
 
 export type BumpkinSkill = {
   name: BumpkinSkillName;
@@ -444,6 +445,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       "+0.1 Medium Crop Yield (Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers, Parsnips)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Betty's Friend": {
+    name: "Betty's Friend",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Betty Coin delivery revenue increased by 30%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Efficient Bin": {
     name: "Efficient Bin",
     tree: "Crops",
@@ -504,16 +515,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     },
     boosts:
       "Chance of getting +0.35 gold when manually harvesting sunflowers (0.15%)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Betty's Friend": {
-    name: "Betty's Friend",
-    tree: "Crops",
-    requirements: {
-      points: 2,
-      skill: 2,
-    },
-    boosts: "Betty Coin delivery revenue increased by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Chonky Scarecrow": {
@@ -748,6 +749,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Axes cost 10% less coins",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Money Tree": {
+    name: "Money Tree",
+    tree: "Trees",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "1% chance of finding 200 Coins when chopping trees",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Trees - Tier 3
   "Tree Turnaround": {
     name: "Tree Turnaround",
@@ -800,6 +811,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       skill: 0,
     },
     boosts: "+1 EarthWorm bait from composting",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fishy Chance": {
+    name: "Fishy Chance",
+    tree: "Fishing",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "10% chance of +1 fish when fishing",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
@@ -873,6 +894,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     },
     boosts:
       "+2 Baits from all composters but reduced fertiliser drop (-5 Sprout Mixes, -5 Rapid Growth, -1 Fruit Blend)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "More With Less": {
+    name: "More With Less",
+    tree: "Fishing",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+10 daily fishing limit but -1 bait from all composters",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
@@ -1204,6 +1235,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "+5% Experience from eating meals",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Swift Sizzle": {
+    name: "Swift Sizzle",
+    tree: "Cooking",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Firepit cooking speed with oil increased by 40%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Cooking - Tier 2
   "Frosted Cakes": {
     name: "Frosted Cakes",
@@ -1236,6 +1277,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       "x1.5% more experience from eating food but requires 2x the ingredients",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Turbo Fry": {
+    name: "Turbo Fry",
+    tree: "Cooking",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Kitchen cooking speed with oil increased by 50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Cooking - Tier 3
   "Instant Gratification": {
     name: "Instant Gratification",
@@ -1249,24 +1300,34 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     power: true,
   },
-  "Rapid Deli Dash": {
-    name: "Rapid Deli Dash",
+  "Drive-Through Deli": {
+    name: "Drive-Through Deli",
     tree: "Cooking",
     requirements: {
       points: 3,
       skill: 5,
     },
-    boosts: "Meals from Deli cook 15% faster",
+    boosts: "Eating meals from Deli adds +15% experience",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "Firey Jackpot": {
-    name: "Firey Jackpot",
+  "Fiery Jackpot": {
+    name: "Fiery Jackpot",
     tree: "Cooking",
     requirements: {
       points: 3,
       skill: 5,
     },
     boosts: "+20% Chance of +1 food from Firepit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fry Frenzy": {
+    name: "Fry Frenzy",
+    tree: "Cooking",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Deli cooking speed with oil increased by 60%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
@@ -1340,7 +1401,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Guaranteed Bee Swarms but requires 6 more hours to produce",
+    boosts: "Increased Bee Swarm chance by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Flower Power": {
@@ -1370,79 +1431,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Flower House (+1 Flower bed & Hive)",
+    boosts: "Honey speed increased by +0.5 but yield reduced by -0.5",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
-  // Oil - Tier 1
-  "Oil Extraction": {
-    name: "Oil Extraction",
-    tree: "Oil",
-    requirements: {
-      points: 1,
-      skill: 0,
-    },
-    boosts: "+1 Oil",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Swift Sizzle": {
-    name: "Swift Sizzle",
-    tree: "Oil",
-    requirements: {
-      points: 1,
-      skill: 0,
-    },
-    boosts: "Firepit cooking speed with oil increased by 40%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  // Oil - Tier 2
-  "Turbo Fry": {
-    name: "Turbo Fry",
-    tree: "Oil",
-    requirements: {
-      points: 2,
-      skill: 2,
-    },
-    boosts: "Kitchen cooking speed with oil increased by 50%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Oil Be Back": {
-    name: "Oil Be Back",
-    tree: "Oil",
-    requirements: {
-      points: 2,
-      skill: 2,
-    },
-    boosts: "Oil refills 5h faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  // Oil - Tier 3
-  "Grease Lightning": {
-    name: "Grease Lightning",
-    tree: "Oil",
-    requirements: {
-      points: 3,
-      skill: 5,
-    },
-    boosts: "Ability to make empty oil wells instantly refill (1/96h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    power: true,
-  },
-  "Fry Frenzy": {
-    name: "Fry Frenzy",
-    tree: "Oil",
-    requirements: {
-      points: 3,
-      skill: 5,
-    },
-    boosts: "Deli cooking speed with oil increased by 60%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-
-  // Machinary - Tier 1
+  // Machinery - Tier 1
   "Crop Processor Unit": {
     name: "Crop Processor Unit",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 1,
       skill: 0,
@@ -1452,7 +1448,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Oil Gadget": {
     name: "Oil Gadget",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 1,
       skill: 0,
@@ -1460,10 +1456,20 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Machine uses 10% less oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  // Machinary - Tier 2
+  "Oil Extraction": {
+    name: "Oil Extraction",
+    tree: "Machinery",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+1 Oil",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Machinery - Tier 2
   "Crop Extension Module": {
     name: "Crop Extension Module",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 2,
       skill: 2,
@@ -1473,7 +1479,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Rapid Rig": {
     name: "Rapid Rig",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 2,
       skill: 2,
@@ -1481,10 +1487,20 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Crops grow 20% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  // Machinary - Tier 3
+  "Oil Be Back": {
+    name: "Oil Be Back",
+    tree: "Machinery",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Oil refill time reduced by 20%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Machinery - Tier 3
   "Field Extension Module": {
     name: "Field Extension Module",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 3,
       skill: 5,
@@ -1494,13 +1510,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Efficiency Extension Module": {
     name: "Efficiency Extension Module",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 3,
       skill: 5,
     },
     boosts: "Machine uses 15% less oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Grease Lightning": {
+    name: "Grease Lightning",
+    tree: "Machinery",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Ability to make empty oil wells instantly refill (1/96h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
 };
 

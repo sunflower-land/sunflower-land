@@ -530,6 +530,7 @@ export type BlockchainState = {
     | "buds"
     | "airdrop"
     | "offers"
+    | "marketplaceSale"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -629,7 +630,8 @@ export function startGame(authContext: AuthContext) {
       initial: "loading",
       context: {
         fslId: "123",
-        farmId: Math.floor(Math.random() * 1000),
+        farmId:
+          CONFIG.NETWORK === "mainnet" ? 0 : Math.floor(Math.random() * 1000),
         actions: [],
         state: EMPTY,
         sessionId: INITIAL_SESSION,
@@ -854,7 +856,7 @@ export function startGame(authContext: AuthContext) {
               target: "specialOffer",
               cond: (context) =>
                 (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Clash of Factions Banner"] &&
+                !context.state.collectibles["Bull Run Banner"] &&
                 !getSeasonPassRead(),
             },
             {
@@ -895,6 +897,13 @@ export function startGame(authContext: AuthContext) {
               cond: (context: Context) =>
                 getKeys(context.state.trades.offers ?? {}).some(
                   (id) => !!context.state.trades.offers![id].fulfilledAt,
+                ),
+            },
+            {
+              target: "marketplaceSale",
+              cond: (context: Context) =>
+                getKeys(context.state.trades.listings ?? {}).some(
+                  (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
             {
@@ -963,6 +972,16 @@ export function startGame(authContext: AuthContext) {
         offers: {
           on: {
             "offer.claimed": (GAME_EVENT_HANDLERS as any)["offer.claimed"],
+            RESET: {
+              target: "refreshing",
+            },
+          },
+        },
+        marketplaceSale: {
+          on: {
+            "purchase.claimed": (GAME_EVENT_HANDLERS as any)[
+              "purchase.claimed"
+            ],
             RESET: {
               target: "refreshing",
             },

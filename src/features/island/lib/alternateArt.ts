@@ -2,6 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import emptyFlowerBed from "assets/flowers/empty.webp";
 
 import { IslandType } from "features/game/types/game";
+import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 
 export const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.firePit,
@@ -21,10 +22,25 @@ export const DELI_VARIANTS: Record<IslandType, string> = {
   desert: SUNNYSIDE.building.desertDeli,
 };
 
-export const HEN_HOUSE_VARIANTS: Record<IslandType, string> = {
-  basic: SUNNYSIDE.building.chickenHouse,
-  spring: SUNNYSIDE.building.chickenHouse,
-  desert: SUNNYSIDE.building.desertChickenHouse,
+export const HEN_HOUSE_VARIANTS: Record<
+  IslandType,
+  Record<AnimalBuildingLevel, string>
+> = {
+  basic: {
+    1: SUNNYSIDE.building.henHouseLevel1,
+    2: SUNNYSIDE.building.henHouseLevel2,
+    3: SUNNYSIDE.building.henHouseLevel3,
+  },
+  spring: {
+    1: SUNNYSIDE.building.henHouseLevel1,
+    2: SUNNYSIDE.building.henHouseLevel2,
+    3: SUNNYSIDE.building.henHouseLevel3,
+  },
+  desert: {
+    1: SUNNYSIDE.building.henHouseLevel1,
+    2: SUNNYSIDE.building.henHouseLevel2,
+    3: SUNNYSIDE.building.henHouseLevel3,
+  },
 };
 
 export const KITCHEN_VARIANTS: Record<IslandType, string> = {

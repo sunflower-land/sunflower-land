@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
-import { FRUIT } from "features/game/types/fruits";
+import { PATCH_FRUIT } from "features/game/types/fruits";
 import {
   GameState,
   Inventory,
@@ -22,7 +22,7 @@ export function getDeliverableItems({ state }: { state: GameState }) {
     (acc, itemName) => {
       const isDeliverable =
         itemName in CROPS ||
-        itemName in FRUIT() ||
+        itemName in PATCH_FRUIT() ||
         (itemName in COMMODITIES &&
           itemName !== "Chicken" &&
           itemName !== "Crimstone" &&
@@ -58,7 +58,7 @@ export function getBankItems(game: GameState) {
     (acc, itemName) => {
       if (
         itemName in CROPS ||
-        itemName in FRUIT() ||
+        itemName in PATCH_FRUIT() ||
         (itemName in COMMODITIES && itemName !== "Chicken")
       ) {
         return acc;

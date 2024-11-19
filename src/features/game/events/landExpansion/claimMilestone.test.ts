@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { getFishByType } from "features/island/hud/components/codex/lib/utils";

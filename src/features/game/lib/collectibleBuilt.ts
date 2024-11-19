@@ -1,5 +1,6 @@
 import { CollectibleName } from "../types/craftables";
 import { GameState } from "../types/game";
+import { getSeasonalBanner } from "features/game/types/seasons";
 
 export function isCollectibleBuilt({
   name,
@@ -30,6 +31,7 @@ export const EXPIRY_COOLDOWNS: Partial<Record<CollectibleName, number>> = {
   "Orchard Hourglass": 6 * 60 * 60 * 1000,
   "Blossom Hourglass": 4 * 60 * 60 * 1000,
   "Fisher's Hourglass": 4 * 60 * 60 * 1000,
+  "Super Totem": 7 * 24 * 60 * 60 * 1000,
 };
 
 /**
@@ -58,4 +60,11 @@ export function isCollectibleActive({
     );
 
   return !!placedOnFarm || !!placedInHome;
+}
+
+export function hasActiveSeasonBanner({ game }: { game: GameState }) {
+  return (
+    isCollectibleBuilt({ name: getSeasonalBanner(), game }) ||
+    isCollectibleBuilt({ name: "Lifetime Farmer Banner", game })
+  );
 }

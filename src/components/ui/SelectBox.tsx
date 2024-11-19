@@ -10,7 +10,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
   <>
     <img
       className="absolute pointer-events-none"
-      src={SUNNYSIDE.ui.selectBoxBL}
+      src={SUNNYSIDE.ui.selectBoxTL}
       style={{
         top: `${PIXEL_SCALE * innerCanvasWidth}px`,
         left: `${PIXEL_SCALE * 0}px`,
@@ -28,7 +28,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src={SUNNYSIDE.ui.selectBoxTL}
+      src={SUNNYSIDE.ui.selectBoxBL}
       style={{
         top: `${PIXEL_SCALE * 1}px`,
         left: `${PIXEL_SCALE * 0}px`,

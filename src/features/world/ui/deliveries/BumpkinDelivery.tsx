@@ -11,6 +11,7 @@ import coinsImg from "assets/icons/coins.webp";
 import gift from "assets/icons/gift.png";
 import token from "assets/icons/sfl.webp";
 import chest from "assets/icons/chest.png";
+import lightning from "assets/icons/lightning.png";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
@@ -43,7 +44,7 @@ import {
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -338,12 +339,13 @@ export const Gifts: React.FC<{
 
   let translated: string = t(message);
 
+  const dateKey = new Date().toISOString().substring(0, 10);
+
   const giftedAt = game.npcs?.[name]?.friendship?.giftedAt ?? 0;
   // GiftedAt is the same UTC day as right now
   const isLocked =
     giftedAt > 0 &&
-    new Date(giftedAt).toISOString().substring(0, 10) ===
-      new Date().toISOString().substring(0, 10);
+    new Date(giftedAt).toISOString().substring(0, 10) === dateKey;
 
   if (isLocked) {
     translated = `${translated} ${t("npcDialogues.default.locked")}`;
@@ -558,9 +560,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
 
-  const { ticketTasksAreFrozen } = getSeasonChangeover({
-    id: gameService.state.context.farmId,
-  });
+  const { holiday } = getBumpkinHoliday({});
+
+  const isHoliday = holiday === new Date().toISOString().split("T")[0];
 
   const deliver = () => {
     gameService.send("order.delivered", {
@@ -607,6 +609,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const tickets = generateDeliveryTickets({ game, npc });
 
+  const dateKey = new Date().toISOString().substring(0, 10);
+
   let message = intro;
 
   if (delivery && !delivery.completedAt && hasDelivery) {
@@ -615,9 +619,20 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   if (delivery?.completedAt) {
     message = t("bumpkin.delivery.waiting");
+
+    if (
+      npc === "pumpkin' pete" &&
+      (game.npcs?.[npc]?.friendship?.points ?? 0) > 2 &&
+      game.delivery.doubleDelivery &&
+      game.delivery.doubleDelivery !== dateKey
+    ) {
+      message = t("double.delivery.hint", {
+        date: game.delivery.doubleDelivery ?? "",
+      });
+    }
   }
 
-  if (!delivery || (!!tickets && ticketTasksAreFrozen)) {
+  if (!delivery || (!!tickets && isHoliday)) {
     message = noOrder;
   }
 
@@ -633,8 +648,14 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
   const isLocked = missingLevels >= 1;
   const isTicketOrder = tickets > 0;
-  const deliveryFrozen = ticketTasksAreFrozen && isTicketOrder;
+  const deliveryFrozen = isHoliday && isTicketOrder;
   const acceptGifts = !!getNextGift({ game, npc });
+
+  const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
+
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) === dateKey;
 
   if (gift) {
     return (
@@ -698,9 +719,19 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
-                  <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                    {t("delivery")}
-                  </Label>
+                  {game.delivery.doubleDelivery === dateKey &&
+                  !hasClaimedBonus ? (
+                    <Label type="vibrant" icon={lightning}>
+                      {t("double.rewards.delivery")}
+                    </Label>
+                  ) : (
+                    <Label
+                      type="default"
+                      icon={SUNNYSIDE.icons.expression_chat}
+                    >
+                      {t("delivery")}
+                    </Label>
+                  )}
                   {delivery?.completedAt && (
                     <Label
                       style={{ whiteSpace: "nowrap" }}
@@ -752,7 +783,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   />
                 </>
               )}
-              {isTicketOrder && ticketTasksAreFrozen && (
+              {isTicketOrder && isHoliday && (
                 <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
                   {t("orderhelp.ticket.deliveries.closed")}
                 </Label>
@@ -774,7 +805,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 !!delivery?.completedAt ||
                 isLocked ||
                 missingVIPAccess ||
-                (isTicketOrder && ticketTasksAreFrozen)
+                (isTicketOrder && isHoliday)
               }
               onClick={deliver}
             >

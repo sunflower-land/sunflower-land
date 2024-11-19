@@ -1,20 +1,19 @@
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
-import React, { useContext } from "react";
+import React from "react";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
 import token from "assets/icons/sfl.webp";
 import coins from "assets/icons/coins.webp";
+import gems from "assets/icons/gem.webp";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 
 /**
  * The props for SFL requirement label. Use this when the item costs SFL.
@@ -58,6 +57,28 @@ interface CoinsProps {
  */
 interface SellCoinsProps {
   type: "sellForCoins";
+  requirement: number;
+}
+
+/**
+ * The props for sell for Gems requirement label. Use this when selling the item gives players Gems.
+ * @param type The type is sell for Gems.
+ * @param requirement The Gems requirement.
+ */
+interface SellGemsProps {
+  type: "sellForGems";
+  requirement: number;
+}
+
+/**
+ * The props for sell for Items requirement label. Use this when selling the item gives players Items.
+ * @param type The type is sell for items.
+ * @param item The item name.
+ * @param requirement The Items requirement.
+ */
+interface SellItemProps {
+  type: "sellForItem";
+  item: InventoryItemName;
   requirement: number;
 }
 
@@ -141,6 +162,8 @@ interface defaultProps {
 type Props = (
   | CoinsProps
   | SellCoinsProps
+  | SellGemsProps
+  | SellItemProps
   | SFLProps
   | SellSFLProps
   | ItemProps
@@ -159,19 +182,16 @@ type Props = (
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const getIcon = () => {
     switch (props.type) {
       case "coins":
       case "sellForCoins":
         return coins;
+      case "sellForGems":
+        return gems;
+      case "sellForItem":
+        return ITEM_DETAILS[props.item].image;
       case "sfl":
       case "sellForSfl":
         return token;
@@ -191,6 +211,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     switch (props.type) {
       case "coins":
       case "sellForCoins":
+      case "sellForGems":
+      case "sellForItem":
         return `${formatNumber(props.requirement)}`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
@@ -240,6 +262,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return props.currentLevel >= props.requirement;
       case "sellForSfl":
       case "sellForCoins":
+      case "sellForGems":
+      case "sellForItem":
       case "time":
       case "xp":
       case "harvests":

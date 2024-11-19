@@ -36,7 +36,6 @@ import { FeatureName, hasFeatureAccess } from "lib/flags";
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "../building/BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
-import powerup from "assets/icons/level_up.png";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -165,12 +164,6 @@ export const Recipes: React.FC<Props> = ({
     <SplitScreenView
       panel={
         <>
-          {selected.name === "Reindeer Carrot" &&
-            Date.now() < new Date("2024-06-22").getTime() && (
-              <Label className="mx-auto" type="info" icon={powerup}>
-                {t("firepit.increasedXP")}
-              </Label>
-            )}
           <CraftingRequirements
             gameState={state}
             details={{
@@ -189,6 +182,7 @@ export const Recipes: React.FC<Props> = ({
               ),
               timeSeconds: getCookingTime(
                 getCookingOilBoost(selected.name, state, buildingId).timeToCook,
+                selected.name,
                 state.bumpkin,
                 state,
               ),
@@ -276,6 +270,7 @@ export const Cooking: React.FC<{
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
+    game: state,
   });
 
   return (

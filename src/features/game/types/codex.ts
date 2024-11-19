@@ -5,6 +5,7 @@ export type CodexCategoryName =
   | "Fish"
   | "Flowers"
   | "Season"
+  | "Bull Run"
   | "Deliveries"
   | "Chores"
   | "Bumpkins"
@@ -13,7 +14,8 @@ export type CodexCategoryName =
   | "Leaderboard"
   | "Factions"
   | "Minigames"
-  | "Marks";
+  | "Marks"
+  | "Chore Board";
 
 export type CollectionGroup = "fish";
 

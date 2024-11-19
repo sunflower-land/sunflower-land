@@ -1,6 +1,6 @@
 import { getKeys } from "./craftables";
 import { CropName } from "./crops";
-import { FruitName } from "./fruits";
+import { PatchFruitName } from "./fruits";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
 
@@ -114,7 +114,7 @@ export type FlowerCrossBreedName =
       | "Kale"
       | "Eggplant"
     >
-  | Extract<FruitName, "Blueberry" | "Banana" | "Apple">
+  | Extract<PatchFruitName, "Blueberry" | "Banana" | "Apple">
   | FlowerName;
 
 export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
@@ -448,4 +448,4 @@ export const DESERT_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
   {} as Record<FlowerName, Lifecycle>,
 );
 
-export type MutantFlowerName = "Desert Rose";
+export type MutantFlowerName = "Desert Rose" | "Chicory";

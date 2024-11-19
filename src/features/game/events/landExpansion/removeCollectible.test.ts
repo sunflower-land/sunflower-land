@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
@@ -9,7 +8,7 @@ import {
   REMOVE_COLLECTIBLE_ERRORS,
 } from "./removeCollectible";
 import { SEEDS } from "features/game/types/seeds";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
+import { PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { FLOWER_SEEDS } from "features/game/types/flowers";
 
 const GAME_STATE: GameState = {
@@ -355,7 +354,7 @@ describe("removeCollectible", () => {
             Object.entries(SEEDS()).map(([name]) => [name, new Decimal(1)]),
           ),
           ...Object.fromEntries(
-            Object.entries(FRUIT_SEEDS()).map(([name]) => [
+            Object.entries(PATCH_FRUIT_SEEDS()).map(([name]) => [
               name,
               new Decimal(1),
             ]),
@@ -391,7 +390,10 @@ describe("removeCollectible", () => {
 
   it("burns all flower seeds if a Hungry Caterpillar is removed", () => {
     const fruitSeeds = Object.fromEntries(
-      Object.entries(FRUIT_SEEDS()).map(([name]) => [name, new Decimal(1)]),
+      Object.entries(PATCH_FRUIT_SEEDS()).map(([name]) => [
+        name,
+        new Decimal(1),
+      ]),
     );
 
     const gameState = removeCollectible({

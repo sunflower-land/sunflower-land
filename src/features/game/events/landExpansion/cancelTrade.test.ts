@@ -27,6 +27,7 @@ describe("cancelTrade", () => {
             tradePoints: 0,
             listings: {
               "123": {
+                collection: "resources",
                 createdAt: 1000000,
                 sfl: 5,
                 items: {
@@ -55,6 +56,7 @@ describe("cancelTrade", () => {
           tradePoints: 0,
           listings: {
             "123": {
+              collection: "resources",
               createdAt: 1000000,
               sfl: 5,
               items: {
@@ -80,6 +82,7 @@ describe("cancelTrade", () => {
           tradePoints: 0,
           listings: {
             "123": {
+              collection: "resources",
               createdAt: 1000000,
               sfl: 5,
               items: {

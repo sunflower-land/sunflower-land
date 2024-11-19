@@ -39,7 +39,7 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
       },
     );
 
-    spriteLoader.once(Phaser.Loader.Events.COMPLETE, () => {
+    spriteLoader.once(`filecomplete-spritesheet-fisherman`, () => {
       if (this.sprite) return;
 
       const idle = scene.add.sprite(0, 0, "fisherman").setOrigin(0.5);

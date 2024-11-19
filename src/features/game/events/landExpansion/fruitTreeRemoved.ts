@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { FruitName } from "features/game/types/fruits";
+import { PatchFruitName } from "features/game/types/fruits";
 import {
   GameState,
   Inventory,
@@ -26,15 +26,15 @@ type Options = {
 };
 
 export function getRequiredAxeAmount(
-  fruitName: FruitName,
+  patchFruitName: PatchFruitName,
   inventory: Inventory,
   game: GameState,
 ) {
   // Apply boost for Trees
   if (
-    fruitName === "Apple" ||
-    fruitName === "Orange" ||
-    fruitName === "Lemon"
+    patchFruitName === "Apple" ||
+    patchFruitName === "Orange" ||
+    patchFruitName === "Lemon"
   ) {
     if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
       return new Decimal(0);

@@ -5,14 +5,15 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
+  getCurrentSeason,
   getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { NPCName } from "lib/npcs";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
@@ -29,7 +30,7 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   pharaoh: 5,
 };
 
-const isFruit = (name: FruitName) => name in FRUIT();
+const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT();
 
 export function generateDeliveryTickets({
   game,
@@ -51,6 +52,40 @@ export function generateDeliveryTickets({
     !!game.inventory["Lifetime Farmer Banner"]
   ) {
     amount += 2;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Hat" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Shirt" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
+  }
+
+  const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
+
+  const dateKey = new Date(now).toISOString().substring(0, 10);
+
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) === dateKey;
+
+  // Leave this at the end as it will multiply the whole amount by 2
+  if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
+    amount *= 2;
   }
 
   return amount;
@@ -171,7 +206,11 @@ export function populateOrders(
   return orders;
 }
 
-export function getOrderSellPrice<T>(game: GameState, order: Order): T {
+export function getOrderSellPrice<T>(
+  game: GameState,
+  order: Order,
+  now: Date = new Date(),
+): T {
   let mul = 1;
 
   // Michelin Stars - 5% bonus
@@ -202,7 +241,7 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     order.from === "tango"
   ) {
     const items = getKeys(order.items);
-    if (items.some((name) => isFruit(name as FruitName))) {
+    if (items.some((name) => isFruit(name as PatchFruitName))) {
       mul += 0.5;
     }
   }
@@ -214,6 +253,14 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     order.from === "corale"
   ) {
     mul += 0.5;
+  }
+
+  // Nom Nom - 5% bonus with food orders
+  if (game.bumpkin?.skills["Nom Nom"]) {
+    const items = getKeys(order.items);
+    if (items.some((name) => name in COOKABLE_CAKES)) {
+      mul += 0.05;
+    }
   }
 
   const items = getKeys(order.items);
@@ -233,6 +280,18 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.25;
   }
 
+  const completedAt = game.npcs?.[order.from]?.deliveryCompletedAt;
+
+  const dateKey = new Date(now).toISOString().substring(0, 10);
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) === dateKey;
+
+  // Leave this at the end as it will multiply the whole amount by 2
+  if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
+    mul *= 2;
+  }
+
   if (order.reward.sfl) {
     return new Decimal(order.reward.sfl ?? 0).mul(mul) as T;
   }
@@ -244,7 +303,6 @@ export function deliverOrder({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
 }: Options): GameState {
   return produce(state, (game) => {
     const bumpkin = game.bumpkin;
@@ -267,10 +325,10 @@ export function deliverOrder({
       throw new Error("Order is already completed");
     }
 
-    const { ticketTasksAreFrozen } = getSeasonChangeover({
-      id: farmId,
-      now: createdAt,
-    });
+    const { holiday } = getBumpkinHoliday({ now: createdAt });
+
+    const ticketTasksAreFrozen =
+      holiday === new Date(createdAt).toISOString().split("T")[0];
 
     const tickets = generateDeliveryTickets({
       game,
@@ -315,14 +373,18 @@ export function deliverOrder({
     });
 
     if (order.reward.sfl) {
-      const sfl = getOrderSellPrice<Decimal>(game, order);
+      const sfl = getOrderSellPrice<Decimal>(game, order, new Date(createdAt));
       game.balance = game.balance.add(sfl);
 
       bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
     }
 
     if (order.reward.coins) {
-      const coinsReward = getOrderSellPrice<number>(game, order);
+      const coinsReward = getOrderSellPrice<number>(
+        game,
+        order,
+        new Date(createdAt),
+      );
 
       game.coins = game.coins + coinsReward;
 

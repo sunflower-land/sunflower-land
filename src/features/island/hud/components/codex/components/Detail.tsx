@@ -11,6 +11,7 @@ import classNames from "classnames";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import Crown from "assets/icons/vip.webp";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -40,6 +41,7 @@ export const Detail: React.FC<Props> = ({
     description,
     howToGetItem = [],
     itemType,
+    availability,
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
 
@@ -118,6 +120,19 @@ export const Detail: React.FC<Props> = ({
                   {itemType}
                 </Label>
               )}
+              {!!availability && (
+                <Label
+                  type={availability === "Seasonal" ? "info" : "vibrant"}
+                  icon={
+                    availability === "Seasonal"
+                      ? SUNNYSIDE.icons.stopwatch
+                      : Crown
+                  }
+                  className="capitalize"
+                >
+                  {availability}
+                </Label>
+              )}
             </div>
           </div>
         </div>
@@ -147,7 +162,7 @@ export const Detail: React.FC<Props> = ({
               {t("detail.view.item")}{" "}
               <a
                 href={getOpenSeaLink(KNOWN_IDS[name], "collectible")}
-                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 !text-[18px]"
+                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >

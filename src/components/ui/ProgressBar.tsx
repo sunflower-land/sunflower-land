@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useSpring, animated } from "react-spring";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
@@ -109,7 +110,7 @@ export const ResizableBar: React.FC<{
  * Non-resizable bar that is used in the map.  Handles transparency well.
  * @param percentage Percentage of the bar (0 to 100).
  * @param type The bar type (determines what color it has).
- * @returns The non-rresizable bar.
+ * @returns The non-resizable bar.
  */
 export const Bar: React.FC<{ percentage: number; type: ProgressType }> = ({
   percentage,
@@ -184,6 +185,110 @@ export const Bar: React.FC<{ percentage: number; type: ProgressType }> = ({
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           width: `${PIXEL_SCALE * progressWidth}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+        }}
+      />
+    </div>
+  );
+};
+
+/**
+ * Animated non-resizable bar that is used in the map. Handles transparency well and animates progress changes.
+ * @param percentage Percentage of the bar (0 to 100).
+ * @param type The bar type (determines what color it has).
+ * @returns The animated non-resizable bar.
+ */
+export const AnimatedBar: React.FC<{
+  percentage: number;
+  type: ProgressType;
+  shouldWrap?: boolean;
+}> = ({ percentage, type, shouldWrap = true }) => {
+  const prevWidth = useRef(percentage);
+
+  const { width } = useSpring({
+    width: Math.min(percentage, 100),
+    config: {
+      tension: 120,
+      friction: 30,
+      clamp: true,
+    },
+  });
+
+  return (
+    <div
+      className="relative"
+      style={{
+        width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
+        height: `${PIXEL_SCALE * DIMENSIONS.height}px`,
+      }}
+    >
+      {/* Progress bar frame */}
+      <img
+        className="absolute"
+        src={SUNNYSIDE.ui.emptyBar}
+        style={{
+          width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
+        }}
+      />
+      <img
+        className="absolute z-30 opacity-50"
+        src={SUNNYSIDE.ui.emptyBar}
+        style={{
+          width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
+        }}
+      />
+
+      {/* Progress bar inner background */}
+      <div
+        className="absolute"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].backgroundColor,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          width: `${PIXEL_SCALE * DIMENSIONS.innerWidth}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+        }}
+      />
+      <div
+        className="absolute z-30 opacity-80"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].backgroundColor,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          width: `${PIXEL_SCALE * DIMENSIONS.innerWidth}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+        }}
+      />
+
+      {/* Animated Progress */}
+      <animated.div
+        className="absolute"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].color,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+          width: width.to(
+            (w) => `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`,
+          ),
+        }}
+      />
+      <animated.div
+        className="absolute z-30 opacity-80"
+        style={{
+          backgroundColor: PROGRESS_COLORS[type].color,
+          top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
+          left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
+          height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
+          width: width.to((w) => {
+            // wrap the width to 0 if the previous width is greater than the current width
+            if (prevWidth.current > w && shouldWrap) {
+              width.set(0);
+            }
+
+            prevWidth.current = w;
+
+            return `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`;
+          }),
         }}
       />
     </div>

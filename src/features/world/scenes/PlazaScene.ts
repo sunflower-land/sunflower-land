@@ -1,5 +1,5 @@
 import desert_plaza from "assets/map/desert_plaza.json";
-
+import bull_run_plaza from "assets/map/bull_run_plaza.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
@@ -9,8 +9,10 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
-import { FactionName } from "features/game/types/game";
+import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
+import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -27,15 +29,12 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "peggy",
   },
   {
-    x: 600,
-    y: 197,
+    x: 640,
+    y: 227,
+    direction: "left",
     npc: "hammerin harry",
   },
-  {
-    x: 371,
-    y: 420,
-    npc: "pumpkin' pete",
-  },
+
   {
     x: 815,
     y: 213,
@@ -47,17 +46,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     y: 259,
     npc: "stella",
   },
-  {
-    x: 631,
-    y: 98,
-    npc: "timmy",
-  },
-  {
-    x: 307,
-    y: 72,
-    npc: "raven",
-    direction: "left",
-  },
+
   {
     x: 367,
     y: 120,
@@ -76,27 +65,12 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   },
 
   {
-    x: 480,
-    y: 140,
-    npc: "cornwell",
-  },
-  {
-    x: 795,
-    y: 118,
-    npc: "bert",
-    direction: "left",
-  },
-  {
     x: 534,
     y: 88,
     npc: "betty",
     direction: "left",
   },
-  {
-    x: 90,
-    y: 70,
-    npc: "tywin",
-  },
+
   {
     x: 506,
     y: 250,
@@ -104,11 +78,15 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
 
-  {
-    x: 214,
-    y: 295,
-    npc: "hank",
-  },
+  ...(Date.now() < new Date("2024-11-01T00:00:00").getTime()
+    ? [
+        {
+          x: 214,
+          y: 295,
+          npc: "hank" as NPCName,
+        },
+      ]
+    : []),
   {
     x: 442,
     y: 173,
@@ -126,11 +104,12 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  constructor() {
+  constructor({ gameState }: { gameState: GameState }) {
+    const showBullRunPlaza = hasFeatureAccess(gameState, "BULL_RUN_PLAZA");
     super({
       name: "plaza",
       map: {
-        json: desert_plaza,
+        json: showBullRunPlaza ? bull_run_plaza : desert_plaza,
         imageKey: "tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
@@ -152,7 +131,6 @@ export class PlazaScene extends BaseScene {
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
 
     this.load.image("shop_icon", "world/shop_disc.png");
-    this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
@@ -190,6 +168,11 @@ export class PlazaScene extends BaseScene {
       frameHeight: 21,
     });
 
+    this.load.spritesheet("mecha_bull", "world/mecha_bull.webp", {
+      frameWidth: 35,
+      frameHeight: 31,
+    });
+
     this.load.image("chest", "world/rare_chest.png");
     this.load.image("trading_board", "world/trading_board.png");
 
@@ -201,12 +184,12 @@ export class PlazaScene extends BaseScene {
 
     // Stella Megastore items
     this.load.image("tomato_bombard", "world/tomato_bombard.gif");
-    this.load.image("rice_panda", "world/rice_panda.webp");
 
     this.load.image("explorer_hat", "world/explorer_hat.png");
+    this.load.image("cowboy_hat", "world/cowboy_hat.png");
 
-    this.load.image("faction_banner", "world/clash_of_factions_banner.webp");
     this.load.image("pharaoh_banner", "world/pharaohs_treasure_banner.webp");
+    this.load.image("bull_run_banner", "world/bull_run_banner.webp");
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -259,7 +242,93 @@ export class PlazaScene extends BaseScene {
       });
     tradingBoardIcon.setDepth(1000000);
 
-    this.initialiseNPCs(PLAZA_BUMPKINS);
+    let bumpkins = PLAZA_BUMPKINS;
+
+    const { holiday } = getBumpkinHoliday({});
+    const isHoliday = holiday === new Date().toISOString().split("T")[0];
+
+    if (!isHoliday) {
+      bumpkins = [
+        ...bumpkins,
+        {
+          x: 371,
+          y: 420,
+          npc: "pumpkin' pete",
+        },
+        {
+          x: 795,
+          y: 118,
+          npc: "bert",
+          direction: "left",
+        },
+        {
+          x: 631,
+          y: 98,
+          npc: "timmy",
+        },
+        {
+          x: 307,
+          y: 72,
+          npc: "raven",
+          direction: "left",
+        },
+
+        {
+          x: 480,
+          y: 140,
+          npc: "cornwell",
+        },
+        {
+          x: 90,
+          y: 70,
+          npc: "tywin",
+        },
+      ];
+    } else {
+      bumpkins = [
+        ...bumpkins,
+        {
+          x: 555,
+          y: 252,
+          npc: "pumpkin' pete",
+          hideLabel: true,
+        },
+        {
+          x: 575,
+          y: 252,
+          npc: "tywin",
+          direction: "left",
+          hideLabel: true,
+        },
+        {
+          x: 640,
+          y: 250,
+          npc: "cornwell",
+          direction: "left",
+          hideLabel: true,
+        },
+
+        {
+          x: 620,
+          y: 245,
+          npc: "bert",
+          hideLabel: true,
+        },
+        {
+          x: 584,
+          y: 230,
+          npc: "timmy",
+          hideLabel: true,
+        },
+        {
+          x: 307,
+          y: 72,
+          npc: "raven",
+          direction: "left",
+        },
+      ];
+    }
+    this.initialiseNPCs(bumpkins);
 
     if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
       this.arrows = this.add
@@ -280,6 +349,16 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(106, 140, "key_disc").setDepth(1000000000);
     } else {
       this.add.sprite(106, 140, "locked_disc").setDepth(1000000000);
+    }
+
+    if (this.gameState.inventory["Beta Pass"]) {
+      // Add an invisible clickable square at x and y coords
+      const clickableSquare = this.add.rectangle(775, 248, 16, 16, 0, 0);
+      clickableSquare
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("flower_bounties");
+        });
     }
 
     // Sprites
@@ -318,15 +397,12 @@ export class PlazaScene extends BaseScene {
     });
 
     this.add.sprite(321.5, 230, "shop_icon");
-    const auctionIcon = this.add.sprite(608, 220, "timer_icon");
 
     if (this.gameState.inventory["Luxury Key"]) {
       this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);
     } else {
       this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
-
-    auctionIcon.setDepth(1000000);
 
     const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");
     clubHouseLabel.setPosition(152, 262);
@@ -376,7 +452,9 @@ export class PlazaScene extends BaseScene {
       });
 
     // Banner
-    const banner = "pharaoh_banner";
+    const banner = hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")
+      ? "bull_run_banner"
+      : "pharaoh_banner";
     this.add.image(400, 225, banner).setDepth(100000000000);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
@@ -456,9 +534,57 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    this.add.image(248, 244, "tomato_bombard");
+    if (hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")) {
+      const mechaBull = this.add.sprite(248, 244, "mecha_bull");
+      this.anims.create({
+        key: "mech_bull_anim",
+        frames: this.anims.generateFrameNumbers("mecha_bull", {
+          start: 0,
+          end: 7,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+      mechaBull.play("mech_bull_anim", true);
+    } else this.add.image(248, 244, "tomato_bombard");
 
-    this.add.image(288.5, 248, "explorer_hat");
+    const featuredHat = hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")
+      ? "cowboy_hat"
+      : "explorer_hat";
+    this.add.image(288.5, 248, featuredHat);
+
+    if (this.textures.exists("sparkle")) {
+      const sparkle = this.add.sprite(564, 191, "sparkle");
+      sparkle.setDepth(1000000);
+
+      this.anims.create({
+        key: `sparkel_anim`,
+        frames: this.anims.generateFrameNumbers("sparkle", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 6,
+      });
+
+      const sparkle2 = this.add.sprite(585, 205, "sparkle");
+      sparkle2.setDepth(1000000);
+
+      const sparkle3 = this.add.sprite(598, 181, "sparkle");
+      sparkle3.setDepth(1000000);
+
+      const sparkle4 = this.add.sprite(615, 205, "sparkle");
+      sparkle4.setDepth(1000000);
+
+      const sparkle5 = this.add.sprite(639, 181, "sparkle");
+      sparkle5.setDepth(1000000);
+
+      sparkle.play(`sparkel_anim`, true);
+      sparkle2.play(`sparkel_anim`, true);
+      sparkle3.play(`sparkel_anim`, true);
+      sparkle4.play(`sparkel_anim`, true);
+      sparkle5.play(`sparkel_anim`, true);
+    }
 
     const door = this.colliders
       ?.getChildren()

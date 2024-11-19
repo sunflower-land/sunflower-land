@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import "lib/__mocks__/configMock";
+
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { craftCollectible } from "./craftCollectible";

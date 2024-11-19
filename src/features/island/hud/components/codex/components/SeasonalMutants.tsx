@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getCurrentSeason, SeasonName } from "features/game/types/seasons";
+import { SeasonName } from "features/game/types/seasons";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
@@ -29,10 +29,19 @@ const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
     fish: "Lemon Shark",
     banner: SUNNYSIDE.announcement.pharaohSeasonRares,
   },
+  "Bull Run": {
+    chicken: "Alien Chicken",
+    flower: "Chicory",
+    fish: "Longhorn Cowfish",
+    banner: SUNNYSIDE.announcement.bullRunSeasonRares,
+  },
 };
 
-export const SeasonalMutants: React.FC = () => {
-  const mutants = SEASONAL_MUTANTS[getCurrentSeason()];
+interface Props {
+  season: SeasonName;
+}
+export const SeasonalMutants: React.FC<Props> = ({ season }) => {
+  const mutants = SEASONAL_MUTANTS[season];
 
   const { t } = useAppTranslation();
 

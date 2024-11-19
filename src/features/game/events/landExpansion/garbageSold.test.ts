@@ -171,4 +171,42 @@ describe("garbageSold", () => {
       amount,
     );
   });
+
+  it("throws an error if the limit is reached", () => {
+    expect(() =>
+      sellGarbage({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Hen House": new Decimal(1),
+          },
+        },
+        action: {
+          type: "garbage.sold",
+          item: "Hen House",
+          amount: 1,
+        },
+      }),
+    ).toThrow("Limit Reached");
+  });
+
+  it("gives items", () => {
+    const state = sellGarbage({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Hen House": new Decimal(2),
+        },
+      },
+      action: {
+        type: "garbage.sold",
+        item: "Hen House",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory["Wood"]).toEqual(
+      (GAME_STATE.inventory["Wood"] ?? new Decimal(0)).add(200),
+    );
+  });
 });

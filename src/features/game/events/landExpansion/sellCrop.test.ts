@@ -1,10 +1,9 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
 import { CropName, CROPS } from "../../types/crops";
 import { sellCrop } from "./sellCrop";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
-import { FRUIT } from "features/game/types/fruits";
+import { PATCH_FRUIT } from "features/game/types/fruits";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -173,7 +172,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.coins).toEqual(FRUIT().Apple.sellPrice);
+    expect(state.coins).toEqual(PATCH_FRUIT().Apple.sellPrice);
   });
 
   it("increments the crop sold activity ", () => {
@@ -232,7 +231,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.coins).toEqual(coins + FRUIT().Tomato.sellPrice * 2);
+    expect(state.coins).toEqual(coins + PATCH_FRUIT().Tomato.sellPrice * 2);
   });
 
   it("add 10% more profit on crops sell if the player has Coin Swindler skill", () => {
@@ -284,7 +283,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.coins).toEqual(coins + FRUIT().Tomato.sellPrice);
+    expect(state.coins).toEqual(coins + PATCH_FRUIT().Tomato.sellPrice);
   });
 
   it("does not add 10% more profit if the player does not have Coin Swindler skill", () => {

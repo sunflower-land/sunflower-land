@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
-import { getOfferItem } from "features/marketplace/lib/offers";
+import { getItemId } from "features/marketplace/lib/offers";
 import { produce } from "immer";
 import { addTradePoints } from "./addTradePoints";
 
@@ -38,7 +38,7 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
       return game;
     }
 
-    const id = getOfferItem({ offer });
+    const id = getItemId({ details: offer });
     if (offer.collection === "collectibles") {
       const name = KNOWN_ITEMS[id];
       game.inventory[name] = (game.inventory[name] ?? new Decimal(0)).add(1);

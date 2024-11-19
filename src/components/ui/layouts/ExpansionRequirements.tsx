@@ -67,7 +67,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
   onClose,
 }: Props) => {
   const { t } = useAppTranslation();
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
@@ -182,10 +182,11 @@ export const Expanding: React.FC<{
   const totalSeconds = requirements?.seconds ?? 0;
   const secondsTillReady = (readyAt - Date.now()) / 1000;
 
-  const { days, ...ready } = useCountdown(readyAt ?? 0);
+  const ready = useCountdown(readyAt ?? 0);
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
+    game: state,
   });
 
   const hasAccess =

@@ -56,6 +56,8 @@ export interface BoxProps {
     percentage: number;
     type: ProgressType;
   };
+  onDragOver?: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDrop?: (e: React.DragEvent<HTMLDivElement>) => void;
 }
 
 export const Box: React.FC<BoxProps> = ({
@@ -77,6 +79,8 @@ export const Box: React.FC<BoxProps> = ({
   parentDivRef,
   alternateIcon,
   progress,
+  onDragOver,
+  onDrop,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [showHiddenCountLabel, setShowHiddenCountLabel] = useState(false);
@@ -178,6 +182,8 @@ export const Box: React.FC<BoxProps> = ({
           marginRight: `${PIXEL_SCALE * 3}px`,
           ...pixelDarkBorderStyle,
         }}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
       >
         <div
           className={classNames(

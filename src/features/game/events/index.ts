@@ -375,10 +375,55 @@ import {
   SpeedUpBuilding,
 } from "./landExpansion/speedUpBuilding";
 import { buyAnimal, BuyAnimalAction } from "./landExpansion/buyAnimal";
+import { feedAnimal, FeedAnimalAction } from "./landExpansion/feedAnimal";
+import { loveAnimal, LoveAnimalAction } from "./landExpansion/loveAnimal";
+import { feedMixed, FeedMixedAction } from "features/feederMachine/feedMixed";
+import {
+  upgradeBuilding,
+  UpgradeBuildingAction,
+} from "./landExpansion/upgradeBuilding";
+import { sellAnimal, SellAnimalAction } from "./landExpansion/sellAnimal";
+import {
+  startCrafting,
+  StartCraftingAction,
+} from "./landExpansion/startCrafting";
+import {
+  collectCrafting,
+  CollectCraftingAction,
+} from "./landExpansion/collectCrafting";
+import {
+  completeNPCChore,
+  CompleteNPCChoreAction,
+} from "./landExpansion/completeNPCChore";
+import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
+import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
+import {
+  buySeasonalItem,
+  BuySeasonalItemAction,
+} from "./landExpansion/buySeasonalItem";
+import {
+  discoverRecipe,
+  DiscoverRecipeAction,
+} from "./landExpansion/discoverRecipe";
+import {
+  unlockFarmhand,
+  UnlockFarmhandAction,
+} from "./landExpansion/unlockFarmhand";
+import {
+  sacrificeBear,
+  SacrificeBearAction,
+} from "./landExpansion/sacrificeBear";
+import { buyMoreReels, BuyMoreReelsAction } from "./landExpansion/buyMoreReels";
+import { ClaimPurchaseAction, claimPurchase } from "./claimPurchase";
+import { npcRestock, NPCRestockAction } from "./landExpansion/npcRestock";
 
 export type PlayingEvent =
+  | SellAnimalAction
   | SpeedUpBuilding
+  | SacrificeBearAction
   | SpeedUpCollectible
+  | SellBountyAction
+  | FeedMixedAction
   | InstantExpand
   | InstantCookRecipe
   | ShipmentRestockAction
@@ -421,6 +466,7 @@ export type PlayingEvent =
   | CraftCollectibleAction
   | SellTreasureAction
   | RestockAction
+  | NPCRestockAction
   | SellGarbageAction
   // Chores
   | CompleteChoreAction
@@ -485,7 +531,19 @@ export type PlayingEvent =
   | FeedFactionPetAction
   | LeaveFactionAction
   | BuyMoreDigsAction
-  | BuyAnimalAction;
+  | BuyMoreReelsAction
+  | BuyAnimalAction
+  | FeedAnimalAction
+  | LoveAnimalAction
+  | UpgradeBuildingAction
+  | StartCraftingAction
+  | CollectCraftingAction
+  | CompleteNPCChoreAction
+  | ClaimProduceAction
+  | BuySeasonalItemAction
+  | DiscoverRecipeAction
+  | UnlockFarmhandAction
+  | ClaimPurchaseAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -551,10 +609,13 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
+  "bear.sacrificed": sacrificeBear,
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,
   "recipe.spedUp": speedUpRecipe,
+  "bounty.sold": sellBounty,
   "competition.started": startCompetition,
   "offer.claimed": claimOffer,
   "dailyChallenge.completed": completeDailyChallenge,
@@ -602,6 +663,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.crafted": craftCollectible,
   "treasure.sold": sellTreasure,
   "shops.restocked": restock,
+  "npc.restocked": npcRestock,
   "garbage.sold": sellGarbage,
   "chore.completed": completeChore,
   "chore.skipped": skipChore,
@@ -661,6 +723,19 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "desert.digsBought": buyMoreDigs,
   "shipment.restocked": shipmentRestock,
   "animal.bought": buyAnimal,
+  "animal.fed": feedAnimal,
+  "animal.loved": loveAnimal,
+  "feed.mixed": feedMixed,
+  "building.upgraded": upgradeBuilding,
+  "crafting.started": startCrafting,
+  "crafting.collected": collectCrafting,
+  "chore.fulfilled": completeNPCChore,
+  "produce.claimed": claimProduce,
+  "seasonalItem.bought": buySeasonalItem,
+  "recipe.discovered": discoverRecipe,
+  "farmHand.unlocked": unlockFarmhand,
+  "fishing.reelsBought": buyMoreReels,
+  "purchase.claimed": claimPurchase,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

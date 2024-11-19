@@ -180,17 +180,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
           />
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.info.one")}</p>
-        <p className="mb-4 text-sm">
-          {t("wishingWell.info.two")}{" "}
-          <a
-            className="underline"
-            href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t("read.more")}
-          </a>
-        </p>
+        <p className="mb-4 text-sm">{t("wishingWell.info.two")}</p>
         <p className="mb-4 text-sm">
           {t("statements.wishing.well.worthwell", {
             rewards: formatNumber(
@@ -213,15 +203,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
           <p className="mb-2 text-sm">{t("wishingWell.info.three")}</p>
         ) : (
           <p className="mb-2 text-sm">
-            {`${t("statements.wishing.well.look.like")} `}
-            <a
-              className="underline"
-              href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t("wishingWell.moreInfo")}
-            </a>
+            {t("statements.wishing.well.look.like")}
           </p>
         )}
       </div>

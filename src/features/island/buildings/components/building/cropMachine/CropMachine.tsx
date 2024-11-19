@@ -44,7 +44,7 @@ interface Props {
 }
 
 export const CropMachine: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   const cropMachine = useSelector(
@@ -149,20 +149,29 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         >
           {readyCrops.length > 0 && (
             <div
-              className="absolute flex w-full items-center justify-center z-10"
+              className="absolute flex flex-wrap w-full items-center justify-center z-10"
               style={{
                 top: `${PIXEL_SCALE * 16}px`,
+                maxWidth: `${PIXEL_SCALE * 80}px`, // Ensure the images don't overflow the container
               }}
             >
               {readyCrops.map((crop, index) => (
                 <img
                   key={index}
                   src={ITEM_DETAILS[crop].image}
-                  className="img-highlight-heavy w-8 ready"
+                  className={
+                    "img-highlight-heavy w-8 m-0.5" +
+                    (showAnimations ? " ready" : "")
+                  }
                 />
               ))}
             </div>
           )}
+          <img
+            src={SUNNYSIDE.building.shadowCropMachine}
+            className="absolute bottom-0 right-1"
+            style={{ width: `${PIXEL_SCALE * 80}px` }}
+          />
           <img
             src={SUNNYSIDE.building.idleMachine}
             className="w-full absolute"
@@ -173,11 +182,6 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
           />
           {(running || paused) && (
             <>
-              <img
-                src={SUNNYSIDE.building.shadowCropMachine}
-                className="absolute bottom-0 right-1"
-                style={{ width: `${PIXEL_SCALE * 80}px` }}
-              />
               <div id="cropMachine" className="border-1 border-black">
                 {growingCropPackStage === "planting" && (
                   <Planting paused={paused} />

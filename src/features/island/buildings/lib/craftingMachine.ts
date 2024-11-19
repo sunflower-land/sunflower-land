@@ -109,6 +109,7 @@ export const craftingMachine = createMachine<
           },
           INSTANT: {
             target: "idle",
+            actions: ["clearCraftingDetails"],
           },
         },
       },
@@ -166,6 +167,7 @@ export const craftingMachine = createMachine<
             context.gameService.state.context.state,
             context.buildingId,
           ).timeToCook,
+          (event as CraftEvent).item,
           bumpkin,
           context.gameService.state.context.state,
         );

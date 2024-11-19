@@ -14,18 +14,21 @@ import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
-import { MutantChicken } from "features/game/types/craftables";
 import {
   ChickenContext,
   chickenMachine,
   MachineInterpreter as ChickenMachineInterpreter,
   MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
-import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
+import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-import { Chicken as ChickenType, GameState } from "features/game/types/game";
+import {
+  Chicken as ChickenType,
+  GameState,
+  MutantChicken,
+} from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
@@ -35,6 +38,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import { hasFeatureAccess } from "lib/flags";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -134,7 +138,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
     chickenCollects[Math.floor(Math.random() * chickenCollects.length)],
   );
   const no = useSound("no");
-
+  const { t } = useAppTranslation();
   const chicken = useSelector(
     gameService,
     (state) => state.context.state.chickens[id],
@@ -174,6 +178,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
+  const [showDeprecatedPopover, setShowDeprecatedPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
 
@@ -185,7 +190,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
     setShowTimeToEgg(false);
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (eggReady) {
       chickenSound.play();
 
@@ -196,6 +201,13 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
     if (eggLaid) {
       chickenCollectSound.play();
       handleCollect();
+      return;
+    }
+
+    if (hasFeatureAccess(game, "ANIMAL_BUILDINGS")) {
+      setShowDeprecatedPopover(true);
+      await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS * 2));
+      setShowDeprecatedPopover(false);
       return;
     }
 
@@ -470,6 +482,24 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
         </div>
       </div>
 
+      <InnerPanel
+        className={classNames(
+          "ml-10 transition-opacity absolute whitespace-nowrap bottom-5 w-fit left-1 z-50 pointer-events-none",
+          {
+            "opacity-100": showDeprecatedPopover,
+            "opacity-0": !showDeprecatedPopover,
+          },
+        )}
+      >
+        <div className="flex flex-col text-xxs ml-2 mr-2">
+          <span className="flex-1 font-secondary">
+            {t("chickens.deprecated.1")}
+          </span>
+          <span className="flex-1 font-secondary">
+            {t("chickens.deprecated.2")}
+          </span>
+        </div>
+      </InnerPanel>
       <TimeToEgg showTimeToEgg={showTimeToEgg} service={chickenService} />
       {showEggProgress && (
         <div
@@ -483,9 +513,9 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
         </div>
       )}
       {showMutantModal && (
-        <MutantChickenModal
+        <MutantAnimalModal
           show={showMutantModal}
-          type={chicken.reward?.items?.[0].name as MutantChicken}
+          mutant={chicken.reward?.items?.[0].name as MutantChicken}
           onContinue={handleContinue}
         />
       )}

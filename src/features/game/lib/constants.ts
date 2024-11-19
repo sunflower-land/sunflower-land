@@ -14,6 +14,9 @@ import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { SeedName } from "../types/seeds";
 import { INITIAL_REWARDS } from "../types/rewards";
+import { makeAnimalBuilding } from "./animals";
+import { ChoreBoard } from "../types/choreBoard";
+import { getSeasonalTicket } from "../types/seasons";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -92,9 +95,6 @@ export type StockableName = Extract<
   | "Lily Seed"
   | "Sand Shovel"
   | "Sand Drill"
-  | "Chicken"
-  | "Magic Bean"
-  | "Immortal Pear"
 >;
 
 export const INITIAL_STOCK = (
@@ -106,8 +106,8 @@ export const INITIAL_STOCK = (
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
     "Gold Pickaxe": new Decimal(5),
-    "Oil Drill": new Decimal(5),
     Rod: new Decimal(50),
+    "Oil Drill": new Decimal(5),
   };
 
   // increase in 50% tool stock if you have a toolshed
@@ -176,14 +176,11 @@ export const INITIAL_STOCK = (
   return {
     // Tools
     ...tools,
-    // Seeds
-    ...seeds,
 
     "Sand Shovel": new Decimal(50),
     "Sand Drill": new Decimal(10),
-    Chicken: new Decimal(5),
-    "Magic Bean": new Decimal(5),
-    "Immortal Pear": new Decimal(1),
+    // Seeds
+    ...seeds,
   };
 };
 
@@ -386,11 +383,38 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   activity: {},
 };
 
+export const INITIAL_CHORE_BOARD: ChoreBoard = {
+  chores: {
+    "pumpkin' pete": {
+      name: "CHOP_1_TREE",
+      reward: { items: { [getSeasonalTicket()]: 1 } },
+      initialProgress: 0,
+      startedAt: Date.now(),
+    },
+    betty: {
+      name: "CHOP_2_TREE",
+      reward: { items: { [getSeasonalTicket()]: 2 } },
+      initialProgress: 0,
+      startedAt: Date.now(),
+    },
+    finley: {
+      name: "CHOP_1_TREE",
+      reward: { items: { [getSeasonalTicket()]: 2 } },
+      initialProgress: 0,
+      startedAt: Date.now(),
+    },
+  },
+};
+
 export const INITIAL_FARM: GameState = {
   coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    Marty: new Decimal(2),
+    Miffy: new Decimal(2),
+    Morty: new Decimal(2),
+    Mog: new Decimal(2),
     "Lifetime Farmer Banner": new Decimal(1),
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
@@ -408,12 +432,16 @@ export const INITIAL_FARM: GameState = {
   previousInventory: {},
   wardrobe: {},
   previousWardrobe: {},
+  bank: { taxFreeSFL: 0 },
+
+  choreBoard: INITIAL_CHORE_BOARD,
 
   competitions: {
     progress: {},
   },
 
   shipments: {},
+  gems: {},
 
   bumpkin: INITIAL_BUMPKIN,
 
@@ -431,6 +459,59 @@ export const INITIAL_FARM: GameState = {
     },
     collectibles: [],
     wearables: [],
+  },
+
+  bounties: {
+    completed: [
+      {
+        id: "1",
+        soldAt: 100000,
+      },
+    ],
+    requests: [
+      {
+        id: "1",
+        name: "Cow",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "3",
+        name: "Chicken",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "22",
+        name: "Chicken",
+        level: 1,
+        items: { Scroll: 1 },
+      },
+    ],
   },
 
   mysteryPrizes: {},
@@ -609,6 +690,14 @@ export const INITIAL_FARM: GameState = {
       patterns: [],
     },
   },
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
+  craftingBox: {
+    status: "idle",
+    startedAt: 0,
+    readyAt: 0,
+    recipes: {},
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -636,12 +725,19 @@ export const TEST_FARM: GameState = {
     "Basic Land": new Decimal(3),
   },
   previousInventory: {},
+  bounties: {
+    completed: [],
+    requests: [],
+  },
+  choreBoard: INITIAL_CHORE_BOARD,
+
   rewards: INITIAL_REWARDS,
   minigames: {
     games: {},
     prizes: {},
   },
   shipments: {},
+  gems: {},
   competitions: {
     progress: {},
   },
@@ -651,6 +747,7 @@ export const TEST_FARM: GameState = {
     choresSkipped: 0,
   },
   stock: INITIAL_STOCK(),
+  bank: { taxFreeSFL: 0 },
   chickens: {},
   experiments: [],
   farmActivity: {},
@@ -911,6 +1008,14 @@ export const TEST_FARM: GameState = {
       grid: [],
     },
   },
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
+  craftingBox: {
+    status: "idle",
+    startedAt: 0,
+    readyAt: 0,
+    recipes: {},
+  },
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -935,15 +1040,23 @@ export const EMPTY: GameState = {
     Stone: new Decimal(10),
   },
   bumpkin: INITIAL_BUMPKIN,
+  bounties: {
+    completed: [],
+    requests: [],
+  },
   rewards: INITIAL_REWARDS,
+  bank: { taxFreeSFL: 0 },
   experiments: [],
   minigames: {
     games: {},
     prizes: {},
   },
   shipments: {},
+  gems: {},
   previousInventory: {},
   chickens: {},
+  choreBoard: INITIAL_CHORE_BOARD,
+
   stock: {},
   stockExpiry: {},
   wardrobe: {},
@@ -1030,5 +1143,13 @@ export const EMPTY: GameState = {
       patterns: [],
       grid: [],
     },
+  },
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
+  craftingBox: {
+    status: "idle",
+    startedAt: 0,
+    readyAt: 0,
+    recipes: {},
   },
 };

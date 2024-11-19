@@ -6,6 +6,9 @@ import {
   pixelDarkBorderStyle,
   pixelLightBorderStyle,
 } from "features/game/lib/style";
+
+import usedButton from "assets/ui/used_button.png";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 
@@ -105,6 +108,8 @@ export const OuterPanel: React.FC<PanelProps> = ({
         </div>
       )}
       <div
+        // Fix for dark mode
+
         className={classNames(className, "bg-[#c28569]")}
         style={{
           ...pixelDarkBorderStyle,
@@ -132,26 +137,27 @@ type ButtonPanelProps = React.HTMLAttributes<HTMLDivElement>;
  * A panel with a single layered pixel effect
  */
 export const ButtonPanel: React.FC<
-  ButtonPanelProps & { disabled?: boolean; selected?: boolean }
-> = ({ children, disabled, ...divProps }) => {
+  ButtonPanelProps & {
+    disabled?: boolean;
+    selected?: boolean;
+    frozen?: boolean;
+  }
+> = ({ children, disabled, frozen, ...divProps }) => {
   const { className, style, selected, ...otherDivProps } = divProps;
 
   return (
     <div
-      className={classNames(
-        className,
-        "hover:brightness-90 cursor-pointer relative",
-        {
-          "opacity-50": !!disabled,
-        },
-      )}
+      className={classNames(className, "relative", {
+        "opacity-50": !!disabled,
+        "cursor-pointer": !disabled,
+        "hover:brightness-90": !disabled,
+      })}
       style={{
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${SUNNYSIDE.ui.primaryButton})`,
+        borderImage: `url(${frozen ? usedButton : SUNNYSIDE.ui.primaryButton}) 3 3 4 3 fill`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
-        borderImageSlice: "3 3 4 3 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
         color: "#674544",

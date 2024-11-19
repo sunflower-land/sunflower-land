@@ -1,3 +1,4 @@
+import FSLAuthorization from "fsl-authorization";
 import { CONFIG } from "lib/config";
 
 export function discordOAuth({ nonce }: { nonce: string }) {
@@ -16,10 +17,16 @@ export function discordOAuth({ nonce }: { nonce: string }) {
 export const connectToFSL = ({ nonce }: { nonce: string }) => {
   const baseUrl = CONFIG.API_URL;
 
-  const redirect = encodeURIComponent(`${baseUrl}/oauth/fsl`);
-  const appKey = "RWi72tQ1oz8i";
-  const state = nonce; //
-  const url = `https://id.fsl.com/api/account/oauth/authorize?response_type=code&appkey=${appKey}&redirect_uri=${redirect}&state=${state}&scope=basic%20wallet`;
-
-  window.location.href = url;
+  fslAuthorization.signIn().then((code) => {
+    if (code) {
+      window.location.href = `${baseUrl}/oauth/fsl?code=${code}&state=${nonce}`;
+    }
+  });
 };
+
+export const fslAuthorization = FSLAuthorization.init({
+  responseType: "code", // 'code' | 'token'
+  appKey: "RWi72tQ1oz8i",
+  scope: "basic", // 'basic' | 'wallet'
+  usePopup: true,
+});

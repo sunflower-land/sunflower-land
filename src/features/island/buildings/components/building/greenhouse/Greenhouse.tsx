@@ -44,7 +44,7 @@ const selectReadyPlants = (state: MachineState) => {
 };
 
 export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
 
   const readyPlants = useSelector(gameService, selectReadyPlants);
 
@@ -87,7 +87,9 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
               <img
                 key={index}
                 src={ITEM_DETAILS[plant].image}
-                className="img-highlight-heavy w-8 ready"
+                className={
+                  "img-highlight-heavy w-8" + (showAnimations ? " ready" : "")
+                }
               />
             ))}
           </div>

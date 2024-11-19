@@ -1,0 +1,49 @@
+name: Metadata
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - metadata/metadata.ts
+
+jobs:
+  metadata:
+    runs-on: ubuntu-latest
+    environment: develop
+    concurrency: testnet-metadata
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TRANSLATOR_GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run metadata script
+        run: yarn metadata
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Metadata Bot"
+          git config --global user.email "metadata@sunflower-land.com"
+
+      - name: Pull latest changes
+        run: |
+          git fetch origin
+          git pull origin main
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: "[BOT] Update metadata [skip ci]"
+          committer_name: Metadata Bot
+          committer_email: metadata@sunflower-land.com
+          add: public/erc1155/*.json
+          commit: --no-verify

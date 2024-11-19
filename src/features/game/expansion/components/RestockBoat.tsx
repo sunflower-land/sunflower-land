@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import boat from "assets/decorations/restock_boat.png";
 import { MapPlacement } from "./MapPlacement";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, StockableName } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { canRestockShipment } from "features/game/events/landExpansion/shipmentRestocked";
@@ -14,6 +14,10 @@ import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Box } from "components/ui/Box";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import Decimal from "decimal.js-light";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
@@ -22,10 +26,14 @@ const canRestock = (state: MachineState) =>
   canRestockShipment({ game: state.context.state }) &&
   !!state.context.state.shipments.restockedAt;
 
-export const RestockBoat: React.FC = () => {
+export const RestockBoat: React.FC<{
+  restockSeeds: [string, number][];
+  restockTools: [string, number][];
+  getShipmentAmount: (item: StockableName, amount: number) => Decimal;
+}> = ({ restockSeeds, restockTools, getShipmentAmount }) => {
   const { t } = useAppTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
 
   const expansionCount = useSelector(gameService, expansions);
   const showShip = useSelector(gameService, canRestock);
@@ -67,10 +75,61 @@ export const RestockBoat: React.FC = () => {
             <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
             <p className="text-sm mb-2">{t("gems.shipment.shops")}</p>
           </div>
+          <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
+            {restockTools.length > 0 && (
+              <Label
+                icon={ITEM_DETAILS.Axe.image}
+                type="default"
+                className="ml-2 mb-1"
+              >
+                {t("tools")}
+              </Label>
+            )}
+            <div className="flex flex-wrap mb-2">
+              {restockTools.map(([item, amount]) => {
+                const shipmentAmount = getShipmentAmount(
+                  item as StockableName,
+                  amount,
+                );
+                return (
+                  <Box
+                    key={item}
+                    count={shipmentAmount}
+                    image={ITEM_DETAILS[item as StockableName].image}
+                  />
+                );
+              })}
+            </div>
+            {restockSeeds.length > 0 && (
+              <Label
+                icon={CROP_LIFECYCLE.Sunflower.seed}
+                type="default"
+                className="ml-2 mb-1"
+              >
+                {t("seeds")}
+              </Label>
+            )}
+            <div className="flex flex-wrap mb-2">
+              {restockSeeds.map(([item, amount]) => {
+                const shipmentAmount = getShipmentAmount(
+                  item as StockableName,
+                  amount,
+                );
+                return (
+                  <Box
+                    key={item}
+                    count={shipmentAmount}
+                    image={ITEM_DETAILS[item as StockableName].image}
+                  />
+                );
+              })}
+            </div>
+          </div>
           <Button
             onClick={() => {
               gameService.send("shipment.restocked");
-              confetti();
+
+              if (showAnimations) confetti();
               setIsOpen(false);
             }}
           >

@@ -61,8 +61,7 @@ const InProgressCollectible: React.FC<Props> = ({
   location,
   game,
 }) => {
-  const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
   const [showModal, setShowModal] = useState(false);
@@ -91,7 +90,7 @@ const InProgressCollectible: React.FC<Props> = ({
     });
 
     setShowModal(false);
-    confetti();
+    if (showAnimations) confetti();
   };
 
   return (
@@ -272,6 +271,7 @@ export const Building: React.FC<{
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
+    game: state,
   });
 
   useEffect(() => {

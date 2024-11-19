@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import worldMap from "assets/map/world_map.png";
-import lockIcon from "assets/icons/lock.png";
 
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -11,6 +10,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
+import { isMobile } from "mobile-device-detect";
 
 const showDebugBorders = false;
 
@@ -21,6 +21,10 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const navigate = useNavigate();
 
   const travel = useSound("travel");
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const [reqLvl, setReqLvl] = useState("1");
 
   useEffect(() => {
     gameService.send("SAVE");
@@ -55,13 +59,15 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <Label
           type="danger"
           className="absolute bottom-2"
-          icon={lockIcon}
+          icon={SUNNYSIDE.icons.lock}
           style={{
             left: "50%",
             transform: "translateX(-50%)",
           }}
         >
-          {t("world.intro.levelUpToTravel")}
+          <span className="text-xxs sm:text-sm">
+            {t("world.intro.levelUpToTravel")}
+          </span>
         </Label>
       )}
 
@@ -70,6 +76,39 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         className="w-8 absolute top-2 right-2 cursor-pointer"
         onClick={onClose}
       />
+
+      <div
+        style={{
+          width: "18%",
+          height: "24%",
+          border: showDebugBorders ? "2px solid red" : "",
+          position: "absolute",
+          left: "3%",
+          bottom: "62%",
+        }}
+        className="flex justify-center items-center"
+      >
+        <img
+          src={SUNNYSIDE.icons.lock}
+          className="h-4 sm:h-6 ml-1 img-highlight"
+        />
+      </div>
+      <div
+        style={{
+          width: "18%",
+          height: "24%",
+          border: showDebugBorders ? "2px solid red" : "",
+          position: "absolute",
+          left: "78.5%",
+          bottom: "52%",
+        }}
+        className="flex justify-center items-center"
+      >
+        <img
+          src={SUNNYSIDE.icons.lock}
+          className="h-4 sm:h-6 ml-1 img-highlight"
+        />
+      </div>
 
       <div
         style={{
@@ -108,7 +147,27 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
       >
         {level < 2 ? (
-          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+          isMobile ? (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              className="h-4 sm:h-6 ml-1 img-highlight"
+              onClick={() => {
+                setShowPopup(true);
+                setReqLvl("2");
+                setTimeout(() => {
+                  setShowPopup(false);
+                }, 1300);
+              }}
+            />
+          ) : (
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.lock}
+              className="text-sm"
+            >
+              {t("world.lvl.requirement", { lvl: 2 })}
+            </Label>
+          )
         ) : (
           <span className="map-text text-xxs sm:text-sm">
             {t("world.plaza")}
@@ -134,7 +193,27 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
       >
         {level < 7 ? (
-          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+          isMobile ? (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              className="h-4 sm:h-6 ml-1 img-highlight"
+              onClick={() => {
+                setShowPopup(true);
+                setReqLvl("7");
+                setTimeout(() => {
+                  setShowPopup(false);
+                }, 1300);
+              }}
+            />
+          ) : (
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.lock}
+              className="text-sm"
+            >
+              {t("world.lvl.requirement", { lvl: 7 })}
+            </Label>
+          )
         ) : (
           <span className="map-text text-xxs sm:text-sm">
             {t("world.kingdom")}
@@ -160,7 +239,27 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
       >
         {!canTeleportToFactionHouse ? (
-          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+          !isMobile && level < 7 ? (
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.lock}
+              className="text-sm"
+            >
+              {t("world.lvl.requirement", { lvl: 7 })}
+            </Label>
+          ) : (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              className="h-4 sm:h-6 ml-1 img-highlight"
+              onClick={() => {
+                setShowPopup(true);
+                setReqLvl("7");
+                setTimeout(() => {
+                  setShowPopup(false);
+                }, 1300);
+              }}
+            />
+          )
         ) : (
           <span className="map-text text-xxs sm:text-sm">
             {t("world.faction")}
@@ -171,26 +270,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div
         style={{
           width: "12%",
-          height: "18%",
-          border: showDebugBorders ? "2px solid red" : "",
-          position: "absolute",
-          left: "24%",
-          bottom: "42%",
-        }}
-      >
-        <Label className="shadow-md" type="vibrant">
-          {t("world.newArea")}
-        </Label>
-      </div>
-
-      <div
-        style={{
-          width: "12%",
           height: "38%",
           border: showDebugBorders ? "2px solid red" : "",
           position: "absolute",
           left: "22%",
-          bottom: "27%",
+          bottom: "24%",
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
@@ -201,7 +285,27 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
       >
         {level < 4 ? (
-          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+          isMobile ? (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              className="h-4 sm:h-6 ml-1 img-highlight"
+              onClick={() => {
+                setShowPopup(true);
+                setReqLvl("4");
+                setTimeout(() => {
+                  setShowPopup(false);
+                }, 1300);
+              }}
+            />
+          ) : (
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.lock}
+              className="text-sm"
+            >
+              {t("world.lvl.requirement", { lvl: 4 })}
+            </Label>
+          )
         ) : (
           <span className="map-text text-xxs sm:text-sm">
             {t("world.beach")}
@@ -227,7 +331,27 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
       >
         {level < 6 ? (
-          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+          isMobile ? (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              className="h-4 sm:h-6 ml-1 img-highlight"
+              onClick={() => {
+                setShowPopup(true);
+                setReqLvl("6");
+                setTimeout(() => {
+                  setShowPopup(false);
+                }, 1300);
+              }}
+            />
+          ) : (
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.lock}
+              className="text-sm"
+            >
+              {t("world.lvl.requirement", { lvl: 6 })}
+            </Label>
+          )
         ) : (
           <span className="map-text text-xxs sm:text-sm">
             {t("world.woodlands")}
@@ -253,13 +377,54 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
       >
         {level < 5 ? (
-          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+          isMobile ? (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              className="h-4 sm:h-6 ml-1 img-highlight"
+              onClick={() => {
+                setShowPopup(true);
+                setReqLvl("5");
+                setTimeout(() => {
+                  setShowPopup(false);
+                }, 1300);
+              }}
+            />
+          ) : (
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.lock}
+              className="text-sm"
+            >
+              {t("world.lvl.requirement", { lvl: 5 })}
+            </Label>
+          )
         ) : (
           <span className="map-text text-xxs sm:text-sm">
             {t("world.retreat")}
           </span>
         )}
       </div>
+
+      {showPopup && (
+        <Label
+          type="default"
+          icon={SUNNYSIDE.icons.lock}
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "3%",
+            transform: "translateX(-50%)",
+            width: "max-content",
+          }}
+          className="transition duration-400 pointer-events-none"
+        >
+          <span className="text-xxs sm:text-sm">
+            {reqLvl === "7" && level >= 7 && !hasFaction
+              ? t("world.factionMembersOnly")
+              : t("warning.level.required", { lvl: reqLvl })}
+          </span>
+        </Label>
+      )}
     </OuterPanel>
   );
 };

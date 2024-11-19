@@ -36,7 +36,7 @@ export const Introduction: React.FC = () => {
     <Modal show={gameState.matches("introduction")}>
       {competitionIsActive && (
         <CompetitionModal
-          competitionName="TESTING"
+          competitionName="FSL"
           onClose={() => {
             acknowledgeIntroduction();
             send("ACKNOWLEDGE");

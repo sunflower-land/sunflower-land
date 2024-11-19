@@ -8,7 +8,7 @@ import {
   treeFallAudio,
   loadAudio,
 } from "lib/utils/sfx";
-import { FruitName } from "features/game/types/fruits";
+import { PatchFruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 import Decimal from "decimal.js-light";
 import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
@@ -33,7 +33,7 @@ const HasAxes = (
   fruit?: PlantedFruit,
 ) => {
   const axesNeeded = getRequiredAxeAmount(
-    fruit?.name as FruitName,
+    fruit?.name as PatchFruitName,
     inventory,
     game,
   );
@@ -68,7 +68,8 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
   const [playShakingAnimation, setPlayShakingAnimation] = useState(false);
   const [collectingFruit, setCollectingFruit] = useState(false);
   const [collectingWood, setCollectingWood] = useState(false);
-  const [collectedFruitName, setCollectedFruitName] = useState<FruitName>();
+  const [collectedFruitName, setCollectedFruitName] =
+    useState<PatchFruitName>();
   const [collectedFruitAmount, setCollectedFruitAmount] = useState<number>();
   const [collectedWoodAmount, setCollectedWoodAmount] = useState<number>();
   const fruitPatch = useSelector(

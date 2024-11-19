@@ -1,26 +1,21 @@
 import Decimal from "decimal.js-light";
-import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
+import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { ANIMALS, AnimalType } from "features/game/types/animals";
+import {
+  AnimalBuildingType,
+  ANIMALS,
+  AnimalType,
+} from "features/game/types/animals";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
-import {
-  AnimalBuilding,
-  AnimalBuildingKey,
-  GameState,
-} from "features/game/types/game";
+import { AnimalBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { toCamelCase } from "lib/utils/toCamelCase";
 
 export type BuyAnimalAction = {
   type: "animal.bought";
   id: string;
   animal: AnimalType;
-  coordinates: {
-    x: number;
-    y: number;
-  };
 };
 
 type Options = {
@@ -29,28 +24,38 @@ type Options = {
   createdAt?: number;
 };
 
-export const getAnimalCapacity = (
+export const getBaseAnimalCapacity = (level: number): number => {
+  const DEFAULT_CAPACITY = 10;
+  const EXTRA_CAPACITY_PER_LEVEL = 5;
+
+  const baseCapacity =
+    DEFAULT_CAPACITY + (level - 1) * EXTRA_CAPACITY_PER_LEVEL;
+
+  return baseCapacity;
+};
+
+export const getBoostedAnimalCapacity = (
   buildingKey: keyof GameState,
   game: GameState,
 ): number => {
-  // Level 0 = 10
-  const DEFAULT_CAPACITY = 10;
-  // Each level increases capacity by 5
-  const EXTRA_CAPACITY = 5;
-  // Coop bonus capacity for each level
   const COOP_BONUS_CAPACITY = 5;
 
   const building = game[buildingKey] as AnimalBuilding;
   const level = building.level;
+  const baseCapacity = getBaseAnimalCapacity(level);
 
-  const coopActive = isCollectibleBuilt({
-    name: "Chicken Coop",
-    game,
-  });
+  if (buildingKey === "henHouse") {
+    const coopActive = isCollectibleBuilt({
+      name: "Chicken Coop",
+      game,
+    });
 
-  const coopBonus = coopActive ? COOP_BONUS_CAPACITY : 0;
+    const coopBonus = coopActive ? COOP_BONUS_CAPACITY * level : 0;
 
-  return DEFAULT_CAPACITY + level * (EXTRA_CAPACITY + coopBonus);
+    return baseCapacity + coopBonus;
+  }
+
+  return baseCapacity;
 };
 
 export function buyAnimal({
@@ -66,8 +71,6 @@ export function buyAnimal({
       coins: price,
       buildingRequired,
       levelRequired,
-      height,
-      width,
     } = ANIMALS[action.animal];
 
     if (coins < price) {
@@ -86,47 +89,29 @@ export function buyAnimal({
       );
     }
 
-    const buildingKey = toCamelCase(buildingRequired) as AnimalBuildingKey;
-    const building = copy[buildingKey] as AnimalBuilding;
+    const buildingKey = makeAnimalBuildingKey(
+      buildingRequired as AnimalBuildingType,
+    );
 
-    // This should not happen as this field will be added when a building is placed but just in case
-    if (!building) {
-      throw new Error(
-        `You do not have a ${buildingRequired} on your gameState`,
-      );
-    }
-
-    const capacity = getAnimalCapacity(buildingKey, copy);
-    const totalAnimalsInBuilding = getKeys(building.animals).length;
+    const capacity = getBoostedAnimalCapacity(buildingKey, copy);
+    const totalAnimalsInBuilding = getKeys(copy[buildingKey].animals).length;
 
     if (totalAnimalsInBuilding >= capacity) {
       throw new Error("You do not have the capacity for this animal");
     }
 
-    const collides = detectCollision({
-      state: copy,
-      position: {
-        x: action.coordinates.x,
-        y: action.coordinates.y,
-        height,
-        width,
-      },
-      location: buildingKey,
-      name: action.animal,
-    });
-
-    if (collides) {
-      throw new Error(`Animal collides`);
-    }
-
     copy.coins -= price;
 
-    building.animals[action.id] = {
+    copy[buildingKey].animals[action.id] = {
       id: action.id,
       state: "idle",
       type: action.animal,
-      coordinates: action.coordinates,
       createdAt,
+      experience: 0,
+      asleepAt: 0,
+      awakeAt: 0,
+      lovedAt: 0,
+      item: "Petting Hand",
     };
 
     bumpkin.activity = trackActivity(

@@ -1320,6 +1320,118 @@ describe("plantGreenhouse", () => {
     });
   });
 
+  it("applies Super Totem speed boost", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
+      },
+    });
+  });
+
+  it("doesn't stack Super Totem and Time Warp totem", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+          "Super Totem": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
+      },
+    });
+  });
+
   it("applies Saphiro bud speed boost", () => {
     const now = Date.now();
     const state = plantGreenhouse({
@@ -1425,5 +1537,546 @@ describe("plantGreenhouse", () => {
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
       },
     });
+  });
+
+  it("applies Super Totem normal fruit speed boosts", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Grape Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Grape",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
+      },
+    });
+  });
+
+  it("boosts +0.2 Olive yield with Olive Garden skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Olive Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Olive Garden": 1,
+          },
+        },
+        inventory: {
+          "Olive Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1.2,
+        name: "Olive",
+        plantedAt: now,
+      },
+    });
+  });
+
+  it("boosts +0.2 Rice yield with Rice and Shine skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Rice Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Rice and Shine": 1,
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1.2,
+        name: "Rice",
+        plantedAt: now,
+      },
+    });
+  });
+
+  it("boosts +0.2 Grape yield with Grape Escape skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Grape Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Grape Escape": 1,
+          },
+        },
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1.2,
+        name: "Grape",
+        plantedAt: now,
+      },
+    });
+  });
+
+  it("boosts Olive growth speed by 20% with Olive Express skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Olive Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Olive Express": 1,
+          },
+        },
+        inventory: {
+          "Olive Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Olive",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.2 * 1000,
+      },
+    });
+  });
+
+  it("boosts Rice growth speed by 20% with Rice Rocket skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Rice Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Rice Rocket": 1,
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.2 * 1000,
+      },
+    });
+  });
+
+  it("boosts Grape growth speed by 20% with Vine Velocity skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Grape Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Vine Velocity": 1,
+          },
+        },
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Grape",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.2 * 1000,
+      },
+    });
+  });
+
+  it("boosts +1 Olive yield with Greenhouse Gamble skill (5% chance, 1/20)", () => {
+    const now = Date.now();
+
+    let boosted = false;
+    for (let i = 0; i < 1000; i++) {
+      const state = plantGreenhouse({
+        action: {
+          type: "greenhouse.planted",
+          seed: "Olive Seed",
+          id: 1,
+        },
+        state: {
+          ...farm,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Greenhouse Gamble": 1,
+            },
+          },
+          inventory: {
+            "Olive Seed": new Decimal(1),
+          },
+          greenhouse: {
+            oil: 50,
+            pots: {
+              1: {},
+            },
+          },
+          buildings: {
+            Greenhouse: [
+              {
+                coordinates: { x: 0, y: 0 },
+                id: "1",
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      const plot = state.greenhouse.pots[1];
+
+      if (plot.plant && plot.plant.amount === 2) {
+        boosted = true;
+        break;
+      }
+    }
+
+    expect(boosted).toBe(true);
+  });
+
+  it("boosts +1 Rice yield with Greenhouse Gamble skill (5% chance, 1/20)", () => {
+    const now = Date.now();
+
+    let boosted = false;
+    for (let i = 0; i < 1000; i++) {
+      const state = plantGreenhouse({
+        action: {
+          type: "greenhouse.planted",
+          seed: "Rice Seed",
+          id: 1,
+        },
+        state: {
+          ...farm,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Greenhouse Gamble": 1,
+            },
+          },
+          inventory: {
+            "Rice Seed": new Decimal(1),
+          },
+          greenhouse: {
+            oil: 50,
+            pots: {
+              1: {},
+            },
+          },
+          buildings: {
+            Greenhouse: [
+              {
+                coordinates: { x: 0, y: 0 },
+                id: "1",
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      const plot = state.greenhouse.pots[1];
+
+      if (plot.plant && plot.plant.amount === 2) {
+        boosted = true;
+        break;
+      }
+    }
+
+    expect(boosted).toBe(true);
+  });
+
+  it("boosts +1 Grape yield with Greenhouse Gamble skill (5% chance, 1/20)", () => {
+    const now = Date.now();
+
+    let boosted = false;
+    for (let i = 0; i < 1000; i++) {
+      const state = plantGreenhouse({
+        action: {
+          type: "greenhouse.planted",
+          seed: "Grape Seed",
+          id: 1,
+        },
+        state: {
+          ...farm,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Greenhouse Gamble": 1,
+            },
+          },
+          inventory: {
+            "Grape Seed": new Decimal(1),
+          },
+          greenhouse: {
+            oil: 50,
+            pots: {
+              1: {},
+            },
+          },
+          buildings: {
+            Greenhouse: [
+              {
+                coordinates: { x: 0, y: 0 },
+                id: "1",
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      const plot = state.greenhouse.pots[1];
+
+      if (plot.plant && plot.plant.amount === 2) {
+        boosted = true;
+        break;
+      }
+    }
+
+    expect(boosted).toBe(true);
+  });
+
+  it("requires 1 less oil with Slick Saver skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Rice Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Slick Saver": 1,
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.oil).toEqual(47);
   });
 });

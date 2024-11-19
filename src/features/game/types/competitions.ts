@@ -33,12 +33,13 @@ export const COMPETITION_TASK_PROGRESS: Record<
     }
 
     if (game.island.type === "spring") {
-      expansions += 6; // On basic island
+      expansions += 7; // On basic island
       expansions -= 4; // Remove initial
     }
 
     if (game.island.type === "desert") {
-      expansions += 12; // On spring island
+      expansions += 7; // On basic island
+      expansions += 13; // On spring island
       expansions -= 4; // Remove initial
     }
 
@@ -147,6 +148,8 @@ export type CompetitionData = {
 
 export type CompetitionLeaderboardResponse = {
   leaderboard: CompetitionPlayer[];
+  accumulators?: CompetitionPlayer[];
+  accumulatorMiniboard?: CompetitionPlayer[];
   miniboard: CompetitionPlayer[];
   lastUpdated: number;
   player?: CompetitionPlayer;

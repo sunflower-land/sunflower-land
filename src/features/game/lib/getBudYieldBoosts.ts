@@ -3,6 +3,7 @@ import {
   isBasicCrop,
   isMediumCrop,
 } from "../events/landExpansion/harvest";
+import { getUniqueAnimalResources } from "../types/animals";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
 import {
   CROPS,
@@ -11,21 +12,22 @@ import {
   GreenHouseCropName,
 } from "../types/crops";
 import {
-  FRUIT,
-  FruitName,
   GREENHOUSE_FRUIT,
   GreenHouseFruitName,
+  PATCH_FRUIT,
+  PatchFruitName,
 } from "../types/fruits";
-import { GameState } from "../types/game";
+import { AnimalResource, GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
 
 export type Resource =
   | CommodityName
   | CropName
-  | FruitName
+  | PatchFruitName
   | MushroomName
   | GreenHouseCropName
-  | GreenHouseFruitName;
+  | GreenHouseFruitName
+  | AnimalResource;
 
 export const isPlotCrop = (resource: Resource): resource is CropName => {
   return resource in CROPS;
@@ -35,12 +37,18 @@ export const isCrop = (resource: Resource): resource is CropName => {
   return resource in CROPS || resource in GREENHOUSE_CROPS;
 };
 
+export const isAnimalProduce = (
+  resource: Resource,
+): resource is AnimalResource => {
+  return getUniqueAnimalResources().includes(resource as AnimalResource);
+};
+
 const isMineral = (resource: Resource): boolean => {
   return resource === "Stone" || resource === "Iron" || resource === "Gold";
 };
 
 const isFruit = (resource: Resource): boolean => {
-  return resource in FRUIT() || resource in GREENHOUSE_FRUIT();
+  return resource in PATCH_FRUIT() || resource in GREENHOUSE_FRUIT();
 };
 
 const getTypeBoost = (bud: Bud, resource: Resource): number => {
@@ -66,7 +74,7 @@ const getTypeBoost = (bud: Bud, resource: Resource): number => {
     return 0.2;
   }
 
-  if (resource === "Egg" && hasType("Retreat")) {
+  if (isAnimalProduce(resource) && hasType("Retreat")) {
     return 0.2;
   }
 

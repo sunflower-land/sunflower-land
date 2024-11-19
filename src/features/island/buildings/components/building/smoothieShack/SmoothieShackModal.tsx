@@ -20,6 +20,7 @@ interface Props {
   crafting: boolean;
   itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
+  buildingId: string;
 }
 export const SmoothieShackModal: React.FC<Props> = ({
   isOpen,
@@ -28,6 +29,7 @@ export const SmoothieShackModal: React.FC<Props> = ({
   crafting,
   itemInProgress,
   craftingService,
+  buildingId,
 }) => {
   const JuiceRecipes = Object.values(JUICE_COOKABLES).sort(
     (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
@@ -62,6 +64,8 @@ export const SmoothieShackModal: React.FC<Props> = ({
           crafting={crafting}
           craftingService={craftingService}
           buildingName="Smoothie Shack"
+          buildingId={buildingId}
+          currentlyCooking={selected.name}
         />
       </CloseButtonPanel>
     </Modal>

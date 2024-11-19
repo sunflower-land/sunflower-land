@@ -6,7 +6,7 @@ import { getKeys } from "./craftables";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
 
-export type FruitName =
+export type PatchFruitName =
   | "Apple"
   | "Blueberry"
   | "Orange"
@@ -17,7 +17,7 @@ export type FruitName =
 export type GreenHouseFruitName = "Grape";
 export type GreenHouseFruitSeedName = "Grape Seed";
 
-export type FruitSeedName =
+export type PatchFruitSeedName =
   | "Apple Seed"
   | "Blueberry Seed"
   | "Orange Seed"
@@ -25,21 +25,24 @@ export type FruitSeedName =
   | "Tomato Seed"
   | "Lemon Seed";
 
-export type FruitSeed = {
+export type PatchFruitSeed = {
   price: number;
   description: string;
   plantSeconds: number;
   bumpkinLevel: number;
-  yield: FruitName;
+  yield: PatchFruitName;
   plantingSpot: ResourceName | "Greenhouse";
   disabled?: boolean;
 };
 
-export function isFruitSeed(seed: FruitSeedName) {
-  return getKeys(FRUIT_SEEDS()).includes(seed);
+export function isPatchFruitSeed(seed: PatchFruitSeedName) {
+  return getKeys(PATCH_FRUIT_SEEDS()).includes(seed);
 }
 
-export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
+export const PATCH_FRUIT_SEEDS: () => Record<
+  PatchFruitSeedName,
+  PatchFruitSeed
+> = () => ({
   "Tomato Seed": {
     price: 5,
     description: "Rich in Lycopene",
@@ -90,16 +93,16 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   },
 });
 
-export type Fruit = {
+export type PatchFruit = {
   description: string;
-  name: FruitName;
+  name: PatchFruitName;
   isBush?: boolean;
   sellPrice: number;
-  seed: FruitSeedName;
+  seed: PatchFruitSeedName;
   disabled?: boolean;
 };
 
-export const FRUIT: () => Record<FruitName, Fruit> = () => ({
+export const PATCH_FRUIT: () => Record<PatchFruitName, PatchFruit> = () => ({
   Tomato: {
     description: "Rich in Lycopene",
     name: "Tomato",

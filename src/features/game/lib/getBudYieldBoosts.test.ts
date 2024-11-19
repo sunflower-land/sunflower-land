@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import { Bud } from "../types/buds";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 

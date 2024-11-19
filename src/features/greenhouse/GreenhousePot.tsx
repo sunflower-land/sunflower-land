@@ -35,7 +35,6 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { QuickSelect } from "./QuickSelect";
 import { SUNNYSIDE } from "assets/sunnyside";
-import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -83,7 +82,6 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showTimeRemaining, setShowTimeRemaining] = useState(false);
   const [showOilWarning, setShowOilWarning] = useState(false);
-  const [pulsating, setPulsating] = useState(false);
   const harvested = useRef<GreenhousePlant>();
 
   const pots = useSelector(gameService, selectPots);
@@ -164,11 +162,10 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           className="flex top-[-200%] left-[50%] absolute z-40 shadow-md"
         >
           <QuickSelect
-            icon={SUNNYSIDE.icons.seeds}
             options={[
-              { name: "Grape Seed", icon: "Grape" },
-              { name: "Rice Seed", icon: "Rice" },
-              { name: "Olive Seed", icon: "Olive" },
+              { name: "Grape Seed", icon: "Grape", showSecondaryImage: true },
+              { name: "Rice Seed", icon: "Rice", showSecondaryImage: true },
+              { name: "Olive Seed", icon: "Olive", showSecondaryImage: true },
             ]}
             onClose={() => setShowQuickSelect(false)}
             onSelected={(seed) => {
@@ -200,9 +197,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
         <img
           src={emptyPot}
-          className={classNames("cursor-pointer hover:img-highlight", {
-            "animate-pulsate": showQuickSelect && pulsating,
-          })}
+          className="cursor-pointer hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 28}px`,
           }}

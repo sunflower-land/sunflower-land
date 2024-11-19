@@ -165,7 +165,7 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         onClaim={onClaim}
         reward={{
-          message: `INTRO MESSAGE`,
+          message: t("fruit-dash.portal.rewardMessage"),
           createdAt: Date.now(),
           factionPoints: 0,
           id: "fruit-dash-rewards",

@@ -111,7 +111,10 @@ export type EventDecorationName =
   | "Bumpkin Nutcracker"
   | "White Festive Fox"
   | "Grinx's Hammer"
-  | "Earn Alliance Banner";
+  | "Earn Alliance Banner"
+  | "Halloween Scarecrow"
+  | "Vampire Bear"
+  | "Super Totem";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -120,7 +123,16 @@ export type PotionHouseDecorationName =
 
 export type InteriorDecorationName = "Rug" | "Wardrobe";
 
+export type AnimalDecorationName = "Wagon";
+
 export const DECORATION_TEMPLATES = {
+  "King of Bears": {
+    dimensions: {
+      width: 3,
+      height: 2,
+    },
+    isWithdrawable: () => true,
+  },
   "Goblin Gold Champion": {
     dimensions: {
       width: 2,
@@ -205,6 +217,34 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  Miffy: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Morty: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Marty: {
+    dimensions: {
+      width: 2,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Mog: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
@@ -218,7 +258,8 @@ export type DecorationName =
   | SeasonalDecorationName
   | PotionHouseDecorationName
   | InteriorDecorationName
-  | TemplateDecorationName;
+  | TemplateDecorationName
+  | AnimalDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Jelly Lamp": {
@@ -665,6 +706,22 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Paper Reed": {
     height: 2,
     width: 1,
+  },
+  Wagon: {
+    height: 1,
+    width: 1,
+  },
+  "Halloween Scarecrow": {
+    width: 1,
+    height: 1,
+  },
+  "Vampire Bear": {
+    width: 1,
+    height: 1,
+  },
+  "Super Totem": {
+    width: 1,
+    height: 1,
   },
 };
 

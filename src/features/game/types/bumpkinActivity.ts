@@ -2,7 +2,15 @@ import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "./consumables";
 import { Animal, Food, ToolName } from "./craftables";
 import { CropName, GreenHouseCropName, GreenHouseCropSeedName } from "./crops";
-import { Bumpkin, Keys, LanternName, MegaStoreItemName } from "./game";
+import {
+  AnimalFoodName,
+  AnimalMedicineName,
+  AnimalResource,
+  Bumpkin,
+  Keys,
+  LanternName,
+  MegaStoreItemName,
+} from "./game";
 import { BeanName, ExoticCropName } from "./beans";
 import {
   HeliosBlacksmithItem,
@@ -10,10 +18,10 @@ import {
   TreasureCollectibleItem,
 } from "./collectibles";
 import {
-  FruitName,
-  FruitSeedName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitName,
+  PatchFruitSeedName,
 } from "./fruits";
 import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
@@ -25,6 +33,7 @@ import { FlowerName, FlowerSeedName } from "./flowers";
 import { FactionShopItemName } from "./factionShop";
 import { ShopDecorationName, SeasonalDecorationName } from "./decorations";
 import { AnimalType } from "./animals";
+import { SeasonalTierItemName } from "./megastore";
 
 type BuyableName =
   | SeedName
@@ -37,14 +46,14 @@ type BuyableName =
   | MegaStoreItemName
   | GreenHouseFruitSeedName
   | GreenHouseCropSeedName
-  | FactionShopItemName;
+  | FactionShopItemName
+  | SeasonalTierItemName;
 
 type SellableName =
   | CropName
   | Food
-  | FruitName
+  | PatchFruitName
   | BeachBountyTreasure
-  | FruitName
   | GarbageName
   | ExoticCropName;
 
@@ -53,13 +62,13 @@ type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${
   | CropName
-  | FruitName
+  | PatchFruitName
   | FlowerName
   | GreenHouseCropName
   | GreenHouseFruitName
   | "Honey"} Harvested`;
-export type PlantEvent = `${CropName | FruitName} Planted`;
-export type FruitPlantEvent = `${FruitSeedName} Planted`;
+export type PlantEvent = `${CropName | PatchFruitName} Planted`;
+export type FruitPlantEvent = `${PatchFruitSeedName} Planted`;
 export type PlantFlowerEvent = `${FlowerSeedName} Planted`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Edibles} Fed`;
@@ -81,6 +90,11 @@ export type ComposterCollectEvent = `${CompostName} Collected`;
 export type CompostedEvent = `${ComposterName} Collected`;
 export type PlantGreenHouseFruitEvent = `${GreenHouseFruitName} Planted`;
 export type PlantGreenHouseCropEvent = `${GreenHouseCropName} Planted`;
+export type AnimalFeedMixedEvent =
+  `${AnimalFoodName | AnimalMedicineName} Mixed`;
+export type AnimalFeedEvent = `${Animal} Fed`;
+export type AnimalCuredEvent = `${Animal} Cured`;
+export type AnimalResourceEvent = `${AnimalResource} Collected`;
 
 export type BumpkinActivityName =
   | PlantGreenHouseFruitEvent
@@ -97,6 +111,10 @@ export type BumpkinActivityName =
   | PlantFlowerEvent
   | TreasureEvent
   | CompostedEvent
+  | AnimalFeedMixedEvent
+  | AnimalFeedEvent
+  | AnimalCuredEvent
+  | AnimalResourceEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"

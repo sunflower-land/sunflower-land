@@ -66,7 +66,10 @@ interface PanelContentProps {
   isSaving?: boolean;
 }
 
-export type TimeBasedConsumables = HourglassType | "Time Warp Totem";
+export type TimeBasedConsumables =
+  | HourglassType
+  | "Time Warp Totem"
+  | "Super Totem";
 
 const PanelContent: React.FC<PanelContentProps> = ({
   isSaving,
@@ -104,6 +107,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
       "Ore Hourglass": "landscape.hourglass.resourceNodeCondition.ore",
       "Timber Hourglass": "landscape.hourglass.resourceNodeCondition.timber",
       "Time Warp Totem": "landscape.timeWarpTotem.resourceNodeCondition",
+      "Super Totem": "landscape.superTotem.resourceNodeCondition",
       "Fisher's Hourglass": "landscape.hourglass.resourceNodeCondition.fishers",
     };
 
@@ -168,6 +172,14 @@ const PanelContent: React.FC<PanelContentProps> = ({
                 t("landscape.confirmation.hourglass.two", {
                   selectedChestItem,
                 }),
+                selectedChestItem === "Time Warp Totem" ||
+                selectedChestItem === "Super Totem" ? (
+                  <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
+                    {t("landscape.timeWarpTotem.nonStack")}
+                  </Label>
+                ) : (
+                  ""
+                ),
               ]
         }
         onCancel={() => showConfirmationModal(false)}

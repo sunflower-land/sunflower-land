@@ -1,10 +1,18 @@
 import { FERTILISERS, InventoryItemName } from "../types/game";
 import { SHOVELS, TOOLS } from "../types/craftables";
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS } from "../types/crops";
-import { COMMODITIES } from "../types/resources";
-import { FRUIT, FRUIT_SEEDS, GREENHOUSE_FRUIT } from "../types/fruits";
+
+import { ANIMAL_RESOURCES, COMMODITIES } from "../types/resources";
+import {
+  GREENHOUSE_FRUIT,
+  PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
+} from "../types/fruits";
+
 import { TREASURE_TOOLS } from "../types/tools";
 import { FLOWER_SEEDS } from "../types/flowers";
+import { ANIMAL_FOODS } from "../types/animals";
+import { RECIPE_CRAFTABLES } from "./crafting";
 
 /**
  * Tradeable items use 18 decimals for decimal point storage
@@ -13,17 +21,20 @@ import { FLOWER_SEEDS } from "../types/flowers";
 export function getItemUnit(name: InventoryItemName) {
   if (
     name in CROPS ||
-    name in FRUIT() ||
+    name in PATCH_FRUIT() ||
     name in GREENHOUSE_CROPS ||
     name in GREENHOUSE_FRUIT() ||
     name in COMMODITIES ||
+    name in ANIMAL_RESOURCES ||
     name in CROP_SEEDS ||
-    name in FRUIT_SEEDS() ||
+    name in PATCH_FRUIT_SEEDS() ||
     name in FLOWER_SEEDS() ||
     name in TOOLS ||
     name in TREASURE_TOOLS ||
     name in SHOVELS ||
-    name in FERTILISERS
+    name in FERTILISERS ||
+    name in ANIMAL_FOODS ||
+    name in RECIPE_CRAFTABLES
   ) {
     return "ether";
   }

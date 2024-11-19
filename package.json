@@ -48,6 +48,7 @@
     "ethers": "5.7.2",
     "events": "^3.3.0",
     "firebase": "^9.19.1",
+    "fsl-authorization": "^1.1.0",
     "gameanalytics": "^4.4.5",
     "howler": "^2.2.3",
     "i18next": "^23.6.0",

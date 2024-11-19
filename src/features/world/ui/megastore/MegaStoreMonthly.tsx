@@ -50,6 +50,7 @@ export const MegaStoreMonthly: React.FC<{
   );
 
   const { t } = useAppTranslation();
+
   return (
     <div className="relative h-full w-full">
       <div className="flex justify-between px-2 flex-wrap pb-1">

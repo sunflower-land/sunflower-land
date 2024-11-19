@@ -416,6 +416,64 @@ describe("getChoppedAt", () => {
     expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
   });
 
+  it("tree replenishes faster with Super Totem", () => {
+    const now = Date.now();
+
+    const time = getChoppedAt({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      skills: {},
+      createdAt: now,
+    });
+
+    expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
+  });
+
+  it(" doesn't stack Super Totem and Time warp totem", () => {
+    const now = Date.now();
+
+    const time = getChoppedAt({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      skills: {},
+      createdAt: now,
+    });
+
+    const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5;
+
+    expect(time).toEqual(now - buff * 1000);
+  });
+
   it("does not go negative with all buffs", () => {
     const now = Date.now();
 
@@ -432,6 +490,14 @@ describe("getChoppedAt", () => {
             },
           ],
           "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+          "Super Totem": [
             {
               id: "123",
               createdAt: now,

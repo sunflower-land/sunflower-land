@@ -8,7 +8,7 @@ In this guide you will get an overview of the contribution workflow from opening
 
 To get an overview of the project, please read the [README](../README.md).
 
-Here are some resources to help you get started with open source contributions:
+Here are some resources to help you get started with open-source contributions:
 
 ### Disclaimer
 
@@ -84,7 +84,7 @@ You can search by labels as well to see which items are more urgent than others.
 
 ## What should I work on?
 
-Maintaining a project with over 50 open source developers brings a range of challenges:
+Maintaining a project with over 50 open-source developers brings a range of challenges:
 
 - Maintaining a consistent vision
 - Ensuring best architecture practices
@@ -95,7 +95,7 @@ Maintaining a project with over 50 open source developers brings a range of chal
 - Tokenomics design
 - Anything that gets added to the project is more code that needs to be maintained by Thought Farm.
 
-While we appreciate UI and gameplay PRs, we need these pieces of work to fit into the core team's development workflow to ensure work is pair programmed, has sufficient automated testing, is understood by the team, is peer reviewed, aligns with the tokenomics of the game and adheres with the vision of the project.
+While we appreciate UI and gameplay PRs, we need these pieces of work to fit into the core team's development workflow to ensure work is pair programmed, has sufficient automated testing, is understood by the team, is peer-reviewed, aligns with the tokenomics of the game and adheres with the vision of the project.
 
 Due to the limited time resources of the team, at this point of time, we cannot accept any PRs that introduce major gameplay changes or UI workflows.
 

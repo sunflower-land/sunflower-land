@@ -388,4 +388,34 @@ describe("getFlowerTime", () => {
 
     expect(time).toEqual(growSeconds);
   });
+
+  it("applies a 10% speed boost with Blooming Boost skill", () => {
+    const seed = "Bloom Seed";
+    const growSeconds = FLOWER_SEEDS()[seed].plantSeconds;
+
+    const time = getFlowerTime(seed, {
+      ...GAME_STATE,
+      bumpkin: {
+        ...TEST_BUMPKIN,
+        skills: { "Blooming Boost": 1 },
+      },
+    });
+
+    expect(time).toEqual(growSeconds * 0.9);
+  });
+
+  it("applies a 20% speed boost with Flower Power skill", () => {
+    const seed = "Bloom Seed";
+    const growSeconds = FLOWER_SEEDS()[seed].plantSeconds;
+
+    const time = getFlowerTime(seed, {
+      ...GAME_STATE,
+      bumpkin: {
+        ...TEST_BUMPKIN,
+        skills: { "Flower Power": 1 },
+      },
+    });
+
+    expect(time).toEqual(growSeconds * 0.8);
+  });
 });

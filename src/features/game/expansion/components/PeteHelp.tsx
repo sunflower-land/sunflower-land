@@ -11,7 +11,7 @@ import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const isLocked = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 2;
 
 export const PeteHelp: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -38,7 +38,7 @@ export const PeteHelp: React.FC = () => {
             className="mb-2 ml-1"
             icon={SUNNYSIDE.icons.lock}
           >
-            {t("warning.level.required", { lvl: 3 })}
+            {t("warning.level.required", { lvl: 2 })}
           </Label>
         </>
       )}

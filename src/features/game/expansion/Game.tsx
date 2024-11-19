@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Modal } from "components/ui/Modal";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -42,7 +42,8 @@ import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
 import { OffersPopup } from "./components/Offers";
-import { PIXEL_SCALE, TEST_FARM } from "../lib/constants";
+import { MarketplaceSalesPopup } from "./components/MarketplaceSalesPopup";
+import { isBuildingReady, PIXEL_SCALE, TEST_FARM } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
@@ -70,6 +71,8 @@ import { BarnInside } from "features/barn/BarnInside";
 import { EFFECT_EVENTS } from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Button } from "components/ui/Button";
+import { GameState } from "../types/game";
+import { Ocean } from "features/world/ui/Ocean";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -135,6 +138,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   blacklisted: true,
   airdrop: true,
   offers: true,
+  marketplaceSale: true,
   portalling: true,
   provingPersonhood: false,
   sellMarketResource: false,
@@ -207,15 +211,34 @@ const isEffectFailure = (state: MachineState) =>
   Object.values(EFFECT_EVENTS).some((stateName) =>
     state.matches(`${stateName}Failure`),
   );
+const hasMarketplaceSales = (state: MachineState) =>
+  state.matches("marketplaceSale");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
-
   useSound("desert", true);
 
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
+  const [gameState] = useActor(gameService);
+
+  const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
+    GreenHouse: (game) =>
+      !!game.buildings.Greenhouse && isBuildingReady(game.buildings.Greenhouse),
+    Barn: (game) =>
+      !!game.buildings.Barn && isBuildingReady(game.buildings.Barn),
+    HenHouse: (game) =>
+      !!game.buildings["Hen House"] &&
+      isBuildingReady(game.buildings["Hen House"]),
+  };
+
+  const hasAccess = (pathName: string) => {
+    return (
+      PATH_ACCESS[pathName] && PATH_ACCESS[pathName](gameState.context.state)
+    );
+  };
+
   if (landToVisitNotFound) {
     return (
       <>
@@ -270,10 +293,21 @@ const GameContent: React.FC = () => {
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/greenhouse" element={<GreenhouseInside />} />
-          <Route path="/barn" element={<BarnInside />} />
-          <Route path="/hen-house" element={<HenHouseInside />} />
-          <Route path="*" element={<IslandNotFound />} />
+          {hasAccess("GreenHouse") && (
+            <Route path="/greenhouse" element={<GreenhouseInside />} />
+          )}
+          {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
+          {hasAccess("HenHouse") && (
+            <Route path="/hen-house" element={<HenHouseInside />} />
+          )}
+          <Route
+            path="*"
+            element={
+              <Ocean>
+                <IslandNotFound />
+              </Ocean>
+            }
+          />
         </Routes>
       </div>
     </>
@@ -339,6 +373,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const effectPending = useSelector(gameService, isEffectPending);
   const effectSuccess = useSelector(gameService, isEffectSuccess);
   const effectFailure = useSelector(gameService, isEffectFailure);
+  const showSales = useSelector(gameService, hasMarketplaceSales);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
@@ -556,6 +591,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}
             {showOffers && <OffersPopup />}
+            {showSales && <MarketplaceSalesPopup />}
             {specialOffer && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}
