@@ -130,6 +130,78 @@ const RestockSelectionModal: React.FC<{
               {t("restock.outOfStock", { npc: capitalize(npc) })}
             </p>
           </div>
+          {hasGemExperiment && (
+            <Button
+              className="relative mt-1 justify-between"
+              onClick={() => setShowShipmentConfirm(true)}
+              disabled={!showShipment}
+            >
+              <p className="capitalize text-left p-1 mb-1">
+                {t("restock.dailyShipment")}
+              </p>
+              <div className="flex w-full mb-1">
+                <div className="pb-1 mr-2 w-11">
+                  <div className="absolute left-0">
+                    <NPCIcon parts={NPC_WEARABLES.betty} />
+                  </div>
+                  <div className="absolute left-3">
+                    <NPCIcon parts={NPC_WEARABLES.blacksmith} />
+                  </div>
+                  <div className="absolute left-6">
+                    <NPCIcon parts={NPC_WEARABLES.jafar} />
+                  </div>
+                </div>
+                <div className="flex flex-row flex-wrap ml-7 mb-0.5">
+                  <Label
+                    type="default"
+                    icon={CROP_LIFECYCLE.Sunflower.seed}
+                    className="mt-1 ml-1 capitalize"
+                  >
+                    {t("basic.seeds")}
+                  </Label>
+                  <Label
+                    type="default"
+                    icon={CROP_LIFECYCLE.Carrot.seed}
+                    className="mt-1 ml-1 capitalize"
+                  >
+                    {t("medium.seeds")}
+                  </Label>
+                  <Label
+                    type="default"
+                    icon={SUNNYSIDE.tools.axe}
+                    className="mt-1 ml-1 capitalize"
+                  >
+                    {t("tools")}
+                  </Label>
+                  <Label
+                    type="default"
+                    icon={SUNNYSIDE.tools.sand_shovel}
+                    className="mt-1 ml-1 capitalize"
+                  >
+                    {`Sand Shovel`}
+                  </Label>
+                </div>
+                <Label
+                  type="success"
+                  className="absolute right-0 top-0 w-20 h-8"
+                >
+                  <p className="mr-4">{t("free")}</p>
+                  <img src={stockIcon} className="h-5 absolute right-1 top-0" />
+                </Label>
+              </div>
+              {showShipment ? (
+                <div className="text-xs text-left">
+                  {t("restock.shipmentArrived")}
+                </div>
+              ) : (
+                <div className="px-1 text-xs flex flex-wrap mt-2">
+                  <span className="mr-2">{t("gems.nextFreeShipment")}</span>
+                  <TimerDisplay time={shipmentTime} />
+                  <img src={stockIcon} className="h-5 ml-1" />
+                </div>
+              )}
+            </Button>
+          )}
           <Button
             onClick={() => setShowEnhancedConfirm(true)}
             disabled={showShipment}
@@ -198,78 +270,6 @@ const RestockSelectionModal: React.FC<{
               </Label>
             </div>
           </Button>
-          {hasGemExperiment && (
-            <Button
-              className="relative mt-1 justify-between"
-              onClick={() => setShowShipmentConfirm(true)}
-              disabled={!showShipment}
-            >
-              <p className="capitalize text-left p-1 mb-1">
-                {t("restock.dailyShipment")}
-              </p>
-              <div className="flex w-full mb-1">
-                <div className="pb-1 mr-2 w-11">
-                  <div className="absolute left-0">
-                    <NPCIcon parts={NPC_WEARABLES.betty} />
-                  </div>
-                  <div className="absolute left-3">
-                    <NPCIcon parts={NPC_WEARABLES.blacksmith} />
-                  </div>
-                  <div className="absolute left-6">
-                    <NPCIcon parts={NPC_WEARABLES.jafar} />
-                  </div>
-                </div>
-                <div className="flex flex-row flex-wrap ml-7 mb-0.5">
-                  <Label
-                    type="default"
-                    icon={CROP_LIFECYCLE.Sunflower.seed}
-                    className="mt-1 ml-1 capitalize"
-                  >
-                    {t("basic.seeds")}
-                  </Label>
-                  <Label
-                    type="default"
-                    icon={CROP_LIFECYCLE.Carrot.seed}
-                    className="mt-1 ml-1 capitalize"
-                  >
-                    {t("medium.seeds")}
-                  </Label>
-                  <Label
-                    type="default"
-                    icon={SUNNYSIDE.tools.axe}
-                    className="mt-1 ml-1 capitalize"
-                  >
-                    {t("tools")}
-                  </Label>
-                  <Label
-                    type="default"
-                    icon={SUNNYSIDE.tools.sand_shovel}
-                    className="mt-1 ml-1 capitalize"
-                  >
-                    {`Sand Shovel`}
-                  </Label>
-                </div>
-                <Label
-                  type="success"
-                  className="absolute right-0 top-0 w-20 h-8"
-                >
-                  <p className="mr-4">{`Free`}</p>
-                  <img src={stockIcon} className="h-5 absolute right-1 top-0" />
-                </Label>
-              </div>
-              {showShipment ? (
-                <div className="text-xs text-left">
-                  {t("restock.shipmentArrived")}
-                </div>
-              ) : (
-                <div className="px-1 text-xs flex flex-wrap mt-2">
-                  <span className="mr-2">{t("gems.nextFreeShipment")}</span>
-                  <TimerDisplay time={shipmentTime} />
-                  <img src={stockIcon} className="h-5 ml-1" />
-                </div>
-              )}
-            </Button>
-          )}
         </>
       )}
       {showEnhancedConfirm && (
