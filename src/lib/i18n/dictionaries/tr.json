@@ -4380,5 +4380,7 @@
   "skill.premiumWorms": "Premium Komposterden toplarken +10 Hızlı Kök",
   "skill.lauriesGains": "Laurie the Chuckle Crow'un etki alanını (AOE) 7x7 alana çıkarır",
   "marketplace": "Pazar Yeri",
-  "marketplace.buy": "Satın al, takas et, sat!"
+  "marketplace.buy": "Satın al, takas et, sat!",
+  "marketplace.item": "Öğe",
+  "marketplace.unitPrice": "Birim Fiyat"
 }

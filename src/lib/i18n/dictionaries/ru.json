@@ -4380,5 +4380,7 @@
   "skill.premiumWorms": "+10 Rapid Root при сборе из премиум-компостера",
   "skill.lauriesGains": "Увеличивает область действия (площадь) Лори Шепчущей вороны до 7x7",
   "marketplace": "Торговая площадка",
-  "marketplace.buy": "Покупайте, меняйте, продавайте!"
+  "marketplace.buy": "Покупайте, меняйте, продавайте!",
+  "marketplace.item": "Предмет",
+  "marketplace.unitPrice": "Цена за единицу"
 }

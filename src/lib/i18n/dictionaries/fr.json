@@ -4380,5 +4380,7 @@
   "skill.premiumWorms": "+10 Rapid Root lors de la collecte auprès de Premium Composter",
   "skill.lauriesGains": "Augmente la zone d'effet (AOE) de Laurie the Guckle Crow à une zone 7x7",
   "marketplace": "Place de marché",
-  "marketplace.buy": "Achetez, échangez, vendez !"
+  "marketplace.buy": "Achetez, échangez, vendez !",
+  "marketplace.item": "Article",
+  "marketplace.unitPrice": "Prix unitaire"
 }
