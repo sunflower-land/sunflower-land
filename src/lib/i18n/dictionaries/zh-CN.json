@@ -4380,5 +4380,7 @@
   "skill.premiumWorms": "从 Premium Composter 收集时获得+10 快速生根",
   "skill.lauriesGains": "将 Chuckle Crow Laurie 的效果区域 (AOE) 增加到 7x7 区域",
   "marketplace": "市场",
-  "marketplace.buy": "买入、交换、卖出！"
+  "marketplace.buy": "买入、交换、卖出！",
+  "marketplace.item": "物品",
+  "marketplace.unitPrice": "单价"
 }

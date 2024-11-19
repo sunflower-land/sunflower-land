@@ -4380,5 +4380,7 @@
   "skill.premiumWorms": "프리미엄 퇴비포스터에서 수집 시 래피드 루트 +10",
   "skill.lauriesGains": "웃는 크로우 로리의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다.",
   "marketplace": "마켓플레이스",
-  "marketplace.buy": "구매, 교환, 판매!"
+  "marketplace.buy": "구매, 교환, 판매!",
+  "marketplace.item": "아이템",
+  "marketplace.unitPrice": "단위 가격"
 }

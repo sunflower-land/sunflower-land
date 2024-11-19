@@ -4380,5 +4380,7 @@
   "skill.premiumWorms": "+10 Rapid Root raccogliendo da Premium Composter",
   "skill.lauriesGains": "Aumenta l'area d'effetto (AOE) di Laurie the Chuckle Crow a un'area di 7x7",
   "marketplace": "Marketplace",
-  "marketplace.buy": "Compra, scambia, vendi!"
+  "marketplace.buy": "Compra, scambia, vendi!",
+  "marketplace.item": "Oggetto",
+  "marketplace.unitPrice": "Prezzo unitario"
 }

@@ -4380,5 +4380,7 @@
   "skill.premiumWorms": "+10 Akar Cepat saat mengumpulkan dari Komposter Premium",
   "skill.lauriesGains": "Meningkatkan area efek Laurie the Chuckle Crow (AOE) menjadi area 7x7",
   "marketplace": "Pasar",
-  "marketplace.buy": "Beli, tukar, jual!"
+  "marketplace.buy": "Beli, tukar, jual!",
+  "marketplace.item": "Barang",
+  "marketplace.unitPrice": "Harga satuan"
 }

@@ -4380,5 +4380,7 @@
   "skill.premiumWorms": "+10 Rapid Root semasa mengumpul dari Premium Composter",
   "skill.lauriesGains": "Meningkatkan kawasan kesan Laurie the Chuckle Crow (AOE) ke kawasan 7x7",
   "marketplace": "Pasaran",
-  "marketplace.buy": "Beli, tukar, jual!"
+  "marketplace.buy": "Beli, tukar, jual!",
+  "marketplace.item": "Item",
+  "marketplace.unitPrice": "Harga seunit"
 }
