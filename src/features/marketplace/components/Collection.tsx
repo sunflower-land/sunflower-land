@@ -58,6 +58,7 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
 
   // Debounce search and load
   useEffect(() => {
+    if (!search) return;
     const debouncedSearch = debounce(() => {
       load();
     }, 500);
@@ -98,7 +99,7 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
 
           return (
             <div
-              className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 pr-1 pb-1"
+              className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-[14.2%] pr-1 pb-1"
               key={`${item.collection}-${item.id}`}
             >
               <ListViewCard
@@ -109,6 +110,7 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
                 supply={item.supply}
                 type={item.collection}
                 id={item.id}
+                buff={display.buff}
                 onClick={() => {
                   navigate(`/marketplace/${item.collection}/${item.id}`);
                 }}
