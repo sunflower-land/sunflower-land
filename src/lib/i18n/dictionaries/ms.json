@@ -4361,5 +4361,22 @@
   "chore.grow.6.red.balloon.flower": "Tumbuh Bunga Belon Merah 6 kali",
   "chore.collect.40.eggs": "Kumpulkan Telur 40 kali",
   "chore.collect.60.eggs": "Kumpulkan Telur 60 kali",
-  "chore.collect.80.eggs": "Kumpulkan Telur 80 kali"
+  "chore.collect.80.eggs": "Kumpulkan Telur 80 kali",
+  "skill.greenThumb": "Kurangkan masa pertumbuhan tanaman sebanyak 5%",
+  "skill.youngFarmer": "+0.1 Hasil Tanaman Asas",
+  "skill.experiencedFarmer": "+0.1 Hasil Tanaman Sederhana",
+  "skill.bettysFriend": "Pendapatan penghantaran Betty Coin meningkat sebanyak 30%",
+  "skill.efficientBin": "+5 Campuran Sprout semasa mengumpul dari Tong Kompos",
+  "skill.turboCharged": "+5 Campuran Berbuah semasa mengumpul dari Turbo Composter",
+  "skill.oldFarmer": "+0.1 Hasil tanaman yang dibebaskan",
+  "skill.strongRoots": "Lobak, Gandum, Kale, Barli tumbuh 10% lebih cepat",
+  "skill.coinSwindler": "+10% syiling apabila menjual tanaman (Kedai Benih)",
+  "skill.goldenSunflower": "0.15% peluang mendapatkan +0.35 emas apabila menuai bunga matahari secara manual",
+  "skill.chonkyScarecrow": "Meningkatkan kawasan kesan Basic Scarecrow (AOE) ke kawasan 7x7",
+  "skill.horrorMike": "Meningkatkan kawasan kesan Scary Mike (AOE) ke kawasan 7x7",
+  "skill.instantGrowth": "Memberi keupayaan untuk menuai semua tanaman yang sedang tumbuh dengan serta-merta (boleh digunakan sekali setiap 72 jam)",
+  "skill.acreFarm": "+1 Hasil tanaman lanjutan, -0.5 Hasil tanaman asas dan sederhana",
+  "skill.hectareFarm": "+1 Hasil tanaman asas dan sederhana, -0.5 Hasil tanaman lanjutan",
+  "skill.premiumWorms": "+10 Rapid Root semasa mengumpul dari Premium Composter",
+  "skill.lauriesGains": "Meningkatkan kawasan kesan Laurie the Chuckle Crow (AOE) ke kawasan 7x7"
 }

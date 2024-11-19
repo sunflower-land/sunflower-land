@@ -4361,5 +4361,22 @@
   "chore.grow.6.red.balloon.flower": "种植红气球花 6 次",
   "chore.collect.40.eggs": "收集鸡蛋 40 次",
   "chore.collect.60.eggs": "收集鸡蛋 60 次",
-  "chore.collect.80.eggs": "收集鸡蛋 80 次"
+  "chore.collect.80.eggs": "收集鸡蛋 80 次",
+  "skill.greenThumb": "将作物生长时间缩短 5%",
+  "skill.youngFarmer": "+0.1 基本作物产量",
+  "skill.experiencedFarmer": "+0.1 中等作物产量",
+  "skill.bettysFriend": "Betty Coin 的交付收入增长了 30%",
+  "skill.efficientBin": "从堆肥箱收集时 +5 Sprout Mix",
+  "skill.turboCharged": "从 Turbo Composter 收集时获得 +5 富有成效",
+  "skill.oldFarmer": "+0.1 提高作物产量",
+  "skill.strongRoots": "萝卜、小麦、羽衣甘蓝、大麦的生长速度加快 10%",
+  "skill.coinSwindler": "出售农作物时金币 +10%（种子商店）",
+  "skill.goldenSunflower": "手动收获向日葵时有 0.15% 几率获得 +0.35 金币",
+  "skill.chonkyScarecrow": "将基础稻草人的效果区域 (AOE) 增加到 7x7 区域",
+  "skill.horrorMike": "将 Scary Mike 的效果区域 (AOE) 增加到 7x7 区域",
+  "skill.instantGrowth": "提供立即收获所有当前生长中的作物的能力（每 72 小时使用一次）",
+  "skill.acreFarm": "+1 高级作物产量，-0.5 基本和中等作物产量",
+  "skill.hectareFarm": "+1 基础和中等作物产量，-0.5 高级作物产量",
+  "skill.premiumWorms": "从 Premium Composter 收集时获得+10 快速生根",
+  "skill.lauriesGains": "将 Chuckle Crow Laurie 的效果区域 (AOE) 增加到 7x7 区域"
 }

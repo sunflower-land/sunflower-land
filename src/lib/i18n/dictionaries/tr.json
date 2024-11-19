@@ -4361,5 +4361,22 @@
   "chore.grow.6.red.balloon.flower": "Kırmızı Balon Çiçeği 6 kez büyütün",
   "chore.collect.40.eggs": "40 kez yumurta topla",
   "chore.collect.60.eggs": "60 kez yumurta topla",
-  "chore.collect.80.eggs": "80 kez yumurta topla"
+  "chore.collect.80.eggs": "80 kez yumurta topla",
+  "skill.greenThumb": "Mahsul büyüme süresini% 5 azaltın",
+  "skill.youngFarmer": "+0.1 Temel Mahsul verimi",
+  "skill.experiencedFarmer": "+0.1 Orta Mahsul verimi",
+  "skill.bettysFriend": "Betty Coin teslimat geliri %30 arttı",
+  "skill.efficientBin": "Kompost Kutusundan toplarken +5 Filiz Karışımı",
+  "skill.turboCharged": "Turbo Komposterden toplarken +5 Verimli Karışım",
+  "skill.oldFarmer": "+0.1 Gelişmiş Mahsul verimi",
+  "skill.strongRoots": "Turp, Buğday, Lahana, Arpa% 10 daha hızlı büyür",
+  "skill.coinSwindler": "Mahsul satarken +10% jeton (Tohum Dükkanı)",
+  "skill.goldenSunflower": "Ayçiçeği elle hasat edilirken %0.15 +0.35 altın alma şansı",
+  "skill.chonkyScarecrow": "Temel Korkuluk etki alanını (AOE) 7x7 alana yükseltir",
+  "skill.horrorMike": "Scary Mike'ın etki alanını (AOE) 7x7 alana yükseltir",
+  "skill.instantGrowth": "Şu anda büyüyen tüm mahsulleri anında hasat etme yeteneği verir (her 72 saatte bir kullanılabilir)",
+  "skill.acreFarm": "+1 Gelişmiş mahsul verimi, -0.5 Temel ve Orta mahsul verimi",
+  "skill.hectareFarm": "+1 Temel ve Orta mahsul verimi, -0.5 Gelişmiş mahsul verimi",
+  "skill.premiumWorms": "Premium Komposterden toplarken +10 Hızlı Kök",
+  "skill.lauriesGains": "Laurie the Chuckle Crow'un etki alanını (AOE) 7x7 alana çıkarır"
 }
