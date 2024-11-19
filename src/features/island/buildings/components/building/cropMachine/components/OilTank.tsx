@@ -21,12 +21,12 @@ interface OilTankProps {
   onAddOil: () => void;
 }
 
-export const OilTank = ({
+export const OilTank: React.FC<OilTankProps> = ({
   stopped,
   queue,
   unallocatedOilTime,
   onAddOil,
-}: OilTankProps) => {
+}) => {
   const { t } = useAppTranslation();
 
   const calculatePercentageFull = (
