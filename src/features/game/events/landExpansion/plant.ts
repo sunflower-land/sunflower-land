@@ -170,19 +170,24 @@ export function getCropTime({
   }
 
   if (skills["Strong Roots"]) {
-    if (crop === "Radish" || crop === "Wheat" || crop === "Kale") {
+    if (
+      crop === "Radish" ||
+      crop === "Wheat" ||
+      crop === "Kale" ||
+      crop === "Barley"
+    ) {
       seconds = seconds * 0.9;
     }
   }
 
-  // Olive Express: 20% reduction
+  // Olive Express: 10% reduction
   if (crop === "Olive" && skills["Olive Express"]) {
-    seconds = seconds * 0.8;
+    seconds = seconds * 0.9;
   }
 
-  // Rice Rocket: 20% reduction
+  // Rice Rocket: 10% reduction
   if (crop === "Rice" && skills["Rice Rocket"]) {
-    seconds = seconds * 0.8;
+    seconds = seconds * 0.9;
   }
 
   return seconds;
