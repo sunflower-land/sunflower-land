@@ -4382,5 +4382,18 @@
   "marketplace": "マーケットプレイス",
   "marketplace.buy": "購入、交換、販売！",
   "marketplace.item": "アイテム",
-  "marketplace.unitPrice": "ユニット価格"
+  "marketplace.unitPrice": "ユニット価格",
+  "marketplace.7dChange": "7d 変更",
+  "marketplace.welcome": "マーケットプレイスへようこそ",
+  "marketplace.welcomeDescription": "最新のアイテムを探索し、他のプレイヤーと取引して農業帝国を築きましょう",
+  "marketplace.resources": "リソース",
+  "marketplace.resourcesDescription": "作物、資源、卵などの取引",
+  "marketplace.powerUps": "パワーアップ",
+  "marketplace.powerUpsDescription": "限定アイテムで農業を盛り上げよう",
+  "marketplace.cosmetics": "化粧品",
+  "marketplace.cosmeticsDescription": "珍しいアイテムで農場を飾りましょう",
+  "marketplace.trending": "トレンド",
+  "marketplace.totalVolume": "合計ボリューム",
+  "marketplace.totalTrades": "合計取引数",
+  "marketplace.walletsHoldingCollectibles": "収集品が入った財布"
 }

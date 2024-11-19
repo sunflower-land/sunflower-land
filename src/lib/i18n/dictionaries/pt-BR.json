@@ -4382,5 +4382,18 @@
   "marketplace": "Marketplace",
   "marketplace.buy": "Compre, troque, venda!",
   "marketplace.item": "Item",
-  "marketplace.unitPrice": "Preço unitário"
+  "marketplace.unitPrice": "Preço unitário",
+  "marketplace.7dChange": "Mudança 7d",
+  "marketplace.welcome": "Bem-vindo ao Marketplace",
+  "marketplace.welcomeDescription": "Explore os itens mais recentes e negocie com outros jogadores para construir seu império agrícola",
+  "marketplace.resources": "Recursos",
+  "marketplace.resourcesDescription": "Comercialize safras, recursos, ovos e muito mais",
+  "marketplace.powerUps": "Power-ups",
+  "marketplace.powerUpsDescription": "Impulsione sua agricultura com itens exclusivos",
+  "marketplace.cosmetics": "Cosméticos",
+  "marketplace.cosmeticsDescription": "Decore sua fazenda com itens raros",
+  "marketplace.trending": "Tendências",
+  "marketplace.totalVolume": "Volume total",
+  "marketplace.totalTrades": "Total de negociações",
+  "marketplace.walletsHoldingCollectibles": "Carteiras com itens colecionáveis"
 }

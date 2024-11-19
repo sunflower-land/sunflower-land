@@ -4382,5 +4382,18 @@
   "marketplace": "Marktplatz",
   "marketplace.buy": "Kaufen, tauschen, verkaufen!",
   "marketplace.item": "Artikel",
-  "marketplace.unitPrice": "Preis pro Einheit"
+  "marketplace.unitPrice": "Preis pro Einheit",
+  "marketplace.7dChange": "7d Änderung",
+  "marketplace.welcome": "Willkommen auf dem Marketplace",
+  "marketplace.welcomeDescription": "Entdecke die neuesten Gegenstände und tausche mit anderen Spielern, um dein Farmimperium aufzubauen",
+  "marketplace.resources": "Ressourcen",
+  "marketplace.resourcesDescription": "Tauschen Sie mit Pflanzen, Ressourcen, Eiern und mehr",
+  "marketplace.powerUps": "Power-Ups",
+  "marketplace.powerUpsDescription": "Steigern Sie Ihre Landwirtschaft mit exklusiven Gegenständen",
+  "marketplace.cosmetics": "Kosmetik",
+  "marketplace.cosmeticsDescription": "Dekoriere deine Farm mit seltenen Gegenständen",
+  "marketplace.trending": "Im Trend",
+  "marketplace.totalVolume": "Gesamtvolumen",
+  "marketplace.totalTrades": "Gesamtzahl der Handelsgeschäfte",
+  "marketplace.walletsHoldingCollectibles": "Geldbörsen mit Sammlerstücken"
 }

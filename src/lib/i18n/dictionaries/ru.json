@@ -4382,5 +4382,18 @@
   "marketplace": "Торговая площадка",
   "marketplace.buy": "Покупайте, меняйте, продавайте!",
   "marketplace.item": "Предмет",
-  "marketplace.unitPrice": "Цена за единицу"
+  "marketplace.unitPrice": "Цена за единицу",
+  "marketplace.7dChange": "Седьмовое изменение",
+  "marketplace.welcome": "Добро пожаловать на рынок",
+  "marketplace.welcomeDescription": "Изучайте новейшие предметы и торгуйте с другими игроками, чтобы построить свою фермерскую империю",
+  "marketplace.resources": "Ресурсы",
+  "marketplace.resourcesDescription": "Торгуйте зерновыми культурами, ресурсами, яйцами и многим другим",
+  "marketplace.powerUps": "бонусы",
+  "marketplace.powerUpsDescription": "Усовершенствуйте свое сельское хозяйство с помощью эксклюзивных предметов",
+  "marketplace.cosmetics": "Косметика",
+  "marketplace.cosmeticsDescription": "Украсьте свою ферму редкими предметами",
+  "marketplace.trending": "В тренде",
+  "marketplace.totalVolume": "Общий объем",
+  "marketplace.totalTrades": "Всего сделок",
+  "marketplace.walletsHoldingCollectibles": "Кошельки с коллекционными предметами"
 }

@@ -4382,5 +4382,18 @@
   "marketplace": "Pasaran",
   "marketplace.buy": "Beli, tukar, jual!",
   "marketplace.item": "Item",
-  "marketplace.unitPrice": "Harga seunit"
+  "marketplace.unitPrice": "Harga seunit",
+  "marketplace.7dChange": "Perubahan 7d",
+  "marketplace.welcome": "Selamat datang ke Pasaran",
+  "marketplace.welcomeDescription": "Terokai item terkini & berdagang dengan pemain lain untuk membina empayar pertanian anda",
+  "marketplace.resources": "Sumber",
+  "marketplace.resourcesDescription": "Berdagang tanaman, sumber, telur & banyak lagi",
+  "marketplace.powerUps": "Kuasa naik",
+  "marketplace.powerUpsDescription": "Tingkatkan pertanian anda dengan barangan eksklusif",
+  "marketplace.cosmetics": "Kosmetik",
+  "marketplace.cosmeticsDescription": "Hiaskan ladang anda dengan barang-barang langka",
+  "marketplace.trending": "Trending",
+  "marketplace.totalVolume": "Jumlah Jumlah",
+  "marketplace.totalTrades": "Jumlah Perdagangan",
+  "marketplace.walletsHoldingCollectibles": "Dompet yang memegang koleksi"
 }
