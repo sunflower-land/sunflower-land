@@ -21,7 +21,6 @@ import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getBoostedAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
 import { Label } from "components/ui/Label";
-import { pickRandomPositionInAnimalHouse } from "features/game/expansion/placeable/lib/collisionDetection";
 
 import coinsIcon from "assets/icons/coins.webp";
 import brush from "assets/animals/brush.webp";
@@ -88,20 +87,10 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   const [selectedName, setSelectedName] = useState<AnimalType>(animals[0]);
 
   const handleBuyAnimal = () => {
-    const position = pickRandomPositionInAnimalHouse(
-      state,
-      buildingKey,
-      selectedName,
-    );
-
     gameService.send({
       type: "animal.bought",
       animal: selectedName,
       id: uuidv4().slice(0, 8),
-      coordinates: {
-        x: position.x,
-        y: position.y,
-      },
     });
   };
 

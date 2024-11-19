@@ -9,7 +9,7 @@ import {
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { TradeableDisplay } from "../lib/tradeables";
 import { TradeableListItem } from "./TradeableList";
 import { TradeTable } from "./TradeTable";
@@ -23,6 +23,14 @@ import {
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
+import * as Auth from "features/auth/lib/Provider";
+import { getKeys } from "features/game/types/decorations";
+import { RemoveListing } from "./RemoveListing";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+
+import sflIcon from "assets/icons/sfl.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { getListingCollection, getListingItem } from "../lib/listings";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -36,6 +44,7 @@ type TradeableListingsProps = {
   onListClick: () => void;
   onListClose: () => void;
   onListing: () => void;
+  onPurchase: () => void;
 };
 
 const _isListing = (state: MachineState) => state.matches("marketplaceListing");
@@ -53,6 +62,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   onListing,
   onListClick,
   onListClose,
+  onPurchase,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -74,6 +84,15 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     "marketplaceListingSuccess",
     () => {
       if (showAnimations) confetti();
+    },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplacePurchasing",
+    "marketplacePurchasingSuccess",
+    () => {
+      onPurchase();
     },
   );
 
@@ -129,6 +148,98 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
         >
           {t("marketplace.listForSale")}
         </Button>
+      </InnerPanel>
+    </>
+  );
+};
+
+const _isCancellingOffer = (state: MachineState) =>
+  state.matches("marketplaceListingCancelling");
+const _trades = (state: MachineState) => state.context.state.trades;
+const _authToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+
+export const YourListings: React.FC<{
+  onListingRemoved: () => void;
+  collection: CollectionName;
+  id: number;
+}> = ({ onListingRemoved, collection, id }) => {
+  const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const { authService } = useContext(Auth.Context);
+
+  const isCancellingListing = useSelector(gameService, _isCancellingOffer);
+  const trades = useSelector(gameService, _trades);
+  const authToken = useSelector(authService, _authToken);
+
+  const [removeListingId, setRemoveListingId] = useState<string>();
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceCancellingListingSuccess",
+    "playing",
+    onListingRemoved,
+  );
+
+  const listings = trades.listings ?? {};
+
+  const listingIds = getKeys(listings).filter((listingId) => {
+    const listing = listings[listingId];
+    if (listing.boughtAt) return false;
+
+    const itemId = getListingItem({ listing });
+    const listingCollection = getListingCollection({ listing });
+
+    // Make sure the offer is for this item
+    return listingCollection === collection && itemId === id;
+  });
+
+  if (listingIds.length === 0) return null;
+
+  const handleHide = () => {
+    if (isCancellingListing) return;
+
+    setRemoveListingId(undefined);
+  };
+
+  return (
+    <>
+      <Modal show={!!removeListingId} onHide={handleHide}>
+        <RemoveListing
+          collection={collection}
+          listingIds={removeListingId ? [removeListingId] : []}
+          authToken={authToken}
+          onClose={() => setRemoveListingId(undefined)}
+        />
+      </Modal>
+      <InnerPanel className="mb-1">
+        <div className="p-2">
+          <div className="flex justify-between mb-2">
+            <Label icon={SUNNYSIDE.icons.player_small} type="default">
+              {t("marketplace.yourListings")}
+            </Label>
+          </div>
+          {listingIds.map((listingId) => {
+            const listing = listings[listingId];
+            return (
+              <div
+                className="flex items-center justify-between"
+                key={listingId}
+              >
+                <div className="flex items-center">
+                  <img src={sflIcon} className="h-8 mr-2" />
+                  <p className="text-base">{`${listing.sfl} SFL`}</p>
+                </div>
+                <Button
+                  className="w-fit"
+                  onClick={() => setRemoveListingId(listingId)}
+                >
+                  {t("marketplace.cancelListing")}
+                </Button>
+              </div>
+            );
+          })}
+        </div>
       </InnerPanel>
     </>
   );

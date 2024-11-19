@@ -59,8 +59,6 @@ export const HenHouseInside: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
-
   const {
     x: floorX,
     y: floorY,
@@ -68,14 +66,17 @@ export const HenHouseInside: React.FC = () => {
     width: floorWidth,
   } = ANIMAL_HOUSE_BOUNDS.henHouse[level];
 
+  // Organise the animals neatly in the barn
   const organizedAnimals = useMemo(() => {
+    // First, group animals by type and sort within each group
     const animals = getKeys(henHouse.animals)
       .map((id) => ({
         ...henHouse.animals[id],
       }))
       .sort((a, b) => b.experience - a.experience);
 
-    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Chicken.width);
+    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
+    const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
 
     return animals.map((animal, index) => {
       const row = Math.floor(index / maxAnimalsPerRow);
@@ -83,13 +84,14 @@ export const HenHouseInside: React.FC = () => {
       return {
         ...animal,
         coordinates: {
-          x: col * ANIMALS.Chicken.width,
-          y: row * ANIMALS.Chicken.height,
+          x: col * ANIMALS.Cow.width,
+          y: row * (ANIMALS.Cow.height + verticalGap),
         },
       };
     });
-  }, [henHouse.animals, floorWidth]);
+  }, [getKeys(henHouse.animals).length, floorWidth]);
 
+  const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>

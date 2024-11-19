@@ -95,7 +95,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                   <Label
                     type="formula"
                     className="absolute -top-3.5  -left-2"
-                  >{`Lvl ${deal.level}`}</Label>
+                  >{`Lvl ${deal.level}+`}</Label>
 
                   {!!isSold && (
                     <Label
@@ -155,6 +155,16 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
             );
           })}
         </div>
+
+        {hasDeals && (
+          <div className="flex items-center">
+            <p className="text-xs">
+              {t("bounties.board.ticketAmount", {
+                seasonalTicket: getSeasonalTicket(),
+              })}
+            </p>
+          </div>
+        )}
       </div>
     </InnerPanel>
   );

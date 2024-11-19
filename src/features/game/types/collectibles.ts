@@ -3,7 +3,7 @@ import { GameState, Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 
-export type PlaceableLocation = "farm" | "home" | "henHouse" | "barn";
+export type PlaceableLocation = "farm" | "home";
 
 export type SeasonPassName =
   | "Dawn Breaker Banner"

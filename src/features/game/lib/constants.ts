@@ -106,8 +106,8 @@ export const INITIAL_STOCK = (
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
     "Gold Pickaxe": new Decimal(5),
-    "Oil Drill": new Decimal(5),
     Rod: new Decimal(50),
+    "Oil Drill": new Decimal(5),
   };
 
   // increase in 50% tool stock if you have a toolshed
@@ -176,11 +176,11 @@ export const INITIAL_STOCK = (
   return {
     // Tools
     ...tools,
-    // Seeds
-    ...seeds,
 
     "Sand Shovel": new Decimal(50),
     "Sand Drill": new Decimal(10),
+    // Seeds
+    ...seeds,
   };
 };
 
@@ -432,6 +432,7 @@ export const INITIAL_FARM: GameState = {
   previousInventory: {},
   wardrobe: {},
   previousWardrobe: {},
+  bank: { taxFreeSFL: 0 },
 
   choreBoard: INITIAL_CHORE_BOARD,
 
@@ -744,6 +745,7 @@ export const TEST_FARM: GameState = {
     choresSkipped: 0,
   },
   stock: INITIAL_STOCK(),
+  bank: { taxFreeSFL: 0 },
   chickens: {},
   experiments: [],
   farmActivity: {},
@@ -1039,6 +1041,7 @@ export const EMPTY: GameState = {
     requests: [],
   },
   rewards: INITIAL_REWARDS,
+  bank: { taxFreeSFL: 0 },
   experiments: [],
   minigames: {
     games: {},

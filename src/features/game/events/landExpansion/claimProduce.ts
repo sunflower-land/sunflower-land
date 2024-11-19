@@ -78,6 +78,9 @@ export function claimProduce({
           copy.inventory[rewardItem.name] ?? new Decimal(0)
         ).add(rewardItem.amount);
       });
+
+      // Remove reward items from the animal
+      delete animal.reward;
     }
 
     animal.asleepAt = createdAt;

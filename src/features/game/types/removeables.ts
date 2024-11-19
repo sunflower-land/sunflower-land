@@ -39,6 +39,8 @@ import { getKeys } from "./decorations";
 import { BED_FARMHAND_COUNT } from "./beds";
 import { AnimalType } from "./animals";
 import { getBaseAnimalCapacity } from "../events/landExpansion/buyAnimal";
+import { CookingBuildingName } from "./buildings";
+import { BUILDING_DAILY_OIL_CAPACITY } from "../events/landExpansion/supplyCookingOil";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -430,6 +432,28 @@ function hasBonusAnimals(game: GameState, animalType: AnimalType): Restriction {
   return [bonusAnimalCount > 0, translate("restrictionReason.hasBonusAnimals")];
 }
 
+export function isCookingBuildingWorking(
+  buildingName: CookingBuildingName,
+  game: GameState,
+): Restriction {
+  const isBuildingCooking = !!game.buildings[buildingName]?.some(
+    (building) => !!building.crafting,
+  );
+
+  return [isBuildingCooking, "Building is in use"];
+}
+
+export function areAnyCookingBuildingWorking(game: GameState): Restriction {
+  const areAnyCookingBuildingWorking = getKeys(
+    BUILDING_DAILY_OIL_CAPACITY,
+  ).some(
+    (building) =>
+      !!game.buildings[building]?.some((building) => !!building.crafting),
+  );
+
+  return [areAnyCookingBuildingWorking, "Building is in use"];
+}
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
@@ -541,7 +565,6 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Knight Chicken": (game) => areAnyOilReservesDrilled(game),
   "Battle Fish": (game) => areAnyOilReservesDrilled(game),
   "Turbo Sprout": (game) => areAnyGreenhouseCropGrowing(game),
-  Greenhouse: (game) => areAnyGreenhouseCropGrowing(game),
   "Pharaoh Gnome": (game) => areAnyGreenhouseCropGrowing(game),
   Vinny: (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
   "Grape Granny": (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
@@ -549,6 +572,12 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   // Buildings
   "Crop Machine": (game) => hasSeedsCropsInMachine(game),
+  Greenhouse: (game) => areAnyGreenhouseCropGrowing(game),
+  "Fire Pit": (game) => isCookingBuildingWorking("Fire Pit", game),
+  Kitchen: (game) => isCookingBuildingWorking("Kitchen", game),
+  Bakery: (game) => isCookingBuildingWorking("Bakery", game),
+  Deli: (game) => isCookingBuildingWorking("Deli", game),
+  "Smoothie Shack": (game) => isCookingBuildingWorking("Smoothie Shack", game),
 
   // Hourglass
   "Time Warp Totem": (_: GameState) => [

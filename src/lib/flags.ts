@@ -24,7 +24,7 @@ export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
  * Elias: 128727
  */
 
-type FeatureFlag = (game: GameState) => boolean;
+export type FeatureFlag = (game: GameState) => boolean;
 
 export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 
@@ -35,7 +35,7 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
  *
  * Do not delete JEST_TEST.
  */
-const featureFlags: Record<string, FeatureFlag> = {
+const featureFlags = {
   CHORE_BOARD: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   ONBOARDING_REWARDS: (game: GameState) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
@@ -57,7 +57,8 @@ const featureFlags: Record<string, FeatureFlag> = {
   BEDS: timeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   BULL_RUN_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   BALE_AOE_END: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
-};
+  ENHANCED_RESTOCK: defaultFeatureFlag,
+} satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
 

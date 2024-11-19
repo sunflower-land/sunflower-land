@@ -20,7 +20,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -58,7 +57,6 @@ describe("claimProduce", () => {
             ...INITIAL_FARM.henHouse,
             animals: {
               [chickenId]: {
-                coordinates: { x: 0, y: 0 },
                 id: chickenId,
                 type: "Chicken",
                 createdAt: 0,
@@ -104,7 +102,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -148,7 +145,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -192,7 +188,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -236,7 +231,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -274,7 +268,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -313,7 +306,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [cowId]: {
-              coordinates: { x: 0, y: 0 },
               id: cowId,
               type: "Cow",
               createdAt: 0,
@@ -352,7 +344,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [cowId]: {
-              coordinates: { x: 0, y: 0 },
               id: cowId,
               type: "Cow",
               createdAt: 0,
@@ -391,7 +382,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [cowId]: {
-              coordinates: { x: 0, y: 0 },
               id: cowId,
               type: "Cow",
               createdAt: 0,
@@ -430,7 +420,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [sheepId]: {
-              coordinates: { x: 0, y: 0 },
               id: sheepId,
               type: "Sheep",
               createdAt: 0,
@@ -475,7 +464,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -515,7 +503,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -549,7 +536,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -584,7 +570,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [cowId]: {
-              coordinates: { x: 0, y: 0 },
               id: cowId,
               type: "Cow",
               createdAt: 0,
@@ -619,7 +604,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [sheepId]: {
-              coordinates: { x: 0, y: 0 },
               id: sheepId,
               type: "Sheep",
               createdAt: 0,
@@ -662,7 +646,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [cowId]: {
-              coordinates: { x: 0, y: 0 },
               id: cowId,
               type: "Cow",
               createdAt: 0,
@@ -701,7 +684,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [sheepID]: {
-              coordinates: { x: 0, y: 0 },
               id: sheepID,
               type: "Sheep",
               createdAt: 0,
@@ -740,7 +722,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [sheepID]: {
-              coordinates: { x: 0, y: 0 },
               id: sheepID,
               type: "Sheep",
               createdAt: 0,
@@ -803,7 +784,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -840,7 +820,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [sheepId]: {
-              coordinates: { x: 0, y: 0 },
               id: sheepId,
               type: "Sheep",
               createdAt: 0,
@@ -882,7 +861,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [cowId]: {
-              coordinates: { x: 0, y: 0 },
               id: cowId,
               type: "Cow",
               createdAt: 0,
@@ -1393,7 +1371,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.henHouse,
           animals: {
             [chickenId]: {
-              coordinates: { x: 0, y: 0 },
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
@@ -1569,7 +1546,6 @@ describe("claimProduce", () => {
           ...INITIAL_FARM.barn,
           animals: {
             [sheepId]: {
-              coordinates: { x: 0, y: 0 },
               id: sheepId,
               type: "Sheep",
               createdAt: 0,
@@ -1725,5 +1701,35 @@ describe("claimProduce", () => {
     });
 
     expect(state.inventory["Alien Chicken"]).toEqual(new Decimal(1));
+  });
+
+  it("removes a mutant chicken reward after it is claimed", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              reward: {
+                items: [
+                  {
+                    name: "Alien Chicken",
+                    amount: 1,
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: "0" },
+    });
+
+    expect(state.inventory["Alien Chicken"]).toEqual(new Decimal(1));
+    expect(state.henHouse.animals["0"].reward).toBeUndefined();
   });
 });

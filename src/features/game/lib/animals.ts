@@ -213,6 +213,10 @@ function getMilkYieldBoosts(game: GameState) {
     boost += 2;
   }
 
+  if (isCollectibleBuilt({ name: "Longhorn Cowfish", game })) {
+    boost += 0.2;
+  }
+
   return boost;
 }
 

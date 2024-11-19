@@ -6,13 +6,19 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { loadCollection } from "../actions/loadCollection";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { useNavigate } from "react-router-dom";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { MarketplacePurpose } from "./MarketplaceHome";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getListingCollection, getListingItem } from "../lib/listings";
+import { Modal } from "components/ui/Modal";
+import { RemoveListing } from "./RemoveListing";
 
+const _listings = (state: MachineState) => state.context.state.trades.listings;
 interface Props {
   type: CollectionName;
   search: string;
@@ -21,12 +27,17 @@ interface Props {
 
 export const Collection: React.FC<Props> = ({ type, search, purpose }) => {
   const { authService } = useContext(Auth.Context);
+  const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
+
+  const listings = useSelector(gameService, _listings);
 
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [collection, setCollection] = useState<ICollection>();
+
+  const [removeListingIds, setRemoveListingIds] = useState<string[]>([]);
 
   useEffect(() => {
     const load = async () => {
@@ -60,8 +71,30 @@ export const Collection: React.FC<Props> = ({ type, search, purpose }) => {
 
   return (
     <div className="flex flex-wrap w-full">
+      <Modal
+        show={removeListingIds.length > 0}
+        onHide={() => setRemoveListingIds([])}
+      >
+        <RemoveListing
+          collection={type}
+          listingIds={removeListingIds ?? []}
+          authToken={authState.context.user.rawToken as string}
+          onClose={() => setRemoveListingIds([])}
+        />
+      </Modal>
+
       {items.map((item) => {
         const display = getTradeableDisplay({ type, id: item.id });
+
+        const listingIds = Object.keys(listings ?? {}).filter((listingId) => {
+          const listing = listings?.[listingId];
+          if (!listing) return false;
+
+          const listingItem = getListingItem({ listing });
+          const listingCollection = getListingCollection({ listing });
+
+          return listingCollection === type && listingItem === item.id;
+        });
 
         return (
           <div
@@ -79,6 +112,11 @@ export const Collection: React.FC<Props> = ({ type, search, purpose }) => {
               onClick={() => {
                 navigate(`/marketplace/${type}/${item.id}`);
               }}
+              onRemove={
+                listingIds.length > 0
+                  ? () => setRemoveListingIds(listingIds)
+                  : undefined
+              }
             />
           </div>
         );
