@@ -63,14 +63,14 @@ export const ShipmentRestockModal: React.FC<{
   return (
     <>
       {restockIsEmpty ? (
-        <div className="p-1">
+        <div className="flex flex-col p-2 items-start">
           <Label type="danger" className="mb-2" icon={stockIcon}>
             {t("gems.noShipment")}
           </Label>
           <p className="text-sm mb-2">{t("gems.buyStock")}</p>
         </div>
       ) : (
-        <div className="p-1">
+        <div className="flex flex-col p-2 items-start">
           <Label type="default" className="mb-2" icon={stockIcon}>
             {t("gems.shipment.arrived")}
           </Label>

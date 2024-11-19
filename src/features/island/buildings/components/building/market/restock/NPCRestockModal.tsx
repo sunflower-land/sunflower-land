@@ -93,7 +93,7 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
 
   return (
     <>
-      <div className="p-1">
+      <div className="flex flex-col p-2 items-start">
         <Label type="default" className="mb-2" icon={stockIcon}>
           {t("restock")}
         </Label>

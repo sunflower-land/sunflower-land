@@ -126,9 +126,9 @@ const RestockSelectionModal: React.FC<{
             <Label type="default" className="mb-2" icon={stockIcon}>
               {t("restock")}
             </Label>
-            <span className="mb-1">
+            <p className="mb-1">
               {t("restock.outOfStock", { npc: capitalize(npc) })}
-            </span>
+            </p>
           </div>
           <Button
             onClick={() => setShowEnhancedConfirm(true)}

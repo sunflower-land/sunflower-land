@@ -214,6 +214,7 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 
 export const STATIC_OFFLINE_FARM: GameState = {
   ...EMPTY,
+  experiments: ["GEM_BOOSTS"],
   greenhouse: {
     pots: {},
     oil: 50,
