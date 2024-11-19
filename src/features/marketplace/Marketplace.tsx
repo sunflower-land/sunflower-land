@@ -1,48 +1,18 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import React, { useContext } from "react";
-import shopIcon from "assets/icons/shop.png";
-import giftIcon from "assets/icons/gift.png";
 import sflIcon from "assets/icons/sfl.webp";
-import { MarketplaceProfile } from "./components/MarketplaceProfile";
-import {
-  MarketplaceHome,
-  MarketplaceNavigation,
-} from "./components/MarketplaceHome";
-import { MarketplaceRewards } from "./components/MarketplaceRewards";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import classNames from "classnames";
+import { MarketplaceNavigation } from "./components/MarketplaceHome";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ButtonPanel, OuterPanel } from "components/ui/Panel";
-import { Tradeable } from "./components/Tradeable";
+import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
-import { MyListings } from "./components/profile/MyListings";
-import { MyOffers } from "./components/profile/MyOffers";
-import { MarketplaceListings } from "./components/MarketplaceListings";
-
-const tabs = [
-  {
-    name: "Market",
-    icon: shopIcon,
-    alert: 0,
-    route: "/marketplace",
-  },
-  {
-    name: "Profile",
-    icon: SUNNYSIDE.icons.player,
-    alert: 1,
-    route: "/marketplace/profile",
-  },
-  {
-    name: "Rewards",
-    icon: giftIcon,
-    alert: 0,
-    route: "/marketplace/rewards",
-  },
-];
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Marketplace: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
 
@@ -68,9 +38,11 @@ export const Marketplace: React.FC = () => {
               }}
             />
             <div className="z-10 pl-4">
-              <p className="text-lg text-white z-10 text-shadow">Marketplace</p>
+              <p className="text-lg text-white z-10 text-shadow">
+                {t("marketplace")}
+              </p>
               <p className="text-xs text-white z-10 text-shadow">
-                Buy, swap, sell!
+                {t("marketplace.buy")}
               </p>
             </div>
 

@@ -1,5 +1,4 @@
 import { BuffLabel, KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
-import { BudName } from "features/game/types/buds";
 import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";

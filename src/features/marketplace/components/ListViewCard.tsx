@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ButtonPanel } from "components/ui/Panel";
@@ -10,9 +9,7 @@ import { CONFIG } from "lib/config";
 import buds from "lib/buds/buds";
 import testnetBuds from "lib/buds/testnet-buds";
 
-import lightning from "assets/icons/lightning.png";
 import sfl from "assets/icons/sfl.webp";
-import brownBackground from "assets/brand/brown_background.png";
 
 // bud backgrounds
 import beachBackground from "assets/buds-backgrounds/beach_shadow.png";
@@ -26,7 +23,6 @@ import woodlandsBackground from "assets/buds-backgrounds/woodlands_shadow.png";
 import caveBackground from "assets/buds-backgrounds/cave_shadow.png";
 import seaBackground from "assets/buds-backgrounds/sea_shadow.png";
 import { Bud, TypeTrait } from "lib/buds/types";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { BuffLabel } from "features/game/types";
 
 type Props = {

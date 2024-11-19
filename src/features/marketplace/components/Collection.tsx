@@ -1,25 +1,15 @@
 import { Loading } from "features/auth/components";
-import {
-  Collection as ICollection,
-  CollectionName,
-} from "features/game/types/marketplace";
+import { Collection as ICollection } from "features/game/types/marketplace";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  loadMarketplace as loadMarketplace,
-  MarketplaceFilter,
-} from "../actions/loadMarketplace";
+import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor, useSelector } from "@xstate/react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
-import { MarketplacePurpose } from "./MarketplaceHome";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getListingCollection, getListingItem } from "../lib/listings";
-import { Modal } from "components/ui/Modal";
-import { RemoveListing } from "./RemoveListing";
 import { InnerPanel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
 
@@ -91,9 +81,6 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
         type: item.collection,
         id: item.id,
       });
-      if (item.collection === "resources") {
-        console.log(display.name);
-      }
       if (filters.includes("utility") && !display.buff) return false;
       if (filters.includes("cosmetic") && display.buff) return false;
 

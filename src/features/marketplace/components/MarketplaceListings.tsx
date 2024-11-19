@@ -1,7 +1,6 @@
 import React from "react";
 import { MyCollection } from "./profile/MyCollection";
 import { MyListings } from "./profile/MyListings";
-import { MyOffers } from "./profile/MyOffers";
 
 export const MarketplaceListings: React.FC = () => {
   return (

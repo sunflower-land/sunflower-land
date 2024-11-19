@@ -1,4 +1,4 @@
-import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useState } from "react";
 
@@ -6,10 +6,8 @@ import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
 import filterIcon from "assets/icons/filter_icon.webp";
-import buyIcon from "assets/icons/increase_arrow.png";
 import tradeIcon from "assets/icons/trade.png";
 
-import { CollectionName } from "features/game/types/marketplace";
 import {
   Route,
   Routes,
@@ -124,6 +122,7 @@ const Option: React.FC<{
 
       {options?.map((option) => (
         <div
+          key={option.label}
           className={classNames(
             "flex justify-between items-center cursor-pointer mb-1 ml-4",
             { "bg-brown-100 px-2 -mr-2 ml-0": option.isActive },
@@ -140,7 +139,7 @@ const Option: React.FC<{
   );
 };
 
-const Filters: React.FC<{}> = ({}) => {
+const Filters: React.FC = () => {
   const { t } = useAppTranslation();
 
   const navigate = useNavigate();
