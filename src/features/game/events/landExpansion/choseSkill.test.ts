@@ -59,6 +59,96 @@ describe("choseSkill", () => {
     });
   });
 
+  it("throws an error if player doesn't have enough claimed skills for tier 2", () => {
+    expect(() => {
+      choseSkill({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[5],
+            skills: { "Green Thumb 2": 1 },
+          },
+        },
+        action: { type: "skill.chosen", skill: "Strong Roots" },
+        createdAt: dateNow,
+      });
+    }).toThrow("You need to unlock tier 2 first");
+  });
+
+  it("claims a tier 2 skill", () => {
+    const result = choseSkill({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[5],
+          skills: { "Green Thumb 2": 1, "Young Farmer": 1 },
+        },
+      },
+      action: { type: "skill.chosen", skill: "Strong Roots" },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skills).toEqual({
+      "Green Thumb 2": 1,
+      "Young Farmer": 1,
+      "Strong Roots": 1,
+    });
+  });
+
+  it("throws an error if player doesn't have enough claimed skills for tier 3", () => {
+    expect(() => {
+      choseSkill({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[7],
+            skills: {
+              "Green Thumb 2": 1,
+              "Young Farmer": 1,
+              "Experienced Farmer": 1,
+              "Betty's Friend": 1,
+            },
+          },
+        },
+        action: { type: "skill.chosen", skill: "Instant Growth" },
+        createdAt: dateNow,
+      });
+    }).toThrow("You need to unlock tier 3 first");
+  });
+
+  it("claims a tier 3 skill", () => {
+    const result = choseSkill({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[10],
+          skills: {
+            "Green Thumb 2": 1,
+            "Young Farmer": 1,
+            "Experienced Farmer": 1,
+            "Betty's Friend": 1,
+            "Efficient Bin": 1,
+          },
+        },
+      },
+      action: { type: "skill.chosen", skill: "Instant Growth" },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skills).toEqual({
+      "Green Thumb 2": 1,
+      "Young Farmer": 1,
+      "Experienced Farmer": 1,
+      "Betty's Friend": 1,
+      "Efficient Bin": 1,
+      "Instant Growth": 1,
+    });
+  });
+
   describe("getAvailableBumpkinSkillPoints", () => {
     it("makes sure level 1 bumpkin with no skills has 1 skill point", () => {
       const result = getAvailableBumpkinSkillPoints({
