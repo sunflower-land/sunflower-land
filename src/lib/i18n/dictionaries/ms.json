@@ -4378,5 +4378,7 @@
   "skill.acreFarm": "+1 Hasil tanaman lanjutan, -0.5 Hasil tanaman asas dan sederhana",
   "skill.hectareFarm": "+1 Hasil tanaman asas dan sederhana, -0.5 Hasil tanaman lanjutan",
   "skill.premiumWorms": "+10 Rapid Root semasa mengumpul dari Premium Composter",
-  "skill.lauriesGains": "Meningkatkan kawasan kesan Laurie the Chuckle Crow (AOE) ke kawasan 7x7"
+  "skill.lauriesGains": "Meningkatkan kawasan kesan Laurie the Chuckle Crow (AOE) ke kawasan 7x7",
+  "marketplace": "Pasaran",
+  "marketplace.buy": "Beli, tukar, jual!"
 }

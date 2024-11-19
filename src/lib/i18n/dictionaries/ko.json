@@ -4378,5 +4378,7 @@
   "skill.acreFarm": "+1 고급 작물 수확량, -0.5 기본 및 중간 작물 수확량",
   "skill.hectareFarm": "+1 기본 및 중간 작물 수확량, -0.5 고급 작물 수확량",
   "skill.premiumWorms": "프리미엄 퇴비포스터에서 수집 시 래피드 루트 +10",
-  "skill.lauriesGains": "웃는 크로우 로리의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다."
+  "skill.lauriesGains": "웃는 크로우 로리의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다.",
+  "marketplace": "마켓플레이스",
+  "marketplace.buy": "구매, 교환, 판매!"
 }

@@ -4378,5 +4378,7 @@
   "skill.acreFarm": "+1 Gelişmiş mahsul verimi, -0.5 Temel ve Orta mahsul verimi",
   "skill.hectareFarm": "+1 Temel ve Orta mahsul verimi, -0.5 Gelişmiş mahsul verimi",
   "skill.premiumWorms": "Premium Komposterden toplarken +10 Hızlı Kök",
-  "skill.lauriesGains": "Laurie the Chuckle Crow'un etki alanını (AOE) 7x7 alana çıkarır"
+  "skill.lauriesGains": "Laurie the Chuckle Crow'un etki alanını (AOE) 7x7 alana çıkarır",
+  "marketplace": "Pazar Yeri",
+  "marketplace.buy": "Satın al, takas et, sat!"
 }

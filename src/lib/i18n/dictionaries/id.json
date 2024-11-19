@@ -4378,5 +4378,7 @@
   "skill.acreFarm": "+1 Hasil panen lanjutan, -0,5 Hasil tanaman dasar dan menengah",
   "skill.hectareFarm": "+1 Hasil panen dasar dan menengah, -0,5 Hasil panen lanjutan",
   "skill.premiumWorms": "+10 Akar Cepat saat mengumpulkan dari Komposter Premium",
-  "skill.lauriesGains": "Meningkatkan area efek Laurie the Chuckle Crow (AOE) menjadi area 7x7"
+  "skill.lauriesGains": "Meningkatkan area efek Laurie the Chuckle Crow (AOE) menjadi area 7x7",
+  "marketplace": "Pasar",
+  "marketplace.buy": "Beli, tukar, jual!"
 }

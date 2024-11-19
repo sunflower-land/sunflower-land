@@ -4378,5 +4378,7 @@
   "skill.acreFarm": "+1 高级作物产量，-0.5 基本和中等作物产量",
   "skill.hectareFarm": "+1 基础和中等作物产量，-0.5 高级作物产量",
   "skill.premiumWorms": "从 Premium Composter 收集时获得+10 快速生根",
-  "skill.lauriesGains": "将 Chuckle Crow Laurie 的效果区域 (AOE) 增加到 7x7 区域"
+  "skill.lauriesGains": "将 Chuckle Crow Laurie 的效果区域 (AOE) 增加到 7x7 区域",
+  "marketplace": "市场",
+  "marketplace.buy": "买入、交换、卖出！"
 }

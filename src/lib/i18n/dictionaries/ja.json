@@ -4378,5 +4378,7 @@
   "skill.acreFarm": "+1先進作物収量、-0.5基本および中作物収量",
   "skill.hectareFarm": "+1基本および中程度の作物収量、-0.5高度な作物収量",
   "skill.premiumWorms": "プレミアムコンポストから収集するとラピッドルート+10",
-  "skill.lauriesGains": "ローリー・ザ・チャックル・クロウの効果範囲 (AOE) を7x7の範囲に増やします"
+  "skill.lauriesGains": "ローリー・ザ・チャックル・クロウの効果範囲 (AOE) を7x7の範囲に増やします",
+  "marketplace": "マーケットプレイス",
+  "marketplace.buy": "購入、交換、販売！"
 }

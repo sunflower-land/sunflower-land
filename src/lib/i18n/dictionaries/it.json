@@ -4378,5 +4378,7 @@
   "skill.acreFarm": "+1 Rendimento del raccolto avanzato, -0,5 Rendimento del raccolto di base e medio",
   "skill.hectareFarm": "+1 Rendimento del raccolto di base e medio, -0,5 Rendimento del raccolto avanzato",
   "skill.premiumWorms": "+10 Rapid Root raccogliendo da Premium Composter",
-  "skill.lauriesGains": "Aumenta l'area d'effetto (AOE) di Laurie the Chuckle Crow a un'area di 7x7"
+  "skill.lauriesGains": "Aumenta l'area d'effetto (AOE) di Laurie the Chuckle Crow a un'area di 7x7",
+  "marketplace": "Marketplace",
+  "marketplace.buy": "Compra, scambia, vendi!"
 }
