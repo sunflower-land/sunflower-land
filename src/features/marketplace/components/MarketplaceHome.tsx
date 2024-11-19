@@ -111,7 +111,7 @@ const Option: React.FC<{
       <div
         className={classNames(
           "flex justify-between items-center cursor-pointer mb-1 ",
-          { "bg-brown-100": isActive },
+          { "bg-brown-100 px-2 -mx-2": isActive },
         )}
         onClick={onClick}
       >
@@ -126,7 +126,7 @@ const Option: React.FC<{
         <div
           className={classNames(
             "flex justify-between items-center cursor-pointer mb-1 ml-4",
-            { "bg-brown-100": option.isActive },
+            { "bg-brown-100 px-2 -mr-2 ml-0": option.isActive },
           )}
           onClick={option.onClick}
         >
