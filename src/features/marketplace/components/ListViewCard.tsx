@@ -10,8 +10,8 @@ import { CONFIG } from "lib/config";
 import buds from "lib/buds/buds";
 import testnetBuds from "lib/buds/testnet-buds";
 
-import grass from "assets/brand/grass_background_2.png";
-import smallBoost from "assets/icons/small_boost.png";
+import lightning from "assets/icons/lightning.png";
+import sfl from "assets/icons/sfl.webp";
 import brownBackground from "assets/brand/brown_background.png";
 
 // bud backgrounds
@@ -27,6 +27,7 @@ import caveBackground from "assets/buds-backgrounds/cave_shadow.png";
 import seaBackground from "assets/buds-backgrounds/sea_shadow.png";
 import { Bud, TypeTrait } from "lib/buds/types";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { BuffLabel } from "features/game/types";
 
 type Props = {
   name: string;
@@ -39,6 +40,7 @@ type Props = {
   onClick?: () => void;
   onRemove?: () => void;
   isSold?: boolean;
+  buff?: BuffLabel;
 };
 
 const data = CONFIG.NETWORK === "mainnet" ? buds : testnetBuds;
@@ -46,103 +48,31 @@ const data = CONFIG.NETWORK === "mainnet" ? buds : testnetBuds;
 export const ListViewCard: React.FC<Props> = ({
   name,
   id,
+  buff,
   image,
   supply,
   type,
-  hasBoost,
   price,
   onClick,
-  onRemove,
-  isSold,
 }) => {
-  const [size, setSize] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = image;
-    img.onload = () => {
-      setSize({ width: img.width, height: img.height });
-    };
-  }, []);
-
-  const getBackground = () => {
-    if (type === "wearables" || type === "resources") {
-      return `url(${brownBackground})`;
-    }
-
-    return `url(${grass})`;
-  };
-
   return (
     <div className="relative cursor-pointer">
-      {onRemove && (
-        <img
-          src={SUNNYSIDE.ui.disc_cancel}
-          className="w-12 absolute -top-2 -right-2 cursor-pointer z-10 hover:scale-110"
-          onClick={(e) => {
-            e.preventDefault();
-
-            onRemove();
-          }}
-        />
-      )}
       <ButtonPanel onClick={onClick}>
-        <div className="w-full flex flex-col">
+        <div className="w-full flex flex-col items-center">
           <div className="relative">
-            <p className="text-white absolute top-1 left-1 text-xs">{`x${supply}`}</p>
-            {type === "buds" ? (
-              <BudImage image={image} id={id} />
-            ) : (
-              <div
-                style={{
-                  backgroundImage: getBackground(),
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                }}
-                className="w-full h-40 rounded-md flex justify-center items-center"
-              >
-                <img
-                  src={image}
-                  className={classNames("object-contain", {
-                    "max-h-[80%]": size.height > size.width,
-                    "max-w-[80%]": size.width > size.height,
-                  })}
-                  style={{
-                    height: `${size.height * PIXEL_SCALE}px`,
-                    width: `${size.width * PIXEL_SCALE}px`,
-                  }}
-                />
-                {hasBoost && (
-                  <img src={smallBoost} className="absolute top-1 right-1" />
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="my-1 pb-5 min-h-[60px]">
-            <p>{name}</p>
+            <img src={image} className="h-12" />
           </div>
         </div>
+
+        <p className="text-xs text-center">{name}</p>
+
+        {price && (
+          <div className="flex justify-center">
+            <img src={sfl} className="h-4 mr-0.5" />
+            <p className="text-xxs">{`${price} `}</p>
+          </div>
+        )}
       </ButtonPanel>
-
-      {price && (
-        <Label
-          className="absolute bottom-0 left-0 !w-full"
-          type="warning"
-        >{`${price} SFL`}</Label>
-      )}
-
-      {isSold && (
-        <Label
-          className="absolute left-0 !w-full mt-20"
-          type="danger"
-          style={{
-            bottom: "50%",
-            transform: "translateY(calc(-50% + 10px))",
-          }}
-        >{`Sold`}</Label>
-      )}
     </div>
   );
 };

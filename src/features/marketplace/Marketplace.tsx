@@ -4,7 +4,10 @@ import shopIcon from "assets/icons/shop.png";
 import giftIcon from "assets/icons/gift.png";
 import sflIcon from "assets/icons/sfl.webp";
 import { MarketplaceProfile } from "./components/MarketplaceProfile";
-import { MarketplaceHome } from "./components/MarketplaceHome";
+import {
+  MarketplaceHome,
+  MarketplaceNavigation,
+} from "./components/MarketplaceHome";
 import { MarketplaceRewards } from "./components/MarketplaceRewards";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
@@ -12,6 +15,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { Tradeable } from "./components/Tradeable";
 import { Context } from "features/game/GameProvider";
+import { MyListings } from "./components/profile/MyListings";
+import { MyOffers } from "./components/profile/MyOffers";
+import { MarketplaceListings } from "./components/MarketplaceListings";
 
 const tabs = [
   {
@@ -45,29 +51,30 @@ export const Marketplace: React.FC = () => {
   return (
     <>
       <div className="bg-[#181425] w-full h-full">
-        <OuterPanel className="h-full" style={{ paddingBottom: "42px" }}>
-          <div className="flex items-center overflow-x-auto scrollbar-hide mr-auto">
-            {tabs.map((tab, index) => (
-              <ButtonPanel
-                selected={tab.route === pathname}
-                key={`tab-${index}`}
-                className="flex items-center relative mr-1"
-                onClick={() => {
-                  // Navigate
-                  navigate(tab.route);
-                }}
-              >
-                <span
-                  className={classNames(
-                    "text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap",
-                  )}
-                >
-                  {tab.name}
-                </span>
-              </ButtonPanel>
-            ))}
+        <OuterPanel className="h-full">
+          <div
+            className="relative flex justify-between pr-10 items-center overflow-x-auto scrollbar-hide mr-auto h-16  mb-0.5"
+            style={{}}
+          >
+            <div
+              className="absolute inset-0 w-full h-full -z-0 rounded-sm"
+              // Repeating pixel art image background
+              style={{
+                backgroundImage: `url(${SUNNYSIDE.announcement.marketplace})`,
 
-            <div className="flex items-center">
+                imageRendering: "pixelated",
+                backgroundSize: "320px",
+                backgroundPosition: "center",
+              }}
+            />
+            <div className="z-10 pl-4">
+              <p className="text-lg text-white z-10 text-shadow">Marketplace</p>
+              <p className="text-xs text-white z-10 text-shadow">
+                Buy, swap, sell!
+              </p>
+            </div>
+
+            <div className="flex items-center z-10">
               <img src={sflIcon} className="w-8 mr-1" />
               <p className="text-sm text-white">{sfl.toFixed(2)}</p>
             </div>
@@ -84,13 +91,7 @@ export const Marketplace: React.FC = () => {
             />
           </div>
 
-          <Routes>
-            <Route path="/" element={<MarketplaceHome />} />
-            <Route path="/profile" element={<MarketplaceProfile />} />
-            <Route path="/rewards" element={<MarketplaceRewards />} />
-            <Route path="/:collection/:id" element={<Tradeable />} />
-            <Route path="/:collection" element={<MarketplaceHome />} />
-          </Routes>
+          <MarketplaceNavigation />
         </OuterPanel>
       </div>
     </>
