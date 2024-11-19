@@ -4404,5 +4404,7 @@
   "npcDialogues.corale.chore2": "Something big is disturbing the ocean's natural balance...",
   "npcDialogues.corale.chore3": "The fish say they've seen cow-like shadows in deeper waters!",
   "marketplace": "Marketplace",
-  "marketplace.buy": "Buy, swap, sell!"
+  "marketplace.buy": "Buy, swap, sell!",
+  "marketplace.item": "Item",
+  "marketplace.unitPrice": "Unit Price"
 }
