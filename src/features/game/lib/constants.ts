@@ -118,9 +118,9 @@ export const INITIAL_STOCK = (
     );
   }
 
-  // increase Axe stock by 20% if player has More Axes skill
+  // increase Axe stock by 50 if player has More Axes skill
   if (state?.bumpkin?.skills["More Axes"]) {
-    tools.Axe = new Decimal(Math.ceil(tools.Axe.toNumber() * 1.2));
+    tools.Axe = new Decimal(Math.ceil(tools.Axe.toNumber() + 50));
   }
 
   if (state?.bumpkin?.skills["More Picks"]) {
