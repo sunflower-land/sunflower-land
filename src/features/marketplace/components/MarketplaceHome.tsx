@@ -29,6 +29,7 @@ import { MarketplaceListings } from "./MarketplaceListings";
 import { MarketplaceRewards } from "./MarketplaceRewards";
 import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
+import { MarketplaceHotNow } from "./MarketplaceHotNow";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -77,11 +78,14 @@ export const MarketplaceNavigation: React.FC = () => {
           ) : (
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
+              <Route path="/hot" element={<MarketplaceHotNow />} />
               <Route path="/offers" element={<MyOffers />} />
               <Route path="/listings" element={<MarketplaceListings />} />
               <Route path="/rewards" element={<MarketplaceRewards />} />
               <Route path="/collection/*" element={<Collection />} />
               <Route path="/:collection/:id" element={<Tradeable />} />
+              {/* default to hot */}
+              <Route path="/" element={<MarketplaceHotNow />} />
             </Routes>
           )}
         </div>
@@ -154,6 +158,12 @@ const Filters: React.FC = () => {
     <div className="p-1 h-full">
       <div className="flex flex-col h-full">
         <div>
+          <Option
+            icon={SUNNYSIDE.icons.expression_alerted}
+            label="Hot now"
+            onClick={() => navigate(`/marketplace/hot`)}
+            isActive={pathname === "/marketplace/hot"}
+          />
           <Option
             icon={lightning}
             label="Power ups"

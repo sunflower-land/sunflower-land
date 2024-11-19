@@ -1,4 +1,4 @@
-import { Collection, CollectionName } from "features/game/types/marketplace";
+import { Marketplace, CollectionName } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -12,7 +12,7 @@ export async function loadMarketplace({
 }: {
   filters: string; // Comma separated list of filters
   token: string;
-}): Promise<Collection> {
+}): Promise<Marketplace> {
   const url = new URL(`${API_URL}/marketplace?filters=${filters}`);
 
   const response = await window.fetch(url.toString(), {

@@ -1,5 +1,5 @@
 import { Loading } from "features/auth/components";
-import { Collection as ICollection } from "features/game/types/marketplace";
+import { Marketplace as ICollection } from "features/game/types/marketplace";
 import React, { useContext, useEffect, useState } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
@@ -110,7 +110,6 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
                 supply={item.supply}
                 type={item.collection}
                 id={item.id}
-                buff={display.buff}
                 onClick={() => {
                   navigate(`/marketplace/${item.collection}/${item.id}`);
                 }}

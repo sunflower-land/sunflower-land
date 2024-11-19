@@ -45,7 +45,7 @@ export const ListViewCard: React.FC<Props> = ({
         variant="card"
         className="h-full flex flex-col"
       >
-        <div className="flex flex-col items-center h-20 p-2">
+        <div className="flex flex-col items-center h-20 p-2 pt-4">
           <img src={image} className="h-full" />
         </div>
 
