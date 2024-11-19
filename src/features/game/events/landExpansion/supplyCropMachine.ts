@@ -23,11 +23,12 @@ type Options = {
   createdAt?: number;
 };
 
-export const MAX_QUEUE_SIZE = (state: GameState): number => {
-  return state.bumpkin.skills["Field Extension Module"] ? 10 : 5;
-};
+export const MAX_QUEUE_SIZE = (state: GameState): number =>
+  state.bumpkin.skills["Field Expansion Module"] ? 10 : 5;
 
-export const CROP_MACHINE_PLOTS = 10;
+export const CROP_MACHINE_PLOTS = (state: GameState): number =>
+  state.bumpkin.skills["Field Extension Module"] ? 15 : 10;
+
 export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
   let addtionalOil = 1;
   if (state.bumpkin.skills["Crop Processor Unit"]) {
@@ -52,8 +53,11 @@ export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
   return oilConsumedPerHour;
 };
 // 2 days worth of oil
-export const MAX_OIL_CAPACITY_IN_HOURS = 48;
-export const MAX_OIL_CAPACITY_IN_MILLIS = 48 * 60 * 60 * 1000;
+export const MAX_OIL_CAPACITY_IN_HOURS = (state: GameState) =>
+  state.bumpkin.skills["Leak-Proof Tank"] ? 48 * 3 : 48;
+
+export const MAX_OIL_CAPACITY_IN_MILLIS = (state: GameState) =>
+  MAX_OIL_CAPACITY_IN_HOURS(state) * 60 * 60 * 1000;
 
 export function getTotalOilMillisInMachine(
   queue: CropMachineQueueItem[],
@@ -117,7 +121,7 @@ export function calculateCropTime(
     milliSeconds = milliSeconds * 0.8;
   }
 
-  return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS;
+  return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS(state);
 }
 
 export function getOilTimeInMillis(oil: number, state: GameState) {
@@ -363,7 +367,7 @@ export function supplyCropMachine({
 
   if (
     oilMillisInMachine + getOilTimeInMillis(oilAdded, state) >
-    MAX_OIL_CAPACITY_IN_MILLIS
+    MAX_OIL_CAPACITY_IN_MILLIS(state)
   ) {
     throw new Error("Oil capacity exceeded");
   }

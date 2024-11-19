@@ -11,6 +11,7 @@ export type Tradeable = {
   id: number;
   floor: number;
   supply: number;
+  collection: CollectionName;
 };
 
 export type Offer = {
@@ -44,8 +45,7 @@ export type TradeableDetails = Tradeable & {
   history: PriceHistory[];
 };
 
-export type Collection = {
-  type: CollectionName;
+export type Marketplace = {
   items: Tradeable[];
 };
 

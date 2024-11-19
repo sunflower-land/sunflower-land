@@ -1275,7 +1275,7 @@ describe("deliver", () => {
     expect(state.coins).toEqual(100);
   });
 
-  it("gives 50% more Coins profit on completed fruit deliveries if player has Fruity Profit skill", () => {
+  it("gives 100% (x2) more Coins profit on completed fruit deliveries if player has Fruity Profit skill", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1313,7 +1313,7 @@ describe("deliver", () => {
       },
     });
 
-    expect(state.coins).toEqual(480);
+    expect(state.coins).toEqual(640);
   });
 
   it("does not give Fruity Profit bonus if item is not fruit", () => {
