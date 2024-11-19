@@ -24,7 +24,6 @@ describe("receiveTrade", () => {
       state: {
         ...TEST_FARM,
         trades: {
-          tradePoints: 0,
           listings: {
             "123": {
               collection: "resources",
@@ -53,7 +52,6 @@ describe("receiveTrade", () => {
       state: {
         ...TEST_FARM,
         trades: {
-          tradePoints: 0,
           listings: {
             "123": {
               collection: "resources",

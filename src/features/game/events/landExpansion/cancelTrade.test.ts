@@ -24,7 +24,6 @@ describe("cancelTrade", () => {
         state: {
           ...TEST_FARM,
           trades: {
-            tradePoints: 0,
             listings: {
               "123": {
                 collection: "resources",
@@ -53,7 +52,6 @@ describe("cancelTrade", () => {
         ...TEST_FARM,
         inventory: {},
         trades: {
-          tradePoints: 0,
           listings: {
             "123": {
               collection: "resources",
@@ -79,7 +77,6 @@ describe("cancelTrade", () => {
       state: {
         ...TEST_FARM,
         trades: {
-          tradePoints: 0,
           listings: {
             "123": {
               collection: "resources",

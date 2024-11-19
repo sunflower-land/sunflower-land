@@ -25,7 +25,6 @@ describe("offer.claimed", () => {
         state: {
           ...INITIAL_FARM,
           trades: {
-            tradePoints: 0,
             offers: {
               "123": {
                 collection: "collectibles",
@@ -51,7 +50,6 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
-          tradePoints: 0,
           offers: {
             "123": {
               collection: "collectibles",
@@ -80,7 +78,6 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
-          tradePoints: 0,
           offers: {
             "123": {
               collection: "wearables",
@@ -109,7 +106,6 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
-          tradePoints: 0,
           offers: {
             "123": {
               collection: "collectibles",
@@ -139,7 +135,6 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
-          tradePoints: 0,
           offers: {
             "123": {
               collection: "collectibles",

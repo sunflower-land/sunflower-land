@@ -1423,7 +1423,7 @@ export interface GameState {
   trades: {
     listings?: Record<string, TradeListing>;
     offers?: Record<string, TradeOffer>;
-    tradePoints: number;
+    tradePoints?: number;
     dailyListings?: { date: number; count: number };
     dailyPurchases?: { date: number; count: number };
   };

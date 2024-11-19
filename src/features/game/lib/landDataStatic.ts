@@ -927,7 +927,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   trades: {
-    tradePoints: 0,
     listings: {
       "1": {
         collection: "resources",

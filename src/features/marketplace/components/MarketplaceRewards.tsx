@@ -20,7 +20,7 @@ export const MarketplaceRewards: React.FC = () => {
   // To be used to access total tradePoints
   const tradePoints = useSelector(gameService, _tradingPoints);
 
-  return <TradePointsProgressBar tradingPoints={tradePoints} />;
+  return <TradePointsProgressBar tradingPoints={tradePoints ?? 0} />;
 };
 
 const TradePointsProgressBar: React.FC<{ tradingPoints: number }> = ({

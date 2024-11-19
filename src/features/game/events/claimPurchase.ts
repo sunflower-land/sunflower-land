@@ -1,6 +1,7 @@
 import { produce } from "immer";
 import { GameState } from "../types/game";
 import { getKeys } from "../types/decorations";
+import { addTradePoints } from "./landExpansion/addTradePoints";
 
 export type ClaimPurchaseAction = {
   type: "purchase.claimed";
@@ -35,10 +36,27 @@ export function claimPurchase({ state, action }: Options) {
       return !game.trades.listings?.[purchaseId].signature;
     });
 
+    const onchainPurchases = purchaseIds.filter((purchaseIds) => {
+      return !!game.trades.listings?.[purchaseIds].signature;
+    });
+
     instantPurchases.forEach((purchaseId) => {
       game.balance = game.balance.plus(
         game.trades.listings?.[purchaseId].sfl ?? 0,
-      );
+      ); // Add points to seller for instant trade
+      game = addTradePoints({
+        state: game,
+        points: 1,
+        sfl: game.trades.listings?.[purchaseId].sfl ?? 0,
+      });
+    });
+
+    onchainPurchases.forEach((purchaseId) => {
+      game = addTradePoints({
+        state: game,
+        points: 5,
+        sfl: game.trades.listings?.[purchaseId].sfl ?? 0,
+      });
     });
 
     purchaseIds.forEach((purchaseId) => {

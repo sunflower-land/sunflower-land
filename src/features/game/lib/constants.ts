@@ -577,9 +577,7 @@ export const INITIAL_FARM: GameState = {
 
   stock: INITIAL_STOCK(),
   chickens: {},
-  trades: {
-    tradePoints: 0,
-  },
+  trades: {},
   buildings: {
     "Town Center": [
       {
@@ -772,9 +770,7 @@ export const TEST_FARM: GameState = {
   mailbox: {
     read: [],
   },
-  trades: {
-    tradePoints: 0,
-  },
+  trades: {},
   crops: {
     1: {
       createdAt: Date.now(),
@@ -1097,9 +1093,7 @@ export const EMPTY: GameState = {
   dailyRewards: { streaks: 0 },
   auctioneer: {},
 
-  trades: {
-    tradePoints: 0,
-  },
+  trades: {},
   fruitPatches: {},
   beehives: {},
   flowers: {
