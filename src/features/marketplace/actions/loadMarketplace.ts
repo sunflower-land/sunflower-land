@@ -4,14 +4,16 @@ import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
 
-export async function loadCollection({
-  type,
+export type MarketplaceFilter = CollectionName | "utility";
+
+export async function loadMarketplace({
+  filters,
   token,
 }: {
-  type: CollectionName;
+  filters: string; // Comma separated list of filters
   token: string;
 }): Promise<Collection> {
-  const url = new URL(`${API_URL}/collection/${type}`);
+  const url = new URL(`${API_URL}/marketplace?filters=${filters}`);
 
   const response = await window.fetch(url.toString(), {
     method: "GET",

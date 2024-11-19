@@ -11,6 +11,7 @@ export type Tradeable = {
   id: number;
   floor: number;
   supply: number;
+  collection: CollectionName;
 };
 
 export type Offer = {

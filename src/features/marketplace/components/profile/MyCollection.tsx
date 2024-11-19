@@ -128,6 +128,7 @@ export const MyCollection: React.FC = () => {
                     supply={0}
                     type={details.type}
                     id={item.id}
+                    buff={details.buff}
                     onClick={() => {
                       navigate(`/marketplace/${details.type}/${item.id}`);
                     }}
