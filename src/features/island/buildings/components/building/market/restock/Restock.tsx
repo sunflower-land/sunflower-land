@@ -122,7 +122,7 @@ const RestockSelectionModal: React.FC<{
     <>
       {!showEnhancedConfirm && !showConfirm && !showShipmentConfirm && (
         <>
-          <div className="flex flex-col p-2 items-start">
+          <div className="flex flex-col mx-2 mt-1 items-start">
             <Label type="default" className="mb-2" icon={stockIcon}>
               {t("restock")}
             </Label>
