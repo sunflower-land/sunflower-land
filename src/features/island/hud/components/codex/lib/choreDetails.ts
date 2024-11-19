@@ -682,11 +682,11 @@ export const CHORE_DETAILS: Record<
     description: translate("chore.grow.3.white.cosmos"),
     icon: ITEM_DETAILS["White Cosmos"].image,
   },
-  "Grow 6 Purple Daffodil 6 times": {
+  "Grow Purple Daffodil 6 times": {
     description: translate("chore.grow.6.purple.daffodil"),
     icon: ITEM_DETAILS["Purple Daffodil"].image,
   },
-  "Grow 6 Red Balloon Flower 6 times": {
+  "Grow Red Balloon Flower 6 times": {
     description: translate("chore.grow.6.red.balloon.flower"),
     icon: ITEM_DETAILS["Red Balloon Flower"].image,
   },

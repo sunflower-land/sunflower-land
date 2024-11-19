@@ -1031,11 +1031,11 @@ export const NPC_CHORES = {
     activity: "White Cosmos Harvested",
     amount: 3,
   }),
-  "Grow 6 Purple Daffodil 6 times": farmActivityTask({
+  "Grow Purple Daffodil 6 times": farmActivityTask({
     activity: "Purple Daffodil Harvested",
     amount: 6,
   }),
-  "Grow 6 Red Balloon Flower 6 times": farmActivityTask({
+  "Grow Red Balloon Flower 6 times": farmActivityTask({
     activity: "Red Balloon Flower Harvested",
     amount: 6,
   }),
