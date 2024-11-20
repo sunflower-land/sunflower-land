@@ -270,7 +270,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <NumberInput
                 value={price}
                 onValueChange={(decimal) => setPrice(decimal.toNumber())}
-                maxDecimalPlaces={0}
+                maxDecimalPlaces={2}
                 icon={sflIcon}
               />
             </div>
