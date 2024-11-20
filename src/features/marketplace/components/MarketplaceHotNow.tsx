@@ -9,6 +9,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
 import walletIcon from "assets/icons/wallet.png";
+import { CONFIG } from "lib/config";
 
 export const MarketplaceHotNow: React.FC = () => {
   const navigate = useNavigate();
@@ -25,33 +26,35 @@ export const MarketplaceHotNow: React.FC = () => {
           <p className="text-sm mb-2">{t("marketplace.welcomeDescription")}</p>
 
           <div className="flex flex-wrap ">
-            <div className="w-full sm:w-1/3 xl:w-1/4 pr-1">
-              <ButtonPanel
-                className="w-full h-full"
-                onClick={() =>
-                  navigate("/marketplace/collection?filters=resources")
-                }
-              >
-                <div className="flex items-center">
-                  <img
-                    src={ITEM_DETAILS.Eggplant.image}
-                    className="w-10 mr-2"
-                  />
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center">
-                      <p>{t("marketplace.resources")}</p>
-                      <img
-                        src={SUNNYSIDE.icons.chevron_right}
-                        className="h-4"
-                      />
+            {CONFIG.NETWORK !== "mainnet" && (
+              <div className="w-full sm:w-1/3 xl:w-1/4 pr-1">
+                <ButtonPanel
+                  className="w-full h-full"
+                  onClick={() =>
+                    navigate("/marketplace/collection?filters=resources")
+                  }
+                >
+                  <div className="flex items-center">
+                    <img
+                      src={ITEM_DETAILS.Eggplant.image}
+                      className="w-10 mr-2"
+                    />
+                    <div className="flex-1">
+                      <div className="flex justify-between items-center">
+                        <p>{t("marketplace.resources")}</p>
+                        <img
+                          src={SUNNYSIDE.icons.chevron_right}
+                          className="h-4"
+                        />
+                      </div>
+                      <p className="text-xs">
+                        {t("marketplace.resourcesDescription")}
+                      </p>
                     </div>
-                    <p className="text-xs">
-                      {t("marketplace.resourcesDescription")}
-                    </p>
                   </div>
-                </div>
-              </ButtonPanel>
-            </div>
+                </ButtonPanel>
+              </div>
+            )}
 
             <div className="w-full sm:w-1/3 xl:w-1/4 pr-1">
               <ButtonPanel
