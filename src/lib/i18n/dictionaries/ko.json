@@ -4380,5 +4380,20 @@
   "skill.premiumWorms": "프리미엄 퇴비포스터에서 수집 시 래피드 루트 +10",
   "skill.lauriesGains": "웃는 크로우 로리의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다.",
   "marketplace": "마켓플레이스",
-  "marketplace.buy": "구매, 교환, 판매!"
+  "marketplace.buy": "구매, 교환, 판매!",
+  "marketplace.item": "아이템",
+  "marketplace.unitPrice": "단위 가격",
+  "marketplace.7dChange": "7일 변경",
+  "marketplace.welcome": "마켓플레이스에 오신 것을 환영합니다",
+  "marketplace.welcomeDescription": "최신 아이템을 탐색하고 다른 플레이어와 거래하여 나만의 농업 제국을 건설하세요",
+  "marketplace.resources": "리소스",
+  "marketplace.resourcesDescription": "농작물, 자원, 계란 등을 거래하세요",
+  "marketplace.powerUps": "파워 업",
+  "marketplace.powerUpsDescription": "독점 아이템으로 농사를 강화하세요",
+  "marketplace.cosmetics": "코스메틱",
+  "marketplace.cosmeticsDescription": "희귀 아이템으로 농장을 장식하세요",
+  "marketplace.trending": "추세",
+  "marketplace.totalVolume": "총 거래량",
+  "marketplace.totalTrades": "총 거래",
+  "marketplace.walletsHoldingCollectibles": "수집품을 담는 지갑"
 }

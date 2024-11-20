@@ -45,8 +45,7 @@ export type TradeableDetails = Tradeable & {
   history: PriceHistory[];
 };
 
-export type Collection = {
-  type: CollectionName;
+export type Marketplace = {
   items: Tradeable[];
 };
 

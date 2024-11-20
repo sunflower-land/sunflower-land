@@ -4380,5 +4380,20 @@
   "skill.premiumWorms": "从 Premium Composter 收集时获得+10 快速生根",
   "skill.lauriesGains": "将 Chuckle Crow Laurie 的效果区域 (AOE) 增加到 7x7 区域",
   "marketplace": "市场",
-  "marketplace.buy": "买入、交换、卖出！"
+  "marketplace.buy": "买入、交换、卖出！",
+  "marketplace.item": "物品",
+  "marketplace.unitPrice": "单价",
+  "marketplace.7dChange": "7d 零钱",
+  "marketplace.welcome": "欢迎来到市场",
+  "marketplace.welcomeDescription": "探索最新物品并与其他玩家交易以建立您的农业帝国",
+  "marketplace.resources": "资源",
+  "marketplace.resourcesDescription": "交易农作物、资源、鸡蛋等",
+  "marketplace.powerUps": "加电",
+  "marketplace.powerUpsDescription": "使用专属物品促进您的农业发展",
+  "marketplace.cosmetics": "化妆品",
+  "marketplace.cosmeticsDescription": "用稀有物品装饰你的农场",
+  "marketplace.trending": "趋势",
+  "marketplace.totalVolume": "总音量",
+  "marketplace.totalTrades": "交易总数",
+  "marketplace.walletsHoldingCollectibles": "装有收藏品的钱包"
 }

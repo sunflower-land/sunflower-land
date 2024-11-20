@@ -4380,5 +4380,20 @@
   "npcDialogues.corale.chore2": "Something big is disturbing the ocean's natural balance...",
   "npcDialogues.corale.chore3": "The fish say they've seen cow-like shadows in deeper waters!",
   "marketplace": "Marketplace",
-  "marketplace.buy": "Buy, swap, sell!"
+  "marketplace.buy": "Buy, swap, sell!",
+  "marketplace.item": "Item",
+  "marketplace.unitPrice": "Unit Price",
+  "marketplace.7dChange": "7d Change",
+  "marketplace.welcome": "Welcome to the Marketplace",
+  "marketplace.welcomeDescription": "Explore the latest items & trade with other players to build your farming empire",
+  "marketplace.resources": "Resources",
+  "marketplace.resourcesDescription": "Trade crops, resources, eggs & more",
+  "marketplace.powerUps": "Power ups",
+  "marketplace.powerUpsDescription": "Boost your farming with exclusive items",
+  "marketplace.cosmetics": "Cosmetics",
+  "marketplace.cosmeticsDescription": "Decorate your farm with rare items",
+  "marketplace.trending": "Trending",
+  "marketplace.totalVolume": "Total Volume",
+  "marketplace.totalTrades": "Total Trades",
+  "marketplace.walletsHoldingCollectibles": "Wallets holding collectibles"
 }

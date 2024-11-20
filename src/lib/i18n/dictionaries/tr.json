@@ -4380,5 +4380,20 @@
   "skill.premiumWorms": "Premium Komposterden toplarken +10 Hızlı Kök",
   "skill.lauriesGains": "Laurie the Chuckle Crow'un etki alanını (AOE) 7x7 alana çıkarır",
   "marketplace": "Pazar Yeri",
-  "marketplace.buy": "Satın al, takas et, sat!"
+  "marketplace.buy": "Satın al, takas et, sat!",
+  "marketplace.item": "Öğe",
+  "marketplace.unitPrice": "Birim Fiyat",
+  "marketplace.7dChange": "7d Değişiklik",
+  "marketplace.welcome": "Marketplace'e Hoş Geldiniz",
+  "marketplace.welcomeDescription": "En son öğeleri keşfedin ve çiftçilik imparatorluğunuzu inşa etmek için diğer oyuncularla ticaret yapın",
+  "marketplace.resources": "Kaynaklar",
+  "marketplace.resourcesDescription": "Mahsul, kaynak, yumurta ve daha fazlasını ticareti yapın",
+  "marketplace.powerUps": "Güç artışları",
+  "marketplace.powerUpsDescription": "Özel ürünlerle çiftçiliğinizi güçlendirin",
+  "marketplace.cosmetics": "Kozmetik",
+  "marketplace.cosmeticsDescription": "Çiftliğinizi nadir eşyalarla süsleyin",
+  "marketplace.trending": "Trend",
+  "marketplace.totalVolume": "Toplam Hacim",
+  "marketplace.totalTrades": "Toplam İşlem",
+  "marketplace.walletsHoldingCollectibles": "Koleksiyon parçaları tutan cüzdanlar"
 }

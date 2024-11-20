@@ -8,6 +8,7 @@ import {
 } from "features/game/lib/style";
 
 import usedButton from "assets/ui/used_button.png";
+import cardButton from "assets/ui/card_button.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
@@ -140,10 +141,17 @@ export const ButtonPanel: React.FC<
   ButtonPanelProps & {
     disabled?: boolean;
     selected?: boolean;
-    frozen?: boolean;
+    variant?: "primary" | "secondary" | "card";
   }
-> = ({ children, disabled, frozen, ...divProps }) => {
+> = ({ children, disabled, variant, ...divProps }) => {
   const { className, style, selected, ...otherDivProps } = divProps;
+
+  let borderImage = SUNNYSIDE.ui.primaryButton;
+  if (variant === "secondary") {
+    borderImage = usedButton;
+  } else if (variant === "card") {
+    borderImage = cardButton;
+  }
 
   return (
     <div
@@ -155,7 +163,7 @@ export const ButtonPanel: React.FC<
       style={{
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${frozen ? usedButton : SUNNYSIDE.ui.primaryButton}) 3 3 4 3 fill`,
+        borderImage: `url(${borderImage}) 3 3 4 3 fill`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         imageRendering: "pixelated",

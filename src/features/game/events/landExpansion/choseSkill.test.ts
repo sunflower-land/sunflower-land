@@ -59,14 +59,14 @@ describe("choseSkill", () => {
     });
   });
 
-  it("throws an error if player doesn't have enough claimed skills for tier 2", () => {
+  it("throws an error if player doesn't have enough used skill points for tier 2", () => {
     expect(() => {
       choseSkill({
         state: {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_EXPERIENCE[5],
+            experience: LEVEL_EXPERIENCE[4],
             skills: { "Green Thumb 2": 1 },
           },
         },
@@ -82,7 +82,7 @@ describe("choseSkill", () => {
         ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[5],
+          experience: LEVEL_EXPERIENCE[4],
           skills: { "Green Thumb 2": 1, "Young Farmer": 1 },
         },
       },
@@ -97,19 +97,18 @@ describe("choseSkill", () => {
     });
   });
 
-  it("throws an error if player doesn't have enough claimed skills for tier 3", () => {
+  it("throws an error if player doesn't have enough used skill points for tier 3", () => {
     expect(() => {
       choseSkill({
         state: {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_EXPERIENCE[7],
+            experience: LEVEL_EXPERIENCE[8],
             skills: {
               "Green Thumb 2": 1,
               "Young Farmer": 1,
               "Experienced Farmer": 1,
-              "Betty's Friend": 1,
             },
           },
         },
@@ -125,13 +124,12 @@ describe("choseSkill", () => {
         ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[10],
+          experience: LEVEL_EXPERIENCE[8],
           skills: {
             "Green Thumb 2": 1,
             "Young Farmer": 1,
             "Experienced Farmer": 1,
-            "Betty's Friend": 1,
-            "Efficient Bin": 1,
+            "Strong Roots": 1,
           },
         },
       },
@@ -143,8 +141,7 @@ describe("choseSkill", () => {
       "Green Thumb 2": 1,
       "Young Farmer": 1,
       "Experienced Farmer": 1,
-      "Betty's Friend": 1,
-      "Efficient Bin": 1,
+      "Strong Roots": 1,
       "Instant Growth": 1,
     });
   });

@@ -4380,5 +4380,20 @@
   "skill.premiumWorms": "+10 Rapid Root lors de la collecte auprès de Premium Composter",
   "skill.lauriesGains": "Augmente la zone d'effet (AOE) de Laurie the Guckle Crow à une zone 7x7",
   "marketplace": "Place de marché",
-  "marketplace.buy": "Achetez, échangez, vendez !"
+  "marketplace.buy": "Achetez, échangez, vendez !",
+  "marketplace.item": "Article",
+  "marketplace.unitPrice": "Prix unitaire",
+  "marketplace.7dChange": "Modification 7d",
+  "marketplace.welcome": "Bienvenue sur la place de marché",
+  "marketplace.welcomeDescription": "Explorez les derniers objets et échangez avec d'autres joueurs pour construire votre empire agricole",
+  "marketplace.resources": "Ressources",
+  "marketplace.resourcesDescription": "Échangez des récoltes, des ressources, des œufs et plus encore",
+  "marketplace.powerUps": "Powerups",
+  "marketplace.powerUpsDescription": "Boostez votre agriculture avec des objets exclusifs",
+  "marketplace.cosmetics": "Cosmétiques",
+  "marketplace.cosmeticsDescription": "Décorez votre ferme avec des objets rares",
+  "marketplace.trending": "Tendance",
+  "marketplace.totalVolume": "Volume total",
+  "marketplace.totalTrades": "Total des transactions",
+  "marketplace.walletsHoldingCollectibles": "Portefeuilles contenant des objets de collection"
 }

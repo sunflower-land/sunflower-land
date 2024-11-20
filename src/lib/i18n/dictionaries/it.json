@@ -4380,5 +4380,20 @@
   "skill.premiumWorms": "+10 Rapid Root raccogliendo da Premium Composter",
   "skill.lauriesGains": "Aumenta l'area d'effetto (AOE) di Laurie the Chuckle Crow a un'area di 7x7",
   "marketplace": "Marketplace",
-  "marketplace.buy": "Compra, scambia, vendi!"
+  "marketplace.buy": "Compra, scambia, vendi!",
+  "marketplace.item": "Oggetto",
+  "marketplace.unitPrice": "Prezzo unitario",
+  "marketplace.7dChange": "Modifica 7d",
+  "marketplace.welcome": "Benvenuto nel Marketplace",
+  "marketplace.welcomeDescription": "Esplora gli ultimi oggetti e commercia con altri giocatori per costruire il tuo impero agricolo",
+  "marketplace.resources": "Risorse",
+  "marketplace.resourcesDescription": "Scambia colture, risorse, uova e altro",
+  "marketplace.powerUps": "Potenziamenti",
+  "marketplace.powerUpsDescription": "Potenzia la tua agricoltura con oggetti esclusivi",
+  "marketplace.cosmetics": "Cosmetici",
+  "marketplace.cosmeticsDescription": "Decora la tua fattoria con oggetti rari",
+  "marketplace.trending": "Di tendenza",
+  "marketplace.totalVolume": "Volume totale",
+  "marketplace.totalTrades": "Totale transazioni",
+  "marketplace.walletsHoldingCollectibles": "Portafogli con oggetti da collezione"
 }
