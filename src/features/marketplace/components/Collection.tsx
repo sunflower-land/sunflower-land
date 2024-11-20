@@ -15,7 +15,10 @@ import debounce from "lodash.debounce";
 
 const _listings = (state: MachineState) => state.context.state.trades.listings;
 
-export const Collection: React.FC<{ search?: string }> = ({ search }) => {
+export const Collection: React.FC<{
+  search?: string;
+  onNavigated?: () => void;
+}> = ({ search, onNavigated }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
@@ -113,6 +116,7 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
                 id={item.id}
                 onClick={() => {
                   navigate(`/marketplace/${item.collection}/${item.id}`);
+                  onNavigated?.();
                 }}
               />
             </div>

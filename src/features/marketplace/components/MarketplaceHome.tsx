@@ -77,7 +77,7 @@ export const MarketplaceNavigation: React.FC = () => {
 
         <div className="flex-1 flex flex-col">
           {search ? (
-            <Collection search={search} />
+            <Collection search={search} onNavigated={() => setSearch("")} />
           ) : (
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
