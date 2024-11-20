@@ -108,6 +108,7 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
                 price={new Decimal(item.floor)}
                 image={display.image}
                 supply={item.supply}
+                buff={display.buff}
                 type={item.collection}
                 id={item.id}
                 onClick={() => {

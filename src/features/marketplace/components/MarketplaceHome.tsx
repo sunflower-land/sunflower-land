@@ -30,6 +30,9 @@ import { MarketplaceRewards } from "./MarketplaceRewards";
 import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
 import { MarketplaceHotNow } from "./MarketplaceHotNow";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { TransactionCountdown } from "features/island/hud/Transaction";
+import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -88,6 +91,17 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/" element={<MarketplaceHotNow />} />
             </Routes>
           )}
+        </div>
+
+        <div
+          className="absolute z-50 flex flex-col justify-between"
+          style={{
+            bottom: `${PIXEL_SCALE * 2}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+          }}
+        >
+          <TransactionCountdown />
+          <AuctionCountdown />
         </div>
       </div>
     </>
