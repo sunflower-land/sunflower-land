@@ -24,8 +24,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MarketplaceProfile } from "./MarketplaceProfile";
-import { MyOffers } from "./profile/MyOffers";
-import { MarketplaceListings } from "./MarketplaceListings";
+import { MyTrades } from "./profile/MyTrades";
 import { MarketplaceRewards } from "./MarketplaceRewards";
 import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
@@ -83,8 +82,7 @@ export const MarketplaceNavigation: React.FC = () => {
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
               <Route path="/hot" element={<MarketplaceHotNow />} />
-              <Route path="/offers" element={<MyOffers />} />
-              <Route path="/listings" element={<MarketplaceListings />} />
+              <Route path="/trades" element={<MyTrades />} />
               <Route path="/rewards" element={<MarketplaceRewards />} />
               <Route path="/collection/*" element={<Collection />} />
               <Route path="/:collection/:id" element={<Tradeable />} />
@@ -249,15 +247,9 @@ const Filters: React.FC = () => {
         <div>
           <Option
             icon={tradeIcon}
-            label="My offers"
-            onClick={() => navigate(`/marketplace/offers`)}
-            isActive={pathname === "/marketplace/offers"}
-          />
-          <Option
-            icon={tradeIcon}
-            label="My Listings"
-            onClick={() => navigate(`/marketplace/listings`)}
-            isActive={pathname === "/marketplace/listings"}
+            label="My trades"
+            onClick={() => navigate(`/marketplace/trades`)}
+            isActive={pathname === "/marketplace/trades"}
           />
         </div>
       </div>

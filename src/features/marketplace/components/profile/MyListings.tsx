@@ -79,7 +79,7 @@ export const MyListings: React.FC = () => {
         />
       </Modal>
 
-      <InnerPanel className="mb-2">
+      <InnerPanel className="mb-1">
         <div className="p-2">
           <Label className="mb-2" type="default" icon={trade}>
             {t("marketplace.myListings")}

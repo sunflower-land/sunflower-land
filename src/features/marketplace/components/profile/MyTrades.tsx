@@ -23,9 +23,21 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import sflIcon from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
+import { MyListings } from "./MyListings";
+import { MyCollection } from "./MyCollection";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
+
+export const MyTrades: React.FC = () => {
+  return (
+    <div className="overflow-y-scroll scrollable pr-1 h-full">
+      <MyOffers />
+      <MyListings />
+      <MyCollection />
+    </div>
+  );
+};
 
 export const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
@@ -100,7 +112,7 @@ export const MyOffers: React.FC = () => {
         />
       </Modal>
 
-      <InnerPanel className="mb-2">
+      <InnerPanel className="mb-1">
         <div className="p-2">
           <div className="flex justify-between items-center">
             <Label className="mb-2" type="default" icon={trade}>
