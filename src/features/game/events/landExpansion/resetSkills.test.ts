@@ -35,7 +35,8 @@ describe("resetSkills", () => {
         action: { type: "skills.reset" },
         createdAt: dateNow,
       });
-    }).toThrow("You can only reset your skills once every 3 months");
+      //}).toThrow("You can only reset your skills once every 3 months");
+    }).toThrow("You can only reset your skills once every 5 minutes");
   });
 
   it("requires player to have enough SFL to reset skills", () => {

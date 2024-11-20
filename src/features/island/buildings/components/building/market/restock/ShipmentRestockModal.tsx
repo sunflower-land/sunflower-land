@@ -63,18 +63,19 @@ export const ShipmentRestockModal: React.FC<{
   return (
     <>
       {restockIsEmpty ? (
-        <div className="p-1">
+        <div className="flex flex-col mx-2 mt-1 items-start">
           <Label type="danger" className="mb-2" icon={stockIcon}>
             {t("gems.noShipment")}
           </Label>
           <p className="text-sm mb-2">{t("gems.buyStock")}</p>
         </div>
       ) : (
-        <div className="p-1">
+        <div className="flex flex-col mx-2 mt-1 items-start">
           <Label type="default" className="mb-2" icon={stockIcon}>
             {t("gems.shipment.arrived")}
           </Label>
           <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
+          <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
         </div>
       )}
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">

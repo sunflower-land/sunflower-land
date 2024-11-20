@@ -241,7 +241,6 @@ export const Recipes: React.FC<Props> = ({
             <BuildingOilTank
               buildingName={buildingName}
               buildingId={buildingId}
-              currentlyCooking={currentlyCooking}
             />
           ) : null}
         </>

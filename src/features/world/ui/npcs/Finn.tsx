@@ -37,12 +37,12 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
             text: intro,
             actions: [
               {
-                text: t("delivery"),
-                cb: () => handleConfirm(0),
-              },
-              {
                 text: t("buy"),
                 cb: () => handleConfirm(1),
+              },
+              {
+                text: t("delivery"),
+                cb: () => handleConfirm(0),
               },
             ],
           },

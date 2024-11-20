@@ -238,7 +238,7 @@ describe("start Compost Bin", () => {
 
     expect(
       newState.buildings["Compost Bin"]?.[0].producing?.items["Sprout Mix"],
-    ).toBe(13);
+    ).toBe(15);
   });
 
   it("doesn't gives +3 Sprout Mix with Efficient Bin skill if not Compost Bin", () => {

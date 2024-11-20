@@ -82,7 +82,6 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
       <Modal show={showConfirm} onHide={hideConfirmModal}>
         <CloseButtonPanel
           className="sm:w-4/5 m-auto"
-          bumpkinParts={NPC_WEARABLES[npc]}
           onClose={hideConfirmModal}
         >
           <RestockSelectionModal
@@ -115,7 +114,6 @@ const RestockSelectionModal: React.FC<{
   const { shopName, gemPrice, categoryLabel } = RestockItems[npc];
   const { labelText, icon } = categoryLabel;
   const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
-  const hasnpcRestockAccess = hasFeatureAccess(state, "ENHANCED_RESTOCK");
 
   const { ...shipmentTime } = shipmentAt;
 
@@ -123,84 +121,14 @@ const RestockSelectionModal: React.FC<{
     <>
       {!showEnhancedConfirm && !showConfirm && !showShipmentConfirm && (
         <>
-          <div className="flex flex-col p-2 items-start">
+          <div className="flex flex-col mx-2 mt-1 items-start">
             <Label type="default" className="mb-2" icon={stockIcon}>
               {t("restock")}
             </Label>
-            <span className="mb-1">
+            <p className="mb-1">
               {t("restock.outOfStock", { npc: capitalize(npc) })}
-            </span>
+            </p>
           </div>
-          {hasnpcRestockAccess && (
-            <Button
-              onClick={() => setShowEnhancedConfirm(true)}
-              disabled={showShipment}
-              className="flex justify-between relative"
-            >
-              <p className="capitalize p-1 mb-1">
-                {t("restock.shop", { shopName })}
-              </p>
-              <div className="flex w-full mb-1">
-                <div className="pb-1 mr-2 w-11 relative">
-                  <NPCIcon parts={NPC_WEARABLES[npc]} />
-                </div>
-                <div className="flex flex-col ml-3 mt-2">
-                  <Label type="default" icon={icon} className="ml-1 capitalize">
-                    {labelText}
-                  </Label>
-                </div>
-              </div>
-              <Label type="warning" className="absolute right-0 top-0 w-20 h-8">
-                <p className="mr-4">{gemPrice}</p>
-                <img
-                  src={ITEM_DETAILS["Gem"].image}
-                  className="h-5 absolute right-1 top-0"
-                />
-              </Label>
-            </Button>
-          )}
-          <Button
-            className="relative mt-1 justify-between"
-            onClick={() => setShowConfirm(true)}
-            disabled={showShipment}
-          >
-            <p className="capitalize p-1 mb-1 text-left">{t("restock.full")}</p>
-            <div className="flex w-full mb-1">
-              <div className="pb-1 mr-2 w-11">
-                <div className="absolute left-0">
-                  <NPCIcon parts={NPC_WEARABLES.betty} />
-                </div>
-                <div className="absolute left-3">
-                  <NPCIcon parts={NPC_WEARABLES.blacksmith} />
-                </div>
-                <div className="absolute left-6">
-                  <NPCIcon parts={NPC_WEARABLES.jafar} />
-                </div>
-              </div>
-              <div className="flex flex-row flex-wrap ml-3 mb-0.5">
-                {getKeys(RestockItems).map((npc) => {
-                  const { labelText, icon } = RestockItems[npc].categoryLabel;
-                  return (
-                    <Label
-                      key={npc}
-                      type="default"
-                      icon={icon}
-                      className="mt-1 ml-1 capitalize"
-                    >
-                      {labelText}
-                    </Label>
-                  );
-                })}
-              </div>
-              <Label type="warning" className="absolute right-0 top-0 w-20 h-8">
-                <p className="mr-4">{20}</p>
-                <img
-                  src={ITEM_DETAILS["Gem"].image}
-                  className="h-5 absolute right-1 top-0"
-                />
-              </Label>
-            </div>
-          </Button>
           {hasGemExperiment && (
             <Button
               className="relative mt-1 justify-between"
@@ -256,12 +184,14 @@ const RestockSelectionModal: React.FC<{
                   type="success"
                   className="absolute right-0 top-0 w-20 h-8"
                 >
-                  <p className="mr-4">{`Free`}</p>
+                  <p className="mr-4">{t("free")}</p>
                   <img src={stockIcon} className="h-5 absolute right-1 top-0" />
                 </Label>
               </div>
               {showShipment ? (
-                <div className="text-xs text-left">{`Your daily free shipment has arrived!`}</div>
+                <div className="text-xs text-left">
+                  {t("restock.shipmentArrived")}
+                </div>
               ) : (
                 <div className="px-1 text-xs flex flex-wrap mt-2">
                   <span className="mr-2">{t("gems.nextFreeShipment")}</span>
@@ -271,6 +201,74 @@ const RestockSelectionModal: React.FC<{
               )}
             </Button>
           )}
+          <Button
+            onClick={() => setShowEnhancedConfirm(true)}
+            disabled={showShipment}
+            className="flex justify-between relative"
+          >
+            <p className="capitalize p-1 mb-1">
+              {t("restock.shop", { shopName })}
+            </p>
+            <div className="flex w-full mb-1">
+              <div className="pb-1 mr-2 w-11 relative">
+                <NPCIcon parts={NPC_WEARABLES[npc]} />
+              </div>
+              <div className="flex flex-col ml-3 mt-2">
+                <Label type="default" icon={icon} className="ml-1 capitalize">
+                  {labelText}
+                </Label>
+              </div>
+            </div>
+            <Label type="warning" className="absolute right-0 top-0 w-20 h-8">
+              <p className="mr-4">{gemPrice}</p>
+              <img
+                src={ITEM_DETAILS["Gem"].image}
+                className="h-5 absolute right-1 top-0"
+              />
+            </Label>
+          </Button>
+          <Button
+            className="relative mt-1 justify-between"
+            onClick={() => setShowConfirm(true)}
+            disabled={showShipment}
+          >
+            <p className="capitalize p-1 mb-1 text-left">{t("restock.full")}</p>
+            <div className="flex w-full mb-1">
+              <div className="pb-1 mr-2 w-11">
+                <div className="absolute left-0">
+                  <NPCIcon parts={NPC_WEARABLES.betty} />
+                </div>
+                <div className="absolute left-3">
+                  <NPCIcon parts={NPC_WEARABLES.blacksmith} />
+                </div>
+                <div className="absolute left-6">
+                  <NPCIcon parts={NPC_WEARABLES.jafar} />
+                </div>
+              </div>
+              <div className="flex flex-row flex-wrap ml-3 mb-0.5">
+                {getKeys(RestockItems).map((npc) => {
+                  const { labelText, icon } = RestockItems[npc].categoryLabel;
+                  return (
+                    <Label
+                      key={npc}
+                      type="default"
+                      icon={icon}
+                      className="mt-1 ml-1 capitalize"
+                    >
+                      {labelText}
+                    </Label>
+                  );
+                })}
+              </div>
+              <Label type="warning" className="absolute right-0 top-0 w-20 h-8">
+                <p className="mr-4">{20}</p>
+                <img
+                  src={ITEM_DETAILS["Gem"].image}
+                  className="h-5 absolute right-1 top-0"
+                />
+              </Label>
+            </div>
+          </Button>
         </>
       )}
       {showEnhancedConfirm && (
