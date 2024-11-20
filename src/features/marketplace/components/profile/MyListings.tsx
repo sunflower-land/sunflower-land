@@ -9,7 +9,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getCollectionName, getTradeableDisplay } from "../../lib/tradeables";
-import { KNOWN_IDS } from "features/game/types";
 import Decimal from "decimal.js-light";
 import { useNavigate } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -110,7 +109,8 @@ export const MyListings: React.FC = () => {
                     const itemName = getKeys(
                       listing.items ?? {},
                     )[0] as InventoryItemName;
-                    const itemId = KNOWN_IDS[itemName];
+
+                    const itemId = getItemId({ details: listing });
                     const collection = getCollectionName(itemName);
                     const details = getTradeableDisplay({
                       id: itemId,
