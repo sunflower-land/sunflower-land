@@ -4271,7 +4271,6 @@
   "restock.full": "Полное пополнение запасов",
   "restock.outOfStock": "{{npc}} закончились запасы. Выберите желаемый вариант пополнения запасов ниже:",
   "restock.selectOption": "Выберите желаемый вариант пополнения запасов:",
-  "restock.itemsToRestock": "Следующие товары будут пополнены:",
   "restock.moreStock": "Пополните запасы, чтобы увеличить запасы.",
   "restock.dailyShipment": "Ежедневная отгрузка",
   "market": "рынок",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "В тренде",
   "marketplace.totalVolume": "Общий объем",
   "marketplace.totalTrades": "Всего сделок",
-  "marketplace.walletsHoldingCollectibles": "Кошельки с коллекционными предметами"
+  "marketplace.walletsHoldingCollectibles": "Кошельки с коллекционными предметами",
+  "restock.itemsToRestock": "Следующие количества будут добавлены к существующему запасу в вашем магазине:",
+  "restock.shipmentArrived": "Ваш ежедневный бесплатный груз прибыл!"
 }

@@ -4271,7 +4271,6 @@
   "restock.full": "完全再入荷",
   "restock.outOfStock": "{{npc}} は在庫切れです。ご希望の補充オプションを以下から選択してください。",
   "restock.selectOption": "ご希望の在庫補充オプションを選択してください:",
-  "restock.itemsToRestock": "次のアイテムが再入荷されます。",
   "restock.moreStock": "補充して在庫を増やしてください。",
   "restock.dailyShipment": "毎日の発送",
   "market": "市場",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "トレンド",
   "marketplace.totalVolume": "合計ボリューム",
   "marketplace.totalTrades": "合計取引数",
-  "marketplace.walletsHoldingCollectibles": "収集品が入った財布"
+  "marketplace.walletsHoldingCollectibles": "収集品が入った財布",
+  "restock.itemsToRestock": "以下の数量がショップの既存の在庫に追加されます。",
+  "restock.shipmentArrived": "毎日の無料配送が届きました！"
 }

@@ -4271,7 +4271,6 @@
   "restock.full": "Réapprovisionnement complet",
   "restock.outOfStock": "{{npc}} était en rupture de stock. Choisissez l'option de réapprovisionnement souhaitée ci-dessous :",
   "restock.selectOption": "Sélectionnez l'option de réapprovisionnement souhaitée :",
-  "restock.itemsToRestock": "Les articles suivants seront réapprovisionnés :",
   "restock.moreStock": "Réapprovisionnez pour obtenir plus de stock.",
   "restock.dailyShipment": "Expédition quotidienne",
   "market": "marché",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "Tendance",
   "marketplace.totalVolume": "Volume total",
   "marketplace.totalTrades": "Total des transactions",
-  "marketplace.walletsHoldingCollectibles": "Portefeuilles contenant des objets de collection"
+  "marketplace.walletsHoldingCollectibles": "Portefeuilles contenant des objets de collection",
+  "restock.itemsToRestock": "Les quantités suivantes seront ajoutées au stock existant dans votre boutique :",
+  "restock.shipmentArrived": "Votre envoi gratuit quotidien est arrivé !"
 }

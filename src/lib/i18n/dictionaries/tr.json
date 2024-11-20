@@ -4271,7 +4271,6 @@
   "restock.full": "Tam Stok Yenileme",
   "restock.outOfStock": "{{npc}} stokları tükendi. Aşağıdan istediğiniz stok yenileme seçeneğini seçin:",
   "restock.selectOption": "İstediğiniz stok yenileme seçeneğini seçin:",
-  "restock.itemsToRestock": "Aşağıdaki ürünler yeniden stoklanacaktır:",
   "restock.moreStock": "Daha fazla stok almak için stoklayın.",
   "restock.dailyShipment": "Günlük Sevkiyat",
   "market": "pazar",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "Trend",
   "marketplace.totalVolume": "Toplam Hacim",
   "marketplace.totalTrades": "Toplam İşlem",
-  "marketplace.walletsHoldingCollectibles": "Koleksiyon parçaları tutan cüzdanlar"
+  "marketplace.walletsHoldingCollectibles": "Koleksiyon parçaları tutan cüzdanlar",
+  "restock.itemsToRestock": "Mağazanızdaki mevcut stoklara aşağıdaki miktarlar eklenecektir:",
+  "restock.shipmentArrived": "Günlük ücretsiz gönderiniz geldi!"
 }

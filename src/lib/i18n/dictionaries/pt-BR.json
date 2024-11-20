@@ -4271,7 +4271,6 @@
   "restock.full": "Reabastecimento completo",
   "restock.outOfStock": "{{npc}} ficou sem estoque. Escolha a opção de reabastecimento desejada abaixo:",
   "restock.selectOption": "Selecione a opção de reabastecimento desejada:",
-  "restock.itemsToRestock": "Os seguintes itens serão reabastecidos:",
   "restock.moreStock": "Reabasteça para obter mais estoque.",
   "restock.dailyShipment": "Envio diário",
   "market": "feira",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "Tendências",
   "marketplace.totalVolume": "Volume total",
   "marketplace.totalTrades": "Total de negociações",
-  "marketplace.walletsHoldingCollectibles": "Carteiras com itens colecionáveis"
+  "marketplace.walletsHoldingCollectibles": "Carteiras com itens colecionáveis",
+  "restock.itemsToRestock": "As seguintes quantidades serão adicionadas ao estoque existente em sua loja:",
+  "restock.shipmentArrived": "Sua remessa gratuita diária chegou!"
 }

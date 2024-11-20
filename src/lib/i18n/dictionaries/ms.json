@@ -4271,7 +4271,6 @@
   "restock.full": "Stok Semula Penuh",
   "restock.outOfStock": "{{npc}} kehabisan stok. Pilih pilihan penyimpanan semula yang anda inginkan di bawah:",
   "restock.selectOption": "Pilih pilihan penyimpanan semula yang anda inginkan:",
-  "restock.itemsToRestock": "Item berikut akan disimpan semula:",
   "restock.moreStock": "Semula semula stok untuk mendapatkan lebih banyak stok.",
   "restock.dailyShipment": "Penghantaran Harian",
   "market": "pasaraya",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "Trending",
   "marketplace.totalVolume": "Jumlah Jumlah",
   "marketplace.totalTrades": "Jumlah Perdagangan",
-  "marketplace.walletsHoldingCollectibles": "Dompet yang memegang koleksi"
+  "marketplace.walletsHoldingCollectibles": "Dompet yang memegang koleksi",
+  "restock.itemsToRestock": "Kuantiti berikut akan ditambah kepada stok sedia ada di kedai anda:",
+  "restock.shipmentArrived": "Penghantaran percuma harian anda telah tiba!"
 }

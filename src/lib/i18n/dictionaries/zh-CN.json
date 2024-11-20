@@ -4271,7 +4271,6 @@
   "restock.full": "全额补货",
   "restock.outOfStock": "{{npc}} 缺货。在下面选择所需的补货选项：",
   "restock.selectOption": "选择您想要的补货选项：",
-  "restock.itemsToRestock": "以下物品将补货：",
   "restock.moreStock": "补货以获得更多库存。",
   "restock.dailyShipment": "每日发货",
   "market": "市场",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "趋势",
   "marketplace.totalVolume": "总音量",
   "marketplace.totalTrades": "交易总数",
-  "marketplace.walletsHoldingCollectibles": "装有收藏品的钱包"
+  "marketplace.walletsHoldingCollectibles": "装有收藏品的钱包",
+  "restock.itemsToRestock": "以下数量将添加到商店的现有库存中：",
+  "restock.shipmentArrived": "您的每日免费配送已到达！"
 }

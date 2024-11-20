@@ -4271,7 +4271,6 @@
   "restock.full": "전체 재입고",
   "restock.outOfStock": "{{npc}} 재고가 소진되었습니다.아래에서 원하는 재고 보충 옵션을 선택하세요.",
   "restock.selectOption": "원하는 재고 보충 옵션을 선택합니다.",
-  "restock.itemsToRestock": "다음 품목이 재입고됩니다.",
   "restock.moreStock": "더 많은 재고를 얻으려면 재입고하십시오.",
   "restock.dailyShipment": "일일 배송",
   "market": "시장",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "추세",
   "marketplace.totalVolume": "총 거래량",
   "marketplace.totalTrades": "총 거래",
-  "marketplace.walletsHoldingCollectibles": "수집품을 담는 지갑"
+  "marketplace.walletsHoldingCollectibles": "수집품을 담는 지갑",
+  "restock.itemsToRestock": "매장의 기존 재고에 다음 수량이 추가됩니다.",
+  "restock.shipmentArrived": "매일 무료 배송이 도착했습니다!"
 }

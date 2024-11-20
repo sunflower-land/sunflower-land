@@ -4271,7 +4271,6 @@
   "restock.full": "Pengisian Ulang Penuh",
   "restock.outOfStock": "{{npc}} kehabisan stok. Pilih opsi restock yang Anda inginkan di bawah ini:",
   "restock.selectOption": "Pilih opsi restock yang Anda inginkan:",
-  "restock.itemsToRestock": "Barang-barang berikut akan diisi ulang:",
   "restock.moreStock": "Isi ulang untuk mendapatkan lebih banyak stok.",
   "restock.dailyShipment": "Pengiriman Harian",
   "market": "pasar",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "Tren",
   "marketplace.totalVolume": "Total Volume",
   "marketplace.totalTrades": "Total Perdagangan",
-  "marketplace.walletsHoldingCollectibles": "Dompet memegang barang koleksi"
+  "marketplace.walletsHoldingCollectibles": "Dompet memegang barang koleksi",
+  "restock.itemsToRestock": "Jumlah berikut akan ditambahkan ke stok yang ada di toko Anda:",
+  "restock.shipmentArrived": "Pengiriman gratis harian Anda telah tiba!"
 }

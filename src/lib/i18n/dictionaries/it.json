@@ -4271,7 +4271,6 @@
   "restock.full": "Rifornimento completo",
   "restock.outOfStock": "{{npc}} è esaurito. Scegli l'opzione di rifornimento desiderata qui sotto:",
   "restock.selectOption": "Seleziona l'opzione di rifornimento desiderata:",
-  "restock.itemsToRestock": "I seguenti articoli verranno riforniti:",
   "restock.moreStock": "Rifornisci per ottenere più scorte.",
   "restock.dailyShipment": "Spedizione giornaliera",
   "market": "mercato",
@@ -4395,5 +4394,7 @@
   "marketplace.trending": "Di tendenza",
   "marketplace.totalVolume": "Volume totale",
   "marketplace.totalTrades": "Totale transazioni",
-  "marketplace.walletsHoldingCollectibles": "Portafogli con oggetti da collezione"
+  "marketplace.walletsHoldingCollectibles": "Portafogli con oggetti da collezione",
+  "restock.itemsToRestock": "Le seguenti quantità verranno aggiunte alle scorte esistenti nel tuo negozio:",
+  "restock.shipmentArrived": "La tua spedizione giornaliera gratuita è arrivata!"
 }
