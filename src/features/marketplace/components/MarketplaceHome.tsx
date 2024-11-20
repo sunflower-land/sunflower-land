@@ -75,7 +75,7 @@ export const MarketplaceNavigation: React.FC = () => {
           </div>
         </InnerPanel>
 
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col w-full">
           {search ? (
             <Collection search={search} onNavigated={() => setSearch("")} />
           ) : (

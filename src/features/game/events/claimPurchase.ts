@@ -39,6 +39,9 @@ export function claimPurchase({ state, action }: Options) {
       game.balance = game.balance.plus(
         game.trades.listings?.[purchaseId].sfl ?? 0,
       );
+
+      game.bank.taxFreeSFL =
+        game.bank.taxFreeSFL + (game.trades.listings?.[purchaseId].sfl ?? 0);
     });
 
     purchaseIds.forEach((purchaseId) => {
