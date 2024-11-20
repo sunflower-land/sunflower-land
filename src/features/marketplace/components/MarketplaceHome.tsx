@@ -47,7 +47,7 @@ export const MarketplaceNavigation: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <div className="flex  items-center lg:hidden">
+      <div className="flex  items-center lg:hidden h-[50px]">
         <TextInput
           icon={SUNNYSIDE.icons.search}
           value={search}
@@ -60,7 +60,7 @@ export const MarketplaceNavigation: React.FC = () => {
         />
       </div>
 
-      <div className="flex h-full">
+      <div className="flex h-[calc(100%-50px)] lg:h-full">
         <InnerPanel className="w-64 h-96 mr-1 hidden lg:flex  flex-col">
           <div className="flex  items-center">
             <TextInput
