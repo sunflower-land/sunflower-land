@@ -4397,5 +4397,6 @@
   "marketplace.walletsHoldingCollectibles": "Portafogli con oggetti da collezione",
   "restock.itemsToRestock": "Le seguenti quantità verranno aggiunte alle scorte esistenti nel tuo negozio:",
   "restock.shipmentArrived": "La tua spedizione giornaliera gratuita è arrivata!",
-  "marketplace.onchainComingSoon": "Trading a catena in arrivo"
+  "marketplace.onchainComingSoon": "Trading a catena in arrivo",
+  "marketplace.sold": "Venduto"
 }
