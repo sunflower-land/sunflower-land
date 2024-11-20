@@ -58,7 +58,7 @@ export const ListViewCard: React.FC<Props> = ({
             marginBottom: "-2.6px",
           }}
         >
-          {price && (
+          {price && price.gt(0) && (
             <div className="flex items-center absolute top-0 left-0">
               <img src={sfl} className="h-5 mr-1" />
               <p className="text-xs">{`${price} `}</p>
