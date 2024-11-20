@@ -74,6 +74,14 @@ export const LevelProgress = ({
 
   const level = getAnimalLevel(experience, animal.type);
 
+  // An animal get xp on every feed so they may already be in the next level
+  // however, we want to have them interact with the "level up"
+  // so if an animal is ready, we want to show the previous level
+  const displayLevel =
+    animal.state === "ready" && !isMaxLevel(animal.type, level)
+      ? level - 1
+      : level;
+
   const hasLeveledUp =
     animalState === "ready" ||
     (animalState === "sleeping" && animal.state === "ready");
@@ -87,23 +95,16 @@ export const LevelProgress = ({
       return getMaxLevelCycleProgress(animal.type, experience);
     }
 
-    const currentThreshold = ANIMAL_LEVELS[animal.type][level as AnimalLevel];
+    const currentThreshold =
+      ANIMAL_LEVELS[animal.type][displayLevel as AnimalLevel];
     const nextThreshold =
-      ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel];
+      ANIMAL_LEVELS[animal.type][(displayLevel + 1) as AnimalLevel];
     return (
       ((displayExperience - currentThreshold) /
         (nextThreshold - currentThreshold)) *
       100
     );
   };
-
-  // An animal get xp on every feed so they may already be in the next level
-  // however, we want to have them interact with the "level up"
-  // so if an animal is ready, we want to show the previous level
-  const displayLevel =
-    animalState === "ready" && !isMaxLevel(animal.type, level)
-      ? level - 1
-      : level;
 
   return (
     <>
