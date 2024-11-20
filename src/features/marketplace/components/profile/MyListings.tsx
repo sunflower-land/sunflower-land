@@ -151,7 +151,7 @@ export const MyListings: React.FC = () => {
                           </div>
                         </td>
                         <td className="p-1.5 truncate flex items-center justify-end pr-2 h-full">
-                          {listing.boughtAt ? (
+                          {listing.fulfilledAt ? (
                             <Label type="success">
                               {t("marketplace.sold")}
                             </Label>
