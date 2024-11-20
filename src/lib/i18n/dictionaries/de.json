@@ -4397,5 +4397,6 @@
   "marketplace.walletsHoldingCollectibles": "Geldbörsen mit Sammlerstücken",
   "restock.itemsToRestock": "Die folgenden Mengen werden zu den vorhandenen Lagerbeständen in Ihrem Shop hinzugefügt:",
   "restock.shipmentArrived": "Ihre tägliche kostenlose Lieferung ist eingetroffen!",
-  "marketplace.onchainComingSoon": "Über den Kettenhandel in Kürze"
+  "marketplace.onchainComingSoon": "Über den Kettenhandel in Kürze",
+  "marketplace.sold": "Verkauft"
 }
