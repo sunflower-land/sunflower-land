@@ -4396,5 +4396,6 @@
   "marketplace.totalTrades": "Total des transactions",
   "marketplace.walletsHoldingCollectibles": "Portefeuilles contenant des objets de collection",
   "restock.itemsToRestock": "Les quantités suivantes seront ajoutées au stock existant dans votre boutique :",
-  "restock.shipmentArrived": "Votre envoi gratuit quotidien est arrivé !"
+  "restock.shipmentArrived": "Votre envoi gratuit quotidien est arrivé !",
+  "marketplace.onchainComingSoon": "Bientôt disponible sur le trading en chaîne"
 }

@@ -4396,5 +4396,6 @@
   "marketplace.totalTrades": "合計取引数",
   "marketplace.walletsHoldingCollectibles": "収集品が入った財布",
   "restock.itemsToRestock": "以下の数量がショップの既存の在庫に追加されます。",
-  "restock.shipmentArrived": "毎日の無料配送が届きました！"
+  "restock.shipmentArrived": "毎日の無料配送が届きました！",
+  "marketplace.onchainComingSoon": "オンチェーントレーディングは近日公開予定"
 }

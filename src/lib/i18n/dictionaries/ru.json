@@ -4396,5 +4396,6 @@
   "marketplace.totalTrades": "Всего сделок",
   "marketplace.walletsHoldingCollectibles": "Кошельки с коллекционными предметами",
   "restock.itemsToRestock": "Следующие количества будут добавлены к существующему запасу в вашем магазине:",
-  "restock.shipmentArrived": "Ваш ежедневный бесплатный груз прибыл!"
+  "restock.shipmentArrived": "Ваш ежедневный бесплатный груз прибыл!",
+  "marketplace.onchainComingSoon": "О сетевой торговле в ближайшее время"
 }
