@@ -4,6 +4,8 @@ import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SUNNYSIDE } from "assets/sunnyside";
 
+import secondaryButton from "assets/ui/secondary_button.png";
+
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -12,6 +14,10 @@ interface Props {
   disabled?: boolean;
   className?: string;
   type?: "button" | "submit" | undefined;
+
+  // Word for primary or secondary
+  variant?: "primary" | "secondary";
+
   longPress?: boolean;
   longPressInterval?: number;
 }
@@ -23,6 +29,7 @@ export const Button: React.FC<Props> = ({
   type,
   longPress = false,
   longPressInterval = 50,
+  variant = "primary",
 }) => {
   const longPressEvents = useLongPress(
     (e) =>
@@ -59,10 +66,12 @@ export const Button: React.FC<Props> = ({
       type={type}
       disabled={disabled}
       style={{
-        borderImage: `url(${SUNNYSIDE.ui.primaryButton})`,
+        borderImage: `url(${
+          variant === "primary" ? SUNNYSIDE.ui.primaryButton : secondaryButton
+        }) 3 3 4 3 fill`,
+
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
-        borderImageSlice: "3 3 4 3 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
         borderRadius: `${PIXEL_SCALE * 5}px`,

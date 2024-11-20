@@ -207,7 +207,7 @@ const HudComponent: React.FC<{
               src={marketplaceIcon}
               className="cursor-pointer absolute"
               onClick={() => {
-                navigate("/marketplace");
+                navigate("/marketplace/hot");
               }}
               style={{
                 width: `${PIXEL_SCALE * 22}px`,

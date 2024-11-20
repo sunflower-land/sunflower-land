@@ -1,5 +1,5 @@
 import { Loading } from "features/auth/components";
-import { Collection as ICollection } from "features/game/types/marketplace";
+import { Marketplace as ICollection } from "features/game/types/marketplace";
 import React, { useContext, useEffect, useState } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
@@ -15,7 +15,10 @@ import debounce from "lodash.debounce";
 
 const _listings = (state: MachineState) => state.context.state.trades.listings;
 
-export const Collection: React.FC<{ search?: string }> = ({ search }) => {
+export const Collection: React.FC<{
+  search?: string;
+  onNavigated?: () => void;
+}> = ({ search, onNavigated }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
@@ -58,6 +61,7 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
 
   // Debounce search and load
   useEffect(() => {
+    if (!search) return;
     const debouncedSearch = debounce(() => {
       load();
     }, 500);
@@ -98,7 +102,7 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
 
           return (
             <div
-              className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 pr-1 pb-1"
+              className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-[14.2%] pr-1 pb-1"
               key={`${item.collection}-${item.id}`}
             >
               <ListViewCard
@@ -107,10 +111,12 @@ export const Collection: React.FC<{ search?: string }> = ({ search }) => {
                 price={new Decimal(item.floor)}
                 image={display.image}
                 supply={item.supply}
+                buff={display.buff}
                 type={item.collection}
                 id={item.id}
                 onClick={() => {
                   navigate(`/marketplace/${item.collection}/${item.id}`);
+                  onNavigated?.();
                 }}
               />
             </div>

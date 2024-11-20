@@ -29,6 +29,10 @@ import { MarketplaceListings } from "./MarketplaceListings";
 import { MarketplaceRewards } from "./MarketplaceRewards";
 import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
+import { MarketplaceHotNow } from "./MarketplaceHotNow";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { TransactionCountdown } from "features/island/hud/Transaction";
+import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -73,17 +77,31 @@ export const MarketplaceNavigation: React.FC = () => {
 
         <div className="flex-1 flex flex-col">
           {search ? (
-            <Collection search={search} />
+            <Collection search={search} onNavigated={() => setSearch("")} />
           ) : (
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
+              <Route path="/hot" element={<MarketplaceHotNow />} />
               <Route path="/offers" element={<MyOffers />} />
               <Route path="/listings" element={<MarketplaceListings />} />
               <Route path="/rewards" element={<MarketplaceRewards />} />
               <Route path="/collection/*" element={<Collection />} />
               <Route path="/:collection/:id" element={<Tradeable />} />
+              {/* default to hot */}
+              <Route path="/" element={<MarketplaceHotNow />} />
             </Routes>
           )}
+        </div>
+
+        <div
+          className="absolute z-50 flex flex-col justify-between"
+          style={{
+            bottom: `${PIXEL_SCALE * 2}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+          }}
+        >
+          <TransactionCountdown />
+          <AuctionCountdown />
         </div>
       </div>
     </>
@@ -154,6 +172,12 @@ const Filters: React.FC = () => {
     <div className="p-1 h-full">
       <div className="flex flex-col h-full">
         <div>
+          <Option
+            icon={SUNNYSIDE.icons.expression_alerted}
+            label="Hot now"
+            onClick={() => navigate(`/marketplace/hot`)}
+            isActive={pathname === "/marketplace/hot"}
+          />
           <Option
             icon={lightning}
             label="Power ups"
