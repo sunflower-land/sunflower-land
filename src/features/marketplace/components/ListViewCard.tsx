@@ -19,6 +19,7 @@ type Props = {
   id: number;
   hasBoost: boolean;
   supply: number;
+  pricePerUnit?: number;
   price?: Decimal;
   onClick?: () => void;
   onRemove?: () => void;
@@ -36,6 +37,7 @@ export const ListViewCard: React.FC<Props> = ({
   supply,
   type,
   price,
+  pricePerUnit,
   onClick,
 }) => {
   return (

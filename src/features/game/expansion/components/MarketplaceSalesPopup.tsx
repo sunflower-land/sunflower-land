@@ -31,15 +31,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
     (id) => !!trades.listings?.[id].fulfilledAt,
   );
 
-  if (soldListingIds.length === 0) {
-    return (
-      <div>
-        <Button onClick={() => gameService.send("RESET")}>
-          {t("continue")}
-        </Button>
-      </div>
-    );
-  }
+  if (soldListingIds.length === 0) return null;
 
   const claimAll = () => {
     gameService.send("purchase.claimed", {

@@ -13,7 +13,6 @@ import Decimal from "decimal.js-light";
 import { useNavigate } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
-import { getItemId } from "features/marketplace/lib/offers";
 import { Modal } from "components/ui/Modal";
 import { ClaimPurchase } from "./ClaimPurchase";
 import { Button } from "components/ui/Button";
@@ -41,8 +40,6 @@ export const MyListings: React.FC = () => {
     gameService.send("purchase.claimed", {
       tradeIds: [claimId],
     });
-
-    const itemId = getItemId({ details: listing });
 
     // For on chain items let's fire a refresh
     const tradeType = listing.signature ? "onchain" : "instant";

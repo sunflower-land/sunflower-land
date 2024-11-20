@@ -40,7 +40,6 @@ export const Collection: React.FC<{
 
   const [isLoading, setIsLoading] = useState(true);
   const [collection, setCollection] = useState<ICollection>();
-
   const [removeListingIds, setRemoveListingIds] = useState<string[]>([]);
 
   const load = async () => {

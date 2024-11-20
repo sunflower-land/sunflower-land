@@ -1,7 +1,6 @@
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useState } from "react";
-
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
@@ -37,7 +36,6 @@ import { CONFIG } from "lib/config";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
-
   const [showFilters, setShowFilters] = useState(false);
 
   return (
@@ -86,7 +84,10 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/trades" element={<MyTrades />} />
               <Route path="/rewards" element={<MarketplaceRewards />} />
               <Route path="/collection/*" element={<Collection />} />
-              <Route path="/:collection/:id" element={<Tradeable />} />
+              <Route
+                path="/:collection/:id"
+                element={<Tradeable floorPrices={{}} />}
+              />
               {/* default to hot */}
               <Route path="/" element={<MarketplaceHotNow />} />
             </Routes>

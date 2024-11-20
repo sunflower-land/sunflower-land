@@ -14,6 +14,7 @@ import { TradeableOffers, YourOffer } from "./TradeableOffers";
 import { Context } from "features/game/GameProvider";
 import { KNOWN_ITEMS } from "features/game/types";
 import {
+  getBasketItems,
   getChestBuds,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
@@ -22,8 +23,11 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { TradeableHeader } from "./TradeableHeader";
 import { TradeableInfo } from "./TradeableInfo";
 import { TradeableListings, YourListings } from "./TradeableListings";
+import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 
-export const Tradeable: React.FC = () => {
+export const Tradeable: React.FC<{
+  floorPrices: FloorPrices;
+}> = ({ floorPrices }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
@@ -31,6 +35,7 @@ export const Tradeable: React.FC = () => {
 
   const farmId = gameState.context.farmId;
   const authToken = authState.context.user.rawToken as string;
+  const inventory = gameState.context.state.inventory;
 
   const { collection, id } = useParams<{
     collection: CollectionName;
@@ -63,6 +68,11 @@ export const Tradeable: React.FC = () => {
     count = getChestBuds(game)[tradeable?.id as number] ? 1 : 0;
   }
 
+  if (display.type === "resources") {
+    const name = KNOWN_ITEMS[tradeable?.id as number];
+    count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
+  }
+
   const load = async () => {
     try {
       setTradeable(undefined);
@@ -81,6 +91,7 @@ export const Tradeable: React.FC = () => {
 
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState.value === "loading"]);
 
   // TODO 404 view
@@ -103,6 +114,7 @@ export const Tradeable: React.FC = () => {
             collection={collection as CollectionName}
             display={display}
             count={count}
+            pricePerUnit={floorPrices[KNOWN_ITEMS[tradeable?.id as number]]}
             tradeable={tradeable}
             onBack={onBack}
             onPurchase={load}
@@ -119,6 +131,7 @@ export const Tradeable: React.FC = () => {
             collection={collection as CollectionName}
             display={display}
             tradeable={tradeable}
+            pricePerUnit={floorPrices[KNOWN_ITEMS[tradeable?.id as number]]}
             count={count}
             onBack={onBack}
             onPurchase={load}
@@ -146,8 +159,8 @@ export const Tradeable: React.FC = () => {
           tradeable={tradeable}
           display={display}
           farmId={farmId}
-          collection={collection as CollectionName}
           showListItem={showListItem}
+          floorPrice={floorPrices[KNOWN_ITEMS[tradeable?.id as number]] ?? 0}
           count={count}
           onListing={load}
           onListClick={() => {

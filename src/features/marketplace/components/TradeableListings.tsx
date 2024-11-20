@@ -37,10 +37,10 @@ type TradeableListingsProps = {
   tradeable?: TradeableDetails;
   display: TradeableDisplay;
   farmId: number;
-  collection: CollectionName;
   id: number;
   showListItem: boolean;
   count: number;
+  floorPrice: number;
   onListClick: () => void;
   onListClose: () => void;
   onListing: () => void;
@@ -58,6 +58,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   display,
   id,
   count,
+  floorPrice,
   showListItem,
   onListing,
   onListClick,
@@ -103,9 +104,8 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
           <TradeableListItem
             authToken={authToken}
             display={display}
-            tradeable={tradeable}
-            farmId={farmId}
             id={id}
+            floorPrice={floorPrice ?? 0}
             onClose={onListClose}
           />
         </Panel>

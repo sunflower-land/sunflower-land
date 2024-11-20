@@ -8,10 +8,8 @@ import {
   CollectionName,
   TradeableDetails,
   Tradeable,
-  Listing,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
 
 import sflIcon from "assets/icons/sfl.webp";
 import walletIcon from "assets/icons/wallet.png";
@@ -23,73 +21,9 @@ import {
   Context as ContextType,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
-import { TradeableSummary } from "./TradeableSummary";
-
-type PurchaseModalContentProps = {
-  authToken: string;
-  listingId: string;
-  tradeable: Tradeable;
-  listing: Listing;
-  collection: CollectionName;
-  price: number;
-  onClose: () => void;
-};
-
-const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
-  authToken,
-  tradeable,
-  collection,
-  price,
-  listingId,
-  onClose,
-  listing,
-}) => {
-  const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
-
-  const display = getTradeableDisplay({
-    id: tradeable.id,
-    type: collection,
-  });
-
-  const confirm = async () => {
-    gameService.send("marketplace.listingPurchased", {
-      effect: {
-        type: "marketplace.listingPurchased",
-        id: listingId,
-      },
-      authToken,
-    });
-
-    onClose();
-  };
-
-  return (
-    <>
-      <div className="p-2">
-        <div className="flex justify-between">
-          <Label type="default" className="mb-2 -ml-1">{`Purchase`}</Label>
-          {listing.type === "onchain" && (
-            <Label type="formula" icon={walletIcon} className="-mr-1 mb-2">
-              {t("marketplace.walletRequired")}
-            </Label>
-          )}
-        </div>
-        <p className="mb-3">{t("marketplace.areYouSureYouWantToBuy")}</p>
-        <TradeableSummary display={display} sfl={price} />
-      </div>
-      <div className="flex space-x-1">
-        <Button onClick={onClose}>{t("cancel")}</Button>
-        <Button onClick={() => confirm()} className="relative">
-          <span>{t("confirm")}</span>
-          {listing.type === "onchain" && (
-            <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-          )}
-        </Button>
-      </div>
-    </>
-  );
-};
+import { PurchaseModalContent } from "./PurchaseModalContent";
+import { TradeableDisplay } from "../lib/tradeables";
+import { formatNumber } from "lib/utils/formatNumber";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -98,6 +32,7 @@ type TradeableHeaderProps = {
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   count: number;
+  pricePerUnit?: number;
   onBack: () => void;
   onListClick: () => void;
   onPurchase: () => void;
@@ -111,6 +46,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   display,
   count,
   tradeable,
+  pricePerUnit,
   onListClick,
   onPurchase,
 }) => {
@@ -159,6 +95,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     },
   );
 
+  const isResources = collection === "resources";
+  const showBuyNow = !isResources && cheapestListing;
+
   return (
     <>
       {cheapestListing && (
@@ -197,12 +136,17 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               className="flex cursor-pointer items-center w-fit mb-2"
               onClick={onBack}
             >
-              <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2" />
+              <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
               <p className="capitalize underline">{collection}</p>
             </div>
-            {cheapestListing?.type === "onchain" && (
+            {showBuyNow && cheapestListing?.type === "onchain" && (
               <Label type="formula" className="mr-2" icon={walletIcon}>
                 {t("marketplace.walletRequired")}
+              </Label>
+            )}
+            {isResources && (
+              <Label type="default" className="mr-2">
+                {t("marketplace.youOwn", { count: count.toFixed(0) })}
               </Label>
             )}
           </div>
@@ -210,11 +154,28 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             <p className="text-lg mr-0.5 mb-1">{display.name}</p>
           </div>
           <div className="flex items-center justify-between flex-wrap">
-            {cheapestListing ? (
+            {showBuyNow && (
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
                   <img src={sflIcon} className="h-8 mr-2" />
                   <p className="text-base">{`${cheapestListing.sfl} SFL`}</p>
+                </>
+              </div>
+            )}
+            {isResources ? (
+              <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
+                <>
+                  <img src={sflIcon} className="h-8 mr-2" />
+                  <p className="text-base">
+                    {t("marketplace.pricePerUnit", {
+                      price: pricePerUnit
+                        ? formatNumber(pricePerUnit, {
+                            decimalPlaces: 4,
+                            showTrailingZeros: true,
+                          })
+                        : "?",
+                    })}
+                  </p>
                 </>
               </div>
             ) : (
@@ -223,7 +184,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             )}
             {/* Desktop display */}
             <div className="items-center justify-between hidden sm:flex sm:visible w-full sm:w-auto">
-              {cheapestListing && (
+              {showBuyNow && (
                 <Button
                   onClick={() => setShowPurchaseModal(true)}
                   disabled={!balance.gt(cheapestListing.sfl)}
@@ -244,7 +205,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
         </div>
         {/* Mobile display */}
         <div className="flex items-center justify-between sm:hidden w-full sm:w-auto">
-          {cheapestListing && (
+          {showBuyNow && (
             <Button
               onClick={() => setShowPurchaseModal(true)}
               disabled={!balance.gt(cheapestListing.sfl)}
