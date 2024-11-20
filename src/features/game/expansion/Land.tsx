@@ -52,6 +52,7 @@ import {
   RECIPE_UNLOCKS,
 } from "../events/landExpansion/discoverRecipe";
 import { RecipeStack } from "features/island/recipes/RecipeStack";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
