@@ -82,7 +82,6 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
       <Modal show={showConfirm} onHide={hideConfirmModal}>
         <CloseButtonPanel
           className="sm:w-4/5 m-auto"
-          bumpkinParts={NPC_WEARABLES[npc]}
           onClose={hideConfirmModal}
         >
           <RestockSelectionModal
