@@ -18,6 +18,7 @@ import {
   RestockItems,
   RestockNPC,
 } from "features/game/events/landExpansion/npcRestock";
+import { capitalize } from "lodash";
 
 interface RestockModalProps {
   onClose: () => void;
@@ -93,19 +94,19 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
 
   return (
     <>
-      <div className="p-1">
-        <Label type="default" className="mb-2" icon={stockIcon}>
-          {t("restock")}
+      <div className="flex flex-col mx-2 mt-1 items-start">
+        <Label type="default" className="mb-2 capitalize" icon={stockIcon}>
+          {t("restock.shop", { shopName })}
         </Label>
         <p className="mb-1">
           {t("gems.buyReplenish.enhanced", {
-            shopName,
+            shopName: capitalize(shopName),
             gemPrice,
           })}
         </p>
+        <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
       </div>
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
-        <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
         {restockItems.length > 0 && (
           <>
             <Label icon={icon} type="default" className="ml-2 mb-1 capitalize">
