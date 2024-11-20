@@ -1,43 +1,23 @@
 import React from "react";
 import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
-import { CollectionName } from "features/game/types/marketplace";
-import { CONFIG } from "lib/config";
-
-import buds from "lib/buds/buds";
-import testnetBuds from "lib/buds/testnet-buds";
-
 import sfl from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";
-// bud backgrounds
 import { BuffLabel } from "features/game/types";
 
 type Props = {
   name: string;
   image: string;
-  type: CollectionName;
-  id: number;
-  hasBoost: boolean;
-  supply: number;
-  pricePerUnit?: number;
   price?: Decimal;
   onClick?: () => void;
-  onRemove?: () => void;
-  isSold?: boolean;
   buff?: BuffLabel;
 };
 
-const data = CONFIG.NETWORK === "mainnet" ? buds : testnetBuds;
-
 export const ListViewCard: React.FC<Props> = ({
   name,
-  id,
   buff,
   image,
-  supply,
-  type,
   price,
-  pricePerUnit,
   onClick,
 }) => {
   return (

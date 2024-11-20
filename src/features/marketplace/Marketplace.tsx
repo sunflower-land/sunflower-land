@@ -14,8 +14,8 @@ const _balance = (state: MachineState) => state.context.state.balance;
 
 export const Marketplace: React.FC = () => {
   const { gameService } = useContext(Context);
-  const balance = useSelector(gameService, _balance);
 
+  const balance = useSelector(gameService, _balance);
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();

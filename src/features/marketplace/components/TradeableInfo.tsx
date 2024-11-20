@@ -17,7 +17,7 @@ export const TradeableInfo: React.FC<{
   return (
     <>
       <InnerPanel className="w-full flex relative mb-1">
-        {tradeable && (
+        {tradeable && tradeable.collection !== "resources" && (
           <Label
             className="absolute top-2 right-2"
             type="default"

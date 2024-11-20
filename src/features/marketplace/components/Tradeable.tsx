@@ -100,7 +100,6 @@ export const Tradeable: React.FC<{
   }
 
   const onBack = () => {
-    // Go back to previous page
     navigate(-1);
   };
 
@@ -114,7 +113,6 @@ export const Tradeable: React.FC<{
             collection={collection as CollectionName}
             display={display}
             count={count}
-            pricePerUnit={floorPrices[KNOWN_ITEMS[tradeable?.id as number]]}
             tradeable={tradeable}
             onBack={onBack}
             onPurchase={load}
@@ -131,7 +129,6 @@ export const Tradeable: React.FC<{
             collection={collection as CollectionName}
             display={display}
             tradeable={tradeable}
-            pricePerUnit={floorPrices[KNOWN_ITEMS[tradeable?.id as number]]}
             count={count}
             onBack={onBack}
             onPurchase={load}

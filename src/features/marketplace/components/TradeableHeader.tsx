@@ -168,8 +168,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   <img src={sflIcon} className="h-8 mr-2" />
                   <p className="text-base">
                     {t("marketplace.pricePerUnit", {
-                      price: pricePerUnit
-                        ? formatNumber(pricePerUnit, {
+                      price: tradeable?.floor
+                        ? formatNumber(tradeable.floor, {
                             decimalPlaces: 4,
                             showTrailingZeros: true,
                           })

@@ -1,6 +1,7 @@
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import * as Auth from "features/auth/lib/Provider";
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
