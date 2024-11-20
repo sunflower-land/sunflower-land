@@ -22,13 +22,13 @@ interface OilTankProps {
   state: GameState;
 }
 
-export const OilTank = ({
+export const OilTank: React.FC<OilTankProps> = ({
   stopped,
   queue,
   unallocatedOilTime,
   onAddOil,
   state,
-}: OilTankProps) => {
+}) => {
   const { t } = useAppTranslation();
 
   const calculatePercentageFull = (
