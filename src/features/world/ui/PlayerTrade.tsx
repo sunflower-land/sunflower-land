@@ -66,7 +66,14 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       const farm = await loadGameStateForVisit(farmId, rawToken);
 
       const listings = farm.state.trades?.listings;
-      setListings(listings);
+
+      // Filter out listings related to the marketplace
+      const filteredListings = Object.entries(listings ?? {}).filter(
+        ([_, listing]) =>
+          !listing.collection || listing.collection === "resources",
+      );
+
+      setListings(Object.fromEntries(filteredListings));
 
       setIsLoading(false);
     };
