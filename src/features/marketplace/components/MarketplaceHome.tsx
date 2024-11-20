@@ -33,6 +33,7 @@ import { MarketplaceHotNow } from "./MarketplaceHotNow";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TransactionCountdown } from "features/island/hud/Transaction";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { CONFIG } from "lib/config";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -212,14 +213,17 @@ const Filters: React.FC = () => {
                 : undefined
             }
           />
-          <Option
-            icon={ITEM_DETAILS.Eggplant.image}
-            label="Resources"
-            onClick={() =>
-              navigate(`/marketplace/collection?filters=resources`)
-            }
-            isActive={filters === "resources"}
-          />
+
+          {CONFIG.NETWORK !== "mainnet" && (
+            <Option
+              icon={ITEM_DETAILS.Eggplant.image}
+              label="Resources"
+              onClick={() =>
+                navigate(`/marketplace/collection?filters=resources`)
+              }
+              isActive={filters === "resources"}
+            />
+          )}
 
           <Option
             icon={SUNNYSIDE.icons.heart}
@@ -231,12 +235,15 @@ const Filters: React.FC = () => {
             }
             isActive={filters === "collectibles,wearables,cosmetic"}
           />
-          <Option
-            icon={budIcon}
-            label="Bud NFTs"
-            onClick={() => navigate(`/marketplace/collection?filters=buds`)}
-            isActive={filters === "buds"}
-          />
+
+          {CONFIG.NETWORK !== "mainnet" && (
+            <Option
+              icon={budIcon}
+              label="Bud NFTs"
+              onClick={() => navigate(`/marketplace/collection?filters=buds`)}
+              isActive={filters === "buds"}
+            />
+          )}
         </div>
 
         <div>

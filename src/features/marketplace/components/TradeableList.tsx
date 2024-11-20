@@ -228,6 +228,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
+  const isComingSoon = tradeType === "onchain" && CONFIG.NETWORK === "mainnet";
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
@@ -322,6 +324,15 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               {t("marketplace.itemSecuredWarning")}
             </div>
           </div>
+
+          {isComingSoon && (
+            <div className="p-2">
+              <Label type="danger" className="-ml-1 mb-2">
+                {t("marketplace.onchainComingSoon")}
+              </Label>
+            </div>
+          )}
+
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("close")}</Button>
             <Button

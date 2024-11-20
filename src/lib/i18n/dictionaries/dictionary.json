@@ -4420,5 +4420,6 @@
   "marketplace.trending": "Trending",
   "marketplace.totalVolume": "Total Volume",
   "marketplace.totalTrades": "Total Trades",
-  "marketplace.walletsHoldingCollectibles": "Wallets holding collectibles"
+  "marketplace.walletsHoldingCollectibles": "Wallets holding collectibles",
+  "marketplace.onchainComingSoon": "On chain trading coming soon"
 }

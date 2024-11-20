@@ -153,6 +153,8 @@ export const MakeOffer: React.FC<{
     );
   }
 
+  const isComingSoon = tradeType === "onchain" && CONFIG.NETWORK === "mainnet";
+
   /* TODO only use game wallet when required */
   return (
     <>
@@ -184,12 +186,20 @@ export const MakeOffer: React.FC<{
         <p className="text-xs mb-2">{t("marketplace.sflLocked.description")}</p>
       </div>
 
+      {isComingSoon && (
+        <div className="p-2">
+          <Label type="danger" className="-ml-1 mb-2">
+            {t("marketplace.onchainComingSoon")}
+          </Label>
+        </div>
+      )}
+
       <div className="flex">
         <Button className="mr-1" onClick={() => onClose()}>
           {t("cancel")}
         </Button>
         <Button
-          disabled={!offer || balance.lt(offer)}
+          disabled={isComingSoon || !offer || balance.lt(offer)}
           onClick={submitOffer}
           className="relative"
         >
