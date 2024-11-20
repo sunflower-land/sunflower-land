@@ -26,7 +26,11 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
 
   const totalUsedSkillPoints = skillsClaimed.reduce((acc, skill) => {
     const skillData = BUMPKIN_REVAMP_SKILL_TREE[skill];
-    return acc + skillData.requirements.points;
+    if (skillData) {
+      return acc + skillData.requirements.points;
+    }
+
+    return acc;
   }, 0);
 
   return bumpkinLevel - totalUsedSkillPoints;
@@ -43,9 +47,12 @@ export const getUnlockedTierForTree = (
     (acc, skill) => {
       const skillData =
         BUMPKIN_REVAMP_SKILL_TREE[skill as BumpkinRevampSkillName];
-      return skillData?.tree === tree
-        ? acc + skillData.requirements.points
-        : acc;
+
+      if (skillData && skillData.tree === tree) {
+        return acc + skillData.requirements.points;
+      }
+
+      return acc;
     },
     0,
   );
