@@ -3,7 +3,10 @@ import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { TradeableDetails } from "features/game/types/marketplace";
+import {
+  MARKETPLACE_TAX,
+  TradeableDetails,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
@@ -28,6 +31,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { TradeableSummary } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";
+import Decimal from "decimal.js-light";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -310,7 +314,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                 {t("bumpkinTrade.youWillReceive")}
               </span>
               <p className="text-xs font-secondary">{`${formatNumber(
-                price * 0.9,
+                new Decimal(price).mul(1 - MARKETPLACE_TAX),
                 {
                   decimalPlaces: 1,
                   showTrailingZeros: false,
