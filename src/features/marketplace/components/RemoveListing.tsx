@@ -105,7 +105,13 @@ export const RemoveListing: React.FC<Props> = ({
         <p className="text-sm mb-2">
           {t("marketplace.cancelListing.areYouSure")}
         </p>
-        <TradeableSummary display={display} sfl={listing.sfl} />
+        <TradeableSummary
+          display={display}
+          sfl={listing.sfl}
+          quantity={
+            listing.items[display.name as MarketplaceTradeableName] as number
+          }
+        />
       </div>
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>

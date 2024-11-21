@@ -22,7 +22,7 @@ export const ResourceTable: React.FC<{
 }> = ({ items, id, balance, tableType, onClick }) => {
   const { t } = useAppTranslation();
   return (
-    <div className="h-[200px] scrollable overflow-y-auto relative">
+    <div className="max-h-[200px] scrollable overflow-y-auto relative">
       <table className="w-full text-xs border-collapse">
         <thead>
           <tr>
@@ -79,7 +79,7 @@ export const ResourceTable: React.FC<{
                   className="p-1.5 text-center"
                 >
                   <Button
-                    disabled={balance.lt(price)}
+                    disabled={balance.lt(price) || createdById === id}
                     className="w-[84px] h-10"
                     onClick={() => onClick(listingId)}
                   >

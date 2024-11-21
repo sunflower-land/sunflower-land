@@ -23,6 +23,7 @@ import { TradeableHeader } from "./TradeableHeader";
 import { TradeableInfo } from "./TradeableInfo";
 import { TradeableListings } from "./TradeableListings";
 import { MyListings } from "./profile/MyListings";
+import { MyOffers } from "./profile/MyOffers";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);

@@ -187,108 +187,12 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                 />
               ))}
           </div>
-<<<<<<< HEAD
-          <div className="w-full justify-end hidden sm:flex sm:visible">
-            <Button
-              className="w-full sm:w-fit"
-              disabled={!count}
-              onClick={onListClick}
-            >
-              {t("marketplace.listForSale")}
-            </Button>
-          </div>
-        </div>
-        <Button
-          className="w-full sm:hidden"
-          disabled={!count}
-          onClick={onListClick}
-        >
-          {t("marketplace.listForSale")}
-        </Button>
-      </InnerPanel>
-    </>
-  );
-};
-
-const _isCancellingOffer = (state: MachineState) =>
-  state.matches("marketplaceListingCancelling");
-const _trades = (state: MachineState) => state.context.state.trades;
-const _authToken = (state: AuthMachineState) =>
-  state.context.user.rawToken as string;
-
-export const YourListings: React.FC<{
-  onListingRemoved: () => void;
-  collection: CollectionName;
-  id: number;
-}> = ({ onListingRemoved, collection, id }) => {
-  const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const { authService } = useContext(Auth.Context);
-
-  const isCancellingListing = useSelector(gameService, _isCancellingOffer);
-  const trades = useSelector(gameService, _trades);
-  const authToken = useSelector(authService, _authToken);
-
-  const [removeListingId, setRemoveListingId] = useState<string>();
-
-  useOnMachineTransition<ContextType, BlockchainEvent>(
-    gameService,
-    "marketplaceCancellingListingSuccess",
-    "playing",
-    onListingRemoved,
-  );
-
-  const listings = trades.listings ?? {};
-
-  const listingIds = getKeys(listings).filter((listingId) => {
-    const listing = listings[listingId];
-    if (listing.boughtAt) return false;
-
-    const itemId = getListingItem({ listing });
-    const listingCollection = getListingCollection({ listing });
-
-    // Make sure the offer is for this item
-    return listingCollection === collection && itemId === id;
-  });
-
-  if (listingIds.length === 0) return null;
-
-  const handleHide = () => {
-    if (isCancellingListing) return;
-
-    setRemoveListingId(undefined);
-  };
-
-  return (
-    <>
-      <Modal show={!!removeListingId} onHide={handleHide}>
-        <RemoveListing
-          listingIds={removeListingId ? [removeListingId] : []}
-          authToken={authToken}
-          onClose={() => setRemoveListingId(undefined)}
-        />
-      </Modal>
-      <InnerPanel className="mb-1">
-        <div className="p-2">
-          <div className="flex justify-between mb-2">
-            <Label icon={SUNNYSIDE.icons.player_small} type="default">
-              {t("marketplace.yourListings")}
-            </Label>
-          </div>
-          {listingIds.map((listingId) => {
-            const listing = listings[listingId];
-            return (
-              <div
-                className="flex items-center justify-between"
-                key={listingId}
-=======
           {!isResource && (
             <div className="w-full justify-end hidden sm:flex sm:visible">
               <Button
                 className="w-full sm:w-fit"
                 disabled={!count}
                 onClick={onListClick}
->>>>>>> 09b8a2dc0 ([FEAT] Update offers)
               >
                 {t("marketplace.listForSale")}
               </Button>
