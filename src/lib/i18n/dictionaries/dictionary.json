@@ -2948,6 +2948,7 @@
   "obsessionDialogue.line3": "Is that the {{itemName}} you have? A mere glance is all I desire. For this, you'll receive {{seasonalTicket}}s.",
   "obsessionDialogue.line4": "The {{itemName}}! I don't want to keep it, just to behold it. Show it to me, and {{seasonalTicket}}s are yours.",
   "obsessionDialogue.line5": "You offer a view of the {{itemName}}? All I ask is to see it briefly. For your generosity, {{seasonalTicket}}s will be granted to you.",
+  "obsessionDialogue.codex": "Is that the {{itemName}} you have? Travel to the plaza to find Bert and show it to him, and he will give you {{seasonalTicket}}s in return.",
   "offer.okxOffer": "Howdy Farmer, I have an exclusive OKX offer for you!",
   "offer.beginWithNFT": "To begin you will need to mint a free Farm NFT. This will include:",
   "offer.getStarterPack": "Get Starter Pack Now",

@@ -28,23 +28,23 @@ interface Props {
 const obsessionDialogues = (itemName: string) => [
   `${translate("obsessionDialogue.line1", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket(),
+    seasonalTicket: getSeasonalTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line2", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket(),
+    seasonalTicket: getSeasonalTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line3", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket(),
+    seasonalTicket: getSeasonalTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line4", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket(),
+    seasonalTicket: getSeasonalTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line5", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket(),
+    seasonalTicket: getSeasonalTicket().toLowerCase(),
   })}`,
 ];
 
@@ -145,7 +145,10 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
           <div className="w-full flex flex-col items-center mx-auto">
             <p className="text-center text-sm mb-3">
               {readonly
-                ? `Is that the ${currentObsession?.name} you have? Travel to the plaza to find Bert, and ${getSeasonalTicket()}s will be yours`
+                ? t("obsessionDialogue.codex", {
+                    itemName: currentObsession?.name,
+                    seasonalTicket: getSeasonalTicket().toLowerCase(),
+                  })
                 : obsessionDialogue}
             </p>
 
