@@ -102,7 +102,9 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
   );
 };
 
-const BertObsession: React.FC = () => {
+export const BertObsession: React.FC<{ readonly?: boolean }> = ({
+  readonly,
+}) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
@@ -131,40 +133,50 @@ const BertObsession: React.FC = () => {
   const resetSeconds = (endDate - new Date().getTime()) / 1000;
 
   return (
-    <div className="w-full flex flex-col items-center pt-0.5">
+    <>
+      {readonly && (
+        <Label type="default" className="my-1 ml-1">{`Bert's Obession`}</Label>
+      )}
       {!currentObsession && (
         <p className="text-center text-sm my-3">{t("no.obsessions")}</p>
       )}
       {currentObsession && (
-        <div className="w-full flex flex-col items-center mx-auto">
-          <p className="text-center text-sm mb-3">{obsessionDialogue}</p>
+        <>
+          <div className="w-full flex flex-col items-center mx-auto">
+            <p className="text-center text-sm mb-3">{obsessionDialogue}</p>
 
-          <div className="relative mb-2">
-            <img
-              src={SUNNYSIDE.ui.grey_background}
-              className="w-48 object-contain rounded-md"
-            />
-            <div className="absolute inset-0">
+            <div className="relative mb-2">
               <img
-                src={image}
-                className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                src={SUNNYSIDE.ui.grey_background}
+                className="w-48 object-contain rounded-md"
               />
+              <div className="absolute inset-0">
+                <img
+                  src={image}
+                  className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                />
+              </div>
             </div>
+            <Label
+              type="info"
+              className="mb-2"
+              icon={SUNNYSIDE.icons.stopwatch}
+            >
+              {`${t("offer.end")} ${secondsToString(resetSeconds, {
+                length: "medium",
+                removeTrailingZeros: true,
+              })}`}
+            </Label>
+            <CompleteObsession
+              isObsessionCollectible={isObsessionCollectible}
+              obsessionName={obsessionName}
+              currentObsession={currentObsession}
+              readonly={readonly}
+            />
           </div>
-          <Label type="info" className="mb-2" icon={SUNNYSIDE.icons.stopwatch}>
-            {`${t("offer.end")} ${secondsToString(resetSeconds, {
-              length: "medium",
-              removeTrailingZeros: true,
-            })}`}
-          </Label>
-        </div>
+        </>
       )}
-      <CompleteObsession
-        isObsessionCollectible={isObsessionCollectible}
-        obsessionName={obsessionName}
-        currentObsession={currentObsession}
-      />
-    </div>
+    </>
   );
 };
 
@@ -172,7 +184,13 @@ const CompleteObsession: React.FC<{
   isObsessionCollectible: boolean;
   obsessionName?: string;
   currentObsession?: CurrentObsession;
-}> = ({ isObsessionCollectible, obsessionName, currentObsession }) => {
+  readonly?: boolean;
+}> = ({
+  isObsessionCollectible,
+  obsessionName,
+  currentObsession,
+  readonly,
+}) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
@@ -208,6 +226,11 @@ const CompleteObsession: React.FC<{
       <Label type="success" icon={SUNNYSIDE.icons.confirm}>
         {t("alr.completed")}
       </Label>
+    );
+  }
+  if (readonly) {
+    return (
+      <span>{`Go to the plaza and find Bert to complete the obsession`}</span>
     );
   }
 

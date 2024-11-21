@@ -35,13 +35,11 @@ import { FruitDash } from "./portals/FruitDash";
 import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
-import { FlowerBounties } from "./flowerShop/FlowerBounties";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
 
 type InteractableName =
   | "desert_noticeboard"
-  | "flower_bounties"
   | "faction_noticeboard"
   | "kingdom_noticeboard"
   | "champions"
@@ -402,10 +400,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "clubhouse_reward"} onHide={closeModal}>
         <BudBox onClose={closeModal} setIsLoading={setIsLoading} />
-      </Modal>
-
-      <Modal show={interactable === "flower_bounties"} onHide={closeModal}>
-        <FlowerBounties onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "raffle"} onHide={closeModal}>
         <Raffle onClose={closeModal} />

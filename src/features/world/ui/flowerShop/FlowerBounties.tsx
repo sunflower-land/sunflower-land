@@ -3,8 +3,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { ButtonPanel, Panel } from "components/ui/Panel";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { ButtonPanel } from "components/ui/Panel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
@@ -24,7 +23,7 @@ import React, { useContext, useState } from "react";
 const _exchange = (state: MachineState) => state.context.state.bounties;
 
 interface Props {
-  onClose: () => void;
+  readonly?: boolean;
 }
 
 function acknowledgeIntro() {
@@ -38,7 +37,7 @@ function hasReadIntro() {
   return !!localStorage.getItem("flower.bounties.acknowledged");
 }
 
-export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
+export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
 
@@ -53,7 +52,7 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
 
   const expiresAt = useCountdown(weekResetsAt());
 
-  if (showIntro) {
+  if (showIntro && !readonly) {
     return (
       <SpeakingModal
         message={[
@@ -84,95 +83,91 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.poppy} onClose={onClose}>
-      <div className="p-1">
-        <div className="flex flex-wrap items-center mb-2">
-          <Label type="default" className="mr-2">
-            {t("bounties.board")}
-          </Label>
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            <TimerDisplay time={expiresAt} />
-          </Label>
-        </div>
-
-        <p className="text-xs mb-2">{t("bounties.board.info")}</p>
-        <div className="flex flex-wrap">
-          {deals.length === 0 && (
-            <p className="text-sm">{t("bounties.board.empty")}</p>
-          )}
-          {deals.map((deal) => {
-            const isSold = !!state.bounties.completed.find(
-              (request) => request.id === deal.id,
-            );
-
-            const isDisabled = !state.inventory[deal.name]?.gt(0);
-
-            return (
-              <div
-                key={deal.id}
-                className={classNames("w-full pb-0.5", {
-                  "pointer-events-none": isSold,
-                })}
-              >
-                <ButtonPanel
-                  disabled={isDisabled}
-                  variant={isSold ? "secondary" : "primary"}
-                  className="h-full"
-                  onClick={() => {
-                    if (isDisabled) {
-                      return;
-                    }
-                    setDeal(deal);
-                  }}
-                >
-                  <div className="flex items-center">
-                    <div className="relative mr-2">
-                      <img
-                        src={ITEM_DETAILS[deal.name].image}
-                        className="h-8 z-20"
-                      />
-                    </div>
-                    <div className="flex items-center flex-wrap justify-between w-full">
-                      <p className="text-xs text-left leading-snug">
-                        {deal.name}
-                      </p>
-
-                      {!isSold && !!deal.coins && (
-                        <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
-                          {deal.coins}
-                        </Label>
-                      )}
-
-                      {!isSold &&
-                        getKeys(deal.items ?? {}).map((name) => {
-                          return (
-                            <Label
-                              key={name}
-                              type="warning"
-                              icon={ITEM_DETAILS[name].image}
-                            >
-                              {name !== getSeasonalTicket()
-                                ? deal.items?.[name]
-                                : generateBountyTicket({
-                                    game: state,
-                                    bounty: deal,
-                                  })}
-                            </Label>
-                          );
-                        })}
-
-                      {!!isSold && (
-                        <Label type="success">{t("completed")}</Label>
-                      )}
-                    </div>
-                  </div>
-                </ButtonPanel>
-              </div>
-            );
-          })}
-        </div>
+    <div className="p-1">
+      <div className="flex flex-wrap items-center mb-2">
+        <Label type="default" className="mr-2">
+          {t("bounties.board")}
+        </Label>
+        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+          <TimerDisplay time={expiresAt} />
+        </Label>
       </div>
-    </CloseButtonPanel>
+
+      <p className="text-xs mb-2">{t("bounties.board.info")}</p>
+      <div className="flex flex-wrap">
+        {deals.length === 0 && (
+          <p className="text-sm">{t("bounties.board.empty")}</p>
+        )}
+        {deals.map((deal) => {
+          const isSold = !!state.bounties.completed.find(
+            (request) => request.id === deal.id,
+          );
+
+          const isDisabled = !state.inventory[deal.name]?.gt(0);
+
+          return (
+            <div
+              key={deal.id}
+              className={classNames("w-full pb-0.5", {
+                "pointer-events-none": isSold,
+              })}
+            >
+              <ButtonPanel
+                disabled={isDisabled}
+                variant={isSold ? "secondary" : "primary"}
+                className="h-full"
+                onClick={() => {
+                  if (isDisabled || readonly) {
+                    return;
+                  }
+                  setDeal(deal);
+                }}
+              >
+                <div className="flex items-center">
+                  <div className="relative mr-2">
+                    <img
+                      src={ITEM_DETAILS[deal.name].image}
+                      className="h-8 z-20"
+                    />
+                  </div>
+                  <div className="flex items-center flex-wrap justify-between w-full">
+                    <p className="text-xs text-left leading-snug">
+                      {deal.name}
+                    </p>
+
+                    {!isSold && !!deal.coins && (
+                      <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
+                        {deal.coins}
+                      </Label>
+                    )}
+
+                    {!isSold &&
+                      getKeys(deal.items ?? {}).map((name) => {
+                        return (
+                          <Label
+                            key={name}
+                            type="warning"
+                            icon={ITEM_DETAILS[name].image}
+                          >
+                            {name !== getSeasonalTicket()
+                              ? deal.items?.[name]
+                              : generateBountyTicket({
+                                  game: state,
+                                  bounty: deal,
+                                })}
+                          </Label>
+                        );
+                      })}
+
+                    {!!isSold && <Label type="success">{t("completed")}</Label>}
+                  </div>
+                </div>
+              </ButtonPanel>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 
@@ -198,7 +193,7 @@ const Deal: React.FC<{
   }
 
   return (
-    <Panel bumpkinParts={NPC_WEARABLES.poppy}>
+    <>
       <div className="p-2">
         <div className="mb-2 flex flex-wrap">
           <Label
@@ -252,6 +247,6 @@ const Deal: React.FC<{
         </Button>
         <Button onClick={sell}>{t("confirm")}</Button>
       </div>
-    </Panel>
+    </>
   );
 };

@@ -34,6 +34,7 @@ import {
 } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
+import { FLOWERS } from "features/game/types/flowers";
 
 interface Props {
   show: boolean;
@@ -99,6 +100,21 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     gameService.state?.context?.state?.username ??
     String(gameService?.state?.context?.farmId);
 
+  const incompleteObsession = state.npcs?.bert?.questCompletedAt ? 0 : 1;
+
+  const incompleteFlowerBounties = state.bounties.requests.filter(
+    (deal) => deal.name in FLOWERS,
+  );
+  const incompleteFlowerBountiesCount = incompleteFlowerBounties.reduce(
+    (no, deal) => {
+      const soldCount = !!state.bounties.completed.find(
+        (request) => request.id === deal.id,
+      );
+      return soldCount ? no - 1 : no;
+    },
+    incompleteFlowerBounties.length,
+  );
+
   const incompleteDeliveries = state.delivery.orders.filter(
     (order) => !order.completedAt,
   ).length;
@@ -137,7 +153,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     {
       name: "Leaderboard" as const,
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
-      count: 0,
+      count: incompleteObsession + incompleteFlowerBountiesCount,
     },
     {
       name: "Fish",
