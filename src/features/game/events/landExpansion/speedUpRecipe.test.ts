@@ -232,7 +232,7 @@ describe("instantCook", () => {
   });
 });
 
-describe.only("getInstantGems", () => {
+describe("getInstantGems", () => {
   it("returns the correct amount of gems for a 1 hour recipe", () => {
     expect(
       getInstantGems({
