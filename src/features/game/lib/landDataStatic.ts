@@ -937,11 +937,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
         boughtAt: 100,
         buyerId: 1,
       },
+    },
+    offers: {
       "2": {
-        collection: "resources",
+        collection: "collectibles",
         createdAt: 0,
-        items: { Sunflower: 10 },
+        items: { "Gold Egg": 10 },
         sfl: 5,
+        fulfilledAt: 100,
+        fulfilledById: 1,
       },
     },
   },

@@ -1,6 +1,8 @@
 import { produce } from "immer";
 import { GameState } from "../types/game";
 import { getKeys } from "../types/decorations";
+import Decimal from "decimal.js-light";
+import { MARKETPLACE_TAX } from "../types/marketplace";
 
 export type ClaimPurchaseAction = {
   type: "purchase.claimed";
@@ -36,12 +38,12 @@ export function claimPurchase({ state, action }: Options) {
     });
 
     instantPurchases.forEach((purchaseId) => {
-      game.balance = game.balance.plus(
-        game.trades.listings?.[purchaseId].sfl ?? 0,
-      );
+      let sfl = new Decimal(game.trades.listings?.[purchaseId].sfl ?? 0);
+      sfl = sfl.mul(1 - MARKETPLACE_TAX);
 
-      game.bank.taxFreeSFL =
-        game.bank.taxFreeSFL + (game.trades.listings?.[purchaseId].sfl ?? 0);
+      game.balance = game.balance.plus(sfl);
+
+      game.bank.taxFreeSFL = game.bank.taxFreeSFL + sfl.toNumber();
     });
 
     purchaseIds.forEach((purchaseId) => {

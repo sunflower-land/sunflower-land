@@ -95,7 +95,7 @@ describe("purchase.claimed", () => {
       },
     });
 
-    expect(state.balance).toStrictEqual(new Decimal(13));
+    expect(state.balance).toStrictEqual(new Decimal(11.7));
   });
 
   it("removes the trades from the farm", () => {
@@ -161,7 +161,7 @@ describe("purchase.claimed", () => {
       },
     });
 
-    expect(state.balance).toStrictEqual(new Decimal(26));
+    expect(state.balance).toStrictEqual(new Decimal(23.4));
   });
 
   it("applies the sfl from 2 instant trades but not on chain trades", () => {
@@ -210,7 +210,7 @@ describe("purchase.claimed", () => {
       },
     });
 
-    expect(state.balance).toStrictEqual(new Decimal(26));
+    expect(state.balance).toStrictEqual(new Decimal(23.4));
   });
 
   it("increases the tax free sfl", () => {
@@ -259,6 +259,6 @@ describe("purchase.claimed", () => {
       },
     });
 
-    expect(state.bank.taxFreeSFL).toStrictEqual(26);
+    expect(state.bank.taxFreeSFL).toStrictEqual(23.4);
   });
 });

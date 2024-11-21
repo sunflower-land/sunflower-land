@@ -14,6 +14,8 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { InventoryItemName } from "features/game/types/game";
 import { getItemId } from "features/marketplace/lib/offers";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
+import Decimal from "decimal.js-light";
+import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 
 /**
  * Display listings that have been fulfilled
@@ -70,7 +72,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
             type: listing.collection,
           });
           const amount = listing.items[itemName as InventoryItemName];
-          const sfl = listing.sfl;
+          const sfl = new Decimal(listing.sfl).mul(1 - MARKETPLACE_TAX);
           return (
             <div className="flex flex-col space-y-1" key={listingId}>
               <div className="flex items-center justify-between">

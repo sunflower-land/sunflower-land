@@ -1,5 +1,10 @@
+import { CONFIG } from "lib/config";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
+
+// 1% tax on mainnet for testing
+// 10% tax on sales
+export const MARKETPLACE_TAX = CONFIG.NETWORK === "mainnet" ? 0.01 : 0.1;
 
 export type CollectionName =
   | "collectibles"
