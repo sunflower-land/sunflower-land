@@ -19,11 +19,14 @@ import confetti from "canvas-confetti";
 import {
   BlockchainEvent,
   Context as ContextType,
+  MachineState,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { PurchaseModalContent } from "./PurchaseModalContent";
 import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useSelector } from "@xstate/react";
+import { useParams } from "react-router-dom";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -38,6 +41,8 @@ type TradeableHeaderProps = {
   onPurchase: () => void;
 };
 
+const _balance = (state: MachineState) => state.context.state.balance;
+
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   authToken,
   farmId,
@@ -46,11 +51,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   display,
   count,
   tradeable,
-  pricePerUnit,
   onListClick,
   onPurchase,
 }) => {
   const { gameService } = useContext(Context);
+  const balance = useSelector(gameService, _balance);
+  const params = useParams();
+
   const { t } = useAppTranslation();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
   // Remove listings that are mine
@@ -62,10 +69,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const cheapestListing = filteredListings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, filteredListings[0]);
-
-  const balance = gameService.getSnapshot().context.state.balance;
-
-  // TODO: Remove cheapest listing conditions for buds
 
   // Handle instant purchase
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -95,7 +98,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     },
   );
 
-  const isResources = collection === "resources";
+  const isResources = params.collection === "resources";
   const showBuyNow = !isResources && cheapestListing;
 
   return (
@@ -166,16 +169,24 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
                   <img src={sflIcon} className="h-8 mr-2" />
-                  <p className="text-base">
-                    {t("marketplace.pricePerUnit", {
-                      price: tradeable?.floor
-                        ? formatNumber(tradeable.floor, {
-                            decimalPlaces: 4,
-                            showTrailingZeros: true,
-                          })
-                        : "?",
-                    })}
-                  </p>
+                  {tradeable?.floor ? (
+                    <p className="text-base">
+                      {t("marketplace.pricePerUnit", {
+                        price: formatNumber(tradeable.floor, {
+                          decimalPlaces: 4,
+                          showTrailingZeros: true,
+                        }),
+                      })}
+                    </p>
+                  ) : (
+                    <>
+                      <span className="text-base loading-fade-pulse">
+                        {t("marketplace.pricePerUnit", {
+                          price: "0.0000",
+                        })}
+                      </span>
+                    </>
+                  )}
                 </>
               </div>
             ) : (
@@ -194,7 +205,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 </Button>
               )}
               <Button
-                disabled={!count}
+                disabled={!tradeable}
                 onClick={onListClick}
                 className="w-full sm:w-auto"
               >

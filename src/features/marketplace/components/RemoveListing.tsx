@@ -6,7 +6,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { TradeableSummary } from "./TradeableSummary";
-import { getListingItem } from "../lib/listings";
+import { getListingCollection, getListingItem } from "../lib/listings";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 
@@ -17,6 +17,7 @@ interface Props {
   authToken: string;
   onClose: () => void;
 }
+
 export const RemoveListing: React.FC<Props> = ({
   listingIds,
   onClose,
@@ -25,7 +26,6 @@ export const RemoveListing: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  // Select the first listing to cancel if there is only one
   const [selectedListingId, setSelectedListingId] = useState<
     string | undefined
   >(listingIds.length === 1 ? listingIds[0] : undefined);
@@ -84,7 +84,8 @@ export const RemoveListing: React.FC<Props> = ({
   };
 
   const itemId = getListingItem({ listing });
-  const display = getTradeableDisplay({ id: itemId, type: listing.collection });
+  const collection = getListingCollection({ listing });
+  const display = getTradeableDisplay({ id: itemId, type: collection });
 
   return (
     <Panel>

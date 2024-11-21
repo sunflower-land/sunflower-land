@@ -13,7 +13,7 @@ import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { getItemId } from "../../lib/offers";
 import Decimal from "decimal.js-light";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { RemoveOffer } from "../RemoveOffer";
@@ -41,6 +41,7 @@ export const MyTrades: React.FC = () => {
 
 export const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
+  const params = useParams();
 
   const { gameService } = useContext(Context);
   const { authService } = useContext(Auth.Context);
@@ -155,8 +156,11 @@ export const MyOffers: React.FC = () => {
                       <tr
                         key={index}
                         className={classNames(
-                          "relative cursor-pointer bg-[#ead4aa] !py-10 hover:shadow-md hover:scale-[100.5%] transition-all",
-                          {},
+                          "relative bg-[#ead4aa] !py-10 transition-all",
+                          {
+                            "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
+                              Number(params.id) !== itemId,
+                          },
                         )}
                         style={{
                           borderBottom: "1px solid #b96f50",

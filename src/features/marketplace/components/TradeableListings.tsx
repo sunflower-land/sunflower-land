@@ -4,12 +4,9 @@ import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
-import {
-  CollectionName,
-  TradeableDetails,
-} from "features/game/types/marketplace";
+import { TradeableDetails } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { TradeableDisplay } from "../lib/tradeables";
 import { TradeableListItem } from "./TradeableList";
 import { TradeTable } from "./TradeTable";
@@ -23,14 +20,9 @@ import {
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
-import * as Auth from "features/auth/lib/Provider";
-import { getKeys } from "features/game/types/decorations";
-import { RemoveListing } from "./RemoveListing";
-import { AuthMachineState } from "features/auth/lib/authMachine";
-
-import sflIcon from "assets/icons/sfl.webp";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { getListingCollection, getListingItem } from "../lib/listings";
+import { ResourceTable } from "./ResourceTable";
+import { shortenCount } from "lib/utils/formatNumber";
+import { useParams } from "react-router-dom";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -40,7 +32,6 @@ type TradeableListingsProps = {
   id: number;
   showListItem: boolean;
   count: number;
-  floorPrice: number;
   onListClick: () => void;
   onListClose: () => void;
   onListing: () => void;
@@ -48,8 +39,7 @@ type TradeableListingsProps = {
 };
 
 const _isListing = (state: MachineState) => state.matches("marketplaceListing");
-
-// CONFETTI
+const _balance = (state: MachineState) => state.context.state.balance;
 
 export const TradeableListings: React.FC<TradeableListingsProps> = ({
   authToken,
@@ -58,7 +48,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   display,
   id,
   count,
-  floorPrice,
   showListItem,
   onListing,
   onListClick,
@@ -67,8 +56,10 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
+  const params = useParams();
 
   const isListing = useSelector(gameService, _isListing);
+  const balance = useSelector(gameService, _balance);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -97,6 +88,8 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     },
   );
 
+  const isResource = params.collection === "resources";
+
   return (
     <>
       <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
@@ -105,32 +98,52 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             authToken={authToken}
             display={display}
             id={id}
-            floorPrice={floorPrice ?? 0}
+            floorPrice={tradeable?.floor ?? 0}
             onClose={onListClose}
           />
         </Panel>
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <Label icon={tradeIcon} type="default" className="mb-2">
-            {t("marketplace.listings")}
-          </Label>
+          <div className="flex items-center justify-between">
+            <Label icon={tradeIcon} type="default" className="mb-2">
+              {t("marketplace.listings")}
+            </Label>
+            <Label type="default" className="mb-2">
+              {t("marketplace.availableListings", {
+                count: shortenCount(tradeable?.listings.length ?? 0),
+              })}
+            </Label>
+          </div>
           <div className="mb-2">
             {!tradeable && <Loading />}
             {tradeable?.listings.length === 0 && (
               <p className="text-sm">{t("marketplace.noListings")}</p>
             )}
-            {!!tradeable?.listings.length && (
-              <TradeTable
-                items={tradeable.listings.map((listing) => ({
-                  price: listing.sfl,
-                  expiresAt: "30 days", // TODO,
-                  createdById: listing.listedById,
-                }))}
-                id={farmId}
-              />
-            )}
+            {!!tradeable?.listings.length &&
+              (isResource ? (
+                <ResourceTable
+                  balance={balance}
+                  items={tradeable.listings.map((listing) => ({
+                    price: listing.sfl,
+                    quantity: listing.quantity,
+                    pricePerUnit: listing.sfl / listing.quantity,
+                    createdById: listing.listedById,
+                  }))}
+                  id={farmId}
+                />
+              ) : (
+                <TradeTable
+                  items={tradeable.listings.map((listing) => ({
+                    price: listing.sfl,
+                    expiresAt: "30 days", // TODO,
+                    createdById: listing.listedById,
+                  }))}
+                  id={farmId}
+                />
+              ))}
           </div>
+<<<<<<< HEAD
           <div className="w-full justify-end hidden sm:flex sm:visible">
             <Button
               className="w-full sm:w-fit"
@@ -224,21 +237,29 @@ export const YourListings: React.FC<{
               <div
                 className="flex items-center justify-between"
                 key={listingId}
+=======
+          {!isResource && (
+            <div className="w-full justify-end hidden sm:flex sm:visible">
+              <Button
+                className="w-full sm:w-fit"
+                disabled={!count}
+                onClick={onListClick}
+>>>>>>> 09b8a2dc0 ([FEAT] Update offers)
               >
-                <div className="flex items-center">
-                  <img src={sflIcon} className="h-8 mr-2" />
-                  <p className="text-base">{`${listing.sfl} SFL`}</p>
-                </div>
-                <Button
-                  className="w-fit"
-                  onClick={() => setRemoveListingId(listingId)}
-                >
-                  {t("marketplace.cancelListing")}
-                </Button>
-              </div>
-            );
-          })}
+                {t("marketplace.listForSale")}
+              </Button>
+            </div>
+          )}
         </div>
+        {!isResource && (
+          <Button
+            className="w-full sm:hidden"
+            disabled={!count}
+            onClick={onListClick}
+          >
+            {t("marketplace.listForSale")}
+          </Button>
+        )}
       </InnerPanel>
     </>
   );

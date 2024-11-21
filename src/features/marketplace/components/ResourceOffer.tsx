@@ -5,10 +5,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { NumberInput } from "components/ui/NumberInput";
 import { Decimal } from "decimal.js-light";
-import {
-  TRADE_LIMITS,
-  TRADE_MINIMUMS,
-} from "features/game/actions/tradeLimits";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -18,7 +15,6 @@ import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
 
 type Props = {
-  inventoryCount: Decimal;
   itemName: InventoryItemName;
   floorPrice: number;
   isSaving: boolean;
@@ -27,16 +23,12 @@ type Props = {
   setPrice: (price: number) => void;
   setQuantity: (quantity: number) => void;
   onCancel: () => void;
-  onList: (
-    items: Partial<Record<InventoryItemName, number>>,
-    sfl: number,
-  ) => void;
+  onOffer: () => void;
 };
 
 const MAX_SFL = 150;
 
-export const ResourceList: React.FC<Props> = ({
-  inventoryCount,
+export const ResourceOffer: React.FC<Props> = ({
   itemName,
   floorPrice,
   isSaving,
@@ -45,15 +37,13 @@ export const ResourceList: React.FC<Props> = ({
   setPrice,
   setQuantity,
   onCancel,
-  onList,
+  onOffer,
 }) => {
   const { t } = useAppTranslation();
 
   const unitPrice = new Decimal(quantity).equals(0)
     ? new Decimal(0)
     : new Decimal(price).dividedBy(quantity);
-  const tooLittle =
-    !!quantity && new Decimal(quantity).lessThan(TRADE_MINIMUMS[itemName] ?? 0);
 
   const isTooHigh =
     !!price &&
@@ -74,27 +64,12 @@ export const ResourceList: React.FC<Props> = ({
     <>
       <div>
         <Label type="default" className="my-1 ml-2" icon={tradeIcon}>
-          {t("marketplace.listItem", {
-            type: "Resource",
-          })}
+          {t("marketplace.makeOffer")}
         </Label>
         <div className="flex justify-between">
           <div className="flex items-center">
             <Box image={ITEM_DETAILS[itemName].image} disabled />
             <span className="text-sm">{itemName}</span>
-          </div>
-          <div className="flex flex-col items-end pr-1">
-            <Label
-              type={inventoryCount.lt(quantity) ? "danger" : "info"}
-              className="my-1"
-            >
-              {t("bumpkinTrade.available")}
-            </Label>
-            <span className="text-sm mr-1 font-secondary">
-              {formatNumber(inventoryCount, {
-                decimalPlaces: 0,
-              })}
-            </span>
           </div>
         </div>
 
@@ -155,27 +130,15 @@ export const ResourceList: React.FC<Props> = ({
                   {t("bumpkinTrade.max", { max: TRADE_LIMITS[itemName] ?? 0 })}
                 </Label>
               )}
-              {tooLittle && (
-                <Label
-                  type="danger"
-                  className="my-1 ml-2 mr-1 whitespace-nowrap"
-                >
-                  {t("bumpkinTrade.min", {
-                    min: TRADE_MINIMUMS[itemName] ?? 0,
-                  })}
-                </Label>
-              )}
             </div>
 
             <NumberInput
               value={quantity}
               maxDecimalPlaces={0}
               isOutOfRange={
-                inventoryCount.lt(quantity) ||
                 new Decimal(quantity).greaterThan(
                   TRADE_LIMITS[itemName] ?? 0,
-                ) ||
-                new Decimal(quantity).equals(0)
+                ) || new Decimal(quantity).equals(0)
               }
               onValueChange={(value) => {
                 setQuantity(value.toNumber());
@@ -222,7 +185,7 @@ export const ResourceList: React.FC<Props> = ({
             padding: "5px 5px 5px 2px",
           }}
         >
-          <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
+          <span className="text-xs"> {t("marketplace.offerPrice")}</span>
           <p className="text-xs font-secondary">{`${formatNumber(price, {
             decimalPlaces: 4,
             showTrailingZeros: true,
@@ -284,11 +247,9 @@ export const ResourceList: React.FC<Props> = ({
           </Button>
           <Button
             disabled={
-              tooLittle ||
               isTooHigh ||
               isTooLow ||
               maxSFL ||
-              new Decimal(quantity).gt(inventoryCount) ||
               new Decimal(quantity).gt(
                 TRADE_LIMITS[itemName] ?? new Decimal(0),
               ) ||
@@ -296,9 +257,9 @@ export const ResourceList: React.FC<Props> = ({
               new Decimal(price).equals(0) || // Disable when sfl is 0
               isSaving
             }
-            onClick={() => onList({ [itemName]: quantity }, price)}
+            onClick={onOffer}
           >
-            {t("bumpkinTrade.list")}
+            {t("marketplace.offer")}
           </Button>
         </div>
       </div>

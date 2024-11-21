@@ -59,12 +59,9 @@ export const WhatsNew: React.FC = () => {
           >
             <ListViewCard
               name={display.name}
-              hasBoost={!!display.buff}
               price={new Decimal(item.floor)}
               image={display.image}
-              supply={item.supply}
               type={item.collection}
-              id={item.id}
               onClick={() => {
                 navigate(`/marketplace/${item.collection}/${item.id}`);
               }}

@@ -4,10 +4,13 @@ import { ButtonPanel } from "components/ui/Panel";
 import sfl from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";
 import { BuffLabel } from "features/game/types";
+import { CollectionName } from "features/game/types/marketplace";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   name: string;
   image: string;
+  type: CollectionName;
   price?: Decimal;
   onClick?: () => void;
   buff?: BuffLabel;
@@ -17,9 +20,13 @@ export const ListViewCard: React.FC<Props> = ({
   name,
   buff,
   image,
+  type,
   price,
   onClick,
 }) => {
+  const { t } = useAppTranslation();
+  const isResources = type === "resources";
+
   return (
     <div className="relative cursor-pointer h-full">
       <ButtonPanel
@@ -43,7 +50,13 @@ export const ListViewCard: React.FC<Props> = ({
           {price && price.gt(0) && (
             <div className="flex items-center absolute top-0 left-0">
               <img src={sfl} className="h-5 mr-1" />
-              <p className="text-xs">{`${price} `}</p>
+              <p className="text-xs">
+                {isResources
+                  ? t("marketplace.pricePerUnit", {
+                      price: price.toString(),
+                    })
+                  : `${price}`}
+              </p>
             </div>
           )}
 

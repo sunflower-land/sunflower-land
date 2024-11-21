@@ -1,38 +1,65 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
+import * as Auth from "features/auth/lib/Provider";
 
 import trade from "assets/icons/trade.png";
 import sflIcon from "assets/icons/sfl.webp";
 
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getCollectionName, getTradeableDisplay } from "../../lib/tradeables";
 import Decimal from "decimal.js-light";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
 import { Modal } from "components/ui/Modal";
 import { ClaimPurchase } from "./ClaimPurchase";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
+import { MachineState } from "features/game/lib/gameMachine";
+import { CollectionName } from "features/game/types/marketplace";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { KNOWN_IDS } from "features/game/types";
+import { getItemId } from "features/marketplace/lib/offers";
 
-export const MyListings: React.FC = () => {
+const _isCancellingOffer = (state: MachineState) =>
+  state.matches("marketplaceListingCancelling");
+const _trades = (state: MachineState) => state.context.state.trades;
+const _authToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+
+export const MyListings: React.FC<{
+  collection?: CollectionName;
+  filterItemId?: number;
+}> = ({ collection, filterItemId }) => {
   const { t } = useAppTranslation();
-
-  const { authService } = useContext(AuthProvider.Context);
-
+  const params = useParams();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { authService } = useContext(Auth.Context);
 
   const [claimId, setClaimId] = useState<string>();
   const [removeListingId, setRemoveListingId] = useState<string>();
 
-  const { trades } = gameState.context.state;
+  const isCancellingListing = useSelector(gameService, _isCancellingOffer);
+  const trades = useSelector(gameService, _trades);
+  const authToken = useSelector(authService, _authToken);
+
   const listings = trades.listings ?? {};
+
+  const filteredListings = filterItemId
+    ? Object.fromEntries(
+        Object.entries(listings).filter(([_, listing]) => {
+          const listingItemName = getKeys(
+            listing.items ?? {},
+          )[0] as InventoryItemName;
+          const listingItemId = KNOWN_IDS[listingItemName];
+          return listingItemId === filterItemId;
+        }),
+      )
+    : listings;
 
   const claim = () => {
     const listing = listings[claimId as string];
@@ -51,10 +78,23 @@ export const MyListings: React.FC = () => {
     setClaimId(undefined);
   };
 
+  const handleHide = () => {
+    if (isCancellingListing) return;
+
+    setRemoveListingId(undefined);
+  };
+
   const navigate = useNavigate();
 
   return (
     <>
+      <Modal show={!!removeListingId} onHide={handleHide}>
+        <RemoveListing
+          listingIds={removeListingId ? [removeListingId] : []}
+          authToken={authToken}
+          onClose={() => setRemoveListingId(undefined)}
+        />
+      </Modal>
       <Modal show={!!claimId} onHide={() => setClaimId(undefined)}>
         {claimId && (
           <ClaimPurchase
@@ -82,12 +122,10 @@ export const MyListings: React.FC = () => {
             {t("marketplace.myListings")}
           </Label>
           <div className="flex flex-wrap">
-            {getKeys(listings).length === 0 && (
+            {getKeys(listings).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
-            )}
-
-            {getKeys(listings).length > 0 && (
-              <table className="w-full text-xs  border-collapse bg-[#ead4aa] ">
+            ) : (
+              <table className="w-full text-xs border-collapse bg-[#ead4aa]">
                 <thead>
                   <tr>
                     <th className="p-1.5 w-1/5 text-left">

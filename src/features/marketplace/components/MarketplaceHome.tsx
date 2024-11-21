@@ -1,7 +1,6 @@
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useContext, useEffect, useState } from "react";
-import * as Auth from "features/auth/lib/Provider";
+import React, { useState } from "react";
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
@@ -14,13 +13,11 @@ import {
   Routes,
   useLocation,
   useNavigate,
-  useParams,
   useSearchParams,
 } from "react-router-dom";
 import { Collection } from "./Collection";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -85,25 +82,11 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/trades" element={<MyTrades />} />
               <Route path="/rewards" element={<MarketplaceRewards />} />
               <Route path="/collection/*" element={<Collection />} />
-              <Route
-                path="/:collection/:id"
-                element={<Tradeable floorPrices={{}} />}
-              />
+              <Route path="/:collection/:id" element={<Tradeable />} />
               {/* default to hot */}
               <Route path="/" element={<MarketplaceHotNow />} />
             </Routes>
           )}
-        </div>
-
-        <div
-          className="absolute z-50 flex flex-col justify-between"
-          style={{
-            bottom: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 2}px`,
-          }}
-        >
-          <TransactionCountdown />
-          <AuctionCountdown />
         </div>
       </div>
     </>
@@ -160,13 +143,8 @@ const Option: React.FC<{
 };
 
 const Filters: React.FC = () => {
-  const { t } = useAppTranslation();
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { type } = useParams();
-
-  // Grab query params
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
 

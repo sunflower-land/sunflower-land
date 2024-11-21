@@ -1,3 +1,4 @@
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { BuffLabel, KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
 import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -67,6 +68,8 @@ export function getTradeableDisplay({
 export function getCollectionName(
   itemName: MarketplaceTradeableName,
 ): CollectionName {
+  if (itemName in TRADE_LIMITS) return "resources";
+
   if ((itemName as InventoryItemName) in KNOWN_IDS) {
     return "collectibles";
   }
@@ -75,7 +78,7 @@ export function getCollectionName(
     return "wearables";
   }
 
-  if (itemName.startsWith("Bud #")) {
+  if (itemName.startsWith("Bud")) {
     return "buds";
   }
 

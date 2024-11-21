@@ -35,6 +35,8 @@ import * as Auth from "features/auth/lib/Provider";
 import { AcceptOffer } from "./AcceptOffer";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
+import { useParams } from "react-router-dom";
+import { ResourceTable } from "./ResourceTable";
 
 // JWT TOKEN
 
@@ -42,6 +44,7 @@ const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
+const _balance = (state: MachineState) => state.context.state.balance;
 
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
@@ -53,6 +56,7 @@ export const TradeableOffers: React.FC<{
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+  const params = useParams();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -73,6 +77,7 @@ export const TradeableOffers: React.FC<{
     _hasPendingOfferEffect,
   );
   const authToken = useSelector(authService, _authToken);
+  const balance = useSelector(gameService, _balance);
 
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
@@ -87,6 +92,8 @@ export const TradeableOffers: React.FC<{
     setShowMakeOffer(false);
   };
 
+  const isResource = params.collection === "resources";
+
   return (
     <>
       <Modal show={showMakeOffer} onHide={handleHide}>
@@ -94,8 +101,8 @@ export const TradeableOffers: React.FC<{
           <MakeOffer
             id={id}
             authToken={authToken}
-            tradeable={tradeable}
             display={display}
+            floorPrice={tradeable?.floor ?? 0}
             onClose={() => setShowMakeOffer(false)}
           />
         </Panel>
@@ -115,7 +122,7 @@ export const TradeableOffers: React.FC<{
           />
         </Panel>
       </Modal>
-      {topOffer && (
+      {topOffer && !isResource && (
         <InnerPanel className="mb-1">
           <div className="p-2">
             <div className="flex justify-between mb-2">
@@ -153,24 +160,37 @@ export const TradeableOffers: React.FC<{
             {tradeable?.offers.length === 0 && (
               <p className="text-sm">{t("marketplace.noOffers")}</p>
             )}
-            {!!tradeable?.offers.length && (
-              <TradeTable
-                items={tradeable.offers.map((offer) => ({
-                  price: offer.sfl,
-                  expiresAt: "30 days", // TODO,
-                  createdById: offer.offeredById,
-                  icon:
-                    offer.offeredById === farmId
-                      ? SUNNYSIDE.icons.player
-                      : undefined,
-                }))}
-                id={farmId}
-              />
-            )}
+            {!!tradeable?.offers.length &&
+              (isResource ? (
+                <ResourceTable
+                  balance={balance}
+                  items={tradeable.offers.map((offer) => ({
+                    price: offer.sfl,
+                    quantity: offer.quantity,
+                    pricePerUnit: offer.sfl,
+                    createdById: offer.offeredById,
+                  }))}
+                  id={farmId}
+                />
+              ) : (
+                <TradeTable
+                  items={tradeable.offers.map((offer) => ({
+                    price: offer.sfl,
+                    expiresAt: "30 days", // TODO,
+                    createdById: offer.offeredById,
+                    icon:
+                      offer.offeredById === farmId
+                        ? SUNNYSIDE.icons.player
+                        : undefined,
+                  }))}
+                  id={farmId}
+                />
+              ))}
           </div>
           <div className="w-full justify-end flex">
             <Button
               className="w-full sm:w-fit"
+              disabled={!tradeable}
               onClick={() => setShowMakeOffer(true)}
             >
               {t("marketplace.makeOffer")}

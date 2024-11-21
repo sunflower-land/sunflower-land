@@ -9,8 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
 
-import { PriceHistory } from "./PriceHistory";
-import { TradeableOffers, YourOffer } from "./TradeableOffers";
+import { TradeableOffers } from "./TradeableOffers";
 import { Context } from "features/game/GameProvider";
 import { KNOWN_ITEMS } from "features/game/types";
 import {
@@ -22,12 +21,10 @@ import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { TradeableHeader } from "./TradeableHeader";
 import { TradeableInfo } from "./TradeableInfo";
-import { TradeableListings, YourListings } from "./TradeableListings";
-import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
+import { TradeableListings } from "./TradeableListings";
+import { MyListings } from "./profile/MyListings";
 
-export const Tradeable: React.FC<{
-  floorPrices: FloorPrices;
-}> = ({ floorPrices }) => {
+export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
@@ -55,21 +52,21 @@ export const Tradeable: React.FC<{
 
   const game = gameState.context.state;
   if (display.type === "collectibles") {
-    const name = KNOWN_ITEMS[tradeable?.id as number];
+    const name = KNOWN_ITEMS[Number(id)];
     count = getChestItems(game)[name]?.toNumber() ?? 0;
   }
 
   if (display.type === "wearables") {
-    const name = ITEM_NAMES[tradeable?.id as number];
+    const name = ITEM_NAMES[Number(id)];
     count = availableWardrobe(game)[name] ?? 0;
   }
 
   if (display.type === "buds") {
-    count = getChestBuds(game)[tradeable?.id as number] ? 1 : 0;
+    count = getChestBuds(game)[Number(id)] ? 1 : 0;
   }
 
   if (display.type === "resources") {
-    const name = KNOWN_ITEMS[tradeable?.id as number];
+    const name = KNOWN_ITEMS[Number(id)];
     count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
   }
 
@@ -100,11 +97,11 @@ export const Tradeable: React.FC<{
   }
 
   const onBack = () => {
-    navigate(-1);
+    navigate(`/marketplace/collection?filters=${collection}`);
   };
 
   return (
-    <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-full overflow-x-none pr-1 pb-8">
+    <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
         <div className="block sm:hidden">
           <TradeableHeader
@@ -136,19 +133,17 @@ export const Tradeable: React.FC<{
           />
         </div>
 
-        <YourOffer
-          onOfferRemoved={load}
+        <MyListings
           collection={collection as CollectionName}
-          id={Number(id)}
+          filterItemId={Number(id)}
         />
 
-        <YourListings
-          onListingRemoved={load}
+        <MyOffers
           collection={collection as CollectionName}
-          id={Number(id)}
+          filterItemId={Number(id)}
         />
 
-        <PriceHistory history={tradeable?.history} />
+        {/* <PriceHistory history={tradeable?.history} /> */}
 
         <TradeableListings
           id={Number(id)}
@@ -157,7 +152,6 @@ export const Tradeable: React.FC<{
           display={display}
           farmId={farmId}
           showListItem={showListItem}
-          floorPrice={floorPrices[KNOWN_ITEMS[tradeable?.id as number]] ?? 0}
           count={count}
           onListing={load}
           onListClick={() => {
