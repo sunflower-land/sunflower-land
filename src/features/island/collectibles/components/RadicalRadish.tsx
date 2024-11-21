@@ -1,6 +1,6 @@
 import React from "react";
 
-import radishMutant from "assets/sfts/radish_mutant.gif";
+import radishMutant from "assets/sfts/radish_mutant.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const RadicalRadish: React.FC = () => {

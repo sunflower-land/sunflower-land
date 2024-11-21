@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
-import observatory from "assets/sfts/mom/observatory.gif";
+import observatory from "assets/sfts/mom/observatory.webp";
 import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.webp";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
