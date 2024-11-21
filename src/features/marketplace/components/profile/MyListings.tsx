@@ -117,7 +117,7 @@ export const MyListings: React.FC = () => {
             {t("marketplace.myListings")}
           </Label>
           <div className="flex flex-wrap">
-            {getKeys(listings).length === 0 ? (
+            {getKeys(filteredListings).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
             ) : (
               <table className="w-full text-xs  border-collapse bg-[#ead4aa] ">

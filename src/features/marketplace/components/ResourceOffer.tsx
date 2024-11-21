@@ -5,7 +5,10 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { NumberInput } from "components/ui/NumberInput";
 import { Decimal } from "decimal.js-light";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import {
+  TRADE_LIMITS,
+  TRADE_MINIMUMS,
+} from "features/game/actions/tradeLimits";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -45,6 +48,9 @@ export const ResourceOffer: React.FC<Props> = ({
   const unitPrice = new Decimal(quantity).equals(0)
     ? new Decimal(0)
     : new Decimal(price).dividedBy(quantity);
+
+  const tooLittle =
+    !!quantity && new Decimal(quantity).lessThan(TRADE_MINIMUMS[itemName] ?? 0);
 
   const isTooHigh =
     !!price &&
@@ -129,6 +135,16 @@ export const ResourceOffer: React.FC<Props> = ({
                   className="my-1 ml-2 mr-1 whitespace-nowrap"
                 >
                   {t("bumpkinTrade.max", { max: TRADE_LIMITS[itemName] ?? 0 })}
+                </Label>
+              )}
+              {tooLittle && (
+                <Label
+                  type="danger"
+                  className="my-1 ml-2 mr-1 whitespace-nowrap"
+                >
+                  {t("bumpkinTrade.min", {
+                    min: TRADE_MINIMUMS[itemName] ?? 0,
+                  })}
                 </Label>
               )}
             </div>
@@ -255,6 +271,7 @@ export const ResourceOffer: React.FC<Props> = ({
           </Button>
           <Button
             disabled={
+              tooLittle ||
               isTooHigh ||
               isTooLow ||
               maxSFL ||
