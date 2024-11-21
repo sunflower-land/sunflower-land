@@ -165,7 +165,7 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
                   className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 />
               </div>
-              <div className="flex flex-col justify-between space-y-2">
+              <div className="flex flex-col space-y-2">
                 <span className="text-xs leading-none">
                   {t("obsessionDialogue.codex", {
                     itemName: obsessionName ?? "",
@@ -177,6 +177,9 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
                   type="default"
                 >
                   {`Reward: ${reward} ${getSeasonalTicket()}s`}
+                </Label>
+                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                  {t("alr.completed")}
                 </Label>
               </div>
             </div>
