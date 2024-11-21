@@ -482,7 +482,6 @@
   "bumpkinTrade.youWillReceive": "お届けします",
   "bumpkinTrade.cancel": "[キャンセル]",
   "bumpkinTrade.list": "リスト",
-  "bumpkinTrade.maxListings": "出品数が最大数に達しました",
   "bumpkinTrade.visitBoard": "取引ボードにアクセスして、その他の取引を一覧表示してください。",
   "bumpkinTrade.unlockMoreTrades": "より多くの取引をアンロックしよう",
   "bumpkinTrade.max": "マックス:{{max}}",
@@ -1781,10 +1780,6 @@
   "refresh": "リフレッシュ",
   "refreshing": "リフレッシュ",
   "remaining": "残り",
-  "remaining.free.listings": "{{listingsRemaining}} 件の出品が残っています",
-  "remaining.free.listing": "リストは残り1件",
-  "remaining.free.purchases": "{{purchasesRemaining}} 件の購入が残っています",
-  "remaining.free.purchase": "購入残り 1 個",
   "remove": "[削除]",
   "reqSkillPts": "必要スキルポイント:",
   "reqSkills": "必要なスキル:",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "オンチェーントレーディングは近日公開予定",
   "marketplace.sold": "売却",
   "marketplace.sellerWillReceive": "出品者が受け取る",
-  "marketplace.salePrice": "セール価格"
+  "marketplace.salePrice": "セール価格",
+  "bumpkinTrade.maxListings": "出品中の商品が最大数に達しました",
+  "remaining.free.listings": "{{listingsRemaining}} 日次出品情報の残り",
+  "remaining.free.listing": "デイリーリスティング残り 1 件",
+  "remaining.free.purchases": "{{purchasesRemaining}} 日次購入残高",
+  "remaining.free.purchase": "1 日の購入が残り"
 }

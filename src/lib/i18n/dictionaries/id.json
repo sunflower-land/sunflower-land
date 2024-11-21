@@ -482,7 +482,6 @@
   "bumpkinTrade.youWillReceive": "Anda akan menerima",
   "bumpkinTrade.cancel": "Batalkan",
   "bumpkinTrade.list": "Daftar",
-  "bumpkinTrade.maxListings": "Maksimal daftar tercapai",
   "bumpkinTrade.visitBoard": "Kunjungi papan perdagangan untuk daftar lebih banyak perdagangan.",
   "bumpkinTrade.unlockMoreTrades": "Buka lebih banyak perdagangan",
   "bumpkinTrade.max": "Maks: {{max}}",
@@ -1781,10 +1780,6 @@
   "refresh": "Menyegarkan",
   "refreshing": "Menyegarkan",
   "remaining": "tetap",
-  "remaining.free.listings": "{{listingsRemaining}} daftar tersisa",
-  "remaining.free.listing": "1 listing tersisa",
-  "remaining.free.purchases": "{{purchasesRemaining}} sisa pembelian",
-  "remaining.free.purchase": "1 pembelian tersisa",
   "remove": "Hapus",
   "reqSkillPts": "Poin Keterampilan yang Diperlukan:",
   "reqSkills": "Keterampilan yang Diperlukan:",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "Perdagangan beranTAI segera hadir",
   "marketplace.sold": "Terjual",
   "marketplace.sellerWillReceive": "Penjual akan menerima",
-  "marketplace.salePrice": "Harga Jual"
+  "marketplace.salePrice": "Harga Jual",
+  "bumpkinTrade.maxListings": "Maksimal daftar aktif tercapai",
+  "remaining.free.listings": "{{listingsRemaining}} daftar harian tersisa",
+  "remaining.free.listing": "1 listing harian tersisa",
+  "remaining.free.purchases": "{{purchasesRemaining}} sisa pembelian harian",
+  "remaining.free.purchase": "1 pembelian harian tersisa"
 }

@@ -482,7 +482,6 @@
   "bumpkinTrade.youWillReceive": "Du erhältst",
   "bumpkinTrade.cancel": "Stornieren",
   "bumpkinTrade.list": "Liste",
-  "bumpkinTrade.maxListings": "Max. Angebote erreicht",
   "bumpkinTrade.visitBoard": "Besuchen Sie das Trading Board, um weitere Trades aufzulisten.",
   "bumpkinTrade.unlockMoreTrades": "Schalte mehr Trades frei",
   "bumpkinTrade.max": "Maximal: {{max}}",
@@ -1781,10 +1780,6 @@
   "refresh": "Auffrischen",
   "refreshing": "Erfrischend",
   "remaining": "verbliebene",
-  "remaining.free.listings": "{{listingsRemaining}} verbleibende Angebote",
-  "remaining.free.listing": "1 Angebot verbleibt",
-  "remaining.free.purchases": "{{purchasesRemaining}} verbleibende Käufe",
-  "remaining.free.purchase": "Noch 1 Einkauf",
   "remove": "entfernen",
   "reqSkillPts": "Erforderliche Skillpunkte:",
   "reqSkills": "Erforderliche Fähigkeiten:",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "Über den Kettenhandel in Kürze",
   "marketplace.sold": "Verkauft",
   "marketplace.sellerWillReceive": "Der Verkäufer erhält",
-  "marketplace.salePrice": "Verkaufspreis"
+  "marketplace.salePrice": "Verkaufspreis",
+  "bumpkinTrade.maxListings": "Max. Anzahl aktiver Angebote erreicht",
+  "remaining.free.listings": "{{listingsRemaining}} verbleibende Tagesangebote",
+  "remaining.free.listing": "Noch 1 Tagesangebot verfügbar",
+  "remaining.free.purchases": "{{purchasesRemaining}} verbleibende tägliche Einkäufe",
+  "remaining.free.purchase": "Noch 1 täglicher Einkauf"
 }

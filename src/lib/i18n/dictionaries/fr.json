@@ -326,7 +326,6 @@
   "bumpkinTrade.youWillReceive": "Vous recevrez",
   "bumpkinTrade.cancel": "Annuler",
   "bumpkinTrade.list": "Liste",
-  "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
   "bumpkinTrade.max": "Max : {{max}}",
   "bumpkinTrade.min": "Min : {{min}}",
   "bumpkinTrade.floorPrice": "Prix minimum : {{price}} SFL",
@@ -2900,10 +2899,6 @@
   "optional": "Facultatif",
   "place": "Lieu",
   "player": "Joueur",
-  "remaining.free.listings": "{{listingsRemaining}} annonces restantes",
-  "remaining.free.listing": "Il reste 1 annonce",
-  "remaining.free.purchases": "{{purchasesRemaining}} achats restants",
-  "remaining.free.purchase": "Il reste 1 achat",
   "requirements": "Exigences",
   "resource.nodes": "Nœuds de ressources",
   "reward.whatsNew": "Quoi de neuf",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "Bientôt disponible sur le trading en chaîne",
   "marketplace.sold": "Vendu",
   "marketplace.sellerWillReceive": "Le vendeur recevra",
-  "marketplace.salePrice": "Prix de vente"
+  "marketplace.salePrice": "Prix de vente",
+  "bumpkinTrade.maxListings": "Nombre maximum d'annonces actives atteintes",
+  "remaining.free.listings": "{{listingsRemaining}} annonces quotidiennes restantes",
+  "remaining.free.listing": "Il reste 1 annonce quotidienne",
+  "remaining.free.purchases": "{{purchasesRemaining}} achats quotidiens restants",
+  "remaining.free.purchase": "Il reste 1 achat quotidien"
 }

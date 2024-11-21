@@ -480,7 +480,6 @@
   "bumpkinTrade.youWillReceive": "Riceverai",
   "bumpkinTrade.cancel": "Annulla",
   "bumpkinTrade.list": "Metti in vendita",
-  "bumpkinTrade.maxListings": "Numero massimo di inserzioni raggiunto",
   "bumpkinTrade.visitBoard": "Visita la scheda di negoziazione per elencare altre negoziazioni.",
   "bumpkinTrade.unlockMoreTrades": "Sblocca più transazioni",
   "bumpkinTrade.max": "Massimo: {{max}}",
@@ -1762,10 +1761,6 @@
   "refresh": "Aggiorna",
   "refreshing": "Rinfrescante",
   "remaining": "rimanenti",
-  "remaining.free.listings": "{{listingsRemaining}} inserzioni rimanenti",
-  "remaining.free.listing": "1 inserzione rimanente",
-  "remaining.free.purchases": "{{purchasesRemaining}} acquisti rimanenti",
-  "remaining.free.purchase": "1 acquisto rimanente",
   "remove": "Rimuovi",
   "reqSkillPts": "Punti abilità richiesti:",
   "reqSkills": "Abilità richieste:",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "Trading a catena in arrivo",
   "marketplace.sold": "Venduto",
   "marketplace.sellerWillReceive": "Il venditore riceverà",
-  "marketplace.salePrice": "Prezzo di vendita"
+  "marketplace.salePrice": "Prezzo di vendita",
+  "bumpkinTrade.maxListings": "Raggiunto il numero massimo di inserzioni attive",
+  "remaining.free.listings": "{{listingsRemaining}} inserzioni giornaliere rimanenti",
+  "remaining.free.listing": "1 inserzione giornaliera rimanente",
+  "remaining.free.purchases": "{{purchasesRemaining}} acquisti giornalieri rimanenti",
+  "remaining.free.purchase": "1 acquisto giornaliero rimanente"
 }

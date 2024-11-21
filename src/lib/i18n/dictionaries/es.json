@@ -481,7 +481,6 @@
   "bumpkinTrade.youWillReceive": "Recibirás",
   "bumpkinTrade.cancel": "Cancelar",
   "bumpkinTrade.list": "Vender",
-  "bumpkinTrade.maxListings": "Se alcanzó el número máximo de anuncios.",
   "bumpkinTrade.visitBoard": "Visita el tablón de comercio para listar más intercambios de compra y venta.",
   "bumpkinTrade.unlockMoreTrades": "Desbloquea más opciones de compra y venta.",
   "bumpkinTrade.max": "Máximo: {{max}}",
@@ -1763,10 +1762,6 @@
   "refresh": "Refrescar",
   "refreshing": "Refrescante",
   "remaining": "restante",
-  "remaining.free.listings": "{{listingsRemaining}} listados restantes",
-  "remaining.free.listing": "Queda 1 anuncio",
-  "remaining.free.purchases": "{{purchasesRemaining}} compras restantes",
-  "remaining.free.purchase": "Queda 1 compra",
   "remove": "Eliminar",
   "reqSkillPts": "Puntos de habilidad requeridos:",
   "reqSkills": "Habilidades requeridas:",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "Próximamente, el comercio en cadena",
   "marketplace.sold": "Vendido",
   "marketplace.sellerWillReceive": "El vendedor recibirá",
-  "marketplace.salePrice": "Precio de venta"
+  "marketplace.salePrice": "Precio de venta",
+  "bumpkinTrade.maxListings": "Se ha alcanzado el número máximo de anuncios activos",
+  "remaining.free.listings": "{{listingsRemaining}} listados diarios restantes",
+  "remaining.free.listing": "Queda 1 anuncio diario",
+  "remaining.free.purchases": "{{purchasesRemaining}} compras diarias restantes",
+  "remaining.free.purchase": "Queda 1 compra diaria"
 }

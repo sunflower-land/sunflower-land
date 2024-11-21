@@ -337,7 +337,6 @@
   "bumpkinTrade.youWillReceive": "Alacağın miktar",
   "bumpkinTrade.cancel": "İptal",
   "bumpkinTrade.list": "Listele",
-  "bumpkinTrade.maxListings": "Maksimum listelemeye ulaşıldı",
   "buyFarmHand.howdyBumpkin": "Selam Bumpkin.",
   "buyFarmHand.confirmBuyAdditional": "Ek bir Bumpkin satın almak istediğinizden emin misiniz?",
   "buyFarmHand.farmhandCoupon": "1 Çiftlik Yardımcısı Kuponu",
@@ -2901,10 +2900,6 @@
   "opened": "Açıldı",
   "optional": "İsteğe Bağlı",
   "player": "Oyuncu",
-  "remaining.free.listings": "{{listingsRemaining}} kalan listeler",
-  "remaining.free.listing": "1 adet ilan kaldı",
-  "remaining.free.purchases": "{{purchasesRemaining}} kalan alımlar",
-  "remaining.free.purchase": "1 satın alma kaldı",
   "requirements": "Gereksinimler",
   "resource.nodes": "Kaynak Düğümleri",
   "reward.whatsNew": "Yenilikler",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "Zincir ticareti yakında",
   "marketplace.sold": "Satıldı",
   "marketplace.sellerWillReceive": "Satıcı alacak",
-  "marketplace.salePrice": "Satış Fiyatı"
+  "marketplace.salePrice": "Satış Fiyatı",
+  "bumpkinTrade.maxListings": "Maksimum aktif listeye ulaşıldı",
+  "remaining.free.listings": "{{listingsRemaining}} kalan günlük listeler",
+  "remaining.free.listing": "1 günlük liste kaldı",
+  "remaining.free.purchases": "{{purchasesRemaining}} kalan günlük alımlar",
+  "remaining.free.purchase": "Günlük 1 satın alma kaldı"
 }

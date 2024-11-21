@@ -482,7 +482,6 @@
   "bumpkinTrade.youWillReceive": "받게 될 것입니다",
   "bumpkinTrade.cancel": "취소",
   "bumpkinTrade.list": "리스트",
-  "bumpkinTrade.maxListings": "최대 리스팅에 도달했습니다.",
   "bumpkinTrade.visitBoard": "거래 게시판을 방문하여 더 많은 거래를 나열하세요.",
   "bumpkinTrade.unlockMoreTrades": "더 많은 거래를 잠금 해제하세요",
   "bumpkinTrade.max": "최대: {{max}}",
@@ -1781,10 +1780,6 @@
   "refresh": "새로 고침",
   "refreshing": "새로 고침",
   "remaining": "남은",
-  "remaining.free.listings": "{{listingsRemaining}} 리스팅 잔여",
-  "remaining.free.listing": "목록 1개 남음",
-  "remaining.free.purchases": "{{purchasesRemaining}} 구매 잔여",
-  "remaining.free.purchase": "구매 1개 남음",
   "remove": "제거",
   "reqSkillPts": "필수 스킬 포인트:",
   "reqSkills": "필수 기술:",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "온체인 트레이딩이 곧 시작됩니다",
   "marketplace.sold": "판매",
   "marketplace.sellerWillReceive": "판매자가 받게 됩니다",
-  "marketplace.salePrice": "세일 가격"
+  "marketplace.salePrice": "세일 가격",
+  "bumpkinTrade.maxListings": "활성 리스팅 최대 개수에 도달함",
+  "remaining.free.listings": "{{listingsRemaining}} 일일 리스팅 잔량",
+  "remaining.free.listing": "하루 목록 1개 남음",
+  "remaining.free.purchases": "{{purchasesRemaining}} 일일 구매 잔량",
+  "remaining.free.purchase": "하루 구매 수량 1개 남음"
 }

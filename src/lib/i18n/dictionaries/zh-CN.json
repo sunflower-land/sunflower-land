@@ -457,7 +457,6 @@
   "bumpkinTrade.youWillReceive": "您将收到",
   "bumpkinTrade.cancel": "取消",
   "bumpkinTrade.list": "上架",
-  "bumpkinTrade.maxListings": "已达到最大上架单数",
   "bumpkinTrade.visitBoard": "去查看贸易板上架更多挂单吧。",
   "bumpkinTrade.unlockMoreTrades": "解锁更多挂单",
   "bumpkinTrade.max": "最多: {{max}}",
@@ -1622,10 +1621,6 @@
   "faction": "帮派",
   "free": "免费",
   "player": "玩家",
-  "remaining.free.listings": "剩余 {{listingsRemaining}} 次上架",
-  "remaining.free.listing": "剩余 1 次上架",
-  "remaining.free.purchases": "剩余 {{purchasesRemaining}} 次采购",
-  "remaining.free.purchase": "剩余 1 次采购",
   "vipAccess": "VIP 权限",
   "coins": "硬币",
   "greenhouse": "温室",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "链上交易即将推出",
   "marketplace.sold": "已售出",
   "marketplace.sellerWillReceive": "卖家将收到",
-  "marketplace.salePrice": "销售价格"
+  "marketplace.salePrice": "销售价格",
+  "bumpkinTrade.maxListings": "已达到最大活跃房源",
+  "remaining.free.listings": "{{listingsRemaining}} 每日剩余房源",
+  "remaining.free.listing": "每日还剩 1 个房源",
+  "remaining.free.purchases": "{{purchasesRemaining}} 每日剩余购买量",
+  "remaining.free.purchase": "每天还剩 1 次购买"
 }

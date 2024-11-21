@@ -404,7 +404,6 @@
   "bumpkinTrade.youWillReceive": "Ты получишь",
   "bumpkinTrade.cancel": "Отмена",
   "bumpkinTrade.list": "Выставить",
-  "bumpkinTrade.maxListings": "Достигнут лимит продаж",
   "bumpkinTrade.visitBoard": "На доске объявлений ты сможешь разместить больше.",
   "bumpkinTrade.unlockMoreTrades": "Разблокируй больше продаж в день",
   "bumpkinTrade.max": "Максимум: {{max}}",
@@ -1686,10 +1685,6 @@
   "refresh": "Обновить",
   "refreshing": "Обновляем",
   "remaining": "осталось",
-  "remaining.free.listings": "Осталось {{listingsRemaining}} продаж",
-  "remaining.free.listing": "Осталась 1 продажа",
-  "remaining.free.purchases": "Осталось {{purchasesRemaining}} покупок",
-  "remaining.free.purchase": "Осталась 1 покупка",
   "remove": "Удалить",
   "reqSkillPts": "Необходимо скилл-поинтов",
   "reqSkills": "Необходимые навыки",
@@ -4400,5 +4395,10 @@
   "marketplace.onchainComingSoon": "О сетевой торговле в ближайшее время",
   "marketplace.sold": "Продано",
   "marketplace.sellerWillReceive": "Продавец получит",
-  "marketplace.salePrice": "Цена продажи"
+  "marketplace.salePrice": "Цена продажи",
+  "bumpkinTrade.maxListings": "Достигнуто максимальное количество активных объявлений",
+  "remaining.free.listings": "Осталось {{listingsRemaining}} ежедневных объявлений",
+  "remaining.free.listing": "Осталось 1 объявление за день",
+  "remaining.free.purchases": "{{purchasesRemaining}} количество оставшихся ежедневных покупок",
+  "remaining.free.purchase": "Осталась 1 ежедневная покупка"
 }
