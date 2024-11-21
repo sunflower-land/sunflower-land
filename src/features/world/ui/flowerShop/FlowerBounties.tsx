@@ -111,7 +111,7 @@ export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
             <div
               key={deal.id}
               className={classNames("w-full pb-0.5", {
-                "pointer-events-none": isSold,
+                "pointer-events-none": isSold || readonly,
               })}
             >
               <ButtonPanel

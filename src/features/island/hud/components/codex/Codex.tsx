@@ -107,10 +107,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   );
   const incompleteFlowerBountiesCount = incompleteFlowerBounties.reduce(
     (no, deal) => {
-      const soldCount = !!state.bounties.completed.find(
+      const isSold = !!state.bounties.completed.find(
         (request) => request.id === deal.id,
       );
-      return soldCount ? no - 1 : no;
+      return isSold ? no - 1 : no;
     },
     incompleteFlowerBounties.length,
   );
