@@ -120,7 +120,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   />
                   <div>
                     <div className="flex flex-wrap items-start">
-                      <Label type="default" className="mr-0.5 mb-1">
+                      <Label type="default" className="mr-1 mb-1">
                         {`${formatNumber(airdrop.items[name] ?? 1)} x ${name}`}
                       </Label>
                       {name in CONSUMABLES && (
@@ -138,22 +138,21 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                         )} XP`}</Label>
                       )}
                     </div>
-                    {!buff && (
+                    {buff ? (
+                      <Label
+                        type={buff.labelType}
+                        icon={buff.boostTypeIcon}
+                        secondaryIcon={buff.boostedItemIcon}
+                        className="ml-1"
+                      >
+                        {buff.shortDescription}
+                      </Label>
+                    ) : (
                       <p className="text-xs ml-0.5">
                         {ITEM_DETAILS[name]?.description
                           ? ITEM_DETAILS[name].description
                           : t("reward.collectible")}
                       </p>
-                    )}
-                    {buff && (
-                      <Label
-                        type={buff.labelType}
-                        icon={buff.boostTypeIcon}
-                        secondaryIcon={buff.boostedItemIcon}
-                        className="ml-0.5"
-                      >
-                        {buff.shortDescription}
-                      </Label>
                     )}
                   </div>
                 </ButtonPanel>
@@ -177,22 +176,21 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                       type="default"
                       className="mb-1"
                     >{`${formatNumber(airdrop.wearables[name] ?? 1)} x ${name}`}</Label>
-                    {!buff && (
+                    {buff ? (
+                      <Label
+                        type={buff.labelType}
+                        icon={buff.boostTypeIcon}
+                        secondaryIcon={buff.boostedItemIcon}
+                        className="ml-1"
+                      >
+                        {buff.shortDescription}
+                      </Label>
+                    ) : (
                       <p className="text-xs ml-0.5">
                         {ITEM_DETAILS[name as InventoryItemName]?.description
                           ? ITEM_DETAILS[name as InventoryItemName].description
                           : t("reward.wearable")}
                       </p>
-                    )}
-                    {buff && (
-                      <Label
-                        type={buff.labelType}
-                        icon={buff.boostTypeIcon}
-                        secondaryIcon={buff.boostedItemIcon}
-                        className="ml-0.5"
-                      >
-                        {buff.shortDescription}
-                      </Label>
                     )}
                   </div>
                 </ButtonPanel>
