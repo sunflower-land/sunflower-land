@@ -49,6 +49,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -117,7 +118,11 @@ export const OrderCard: React.FC<{
                   key={itemName}
                   type="item"
                   item={itemName}
-                  balance={inventory[itemName] ?? new Decimal(0)}
+                  balance={
+                    itemName in getChestItems(game)
+                      ? getChestItems(game)[itemName] ?? new Decimal(0)
+                      : inventory[itemName] ?? new Decimal(0)
+                  }
                   showLabel
                   requirement={new Decimal(order?.items[itemName] ?? 0)}
                 />
@@ -578,6 +583,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
     if (name === "sfl") {
       return game.balance?.gte(delivery?.items.sfl ?? 0);
+    }
+
+    if (name in getChestItems(game)) {
+      return getChestItems(game)[name]?.gte(delivery?.items[name] ?? 0);
     }
 
     return game.inventory[name]?.gte(delivery?.items[name] ?? 0);
