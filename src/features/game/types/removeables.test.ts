@@ -491,6 +491,35 @@ describe("canremove", () => {
 
       expect(restricted).toBe(true);
     });
+
+    it("prevents a user from removing Farm Dog when sheep are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Farm Dog", "123", {
+        ...INITIAL_FARM,
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.barn.animals["1"],
+              type: "Sheep",
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        collectibles: {
+          "Farm Dog": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
   });
 
   describe("enables", () => {
@@ -578,6 +607,35 @@ describe("canremove", () => {
         },
         collectibles: {
           "Toxic Tuft": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
+
+    it("enables a user to remove Farm Dog when no sheep are sleeping", () => {
+      const [restricted] = hasRemoveRestriction("Farm Dog", "123", {
+        ...TEST_FARM,
+        barn: {
+          ...TEST_FARM.barn,
+          animals: {
+            "1": {
+              ...TEST_FARM.barn.animals["1"],
+              type: "Sheep",
+              asleepAt: 0,
+              awakeAt: 0,
+            },
+          },
+        },
+        collectibles: {
+          "Farm Dog": [
             {
               coordinates: { x: 1, y: 1 },
               createdAt: 0,

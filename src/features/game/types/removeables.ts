@@ -638,6 +638,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Cluckulator: (game) => areAnyChickensSleeping(game),
   "Longhorn Cowfish": (game) => areAnyCowsSleeping(game),
   "Toxic Tuft": (game) => areAnySheepSleeping(game),
+  "Farm Dog": (game) => areAnySheepSleeping(game),
   Mootant: (game) => areAnyCowsSleeping(game),
   "Alien Chicken": (game) => areAnyChickensSleeping(game),
 };
