@@ -58,7 +58,7 @@ import mysteriousHead from "assets/sfts/mysterious_head.png";
 import tunnelMole from "assets/sfts/tunnel_mole.gif";
 import rockyMole from "assets/sfts/rocky_mole.gif";
 import nugget from "assets/sfts/nugget.gif";
-import rockGolem from "assets/sfts/rock_golem.gif";
+import rockGolem from "assets/sfts/rock_golem.webp";
 import rooster from "assets/animals/chickens/rooster.webp";
 import undeadChicken from "assets/animals/chickens/undead_chicken.webp";
 import wickerMan from "assets/sfts/wicker_man.png";
@@ -253,7 +253,7 @@ import giantCarrot from "assets/sfts/giant_carrot.png";
 
 //MOM Event
 import momCoreEngine from "assets/sfts/mom/engine_core.png";
-import observatory from "assets/sfts/mom/observatory.gif";
+import observatory from "assets/sfts/mom/observatory.webp";
 
 // Cakes
 import carrotCake from "assets/food/cakes/carrot_cake.png";
@@ -493,9 +493,9 @@ import giantPotato from "assets/sfts/giant_potato.png";
 import labGrownCarrot from "assets/sfts/lab_grown_carrot.gif";
 import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
 import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
-import potatoMutant from "assets/sfts/potato_mutant.gif";
-import radishMutant from "assets/sfts/radish_mutant.gif";
-import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
+import potatoMutant from "assets/sfts/potato_mutant.webp";
+import radishMutant from "assets/sfts/radish_mutant.webp";
+import sunflowerMutant from "assets/sfts/sunflower_mutant.webp";
 
 import battleCryDrum from "assets/sfts/battlecry_drum.webp";
 import bullseyBoard from "assets/sfts/bullseye_board.webp";
