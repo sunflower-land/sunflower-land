@@ -274,14 +274,20 @@ export function areTreasureHolesDug({
   game: GameState;
   minHoles: number;
 }): Restriction {
-  const holes = game.desert.digging.grid.flat().map((hole) => {
+  const holesDug = game.desert.digging.grid.flat().reduce((sum, hole) => {
     const today = new Date().toISOString().substring(0, 10);
+    const dugAt = new Date(hole.dugAt).toISOString().substring(0, 10);
+    const dugToday = today === dugAt;
 
-    return +(new Date(hole.dugAt).toISOString().substring(0, 10) === today);
-  });
-  const holesDug = holes.reduce((sum, value) => sum + value, 0) > minHoles;
+    if (dugToday) {
+      return sum + 1;
+    }
+    return sum;
+  }, 0);
 
-  return [holesDug, translate("restrictionReason.treasuresDug")];
+  const hasHitMinHoles = holesDug <= minHoles;
+
+  return [hasHitMinHoles, translate("restrictionReason.treasuresDug")];
 }
 
 function areAnyComposting(game: GameState): Restriction {
