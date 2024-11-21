@@ -1,7 +1,7 @@
 import React from "react";
 
 import candles from "assets/decorations/candles.png";
-import candlesOn from "assets/decorations/candles_on.gif";
+import candlesOn from "assets/decorations/candles_on.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const isHalloween = () => {
