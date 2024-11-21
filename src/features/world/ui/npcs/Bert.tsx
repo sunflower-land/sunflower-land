@@ -131,59 +131,97 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
 
   const endDate = !currentObsession ? 0 : currentObsession.endDate;
   const resetSeconds = (endDate - new Date().getTime()) / 1000;
+  const reward = state.bertObsession?.reward ?? 0;
 
-  return (
-    <>
-      {readonly && (
-        <Label type="default" className="my-1 ml-1">{`Bert's Obession`}</Label>
-      )}
-      {!currentObsession && (
-        <p className="text-center text-sm my-3">{t("no.obsessions")}</p>
-      )}
-      {currentObsession && (
-        <>
-          <div className="w-full flex flex-col items-center mx-auto">
-            <p className="text-center text-sm mb-3">
-              {readonly
-                ? t("obsessionDialogue.codex", {
-                    itemName: currentObsession?.name,
-                    seasonalTicket: getSeasonalTicket().toLowerCase(),
-                  })
-                : obsessionDialogue}
-            </p>
-
-            <div className="relative mb-2">
-              <img
-                src={SUNNYSIDE.ui.grey_background}
-                className="w-48 object-contain rounded-md"
-              />
-              <div className="absolute inset-0">
-                <img
-                  src={image}
-                  className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                />
-              </div>
-            </div>
-            <Label
-              type="info"
-              className="mb-2"
-              icon={SUNNYSIDE.icons.stopwatch}
-            >
+  if (readonly) {
+    return (
+      <>
+        <div className="flex flex-col items-center space-y-2">
+          <div className="flex flex-row justify-between w-full my-1 mt-1">
+            <Label type="default">{"Bert's Obsession"}</Label>
+            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
               {`${t("offer.end")} ${secondsToString(resetSeconds, {
                 length: "medium",
                 removeTrailingZeros: true,
               })}`}
             </Label>
-            <CompleteObsession
-              isObsessionCollectible={isObsessionCollectible}
-              obsessionName={obsessionName}
-              currentObsession={currentObsession}
-              readonly={readonly}
-            />
           </div>
-        </>
+          <div className="w-full p-2 px-1">
+            <div className="flex">
+              <div
+                className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+                style={
+                  isObsessionCollectible
+                    ? {
+                        backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }
+                    : {}
+                }
+              >
+                <img
+                  src={image}
+                  className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                />
+              </div>
+              <div className="flex flex-col justify-between space-y-2">
+                <span className="text-xs leading-none">
+                  {t("obsessionDialogue.codex", {
+                    itemName: obsessionName ?? "",
+                    seasonalTicket: getSeasonalTicket().toLowerCase(),
+                  })}
+                </span>
+                <Label
+                  className="whitespace-nowrap font-secondary relative"
+                  type="default"
+                >
+                  {`Reward: ${reward} ${getSeasonalTicket()}s`}
+                </Label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <div className="w-full flex flex-col items-center pt-0.5">
+      {!currentObsession && (
+        <p className="text-center text-sm my-3">{t("no.obsessions")}</p>
       )}
-    </>
+      {currentObsession && (
+        <div className="w-full flex flex-col items-center mx-auto">
+          <p className="text-center text-sm mb-3">{obsessionDialogue}</p>
+
+          <div className="relative mb-2">
+            <img
+              src={SUNNYSIDE.ui.grey_background}
+              className="w-48 object-contain rounded-md"
+            />
+            <div className="absolute inset-0">
+              <img
+                src={image}
+                className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              />
+            </div>
+          </div>
+          <Label type="info" className="mb-2" icon={SUNNYSIDE.icons.stopwatch}>
+            {`${t("offer.end")} ${secondsToString(resetSeconds, {
+              length: "medium",
+              removeTrailingZeros: true,
+            })}`}
+          </Label>
+        </div>
+      )}
+      <CompleteObsession
+        isObsessionCollectible={isObsessionCollectible}
+        obsessionName={obsessionName}
+        currentObsession={currentObsession}
+        readonly={readonly}
+      />
+    </div>
   );
 };
 
