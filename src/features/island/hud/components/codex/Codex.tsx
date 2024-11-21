@@ -106,11 +106,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     (deal) => deal.name in FLOWERS,
   );
   const incompleteFlowerBountiesCount = incompleteFlowerBounties.reduce(
-    (no, deal) => {
+    (count, deal) => {
       const isSold = !!state.bounties.completed.find(
         (request) => request.id === deal.id,
       );
-      return isSold ? no - 1 : no;
+      return isSold ? count - 1 : count;
     },
     incompleteFlowerBounties.length,
   );
