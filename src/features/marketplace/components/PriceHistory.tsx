@@ -6,6 +6,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { PriceHistory as IPriceHistory } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CONFIG } from "lib/config";
 
 interface Props {
   history?: IPriceHistory[];
@@ -15,6 +16,14 @@ export const PriceHistory: React.FC<Props> = ({ history }) => {
   const { t } = useAppTranslation();
 
   const lastSold = history?.reverse().find((p) => !!p.price);
+
+  if (CONFIG.NETWORK === "mainnet") {
+    return (
+      <InnerPanel className="mb-1">
+        <p>{t("coming.soon")}</p>
+      </InnerPanel>
+    );
+  }
 
   return (
     <InnerPanel className="mb-1">

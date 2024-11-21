@@ -39,6 +39,23 @@ export type PriceHistory = {
   price: number;
 };
 
+export type SaleHistory = {
+  oneDayChange: number;
+  sevenDayChange: number;
+  thirtyDayChange: number;
+  sales: {
+    id: string;
+    sfl: number;
+    quantity: number;
+    fulfilledAt: number;
+    fulfilledBy: {
+      id: number;
+      username?: string;
+      bumpkinUri?: string;
+    };
+  }[];
+};
+
 export type TradeableDetails = Tradeable & {
   offers: Offer[];
   listings: Listing[];
