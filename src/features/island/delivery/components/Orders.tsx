@@ -54,6 +54,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -91,7 +92,9 @@ export function hasOrderRequirements({
   sfl,
   coins,
   inventory,
+  state,
 }: {
+  state: GameState;
   sfl: Decimal;
   coins: number;
   inventory: Inventory;
@@ -104,7 +107,10 @@ export function hasOrderRequirements({
     if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
 
     const amount = order.items[name] || new Decimal(0);
-    const count = inventory[name] || new Decimal(0);
+    const count =
+      name in getChestItems(state)
+        ? getChestItems(state)[name] ?? new Decimal(0)
+        : inventory[name] ?? new Decimal(0);
 
     return count.gte(amount);
   });
@@ -153,7 +159,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         })}
         style={{ paddingBottom: "20px" }}
       >
-        {hasOrderRequirements({ order, coins, sfl, inventory }) &&
+        {hasOrderRequirements({ order, coins, sfl, inventory, state }) &&
           !order.completedAt && (
             <img
               src={SUNNYSIDE.icons.heart}
@@ -735,7 +741,11 @@ export const DeliveryOrders: React.FC<Props> = ({
                       key={`${itemName}-${index}-items`}
                       type="item"
                       item={itemName}
-                      balance={inventory[itemName] ?? new Decimal(0)}
+                      balance={
+                        itemName in getChestItems(state)
+                          ? getChestItems(state)[itemName] ?? new Decimal(0)
+                          : inventory[itemName] ?? new Decimal(0)
+                      }
                       showLabel
                       requirement={
                         new Decimal(previewOrder?.items[itemName] ?? 0)
@@ -797,6 +807,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                     sfl,
                     coins,
                     inventory,
+                    state,
                   }) && (
                     <Button
                       className="!text-xs !mt-0 !-mb-1"

@@ -69,7 +69,7 @@ export const getChestBuds = (
   );
 };
 
-export const getChestItems = (state: GameState) => {
+export const getChestItems = (state: GameState): Inventory => {
   const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
     if (itemName === "Tree") {
       return {

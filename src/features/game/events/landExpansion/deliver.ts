@@ -15,6 +15,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -361,7 +362,10 @@ export function deliverOrder({
 
         game.balance = sfl.sub(amount);
       } else {
-        const count = game.inventory[name] || new Decimal(0);
+        const count =
+          name in getChestItems(game)
+            ? getChestItems(game)[name] ?? new Decimal(0)
+            : game.inventory[name] ?? new Decimal(0);
         const amount = order.items[name] || new Decimal(0);
 
         if (count.lessThan(amount)) {
