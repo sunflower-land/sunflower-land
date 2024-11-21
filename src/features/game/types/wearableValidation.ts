@@ -73,7 +73,7 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Oil Overalls": (state) => !areAnyOilReservesDrilled(state)[0],
   "Hornet Mask": (state) => isBeehivesFull(state)[0],
   "Ancient Shovel": (state) =>
-    areTreasureHolesDug({ game: state, minHoles: 0 })[0],
+    !areTreasureHolesDug({ game: state, minHoles: 0 })[0],
   "Pirate Potion": (state) => !hasOpenedPirateChest(state)[0],
   "Dream Scarf": (state) => !areAnySheepSleeping(state)[0],
   "Milk Apron": (state) => !areAnyCowsSleeping(state)[0],

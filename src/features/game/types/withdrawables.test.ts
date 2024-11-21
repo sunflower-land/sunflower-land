@@ -76,6 +76,124 @@ describe("withdrawables", () => {
       expect(enabled).toBeFalsy();
     });
 
+    it("prevents withdrawal of Ancient Shovel when player has dug for the day", () => {
+      const state: GameState = {
+        ...TEST_FARM,
+        desert: {
+          digging: {
+            patterns: [],
+            grid: [
+              {
+                x: 1,
+                y: 1,
+                dugAt: Date.now(),
+                items: {},
+                tool: "Sand Shovel",
+              },
+              {
+                x: 1,
+                y: 1,
+                dugAt: Date.now(),
+                items: {},
+                tool: "Sand Shovel",
+              },
+              [
+                {
+                  x: 1,
+                  y: 1,
+                  dugAt: Date.now(),
+                  items: {},
+                  tool: "Sand Drill",
+                },
+                {
+                  x: 1,
+                  y: 1,
+                  dugAt: Date.now(),
+                  items: {},
+                  tool: "Sand Drill",
+                },
+                {
+                  x: 1,
+                  y: 1,
+                  dugAt: Date.now(),
+                  items: {},
+                  tool: "Sand Drill",
+                },
+                {
+                  x: 1,
+                  y: 1,
+                  dugAt: Date.now(),
+                  items: {},
+                  tool: "Sand Drill",
+                },
+              ],
+            ],
+          },
+        },
+      };
+      const enabled = BUMPKIN_WITHDRAWABLES["Ancient Shovel"](state);
+      expect(enabled).toBeFalsy();
+    });
+
+    it("allows withdrawal of Ancient Shovel when player hasn't dug for the day yet", () => {
+      const state: GameState = {
+        ...TEST_FARM,
+        desert: {
+          digging: {
+            patterns: [],
+            grid: [
+              {
+                x: 1,
+                y: 1,
+                dugAt: 1,
+                items: {},
+                tool: "Sand Shovel",
+              },
+              {
+                x: 1,
+                y: 1,
+                dugAt: 1,
+                items: {},
+                tool: "Sand Shovel",
+              },
+              [
+                {
+                  x: 1,
+                  y: 1,
+                  dugAt: 1,
+                  items: {},
+                  tool: "Sand Drill",
+                },
+                {
+                  x: 1,
+                  y: 1,
+                  dugAt: 1,
+                  items: {},
+                  tool: "Sand Drill",
+                },
+                {
+                  x: 1,
+                  y: 1,
+                  dugAt: 1,
+                  items: {},
+                  tool: "Sand Drill",
+                },
+                {
+                  x: 1,
+                  y: 1,
+                  dugAt: 1,
+                  items: {},
+                  tool: "Sand Drill",
+                },
+              ],
+            ],
+          },
+        },
+      };
+      const enabled = BUMPKIN_WITHDRAWABLES["Ancient Shovel"](state);
+      expect(enabled).toBeTruthy();
+    });
+
     it("prevents withdrawal of Eggplant Onesie when eggplants are planted", () => {
       const state: GameState = {
         ...TEST_FARM,
