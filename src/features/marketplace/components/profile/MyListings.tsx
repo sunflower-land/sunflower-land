@@ -22,6 +22,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
 import { KNOWN_IDS } from "features/game/types";
+import { formatNumber } from "lib/utils/formatNumber";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -145,6 +146,8 @@ export const MyListings: React.FC = () => {
                       id: itemId,
                       type: collection,
                     });
+                    const quantity = listing.items[itemName];
+                    const price = listing.sfl;
 
                     return (
                       <tr
@@ -174,7 +177,13 @@ export const MyListings: React.FC = () => {
                           <div className="flex items-center">
                             <img src={sflIcon} className="h-5 mr-1" />
                             <p className="text-sm">
-                              {new Decimal(listing.sfl).toFixed(2)}
+                              {new Decimal(
+                                listing.collection === "resources"
+                                  ? formatNumber(price / Number(quantity), {
+                                      decimalPlaces: 4,
+                                    })
+                                  : price,
+                              ).toFixed(2)}
                             </p>
                           </div>
                         </td>

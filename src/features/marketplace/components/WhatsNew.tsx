@@ -20,8 +20,6 @@ export const WhatsNew: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [collection, setCollection] = useState<ICollection>();
 
-  const [removeListingIds, setRemoveListingIds] = useState<string[]>([]);
-
   const load = async () => {
     setIsLoading(true);
 
