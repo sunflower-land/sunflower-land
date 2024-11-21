@@ -219,7 +219,6 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
         isObsessionCollectible={isObsessionCollectible}
         obsessionName={obsessionName}
         currentObsession={currentObsession}
-        readonly={readonly}
       />
     </div>
   );
@@ -229,13 +228,7 @@ const CompleteObsession: React.FC<{
   isObsessionCollectible: boolean;
   obsessionName?: string;
   currentObsession?: CurrentObsession;
-  readonly?: boolean;
-}> = ({
-  isObsessionCollectible,
-  obsessionName,
-  currentObsession,
-  readonly,
-}) => {
+}> = ({ isObsessionCollectible, obsessionName, currentObsession }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
@@ -258,7 +251,7 @@ const CompleteObsession: React.FC<{
     return obsessionCompletedAt < currentObsession.startDate;
   };
 
-  if (!currentObsession || readonly) {
+  if (!currentObsession) {
     return null;
   }
 
@@ -273,6 +266,7 @@ const CompleteObsession: React.FC<{
       </Label>
     );
   }
+
   return (
     <>
       <Button
