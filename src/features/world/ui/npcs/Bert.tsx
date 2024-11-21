@@ -21,6 +21,17 @@ import { translate } from "lib/i18n/translate";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { OuterPanel } from "components/ui/Panel";
 
+const host = window.location.host.replace(/^www\./, "");
+const LOCAL_STORAGE_KEY = `bert-read.${host}-${window.location.pathname}`;
+
+function acknowledgeIntroRead() {
+  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
+}
+
+function hasReadIntro() {
+  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
+}
+
 interface Props {
   onClose: () => void;
 }
@@ -51,16 +62,17 @@ const obsessionDialogues = (itemName: string) => [
 export const Bert: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
-  const [confirmAction, setConfirmAction] = useState(false);
+  const [showIntro, setShowIntro] = useState(!hasReadIntro());
   const dialogue = npcDialogues.bert || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
 
-  const handleConfirm = (tab: number) => {
-    setConfirmAction(true);
+  const handleIntro = (tab: number) => {
+    setShowIntro(false);
+    acknowledgeIntroRead();
     setTab(tab);
   };
 
-  if (!confirmAction) {
+  if (showIntro) {
     return (
       <SpeakingModal
         onClose={onClose}
@@ -71,11 +83,11 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
             actions: [
               {
                 text: t("obsession"),
-                cb: () => handleConfirm(1),
+                cb: () => handleIntro(1),
               },
               {
                 text: t("delivery"),
-                cb: () => handleConfirm(0),
+                cb: () => handleIntro(0),
               },
             ],
           },
