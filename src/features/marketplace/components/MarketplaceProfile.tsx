@@ -1,7 +1,7 @@
 import React from "react";
 import { MyCollection } from "./profile/MyCollection";
 import { MyListings } from "./profile/MyListings";
-import { MyOffers } from "./profile/MyOffers";
+import { MyOffers } from "./profile/MyTrades";
 
 export const MarketplaceProfile: React.FC = () => {
   return (

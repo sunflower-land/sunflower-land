@@ -23,9 +23,21 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import sflIcon from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
+import { MyListings } from "./MyListings";
+import { MyCollection } from "./MyCollection";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
+
+export const MyTrades: React.FC = () => {
+  return (
+    <div className="overflow-y-scroll scrollable pr-1 h-full">
+      <MyOffers />
+      <MyListings />
+      <MyCollection />
+    </div>
+  );
+};
 
 export const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
@@ -100,7 +112,7 @@ export const MyOffers: React.FC = () => {
         />
       </Modal>
 
-      <InnerPanel className="mb-2">
+      <InnerPanel className="mb-1">
         <div className="p-2">
           <div className="flex justify-between items-center">
             <Label className="mb-2" type="default" icon={trade}>
@@ -115,76 +127,78 @@ export const MyOffers: React.FC = () => {
               <p className="text-sm">{t("marketplace.noMyOffers")}</p>
             )}
 
-            <table className="w-full text-xs border-collapse bg-[#ead4aa] ">
-              <thead>
-                <tr>
-                  <th className="p-1.5 text-left">
-                    <p>{t("marketplace.item")}</p>
-                  </th>
-                  <th className="p-1.5 text-left">
-                    <p>{t("marketplace.unitPrice")}</p>
-                  </th>
+            {getKeys(offers).length >= 1 && (
+              <table className="w-full text-xs border-collapse bg-[#ead4aa] ">
+                <thead>
+                  <tr>
+                    <th className="p-1.5 text-left">
+                      <p>{t("marketplace.item")}</p>
+                    </th>
+                    <th className="p-1.5 text-left">
+                      <p>{t("marketplace.unitPrice")}</p>
+                    </th>
 
-                  <th className="p-1.5 "></th>
-                </tr>
-              </thead>
-              <tbody>
-                {getKeys(offers).map((id, index) => {
-                  const offer = offers[id];
+                    <th className="p-1.5 "></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getKeys(offers).map((id, index) => {
+                    const offer = offers[id];
 
-                  const itemId = getItemId({ details: offer });
-                  const details = getTradeableDisplay({
-                    id: itemId,
-                    type: offer.collection,
-                  });
+                    const itemId = getItemId({ details: offer });
+                    const details = getTradeableDisplay({
+                      id: itemId,
+                      type: offer.collection,
+                    });
 
-                  return (
-                    <tr
-                      key={index}
-                      className={classNames(
-                        "relative cursor-pointer bg-[#ead4aa] !py-10 hover:shadow-md hover:scale-[100.5%] transition-all",
-                        {},
-                      )}
-                      style={{
-                        borderBottom: "1px solid #b96f50",
-                        borderTop: index === 0 ? "1px solid #b96f50" : "",
-                      }}
-                      onClick={() =>
-                        navigate(`/marketplace/${details.type}/${itemId}`)
-                      }
-                    >
-                      <td className="p-1.5 text-left">
-                        <div className="flex items-center">
-                          <img src={details.image} className="h-8 mr-4" />
-                          <p className="text-sm">{details.name}</p>
-                        </div>
-                      </td>
-                      <td className="p-1.5 text-left relative">
-                        <div className="flex items-center">
-                          <img src={sflIcon} className="h-5 mr-1" />
-                          <p className="text-sm">
-                            {new Decimal(offer.sfl).toFixed(2)}
-                          </p>
-                        </div>
-                      </td>
+                    return (
+                      <tr
+                        key={index}
+                        className={classNames(
+                          "relative cursor-pointer bg-[#ead4aa] !py-10 hover:shadow-md hover:scale-[100.5%] transition-all",
+                          {},
+                        )}
+                        style={{
+                          borderBottom: "1px solid #b96f50",
+                          borderTop: index === 0 ? "1px solid #b96f50" : "",
+                        }}
+                        onClick={() =>
+                          navigate(`/marketplace/${details.type}/${itemId}`)
+                        }
+                      >
+                        <td className="p-1.5 text-left">
+                          <div className="flex items-center">
+                            <img src={details.image} className="h-8 mr-4" />
+                            <p className="text-sm">{details.name}</p>
+                          </div>
+                        </td>
+                        <td className="p-1.5 text-left relative">
+                          <div className="flex items-center">
+                            <img src={sflIcon} className="h-5 mr-1" />
+                            <p className="text-sm">
+                              {new Decimal(offer.sfl).toFixed(2)}
+                            </p>
+                          </div>
+                        </td>
 
-                      <td className="p-1.5 truncate flex items-center justify-end pr-2 h-full">
-                        <Button
-                          variant="secondary"
-                          className="w-auto h-10"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setRemoveId(id);
-                          }}
-                        >
-                          {t("cancel")}
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                        <td className="p-1.5 truncate flex items-center justify-end pr-2 h-full">
+                          <Button
+                            variant="secondary"
+                            className="w-auto h-10"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setRemoveId(id);
+                            }}
+                          >
+                            {t("cancel")}
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </InnerPanel>

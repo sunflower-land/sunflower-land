@@ -4396,5 +4396,9 @@
   "marketplace.totalTrades": "交易总数",
   "marketplace.walletsHoldingCollectibles": "装有收藏品的钱包",
   "restock.itemsToRestock": "以下数量将添加到商店的现有库存中：",
-  "restock.shipmentArrived": "您的每日免费配送已到达！"
+  "restock.shipmentArrived": "您的每日免费配送已到达！",
+  "marketplace.onchainComingSoon": "链上交易即将推出",
+  "marketplace.sold": "已售出",
+  "marketplace.sellerWillReceive": "卖家将收到",
+  "marketplace.salePrice": "销售价格"
 }

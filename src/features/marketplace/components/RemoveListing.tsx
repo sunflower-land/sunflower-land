@@ -6,7 +6,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { TradeableSummary } from "./TradeableSummary";
-import { CollectionName } from "features/game/types/marketplace";
 import { getListingItem } from "../lib/listings";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -17,13 +16,11 @@ interface Props {
   listingIds: string[];
   authToken: string;
   onClose: () => void;
-  collection: CollectionName;
 }
 export const RemoveListing: React.FC<Props> = ({
   listingIds,
   onClose,
   authToken,
-  collection,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -53,7 +50,7 @@ export const RemoveListing: React.FC<Props> = ({
               const listing = listings[listingId];
               const display = getTradeableDisplay({
                 id: getListingItem({ listing }),
-                type: collection,
+                type: listing.collection,
               });
               return (
                 <div className="flex justify-between" key={listingId}>
@@ -87,7 +84,7 @@ export const RemoveListing: React.FC<Props> = ({
   };
 
   const itemId = getListingItem({ listing });
-  const display = getTradeableDisplay({ id: itemId, type: collection });
+  const display = getTradeableDisplay({ id: itemId, type: listing.collection });
 
   return (
     <Panel>

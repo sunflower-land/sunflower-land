@@ -24,8 +24,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MarketplaceProfile } from "./MarketplaceProfile";
-import { MyOffers } from "./profile/MyOffers";
-import { MarketplaceListings } from "./MarketplaceListings";
+import { MyTrades } from "./profile/MyTrades";
 import { MarketplaceRewards } from "./MarketplaceRewards";
 import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
@@ -33,6 +32,7 @@ import { MarketplaceHotNow } from "./MarketplaceHotNow";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TransactionCountdown } from "features/island/hud/Transaction";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { CONFIG } from "lib/config";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -47,7 +47,7 @@ export const MarketplaceNavigation: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <div className="flex  items-center lg:hidden">
+      <div className="flex  items-center lg:hidden h-[50px]">
         <TextInput
           icon={SUNNYSIDE.icons.search}
           value={search}
@@ -60,7 +60,7 @@ export const MarketplaceNavigation: React.FC = () => {
         />
       </div>
 
-      <div className="flex h-full">
+      <div className="flex h-[calc(100%-50px)] lg:h-full">
         <InnerPanel className="w-64 h-96 mr-1 hidden lg:flex  flex-col">
           <div className="flex  items-center">
             <TextInput
@@ -75,15 +75,14 @@ export const MarketplaceNavigation: React.FC = () => {
           </div>
         </InnerPanel>
 
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col w-full">
           {search ? (
             <Collection search={search} onNavigated={() => setSearch("")} />
           ) : (
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
               <Route path="/hot" element={<MarketplaceHotNow />} />
-              <Route path="/offers" element={<MyOffers />} />
-              <Route path="/listings" element={<MarketplaceListings />} />
+              <Route path="/trades" element={<MyTrades />} />
               <Route path="/rewards" element={<MarketplaceRewards />} />
               <Route path="/collection/*" element={<Collection />} />
               <Route path="/:collection/:id" element={<Tradeable />} />
@@ -212,14 +211,17 @@ const Filters: React.FC = () => {
                 : undefined
             }
           />
-          <Option
-            icon={ITEM_DETAILS.Eggplant.image}
-            label="Resources"
-            onClick={() =>
-              navigate(`/marketplace/collection?filters=resources`)
-            }
-            isActive={filters === "resources"}
-          />
+
+          {CONFIG.NETWORK !== "mainnet" && (
+            <Option
+              icon={ITEM_DETAILS.Eggplant.image}
+              label="Resources"
+              onClick={() =>
+                navigate(`/marketplace/collection?filters=resources`)
+              }
+              isActive={filters === "resources"}
+            />
+          )}
 
           <Option
             icon={SUNNYSIDE.icons.heart}
@@ -231,26 +233,23 @@ const Filters: React.FC = () => {
             }
             isActive={filters === "collectibles,wearables,cosmetic"}
           />
-          <Option
-            icon={budIcon}
-            label="Bud NFTs"
-            onClick={() => navigate(`/marketplace/collection?filters=buds`)}
-            isActive={filters === "buds"}
-          />
+
+          {CONFIG.NETWORK !== "mainnet" && (
+            <Option
+              icon={budIcon}
+              label="Bud NFTs"
+              onClick={() => navigate(`/marketplace/collection?filters=buds`)}
+              isActive={filters === "buds"}
+            />
+          )}
         </div>
 
         <div>
           <Option
             icon={tradeIcon}
-            label="My offers"
-            onClick={() => navigate(`/marketplace/offers`)}
-            isActive={pathname === "/marketplace/offers"}
-          />
-          <Option
-            icon={tradeIcon}
-            label="My Listings"
-            onClick={() => navigate(`/marketplace/listings`)}
-            isActive={pathname === "/marketplace/listings"}
+            label="My trades"
+            onClick={() => navigate(`/marketplace/trades`)}
+            isActive={pathname === "/marketplace/trades"}
           />
         </div>
       </div>

@@ -116,7 +116,7 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
               >
                 <ButtonPanel
                   disabled={isDisabled}
-                  variant={isSold ? "card" : "primary"}
+                  variant={isSold ? "secondary" : "primary"}
                   className="h-full"
                   onClick={() => {
                     if (isDisabled) {

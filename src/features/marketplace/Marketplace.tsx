@@ -23,7 +23,7 @@ export const Marketplace: React.FC = () => {
       <div className="bg-[#181425] w-full h-full">
         <OuterPanel className="h-full">
           <div
-            className="relative flex justify-between pr-10 items-center overflow-x-auto scrollbar-hide mr-auto h-16  mb-0.5"
+            className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px]  mb-0.5"
             style={{}}
           >
             <div
@@ -63,7 +63,9 @@ export const Marketplace: React.FC = () => {
             />
           </div>
 
-          <MarketplaceNavigation />
+          <div style={{ height: "calc(100% - 70px)" }}>
+            <MarketplaceNavigation />
+          </div>
         </OuterPanel>
       </div>
     </>

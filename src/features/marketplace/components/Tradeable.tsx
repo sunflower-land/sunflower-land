@@ -89,7 +89,8 @@ export const Tradeable: React.FC = () => {
   }
 
   const onBack = () => {
-    navigate(`/marketplace/${collection}`);
+    // Go back to previous page
+    navigate(-1);
   };
 
   return (

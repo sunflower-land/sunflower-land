@@ -479,7 +479,11 @@ export const Trade: React.FC<{
   );
 
   const resourceListings = getKeys(trades).filter((listingId) => {
-    const items = Object.keys(trades[listingId].items);
+    const listing = trades[listingId];
+
+    if (listing.collection && listing.collection !== "resources") return false;
+
+    const items = Object.keys(listing.items);
     return !items.some((item) =>
       Object.values(FACTION_EMBLEMS).includes(item as FactionEmblem),
     );

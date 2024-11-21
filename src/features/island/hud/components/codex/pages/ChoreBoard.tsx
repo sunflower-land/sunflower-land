@@ -274,7 +274,7 @@ export const ChoreCard: React.FC<{
         className={classNames("w-full relative cursor-pointer", {
           "!bg-red": !!chore.completedAt,
         })}
-        variant={chore.completedAt ? "card" : "primary"}
+        variant={chore.completedAt ? "secondary" : "primary"}
         style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
         <div className="flex absolute -right-2 -top-4">

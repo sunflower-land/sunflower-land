@@ -4396,5 +4396,9 @@
   "marketplace.totalTrades": "총 거래",
   "marketplace.walletsHoldingCollectibles": "수집품을 담는 지갑",
   "restock.itemsToRestock": "매장의 기존 재고에 다음 수량이 추가됩니다.",
-  "restock.shipmentArrived": "매일 무료 배송이 도착했습니다!"
+  "restock.shipmentArrived": "매일 무료 배송이 도착했습니다!",
+  "marketplace.onchainComingSoon": "온체인 트레이딩이 곧 시작됩니다",
+  "marketplace.sold": "판매",
+  "marketplace.sellerWillReceive": "판매자가 받게 됩니다",
+  "marketplace.salePrice": "세일 가격"
 }

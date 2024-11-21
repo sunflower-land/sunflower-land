@@ -206,7 +206,6 @@ export const YourListings: React.FC<{
     <>
       <Modal show={!!removeListingId} onHide={handleHide}>
         <RemoveListing
-          collection={collection}
           listingIds={removeListingId ? [removeListingId] : []}
           authToken={authToken}
           onClose={() => setRemoveListingId(undefined)}
