@@ -3139,7 +3139,6 @@
   "statements.potionRule.one": "目标：找出完美组合。您有 3 次尝试机会把它做好。如果您得出了完美组合或者您的尝试机会用完了，游戏就会结束。",
   "statements.potionRule.two": "选择药水组合并尝试混合它们。",
   "statements.potionRule.three": "根据给出的反馈调整下一个组合。",
-  "statements.potionRule.four": "游戏完成后，您最后一次尝试的分数将决定您获得的奖励。",
   "statements.potionRule.five": "处于完美组合的完美药水",
   "statements.potionRule.six": "组合位置不对但药水类型正确",
   "statements.potionRule.seven": "哎哟，药水不对",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "剩余每日挂单数：{{listingsRemaining}}",
   "remaining.free.listing": "剩余每日挂单数：1",
   "remaining.free.purchases": "剩余每日购单数：{{purchasesRemaining}}",
-  "remaining.free.purchase": "剩余每日购单数：1"
+  "remaining.free.purchase": "剩余每日购单数：1",
+  "statements.potionRule.four": "游戏完成后，你最后一次尝试的分数将决定你的奖励。"
 }

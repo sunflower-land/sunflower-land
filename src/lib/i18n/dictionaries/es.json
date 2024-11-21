@@ -3013,7 +3013,6 @@
   "statements.potionRule.one": "Objetivo: Determinar la combinación. Tienes 3 intentos para hacerlo bien. El juego terminará si tienes una poción perfecta o si te quedas sin intentos.",
   "statements.potionRule.two": "Elige una combinación de pociones e intenta mezclarlas.",
   "statements.potionRule.three": "Ajusta tu próxima combinación en función de los comentarios recibidos.",
-  "statements.potionRule.four": "Cuando se complete el juego, la puntuación de tu último intento determinará la ayuda a determinar tu recompensa.",
   "statements.potionRule.five": "Una poción perfecta en la posición perfecta",
   "statements.potionRule.six": "Poción correcta pero posición incorrecta",
   "statements.potionRule.seven": "Vaya, poción equivocada",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "{{listingsRemaining}} listados diarios restantes",
   "remaining.free.listing": "Queda 1 anuncio diario",
   "remaining.free.purchases": "{{purchasesRemaining}} compras diarias restantes",
-  "remaining.free.purchase": "Queda 1 compra diaria"
+  "remaining.free.purchase": "Queda 1 compra diaria",
+  "statements.potionRule.four": "Cuando se complete el juego, la puntuación de tu último intento determinará tu recompensa."
 }

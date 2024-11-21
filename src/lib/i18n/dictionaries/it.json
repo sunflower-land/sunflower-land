@@ -3011,7 +3011,6 @@
   "statements.potionRule.one": "Obiettivo: capire la combinazione. Hai 3 tentativi per farlo bene. Il gioco terminerà se hai una pozione perfetta o se finisci i tentativi.",
   "statements.potionRule.two": "Scegli una combinazione di pozioni e prova a mescolarle.",
   "statements.potionRule.three": "Modifica la tua prossima combinazione in base al feedback fornito.",
-  "statements.potionRule.four": "Quando la partita sarà completa, il punteggio dell'ultimo tentativo determinerà l'aiuto per determinare la tua ricompensa.",
   "statements.potionRule.five": "Una pozione perfetta nella posizione perfetta",
   "statements.potionRule.six": "Pozione corretta ma posizione sbagliata",
   "statements.potionRule.seven": "Ops, pozione sbagliata",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "{{listingsRemaining}} inserzioni giornaliere rimanenti",
   "remaining.free.listing": "1 inserzione giornaliera rimanente",
   "remaining.free.purchases": "{{purchasesRemaining}} acquisti giornalieri rimanenti",
-  "remaining.free.purchase": "1 acquisto giornaliero rimanente"
+  "remaining.free.purchase": "1 acquisto giornaliero rimanente",
+  "statements.potionRule.four": "Al termine del gioco, il punteggio dell'ultimo tentativo determinerà la tua ricompensa."
 }

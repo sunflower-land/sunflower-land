@@ -3047,7 +3047,6 @@
   "statements.potionRule.one": "Ziel: Finde die Kombination heraus. Du hast 3 Versuche, es richtig zu machen. Das Spiel endet, wenn du einen perfekten Trank hast oder wenn dir die Versuche ausgehen.",
   "statements.potionRule.two": "Wähle eine Kombination von Zaubertränken und versuche, sie zu mischen.",
   "statements.potionRule.three": "Passen Sie Ihre nächste Kombination auf der Grundlage des gegebenen Feedbacks an.",
-  "statements.potionRule.four": "Wenn das Spiel beendet ist, wird die Punktzahl für deinen letzten Versuch entscheidend sein, um deine Belohnung zu bestimmen.",
   "statements.potionRule.five": "Ein perfekter Trank in der perfekten Position",
   "statements.potionRule.six": "Richtiger Trank, aber falsche Position",
   "statements.potionRule.seven": "Ups, falscher Trank",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "{{listingsRemaining}} verbleibende Tagesangebote",
   "remaining.free.listing": "Noch 1 Tagesangebot verfügbar",
   "remaining.free.purchases": "{{purchasesRemaining}} verbleibende tägliche Einkäufe",
-  "remaining.free.purchase": "Noch 1 täglicher Einkauf"
+  "remaining.free.purchase": "Noch 1 täglicher Einkauf",
+  "statements.potionRule.four": "Wenn das Spiel beendet ist, bestimmt das Ergebnis Ihres letzten Versuchs Ihre Belohnung."
 }

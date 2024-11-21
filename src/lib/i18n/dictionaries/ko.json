@@ -3050,7 +3050,6 @@
   "statements.potionRule.one": "목표: 조합을 파악하십시오.제대로 하려면 세 번의 시도가 필요합니다.완벽한 물약을 얻거나 시도한 횟수를 다 쓰면 게임이 끝납니다.",
   "statements.potionRule.two": "물약의 조합을 선택하고 혼합해 보십시오.",
   "statements.potionRule.three": "제공된 피드백에 따라 다음 조합을 조정하십시오.",
-  "statements.potionRule.four": "게임이 완료되면 마지막 시도의 점수에 따라 보상을 결정하는 데 도움이 됩니다.",
   "statements.potionRule.five": "완벽한 위치에 있는 완벽한 포션",
   "statements.potionRule.six": "물약은 맞지만 위치는 틀리다",
   "statements.potionRule.seven": "죄송합니다. 잘못된 포션",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "{{listingsRemaining}} 일일 리스팅 잔량",
   "remaining.free.listing": "하루 목록 1개 남음",
   "remaining.free.purchases": "{{purchasesRemaining}} 일일 구매 잔량",
-  "remaining.free.purchase": "하루 구매 수량 1개 남음"
+  "remaining.free.purchase": "하루 구매 수량 1개 남음",
+  "statements.potionRule.four": "게임이 완료되면 마지막 시도의 점수에 따라 보상이 결정됩니다."
 }

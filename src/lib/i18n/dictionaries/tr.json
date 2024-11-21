@@ -2140,7 +2140,6 @@
   "statements.potionRule.one": "Amaç: Kombinasyonu bulmak. Doğru yapmak için 3 denemeniz var. Mükemmel bir iksiriniz varsa veya deneme süreniz biterse oyun sona erecektir.",
   "statements.potionRule.two": "İksirlerin bir kombinasyonunu seçin ve bunları karıştırmaya çalışın.",
   "statements.potionRule.three": "Verilen geri bildirimlere göre bir sonraki kombinasyonunuzu ayarlayın.",
-  "statements.potionRule.four": "Oyun tamamlandığında son denemenizin puanı, ödülünüzü belirlemenize yardımcı olacaktır.",
   "statements.potionRule.five": "Mükemmel pozisyonda mükemmel bir iksir",
   "statements.potionRule.six": "Doğru iksir ama yanlış pozisyon",
   "statements.potionRule.seven": "Hata, yanlış iksir",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "{{listingsRemaining}} kalan günlük listeler",
   "remaining.free.listing": "1 günlük liste kaldı",
   "remaining.free.purchases": "{{purchasesRemaining}} kalan günlük alımlar",
-  "remaining.free.purchase": "Günlük 1 satın alma kaldı"
+  "remaining.free.purchase": "Günlük 1 satın alma kaldı",
+  "statements.potionRule.four": "Oyun tamamlandığında, son denemenizin puanı ödülünüzü belirleyecektir."
 }

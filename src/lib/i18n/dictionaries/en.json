@@ -3221,7 +3221,7 @@
   "statements.potionRule.one": "Objective: Figure out the combination. You have 3 tries to get it right. The game will end if you have a perfect potion or if you run out of tries.",
   "statements.potionRule.two": "Choose a combination of potions and attempt to mix them.",
   "statements.potionRule.three": "Adjust your next combination based on the feedback given.",
-  "statements.potionRule.four": "When the game is complete, the score for your last attempt will determine help to determine your reward.",
+  "statements.potionRule.four": "When the game is complete, the score for your last attempt will determine your reward.",
   "statements.potionRule.five": "A perfect potion in the perfect position",
   "statements.potionRule.six": "Correct potion but wrong position",
   "statements.potionRule.seven": "Oops, wrong potion",

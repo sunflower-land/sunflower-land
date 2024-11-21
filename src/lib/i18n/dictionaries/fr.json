@@ -2142,7 +2142,6 @@
   "statements.potionRule.one": "Objectif : Découvrez la combinaison. Vous avez 3 essais pour y parvenir. Le jeu se terminera si vous avez une potion parfaite ou si vous manquez d'essais.",
   "statements.potionRule.two": "Choisissez une combinaison de potions et tentez de les mélanger.",
   "statements.potionRule.three": "Ajustez votre prochaine combinaison en fonction des commentaires donnés.",
-  "statements.potionRule.four": "Lorsque le jeu est terminé, le score de votre dernière tentative aidera à déterminer votre récompense.",
   "statements.potionRule.five": "Une potion parfaite à la position parfaite",
   "statements.potionRule.six": "Bonne potion mais mauvaise position",
   "statements.potionRule.seven": "Oops, mauvaise potion",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "{{listingsRemaining}} annonces quotidiennes restantes",
   "remaining.free.listing": "Il reste 1 annonce quotidienne",
   "remaining.free.purchases": "{{purchasesRemaining}} achats quotidiens restants",
-  "remaining.free.purchase": "Il reste 1 achat quotidien"
+  "remaining.free.purchase": "Il reste 1 achat quotidien",
+  "statements.potionRule.four": "Une fois le jeu terminé, le score de votre dernière tentative déterminera votre récompense."
 }

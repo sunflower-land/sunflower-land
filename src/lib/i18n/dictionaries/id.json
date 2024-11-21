@@ -3053,7 +3053,6 @@
   "statements.potionRule.one": "Tujuan: Cari tahu kombinasinya. Anda memiliki tiga upaya untuk melakukannya dengan benar. Permainan akan berakhir jika Anda memiliki ramuan yang sempurna atau jika Anda kehabisan percobaan.",
   "statements.potionRule.two": "Pilih kombinasi ramuan dan cobalah untuk mencampurnya.",
   "statements.potionRule.three": "Sesuaikan kombinasi Anda berikutnya berdasarkan umpan balik yang diberikan.",
-  "statements.potionRule.four": "Ketika permainan selesai, skor untuk upaya terakhir Anda akan menentukan bantuan untuk menentukan hadiah Anda.",
   "statements.potionRule.five": "Ramuan sempurna dalam posisi sempurna",
   "statements.potionRule.six": "Ramuan yang benar tetapi posisi yang salah",
   "statements.potionRule.seven": "Ups, ramuan yang salah",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "{{listingsRemaining}} daftar harian tersisa",
   "remaining.free.listing": "1 listing harian tersisa",
   "remaining.free.purchases": "{{purchasesRemaining}} sisa pembelian harian",
-  "remaining.free.purchase": "1 pembelian harian tersisa"
+  "remaining.free.purchase": "1 pembelian harian tersisa",
+  "statements.potionRule.four": "Ketika permainan selesai, skor untuk upaya terakhir Anda akan menentukan hadiah Anda."
 }

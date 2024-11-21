@@ -3053,7 +3053,6 @@
   "statements.potionRule.one": "目的：組み合わせを把握してください。正しく理解するには3回試してください。完璧なポーションを手に入れたり、トライ回数がなくなったりすると、ゲームは終了します。",
   "statements.potionRule.two": "ポーションの組み合わせを選んで、混ぜてみてください。",
   "statements.potionRule.three": "与えられたフィードバックに基づいて次の組み合わせを調整してください。",
-  "statements.potionRule.four": "ゲームが終了すると、最後のトライのスコアによって報酬が決まります。",
   "statements.potionRule.five": "パーフェクトなポーションを完璧な位置に",
   "statements.potionRule.six": "ポーションは正しいが位置が間違っている",
   "statements.potionRule.seven": "おっと、間違ったポーション",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "{{listingsRemaining}} 日次出品情報の残り",
   "remaining.free.listing": "デイリーリスティング残り 1 件",
   "remaining.free.purchases": "{{purchasesRemaining}} 日次購入残高",
-  "remaining.free.purchase": "1 日の購入が残り"
+  "remaining.free.purchase": "1 日の購入が残り",
+  "statements.potionRule.four": "ゲームが完了すると、最後のトライのスコアによって報酬が決まります。"
 }

@@ -2922,7 +2922,6 @@
   "statements.potionRule.one": "Цель: Разгадать комбинацию. У тебя есть 3 попытки. Игра закончится, если у тебя будет идеальное зелье или если закончатся попытки.",
   "statements.potionRule.two": "Выбери комбинацию зелий и попробуй их смешать.",
   "statements.potionRule.three": "Скорректируй следующую комбинацию на основе результатов.",
-  "statements.potionRule.four": "Когда игра будет завершена, счет твоей последней попытки определит награду.",
   "statements.potionRule.five": "Идеальное зелье в идеальном месте",
   "statements.potionRule.six": "Правильное зелье, но неправильная позиция",
   "statements.potionRule.seven": "Упс, не то зелье.",
@@ -4400,5 +4399,6 @@
   "remaining.free.listings": "Осталось {{listingsRemaining}} ежедневных объявлений",
   "remaining.free.listing": "Осталось 1 объявление за день",
   "remaining.free.purchases": "{{purchasesRemaining}} количество оставшихся ежедневных покупок",
-  "remaining.free.purchase": "Осталась 1 ежедневная покупка"
+  "remaining.free.purchase": "Осталась 1 ежедневная покупка",
+  "statements.potionRule.four": "По завершении игры ваша награда будет зависеть от количества очков, набранных за последнюю попытку."
 }
