@@ -4398,5 +4398,7 @@
   "restock.itemsToRestock": "Mağazanızdaki mevcut stoklara aşağıdaki miktarlar eklenecektir:",
   "restock.shipmentArrived": "Günlük ücretsiz gönderiniz geldi!",
   "marketplace.onchainComingSoon": "Zincir ticareti yakında",
-  "marketplace.sold": "Satıldı"
+  "marketplace.sold": "Satıldı",
+  "marketplace.sellerWillReceive": "Satıcı alacak",
+  "marketplace.salePrice": "Satış Fiyatı"
 }

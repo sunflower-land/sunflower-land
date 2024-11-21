@@ -4398,5 +4398,7 @@
   "restock.itemsToRestock": "以下の数量がショップの既存の在庫に追加されます。",
   "restock.shipmentArrived": "毎日の無料配送が届きました！",
   "marketplace.onchainComingSoon": "オンチェーントレーディングは近日公開予定",
-  "marketplace.sold": "売却"
+  "marketplace.sold": "売却",
+  "marketplace.sellerWillReceive": "出品者が受け取る",
+  "marketplace.salePrice": "セール価格"
 }
