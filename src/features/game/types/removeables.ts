@@ -285,7 +285,7 @@ export function areTreasureHolesDug({
     return sum;
   }, 0);
 
-  const hasHitMinHoles = holesDug <= minHoles;
+  const hasHitMinHoles = holesDug > minHoles;
 
   return [hasHitMinHoles, translate("restrictionReason.treasuresDug")];
 }
