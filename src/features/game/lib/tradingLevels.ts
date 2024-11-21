@@ -16,7 +16,7 @@ export type TradingLevel =
   | 15;
 
 export const TRADING_LEVEL_EXPERIENCE: Record<TradingLevel, number> = {
-  1: 100,
+  1: 0,
   2: 500,
   3: 1000,
   4: 1600,

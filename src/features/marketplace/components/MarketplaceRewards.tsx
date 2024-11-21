@@ -47,14 +47,13 @@ const TradePointsProgressBar: React.FC<{ tradingPoints: number }> = ({
   return (
     <div className="flex items-center p-2">
       <div className="ml-1">
-        <Label
-          icon={trade_point}
-          type="vibrant"
-        >{`Trading Level: ${currentTradingLevel} ${maxTradingLevel ? "(MAX)" : ""}`}</Label>
+        <Label icon={trade_point} type="vibrant">
+          {`Trading Level: ${currentTradingLevel} ${maxTradingLevel ? "(MAX)" : ""}`}
+        </Label>
       </div>
       <div className="ml-4">
         <ResizableBar
-          percentage={getProgressPercentage()} // Will replace with trading level
+          percentage={getProgressPercentage()}
           type="progress"
           outerDimensions={{
             width: 30,
@@ -62,11 +61,10 @@ const TradePointsProgressBar: React.FC<{ tradingPoints: number }> = ({
           }}
         />
       </div>
-      {/* Will be replaced with the level progress */}
       <p className="ml-4">
         {`${formatNumber(currentExperienceProgress, {
           decimalPlaces: 0,
-        })}/${maxTradingLevel ? "-" : formatNumber(experienceToNextLevel, { decimalPlaces: 0 })} XP`}
+        })} / ${maxTradingLevel ? "-" : formatNumber(experienceToNextLevel, { decimalPlaces: 0 })} XP`}
       </p>
     </div>
   );
