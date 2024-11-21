@@ -143,7 +143,11 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
       {currentObsession && (
         <>
           <div className="w-full flex flex-col items-center mx-auto">
-            <p className="text-center text-sm mb-3">{obsessionDialogue}</p>
+            <p className="text-center text-sm mb-3">
+              {readonly
+                ? `Is that the ${currentObsession?.name} you have? Travel to the plaza to find Bert, and ${getSeasonalTicket()}s will be yours`
+                : obsessionDialogue}
+            </p>
 
             <div className="relative mb-2">
               <img
@@ -213,7 +217,7 @@ const CompleteObsession: React.FC<{
     return obsessionCompletedAt < currentObsession.startDate;
   };
 
-  if (!currentObsession) {
+  if (!currentObsession || readonly) {
     return null;
   }
 
@@ -228,12 +232,6 @@ const CompleteObsession: React.FC<{
       </Label>
     );
   }
-  if (readonly) {
-    return (
-      <span>{`Go to the plaza and find Bert to complete the obsession`}</span>
-    );
-  }
-
   return (
     <>
       <Button

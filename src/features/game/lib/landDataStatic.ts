@@ -7,6 +7,7 @@ import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { TEST_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 import { EMPTY, makeMegaStoreAvailableDates } from "./constants";
+import { getSeasonalTicket } from "../types/seasons";
 export const INITIAL_RESOURCES: Pick<
   GameState,
   | "crops"
@@ -864,12 +865,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         id: "2",
         name: "Red Balloon Flower",
-        coins: 100,
+        items: { [getSeasonalTicket()]: 1 },
       },
       {
         id: "3",
         name: "White Pansy",
-        items: { Scroll: 1 },
+        items: { [getSeasonalTicket()]: 1 },
       },
     ],
   },

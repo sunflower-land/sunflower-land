@@ -93,7 +93,9 @@ export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
         </Label>
       </div>
 
-      <p className="text-xs mb-2">{t("bounties.board.info")}</p>
+      <p className="text-xs mb-2">
+        {t(readonly ? "bounties.board.travel" : "bounties.board.info")}
+      </p>
       <div className="flex flex-wrap">
         {deals.length === 0 && (
           <p className="text-sm">{t("bounties.board.empty")}</p>
