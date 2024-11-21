@@ -13,6 +13,7 @@ import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
+import lockIcon from "assets/icons/lock.png";
 
 type Props = {
   itemName: InventoryItemName;
@@ -176,6 +177,13 @@ export const ResourceOffer: React.FC<Props> = ({
               }}
             />
           </div>
+        </div>
+
+        <Label type="default" icon={lockIcon} className="my-1 ml-1">
+          {t("marketplace.sflLocked")}
+        </Label>
+        <div className="text-xxs mb-1.5">
+          {t("marketplace.sflLocked.description")}
         </div>
 
         <div

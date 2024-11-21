@@ -133,15 +133,8 @@ export const Tradeable: React.FC = () => {
           />
         </div>
 
-        <MyListings
-          collection={collection as CollectionName}
-          filterItemId={Number(id)}
-        />
-
-        <MyOffers
-          collection={collection as CollectionName}
-          filterItemId={Number(id)}
-        />
+        <MyListings />
+        <MyOffers />
 
         {/* <PriceHistory history={tradeable?.history} /> */}
 
@@ -164,7 +157,7 @@ export const Tradeable: React.FC = () => {
         />
 
         <TradeableOffers
-          id={Number(id)}
+          itemId={Number(id)}
           tradeable={tradeable}
           display={display}
           farmId={farmId}

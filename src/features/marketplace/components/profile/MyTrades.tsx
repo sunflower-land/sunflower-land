@@ -25,6 +25,8 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { MyListings } from "./MyListings";
 import { MyCollection } from "./MyCollection";
+import { KNOWN_IDS } from "features/game/types";
+import { InventoryItemName } from "features/game/types/game";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -55,6 +57,18 @@ export const MyOffers: React.FC = () => {
   const { trades } = gameState.context.state;
   const offers = trades.offers ?? {};
 
+  const filteredOffers = params.id
+    ? Object.fromEntries(
+        Object.entries(offers).filter(([_, offer]) => {
+          const offerItemName = getKeys(
+            offer.items ?? {},
+          )[0] as InventoryItemName;
+          const offerItemId = KNOWN_IDS[offerItemName];
+          return offerItemId === Number(params.id);
+        }),
+      )
+    : offers;
+
   const navigate = useNavigate();
 
   const escrowedSFL = getKeys(offers).reduce(
@@ -70,7 +84,6 @@ export const MyOffers: React.FC = () => {
     });
 
     // For on chain items let's fire a refresh
-    const itemId = getItemId({ details: offer });
     if (offer.signature) {
       gameService.send("RESET");
     }
@@ -124,11 +137,9 @@ export const MyOffers: React.FC = () => {
             </Label>
           </div>
           <div className="flex flex-wrap">
-            {getKeys(offers).length === 0 && (
+            {getKeys(filteredOffers).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyOffers")}</p>
-            )}
-
-            {getKeys(offers).length >= 1 && (
+            ) : (
               <table className="w-full text-xs border-collapse bg-[#ead4aa] ">
                 <thead>
                   <tr>
@@ -143,8 +154,8 @@ export const MyOffers: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {getKeys(offers).map((id, index) => {
-                    const offer = offers[id];
+                  {getKeys(filteredOffers).map((id, index) => {
+                    const offer = filteredOffers[id];
 
                     const itemId = getItemId({ details: offer });
                     const details = getTradeableDisplay({

@@ -4,10 +4,13 @@ import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
-import { TradeableDetails } from "features/game/types/marketplace";
+import {
+  Listing,
+  Tradeable,
+  TradeableDetails,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
-import { TradeableDisplay } from "../lib/tradeables";
+import React, { useContext, useState } from "react";
 import { TradeableListItem } from "./TradeableList";
 import { TradeTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
@@ -21,8 +24,10 @@ import {
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
 import { ResourceTable } from "./ResourceTable";
-import { shortenCount } from "lib/utils/formatNumber";
+import { formatNumber, shortenCount } from "lib/utils/formatNumber";
 import { useParams } from "react-router-dom";
+import { PurchaseModalContent } from "./PurchaseModalContent";
+import { TradeableDisplay } from "../lib/tradeables";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -60,6 +65,8 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   const isListing = useSelector(gameService, _isListing);
   const balance = useSelector(gameService, _balance);
+  const [selectedListing, setSelectedListing] = useState<Listing>();
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -85,13 +92,40 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     "marketplacePurchasingSuccess",
     () => {
       onPurchase();
+      if (showAnimations) confetti();
     },
   );
 
+  const handleSelectListing = (id: string) => {
+    const selectedListing = tradeable?.listings.find(
+      (listing) => listing.id === id,
+    ) as Listing;
+
+    setSelectedListing(selectedListing);
+    setShowPurchaseModal(true);
+  };
+
   const isResource = params.collection === "resources";
+
+  const loading = !tradeable;
 
   return (
     <>
+      <Modal
+        show={showPurchaseModal}
+        onHide={() => setShowPurchaseModal(false)}
+      >
+        <Panel>
+          <PurchaseModalContent
+            authToken={authToken}
+            listingId={selectedListing?.id as string}
+            price={selectedListing?.sfl ?? 0}
+            tradeable={tradeable as Tradeable}
+            onClose={() => setShowPurchaseModal(false)}
+            listing={selectedListing as Listing}
+          />
+        </Panel>
+      </Modal>
       <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
         <Panel>
           <TradeableListItem
@@ -116,25 +150,35 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             </Label>
           </div>
           <div className="mb-2">
-            {!tradeable && <Loading />}
-            {tradeable?.listings.length === 0 && (
+            {loading && <Loading />}
+            {!loading && tradeable?.listings.length === 0 && (
               <p className="text-sm">{t("marketplace.noListings")}</p>
             )}
             {!!tradeable?.listings.length &&
               (isResource ? (
                 <ResourceTable
                   balance={balance}
-                  items={tradeable.listings.map((listing) => ({
+                  items={tradeable?.listings.map((listing) => ({
+                    id: listing.id,
                     price: listing.sfl,
                     quantity: listing.quantity,
-                    pricePerUnit: listing.sfl / listing.quantity,
+                    pricePerUnit: Number(
+                      formatNumber(listing.sfl / listing.quantity, {
+                        decimalPlaces: 4,
+                      }),
+                    ),
                     createdById: listing.listedById,
                   }))}
                   id={farmId}
+                  tableType="listings"
+                  onClick={(listingId) => {
+                    handleSelectListing(listingId);
+                    setShowPurchaseModal(true);
+                  }}
                 />
               ) : (
                 <TradeTable
-                  items={tradeable.listings.map((listing) => ({
+                  items={tradeable?.listings.map((listing) => ({
                     price: listing.sfl,
                     expiresAt: "30 days", // TODO,
                     createdById: listing.listedById,

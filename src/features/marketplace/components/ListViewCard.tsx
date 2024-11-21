@@ -6,6 +6,7 @@ import lightning from "assets/icons/lightning.png";
 import { BuffLabel } from "features/game/types";
 import { CollectionName } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { formatNumber } from "lib/utils/formatNumber";
 
 type Props = {
   name: string;
@@ -53,9 +54,13 @@ export const ListViewCard: React.FC<Props> = ({
               <p className="text-xs">
                 {isResources
                   ? t("marketplace.pricePerUnit", {
-                      price: price.toString(),
+                      price: formatNumber(price, {
+                        decimalPlaces: 4,
+                      }),
                     })
-                  : `${price}`}
+                  : `${formatNumber(price, {
+                      decimalPlaces: 4,
+                    })}`}
               </p>
             </div>
           )}

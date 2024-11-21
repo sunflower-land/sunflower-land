@@ -32,7 +32,6 @@ import { getTradeType } from "../lib/getTradeType";
 import { ResourceList } from "./ResourceList";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
-import { TRADE_MINIMUMS } from "features/game/actions/tradeLimits";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -57,9 +56,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(
-    TRADE_MINIMUMS[KNOWN_ITEMS[id] as InventoryItemName] ?? 1,
-  );
+  const [quantity, setQuantity] = useState(1);
 
   const { state } = gameState.context;
 
@@ -208,7 +205,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             {t("are.you.sure")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary display={display} sfl={price} />
+          <TradeableSummary display={display} sfl={price} quantity={quantity} />
         </div>
 
         <div className="flex">
@@ -230,7 +227,11 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               {t("are.you.sure")}
             </Label>
             <p className="text-xs mb-2">{t("marketplace.signOffer")}</p>
-            <TradeableSummary display={display} sfl={price} />
+            <TradeableSummary
+              display={display}
+              sfl={price}
+              quantity={quantity}
+            />
           </div>
 
           <div className="flex">

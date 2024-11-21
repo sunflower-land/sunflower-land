@@ -19,7 +19,6 @@ import { ClaimPurchase } from "./ClaimPurchase";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { MachineState } from "features/game/lib/gameMachine";
-import { CollectionName } from "features/game/types/marketplace";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
 import { KNOWN_IDS } from "features/game/types";
@@ -31,10 +30,7 @@ const _trades = (state: MachineState) => state.context.state.trades;
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
-export const MyListings: React.FC<{
-  collection?: CollectionName;
-  filterItemId?: number;
-}> = ({ collection, filterItemId }) => {
+export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
   const params = useParams();
   const { gameService } = useContext(Context);
@@ -49,14 +45,14 @@ export const MyListings: React.FC<{
 
   const listings = trades.listings ?? {};
 
-  const filteredListings = filterItemId
+  const filteredListings = params.id
     ? Object.fromEntries(
         Object.entries(listings).filter(([_, listing]) => {
           const listingItemName = getKeys(
             listing.items ?? {},
           )[0] as InventoryItemName;
           const listingItemId = KNOWN_IDS[listingItemName];
-          return listingItemId === filterItemId;
+          return listingItemId === Number(params.id);
         }),
       )
     : listings;
@@ -122,13 +118,13 @@ export const MyListings: React.FC<{
             {t("marketplace.myListings")}
           </Label>
           <div className="flex flex-wrap">
-            {getKeys(listings).length === 0 ? (
+            {getKeys(filteredListings).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
             ) : (
               <table className="w-full text-xs border-collapse bg-[#ead4aa]">
                 <thead>
                   <tr>
-                    <th className="p-1.5 w-1/5 text-left">
+                    <th className="p-1.5 w-1/3 text-left">
                       <p>{t("marketplace.item")}</p>
                     </th>
                     <th className="p-1.5 text-left">
@@ -138,8 +134,8 @@ export const MyListings: React.FC<{
                   </tr>
                 </thead>
                 <tbody>
-                  {getKeys(listings).map((id, index) => {
-                    const listing = listings[id];
+                  {getKeys(filteredListings).map((id, index) => {
+                    const listing = filteredListings[id];
 
                     const itemName = getKeys(
                       listing.items ?? {},

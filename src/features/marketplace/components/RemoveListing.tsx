@@ -9,6 +9,7 @@ import { TradeableSummary } from "./TradeableSummary";
 import { getListingCollection, getListingItem } from "../lib/listings";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { MarketplaceTradeableName } from "features/game/types/marketplace";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 
@@ -54,7 +55,15 @@ export const RemoveListing: React.FC<Props> = ({
               });
               return (
                 <div className="flex justify-between" key={listingId}>
-                  <TradeableSummary display={display} sfl={listing.sfl} />
+                  <TradeableSummary
+                    display={display}
+                    sfl={listing.sfl}
+                    quantity={
+                      listing.items[
+                        display.name as MarketplaceTradeableName
+                      ] as number
+                    }
+                  />
                   <div>
                     <Button onClick={() => setSelectedListingId(listingId)}>
                       {t("marketplace.cancelListing")}

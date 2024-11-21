@@ -58,8 +58,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const balance = useSelector(gameService, _balance);
   const params = useParams();
 
-  const { t } = useAppTranslation();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+
+  const { t } = useAppTranslation();
   // Remove listings that are mine
   const filteredListings =
     tradeable?.listings.filter((listing) => listing.listedById !== farmId) ??
@@ -96,6 +97,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
       gameService.send("CONTINUE");
       setShowPurchaseModal(false);
     },
+    cheapestListing?.type === "onchain",
   );
 
   const isResources = params.collection === "resources";
@@ -104,7 +106,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   return (
     <>
       {cheapestListing && (
-        <Modal show={showPurchaseModal}>
+        <Modal
+          show={showPurchaseModal}
+          onHide={() => setShowPurchaseModal(false)}
+        >
           <Panel>
             {cheapestListing.type === "onchain" ? (
               <GameWallet action="marketplace">
@@ -112,7 +117,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   authToken={authToken}
                   listingId={cheapestListing.id}
                   price={cheapestListing?.sfl ?? 0}
-                  collection={collection}
                   tradeable={tradeable as Tradeable}
                   onClose={() => setShowPurchaseModal(false)}
                   listing={cheapestListing}
@@ -123,7 +127,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 authToken={authToken}
                 listingId={cheapestListing.id}
                 price={cheapestListing?.sfl ?? 0}
-                collection={collection}
                 tradeable={tradeable as Tradeable}
                 onClose={() => setShowPurchaseModal(false)}
                 listing={cheapestListing}
@@ -169,13 +172,15 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
                   <img src={sflIcon} className="h-8 mr-2" />
-                  {tradeable?.floor ? (
+                  {tradeable ? (
                     <p className="text-base">
                       {t("marketplace.pricePerUnit", {
-                        price: formatNumber(tradeable.floor, {
-                          decimalPlaces: 4,
-                          showTrailingZeros: true,
-                        }),
+                        price: tradeable.floor
+                          ? formatNumber(tradeable.floor, {
+                              decimalPlaces: 4,
+                              showTrailingZeros: true,
+                            })
+                          : "?",
                       })}
                     </p>
                   ) : (

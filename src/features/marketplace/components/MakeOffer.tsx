@@ -26,10 +26,10 @@ const _balance = (state: MachineState) => state.context.state.balance;
 export const MakeOffer: React.FC<{
   display: TradeableDisplay;
   floorPrice: number;
-  id: number;
+  itemId: number;
   authToken: string;
   onClose: () => void;
-}> = ({ onClose, display, id, authToken, floorPrice }) => {
+}> = ({ onClose, display, itemId, authToken, floorPrice }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -42,7 +42,7 @@ export const MakeOffer: React.FC<{
 
   const tradeType = getTradeType({
     collection: display.type,
-    id,
+    id: itemId,
     trade: {
       sfl: offer,
     },
@@ -75,7 +75,7 @@ export const MakeOffer: React.FC<{
       message: {
         item: display.name,
         collection: display.type,
-        id: BigInt(id),
+        id: BigInt(itemId),
         quantity: BigInt(1),
         SFL: BigInt(offer),
       },
@@ -99,7 +99,7 @@ export const MakeOffer: React.FC<{
     gameService.send("marketplace.offerMade", {
       effect: {
         type: "marketplace.offerMade",
-        id,
+        id: itemId,
         collection: display.type,
         signature,
         contract: CONFIG.MARKETPLACE_CONTRACT,
@@ -120,7 +120,7 @@ export const MakeOffer: React.FC<{
             {t("are.you.sure")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary display={display} sfl={offer} />
+          <TradeableSummary display={display} sfl={offer} quantity={quantity} />
         </div>
 
         <div className="flex">
@@ -142,7 +142,11 @@ export const MakeOffer: React.FC<{
               {t("are.you.sure")}
             </Label>
             <p className="text-xs mb-2">{t("marketplace.signOffer")}</p>
-            <TradeableSummary display={display} sfl={offer} />
+            <TradeableSummary
+              display={display}
+              sfl={offer}
+              quantity={quantity}
+            />
           </div>
 
           <div className="flex">

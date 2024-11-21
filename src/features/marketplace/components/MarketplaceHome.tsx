@@ -27,9 +27,6 @@ import { MarketplaceRewards } from "./MarketplaceRewards";
 import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
 import { MarketplaceHotNow } from "./MarketplaceHotNow";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { TransactionCountdown } from "features/island/hud/Transaction";
-import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { CONFIG } from "lib/config";
 
 export const MarketplaceNavigation: React.FC = () => {

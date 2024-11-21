@@ -50,9 +50,9 @@ export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
   farmId: number;
   display: TradeableDisplay;
-  id: number;
+  itemId: number;
   onOfferMade: () => void;
-}> = ({ tradeable, farmId, display, id, onOfferMade }) => {
+}> = ({ tradeable, farmId, display, itemId, onOfferMade }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -82,9 +82,9 @@ export const TradeableOffers: React.FC<{
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
 
-  const topOffer = tradeable?.offers.reduce((highest, listing) => {
-    return listing.sfl > highest.sfl ? listing : highest;
-  }, tradeable?.offers?.[0]);
+  const topOffer = tradeable?.offers.reduce((highest, offer) => {
+    return offer.sfl > highest.sfl ? offer : highest;
+  }, tradeable?.offers[0]);
 
   const handleHide = () => {
     if (hasPendingOfferEffect) return;
@@ -93,13 +93,14 @@ export const TradeableOffers: React.FC<{
   };
 
   const isResource = params.collection === "resources";
+  const loading = !tradeable;
 
   return (
     <>
       <Modal show={showMakeOffer} onHide={handleHide}>
         <Panel>
           <MakeOffer
-            id={id}
+            itemId={itemId}
             authToken={authToken}
             display={display}
             floorPrice={tradeable?.floor ?? 0}
@@ -111,8 +112,7 @@ export const TradeableOffers: React.FC<{
         <Panel>
           <AcceptOffer
             authToken={authToken}
-            id={id}
-            tradeable={tradeable}
+            itemId={itemId}
             display={display}
             offer={topOffer as Offer}
             onClose={() => setShowAcceptOffer(false)}
@@ -156,25 +156,30 @@ export const TradeableOffers: React.FC<{
             {t("marketplace.offers")}
           </Label>
           <div className="mb-2">
-            {!tradeable && <Loading />}
-            {tradeable?.offers.length === 0 && (
+            {loading && <Loading />}
+            {!loading && tradeable?.offers.length === 0 && (
               <p className="text-sm">{t("marketplace.noOffers")}</p>
             )}
             {!!tradeable?.offers.length &&
               (isResource ? (
                 <ResourceTable
                   balance={balance}
-                  items={tradeable.offers.map((offer) => ({
+                  items={tradeable?.offers.map((offer) => ({
+                    id: offer.tradeId,
                     price: offer.sfl,
                     quantity: offer.quantity,
                     pricePerUnit: offer.sfl,
                     createdById: offer.offeredById,
                   }))}
                   id={farmId}
+                  tableType="offers"
+                  onClick={() => {
+                    setShowAcceptOffer(true);
+                  }}
                 />
               ) : (
                 <TradeTable
-                  items={tradeable.offers.map((offer) => ({
+                  items={tradeable?.offers.map((offer) => ({
                     price: offer.sfl,
                     expiresAt: "30 days", // TODO,
                     createdById: offer.offeredById,

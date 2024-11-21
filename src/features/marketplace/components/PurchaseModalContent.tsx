@@ -1,23 +1,19 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import {
-  CollectionName,
-  Tradeable,
-  Listing,
-} from "features/game/types/marketplace";
+import { Tradeable, Listing } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getTradeableDisplay } from "../lib/tradeables";
+import { getCollectionName, getTradeableDisplay } from "../lib/tradeables";
 import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
 import { TradeableSummary } from "./TradeableSummary";
+import { KNOWN_ITEMS } from "features/game/types";
 
 type PurchaseModalContentProps = {
   authToken: string;
   listingId: string;
   tradeable: Tradeable;
   listing: Listing;
-  collection: CollectionName;
   price: number;
   onClose: () => void;
 };
@@ -25,7 +21,6 @@ type PurchaseModalContentProps = {
 export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   authToken,
   tradeable,
-  collection,
   price,
   listingId,
   onClose,
@@ -34,6 +29,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
+  const collection = getCollectionName(KNOWN_ITEMS[tradeable.id]);
   const display = getTradeableDisplay({
     id: tradeable.id,
     type: collection,
@@ -63,7 +59,11 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
           )}
         </div>
         <p className="mb-3">{t("marketplace.areYouSureYouWantToBuy")}</p>
-        <TradeableSummary display={display} sfl={price} />
+        <TradeableSummary
+          display={display}
+          sfl={price}
+          quantity={listing.quantity}
+        />
       </div>
       <div className="flex space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
