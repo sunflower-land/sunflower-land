@@ -1,6 +1,6 @@
 import React from "react";
 
-import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
 

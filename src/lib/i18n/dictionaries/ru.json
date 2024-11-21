@@ -4398,5 +4398,7 @@
   "restock.itemsToRestock": "Следующие количества будут добавлены к существующему запасу в вашем магазине:",
   "restock.shipmentArrived": "Ваш ежедневный бесплатный груз прибыл!",
   "marketplace.onchainComingSoon": "О сетевой торговле в ближайшее время",
-  "marketplace.sold": "Продано"
+  "marketplace.sold": "Продано",
+  "marketplace.sellerWillReceive": "Продавец получит",
+  "marketplace.salePrice": "Цена продажи"
 }

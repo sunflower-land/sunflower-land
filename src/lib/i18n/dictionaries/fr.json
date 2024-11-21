@@ -4398,5 +4398,7 @@
   "restock.itemsToRestock": "Les quantités suivantes seront ajoutées au stock existant dans votre boutique :",
   "restock.shipmentArrived": "Votre envoi gratuit quotidien est arrivé !",
   "marketplace.onchainComingSoon": "Bientôt disponible sur le trading en chaîne",
-  "marketplace.sold": "Vendu"
+  "marketplace.sold": "Vendu",
+  "marketplace.sellerWillReceive": "Le vendeur recevra",
+  "marketplace.salePrice": "Prix de vente"
 }

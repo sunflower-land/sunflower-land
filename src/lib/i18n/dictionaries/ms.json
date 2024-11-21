@@ -4398,5 +4398,7 @@
   "restock.itemsToRestock": "Kuantiti berikut akan ditambah kepada stok sedia ada di kedai anda:",
   "restock.shipmentArrived": "Penghantaran percuma harian anda telah tiba!",
   "marketplace.onchainComingSoon": "Dagangan rantaian akan datang tidak lama lagi",
-  "marketplace.sold": "Dijual"
+  "marketplace.sold": "Dijual",
+  "marketplace.sellerWillReceive": "Penjual akan menerima",
+  "marketplace.salePrice": "Harga Jualan"
 }

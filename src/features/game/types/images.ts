@@ -58,9 +58,9 @@ import mysteriousHead from "assets/sfts/mysterious_head.png";
 import tunnelMole from "assets/sfts/tunnel_mole.gif";
 import rockyMole from "assets/sfts/rocky_mole.gif";
 import nugget from "assets/sfts/nugget.gif";
-import rockGolem from "assets/sfts/rock_golem.gif";
-import rooster from "assets/animals/chickens/rooster.gif";
-import undeadChicken from "assets/animals/chickens/undead_chicken.gif";
+import rockGolem from "assets/sfts/rock_golem.webp";
+import rooster from "assets/animals/chickens/rooster.webp";
+import undeadChicken from "assets/animals/chickens/undead_chicken.webp";
 import wickerMan from "assets/sfts/wicker_man.png";
 import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import cabbageBoy from "assets/sfts/cabbage_boy.gif";
@@ -125,11 +125,11 @@ import laurie from "assets/sfts/aoe/laurie.png";
 import queenCornelia from "assets/sfts/aoe/queen_cornelia.png";
 
 // Mutant Chickens
-import speedChicken from "assets/animals/chickens/speed_chicken.gif";
-import fatChicken from "assets/animals/chickens/fat_chicken.gif";
+import speedChicken from "assets/animals/chickens/speed_chicken.webp";
+import fatChicken from "assets/animals/chickens/fat_chicken.webp";
 import richChicken from "assets/animals/chickens/rich_chicken.webp";
-import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
-import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.webp";
+import ayamCemani from "assets/animals/chickens/ayam_cemani.webp";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 import knightChicken from "assets/animals/chickens/knight_chicken.webp";
@@ -253,7 +253,7 @@ import giantCarrot from "assets/sfts/giant_carrot.png";
 
 //MOM Event
 import momCoreEngine from "assets/sfts/mom/engine_core.png";
-import observatory from "assets/sfts/mom/observatory.gif";
+import observatory from "assets/sfts/mom/observatory.webp";
 
 // Cakes
 import carrotCake from "assets/food/cakes/carrot_cake.png";
@@ -493,9 +493,9 @@ import giantPotato from "assets/sfts/giant_potato.png";
 import labGrownCarrot from "assets/sfts/lab_grown_carrot.gif";
 import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
 import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
-import potatoMutant from "assets/sfts/potato_mutant.gif";
-import radishMutant from "assets/sfts/radish_mutant.gif";
-import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
+import potatoMutant from "assets/sfts/potato_mutant.webp";
+import radishMutant from "assets/sfts/radish_mutant.webp";
+import sunflowerMutant from "assets/sfts/sunflower_mutant.webp";
 
 import battleCryDrum from "assets/sfts/battlecry_drum.webp";
 import bullseyBoard from "assets/sfts/bullseye_board.webp";
