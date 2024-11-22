@@ -73,7 +73,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
         )}
         <div className="flex flex-col space-y-0.5">
           {!!airdrop.sfl && (
-            <ButtonPanel className="flex items-start cursor-context-menu hover:brightness-100">
+            <ButtonPanel
+              variant="card"
+              className="flex items-start cursor-context-menu hover:brightness-100"
+            >
               <Box image={token} className="-mt-2 -ml-1 -mb-1" />
               <div>
                 <Label type="warning">
@@ -95,7 +98,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
             </div>
           )}
           {!!airdrop.coins && (
-            <ButtonPanel className="flex items-start cursor-context-menu hover:brightness-100">
+            <ButtonPanel
+              variant="card"
+              className="flex items-start cursor-context-menu hover:brightness-100"
+            >
               <Box image={coins} className="-mt-2 -ml-1 -mb-1" />
               <div>
                 <Label type="warning">
@@ -111,6 +117,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               const buff = COLLECTIBLE_BUFF_LABELS[name as CollectibleName];
               return (
                 <ButtonPanel
+                  variant="card"
                   className="flex items-start cursor-context-menu hover:brightness-100"
                   key={name}
                 >
@@ -164,6 +171,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               const buff = BUMPKIN_ITEM_BUFF_LABELS[name as BumpkinItem];
               return (
                 <ButtonPanel
+                  variant="card"
                   className="flex items-start cursor-context-menu hover:brightness-100"
                   key={name}
                 >

@@ -1140,7 +1140,20 @@ export const STATIC_OFFLINE_FARM: GameState = {
     collectibles: [],
     wearables: [],
   },
-  airdrops: [],
+  airdrops: [
+    {
+      id: "123",
+      createdAt: 1,
+      items: {
+        Sunflower: 1,
+      },
+      wearables: {
+        "Brown Rancher Hair": 1,
+      },
+      sfl: 0,
+      coins: 0,
+    },
+  ],
   username: "Local Hero",
   specialEvents: {
     current: {
