@@ -4402,5 +4402,6 @@
   "remaining.free.purchase": "1 日の購入が残り",
   "statements.potionRule.four": "ゲームが完了すると、最後のトライのスコアによって報酬が決まります。",
   "obsessionDialogue.codex": "それはあなたが持っている {{itemName}} ですか？広場に行ってバートを探し、彼に見せてください。そうすれば、バートはお返しに {{seasonalTicket}} をくれます。",
-  "bounties.board.travel": "広場に行き、ポピーを見つけてこれらの賞金を稼ぎましょう"
+  "bounties.board.travel": "広場に行き、ポピーを見つけてこれらの賞金を稼ぎましょう",
+  "description.trade.points": "マーケットプレイスで収集品やウェアラブルを取引することで獲得できます。ゲーム内の報酬と交換できます。"
 }

@@ -4402,5 +4402,6 @@
   "remaining.free.purchase": "1 compra diária restante",
   "statements.potionRule.four": "Quando o jogo terminar, a pontuação da sua última tentativa determinará sua recompensa.",
   "obsessionDialogue.codex": "Esse é o {{itemName}} que você tem? Vá até a praça para encontrar Bert e mostre a ele, e ele lhe dará {{seasonalTicket}} s em troca.",
-  "bounties.board.travel": "Viaje até a praça e encontre Poppy para cumprir essas recompensas"
+  "bounties.board.travel": "Viaje até a praça e encontre Poppy para cumprir essas recompensas",
+  "description.trade.points": "Ganhou negociando itens colecionáveis e vestíveis no mercado. Pode ser trocado por recompensas no jogo."
 }

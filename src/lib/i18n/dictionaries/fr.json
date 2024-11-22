@@ -4402,5 +4402,6 @@
   "remaining.free.purchase": "Il reste 1 achat quotidien",
   "statements.potionRule.four": "Une fois le jeu terminé, le score de votre dernière tentative déterminera votre récompense.",
   "obsessionDialogue.codex": "Est-ce le {{itemName}} que vous avez ? Rendez-vous sur la place pour trouver Bert et le lui montrer, et il vous donnera {{seasonalTicket}} s en retour.",
-  "bounties.board.travel": "Rendez-vous sur la place et trouvez Poppy pour remplir ces primes"
+  "bounties.board.travel": "Rendez-vous sur la place et trouvez Poppy pour remplir ces primes",
+  "description.trade.points": "Gagné en échangeant des objets de collection et des appareils portables sur le marché. Peut être échangé contre des récompenses en jeu."
 }

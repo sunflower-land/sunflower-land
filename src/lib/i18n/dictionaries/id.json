@@ -4402,5 +4402,6 @@
   "remaining.free.purchase": "1 pembelian harian tersisa",
   "statements.potionRule.four": "Ketika permainan selesai, skor untuk upaya terakhir Anda akan menentukan hadiah Anda.",
   "obsessionDialogue.codex": "Apakah itu {{itemName}} yang Anda miliki? Pergilah ke alun-alun untuk menemukan Bert dan menunjukkannya kepadanya, dan dia akan memberi Anda {{seasonalTicket}} s sebagai balasannya.",
-  "bounties.board.travel": "Bepergian ke alun-alun dan temukan Poppy untuk memenuhi karunia ini"
+  "bounties.board.travel": "Bepergian ke alun-alun dan temukan Poppy untuk memenuhi karunia ini",
+  "description.trade.points": "Diperoleh dari perdagangan barang koleksi dan barang yang dapat dikenakan di pasar. Dapat ditukar dengan hadiah dalam game."
 }
