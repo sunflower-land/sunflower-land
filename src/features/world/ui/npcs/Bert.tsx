@@ -148,7 +148,7 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
   if (readonly) {
     return (
       <>
-        <div className="flex flex-col items-center space-y-2 pb-1">
+        <div className="flex flex-col items-center space-y-2 mb-2">
           <div className="flex flex-row justify-between w-full my-1">
             <Label type="default">{"Bert's Obsession"}</Label>
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
