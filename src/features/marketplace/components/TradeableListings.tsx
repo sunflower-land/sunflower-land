@@ -102,16 +102,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     },
   );
 
-  useOnMachineTransition<ContextType, BlockchainEvent>(
-    gameService,
-    "marketplaceOfferCancellingSuccess",
-    "playing",
-    () => {
-      reload();
-      if (showAnimations) confetti();
-    },
-  );
-
   const handleSelectListing = (id: string) => {
     const selectedListing = tradeable?.listings.find(
       (listing) => listing.id === id,
@@ -185,6 +175,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                     ),
                     createdById: listing.listedById,
                   }))}
+                  inventoryCount={count}
                   id={farmId}
                   tableType="listings"
                   onClick={(listingId) => {

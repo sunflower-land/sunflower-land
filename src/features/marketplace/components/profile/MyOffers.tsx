@@ -122,7 +122,9 @@ export const MyOffers: React.FC = () => {
               {t("marketplace.myOffers")}
             </Label>
             <Label className="mb-2" type="formula" icon={lock}>
-              {t("marketplace.sflEscrowed", { sfl: escrowedSFL })}
+              {t("marketplace.sflEscrowed", {
+                sfl: formatNumber(escrowedSFL, { decimalPlaces: 4 }),
+              })}
             </Label>
           </div>
           <div className="flex flex-wrap">

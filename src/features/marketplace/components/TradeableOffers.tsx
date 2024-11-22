@@ -38,6 +38,8 @@ import confetti from "canvas-confetti";
 import { useParams } from "react-router-dom";
 import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
+import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
+import { KNOWN_ITEMS } from "features/game/types";
 
 // JWT TOKEN
 
@@ -46,7 +48,7 @@ const _hasPendingOfferEffect = (state: MachineState) =>
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _balance = (state: MachineState) => state.context.state.balance;
-
+const _inventory = (state: MachineState) => state.context.state.inventory;
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
   farmId: number;
@@ -55,7 +57,7 @@ export const TradeableOffers: React.FC<{
   reload: () => void;
 }> = ({ tradeable, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
   const params = useParams();
 
@@ -79,18 +81,45 @@ export const TradeableOffers: React.FC<{
   );
   const authToken = useSelector(authService, _authToken);
   const balance = useSelector(gameService, _balance);
-
+  const inventory = useSelector(gameService, _inventory);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState<Offer>();
 
   const topOffer = tradeable?.offers.reduce((highest, offer) => {
     return offer.sfl > highest.sfl ? offer : highest;
   }, tradeable?.offers[0]);
 
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceOfferCancellingSuccess",
+    "playing",
+    () => {
+      reload();
+      if (showAnimations) confetti();
+    },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceAcceptingSuccess",
+    "playing",
+    reload,
+  );
+
   const handleHide = () => {
     if (hasPendingOfferEffect) return;
 
     setShowMakeOffer(false);
+  };
+
+  const handleSelectOffer = (id: string) => {
+    const selectedOffer = tradeable?.offers.find(
+      (offer) => offer.tradeId === id,
+    ) as Offer;
+
+    setSelectedOffer(selectedOffer);
+    setShowAcceptOffer(true);
   };
 
   const isResource = params.collection === "resources";
@@ -115,7 +144,7 @@ export const TradeableOffers: React.FC<{
             authToken={authToken}
             itemId={itemId}
             display={display}
-            offer={topOffer as Offer}
+            offer={(isResource ? selectedOffer : topOffer) as Offer}
             onClose={() => setShowAcceptOffer(false)}
             onOfferAccepted={reload}
           />
@@ -174,9 +203,15 @@ export const TradeableOffers: React.FC<{
                     ),
                     createdById: offer.offeredById,
                   }))}
+                  inventoryCount={
+                    getBasketItems(inventory)[
+                      KNOWN_ITEMS[itemId]
+                    ]?.toNumber() ?? 0
+                  }
                   id={farmId}
                   tableType="offers"
-                  onClick={() => {
+                  onClick={(offerId) => {
+                    handleSelectOffer(offerId);
                     setShowAcceptOffer(true);
                   }}
                 />

@@ -18,8 +18,9 @@ export const ResourceTable: React.FC<{
   id: number;
   balance: Decimal;
   tableType: "listings" | "offers";
-  onClick: (listingId: string) => void;
-}> = ({ items, id, balance, tableType, onClick }) => {
+  inventoryCount: number;
+  onClick: (id: string) => void;
+}> = ({ items, id: farmId, balance, tableType, inventoryCount, onClick }) => {
   const { t } = useAppTranslation();
   return (
     <div className="max-h-[200px] scrollable overflow-y-auto relative">
@@ -43,14 +44,11 @@ export const ResourceTable: React.FC<{
         </thead>
         <tbody>
           {items.map(
-            (
-              { id: listingId, createdById, quantity, price, pricePerUnit },
-              index,
-            ) => (
+            ({ id, createdById, quantity, price, pricePerUnit }, index) => (
               <tr
                 key={index}
                 className={classNames("relative", {
-                  "bg-[#ead4aa]": id === createdById,
+                  "bg-[#ead4aa]": createdById === farmId,
                 })}
               >
                 <td
@@ -79,9 +77,13 @@ export const ResourceTable: React.FC<{
                   className="p-1.5 text-center"
                 >
                   <Button
-                    disabled={balance.lt(price) || createdById === id}
+                    disabled={
+                      balance.lt(price) ||
+                      createdById === farmId ||
+                      inventoryCount < quantity
+                    }
                     className="w-[84px] h-10"
-                    onClick={() => onClick(listingId)}
+                    onClick={() => onClick(id)}
                   >
                     {t(tableType === "listings" ? "buy" : "accept")}
                   </Button>

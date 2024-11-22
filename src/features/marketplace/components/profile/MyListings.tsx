@@ -101,17 +101,6 @@ export const MyListings: React.FC = () => {
         )}
       </Modal>
 
-      <Modal
-        show={!!removeListingId}
-        onHide={() => setRemoveListingId(undefined)}
-      >
-        <RemoveListing
-          listingIds={removeListingId ? [removeListingId] : []}
-          authToken={authService.state.context.user.rawToken as string}
-          onClose={() => setRemoveListingId(undefined)}
-        />
-      </Modal>
-
       <InnerPanel className="mb-1">
         <div className="p-2">
           <div className="flex items-center justify-between">
