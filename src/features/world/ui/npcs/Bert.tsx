@@ -137,7 +137,7 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
     return (
       <>
         <div className="flex flex-col items-center space-y-2">
-          <div className="flex flex-row justify-between w-full my-1 mt-1">
+          <div className="flex flex-row justify-between w-full my-1">
             <Label type="default">{"Bert's Obsession"}</Label>
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
               {`${t("offer.end")} ${secondsToString(resetSeconds, {
@@ -146,7 +146,7 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
               })}`}
             </Label>
           </div>
-          <div className="w-full p-2 px-1">
+          <div className="w-full mb-1 mx-1">
             <div className="flex">
               <div
                 className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
@@ -165,22 +165,24 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
                   className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 />
               </div>
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 justify-between">
                 <span className="text-xs leading-none">
                   {t("obsessionDialogue.codex", {
                     itemName: obsessionName ?? "",
                     seasonalTicket: getSeasonalTicket().toLowerCase(),
                   })}
                 </span>
-                <Label
-                  className="whitespace-nowrap font-secondary relative"
-                  type="default"
-                >
-                  {`Reward: ${reward} ${getSeasonalTicket()}s`}
-                </Label>
-                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                  {t("alr.completed")}
-                </Label>
+                <div className="flex flex-row flex-wrap">
+                  <Label
+                    className="whitespace-nowrap font-secondary relative mr-2"
+                    type="default"
+                  >
+                    {`Reward: ${reward} ${getSeasonalTicket()}s`}
+                  </Label>
+                  <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                    {t("alr.completed")}
+                  </Label>
+                </div>
               </div>
             </div>
           </div>
