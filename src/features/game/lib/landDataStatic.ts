@@ -7,6 +7,7 @@ import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { TEST_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 import { EMPTY, makeMegaStoreAvailableDates } from "./constants";
+import { getSeasonalTicket } from "../types/seasons";
 export const INITIAL_RESOURCES: Pick<
   GameState,
   | "crops"
@@ -214,6 +215,13 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 
 export const STATIC_OFFLINE_FARM: GameState = {
   ...EMPTY,
+  bertObsession: {
+    type: "collectible",
+    name: "Fairy Circle",
+    startDate: 1732147200000,
+    endDate: 1732406400000,
+    reward: 3,
+  },
   experiments: ["GEM_BOOSTS"],
   greenhouse: {
     pots: {},
@@ -424,6 +432,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Fairy Circle": new Decimal(1),
+    "Red Balloon Flower": new Decimal(1),
     Tomato: new Decimal(100),
     Cheese: new Decimal(100),
     "Barn Delight": new Decimal(1),
@@ -855,12 +865,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         id: "2",
         name: "Red Balloon Flower",
-        coins: 100,
+        items: { [getSeasonalTicket()]: 1 },
       },
       {
         id: "3",
         name: "White Pansy",
-        items: { Scroll: 1 },
+        items: { [getSeasonalTicket()]: 1 },
       },
     ],
   },
@@ -944,7 +954,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
         items: { "Gold Egg": 10 },
         sfl: 5,
-        fulfilledAt: 100,
         fulfilledById: 1,
       },
     },

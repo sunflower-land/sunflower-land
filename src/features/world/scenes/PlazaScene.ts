@@ -351,16 +351,6 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(106, 140, "locked_disc").setDepth(1000000000);
     }
 
-    if (this.gameState.inventory["Beta Pass"]) {
-      // Add an invisible clickable square at x and y coords
-      const clickableSquare = this.add.rectangle(775, 248, 16, 16, 0, 0);
-      clickableSquare
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          interactableModalManager.open("flower_bounties");
-        });
-    }
-
     // Sprites
     const basicChest = this.add.sprite(106, 160, "basic_chest");
     this.physics.world.enable(basicChest);
