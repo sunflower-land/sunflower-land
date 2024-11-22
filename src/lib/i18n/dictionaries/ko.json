@@ -4403,5 +4403,6 @@
   "statements.potionRule.four": "게임이 완료되면 마지막 시도의 점수에 따라 보상이 결정됩니다.",
   "obsessionDialogue.codex": "이게 당신이 가지고 있는 {{itemName}} 인가요?광장으로 가서 버트를 찾아 보여 주면 그 대가로 {{seasonalTicket}} 를 줄 거예요.",
   "bounties.board.travel": "광장으로 가서 Poppy를 찾아 이러한 현상금을 달성하세요.",
-  "description.trade.points": "마켓플레이스에서 수집품과 웨어러블을 거래하여 수익을 올렸습니다.게임 내 보상으로 교환할 수 있습니다."
+  "description.trade.points": "마켓플레이스에서 수집품과 웨어러블을 거래하여 수익을 올렸습니다.게임 내 보상으로 교환할 수 있습니다.",
+  "reward.collectible": "농장을 위한 수집품"
 }

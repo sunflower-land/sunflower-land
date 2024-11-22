@@ -4403,5 +4403,6 @@
   "statements.potionRule.four": "Oyun tamamlandığında, son denemenizin puanı ödülünüzü belirleyecektir.",
   "obsessionDialogue.codex": "Sahip olduğunuz {{itemName}} bu mu? Bert'i bulmak için plazaya gidin ve ona gösterin, karşılığında size {{seasonalTicket}} s verecektir.",
   "bounties.board.travel": "Plazaya gidin ve bu ödülleri yerine getirmek için Poppy'yi bulun",
-  "description.trade.points": "Piyasada koleksiyon ve giyilebilir eşya ticaretinden kazanıldı. Oyun içi ödüller ile değiştirilebilir."
+  "description.trade.points": "Piyasada koleksiyon ve giyilebilir eşya ticaretinden kazanıldı. Oyun içi ödüller ile değiştirilebilir.",
+  "reward.collectible": "Çiftliğiniz için bir koleksiyon"
 }

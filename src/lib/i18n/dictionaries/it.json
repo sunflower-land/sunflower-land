@@ -4403,5 +4403,6 @@
   "statements.potionRule.four": "Al termine del gioco, il punteggio dell'ultimo tentativo determinerà la tua ricompensa.",
   "obsessionDialogue.codex": "È il {{itemName}} che hai? Raggiungi la piazza per trovare Bert e mostrarglielo, e in cambio ti darà {{seasonalTicket}} s.",
   "bounties.board.travel": "Raggiungi la piazza e trova Poppy per soddisfare questi doni",
-  "description.trade.points": "Guadagnato scambiando oggetti da collezione e indossabili sul mercato. Possono essere scambiati con ricompense di gioco."
+  "description.trade.points": "Guadagnato scambiando oggetti da collezione e indossabili sul mercato. Possono essere scambiati con ricompense di gioco.",
+  "reward.collectible": "Un oggetto da collezione per la tua fattoria"
 }

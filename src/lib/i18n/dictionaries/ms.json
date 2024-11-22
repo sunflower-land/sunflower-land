@@ -4403,5 +4403,6 @@
   "statements.potionRule.four": "Apabila permainan selesai, skor untuk percubaan terakhir anda akan menentukan ganjaran anda.",
   "obsessionDialogue.codex": "Adakah itu {{itemName}} yang anda ada? Pergi ke plaza untuk mencari Bert dan tunjukkan kepadanya, dan dia akan memberi anda {{seasonalTicket}} s sebagai balasan.",
   "bounties.board.travel": "Pergi ke plaza dan cari Poppy untuk memenuhi hadiah ini",
-  "description.trade.points": "Diperolehi daripada perdagangan koleksi dan barang pakai di pasaran. Boleh ditukar dengan ganjaran dalam permainan."
+  "description.trade.points": "Diperolehi daripada perdagangan koleksi dan barang pakai di pasaran. Boleh ditukar dengan ganjaran dalam permainan.",
+  "reward.collectible": "Koleksi untuk Ladang anda"
 }

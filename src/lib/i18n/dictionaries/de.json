@@ -4403,5 +4403,6 @@
   "statements.potionRule.four": "Wenn das Spiel beendet ist, bestimmt das Ergebnis Ihres letzten Versuchs Ihre Belohnung.",
   "obsessionDialogue.codex": "Ist das das {{itemName}}, das du hast? Reist zum Platz, um Bert zu finden und es ihm zu zeigen. Er wird euch im Gegenzug {{seasonalTicket}} s geben.",
   "bounties.board.travel": "Reise zum Platz und finde Poppy, um diese Belohnungen zu erfüllen",
-  "description.trade.points": "Verdient durch den Handel mit Sammlerstücken und Wearables auf dem Marktplatz. Kann gegen Belohnungen im Spiel eingetauscht werden."
+  "description.trade.points": "Verdient durch den Handel mit Sammlerstücken und Wearables auf dem Marktplatz. Kann gegen Belohnungen im Spiel eingetauscht werden.",
+  "reward.collectible": "Ein Sammlerstück für deine Farm"
 }
