@@ -4400,5 +4400,7 @@
   "remaining.free.listing": "Baki 1 penyenaraian harian",
   "remaining.free.purchases": "{{purchasesRemaining}} baki pembelian harian",
   "remaining.free.purchase": "Baki 1 pembelian harian",
-  "statements.potionRule.four": "Apabila permainan selesai, skor untuk percubaan terakhir anda akan menentukan ganjaran anda."
+  "statements.potionRule.four": "Apabila permainan selesai, skor untuk percubaan terakhir anda akan menentukan ganjaran anda.",
+  "obsessionDialogue.codex": "Adakah itu {{itemName}} yang anda ada? Pergi ke plaza untuk mencari Bert dan tunjukkan kepadanya, dan dia akan memberi anda {{seasonalTicket}} s sebagai balasan.",
+  "bounties.board.travel": "Pergi ke plaza dan cari Poppy untuk memenuhi hadiah ini"
 }

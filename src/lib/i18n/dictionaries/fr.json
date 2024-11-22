@@ -4400,5 +4400,7 @@
   "remaining.free.listing": "Il reste 1 annonce quotidienne",
   "remaining.free.purchases": "{{purchasesRemaining}} achats quotidiens restants",
   "remaining.free.purchase": "Il reste 1 achat quotidien",
-  "statements.potionRule.four": "Une fois le jeu terminé, le score de votre dernière tentative déterminera votre récompense."
+  "statements.potionRule.four": "Une fois le jeu terminé, le score de votre dernière tentative déterminera votre récompense.",
+  "obsessionDialogue.codex": "Est-ce le {{itemName}} que vous avez ? Rendez-vous sur la place pour trouver Bert et le lui montrer, et il vous donnera {{seasonalTicket}} s en retour.",
+  "bounties.board.travel": "Rendez-vous sur la place et trouvez Poppy pour remplir ces primes"
 }

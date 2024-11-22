@@ -4400,5 +4400,7 @@
   "remaining.free.listing": "剩余每日挂单数：1",
   "remaining.free.purchases": "剩余每日购单数：{{purchasesRemaining}}",
   "remaining.free.purchase": "剩余每日购单数：1",
-  "statements.potionRule.four": "游戏完成后，你最后一次尝试的分数将决定你的奖励。"
+  "statements.potionRule.four": "游戏完成后，你最后一次尝试的分数将决定你的奖励。",
+  "obsessionDialogue.codex": "那是你的 {{itemName}} 吗？前往广场找到 Bert 并将其展示给他，他会给你 {{seasonalTicket}} 作为回报。",
+  "bounties.board.travel": "前往广场找到 Poppy 来兑现这些赏金"
 }

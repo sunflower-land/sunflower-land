@@ -4400,5 +4400,7 @@
   "remaining.free.listing": "デイリーリスティング残り 1 件",
   "remaining.free.purchases": "{{purchasesRemaining}} 日次購入残高",
   "remaining.free.purchase": "1 日の購入が残り",
-  "statements.potionRule.four": "ゲームが完了すると、最後のトライのスコアによって報酬が決まります。"
+  "statements.potionRule.four": "ゲームが完了すると、最後のトライのスコアによって報酬が決まります。",
+  "obsessionDialogue.codex": "それはあなたが持っている {{itemName}} ですか？広場に行ってバートを探し、彼に見せてください。そうすれば、バートはお返しに {{seasonalTicket}} をくれます。",
+  "bounties.board.travel": "広場に行き、ポピーを見つけてこれらの賞金を稼ぎましょう"
 }

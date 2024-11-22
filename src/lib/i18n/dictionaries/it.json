@@ -4400,5 +4400,7 @@
   "remaining.free.listing": "1 inserzione giornaliera rimanente",
   "remaining.free.purchases": "{{purchasesRemaining}} acquisti giornalieri rimanenti",
   "remaining.free.purchase": "1 acquisto giornaliero rimanente",
-  "statements.potionRule.four": "Al termine del gioco, il punteggio dell'ultimo tentativo determinerà la tua ricompensa."
+  "statements.potionRule.four": "Al termine del gioco, il punteggio dell'ultimo tentativo determinerà la tua ricompensa.",
+  "obsessionDialogue.codex": "È il {{itemName}} che hai? Raggiungi la piazza per trovare Bert e mostrarglielo, e in cambio ti darà {{seasonalTicket}} s.",
+  "bounties.board.travel": "Raggiungi la piazza e trova Poppy per soddisfare questi doni"
 }

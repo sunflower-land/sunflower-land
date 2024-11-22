@@ -4400,5 +4400,7 @@
   "remaining.free.listing": "Queda 1 anuncio diario",
   "remaining.free.purchases": "{{purchasesRemaining}} compras diarias restantes",
   "remaining.free.purchase": "Queda 1 compra diaria",
-  "statements.potionRule.four": "Cuando se complete el juego, la puntuación de tu último intento determinará tu recompensa."
+  "statements.potionRule.four": "Cuando se complete el juego, la puntuación de tu último intento determinará tu recompensa.",
+  "obsessionDialogue.codex": "¿Es ese el {{itemName}} que tienes? Ve a la plaza para encontrar a Bert y muéstraselo, y él te dará {{seasonalTicket}} s a cambio.",
+  "bounties.board.travel": "Viaja a la plaza y encuentra a Poppy para conseguir estas recompensas"
 }
