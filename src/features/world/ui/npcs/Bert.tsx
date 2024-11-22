@@ -113,6 +113,7 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
     },
   ] = useActor(gameService);
   const currentObsession = state.bertObsession;
+  const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
 
   const obsessionDialogue = useRandomItem(
     obsessionDialogues(currentObsession?.name as string),
@@ -132,6 +133,17 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
   const endDate = !currentObsession ? 0 : currentObsession.endDate;
   const resetSeconds = (endDate - new Date().getTime()) / 1000;
   const reward = state.bertObsession?.reward ?? 0;
+
+  if (!currentObsession) {
+    return (
+      <div className="w-full flex flex-col items-center pt-0.5">
+        <div className="flex flex-row justify-between w-full my-1">
+          <Label type="default">{"Bert's Obsession"}</Label>
+        </div>
+        <p className="text-center text-sm my-3">{t("no.obsessions")}</p>
+      </div>
+    );
+  }
 
   if (readonly) {
     return (
@@ -179,9 +191,13 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
                   >
                     {`Reward: ${reward} ${getSeasonalTicket()}s`}
                   </Label>
-                  <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                    {t("alr.completed")}
-                  </Label>
+                  {obsessionCompletedAt &&
+                    obsessionCompletedAt >= currentObsession.startDate &&
+                    obsessionCompletedAt <= currentObsession.endDate && (
+                      <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                        {t("alr.completed")}
+                      </Label>
+                    )}
                 </div>
               </div>
             </div>
@@ -193,9 +209,6 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
 
   return (
     <div className="w-full flex flex-col items-center pt-0.5">
-      {!currentObsession && (
-        <p className="text-center text-sm my-3">{t("no.obsessions")}</p>
-      )}
       {currentObsession && (
         <div className="w-full flex flex-col items-center mx-auto">
           <p className="text-center text-sm mb-3">{obsessionDialogue}</p>
