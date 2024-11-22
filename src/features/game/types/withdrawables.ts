@@ -456,6 +456,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Sunflorian Emblem": () => false,
   Mark: () => false,
   Horseshoe: () => false,
+  "Trade Point": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

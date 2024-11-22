@@ -4408,6 +4408,7 @@
   "npcDialogues.corale.chore3": "The fish say they've seen cow-like shadows in deeper waters!",
   "marketplace": "Marketplace",
   "marketplace.buy": "Buy, swap, sell!",
+  "description.trade.points": "Earned from trading collectibles and wearables in the marketplace. Can be exchanged for in-game rewards.",
   "marketplace.item": "Item",
   "marketplace.unitPrice": "Unit Price",
   "marketplace.7dChange": "7d Change",

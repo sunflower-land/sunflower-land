@@ -261,4 +261,69 @@ describe("purchase.claimed", () => {
 
     expect(state.bank.taxFreeSFL).toStrictEqual(23.4);
   });
+  it("awards trade points when claiming an onchain trade", () => {
+    const state = claimPurchase({
+      state: {
+        ...TEST_FARM,
+        trades: {
+          tradePoints: 0,
+          listings: {
+            "125": {
+              collection: "collectibles",
+              items: {
+                "Rich Chicken": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              signature: "125",
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+          },
+        },
+      },
+      action: {
+        type: "purchase.claimed",
+        tradeIds: ["125"],
+      },
+    });
+    expect(state.trades.tradePoints).toEqual(70);
+  });
+
+  it("awards lesser trade points when claiming an instant trade", () => {
+    const state = claimPurchase({
+      state: {
+        ...TEST_FARM,
+        trades: {
+          listings: {
+            "123": {
+              collection: "collectibles",
+              items: {
+                "Rich Chicken": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+            "124": {
+              collection: "collectibles",
+              items: {
+                "Fat Chicken": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+          },
+        },
+      },
+      action: {
+        type: "purchase.claimed",
+        tradeIds: ["123", "124"],
+      },
+    });
+    expect(state.trades.tradePoints).toEqual(28);
+  });
 });

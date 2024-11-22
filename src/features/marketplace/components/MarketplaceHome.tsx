@@ -7,6 +7,7 @@ import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
 import filterIcon from "assets/icons/filter_icon.webp";
 import tradeIcon from "assets/icons/trade.png";
+import trade_point from "src/assets/icons/trade_point.webp";
 
 import {
   Route,
@@ -250,6 +251,12 @@ const Filters: React.FC = () => {
             label="My trades"
             onClick={() => navigate(`/marketplace/trades`)}
             isActive={pathname === "/marketplace/trades"}
+          />
+          <Option
+            icon={trade_point}
+            label="My rewards"
+            onClick={() => navigate(`/marketplace/rewards`)}
+            isActive={pathname === "/marketplace/rewards"}
           />
         </div>
       </div>

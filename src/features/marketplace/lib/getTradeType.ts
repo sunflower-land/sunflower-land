@@ -1246,6 +1246,7 @@ export const ITEM_TRADE_TYPES: Record<
   "Adventurer's Torch": "instant",
   "Pumpkin Head": "instant",
   "Egg Basket": "instant",
+  "Trade Point": "instant",
 };
 
 // Anything above this limit must be done onchain
