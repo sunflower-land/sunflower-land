@@ -25,6 +25,7 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
+import { formatNumber } from "lib/utils/formatNumber";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -150,6 +151,11 @@ export const MyOffers: React.FC = () => {
                       id: itemId,
                       type: offer.collection,
                     });
+                    const itemName = getKeys(
+                      offer.items ?? {},
+                    )[0] as InventoryItemName;
+                    const quantity = offer.items[itemName];
+                    const isResource = offer.collection === "resources";
 
                     return (
                       <tr
@@ -169,17 +175,23 @@ export const MyOffers: React.FC = () => {
                           navigate(`/marketplace/${details.type}/${itemId}`)
                         }
                       >
-                        <td className="p-1.5 text-left">
+                        <td className="p-1.5 w-2/5 text-left">
                           <div className="flex items-center">
                             <img src={details.image} className="h-8 mr-4" />
-                            <p className="text-sm">{details.name}</p>
+                            <p className="text-sm">{`${isResource ? quantity + " x" : ""} ${details.name}`}</p>
                           </div>
                         </td>
                         <td className="p-1.5 text-left relative">
                           <div className="flex items-center">
                             <img src={sflIcon} className="h-5 mr-1" />
                             <p className="text-sm">
-                              {new Decimal(offer.sfl).toFixed(2)}
+                              {new Decimal(
+                                isResource
+                                  ? formatNumber(offer.sfl / Number(quantity), {
+                                      decimalPlaces: 4,
+                                    })
+                                  : offer.sfl,
+                              ).toFixed(2)}
                             </p>
                           </div>
                         </td>

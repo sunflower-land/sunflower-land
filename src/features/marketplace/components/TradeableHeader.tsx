@@ -38,7 +38,7 @@ type TradeableHeaderProps = {
   pricePerUnit?: number;
   onBack: () => void;
   onListClick: () => void;
-  onPurchase: () => void;
+  reload: () => void;
 };
 
 const _balance = (state: MachineState) => state.context.state.balance;
@@ -52,7 +52,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   count,
   tradeable,
   onListClick,
-  onPurchase,
+  reload,
 }) => {
   const { gameService } = useContext(Context);
   const balance = useSelector(gameService, _balance);
@@ -76,7 +76,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     gameService,
     "marketplacePurchasingSuccess",
     "playing",
-    onPurchase,
+    reload,
     cheapestListing?.type === "instant",
   );
 

@@ -36,7 +36,7 @@ export const MakeOffer: React.FC<{
   const balance = useSelector(gameService, _balance);
 
   const [offer, setOffer] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 

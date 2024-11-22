@@ -114,9 +114,11 @@ export const MyListings: React.FC = () => {
 
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <Label className="mb-2" type="default" icon={trade}>
-            {t("marketplace.myListings")}
-          </Label>
+          <div className="flex items-center justify-between">
+            <Label className="mb-2" type="default" icon={trade}>
+              {t("marketplace.myListings")}
+            </Label>
+          </div>
           <div className="flex flex-wrap">
             {getKeys(filteredListings).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
@@ -124,13 +126,12 @@ export const MyListings: React.FC = () => {
               <table className="w-full text-xs  border-collapse bg-[#ead4aa] ">
                 <thead>
                   <tr>
-                    <th className="p-1.5 w-1/2 text-left">
+                    <th className="p-1.5 w-2/5 text-left">
                       <p>{t("marketplace.item")}</p>
                     </th>
                     <th className="p-1.5 text-left">
                       <p>{t("marketplace.unitPrice")}</p>
                     </th>
-                    <th className="p-1.5 w-1/5"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -146,6 +147,7 @@ export const MyListings: React.FC = () => {
                       id: itemId,
                       type: collection,
                     });
+                    const isResource = collection === "resources";
                     const quantity = listing.items[itemName];
                     const price = listing.sfl;
 
@@ -170,7 +172,9 @@ export const MyListings: React.FC = () => {
                         <td className="p-1.5 text-left w-12">
                           <div className="flex items-center">
                             <img src={details.image} className="h-8 mr-4" />
-                            <p className="text-sm">{details.name}</p>
+                            <p className="text-sm">
+                              {`${isResource ? quantity + " x" : ""} ${details.name}`}
+                            </p>
                           </div>
                         </td>
                         <td className="p-1.5 text-left relative">
@@ -178,7 +182,7 @@ export const MyListings: React.FC = () => {
                             <img src={sflIcon} className="h-5 mr-1" />
                             <p className="text-sm">
                               {new Decimal(
-                                listing.collection === "resources"
+                                isResource
                                   ? formatNumber(price / Number(quantity), {
                                       decimalPlaces: 4,
                                     })

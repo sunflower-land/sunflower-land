@@ -39,8 +39,7 @@ type TradeableListingsProps = {
   count: number;
   onListClick: () => void;
   onListClose: () => void;
-  onListing: () => void;
-  onPurchase: () => void;
+  reload: () => void;
 };
 
 const _isListing = (state: MachineState) => state.matches("marketplaceListing");
@@ -54,10 +53,9 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   id,
   count,
   showListItem,
-  onListing,
+  reload,
   onListClick,
   onListClose,
-  onPurchase,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -72,9 +70,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     gameService,
     "marketplaceListingSuccess",
     "playing",
-    () => {
-      onListing();
-    },
+    reload,
   );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -91,7 +87,27 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     "marketplacePurchasing",
     "marketplacePurchasingSuccess",
     () => {
-      onPurchase();
+      reload();
+      if (showAnimations) confetti();
+    },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceListingCancellingSuccess",
+    "playing",
+    () => {
+      reload();
+      if (showAnimations) confetti();
+    },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceOfferCancellingSuccess",
+    "playing",
+    () => {
+      reload();
       if (showAnimations) confetti();
     },
   );

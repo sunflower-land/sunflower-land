@@ -29,10 +29,10 @@ export const ResourceTable: React.FC<{
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
               <p>{t("marketplace.quantity")}</p>
             </th>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/3">
               <p>{t("marketplace.sfl")}</p>
             </th>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/3">
               <p>{t("marketplace.unitPrice")}</p>
             </th>
             <th

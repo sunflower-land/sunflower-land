@@ -37,6 +37,7 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
 import { useParams } from "react-router-dom";
 import { ResourceTable } from "./ResourceTable";
+import { formatNumber } from "lib/utils/formatNumber";
 
 // JWT TOKEN
 
@@ -51,8 +52,8 @@ export const TradeableOffers: React.FC<{
   farmId: number;
   display: TradeableDisplay;
   itemId: number;
-  onOfferMade: () => void;
-}> = ({ tradeable, farmId, display, itemId, onOfferMade }) => {
+  reload: () => void;
+}> = ({ tradeable, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -62,7 +63,7 @@ export const TradeableOffers: React.FC<{
     gameService,
     "marketplaceOfferingSuccess",
     "playing",
-    onOfferMade,
+    reload,
   );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -116,9 +117,7 @@ export const TradeableOffers: React.FC<{
             display={display}
             offer={topOffer as Offer}
             onClose={() => setShowAcceptOffer(false)}
-            onOfferAccepted={() => {
-              onOfferMade();
-            }}
+            onOfferAccepted={reload}
           />
         </Panel>
       </Modal>
@@ -168,7 +167,11 @@ export const TradeableOffers: React.FC<{
                     id: offer.tradeId,
                     price: offer.sfl,
                     quantity: offer.quantity,
-                    pricePerUnit: offer.sfl,
+                    pricePerUnit: Number(
+                      formatNumber(offer.sfl / offer.quantity, {
+                        decimalPlaces: 4,
+                      }),
+                    ),
                     createdById: offer.offeredById,
                   }))}
                   id={farmId}

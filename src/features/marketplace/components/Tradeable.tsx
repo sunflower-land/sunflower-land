@@ -113,7 +113,7 @@ export const Tradeable: React.FC = () => {
             count={count}
             tradeable={tradeable}
             onBack={onBack}
-            onPurchase={load}
+            reload={load}
             onListClick={() => setShowListItem(true)}
           />
         </div>
@@ -128,8 +128,8 @@ export const Tradeable: React.FC = () => {
             display={display}
             tradeable={tradeable}
             count={count}
+            reload={load}
             onBack={onBack}
-            onPurchase={load}
             onListClick={() => setShowListItem(true)}
           />
         </div>
@@ -147,14 +147,13 @@ export const Tradeable: React.FC = () => {
           farmId={farmId}
           showListItem={showListItem}
           count={count}
-          onListing={load}
           onListClick={() => {
             setShowListItem(true);
           }}
           onListClose={() => {
             setShowListItem(false);
           }}
-          onPurchase={load}
+          reload={load}
         />
 
         <TradeableOffers
@@ -162,7 +161,7 @@ export const Tradeable: React.FC = () => {
           tradeable={tradeable}
           display={display}
           farmId={farmId}
-          onOfferMade={load}
+          reload={load}
         />
       </div>
     </div>

@@ -32,7 +32,6 @@ import { getTradeType } from "../lib/getTradeType";
 import { ResourceList } from "./ResourceList";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
-import { TRADE_MINIMUMS } from "features/game/actions/tradeLimits";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -57,9 +56,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(
-    TRADE_MINIMUMS[display.name as InventoryItemName] ?? 0,
-  );
+  const [quantity, setQuantity] = useState(0);
 
   const { state } = gameState.context;
 
