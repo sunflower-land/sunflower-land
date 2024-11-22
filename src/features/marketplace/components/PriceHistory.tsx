@@ -1,12 +1,22 @@
 import React from "react";
 import tradeIcon from "assets/icons/trade.png";
+import sflIcon from "assets/icons/sfl.webp";
+import increaseArrow from "assets/icons/increase_arrow.png";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { PriceHistory as IPriceHistory } from "features/game/types/marketplace";
+import {
+  PriceHistory as IPriceHistory,
+  SaleHistory as ISaleHistory,
+} from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
+import classNames from "classnames";
+import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPC_WEARABLES } from "lib/npcs";
+import { interpretTokenUri, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { getRelativeTime } from "lib/utils/time";
 
 interface Props {
   history?: IPriceHistory[];
@@ -142,5 +152,75 @@ export const PriceChart: React.FC<Props> = ({ history }) => {
         )}
       </div>
     </div>
+  );
+};
+
+export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
+  history,
+}) => {
+  if (!history) {
+    return <Loading />;
+  }
+
+  return (
+    <>
+      <div className="flex flex-wrap justify-between items-center mb-2">
+        <Label type="default">Sale History</Label>
+        <div className="flex items-center ">
+          <Label type="transparent" icon={increaseArrow} className=" mr-6">
+            42% (1D)
+          </Label>
+          <Label type="transparent" icon={increaseArrow} className=" mr-6">
+            42% (7D)
+          </Label>
+          <Label type="transparent" icon={increaseArrow}>
+            42% (30D)
+          </Label>
+        </div>
+        {/* <div className="flex  items-center">
+          <div className="flex items-center">
+            <img src={increaseArrow} className="w-4 mr-1" />
+            <p className="text-sm">{history.oneDayChange}% (1D)</p>
+          </div>
+        </div> */}
+      </div>
+      <table className="w-full text-xs table-fixed border-collapse">
+        <tbody>
+          {history.sales.map(
+            ({ sfl, quantity, fulfilledAt, fulfilledBy }, index) => (
+              <tr
+                key={index}
+                className={classNames("relative", {
+                  "bg-[#ead4aa]": index % 2 === 0,
+                })}
+              >
+                <td className="p-1.5 truncate text-center relative">
+                  <div className="flex items-center">
+                    <div className="relative w-8 h-8">
+                      <NPC
+                        width={20}
+                        parts={
+                          interpretTokenUri(fulfilledBy.bumpkinUri).equipped
+                        }
+                      />
+                    </div>
+                    <p className="text-sm">{fulfilledBy.username}</p>
+                  </div>
+                </td>
+                <td className="p-1.5 ">
+                  <div className="flex items-center">
+                    <img src={sflIcon} className="w-4 mr-1" />
+                    <p className="text-sm">{sfl}</p>
+                  </div>
+                </td>
+                <td className="p-1.5 truncate text-center">
+                  {getRelativeTime(fulfilledAt)}
+                </td>
+              </tr>
+            ),
+          )}
+        </tbody>
+      </table>
+    </>
   );
 };

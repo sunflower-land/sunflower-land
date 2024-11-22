@@ -9,7 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
 
-import { TradeableOffers } from "./TradeableOffers";
+import { PriceHistory, SaleHistory } from "./PriceHistory";
+import { TradeableOffers, YourOffer } from "./TradeableOffers";
 import { Context } from "features/game/GameProvider";
 import { KNOWN_ITEMS } from "features/game/types";
 import {
@@ -21,9 +22,13 @@ import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { TradeableHeader } from "./TradeableHeader";
 import { TradeableInfo } from "./TradeableInfo";
-import { TradeableListings } from "./TradeableListings";
 import { MyListings } from "./profile/MyListings";
 import { MyOffers } from "./profile/MyOffers";
+import { TradeableListings } from "./TradeableListings";
+import { InnerPanel } from "components/ui/Panel";
+import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { NPC_WEARABLES } from "lib/npcs";
+import { Label } from "components/ui/Label";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
