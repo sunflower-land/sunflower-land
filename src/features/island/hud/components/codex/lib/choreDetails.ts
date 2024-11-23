@@ -8,33 +8,33 @@ export const CHORE_DETAILS: Record<
 > = {
   CHOP_1_TREE: {
     description: translate("chore.chop.1.tree"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   CHOP_2_TREE: {
     description: translate("chore.chop.2.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
-  "Mine 20 Gold": {
+  "Mine Gold 20 times": {
     description: translate("chore.mine.20.gold"),
-    icon: ITEM_DETAILS.Pickaxe.image,
+    icon: ITEM_DETAILS.Gold.image,
   },
-  "Mine 23 Gold": {
+  "Mine Gold 23 times": {
     description: translate("chore.mine.23.gold"),
-    icon: ITEM_DETAILS.Pickaxe.image,
+    icon: ITEM_DETAILS.Gold.image,
   },
-  "Mine 25 Gold": {
+  "Mine Gold 25 times": {
     description: translate("chore.mine.25.gold"),
-    icon: ITEM_DETAILS.Pickaxe.image,
+    icon: ITEM_DETAILS.Gold.image,
   },
-  "Mine 10 Crimstone": {
+  "Mine Crimstone 10 times": {
     description: translate("chore.mine.10.crimstone"),
     icon: ITEM_DETAILS.Crimstone.image,
   },
-  "Mine 12 Crimstone": {
+  "Mine Crimstone 12 times": {
     description: translate("chore.mine.12.crimstone"),
     icon: ITEM_DETAILS.Crimstone.image,
   },
-  "Mine 15 Crimstone": {
+  "Mine Crimstone 15 times": {
     description: translate("chore.mine.15.crimstone"),
     icon: ITEM_DETAILS.Crimstone.image,
   },
@@ -66,75 +66,75 @@ export const CHORE_DETAILS: Record<
     description: translate("chore.spend.55000.coins"),
     icon: ITEM_DETAILS.Gold.image,
   },
-  "Pick 45 Blueberries": {
+  "Pick Blueberries 45 times": {
     description: translate("chore.pick.45.blueberries"),
     icon: ITEM_DETAILS.Blueberry.image,
   },
-  "Pick 51 Blueberries": {
+  "Pick Blueberries 51 times": {
     description: translate("chore.pick.51.blueberries"),
     icon: ITEM_DETAILS.Blueberry.image,
   },
-  "Pick 60 Blueberries": {
+  "Pick Blueberries 60 times": {
     description: translate("chore.pick.60.blueberries"),
     icon: ITEM_DETAILS.Blueberry.image,
   },
-  "Pick 30 Oranges": {
+  "Pick Oranges 30 times": {
     description: translate("chore.pick.30.oranges"),
     icon: ITEM_DETAILS.Orange.image,
   },
-  "Pick 40 Oranges": {
+  "Pick Oranges 40 times": {
     description: translate("chore.pick.40.oranges"),
     icon: ITEM_DETAILS.Orange.image,
   },
-  "Pick 50 Oranges": {
+  "Pick Oranges 50 times": {
     description: translate("chore.pick.50.oranges"),
     icon: ITEM_DETAILS.Orange.image,
   },
-  "Pick 25 Apples": {
+  "Pick Apples 25 times": {
     description: translate("chore.pick.25.apples"),
     icon: ITEM_DETAILS.Apple.image,
   },
-  "Pick 30 Apples": {
+  "Pick Apples 30 times": {
     description: translate("chore.pick.30.apples"),
     icon: ITEM_DETAILS.Apple.image,
   },
-  "Pick 45 Apples": {
+  "Pick Apples 45 times": {
     description: translate("chore.pick.45.apples"),
     icon: ITEM_DETAILS.Apple.image,
   },
-  "Pick 35 Bananas": {
+  "Pick Bananas 35 times": {
     description: translate("chore.pick.35.bananas"),
     icon: ITEM_DETAILS.Banana.image,
   },
-  "Pick 40 Bananas": {
+  "Pick Bananas 40 times": {
     description: translate("chore.pick.40.bananas"),
     icon: ITEM_DETAILS.Banana.image,
   },
-  "Pick 45 Bananas": {
+  "Pick Bananas 45 times": {
     description: translate("chore.pick.45.bananas"),
     icon: ITEM_DETAILS.Banana.image,
   },
-  "Pick 40 Tomatoes": {
+  "Pick Tomatoes 40 times": {
     description: translate("chore.pick.40.tomatoes"),
     icon: ITEM_DETAILS.Tomato.image,
   },
-  "Pick 60 Tomatoes": {
+  "Pick Tomatoes 60 times": {
     description: translate("chore.pick.60.tomatoes"),
     icon: ITEM_DETAILS.Tomato.image,
   },
-  "Pick 80 Tomatoes": {
+  "Pick Tomatoes 80 times": {
     description: translate("chore.pick.80.tomatoes"),
     icon: ITEM_DETAILS.Tomato.image,
   },
-  "Pick 25 Lemons": {
+  "Pick Lemons 25 times": {
     description: translate("chore.pick.25.lemons"),
     icon: ITEM_DETAILS.Lemon.image,
   },
-  "Pick 40 Lemons": {
+  "Pick Lemons 40 times": {
     description: translate("chore.pick.40.lemons"),
     icon: ITEM_DETAILS.Lemon.image,
   },
-  "Pick 65 Lemons": {
+  "Pick Lemons 65 times": {
     description: translate("chore.pick.65.lemons"),
     icon: ITEM_DETAILS.Lemon.image,
   },
@@ -380,25 +380,25 @@ export const CHORE_DETAILS: Record<
   },
   "Chop 60 Trees": {
     description: translate("chore.chop.60.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 70 Trees": {
     description: translate("chore.chop.70.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 80 Trees": {
     description: translate("chore.chop.80.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
-  "Mine 50 Stones": {
+  "Mine Stone 50 times": {
     description: translate("chore.mine.50.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
-  "Mine 75 Stones": {
+  "Mine Stone 75 times": {
     description: translate("chore.mine.75.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
-  "Mine 100 Stones": {
+  "Mine Stone 100 times": {
     description: translate("chore.mine.100.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
@@ -624,25 +624,25 @@ export const CHORE_DETAILS: Record<
   },
   "Chop 3 Trees": {
     description: translate("chore.chop.3.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 4 Trees": {
     description: translate("chore.chop.4.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 5 Trees": {
     description: translate("chore.chop.5.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
-  "Mine 2 Stones": {
+  "Mine Stone 2 times": {
     description: translate("chore.mine.2.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
-  "Mine 3 Stones": {
+  "Mine Stone 3 times": {
     description: translate("chore.mine.3.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
-  "Mine 4 Stones": {
+  "Mine Stone 4 times": {
     description: translate("chore.mine.4.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
@@ -897,37 +897,37 @@ export const CHORE_DETAILS: Record<
 
   "Chop 450 Trees": {
     description: translate("chore.chop.450.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 500 Trees": {
     description: translate("chore.chop.500.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 600 Trees": {
     description: translate("chore.chop.600.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
-  "Mine 200 Stones": {
+  "Mine Stone 200 times": {
     description: translate("chore.mine.200.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
-  "Mine 250 Stones": {
+  "Mine Stone 250 times": {
     description: translate("chore.mine.250.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
-  "Mine 300 Stones": {
+  "Mine Stone 300 times": {
     description: translate("chore.mine.300.stones"),
     icon: ITEM_DETAILS.Stone.image,
   },
-  "Mine 80 Iron": {
+  "Mine Iron 80 times": {
     description: translate("chore.mine.80.iron"),
     icon: ITEM_DETAILS.Iron.image,
   },
-  "Mine 90 Iron": {
+  "Mine Iron 90 times": {
     description: translate("chore.mine.90.iron"),
     icon: ITEM_DETAILS.Iron.image,
   },
-  "Mine 100 Iron": {
+  "Mine Iron 100 times": {
     description: translate("chore.mine.100.iron"),
     icon: ITEM_DETAILS.Iron.image,
   },
@@ -1019,35 +1019,35 @@ export const CHORE_DETAILS: Record<
     description: translate("chore.eat.10.chowder"),
     icon: ITEM_DETAILS.Chowder.image,
   },
-  "Grow 2 Red Pansy": {
+  "Grow Red Pansy 2 times": {
     description: translate("chore.grow.2.red.pansy"),
     icon: ITEM_DETAILS["Red Pansy"].image,
   },
-  "Grow 3 Red Pansy": {
+  "Grow Red Pansy 3 times": {
     description: translate("chore.grow.3.red.pansy"),
     icon: ITEM_DETAILS["Red Pansy"].image,
   },
-  "Grow 2 Yellow Pansy": {
+  "Grow Yellow Pansy 2 times": {
     description: translate("chore.grow.2.yellow.pansy"),
     icon: ITEM_DETAILS["Yellow Pansy"].image,
   },
-  "Grow 3 Yellow Pansy": {
+  "Grow Yellow Pansy 3 times": {
     description: translate("chore.grow.3.yellow.pansy"),
     icon: ITEM_DETAILS["Yellow Pansy"].image,
   },
-  "Grow 2 Purple Cosmos": {
+  "Grow Purple Cosmos 2 times": {
     description: translate("chore.grow.2.purple.cosmos"),
     icon: ITEM_DETAILS["Purple Cosmos"].image,
   },
-  "Grow 3 Purple Cosmos": {
+  "Grow Purple Cosmos 3 times": {
     description: translate("chore.grow.3.purple.cosmos"),
     icon: ITEM_DETAILS["Purple Cosmos"].image,
   },
-  "Grow 2 Blue Cosmos": {
+  "Grow Blue Cosmos 2 times": {
     description: translate("chore.grow.2.blue.cosmos"),
     icon: ITEM_DETAILS["Blue Cosmos"].image,
   },
-  "Grow 3 Blue Cosmos": {
+  "Grow Blue Cosmos 3 times": {
     description: translate("chore.grow.3.blue.cosmos"),
     icon: ITEM_DETAILS["Blue Cosmos"].image,
   },
@@ -1147,6 +1147,8 @@ export const CHORE_DETAILS: Record<
     description: translate("chore.harvest.8.olives"),
     icon: ITEM_DETAILS.Olive.image,
   },
+
+  // old chore details
   "Harvest 450 Parsnips": {
     description: translate("chore.harvest.450.parsnips"),
     icon: ITEM_DETAILS.Parsnip.image,
@@ -1470,5 +1472,181 @@ export const CHORE_DETAILS: Record<
   "Harvest 8 Olives": {
     description: translate("chore.harvest.8.olives"),
     icon: ITEM_DETAILS.Olive.image,
+  },
+  "Mine 20 Gold": {
+    description: translate("chore.mine.20.gold"),
+    icon: ITEM_DETAILS.Gold.image,
+  },
+  "Mine 23 Gold": {
+    description: translate("chore.mine.23.gold"),
+    icon: ITEM_DETAILS.Gold.image,
+  },
+  "Mine 25 Gold": {
+    description: translate("chore.mine.25.gold"),
+    icon: ITEM_DETAILS.Gold.image,
+  },
+  "Mine 10 Crimstone": {
+    description: translate("chore.mine.10.crimstone"),
+    icon: ITEM_DETAILS.Crimstone.image,
+  },
+  "Mine 12 Crimstone": {
+    description: translate("chore.mine.12.crimstone"),
+    icon: ITEM_DETAILS.Crimstone.image,
+  },
+  "Mine 15 Crimstone": {
+    description: translate("chore.mine.15.crimstone"),
+    icon: ITEM_DETAILS.Crimstone.image,
+  },
+  "Pick 45 Blueberries": {
+    description: translate("chore.pick.45.blueberries"),
+    icon: ITEM_DETAILS.Blueberry.image,
+  },
+  "Pick 51 Blueberries": {
+    description: translate("chore.pick.51.blueberries"),
+    icon: ITEM_DETAILS.Blueberry.image,
+  },
+  "Pick 60 Blueberries": {
+    description: translate("chore.pick.60.blueberries"),
+    icon: ITEM_DETAILS.Blueberry.image,
+  },
+  "Pick 30 Oranges": {
+    description: translate("chore.pick.30.oranges"),
+    icon: ITEM_DETAILS.Orange.image,
+  },
+  "Pick 40 Oranges": {
+    description: translate("chore.pick.40.oranges"),
+    icon: ITEM_DETAILS.Orange.image,
+  },
+  "Pick 50 Oranges": {
+    description: translate("chore.pick.50.oranges"),
+    icon: ITEM_DETAILS.Orange.image,
+  },
+  "Pick 25 Apples": {
+    description: translate("chore.pick.25.apples"),
+    icon: ITEM_DETAILS.Apple.image,
+  },
+  "Pick 30 Apples": {
+    description: translate("chore.pick.30.apples"),
+    icon: ITEM_DETAILS.Apple.image,
+  },
+  "Pick 45 Apples": {
+    description: translate("chore.pick.45.apples"),
+    icon: ITEM_DETAILS.Apple.image,
+  },
+  "Pick 35 Bananas": {
+    description: translate("chore.pick.35.bananas"),
+    icon: ITEM_DETAILS.Banana.image,
+  },
+  "Pick 40 Bananas": {
+    description: translate("chore.pick.40.bananas"),
+    icon: ITEM_DETAILS.Banana.image,
+  },
+  "Pick 45 Bananas": {
+    description: translate("chore.pick.45.bananas"),
+    icon: ITEM_DETAILS.Banana.image,
+  },
+  "Pick 40 Tomatoes": {
+    description: translate("chore.pick.40.tomatoes"),
+    icon: ITEM_DETAILS.Tomato.image,
+  },
+  "Pick 60 Tomatoes": {
+    description: translate("chore.pick.60.tomatoes"),
+    icon: ITEM_DETAILS.Tomato.image,
+  },
+  "Pick 80 Tomatoes": {
+    description: translate("chore.pick.80.tomatoes"),
+    icon: ITEM_DETAILS.Tomato.image,
+  },
+  "Pick 25 Lemons": {
+    description: translate("chore.pick.25.lemons"),
+    icon: ITEM_DETAILS.Lemon.image,
+  },
+  "Pick 40 Lemons": {
+    description: translate("chore.pick.40.lemons"),
+    icon: ITEM_DETAILS.Lemon.image,
+  },
+  "Pick 65 Lemons": {
+    description: translate("chore.pick.65.lemons"),
+    icon: ITEM_DETAILS.Lemon.image,
+  },
+  "Mine 50 Stones": {
+    description: translate("chore.mine.50.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 75 Stones": {
+    description: translate("chore.mine.75.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 100 Stones": {
+    description: translate("chore.mine.100.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 2 Stones": {
+    description: translate("chore.mine.2.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 3 Stones": {
+    description: translate("chore.mine.3.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 4 Stones": {
+    description: translate("chore.mine.4.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 200 Stones": {
+    description: translate("chore.mine.200.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 250 Stones": {
+    description: translate("chore.mine.250.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 300 Stones": {
+    description: translate("chore.mine.300.stones"),
+    icon: ITEM_DETAILS.Stone.image,
+  },
+  "Mine 80 Iron": {
+    description: translate("chore.mine.80.iron"),
+    icon: ITEM_DETAILS.Iron.image,
+  },
+  "Mine 90 Iron": {
+    description: translate("chore.mine.90.iron"),
+    icon: ITEM_DETAILS.Iron.image,
+  },
+  "Mine 100 Iron": {
+    description: translate("chore.mine.100.iron"),
+    icon: ITEM_DETAILS.Iron.image,
+  },
+  "Grow 2 Red Pansy": {
+    description: translate("chore.grow.2.red.pansy"),
+    icon: ITEM_DETAILS["Red Pansy"].image,
+  },
+  "Grow 3 Red Pansy": {
+    description: translate("chore.grow.3.red.pansy"),
+    icon: ITEM_DETAILS["Red Pansy"].image,
+  },
+  "Grow 2 Yellow Pansy": {
+    description: translate("chore.grow.2.yellow.pansy"),
+    icon: ITEM_DETAILS["Yellow Pansy"].image,
+  },
+  "Grow 3 Yellow Pansy": {
+    description: translate("chore.grow.3.yellow.pansy"),
+    icon: ITEM_DETAILS["Yellow Pansy"].image,
+  },
+  "Grow 2 Purple Cosmos": {
+    description: translate("chore.grow.2.purple.cosmos"),
+    icon: ITEM_DETAILS["Purple Cosmos"].image,
+  },
+  "Grow 3 Purple Cosmos": {
+    description: translate("chore.grow.3.purple.cosmos"),
+    icon: ITEM_DETAILS["Purple Cosmos"].image,
+  },
+  "Grow 2 Blue Cosmos": {
+    description: translate("chore.grow.2.blue.cosmos"),
+    icon: ITEM_DETAILS["Blue Cosmos"].image,
+  },
+  "Grow 3 Blue Cosmos": {
+    description: translate("chore.grow.3.blue.cosmos"),
+    icon: ITEM_DETAILS["Blue Cosmos"].image,
   },
 };
