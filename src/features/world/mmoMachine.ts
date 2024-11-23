@@ -9,6 +9,7 @@ import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
 import { Moderation } from "features/game/lib/gameMachine";
 import { MAX_PLAYERS } from "./lib/availableRooms";
+import { NPCName } from "lib/npcs";
 
 export type Scenes = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -124,6 +125,7 @@ export interface MMOContext {
   previousSceneId: SceneId | null;
   experience: number;
   isCommunity?: boolean;
+  firstDeliveryNpc?: NPCName;
   moderation: Moderation;
 }
 
@@ -151,6 +153,11 @@ export type ConnectEvent = {
   serverId: string;
 };
 
+export type SetUsername = {
+  type: "SET_USERNAME";
+  username: string;
+};
+
 export type SwitchScene = {
   type: "SWITCH_SCENE";
   sceneId: SceneId;
@@ -163,13 +170,14 @@ export type UpdatePreviousScene = {
 
 export type MMOEvent =
   | PickServer
-  | { type: "CONTINUE" }
+  | { type: "CONTINUE"; firstDeliveryNpc?: NPCName }
   | { type: "DISCONNECTED" }
   | { type: "RETRY" }
   | { type: "CHANGE_SERVER"; serverId: ServerId }
   | ConnectEvent
   | SwitchScene
-  | UpdatePreviousScene;
+  | UpdatePreviousScene
+  | SetUsername;
 
 export type MachineState = State<MMOContext, MMOEvent, MMOState>;
 
@@ -187,6 +195,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     jwt: "",
     farmId: 0,
     bumpkin: INITIAL_BUMPKIN,
+    username: "",
     availableServers: SERVERS,
     serverId: "sunflorea_bliss",
     sceneId: "plaza",
@@ -216,7 +225,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
         CONNECT: "exploring",
       },
     },
-
     connecting: {
       invoke: {
         id: "connecting",
@@ -374,6 +382,10 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
           target: "introduction",
           cond: () => !localStorage.getItem("mmo_introduction.read"),
         },
+        {
+          target: "chooseUsername",
+          cond: (context) => !context.username,
+        },
       ],
       on: {
         CHANGE_SERVER: {
@@ -390,11 +402,26 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
       on: {
         CONTINUE: {
           target: "joined",
-          actions: () =>
-            localStorage.setItem(
-              "mmo_introduction.read",
-              Date.now().toString(),
-            ),
+          actions: [
+            () =>
+              localStorage.setItem(
+                "mmo_introduction.read",
+                Date.now().toString(),
+              ),
+            assign({
+              firstDeliveryNpc: (_, event) => event.firstDeliveryNpc,
+            }),
+          ],
+        },
+      },
+    },
+    chooseUsername: {
+      on: {
+        SET_USERNAME: {
+          target: "joined",
+          actions: assign({
+            username: (_, event) => (event as SetUsername).username,
+          }),
         },
       },
     },
