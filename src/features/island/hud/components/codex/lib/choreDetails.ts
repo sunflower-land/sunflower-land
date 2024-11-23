@@ -1,6 +1,7 @@
 import { ChoreName } from "features/game/types/choreBoard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
+import coins from "assets/icons/coins.webp";
 
 export const CHORE_DETAILS: Record<
   ChoreName,
@@ -56,15 +57,15 @@ export const CHORE_DETAILS: Record<
   },
   "Spend 35,000 Coins": {
     description: translate("chore.spend.35000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Spend 42,000 Coins": {
     description: translate("chore.spend.42000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Spend 55,000 Coins": {
     description: translate("chore.spend.55000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Pick Blueberries 45 times": {
     description: translate("chore.pick.45.blueberries"),
@@ -933,15 +934,15 @@ export const CHORE_DETAILS: Record<
   },
   "Earn 2,500 Coins": {
     description: translate("chore.earn.2500.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Earn 3,500 Coins": {
     description: translate("chore.earn.3500.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Earn 5,000 Coins": {
     description: translate("chore.earn.5000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Harvest Soybean 15 times": {
     description: translate("chore.harvest.15.soybeans"),
@@ -1053,15 +1054,15 @@ export const CHORE_DETAILS: Record<
   },
   "Spend 1,000 Coins": {
     description: translate("chore.spend.1000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Spend 2,000 Coins": {
     description: translate("chore.spend.2000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Spend 3,000 Coins": {
     description: translate("chore.spend.3000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: coins,
   },
   "Harvest Carrots 50 times": {
     description: translate("chore.harvest.50.carrots"),
