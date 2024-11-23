@@ -1,7 +1,7 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
@@ -29,7 +29,6 @@ import { PortalNPCExample } from "features/portal/example/components/PortalNPCEx
 import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
 import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
-import { Context } from "features/game/GameProvider";
 import { Digby } from "./beach/Digby";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
@@ -67,8 +66,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   const { t } = useAppTranslation();
 
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
-
-  const { gameService } = useContext(Context);
 
   useEffect(() => {
     npcModalManager.listen((npc) => {
