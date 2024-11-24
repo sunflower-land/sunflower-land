@@ -26,7 +26,7 @@ import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { hasActiveSeasonBanner } from "features/game/lib/collectibleBuilt";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const HITS = 3;
 const tool = "Axe";
@@ -64,7 +64,7 @@ const isSeasonedPlayer = (state: MachineState) =>
   // - verified (personhood verification)
   state.context.verified &&
   // - has active seasonal banner
-  hasActiveSeasonBanner({ game: state.context.state });
+  hasVipAccess(state.context.state.inventory);
 
 interface Props {
   id: string;

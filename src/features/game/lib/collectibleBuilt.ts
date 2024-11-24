@@ -1,6 +1,5 @@
 import { CollectibleName } from "../types/craftables";
 import { GameState } from "../types/game";
-import { getSeasonalBanner } from "features/game/types/seasons";
 
 export function isCollectibleBuilt({
   name,
@@ -60,11 +59,4 @@ export function isCollectibleActive({
     );
 
   return !!placedOnFarm || !!placedInHome;
-}
-
-export function hasActiveSeasonBanner({ game }: { game: GameState }) {
-  return (
-    isCollectibleBuilt({ name: getSeasonalBanner(), game }) ||
-    isCollectibleBuilt({ name: "Lifetime Farmer Banner", game })
-  );
 }
