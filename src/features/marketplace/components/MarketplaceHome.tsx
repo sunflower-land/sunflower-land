@@ -190,16 +190,14 @@ const Filters: React.FC = () => {
             }
           />
 
-          {CONFIG.NETWORK !== "mainnet" && (
-            <Option
-              icon={ITEM_DETAILS.Eggplant.image}
-              label="Resources"
-              onClick={() =>
-                navigate(`/marketplace/collection?filters=resources`)
-              }
-              isActive={filters === "resources"}
-            />
-          )}
+          <Option
+            icon={ITEM_DETAILS.Eggplant.image}
+            label="Resources"
+            onClick={() =>
+              navigate(`/marketplace/collection?filters=resources`)
+            }
+            isActive={filters === "resources"}
+          />
 
           <Option
             icon={SUNNYSIDE.icons.heart}
