@@ -23,10 +23,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ONE_DAY, secondsToString } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-const iconList = {
+const iconList: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
-  Rocks: SUNNYSIDE.skills.rocks,
   Cooking: SUNNYSIDE.skills.cooking,
   Animals: SUNNYSIDE.skills.animals,
   Fruit: ITEM_DETAILS.Apple.image,
@@ -34,7 +33,6 @@ const iconList = {
   Greenhouse: ITEM_DETAILS.Greenhouse.image,
   Mining: SUNNYSIDE.tools.stone_pickaxe,
   "Bees & Flowers": ITEM_DETAILS["Red Pansy"].image,
-  Oil: ITEM_DETAILS.Oil.image,
   Machinery: ITEM_DETAILS["Crop Machine"].image,
 };
 

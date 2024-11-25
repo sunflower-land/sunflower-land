@@ -65,18 +65,21 @@ export const getUnlockedTierForTree = (
 
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
+  const { bumpkin, island } = stateCopy;
 
   if (bumpkin == undefined) {
     throw new Error("You do not have a Bumpkin!");
   }
 
-  const requirements = BUMPKIN_REVAMP_SKILL_TREE[action.skill].requirements;
-  const tree = BUMPKIN_REVAMP_SKILL_TREE[action.skill].tree;
+  const { requirements, tree } = BUMPKIN_REVAMP_SKILL_TREE[action.skill];
   const bumpkinHasSkill = bumpkin.skills[action.skill];
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
   const availableTier = getUnlockedTierForTree(tree, bumpkin);
+
+  if (island.type !== requirements.island) {
+    throw new Error("You are not at the correct island!");
+  }
 
   if (availableSkillPoints < requirements.points) {
     throw new Error("You do not have enough skill points");
