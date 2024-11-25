@@ -49,7 +49,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
     (building) => building.id === buildingId,
   );
 
-  const oilRemainingInBuilding = building?.oil || 0;
+  const oilRemainingInBuilding = building?.oil ?? 0;
 
   const incrementOil = () => {
     setTotalOilToAdd((prev) => prev + OIL_INCREMENT_AMOUNT);

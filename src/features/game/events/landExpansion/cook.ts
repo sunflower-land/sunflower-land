@@ -14,6 +14,7 @@ import {
   CookingBuildingName,
 } from "features/game/types/buildings";
 import { produce } from "immer";
+import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 
 export const FLAGGED_RECIPES: Partial<Record<ConsumableName, FeatureName>> = {};
 
@@ -50,7 +51,7 @@ export const BUILDING_OIL_BOOSTS: (
 export function isCookingBuilding(
   building: BuildingName,
 ): building is CookingBuildingName {
-  return Object.keys(BUILDING_OIL_BOOSTS).includes(building);
+  return Object.keys(BUILDING_DAILY_OIL_CAPACITY).includes(building);
 }
 
 export function getCookingOilBoost(
