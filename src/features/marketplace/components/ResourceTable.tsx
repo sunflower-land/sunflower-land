@@ -74,7 +74,7 @@ export const ResourceTable: React.FC<{
                 </td>
                 <td
                   style={{ border: "1px solid #b96f50" }}
-                  className="p-1.5 text-center"
+                  className="flex justify-center p-1.5 text-center"
                 >
                   <Button
                     disabled={
