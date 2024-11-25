@@ -36,7 +36,7 @@ export const ListViewCard: React.FC<Props> = ({ details, price, onClick }) => {
         className="h-full flex flex-col"
       >
         <div className="flex flex-col items-center h-20 p-2 pt-4">
-          <img src={image} className="h-full" />
+          <img src={image} className="h-3/4 mt-2" />
         </div>
 
         <div
