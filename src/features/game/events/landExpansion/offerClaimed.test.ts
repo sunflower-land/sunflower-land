@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_FARM } from "features/game/lib/constants";
 import { claimOffer } from "./offerClaimed";
 
 describe("offer.claimed", () => {
