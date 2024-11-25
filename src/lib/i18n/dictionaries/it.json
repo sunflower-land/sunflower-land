@@ -4417,5 +4417,8 @@
   "marketplace.youHaveHadSales": "I tuoi articoli sono stati venduti mentre eri via!",
   "marketplace.offersWereAccepted": "Una o più offerte sono state accettate mentre eri via!",
   "marketplace.resource": "Risorsa",
-  "marketplace.saleHistory": "Cronologia delle vendite"
+  "marketplace.saleHistory": "Cronologia delle vendite",
+  "marketplace.oneDayChange": "Cambio in 24 ore",
+  "marketplace.sevenDayChange": "Modifica 7d",
+  "marketplace.sales": "Vendite"
 }

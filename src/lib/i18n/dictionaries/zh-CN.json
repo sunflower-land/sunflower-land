@@ -4417,5 +4417,8 @@
   "marketplace.youHaveHadSales": "您的物品在您不在时已售出！",
   "marketplace.offersWereAccepted": "您不在时接受了一个或多个报价！",
   "marketplace.resource": "资源",
-  "marketplace.saleHistory": "销售记录"
+  "marketplace.saleHistory": "销售记录",
+  "marketplace.oneDayChange": "24 小时更改",
+  "marketplace.sevenDayChange": "7d 零钱",
+  "marketplace.sales": "销售"
 }

@@ -4417,5 +4417,8 @@
   "marketplace.youHaveHadSales": "Ваш товар (ы) продан, пока вас не было!",
   "marketplace.offersWereAccepted": "Одно или несколько предложений были приняты, пока вас не было!",
   "marketplace.resource": "Ресурс",
-  "marketplace.saleHistory": "История продаж"
+  "marketplace.saleHistory": "История продаж",
+  "marketplace.oneDayChange": "24-часовое изменение",
+  "marketplace.sevenDayChange": "Седьмовое изменение",
+  "marketplace.sales": "Продажи"
 }

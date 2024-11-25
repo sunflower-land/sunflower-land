@@ -4417,5 +4417,8 @@
   "marketplace.youHaveHadSales": "Siz yokken eşyalarınız satıldı!",
   "marketplace.offersWereAccepted": "Siz yokken bir veya daha fazla teklif kabul edildi!",
   "marketplace.resource": "Kaynak",
-  "marketplace.saleHistory": "Satış Geçmişi"
+  "marketplace.saleHistory": "Satış Geçmişi",
+  "marketplace.oneDayChange": "24 saat Değişim",
+  "marketplace.sevenDayChange": "7d Değişiklik",
+  "marketplace.sales": "Satışlar"
 }

@@ -4417,5 +4417,8 @@
   "marketplace.youHaveHadSales": "Item anda dijual semasa anda pergi!",
   "marketplace.offersWereAccepted": "Satu atau lebih tawaran telah diterima semasa anda pergi!",
   "marketplace.resource": "Sumber",
-  "marketplace.saleHistory": "Sejarah Jualan"
+  "marketplace.saleHistory": "Sejarah Jualan",
+  "marketplace.oneDayChange": "Perubahan 24h",
+  "marketplace.sevenDayChange": "Perubahan 7d",
+  "marketplace.sales": "Jualan"
 }

@@ -4417,5 +4417,8 @@
   "marketplace.youHaveHadSales": "Seus itens foram vendidos enquanto você estava ausente!",
   "marketplace.offersWereAccepted": "Uma ou mais ofertas foram aceitas enquanto você estava ausente!",
   "marketplace.resource": "Recurso",
-  "marketplace.saleHistory": "Histórico de vendas"
+  "marketplace.saleHistory": "Histórico de vendas",
+  "marketplace.oneDayChange": "Mudança em 24 horas",
+  "marketplace.sevenDayChange": "Mudança 7d",
+  "marketplace.sales": "Vendas"
 }
