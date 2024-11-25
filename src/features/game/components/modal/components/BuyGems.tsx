@@ -5,6 +5,11 @@ import { Label } from "components/ui/Label";
 
 import creditCard from "assets/icons/credit_card.png";
 import whaleIcon from "assets/icons/whale.webp";
+import gemBundle01 from "assets/icons/gem_bundles/gem_bundle_01.webp";
+import gemBundle02 from "assets/icons/gem_bundles/gem_bundle_02.webp";
+import gemBundle03 from "assets/icons/gem_bundles/gem_bundle_03.webp";
+import gemBundle04 from "assets/icons/gem_bundles/gem_bundle_04.webp";
+import gemBundle05 from "assets/icons/gem_bundles/gem_bundle_05.webp";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -21,15 +26,17 @@ import { ITEM_DETAILS } from "features/game/types/images";
 export interface Price {
   amount: number;
   usd: number;
+  image?: any;
+  img_width?: number;
 }
 
 const PRICES: Price[] = [
-  { amount: 100, usd: 0.99 },
-  { amount: 650, usd: 4.99 },
-  { amount: 1350, usd: 9.99 },
-  { amount: 2800, usd: 19.99 },
-  { amount: 7400, usd: 49.99 },
-  { amount: 15500, usd: 99.99 },
+  { amount: 100, usd: 0.99, image: ITEM_DETAILS.Gem.image, img_width: 12 },
+  { amount: 650, usd: 4.99, image: gemBundle01, img_width: 14 },
+  { amount: 1350, usd: 9.99, image: gemBundle02, img_width: 16 },
+  { amount: 2800, usd: 19.99, image: gemBundle03, img_width: 20 },
+  { amount: 7400, usd: 49.99, image: gemBundle04, img_width: 21 },
+  { amount: 15500, usd: 99.99, image: gemBundle05, img_width: 27 },
   { amount: 200000, usd: 999.99 },
 ];
 
@@ -265,7 +272,10 @@ export const BuyGems: React.FC<Props> = ({
                 <span className="whitespace-nowrap mb-2 mt-0.5">{`${price.amount} x`}</span>
                 <div className="flex flex-1 justify-center items-center mb-6 w-full">
                   <img
-                    src={ITEM_DETAILS.Gem.image}
+                    src={price.image ?? ITEM_DETAILS.Gem.image}
+                    style={{
+                      width: `${PIXEL_SCALE * (price.img_width ?? 12)}px`,
+                    }}
                     className="w-2/5 sm:w-1/4"
                   />
                 </div>
