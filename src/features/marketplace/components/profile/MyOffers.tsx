@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
-import { getItemId } from "../../lib/offers";
+import { tradeToId } from "../../lib/offers";
 import Decimal from "decimal.js-light";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -148,7 +148,7 @@ export const MyOffers: React.FC = () => {
                   {getKeys(filteredOffers).map((id, index) => {
                     const offer = filteredOffers[id];
 
-                    const itemId = getItemId({ details: offer });
+                    const itemId = tradeToId({ details: offer });
                     const details = getTradeableDisplay({
                       id: itemId,
                       type: offer.collection,

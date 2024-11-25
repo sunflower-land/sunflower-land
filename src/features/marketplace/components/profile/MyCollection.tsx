@@ -122,10 +122,7 @@ export const MyCollection: React.FC = () => {
                   key={`${item.id}-${item.collection}`}
                 >
                   <ListViewCard
-                    name={details.name}
-                    image={details.image}
-                    type={details.type}
-                    buff={details.buff}
+                    details={details}
                     onClick={() => {
                       navigate(`/marketplace/${details.type}/${item.id}`);
                     }}

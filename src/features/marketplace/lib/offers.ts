@@ -12,7 +12,7 @@ interface MarketplaceItemDetails {
   items: Partial<Record<MarketplaceTradeableName, number>>;
 }
 
-export function getItemId({
+export function tradeToId({
   details,
 }: {
   details: MarketplaceItemDetails;
@@ -20,6 +20,16 @@ export function getItemId({
   const { collection, items } = details;
   const name = getKeys(items ?? {})[0]; // Currently only one item supported
 
+  return getItemId({ name, collection });
+}
+
+export function getItemId({
+  name,
+  collection,
+}: {
+  name: string;
+  collection: CollectionName;
+}): number {
   if (collection === "buds") {
     const [_, id] = name.split("#");
     return Number(id);

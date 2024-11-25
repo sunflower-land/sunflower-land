@@ -3,30 +3,30 @@ import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
 import sfl from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";
-import { BuffLabel } from "features/game/types";
-import { CollectionName } from "features/game/types/marketplace";
+import wallet from "assets/icons/wallet.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
+import { getTradeType } from "../lib/getTradeType";
+import { getItemId } from "../lib/offers";
+import { TradeableDisplay } from "../lib/tradeables";
 
 type Props = {
-  name: string;
-  image: string;
-  type: CollectionName;
+  details: TradeableDisplay;
   price?: Decimal;
   onClick?: () => void;
-  buff?: BuffLabel;
 };
 
-export const ListViewCard: React.FC<Props> = ({
-  name,
-  buff,
-  image,
-  type,
-  price,
-  onClick,
-}) => {
+export const ListViewCard: React.FC<Props> = ({ details, price, onClick }) => {
+  const { type, name, image, buff } = details;
   const { t } = useAppTranslation();
   const isResources = type === "resources";
+
+  const itemId = getItemId({ name, collection: type });
+  const tradeType = getTradeType({
+    collection: type,
+    id: itemId,
+    trade: { sfl: price?.toNumber() ?? 0 },
+  });
 
   return (
     <div className="relative cursor-pointer h-full">
@@ -63,6 +63,10 @@ export const ListViewCard: React.FC<Props> = ({
                     })}`}
               </p>
             </div>
+          )}
+
+          {tradeType === "onchain" && (
+            <img src={wallet} className="h-5 mr-1 absolute top-0 -right-1" />
           )}
 
           <p className="text-xs mb-0.5 text-[#181425]">{name}</p>

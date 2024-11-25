@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
-import { getItemId } from "../lib/offers";
+import { tradeToId } from "../lib/offers";
 import { TradeOffer } from "features/game/types/game";
 import sflIcon from "assets/icons/sfl.webp";
 import bg from "assets/ui/3x3_bg.png";
@@ -42,7 +42,7 @@ export const RemoveOffer: React.FC<Props> = ({
     return null;
   }
 
-  const itemId = getItemId({ details: offer });
+  const itemId = tradeToId({ details: offer });
   const display = getTradeableDisplay({ id: itemId, type: offer.collection });
   const quantity = offer.items[display.name as MarketplaceTradeableName];
 

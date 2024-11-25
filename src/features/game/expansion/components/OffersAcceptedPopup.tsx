@@ -12,7 +12,7 @@ import trade from "assets/icons/trade.png";
 import token from "assets/icons/sfl.webp";
 import { formatNumber } from "lib/utils/formatNumber";
 import { InventoryItemName } from "features/game/types/game";
-import { getItemId } from "features/marketplace/lib/offers";
+import { tradeToId } from "features/marketplace/lib/offers";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import Decimal from "decimal.js-light";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
@@ -58,7 +58,7 @@ export const OffersAcceptedPopup: React.FC = () => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const offer = trades.offers![listingId];
           const itemName = getKeys(offer.items)[0];
-          const itemId = getItemId({ details: offer });
+          const itemId = tradeToId({ details: offer });
           const details = getTradeableDisplay({
             id: itemId,
             type: offer.collection,

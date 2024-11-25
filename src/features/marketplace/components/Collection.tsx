@@ -95,11 +95,8 @@ export const Collection: React.FC<{
               key={`${item.collection}-${item.id}`}
             >
               <ListViewCard
-                name={display.name}
+                details={display}
                 price={new Decimal(item.floor)}
-                image={display.image}
-                type={item.collection}
-                buff={display.buff}
                 onClick={() => {
                   navigate(`/marketplace/${item.collection}/${item.id}`);
                   onNavigated?.();
