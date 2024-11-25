@@ -35,6 +35,11 @@ import * as Auth from "features/auth/lib/Provider";
 import { AcceptOffer } from "./AcceptOffer";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
+import { useParams } from "react-router-dom";
+import { ResourceTable } from "./ResourceTable";
+import { formatNumber } from "lib/utils/formatNumber";
+import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
+import { KNOWN_ITEMS } from "features/game/types";
 
 // JWT TOKEN
 
@@ -42,23 +47,25 @@ const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
-
+const _balance = (state: MachineState) => state.context.state.balance;
+const _inventory = (state: MachineState) => state.context.state.inventory;
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
   farmId: number;
   display: TradeableDisplay;
-  id: number;
-  onOfferMade: () => void;
-}> = ({ tradeable, farmId, display, id, onOfferMade }) => {
+  itemId: number;
+  reload: () => void;
+}> = ({ tradeable, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
+  const params = useParams();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
     "marketplaceOfferingSuccess",
     "playing",
-    onOfferMade,
+    reload,
   );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -73,13 +80,32 @@ export const TradeableOffers: React.FC<{
     _hasPendingOfferEffect,
   );
   const authToken = useSelector(authService, _authToken);
-
+  const balance = useSelector(gameService, _balance);
+  const inventory = useSelector(gameService, _inventory);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState<Offer>();
 
-  const topOffer = tradeable?.offers.reduce((highest, listing) => {
-    return listing.sfl > highest.sfl ? listing : highest;
-  }, tradeable?.offers?.[0]);
+  const topOffer = tradeable?.offers.reduce((highest, offer) => {
+    return offer.sfl > highest.sfl ? offer : highest;
+  }, tradeable?.offers[0]);
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceOfferCancellingSuccess",
+    "playing",
+    () => {
+      reload();
+      if (showAnimations) confetti();
+    },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceAcceptingSuccess",
+    "playing",
+    reload,
+  );
 
   const handleHide = () => {
     if (hasPendingOfferEffect) return;
@@ -87,15 +113,27 @@ export const TradeableOffers: React.FC<{
     setShowMakeOffer(false);
   };
 
+  const handleSelectOffer = (id: string) => {
+    const selectedOffer = tradeable?.offers.find(
+      (offer) => offer.tradeId === id,
+    ) as Offer;
+
+    setSelectedOffer(selectedOffer);
+    setShowAcceptOffer(true);
+  };
+
+  const isResource = params.collection === "resources";
+  const loading = !tradeable;
+
   return (
     <>
       <Modal show={showMakeOffer} onHide={handleHide}>
         <Panel>
           <MakeOffer
-            id={id}
+            itemId={itemId}
             authToken={authToken}
-            tradeable={tradeable}
             display={display}
+            floorPrice={tradeable?.floor ?? 0}
             onClose={() => setShowMakeOffer(false)}
           />
         </Panel>
@@ -104,18 +142,15 @@ export const TradeableOffers: React.FC<{
         <Panel>
           <AcceptOffer
             authToken={authToken}
-            id={id}
-            tradeable={tradeable}
+            itemId={itemId}
             display={display}
-            offer={topOffer as Offer}
+            offer={(isResource ? selectedOffer : topOffer) as Offer}
             onClose={() => setShowAcceptOffer(false)}
-            onOfferAccepted={() => {
-              onOfferMade();
-            }}
+            onOfferAccepted={reload}
           />
         </Panel>
       </Modal>
-      {topOffer && (
+      {topOffer && !isResource && (
         <InnerPanel className="mb-1">
           <div className="p-2">
             <div className="flex justify-between mb-2">
@@ -149,28 +184,56 @@ export const TradeableOffers: React.FC<{
             {t("marketplace.offers")}
           </Label>
           <div className="mb-2">
-            {!tradeable && <Loading />}
-            {tradeable?.offers.length === 0 && (
+            {loading && <Loading />}
+            {!loading && tradeable?.offers.length === 0 && (
               <p className="text-sm">{t("marketplace.noOffers")}</p>
             )}
-            {!!tradeable?.offers.length && (
-              <TradeTable
-                items={tradeable.offers.map((offer) => ({
-                  price: offer.sfl,
-                  expiresAt: "30 days", // TODO,
-                  createdById: offer.offeredById,
-                  icon:
-                    offer.offeredById === farmId
-                      ? SUNNYSIDE.icons.player
-                      : undefined,
-                }))}
-                id={farmId}
-              />
-            )}
+            {!!tradeable?.offers.length &&
+              (isResource ? (
+                <ResourceTable
+                  balance={balance}
+                  items={tradeable?.offers.map((offer) => ({
+                    id: offer.tradeId,
+                    price: offer.sfl,
+                    quantity: offer.quantity,
+                    pricePerUnit: Number(
+                      formatNumber(offer.sfl / offer.quantity, {
+                        decimalPlaces: 4,
+                      }),
+                    ),
+                    createdById: offer.offeredById,
+                  }))}
+                  inventoryCount={
+                    getBasketItems(inventory)[
+                      KNOWN_ITEMS[itemId]
+                    ]?.toNumber() ?? 0
+                  }
+                  id={farmId}
+                  tableType="offers"
+                  onClick={(offerId) => {
+                    handleSelectOffer(offerId);
+                    setShowAcceptOffer(true);
+                  }}
+                />
+              ) : (
+                <TradeTable
+                  items={tradeable?.offers.map((offer) => ({
+                    price: offer.sfl,
+                    expiresAt: "30 days", // TODO,
+                    createdById: offer.offeredById,
+                    icon:
+                      offer.offeredById === farmId
+                        ? SUNNYSIDE.icons.player
+                        : undefined,
+                  }))}
+                  id={farmId}
+                />
+              ))}
           </div>
           <div className="w-full justify-end flex">
             <Button
               className="w-full sm:w-fit"
+              disabled={!tradeable}
               onClick={() => setShowMakeOffer(true)}
             >
               {t("marketplace.makeOffer")}

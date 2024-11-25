@@ -14,7 +14,8 @@ import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 export const TradeableSummary: React.FC<{
   display: TradeableDisplay;
   sfl: number;
-}> = ({ display, sfl }) => {
+  quantity: number;
+}> = ({ display, sfl, quantity }) => {
   const { t } = useAppTranslation();
 
   return (
@@ -33,7 +34,7 @@ export const TradeableSummary: React.FC<{
           />
         </div>
         <div>
-          <span className="text-sm">{`1 x ${display.name}`}</span>
+          <span className="text-sm">{`${quantity} x ${display.name}`}</span>
           <div className="flex items-center">
             <span className="text-sm">{`${sfl} SFL`}</span>
             <img src={sflIcon} className="h-6 ml-1" />

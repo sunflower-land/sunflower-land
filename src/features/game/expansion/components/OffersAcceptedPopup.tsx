@@ -20,25 +20,25 @@ import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 /**
  * Display listings that have been fulfilled
  */
-export const MarketplaceSalesPopup: React.FC = () => {
+export const OffersAcceptedPopup: React.FC = () => {
   const { gameService } = useContext(Context);
   const [state] = useActor(gameService);
 
   const { t } = useAppTranslation();
 
   const { trades } = state.context.state;
-  const soldListingIds = getKeys(trades.listings ?? {}).filter(
-    (id) => !!trades.listings?.[id].fulfilledAt,
+  const offersAcceptedIds = getKeys(trades.offers ?? {}).filter(
+    (id) => !!trades.offers?.[id].fulfilledAt,
   );
 
-  if (soldListingIds.length === 0) return null;
+  if (offersAcceptedIds.length === 0) return null;
 
   const claimAll = () => {
-    gameService.send("purchase.claimed", {
-      tradeIds: soldListingIds,
+    gameService.send("offer.claimed", {
+      tradeIds: offersAcceptedIds,
     });
 
-    if (soldListingIds.some((id) => trades.listings?.[id].signature)) {
+    if (offersAcceptedIds.some((id) => trades.offers?.[id].signature)) {
       gameService.send("RESET");
     }
 
@@ -49,22 +49,22 @@ export const MarketplaceSalesPopup: React.FC = () => {
     <>
       <div className="p-1">
         <Label className="ml-2 mb-2 mt-1" type="success" icon={trade}>
-          {t("marketplace.itemSold")}
+          {t("marketplace.offerAccepted")}
         </Label>
         <div className="mb-2 ml-1">
-          <InlineDialogue message={t("marketplace.youHaveHadSales")} />
+          <InlineDialogue message={t("marketplace.offersWereAccepted")} />
         </div>
-        {soldListingIds.map((listingId) => {
+        {offersAcceptedIds.map((listingId) => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const listing = trades.listings![listingId];
-          const itemName = getKeys(listing.items)[0];
-          const itemId = getItemId({ details: listing });
+          const offer = trades.offers![listingId];
+          const itemName = getKeys(offer.items)[0];
+          const itemId = getItemId({ details: offer });
           const details = getTradeableDisplay({
             id: itemId,
-            type: listing.collection,
+            type: offer.collection,
           });
-          const amount = listing.items[itemName as InventoryItemName];
-          const sfl = new Decimal(listing.sfl).mul(1 - MARKETPLACE_TAX);
+          const amount = offer.items[itemName as InventoryItemName];
+          const sfl = new Decimal(offer.sfl).mul(1 - MARKETPLACE_TAX);
           return (
             <div className="flex flex-col space-y-1" key={listingId}>
               <div className="flex items-center justify-between">

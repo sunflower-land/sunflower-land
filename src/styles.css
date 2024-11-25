@@ -1442,3 +1442,19 @@ th {
   animation-fill-mode: forwards;
   animation-delay: var(--drop-delay, 0s);
 }
+
+.loading-fade-pulse {
+  animation: fade-in-out 1s infinite;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}

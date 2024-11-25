@@ -1,43 +1,33 @@
 import React from "react";
 import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
-import { CollectionName } from "features/game/types/marketplace";
-import { CONFIG } from "lib/config";
-
-import buds from "lib/buds/buds";
-import testnetBuds from "lib/buds/testnet-buds";
-
 import sfl from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";
-// bud backgrounds
 import { BuffLabel } from "features/game/types";
+import { CollectionName } from "features/game/types/marketplace";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { formatNumber } from "lib/utils/formatNumber";
 
 type Props = {
   name: string;
   image: string;
   type: CollectionName;
-  id: number;
-  hasBoost: boolean;
-  supply: number;
   price?: Decimal;
   onClick?: () => void;
-  onRemove?: () => void;
-  isSold?: boolean;
   buff?: BuffLabel;
 };
 
-const data = CONFIG.NETWORK === "mainnet" ? buds : testnetBuds;
-
 export const ListViewCard: React.FC<Props> = ({
   name,
-  id,
   buff,
   image,
-  supply,
   type,
   price,
   onClick,
 }) => {
+  const { t } = useAppTranslation();
+  const isResources = type === "resources";
+
   return (
     <div className="relative cursor-pointer h-full">
       <ButtonPanel
@@ -61,7 +51,17 @@ export const ListViewCard: React.FC<Props> = ({
           {price && price.gt(0) && (
             <div className="flex items-center absolute top-0 left-0">
               <img src={sfl} className="h-5 mr-1" />
-              <p className="text-xs">{`${price} `}</p>
+              <p className="text-xs">
+                {isResources
+                  ? t("marketplace.pricePerUnit", {
+                      price: formatNumber(price, {
+                        decimalPlaces: 4,
+                      }),
+                    })
+                  : `${formatNumber(price, {
+                      decimalPlaces: 4,
+                    })}`}
+              </p>
             </div>
           )}
 

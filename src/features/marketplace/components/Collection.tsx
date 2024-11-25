@@ -3,27 +3,20 @@ import { Marketplace as ICollection } from "features/game/types/marketplace";
 import React, { useContext, useEffect, useState } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor, useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import { InnerPanel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
-
-const _listings = (state: MachineState) => state.context.state.trades.listings;
 
 export const Collection: React.FC<{
   search?: string;
   onNavigated?: () => void;
 }> = ({ search, onNavigated }) => {
   const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
-
-  // Get type from query params
 
   // Get query string params
   const [queryParams] = useSearchParams();
@@ -34,14 +27,10 @@ export const Collection: React.FC<{
     filters = "collectibles,wearables,resources";
   }
 
-  const listings = useSelector(gameService, _listings);
-
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [collection, setCollection] = useState<ICollection>();
-
-  const [removeListingIds, setRemoveListingIds] = useState<string[]>([]);
 
   const load = async () => {
     setIsLoading(true);
@@ -107,13 +96,10 @@ export const Collection: React.FC<{
             >
               <ListViewCard
                 name={display.name}
-                hasBoost={!!display.buff}
                 price={new Decimal(item.floor)}
                 image={display.image}
-                supply={item.supply}
-                buff={display.buff}
                 type={item.collection}
-                id={item.id}
+                buff={display.buff}
                 onClick={() => {
                   navigate(`/marketplace/${item.collection}/${item.id}`);
                   onNavigated?.();

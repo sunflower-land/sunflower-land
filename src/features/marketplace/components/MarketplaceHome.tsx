@@ -1,7 +1,6 @@
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useState } from "react";
-
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
@@ -14,13 +13,11 @@ import {
   Routes,
   useLocation,
   useNavigate,
-  useParams,
   useSearchParams,
 } from "react-router-dom";
 import { Collection } from "./Collection";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -30,14 +27,10 @@ import { MarketplaceRewards } from "./MarketplaceRewards";
 import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
 import { MarketplaceHotNow } from "./MarketplaceHotNow";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { TransactionCountdown } from "features/island/hud/Transaction";
-import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { CONFIG } from "lib/config";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
-
   const [showFilters, setShowFilters] = useState(false);
 
   return (
@@ -91,17 +84,6 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/" element={<MarketplaceHotNow />} />
             </Routes>
           )}
-        </div>
-
-        <div
-          className="absolute z-50 flex flex-col justify-between"
-          style={{
-            bottom: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 2}px`,
-          }}
-        >
-          <TransactionCountdown />
-          <AuctionCountdown />
         </div>
       </div>
     </>
@@ -158,13 +140,8 @@ const Option: React.FC<{
 };
 
 const Filters: React.FC = () => {
-  const { t } = useAppTranslation();
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { type } = useParams();
-
-  // Grab query params
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
 

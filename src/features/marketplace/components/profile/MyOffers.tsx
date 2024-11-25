@@ -1,144 +1,163 @@
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
+
+import lock from "assets/icons/lock.png";
+import trade from "assets/icons/trade.png";
+
 import * as Auth from "features/auth/lib/Provider";
 
-import trade from "assets/icons/trade.png";
-import sflIcon from "assets/icons/sfl.webp";
-
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
-import { getCollectionName, getTradeableDisplay } from "../../lib/tradeables";
+import { getTradeableDisplay } from "../../lib/tradeables";
+import { getItemId } from "../../lib/offers";
 import Decimal from "decimal.js-light";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { InventoryItemName } from "features/game/types/game";
 import { Modal } from "components/ui/Modal";
-import { ClaimPurchase } from "./ClaimPurchase";
-import { Button } from "components/ui/Button";
-import classNames from "classnames";
-import { MachineState } from "features/game/lib/gameMachine";
+import { RemoveOffer } from "../RemoveOffer";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import { NPC_WEARABLES } from "lib/npcs";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { RemoveListing } from "../RemoveListing";
+import sflIcon from "assets/icons/sfl.webp";
+import classNames from "classnames";
+import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
+import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
 
-const _isCancellingOffer = (state: MachineState) =>
-  state.matches("marketplaceListingCancelling");
-const _trades = (state: MachineState) => state.context.state.trades;
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
-export const MyListings: React.FC = () => {
+export const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
   const params = useParams();
+
   const { gameService } = useContext(Context);
   const { authService } = useContext(Auth.Context);
+  const [gameState] = useActor(gameService);
 
   const [claimId, setClaimId] = useState<string>();
-  const [removeListingId, setRemoveListingId] = useState<string>();
+  const [removeId, setRemoveId] = useState<string>();
 
-  const isCancellingListing = useSelector(gameService, _isCancellingOffer);
-  const trades = useSelector(gameService, _trades);
   const authToken = useSelector(authService, _authToken);
 
-  const listings = trades.listings ?? {};
+  const { trades } = gameState.context.state;
+  const offers = trades.offers ?? {};
 
-  const filteredListings = params.id
+  const filteredOffers = params.id
     ? Object.fromEntries(
-        Object.entries(listings).filter(([_, listing]) => {
-          const listingItemName = getKeys(
-            listing.items ?? {},
+        Object.entries(offers).filter(([_, offer]) => {
+          const offerItemName = getKeys(
+            offer.items ?? {},
           )[0] as InventoryItemName;
-          const listingItemId = KNOWN_IDS[listingItemName];
-          return listingItemId === Number(params.id);
+          const offerItemId = KNOWN_IDS[offerItemName];
+          return offerItemId === Number(params.id);
         }),
       )
-    : listings;
+    : offers;
+
+  const navigate = useNavigate();
+
+  const escrowedSFL = getKeys(offers).reduce(
+    (total, id) => total + offers[id].sfl,
+    0,
+  );
 
   const claim = () => {
-    const listing = listings[claimId as string];
+    const offer = offers[claimId as string];
 
-    gameService.send("purchase.claimed", {
-      tradeIds: [claimId],
+    gameService.send("offer.claimed", {
+      tradeId: claimId,
     });
 
     // For on chain items let's fire a refresh
-    const tradeType = listing.signature ? "onchain" : "instant";
-
-    if (tradeType === "onchain") {
+    if (offer.signature) {
       gameService.send("RESET");
     }
 
     setClaimId(undefined);
   };
 
-  const handleHide = () => {
-    if (isCancellingListing) return;
-
-    setRemoveListingId(undefined);
-  };
-
-  const navigate = useNavigate();
-
   return (
     <>
-      <Modal show={!!removeListingId} onHide={handleHide}>
-        <RemoveListing
-          listingIds={removeListingId ? [removeListingId] : []}
-          authToken={authToken}
-          onClose={() => setRemoveListingId(undefined)}
-        />
-      </Modal>
       <Modal show={!!claimId} onHide={() => setClaimId(undefined)}>
-        {claimId && (
-          <ClaimPurchase
-            sfl={listings[claimId as string].sfl}
+        <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
+          <ClaimReward
             onClaim={claim}
             onClose={() => setClaimId(undefined)}
+            reward={{
+              createdAt: Date.now(),
+              id: "offer-claimed",
+              items:
+                offers[claimId as string]?.collection === "collectibles"
+                  ? offers[claimId as string].items
+                  : {},
+              wearables:
+                offers[claimId as string]?.collection === "wearables"
+                  ? offers[claimId as string].items
+                  : {},
+              sfl: 0,
+              coins: 0,
+              message: t("marketplace.offerClaimed"),
+            }}
           />
-        )}
+        </Panel>
+      </Modal>
+
+      <Modal show={!!removeId} onHide={() => setRemoveId(undefined)}>
+        <RemoveOffer
+          authToken={authToken}
+          id={removeId as string}
+          offer={offers[removeId as string]}
+          onClose={() => setRemoveId(undefined)}
+        />
       </Modal>
 
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <div className="flex items-center justify-between">
+          <div className="flex justify-between items-center">
             <Label className="mb-2" type="default" icon={trade}>
-              {t("marketplace.myListings")}
+              {t("marketplace.myOffers")}
+            </Label>
+            <Label className="mb-2" type="formula" icon={lock}>
+              {t("marketplace.sflEscrowed", {
+                sfl: formatNumber(escrowedSFL, { decimalPlaces: 4 }),
+              })}
             </Label>
           </div>
           <div className="flex flex-wrap">
-            {getKeys(filteredListings).length === 0 ? (
-              <p className="text-sm">{t("marketplace.noMyListings")}</p>
+            {getKeys(filteredOffers).length === 0 ? (
+              <p className="text-sm">{t("marketplace.noMyOffers")}</p>
             ) : (
-              <table className="w-full text-xs  border-collapse bg-[#ead4aa] ">
+              <table className="w-full text-xs border-collapse bg-[#ead4aa] ">
                 <thead>
                   <tr>
-                    <th className="p-1.5 w-2/5 text-left">
+                    <th className="p-1.5 text-left">
                       <p>{t("marketplace.item")}</p>
                     </th>
                     <th className="p-1.5 text-left">
                       <p>{t("marketplace.unitPrice")}</p>
                     </th>
+
+                    <th className="p-1.5 "></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {getKeys(filteredListings).map((id, index) => {
-                    const listing = listings[id];
+                  {getKeys(filteredOffers).map((id, index) => {
+                    const offer = filteredOffers[id];
 
-                    const itemName = getKeys(
-                      listing.items ?? {},
-                    )[0] as InventoryItemName;
-                    const itemId = KNOWN_IDS[itemName];
-                    const collection = getCollectionName(itemName);
+                    const itemId = getItemId({ details: offer });
                     const details = getTradeableDisplay({
                       id: itemId,
-                      type: collection,
+                      type: offer.collection,
                     });
-                    const isResource = collection === "resources";
-                    const quantity = listing.items[itemName];
-                    const price = listing.sfl;
+                    const itemName = getKeys(
+                      offer.items ?? {},
+                    )[0] as InventoryItemName;
+                    const quantity = offer.items[itemName];
+                    const isResource = offer.collection === "resources";
 
                     return (
                       <tr
@@ -155,15 +174,13 @@ export const MyListings: React.FC = () => {
                           borderTop: index === 0 ? "1px solid #b96f50" : "",
                         }}
                         onClick={() =>
-                          navigate(`/marketplace/${collection}/${itemId}`)
+                          navigate(`/marketplace/${details.type}/${itemId}`)
                         }
                       >
-                        <td className="p-1.5 text-left w-12">
+                        <td className="p-1.5 w-2/5 text-left">
                           <div className="flex items-center">
                             <img src={details.image} className="h-8 mr-4" />
-                            <p className="text-sm">
-                              {`${isResource ? quantity + " x" : ""} ${details.name}`}
-                            </p>
+                            <p className="text-sm">{`${isResource ? quantity + " x" : ""} ${details.name}`}</p>
                           </div>
                         </td>
                         <td className="p-1.5 text-left relative">
@@ -172,25 +189,25 @@ export const MyListings: React.FC = () => {
                             <p className="text-sm">
                               {new Decimal(
                                 isResource
-                                  ? formatNumber(price / Number(quantity), {
+                                  ? formatNumber(offer.sfl / Number(quantity), {
                                       decimalPlaces: 4,
                                     })
-                                  : price,
+                                  : offer.sfl,
                               ).toFixed(2)}
                             </p>
                           </div>
                         </td>
+
                         <td className="p-1.5 truncate flex items-center justify-end pr-2 h-full">
                           <Button
                             variant="secondary"
                             className="w-auto h-10"
-                            onClick={
-                              listing.boughtAt
-                                ? () => setClaimId(id)
-                                : () => setRemoveListingId(id)
-                            }
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setRemoveId(id);
+                            }}
                           >
-                            {t(listing.boughtAt ? "claim" : "cancel")}
+                            {t("cancel")}
                           </Button>
                         </td>
                       </tr>

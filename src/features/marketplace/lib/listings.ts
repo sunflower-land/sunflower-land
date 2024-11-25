@@ -10,6 +10,7 @@ export function getListingItem({ listing }: { listing: TradeListing }): number {
   const collection = getCollectionName(name);
 
   if (collection === "buds") {
+    // TODO: FIX THIS SPLIT NOW THAT WE DON"T USE #
     const [_, id] = name.split("#");
     return Number(id);
   }

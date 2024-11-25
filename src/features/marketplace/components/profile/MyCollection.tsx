@@ -123,11 +123,8 @@ export const MyCollection: React.FC = () => {
                 >
                   <ListViewCard
                     name={details.name}
-                    hasBoost={!!details.buff}
                     image={details.image}
-                    supply={0}
                     type={details.type}
-                    id={item.id}
                     buff={details.buff}
                     onClick={() => {
                       navigate(`/marketplace/${details.type}/${item.id}`);
