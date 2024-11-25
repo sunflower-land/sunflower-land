@@ -141,11 +141,14 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
         <div className="p-2">
           <div className="flex items-center justify-between flex-wrap">
             {showBuyNow && (
-              <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
-                <>
-                  <img src={sflIcon} className="h-8 mr-2" />
-                  <p className="text-base">{`${cheapestListing.sfl} SFL`}</p>
-                </>
+              <div>
+                <p className="text-xs mb-0.5">Current price</p>
+                <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
+                  <>
+                    <img src={sflIcon} className="h-7 mr-2" />
+                    <p className="text-base">{`${cheapestListing.sfl} SFL`}</p>
+                  </>
+                </div>
               </div>
             )}
             {isResources ? (
@@ -189,13 +192,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   {t("marketplace.buyNow")}
                 </Button>
               )}
-              <Button
+              {/* <Button
                 disabled={!tradeable}
                 onClick={onListClick}
                 className="w-full sm:w-auto"
               >
                 {t("marketplace.listForSale")}
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

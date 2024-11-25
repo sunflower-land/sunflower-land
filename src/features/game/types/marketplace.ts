@@ -45,9 +45,11 @@ export type PriceHistory = {
 };
 
 export type SaleHistory = {
-  oneDayChange: number;
-  sevenDayChange: number;
-  thirtyDayChange: number;
+  totalSales: number;
+  oneDayPrice: number;
+  sevenDayPrice: number;
+  thirtyDayPrice: number;
+  latestPrice: number;
   sales: {
     id: string;
     sfl: number;

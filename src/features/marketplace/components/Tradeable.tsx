@@ -27,6 +27,7 @@ import { MyOffers } from "./profile/MyOffers";
 import { TradeableListings } from "./TradeableListings";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { TradeableStats } from "./TradeableStats";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -134,6 +135,7 @@ export const Tradeable: React.FC = () => {
         />
         <MyListings />
         <MyOffers />
+        <TradeableStats history={tradeable?.history} />
 
         <TradeableListings
           id={Number(id)}
