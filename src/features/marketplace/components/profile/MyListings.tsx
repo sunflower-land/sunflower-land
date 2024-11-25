@@ -9,7 +9,7 @@ import sflIcon from "assets/icons/sfl.webp";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
-import { getCollectionName, getTradeableDisplay } from "../../lib/tradeables";
+import { getTradeableDisplay } from "../../lib/tradeables";
 import Decimal from "decimal.js-light";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -21,8 +21,8 @@ import classNames from "classnames";
 import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
-import { KNOWN_IDS } from "features/game/types";
 import { formatNumber } from "lib/utils/formatNumber";
+import { getItemId } from "features/marketplace/lib/offers";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -48,10 +48,13 @@ export const MyListings: React.FC = () => {
   const filteredListings = params.id
     ? Object.fromEntries(
         Object.entries(listings).filter(([_, listing]) => {
-          const listingItemName = getKeys(
-            listing.items ?? {},
-          )[0] as InventoryItemName;
-          const listingItemId = KNOWN_IDS[listingItemName];
+          const listingItemId = getItemId({
+            details: {
+              collection: listing.collection,
+              items: listing.items,
+            },
+          });
+
           return listingItemId === Number(params.id);
         }),
       )
@@ -126,17 +129,21 @@ export const MyListings: React.FC = () => {
                 <tbody>
                   {getKeys(filteredListings).map((id, index) => {
                     const listing = listings[id];
-
                     const itemName = getKeys(
                       listing.items ?? {},
                     )[0] as InventoryItemName;
-                    const itemId = KNOWN_IDS[itemName];
-                    const collection = getCollectionName(itemName);
+                    const itemId = getItemId({
+                      details: {
+                        collection: listing.collection,
+                        items: listing.items,
+                      },
+                    });
                     const details = getTradeableDisplay({
                       id: itemId,
-                      type: collection,
+                      type: listing.collection,
                     });
-                    const isResource = collection === "resources";
+
+                    const isResource = listing.collection === "resources";
                     const quantity = listing.items[itemName];
                     const price = listing.sfl;
 
@@ -155,7 +162,9 @@ export const MyListings: React.FC = () => {
                           borderTop: index === 0 ? "1px solid #b96f50" : "",
                         }}
                         onClick={() =>
-                          navigate(`/marketplace/${collection}/${itemId}`)
+                          navigate(
+                            `/marketplace/${listing.collection}/${itemId}`,
+                          )
                         }
                       >
                         <td className="p-1.5 text-left w-12">
