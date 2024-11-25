@@ -21,6 +21,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ONE_DAY, secondsToString } from "lib/utils/time";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const iconList = {
   Crops: SUNNYSIDE.skills.crops,
@@ -28,13 +29,13 @@ const iconList = {
   Rocks: SUNNYSIDE.skills.rocks,
   Cooking: SUNNYSIDE.skills.cooking,
   Animals: SUNNYSIDE.skills.animals,
-  Fruit: SUNNYSIDE.skills.animals,
-  Fishing: SUNNYSIDE.skills.animals,
-  Greenhouse: SUNNYSIDE.skills.animals,
-  Mining: SUNNYSIDE.skills.animals,
-  "Bees & Flowers": SUNNYSIDE.skills.animals,
-  Oil: SUNNYSIDE.skills.animals,
-  Machinery: SUNNYSIDE.skills.animals,
+  Fruit: ITEM_DETAILS.Apple.image,
+  Fishing: SUNNYSIDE.icons.fish,
+  Greenhouse: ITEM_DETAILS.Greenhouse.image,
+  Mining: SUNNYSIDE.tools.stone_pickaxe,
+  "Bees & Flowers": ITEM_DETAILS["Red Pansy"].image,
+  Oil: ITEM_DETAILS.Oil.image,
+  Machinery: ITEM_DETAILS["Crop Machine"].image,
 };
 
 export const SkillCategoryList = ({
@@ -129,7 +130,12 @@ export const SkillCategoryList = ({
                 <div className="flex justify-center items-center">
                   <img
                     src={icon}
-                    style={{ opacity: 0, marginRight: `${PIXEL_SCALE * 4}px` }}
+                    style={{
+                      opacity: 0,
+                      marginRight: `${PIXEL_SCALE * 4}px`,
+                      maxWidth: `${PIXEL_SCALE * 10}px`,
+                      maxHeight: `${PIXEL_SCALE * 10}px`,
+                    }}
                     onLoad={(e) => setImageWidth(e.currentTarget)}
                   />
                   <span className="text-sm">{category}</span>

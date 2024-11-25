@@ -200,6 +200,11 @@ export const SkillPathDetails: React.FC<Props> = ({
               onClick={onBack}
             />
             <Label type="default">{selectedSkillPath + " Skills"}</Label>
+            {availableSkillPoints > 0 && (
+              <Label type="default" className="ml-1">
+                {`You have ${availableSkillPoints} skill point${availableSkillPoints > 1 ? "s" : ""}`}
+              </Label>
+            )}
           </div>
 
           {/* Skills */}

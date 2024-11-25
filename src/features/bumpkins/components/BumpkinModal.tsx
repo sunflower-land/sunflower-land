@@ -268,27 +268,29 @@ export const BumpkinModal: React.FC<Props> = ({
                 </div>
               </div>
 
-              <ButtonPanel
-                onClick={() => setView("skills")}
-                className="mb-2 relative mt-1 !px-2 !py-1"
-              >
-                <div className="flex items-center mb-1 justify-between">
-                  <div className="flex items-center">
-                    <span className="text-sm">{t("skills")}</span>
-                    {hasAvailableSP && !readonly && (
-                      <img
-                        src={SUNNYSIDE.icons.expression_alerted}
-                        className="h-4 ml-2"
-                      />
-                    )}
+              {!hasFeatureAccess(gameState, "SKILLS_REVAMP") && (
+                <ButtonPanel
+                  onClick={() => setView("skills")}
+                  className="mb-2 relative mt-1 !px-2 !py-1"
+                >
+                  <div className="flex items-center mb-1 justify-between">
+                    <div className="flex items-center">
+                      <span className="text-sm">{t("skills")}</span>
+                      {hasAvailableSP && !readonly && (
+                        <img
+                          src={SUNNYSIDE.icons.expression_alerted}
+                          className="h-4 ml-2"
+                        />
+                      )}
+                    </div>
+                    <span className="text-sm underline">{t("viewAll")}</span>
                   </div>
-                  <span className="text-sm underline">{t("viewAll")}</span>
-                </div>
-                <SkillBadges
-                  inventory={inventory}
-                  bumpkin={bumpkin as Bumpkin}
-                />
-              </ButtonPanel>
+                  <SkillBadges
+                    inventory={inventory}
+                    bumpkin={bumpkin as Bumpkin}
+                  />
+                </ButtonPanel>
+              )}
 
               <ButtonPanel
                 onClick={() => setView("achievements")}
