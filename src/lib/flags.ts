@@ -1,6 +1,10 @@
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
+const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
+  CONFIG.NETWORK === "amoy" ||
+  (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
+
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
@@ -45,7 +49,7 @@ const featureFlags = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  SKILLS_REVAMP: testnetFeatureFlag,
+  SKILLS_REVAMP: adminFeatureFlag,
   FSL: betaTimeBasedFeatureFlag(new Date("2024-10-10T00:00:00Z")),
   NEW_RESOURCES_GE: defaultFeatureFlag,
   ANIMAL_BUILDINGS: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
