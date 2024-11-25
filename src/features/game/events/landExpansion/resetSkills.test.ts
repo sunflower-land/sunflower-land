@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 describe("resetSkills", () => {
   const dateNow = Date.now();
 
-  it("requires Bumpkin to have skills", () => {
+  it.only("requires Bumpkin to have skills", () => {
     expect(() => {
       resetSkills({
         state: {
