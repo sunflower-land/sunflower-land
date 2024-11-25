@@ -437,6 +437,7 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
     [`${stateName}Failure`]: {
       on: {
         CONTINUE: { target: "playing" },
+        REFRESH: { target: "playing" },
       },
     },
     [stateName]: {

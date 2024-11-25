@@ -551,21 +551,7 @@ export const GameWrapper: React.FC = ({ children }) => {
               </>
             )}
             {effectFailure && (
-              <>
-                <div className="p-1.5">
-                  <Label type="danger" className="mb-2">
-                    {t("error")}
-                  </Label>
-                  <p className="text-sm mb-2">{t(effectTranslationKey)}</p>
-                </div>
-                <Button
-                  onClick={() => {
-                    gameService.send("CONTINUE");
-                  }}
-                >
-                  {t("close")}
-                </Button>
-              </>
+              <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}
 
             {loading && <Loading />}
