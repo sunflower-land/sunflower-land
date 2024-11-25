@@ -55,8 +55,8 @@ export type SaleHistory = {
     fulfilledAt: number;
     fulfilledBy: {
       id: number;
+      bumpkinUri: string;
       username?: string;
-      bumpkinUri?: string;
     };
   }[];
 };
@@ -64,7 +64,7 @@ export type SaleHistory = {
 export type TradeableDetails = Tradeable & {
   offers: Offer[];
   listings: Listing[];
-  history: PriceHistory[];
+  history: SaleHistory;
 };
 
 export type Marketplace = {
