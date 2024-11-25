@@ -145,7 +145,9 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
   const oilInTank = calculatePercentageFull(buildingName);
   const runtime = calculateOilTimeRemaining();
   const boostPercentage =
-    BUILDING_OIL_BOOSTS[buildingName as CookingBuildingName] * 100;
+    BUILDING_OIL_BOOSTS(game.bumpkin.skills)[
+      buildingName as CookingBuildingName
+    ] * 100;
 
   useUiRefresher();
 

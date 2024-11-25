@@ -4,7 +4,7 @@ import {
   CookableName,
   COOKABLES,
 } from "features/game/types/consumables";
-import { Bumpkin, GameState } from "features/game/types/game";
+import { Bumpkin, GameState, Skills } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { translate } from "lib/i18n/translate";
@@ -37,13 +37,15 @@ type GetReadyAtArgs = {
   game: GameState;
 };
 
-export const BUILDING_OIL_BOOSTS: Record<CookingBuildingName, number> = {
-  "Fire Pit": 0.2,
-  Kitchen: 0.25,
+export const BUILDING_OIL_BOOSTS: (
+  skills: Skills,
+) => Record<CookingBuildingName, number> = (skills) => ({
+  "Fire Pit": skills["Swift Sizzle"] ? 0.6 : 0.2,
+  Kitchen: skills["Turbo Fry"] ? 0.5 : 0.25,
   "Smoothie Shack": 0.3,
   Bakery: 0.35,
-  Deli: 0.4,
-};
+  Deli: skills["Fry Frenzy"] ? 0.6 : 0.4,
+});
 
 export function isCookingBuilding(
   building: BuildingName,
@@ -56,7 +58,6 @@ export function getCookingOilBoost(
   game: GameState,
   buildingId?: string,
 ): { timeToCook: number; oilConsumed: number } {
-  const { bumpkin } = game;
   const buildingName = COOKABLES[item].building;
 
   if (!isCookingBuilding(buildingName) || !buildingId) {
@@ -68,34 +69,12 @@ export function getCookingOilBoost(
   );
 
   const itemCookingTime = COOKABLES[item].cookingSeconds;
+
   const itemOilConsumption = getOilConsumption(buildingName, item);
   const oilRemaining = building?.oil || 0;
 
-  const boostValue = BUILDING_OIL_BOOSTS[buildingName];
-  let boostedCookingTime = itemCookingTime * (1 - boostValue);
-
-  const applySkillBoost = (
-    time: number,
-    skills: Record<string, any>,
-  ): number => {
-    let modifiedTime = time;
-
-    if (skills["Swift Sizzle"] && buildingName === "Fire Pit") {
-      modifiedTime *= 0.6;
-    }
-
-    if (skills["Turbo Fry"] && buildingName === "Kitchen") {
-      modifiedTime *= 0.5;
-    }
-
-    if (skills["Fry Frenzy"] && buildingName === "Deli") {
-      modifiedTime *= 0.4;
-    }
-
-    return modifiedTime;
-  };
-
-  boostedCookingTime = applySkillBoost(boostedCookingTime, bumpkin.skills);
+  const boostValue = BUILDING_OIL_BOOSTS(game.bumpkin.skills)[buildingName];
+  const boostedCookingTime = itemCookingTime * (1 - boostValue);
 
   if (oilRemaining >= itemOilConsumption) {
     return { timeToCook: boostedCookingTime, oilConsumed: itemOilConsumption };
@@ -105,13 +84,8 @@ export function getCookingOilBoost(
   const effectiveBoostValue = (oilRemaining / itemOilConsumption) * boostValue;
   const partialBoostedCookingTime = itemCookingTime * (1 - effectiveBoostValue);
 
-  const finalCookingTime = applySkillBoost(
-    partialBoostedCookingTime,
-    bumpkin.skills,
-  );
-
   return {
-    timeToCook: finalCookingTime,
+    timeToCook: partialBoostedCookingTime,
     oilConsumed: (oilRemaining / itemOilConsumption) * itemOilConsumption,
   };
 }
