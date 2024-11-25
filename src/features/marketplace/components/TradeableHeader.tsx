@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
 import {
@@ -12,7 +10,6 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/sfl.webp";
-import walletIcon from "assets/icons/wallet.png";
 import { GameWallet } from "features/wallet/Wallet";
 import { Context } from "features/game/GameProvider";
 import confetti from "canvas-confetti";
@@ -100,6 +97,11 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     cheapestListing?.type === "onchain",
   );
 
+  // If no listings or offers, return null
+  if (!cheapestListing) {
+    return null;
+  }
+
   const isResources = params.collection === "resources";
   const showBuyNow = !isResources && cheapestListing;
 
@@ -137,28 +139,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
       )}
       <InnerPanel className="w-full mb-1">
         <div className="p-2">
-          <div className="flex flex-wrap items-center justify-between">
-            <div
-              className="flex cursor-pointer items-center w-fit mb-2"
-              onClick={onBack}
-            >
-              <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
-              <p className="capitalize underline">{collection}</p>
-            </div>
-            {showBuyNow && cheapestListing?.type === "onchain" && (
-              <Label type="formula" className="mr-2" icon={walletIcon}>
-                {t("marketplace.walletRequired")}
-              </Label>
-            )}
-            {isResources && (
-              <Label type="default" className="mr-2">
-                {t("marketplace.youOwn", { count: count.toFixed(0) })}
-              </Label>
-            )}
-          </div>
-          <div className="flex">
-            <p className="text-lg mr-0.5 mb-1">{display.name}</p>
-          </div>
           <div className="flex items-center justify-between flex-wrap">
             {showBuyNow && (
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">

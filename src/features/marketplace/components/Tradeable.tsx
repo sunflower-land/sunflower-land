@@ -9,8 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
 
-import { PriceHistory, SaleHistory } from "./PriceHistory";
-import { TradeableOffers, YourOffer } from "./TradeableOffers";
+import { SaleHistory } from "./PriceHistory";
+import { TradeableOffers } from "./TradeableOffers";
 import { Context } from "features/game/GameProvider";
 import { KNOWN_ITEMS } from "features/game/types";
 import {
@@ -26,9 +26,7 @@ import { MyListings } from "./profile/MyListings";
 import { MyOffers } from "./profile/MyOffers";
 import { TradeableListings } from "./TradeableListings";
 import { InnerPanel } from "components/ui/Panel";
-import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
-import { NPC_WEARABLES } from "lib/npcs";
-import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -109,40 +107,33 @@ export const Tradeable: React.FC = () => {
   return (
     <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
-        <div className="block sm:hidden">
-          <TradeableHeader
-            authToken={authToken}
-            farmId={farmId}
-            collection={collection as CollectionName}
-            display={display}
-            count={count}
-            tradeable={tradeable}
-            onBack={onBack}
-            reload={load}
-            onListClick={() => setShowListItem(true)}
-          />
-        </div>
+        <InnerPanel className="mb-1  z-10 sticky top-0">
+          <div className="flex flex-wrap justify-between items-center">
+            <div
+              className="flex cursor-pointer items-center w-fit"
+              onClick={onBack}
+            >
+              <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
+              <p className="capitalize underline">{display.name}</p>
+            </div>
+          </div>
+        </InnerPanel>
         <TradeableInfo display={display} tradeable={tradeable} />
       </div>
       <div className="w-full">
-        <div className="hidden sm:block">
-          <TradeableHeader
-            authToken={authToken}
-            farmId={farmId}
-            collection={collection as CollectionName}
-            display={display}
-            tradeable={tradeable}
-            count={count}
-            reload={load}
-            onBack={onBack}
-            onListClick={() => setShowListItem(true)}
-          />
-        </div>
-
+        <TradeableHeader
+          authToken={authToken}
+          farmId={farmId}
+          collection={collection as CollectionName}
+          display={display}
+          count={count}
+          tradeable={tradeable}
+          onBack={onBack}
+          reload={load}
+          onListClick={() => setShowListItem(true)}
+        />
         <MyListings />
         <MyOffers />
-
-        {/* <PriceHistory history={tradeable?.history} /> */}
 
         <TradeableListings
           id={Number(id)}
@@ -168,6 +159,8 @@ export const Tradeable: React.FC = () => {
           farmId={farmId}
           reload={load}
         />
+
+        <SaleHistory history={tradeable?.history} />
       </div>
     </div>
   );

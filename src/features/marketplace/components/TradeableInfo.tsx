@@ -17,12 +17,19 @@ export const TradeableInfo: React.FC<{
   return (
     <>
       <InnerPanel className="w-full flex relative mb-1">
-        {tradeable && tradeable.collection !== "resources" && (
-          <Label
-            className="absolute top-2 right-2"
-            type="default"
-          >{`Supply: ${tradeable.supply}`}</Label>
-        )}
+        <div className="flex flex-wrap absolute top-2 right-2">
+          {/* {tradeable && (
+            <Label
+              type="formula"
+              icon={increaseArrow}
+              className="mr-2"
+            >{`42% (7D)`}</Label>
+          )} */}
+
+          {tradeable && tradeable.collection !== "resources" && (
+            <Label type="default">{`Supply: ${tradeable.supply}`}</Label>
+          )}
+        </div>
 
         <img src={bg} className="w-full rounded-sm" />
         <img

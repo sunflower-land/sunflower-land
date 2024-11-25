@@ -12,7 +12,7 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { TradeableListItem } from "./TradeableList";
-import { TradeTable } from "./TradeTable";
+import { ListingTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
 
 import tradeIcon from "assets/icons/trade.png";
@@ -184,13 +184,10 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                   }}
                 />
               ) : (
-                <TradeTable
-                  items={tradeable?.listings.map((listing) => ({
-                    price: listing.sfl,
-                    expiresAt: "30 days", // TODO,
-                    createdById: listing.listedById,
-                  }))}
-                  id={farmId}
+                <ListingTable
+                  listings={tradeable?.listings}
+                  collection={tradeable?.collection}
+                  details={display}
                 />
               ))}
           </div>

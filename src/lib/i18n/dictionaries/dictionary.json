@@ -4440,5 +4440,6 @@
   "marketplace.onchainComingSoon": "On chain trading coming soon",
   "marketplace.sold": "Sold",
   "marketplace.sellerWillReceive": "Seller will receive",
-  "marketplace.salePrice": "Sale Price"
+  "marketplace.salePrice": "Sale Price",
+  "marketplace.saleHistory": "Sale History"
 }
