@@ -132,6 +132,87 @@ export const DIGGING_FORMATIONS = {
     { x: 1, y: 1, name: "Camel Bone" },
   ],
 
+  ARTEFACT_THIRTEEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 2, y: 0, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_FOURTEEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 2, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_FIFTEEN: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 2, y: 0, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_SIXTEEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_SEVENTEEN: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 1, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+  ],
+
+  ARTEFACT_EIGHTEEN: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_NINETEEN: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 1, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+  ],
+
+  ARTEFACT_TWENTY: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_TWENTY_ONE: [
+    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
+  ],
+
+  ARTEFACT_TWENTY_TWO: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+  ],
+
+  ARTEFACT_TWENTY_THREE: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
+    { x: 2, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+  ],
+
+  ARTEFACT_TWENTY_FOUR: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 2, y: 1, name: "Camel Bone" },
+  ],
+
   // Small L - X Coins
   HIEROGLYPH: [
     { x: 0, y: 0, name: "Vase" },
