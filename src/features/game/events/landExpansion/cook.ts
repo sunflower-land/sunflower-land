@@ -41,7 +41,7 @@ type GetReadyAtArgs = {
 export const BUILDING_OIL_BOOSTS: (
   skills: Skills,
 ) => Record<CookingBuildingName, number> = (skills) => ({
-  "Fire Pit": skills["Swift Sizzle"] ? 0.6 : 0.2,
+  "Fire Pit": skills["Swift Sizzle"] ? 0.4 : 0.2,
   Kitchen: skills["Turbo Fry"] ? 0.5 : 0.25,
   "Smoothie Shack": 0.3,
   Bakery: 0.35,
