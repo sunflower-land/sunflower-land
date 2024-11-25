@@ -102,11 +102,9 @@ export const SkillCategoryList = ({
           style={{ margin: `${PIXEL_SCALE * 2}px` }}
         >
           <div className="flex flex-wrap gap-1">
-            {availableSkillPoints > 0 && (
-              <Label type="default">
-                {`You have ${availableSkillPoints} skill point${availableSkillPoints > 1 ? "s" : ""}`}
-              </Label>
-            )}
+            <Label type="default">
+              {`You have ${availableSkillPoints} skill point${availableSkillPoints > 1 ? "s" : ""}`}
+            </Label>
           </div>
         </div>
         {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {
