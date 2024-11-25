@@ -4416,5 +4416,6 @@
   "marketplace.offerAccepted": "제안 수락",
   "marketplace.youHaveHadSales": "당신이 없는 동안 당신의 물건이 팔렸습니다!",
   "marketplace.offersWereAccepted": "자리를 비운 동안 하나 이상의 제안이 수락되었습니다!",
-  "marketplace.resource": "리소스"
+  "marketplace.resource": "리소스",
+  "marketplace.saleHistory": "판매 내역"
 }

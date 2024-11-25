@@ -4416,5 +4416,6 @@
   "marketplace.offerAccepted": "Angebot angenommen",
   "marketplace.youHaveHadSales": "Ihr (e) Artikel wurden verkauft, während Sie weg waren!",
   "marketplace.offersWereAccepted": "Ein oder mehrere Angebote wurden während Ihrer Abwesenheit angenommen!",
-  "marketplace.resource": "Ressource"
+  "marketplace.resource": "Ressource",
+  "marketplace.saleHistory": "Geschichte des Verkaufs"
 }

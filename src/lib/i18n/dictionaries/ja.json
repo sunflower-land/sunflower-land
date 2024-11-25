@@ -4416,5 +4416,6 @@
   "marketplace.offerAccepted": "オファーが受け入れられました",
   "marketplace.youHaveHadSales": "不在中に商品が売れました！",
   "marketplace.offersWereAccepted": "留守中に 1 つまたは複数のオファーが受け入れられました。",
-  "marketplace.resource": "資源"
+  "marketplace.resource": "資源",
+  "marketplace.saleHistory": "売却履歴"
 }

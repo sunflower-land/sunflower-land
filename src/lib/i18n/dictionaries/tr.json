@@ -4416,5 +4416,6 @@
   "marketplace.offerAccepted": "Teklif kabul edildi",
   "marketplace.youHaveHadSales": "Siz yokken eşyalarınız satıldı!",
   "marketplace.offersWereAccepted": "Siz yokken bir veya daha fazla teklif kabul edildi!",
-  "marketplace.resource": "Kaynak"
+  "marketplace.resource": "Kaynak",
+  "marketplace.saleHistory": "Satış Geçmişi"
 }

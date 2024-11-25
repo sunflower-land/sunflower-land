@@ -4416,5 +4416,6 @@
   "marketplace.offerAccepted": "Offre acceptée",
   "marketplace.youHaveHadSales": "Vos articles ont été vendus pendant votre absence !",
   "marketplace.offersWereAccepted": "Une ou plusieurs offres ont été acceptées pendant votre absence !",
-  "marketplace.resource": "Ressource"
+  "marketplace.resource": "Ressource",
+  "marketplace.saleHistory": "Historique des ventes"
 }

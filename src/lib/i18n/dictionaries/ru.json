@@ -4416,5 +4416,6 @@
   "marketplace.offerAccepted": "Предложение принято",
   "marketplace.youHaveHadSales": "Ваш товар (ы) продан, пока вас не было!",
   "marketplace.offersWereAccepted": "Одно или несколько предложений были приняты, пока вас не было!",
-  "marketplace.resource": "Ресурс"
+  "marketplace.resource": "Ресурс",
+  "marketplace.saleHistory": "История продаж"
 }

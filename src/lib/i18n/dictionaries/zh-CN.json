@@ -4416,5 +4416,6 @@
   "marketplace.offerAccepted": "报价已接受",
   "marketplace.youHaveHadSales": "您的物品在您不在时已售出！",
   "marketplace.offersWereAccepted": "您不在时接受了一个或多个报价！",
-  "marketplace.resource": "资源"
+  "marketplace.resource": "资源",
+  "marketplace.saleHistory": "销售记录"
 }
