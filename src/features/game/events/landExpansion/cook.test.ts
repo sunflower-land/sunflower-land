@@ -753,25 +753,28 @@ describe("getReadyAt", () => {
   });
 
   it("applies a 40% speed boost on Fire Pit when using oil with Swift Sizzle skill", () => {
-    const now = Date.now();
-
-    const time = getReadyAt({
-      buildingId: "123",
-      item: "Boiled Eggs",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
-      createdAt: now,
-      game: {
-        ...TEST_FARM,
-        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
+    const game: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "Swift Sizzle": 1 },
       },
-    });
+      buildings: {
+        "Fire Pit": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 1,
+          },
+        ],
+      },
+    };
 
-    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.4;
+    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
 
-    const readyAt =
-      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
-
-    expect(time).toEqual(readyAt);
+    expect(time).toEqual(60 * 60 * 0.6);
   });
 
   it("does not apply Swift Sizzle boost on Kitchen", () => {
@@ -816,25 +819,30 @@ describe("getReadyAt", () => {
   });
 
   it("applies a 50% speed boost on Kitchen when using oil with Turbo Fry skill", () => {
-    const now = Date.now();
-
-    const time = getReadyAt({
-      buildingId: "123",
-      item: "Sunflower Crunch",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
-      createdAt: now,
-      game: {
-        ...TEST_FARM,
-        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
+    const game: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: {
+          "Turbo Fry": 1,
+        },
       },
-    });
+      buildings: {
+        Kitchen: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 10,
+          },
+        ],
+      },
+    };
 
-    const boost = COOKABLES["Sunflower Crunch"].cookingSeconds * 0.5;
+    const time = getCookingOilBoost("Fruit Salad", game, "1").timeToCook;
 
-    const readyAt =
-      now + (COOKABLES["Sunflower Crunch"].cookingSeconds - boost) * 1000;
-
-    expect(time).toEqual(readyAt);
+    expect(time).toEqual(COOKABLES["Fruit Salad"].cookingSeconds * 0.5);
   });
 
   it("does not apply Turbo Fry boost on Fire Pit", () => {
@@ -857,25 +865,30 @@ describe("getReadyAt", () => {
   });
 
   it("applies a 60% speed boost on Deli meals when using Oil with Fry Frenzy skill", () => {
-    const now = Date.now();
-
-    const time = getReadyAt({
-      buildingId: "123",
-      item: "Shroom Syrup",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fry Frenzy": 1 } },
-      createdAt: now,
-      game: {
-        ...TEST_FARM,
-        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fry Frenzy": 1 } },
+    const game: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: {
+          "Fry Frenzy": 1,
+        },
       },
-    });
+      buildings: {
+        Deli: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 24,
+          },
+        ],
+      },
+    };
 
-    const boost = COOKABLES["Shroom Syrup"].cookingSeconds * 0.6;
+    const time = getCookingOilBoost("Fermented Fish", game, "1").timeToCook;
 
-    const readyAt =
-      now + (COOKABLES["Shroom Syrup"].cookingSeconds - boost) * 1000;
-
-    expect(time).toEqual(readyAt);
+    expect(time).toEqual(COOKABLES["Fermented Fish"].cookingSeconds * 0.4);
   });
 });
 
