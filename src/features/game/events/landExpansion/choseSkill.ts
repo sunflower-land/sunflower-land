@@ -33,7 +33,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
     return acc;
   }, 0);
 
-  return bumpkinLevel - totalUsedSkillPoints;
+  return bumpkinLevel - totalUsedSkillPoints - 1; // Skill points starts at Bumpkin level 1
 };
 
 export const getUnlockedTierForTree = (
