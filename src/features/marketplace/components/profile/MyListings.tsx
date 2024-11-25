@@ -22,7 +22,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
 import { formatNumber } from "lib/utils/formatNumber";
-import { getItemId } from "features/marketplace/lib/offers";
+import { tradeToId } from "features/marketplace/lib/offers";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -48,7 +48,7 @@ export const MyListings: React.FC = () => {
   const filteredListings = params.id
     ? Object.fromEntries(
         Object.entries(listings).filter(([_, listing]) => {
-          const listingItemId = getItemId({
+          const listingItemId = tradeToId({
             details: {
               collection: listing.collection,
               items: listing.items,
@@ -132,7 +132,7 @@ export const MyListings: React.FC = () => {
                     const itemName = getKeys(
                       listing.items ?? {},
                     )[0] as InventoryItemName;
-                    const itemId = getItemId({
+                    const itemId = tradeToId({
                       details: {
                         collection: listing.collection,
                         items: listing.items,
