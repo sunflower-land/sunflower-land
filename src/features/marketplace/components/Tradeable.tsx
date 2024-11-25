@@ -102,7 +102,7 @@ export const Tradeable: React.FC = () => {
   }
 
   const onBack = () => {
-    navigate(`/marketplace/collection?filters=${collection}`);
+    navigate(-1);
   };
 
   return (
