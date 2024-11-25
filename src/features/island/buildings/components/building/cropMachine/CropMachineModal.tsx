@@ -65,7 +65,8 @@ const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
     );
   });
 
-const SEED_INCREMENT_AMOUNT = 10;
+const SEED_INCREMENT_AMOUNT = (state: GameState): number =>
+  state.bumpkin.skills["Field Extension Module"] ? 15 : 10;
 
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
@@ -181,7 +182,7 @@ export const CropMachineModal: React.FC<Props> = ({
 
     const seedBalance = inventory[selectedSeed] ?? new Decimal(0);
 
-    return totalSeeds + SEED_INCREMENT_AMOUNT <= seedBalance.toNumber();
+    return totalSeeds + SEED_INCREMENT_AMOUNT(state) <= seedBalance.toNumber();
   };
 
   const canIncrementOil = () => {
@@ -397,23 +398,23 @@ export const CropMachineModal: React.FC<Props> = ({
                           <Button
                             disabled={totalSeeds === 0}
                             onClick={() =>
-                              decrementSeeds(SEED_INCREMENT_AMOUNT)
+                              decrementSeeds(SEED_INCREMENT_AMOUNT(state))
                             }
                             className={isMobile ? "" : "px-2"}
                           >
                             <span className={isMobile ? "text-xs" : "text-sm"}>
-                              {`-${SEED_INCREMENT_AMOUNT}`}
+                              {`-${SEED_INCREMENT_AMOUNT(state)}`}
                             </span>
                           </Button>
                           <Button
                             onClick={() =>
-                              incrementSeeds(SEED_INCREMENT_AMOUNT)
+                              incrementSeeds(SEED_INCREMENT_AMOUNT(state))
                             }
                             disabled={!canIncrementSeeds()}
                             className={isMobile ? "" : "px-2"}
                           >
                             <span className={isMobile ? "text-xs" : "text-sm"}>
-                              {`+${SEED_INCREMENT_AMOUNT}`}
+                              {`+${SEED_INCREMENT_AMOUNT(state)}`}
                             </span>
                           </Button>
                           <Button
