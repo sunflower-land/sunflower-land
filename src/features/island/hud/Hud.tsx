@@ -23,7 +23,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
-import marketplaceIcon from "assets/icons/shop_disc.png";
+// import marketplaceIcon from "assets/icons/shop_disc.png";
+import shopIcon from "assets/icons/shop.png";
 import { hasFeatureAccess } from "lib/flags";
 import { useNavigate } from "react-router-dom";
 import { TransactionCountdown } from "./Transaction";
@@ -203,19 +204,34 @@ const HudComponent: React.FC<{
 
         {hasMarketplaceAccess && (
           <>
-            <img
-              src={marketplaceIcon}
-              className="cursor-pointer absolute"
+            <div
               onClick={() => {
                 navigate("/marketplace/hot");
               }}
+              className="absolute flex z-50 cursor-pointer hover:img-highlight"
               style={{
-                width: `${PIXEL_SCALE * 22}px`,
-
                 left: `${PIXEL_SCALE * 3}px`,
-                bottom: `${PIXEL_SCALE * 55}px`,
+                bottom: `${PIXEL_SCALE * 78}px`,
+                width: `${PIXEL_SCALE * 22}px`,
               }}
-            />
+            >
+              <img
+                src={SUNNYSIDE.ui.round_button}
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 22}px`,
+                }}
+              />
+              <img
+                src={shopIcon}
+                className="absolute"
+                style={{
+                  top: `${PIXEL_SCALE * 2.6}px`,
+                  left: `${PIXEL_SCALE * 4.3}px`,
+                  width: `${PIXEL_SCALE * 13.5}px`,
+                }}
+              />
+            </div>
           </>
         )}
       </HudContainer>

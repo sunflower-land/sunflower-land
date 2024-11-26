@@ -234,37 +234,6 @@ export const ResourceOffer: React.FC<Props> = ({
                 })} SFL`}
           </p>
         </div>
-        <div
-          className="flex justify-between"
-          style={{
-            borderBottom: "1px solid #ead4aa",
-            padding: "5px 5px 5px 2px",
-          }}
-        >
-          <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
-          <p className="text-xs font-secondary">{`${formatNumber(
-            new Decimal(price).mul(0.1),
-            {
-              decimalPlaces: 4,
-              showTrailingZeros: true,
-            },
-          )} SFL`}</p>
-        </div>
-        <div
-          className="flex justify-between"
-          style={{
-            padding: "5px 5px 5px 2px",
-          }}
-        >
-          <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
-          <p className="text-xs font-secondary">{`${formatNumber(
-            new Decimal(price).mul(0.9),
-            {
-              decimalPlaces: 4,
-              showTrailingZeros: true,
-            },
-          )} SFL`}</p>
-        </div>
         <div className="flex mt-2">
           <Button onClick={onCancel} className="mr-1">
             {t("bumpkinTrade.cancel")}
