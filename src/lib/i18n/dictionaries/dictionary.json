@@ -4444,5 +4444,6 @@
   "marketplace.saleHistory": "Sale History",
   "marketplace.oneDayChange": "24h Change",
   "marketplace.sevenDayChange": "7d Change",
-  "marketplace.sales": "Sales"
+  "marketplace.sales": "Sales",
+  "marketplace.currentPrice": "Current Price"
 }
