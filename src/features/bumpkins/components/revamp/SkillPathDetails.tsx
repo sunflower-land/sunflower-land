@@ -25,6 +25,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 
 // Icon imports
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -39,6 +40,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   readonly,
   onBack,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -202,7 +204,7 @@ export const SkillPathDetails: React.FC<Props> = ({
             <Label type="default">{selectedSkillPath + " Skills"}</Label>
             {availableSkillPoints > 0 && (
               <Label type="default" className="ml-1">
-                {`You have ${availableSkillPoints} skill point${availableSkillPoints > 1 ? "s" : ""}`}
+                {`${t("skillPts")} ${availableSkillPoints}`}
               </Label>
             )}
           </div>

@@ -98,17 +98,10 @@ export const SkillCategoryList = ({
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
-        <div
-          className="flex flex-row my-2 items-center"
-          style={{ margin: `${PIXEL_SCALE * 2}px` }}
-        >
-          <div className="flex flex-wrap gap-1">
-            {availableSkillPoints > 0 && (
-              <Label type="default">
-                {`You have ${availableSkillPoints} skill point${availableSkillPoints > 1 ? "s" : ""}`}
-              </Label>
-            )}
-          </div>
+        <div className="flex flex-row mt-2 mb-1 items-center">
+          {availableSkillPoints > 0 && (
+            <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
+          )}
         </div>
         {ISLAND_EXPANSIONS.map((islandType) => {
           const hasUnlockedIslandCategory = hasRequiredIslandExpansion(
