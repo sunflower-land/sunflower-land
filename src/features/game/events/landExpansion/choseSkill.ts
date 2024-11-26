@@ -5,7 +5,7 @@ import {
   BumpkinRevampSkillTree,
 } from "features/game/types/bumpkinSkills";
 import { Bumpkin, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
@@ -63,35 +63,39 @@ export const getUnlockedTierForTree = (
   return 1;
 };
 
-export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
+export function choseSkill({ state, action }: Options) {
+  return produce(state, (stateCopy) => {
+    const { bumpkin, island } = stateCopy;
 
-  if (bumpkin == undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const requirements = BUMPKIN_REVAMP_SKILL_TREE[action.skill].requirements;
-  const tree = BUMPKIN_REVAMP_SKILL_TREE[action.skill].tree;
-  const bumpkinHasSkill = bumpkin.skills[action.skill];
+    const { requirements, tree } = BUMPKIN_REVAMP_SKILL_TREE[action.skill];
+    const bumpkinHasSkill = bumpkin.skills[action.skill];
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-  const availableTier = getUnlockedTierForTree(tree, bumpkin);
+    const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+    const availableTier = getUnlockedTierForTree(tree, bumpkin);
 
-  if (availableSkillPoints < requirements.points) {
-    throw new Error("You do not have enough skill points");
-  }
+    if (island.type !== requirements.island) {
+      throw new Error("You are not at the correct island!");
+    }
 
-  if (requirements.tier > availableTier) {
-    throw new Error(`You need to unlock tier ${requirements.tier} first`);
-  }
+    if (availableSkillPoints < requirements.points) {
+      throw new Error("You do not have enough skill points");
+    }
 
-  if (bumpkinHasSkill) {
-    throw new Error("You already have this skill");
-  }
+    if (requirements.tier > availableTier) {
+      throw new Error(`You need to unlock tier ${requirements.tier} first`);
+    }
 
-  // Add the selected skill to the bumpkin's skills
-  bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
+    if (bumpkinHasSkill) {
+      throw new Error("You already have this skill");
+    }
 
-  return stateCopy;
+    // Add the selected skill to the bumpkin's skills
+    bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
+
+    return stateCopy;
+  });
 }

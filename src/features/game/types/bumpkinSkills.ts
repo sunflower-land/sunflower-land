@@ -2,6 +2,7 @@ import { getKeys } from "./craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
+import { IslandType } from "./game";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -184,6 +185,7 @@ export type BumpkinSkillRevamp = {
   requirements: {
     points: number;
     tier: 1 | 2 | 3;
+    island: IslandType;
   };
   boosts: string;
   image: string;
@@ -422,6 +424,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: translate("skill.greenThumb"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -432,6 +435,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: translate("skill.youngFarmer"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -442,6 +446,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: translate("skill.experiencedFarmer"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -452,6 +457,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: translate("skill.bettysFriend"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -462,6 +468,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: translate("skill.efficientBin"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -472,10 +479,23 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: translate("skill.oldFarmer"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Turbo Charged": {
+    name: "Turbo Charged",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: translate("skill.turboCharged"),
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
   // Crops - Tier 2
   "Strong Roots": {
     name: "Strong Roots",
@@ -483,6 +503,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: translate("skill.strongRoots"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -493,6 +514,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: translate("skill.coinSwindler"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -503,6 +525,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: translate("skill.goldenSunflower"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -513,6 +536,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: translate("skill.chonkyScarecrow"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -523,6 +547,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: translate("skill.horrorMike"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -534,6 +559,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: translate("skill.instantGrowth"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -545,6 +571,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: translate("skill.acreFarm"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -555,6 +582,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: translate("skill.hectareFarm"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -565,6 +593,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: translate("skill.premiumWorms"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -575,6 +604,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: translate("skill.lauriesGains"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -587,6 +617,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "spring",
     },
     boosts: "+0.1 Fruit Yield (Tomatoes, Lemons)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -597,6 +628,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "spring",
     },
     boosts: "+0.1 Basic Fruit Yield (Blueberries, Oranges)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -607,18 +639,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "spring",
     },
     boosts: "+0.1 Advanced Fruit Yield (Apples, Bananas)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Turbo Charged": {
-    name: "Turbo Charged",
-    tree: "Crops",
-    requirements: {
-      points: 1,
-      tier: 1,
-    },
-    boosts: translate("skill.turboCharged"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 2
@@ -628,6 +651,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "spring",
     },
     boosts: "Tomatoes & Lemons grows 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -638,6 +662,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "spring",
     },
     boosts: "Blueberries & Oranges grows 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -648,6 +673,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "spring",
     },
     boosts: "Apples & Bananas grows 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -659,6 +685,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "spring",
     },
     boosts: "Tango Coins revenue doubled",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -669,6 +696,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "spring",
     },
     boosts:
       "Ability to make all fruit currently growing ready to be harvested (1/72h)",
@@ -683,6 +711,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Trees drop +0.1 wood",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -693,6 +722,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Trees grow 10% quicker",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -703,6 +733,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Increase stock of axes by 50",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -713,6 +744,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "1 Tap Trees",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -724,6 +756,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Fruit plants drop +1 wood when chopped",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -734,6 +767,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "1/10 chance of +3 wood yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -744,6 +778,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Axes cost 20% less coins",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -754,6 +789,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "1% chance of finding 200 Coins when chopping trees",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -765,6 +801,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "Insta Grow Chance (10%)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -775,6 +812,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "Ability to make all trees instantly grow (1/24h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -788,6 +826,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Composter speed 10% quicker",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -798,6 +837,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "+5 Fishing daily limit",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -808,6 +848,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "+1 EarthWorm bait from composting",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -818,6 +859,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "10% chance of +1 fish",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -829,6 +871,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "+1 Grub bait from composting",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -839,6 +882,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "+1 Red Wriggler bait from composting",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -849,6 +893,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Corale deliveries coin revenue increased by 50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -859,6 +904,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Increase bar for catching game",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -870,6 +916,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "+1 Bait from all composters",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -880,6 +927,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "+1 Yield during fish frenzy",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -890,6 +938,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts:
       "+2 Baits from all composters but reduced fertiliser drop (-5 Sprout Mixes, -5 Rapid Growth, -1 Fruit Blend)",
@@ -901,6 +950,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "+10 daily fishing limit but -1 bait from all composters",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -913,6 +963,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "+0.1 Egg Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -923,6 +974,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Chickens lay eggs 10% quicker",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -934,6 +986,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Hay Bale effect increased to +0.4",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -944,6 +997,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Unlock 2nd Hay Bale",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -955,6 +1009,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "+5 Hen capacity per House",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -965,6 +1020,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts:
       "Ability to instantly reduce egg laying time by 10hours to chickens currently laying eggs (1/96h)",
@@ -979,6 +1035,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "desert",
     },
     boosts: "+0.2 Olive Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -989,6 +1046,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "desert",
     },
     boosts: "+0.2 Rice Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -999,6 +1057,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "desert",
     },
     boosts: "+0.2 Grape Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1010,6 +1069,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "desert",
     },
     boosts: "10% faster Olive growth",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1020,6 +1080,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "desert",
     },
     boosts: "10% faster Rice growth",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1030,6 +1091,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "desert",
     },
     boosts: "10% faster Grape growth",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1041,6 +1103,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "desert",
     },
     boosts:
       "Ability to make all Greenhouse crops currently growing ready to be harvested (1/96h)",
@@ -1053,6 +1116,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "desert",
     },
     boosts: "5% Chances of +1 yield for Greenhouse crops/fruits",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1063,6 +1127,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "desert",
     },
     boosts: "Greenhouse plants need 1 less oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1075,6 +1140,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "+0.1 Stone Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1085,6 +1151,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "+0.1 Iron Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1095,6 +1162,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Stone recovers 20% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1105,6 +1173,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Iron recovers 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1115,6 +1184,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "1 tap small mineral nodes",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1126,6 +1196,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "+20% Blacksmith deliveries revenue",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1136,6 +1207,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Pickaxes cost 20% less Coins",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1146,6 +1218,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Crimstone recovers 5% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1156,6 +1229,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "+1 Iron yield, -0.5 Stone yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1167,6 +1241,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "+0.5 Gold Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1177,6 +1252,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "Gold Recovers 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1187,6 +1263,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts:
       "Increase stock of pickaxe by 70, stone pickaxe by 20, iron pickaxe by 7",
@@ -1198,6 +1275,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "+1 Crimstone yield on 5th consecutive day",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1210,6 +1288,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Meals from Firepit, Kitchen cook 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1220,6 +1299,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "+5% Food deliveries revenue",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1230,6 +1310,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "+5% Experience from eating meals",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1240,6 +1321,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "basic",
     },
     boosts: "Firepit cooking speed with oil increased by 40%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1251,6 +1333,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Cakes cook 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1261,6 +1344,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "+10% experience from drinking juices",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1271,6 +1355,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "50% chance of +1 food but requires 2x the ingredients",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1281,6 +1366,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "basic",
     },
     boosts: "Kitchen cooking speed with oil increased by 50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1292,6 +1378,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts:
       "Ability make all meals currently cooking ready to be eaten (1/72h)",
@@ -1304,6 +1391,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "Eating meals from Deli adds +15% experience",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1314,6 +1402,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "+20% Chance of +1 food from Firepit",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1324,6 +1413,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "basic",
     },
     boosts: "Deli cooking speed with oil increased by 60%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1336,6 +1426,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "spring",
     },
     boosts: "+0.1 Honey on claim",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1346,6 +1437,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "spring",
     },
     boosts: "+0.1 Honey production speed",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1356,6 +1448,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "spring",
     },
     boosts: "Flowers grow 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1367,6 +1460,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "spring",
     },
     boosts: "+10% Experience on food made with Honey",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1377,6 +1471,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "spring",
     },
     boosts: "Increased gifting effect of flowers, +2 relationship",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1387,6 +1482,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "spring",
     },
     boosts: "Pollination effect increases to +0.3 yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1398,6 +1494,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "spring",
     },
     boosts: "Increased Bee Swarm chance by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1408,6 +1505,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "spring",
     },
     boosts: "Flowers grow 20% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1418,6 +1516,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "spring",
     },
     boosts: "10% chance of +1 Flower",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1428,6 +1527,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "spring",
     },
     boosts: "Honey speed increased by +0.5 but yield reduced by -0.5",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1440,6 +1540,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "desert",
     },
     boosts: "Crop Machine grow time reduced by 5% but consumes 10% more oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1450,6 +1551,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "desert",
     },
     boosts: "Machine uses 10% less oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1460,6 +1562,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "desert",
     },
     boosts: "+1 Oil when collecting from reserves",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1470,6 +1573,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 1,
       tier: 1,
+      island: "desert",
     },
     boosts: "Triple oil tank capacity",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1481,6 +1585,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "desert",
     },
     boosts: "Add Carrot and Cabbage seeds to machine",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1491,6 +1596,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "desert",
     },
     boosts: "Crops grow 20% faster but consumes 40% more oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1501,6 +1607,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 2,
       tier: 2,
+      island: "desert",
     },
     boosts: "Oil refill time reduced by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1512,6 +1619,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "desert",
     },
     boosts: "+5 packs added to machine",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1522,6 +1630,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "desert",
     },
     boosts: "+5 plots added to machine",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1532,6 +1641,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "desert",
     },
     boosts: "Machine uses 30% less oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1542,6 +1652,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       tier: 3,
+      island: "desert",
     },
     boosts: "Ability to make empty oil wells instantly refill (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1555,13 +1666,21 @@ export const SKILL_TREE_CATEGORIES = Array.from(
   ),
 );
 
-export const REVAMP_SKILL_TREE_CATEGORIES = Array.from(
-  new Set(
-    getKeys(BUMPKIN_REVAMP_SKILL_TREE).map(
-      (skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree,
+export const getRevampSkillTreeCategoriesByIsland = (
+  islandType: IslandType,
+) => {
+  const skillTreeCategoriesByIsland = Array.from(
+    new Set(
+      getKeys(BUMPKIN_REVAMP_SKILL_TREE)
+        .filter(
+          (skill) =>
+            BUMPKIN_REVAMP_SKILL_TREE[skill].requirements.island === islandType,
+        )
+        .map((skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree),
     ),
-  ),
-);
+  );
+  return skillTreeCategoriesByIsland;
+};
 
 export const getSkills = (treeName: BumpkinSkillTree) => {
   return Object.values(BUMPKIN_SKILL_TREE).filter(

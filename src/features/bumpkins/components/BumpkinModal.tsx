@@ -115,7 +115,9 @@ export const BumpkinModal: React.FC<Props> = ({
   const rawToken = useSelector(authService, _rawToken);
   const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [view, setView] = useState<ViewState>(initialView);
+  const [view, setView] = useState<ViewState>(
+    !hasFeatureAccess(gameState, "SKILLS_REVAMP") ? initialView : "home",
+  );
 
   const [tab, setTab] = useState(0);
   const { t } = useAppTranslation();

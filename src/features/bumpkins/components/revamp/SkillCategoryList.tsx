@@ -3,7 +3,7 @@ import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import {
   BumpkinRevampSkillTree,
   getRevampSkills,
-  REVAMP_SKILL_TREE_CATEGORIES,
+  getRevampSkillTreeCategoriesByIsland,
 } from "features/game/types/bumpkinSkills";
 
 import { Modal } from "components/ui/Modal";
@@ -22,11 +22,13 @@ import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansi
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ONE_DAY, secondsToString } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { ISLAND_EXPANSIONS } from "features/game/types/game";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import classNames from "classnames";
 
-const iconList = {
+const iconList: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
-  Rocks: SUNNYSIDE.skills.rocks,
   Cooking: SUNNYSIDE.skills.cooking,
   Animals: SUNNYSIDE.skills.animals,
   Fruit: ITEM_DETAILS.Apple.image,
@@ -34,7 +36,6 @@ const iconList = {
   Greenhouse: ITEM_DETAILS.Greenhouse.image,
   Mining: SUNNYSIDE.tools.stone_pickaxe,
   "Bees & Flowers": ITEM_DETAILS["Red Pansy"].image,
-  Oil: ITEM_DETAILS.Oil.image,
   Machinery: ITEM_DETAILS["Crop Machine"].image,
 };
 
@@ -97,54 +98,83 @@ export const SkillCategoryList = ({
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
-        <div
-          className="flex flex-row my-2 items-center"
-          style={{ margin: `${PIXEL_SCALE * 2}px` }}
-        >
-          <div className="flex flex-wrap gap-1">
-            {availableSkillPoints > 0 && (
-              <Label type="default">
-                {`You have ${availableSkillPoints} skill point${availableSkillPoints > 1 ? "s" : ""}`}
-              </Label>
-            )}
-          </div>
+        <div className="flex flex-row mt-2 mb-1 items-center">
+          {availableSkillPoints > 0 && (
+            <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
+          )}
         </div>
-        {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {
-          const skills = getRevampSkills(category);
-          const icon = iconList[skills[0].tree];
-          const skillsAcquiredInCategoryCount = getKeys({
-            ...bumpkin?.skills,
-          }).filter((acquiredSkillName) =>
-            skills.find((skill) => skill.name === acquiredSkillName),
-          ).length;
-
+        {ISLAND_EXPANSIONS.map((islandType) => {
+          const hasUnlockedIslandCategory = hasRequiredIslandExpansion(
+            state.island.type,
+            islandType,
+          );
           return (
-            <div key={category} onClick={() => onClick(category)}>
-              <ButtonPanel className="flex relative items-center !py-2 mb-1 cursor-pointer hover:bg-brown-200">
+            <div key={islandType} className="flex flex-col items-stretch">
+              <div className="flex items-center gap-2 mt-1 mb-2">
                 <Label
-                  type="default"
-                  className="px-1 text-xxs absolute -top-3 -right-1"
+                  type={hasUnlockedIslandCategory ? "default" : "warning"}
+                  className="capitalize"
                 >
-                  {`${skillsAcquiredInCategoryCount}/${skills.length}`}
+                  {`${islandType} Skills`}
                 </Label>
-                <div className="flex justify-center items-center">
-                  <img
-                    src={icon}
-                    style={{
-                      opacity: 0,
-                      marginRight: `${PIXEL_SCALE * 4}px`,
-                      maxWidth: `${PIXEL_SCALE * 10}px`,
-                      maxHeight: `${PIXEL_SCALE * 10}px`,
-                    }}
-                    onLoad={(e) => setImageWidth(e.currentTarget)}
-                  />
-                  <span className="text-sm">{category}</span>
-                </div>
-              </ButtonPanel>
+                {!hasUnlockedIslandCategory && (
+                  <Label type="warning">
+                    {`Reach ${islandType} island to unlock`}
+                  </Label>
+                )}
+              </div>
+
+              {getRevampSkillTreeCategoriesByIsland(islandType).map(
+                (category) => {
+                  const skills = getRevampSkills(category);
+                  const icon = iconList[skills[0].tree];
+                  const skillsAcquiredInCategoryCount = getKeys({
+                    ...bumpkin?.skills,
+                  }).filter((acquiredSkillName) =>
+                    skills.find((skill) => skill.name === acquiredSkillName),
+                  ).length;
+
+                  return (
+                    <div key={category}>
+                      <ButtonPanel
+                        disabled={!hasUnlockedIslandCategory}
+                        onClick={
+                          hasUnlockedIslandCategory
+                            ? () => onClick(category)
+                            : undefined
+                        }
+                        className={classNames(
+                          `flex relative items-center !py-2 mb-1 hover:bg-brown-200`,
+                          { "cursor-pointer": hasUnlockedIslandCategory },
+                        )}
+                      >
+                        <Label
+                          type="default"
+                          className="px-1 text-xxs absolute -top-3 -right-1"
+                        >
+                          {`${skillsAcquiredInCategoryCount}/${skills.length}`}
+                        </Label>
+                        <div className="flex justify-center items-center">
+                          <img
+                            src={icon}
+                            style={{
+                              opacity: 0,
+                              marginRight: `${PIXEL_SCALE * 4}px`,
+                              maxWidth: `${PIXEL_SCALE * 10}px`,
+                              maxHeight: `${PIXEL_SCALE * 10}px`,
+                            }}
+                            onLoad={(e) => setImageWidth(e.currentTarget)}
+                          />
+                          <span className="text-sm">{category}</span>
+                        </div>
+                      </ButtonPanel>
+                    </div>
+                  );
+                },
+              )}
             </div>
           );
         })}
-
         <div className="flex flex-row items-center">
           <p
             className="text-xs cursor-pointer underline"
