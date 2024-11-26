@@ -1,7 +1,11 @@
 import { CONFIG } from "lib/config";
 import MarketplaceABI from "./abis/Marketplace";
 import { getNextSessionId } from "./Session";
-import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
+import {
+  waitForTransactionReceipt,
+  writeContract,
+  readContract,
+} from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
 
@@ -14,7 +18,8 @@ export type AcceptOfferParams = {
   deadline: number;
   sender: string;
   farmId: number;
-  fee: number | string;
+  playerAmount: number | string;
+  teamAmount: number | string;
   offer: {
     tradeId: string;
     signature: string;
@@ -34,7 +39,8 @@ export async function acceptOfferTransaction({
   deadline,
   farmId,
   offer,
-  fee,
+  playerAmount,
+  teamAmount,
 }: AcceptOfferParams): Promise<string> {
   const oldSessionId = sessionId;
 
@@ -43,13 +49,23 @@ export async function acceptOfferTransaction({
     address: address as `0x${string}`,
     functionName: "acceptOffer",
     args: [
-      signature,
-      sessionId,
-      nextSessionId,
+      signature as `0x${string}`,
+      sessionId as `0x${string}`,
+      nextSessionId as `0x${string}`,
       BigInt(deadline),
       BigInt(farmId),
-      BigInt(fee),
-      offer,
+      BigInt(playerAmount),
+      BigInt(teamAmount),
+      BigInt(0),
+      {
+        signature: offer.signature as `0x${string}`,
+        tradeId: offer.tradeId,
+        farmId: BigInt(offer.farmId),
+        id: BigInt(offer.id),
+        sfl: BigInt(offer.sfl),
+        collection: offer.collection,
+        name: offer.name,
+      },
     ],
     account: sender as `0x${string}`,
   });
@@ -66,7 +82,8 @@ export type ListingPurchasedParams = {
   deadline: number;
   sender: string;
   farmId: number;
-  fee: number | string;
+  playerAmount: number | string;
+  teamAmount: number | string;
   signature: string;
   listing: {
     signature: string;
@@ -88,22 +105,46 @@ export async function listingPurchasedTransaction({
   deadline,
   farmId,
   listing,
-  fee,
+  playerAmount,
+  teamAmount,
 }: ListingPurchasedParams): Promise<string> {
   const oldSessionId = sessionId;
+
+  console.log(
+    "Hi",
+    address,
+    await readContract(config, {
+      abi: MarketplaceABI,
+      address: address as `0x${string}`,
+      functionName: "eip712Domain",
+    }),
+  );
+
+  console.log(
+    "OKAY!",
+    await readContract(config, {
+      abi: MarketplaceABI,
+      address: "0x6B4c0eE875eD7F7597687a8EF35b56243FA63a47",
+      functionName: "eip712Domain",
+    }),
+  );
 
   const hash = await writeContract(config, {
     abi: MarketplaceABI,
     address: address as `0x${string}`,
     functionName: "purchaseListing",
     args: [
-      listing,
-      BigInt(farmId),
-      sessionId,
-      nextSessionId,
-      BigInt(deadline),
-      BigInt(fee),
-      signature,
+      {
+        listing: listing as any,
+        sessionId: sessionId as `0x${string}`,
+        nextSessionId: nextSessionId as `0x${string}`,
+        buyerFarmId: BigInt(farmId),
+        deadline: BigInt(deadline),
+        playerAmount: BigInt(playerAmount),
+        teamAmount: BigInt(teamAmount),
+        signature: signature as `0x${string}`,
+        amountOutMinimum: BigInt(0),
+      },
     ],
     account: sender as `0x${string}`,
   });
