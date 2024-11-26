@@ -108,12 +108,12 @@ export const Tradeable: React.FC = () => {
   return (
     <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
-        <InnerPanel className="mb-1  z-10 sticky top-0">
+        <InnerPanel
+          className="mb-1  z-10 sticky top-0 cursor-pointer"
+          onClick={onBack}
+        >
           <div className="flex flex-wrap justify-between items-center">
-            <div
-              className="flex cursor-pointer items-center w-fit"
-              onClick={onBack}
-            >
+            <div className="flex cursor-pointer items-center w-fit">
               <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
               <p className="capitalize underline">{display.name}</p>
             </div>
