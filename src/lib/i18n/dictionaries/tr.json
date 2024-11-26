@@ -4420,5 +4420,6 @@
   "marketplace.saleHistory": "Satış Geçmişi",
   "marketplace.oneDayChange": "24 saat Değişim",
   "marketplace.sevenDayChange": "7d Değişiklik",
-  "marketplace.sales": "Satışlar"
+  "marketplace.sales": "Satışlar",
+  "marketplace.currentPrice": "Güncel Fiyat"
 }

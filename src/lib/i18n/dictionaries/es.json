@@ -4420,5 +4420,6 @@
   "marketplace.saleHistory": "Historial de ventas",
   "marketplace.oneDayChange": "Cambio en 24 horas",
   "marketplace.sevenDayChange": "Cambio 7d",
-  "marketplace.sales": "Ventas"
+  "marketplace.sales": "Ventas",
+  "marketplace.currentPrice": "Precio actual"
 }

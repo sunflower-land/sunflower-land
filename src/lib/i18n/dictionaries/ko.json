@@ -4420,5 +4420,6 @@
   "marketplace.saleHistory": "판매 내역",
   "marketplace.oneDayChange": "24시간 변경",
   "marketplace.sevenDayChange": "7일 변경",
-  "marketplace.sales": "판매"
+  "marketplace.sales": "판매",
+  "marketplace.currentPrice": "현재 가격"
 }

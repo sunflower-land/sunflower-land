@@ -4420,5 +4420,6 @@
   "marketplace.saleHistory": "История продаж",
   "marketplace.oneDayChange": "24-часовое изменение",
   "marketplace.sevenDayChange": "Седьмовое изменение",
-  "marketplace.sales": "Продажи"
+  "marketplace.sales": "Продажи",
+  "marketplace.currentPrice": "Текущая цена"
 }

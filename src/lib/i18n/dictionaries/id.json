@@ -4420,5 +4420,6 @@
   "marketplace.saleHistory": "Sejarah Penjualan",
   "marketplace.oneDayChange": "Perubahan 24 jam",
   "marketplace.sevenDayChange": "Perubahan 7d",
-  "marketplace.sales": "Penjualan"
+  "marketplace.sales": "Penjualan",
+  "marketplace.currentPrice": "Harga Saat Ini"
 }

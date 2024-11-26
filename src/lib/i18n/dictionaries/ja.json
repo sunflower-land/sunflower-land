@@ -4420,5 +4420,6 @@
   "marketplace.saleHistory": "売却履歴",
   "marketplace.oneDayChange": "24時間の変更",
   "marketplace.sevenDayChange": "7d 変更",
-  "marketplace.sales": "セールス"
+  "marketplace.sales": "セールス",
+  "marketplace.currentPrice": "現在の価格"
 }
