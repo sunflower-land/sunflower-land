@@ -484,6 +484,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: translate("skill.oldFarmer"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Turbo Charged": {
+    name: "Turbo Charged",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: translate("skill.turboCharged"),
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
   // Crops - Tier 2
   "Strong Roots": {
     name: "Strong Roots",
@@ -630,17 +642,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       island: "spring",
     },
     boosts: "+0.1 Advanced Fruit Yield (Apples, Bananas)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Turbo Charged": {
-    name: "Turbo Charged",
-    tree: "Crops",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "spring",
-    },
-    boosts: translate("skill.turboCharged"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 2
@@ -1665,13 +1666,21 @@ export const SKILL_TREE_CATEGORIES = Array.from(
   ),
 );
 
-export const REVAMP_SKILL_TREE_CATEGORIES = Array.from(
-  new Set(
-    getKeys(BUMPKIN_REVAMP_SKILL_TREE).map(
-      (skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree,
+export const getRevampSkillTreeCategoriesByIsland = (
+  islandType: IslandType,
+) => {
+  const skillTreeCategoriesByIsland = Array.from(
+    new Set(
+      getKeys(BUMPKIN_REVAMP_SKILL_TREE)
+        .filter(
+          (skill) =>
+            BUMPKIN_REVAMP_SKILL_TREE[skill].requirements.island === islandType,
+        )
+        .map((skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree),
     ),
-  ),
-);
+  );
+  return skillTreeCategoriesByIsland;
+};
 
 export const getSkills = (treeName: BumpkinSkillTree) => {
   return Object.values(BUMPKIN_SKILL_TREE).filter(
