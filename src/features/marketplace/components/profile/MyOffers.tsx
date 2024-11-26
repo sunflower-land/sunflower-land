@@ -60,6 +60,8 @@ export const MyOffers: React.FC = () => {
 
   const navigate = useNavigate();
 
+  if (getKeys(filteredOffers).length === 0) return null;
+
   const escrowedSFL = getKeys(offers).reduce(
     (total, id) => total + offers[id].sfl,
     0,

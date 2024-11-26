@@ -43,6 +43,8 @@ export const MyListings: React.FC = () => {
   const trades = useSelector(gameService, _trades);
   const authToken = useSelector(authService, _authToken);
 
+  const navigate = useNavigate();
+
   const listings = trades.listings ?? {};
 
   const filteredListings = params.id
@@ -59,6 +61,8 @@ export const MyListings: React.FC = () => {
         }),
       )
     : listings;
+
+  if (getKeys(filteredListings).length === 0) return null;
 
   const claim = () => {
     const listing = listings[claimId as string];
@@ -82,8 +86,6 @@ export const MyListings: React.FC = () => {
 
     setRemoveListingId(undefined);
   };
-
-  const navigate = useNavigate();
 
   return (
     <>
