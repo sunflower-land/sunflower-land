@@ -22,6 +22,7 @@ export const ResourceTable: React.FC<{
   onClick: (id: string) => void;
 }> = ({ items, id: farmId, balance, tableType, inventoryCount, onClick }) => {
   const { t } = useAppTranslation();
+
   return (
     <div className="max-h-[200px] scrollable overflow-y-auto relative">
       <table className="w-full text-xs border-collapse">
@@ -78,9 +79,9 @@ export const ResourceTable: React.FC<{
                 >
                   <Button
                     disabled={
-                      balance.lt(price) ||
                       createdById === farmId ||
-                      inventoryCount < quantity
+                      (tableType === "listings" && balance.lt(price)) ||
+                      (tableType === "offers" && inventoryCount < quantity)
                     }
                     className="w-[84px] h-10"
                     onClick={() => onClick(id)}
