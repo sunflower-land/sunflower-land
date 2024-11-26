@@ -33,7 +33,7 @@ import {
   getListingsFloorPrices,
 } from "features/game/actions/getListingsFloorPrices";
 import { Context as AuthContext } from "features/auth/lib/Provider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
@@ -106,11 +106,6 @@ export const BumpkinModal: React.FC<Props> = ({
   gameState,
 }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
   const experience = useSelector(gameService, _experience);
   const level = getBumpkinLevel(experience);
   const maxLevel = isMaxLevel(experience);
@@ -121,7 +116,7 @@ export const BumpkinModal: React.FC<Props> = ({
   const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
   const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState<ViewState>(
-    !hasFeatureAccess(state, "SKILLS_REVAMP") ? initialView : "home",
+    !hasFeatureAccess(gameState, "SKILLS_REVAMP") ? initialView : "home",
   );
 
   const [tab, setTab] = useState(0);

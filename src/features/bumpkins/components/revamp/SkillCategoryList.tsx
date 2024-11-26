@@ -8,8 +8,10 @@ import {
 
 import { Modal } from "components/ui/Modal";
 import { Label } from "components/ui/Label";
+import { getKeys } from "features/game/types/craftables";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -21,8 +23,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ONE_DAY, secondsToString } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ISLAND_EXPANSIONS } from "features/game/types/game";
-import { getKeys } from "features/game/types/decorations";
-import { setImageWidth } from "lib/images";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import classNames from "classnames";
 
