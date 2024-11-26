@@ -142,7 +142,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           <div className="flex items-center justify-between flex-wrap">
             {showBuyNow && (
               <div>
-                <p className="text-xs mb-0.5">Current price</p>
+                <p className="text-xs mb-0.5">
+                  {t("marketplace.currentPrice")}
+                </p>
                 <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
                   <>
                     <img src={sflIcon} className="h-7 mr-2" />

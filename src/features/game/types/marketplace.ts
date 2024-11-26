@@ -73,6 +73,20 @@ export type Marketplace = {
   items: Tradeable[];
 };
 
+type TrendingItem = {
+  id: number;
+  collection: CollectionName;
+  price: number;
+  sevenDayPrice: number;
+};
+
+export type MarketplaceTrends = {
+  volume: number;
+  trades: number;
+  owners: number;
+  items: TrendingItem[];
+};
+
 type BudNFTName = `Bud #${number}`;
 
 export type MarketplaceTradeableName =
