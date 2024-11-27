@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
 import {
@@ -10,19 +11,24 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/sfl.webp";
+import walletIcon from "assets/icons/wallet.png";
 import { GameWallet } from "features/wallet/Wallet";
 import { Context } from "features/game/GameProvider";
 import confetti from "canvas-confetti";
 import {
   BlockchainEvent,
   Context as ContextType,
+  MachineState,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { PurchaseModalContent } from "./PurchaseModalContent";
 import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
+import { KNOWN_ITEMS } from "features/game/types";
+import { useSelector } from "@xstate/react";
 import { useParams } from "react-router-dom";
-import { Label } from "components/ui/Label";
+import { getKeys } from "features/game/types/craftables";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -37,6 +43,8 @@ type TradeableHeaderProps = {
   reload: () => void;
 };
 
+const _balance = (state: MachineState) => state.context.state.balance;
+
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   authToken,
   farmId,
@@ -46,6 +54,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   reload,
 }) => {
   const { gameService } = useContext(Context);
+  const balance = useSelector(gameService, _balance);
   const params = useParams();
 
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
@@ -90,12 +99,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     cheapestListing?.type === "onchain",
   );
 
-  const isResources = params.collection === "resources";
+  const isResources =
+    getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
+    params.collection === "collectibles";
 
-  // If no listings or offers, return null
-  if (!isResources && !cheapestListing) {
-    return null;
-  }
+  if (!isResources && !cheapestListing) return null;
+
+  const showBuyNow = !isResources && cheapestListing;
 
   return (
     <>
@@ -131,7 +141,23 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
       )}
       <InnerPanel className="w-full mb-1">
         <div className="p-2">
-          <div className="flex items-center h-full justify-between flex-wrap">
+          <div className="flex flex-wrap items-center justify-between">
+            {showBuyNow && cheapestListing?.type === "onchain" && (
+              <Label type="formula" className="mr-2" icon={walletIcon}>
+                {t("marketplace.walletRequired")}
+              </Label>
+            )}
+          </div>
+
+          <div className="flex items-center justify-between flex-wrap">
+            {showBuyNow && (
+              <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
+                <>
+                  <img src={sflIcon} className="h-8 mr-2" />
+                  <p className="text-base">{`${cheapestListing.sfl} SFL`}</p>
+                </>
+              </div>
+            )}
             {isResources ? (
               <div className="flex h-full items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
@@ -173,6 +199,15 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             )}
             {/* Desktop display */}
             <div className="self-end justify-between hidden sm:flex sm:visible w-full sm:w-auto">
+              {showBuyNow && (
+                <Button
+                  onClick={() => setShowPurchaseModal(true)}
+                  disabled={!balance.gt(cheapestListing.sfl)}
+                  className="mr-1 w-full sm:w-auto"
+                >
+                  {t("marketplace.buyNow")}
+                </Button>
+              )}
               <Button
                 disabled={!tradeable}
                 onClick={onListClick}
@@ -184,7 +219,16 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           </div>
         </div>
         {/* Mobile display */}
-        <div className="flex justify-between sm:hidden w-full sm:w-auto">
+        <div className="flex items-center justify-between sm:hidden w-full sm:w-auto">
+          {showBuyNow && (
+            <Button
+              onClick={() => setShowPurchaseModal(true)}
+              disabled={!balance.gt(cheapestListing.sfl)}
+              className="mr-1 w-full sm:w-auto"
+            >
+              {t("marketplace.buyNow")}
+            </Button>
+          )}
           <Button
             onClick={onListClick}
             disabled={!count}

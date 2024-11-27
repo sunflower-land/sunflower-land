@@ -23,6 +23,8 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
 import { formatNumber } from "lib/utils/formatNumber";
 import { tradeToId } from "features/marketplace/lib/offers";
+import { KNOWN_ITEMS } from "features/game/types";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -47,20 +49,24 @@ export const MyListings: React.FC = () => {
 
   const listings = trades.listings ?? {};
 
-  const filteredListings = params.id
-    ? Object.fromEntries(
-        Object.entries(listings).filter(([_, listing]) => {
-          const listingItemId = tradeToId({
-            details: {
-              collection: listing.collection,
-              items: listing.items,
-            },
-          });
+  const filteredListings =
+    params.id && params.collection
+      ? Object.fromEntries(
+          Object.entries(listings).filter(([_, listing]) => {
+            const listingItemId = tradeToId({
+              details: {
+                collection: listing.collection,
+                items: listing.items,
+              },
+            });
 
-          return listingItemId === Number(params.id);
-        }),
-      )
-    : listings;
+            return (
+              listing.collection === params.collection &&
+              listingItemId === Number(params.id)
+            );
+          }),
+        )
+      : listings;
 
   if (getKeys(filteredListings).length === 0) return null;
 
@@ -145,7 +151,10 @@ export const MyListings: React.FC = () => {
                       type: listing.collection,
                     });
 
-                    const isResource = listing.collection === "resources";
+                    const isResource =
+                      getKeys(TRADE_LIMITS).includes(
+                        KNOWN_ITEMS[Number(params.id)],
+                      ) && params.collection === "collectibles";
                     const quantity = listing.items[itemName];
                     const price = listing.sfl;
 

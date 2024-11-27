@@ -6,6 +6,9 @@ import { TradeableDisplay } from "../lib/tradeables";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import sflIcon from "assets/icons/sfl.webp";
+import { getKeys } from "features/game/types/decorations";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { InventoryItemName } from "features/game/types/game";
 
 type TradeTableItem = {
   price: number;
@@ -90,7 +93,9 @@ export const ListingTable: React.FC<{
       </thead>
       <tbody>
         {listings.map((listing, index) => {
-          const isResource = collection === "resources";
+          const isResource =
+            collection === "collectibles" &&
+            getKeys(TRADE_LIMITS).includes(details.name as InventoryItemName);
           const quantity = 1; // TODO?
           const price = listing.sfl;
 

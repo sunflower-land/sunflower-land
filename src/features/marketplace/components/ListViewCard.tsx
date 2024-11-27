@@ -9,6 +9,9 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { getTradeType } from "../lib/getTradeType";
 import { getItemId } from "../lib/offers";
 import { TradeableDisplay } from "../lib/tradeables";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { getKeys } from "features/game/types/craftables";
+import { InventoryItemName } from "features/game/types/game";
 
 type Props = {
   details: TradeableDisplay;
@@ -19,7 +22,7 @@ type Props = {
 export const ListViewCard: React.FC<Props> = ({ details, price, onClick }) => {
   const { type, name, image, buff } = details;
   const { t } = useAppTranslation();
-  const isResources = type === "resources";
+  const isResources = getKeys(TRADE_LIMITS).includes(name as InventoryItemName);
 
   const itemId = getItemId({ name, collection: type });
   const tradeType = getTradeType({

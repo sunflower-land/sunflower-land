@@ -28,6 +28,7 @@ import { TradeableListings } from "./TradeableListings";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TradeableStats } from "./TradeableStats";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -58,7 +59,13 @@ export const Tradeable: React.FC = () => {
   const game = gameState.context.state;
   if (display.type === "collectibles") {
     const name = KNOWN_ITEMS[Number(id)];
-    count = getChestItems(game)[name]?.toNumber() ?? 0;
+
+    if (name in TRADE_LIMITS) {
+      // Resources
+      count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
+    } else {
+      count = getChestItems(game)[name]?.toNumber() ?? 0;
+    }
   }
 
   if (display.type === "wearables") {
@@ -68,11 +75,6 @@ export const Tradeable: React.FC = () => {
 
   if (display.type === "buds") {
     count = getChestBuds(game)[Number(id)] ? 1 : 0;
-  }
-
-  if (display.type === "resources") {
-    const name = KNOWN_ITEMS[Number(id)];
-    count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
   }
 
   const load = async () => {

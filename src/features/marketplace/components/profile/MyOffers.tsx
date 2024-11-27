@@ -26,6 +26,7 @@ import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -46,17 +47,21 @@ export const MyOffers: React.FC = () => {
   const { trades } = gameState.context.state;
   const offers = trades.offers ?? {};
 
-  const filteredOffers = params.id
-    ? Object.fromEntries(
-        Object.entries(offers).filter(([_, offer]) => {
-          const offerItemName = getKeys(
-            offer.items ?? {},
-          )[0] as InventoryItemName;
-          const offerItemId = KNOWN_IDS[offerItemName];
-          return offerItemId === Number(params.id);
-        }),
-      )
-    : offers;
+  const filteredOffers =
+    params.id && params.collection
+      ? Object.fromEntries(
+          Object.entries(offers).filter(([_, offer]) => {
+            const offerItemName = getKeys(
+              offer.items ?? {},
+            )[0] as InventoryItemName;
+            const offerItemId = KNOWN_IDS[offerItemName];
+            return (
+              offerItemId === Number(params.id) &&
+              offer.collection === params.collection
+            );
+          }),
+        )
+      : offers;
 
   const navigate = useNavigate();
 
@@ -159,7 +164,9 @@ export const MyOffers: React.FC = () => {
                       offer.items ?? {},
                     )[0] as InventoryItemName;
                     const quantity = offer.items[itemName];
-                    const isResource = offer.collection === "resources";
+                    const isResource =
+                      offer.collection === "collectibles" &&
+                      getKeys(TRADE_LIMITS).includes(itemName);
 
                     return (
                       <tr

@@ -26,7 +26,7 @@ describe("receiveTrade", () => {
         trades: {
           listings: {
             "123": {
-              collection: "resources",
+              collection: "collectibles",
               createdAt: 1000000,
               sfl: 1,
               items: {
@@ -54,7 +54,7 @@ describe("receiveTrade", () => {
         trades: {
           listings: {
             "123": {
-              collection: "resources",
+              collection: "collectibles",
               createdAt: 1000000,
               sfl: 5,
               items: {

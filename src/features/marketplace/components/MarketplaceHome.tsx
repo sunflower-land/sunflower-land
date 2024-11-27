@@ -194,9 +194,9 @@ const Filters: React.FC = () => {
             icon={ITEM_DETAILS.Eggplant.image}
             label="Resources"
             onClick={() =>
-              navigate(`/marketplace/collection?filters=resources`)
+              navigate(`/marketplace/collection?filters=collectibles,resources`)
             }
-            isActive={filters === "resources"}
+            isActive={filters === "collectibles,resources"}
           />
 
           <Option
