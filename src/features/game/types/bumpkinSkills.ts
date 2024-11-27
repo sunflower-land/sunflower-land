@@ -1168,7 +1168,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "basic",
     },
-    boosts: "Crimstone recovers 5% faster",
+    boosts: "Crimstone recovers 15% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
