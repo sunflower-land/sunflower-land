@@ -61,7 +61,12 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
       const offer = game.trades.offers?.[offerId] as TradeOffer;
       const points = offer.signature ? 10 : 2;
 
-      game = addTradePoints({ state: game, points, sfl: offer.sfl });
+      game = addTradePoints({
+        state: game,
+        points,
+        sfl: offer.sfl,
+        items: offer.items,
+      });
 
       delete game.trades.offers?.[offerId];
     });
