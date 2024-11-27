@@ -1,3 +1,4 @@
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getBumpkinLevel } from "features/game/lib/level";
 import {
   BumpkinRevampSkillName,
@@ -77,7 +78,7 @@ export function choseSkill({ state, action }: Options) {
     const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
     const availableTier = getUnlockedTierForTree(tree, bumpkin);
 
-    if (island.type !== requirements.island) {
+    if (!hasRequiredIslandExpansion(island.type, requirements.island)) {
       throw new Error("You are not at the correct island!");
     }
 
