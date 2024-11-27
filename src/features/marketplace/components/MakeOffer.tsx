@@ -36,7 +36,7 @@ export const MakeOffer: React.FC<{
   const balance = useSelector(gameService, _balance);
 
   const [offer, setOffer] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -103,7 +103,7 @@ export const MakeOffer: React.FC<{
         id: itemId,
         collection: display.type,
         signature,
-        contract: CONFIG.MARKETPLACE_CONTRACT,
+        contract: CONFIG.MARKETPLACE_VERIFIER_CONTRACT,
         quantity,
         sfl: offer,
       },
