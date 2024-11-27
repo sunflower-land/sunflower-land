@@ -28,126 +28,6 @@ export type BumpkinSkillName =
   | "Horse Whisperer"
   | "Buckaroo";
 
-export type BumpkinRevampSkillName =
-  // Crops
-  | "Green Thumb 2"
-  | "Young Farmer"
-  | "Experienced Farmer"
-  | "Betty's Friend"
-  | "Efficient Bin"
-  | "Turbo Charged"
-  | "Old Farmer"
-  | "Strong Roots"
-  | "Coin Swindler"
-  | "Golden Sunflower"
-  | "Chonky Scarecrow"
-  | "Horror Mike"
-  | "Instant Growth"
-  | "Acre Farm"
-  | "Hectare Farm"
-  | "Premium Worms"
-  | "Laurie's Gains"
-  // Fruit
-  | "Red Sour"
-  | "Fruitful Fumble"
-  | "Tropical Orchard"
-  | "Catchup"
-  | "Fruit Turbocharge"
-  | "Prime Produce"
-  | "Fruity Profit"
-  | "Fruity Rush Hour"
-  // Trees
-  | "Lumberjack's Extra"
-  | "Tree Charge"
-  | "More Axes"
-  | "Insta-Chop"
-  | "Fruity Woody"
-  | "Tough Tree"
-  | "Feller's Discount"
-  | "Money Tree"
-  | "Tree Turnaround"
-  | "Tree Blitz"
-  // Fishing
-  | "Swift Decomposer"
-  | "Fisherman's 2 Fold"
-  | "Wormy Treat"
-  | "Fishy Chance"
-  | "Grubby Treat"
-  | "Wriggly Treat"
-  | "Fishy Fortune"
-  | "Big Catch"
-  | "Composting Bonanza"
-  | "Frenzied Fish"
-  | "Composting Overhaul"
-  | "More With Less"
-  // Animals
-  | "Eggcellent Production"
-  | "Fowl Acceleration"
-  | "Bountiful Bales"
-  | "Hay Tree"
-  | "Cozy Coop"
-  | "Egg Rush"
-  // Greenhouse
-  | "Olive Garden"
-  | "Rice and Shine"
-  | "Grape Escape"
-  | "Olive Express"
-  | "Rice Rocket"
-  | "Vine Velocity"
-  | "Greenhouse Guru"
-  | "Greenhouse Gamble"
-  | "Slick Saver"
-  // Mining
-  | "Rock'N'Roll"
-  | "Iron Bumpkin"
-  | "Speed Miner"
-  | "Iron Hustle"
-  | "Tap Prospector"
-  | "Forge-Ward Profits"
-  | "Frugal Miner"
-  | "Fireside Alchemist"
-  | "Ferrous Favor"
-  | "Golden Touch"
-  | "Midas Sprint"
-  | "More Picks"
-  | "Fire Kissed"
-  // Cooking
-  | "Fast Feasts"
-  | "Nom Nom"
-  | "Munching Mastery"
-  | "Swift Sizzle"
-  | "Frosted Cakes"
-  | "Juicy Boost"
-  | "Double Nom"
-  | "Turbo Fry"
-  | "Instant Gratification"
-  | "Drive-Through Deli"
-  | "Fiery Jackpot"
-  | "Fry Frenzy"
-  // Bees & Flowers
-  | "Sweet Bonus"
-  | "Hyper Bees"
-  | "Blooming Boost"
-  | "Buzzworthy Treats"
-  | "Blossom Bonding"
-  | "Pollen Power Up"
-  | "Bee Collective"
-  | "Flower Power"
-  | "Petalled Perk"
-  | "Flowery Abode"
-  // Machinery
-  | "Crop Processor Unit"
-  | "Oil Gadget"
-  | "Oil Extraction"
-  | "Leak-Proof Tank"
-  | "Crop Extension Module"
-  | "Rapid Rig"
-  | "Oil Be Back"
-  | "Field Expansion Module"
-  | "Field Extension Module"
-  | "Efficiency Extension Module"
-  | "Grease Lightning";
-
 export type BumpkinSkillTree =
   | "Crops"
   | "Trees"
@@ -180,7 +60,7 @@ export type BumpkinSkill = {
 };
 
 export type BumpkinSkillRevamp = {
-  name: BumpkinRevampSkillName;
+  name: string;
   tree: BumpkinRevampSkillTree;
   requirements: {
     points: number;
@@ -413,10 +293,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
   },
 };
 
-export const BUMPKIN_REVAMP_SKILL_TREE: Record<
-  BumpkinRevampSkillName,
-  BumpkinSkillRevamp
-> = {
+export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Crops - Tier 1
   "Green Thumb 2": {
     name: "Green Thumb 2",
@@ -1658,7 +1535,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     power: true,
   },
-};
+} satisfies Record<string, BumpkinSkillRevamp>;
+
+export type BumpkinRevampSkillName = keyof typeof BUMPKIN_REVAMP_SKILL_TREE;
 
 export const SKILL_TREE_CATEGORIES = Array.from(
   new Set(
