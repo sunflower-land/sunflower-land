@@ -1172,6 +1172,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Rocky Favor": {
+    name: "Rocky Favor",
+    tree: "Mining",
+    requirements: { points: 2, tier: 2, island: "basic" },
+    boosts: "+1 Stone yield, -0.5 Iron yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   "Ferrous Favor": {
     name: "Ferrous Favor",
     tree: "Mining",
