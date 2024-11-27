@@ -615,6 +615,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Plantation Goodies": {
+    name: "Plantation Goodies",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: "5% chance of +1 patch fruit yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Fruity Rush Hour": {
     name: "Fruity Rush Hour",
     tree: "Fruit",
