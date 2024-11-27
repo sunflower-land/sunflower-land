@@ -1,11 +1,7 @@
 import { CONFIG } from "lib/config";
 import MarketplaceABI from "./abis/Marketplace";
 import { getNextSessionId } from "./Session";
-import {
-  waitForTransactionReceipt,
-  writeContract,
-  readContract,
-} from "@wagmi/core";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
 
@@ -109,25 +105,6 @@ export async function listingPurchasedTransaction({
   teamAmount,
 }: ListingPurchasedParams): Promise<string> {
   const oldSessionId = sessionId;
-
-  console.log(
-    "Hi",
-    address,
-    await readContract(config, {
-      abi: MarketplaceABI,
-      address: address as `0x${string}`,
-      functionName: "eip712Domain",
-    }),
-  );
-
-  console.log(
-    "OKAY!",
-    await readContract(config, {
-      abi: MarketplaceABI,
-      address: "0x6B4c0eE875eD7F7597687a8EF35b56243FA63a47",
-      functionName: "eip712Domain",
-    }),
-  );
 
   const hash = await writeContract(config, {
     abi: MarketplaceABI,

@@ -70,7 +70,8 @@ export const MakeOffer: React.FC<{
         name: "TESTING",
         version: "1",
         chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
-        verifyingContract: CONFIG.MARKETPLACE_CONTRACT as `0x${string}`,
+        verifyingContract:
+          CONFIG.MARKETPLACE_VERIFIER_CONTRACT as `0x${string}`,
       },
       message: {
         item: display.name,
