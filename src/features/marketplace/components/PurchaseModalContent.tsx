@@ -6,7 +6,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getCollectionName, getTradeableDisplay } from "../lib/tradeables";
 import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
-import { TradeableSummary } from "./TradeableSummary";
+import { TradeableItemDetails } from "./TradeableSummary";
 import { KNOWN_ITEMS } from "features/game/types";
 
 type PurchaseModalContentProps = {
@@ -59,7 +59,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
           )}
         </div>
         <p className="mb-3">{t("marketplace.areYouSureYouWantToBuy")}</p>
-        <TradeableSummary
+        <TradeableItemDetails
           display={display}
           sfl={price}
           quantity={listing.quantity}
