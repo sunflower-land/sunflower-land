@@ -23,6 +23,7 @@ export type Offer = {
   tradeId: string;
   sfl: number;
   quantity: number;
+  itemId: number;
   offeredById: number;
   offeredAt: number;
   type: "onchain" | "instant";
@@ -31,6 +32,7 @@ export type Offer = {
 export type Listing = {
   id: string;
   sfl: number;
+  itemId: number;
   quantity: number;
   listedById: number;
   listedAt: number;

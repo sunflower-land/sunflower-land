@@ -33,6 +33,7 @@ import { makeListingType } from "lib/utils/makeTradeListingType";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { isMobile } from "mobile-device-detect";
+import { KNOWN_ITEMS } from "features/game/types";
 
 const MAX_NON_VIP_PURCHASES = 3;
 
@@ -216,22 +217,23 @@ const ListView: React.FC<ListViewProps> = ({
 
   const onConfirm = async (listing: Listing) => {
     setfulfillListing(true);
+
+    const name = KNOWN_ITEMS[listing.itemId];
+
     gameService.send("FULFILL_TRADE_LISTING", {
       sellerId: listing.farmId,
       listingId: listing.id,
-      listingType: makeListingType(listing.items),
+      listingType: makeListingType({
+        [name]: 1,
+      }),
     });
   };
 
   const confirm = (listing: Listing) => {
-    const updatedInventory = getKeys(listing.items).reduce(
-      (acc, name) => ({
-        ...acc,
-        [name]: (inventory[name] ?? new Decimal(0)).add(
-          listing.items[name] ?? 0,
-        ),
-      }),
-      inventory,
+    const name = KNOWN_ITEMS[listing.itemId];
+    const updatedInventory = inventory;
+    updatedInventory[name] = (inventory[name] ?? new Decimal(0)).add(
+      listing.quantity,
     );
 
     const hasMaxedOut = hasMaxItems({
@@ -313,10 +315,9 @@ const ListView: React.FC<ListViewProps> = ({
   }
 
   if (fulfillListing && selectedListing) {
-    const listingItem = selectedListing.items[
-      getKeys(selectedListing.items)[0]
-    ] as number;
-    const unitPrice = selectedListing.sfl / listingItem;
+    const name = KNOWN_ITEMS[selectedListing.itemId];
+    const quantity = selectedListing.quantity;
+    const unitPrice = selectedListing.sfl / quantity;
 
     return (
       <div className="flex flex-col w-full p-2">
@@ -328,14 +329,11 @@ const ListView: React.FC<ListViewProps> = ({
           <div className="flex justify-between">
             <div>
               <div className="flex flex-wrap w-52 items-center">
-                {getKeys(selectedListing.items).map((item, index) => (
-                  <Box
-                    image={ITEM_DETAILS[item].image}
-                    count={new Decimal(selectedListing.items[item] ?? 0)}
-                    disabled
-                    key={`items-${index}`}
-                  />
-                ))}
+                <Box
+                  image={ITEM_DETAILS[name].image}
+                  count={new Decimal(quantity)}
+                  disabled
+                />
                 <div className="ml-1">
                   <div className="flex items-center mb-1">
                     <img src={token} className="h-6 mr-1" />
@@ -398,23 +396,18 @@ const ListView: React.FC<ListViewProps> = ({
       <div className="flex-1 pr-2 overflow-y-auto scrollable mt-1">
         {listings.map((listing, index) => {
           // only one resource listing
-          const listingItem = listing.items[
-            getKeys(listing.items)[0]
-          ] as number;
-          const unitPrice = listing.sfl / listingItem;
+          const name = KNOWN_ITEMS[listing.itemId];
+          const unitPrice = listing.sfl / listing.quantity;
           return (
             <OuterPanel className="mb-2" key={`data-${index}`}>
               <div className="flex justify-between">
                 <div className="justify-start">
                   <div className="flex flex-wrap w-50 sm:w-52 items-center">
-                    {getKeys(listing.items).map((item) => (
-                      <Box
-                        image={ITEM_DETAILS[item].image}
-                        count={new Decimal(listing.items[item] ?? 0)}
-                        disabled
-                        key={`items-${index}`}
-                      />
-                    ))}
+                    <Box
+                      image={ITEM_DETAILS[name].image}
+                      count={new Decimal(listing.quantity)}
+                      disabled
+                    />
                     <div className="ml-0.5 sm:ml-1">
                       <div className="flex items-center mb-1">
                         <img src={token} className="h-5 sm:h-6 mr-1" />

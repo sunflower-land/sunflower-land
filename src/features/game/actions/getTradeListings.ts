@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { InventoryItemName } from "../types/game";
+import { CollectionName } from "../types/marketplace";
 
 const API_URL = CONFIG.API_URL;
 
@@ -8,7 +8,9 @@ export type Listing = {
   type: string;
   id: string;
   farmId: number;
-  items: Partial<Record<InventoryItemName, number>>;
+  itemId: number;
+  quantity: number;
+  collection: CollectionName;
   sfl: number;
   createdAt: number;
   boughtAt?: number;
