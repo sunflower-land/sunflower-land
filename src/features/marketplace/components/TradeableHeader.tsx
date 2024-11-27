@@ -91,9 +91,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     cheapestListing?.type === "onchain",
   );
 
-  const isResources = getKeys(TRADE_LIMITS).includes(
-    KNOWN_ITEMS[Number(params.id)],
-  );
+  const isResources =
+    getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
+    params.collection === "collectibles";
 
   // If no listings or offers, return null
   if (!isResources && !cheapestListing) {

@@ -46,17 +46,21 @@ export const MyOffers: React.FC = () => {
   const { trades } = gameState.context.state;
   const offers = trades.offers ?? {};
 
-  const filteredOffers = params.id
-    ? Object.fromEntries(
-        Object.entries(offers).filter(([_, offer]) => {
-          const offerItemName = getKeys(
-            offer.items ?? {},
-          )[0] as InventoryItemName;
-          const offerItemId = KNOWN_IDS[offerItemName];
-          return offerItemId === Number(params.id);
-        }),
-      )
-    : offers;
+  const filteredOffers =
+    params.id && params.collection
+      ? Object.fromEntries(
+          Object.entries(offers).filter(([_, offer]) => {
+            const offerItemName = getKeys(
+              offer.items ?? {},
+            )[0] as InventoryItemName;
+            const offerItemId = KNOWN_IDS[offerItemName];
+            return (
+              offerItemId === Number(params.id) &&
+              offer.collection === params.collection
+            );
+          }),
+        )
+      : offers;
 
   const navigate = useNavigate();
 

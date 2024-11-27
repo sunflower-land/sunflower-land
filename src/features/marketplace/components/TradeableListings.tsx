@@ -114,9 +114,9 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     setShowPurchaseModal(true);
   };
 
-  const isResource = getKeys(TRADE_LIMITS).includes(
-    KNOWN_ITEMS[Number(params.id)],
-  );
+  const isResource =
+    getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
+    params.collection === "collectibles";
 
   const loading = !tradeable;
 
