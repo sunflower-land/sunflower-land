@@ -37,19 +37,19 @@ export type Listing = {
   type: "onchain" | "instant";
 };
 
-export type PriceHistory = {
-  date: string;
-  volume: number;
-  sales: number;
-  price: number;
+export type TradeHistory = {
+  totalSales: number;
+  totalVolume: number;
+  dates: {
+    date: string;
+    price: number;
+    volume: number;
+    sales: number;
+  }[];
 };
 
 export type SaleHistory = {
-  totalSales: number;
-  oneDayPrice: number;
-  sevenDayPrice: number;
-  thirtyDayPrice: number;
-  latestPrice: number;
+  history: TradeHistory;
   sales: {
     id: string;
     sfl: number;
@@ -76,8 +76,7 @@ export type Marketplace = {
 type TrendingItem = {
   id: number;
   collection: CollectionName;
-  price: number;
-  sevenDayPrice: number;
+  history: TradeHistory;
 };
 
 export type MarketplaceTrends = {
@@ -93,3 +92,53 @@ export type MarketplaceTradeableName =
   | InventoryItemName
   | BumpkinItem
   | BudNFTName;
+
+/**
+ * Fills in missing dates and carries forward the last known price
+ */
+export function getPriceHistory({
+  history,
+  from,
+}: {
+  history: TradeHistory;
+  from: number;
+}): TradeHistory["dates"] {
+  const dates: TradeHistory["dates"] = [];
+  let lastKnownPrice = 0;
+
+  // Create a date iterator starting from 'from' until today
+  const startDate = new Date(from);
+  const today = new Date();
+
+  for (let date = startDate; date <= today; date.setDate(date.getDate() + 1)) {
+    const dateKey = date.toISOString().split("T")[0];
+
+    // Find matching history entry for this date
+    const dailyData = history.dates.find((d) => d.date === dateKey);
+
+    if (dailyData) {
+      lastKnownPrice = dailyData.price;
+      dates.push(dailyData);
+    } else {
+      // Add an entry with 0 volume/sales but carry forward the last price
+      dates.push({
+        date: dateKey,
+        price: lastKnownPrice,
+        volume: 0,
+        sales: 0,
+      });
+    }
+  }
+
+  // Sort by most recent date first
+  dates.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // For any dates that have no price, use the previous date's price
+  for (let i = 1; i < dates.length; i++) {
+    if (dates[i].price === 0) {
+      dates[i].price = dates[i - 1].price;
+    }
+  }
+
+  return dates;
+}

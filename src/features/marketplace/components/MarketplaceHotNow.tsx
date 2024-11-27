@@ -31,7 +31,7 @@ export const MarketplaceHotNow: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className="overflow-y-scroll scrollable pr-1">
       <InnerPanel className="mb-1">
         <div className="p-2">
           <Label type="default" className="mb-2 -ml-1">
@@ -144,7 +144,7 @@ export const MarketplaceHotNow: React.FC = () => {
           <TrendingTrades trends={trends} />
         </div>
       </InnerPanel>
-    </>
+    </div>
   );
 };
 
@@ -167,7 +167,7 @@ export const MarketplaceStats: React.FC<{
           <div className="flex items-center p-1">
             <img src={sflIcon} className="h-10 mr-2" />
             <div>
-              <p>{`${trends.volume} SFL`}</p>
+              <p>{`${trends.volume.toFixed(0)} SFL`}</p>
               <p className="text-xs">{t("marketplace.totalVolume")}</p>
             </div>
           </div>
