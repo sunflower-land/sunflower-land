@@ -28,7 +28,10 @@ export function claimPurchase({ state, action }: Options) {
 
     if (
       purchaseIds.some(
-        (purchaseId) => !game.trades.listings?.[purchaseId].fulfilledAt,
+        (purchaseId) =>
+          !game.trades.listings?.[purchaseId].fulfilledAt &&
+          // To handle old trade system
+          !game.trades.listings?.[purchaseId].boughtAt,
       )
     ) {
       throw new Error("One or more purchases have not been fulfilled");

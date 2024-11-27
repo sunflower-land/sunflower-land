@@ -368,4 +368,33 @@ describe("purchase.claimed", () => {
       new Decimal(0),
     );
   });
+
+  it("allows a player to claim a purchase that was bought in the old trade system", () => {
+    const state = claimPurchase({
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(0),
+        trades: {
+          listings: {
+            "123": {
+              collection: "collectibles",
+              items: {
+                Potato: 200,
+              },
+              sfl: 1,
+              createdAt: 0,
+              boughtAt: Date.now() - 60 * 1000,
+              buyerId: 43,
+            },
+          },
+        },
+      },
+      action: {
+        type: "purchase.claimed",
+        tradeIds: ["123"],
+      },
+    });
+
+    expect(state.balance).toStrictEqual(new Decimal(0.9));
+  });
 });
