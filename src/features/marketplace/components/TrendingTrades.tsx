@@ -9,6 +9,7 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import sflIcon from "assets/icons/sfl.webp";
 import increaseIcon from "assets/icons/increase_arrow.png";
+import decreaseIcon from "assets/icons/decrease_arrow.png";
 import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
 
@@ -48,7 +49,7 @@ export const TrendingTrades: React.FC<{
 
           const prices = getPriceHistory({
             history: item.history,
-            from: new Date(Date.now() - 1000 * 60 * 60 * 24 * 8).getTime(),
+            from: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).getTime(),
           });
 
           const sevenDayPriceChange = prices[0].price - prices[6].price;
@@ -83,7 +84,10 @@ export const TrendingTrades: React.FC<{
               </td>
               <td className="p-1.5 text-right relative">
                 <div className="flex items-center">
-                  <img src={increaseIcon} className="h-5 mr-1" />
+                  <img
+                    src={sevenDayChange > 0 ? increaseIcon : decreaseIcon}
+                    className="h-5 mr-1"
+                  />
                   <p className="text-sm">{`${sevenDayChange.toFixed(2)}%`}</p>
                 </div>
               </td>

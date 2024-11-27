@@ -133,5 +133,12 @@ export function getPriceHistory({
   // Sort by most recent date first
   dates.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+  // For any dates that have no price, use the previous date's price
+  for (let i = 1; i < dates.length; i++) {
+    if (dates[i].price === 0) {
+      dates[i].price = dates[i - 1].price;
+    }
+  }
+
   return dates;
 }
