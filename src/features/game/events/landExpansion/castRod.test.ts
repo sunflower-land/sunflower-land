@@ -1,8 +1,12 @@
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import { castRod } from "./castRod";
 import Decimal from "decimal.js-light";
 import { Bumpkin } from "features/game/types/game";
-import { Chum } from "features/game/types/fishing";
+import { Chum, getDailyFishingLimit } from "features/game/types/fishing";
 
 const farm = { ...TEST_FARM };
 
@@ -369,5 +373,47 @@ describe("castRod", () => {
       },
     });
     expect(state.fishing.extraReels?.count).toEqual(5);
+  });
+
+  describe("getDailyFishingLimit", () => {
+    it("increases fishing limit by 10 when Angler Waders is equipped", () => {
+      const limit = getDailyFishingLimit({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            pants: "Angler Waders",
+          },
+        },
+      });
+      expect(limit).toEqual(30);
+    });
+
+    it("increases fishing limit by 2 with Fisherman's 2 Fold skill", () => {
+      const limit = getDailyFishingLimit({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 2 Fold": 1,
+          },
+        },
+      });
+      expect(limit).toEqual(22);
+    });
+
+    it("increases fishing limit by 5 with Fisherman's 2 Fold skill", () => {
+      const limit = getDailyFishingLimit({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 5 Fold": 1,
+          },
+        },
+      });
+      expect(limit).toEqual(25);
+    });
   });
 });
