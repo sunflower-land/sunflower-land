@@ -59,9 +59,17 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
     // Remove trade
     offerIds.forEach((offerId) => {
       const offer = game.trades.offers?.[offerId] as TradeOffer;
-      const points = offer.signature ? 10 : 2;
 
-      game = addTradePoints({ state: game, points, sfl: offer.sfl });
+      if (offer.signature) {
+        game = addTradePoints({ state: game, points: 10, sfl: offer.sfl });
+      } else {
+        game = addTradePoints({
+          state: game,
+          points: 2,
+          sfl: offer.sfl,
+          items: offer.items,
+        });
+      }
 
       delete game.trades.offers?.[offerId];
     });

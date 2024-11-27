@@ -288,6 +288,7 @@ describe("purchase.claimed", () => {
       },
     });
     expect(state.trades.tradePoints).toEqual(70);
+    expect(state.inventory["Trade Point"]).toEqual(new Decimal(70));
   });
 
   it("awards lesser trade points when claiming an instant trade", () => {
@@ -325,5 +326,46 @@ describe("purchase.claimed", () => {
       },
     });
     expect(state.trades.tradePoints).toEqual(28);
+    expect(state.inventory["Trade Point"]).toEqual(new Decimal(28));
+  });
+
+  it("does not award trade points for resources", () => {
+    const state = claimPurchase({
+      state: {
+        ...TEST_FARM,
+        trades: {
+          listings: {
+            "123": {
+              collection: "collectibles",
+              items: {
+                Barley: 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+            "124": {
+              collection: "collectibles",
+              items: {
+                Feather: 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+          },
+        },
+      },
+      action: {
+        type: "purchase.claimed",
+        tradeIds: ["123", "124"],
+      },
+    });
+    expect(state.trades.tradePoints ?? 0).toEqual(0);
+    expect(state.inventory["Trade Point"] ?? new Decimal(0)).toEqual(
+      new Decimal(0),
+    );
   });
 });

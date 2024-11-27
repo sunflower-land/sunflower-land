@@ -54,6 +54,7 @@ export function claimPurchase({ state, action }: Options) {
         state: game,
         points: 1,
         sfl: game.trades.listings?.[purchaseId].sfl ?? 0,
+        items: game.trades.listings?.[purchaseId].items,
       });
     });
 
