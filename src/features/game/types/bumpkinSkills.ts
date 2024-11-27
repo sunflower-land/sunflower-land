@@ -756,18 +756,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Wormy Treat": {
-    name: "Wormy Treat",
-    tree: "Fishing",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: "+1 EarthWorm bait from composting",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
+
   "Fishy Chance": {
     name: "Fishy Chance",
     tree: "Fishing",
@@ -781,6 +770,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
   },
   // Fishing - Tier 2
+  "Wormy Treat": {
+    name: "Wormy Treat",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: "+1 Worm from composting",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   "Fisherman's 5 Fold": {
     name: "Fisherman's 5 Fold",
     tree: "Fishing",
