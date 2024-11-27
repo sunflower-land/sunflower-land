@@ -234,7 +234,6 @@ describe("offer.claimed", () => {
               sfl: 15,
               fulfilledAt: Date.now(),
               fulfilledById: 67,
-              signature: "123",
             },
           },
         },
