@@ -541,6 +541,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Fruity Heaven": {
+    name: "Fruity Heaven",
+    tree: "Fruit",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "+0.05 patch fruit yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   // Fruit - Tier 2
   Catchup: {
     name: "Catchup",
