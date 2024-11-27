@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
 import { produce } from "immer";
+import { KNOWN_ITEMS } from "features/game/types";
 
 export type CancelTradeAction = {
   type: "trade.cancelled";
@@ -30,14 +30,10 @@ export function cancelTrade({
       throw new Error(`Trade #${action.tradeId} already bought`);
     }
 
-    // Add items
-    getKeys(trade.items).forEach((name) => {
-      const previous =
-        game.inventory[name as InventoryItemName] ?? new Decimal(0);
-      game.inventory[name as InventoryItemName] = previous.add(
-        trade.items[name] ?? 0,
-      );
-    });
+    const name = KNOWN_ITEMS[trade.itemId];
+    const previous =
+      game.inventory[name as InventoryItemName] ?? new Decimal(0);
+    game.inventory[name as InventoryItemName] = previous.add(trade.quantity);
 
     // Remove Trade
     delete game.trades.listings?.[action.tradeId];

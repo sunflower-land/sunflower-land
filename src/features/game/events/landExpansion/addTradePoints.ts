@@ -1,31 +1,25 @@
 import Decimal from "decimal.js-light";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { KNOWN_IDS } from "features/game/types";
-import { getKeys } from "features/game/types/decorations";
-import { GameState, InventoryItemName } from "features/game/types/game";
-import { MarketplaceTradeableName } from "features/game/types/marketplace";
+import { KNOWN_ITEMS } from "features/game/types";
+import { GameState, TradeListing } from "features/game/types/game";
 
 export function addTradePoints({
   state,
   points,
   sfl,
-  items,
+  trade,
 }: {
   state: GameState;
   points: number;
   sfl: number;
-  items?: Partial<Record<MarketplaceTradeableName, number>>;
+  trade: Pick<TradeListing, "itemId" | "quantity" | "collection">;
 }) {
   // Exclude resources
-  if (items) {
-    const name = getKeys(items).filter(
-      (itemName) => itemName in KNOWN_IDS,
-    )[0] as InventoryItemName;
-    const isResource = getKeys(TRADE_LIMITS).includes(name);
-
-    if (isResource) {
-      return state;
-    }
+  if (
+    trade.collection === "resources" &&
+    TRADE_LIMITS[KNOWN_ITEMS[trade.itemId]]
+  ) {
+    return state;
   }
 
   // Define Constants

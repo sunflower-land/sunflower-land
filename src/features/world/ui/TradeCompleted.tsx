@@ -5,7 +5,6 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
@@ -15,7 +14,7 @@ import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
-import { InventoryItemName } from "features/game/types/game";
+import { KNOWN_ITEMS } from "features/game/types";
 
 interface Props {
   farmId: number;
@@ -53,14 +52,11 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
             <div className="flex justify-between">
               <div>
                 <div className="flex flex-wrap">
-                  {getKeys(sold.items).map((name) => (
-                    <Box
-                      image={ITEM_DETAILS[name as InventoryItemName].image}
-                      count={new Decimal(sold.items[name] ?? 0)}
-                      disabled
-                      key={name}
-                    />
-                  ))}
+                  <Box
+                    image={ITEM_DETAILS[KNOWN_ITEMS[sold.itemId]].image}
+                    count={new Decimal(sold.quantity ?? 0)}
+                    disabled
+                  />
                 </div>
                 <div className="flex items-center ml-1 mb-1">
                   <img src={SUNNYSIDE.icons.player} className="h-5 mr-1" />

@@ -22,6 +22,8 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
 import { CannotTrade } from "./CannotTrade";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
+import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
@@ -71,11 +73,11 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       // Filter out listings related to the marketplace
       const filteredListings = Object.entries(listings ?? {}).filter(
         ([_, listing]) => {
-          const item = getKeys(listing.items)[0];
-
           return (
             listing.collection === "collectibles" &&
-            getKeys(TRADE_LIMITS).includes(item as InventoryItemName)
+            getKeys(TRADE_LIMITS).some(
+              (name) => KNOWN_IDS[name] === listing.itemId,
+            )
           );
         },
       );
@@ -116,14 +118,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
   const confirm = (listingId: string) => {
     // Check hoarding
-    const updatedInventory = getKeys(listings[listingId].items).reduce(
-      (acc, name) => ({
-        ...acc,
-        [name]: (inventory[name as InventoryItemName] ?? new Decimal(0)).add(
-          listings[listingId].items[name] ?? 0,
-        ),
-      }),
-      inventory,
+    const updatedInventory = inventory;
+    const itemName = KNOWN_ITEMS[listings[listingId].itemId];
+    updatedInventory[itemName] = (inventory[itemName] ?? new Decimal(0)).add(
+      listings[listingId].quantity,
     );
 
     const hasMaxedOut = hasMaxItems({
@@ -142,7 +140,9 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     gameService.send("FULFILL_TRADE_LISTING", {
       sellerId: farmId,
       listingId: listingId,
-      listingType: makeListingType(listings[listingId].items),
+      listingType: makeListingType({
+        [KNOWN_ITEMS[listings[listingId].itemId]]: listings[listingId].quantity,
+      }),
     });
 
     onClose();
@@ -195,14 +195,8 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         .filter((id) => {
           const listing = listings[id];
 
-          return getKeys(listing.items).every(
-            (name) =>
-              ![
-                "Bumpkin Emblem",
-                "Goblin Emblem",
-                "Nightshade Emblem",
-                "Sunflorian Emblem",
-              ].includes(name),
+          return Object.keys(FACTION_EMBLEMS).every(
+            (name) => KNOWN_IDS[name as InventoryItemName] !== listing.itemId,
           );
         })
         .map((listingId, index) => {
@@ -216,18 +210,17 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
               </div>
             );
 
+          const name = KNOWN_ITEMS[listings[listingId].itemId];
           return (
             <InnerPanel className="mb-2" key={index}>
               <div className="flex justify-between">
                 <div className="flex flex-wrap">
-                  {getKeys(listings[listingId].items).map((name) => (
-                    <Box
-                      image={ITEM_DETAILS[name as InventoryItemName].image}
-                      count={new Decimal(listings[listingId].items[name] ?? 0)}
-                      disabled
-                      key={name}
-                    />
-                  ))}
+                  <Box
+                    image={ITEM_DETAILS[name as InventoryItemName].image}
+                    count={new Decimal(listings[listingId].quantity ?? 0)}
+                    disabled
+                    key={name}
+                  />
                 </div>
                 <div className="w-28">
                   {Action(listingId)}

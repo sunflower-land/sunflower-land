@@ -11,6 +11,7 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory } from "features/game/types/game";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { setPrecision } from "lib/utils/formatNumber";
 
 const PLACEABLE_DIMENSIONS = {
@@ -29,15 +30,18 @@ export const getActiveListedItems = (
     (acc, listing) => {
       if (listing.boughtAt && listing.buyerId) return acc;
 
-      Object.entries(listing.items).forEach(([itemName, quantity]) => {
-        const name = itemName as MarketplaceTradeableName;
-
-        if (acc[name]) {
-          acc[name] += quantity as number;
-        } else {
-          acc[name] = quantity as number;
-        }
+      const details = getTradeableDisplay({
+        id: listing.itemId,
+        type: listing.collection,
       });
+
+      const name = details.name as MarketplaceTradeableName;
+
+      if (acc[name]) {
+        acc[name] += listing.quantity;
+      } else {
+        acc[name] = listing.quantity;
+      }
 
       return acc;
     },

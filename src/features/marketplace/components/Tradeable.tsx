@@ -30,7 +30,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { TradeableStats } from "./TradeableStats";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/decorations";
-import { tradeToId } from "../lib/offers";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -111,12 +110,11 @@ export const Tradeable: React.FC = () => {
 
   const trades = gameState.context.state.trades;
   const hasListings = getKeys(trades.listings ?? {}).some(
-    (listing) =>
-      tradeToId({ details: trades.listings![listing] }) === Number(id),
+    (listing) => trades.listings![listing].itemId === Number(id),
   );
 
   const hasOffers = getKeys(trades.offers ?? {}).some(
-    (offer) => tradeToId({ details: trades.offers![offer] }) === Number(id),
+    (offer) => trades.offers![offer].itemId === Number(id),
   );
 
   let latestSale = 0;

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import { BumpkinItem, ITEM_NAMES } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import {
   GameState,
@@ -8,6 +8,7 @@ import {
 } from "features/game/types/game";
 import { produce } from "immer";
 import { addTradePoints } from "./addTradePoints";
+import { KNOWN_ITEMS } from "features/game/types";
 
 export type ClaimOfferAction = {
   type: "offer.claimed";
@@ -43,16 +44,18 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
     instantOffers.forEach((offerId) => {
       const offer = game.trades.offers?.[offerId] as TradeOffer;
 
-      const item = getKeys(offer.items)[0];
-      const amount = offer.items[item] ?? 0;
-
       if (offer.collection === "collectibles") {
+        const item = KNOWN_ITEMS[offer.itemId];
+        const amount = offer.quantity;
         const count =
           game.inventory[item as InventoryItemName] ?? new Decimal(0);
         game.inventory[item as InventoryItemName] = count.add(amount);
-      } else if (offer.collection === "wearables") {
+      }
+
+      if (offer.collection === "wearables") {
+        const item = ITEM_NAMES[offer.itemId];
         const count = game.wardrobe[item as BumpkinItem] ?? 0;
-        game.wardrobe[item as BumpkinItem] = count + amount;
+        game.wardrobe[item as BumpkinItem] = count + offer.quantity;
       }
     });
 
@@ -61,13 +64,26 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
       const offer = game.trades.offers?.[offerId] as TradeOffer;
 
       if (offer.signature) {
-        game = addTradePoints({ state: game, points: 10, sfl: offer.sfl });
+        game = addTradePoints({
+          state: game,
+          points: 10,
+          sfl: offer.sfl,
+          trade: {
+            itemId: offer.itemId,
+            quantity: offer.quantity,
+            collection: offer.collection,
+          },
+        });
       } else {
         game = addTradePoints({
           state: game,
           points: 2,
           sfl: offer.sfl,
-          items: offer.items,
+          trade: {
+            itemId: offer.itemId,
+            quantity: offer.quantity,
+            collection: offer.collection,
+          },
         });
       }
 

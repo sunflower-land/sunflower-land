@@ -6,10 +6,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { TradeableSummary } from "./TradeableSummary";
-import { getListingCollection, getListingItem } from "../lib/listings";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { MarketplaceTradeableName } from "features/game/types/marketplace";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 
@@ -50,7 +48,7 @@ export const RemoveListing: React.FC<Props> = ({
             {listingIds.map((listingId) => {
               const listing = listings[listingId];
               const display = getTradeableDisplay({
-                id: getListingItem({ listing }),
+                id: listing.itemId,
                 type: listing.collection,
               });
               return (
@@ -58,11 +56,7 @@ export const RemoveListing: React.FC<Props> = ({
                   <TradeableSummary
                     display={display}
                     sfl={listing.sfl}
-                    quantity={
-                      listing.items[
-                        display.name as MarketplaceTradeableName
-                      ] as number
-                    }
+                    quantity={listing.quantity}
                   />
                   <div>
                     <Button onClick={() => setSelectedListingId(listingId)}>
@@ -92,8 +86,8 @@ export const RemoveListing: React.FC<Props> = ({
     onClose();
   };
 
-  const itemId = getListingItem({ listing });
-  const collection = getListingCollection({ listing });
+  const itemId = listing.itemId;
+  const collection = listing.collection;
   const display = getTradeableDisplay({ id: itemId, type: collection });
 
   return (
@@ -108,9 +102,7 @@ export const RemoveListing: React.FC<Props> = ({
         <TradeableSummary
           display={display}
           sfl={listing.sfl}
-          quantity={
-            listing.items[display.name as MarketplaceTradeableName] as number
-          }
+          quantity={listing.quantity}
         />
       </div>
       <div className="flex">

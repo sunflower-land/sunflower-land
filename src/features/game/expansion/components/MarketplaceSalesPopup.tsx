@@ -11,8 +11,6 @@ import { Box } from "components/ui/Box";
 import trade from "assets/icons/trade.png";
 import token from "assets/icons/sfl.webp";
 import { formatNumber } from "lib/utils/formatNumber";
-import { InventoryItemName } from "features/game/types/game";
-import { tradeToId } from "features/marketplace/lib/offers";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import Decimal from "decimal.js-light";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
@@ -57,14 +55,14 @@ export const MarketplaceSalesPopup: React.FC = () => {
         {soldListingIds.map((listingId) => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const listing = trades.listings![listingId];
-          const itemName = getKeys(listing.items)[0];
-          const itemId = tradeToId({ details: listing });
+          const itemId = listing.itemId;
           const details = getTradeableDisplay({
             id: itemId,
             type: listing.collection,
           });
-          const amount = listing.items[itemName as InventoryItemName];
+          const amount = listing.quantity;
           const sfl = new Decimal(listing.sfl).mul(1 - MARKETPLACE_TAX);
+
           return (
             <div className="flex flex-col space-y-1" key={listingId}>
               <div className="flex items-center justify-between">
@@ -72,7 +70,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
                   <Box image={details.image} />
                   <div className="flex flex-col">
                     <div>
-                      <p className="text-xs mt-0.5">{`${amount} x ${itemName}`}</p>
+                      <p className="text-xs mt-0.5">{`${amount} x ${details.name}`}</p>
                     </div>
                     <div className="flex items-center space-x-1">
                       <p className="text-xs mt-0.5">{`${formatNumber(sfl, {

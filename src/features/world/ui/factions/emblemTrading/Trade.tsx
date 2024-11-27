@@ -33,6 +33,7 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CannotTrade } from "../../CannotTrade";
 import { getRemainingListings } from "features/bumpkins/components/Trade";
+import { KNOWN_ITEMS } from "features/game/types";
 
 const MAX_SFL = 150;
 type Items = Partial<Record<InventoryItemName, number>>;
@@ -301,20 +302,18 @@ const TradeDetails: React.FC<{
   const { t } = useAppTranslation();
 
   if (trade.boughtAt) {
+    const name = KNOWN_ITEMS[trade.itemId];
     return (
       <div>
         <OuterPanel>
           <div className="flex justify-between">
             <div>
               <div className="flex flex-wrap">
-                {getKeys(trade.items).map((name) => (
-                  <Box
-                    image={ITEM_DETAILS[name as InventoryItemName].image}
-                    count={new Decimal(trade.items[name] ?? 0)}
-                    disabled
-                    key={name}
-                  />
-                ))}
+                <Box
+                  image={ITEM_DETAILS[name as InventoryItemName].image}
+                  count={new Decimal(trade.quantity ?? 0)}
+                  disabled
+                />
 
                 <div>
                   <Label type="success" className="ml-1 mt-0.5">
@@ -338,19 +337,17 @@ const TradeDetails: React.FC<{
     );
   }
 
+  const name = KNOWN_ITEMS[trade.itemId];
   return (
     <>
       <OuterPanel>
         <div className="flex justify-between">
           <div className="flex flex-wrap">
-            {getKeys(trade.items).map((name) => (
-              <Box
-                image={ITEM_DETAILS[name as InventoryItemName].image}
-                count={new Decimal(trade.items[name] ?? 0)}
-                disabled
-                key={name}
-              />
-            ))}
+            <Box
+              image={ITEM_DETAILS[name as InventoryItemName].image}
+              count={new Decimal(trade.quantity ?? 0)}
+              disabled
+            />
             <div>
               <Label type="default" className="ml-1 mt-0.5">
                 {t("bumpkinTrade.listed")}
@@ -397,8 +394,9 @@ export const Trade: React.FC<{
 
   const emblemListings = getKeys(trades).filter((listingId) => {
     return (
-      makeListingType(trades[listingId].items) ===
-      makeListingType({ [emblem]: 0 })
+      makeListingType({
+        [KNOWN_ITEMS[trades[listingId].itemId]]: trades[listingId].quantity,
+      }) === makeListingType({ [emblem]: 0 })
     );
   });
 
@@ -513,7 +511,13 @@ export const Trade: React.FC<{
           <div className="mt-2" key={index}>
             <TradeDetails
               onCancel={() =>
-                onCancel(listingId, makeListingType(trades[listingId].items))
+                onCancel(
+                  listingId,
+                  makeListingType({
+                    [KNOWN_ITEMS[trades[listingId].itemId]]:
+                      trades[listingId].quantity,
+                  }),
+                )
               }
               onClaim={() => {
                 gameService.send("trade.received", {

@@ -13,7 +13,6 @@ import { getTradeableDisplay } from "../../lib/tradeables";
 import Decimal from "decimal.js-light";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { InventoryItemName } from "features/game/types/game";
 import { Modal } from "components/ui/Modal";
 import { ClaimPurchase } from "./ClaimPurchase";
 import { Button } from "components/ui/Button";
@@ -22,7 +21,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
 import { formatNumber } from "lib/utils/formatNumber";
-import { tradeToId } from "features/marketplace/lib/offers";
 import { KNOWN_ITEMS } from "features/game/types";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
@@ -53,12 +51,7 @@ export const MyListings: React.FC = () => {
     params.id && params.collection
       ? Object.fromEntries(
           Object.entries(listings).filter(([_, listing]) => {
-            const listingItemId = tradeToId({
-              details: {
-                collection: listing.collection,
-                items: listing.items,
-              },
-            });
+            const listingItemId = listing.itemId;
 
             return (
               listing.collection === params.collection &&
@@ -137,25 +130,21 @@ export const MyListings: React.FC = () => {
                 <tbody>
                   {getKeys(filteredListings).map((id, index) => {
                     const listing = listings[id];
-                    const itemName = getKeys(
-                      listing.items ?? {},
-                    )[0] as InventoryItemName;
-                    const itemId = tradeToId({
-                      details: {
-                        collection: listing.collection,
-                        items: listing.items,
-                      },
-                    });
+
                     const details = getTradeableDisplay({
-                      id: itemId,
+                      id: listing.itemId,
                       type: listing.collection,
                     });
 
+                    const itemName = details.name;
+
                     const isResource =
+                      listing.collection === "collectibles" &&
                       getKeys(TRADE_LIMITS).includes(
-                        KNOWN_ITEMS[Number(params.id)],
-                      ) && params.collection === "collectibles";
-                    const quantity = listing.items[itemName];
+                        KNOWN_ITEMS[listing.itemId],
+                      );
+
+                    const quantity = listing.quantity;
                     const price = listing.sfl;
 
                     return (
@@ -165,7 +154,7 @@ export const MyListings: React.FC = () => {
                           "relative bg-[#ead4aa] !py-10 transition-all",
                           {
                             "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
-                              Number(params.id) !== itemId,
+                              Number(params.id) !== listing.itemId,
                           },
                         )}
                         style={{
@@ -174,7 +163,7 @@ export const MyListings: React.FC = () => {
                         }}
                         onClick={() =>
                           navigate(
-                            `/marketplace/${listing.collection}/${itemId}`,
+                            `/marketplace/${listing.collection}/${listing.itemId}`,
                           )
                         }
                       >

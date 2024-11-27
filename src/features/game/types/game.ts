@@ -73,7 +73,7 @@ import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
 import { Rewards } from "./rewards";
 import { ExperimentName } from "lib/flags";
-import { CollectionName, MarketplaceTradeableName } from "./marketplace";
+import { CollectionName } from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
@@ -1016,7 +1016,8 @@ export type Minigame = {
 };
 
 export type TradeListing = {
-  items: Partial<Record<MarketplaceTradeableName, number>>;
+  itemId: number;
+  quantity: number;
   sfl: number;
   createdAt: number;
   collection: CollectionName;
@@ -1028,7 +1029,8 @@ export type TradeListing = {
 };
 
 export type TradeOffer = {
-  items: Partial<Record<MarketplaceTradeableName, number>>;
+  itemId: number;
+  quantity: number;
   sfl: number;
   collection: CollectionName;
   createdAt: number;

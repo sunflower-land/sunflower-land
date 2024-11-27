@@ -1,4 +1,8 @@
-import { BUMPKIN_ITEMS, Equipped } from "features/game/types/bumpkin";
+import {
+  BUMPKIN_ITEMS,
+  Equipped,
+  ITEM_NAMES,
+} from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
@@ -90,17 +94,18 @@ const getListedWearables = (
 
   return Object.values(state.trades.listings).reduce(
     (acc, listing) => {
-      Object.entries(listing.items).forEach(([itemName, quantity]) => {
+      if (listing.collection === "wearables") {
+        const itemName = ITEM_NAMES[listing.itemId];
         if (itemName in BUMPKIN_ITEMS) {
           const name = itemName as MarketplaceTradeableName;
 
           if (acc[name]) {
-            acc[name] += quantity as number;
+            acc[name] += listing.quantity;
           } else {
-            acc[name] = quantity as number;
+            acc[name] = listing.quantity;
           }
         }
-      });
+      }
 
       return acc;
     },

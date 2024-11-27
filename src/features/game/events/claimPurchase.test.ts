@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../lib/constants";
 import { claimPurchase } from "./claimPurchase";
+import { KNOWN_IDS } from "../types";
 
 describe("purchase.claimed", () => {
   it("requires purchase exists", () => {
@@ -24,9 +25,8 @@ describe("purchase.claimed", () => {
             listings: {
               "123": {
                 collection: "collectibles",
-                items: {
-                  "Rich Chicken": 1,
-                },
+                itemId: KNOWN_IDS["Rich Chicken"],
+                quantity: 1,
                 sfl: 13,
                 createdAt: 0,
               },
@@ -49,9 +49,8 @@ describe("purchase.claimed", () => {
           listings: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               fulfilledAt: Date.now() - 60 * 1000,
               fulfilledById: 43,
@@ -78,9 +77,8 @@ describe("purchase.claimed", () => {
           listings: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               fulfilledAt: Date.now() - 60 * 1000,
               fulfilledById: 43,
@@ -106,9 +104,8 @@ describe("purchase.claimed", () => {
           listings: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               fulfilledAt: Date.now() - 60 * 1000,
               fulfilledById: 43,
@@ -134,9 +131,8 @@ describe("purchase.claimed", () => {
           listings: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -144,9 +140,8 @@ describe("purchase.claimed", () => {
             },
             "124": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -172,9 +167,8 @@ describe("purchase.claimed", () => {
           listings: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -182,9 +176,8 @@ describe("purchase.claimed", () => {
             },
             "124": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -192,9 +185,8 @@ describe("purchase.claimed", () => {
             },
             "125": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               signature: "125",
@@ -221,9 +213,8 @@ describe("purchase.claimed", () => {
           listings: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -231,9 +222,8 @@ describe("purchase.claimed", () => {
             },
             "124": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -241,9 +231,8 @@ describe("purchase.claimed", () => {
             },
             "125": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               signature: "125",
@@ -270,9 +259,8 @@ describe("purchase.claimed", () => {
           listings: {
             "125": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               signature: "125",
@@ -299,9 +287,8 @@ describe("purchase.claimed", () => {
           listings: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -309,9 +296,8 @@ describe("purchase.claimed", () => {
             },
             "124": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -337,9 +323,8 @@ describe("purchase.claimed", () => {
           listings: {
             "123": {
               collection: "collectibles",
-              items: {
-                Barley: 1,
-              },
+              itemId: KNOWN_IDS["Barley"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,
@@ -347,9 +332,8 @@ describe("purchase.claimed", () => {
             },
             "124": {
               collection: "collectibles",
-              items: {
-                Feather: 1,
-              },
+              itemId: KNOWN_IDS["Feather"],
+              quantity: 1,
               sfl: 13,
               createdAt: 0,
               fulfilledAt: Date.now() - 60 * 1000,

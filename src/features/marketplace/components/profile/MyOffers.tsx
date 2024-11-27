@@ -11,7 +11,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
-import { tradeToId } from "../../lib/offers";
 import Decimal from "decimal.js-light";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -23,10 +22,10 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import sflIcon from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
-import { KNOWN_IDS } from "features/game/types";
-import { InventoryItemName } from "features/game/types/game";
+import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
 import { formatNumber } from "lib/utils/formatNumber";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { ITEM_NAMES } from "features/game/types/bumpkin";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -51,12 +50,8 @@ export const MyOffers: React.FC = () => {
     params.id && params.collection
       ? Object.fromEntries(
           Object.entries(offers).filter(([_, offer]) => {
-            const offerItemName = getKeys(
-              offer.items ?? {},
-            )[0] as InventoryItemName;
-            const offerItemId = KNOWN_IDS[offerItemName];
             return (
-              offerItemId === Number(params.id) &&
+              offer.itemId === Number(params.id) &&
               offer.collection === params.collection
             );
           }),
@@ -99,11 +94,17 @@ export const MyOffers: React.FC = () => {
               id: "offer-claimed",
               items:
                 offers[claimId as string]?.collection === "collectibles"
-                  ? offers[claimId as string].items
+                  ? {
+                      [KNOWN_ITEMS[offers[claimId as string].itemId]]:
+                        offers[claimId as string].quantity,
+                    }
                   : {},
               wearables:
                 offers[claimId as string]?.collection === "wearables"
-                  ? offers[claimId as string].items
+                  ? {
+                      [ITEM_NAMES[offers[claimId as string].itemId]]:
+                        offers[claimId as string].quantity,
+                    }
                   : {},
               sfl: 0,
               coins: 0,
@@ -155,18 +156,16 @@ export const MyOffers: React.FC = () => {
                   {getKeys(filteredOffers).map((id, index) => {
                     const offer = filteredOffers[id];
 
-                    const itemId = tradeToId({ details: offer });
                     const details = getTradeableDisplay({
-                      id: itemId,
+                      id: offer.itemId,
                       type: offer.collection,
                     });
-                    const itemName = getKeys(
-                      offer.items ?? {},
-                    )[0] as InventoryItemName;
-                    const quantity = offer.items[itemName];
+                    const quantity = offer.quantity;
                     const isResource =
                       offer.collection === "collectibles" &&
-                      getKeys(TRADE_LIMITS).includes(itemName);
+                      getKeys(TRADE_LIMITS).some(
+                        (name) => KNOWN_IDS[name] === offer.itemId,
+                      );
 
                     return (
                       <tr
@@ -175,7 +174,7 @@ export const MyOffers: React.FC = () => {
                           "relative bg-[#ead4aa] !py-10 transition-all",
                           {
                             "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
-                              Number(params.id) !== itemId,
+                              Number(params.id) !== offer.itemId,
                           },
                         )}
                         style={{
@@ -183,7 +182,9 @@ export const MyOffers: React.FC = () => {
                           borderTop: index === 0 ? "1px solid #b96f50" : "",
                         }}
                         onClick={() =>
-                          navigate(`/marketplace/${details.type}/${itemId}`)
+                          navigate(
+                            `/marketplace/${details.type}/${offer.itemId}`,
+                          )
                         }
                       >
                         <td className="p-1.5 w-2/5 text-left">

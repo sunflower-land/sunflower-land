@@ -8,6 +8,7 @@ import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { TEST_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 import { EMPTY, makeMegaStoreAvailableDates } from "./constants";
 import { getSeasonalTicket } from "../types/seasons";
+import { KNOWN_IDS } from "../types";
 export const INITIAL_RESOURCES: Pick<
   GameState,
   | "crops"
@@ -942,7 +943,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
       "1": {
         collection: "collectibles",
         createdAt: 0,
-        items: { Sunflower: 10 },
+        itemId: KNOWN_IDS["Sunflower"],
+        quantity: 10,
         sfl: 10,
         boughtAt: 100,
         buyerId: 1,
@@ -952,7 +954,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
       "2": {
         collection: "collectibles",
         createdAt: 0,
-        items: { "Gold Egg": 10 },
+        itemId: KNOWN_IDS["Gold Egg"],
+        quantity: 10,
         sfl: 5,
         fulfilledById: 1,
       },

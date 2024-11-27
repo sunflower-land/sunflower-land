@@ -20,7 +20,6 @@ import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 import { TradeableDisplay } from "../lib/tradeables";
-import { tradeToId } from "../lib/offers";
 import { getKeys } from "features/game/types/decorations";
 import { RemoveOffer } from "./RemoveOffer";
 import {
@@ -278,12 +277,11 @@ export const YourOffer: React.FC<{
 
   const offerIds = getKeys(offers).filter((offerId) => {
     const offer = offers[offerId];
-    const itemId = tradeToId({ details: offer });
 
     if (offer.fulfilledAt) return false;
 
     // Make sure the offer is for this item
-    return offer.collection === collection && itemId === id;
+    return offer.collection === collection && offer.itemId === id;
   });
 
   // Get their highest offer for the current item

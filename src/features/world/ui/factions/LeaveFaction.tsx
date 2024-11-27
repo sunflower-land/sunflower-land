@@ -20,7 +20,7 @@ export const LeaveFaction: React.FC<{
   const isNew =
     Date.now() - (game.faction?.pledgedAt ?? 0) < 24 * 60 * 60 * 1000;
   const hasEmblemsListed = Object.values(game.trades.listings ?? {}).some(
-    (listing) => (listing.items[emblem] ?? 0) > 0,
+    (listing) => listing.quantity > 0,
   );
 
   return (

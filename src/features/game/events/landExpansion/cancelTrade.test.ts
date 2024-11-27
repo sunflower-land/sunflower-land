@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { cancelTrade } from "./cancelTrade";
 import { TEST_FARM } from "features/game/lib/constants";
+import { KNOWN_IDS } from "features/game/types";
 
 describe("cancelTrade", () => {
   it("enures trade exists", () => {
@@ -29,9 +30,8 @@ describe("cancelTrade", () => {
                 collection: "collectibles",
                 createdAt: 1000000,
                 sfl: 5,
-                items: {
-                  Sunflower: 10,
-                },
+                itemId: KNOWN_IDS["Sunflower"],
+                quantity: 10,
                 boughtAt: 12000000,
                 buyerId: 12,
               },
@@ -57,9 +57,8 @@ describe("cancelTrade", () => {
               collection: "collectibles",
               createdAt: 1000000,
               sfl: 5,
-              items: {
-                Sunflower: 10,
-              },
+              itemId: KNOWN_IDS["Sunflower"],
+              quantity: 10,
             },
           },
         },
@@ -82,9 +81,8 @@ describe("cancelTrade", () => {
               collection: "collectibles",
               createdAt: 1000000,
               sfl: 5,
-              items: {
-                Sunflower: 10,
-              },
+              itemId: KNOWN_IDS["Sunflower"],
+              quantity: 10,
             },
           },
         },

@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { claimOffer } from "./offerClaimed";
+import { KNOWN_IDS } from "features/game/types";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 
 describe("offer.claimed", () => {
   it("requires offer exists", () => {
@@ -28,9 +30,8 @@ describe("offer.claimed", () => {
             offers: {
               "123": {
                 collection: "collectibles",
-                items: {
-                  "Fat Chicken": 1,
-                },
+                itemId: KNOWN_IDS["Fat Chicken"],
+                quantity: 1,
                 createdAt: Date.now(),
                 sfl: 15,
               },
@@ -53,9 +54,8 @@ describe("offer.claimed", () => {
           offers: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
@@ -81,9 +81,8 @@ describe("offer.claimed", () => {
           offers: {
             "123": {
               collection: "wearables",
-              items: {
-                "Painter's Cap": 1,
-              },
+              itemId: ITEM_IDS["Painter's Cap"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
@@ -109,9 +108,8 @@ describe("offer.claimed", () => {
           offers: {
             "123": {
               collection: "collectibles",
-              items: {
-                Kuebiko: 1,
-              },
+              itemId: KNOWN_IDS["Kuebiko"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
@@ -138,9 +136,8 @@ describe("offer.claimed", () => {
           offers: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
@@ -167,9 +164,8 @@ describe("offer.claimed", () => {
           offers: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
@@ -197,9 +193,8 @@ describe("offer.claimed", () => {
           offers: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
@@ -227,9 +222,8 @@ describe("offer.claimed", () => {
           offers: {
             "123": {
               collection: "collectibles",
-              items: {
-                Barley: 1,
-              },
+              itemId: KNOWN_IDS["Barley"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
@@ -258,9 +252,8 @@ describe("offer.claimed", () => {
           offers: {
             "123": {
               collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Fat Chicken"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
@@ -268,9 +261,8 @@ describe("offer.claimed", () => {
             },
             "124": {
               collection: "collectibles",
-              items: {
-                "Rich Chicken": 1,
-              },
+              itemId: KNOWN_IDS["Rich Chicken"],
+              quantity: 1,
               createdAt: Date.now(),
               sfl: 15,
               fulfilledAt: Date.now(),
