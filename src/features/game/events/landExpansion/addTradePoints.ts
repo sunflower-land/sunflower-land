@@ -17,7 +17,6 @@ export function addTradePoints({
   items?: Partial<Record<MarketplaceTradeableName, number>>;
 }) {
   // Exclude resources
-  // Some functinos use items object and some others just have itemName itself. Creating different conditions for each case
   if (items) {
     const name = getKeys(items).filter(
       (itemName) => itemName in KNOWN_IDS,
