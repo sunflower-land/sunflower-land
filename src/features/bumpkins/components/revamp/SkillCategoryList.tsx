@@ -99,9 +99,7 @@ export const SkillCategoryList = ({
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
         <div className="flex flex-row mt-2 mb-1 items-center">
-          {availableSkillPoints > 0 && (
-            <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
-          )}
+          <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
         </div>
         {ISLAND_EXPANSIONS.map((islandType) => {
           const hasUnlockedIslandCategory = hasRequiredIslandExpansion(
