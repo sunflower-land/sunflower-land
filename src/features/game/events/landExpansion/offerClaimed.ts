@@ -46,10 +46,7 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
       const item = getKeys(offer.items)[0];
       const amount = offer.items[item] ?? 0;
 
-      if (
-        offer.collection === "collectibles" ||
-        offer.collection === "resources"
-      ) {
+      if (offer.collection === "collectibles") {
         const count =
           game.inventory[item as InventoryItemName] ?? new Decimal(0);
         game.inventory[item as InventoryItemName] = count.add(amount);

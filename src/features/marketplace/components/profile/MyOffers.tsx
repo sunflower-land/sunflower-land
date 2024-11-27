@@ -26,6 +26,7 @@ import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -163,7 +164,9 @@ export const MyOffers: React.FC = () => {
                       offer.items ?? {},
                     )[0] as InventoryItemName;
                     const quantity = offer.items[itemName];
-                    const isResource = offer.collection === "resources";
+                    const isResource =
+                      offer.collection === "collectibles" &&
+                      getKeys(TRADE_LIMITS).includes(itemName);
 
                     return (
                       <tr

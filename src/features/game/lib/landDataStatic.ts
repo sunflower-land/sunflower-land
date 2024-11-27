@@ -940,7 +940,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   trades: {
     listings: {
       "1": {
-        collection: "resources",
+        collection: "collectibles",
         createdAt: 0,
         items: { Sunflower: 10 },
         sfl: 10,

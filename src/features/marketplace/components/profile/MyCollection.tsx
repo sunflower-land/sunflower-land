@@ -6,13 +6,9 @@ import { Context } from "features/game/GameProvider";
 import { CollectionName } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { KNOWN_IDS } from "features/game/types";
 import { getKeys } from "features/game/types/craftables";
-import {
-  BUMPKIN_WITHDRAWABLES,
-  WITHDRAWABLES,
-} from "features/game/types/withdrawables";
+import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
@@ -45,21 +41,11 @@ export const MyCollection: React.FC = () => {
 
   const inventory = getChestItems(gameState.context.state);
   getKeys(inventory).forEach((name) => {
-    if (name in TRADE_LIMITS) {
-      items.push({
-        id: KNOWN_IDS[name],
-        collection: "resources",
-        count: inventory[name]?.toNumber() ?? 0,
-      });
-    }
-
-    if (!(name in TRADE_LIMITS) && WITHDRAWABLES[name]()) {
-      items.push({
-        id: KNOWN_IDS[name],
-        collection: "collectibles",
-        count: inventory[name]?.toNumber() ?? 0,
-      });
-    }
+    items.push({
+      id: KNOWN_IDS[name],
+      collection: "collectibles",
+      count: inventory[name]?.toNumber() ?? 0,
+    });
   });
 
   const wardrobe = availableWardrobe(gameState.context.state);
