@@ -146,6 +146,58 @@ describe("choseSkill", () => {
     });
   });
 
+  it("doesn't allow player to claim skill if in correct island", () => {
+    expect(() =>
+      choseSkill({
+        state: {
+          ...TEST_FARM,
+          island: {
+            ...TEST_FARM.island,
+            type: "spring",
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[8],
+            skills: {
+              "Green Thumb 2": 1,
+              "Young Farmer": 1,
+              "Experienced Farmer": 1,
+              "Strong Roots": 1,
+            },
+          },
+        },
+        action: { type: "skill.chosen", skill: "Oil Gadget" },
+        createdAt: dateNow,
+      }),
+    ).toThrow("You are not at the correct island!");
+  });
+
+  it("allow player to claim skill if in correct island", () => {
+    expect(() =>
+      choseSkill({
+        state: {
+          ...TEST_FARM,
+          island: {
+            ...TEST_FARM.island,
+            type: "desert",
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[8],
+            skills: {
+              "Green Thumb 2": 1,
+              "Young Farmer": 1,
+              "Experienced Farmer": 1,
+              "Strong Roots": 1,
+            },
+          },
+        },
+        action: { type: "skill.chosen", skill: "Sweet Bonus" },
+        createdAt: dateNow,
+      }),
+    ).not.toThrow();
+  });
+
   describe("getAvailableBumpkinSkillPoints", () => {
     it("makes sure level 1 bumpkin with no skills has 1 skill point", () => {
       const result = getAvailableBumpkinSkillPoints({
