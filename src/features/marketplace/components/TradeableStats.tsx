@@ -26,12 +26,12 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
   let oneDayChange = 0;
   let sevenDayChange = 0;
 
-  if (prices[0].price !== 0) {
-    oneDayChange = ((price - prices[0].price) / prices[0].price) * 100;
+  if (prices[0].low !== 0) {
+    oneDayChange = ((price - prices[0].low) / prices[0].low) * 100;
   }
 
-  if (prices[6].price !== 0) {
-    sevenDayChange = ((price - prices[6].price) / prices[6].price) * 100;
+  if (prices[6].low !== 0) {
+    sevenDayChange = ((price - prices[6].low) / prices[6].low) * 100;
   }
 
   return (
@@ -50,7 +50,7 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
             )}
           </div>
           <p className="text-sm p-1">
-            {(price - prices[0].price).toFixed(2)} {`SFL`}
+            {(price - prices[0].low).toFixed(2)} {`SFL`}
           </p>
         </InnerPanel>
       </div>
@@ -68,7 +68,7 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
             )}
           </div>
           <p className="text-sm p-1">
-            {(price - prices[6].price).toFixed(2)} {`SFL`}
+            {(price - prices[6].low).toFixed(2)} {`SFL`}
           </p>
         </InnerPanel>
       </div>

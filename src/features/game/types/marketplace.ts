@@ -37,15 +37,18 @@ export type Listing = {
   type: "onchain" | "instant";
 };
 
+type TradeHistoryDate = {
+  date: string;
+  low: number;
+  high: number;
+  volume: number;
+  sales: number;
+};
+
 export type TradeHistory = {
   totalSales: number;
   totalVolume: number;
-  dates: {
-    date: string;
-    price: number;
-    volume: number;
-    sales: number;
-  }[];
+  dates: Record<string, TradeHistoryDate>;
 };
 
 export type SaleHistory = {
@@ -102,8 +105,8 @@ export function getPriceHistory({
 }: {
   history: TradeHistory;
   from: number;
-}): TradeHistory["dates"] {
-  const dates: TradeHistory["dates"] = [];
+}): TradeHistoryDate[] {
+  const dates: TradeHistoryDate[] = [];
   let lastKnownPrice = 0;
 
   // Create a date iterator starting from 'from' until today
@@ -114,16 +117,17 @@ export function getPriceHistory({
     const dateKey = date.toISOString().split("T")[0];
 
     // Find matching history entry for this date
-    const dailyData = history.dates.find((d) => d.date === dateKey);
+    const dailyData = history.dates[dateKey];
 
     if (dailyData) {
-      lastKnownPrice = dailyData.price;
+      lastKnownPrice = dailyData.low;
       dates.push(dailyData);
     } else {
       // Add an entry with 0 volume/sales but carry forward the last price
       dates.push({
         date: dateKey,
-        price: lastKnownPrice,
+        low: lastKnownPrice,
+        high: lastKnownPrice,
         volume: 0,
         sales: 0,
       });
@@ -135,8 +139,9 @@ export function getPriceHistory({
 
   // For any dates that have no price, use the previous date's price
   for (let i = 1; i < dates.length; i++) {
-    if (dates[i].price === 0) {
-      dates[i].price = dates[i - 1].price;
+    if (dates[i].low === 0) {
+      dates[i].low = dates[i - 1].low;
+      dates[i].high = dates[i - 1].high;
     }
   }
 
