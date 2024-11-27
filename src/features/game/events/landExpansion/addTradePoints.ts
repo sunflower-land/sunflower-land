@@ -10,13 +10,11 @@ export function addTradePoints({
   points,
   sfl,
   items,
-  itemName,
 }: {
   state: GameState;
   points: number;
   sfl: number;
   items?: Partial<Record<MarketplaceTradeableName, number>>;
-  itemName?: string;
 }) {
   // Exclude resources
   // Some functinos use items object and some others just have itemName itself. Creating different conditions for each case
@@ -25,16 +23,6 @@ export function addTradePoints({
       (itemName) => itemName in KNOWN_IDS,
     )[0] as InventoryItemName;
     const isResource = getKeys(TRADE_LIMITS).includes(name);
-
-    if (isResource) {
-      return state;
-    }
-  }
-
-  if (itemName) {
-    const isResource = getKeys(TRADE_LIMITS).includes(
-      itemName as InventoryItemName,
-    );
 
     if (isResource) {
       return state;
