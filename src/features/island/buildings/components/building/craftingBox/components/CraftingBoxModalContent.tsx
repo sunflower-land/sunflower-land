@@ -5,7 +5,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Recipe } from "features/game/lib/crafting";
 import { useSelector } from "@xstate/react";
 import { RecipeIngredient } from "features/game/lib/crafting";
-import { hasFeatureAccess } from "lib/flags";
 import { useSound } from "lib/utils/hooks/useSound";
 import { Context } from "features/game/GameProvider";
 import { RecipesTab } from "./RecipesTab";
@@ -62,10 +61,6 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   const [selectedItems, setSelectedItems] =
     useState<(RecipeIngredient | null)[]>(paddedIngredients);
 
-  const hasAccess = hasFeatureAccess(
-    gameService.getSnapshot().context.state,
-    "CRAFTING_BOX",
-  );
   const button = useSound("button");
 
   const handleSetupRecipe = (recipe: Recipe) => {
@@ -134,27 +129,21 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
     >
-      {!hasAccess ? (
-        <p className="text-sm">{t("coming.soon")}</p>
-      ) : (
-        <>
-          {currentTab === 0 && (
-            <CraftTab
-              gameService={gameService}
-              selectedItems={selectedItems}
-              setSelectedItems={selectItems}
-            />
-          )}
-          {currentTab === 1 && (
-            <RecipesTab
-              gameService={gameService}
-              handleSetupRecipe={handleSetupRecipe}
-            />
-          )}
-          {currentTab === 2 && (
-            <CraftingBoxGuide onClose={() => setCurrentTab(0)} />
-          )}
-        </>
+      {currentTab === 0 && (
+        <CraftTab
+          gameService={gameService}
+          selectedItems={selectedItems}
+          setSelectedItems={selectItems}
+        />
+      )}
+      {currentTab === 1 && (
+        <RecipesTab
+          gameService={gameService}
+          handleSetupRecipe={handleSetupRecipe}
+        />
+      )}
+      {currentTab === 2 && (
+        <CraftingBoxGuide onClose={() => setCurrentTab(0)} />
       )}
     </CloseButtonPanel>
   );

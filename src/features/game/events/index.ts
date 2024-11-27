@@ -28,11 +28,6 @@ import {
   LandExpansionIronMineAction,
 } from "./landExpansion/ironMine";
 
-import {
-  feedChicken as LandExpansionFeedChicken,
-  LandExpansionFeedChickenAction,
-} from "./landExpansion/feedChicken";
-
 import { GameState } from "../types/game";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
@@ -114,10 +109,6 @@ import {
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
 import { restock, RestockAction } from "./landExpansion/restock";
 import { sellGarbage, SellGarbageAction } from "./landExpansion/garbageSold";
-import {
-  completeChore,
-  CompleteChoreAction,
-} from "./landExpansion/completeChore";
 import { placeTree, PlaceTreeAction } from "./landExpansion/placeTree";
 import { expandLand, ExpandLandAction } from "./landExpansion/expandLand";
 import { placePlot, PlacePlotAction } from "./landExpansion/placePlot";
@@ -146,7 +137,6 @@ import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
 import { Announcements } from "../types/announcements";
-import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
 import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
@@ -204,7 +194,6 @@ import {
   placeCrimstone,
   PlaceCrimstoneAction,
 } from "./landExpansion/placeCrimstone";
-import { buyFarmhand, BuyFarmHandAction } from "./landExpansion/buyFarmHand";
 import {
   equipFarmhand,
   EquipFarmHandAction,
@@ -242,14 +231,6 @@ import {
 } from "./landExpansion/placeSunstone";
 import { moveSunstone, MoveSunstoneAction } from "./landExpansion/moveSunstone";
 import { mineSunstone, MineSunstoneAction } from "./landExpansion/mineSunstone";
-import {
-  FlowerShopTradedAction,
-  tradeFlowerShop,
-} from "./landExpansion/tradeFlowerShop";
-import {
-  buyMegaStoreItem,
-  BuyMegaStoreItemAction,
-} from "./landExpansion/buyMegaStoreItem";
 import {
   completeSpecialEventTask,
   CompleteSpecialEventTaskAction,
@@ -453,7 +434,6 @@ export type PlayingEvent =
   | ResetSkillsAction
   | SeedBoughtAction
   | ClaimAchievementAction
-  | LandExpansionFeedChickenAction
   | CraftToolAction
   | buyDecorationAction
   | SellCropAction
@@ -469,8 +449,6 @@ export type PlayingEvent =
   | NPCRestockAction
   | SellGarbageAction
   // Chores
-  | CompleteChoreAction
-  | SkipChoreAction
   | ExpandLandAction
   | MessageRead
   | PickMushroomAction
@@ -499,15 +477,12 @@ export type PlayingEvent =
   | BurnCollectibleAction
   | ClaimBonusAction
   | AccelerateComposterAction
-  | BuyFarmHandAction
   | EquipFarmHandAction
   | HarvestBeehiveAction
   | PlantFlowerAction
   | HarvestFlowerAction
   | UpgradeFarmAction
   | PurchaseBannerAction
-  | FlowerShopTradedAction
-  | BuyMegaStoreItemAction
   | CompleteSpecialEventTaskAction
   | GiftFlowersAction
   | ClaimGiftAction
@@ -650,7 +625,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "skills.reset": resetSkills,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
-  "chicken.fed": LandExpansionFeedChicken,
   "tool.crafted": craftTool,
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
@@ -665,8 +639,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "shops.restocked": restock,
   "npc.restocked": npcRestock,
   "garbage.sold": sellGarbage,
-  "chore.completed": completeChore,
-  "chore.skipped": skipChore,
   "land.expanded": expandLand,
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
@@ -695,15 +667,12 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
   "compost.accelerated": accelerateComposter,
-  "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
   "beehive.harvested": harvestBeehive,
   "flower.planted": plantFlower,
   "flower.harvested": harvestFlower,
   "farm.upgraded": upgrade,
   "banner.purchased": purchaseBanner,
-  "flowerShop.traded": tradeFlowerShop,
-  "megastoreItem.bought": buyMegaStoreItem,
   "specialEvent.taskCompleted": completeSpecialEventTask,
   "flowers.gifted": giftFlowers,
   "gift.claimed": claimGift,

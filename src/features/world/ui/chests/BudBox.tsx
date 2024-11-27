@@ -15,8 +15,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
 import { getKeys } from "features/game/types/craftables";
 import { Bud, TypeTrait } from "features/game/types/buds";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
+import { secondsTillReset } from "lib/utils/time";
 
 interface Props {
   onClose: () => void;

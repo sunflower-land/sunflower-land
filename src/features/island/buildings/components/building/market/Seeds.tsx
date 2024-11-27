@@ -44,7 +44,6 @@ import {
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
 import {
   isAdvancedCrop,
   isBasicCrop,
@@ -296,10 +295,6 @@ export const Seeds: React.FC = () => {
             {seeds
               .filter((name) => name in CROP_SEEDS)
               .filter((name) => isBasicCrop(name.split(" ")[0] as CropName))
-              .filter(
-                (name) =>
-                  name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
-              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
@@ -350,10 +345,6 @@ export const Seeds: React.FC = () => {
             {seeds
               .filter((name) => name in CROP_SEEDS)
               .filter((name) => isAdvancedCrop(name.split(" ")[0] as CropName))
-              .filter(
-                (name) =>
-                  name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
-              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}

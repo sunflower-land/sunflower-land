@@ -10,7 +10,6 @@ import {
   PIXEL_SCALE,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
-import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
@@ -21,15 +20,12 @@ import {
   MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
-import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import {
   Chicken as ChickenType,
-  GameState,
   MutantChicken,
 } from "features/game/types/game";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { ZoomContext } from "components/ZoomProvider";
@@ -38,7 +34,6 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
-import { hasFeatureAccess } from "lib/flags";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -89,16 +84,6 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   );
 };
 
-const HasWheat = (inventoryWheatCount: Decimal, game: GameState) => {
-  const wheatRequired = getWheatRequiredToFeed(game);
-
-  // has enough wheat to feed chickens
-
-  if (wheatRequired.lte(0)) return true;
-
-  return inventoryWheatCount.gte(wheatRequired);
-};
-
 const isHungry = (state: ChickenMachineState) => state.matches("hungry");
 const isEating = (state: ChickenMachineState) => state.matches("eating");
 const isSleeping = (state: ChickenMachineState) =>
@@ -106,18 +91,10 @@ const isSleeping = (state: ChickenMachineState) =>
 const isHappy = (state: ChickenMachineState) => state.matches({ fed: "happy" });
 const isEggReady = (state: ChickenMachineState) => state.matches("eggReady");
 const isEggLaid = (state: ChickenMachineState) => state.matches("eggLaid");
-const selectInventoryWheatCount = (state: GameMachineState) =>
-  state.context.state.inventory.Wheat ?? new Decimal(0);
-const selectGame = (state: GameMachineState) => state.context.state;
 
 const compareChicken = (prev: ChickenType, next: ChickenType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
-const compareGame = (prev: GameState, next: GameState) =>
-  isCollectibleBuilt({ name: "Gold Egg", game: prev }) ===
-    isCollectibleBuilt({ name: "Gold Egg", game: next }) &&
-  isCollectibleBuilt({ name: "Fat Chicken", game: prev }) ===
-    isCollectibleBuilt({ name: "Fat Chicken", game: next });
 
 interface Props {
   id: string;
@@ -127,7 +104,7 @@ interface Props {
 
 const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
-  const { gameService, shortcutItem, showTimers } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
 
   const chickens = ["chicken_1", "chicken_2"] as const;
   const chickenSound = useSound(
@@ -137,19 +114,11 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const chickenCollectSound = useSound(
     chickenCollects[Math.floor(Math.random() * chickenCollects.length)],
   );
-  const no = useSound("no");
   const { t } = useAppTranslation();
   const chicken = useSelector(
     gameService,
     (state) => state.context.state.chickens[id],
     compareChicken,
-  );
-  const game = useSelector(gameService, selectGame, compareGame);
-  const inventoryWheatCount = useSelector(
-    gameService,
-    selectInventoryWheatCount,
-    (prev: Decimal, next: Decimal) =>
-      HasWheat(prev, game) === HasWheat(next, game),
   );
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
@@ -177,7 +146,6 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const interactible = hungry || eggReady || eggLaid;
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.
-  const [showPopover, setShowPopover] = useState(false);
   const [showDeprecatedPopover, setShowDeprecatedPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
@@ -204,49 +172,10 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    if (hasFeatureAccess(game, "ANIMAL_BUILDINGS")) {
-      setShowDeprecatedPopover(true);
-      await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS * 2));
-      setShowDeprecatedPopover(false);
-      return;
-    }
-
-    if (hungry) {
-      feed();
-      return;
-    }
-  };
-
-  const feed = async () => {
-    if (!isCollectibleBuilt({ name: "Gold Egg", game })) {
-      const hasWheat = HasWheat(inventoryWheatCount, game);
-
-      if (!hasWheat) {
-        no.play();
-        setShowPopover(true);
-        await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
-        setShowPopover(false);
-        return;
-      }
-
-      shortcutItem("Wheat");
-    }
-
-    chickenSound.play();
-
-    const {
-      context: {
-        state: { chickens, bumpkin },
-      },
-    } = gameService.send("chicken.fed", {
-      id,
-    });
-
-    const chicken = chickens[id];
-
-    chickenService.send("FEED", {
-      fedAt: chicken.fedAt,
-    });
+    setShowDeprecatedPopover(true);
+    await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS * 2));
+    setShowDeprecatedPopover(false);
+    return;
   };
 
   const handleCollect = () => {
@@ -313,10 +242,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
               />
               <img
                 src={SUNNYSIDE.icons.cancel}
-                className={classNames("transition-opacity absolute z-20", {
-                  "opacity-100": showPopover,
-                  "opacity-0": !showPopover,
-                })}
+                className="transition-opacity absolute z-20 opacity-0"
                 style={{
                   width: `${PIXEL_SCALE * 8}px`,
                   top: `${PIXEL_SCALE * 8}px`,
@@ -325,10 +251,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
               />
               <img
                 src={CROP_LIFECYCLE.Wheat.crop}
-                className={classNames("transition-opacity absolute z-10", {
-                  "opacity-100": showPopover,
-                  "opacity-0": !showPopover,
-                })}
+                className="transition-opacity absolute z-10 opacity-0"
                 style={{
                   width: `${PIXEL_SCALE * 8}px`,
                   top: `${PIXEL_SCALE * 5}px`,

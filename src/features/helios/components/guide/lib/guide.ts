@@ -34,27 +34,6 @@ Walkthrough:
 13. Collect Fruit
 */
 
-export const WALKTHROUGH: AchievementName[] = [
-  "Explorer",
-  "Bread Winner",
-  "Busy Bumpkin",
-  "Delivery Dynamo",
-  "Well of Prosperity",
-  "Scarecrow Maestro",
-  "Land Baron",
-  "Seasoned Farmer",
-  "Land Expansion Enthusiast",
-  "Treasure Hunter",
-  "Egg-cellent Collection",
-  "Land Expansion Extraordinaire",
-  "Fruit Aficionado",
-  "Crowd Favourite",
-  "Chef de Cuisine",
-  "High Roller",
-  "Gold Fever",
-  "Crop Champion",
-  "Fruit Platter",
-];
 export const GUIDE_PATHS: Record<
   GuidePath,
   {

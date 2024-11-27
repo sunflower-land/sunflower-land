@@ -9,13 +9,13 @@ import React, { useContext, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
 import { Button } from "components/ui/Button";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { secondsToString } from "lib/utils/time";
 import { isWearableActive } from "features/game/lib/wearables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
+import { secondsTillReset } from "lib/utils/time";
 
 interface PirateChestContentProps {
   setIsLoading?: (isLoading: boolean) => void;

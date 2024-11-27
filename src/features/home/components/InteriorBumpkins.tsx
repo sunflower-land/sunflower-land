@@ -10,9 +10,7 @@ import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { BuyFarmHand } from "./BuyFarmHand";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BEDS } from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
@@ -51,8 +49,6 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
   ]);
 
   const beds = getKeys(BEDS).filter((bedName) => uniqueBeds.has(bedName));
-
-  const hasBedsAccess = hasFeatureAccess(game, "BEDS");
 
   return (
     <>
@@ -122,32 +118,47 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         show={showBuyFarmHand}
         onHide={() => setShowBuyFarmHandModal(false)}
       >
-        {hasBedsAccess ? (
-          <Panel>
-            <div className="p-1 flex justify-between">
-              <Label type="default" icon={ITEM_DETAILS["Basic Bed"].image}>
-                {t("bedsMigration.label")}
-              </Label>
-              <Label type="default" icon={SUNNYSIDE.icons.player}>
-                {t("bedsMigration.farmHandCount", { count })}
-              </Label>
-            </div>
-            <div className="flex p-2 flex-col space-y-1 mb-2 text-xs">
-              <span className="">
-                {t("bedsMigration.bedsNeededDescription")}
-              </span>
-              <span className="">
-                {t("bedsMigration.bedsNeededDescription2")}
-              </span>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="flex start"></div>
+        <Panel>
+          <div className="p-1 flex justify-between">
+            <Label type="default" icon={ITEM_DETAILS["Basic Bed"].image}>
+              {t("bedsMigration.label")}
+            </Label>
+            <Label type="default" icon={SUNNYSIDE.icons.player}>
+              {t("bedsMigration.farmHandCount", { count })}
+            </Label>
+          </div>
+          <div className="flex p-2 flex-col space-y-1 mb-2 text-xs">
+            <span className="">{t("bedsMigration.bedsNeededDescription")}</span>
+            <span className="">
+              {t("bedsMigration.bedsNeededDescription2")}
+            </span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="flex start"></div>
 
-              <div className="grid grid-cols-4 mb-2 w-full">
-                {beds.map((bed, i) => {
-                  const equipments = [bumpkin, ...Object.values(farmHands)].map(
-                    (f) => f.equipped,
-                  );
+            <div className="grid grid-cols-4 mb-2 w-full">
+              {beds.map((bed, i) => {
+                const equipments = [bumpkin, ...Object.values(farmHands)].map(
+                  (f) => f.equipped,
+                );
+
+                const equipment = equipments[i];
+
+                return (
+                  <InteriorBed
+                    bed={bed}
+                    equipment={equipment}
+                    isPlaced={true}
+                    key={bed}
+                  />
+                );
+              })}
+              {getKeys(BEDS)
+                .filter((bed) => !beds.includes(bed))
+                .map((bed, i) => {
+                  const equipments = [bumpkin, ...Object.values(farmHands)]
+                    .map((f) => f.equipped)
+                    .slice(beds.length);
 
                   const equipment = equipments[i];
 
@@ -155,42 +166,18 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
                     <InteriorBed
                       bed={bed}
                       equipment={equipment}
-                      isPlaced={true}
+                      isPlaced={false}
                       key={bed}
                     />
                   );
                 })}
-                {getKeys(BEDS)
-                  .filter((bed) => !beds.includes(bed))
-                  .map((bed, i) => {
-                    const equipments = [bumpkin, ...Object.values(farmHands)]
-                      .map((f) => f.equipped)
-                      .slice(beds.length);
-
-                    const equipment = equipments[i];
-
-                    return (
-                      <InteriorBed
-                        bed={bed}
-                        equipment={equipment}
-                        isPlaced={false}
-                        key={bed}
-                      />
-                    );
-                  })}
-              </div>
             </div>
+          </div>
 
-            <Button onClick={() => setShowBuyFarmHandModal(false)}>
-              {t("close")}
-            </Button>
-          </Panel>
-        ) : (
-          <BuyFarmHand
-            gameState={game}
-            onClose={() => setShowBuyFarmHandModal(false)}
-          />
-        )}
+          <Button onClick={() => setShowBuyFarmHandModal(false)}>
+            {t("close")}
+          </Button>
+        </Panel>
       </Modal>
 
       <Modal

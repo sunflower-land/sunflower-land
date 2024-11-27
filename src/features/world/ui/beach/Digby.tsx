@@ -14,7 +14,6 @@ import {
   SEASONAL_ARTEFACT,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useState } from "react";
@@ -42,6 +41,7 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getCurrentSeason } from "features/game/types/seasons";
+import { secondsTillReset } from "lib/utils/time";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");

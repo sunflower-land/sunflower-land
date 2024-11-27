@@ -28,9 +28,7 @@ export const Introduction: React.FC = () => {
   const competition = COMPETITION_POINTS.TESTING;
 
   const competitionIsActive =
-    hasFeatureAccess(gameState.context.state, "FSL") &&
-    Date.now() > competition.startAt &&
-    competition.endAt > Date.now();
+    Date.now() > competition.startAt && competition.endAt > Date.now();
 
   return (
     <Modal show={gameState.matches("introduction")}>
