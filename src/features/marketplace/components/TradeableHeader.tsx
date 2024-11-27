@@ -23,6 +23,9 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useParams } from "react-router-dom";
 import { Label } from "components/ui/Label";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { getKeys } from "features/game/types/craftables";
+import { KNOWN_ITEMS } from "features/game/types";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -46,10 +49,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   reload,
 }) => {
   const { gameService } = useContext(Context);
-  const params = useParams();
-
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-
+  const params = useParams();
   const { t } = useAppTranslation();
   // Remove listings that are mine
   const filteredListings =
@@ -90,7 +91,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     cheapestListing?.type === "onchain",
   );
 
-  const isResources = params.collection === "resources";
+  const isResources = getKeys(TRADE_LIMITS).includes(
+    KNOWN_ITEMS[Number(params.id)],
+  );
 
   // If no listings or offers, return null
   if (!isResources && !cheapestListing) {

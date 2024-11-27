@@ -32,6 +32,8 @@ import { getTradeType } from "../lib/getTradeType";
 import { ResourceList } from "./ResourceList";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
+import { getKeys } from "features/game/types/craftables";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -56,7 +58,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
 
   const { state } = gameState.context;
 
@@ -67,6 +69,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       sfl: price,
     },
   });
+
+  const isResource = getKeys(TRADE_LIMITS).includes(
+    display.name as InventoryItemName,
+  );
 
   // Check inventory count
   const getCount = () => {
@@ -79,10 +85,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         return getChestBuds(state)[id] ? 1 : 0;
       case "wearables":
         return state.wardrobe[display.name as BumpkinItem] || 0;
-      case "resources":
-        return (
-          state.inventory[display.name as InventoryItemName]?.toNumber() || 0
-        );
 
       default:
         return 0;
@@ -92,20 +94,17 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const getAvailable = () => {
     switch (display.type) {
       case "collectibles":
-        return (
-          getChestItems(state)[display.name as InventoryItemName]?.toNumber() ??
-          0
-        );
+        return isResource
+          ? getBasketItems(state.inventory)[
+              display.name as InventoryItemName
+            ]?.toNumber() ?? 0
+          : getChestItems(state)[
+              display.name as InventoryItemName
+            ]?.toNumber() ?? 0;
       case "buds":
         return getChestBuds(state)[id] ? 1 : 0;
       case "wearables":
         return availableWardrobe(state)[display.name as BumpkinItem] ?? 0;
-      case "resources":
-        return (
-          getBasketItems(state.inventory)[
-            display.name as InventoryItemName
-          ]?.toNumber() ?? 0
-        );
       default:
         return 0;
     }
@@ -134,7 +133,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         collection: display.type,
         sfl: price,
         signature,
-        quantity,
+        quantity: Math.max(1, quantity),
         contract: CONFIG.MARKETPLACE_CONTRACT,
       },
       authToken,
@@ -247,7 +246,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const isComingSoon = tradeType === "onchain" && CONFIG.NETWORK === "mainnet";
 
-  if (display.type === "resources") {
+  if (isResource) {
     return (
       <ResourceList
         inventoryCount={new Decimal(available)}

@@ -7,12 +7,18 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TradeableDisplay } from "../lib/tradeables";
 
 import bg from "assets/ui/3x3_bg.png";
+import { InventoryItemName } from "features/game/types/game";
+import { getKeys } from "features/game/types/craftables";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 export const TradeableInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
 }> = ({ display, tradeable }) => {
   const { t } = useAppTranslation();
+  const isResource = getKeys(TRADE_LIMITS).includes(
+    display.name as InventoryItemName,
+  );
 
   return (
     <>
@@ -26,7 +32,7 @@ export const TradeableInfo: React.FC<{
             >{`42% (7D)`}</Label>
           )} */}
 
-          {tradeable && tradeable.collection !== "resources" && (
+          {tradeable && !isResource && (
             <Label type="default">{`Supply: ${tradeable.supply}`}</Label>
           )}
         </div>

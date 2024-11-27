@@ -28,6 +28,9 @@ import { formatNumber, shortenCount } from "lib/utils/formatNumber";
 import { useParams } from "react-router-dom";
 import { PurchaseModalContent } from "./PurchaseModalContent";
 import { TradeableDisplay } from "../lib/tradeables";
+import { KNOWN_ITEMS } from "features/game/types";
+import { getKeys } from "features/game/types/craftables";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -111,7 +114,9 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     setShowPurchaseModal(true);
   };
 
-  const isResource = params.collection === "resources";
+  const isResource = getKeys(TRADE_LIMITS).includes(
+    KNOWN_ITEMS[Number(params.id)],
+  );
 
   const loading = !tradeable;
 

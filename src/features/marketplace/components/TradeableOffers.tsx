@@ -40,6 +40,7 @@ import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 // JWT TOKEN
 
@@ -122,7 +123,9 @@ export const TradeableOffers: React.FC<{
     setShowAcceptOffer(true);
   };
 
-  const isResource = params.collection === "resources";
+  const isResource = getKeys(TRADE_LIMITS).includes(
+    KNOWN_ITEMS[Number(tradeable?.id)],
+  );
   const loading = !tradeable;
 
   return (
