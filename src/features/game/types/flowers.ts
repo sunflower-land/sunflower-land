@@ -372,6 +372,13 @@ export const FLOWERS: Record<FlowerName, Flower> = {
   ...LILY_FLOWERS,
 };
 
+export type FlowerGrowthStage =
+  | "seedling"
+  | "sprout"
+  | "halfway"
+  | "almost"
+  | "ready";
+
 type Lifecycle = {
   seedling: any;
   sprout: any;
