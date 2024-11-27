@@ -1361,7 +1361,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "basic",
     },
-    boosts: "50% chance of +1 food but requires 2x the ingredients",
+    boosts: "+1 food but requires 2x the ingredients",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
