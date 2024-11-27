@@ -769,6 +769,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Wriggly Treat": {
+    name: "Wriggly Treat",
+    tree: "Fishing",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "+1 Red Wriggler bait from composting",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   // Fishing - Tier 2
   "Wormy Treat": {
     name: "Wormy Treat",
@@ -791,18 +803,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts: "+5 Fishing daily limit",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Wriggly Treat": {
-    name: "Wriggly Treat",
-    tree: "Fishing",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: "+1 Red Wriggler bait from composting",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
