@@ -69,7 +69,7 @@ export type BumpkinRevampSkillName =
   | "Tree Blitz"
   // Fishing
   | "Swift Decomposer"
-  | "Fisherman's 5 Fold"
+  | "Fisherman's 2 Fold"
   | "Wormy Treat"
   | "Fishy Chance"
   | "Grubby Treat"
@@ -831,15 +831,15 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Composter speed 10% quicker",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "Fisherman's 5 Fold": {
-    name: "Fisherman's 5 Fold",
+  "Fisherman's 2 Fold": {
+    name: "Fisherman's 2 Fold",
     tree: "Fishing",
     requirements: {
       points: 1,
       tier: 1,
       island: "basic",
     },
-    boosts: "+5 Fishing daily limit",
+    boosts: "+2 Fishing daily limit",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Wormy Treat": {
