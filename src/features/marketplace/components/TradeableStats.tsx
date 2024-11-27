@@ -3,32 +3,35 @@ import { InnerPanel } from "components/ui/Panel";
 import React from "react";
 import increaseArrow from "assets/icons/increase_arrow.png";
 import decreaseArrow from "assets/icons/decrease_arrow.png";
-import { SaleHistory } from "features/game/types/marketplace";
+import { getPriceHistory, SaleHistory } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
+  price: number;
   history?: SaleHistory;
 }
 
-export const TradeableStats: React.FC<Props> = ({ history }) => {
+export const TradeableStats: React.FC<Props> = ({ history, price }) => {
   const { t } = useAppTranslation();
 
   if (!history) {
     return null;
   }
 
-  const price = history.latestPrice;
+  const prices = getPriceHistory({
+    history: history.history,
+    from: new Date(Date.now() - 1000 * 60 * 60 * 24 * 31).getTime(), // 31 days ago
+  });
 
   let oneDayChange = 0;
   let sevenDayChange = 0;
 
-  if (history.oneDayPrice !== 0) {
-    oneDayChange = ((price - history.oneDayPrice) / history.oneDayPrice) * 100;
+  if (prices[0].price !== 0) {
+    oneDayChange = ((price - prices[0].price) / prices[0].price) * 100;
   }
 
-  if (history.sevenDayPrice !== 0) {
-    sevenDayChange =
-      ((price - history.sevenDayPrice) / history.sevenDayPrice) * 100;
+  if (prices[6].price !== 0) {
+    sevenDayChange = ((price - prices[6].price) / prices[6].price) * 100;
   }
 
   return (
@@ -47,7 +50,7 @@ export const TradeableStats: React.FC<Props> = ({ history }) => {
             )}
           </div>
           <p className="text-sm p-1">
-            {(price - history.oneDayPrice).toFixed(2)} {`SFL`}
+            {(price - prices[0].price).toFixed(2)} {`SFL`}
           </p>
         </InnerPanel>
       </div>
@@ -65,7 +68,7 @@ export const TradeableStats: React.FC<Props> = ({ history }) => {
             )}
           </div>
           <p className="text-sm p-1">
-            {(price - history.sevenDayPrice).toFixed(2)} {`SFL`}
+            {(price - prices[6].price).toFixed(2)} {`SFL`}
           </p>
         </InnerPanel>
       </div>
@@ -74,7 +77,7 @@ export const TradeableStats: React.FC<Props> = ({ history }) => {
           <div className="flex justify-between">
             <div>
               <Label type="info">{t("marketplace.sales")}</Label>
-              <p className="text-sm p-1">{history.totalSales}</p>
+              <p className="text-sm p-1">{history.history.totalSales}</p>
             </div>
           </div>
         </InnerPanel>

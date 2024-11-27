@@ -29,6 +29,8 @@ import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TradeableStats } from "./TradeableStats";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { getKeys } from "features/game/types/decorations";
+import { tradeToId } from "../lib/offers";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -107,6 +109,22 @@ export const Tradeable: React.FC = () => {
     navigate(-1);
   };
 
+  const trades = gameState.context.state.trades;
+  const hasListings = getKeys(trades.listings ?? {}).some(
+    (listing) =>
+      tradeToId({ details: trades.listings![listing] }) === Number(id),
+  );
+
+  const hasOffers = getKeys(trades.offers ?? {}).some(
+    (offer) => tradeToId({ details: trades.offers![offer] }) === Number(id),
+  );
+
+  let latestSale = 0;
+  if (tradeable?.history.sales.length) {
+    latestSale =
+      tradeable.history.sales[0].sfl / tradeable.history.sales[0].quantity;
+  }
+
   return (
     <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
@@ -135,9 +153,11 @@ export const Tradeable: React.FC = () => {
           reload={load}
           onListClick={() => setShowListItem(true)}
         />
-        <MyListings />
-        <MyOffers />
-        <TradeableStats history={tradeable?.history} />
+
+        <TradeableStats history={tradeable?.history} price={latestSale} />
+
+        {hasListings && <MyListings />}
+        {hasOffers && <MyOffers />}
 
         <TradeableListings
           id={Number(id)}
