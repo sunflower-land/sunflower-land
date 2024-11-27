@@ -176,6 +176,10 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.9;
   }
 
+  if (bumpkin.skills["Accelerated Fruit"]) {
+    seconds = seconds * 0.95;
+  }
+
   return seconds;
 };
 
