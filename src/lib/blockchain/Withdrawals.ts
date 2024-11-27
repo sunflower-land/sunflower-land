@@ -1,7 +1,13 @@
 import { CONFIG } from "lib/config";
 import WithdrawalABI from "./abis/Withdrawals";
+import WithdrawSFLABI from "./abis/WithdrawSFL";
+import QuoterABI from "./abis/Quoter";
 import { getNextSessionId, getSessionId } from "./Session";
-import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
+import {
+  simulateContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
 
@@ -15,9 +21,8 @@ export type WithdrawSFLParams = {
   sender: string;
   sfl: string;
   deadline: number;
-  teamTax: number;
-  communityTax: number;
-  wishingWellTax: number;
+  playerAmount: string;
+  teamAmount: string;
 };
 
 export async function withdrawSFLTransaction({
@@ -27,16 +32,28 @@ export async function withdrawSFLTransaction({
   nextSessionId,
   deadline,
   farmId,
-  teamTax,
-  communityTax,
-  wishingWellTax,
+  playerAmount,
+  teamAmount,
   sfl,
 }: WithdrawSFLParams): Promise<string> {
   const oldSessionId = sessionId;
 
+  const quote = await simulateContract(config, {
+    abi: QuoterABI,
+    address: CONFIG.ALGEBRA_QUOTER_CONTRACT as `0x${string}`,
+    functionName: "quoteExactInputSingle",
+    args: [
+      CONFIG.TOKEN_CONTRACT as `0x${string}`,
+      CONFIG.USDC_CONTRACT as `0x${string}`,
+      BigInt(sfl),
+      BigInt(0),
+    ],
+  });
+  const amountOutMinimum = (BigInt(quote.result[0]) * BigInt(99)) / BigInt(100); // 1% slippage
+
   const hash = await writeContract(config, {
-    abi: WithdrawalABI,
-    address: address as `0x${string}`,
+    abi: WithdrawSFLABI,
+    address: CONFIG.WITHDRAW_SFL_CONTRACT as `0x${string}`,
     functionName: "withdrawSFL",
     args: [
       signature as `0x${string}`,
@@ -45,9 +62,9 @@ export async function withdrawSFLTransaction({
       BigInt(deadline),
       BigInt(farmId),
       BigInt(sfl),
-      BigInt(teamTax),
-      BigInt(communityTax),
-      BigInt(wishingWellTax),
+      BigInt(playerAmount),
+      BigInt(teamAmount),
+      amountOutMinimum,
     ],
     account: sender as `0x${string}`,
   });

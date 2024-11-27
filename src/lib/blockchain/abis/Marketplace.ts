@@ -28,20 +28,29 @@ export default [
       },
       { internalType: "contract ERC721", name: "_buds", type: "address" },
       { internalType: "address", name: "_signer", type: "address" },
-      { internalType: "address", name: "_feeWallet", type: "address" },
-      { internalType: "string", name: "_domain", type: "string" },
-      { internalType: "string", name: "_version", type: "string" },
+      {
+        components: [
+          { internalType: "address", name: "fee", type: "address" },
+          { internalType: "address", name: "community", type: "address" },
+        ],
+        internalType: "struct SunflowerLandMarketplace.Wallets",
+        name: "_wallets",
+        type: "tuple",
+      },
+      {
+        internalType: "contract SunflowerFees",
+        name: "_fees",
+        type: "address",
+      },
+      {
+        internalType: "contract SunflowerLandMarketplaceVerifier",
+        name: "_verifier",
+        type: "address",
+      },
     ],
     stateMutability: "payable",
     type: "constructor",
   },
-  { inputs: [], name: "InvalidShortString", type: "error" },
-  {
-    inputs: [{ internalType: "string", name: "str", type: "string" }],
-    name: "StringTooLong",
-    type: "error",
-  },
-  { anonymous: false, inputs: [], name: "EIP712DomainChanged", type: "event" },
   {
     anonymous: false,
     inputs: [
@@ -62,38 +71,15 @@ export default [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "string",
-        name: "tradeId",
-        type: "string",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "fulfillerId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "tradedAt",
-        type: "uint256",
-      },
-    ],
-    name: "Traded",
-    type: "event",
-  },
-  {
     inputs: [
       { internalType: "bytes", name: "signature", type: "bytes" },
       { internalType: "bytes32", name: "sessionId", type: "bytes32" },
       { internalType: "bytes32", name: "nextSessionId", type: "bytes32" },
       { internalType: "uint256", name: "deadline", type: "uint256" },
       { internalType: "uint256", name: "farmId", type: "uint256" },
-      { internalType: "uint256", name: "fee", type: "uint256" },
+      { internalType: "uint256", name: "playerAmount", type: "uint256" },
+      { internalType: "uint256", name: "teamAmount", type: "uint256" },
+      { internalType: "uint256", name: "amountOutMinimum", type: "uint256" },
       {
         components: [
           { internalType: "bytes", name: "signature", type: "bytes" },
@@ -143,21 +129,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [],
-    name: "eip712Domain",
-    outputs: [
-      { internalType: "bytes1", name: "fields", type: "bytes1" },
-      { internalType: "string", name: "name", type: "string" },
-      { internalType: "string", name: "version", type: "string" },
-      { internalType: "uint256", name: "chainId", type: "uint256" },
-      { internalType: "address", name: "verifyingContract", type: "address" },
-      { internalType: "bytes32", name: "salt", type: "bytes32" },
-      { internalType: "uint256[]", name: "extensions", type: "uint256[]" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
     name: "executedTxs",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
@@ -169,6 +140,15 @@ export default [
     name: "farm",
     outputs: [
       { internalType: "contract SunflowerLand", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "fees",
+    outputs: [
+      { internalType: "contract SunflowerFees", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
@@ -218,25 +198,38 @@ export default [
     inputs: [
       {
         components: [
+          {
+            components: [
+              { internalType: "bytes", name: "signature", type: "bytes" },
+              { internalType: "string", name: "id", type: "string" },
+              { internalType: "uint256", name: "farmId", type: "uint256" },
+              { internalType: "uint256", name: "itemId", type: "uint256" },
+              { internalType: "uint256", name: "sfl", type: "uint256" },
+              { internalType: "uint256", name: "quantity", type: "uint256" },
+              { internalType: "string", name: "collection", type: "string" },
+              { internalType: "string", name: "itemName", type: "string" },
+            ],
+            internalType: "struct SunflowerLandMarketplace.Listing",
+            name: "listing",
+            type: "tuple",
+          },
+          { internalType: "uint256", name: "buyerFarmId", type: "uint256" },
+          { internalType: "bytes32", name: "sessionId", type: "bytes32" },
+          { internalType: "bytes32", name: "nextSessionId", type: "bytes32" },
+          { internalType: "uint256", name: "deadline", type: "uint256" },
+          { internalType: "uint256", name: "playerAmount", type: "uint256" },
+          { internalType: "uint256", name: "teamAmount", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "amountOutMinimum",
+            type: "uint256",
+          },
           { internalType: "bytes", name: "signature", type: "bytes" },
-          { internalType: "string", name: "id", type: "string" },
-          { internalType: "uint256", name: "farmId", type: "uint256" },
-          { internalType: "uint256", name: "itemId", type: "uint256" },
-          { internalType: "uint256", name: "sfl", type: "uint256" },
-          { internalType: "uint256", name: "quantity", type: "uint256" },
-          { internalType: "string", name: "collection", type: "string" },
-          { internalType: "string", name: "itemName", type: "string" },
         ],
-        internalType: "struct SunflowerLandMarketplace.ListingData",
-        name: "_listing",
+        internalType: "struct SunflowerLandMarketplace.PurchaseListingArgs",
+        name: "args",
         type: "tuple",
       },
-      { internalType: "uint256", name: "_buyerFarmId", type: "uint256" },
-      { internalType: "bytes32", name: "_sessionId", type: "bytes32" },
-      { internalType: "bytes32", name: "_nextSessionId", type: "bytes32" },
-      { internalType: "uint256", name: "_deadline", type: "uint256" },
-      { internalType: "uint256", name: "_fee", type: "uint256" },
-      { internalType: "bytes", name: "_signature", type: "bytes" },
     ],
     name: "purchaseListing",
     outputs: [],
@@ -271,8 +264,28 @@ export default [
     type: "function",
   },
   {
+    inputs: [
+      { internalType: "uint256[]", name: "_ids", type: "uint256[]" },
+      { internalType: "uint256[]", name: "_amounts", type: "uint256[]" },
+    ],
+    name: "setMaxItemAmounts",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
     name: "setMaxSessionSFL",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256[]", name: "_ids", type: "uint256[]" },
+      { internalType: "uint256[]", name: "_amounts", type: "uint256[]" },
+    ],
+    name: "setMaxWearableAmounts",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -291,13 +304,10 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "string", name: "", type: "string" }],
-    name: "trades",
-    outputs: [
-      { internalType: "uint256", name: "tradedAt", type: "uint256" },
-      { internalType: "uint256", name: "fulfilledById", type: "uint256" },
-    ],
-    stateMutability: "view",
+    inputs: [{ internalType: "address", name: "_community", type: "address" }],
+    name: "transferCommunityWallet",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -322,24 +332,15 @@ export default [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "expectedSigner", type: "address" },
+    inputs: [],
+    name: "verifier",
+    outputs: [
       {
-        components: [
-          { internalType: "string", name: "item", type: "string" },
-          { internalType: "string", name: "collection", type: "string" },
-          { internalType: "uint256", name: "quantity", type: "uint256" },
-          { internalType: "uint256", name: "SFL", type: "uint256" },
-          { internalType: "uint256", name: "id", type: "uint256" },
-        ],
-        internalType: "struct SunflowerLandMarketplace.Offer",
-        name: "offer",
-        type: "tuple",
+        internalType: "contract SunflowerLandMarketplaceVerifier",
+        name: "",
+        type: "address",
       },
-      { internalType: "bytes", name: "signature", type: "bytes" },
     ],
-    name: "verifyOffer",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
@@ -352,4 +353,4 @@ export default [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;

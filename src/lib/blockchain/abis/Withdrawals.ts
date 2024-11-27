@@ -192,19 +192,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [],
-    name: "session",
-    outputs: [
-      {
-        internalType: "contract SunflowerLandSessionManager",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       { internalType: "address", name: "_communityTreasury", type: "address" },
     ],
@@ -359,23 +346,6 @@ export default [
       { internalType: "bytes32", name: "nextSessionId", type: "bytes32" },
       { internalType: "uint256", name: "deadline", type: "uint256" },
       { internalType: "uint256", name: "farmId", type: "uint256" },
-      { internalType: "uint256", name: "sfl", type: "uint256" },
-      { internalType: "uint256", name: "teamTax", type: "uint256" },
-      { internalType: "uint256", name: "communityTax", type: "uint256" },
-      { internalType: "uint256", name: "wishingWellTax", type: "uint256" },
-    ],
-    name: "withdrawSFL",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "bytes", name: "signature", type: "bytes" },
-      { internalType: "bytes32", name: "sessionId", type: "bytes32" },
-      { internalType: "bytes32", name: "nextSessionId", type: "bytes32" },
-      { internalType: "uint256", name: "deadline", type: "uint256" },
-      { internalType: "uint256", name: "farmId", type: "uint256" },
       { internalType: "uint256[]", name: "ids", type: "uint256[]" },
       { internalType: "uint256[]", name: "amounts", type: "uint256[]" },
     ],
@@ -384,4 +354,4 @@ export default [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const;
