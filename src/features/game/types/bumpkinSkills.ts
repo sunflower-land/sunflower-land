@@ -293,7 +293,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
   },
 };
 
-export const BUMPKIN_REVAMP_SKILL_TREE: Record<string, BumpkinSkillRevamp> = {
+export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Crops - Tier 1
   "Green Thumb 2": {
     name: "Green Thumb 2",
@@ -742,6 +742,17 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<string, BumpkinSkillRevamp> = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
+  "Fisherman's 5 Fold": {
+    name: "Fisherman's 5 Fold",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: "+5 Fishing daily limit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Wriggly Treat": {
     name: "Wriggly Treat",
     tree: "Fishing",
@@ -1524,7 +1535,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<string, BumpkinSkillRevamp> = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     power: true,
   },
-};
+} satisfies Record<string, BumpkinSkillRevamp>;
 
 export type BumpkinRevampSkillName = keyof typeof BUMPKIN_REVAMP_SKILL_TREE;
 
