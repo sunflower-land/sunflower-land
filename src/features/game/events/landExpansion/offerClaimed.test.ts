@@ -215,6 +215,38 @@ describe("offer.claimed", () => {
     expect(state.trades.tradePoints).toBeGreaterThanOrEqual(160);
   });
 
+  it("does not reward trade points for resources", () => {
+    const state = claimOffer({
+      action: {
+        tradeIds: ["123"],
+        type: "offer.claimed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        trades: {
+          offers: {
+            "123": {
+              collection: "collectibles",
+              items: {
+                Barley: 1,
+              },
+              createdAt: Date.now(),
+              sfl: 15,
+              fulfilledAt: Date.now(),
+              fulfilledById: 67,
+              signature: "123",
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.trades.tradePoints ?? 0).toEqual(0);
+    expect(state.inventory["Trade Point"] ?? new Decimal(0)).toEqual(
+      new Decimal(0),
+    );
+  });
+
   it("gives the items from multiple instant offers", () => {
     const state = claimOffer({
       action: {
