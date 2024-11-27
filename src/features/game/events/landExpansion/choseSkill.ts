@@ -72,7 +72,8 @@ export function choseSkill({ state, action }: Options) {
       throw new Error("You do not have a Bumpkin!");
     }
 
-    const { requirements, tree } = BUMPKIN_REVAMP_SKILL_TREE[action.skill];
+    const { requirements, tree, disabled } =
+      BUMPKIN_REVAMP_SKILL_TREE[action.skill];
     const bumpkinHasSkill = bumpkin.skills[action.skill];
 
     const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
@@ -90,12 +91,19 @@ export function choseSkill({ state, action }: Options) {
       throw new Error(`You need to unlock tier ${requirements.tier} first`);
     }
 
+    if (disabled) {
+      throw new Error("This skill is disabled");
+    }
+
     if (bumpkinHasSkill) {
       throw new Error("You already have this skill");
     }
 
     // Add the selected skill to the bumpkin's skills
-    bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
+    bumpkin.skills = {
+      ...bumpkin.skills,
+      [action.skill]: 1,
+    };
 
     return stateCopy;
   });
