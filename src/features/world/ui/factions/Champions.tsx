@@ -10,12 +10,12 @@ import {
   KingdomLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import {
-  BONUS_FACTION_PRIZES,
   FACTION_PRIZES,
   getFactionScores,
   getWeekKey,
   getPreviousWeek,
   getWeekNumber,
+  FACTION_BONUS_WEEKS,
 } from "features/game/lib/factions";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -34,7 +34,6 @@ import {
 import { Fireworks } from "./components/Fireworks";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
-import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
@@ -224,20 +223,12 @@ export const ChampionsPrizes: React.FC = () => {
   const currentFaction = state.faction?.name;
 
   const week = getWeekKey();
-  const ticket = getSeasonalTicket(new Date(week));
-
-  const { startDate } = SEASONS["Pharaoh's Treasure"];
-  const isPharaohsTreasure =
-    new Date(week) >= new Date(startDate) &&
-    new Date(week) <= new Date("2024-10-21");
-
-  const MONTHLY_PRIZES = BONUS_FACTION_PRIZES[week];
 
   // Group together rows that have the same prize
   const prizes: PrizeRow[] = [];
   let previous: PrizeRow | undefined = undefined;
-  getKeys(FACTION_PRIZES(ticket, isPharaohsTreasure)).forEach((key, index) => {
-    const prize = FACTION_PRIZES(ticket, isPharaohsTreasure)[key];
+  getKeys(FACTION_PRIZES(week)).forEach((key, index) => {
+    const prize = FACTION_PRIZES(week)[key];
 
     let isSameAsPrevious = false;
     if (previous) {
@@ -267,7 +258,7 @@ export const ChampionsPrizes: React.FC = () => {
         <Label type="default" className="mb-2 ml-1" icon={trophy}>
           {t("leaderboard.faction.champion")}
         </Label>
-        {!!MONTHLY_PRIZES && (
+        {FACTION_BONUS_WEEKS.includes(week) && (
           <Label type="vibrant" className="mb-2 ml-1" icon={gift}>
             {t("leaderboard.faction.bonusPrizeWeek")}
           </Label>
@@ -301,7 +292,6 @@ export const ChampionsPrizes: React.FC = () => {
           {prizes.map((prize, index) => {
             const trophy =
               currentFaction && TROPHIES[currentFaction][index + 1];
-            const bonus = MONTHLY_PRIZES?.[prize.from];
 
             return (
               <tr key={index}>
@@ -351,30 +341,6 @@ export const ChampionsPrizes: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  {getKeys(bonus?.items ?? {}).map((item, index) => {
-                    return (
-                      <Label
-                        key={index}
-                        type="vibrant"
-                        icon={ITEM_DETAILS[item].image}
-                        className="m-1"
-                      >
-                        {`${bonus.items?.[item] ?? 0} x ${item} `}
-                      </Label>
-                    );
-                  })}
-                  {getKeys(bonus?.wearables ?? {}).map((item, index) => {
-                    return (
-                      <Label
-                        key={index}
-                        type="vibrant"
-                        icon={gift}
-                        className="mt-1 ml-2 mb-1"
-                      >
-                        {`${bonus.wearables?.[item] ?? 0} x ${item} `}
-                      </Label>
-                    );
-                  })}
                 </td>
               </tr>
             );
