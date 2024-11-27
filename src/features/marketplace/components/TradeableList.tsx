@@ -58,7 +58,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   const { state } = gameState.context;
 
@@ -134,7 +134,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         sfl: price,
         signature,
         quantity: Math.max(1, quantity),
-        contract: CONFIG.MARKETPLACE_CONTRACT,
+        contract: CONFIG.MARKETPLACE_VERIFIER_CONTRACT,
       },
       authToken,
     });
@@ -173,7 +173,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         name: "TESTING",
         version: "1",
         chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
-        verifyingContract: CONFIG.MARKETPLACE_CONTRACT as `0x${string}`,
+        verifyingContract:
+          CONFIG.MARKETPLACE_VERIFIER_CONTRACT as `0x${string}`,
       },
     });
 
