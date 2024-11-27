@@ -293,7 +293,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
   },
 };
 
-export const BUMPKIN_REVAMP_SKILL_TREE = {
+export const BUMPKIN_REVAMP_SKILL_TREE: Record<string, BumpkinSkillRevamp> = {
   // Crops - Tier 1
   "Green Thumb 2": {
     name: "Green Thumb 2",
@@ -1524,7 +1524,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     power: true,
   },
-} satisfies Record<string, BumpkinSkillRevamp>;
+};
 
 export type BumpkinRevampSkillName = keyof typeof BUMPKIN_REVAMP_SKILL_TREE;
 
