@@ -839,7 +839,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "basic",
     },
-    boosts: "+1 Bait from all composters",
+    boosts:
+      "-50% eggs to speed up composters, 1 hour reduction in composting time",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },

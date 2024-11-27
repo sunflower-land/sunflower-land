@@ -113,7 +113,9 @@ describe("accelerateComposter", () => {
 
   it("does not double boost compost", () => {
     const readyAt =
-      Date.now() + composterDetails["Compost Bin"].timeToFinishMilliseconds;
+      Date.now() +
+      composterDetails(GAME_STATE.bumpkin.skills)["Compost Bin"]
+        .timeToFinishMilliseconds;
 
     const state = accelerateComposter({
       state: {
@@ -156,7 +158,9 @@ describe("accelerateComposter", () => {
 
   it("accelerates Compost Bin", () => {
     const readyAt =
-      Date.now() + composterDetails["Compost Bin"].timeToFinishMilliseconds;
+      Date.now() +
+      composterDetails(GAME_STATE.bumpkin.skills)["Compost Bin"]
+        .timeToFinishMilliseconds;
     const state = accelerateComposter({
       state: {
         ...GAME_STATE,
@@ -192,7 +196,9 @@ describe("accelerateComposter", () => {
 
   it("accelerates Turbo Composter", () => {
     const readyAt =
-      Date.now() + composterDetails["Turbo Composter"].timeToFinishMilliseconds;
+      Date.now() +
+      composterDetails(GAME_STATE.bumpkin.skills)["Turbo Composter"]
+        .timeToFinishMilliseconds;
     const state = accelerateComposter({
       state: {
         ...GAME_STATE,
@@ -228,7 +234,8 @@ describe("accelerateComposter", () => {
   it("accelerates Premium Composter", () => {
     const readyAt =
       Date.now() +
-      composterDetails["Premium Composter"].timeToFinishMilliseconds;
+      composterDetails(GAME_STATE.bumpkin.skills)["Premium Composter"]
+        .timeToFinishMilliseconds;
 
     const state = accelerateComposter({
       state: {

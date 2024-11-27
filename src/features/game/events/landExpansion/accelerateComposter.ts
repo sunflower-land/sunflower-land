@@ -43,7 +43,7 @@ export function accelerateComposter({
       throw new Error(translate("error.composterAlreadyBoosted"));
     }
 
-    const details = composterDetails[action.building];
+    const details = composterDetails(stateCopy.bumpkin.skills)[action.building];
     if (!stateCopy.inventory.Egg?.gte(details.eggBoostRequirements)) {
       throw new Error(translate("error.missingEggs"));
     }

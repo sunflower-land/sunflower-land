@@ -25,16 +25,21 @@ type Options = {
 };
 
 const getReadyAt = (gameState: GameState, composter: ComposterName) => {
-  const timeToFinish = composterDetails[composter].timeToFinishMilliseconds;
+  let timeToFinish = composterDetails(gameState.bumpkin.skills)[composter]
+    .timeToFinishMilliseconds;
 
   // gives +10% speed boost if the player has the Soil Krabby
   if (isCollectibleBuilt({ name: "Soil Krabby", game: gameState })) {
-    return timeToFinish * 0.9;
+    timeToFinish = timeToFinish * 0.9;
   }
 
   // gives +10% speed boost if the player has Swift Decomposer skill
   if (gameState.bumpkin?.skills["Swift Decomposer"]) {
-    return timeToFinish * 0.9;
+    timeToFinish = timeToFinish * 0.9;
+  }
+
+  if (gameState.bumpkin.skills["Composting Bonanza"]) {
+    timeToFinish = timeToFinish - 1 * 60 * 60 * 1000;
   }
 
   return timeToFinish;
@@ -70,7 +75,6 @@ export function startComposter({
 
       if (previous.lt(composter.requires?.[name] ?? 0)) {
         throw new Error(translate("error.missing"));
-        ("Missing requirements");
       }
 
       stateCopy.inventory[name as InventoryItemName] = previous.minus(
@@ -78,8 +82,11 @@ export function startComposter({
       );
     });
 
-    const produce = composterDetails[action.building].produce;
-    let produceAmount = composterDetails[action.building].produceAmount;
+    const produce = composterDetails(stateCopy.bumpkin.skills)[action.building]
+      .produce;
+    let produceAmount = composterDetails(stateCopy.bumpkin.skills)[
+      action.building
+    ].produceAmount;
 
     if (skills["Efficient Bin"] && action.building === "Compost Bin") {
       produceAmount += 5;
@@ -104,9 +111,10 @@ export function startComposter({
     // start the production
     buildings[0].producing = {
       items: {
-        [composterDetails[action.building].produce]: produceAmount,
+        [composterDetails(stateCopy.bumpkin.skills)[action.building].produce]:
+          produceAmount,
         // Set on backend
-        [composterDetails[action.building].worm]: 1,
+        [composterDetails(stateCopy.bumpkin.skills)[action.building].worm]: 1,
       },
       startedAt: createdAt,
       readyAt: createdAt + getReadyAt(stateCopy, action.building),
