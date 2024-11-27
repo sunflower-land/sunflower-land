@@ -49,6 +49,7 @@ export async function withdrawSFLTransaction({
       BigInt(0),
     ],
   });
+  const amountOutMinimum = BigInt(quote.result[0]) * BigInt(0.99); // 1% slippage
 
   const hash = await writeContract(config, {
     abi: WithdrawSFLABI,
@@ -63,7 +64,7 @@ export async function withdrawSFLTransaction({
       BigInt(sfl),
       BigInt(playerAmount),
       BigInt(teamAmount),
-      quote.result[0],
+      amountOutMinimum,
     ],
     account: sender as `0x${string}`,
   });

@@ -1,7 +1,12 @@
 import { CONFIG } from "lib/config";
 import MarketplaceABI from "./abis/Marketplace";
+import QuoterABI from "./abis/Quoter";
 import { getNextSessionId } from "./Session";
-import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
+import {
+  simulateContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
 
@@ -40,6 +45,19 @@ export async function acceptOfferTransaction({
 }: AcceptOfferParams): Promise<string> {
   const oldSessionId = sessionId;
 
+  const quote = await simulateContract(config, {
+    abi: QuoterABI,
+    address: CONFIG.ALGEBRA_QUOTER_CONTRACT as `0x${string}`,
+    functionName: "quoteExactInputSingle",
+    args: [
+      CONFIG.TOKEN_CONTRACT as `0x${string}`,
+      CONFIG.USDC_CONTRACT as `0x${string}`,
+      BigInt(offer.sfl),
+      BigInt(0),
+    ],
+  });
+  const amountOutMinimum = BigInt(quote.result[0]) * BigInt(0.99); // 1% slippage
+
   const hash = await writeContract(config, {
     abi: MarketplaceABI,
     address: address as `0x${string}`,
@@ -52,7 +70,7 @@ export async function acceptOfferTransaction({
       BigInt(farmId),
       BigInt(playerAmount),
       BigInt(teamAmount),
-      BigInt(0),
+      amountOutMinimum,
       {
         signature: offer.signature as `0x${string}`,
         tradeId: offer.tradeId,
@@ -106,6 +124,19 @@ export async function listingPurchasedTransaction({
 }: ListingPurchasedParams): Promise<string> {
   const oldSessionId = sessionId;
 
+  const quote = await simulateContract(config, {
+    abi: QuoterABI,
+    address: CONFIG.ALGEBRA_QUOTER_CONTRACT as `0x${string}`,
+    functionName: "quoteExactInputSingle",
+    args: [
+      CONFIG.TOKEN_CONTRACT as `0x${string}`,
+      CONFIG.USDC_CONTRACT as `0x${string}`,
+      BigInt(listing.sfl),
+      BigInt(0),
+    ],
+  });
+  const amountOutMinimum = BigInt(quote.result[0]) * BigInt(0.99); // 1% slippage
+
   const hash = await writeContract(config, {
     abi: MarketplaceABI,
     address: address as `0x${string}`,
@@ -120,7 +151,7 @@ export async function listingPurchasedTransaction({
         playerAmount: BigInt(playerAmount),
         teamAmount: BigInt(teamAmount),
         signature: signature as `0x${string}`,
-        amountOutMinimum: BigInt(0),
+        amountOutMinimum,
       },
     ],
     account: sender as `0x${string}`,
