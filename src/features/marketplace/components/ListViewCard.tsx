@@ -12,14 +12,21 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
+import { Label } from "components/ui/Label";
 
 type Props = {
   details: TradeableDisplay;
+  count?: number;
   price?: Decimal;
   onClick?: () => void;
 };
 
-export const ListViewCard: React.FC<Props> = ({ details, price, onClick }) => {
+export const ListViewCard: React.FC<Props> = ({
+  details,
+  price,
+  onClick,
+  count,
+}) => {
   const { type, name, image, buff } = details;
   const { t } = useAppTranslation();
   const isResources = getKeys(TRADE_LIMITS).includes(name as InventoryItemName);
@@ -70,6 +77,12 @@ export const ListViewCard: React.FC<Props> = ({ details, price, onClick }) => {
 
           {tradeType === "onchain" && (
             <img src={wallet} className="h-5 mr-1 absolute top-0 -right-1" />
+          )}
+
+          {count && (
+            <Label type="default" className="absolute top-0 -left-0.5">
+              {`x${count}`}
+            </Label>
           )}
 
           <p className="text-xs mb-0.5 text-[#181425]">{name}</p>

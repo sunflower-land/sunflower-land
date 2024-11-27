@@ -112,6 +112,7 @@ export const MyCollection: React.FC = () => {
                     onClick={() => {
                       navigate(`/marketplace/${details.type}/${item.id}`);
                     }}
+                    count={item.count}
                   />
                 </div>
               );
