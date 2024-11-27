@@ -16,7 +16,7 @@ export function addTradePoints({
 }) {
   // Exclude resources
   if (
-    trade.collection === "resources" &&
+    trade.collection === "collectibles" &&
     TRADE_LIMITS[KNOWN_ITEMS[trade.itemId]]
   ) {
     return state;

@@ -1,17 +1,22 @@
 import Decimal from "decimal.js-light";
+import { KNOWN_ITEMS } from "features/game/types";
+import { TradeableName } from "features/game/actions/sellMarketResource";
 import {
   BuildingName,
   BUILDINGS_DIMENSIONS,
 } from "features/game/types/buildings";
+import { ITEM_NAMES } from "features/game/types/bumpkin";
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory } from "features/game/types/game";
-import { MarketplaceTradeableName } from "features/game/types/marketplace";
+import {
+  CollectionName,
+  MarketplaceTradeableName,
+} from "features/game/types/marketplace";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { setPrecision } from "lib/utils/formatNumber";
 
 const PLACEABLE_DIMENSIONS = {
@@ -19,6 +24,26 @@ const PLACEABLE_DIMENSIONS = {
   ...COLLECTIBLES_DIMENSIONS,
   ...RESOURCE_DIMENSIONS,
 };
+
+export function getTradeableName({
+  id,
+  type,
+}: {
+  id: number;
+  type: CollectionName;
+}): { name: TradeableName } {
+  if (type === "wearables") {
+    return { name: ITEM_NAMES[id] as TradeableName };
+  }
+
+  if (type === "buds") {
+    return { name: `Bud #${id}` as TradeableName };
+  }
+
+  return {
+    name: KNOWN_ITEMS[id] as TradeableName,
+  };
+}
 
 export const getActiveListedItems = (
   state: GameState,
@@ -30,7 +55,7 @@ export const getActiveListedItems = (
     (acc, listing) => {
       if (listing.boughtAt && listing.buyerId) return acc;
 
-      const details = getTradeableDisplay({
+      const details = getTradeableName({
         id: listing.itemId,
         type: listing.collection,
       });
