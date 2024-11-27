@@ -742,17 +742,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
-  "Grubby Treat": {
-    name: "Grubby Treat",
-    tree: "Fishing",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: "+1 Grub bait from composting",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   "Wriggly Treat": {
     name: "Wriggly Treat",
     tree: "Fishing",
