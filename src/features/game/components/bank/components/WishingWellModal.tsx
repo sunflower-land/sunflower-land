@@ -1,33 +1,19 @@
-import React, { useContext, useState } from "react";
-import { useActor, useInterpret } from "@xstate/react";
+import React, { useState } from "react";
 import { Modal } from "components/ui/Modal";
-import ReCAPTCHA from "react-google-recaptcha";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
 import { shortAddress } from "lib/utils/shortAddress";
-import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import classNames from "classnames";
-import {
-  MachineInterpreter,
-  wishingWellMachine,
-} from "../../../../goblins/wishingWell/wishingWellMachine";
+
 import { WishingWellTokens } from "../../../../goblins/wishingWell/actions/loadWishingWell";
 import { formatNumber } from "lib/utils/formatNumber";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
-import giftIcon from "assets/icons/gift.png";
 import tokenIcon from "assets/icons/sfl.webp";
-import { Context } from "features/game/GameProvider";
-import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
-import { Loading } from "features/auth/components";
 import { CloseButtonPanel } from "../../CloseablePanel";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
@@ -223,164 +209,10 @@ interface Props {
   onClose?: () => void;
 }
 export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-
-  const [tab, setTab] = useState(0);
-
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const { t } = useAppTranslation();
-
-  const { rawToken, token } = authState.context.user;
-  const { bumpkin, balance, previousBalance } = gameState.context.state;
-
-  const sfl = balance.gt(previousBalance) ? previousBalance : balance;
-
-  const wishingWellService = useInterpret(wishingWellMachine, {
-    context: {
-      farmId: gameState.context.farmId,
-      bumpkinTokenUri: tokenUriBuilder(bumpkin?.equipped as BumpkinParts),
-      sessionId: gameState.context.sessionId as string,
-      token: rawToken,
-      balance: sfl,
-    },
-  }) as unknown as MachineInterpreter;
-
-  const [machine, send] = useActor(wishingWellService);
-
-  const { state: wishingWell, errorCode } = machine.context;
-
-  useUiRefresher({
-    active:
-      machine.matches("granted") ||
-      machine.matches("waiting") ||
-      machine.matches("wished"),
-  });
-
-  const handleClose = () => {
-    send("CLOSING");
-
-    if (onClose) {
-      onClose();
-    }
-  };
-
-  const goToQuickSwap = () => {
-    window.open(
-      "https://quickswap.exchange/#/add/0xd1f9c58e33933a993a3891f8acfe05a68e1afc05/ETH/v2",
-      "_blank",
-    );
-  };
-
   return (
-    <Modal show={true} onHide={handleClose}>
-      <CloseButtonPanel
-        currentTab={tab}
-        setCurrentTab={setTab}
-        tabs={[
-          {
-            icon: giftIcon,
-            name: "Wishing Well",
-          },
-          {
-            icon: tokenIcon,
-            name: "Merkl",
-            alert: true,
-          },
-        ]}
-        className="relative"
-      >
-        {tab === 0 && (
-          <>
-            <Label type="default" icon={giftIcon} className="text-center m-1">
-              {`Wishing well`}
-            </Label>
-            <GameWallet action="wishingWell">
-              {machine.matches("loading") && <Loading />}
-              {(machine.matches("granting") || machine.matches("signing")) && (
-                <Loading text={t("granting.wish")} />
-              )}
-              {machine.matches("wishing") && (
-                <Loading text={t("making.wish")} />
-              )}
-              {machine.matches("error") && (
-                <div>
-                  {errorCode === "NO_TOKENS" ? (
-                    <span className="mt-2">{t("no.sfl")}</span>
-                  ) : (
-                    <SomethingWentWrong />
-                  )}
-                </div>
-              )}
-              <img
-                src={SUNNYSIDE.icons.close}
-                className="absolute cursor-pointer m-2 z-20"
-                onClick={handleClose}
-                style={{
-                  top: `${PIXEL_SCALE * 1}px`,
-                  right: `${PIXEL_SCALE * 1}px`,
-                  width: `${PIXEL_SCALE * 11}px`,
-                }}
-              />
-              {machine.matches("noLiquidity") && (
-                <NoWish
-                  totalTokensInWell={wishingWell.totalTokensInWell}
-                  hasLPTokens={Number(wishingWell.lpTokens) > 0}
-                  onClick={goToQuickSwap}
-                />
-              )}
-              {machine.matches("zeroTokens") && (
-                <ZeroTokens onClick={() => send("WISH")} />
-              )}
-              {machine.matches("canWish") && (
-                <NoWish
-                  totalTokensInWell={wishingWell.totalTokensInWell}
-                  onClick={() => send("WISH")}
-                  hasLPTokens={Number(wishingWell.lpTokens) > 0}
-                />
-              )}
-              {(machine.matches("waiting") || machine.matches("wished")) && (
-                <WaitingForWish lockedTime={wishingWell.lockedTime as string} />
-              )}
-              {machine.matches("readyToGrant") && (
-                <GrantWish
-                  totalTokensInWell={wishingWell.totalTokensInWell}
-                  onClick={() => send("GRANT_WISH")}
-                />
-              )}
-              {machine.matches("granted") && (
-                <Granted
-                  reward={
-                    machine.context.totalRewards
-                      ? formatNumber(machine.context.totalRewards, {
-                          decimalPlaces: 4,
-                        })
-                      : "?"
-                  }
-                  lockedTime={wishingWell.lockedTime}
-                  onClose={handleClose}
-                />
-              )}
-              {machine.matches("captcha") && (
-                <div className="p-1">
-                  <ReCAPTCHA
-                    sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
-                    onChange={(captcha: string | null) => {
-                      if (captcha) {
-                        send({ type: "VERIFIED", captcha });
-                      }
-                    }}
-                    className="w-full m-0 flex items-center justify-center"
-                  />
-                </div>
-              )}
-            </GameWallet>
-          </>
-        )}
-
-        {tab === 1 && <Merkl />}
+    <Modal show={true} onHide={onClose}>
+      <CloseButtonPanel onClose={onClose} className="relative">
+        <Merkl />
       </CloseButtonPanel>
     </Modal>
   );
