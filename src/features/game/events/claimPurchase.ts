@@ -41,10 +41,6 @@ export function claimPurchase({ state, action }: Options) {
       return !game.trades.listings?.[purchaseId].signature;
     });
 
-    const onchainPurchases = purchaseIds.filter((purchaseIds) => {
-      return !!game.trades.listings?.[purchaseIds].signature;
-    });
-
     instantPurchases.forEach((purchaseId) => {
       let sfl = new Decimal(game.trades.listings?.[purchaseId].sfl ?? 0);
       sfl = sfl.mul(1 - MARKETPLACE_TAX);
@@ -59,17 +55,7 @@ export function claimPurchase({ state, action }: Options) {
         sfl: game.trades.listings?.[purchaseId].sfl ?? 0,
         items: game.trades.listings?.[purchaseId].items,
       });
-    });
 
-    onchainPurchases.forEach((purchaseId) => {
-      game = addTradePoints({
-        state: game,
-        points: 5,
-        sfl: game.trades.listings?.[purchaseId].sfl ?? 0,
-      });
-    });
-
-    purchaseIds.forEach((purchaseId) => {
       delete game.trades.listings?.[purchaseId];
     });
 

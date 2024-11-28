@@ -184,37 +184,6 @@ describe("offer.claimed", () => {
     expect(state.trades.tradePoints).toBeGreaterThanOrEqual(32);
   });
 
-  it("grants trade points for onchain trade when offer is claimed", () => {
-    const state = claimOffer({
-      action: {
-        tradeIds: ["123"],
-        type: "offer.claimed",
-      },
-      state: {
-        ...INITIAL_FARM,
-        trades: {
-          tradePoints: 5,
-          offers: {
-            "123": {
-              collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
-              createdAt: Date.now(),
-              sfl: 15,
-              fulfilledAt: Date.now(),
-              fulfilledById: 67,
-              signature: "123",
-            },
-          },
-        },
-      },
-    });
-
-    expect(state.inventory["Trade Point"]?.toNumber()).toEqual(160);
-    expect(state.trades.tradePoints).toBeGreaterThanOrEqual(160);
-  });
-
   it("does not reward trade points for resources", () => {
     const state = claimOffer({
       action: {
