@@ -10,7 +10,6 @@ import {
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 
 export type TradeableDisplay = {
@@ -34,7 +33,7 @@ export function getTradeableDisplay({
     return {
       name,
       description: details.description, // TODO support translation
-      image: getImageUrl(id),
+      image: `/src/assets/wearables/${id}.webp`,
       buff: BUMPKIN_ITEM_BUFF_LABELS[name],
       type,
     };

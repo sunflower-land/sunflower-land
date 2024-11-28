@@ -13,6 +13,7 @@ import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Label } from "components/ui/Label";
+import classNames from "classnames";
 
 type Props = {
   details: TradeableDisplay;
@@ -46,7 +47,12 @@ export const ListViewCard: React.FC<Props> = ({
         className="h-full flex flex-col"
       >
         <div className="flex flex-col items-center h-20 p-2 pt-4">
-          <img src={image} className="h-3/4 mt-2" />
+          <img
+            src={image}
+            className={classNames("object-contain h-[80%] mt-1", {
+              "h-[65%] mt-2": isResources,
+            })}
+          />
         </div>
 
         <div
@@ -60,8 +66,8 @@ export const ListViewCard: React.FC<Props> = ({
         >
           {price && price.gt(0) && (
             <div className="flex items-center absolute top-0 left-0">
-              <img src={sfl} className="h-5 mr-1" />
-              <p className="text-xs">
+              <img src={sfl} className="h-4 sm:h-5 mr-1" />
+              <p className="text-xxs sm:text-xs whitespace-nowrap">
                 {isResources
                   ? t("marketplace.pricePerUnit", {
                       price: formatNumber(price, {
