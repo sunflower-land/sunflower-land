@@ -134,7 +134,7 @@ export const ComposterModal: React.FC<Props> = ({
     eggBoostMilliseconds,
     eggBoostRequirements,
     timeToFinishMilliseconds,
-  } = composterDetails(state.bumpkin.skills)[composterName];
+  } = composterDetails[composterName];
 
   const composting = !!readyAt && readyAt > Date.now();
   const isReady = readyAt && readyAt < Date.now();

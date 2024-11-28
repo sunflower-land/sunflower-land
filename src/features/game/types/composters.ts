@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName, Skills } from "./game";
+import { GameState, InventoryItemName } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type Worm = "Earthworm" | "Grub" | "Red Wiggler";
@@ -64,15 +64,13 @@ export type ComposterDetails = {
   eggBoostMilliseconds: number;
 };
 
-export const composterDetails: (
-  skills: Skills,
-) => Record<ComposterName, ComposterDetails> = (skills) => ({
+export const composterDetails: Record<ComposterName, ComposterDetails> = {
   "Compost Bin": {
     worm: "Earthworm",
     produce: "Sprout Mix",
     produceAmount: 10,
     timeToFinishMilliseconds: 6 * 60 * 60 * 1000,
-    eggBoostRequirements: skills["Composting Bonanza"] ? 5 : 10,
+    eggBoostRequirements: 10,
     eggBoostMilliseconds: 2 * 60 * 60 * 1000,
   },
   "Turbo Composter": {
@@ -80,7 +78,7 @@ export const composterDetails: (
     produceAmount: 3,
     worm: "Grub",
     timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
-    eggBoostRequirements: skills["Composting Bonanza"] ? 10 : 20,
+    eggBoostRequirements: 20,
     eggBoostMilliseconds: 3 * 60 * 60 * 1000,
   },
   "Premium Composter": {
@@ -88,10 +86,10 @@ export const composterDetails: (
     produceAmount: 10,
     worm: "Red Wiggler",
     timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
-    eggBoostRequirements: skills["Composting Bonanza"] ? 15 : 30,
+    eggBoostRequirements: 30,
     eggBoostMilliseconds: 4 * 60 * 60 * 1000,
   },
-});
+};
 
 export function isComposting(game: GameState, name: ComposterName): boolean {
   const composter = game.buildings[name]?.[0];

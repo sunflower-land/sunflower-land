@@ -113,9 +113,7 @@ describe("accelerateComposter", () => {
 
   it("does not double boost compost", () => {
     const readyAt =
-      Date.now() +
-      composterDetails(GAME_STATE.bumpkin.skills)["Compost Bin"]
-        .timeToFinishMilliseconds;
+      Date.now() + composterDetails["Compost Bin"].timeToFinishMilliseconds;
 
     const state = accelerateComposter({
       state: {
@@ -158,9 +156,7 @@ describe("accelerateComposter", () => {
 
   it("accelerates Compost Bin", () => {
     const readyAt =
-      Date.now() +
-      composterDetails(GAME_STATE.bumpkin.skills)["Compost Bin"]
-        .timeToFinishMilliseconds;
+      Date.now() + composterDetails["Compost Bin"].timeToFinishMilliseconds;
     const state = accelerateComposter({
       state: {
         ...GAME_STATE,
@@ -196,9 +192,7 @@ describe("accelerateComposter", () => {
 
   it("accelerates Turbo Composter", () => {
     const readyAt =
-      Date.now() +
-      composterDetails(GAME_STATE.bumpkin.skills)["Turbo Composter"]
-        .timeToFinishMilliseconds;
+      Date.now() + composterDetails["Turbo Composter"].timeToFinishMilliseconds;
     const state = accelerateComposter({
       state: {
         ...GAME_STATE,
@@ -234,8 +228,7 @@ describe("accelerateComposter", () => {
   it("accelerates Premium Composter", () => {
     const readyAt =
       Date.now() +
-      composterDetails(GAME_STATE.bumpkin.skills)["Premium Composter"]
-        .timeToFinishMilliseconds;
+      composterDetails["Premium Composter"].timeToFinishMilliseconds;
 
     const state = accelerateComposter({
       state: {
@@ -268,5 +261,45 @@ describe("accelerateComposter", () => {
     expect(
       state.buildings["Premium Composter"]?.[0].producing?.readyAt,
     ).toEqual(readyAt - 4 * 60 * 60 * 1000);
+  });
+  it("subtracts half the amount of eggs when player has Composting Bonanza Skill", () => {
+    const readyAt =
+      Date.now() +
+      composterDetails["Premium Composter"].timeToFinishMilliseconds;
+
+    const state = accelerateComposter({
+      createdAt: Date.now(),
+      action: {
+        type: "compost.accelerated",
+        building: "Premium Composter",
+      },
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Composting Bonanza": 1,
+          },
+        },
+        inventory: { Egg: new Decimal(33) },
+        buildings: {
+          "Premium Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 10000000,
+              id: "123",
+              readyAt: 10000000,
+              producing: {
+                items: {},
+                readyAt,
+                startedAt: Date.now() - 500000,
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    expect(state.inventory.Egg).toEqual(new Decimal(18));
   });
 });

@@ -17,6 +17,15 @@ type Options = {
   createdAt?: number;
 };
 
+export function getSpeedUpCost(gameState: GameState, composter: ComposterName) {
+  let { eggBoostRequirements } = composterDetails[composter];
+
+  if (gameState.bumpkin.skills["Composting Bonanza"]) {
+    eggBoostRequirements *= 0.5;
+  }
+  return { eggBoostRequirements };
+}
+
 export function accelerateComposter({
   state,
   action,
@@ -29,7 +38,7 @@ export function accelerateComposter({
     }
 
     const composter = buildings[0];
-    const producing = composter.producing;
+    const { producing } = composter;
 
     if (!producing) {
       throw new Error(translate("error.composterNotProducing"));
@@ -43,20 +52,19 @@ export function accelerateComposter({
       throw new Error(translate("error.composterAlreadyBoosted"));
     }
 
-    const details = composterDetails(stateCopy.bumpkin.skills)[action.building];
-    if (!stateCopy.inventory.Egg?.gte(details.eggBoostRequirements)) {
+    const { eggBoostMilliseconds } = composterDetails[action.building];
+    const { eggBoostRequirements } = getSpeedUpCost(stateCopy, action.building);
+    if (!stateCopy.inventory.Egg?.gte(eggBoostRequirements)) {
       throw new Error(translate("error.missingEggs"));
     }
 
     // Subtract eggs
-    stateCopy.inventory.Egg = stateCopy.inventory.Egg.sub(
-      details.eggBoostRequirements,
-    );
+    stateCopy.inventory.Egg = stateCopy.inventory.Egg.sub(eggBoostRequirements);
 
     // Subtract time
-    producing.readyAt -= details.eggBoostMilliseconds;
+    producing.readyAt -= eggBoostMilliseconds;
 
-    composter.boost = { Egg: details.eggBoostRequirements };
+    composter.boost = { Egg: eggBoostRequirements };
 
     return stateCopy;
   });
