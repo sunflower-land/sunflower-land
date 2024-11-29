@@ -3,6 +3,7 @@ import {
   BumpkinSkillRevamp,
   BumpkinRevampSkillTree,
   createRevampSkillPath,
+  BumpkinRevampSkillName,
 } from "features/game/types/bumpkinSkills";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -57,7 +58,8 @@ export const SkillPathDetails: React.FC<Props> = ({
   // Functions
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
   const availableTier = getUnlockedTierForTree(selectedSkill.tree, bumpkin);
-  const hasSelectedSkill = !!bumpkin?.skills[selectedSkill.name];
+  const hasSelectedSkill =
+    !!bumpkin?.skills[selectedSkill.name as BumpkinRevampSkillName];
   const missingPointRequirement =
     selectedSkill.requirements.points > availableSkillPoints;
   const missingSkillsRequirement =
@@ -99,7 +101,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   const renderSkillTier = (skills: BumpkinSkillRevamp[]) => {
     return skills.map((skill) => {
-      const hasSkill = !!bumpkin?.skills[skill.name];
+      const hasSkill = !!bumpkin?.skills[skill.name as BumpkinRevampSkillName];
 
       return (
         <Box
@@ -202,11 +204,9 @@ export const SkillPathDetails: React.FC<Props> = ({
               onClick={onBack}
             />
             <Label type="default">{selectedSkillPath + " Skills"}</Label>
-            {availableSkillPoints > 0 && (
-              <Label type="default" className="ml-1">
-                {`${t("skillPts")} ${availableSkillPoints}`}
-              </Label>
-            )}
+            <Label type="default" className="ml-1">
+              {`${t("skillPts")} ${availableSkillPoints}`}
+            </Label>
           </div>
 
           {/* Skills */}

@@ -243,7 +243,7 @@ describe("mineCrimstone", () => {
         createdAt: now,
       });
 
-      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.05 * 1000);
+      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.15 * 1000);
     });
   });
 });

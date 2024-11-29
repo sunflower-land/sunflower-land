@@ -127,7 +127,14 @@ export const ComposterModal: React.FC<Props> = ({
 
   const state = gameState.context.state;
 
-  const composterInfo = composterDetails[composterName];
+  const {
+    produce,
+    produceAmount,
+    worm,
+    eggBoostMilliseconds,
+    eggBoostRequirements,
+    timeToFinishMilliseconds,
+  } = composterDetails[composterName];
 
   const composting = !!readyAt && readyAt > Date.now();
   const isReady = readyAt && readyAt < Date.now();
@@ -242,19 +249,14 @@ export const ComposterModal: React.FC<Props> = ({
               <OuterPanel className="!p-1">
                 <div className="flex justify-between mb-1">
                   <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                    {`${secondsToString(
-                      composterInfo.eggBoostMilliseconds / 1000,
-                      {
-                        length: "short",
-                      },
-                    )} Boost`}
+                    {`${secondsToString(eggBoostMilliseconds / 1000, {
+                      length: "short",
+                    })} Boost`}
                   </Label>
                   <RequirementLabel
                     type="item"
                     item="Egg"
-                    requirement={
-                      new Decimal(composterInfo.eggBoostRequirements)
-                    }
+                    requirement={new Decimal(eggBoostRequirements)}
                     balance={state.inventory.Egg ?? new Decimal(0)}
                   />
                 </div>
@@ -264,10 +266,7 @@ export const ComposterModal: React.FC<Props> = ({
                 </p>
                 <Button
                   disabled={
-                    !boost &&
-                    !state.inventory.Egg?.gte(
-                      composterInfo.eggBoostRequirements,
-                    )
+                    !boost && !state.inventory.Egg?.gte(eggBoostRequirements)
                   }
                   onClick={() => showConfirmBoostModal(true)}
                 >
@@ -278,23 +277,16 @@ export const ComposterModal: React.FC<Props> = ({
                   onHide={() => showConfirmBoostModal(false)}
                   messages={[
                     t("guide.compost.addEggs.confirmation", {
-                      noEggs: composterInfo.eggBoostRequirements,
-                      time: secondsToString(
-                        composterInfo.eggBoostMilliseconds / 1000,
-                        {
-                          length: "short",
-                        },
-                      ),
+                      noEggs: eggBoostRequirements,
+                      time: secondsToString(eggBoostMilliseconds / 1000, {
+                        length: "short",
+                      }),
                     }),
                   ]}
                   onCancel={() => showConfirmBoostModal(false)}
                   onConfirm={applyBoost}
                   confirmButtonLabel={t("guide.compost.addEggs")}
-                  disabled={
-                    !state.inventory.Egg?.gte(
-                      composterInfo.eggBoostRequirements,
-                    )
-                  }
+                  disabled={!state.inventory.Egg?.gte(eggBoostRequirements)}
                 />
               </OuterPanel>
             </>
@@ -307,15 +299,12 @@ export const ComposterModal: React.FC<Props> = ({
                   icon={SUNNYSIDE.icons.stopwatch}
                   secondaryIcon={SUNNYSIDE.icons.confirm}
                 >
-                  {`${secondsToString(
-                    composterInfo.eggBoostMilliseconds / 1000,
-                    {
-                      length: "short",
-                    },
-                  )} Boosted`}
+                  {`${secondsToString(eggBoostMilliseconds / 1000, {
+                    length: "short",
+                  })} Boosted`}
                 </Label>
                 <Label type="default" icon={ITEM_DETAILS.Egg.image}>
-                  {composterInfo.eggBoostRequirements} {t("guide.compost.eggs")}
+                  {eggBoostRequirements} {t("guide.compost.eggs")}
                 </Label>
               </div>
             </OuterPanel>
@@ -343,7 +332,7 @@ export const ComposterModal: React.FC<Props> = ({
     }
 
     const FertiliserLabel = () => {
-      const fertiliser = composterDetails[composterName].produce;
+      const fertiliser = produce;
 
       if (fertiliser === "Sprout Mix") {
         return (
@@ -393,29 +382,19 @@ export const ComposterModal: React.FC<Props> = ({
           <div className="flex flex-col h-full px-1 py-0">
             <div className="flex flex-wrap my-1">
               <div className="flex space-x-2 justify-start mr-2">
-                <SquareIcon
-                  icon={
-                    ITEM_DETAILS[composterDetails[composterName].produce].image
-                  }
-                  width={14}
-                />
+                <SquareIcon icon={ITEM_DETAILS[produce].image} width={14} />
                 <div className="block">
                   <p className="text-xs mb-1">
-                    {`${composterDetails[composterName].produceAmount} ${composterDetails[composterName].produce}`}
+                    {`${produceAmount} ${produce}`}
                   </p>
                   <FertiliserLabel />
                 </div>
               </div>
               <div className="flex space-x-1 justify-start">
-                <SquareIcon
-                  icon={
-                    ITEM_DETAILS[composterDetails[composterName].worm].image
-                  }
-                  width={14}
-                />
+                <SquareIcon icon={ITEM_DETAILS[worm].image} width={14} />
                 <div className="block">
                   <p className="text-xs mb-1">
-                    {`${WORM_OUTPUT[composterName]} ${composterDetails[composterName].worm}s`}
+                    {`${WORM_OUTPUT[composterName]} ${worm}s`}
                   </p>
                   <Label
                     icon={SUNNYSIDE.tools.fishing_rod}
@@ -444,7 +423,7 @@ export const ComposterModal: React.FC<Props> = ({
 
               <RequirementLabel
                 type="time"
-                waitSeconds={composterInfo.timeToFinishMilliseconds / 1000}
+                waitSeconds={timeToFinishMilliseconds / 1000}
               />
             </div>
           </div>

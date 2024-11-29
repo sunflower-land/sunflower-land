@@ -454,7 +454,11 @@ export function getDailyFishingLimit(game: GameState): number {
     limit += 10;
   }
 
-  // +5 daily limit if player had Fisherman's 5 Fold skill
+  // +5 daily limit if player had Fisherman's 2 Fold skill
+  if (game.bumpkin?.skills["Fisherman's 2 Fold"]) {
+    limit += 2;
+  }
+
   if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
     limit += 5;
   }

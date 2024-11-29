@@ -34,7 +34,7 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
   }
 
   if (game.bumpkin.skills["Fireside Alchemist"]) {
-    time -= CRIMSTONE_RECOVERY_TIME * 0.05 * 1000;
+    time -= CRIMSTONE_RECOVERY_TIME * 0.15 * 1000;
   }
 
   return time;
