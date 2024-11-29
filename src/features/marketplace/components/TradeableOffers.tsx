@@ -211,7 +211,7 @@ export const TradeableOffers: React.FC<{
 
       {isResource && (
         <InnerPanel className="mb-1">
-          <div className="p-2">
+          <div className="p-2 pb-0">
             <div className="flex justify-between mb-2">
               <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
