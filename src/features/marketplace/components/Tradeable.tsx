@@ -8,6 +8,7 @@ import { useActor } from "@xstate/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
+import { isMobile } from "mobile-device-detect";
 
 import { SaleHistory } from "./PriceHistory";
 import { TradeableOffers } from "./TradeableOffers";
@@ -21,7 +22,7 @@ import {
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { TradeableHeader } from "./TradeableHeader";
-import { TradeableInfo } from "./TradeableInfo";
+import { TradeableInfo, TradeableMobileInfo } from "./TradeableInfo";
 import { MyListings } from "./profile/MyListings";
 import { MyOffers } from "./profile/MyOffers";
 import { TradeableListings } from "./TradeableListings";
@@ -139,7 +140,11 @@ export const Tradeable: React.FC = () => {
             </div>
           </div>
         </InnerPanel>
-        <TradeableInfo display={display} tradeable={tradeable} />
+        {isMobile ? (
+          <TradeableMobileInfo display={display} tradeable={tradeable} />
+        ) : (
+          <TradeableInfo display={display} tradeable={tradeable} />
+        )}
       </div>
       <div className="w-full">
         <TradeableHeader
@@ -154,7 +159,9 @@ export const Tradeable: React.FC = () => {
           onListClick={() => setShowListItem(true)}
         />
 
-        <TradeableStats history={tradeable?.history} price={latestSale} />
+        {!isMobile && (
+          <TradeableStats history={tradeable?.history} price={latestSale} />
+        )}
 
         {hasListings && <MyListings />}
         {hasOffers && <MyOffers />}

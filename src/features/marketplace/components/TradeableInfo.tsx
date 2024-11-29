@@ -13,11 +13,12 @@ import { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router-dom";
+import { TradeableStats } from "./TradeableStats";
 
-export const TradeableInfo: React.FC<{
+export const TradeableImage: React.FC<{
   display: TradeableDisplay;
-  tradeable?: TradeableDetails;
-}> = ({ display, tradeable }) => {
+  supply?: number;
+}> = ({ display, supply }) => {
   const { t } = useAppTranslation();
   const params = useParams();
   const isResource = getKeys(TRADE_LIMITS).includes(
@@ -28,56 +29,103 @@ export const TradeableInfo: React.FC<{
   const useBrownBackground = params.collection === "wearables" || isResource;
   const background = useBrownBackground ? brownBg : grassBg;
 
+  const [isPortrait, setIsPortrait] = React.useState(false);
+
+  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget;
+    setIsPortrait(img.naturalHeight > img.naturalWidth);
+  };
+
+  return (
+    <InnerPanel className="w-full flex relative mb-1" style={{ padding: 0 }}>
+      <div className="flex flex-wrap absolute top-2 right-2">
+        {/* {tradeable && (
+      <Label
+        type="formula"
+        icon={increaseArrow}
+        className="mr-2"
+      >{`42% (7D)`}</Label>
+    )} */}
+
+        {supply && !isResource && (
+          <Label type="default">{t("marketplace.supply", { supply })}</Label>
+        )}
+      </div>
+
+      <img
+        src={isBackground ? display.image : background}
+        className="w-full rounded-sm"
+      />
+      {!isBackground && (
+        <img
+          src={display.image}
+          className={`absolute ${isPortrait ? "h-1/2" : "w-1/3"}`}
+          style={{
+            left: "50%",
+            transform: "translate(-50%, 50%)",
+            bottom: "50%",
+          }}
+          onLoad={handleImageLoad}
+        />
+      )}
+    </InnerPanel>
+  );
+};
+
+export const TradeableDescription: React.FC<{
+  display: TradeableDisplay;
+}> = ({ display }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <InnerPanel>
+      <div className="p-2">
+        <Label type="default" className="mb-1" icon={SUNNYSIDE.icons.search}>
+          {t("marketplace.description")}
+        </Label>
+        <p className="text-sm mb-2">{display.description}</p>
+        {display.buff && (
+          <Label
+            icon={display.buff.boostTypeIcon}
+            type={display.buff.labelType}
+            className="mb-2"
+          >
+            {display.buff.shortDescription}
+          </Label>
+        )}
+      </div>
+    </InnerPanel>
+  );
+};
+
+export const TradeableInfo: React.FC<{
+  display: TradeableDisplay;
+  tradeable?: TradeableDetails;
+}> = ({ display, tradeable }) => {
   return (
     <>
-      <InnerPanel className="w-full flex relative mb-1" style={{ padding: 0 }}>
-        <div className="flex flex-wrap absolute top-2 right-2">
-          {/* {tradeable && (
-            <Label
-              type="formula"
-              icon={increaseArrow}
-              className="mr-2"
-            >{`42% (7D)`}</Label>
-          )} */}
-
-          {tradeable && !isResource && (
-            <Label type="default">{`Supply: ${tradeable.supply}`}</Label>
-          )}
-        </div>
-
-        <img
-          src={isBackground ? display.image : background}
-          className="w-full rounded-sm"
-        />
-        {!isBackground && (
-          <img
-            src={display.image}
-            className="w-1/3 absolute"
-            style={{
-              left: "50%",
-              transform: "translate(-50%, 50%)",
-              bottom: "50%",
-            }}
-          />
-        )}
-      </InnerPanel>
-      <InnerPanel>
-        <div className="p-2">
-          <Label type="default" className="mb-1" icon={SUNNYSIDE.icons.search}>
-            {t("marketplace.description")}
-          </Label>
-          <p className="text-sm mb-2">{display.description}</p>
-          {display.buff && (
-            <Label
-              icon={display.buff.boostTypeIcon}
-              type={display.buff.labelType}
-              className="mb-2"
-            >
-              {display.buff.shortDescription}
-            </Label>
-          )}
-        </div>
-      </InnerPanel>
+      <TradeableImage display={display} supply={tradeable?.supply} />
+      <TradeableDescription display={display} />
     </>
+  );
+};
+
+export const TradeableMobileInfo: React.FC<{
+  display: TradeableDisplay;
+  tradeable?: TradeableDetails;
+}> = ({ display, tradeable }) => {
+  let latestSale = 0;
+  if (tradeable?.history.sales.length) {
+    latestSale =
+      tradeable.history.sales[0].sfl / tradeable.history.sales[0].quantity;
+  }
+
+  return (
+    <InnerPanel>
+      <div className="flex justify-between gap-1 items-center">
+        <TradeableImage display={display} supply={tradeable?.supply} />
+        <TradeableStats history={tradeable?.history} price={latestSale} />
+      </div>
+    </InnerPanel>
   );
 };

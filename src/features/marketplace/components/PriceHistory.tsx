@@ -53,16 +53,16 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                       parts={interpretTokenUri(fulfilledBy.bumpkinUri).equipped}
                     />
                   </div>
-                  <p className="text-sm">{fulfilledBy.username}</p>
+                  <p className="text-xs sm:text-sm">{fulfilledBy.username}</p>
                 </div>
               </td>
               <td className="p-1.5 ">
                 <div className="flex items-center">
                   <img src={sflIcon} className="w-4 mr-1" />
-                  <p className="text-sm">{sfl}</p>
+                  <p className="text-xs sm:text-sm">{sfl}</p>
                 </div>
               </td>
-              <td className="p-1.5 truncate text-center">
+              <td className="p-1.5 text-xs sm:text-sm truncate text-center">
                 {getRelativeTime(fulfilledAt)}
               </td>
             </tr>
