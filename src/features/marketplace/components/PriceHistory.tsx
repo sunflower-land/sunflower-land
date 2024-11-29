@@ -31,7 +31,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
 }) => {
   const { t } = useAppTranslation();
   if (sales.length === 0) {
-    return <p>{t("marketplace.noSales")}</p>;
+    return <p className="mb-2">{t("marketplace.noSales")}</p>;
   }
 
   return (
