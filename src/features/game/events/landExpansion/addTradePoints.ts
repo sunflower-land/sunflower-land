@@ -29,7 +29,7 @@ export function addTradePoints({
   }
 
   // Define Constants
-  const TRADE_POINTS_MULTIPLIER = 1; // Value adjustable
+  const TRADE_POINTS_MULTIPLIER = 0.5; // Value adjustable
   const pointsCalculation = 1 + sfl ** TRADE_POINTS_MULTIPLIER;
   const multipliedPoints = points * pointsCalculation;
 
