@@ -29,9 +29,15 @@ import { useSelector } from "@xstate/react";
 import { useParams } from "react-router-dom";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import classNames from "classnames";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 type TradeableHeaderProps = {
   authToken: string;
+  dailyListings: number;
   farmId: number;
   collection: CollectionName;
   display: TradeableDisplay;
@@ -44,8 +50,11 @@ type TradeableHeaderProps = {
 };
 
 const _balance = (state: MachineState) => state.context.state.balance;
+const _isVIP = (state: MachineState) =>
+  hasVipAccess(state.context.state.inventory);
 
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
+  dailyListings,
   authToken,
   farmId,
   count,
@@ -54,7 +63,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   reload,
 }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const balance = useSelector(gameService, _balance);
+  const isVIP = useSelector(gameService, _isVIP);
   const params = useParams();
 
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
@@ -106,6 +117,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   if (!isResources && !cheapestListing) return null;
 
   const showBuyNow = !isResources && cheapestListing;
+  const showWalletRequired = showBuyNow && cheapestListing?.type === "onchain";
+  const showFreeListing = !isVIP && dailyListings === 0;
 
   return (
     <>
@@ -140,20 +153,54 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
         </Modal>
       )}
       <InnerPanel className="w-full mb-1">
-        <div className="p-2">
-          <div className="flex flex-wrap items-center justify-between">
-            {showBuyNow && cheapestListing?.type === "onchain" && (
-              <Label type="formula" className="mr-2" icon={walletIcon}>
-                {t("marketplace.walletRequired")}
+        <div className="p-2 pt-1">
+          <div className="flex flex-wrap items-center justify-between mb-3 space-y-1">
+            <div
+              className={classNames("flex items-center justify-between", {
+                "w-full": showFreeListing,
+              })}
+            >
+              <VIPAccess
+                isVIP={isVIP}
+                onUpgrade={() => {
+                  openModal("BUY_BANNER");
+                }}
+                text={t("marketplace.unlockSelling")}
+              />
+              {!isVIP && dailyListings === 0 && (
+                <Label type="success">{t("remaining.free.listing")}</Label>
+              )}
+            </div>
+            <div
+              className={classNames("flex items-center justify-between", {
+                "w-full": showWalletRequired,
+              })}
+            >
+              <Label
+                type="default"
+                icon={
+                  isResources
+                    ? ITEM_DETAILS[KNOWN_ITEMS[Number(params.id)]].image
+                    : undefined
+                }
+              >
+                {t("marketplace.youOwn", {
+                  count: Math.floor(count),
+                })}
               </Label>
-            )}
+              {showWalletRequired && (
+                <Label type="formula" icon={walletIcon}>
+                  {t("marketplace.walletRequired")}
+                </Label>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center justify-between flex-wrap">
             {showBuyNow && (
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
-                  <img src={sflIcon} className="h-8 mr-2" />
+                  <img src={sflIcon} className="h-8 ml-1 mr-2" />
                   <p className="text-base">{`${cheapestListing.sfl} SFL`}</p>
                 </>
               </div>
@@ -162,13 +209,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <div className="flex h-full items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
                   <div className="flex flex-col space-y-1">
-                    <Label type="default" className="mb-2">
-                      {t("marketplace.youOwn", {
-                        count: Math.floor(count),
-                      })}
-                    </Label>
                     <div className="flex">
-                      <img src={sflIcon} className="h-8 mr-2" />
+                      <img src={sflIcon} className="h-8 mr-2 ml-1" />
                       {tradeable ? (
                         <p className="text-base">
                           {t("marketplace.pricePerUnit", {
@@ -231,7 +273,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           )}
           <Button
             onClick={onListClick}
-            disabled={!count}
+            disabled={!count || (!isVIP && dailyListings >= 1)}
             className="w-full sm:w-auto"
           >
             {t("marketplace.listForSale")}

@@ -34,12 +34,14 @@ import * as Auth from "features/auth/lib/Provider";
 import { AcceptOffer } from "./AcceptOffer";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
-import { useParams } from "react-router-dom";
 import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { VIPAccess } from "features/game/components/VipAccess";
 
 // JWT TOKEN
 
@@ -49,6 +51,9 @@ const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _isVIP = (state: MachineState) =>
+  hasVipAccess(state.context.state.inventory);
+
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
   farmId: number;
@@ -58,8 +63,24 @@ export const TradeableOffers: React.FC<{
 }> = ({ tradeable, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
-  const params = useParams();
+
+  const hasPendingOfferEffect = useSelector(
+    gameService,
+    _hasPendingOfferEffect,
+  );
+  const authToken = useSelector(authService, _authToken);
+  const balance = useSelector(gameService, _balance);
+  const inventory = useSelector(gameService, _inventory);
+  const isVIP = useSelector(gameService, _isVIP);
+  const [showMakeOffer, setShowMakeOffer] = useState(false);
+  const [showAcceptOffer, setShowAcceptOffer] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState<Offer>();
+
+  const topOffer = tradeable?.offers.reduce((highest, offer) => {
+    return offer.sfl > highest.sfl ? offer : highest;
+  }, tradeable?.offers[0]);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -74,21 +95,6 @@ export const TradeableOffers: React.FC<{
     "marketplaceOfferingSuccess",
     confetti,
   );
-
-  const hasPendingOfferEffect = useSelector(
-    gameService,
-    _hasPendingOfferEffect,
-  );
-  const authToken = useSelector(authService, _authToken);
-  const balance = useSelector(gameService, _balance);
-  const inventory = useSelector(gameService, _inventory);
-  const [showMakeOffer, setShowMakeOffer] = useState(false);
-  const [showAcceptOffer, setShowAcceptOffer] = useState(false);
-  const [selectedOffer, setSelectedOffer] = useState<Offer>();
-
-  const topOffer = tradeable?.offers.reduce((highest, offer) => {
-    return offer.sfl > highest.sfl ? offer : highest;
-  }, tradeable?.offers[0]);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -205,9 +211,18 @@ export const TradeableOffers: React.FC<{
       {isResource && (
         <InnerPanel className="mb-1">
           <div className="p-2">
-            <Label icon={tradeIcon} type="default" className="mb-2">
-              {t("marketplace.offers")}
-            </Label>
+            <div className="flex items-center justify-between mb-1">
+              <Label icon={tradeIcon} type="default" className="mb-2">
+                {t("marketplace.offers")}
+              </Label>
+              <VIPAccess
+                isVIP={isVIP}
+                onUpgrade={() => {
+                  openModal("BUY_BANNER");
+                }}
+                text={t("marketplace.unlockOffering")}
+              />
+            </div>
             <div className="mb-2">
               {loading && <Loading />}
               {!loading && tradeable?.offers.length === 0 && (

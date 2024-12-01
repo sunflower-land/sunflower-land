@@ -32,6 +32,7 @@ import { TradeableStats } from "./TradeableStats";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/decorations";
 import { tradeToId } from "../lib/offers";
+import { getDayOfYear } from "lib/utils/time";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -96,6 +97,16 @@ export const Tradeable: React.FC = () => {
     }
   };
 
+  const getDailyListings = () => {
+    const today = getDayOfYear(new Date());
+    const dailyListings = gameState.context.state.trades.dailyListings ?? {
+      date: 0,
+      count: 0,
+    };
+
+    return dailyListings.date === today ? dailyListings.count : 0;
+  };
+
   useEffect(() => {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,6 +159,7 @@ export const Tradeable: React.FC = () => {
       </div>
       <div className="w-full">
         <TradeableHeader
+          dailyListings={getDailyListings()}
           authToken={authToken}
           farmId={farmId}
           collection={collection as CollectionName}

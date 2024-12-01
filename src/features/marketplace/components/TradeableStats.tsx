@@ -42,7 +42,7 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
       };
 
   return (
-    <div className="flex w-full h-full gap-0.5 flex-col justify-evenly sm:h-auto sm:gap-0 sm:flex-row sm:flex-wrap sm:mb-1">
+    <div className="flex w-full gap-0.5 flex-col justify-evenly sm:gap-0 sm:flex-row sm:flex-wrap sm:mb-1">
       <div className="w-full sm:w-1/3 sm:pr-1">
         <InnerPanel>
           <div className="flex justify-between">
