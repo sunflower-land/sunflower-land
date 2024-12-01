@@ -36,8 +36,8 @@ export const MarketplaceNavigation: React.FC = () => {
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
-        <CloseButtonPanel onClose={() => setShowFilters(false)}>
-          <Filters />
+        <CloseButtonPanel>
+          <Filters onClose={() => setShowFilters(false)} />
         </CloseButtonPanel>
       </Modal>
 
@@ -65,7 +65,7 @@ export const MarketplaceNavigation: React.FC = () => {
             />
           </div>
           <div className="flex-1">
-            <Filters />
+            <Filters onClose={() => setShowFilters(false)} />
           </div>
         </InnerPanel>
 
@@ -139,7 +139,7 @@ const Option: React.FC<{
   );
 };
 
-const Filters: React.FC = () => {
+const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
@@ -152,7 +152,10 @@ const Filters: React.FC = () => {
           <Option
             icon={SUNNYSIDE.icons.expression_alerted}
             label="Hot now"
-            onClick={() => navigate(`/marketplace/hot`)}
+            onClick={() => {
+              navigate(`/marketplace/hot`);
+              onClose();
+            }}
             isActive={pathname === "/marketplace/hot"}
           />
           <Option
@@ -171,19 +174,23 @@ const Filters: React.FC = () => {
                       icon: ITEM_DETAILS["Freya Fox"].image,
                       label: "Collectibles",
                       isActive: filters === "utility,collectibles",
-                      onClick: () =>
+                      onClick: () => {
                         navigate(
                           `/marketplace/collection?filters=utility,collectibles`,
-                        ),
+                        );
+                        onClose();
+                      },
                     },
                     {
                       icon: wearableIcon,
                       label: "Wearables",
                       isActive: filters === "utility,wearables",
-                      onClick: () =>
+                      onClick: () => {
                         navigate(
                           `/marketplace/collection?filters=utility,wearables`,
-                        ),
+                        );
+                        onClose();
+                      },
                     },
                   ]
                 : undefined
@@ -193,20 +200,24 @@ const Filters: React.FC = () => {
           <Option
             icon={ITEM_DETAILS.Eggplant.image}
             label="Resources"
-            onClick={() =>
-              navigate(`/marketplace/collection?filters=collectibles,resources`)
-            }
+            onClick={() => {
+              navigate(
+                `/marketplace/collection?filters=collectibles,resources`,
+              );
+              onClose();
+            }}
             isActive={filters === "collectibles,resources"}
           />
 
           <Option
             icon={SUNNYSIDE.icons.heart}
             label="Cosmetics"
-            onClick={() =>
+            onClick={() => {
               navigate(
                 `/marketplace/collection?filters=collectibles,wearables,cosmetic`,
-              )
-            }
+              );
+              onClose();
+            }}
             isActive={filters === "collectibles,wearables,cosmetic"}
           />
 
@@ -214,7 +225,10 @@ const Filters: React.FC = () => {
             <Option
               icon={budIcon}
               label="Bud NFTs"
-              onClick={() => navigate(`/marketplace/collection?filters=buds`)}
+              onClick={() => {
+                navigate(`/marketplace/collection?filters=buds`);
+                onClose();
+              }}
               isActive={filters === "buds"}
             />
           )}
@@ -224,13 +238,19 @@ const Filters: React.FC = () => {
           <Option
             icon={tradeIcon}
             label="My trades"
-            onClick={() => navigate(`/marketplace/trades`)}
+            onClick={() => {
+              navigate(`/marketplace/trades`);
+              onClose();
+            }}
             isActive={pathname === "/marketplace/trades"}
           />
           <Option
             icon={trade_point}
             label="My rewards"
-            onClick={() => navigate(`/marketplace/rewards`)}
+            onClick={() => {
+              navigate(`/marketplace/rewards`);
+              onClose();
+            }}
             isActive={pathname === "/marketplace/rewards"}
           />
         </div>
