@@ -4422,5 +4422,7 @@
   "marketplace.qty": "Menge",
   "marketplace.saleHistory": "Verkaufshistorie",
   "marketplace.supply": "Angebot: {{supply}}",
-  "marketplace.salePrice": "Verkaufspreis"
+  "marketplace.salePrice": "Verkaufspreis",
+  "marketplace.hoarding": "Fortschritt speichern erforderlich",
+  "marketplace.hoarding.description": "Du musst deinen Spielfortschritt speichern, um dieses Angebot kaufen zu können."
 }

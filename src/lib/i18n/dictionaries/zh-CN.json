@@ -4422,5 +4422,7 @@
   "marketplace.qty": "数量",
   "marketplace.saleHistory": "销售记录",
   "marketplace.supply": "供应：{{supply}}",
-  "marketplace.salePrice": "销售价格"
+  "marketplace.salePrice": "销售价格",
+  "marketplace.hoarding": "需要存储进度",
+  "marketplace.hoarding.description": "您必须存储游戏进度才能购买此列表。"
 }

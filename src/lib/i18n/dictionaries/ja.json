@@ -4422,5 +4422,7 @@
   "marketplace.qty": "数量",
   "marketplace.saleHistory": "販売履歴",
   "marketplace.supply": "サプライ:{{supply}}",
-  "marketplace.salePrice": "販売価格"
+  "marketplace.salePrice": "販売価格",
+  "marketplace.hoarding": "ストアの進捗状況が必要です",
+  "marketplace.hoarding.description": "このリストを購入するには、ゲームの進行状況を保存する必要があります。"
 }

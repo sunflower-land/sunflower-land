@@ -4422,5 +4422,7 @@
   "marketplace.qty": "Kuantiti",
   "marketplace.saleHistory": "Sejarah Jualan",
   "marketplace.supply": "Bekalan: {{supply}}",
-  "marketplace.salePrice": "Harga jualan"
+  "marketplace.salePrice": "Harga jualan",
+  "marketplace.hoarding": "Kemajuan kedai diperlukan",
+  "marketplace.hoarding.description": "Anda mesti menyimpan kemajuan permainan anda untuk dapat membeli penyenaraian ini."
 }

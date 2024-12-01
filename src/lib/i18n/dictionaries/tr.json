@@ -4422,5 +4422,7 @@
   "marketplace.qty": "Miktar",
   "marketplace.saleHistory": "Satış Geçmişi",
   "marketplace.supply": "Tedarik: {{supply}}",
-  "marketplace.salePrice": "Satış Fiyatı"
+  "marketplace.salePrice": "Satış Fiyatı",
+  "marketplace.hoarding": "Mağaza ilerlemesi gerekli",
+  "marketplace.hoarding.description": "Bu listeyi satın alabilmek için oyun ilerlemenizi kaydetmelisiniz."
 }

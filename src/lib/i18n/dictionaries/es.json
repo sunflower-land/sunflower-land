@@ -4422,5 +4422,7 @@
   "marketplace.qty": "Cantidad",
   "marketplace.saleHistory": "Historial de ventas",
   "marketplace.supply": "Suministro: {{supply}}",
-  "marketplace.salePrice": "Precio de venta"
+  "marketplace.salePrice": "Precio de venta",
+  "marketplace.hoarding": "Se requiere el progreso de la tienda",
+  "marketplace.hoarding.description": "Debes guardar tu progreso en el juego para poder comprar este anuncio."
 }

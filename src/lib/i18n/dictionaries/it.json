@@ -4422,5 +4422,7 @@
   "marketplace.qty": "Qtà",
   "marketplace.saleHistory": "Cronologia delle vendite",
   "marketplace.supply": "Fornitura: {{supply}}",
-  "marketplace.salePrice": "Prezzo di vendita"
+  "marketplace.salePrice": "Prezzo di vendita",
+  "marketplace.hoarding": "È richiesto l'avanzamento del negozio",
+  "marketplace.hoarding.description": "Devi memorizzare i tuoi progressi di gioco per poter acquistare questa inserzione."
 }

@@ -4422,5 +4422,7 @@
   "marketplace.qty": "수량",
   "marketplace.saleHistory": "판매 내역",
   "marketplace.supply": "공급량: {{supply}}",
-  "marketplace.salePrice": "판매 가격"
+  "marketplace.salePrice": "판매 가격",
+  "marketplace.hoarding": "스토어 진행 상황 필요",
+  "marketplace.hoarding.description": "이 목록을 구매하려면 게임 진행 상황을 저장해야 합니다."
 }

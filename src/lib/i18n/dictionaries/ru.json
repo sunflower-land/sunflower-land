@@ -4422,5 +4422,7 @@
   "marketplace.qty": "кол-во",
   "marketplace.saleHistory": "История продаж",
   "marketplace.supply": "Предложение: {{supply}}",
-  "marketplace.salePrice": "Цена продажи"
+  "marketplace.salePrice": "Цена продажи",
+  "marketplace.hoarding": "Требуется прогресс магазина",
+  "marketplace.hoarding.description": "Чтобы приобрести это объявление, вы должны сохранить свой игровой прогресс."
 }
