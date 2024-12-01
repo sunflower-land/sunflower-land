@@ -3546,7 +3546,6 @@
   "onboarding.duplicateUser.two": "看来这个账户已经被使用了。",
   "marketplace.lastSold": "最后售出时间：{{sfl}} SFL",
   "marketplace.noSales": "最近没有销售。",
-  "marketplace.priceHistory": "销售记录",
   "gameOptions.plazaSettings.shader": "着色器",
   "plazaShader.none": "无",
   "plazaShader.night": "晚上",
@@ -4389,7 +4388,6 @@
   "marketplace.onchainComingSoon": "链上交易即将推出",
   "marketplace.sold": "已售出",
   "marketplace.sellerWillReceive": "卖家将收到",
-  "marketplace.salePrice": "销售价格",
   "bumpkinTrade.maxListings": "已达到最大活跃挂单数",
   "remaining.free.listings": "剩余每日挂单数：{{listingsRemaining}}",
   "remaining.free.listing": "剩余每日挂单数：1",
@@ -4417,9 +4415,12 @@
   "marketplace.youHaveHadSales": "您的物品在您不在时已售出！",
   "marketplace.offersWereAccepted": "您不在时接受了一个或多个报价！",
   "marketplace.resource": "资源",
-  "marketplace.saleHistory": "销售记录",
   "marketplace.oneDayChange": "24 小时更改",
   "marketplace.sevenDayChange": "7d 零钱",
   "marketplace.sales": "销售",
-  "marketplace.currentPrice": "当前价格"
+  "marketplace.currentPrice": "当前价格",
+  "marketplace.qty": "数量",
+  "marketplace.saleHistory": "销售记录",
+  "marketplace.supply": "供应：{{supply}}",
+  "marketplace.salePrice": "销售价格"
 }

@@ -3546,7 +3546,6 @@
   "onboarding.duplicateUser.two": "Es sieht so aus, als ob dieses Konto bereits verwendet wurde.",
   "marketplace.lastSold": "Zuletzt verkauft: {{sfl}} SFL",
   "marketplace.noSales": "In letzter Zeit gab es keine Verkäufe.",
-  "marketplace.priceHistory": "Geschichte des Verkaufs",
   "gameOptions.plazaSettings.shader": "Shader",
   "plazaShader.none": "Keine",
   "plazaShader.night": "Nacht",
@@ -4389,7 +4388,6 @@
   "marketplace.onchainComingSoon": "Über den Kettenhandel in Kürze",
   "marketplace.sold": "Verkauft",
   "marketplace.sellerWillReceive": "Der Verkäufer erhält",
-  "marketplace.salePrice": "Verkaufspreis",
   "bumpkinTrade.maxListings": "Max. Anzahl aktiver Angebote erreicht",
   "remaining.free.listings": "{{listingsRemaining}} verbleibende Tagesangebote",
   "remaining.free.listing": "Noch 1 Tagesangebot verfügbar",
@@ -4417,9 +4415,12 @@
   "marketplace.youHaveHadSales": "Ihr (e) Artikel wurden verkauft, während Sie weg waren!",
   "marketplace.offersWereAccepted": "Ein oder mehrere Angebote wurden während Ihrer Abwesenheit angenommen!",
   "marketplace.resource": "Ressource",
-  "marketplace.saleHistory": "Geschichte des Verkaufs",
   "marketplace.oneDayChange": "Änderung rund um die Uhr",
   "marketplace.sevenDayChange": "7d Änderung",
   "marketplace.sales": "Verkäufe",
-  "marketplace.currentPrice": "Aktueller Preis"
+  "marketplace.currentPrice": "Aktueller Preis",
+  "marketplace.qty": "Menge",
+  "marketplace.saleHistory": "Verkaufshistorie",
+  "marketplace.supply": "Angebot: {{supply}}",
+  "marketplace.salePrice": "Verkaufspreis"
 }

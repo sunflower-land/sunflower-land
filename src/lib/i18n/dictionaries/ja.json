@@ -3546,7 +3546,6 @@
   "onboarding.duplicateUser.two": "このアカウントはすでに使用されているようです。",
   "marketplace.lastSold": "最終販売日:{{sfl}} SFL",
   "marketplace.noSales": "最近の売り上げはありません。",
-  "marketplace.priceHistory": "販売履歴",
   "gameOptions.plazaSettings.shader": "シェーダー",
   "plazaShader.none": "[なし]",
   "plazaShader.night": "ナイト",
@@ -4389,7 +4388,6 @@
   "marketplace.onchainComingSoon": "オンチェーントレーディングは近日公開予定",
   "marketplace.sold": "売却",
   "marketplace.sellerWillReceive": "出品者が受け取る",
-  "marketplace.salePrice": "セール価格",
   "bumpkinTrade.maxListings": "出品中の商品が最大数に達しました",
   "remaining.free.listings": "{{listingsRemaining}} 日次出品情報の残り",
   "remaining.free.listing": "デイリーリスティング残り 1 件",
@@ -4417,9 +4415,12 @@
   "marketplace.youHaveHadSales": "不在中に商品が売れました！",
   "marketplace.offersWereAccepted": "留守中に 1 つまたは複数のオファーが受け入れられました。",
   "marketplace.resource": "資源",
-  "marketplace.saleHistory": "売却履歴",
   "marketplace.oneDayChange": "24時間の変更",
   "marketplace.sevenDayChange": "7d 変更",
   "marketplace.sales": "セールス",
-  "marketplace.currentPrice": "現在の価格"
+  "marketplace.currentPrice": "現在の価格",
+  "marketplace.qty": "数量",
+  "marketplace.saleHistory": "販売履歴",
+  "marketplace.supply": "サプライ:{{supply}}",
+  "marketplace.salePrice": "販売価格"
 }

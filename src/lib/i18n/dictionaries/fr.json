@@ -3546,7 +3546,6 @@
   "onboarding.duplicateUser.two": "Il semblerait que ce compte ait déjà été utilisé.",
   "marketplace.lastSold": "Dernière vente : {{sfl}} SFL",
   "marketplace.noSales": "Il n'y a pas eu de ventes récentes.",
-  "marketplace.priceHistory": "Historique des ventes",
   "gameOptions.plazaSettings.shader": "Shader",
   "plazaShader.none": "Aucune",
   "plazaShader.night": "Soirée",
@@ -4389,7 +4388,6 @@
   "marketplace.onchainComingSoon": "Bientôt disponible sur le trading en chaîne",
   "marketplace.sold": "Vendu",
   "marketplace.sellerWillReceive": "Le vendeur recevra",
-  "marketplace.salePrice": "Prix de vente",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces actives atteintes",
   "remaining.free.listings": "{{listingsRemaining}} annonces quotidiennes restantes",
   "remaining.free.listing": "Il reste 1 annonce quotidienne",
@@ -4417,9 +4415,12 @@
   "marketplace.youHaveHadSales": "Vos articles ont été vendus pendant votre absence !",
   "marketplace.offersWereAccepted": "Une ou plusieurs offres ont été acceptées pendant votre absence !",
   "marketplace.resource": "Ressource",
-  "marketplace.saleHistory": "Historique des ventes",
   "marketplace.oneDayChange": "Changement sur 24 heures",
   "marketplace.sevenDayChange": "Modification 7d",
   "marketplace.sales": "Ventes",
-  "marketplace.currentPrice": "Prix actuel"
+  "marketplace.currentPrice": "Prix actuel",
+  "marketplace.qty": "Quantité",
+  "marketplace.saleHistory": "Historique des ventes",
+  "marketplace.supply": "Approvisionnement : {{supply}}",
+  "marketplace.salePrice": "Prix de vente"
 }

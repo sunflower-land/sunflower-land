@@ -3546,7 +3546,6 @@
   "onboarding.duplicateUser.two": "Sepertinya akun ini sudah digunakan.",
   "marketplace.lastSold": "Terakhir dijual: {{sfl}} SFL",
   "marketplace.noSales": "Belum ada penjualan baru-baru ini.",
-  "marketplace.priceHistory": "Riwayat penjualan",
   "gameOptions.plazaSettings.shader": "Shader",
   "plazaShader.none": "Tidak ada",
   "plazaShader.night": "Malam",
@@ -4389,7 +4388,6 @@
   "marketplace.onchainComingSoon": "Perdagangan beranTAI segera hadir",
   "marketplace.sold": "Terjual",
   "marketplace.sellerWillReceive": "Penjual akan menerima",
-  "marketplace.salePrice": "Harga Jual",
   "bumpkinTrade.maxListings": "Maksimal daftar aktif tercapai",
   "remaining.free.listings": "{{listingsRemaining}} daftar harian tersisa",
   "remaining.free.listing": "1 listing harian tersisa",
@@ -4417,9 +4415,12 @@
   "marketplace.youHaveHadSales": "Barang Anda terjual saat Anda pergi!",
   "marketplace.offersWereAccepted": "Satu atau lebih penawaran diterima saat Anda pergi!",
   "marketplace.resource": "Sumber daya",
-  "marketplace.saleHistory": "Sejarah Penjualan",
   "marketplace.oneDayChange": "Perubahan 24 jam",
   "marketplace.sevenDayChange": "Perubahan 7d",
   "marketplace.sales": "Penjualan",
-  "marketplace.currentPrice": "Harga Saat Ini"
+  "marketplace.currentPrice": "Harga Saat Ini",
+  "marketplace.qty": "Kuantitas",
+  "marketplace.saleHistory": "Sejarah Penjualan",
+  "marketplace.supply": "Pasokan: {{supply}}",
+  "marketplace.salePrice": "Harga Jual"
 }

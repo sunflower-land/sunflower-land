@@ -3546,7 +3546,6 @@
   "onboarding.duplicateUser.two": "Görünüşe göre bu hesap zaten kullanılmış.",
   "marketplace.lastSold": "Son satılan: {{sfl}} SFL",
   "marketplace.noSales": "Son zamanlarda satış yapılmadı.",
-  "marketplace.priceHistory": "Satış geçmişi",
   "gameOptions.plazaSettings.shader": "Gölgelendirici",
   "plazaShader.none": "Yok",
   "plazaShader.night": "Gece",
@@ -4389,7 +4388,6 @@
   "marketplace.onchainComingSoon": "Zincir ticareti yakında",
   "marketplace.sold": "Satıldı",
   "marketplace.sellerWillReceive": "Satıcı alacak",
-  "marketplace.salePrice": "Satış Fiyatı",
   "bumpkinTrade.maxListings": "Maksimum aktif listeye ulaşıldı",
   "remaining.free.listings": "{{listingsRemaining}} kalan günlük listeler",
   "remaining.free.listing": "1 günlük liste kaldı",
@@ -4417,9 +4415,12 @@
   "marketplace.youHaveHadSales": "Siz yokken eşyalarınız satıldı!",
   "marketplace.offersWereAccepted": "Siz yokken bir veya daha fazla teklif kabul edildi!",
   "marketplace.resource": "Kaynak",
-  "marketplace.saleHistory": "Satış Geçmişi",
   "marketplace.oneDayChange": "24 saat Değişim",
   "marketplace.sevenDayChange": "7d Değişiklik",
   "marketplace.sales": "Satışlar",
-  "marketplace.currentPrice": "Güncel Fiyat"
+  "marketplace.currentPrice": "Güncel Fiyat",
+  "marketplace.qty": "Miktar",
+  "marketplace.saleHistory": "Satış Geçmişi",
+  "marketplace.supply": "Tedarik: {{supply}}",
+  "marketplace.salePrice": "Satış Fiyatı"
 }

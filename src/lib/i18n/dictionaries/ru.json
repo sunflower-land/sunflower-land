@@ -3546,7 +3546,6 @@
   "onboarding.duplicateUser.two": "Похоже, эта учетная запись уже использовалась.",
   "marketplace.lastSold": "Последняя продажа: {{sfl}} SFL",
   "marketplace.noSales": "В последнее время продаж не было.",
-  "marketplace.priceHistory": "История продаж",
   "gameOptions.plazaSettings.shader": "Время дня",
   "plazaShader.none": "День",
   "plazaShader.night": "Ночь",
@@ -4389,7 +4388,6 @@
   "marketplace.onchainComingSoon": "О сетевой торговле в ближайшее время",
   "marketplace.sold": "Продано",
   "marketplace.sellerWillReceive": "Продавец получит",
-  "marketplace.salePrice": "Цена продажи",
   "bumpkinTrade.maxListings": "Достигнуто максимальное количество активных объявлений",
   "remaining.free.listings": "Осталось {{listingsRemaining}} ежедневных объявлений",
   "remaining.free.listing": "Осталось 1 объявление за день",
@@ -4417,9 +4415,12 @@
   "marketplace.youHaveHadSales": "Ваш товар (ы) продан, пока вас не было!",
   "marketplace.offersWereAccepted": "Одно или несколько предложений были приняты, пока вас не было!",
   "marketplace.resource": "Ресурс",
-  "marketplace.saleHistory": "История продаж",
   "marketplace.oneDayChange": "24-часовое изменение",
   "marketplace.sevenDayChange": "Седьмовое изменение",
   "marketplace.sales": "Продажи",
-  "marketplace.currentPrice": "Текущая цена"
+  "marketplace.currentPrice": "Текущая цена",
+  "marketplace.qty": "кол-во",
+  "marketplace.saleHistory": "История продаж",
+  "marketplace.supply": "Предложение: {{supply}}",
+  "marketplace.salePrice": "Цена продажи"
 }
