@@ -27,6 +27,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 // Icon imports
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { isMobile } from "mobile-device-detect";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -136,6 +137,18 @@ export const SkillPathDetails: React.FC<Props> = ({
           {/* Header */}
           <div className="flex flex-col h-full px-1 py-0">
             <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 sm:py-0 py-2">
+              {isMobile && (
+                <img
+                  src={SUNNYSIDE.icons.arrow_left}
+                  className="cursor-pointer"
+                  alt="back"
+                  style={{
+                    width: `${PIXEL_SCALE * 11}px`,
+                    marginRight: `${PIXEL_SCALE * 1}px`,
+                  }}
+                  onClick={onBack}
+                />
+              )}
               <div className="sm:mt-2">
                 <SquareIcon icon={selectedSkill.image} width={14} />
               </div>
@@ -193,16 +206,18 @@ export const SkillPathDetails: React.FC<Props> = ({
             className="flex flex-row my-2 items-center"
             style={{ margin: `${PIXEL_SCALE * 2}px` }}
           >
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className="cursor-pointer"
-              alt="back"
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-                marginRight: `${PIXEL_SCALE * 4}px`,
-              }}
-              onClick={onBack}
-            />
+            {!isMobile && (
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="cursor-pointer"
+                alt="back"
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                  marginRight: `${PIXEL_SCALE * 4}px`,
+                }}
+                onClick={onBack}
+              />
+            )}
             <Label type="default">{selectedSkillPath + " Skills"}</Label>
             <Label type="default" className="ml-1">
               {`${t("skillPts")} ${availableSkillPoints}`}
