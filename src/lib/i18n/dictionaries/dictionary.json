@@ -4446,5 +4446,7 @@
   "marketplace.oneDayChange": "24h Change",
   "marketplace.sevenDayChange": "7d Change",
   "marketplace.sales": "Sales",
-  "marketplace.currentPrice": "Current Price"
+  "marketplace.currentPrice": "Current Price",
+  "marketplace.hoarding": "Store progress required",
+  "marketplace.hoarding.description": "You must store your game progress in order to be able to purchase this listing."
 }
