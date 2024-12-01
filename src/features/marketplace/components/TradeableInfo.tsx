@@ -121,11 +121,9 @@ export const TradeableMobileInfo: React.FC<{
   }
 
   return (
-    <InnerPanel>
-      <div className="flex justify-between gap-1 items-center">
-        <TradeableImage display={display} supply={tradeable?.supply} />
-        <TradeableStats history={tradeable?.history} price={latestSale} />
-      </div>
-    </InnerPanel>
+    <div className="flex justify-between gap-1 items-center">
+      <TradeableImage display={display} supply={tradeable?.supply} />
+      <TradeableStats history={tradeable?.history} price={latestSale} />
+    </div>
   );
 };

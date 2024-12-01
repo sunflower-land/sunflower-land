@@ -31,19 +31,21 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
   let oneDayChange = 0;
   let sevenDayChange = 0;
 
-  if (prices[0]?.low !== 0) {
-    oneDayChange = ((price - prices[0]?.low) / prices[0]?.low) * 100;
+  if (prices[0]?.low && !isNaN(prices[0].low) && prices[0].low !== 0) {
+    const change = ((price - prices[0].low) / prices[0].low) * 100;
+    oneDayChange = isNaN(change) ? 0 : change;
   }
 
-  if (prices[6]?.low !== 0) {
-    sevenDayChange = ((price - prices[6]?.low) / prices[6]?.low) * 100;
+  if (prices[6]?.low && !isNaN(prices[6].low) && prices[6].low !== 0) {
+    const change = ((price - prices[6].low) / prices[6].low) * 100;
+    sevenDayChange = isNaN(change) ? 0 : change;
   }
 
   return (
-    <div className="flex w-full gap-0.5 flex-col sm:gap-0 sm:flex-row md:flex-wrap mb-1">
+    <div className="flex w-full h-full gap-0.5 flex-col justify-evenly sm:h-auto sm:gap-0 sm:flex-row sm:flex-wrap sm:mb-1">
       <div className="w-full sm:w-1/3 sm:pr-1">
         <InnerPanel>
-          <div className="flex justify-between ">
+          <div className="flex justify-between">
             <Label type="info" className="whitespace-nowrap">
               <span className="text-xxs sm:text-xs">
                 {t("marketplace.oneDayChange")}
@@ -63,7 +65,7 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
             {loading ? (
               <span className="loading-fade-pulse">{`0.00 SFL`}</span>
             ) : (
-              `${(price - prices[0]?.low || 0).toFixed(2)} SFL`
+              `${(price - (prices[0]?.low ?? 0) || 0).toFixed(2)} SFL`
             )}
           </p>
         </InnerPanel>
@@ -90,7 +92,7 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
             {loading ? (
               <span className="loading-fade-pulse">{`0.00 SFL`}</span>
             ) : (
-              `${(price - prices[6]?.low || 0).toFixed(2)} SFL`
+              `${(price - (prices[6]?.low ?? 0) || 0).toFixed(2)} SFL`
             )}
           </p>
         </InnerPanel>
