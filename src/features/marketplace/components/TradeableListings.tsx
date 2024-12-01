@@ -56,7 +56,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   count,
   showListItem,
   reload,
-  onListClick,
   onListClose,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
