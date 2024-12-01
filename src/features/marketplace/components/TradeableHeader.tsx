@@ -34,6 +34,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { isMobile } from "mobile-device-detect";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -157,27 +158,12 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           <div className="flex flex-wrap items-center justify-between mb-3 space-y-1">
             <div
               className={classNames("flex items-center justify-between", {
-                "w-full": showFreeListing,
-              })}
-            >
-              <VIPAccess
-                isVIP={isVIP}
-                onUpgrade={() => {
-                  openModal("BUY_BANNER");
-                }}
-                text={t("marketplace.unlockSelling")}
-              />
-              {!isVIP && dailyListings === 0 && (
-                <Label type="success">{t("remaining.free.listing")}</Label>
-              )}
-            </div>
-            <div
-              className={classNames("flex items-center justify-between", {
-                "w-full": showWalletRequired,
+                "w-full": isMobile && showWalletRequired,
               })}
             >
               <Label
                 type="default"
+                className="mr-0 sm:mr-3"
                 icon={
                   isResources
                     ? ITEM_DETAILS[KNOWN_ITEMS[Number(params.id)]].image
@@ -191,6 +177,24 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               {showWalletRequired && (
                 <Label type="formula" icon={walletIcon}>
                   {t("marketplace.walletRequired")}
+                </Label>
+              )}
+            </div>
+            <div
+              className={classNames("flex items-center justify-between", {
+                "w-full": isMobile && showFreeListing,
+              })}
+            >
+              <VIPAccess
+                isVIP={isVIP}
+                onUpgrade={() => {
+                  openModal("BUY_BANNER");
+                }}
+                text={t("marketplace.unlockSelling")}
+              />
+              {!isVIP && dailyListings === 0 && (
+                <Label type="success" className="ml-0 sm:ml-3">
+                  {t("remaining.free.listing")}
                 </Label>
               )}
             </div>
