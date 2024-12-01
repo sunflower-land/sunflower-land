@@ -27,6 +27,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isMobile } from "mobile-device-detect";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -189,7 +190,12 @@ export const MyOffers: React.FC = () => {
                         <td className="p-1.5 w-2/5 text-left">
                           <div className="flex items-center">
                             <img src={details.image} className="h-8 mr-4" />
-                            <p className="text-sm">{`${isResource ? quantity + " x" : ""} ${details.name}`}</p>
+
+                            <p className="text-sm">
+                              {isMobile
+                                ? `${isResource ? "x " + quantity : ""}`
+                                : `${isResource ? quantity + " x" : ""} ${details.name}`}
+                            </p>
                           </div>
                         </td>
                         <td className="p-1.5 text-left relative">

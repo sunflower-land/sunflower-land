@@ -2,6 +2,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
+import { isMobile } from "mobile-device-detect";
 
 import trade from "assets/icons/trade.png";
 import sflIcon from "assets/icons/sfl.webp";
@@ -180,9 +181,14 @@ export const MyListings: React.FC = () => {
                       >
                         <td className="p-1.5 text-left w-12">
                           <div className="flex items-center">
-                            <img src={details.image} className="h-8 mr-4" />
+                            <img
+                              src={details.image}
+                              className={"h-8 mr-3 sm:mr-4"}
+                            />
                             <p className="text-sm">
-                              {`${isResource ? quantity + " x" : ""} ${details.name}`}
+                              {isMobile
+                                ? `${isResource ? "x " + quantity : ""}`
+                                : `${isResource ? quantity + " x" : ""} ${details.name}`}
                             </p>
                           </div>
                         </td>
