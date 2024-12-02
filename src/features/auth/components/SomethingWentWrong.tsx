@@ -81,7 +81,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
 
   const handleGetSupport = () => {
     window.open(
-      "https://sunflowerland.freshdesk.com",
+      "https://sunflower-land.help/",
       "_blank",
       "noopener,noreferrer",
     );
