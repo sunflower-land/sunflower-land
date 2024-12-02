@@ -39,6 +39,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
 import {
   generateDeliveryTickets,
+  getCountAndTypeForDelivery,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -49,7 +50,6 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -57,7 +57,7 @@ export const OrderCard: React.FC<{
   onDeliver: () => void;
   hasRequirementsCheck: (order: Order) => boolean;
 }> = ({ order, game, hasRequirementsCheck }) => {
-  const { balance, inventory, coins } = game;
+  const { balance, coins } = game;
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
@@ -118,11 +118,7 @@ export const OrderCard: React.FC<{
                   key={itemName}
                   type="item"
                   item={itemName}
-                  balance={
-                    itemName in getChestItems(game)
-                      ? getChestItems(game)[itemName] ?? new Decimal(0)
-                      : inventory[itemName] ?? new Decimal(0)
-                  }
+                  balance={getCountAndTypeForDelivery(game, itemName).count}
                   showLabel
                   requirement={new Decimal(order?.items[itemName] ?? 0)}
                 />
@@ -585,11 +581,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       return game.balance?.gte(delivery?.items.sfl ?? 0);
     }
 
-    if (name in getChestItems(game)) {
-      return getChestItems(game)[name]?.gte(delivery?.items[name] ?? 0);
-    }
+    const { count } = getCountAndTypeForDelivery(game, name);
 
-    return game.inventory[name]?.gte(delivery?.items[name] ?? 0);
+    return count.gte(delivery?.items[name] ?? 0);
   });
 
   const openReward = () => {

@@ -16,11 +16,17 @@ import {
   QuestNPCName,
   TICKET_REWARDS,
   generateDeliveryTickets,
+  getCountAndTypeForDelivery,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, Inventory, Order } from "features/game/types/game";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+  Order,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
@@ -54,7 +60,6 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -107,10 +112,8 @@ export function hasOrderRequirements({
     if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
 
     const amount = order.items[name] || new Decimal(0);
-    const count =
-      name in getChestItems(state)
-        ? getChestItems(state)[name] ?? new Decimal(0)
-        : inventory[name] ?? new Decimal(0);
+
+    const { count } = getCountAndTypeForDelivery(state, name);
 
     return count.gte(amount);
   });
@@ -185,7 +188,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
                     img = getImageUrl(ITEM_IDS[name as BumpkinItem]);
                   } else {
                     img =
-                      ITEM_DETAILS[name]?.image ??
+                      ITEM_DETAILS[name as InventoryItemName]?.image ??
                       SUNNYSIDE.icons.expression_confused;
                   }
                 }
@@ -748,9 +751,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       type="item"
                       item={itemName}
                       balance={
-                        itemName in getChestItems(state)
-                          ? getChestItems(state)[itemName] ?? new Decimal(0)
-                          : inventory[itemName] ?? new Decimal(0)
+                        getCountAndTypeForDelivery(state, itemName).count
                       }
                       showLabel
                       requirement={

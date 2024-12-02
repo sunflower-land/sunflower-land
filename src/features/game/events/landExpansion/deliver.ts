@@ -114,6 +114,28 @@ type Options = {
   farmId?: number;
 };
 
+export function getCountAndTypeForDelivery(
+  state: GameState,
+  name: InventoryItemName | BumpkinItem,
+) {
+  let count = new Decimal(0);
+  let itemType: "wearable" | "inventory" = "inventory";
+  if (name in KNOWN_IDS) {
+    count =
+      name in getChestItems(state)
+        ? getChestItems(state)[name as InventoryItemName] ?? new Decimal(0)
+        : state.inventory[name as InventoryItemName] ?? new Decimal(0);
+  } else {
+    count =
+      name in availableWardrobe(state)
+        ? new Decimal(availableWardrobe(state)[name as BumpkinItem] ?? 0)
+        : new Decimal(0);
+    itemType = "wearable";
+  }
+
+  return { count, itemType };
+}
+
 export function getTotalSlots(game: GameState) {
   // If feature access then return the total number of slots from both delivery and quest
   // else just delivery
@@ -371,22 +393,7 @@ export function deliverOrder({
 
         game.balance = sfl.sub(amount);
       } else {
-        let count = new Decimal(0);
-        let itemType: "wearable" | "inventory" = "inventory";
-
-        // Check if its an inventory item
-        if (name in KNOWN_IDS) {
-          count =
-            name in getChestItems(game)
-              ? getChestItems(game)[name as InventoryItemName] ?? new Decimal(0)
-              : game.inventory[name as InventoryItemName] ?? new Decimal(0);
-        } else {
-          count =
-            name in availableWardrobe(game)
-              ? new Decimal(availableWardrobe(game)[name as BumpkinItem] ?? 0)
-              : new Decimal(0);
-          itemType = "wearable";
-        }
+        const { count, itemType } = getCountAndTypeForDelivery(game, name);
 
         const amount = order.items[name] || new Decimal(0);
 

@@ -92,7 +92,7 @@ interface SellItemProps {
  */
 interface ItemProps {
   type: "item";
-  item: InventoryItemName;
+  item: InventoryItemName | BumpkinItem;
   balance: Decimal;
   requirement: Decimal;
   showLabel?: boolean;
@@ -201,7 +201,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
           return getImageUrl(ITEM_IDS[props.item as BumpkinItem]);
         } else {
           return (
-            ITEM_DETAILS[props.item]?.image ??
+            ITEM_DETAILS[props.item as InventoryItemName]?.image ??
             SUNNYSIDE.icons.expression_confused
           );
         }
