@@ -53,7 +53,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { ITEM_IDS } from "features/game/types/bumpkin";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 // Bumpkins
@@ -181,7 +181,13 @@ export const OrderCard: React.FC<OrderCardProps> = ({
                 } else if (name === "sfl") {
                   img = token;
                 } else {
-                  img = ITEM_DETAILS[name].image;
+                  if (name in ITEM_IDS) {
+                    img = getImageUrl(ITEM_IDS[name as BumpkinItem]);
+                  } else {
+                    img =
+                      ITEM_DETAILS[name]?.image ??
+                      SUNNYSIDE.icons.expression_confused;
+                  }
                 }
 
                 return (
