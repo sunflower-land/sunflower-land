@@ -202,7 +202,7 @@ export const MyListings: React.FC = () => {
                                       decimalPlaces: 4,
                                     })
                                   : price,
-                              ).toFixed(2)}
+                              ).toFixed(4)}
                             </p>
                           </div>
                         </td>

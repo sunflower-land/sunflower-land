@@ -25,7 +25,7 @@ export const ResourceTable: React.FC<{
 
   return (
     <div className="max-h-[200px] scrollable overflow-y-auto relative">
-      <table className="w-full text-xs border-collapse">
+      <table className="w-full text-xxs sm:text-xs border-collapse">
         <thead>
           <tr>
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
@@ -43,13 +43,13 @@ export const ResourceTable: React.FC<{
             ></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="w-full text-xxs sm:text-xs border-collapse">
           {items.map(
             ({ id, createdById, quantity, price, pricePerUnit }, index) => (
               <tr
                 key={index}
                 className={classNames("relative", {
-                  "bg-[#ead4aa]": createdById === farmId,
+                  "bg-[#ead4aa]": !!(index % 2),
                 })}
               >
                 <td
@@ -71,11 +71,14 @@ export const ResourceTable: React.FC<{
                   style={{ border: "1px solid #b96f50" }}
                   className="p-1.5 truncate text-center relative"
                 >
-                  {pricePerUnit}
+                  <div className="flex items-center justify-center space-x-1">
+                    <img src={token} className="h-4" />
+                    <span>{pricePerUnit}</span>
+                  </div>
                 </td>
                 <td
                   style={{ border: "1px solid #b96f50" }}
-                  className="flex justify-center p-1.5 text-center"
+                  className="p-1 text-center min-w-[94px]"
                 >
                   <Button
                     disabled={
@@ -83,7 +86,7 @@ export const ResourceTable: React.FC<{
                       (tableType === "listings" && balance.lt(price)) ||
                       (tableType === "offers" && inventoryCount < quantity)
                     }
-                    className="w-[84px] h-10"
+                    className="w-full h-8 rounded-none"
                     onClick={() => onClick(id)}
                   >
                     {t(tableType === "listings" ? "buy" : "accept")}

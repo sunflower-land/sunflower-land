@@ -17,7 +17,7 @@ import { XsollaIFrame } from "features/game/components/modal/components/XsollaIF
 import { Context } from "features/game/GameProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { randomID } from "lib/utils/random";
 import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyGems";
@@ -55,12 +55,6 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [tab, setTab] = useState(initialTab);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const { t } = useAppTranslation();
 

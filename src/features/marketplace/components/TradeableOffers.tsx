@@ -3,15 +3,10 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import {
-  CollectionName,
-  Offer,
-  TradeableDetails,
-} from "features/game/types/marketplace";
+import { Offer, TradeableDetails } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/sfl.webp";
-import tradeIcon from "assets/icons/trade.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
 
 import { OfferTable } from "./TradeTable";
@@ -19,9 +14,7 @@ import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 import { TradeableDisplay } from "../lib/tradeables";
-import { tradeToId } from "../lib/offers";
 import { getKeys } from "features/game/types/decorations";
-import { RemoveOffer } from "./RemoveOffer";
 import {
   BlockchainEvent,
   Context as ContextType,
@@ -34,12 +27,15 @@ import * as Auth from "features/auth/lib/Provider";
 import { AcceptOffer } from "./AcceptOffer";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
-import { useParams } from "react-router-dom";
 import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useParams } from "react-router-dom";
 
 // JWT TOKEN
 
@@ -49,6 +45,9 @@ const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _isVIP = (state: MachineState) =>
+  hasVipAccess(state.context.state.inventory);
+
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
   farmId: number;
@@ -58,8 +57,10 @@ export const TradeableOffers: React.FC<{
 }> = ({ tradeable, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
+  const isVIP = useSelector(gameService, _isVIP);
   const { t } = useAppTranslation();
-  const params = useParams();
+  const { id } = useParams();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -122,10 +123,8 @@ export const TradeableOffers: React.FC<{
     setShowAcceptOffer(true);
   };
 
-  const isResource = getKeys(TRADE_LIMITS).includes(
-    KNOWN_ITEMS[Number(tradeable?.id)],
-  );
   const loading = !tradeable;
+  const isResource = getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(id)]);
 
   return (
     <>
@@ -159,6 +158,14 @@ export const TradeableOffers: React.FC<{
               <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
               </Label>
+              <VIPAccess
+                isVIP={isVIP}
+                onUpgrade={() => {
+                  openModal("BUY_BANNER");
+                }}
+                text={t("marketplace.unlockSelling")}
+                labelType={!isVIP ? "danger" : undefined}
+              />
             </div>
             <div className="flex items-center justify-between">
               {topOffer ? (
@@ -205,9 +212,19 @@ export const TradeableOffers: React.FC<{
       {isResource && (
         <InnerPanel className="mb-1">
           <div className="p-2">
-            <Label icon={tradeIcon} type="default" className="mb-2">
-              {t("marketplace.offers")}
-            </Label>
+            <div className="flex justify-between mb-2">
+              <Label type="default" icon={increaseArrow}>
+                {t("marketplace.offers")}
+              </Label>
+              <VIPAccess
+                isVIP={isVIP}
+                onUpgrade={() => {
+                  openModal("BUY_BANNER");
+                }}
+                text={t("marketplace.unlockSelling")}
+                labelType={!isVIP ? "danger" : undefined}
+              />
+            </div>
             <div className="mb-2">
               {loading && <Loading />}
               {!loading && tradeable?.offers.length === 0 && (
@@ -245,7 +262,7 @@ export const TradeableOffers: React.FC<{
           <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
             <Button
               className="w-full sm:w-fit"
-              disabled={!tradeable}
+              disabled={!tradeable || !isVIP}
               onClick={() => setShowMakeOffer(true)}
             >
               {t("marketplace.makeOffer")}
@@ -253,92 +270,6 @@ export const TradeableOffers: React.FC<{
           </div>
         </InnerPanel>
       )}
-    </>
-  );
-};
-
-const _isCancellingOffer = (state: MachineState) =>
-  state.matches("marketplaceCancelling");
-const _trades = (state: MachineState) => state.context.state.trades;
-
-export const YourOffer: React.FC<{
-  onOfferRemoved: () => void;
-  collection: CollectionName;
-  id: number;
-}> = ({ onOfferRemoved, collection, id }) => {
-  const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const { authService } = useContext(Auth.Context);
-
-  const isCancellingOffer = useSelector(gameService, _isCancellingOffer);
-  const trades = useSelector(gameService, _trades);
-  const authToken = useSelector(authService, _authToken);
-
-  const [showRemove, setShowRemove] = useState(false);
-
-  useOnMachineTransition<ContextType, BlockchainEvent>(
-    gameService,
-    "marketplaceCancellingSuccess",
-    "playing",
-    onOfferRemoved,
-  );
-
-  const offers = trades.offers ?? {};
-
-  const offerIds = getKeys(offers).filter((offerId) => {
-    const offer = offers[offerId];
-    const itemId = tradeToId({ details: offer });
-
-    if (offer.fulfilledAt) return false;
-
-    // Make sure the offer is for this item
-    return offer.collection === collection && itemId === id;
-  });
-
-  // Get their highest offer for the current item
-  const myOfferId = offerIds.reduce((highest, offerId) => {
-    const offer = offers[offerId];
-    return offer.sfl > offers[highest].sfl ? offerId : highest;
-  }, offerIds[0]);
-
-  if (!myOfferId) return null;
-
-  const offer = offers[myOfferId];
-
-  const handleHide = () => {
-    if (isCancellingOffer) return;
-
-    setShowRemove(false);
-  };
-
-  return (
-    <>
-      <Modal show={!!showRemove} onHide={handleHide}>
-        <RemoveOffer
-          id={myOfferId as string}
-          offer={offer}
-          authToken={authToken}
-          onClose={() => setShowRemove(false)}
-        />
-      </Modal>
-      <InnerPanel className="mb-1">
-        <div className="p-2">
-          <div className="flex justify-between mb-2">
-            <Label type="info" icon={increaseArrow}>
-              {t("marketplace.yourOffer")}
-            </Label>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <img src={sflIcon} className="h-8 mr-2" />
-              <p className="text-base">{`${offer.sfl} SFL`}</p>
-            </div>
-            <Button className="w-fit" onClick={() => setShowRemove(true)}>
-              {t("marketplace.cancelOffer")}
-            </Button>
-          </div>
-        </div>
-      </InnerPanel>
     </>
   );
 };
