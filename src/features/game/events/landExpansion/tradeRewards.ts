@@ -1,9 +1,11 @@
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import Decimal from "decimal.js-light";
+import { INITIAL_STOCK, INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { InventoryItemName, GameState } from "features/game/types/game";
 import { SEEDS } from "features/game/types/seeds";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { bait, animalFood } from "features/game/types/withdrawables";
+import { produce } from "immer";
 
 export type TradeRewardsItem =
   | Extract<
@@ -128,3 +130,51 @@ export const TRADE_REWARDS: (
     },
   },
 });
+
+export type RedeemTradeRewardsAction = {
+  type: "reward.redeemed";
+  item: TradeRewardsItem;
+};
+
+type Options = {
+  state: Readonly<GameState>;
+  action: RedeemTradeRewardsAction;
+};
+
+export function redeemTradeReward({ state, action }: Options): GameState {
+  return produce(state, (game) => {
+    const tradePoint = game.inventory["Trade Point"] ?? new Decimal(0);
+    const { item } = action;
+    const { ingredients, items } = TRADE_REWARDS(game)[item];
+    const tradePointCost = ingredients["Trade Point"];
+
+    if (tradePoint.lt(tradePointCost)) {
+      throw new Error("You do not have enough Trade Points!");
+    }
+
+    getKeys(items).forEach((name) => {
+      const inventoryAmount = game.inventory[name] ?? new Decimal(0);
+      const inventoryLimit = INVENTORY_LIMIT(game)[name];
+      const packAmount = items[name] ?? 0;
+
+      // Checks if buying the pack will exceed Inventory Limit for Seeds and Tools
+      if (
+        !!inventoryLimit &&
+        inventoryAmount.add(packAmount).gt(inventoryLimit)
+      ) {
+        throw new Error("Inventory Limit Reached!");
+      }
+
+      // Adds item into inventory
+      if (!game.inventory[name]) {
+        game.inventory[name] = new Decimal(packAmount);
+      } else {
+        game.inventory[name] = game.inventory[name].add(packAmount);
+      }
+    });
+
+    // Deducts Trade Points from inventory
+    game.inventory["Trade Point"] = tradePoint.sub(tradePointCost);
+    return game;
+  });
+}

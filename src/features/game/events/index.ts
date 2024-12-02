@@ -416,6 +416,10 @@ import {
 import { buyMoreReels, BuyMoreReelsAction } from "./landExpansion/buyMoreReels";
 import { ClaimPurchaseAction, claimPurchase } from "./claimPurchase";
 import { npcRestock, NPCRestockAction } from "./landExpansion/npcRestock";
+import {
+  redeemTradeReward,
+  RedeemTradeRewardsAction,
+} from "./landExpansion/tradeRewards";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -543,7 +547,8 @@ export type PlayingEvent =
   | BuySeasonalItemAction
   | DiscoverRecipeAction
   | UnlockFarmhandAction
-  | ClaimPurchaseAction;
+  | ClaimPurchaseAction
+  | RedeemTradeRewardsAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -736,6 +741,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "farmHand.unlocked": unlockFarmhand,
   "fishing.reelsBought": buyMoreReels,
   "purchase.claimed": claimPurchase,
+  "reward.redeemed": redeemTradeReward,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
