@@ -60,6 +60,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { KNOWN_IDS } from "features/game/types";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -184,11 +185,11 @@ export const OrderCard: React.FC<OrderCardProps> = ({
                 } else if (name === "sfl") {
                   img = token;
                 } else {
-                  if (name in ITEM_IDS) {
-                    img = getImageUrl(ITEM_IDS[name as BumpkinItem]);
+                  if (name in KNOWN_IDS) {
+                    img = ITEM_DETAILS[name as InventoryItemName]?.image;
                   } else {
                     img =
-                      ITEM_DETAILS[name as InventoryItemName]?.image ??
+                      getImageUrl(ITEM_IDS[name as BumpkinItem]) ??
                       SUNNYSIDE.icons.expression_confused;
                   }
                 }
