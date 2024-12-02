@@ -223,7 +223,7 @@ export const MakeOffer: React.FC<{
           {t("cancel")}
         </Button>
         <Button
-          disabled={isComingSoon || !offer || balance.lt(offer)}
+          disabled={!offer || balance.lt(offer)}
           onClick={submitOffer}
           className="relative"
         >
