@@ -167,16 +167,21 @@ export function getPriceHistory({
     }
   }
 
-  const currentPrice = price ?? dates[0].low;
+  const currentPrice = price ?? dates[0].high;
 
   const sevenDayPriceChange = currentPrice - dates[6].low;
-  const sevenDayChange = (sevenDayPriceChange / dates[6].low) * 100;
+  const sevenDayChange =
+    sevenDayPriceChange === 0 ? 0 : (sevenDayPriceChange / dates[6].low) * 100;
 
   const oneDayPriceChange = currentPrice - dates[1].low;
-  const oneDayChange = (oneDayPriceChange / dates[1].low) * 100;
+  const oneDayChange =
+    oneDayPriceChange === 0 ? 0 : (oneDayPriceChange / dates[1].low) * 100;
 
   const thirtyDayPriceChange = currentPrice - dates[29].low;
-  const thirtyDayChange = (thirtyDayPriceChange / dates[29].low) * 100;
+  const thirtyDayChange =
+    thirtyDayPriceChange === 0
+      ? 0
+      : (thirtyDayPriceChange / dates[29].low) * 100;
 
   return {
     dates,
