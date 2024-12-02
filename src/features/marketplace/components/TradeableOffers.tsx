@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -15,7 +14,7 @@ import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
 
-import { TradeTable } from "./TradeTable";
+import { OfferTable } from "./TradeTable";
 import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
@@ -153,46 +152,64 @@ export const TradeableOffers: React.FC<{
           />
         </Panel>
       </Modal>
-      {topOffer && !isResource && (
+      {!isResource && (
         <InnerPanel className="mb-1">
-          <div className="p-2 pb-0">
+          <div className="p-2 pb-0 mb-2">
             <div className="flex justify-between mb-2">
               <Label type="default" icon={increaseArrow}>
-                {t("marketplace.topOffer")}
+                {t("marketplace.offers")}
               </Label>
-              <Label
-                type="chill"
-                icon={SUNNYSIDE.icons.player}
-              >{`#${topOffer.offeredById}`}</Label>
             </div>
             <div className="flex items-center justify-between">
+              {topOffer && (
+                <div className="flex items-center">
+                  <img src={sflIcon} className="h-8 mr-2" />
+                  <p className="text-base">{`${topOffer.sfl} SFL`}</p>
+                </div>
+              )}
+
               <div className="flex items-center">
-                <img src={sflIcon} className="h-8 mr-2" />
-                <p className="text-base">{`${topOffer.sfl} SFL`}</p>
+                <Button
+                  className="w-full sm:w-fit mr-1"
+                  disabled={!tradeable}
+                  onClick={() => setShowMakeOffer(true)}
+                >
+                  {t("marketplace.makeOffer")}
+                </Button>
+                <Button
+                  onClick={() => setShowAcceptOffer(true)}
+                  className="w-fit "
+                >
+                  {t("marketplace.acceptOffer")}
+                </Button>
               </div>
-              <Button
-                onClick={() => setShowAcceptOffer(true)}
-                className="w-fit"
-              >
-                {t("marketplace.acceptOffer")}
-              </Button>
             </div>
           </div>
+
+          {loading ? (
+            <Loading />
+          ) : (
+            <OfferTable
+              details={display}
+              offers={tradeable?.offers ?? []}
+              id={farmId}
+            />
+          )}
         </InnerPanel>
       )}
 
-      <InnerPanel className="mb-1">
-        <div className="p-2">
-          <Label icon={tradeIcon} type="default" className="mb-2">
-            {t("marketplace.offers")}
-          </Label>
-          <div className="mb-2">
-            {loading && <Loading />}
-            {!loading && tradeable?.offers.length === 0 && (
-              <p className="text-sm">{t("marketplace.noOffers")}</p>
-            )}
-            {!!tradeable?.offers.length &&
-              (isResource ? (
+      {isResource && (
+        <InnerPanel className="mb-1">
+          <div className="p-2">
+            <Label icon={tradeIcon} type="default" className="mb-2">
+              {t("marketplace.offers")}
+            </Label>
+            <div className="mb-2">
+              {loading && <Loading />}
+              {!loading && tradeable?.offers.length === 0 && (
+                <p className="text-sm">{t("marketplace.noOffers")}</p>
+              )}
+              {!!tradeable?.offers.length && (
                 <ResourceTable
                   balance={balance}
                   items={tradeable?.offers.map((offer) => ({
@@ -218,32 +235,20 @@ export const TradeableOffers: React.FC<{
                     setShowAcceptOffer(true);
                   }}
                 />
-              ) : (
-                <TradeTable
-                  items={tradeable?.offers.map((offer) => ({
-                    price: offer.sfl,
-                    expiresAt: "30 days", // TODO,
-                    createdById: offer.offeredById,
-                    icon:
-                      offer.offeredById === farmId
-                        ? SUNNYSIDE.icons.player
-                        : undefined,
-                  }))}
-                  id={farmId}
-                />
-              ))}
+              )}
+            </div>
           </div>
-        </div>
-        <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
-          <Button
-            className="w-full sm:w-fit"
-            disabled={!tradeable}
-            onClick={() => setShowMakeOffer(true)}
-          >
-            {t("marketplace.makeOffer")}
-          </Button>
-        </div>
-      </InnerPanel>
+          <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
+            <Button
+              className="w-full sm:w-fit"
+              disabled={!tradeable}
+              onClick={() => setShowMakeOffer(true)}
+            >
+              {t("marketplace.makeOffer")}
+            </Button>
+          </div>
+        </InnerPanel>
+      )}
     </>
   );
 };

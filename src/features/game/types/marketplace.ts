@@ -25,6 +25,11 @@ export type Offer = {
   quantity: number;
   offeredById: number;
   offeredAt: number;
+  offeredBy: {
+    id: number;
+    username: string;
+    bumpkinUri: string;
+  };
   type: "onchain" | "instant";
 };
 
@@ -35,6 +40,11 @@ export type Listing = {
   listedById: number;
   listedAt: number;
   type: "onchain" | "instant";
+  listedBy: {
+    id: number;
+    username: string;
+    bumpkinUri: string;
+  };
 };
 
 type TradeHistoryDate = {
