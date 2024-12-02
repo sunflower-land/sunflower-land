@@ -96,16 +96,28 @@ export type MarketplaceTradeableName =
   | BumpkinItem
   | BudNFTName;
 
+export type PriceHistory = {
+  dates: TradeHistoryDate[];
+  sevenDayChange: number;
+  oneDayChange: number;
+  thirtyDayChange: number;
+  oneDayPriceChange: number;
+  sevenDayPriceChange: number;
+  thirtyDayPriceChange: number;
+};
+
 /**
  * Fills in missing dates and carries forward the last known price
  */
 export function getPriceHistory({
   history,
   from,
+  price,
 }: {
   history: TradeHistory;
   from: number;
-}): TradeHistoryDate[] {
+  price?: number;
+}): PriceHistory {
   const dates: TradeHistoryDate[] = [];
   let lastKnownPrice = 0;
 
@@ -145,5 +157,24 @@ export function getPriceHistory({
     }
   }
 
-  return dates;
+  const currentPrice = price ?? dates[0].low;
+
+  const sevenDayPriceChange = currentPrice - dates[6].low;
+  const sevenDayChange = (sevenDayPriceChange / dates[6].low) * 100;
+
+  const oneDayPriceChange = currentPrice - dates[1].low;
+  const oneDayChange = (oneDayPriceChange / dates[1].low) * 100;
+
+  const thirtyDayPriceChange = currentPrice - dates[29].low;
+  const thirtyDayChange = (thirtyDayPriceChange / dates[29].low) * 100;
+
+  return {
+    dates,
+    sevenDayChange,
+    oneDayChange,
+    thirtyDayChange,
+    oneDayPriceChange,
+    sevenDayPriceChange,
+    thirtyDayPriceChange,
+  };
 }

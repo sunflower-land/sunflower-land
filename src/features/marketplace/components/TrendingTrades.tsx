@@ -52,9 +52,6 @@ export const TrendingTrades: React.FC<{
             from: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).getTime(),
           });
 
-          const sevenDayPriceChange = prices[0].low - prices[6].low;
-          const sevenDayChange = (sevenDayPriceChange / prices[6].low) * 100;
-
           return (
             <tr
               key={index}
@@ -78,17 +75,19 @@ export const TrendingTrades: React.FC<{
                 <div className="flex items-center">
                   <img src={sflIcon} className="h-5 mr-1" />
                   <p className="text-sm">
-                    {new Decimal(prices[0].low).toFixed(2)}
+                    {new Decimal(prices.dates[0].low).toFixed(2)}
                   </p>
                 </div>
               </td>
               <td className="p-1.5 text-right relative">
                 <div className="flex items-center">
                   <img
-                    src={sevenDayChange > 0 ? increaseIcon : decreaseIcon}
+                    src={
+                      prices.sevenDayChange > 0 ? increaseIcon : decreaseIcon
+                    }
                     className="h-5 mr-1"
                   />
-                  <p className="text-sm">{`${sevenDayChange.toFixed(2)}%`}</p>
+                  <p className="text-sm">{`${prices.sevenDayChange.toFixed(2)}%`}</p>
                 </div>
               </td>
             </tr>
