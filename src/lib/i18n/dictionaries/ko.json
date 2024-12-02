@@ -4389,8 +4389,6 @@
   "marketplace.sold": "판매",
   "marketplace.sellerWillReceive": "판매자가 받게 됩니다",
   "bumpkinTrade.maxListings": "활성 리스팅 최대 개수에 도달함",
-  "remaining.free.listings": "{{listingsRemaining}} 일일 리스팅 잔량",
-  "remaining.free.listing": "하루 목록 1개 남음",
   "remaining.free.purchases": "{{purchasesRemaining}} 일일 구매 잔량",
   "remaining.free.purchase": "하루 구매 수량 1개 남음",
   "statements.potionRule.four": "게임이 완료되면 마지막 시도의 점수에 따라 보상이 결정됩니다.",
@@ -4424,5 +4422,11 @@
   "marketplace.supply": "공급량: {{supply}}",
   "marketplace.salePrice": "판매 가격",
   "marketplace.hoarding": "스토어 진행 상황 필요",
-  "marketplace.hoarding.description": "이 목록을 구매하려면 게임 진행 상황을 저장해야 합니다."
+  "marketplace.hoarding.description": "이 목록을 구매하려면 게임 진행 상황을 저장해야 합니다.",
+  "remaining.free.listings": "{{listingsRemaining}} 일일 무료 리스팅",
+  "remaining.free.listing": "일일 목록 1개 무료",
+  "marketplace.unlockSelling": "판매 잠금 해제",
+  "marketplace.unlockOffering": "오퍼링 잠금 해제",
+  "marketplace.vip.access": "무제한 마켓플레이스 액세스",
+  "marketplace.vip.season.access": "시즌 동안 무제한 마켓플레이스 이용"
 }

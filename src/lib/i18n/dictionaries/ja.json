@@ -4389,8 +4389,6 @@
   "marketplace.sold": "売却",
   "marketplace.sellerWillReceive": "出品者が受け取る",
   "bumpkinTrade.maxListings": "出品中の商品が最大数に達しました",
-  "remaining.free.listings": "{{listingsRemaining}} 日次出品情報の残り",
-  "remaining.free.listing": "デイリーリスティング残り 1 件",
   "remaining.free.purchases": "{{purchasesRemaining}} 日次購入残高",
   "remaining.free.purchase": "1 日の購入が残り",
   "statements.potionRule.four": "ゲームが完了すると、最後のトライのスコアによって報酬が決まります。",
@@ -4424,5 +4422,11 @@
   "marketplace.supply": "サプライ:{{supply}}",
   "marketplace.salePrice": "販売価格",
   "marketplace.hoarding": "ストアの進捗状況が必要です",
-  "marketplace.hoarding.description": "このリストを購入するには、ゲームの進行状況を保存する必要があります。"
+  "marketplace.hoarding.description": "このリストを購入するには、ゲームの進行状況を保存する必要があります。",
+  "remaining.free.listings": "{{listingsRemaining}} 無料のデイリーリスト",
+  "remaining.free.listing": "毎日1件の無料リスト",
+  "marketplace.unlockSelling": "販売のロックを解除",
+  "marketplace.unlockOffering": "オファーのロック解除",
+  "marketplace.vip.access": "無制限のマーケットプレイスアクセス",
+  "marketplace.vip.season.access": "シーズン中はマーケットプレイスに無制限にアクセス可能"
 }

@@ -4389,8 +4389,6 @@
   "marketplace.sold": "Dijual",
   "marketplace.sellerWillReceive": "Penjual akan menerima",
   "bumpkinTrade.maxListings": "Penyenaraian aktif maksimum dicapai",
-  "remaining.free.listings": "{{listingsRemaining}} penyenaraian harian yang tinggal",
-  "remaining.free.listing": "Baki 1 penyenaraian harian",
   "remaining.free.purchases": "{{purchasesRemaining}} baki pembelian harian",
   "remaining.free.purchase": "Baki 1 pembelian harian",
   "statements.potionRule.four": "Apabila permainan selesai, skor untuk percubaan terakhir anda akan menentukan ganjaran anda.",
@@ -4424,5 +4422,11 @@
   "marketplace.supply": "Bekalan: {{supply}}",
   "marketplace.salePrice": "Harga jualan",
   "marketplace.hoarding": "Kemajuan kedai diperlukan",
-  "marketplace.hoarding.description": "Anda mesti menyimpan kemajuan permainan anda untuk dapat membeli penyenaraian ini."
+  "marketplace.hoarding.description": "Anda mesti menyimpan kemajuan permainan anda untuk dapat membeli penyenaraian ini.",
+  "remaining.free.listings": "{{listingsRemaining}} senarai harian percuma",
+  "remaining.free.listing": "1 penyenaraian harian percuma",
+  "marketplace.unlockSelling": "Buka kunci jualan",
+  "marketplace.unlockOffering": "Buka kunci tawaran",
+  "marketplace.vip.access": "Akses pasaran tanpa had",
+  "marketplace.vip.season.access": "Akses pasaran tanpa had sepanjang musim"
 }

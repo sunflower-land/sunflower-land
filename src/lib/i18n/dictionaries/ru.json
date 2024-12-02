@@ -4389,8 +4389,6 @@
   "marketplace.sold": "Продано",
   "marketplace.sellerWillReceive": "Продавец получит",
   "bumpkinTrade.maxListings": "Достигнуто максимальное количество активных объявлений",
-  "remaining.free.listings": "Осталось {{listingsRemaining}} ежедневных объявлений",
-  "remaining.free.listing": "Осталось 1 объявление за день",
   "remaining.free.purchases": "{{purchasesRemaining}} количество оставшихся ежедневных покупок",
   "remaining.free.purchase": "Осталась 1 ежедневная покупка",
   "statements.potionRule.four": "По завершении игры ваша награда будет зависеть от количества очков, набранных за последнюю попытку.",
@@ -4424,5 +4422,11 @@
   "marketplace.supply": "Предложение: {{supply}}",
   "marketplace.salePrice": "Цена продажи",
   "marketplace.hoarding": "Требуется прогресс магазина",
-  "marketplace.hoarding.description": "Чтобы приобрести это объявление, вы должны сохранить свой игровой прогресс."
+  "marketplace.hoarding.description": "Чтобы приобрести это объявление, вы должны сохранить свой игровой прогресс.",
+  "remaining.free.listings": "{{listingsRemaining}} бесплатные ежедневные объявления",
+  "remaining.free.listing": "1 бесплатное ежедневное объявление",
+  "marketplace.unlockSelling": "Разблокируйте продажи",
+  "marketplace.unlockOffering": "Предложение по разблокировке",
+  "marketplace.vip.access": "Неограниченный доступ к торговой площадке",
+  "marketplace.vip.season.access": "Неограниченный доступ к торговой площадке в течение сезона"
 }

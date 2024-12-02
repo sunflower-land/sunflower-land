@@ -4389,8 +4389,6 @@
   "marketplace.sold": "Satıldı",
   "marketplace.sellerWillReceive": "Satıcı alacak",
   "bumpkinTrade.maxListings": "Maksimum aktif listeye ulaşıldı",
-  "remaining.free.listings": "{{listingsRemaining}} kalan günlük listeler",
-  "remaining.free.listing": "1 günlük liste kaldı",
   "remaining.free.purchases": "{{purchasesRemaining}} kalan günlük alımlar",
   "remaining.free.purchase": "Günlük 1 satın alma kaldı",
   "statements.potionRule.four": "Oyun tamamlandığında, son denemenizin puanı ödülünüzü belirleyecektir.",
@@ -4424,5 +4422,11 @@
   "marketplace.supply": "Tedarik: {{supply}}",
   "marketplace.salePrice": "Satış Fiyatı",
   "marketplace.hoarding": "Mağaza ilerlemesi gerekli",
-  "marketplace.hoarding.description": "Bu listeyi satın alabilmek için oyun ilerlemenizi kaydetmelisiniz."
+  "marketplace.hoarding.description": "Bu listeyi satın alabilmek için oyun ilerlemenizi kaydetmelisiniz.",
+  "remaining.free.listings": "{{listingsRemaining}} ücretsiz günlük listeler",
+  "remaining.free.listing": "1 ücretsiz günlük liste",
+  "marketplace.unlockSelling": "Satışın kilidini açın",
+  "marketplace.unlockOffering": "Teklifin kilidini aç",
+  "marketplace.vip.access": "Sınırsız pazar erişimi",
+  "marketplace.vip.season.access": "Sezon boyunca sınırsız pazar yeri erişimi"
 }

@@ -4389,8 +4389,6 @@
   "marketplace.sold": "已售出",
   "marketplace.sellerWillReceive": "卖家将收到",
   "bumpkinTrade.maxListings": "已达到最大活跃挂单数",
-  "remaining.free.listings": "剩余每日挂单数：{{listingsRemaining}}",
-  "remaining.free.listing": "剩余每日挂单数：1",
   "remaining.free.purchases": "剩余每日购单数：{{purchasesRemaining}}",
   "remaining.free.purchase": "剩余每日购单数：1",
   "statements.potionRule.four": "游戏完成后，你最后一次尝试的分数将决定你的奖励。",
@@ -4424,5 +4422,11 @@
   "marketplace.supply": "供应：{{supply}}",
   "marketplace.salePrice": "销售价格",
   "marketplace.hoarding": "需要存储进度",
-  "marketplace.hoarding.description": "您必须存储游戏进度才能购买此列表。"
+  "marketplace.hoarding.description": "您必须存储游戏进度才能购买此列表。",
+  "remaining.free.listings": "{{listingsRemaining}} 每日免费房源",
+  "remaining.free.listing": "1 份免费每日清单",
+  "marketplace.unlockSelling": "解锁销售",
+  "marketplace.unlockOffering": "解锁优惠",
+  "marketplace.vip.access": "无限制的市场访问权限",
+  "marketplace.vip.season.access": "赛季期间无限量进入市场"
 }

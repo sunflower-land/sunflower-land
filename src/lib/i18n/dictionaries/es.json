@@ -4389,8 +4389,6 @@
   "marketplace.sold": "Vendido",
   "marketplace.sellerWillReceive": "El vendedor recibirá",
   "bumpkinTrade.maxListings": "Se ha alcanzado el número máximo de anuncios activos",
-  "remaining.free.listings": "{{listingsRemaining}} listados diarios restantes",
-  "remaining.free.listing": "Queda 1 anuncio diario",
   "remaining.free.purchases": "{{purchasesRemaining}} compras diarias restantes",
   "remaining.free.purchase": "Queda 1 compra diaria",
   "statements.potionRule.four": "Cuando se complete el juego, la puntuación de tu último intento determinará tu recompensa.",
@@ -4424,5 +4422,11 @@
   "marketplace.supply": "Suministro: {{supply}}",
   "marketplace.salePrice": "Precio de venta",
   "marketplace.hoarding": "Se requiere el progreso de la tienda",
-  "marketplace.hoarding.description": "Debes guardar tu progreso en el juego para poder comprar este anuncio."
+  "marketplace.hoarding.description": "Debes guardar tu progreso en el juego para poder comprar este anuncio.",
+  "remaining.free.listings": "{{listingsRemaining}} anuncios diarios gratuitos",
+  "remaining.free.listing": "1 anuncio diario gratuito",
+  "marketplace.unlockSelling": "Desbloquea las ventas",
+  "marketplace.unlockOffering": "Oferta de desbloqueo",
+  "marketplace.vip.access": "Acceso ilimitado al mercado",
+  "marketplace.vip.season.access": "Acceso ilimitado al mercado durante la temporada"
 }
