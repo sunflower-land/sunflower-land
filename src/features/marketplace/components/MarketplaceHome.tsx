@@ -201,12 +201,10 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             icon={ITEM_DETAILS.Eggplant.image}
             label="Resources"
             onClick={() => {
-              navigate(
-                `/marketplace/collection?filters=collectibles,resources`,
-              );
+              navigate(`/marketplace/collection?filters=resources`);
               onClose();
             }}
-            isActive={filters === "collectibles,resources"}
+            isActive={filters === "resources"}
           />
 
           <Option
