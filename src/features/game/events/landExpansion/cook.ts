@@ -218,7 +218,7 @@ export function cook({
       boost: { Oil: oilConsumed },
       readyAt: getReadyAt({
         buildingId: buildingId,
-        item: item,
+        item,
         bumpkin,
         createdAt,
         game: stateCopy,
