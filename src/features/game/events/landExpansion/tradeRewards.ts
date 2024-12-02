@@ -3,7 +3,7 @@ import { INITIAL_STOCK, INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { InventoryItemName, GameState } from "features/game/types/game";
 import { SEEDS } from "features/game/types/seeds";
-import { WORKBENCH_TOOLS } from "features/game/types/tools";
+import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { bait, animalFood } from "features/game/types/withdrawables";
 import { produce } from "immer";
 
@@ -121,6 +121,21 @@ export const TRADE_REWARDS: (
         return {
           ...acc,
           [feed]: feed === "Omnifeed" ? 0 : 25,
+        };
+      },
+      {} as Partial<Record<InventoryItemName, number>>,
+    ),
+    ingredients: {
+      "Trade Point": 50,
+    },
+  },
+  "Digging Pack": {
+    name: "Digging Pack",
+    items: getKeys(TREASURE_TOOLS).reduce(
+      (acc, tool) => {
+        return {
+          ...acc,
+          [tool]: INITIAL_STOCK(state)[tool],
         };
       },
       {} as Partial<Record<InventoryItemName, number>>,
