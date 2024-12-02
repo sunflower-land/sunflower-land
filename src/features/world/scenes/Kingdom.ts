@@ -85,7 +85,7 @@ const THRONES: Record<FactionName, string> = {
   goblins: "goblin_champions",
   sunflorians: "sunflorian_champions",
   nightshades: "nightshade_champions",
-  bumpkins: "sunflorian_champions",
+  bumpkins: "bumpkin_champions",
 };
 
 export class KingdomScene extends BaseScene {
