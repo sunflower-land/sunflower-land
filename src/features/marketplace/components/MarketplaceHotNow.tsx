@@ -44,9 +44,7 @@ export const MarketplaceHotNow: React.FC = () => {
               <ButtonPanel
                 className="w-full h-full"
                 onClick={() =>
-                  navigate(
-                    "/marketplace/collection?filters=collectibles,resources",
-                  )
+                  navigate("/marketplace/collection?filters=resources")
                 }
               >
                 <div className="flex items-center">
