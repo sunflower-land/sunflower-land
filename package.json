@@ -76,6 +76,7 @@
     "serialize-error": "^11.0.0",
     "stream-browserify": "^3.0.0",
     "string-similarity": "^4.0.4",
+    "swr": "^2.2.5",
     "util": "^0.12.4",
     "uuid": "^9.0.0",
     "viem": "2.x",
