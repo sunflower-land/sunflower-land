@@ -4,7 +4,12 @@ import {
   CookableName,
   COOKABLES,
 } from "features/game/types/consumables";
-import { Bumpkin, GameState, Skills } from "features/game/types/game";
+import {
+  Bumpkin,
+  GameState,
+  Inventory,
+  Skills,
+} from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { translate } from "lib/i18n/translate";
@@ -126,13 +131,42 @@ export function getOilConsumption(
   return BUILDING_DAILY_OIL_CONSUMPTION[buildingName] * oilRequired;
 }
 
+export function getCookingRequirements({
+  state,
+  item,
+}: {
+  state: GameState;
+  item: CookableName;
+}): Inventory {
+  let { ingredients } = COOKABLES[item];
+  const { bumpkin } = state;
+
+  ingredients = getKeys(ingredients).reduce((inventory, ingredient) => {
+    let amount = ingredients[ingredient] || new Decimal(0);
+
+    // Double Nom - 2x ingredients
+    if (bumpkin.skills["Double Nom"]) {
+      amount = amount.mul(2);
+    }
+
+    return {
+      ...inventory,
+      [ingredient]: amount,
+    };
+  }, ingredients);
+
+  return ingredients;
+}
+
 export function cook({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { building: requiredBuilding, ingredients } = COOKABLES[action.item];
+    const { item, buildingId } = action;
+    const { building: requiredBuilding } = COOKABLES[item];
+    const ingredients = getCookingRequirements({ state, item });
     const { buildings, bumpkin } = stateCopy;
     const buildingsOfRequiredType = buildings[requiredBuilding];
 
@@ -141,7 +175,7 @@ export function cook({
     }
 
     const building = buildingsOfRequiredType.find(
-      (building) => building.id === action.buildingId,
+      (building) => building.id === buildingId,
     );
 
     if (bumpkin === undefined) {
@@ -157,20 +191,15 @@ export function cook({
     }
 
     const oilConsumed = getCookingOilBoost(
-      action.item,
+      item,
       stateCopy,
-      action.buildingId,
+      buildingId,
     ).oilConsumed;
 
     stateCopy.inventory = getKeys(ingredients).reduce(
       (inventory, ingredient) => {
-        const count = inventory[ingredient] || new Decimal(0);
-        let amount = ingredients[ingredient] || new Decimal(0);
-
-        // Double Nom - 2x ingredients
-        if (bumpkin.skills["Double Nom"]) {
-          amount = amount.mul(2);
-        }
+        const count = inventory[ingredient] ?? new Decimal(0);
+        const amount = ingredients[ingredient] ?? new Decimal(0);
 
         if (count.lessThan(amount)) {
           throw new Error(`Insufficient ingredient: ${ingredient}`);
@@ -185,11 +214,11 @@ export function cook({
     );
 
     building.crafting = {
-      name: action.item,
+      name: item,
       boost: { Oil: oilConsumed },
       readyAt: getReadyAt({
-        buildingId: action.buildingId,
-        item: action.item,
+        buildingId: buildingId,
+        item: item,
         bumpkin,
         createdAt,
         game: stateCopy,
