@@ -1,6 +1,5 @@
 import { Loading } from "features/auth/components";
-import { Marketplace as ICollection } from "features/game/types/marketplace";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
@@ -9,6 +8,7 @@ import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
+import useSWR from "swr";
 
 export const Collection: React.FC<{
   search?: string;
@@ -28,31 +28,14 @@ export const Collection: React.FC<{
 
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [collection, setCollection] = useState<ICollection>();
-
-  const lastPromise = useRef<Promise<ICollection>>();
-
-  const load = async () => {
-    setIsLoading(true);
-
-    const loadPromise = loadMarketplace({
-      filters: filters ?? "",
-      token: authState.context.user.rawToken as string,
-    });
-    lastPromise.current = loadPromise;
-    const data = await loadPromise;
-
-    // Something else attempted to load after us
-    if (lastPromise.current !== loadPromise) return;
-
-    setCollection(data);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    load();
-  }, [filters]);
+  const { data, error, isLoading } = useSWR(
+    [filters, authState.context.user.rawToken as string],
+    ([filters, token]) =>
+      loadMarketplace({
+        filters,
+        token,
+      }),
+  );
 
   if (isLoading) {
     return (
@@ -63,7 +46,7 @@ export const Collection: React.FC<{
   }
 
   const items =
-    collection?.items.filter((item) => {
+    data?.items.filter((item) => {
       const display = getTradeableDisplay({
         type: item.collection,
         id: item.id,
