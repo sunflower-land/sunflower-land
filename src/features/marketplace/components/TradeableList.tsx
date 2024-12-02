@@ -170,7 +170,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         SFL: BigInt(price),
       },
       domain: {
-        name: "TESTING",
+        name: CONFIG.NETWORK === "mainnet" ? "Sunflower Land" : "TESTING",
         version: "1",
         chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
         verifyingContract:

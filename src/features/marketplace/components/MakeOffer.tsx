@@ -67,7 +67,7 @@ export const MakeOffer: React.FC<{
         ],
       },
       domain: {
-        name: "TESTING",
+        name: CONFIG.NETWORK === "mainnet" ? "Sunflower Land" : "TESTING",
         version: "1",
         chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
         verifyingContract:
