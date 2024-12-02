@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Tradeable, Listing } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getCollectionName, getTradeableDisplay } from "../lib/tradeables";
+import { getTradeableDisplay } from "../lib/tradeables";
 import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
 import { TradeableItemDetails } from "./TradeableSummary";
@@ -42,7 +42,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
 
-  const collection = getCollectionName(KNOWN_ITEMS[tradeable.id]);
+  const collection = tradeable.collection;
   const display = getTradeableDisplay({
     id: tradeable.id,
     type: collection,
