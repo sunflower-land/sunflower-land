@@ -3,7 +3,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -27,26 +27,20 @@ export const MarketplaceIntroduction: React.FC = () => {
   const [show, setShow] = useState(!isIntroAcknowledged());
 
   return (
-    <Modal
-      show={show}
-      onHide={() => {
-        acknowledgeIntro();
-        setShow(false);
-      }}
-    >
+    <Modal show={show}>
       {page === 0 && (
         <SpeakingModal
           onClose={() => setPage(1)}
           bumpkinParts={NPC_WEARABLES["hammerin harry"]}
           message={[
             {
-              text: "Howdy there, partner! Welcome to the Marketplace. Your one-stop shop for all things farm-tastic.",
+              text: t("marketplace.welcome.one"),
             },
             {
-              text: "Here you can trade resources, buy exclusive collectibles & boost your farm.",
+              text: t("marketplace.welcome.two"),
             },
             {
-              text: "The marketplace exclusively uses $SFL, the currency of Sunflower Land. You can earn SFL in-game or trading with other players.",
+              text: t("marketplace.welcome.three"),
             },
           ]}
         />
@@ -55,7 +49,7 @@ export const MarketplaceIntroduction: React.FC = () => {
       {page === 1 && (
         <Panel>
           <Label type="default" className="mb-1">
-            Welcome to the Marketplace
+            {t("marketplace.welcome.title")}
           </Label>
           <img
             src={SUNNYSIDE.announcement.marketplaceLight}
@@ -64,19 +58,19 @@ export const MarketplaceIntroduction: React.FC = () => {
           <NoticeboardItems
             items={[
               {
-                text: "Trade resources, collectibles & wearables for your farm.",
+                text: t("marketplace.welcome.four"),
                 icon: tradeIcon,
               },
               {
-                text: "Sell resources & items to earn $SFL.",
+                text: t("marketplace.welcome.five"),
                 icon: sflIcon,
               },
               {
-                text: "Earn points on trades and unlock rewards.",
+                text: t("marketplace.welcome.six"),
                 icon: giftIcon,
               },
               {
-                text: "The marketplace items are intended for in-game use, not speculation or investment",
+                text: t("marketplace.welcome.seven"),
                 icon: SUNNYSIDE.icons.search,
               },
             ]}
@@ -92,7 +86,14 @@ export const MarketplaceIntroduction: React.FC = () => {
             </a>
           </p>
 
-          <Button>Got it</Button>
+          <Button
+            onClick={() => {
+              acknowledgeIntro();
+              setShow(false);
+            }}
+          >
+            {t("marketplace.welcome.gotIt")}
+          </Button>
         </Panel>
       )}
     </Modal>
