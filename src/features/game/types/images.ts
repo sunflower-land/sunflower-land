@@ -4440,4 +4440,8 @@ export const ITEM_DETAILS: Items = {
     image: tradePoint,
     description: COUPONS["Trade Point"].description,
   },
+  "Trade Cake": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
 };

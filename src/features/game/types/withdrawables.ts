@@ -619,6 +619,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
   "Sour Shake": () => false,
   "Spaghetti al Limone": () => false,
   "Lemon Cheesecake": () => false,
+  "Trade Cake": () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {

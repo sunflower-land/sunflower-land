@@ -12,7 +12,8 @@ export type TradeRewardsItem =
       InventoryItemName,
       "Treasure Key" | "Rare Key" | "Luxury Key" | "Prize Ticket"
     >
-  | TradeRewardPacks;
+  | TradeRewardPacks
+  | TradeFood;
 
 type TradeRewardPacks =
   | "Tool Pack"
@@ -20,6 +21,8 @@ type TradeRewardPacks =
   | "Fishing Pack"
   | "Animal Pack"
   | "Digging Pack";
+
+export type TradeFood = "Trade Cake";
 
 type TradeReward = {
   name: TradeRewardsItem;
@@ -64,6 +67,15 @@ export const TRADE_REWARDS: (
     },
     ingredients: {
       "Trade Point": 1500,
+    },
+  },
+  "Trade Cake": {
+    name: "Trade Cake",
+    items: {
+      "Trade Cake": 1,
+    },
+    ingredients: {
+      "Trade Point": 500,
     },
   },
   "Tool Pack": {

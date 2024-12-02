@@ -7,6 +7,7 @@ import {
   FISH,
   Consumable,
   FACTION_FOOD,
+  TRADE_FOOD,
 } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -55,6 +56,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
       ),
     ...Object.values(PIRATE_CAKE),
     ...Object.values(FACTION_FOOD),
+    ...Object.values(TRADE_FOOD),
     ...Object.values(FISH).sort((a, b) => a.name.localeCompare(b.name)),
   ];
 
