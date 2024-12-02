@@ -7,7 +7,6 @@ import { Offer, TradeableDetails } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/sfl.webp";
-import tradeIcon from "assets/icons/trade.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
 
 import { OfferTable } from "./TradeTable";
@@ -33,9 +32,10 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { VIPAccess } from "features/game/components/VipAccess";
+import { useParams } from "react-router-dom";
 
 // JWT TOKEN
 
@@ -58,23 +58,9 @@ export const TradeableOffers: React.FC<{
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
   const { openModal } = useContext(ModalContext);
-  const { t } = useAppTranslation();
-
-  const hasPendingOfferEffect = useSelector(
-    gameService,
-    _hasPendingOfferEffect,
-  );
-  const authToken = useSelector(authService, _authToken);
-  const balance = useSelector(gameService, _balance);
-  const inventory = useSelector(gameService, _inventory);
   const isVIP = useSelector(gameService, _isVIP);
-  const [showMakeOffer, setShowMakeOffer] = useState(false);
-  const [showAcceptOffer, setShowAcceptOffer] = useState(false);
-  const [selectedOffer, setSelectedOffer] = useState<Offer>();
-
-  const topOffer = tradeable?.offers.reduce((highest, offer) => {
-    return offer.sfl > highest.sfl ? offer : highest;
-  }, tradeable?.offers[0]);
+  const { t } = useAppTranslation();
+  const { id } = useParams();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -89,6 +75,21 @@ export const TradeableOffers: React.FC<{
     "marketplaceOfferingSuccess",
     confetti,
   );
+
+  const hasPendingOfferEffect = useSelector(
+    gameService,
+    _hasPendingOfferEffect,
+  );
+  const authToken = useSelector(authService, _authToken);
+  const balance = useSelector(gameService, _balance);
+  const inventory = useSelector(gameService, _inventory);
+  const [showMakeOffer, setShowMakeOffer] = useState(false);
+  const [showAcceptOffer, setShowAcceptOffer] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState<Offer>();
+
+  const topOffer = tradeable?.offers.reduce((highest, offer) => {
+    return offer.sfl > highest.sfl ? offer : highest;
+  }, tradeable?.offers[0]);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -122,10 +123,8 @@ export const TradeableOffers: React.FC<{
     setShowAcceptOffer(true);
   };
 
-  const isResource = getKeys(TRADE_LIMITS).includes(
-    KNOWN_ITEMS[Number(tradeable?.id)],
-  );
   const loading = !tradeable;
+  const isResource = getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(id)]);
 
   return (
     <>
@@ -159,6 +158,14 @@ export const TradeableOffers: React.FC<{
               <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
               </Label>
+              <VIPAccess
+                isVIP={isVIP}
+                onUpgrade={() => {
+                  openModal("BUY_BANNER");
+                }}
+                text={t("marketplace.unlockSelling")}
+                labelType={!isVIP ? "danger" : undefined}
+              />
             </div>
             <div className="flex items-center justify-between">
               {topOffer ? (
@@ -205,8 +212,8 @@ export const TradeableOffers: React.FC<{
       {isResource && (
         <InnerPanel className="mb-1">
           <div className="p-2">
-            <div className="flex items-center justify-between mb-1">
-              <Label icon={tradeIcon} type="default" className="mb-2">
+            <div className="flex justify-between mb-2">
+              <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
               </Label>
               <VIPAccess
@@ -214,7 +221,8 @@ export const TradeableOffers: React.FC<{
                 onUpgrade={() => {
                   openModal("BUY_BANNER");
                 }}
-                text={t("marketplace.unlockOffering")}
+                text={t("marketplace.unlockSelling")}
+                labelType={!isVIP ? "danger" : undefined}
               />
             </div>
             <div className="mb-2">
