@@ -21,8 +21,6 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
 import { Panel } from "components/ui/Panel";
-import { useOrientation } from "lib/utils/hooks/useOrientation";
-import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { Modal } from "components/ui/Modal";
 import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -30,6 +28,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
+import { Marketplace } from "features/marketplace/Marketplace";
+import { Explore } from "features/world/World";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -55,21 +55,8 @@ export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const state = useSelector(authService, selectState);
   const [showGame, setShowGame] = useState(false);
-  const [showOrientationModal, setShowOrientationModal] = useState(false);
   const [showConnectionModal, setShowConnectionModal] = useState(false);
-  const orientation = useOrientation();
-  const isPWA = useIsPWA();
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
-
-  // useEffect(() => {
-  //   if (!isMobile) return;
-
-  //   if (orientation === "landscape") {
-  //     setShowOrientationModal(true);
-  //   } else {
-  //     setShowOrientationModal(false);
-  //   }
-  // }, [orientation, isMobile]);
 
   useEffect(() => {
     // Check if online on initial load
@@ -106,9 +93,6 @@ export const Navigation: React.FC = () => {
     // to the game machine.
     setShowGame(_showGame);
   }, [state]);
-
-  const imageWidth = PIXEL_SCALE * 640;
-  const imageHeight = PIXEL_SCALE * 480;
 
   return (
     <>
@@ -188,8 +172,10 @@ export const Navigation: React.FC = () => {
                       }
                     />
                   )}
-                  <Route path="/world/:name" element={<World key="world" />} />
-
+                  <Route path="/world" element={<World key="world" />}>
+                    <Route path="marketplace/*" element={<Marketplace />} />
+                    <Route path=":name" element={<Explore />} />
+                  </Route>
                   <Route
                     path="/community/:name"
                     element={<World key="community" isCommunity />}

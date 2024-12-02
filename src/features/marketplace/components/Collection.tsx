@@ -75,7 +75,9 @@ export const Collection: React.FC<{
                 details={display}
                 price={new Decimal(item.floor)}
                 onClick={() => {
-                  navigate(`/marketplace/${item.collection}/${item.id}`);
+                  navigate(
+                    `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
+                  );
                   onNavigated?.();
                 }}
               />

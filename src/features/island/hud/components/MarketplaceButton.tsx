@@ -1,24 +1,26 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shopIcon from "assets/icons/shop.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-export const MarketplaceButton = ({
-  currentPlayerPosition,
-}: {
-  currentPlayerPosition: { x: number; y: number };
-}) => {
+export const MarketplaceButton = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isWorldRoute = location.pathname.includes("/world");
+
   return (
     <>
       <div
         onClick={() => {
-          navigate("/marketplace/hot", {
-            state: {
-              currentPlayerPosition,
-            },
-          });
+          if (isWorldRoute) {
+            // Navigate to base world route with marketplace
+            navigate("/world/marketplace/hot");
+          } else {
+            // Land context remains the same
+            navigate("/marketplace/hot");
+          }
         }}
         className="absolute flex z-50 cursor-pointer hover:img-highlight"
         style={{

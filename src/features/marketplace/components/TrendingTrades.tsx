@@ -6,7 +6,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import sflIcon from "assets/icons/sfl.webp";
 import increaseIcon from "assets/icons/increase_arrow.png";
 import decreaseIcon from "assets/icons/decrease_arrow.png";
@@ -17,6 +17,7 @@ export const TrendingTrades: React.FC<{
   trends?: MarketplaceTrends;
 }> = ({ trends }) => {
   const { t } = useAppTranslation();
+  const isWorldRoute = useLocation().pathname.includes("/world");
 
   const navigate = useNavigate();
 
@@ -63,7 +64,11 @@ export const TrendingTrades: React.FC<{
                 borderBottom: "1px solid #b96f50",
                 borderTop: index === 0 ? "1px solid #b96f50" : "",
               }}
-              onClick={() => navigate(`/marketplace/${details.type}/${itemId}`)}
+              onClick={() =>
+                navigate(
+                  `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${itemId}`,
+                )
+              }
             >
               <td className="p-1.5 text-left">
                 <div className="flex items-center">

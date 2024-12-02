@@ -23,6 +23,7 @@ import { useLocation } from "react-router-dom";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { TransactionCountdown } from "./Transaction";
+import { MarketplaceButton } from "./components/MarketplaceButton";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -59,94 +60,97 @@ const HudComponent: React.FC = () => {
   const isFullUser = farmAddress !== undefined;
 
   return (
-    <HudContainer>
-      <Inventory
-        state={gameState.context.state}
-        isFullUser={isFullUser}
-        shortcutItem={shortcutItem}
-        selectedItem={selectedItem}
-        onPlace={(selected) => {
-          gameService.send("LANDSCAPE", {
-            action: placeEvent(selected),
-            placeable: selected,
-            multiple: true,
-          });
-        }}
-        onDepositClick={() => setShowDepositModal(true)}
-        isSaving={autosaving}
-        isFarming={false}
-        hideActions={
-          pathname.includes("retreat") ||
-          pathname.includes("visit") ||
-          pathname.includes("dawn-breaker")
-        }
-      />
-      {pathname.includes("beach") && <DesertDiggingDisplay />}
-      <Balances
-        onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
-        sfl={gameState.context.state.balance}
-        coins={gameState.context.state.coins}
-        gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
-      />
-      <div
-        className="absolute z-50 flex flex-col justify-between"
-        style={{
-          left: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 3}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-        }}
-      >
-        <CodexButton />
-        <TravelButton />
-      </div>
-      <div
-        className="absolute z-50 flex flex-col justify-between"
-        style={{
-          bottom: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 28}px`,
-        }}
-      >
-        <TransactionCountdown />
-
-        <AuctionCountdown />
-        <SpecialEventCountdown />
-      </div>
-
-      <BumpkinProfile isFullUser={isFullUser} />
-
-      <div
-        className="absolute z-50 flex flex-col justify-between"
-        style={{
-          right: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 3}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-        }}
-      >
-        <Save />
-        <Settings isFarming={false} />
-      </div>
-
-      {farmAddress && (
-        <Modal
-          show={showDepositModal}
-          onHide={() => setShowDepositModal(false)}
+    <>
+      <HudContainer>
+        <Inventory
+          state={gameState.context.state}
+          isFullUser={isFullUser}
+          shortcutItem={shortcutItem}
+          selectedItem={selectedItem}
+          onPlace={(selected) => {
+            gameService.send("LANDSCAPE", {
+              action: placeEvent(selected),
+              placeable: selected,
+              multiple: true,
+            });
+          }}
+          onDepositClick={() => setShowDepositModal(true)}
+          isSaving={autosaving}
+          isFarming={false}
+          hideActions={
+            pathname.includes("retreat") ||
+            pathname.includes("visit") ||
+            pathname.includes("dawn-breaker")
+          }
+        />
+        {pathname.includes("beach") && <DesertDiggingDisplay />}
+        <Balances
+          onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
+          sfl={gameState.context.state.balance}
+          coins={gameState.context.state.coins}
+          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
+        />
+        <div
+          className="absolute z-50 flex flex-col justify-between"
+          style={{
+            left: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+          }}
         >
-          <CloseButtonPanel
-            title={depositDataLoaded ? t("deposit") : undefined}
-            onClose={depositDataLoaded ? handleDepositModal : undefined}
+          <MarketplaceButton />
+          <CodexButton />
+          <TravelButton />
+        </div>
+        <div
+          className="absolute z-50 flex flex-col justify-between"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+            left: `${PIXEL_SCALE * 28}px`,
+          }}
+        >
+          <TransactionCountdown />
+
+          <AuctionCountdown />
+          <SpecialEventCountdown />
+        </div>
+
+        <BumpkinProfile isFullUser={isFullUser} />
+
+        <div
+          className="absolute z-50 flex flex-col justify-between"
+          style={{
+            right: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+          }}
+        >
+          <Save />
+          <Settings isFarming={false} />
+        </div>
+
+        {farmAddress && (
+          <Modal
+            show={showDepositModal}
+            onHide={() => setShowDepositModal(false)}
           >
-            <Deposit
-              farmAddress={farmAddress}
-              onDeposit={handleDeposit}
-              onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-              onClose={handleDepositModal}
-            />
-          </CloseButtonPanel>
-        </Modal>
-      )}
-    </HudContainer>
+            <CloseButtonPanel
+              title={depositDataLoaded ? t("deposit") : undefined}
+              onClose={depositDataLoaded ? handleDepositModal : undefined}
+            >
+              <Deposit
+                farmAddress={farmAddress}
+                onDeposit={handleDeposit}
+                onLoaded={(loaded) => setDepositDataLoaded(loaded)}
+                onClose={handleDepositModal}
+              />
+            </CloseButtonPanel>
+          </Modal>
+        )}
+      </HudContainer>
+    </>
   );
 };
 
