@@ -161,11 +161,13 @@ export const TradeableOffers: React.FC<{
               </Label>
             </div>
             <div className="flex items-center justify-between">
-              {topOffer && (
+              {topOffer ? (
                 <div className="flex items-center">
                   <img src={sflIcon} className="h-8 mr-2" />
                   <p className="text-base">{`${topOffer.sfl} SFL`}</p>
                 </div>
+              ) : (
+                <div />
               )}
 
               <div className="flex items-center">
@@ -176,12 +178,14 @@ export const TradeableOffers: React.FC<{
                 >
                   {t("marketplace.makeOffer")}
                 </Button>
-                <Button
-                  onClick={() => setShowAcceptOffer(true)}
-                  className="w-fit "
-                >
-                  {t("marketplace.acceptOffer")}
-                </Button>
+                {topOffer && (
+                  <Button
+                    onClick={() => setShowAcceptOffer(true)}
+                    className="w-fit "
+                  >
+                    {t("marketplace.acceptOffer")}
+                  </Button>
+                )}
               </div>
             </div>
           </div>
