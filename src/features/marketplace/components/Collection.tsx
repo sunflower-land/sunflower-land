@@ -1,6 +1,6 @@
 import { Loading } from "features/auth/components";
 import { Marketplace as ICollection } from "features/game/types/marketplace";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
@@ -9,7 +9,6 @@ import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
-import debounce from "lodash.debounce";
 
 export const Collection: React.FC<{
   search?: string;
@@ -32,13 +31,20 @@ export const Collection: React.FC<{
   const [isLoading, setIsLoading] = useState(true);
   const [collection, setCollection] = useState<ICollection>();
 
+  const lastPromise = useRef<Promise<ICollection>>();
+
   const load = async () => {
     setIsLoading(true);
 
-    const data = await loadMarketplace({
+    const loadPromise = loadMarketplace({
       filters: filters ?? "",
       token: authState.context.user.rawToken as string,
     });
+    lastPromise.current = loadPromise;
+    const data = await loadPromise;
+
+    // Something else attempted to load after us
+    if (lastPromise.current !== loadPromise) return;
 
     setCollection(data);
     setIsLoading(false);
@@ -47,18 +53,6 @@ export const Collection: React.FC<{
   useEffect(() => {
     load();
   }, [filters]);
-
-  // Debounce search and load
-  useEffect(() => {
-    if (!search) return;
-    const debouncedSearch = debounce(() => {
-      load();
-    }, 500);
-
-    debouncedSearch();
-
-    return () => debouncedSearch.cancel();
-  }, [search]);
 
   if (isLoading) {
     return (
