@@ -12,6 +12,7 @@ import token from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import {
   generateDeliveryTickets,
+  getCountAndTypeForDelivery,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
 import { getSeasonalTicket } from "features/game/types/seasons";
@@ -115,7 +116,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                     key={itemName}
                     type="item"
                     item={itemName}
-                    balance={inventory[itemName] ?? new Decimal(0)}
+                    balance={getCountAndTypeForDelivery(game, itemName).count}
                     showLabel
                     requirement={new Decimal(order?.items[itemName] ?? 0)}
                   />

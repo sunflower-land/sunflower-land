@@ -2,7 +2,13 @@ import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { COOKABLE_CAKES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+  NPCData,
+  Order,
+} from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
   getCurrentSeason,
@@ -16,6 +22,9 @@ import { FACTION_OUTFITS } from "features/game/lib/factions";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { KNOWN_IDS } from "features/game/types";
+import { BumpkinItem } from "features/game/types/bumpkin";
+import { availableWardrobe } from "./equip";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -104,6 +113,28 @@ type Options = {
   createdAt?: number;
   farmId?: number;
 };
+
+export function getCountAndTypeForDelivery(
+  state: GameState,
+  name: InventoryItemName | BumpkinItem,
+) {
+  let count = new Decimal(0);
+  let itemType: "wearable" | "inventory" = "inventory";
+  if (name in KNOWN_IDS) {
+    count =
+      name in getChestItems(state)
+        ? getChestItems(state)[name as InventoryItemName] ?? new Decimal(0)
+        : state.inventory[name as InventoryItemName] ?? new Decimal(0);
+  } else {
+    count =
+      name in availableWardrobe(state)
+        ? new Decimal(availableWardrobe(state)[name as BumpkinItem] ?? 0)
+        : new Decimal(0);
+    itemType = "wearable";
+  }
+
+  return { count, itemType };
+}
 
 export function getTotalSlots(game: GameState) {
   // If feature access then return the total number of slots from both delivery and quest
@@ -362,17 +393,19 @@ export function deliverOrder({
 
         game.balance = sfl.sub(amount);
       } else {
-        const count =
-          name in getChestItems(game)
-            ? getChestItems(game)[name] ?? new Decimal(0)
-            : game.inventory[name] ?? new Decimal(0);
+        const { count, itemType } = getCountAndTypeForDelivery(game, name);
+
         const amount = order.items[name] || new Decimal(0);
 
         if (count.lessThan(amount)) {
           throw new Error(`Insufficient ingredient: ${name}`);
         }
 
-        game.inventory[name] = count.sub(amount);
+        if (itemType === "inventory") {
+          game.inventory[name as InventoryItemName] = count.sub(amount);
+        } else {
+          game.wardrobe[name as BumpkinItem] = count.sub(amount).toNumber();
+        }
       }
     });
 
