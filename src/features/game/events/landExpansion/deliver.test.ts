@@ -1536,4 +1536,43 @@ describe("deliver", () => {
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
   });
+
+  it("can deliver items from the wardrobe", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 6400,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hair: "Explorer Hair",
+          },
+        },
+        wardrobe: {
+          "Basic Hair": 1,
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2024-09-10").getTime(),
+              from: "cornwell",
+              items: { "Basic Hair": 1 },
+              reward: {},
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.wardrobe["Basic Hair"]).toEqual(0);
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+  });
 });
