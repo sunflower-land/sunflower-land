@@ -3,11 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import {
-  CollectionName,
-  Offer,
-  TradeableDetails,
-} from "features/game/types/marketplace";
+import { Offer, TradeableDetails } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/sfl.webp";
@@ -19,9 +15,7 @@ import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 import { TradeableDisplay } from "../lib/tradeables";
-import { tradeToId } from "../lib/offers";
 import { getKeys } from "features/game/types/decorations";
-import { RemoveOffer } from "./RemoveOffer";
 import {
   BlockchainEvent,
   Context as ContextType,
@@ -268,92 +262,6 @@ export const TradeableOffers: React.FC<{
           </div>
         </InnerPanel>
       )}
-    </>
-  );
-};
-
-const _isCancellingOffer = (state: MachineState) =>
-  state.matches("marketplaceCancelling");
-const _trades = (state: MachineState) => state.context.state.trades;
-
-export const YourOffer: React.FC<{
-  onOfferRemoved: () => void;
-  collection: CollectionName;
-  id: number;
-}> = ({ onOfferRemoved, collection, id }) => {
-  const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const { authService } = useContext(Auth.Context);
-
-  const isCancellingOffer = useSelector(gameService, _isCancellingOffer);
-  const trades = useSelector(gameService, _trades);
-  const authToken = useSelector(authService, _authToken);
-
-  const [showRemove, setShowRemove] = useState(false);
-
-  useOnMachineTransition<ContextType, BlockchainEvent>(
-    gameService,
-    "marketplaceCancellingSuccess",
-    "playing",
-    onOfferRemoved,
-  );
-
-  const offers = trades.offers ?? {};
-
-  const offerIds = getKeys(offers).filter((offerId) => {
-    const offer = offers[offerId];
-    const itemId = tradeToId({ details: offer });
-
-    if (offer.fulfilledAt) return false;
-
-    // Make sure the offer is for this item
-    return offer.collection === collection && itemId === id;
-  });
-
-  // Get their highest offer for the current item
-  const myOfferId = offerIds.reduce((highest, offerId) => {
-    const offer = offers[offerId];
-    return offer.sfl > offers[highest].sfl ? offerId : highest;
-  }, offerIds[0]);
-
-  if (!myOfferId) return null;
-
-  const offer = offers[myOfferId];
-
-  const handleHide = () => {
-    if (isCancellingOffer) return;
-
-    setShowRemove(false);
-  };
-
-  return (
-    <>
-      <Modal show={!!showRemove} onHide={handleHide}>
-        <RemoveOffer
-          id={myOfferId as string}
-          offer={offer}
-          authToken={authToken}
-          onClose={() => setShowRemove(false)}
-        />
-      </Modal>
-      <InnerPanel className="mb-1">
-        <div className="p-2">
-          <div className="flex justify-between mb-2">
-            <Label type="info" icon={increaseArrow}>
-              {t("marketplace.yourOffer")}
-            </Label>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <img src={sflIcon} className="h-8 mr-2" />
-              <p className="text-base">{`${offer.sfl} SFL`}</p>
-            </div>
-            <Button className="w-fit" onClick={() => setShowRemove(true)}>
-              {t("marketplace.cancelOffer")}
-            </Button>
-          </div>
-        </div>
-      </InnerPanel>
     </>
   );
 };

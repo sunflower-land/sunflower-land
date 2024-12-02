@@ -191,6 +191,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   openModal("BUY_BANNER");
                 }}
                 text={t("marketplace.unlockSelling")}
+                labelType={!isVIP && dailyListings >= 1 ? "danger" : undefined}
               />
               {!isVIP && dailyListings === 0 && (
                 <Label type="success" className="ml-0 sm:ml-3">
