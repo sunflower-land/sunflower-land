@@ -371,7 +371,7 @@ export const FACTION_PRIZES: (week: string) => Record<number, FactionPrize> = (
           sfl: 50,
           items: {
             Mark: 2500,
-            "Luxury Key": 5,
+            "Rare Key": 3,
           },
         })
         .reduce(
@@ -388,6 +388,7 @@ export const FACTION_PRIZES: (week: string) => Record<number, FactionPrize> = (
           sfl: 0,
           items: {
             Mark: 1500,
+            "Treasure Key": 5,
           },
         })
         .reduce(
