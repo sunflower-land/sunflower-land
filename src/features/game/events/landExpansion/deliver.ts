@@ -395,16 +395,19 @@ export function deliverOrder({
       } else {
         const { count, itemType } = getCountAndTypeForDelivery(game, name);
 
-        const amount = order.items[name] || new Decimal(0);
+        const amount = order.items[name] || 0;
 
         if (count.lessThan(amount)) {
           throw new Error(`Insufficient ingredient: ${name}`);
         }
 
         if (itemType === "inventory") {
-          game.inventory[name as InventoryItemName] = count.sub(amount);
+          game.inventory[name as InventoryItemName] = (
+            game.inventory[name as InventoryItemName] ?? new Decimal(0)
+          ).sub(amount);
         } else {
-          game.wardrobe[name as BumpkinItem] = count.sub(amount).toNumber();
+          game.wardrobe[name as BumpkinItem] =
+            (game.wardrobe[name as BumpkinItem] ?? 0) - amount;
         }
       }
     });
