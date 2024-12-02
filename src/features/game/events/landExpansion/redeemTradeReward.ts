@@ -18,7 +18,8 @@ type TradeRewardPacks =
   | "Tool Pack"
   | "Seed Pack"
   | "Fishing Pack"
-  | "Animal Pack";
+  | "Animal Pack"
+  | "Digging Pack";
 
 type TradeReward = {
   name: TradeRewardsItem;
@@ -173,19 +174,12 @@ export function redeemTradeReward({ state, action }: Options): GameState {
       const packAmount = items[name] ?? 0;
 
       // Checks if buying the pack will exceed Inventory Limit for Seeds and Tools
-      if (
-        !!inventoryLimit &&
-        inventoryAmount.add(packAmount).gt(inventoryLimit)
-      ) {
+      if (!!inventoryLimit && inventoryAmount.gte(inventoryLimit)) {
         throw new Error("Inventory Limit Reached!");
       }
 
       // Adds item into inventory
-      if (!game.inventory[name]) {
-        game.inventory[name] = new Decimal(packAmount);
-      } else {
-        game.inventory[name] = game.inventory[name].add(packAmount);
-      }
+      game.inventory[name] = inventoryAmount.add(packAmount);
     });
 
     // Deducts Trade Points from inventory

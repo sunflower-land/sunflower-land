@@ -419,7 +419,7 @@ import { npcRestock, NPCRestockAction } from "./landExpansion/npcRestock";
 import {
   redeemTradeReward,
   RedeemTradeRewardsAction,
-} from "./landExpansion/tradeRewards";
+} from "./landExpansion/redeemTradeReward";
 
 export type PlayingEvent =
   | SellAnimalAction
