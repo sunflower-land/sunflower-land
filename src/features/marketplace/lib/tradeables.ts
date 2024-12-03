@@ -33,7 +33,7 @@ export function getTradeableDisplay({
     return {
       name,
       description: details.description, // TODO support translation
-      image: `/src/assets/wearables/${id}.webp`,
+      image: new URL(`/src/assets/wearables/${id}.webp`, import.meta.url).href,
       buff: BUMPKIN_ITEM_BUFF_LABELS[name],
       type,
     };
