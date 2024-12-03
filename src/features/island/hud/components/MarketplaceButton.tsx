@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shopIcon from "assets/icons/shop.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GameProvider";
 
 export const MarketplaceButton = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setFromRoute } = useContext(Context);
 
   const isWorldRoute = location.pathname.includes("/world");
 
@@ -16,15 +18,13 @@ export const MarketplaceButton = () => {
         onClick={() => {
           if (isWorldRoute) {
             // Navigate to base world route with marketplace
-            navigate("/world/marketplace/hot", {
-              state: { from: location.pathname },
-            });
+            navigate("/world/marketplace/hot");
           } else {
             // Land context remains the same
-            navigate("/marketplace/hot", {
-              state: { from: location.pathname },
-            });
+            navigate("/marketplace/hot");
           }
+
+          setFromRoute(location.pathname);
         }}
         className="relative flex z-50 cursor-pointer hover:img-highlight"
         style={{

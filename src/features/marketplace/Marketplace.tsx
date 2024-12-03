@@ -14,8 +14,7 @@ import { MarketplaceIntroduction } from "./components/MarketplaceIntroduction";
 const _balance = (state: MachineState) => state.context.state.balance;
 
 export const Marketplace: React.FC = () => {
-  const { gameService } = useContext(Context);
-
+  const { gameService, fromRoute } = useContext(Context);
   const balance = useSelector(gameService, _balance);
   const navigate = useNavigate();
 
@@ -58,7 +57,7 @@ export const Marketplace: React.FC = () => {
               src={SUNNYSIDE.icons.close}
               className="flex-none cursor-pointer absolute right-2"
               onClick={() => {
-                navigate(-1);
+                navigate(fromRoute);
               }}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,

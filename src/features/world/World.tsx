@@ -32,7 +32,9 @@ interface Props {
   isCommunity?: boolean;
 }
 
-const WorldContext = createContext<{ isCommunity: boolean }>({
+export const WorldContext = createContext<{
+  isCommunity: boolean;
+}>({
   isCommunity: false,
 });
 
@@ -99,6 +101,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     if (mmoState.context.sceneId) {
       navigate(`/world/${mmoState.context.sceneId}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mmoState.context.sceneId]);
 
   // We need to listen to events outside of MMO scope (Settings Panel)
@@ -121,7 +124,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
-  const isIntroducting = useSelector(mmoService, _isIntroducing);
+  const isIntroducing = useSelector(mmoService, _isIntroducing);
 
   const isTraveling =
     isInitialising || isConnecting || isConnected || isKicked || isJoining;
@@ -159,7 +162,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
         route={name as SceneId}
       />
 
-      <Modal show={isIntroducting}>
+      <Modal show={isIntroducing}>
         <WorldIntroduction
           onClose={() => {
             mmoService.send("CONTINUE");
