@@ -219,11 +219,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <div className="flex h-full items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
                   <div className="flex flex-col space-y-1">
-                    <Label type="default" className="mb-2">
-                      {t("marketplace.youOwn", {
-                        count: Math.floor(count),
-                      })}
-                    </Label>
                     <div className="flex">
                       <img src={sflIcon} className="h-8 mr-2" />
                       {tradeable ? (
