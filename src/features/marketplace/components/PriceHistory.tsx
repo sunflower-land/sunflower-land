@@ -59,7 +59,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                 >
                   <td className="p-1.5 truncate text-center relative">
                     <div className="flex items-center">
-                      <div className="relative w-8 h-8">
+                      <div className="relative w-12 h-8">
                         <div className="absolute -top-1">
                           <NPC
                             width={20}
@@ -76,10 +76,6 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                           />
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="p-1.5 truncate text-center relative">
-                    <div className="flex items-center">
                       <div className="flex flex-col">
                         <div className="flex items-center gap-1">
                           <img src={increaseRightArrow} className="h-3" />
@@ -92,6 +88,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                       </div>
                     </div>
                   </td>
+
                   <td className="p-1.5 ">
                     <div className="flex items-center">
                       <img src={sflIcon} className="w-4 mr-1" />
