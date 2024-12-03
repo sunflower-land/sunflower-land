@@ -67,8 +67,14 @@ export type SaleHistory = {
     id: string;
     sfl: number;
     quantity: number;
+    source: "offer" | "listing";
     fulfilledAt: number;
     fulfilledBy: {
+      id: number;
+      bumpkinUri: string;
+      username?: string;
+    };
+    initiatedBy: {
       id: number;
       bumpkinUri: string;
       username?: string;

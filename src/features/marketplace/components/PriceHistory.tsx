@@ -9,6 +9,8 @@ import classNames from "classnames";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { getRelativeTime } from "lib/utils/time";
+import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
+import decreaseLeftArrow from "assets/icons/decrease_left_arrow.webp";
 
 export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   history,
@@ -36,37 +38,70 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
 
   return (
     <>
-      <table className="w-full text-xs table-fixed border-collapse">
+      <table className="table-auto w-full text-xs border-collapse">
         <tbody>
-          {sales.map(({ sfl, quantity, fulfilledAt, fulfilledBy }, index) => (
-            <tr
-              key={index}
-              className={classNames("relative", {
-                "bg-[#ead4aa]": index % 2 === 0,
-              })}
-            >
-              <td className="p-1.5 truncate text-center relative">
-                <div className="flex items-center">
-                  <div className="relative w-8 h-8">
-                    <NPC
-                      width={20}
-                      parts={interpretTokenUri(fulfilledBy.bumpkinUri).equipped}
-                    />
-                  </div>
-                  <p className="text-xs sm:text-sm">{fulfilledBy.username}</p>
-                </div>
-              </td>
-              <td className="p-1.5 ">
-                <div className="flex items-center">
-                  <img src={sflIcon} className="w-4 mr-1" />
-                  <p className="text-xs sm:text-sm">{sfl}</p>
-                </div>
-              </td>
-              <td className="p-1.5 text-xs sm:text-sm truncate text-center">
-                {getRelativeTime(fulfilledAt)}
-              </td>
-            </tr>
-          ))}
+          {sales.map(
+            (
+              { sfl, quantity, fulfilledAt, fulfilledBy, initiatedBy, source },
+              index,
+            ) => {
+              const [seller, buyer] =
+                source === "listing"
+                  ? [initiatedBy, fulfilledBy]
+                  : [fulfilledBy, initiatedBy];
+
+              return (
+                <tr
+                  key={index}
+                  className={classNames("relative", {
+                    "bg-[#ead4aa]": index % 2 === 0,
+                  })}
+                >
+                  <td className="p-1.5 truncate text-center relative">
+                    <div className="flex items-center">
+                      <div className="relative w-12 h-8">
+                        <div className="absolute -top-1">
+                          <NPC
+                            width={20}
+                            parts={
+                              interpretTokenUri(seller.bumpkinUri).equipped
+                            }
+                          />
+                        </div>
+
+                        <div className="absolute left-3.5">
+                          <NPC
+                            width={20}
+                            parts={interpretTokenUri(buyer.bumpkinUri).equipped}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1">
+                          <img src={increaseRightArrow} className="h-3" />
+                          <p className="text-xxs">{buyer.username}</p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <img src={decreaseLeftArrow} className="h-3" />
+                          <p className="text-xxs">{seller.username}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td className="p-1.5 ">
+                    <div className="flex items-center">
+                      <img src={sflIcon} className="w-4 mr-1" />
+                      <p className="text-xs sm:text-sm">{sfl}</p>
+                    </div>
+                  </td>
+                  <td className="p-1.5 text-xs sm:text-sm truncate text-center">
+                    {getRelativeTime(fulfilledAt)}
+                  </td>
+                </tr>
+              );
+            },
+          )}
         </tbody>
       </table>
     </>
