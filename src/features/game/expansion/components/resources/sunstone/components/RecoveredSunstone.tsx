@@ -11,7 +11,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { loadAudio, miningAudio } from "lib/utils/sfx";
 import sunstone_1 from "assets/resources/sunstone/sunstone_rock_1.webp";
 import sunstone_2 from "assets/resources/sunstone/sunstone_rock_2.webp";
 import sunstone_3 from "assets/resources/sunstone/sunstone_rock_3.webp";
@@ -27,6 +26,7 @@ import { ZoomContext } from "components/ZoomProvider";
 
 import { getSunstoneStage } from "../Sunstone";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const tool = "Gold Pickaxe";
 
@@ -53,9 +53,8 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
 
   const { t } = useAppTranslation();
 
+  const { play: miningAudio } = useSound("mining");
   useEffect(() => {
-    loadAudio([miningAudio]);
-
     // prevent performing react state update on an unmounted component
     return () => {
       strikeGif.current = undefined;
@@ -78,7 +77,7 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
   useEffect(() => {
     if (touchCount > 0) {
       setShowSpritesheet(true);
-      miningAudio.play();
+      miningAudio();
       strikeGif.current?.goToAndPlay(0);
     }
   }, [touchCount]);

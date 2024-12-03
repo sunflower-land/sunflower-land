@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -11,7 +11,6 @@ import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
-import { loadAudio, shopAudio } from "lib/utils/sfx";
 import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
 import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Label } from "components/ui/Label";
@@ -21,6 +20,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
 import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _specialEvents = (state: MachineState) =>
   Object.entries(state.context.state.specialEvents.current)
@@ -62,9 +62,7 @@ export const Market: React.FC<BuildingProps> = ({
 
   const { t } = useAppTranslation();
 
-  useEffect(() => {
-    loadAudio([shopAudio]);
-  }, []);
+  const { play: shopAudio } = useSound("shop");
 
   const handleClick = () => {
     if (onRemove) {
@@ -73,7 +71,7 @@ export const Market: React.FC<BuildingProps> = ({
     }
     if (isBuilt) {
       // Add future on click actions here
-      shopAudio.play();
+      shopAudio();
       setIsOpen(true);
       return;
     }

@@ -10,12 +10,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { loadAudio, miningAudio } from "lib/utils/sfx";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const tool = "Stone Pickaxe";
 
@@ -39,9 +39,9 @@ const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
 
   const { t } = useAppTranslation();
 
-  useEffect(() => {
-    loadAudio([miningAudio]);
+  const { play: miningAudio } = useSound("mining");
 
+  useEffect(() => {
     // prevent performing react state update on an unmounted component
     return () => {
       strikeGif.current = undefined;
@@ -51,7 +51,7 @@ const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
   useEffect(() => {
     if (touchCount > 0) {
       setShowSpritesheet(true);
-      miningAudio.play();
+      miningAudio();
       strikeGif.current?.goToAndPlay(0);
     }
   }, [touchCount]);

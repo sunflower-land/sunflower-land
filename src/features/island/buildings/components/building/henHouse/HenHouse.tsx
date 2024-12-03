@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HenHouseModal } from "./components/HenHouseModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { barnAudio, loadAudio } from "lib/utils/sfx";
 import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
@@ -15,6 +14,7 @@ import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router-dom";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _betaInventory = (state: MachineState) => {
   const pass = state.context.state.inventory["Beta Pass"];
@@ -60,9 +60,8 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   const hasAwakeSickChickens = useSelector(gameService, _hasAwakeSickChickens);
   const chickensNeedLove = useSelector(gameService, _chickensNeedLove);
   const buildingLevel = useSelector(gameService, _buildingLevel);
-  useEffect(() => {
-    loadAudio([barnAudio]);
-  }, []);
+
+  const { play: barnAudio } = useSound("barn");
 
   const handleClick = () => {
     if (onRemove) {
@@ -72,7 +71,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
 
     if (isBuilt) {
       // Add future on click actions here
-      barnAudio.play();
+      barnAudio();
 
       if (hasFeatureAccess(betaInventory, "ANIMAL_BUILDINGS")) {
         navigate("/hen-house");

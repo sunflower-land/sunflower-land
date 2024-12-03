@@ -9,10 +9,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { loadAudio, miningAudio } from "lib/utils/sfx";
 import { ZoomContext } from "components/ZoomProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const tool = "Pickaxe";
 
@@ -37,9 +37,9 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   const strikeGif = useRef<SpriteSheetInstance>();
   const { t } = useAppTranslation();
 
-  useEffect(() => {
-    loadAudio([miningAudio]);
+  const { play: miningAudio } = useSound("mining");
 
+  useEffect(() => {
     // prevent performing react state update on an unmounted component
     return () => {
       strikeGif.current = undefined;
@@ -49,7 +49,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   useEffect(() => {
     if (touchCount > 0) {
       setShowSpritesheet(true);
-      miningAudio.play();
+      miningAudio();
       strikeGif.current?.goToAndPlay(0);
     }
   }, [touchCount]);
