@@ -70,9 +70,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     },
   });
 
-  const isResource = getKeys(TRADE_LIMITS).includes(
-    display.name as InventoryItemName,
-  );
+  const isResource =
+    getKeys(TRADE_LIMITS).includes(display.name as InventoryItemName) &&
+    display.type === "collectibles";
 
   // Check inventory count
   const getCount = () => {

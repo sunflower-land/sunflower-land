@@ -1,5 +1,4 @@
 import { useSelector } from "@xstate/react";
-import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
@@ -57,7 +56,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   count,
   showListItem,
   reload,
-  onListClick,
   onListClose,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -150,7 +148,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-1">
             <Label icon={tradeIcon} type="default" className="mb-2">
               {t("marketplace.listings")}
             </Label>
@@ -196,7 +194,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                 />
               ))}
           </div>
-          {!isResource && (
+          {/* {!isResource && (
             <div className="w-full justify-end hidden sm:flex sm:visible">
               <Button
                 className="w-full sm:w-fit"
@@ -206,9 +204,9 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                 {t("marketplace.listForSale")}
               </Button>
             </div>
-          )}
+          )} */}
         </div>
-        {!isResource && (
+        {/* {!isResource && (
           <Button
             className="w-full sm:hidden"
             disabled={!count}
@@ -216,7 +214,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
           >
             {t("marketplace.listForSale")}
           </Button>
-        )}
+        )} */}
       </InnerPanel>
     </>
   );

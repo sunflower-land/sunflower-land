@@ -16,7 +16,7 @@ export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   const { t } = useAppTranslation();
   return (
     <InnerPanel>
-      <Label type="default" className="mb-1">
+      <Label type="default" className="m-1">
         {t("marketplace.saleHistory")}
       </Label>
       <div className="p-1">
@@ -31,7 +31,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
 }) => {
   const { t } = useAppTranslation();
   if (sales.length === 0) {
-    return <p>{t("marketplace.noSales")}</p>;
+    return <p className="mb-2 ml-1">{t("marketplace.noSales")}</p>;
   }
 
   return (

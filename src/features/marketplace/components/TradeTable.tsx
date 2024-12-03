@@ -28,14 +28,12 @@ export const OfferTable: React.FC<{
   id: number;
   details: TradeableDisplay;
 }> = ({ offers, id, details }) => {
-  const { t } = useAppTranslation();
-
-  if (!offers.length) {
-    return <p className="text-sm text-left p-2">{t("marketplace.noOffers")}</p>;
+  if (offers.length === 0) {
+    return null;
   }
 
   return (
-    <div className="w-full text-xs  border-collapse mb-3">
+    <div className="w-full text-xs border-collapse mb-2">
       <div>
         {offers.map((offer, index) => {
           const quantity = 1; // TODO?

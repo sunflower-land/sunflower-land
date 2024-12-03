@@ -173,32 +173,37 @@ export const TradeableOffers: React.FC<{
                   <img src={sflIcon} className="h-8 mr-2" />
                   <p className="text-base">{`${topOffer.sfl} SFL`}</p>
                 </div>
+              ) : !loading && tradeable?.offers.length === 0 ? (
+                <p className="text-sm self-end mb-2 text-left">
+                  {t("marketplace.noOffers")}
+                </p>
               ) : (
                 <div />
               )}
-
-              <div className="flex items-center">
-                <Button
-                  className="w-full sm:w-fit mr-1"
-                  disabled={!tradeable}
-                  onClick={() => setShowMakeOffer(true)}
-                >
-                  {t("marketplace.makeOffer")}
-                </Button>
-                {topOffer && (
+              {!loading && (
+                <div className="flex items-center">
                   <Button
-                    onClick={() => setShowAcceptOffer(true)}
-                    className="w-fit "
+                    className="w-full sm:w-fit mr-1"
+                    disabled={!tradeable}
+                    onClick={() => setShowMakeOffer(true)}
                   >
-                    {t("marketplace.acceptOffer")}
+                    {t("marketplace.makeOffer")}
                   </Button>
-                )}
-              </div>
+                  {topOffer && (
+                    <Button
+                      onClick={() => setShowAcceptOffer(true)}
+                      className="w-fit "
+                    >
+                      {t("marketplace.acceptOffer")}
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
           {loading ? (
-            <Loading />
+            <Loading className="mb-2 ml-2" />
           ) : (
             <OfferTable
               details={display}
@@ -212,7 +217,7 @@ export const TradeableOffers: React.FC<{
       {isResource && (
         <InnerPanel className="mb-1">
           <div className="p-2">
-            <div className="flex justify-between mb-2">
+            <div className="flex justify-between mb-2 mr-2">
               <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
               </Label>
@@ -258,15 +263,6 @@ export const TradeableOffers: React.FC<{
                 />
               )}
             </div>
-          </div>
-          <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
-            <Button
-              className="w-full sm:w-fit"
-              disabled={!tradeable || !isVIP}
-              onClick={() => setShowMakeOffer(true)}
-            >
-              {t("marketplace.makeOffer")}
-            </Button>
           </div>
         </InnerPanel>
       )}

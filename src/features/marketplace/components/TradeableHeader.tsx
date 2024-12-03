@@ -115,8 +115,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
 
-  if (!isResources && !cheapestListing) return null;
-
   const showBuyNow = !isResources && cheapestListing;
   const showWalletRequired = showBuyNow && cheapestListing?.type === "onchain";
   const showFreeListing = !isVIP && dailyListings === 0;
@@ -202,11 +200,18 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           </div>
 
           <div className="flex items-center justify-between flex-wrap">
-            {showBuyNow && (
+            {!isResources && (
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
-                  <img src={sflIcon} className="h-8 ml-1 mr-2" />
-                  <p className="text-base">{`${cheapestListing.sfl} SFL`}</p>
+                  <img src={sflIcon} className="h-8 mr-2" />
+                  <p
+                    className={classNames(
+                      "text-base",
+                      !tradeable ? "loading-fade-pulse" : "",
+                    )}
+                  >
+                    {!tradeable ? "0.00 SFL" : cheapestListing?.sfl ?? "? SFL"}
+                  </p>
                 </>
               </div>
             )}
@@ -214,8 +219,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <div className="flex h-full items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
                   <div className="flex flex-col space-y-1">
+                    <Label type="default" className="mb-2">
+                      {t("marketplace.youOwn", {
+                        count: Math.floor(count),
+                      })}
+                    </Label>
                     <div className="flex">
-                      <img src={sflIcon} className="h-8 mr-2 ml-1" />
+                      <img src={sflIcon} className="h-8 mr-2" />
                       {tradeable ? (
                         <p className="text-base">
                           {t("marketplace.pricePerUnit", {
