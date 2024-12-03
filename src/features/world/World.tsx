@@ -27,6 +27,8 @@ import { WorldHud } from "features/island/hud/WorldHud";
 import { Loading } from "features/auth/components";
 import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
+import { NPCName } from "lib/npcs";
+import { Mayor } from "./ui/npcs/Mayor";
 
 interface Props {
   isCommunity?: boolean;
@@ -47,12 +49,13 @@ const _isLoading = (state: MachineState) => state.matches("loading");
 const _isConnecting = (state: MMOMachineState) => state.matches("connecting");
 const _isConnected = (state: MMOMachineState) => state.matches("connected");
 const _isJoining = (state: MMOMachineState) => state.matches("joining");
-const _isJoined = (state: MMOMachineState) => state.matches("joined");
 const _isKicked = (state: MMOMachineState) => state.matches("kicked");
 const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
 const _isIntroducing = (state: MMOMachineState) =>
   state.matches("introduction");
+const _isChoosingUsername = (state: MMOMachineState) =>
+  state.matches("chooseUsername");
 
 type MMOProps = { isCommunity: boolean };
 
@@ -112,8 +115,8 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
-  const isIntroducting = useSelector(mmoService, _isIntroducing);
-
+  const isIntroducing = useSelector(mmoService, _isIntroducing);
+  const isChoosingUsername = useSelector(mmoService, _isChoosingUsername);
   const isTraveling =
     isInitialising || isConnecting || isConnected || isKicked || isJoining;
 
@@ -140,7 +143,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     return <></>;
   }
 
-  // Otherwsie if connected, return Plaza Screen
+  // Otherwise if connected, return Plaza Screen
   return (
     <>
       <PhaserComponent
@@ -150,12 +153,23 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
         route={name as SceneId}
       />
 
-      <Modal show={isIntroducting}>
+      <Modal show={isIntroducing}>
         <WorldIntroduction
-          onClose={() => {
-            mmoService.send("CONTINUE");
+          onClose={(firstDeliveryNpc?: NPCName) => {
+            mmoService.send("CONTINUE", { firstDeliveryNpc });
             // BUG - need to call twice?
-            mmoService.send("CONTINUE");
+            mmoService.send("CONTINUE", { firstDeliveryNpc });
+          }}
+        />
+      </Modal>
+
+      <Modal show={isChoosingUsername}>
+        <Mayor
+          firstDeliveryNpc={mmoState.context.firstDeliveryNpc}
+          onClose={() => {
+            mmoService.send("SET_USERNAME", {
+              username: gameState.context.state.username,
+            });
           }}
         />
       </Modal>

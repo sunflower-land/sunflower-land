@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
 
@@ -11,9 +11,10 @@ import { hasOrderRequirements } from "features/island/delivery/components/Orders
 import { InlineDialogue } from "./TypingMessage";
 import { Button } from "components/ui/Button";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { capitalize } from "lib/utils/capitalize";
 
 interface Props {
-  onClose: () => void;
+  onClose: (firstDeliveryNpc?: NPCName) => void;
 }
 
 export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
@@ -44,13 +45,15 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
               "world.intro.find",
             )} ${delivery.from}`}</Label>
             <InlineDialogue
-              message={t("world.intro.findNPC", { name: delivery.from })}
+              message={t("world.intro.findNPC", {
+                name: capitalize(delivery.from),
+              })}
             />
             <div className="relative mt-2 mb-2 mr-0.5 -ml-1">
               <NPCIcon parts={NPC_WEARABLES[delivery.from]} />
             </div>
           </div>
-          <Button onClick={onClose}>{t("ok")}</Button>
+          <Button onClick={() => onClose(delivery.from)}>{t("ok")}</Button>
         </div>
       </Panel>
     );
