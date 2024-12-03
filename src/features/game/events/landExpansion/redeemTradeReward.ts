@@ -1,10 +1,13 @@
+import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { InventoryItemName, GameState } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS } from "features/game/types/seeds";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { bait, animalFood } from "features/game/types/withdrawables";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
 
 export type TradeRewardsItem =
@@ -24,10 +27,11 @@ type TradeRewardPacks =
 
 export type TradeFood = "Trade Cake";
 
-type TradeReward = {
+export type TradeReward = {
   name: TradeRewardsItem;
   items: Partial<Record<InventoryItemName, number>>;
   ingredients: Record<Extract<InventoryItemName, "Trade Point">, number>;
+  image: string;
 };
 
 export const TRADE_REWARDS: (
@@ -41,6 +45,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 50,
     },
+    image: ITEM_DETAILS["Treasure Key"].image,
   },
   "Rare Key": {
     name: "Rare Key",
@@ -50,6 +55,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 250,
     },
+    image: ITEM_DETAILS["Rare Key"].image,
   },
   "Luxury Key": {
     name: "Luxury Key",
@@ -59,6 +65,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 1000,
     },
+    image: ITEM_DETAILS["Luxury Key"].image,
   },
   "Prize Ticket": {
     name: "Prize Ticket",
@@ -68,6 +75,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 1500,
     },
+    image: ITEM_DETAILS["Prize Ticket"].image,
   },
   "Trade Cake": {
     name: "Trade Cake",
@@ -77,6 +85,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 500,
     },
+    image: ITEM_DETAILS["Trade Cake"].image,
   },
   "Tool Pack": {
     name: "Tool Pack",
@@ -93,6 +102,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 250,
     },
+    image: ITEM_DETAILS["Pickaxe"].image,
   },
   "Seed Pack": {
     name: "Seed Pack",
@@ -108,6 +118,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 500,
     },
+    image: CROP_LIFECYCLE.Sunflower.seed,
   },
   "Fishing Pack": {
     name: "Fishing Pack",
@@ -126,6 +137,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 50,
     },
+    image: SUNNYSIDE.icons.fish,
   },
   "Animal Pack": {
     name: "Animal Pack",
@@ -141,6 +153,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 50,
     },
+    image: ITEM_DETAILS["Mixed Grain"].image,
   },
   "Digging Pack": {
     name: "Digging Pack",
@@ -156,6 +169,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 50,
     },
+    image: SUNNYSIDE.tools.sand_shovel,
   },
 });
 
