@@ -4,7 +4,7 @@ import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ListViewCard } from "./ListViewCard";
+import { useLocation, ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
@@ -16,6 +16,8 @@ export const Collection: React.FC<{
 }> = ({ search, onNavigated }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+
+  const isWorldRoute = useLocation().pathname.includes("/world");
 
   // Get query string params
   const [queryParams] = useSearchParams();
