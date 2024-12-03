@@ -145,12 +145,11 @@ const HudComponent: React.FC<{
         />
 
         <div
-          className="absolute z-50 flex flex-col justify-between"
+          className="absolute z-50 flex flex-col space-y-2.5 justify-between"
           style={{
             left: `${PIXEL_SCALE * 3}px`,
             bottom: `${PIXEL_SCALE * 3}px`,
             width: `${PIXEL_SCALE * 22}px`,
-            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
           }}
         >
           {hasMarketplaceAccess && <MarketplaceButton />}

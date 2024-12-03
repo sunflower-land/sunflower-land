@@ -224,7 +224,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               icon={budIcon}
               label="Bud NFTs"
               onClick={() => {
-                navigate(`/marketplace/collection?filters=buds`);
+                navigate(`/marketplace/collection?filters=buds`, {});
                 onClose();
               }}
               isActive={filters === "buds"}
@@ -237,7 +237,9 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             icon={tradeIcon}
             label="My trades"
             onClick={() => {
-              navigate(`/marketplace/trades`);
+              navigate(`/marketplace/trades`, {
+                state: { from: location.pathname },
+              });
               onClose();
             }}
             isActive={pathname === "/marketplace/trades"}
@@ -246,7 +248,9 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             icon={trade_point}
             label="My rewards"
             onClick={() => {
-              navigate(`/marketplace/rewards`);
+              navigate(`/marketplace/rewards`, {
+                state: { from: location.pathname },
+              });
               onClose();
             }}
             isActive={pathname === "/marketplace/rewards"}

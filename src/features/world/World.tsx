@@ -41,7 +41,7 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
     <GameProvider>
       <ModalProvider>
         <WorldContext.Provider value={{ isCommunity }}>
-          {/* <Explore isCommunity={isCommunity} /> */}
+          <Explore />
           {/* Outlet for nested routes ie /world/marketplace/* */}
           <Outlet />
         </WorldContext.Provider>
@@ -96,7 +96,9 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const [mmoState] = useActor(mmoService);
 
   useEffect(() => {
-    navigate(`/world/${mmoState.context.sceneId}`);
+    if (mmoState.context.sceneId) {
+      navigate(`/world/${mmoState.context.sceneId}`);
+    }
   }, [mmoState.context.sceneId]);
 
   // We need to listen to events outside of MMO scope (Settings Panel)

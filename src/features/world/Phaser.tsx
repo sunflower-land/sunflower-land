@@ -35,7 +35,7 @@ import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { Label } from "components/ui/Label";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
@@ -101,13 +101,6 @@ export const PhaserComponent: React.FC<Props> = ({
   inventory,
   route,
 }) => {
-  const location = useLocation();
-  const [previousRoute, setPreviousRoute] = useState<string>();
-
-  useEffect(() => {
-    setPreviousRoute(location.pathname);
-  }, [location]);
-
   const { t } = useAppTranslation();
 
   const { authService } = useContext(AuthProvider.Context);
@@ -270,15 +263,9 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current?.registry.set("selectedItem", selectedItem);
   }, [selectedItem]);
 
-  const isTogglingMarketplace =
-    (location.pathname.includes("marketplace") &&
-      previousRoute?.includes("/world/")) ||
-    (location.pathname.includes("/world/") &&
-      previousRoute?.includes("marketplace"));
-
   // When route changes, switch scene
   useEffect(() => {
-    if (!loaded || isTogglingMarketplace) return;
+    if (!loaded || !route || mmoService.state.context.sceneId === route) return;
 
     const activeScene = game.current?.scene
       .getScenes(false)
@@ -293,7 +280,7 @@ export const PhaserComponent: React.FC<Props> = ({
           game.current?.scene.getScenes(true)[0]?.scene.key ?? scene,
       });
     }
-  }, [route, isTogglingMarketplace, location]);
+  }, [route]);
 
   useEffect(() => {
     // Listen to moderation events

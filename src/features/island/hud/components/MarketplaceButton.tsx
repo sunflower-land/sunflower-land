@@ -16,17 +16,22 @@ export const MarketplaceButton = () => {
         onClick={() => {
           if (isWorldRoute) {
             // Navigate to base world route with marketplace
-            navigate("/world/marketplace/hot");
+            navigate("/world/marketplace/hot", {
+              state: { from: location.pathname },
+            });
           } else {
             // Land context remains the same
-            navigate("/marketplace/hot");
+            navigate("/marketplace/hot", {
+              state: { from: location.pathname },
+            });
           }
         }}
-        className="absolute flex z-50 cursor-pointer hover:img-highlight"
+        className="relative flex z-50 cursor-pointer hover:img-highlight"
         style={{
-          left: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 78}px`,
+          // left: `${PIXEL_SCALE * 3}px`,
+          // bottom: `${PIXEL_SCALE * 78}px`,
           width: `${PIXEL_SCALE * 22}px`,
+          height: `${PIXEL_SCALE * 22}px`,
         }}
       >
         <img

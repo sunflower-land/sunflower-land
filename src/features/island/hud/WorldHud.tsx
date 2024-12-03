@@ -24,6 +24,7 @@ import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -37,6 +38,10 @@ const HudComponent: React.FC = () => {
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
+  const hasMarketplaceAccess = hasFeatureAccess(
+    gameState.context.state,
+    "MARKETPLACE",
+  );
 
   const { pathname } = useLocation();
 
@@ -91,15 +96,14 @@ const HudComponent: React.FC = () => {
           gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
         />
         <div
-          className="absolute z-50 flex flex-col justify-between"
+          className="absolute z-50 flex flex-col space-y-2.5 justify-between"
           style={{
             left: `${PIXEL_SCALE * 3}px`,
             bottom: `${PIXEL_SCALE * 3}px`,
             width: `${PIXEL_SCALE * 22}px`,
-            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
           }}
         >
-          <MarketplaceButton />
+          {hasMarketplaceAccess && <MarketplaceButton />}
           <CodexButton />
           <TravelButton />
         </div>

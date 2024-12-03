@@ -29,7 +29,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Marketplace } from "features/marketplace/Marketplace";
-import { Explore } from "features/world/World";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -173,8 +172,15 @@ export const Navigation: React.FC = () => {
                     />
                   )}
                   <Route path="/world" element={<World key="world" />}>
-                    <Route path="marketplace/*" element={<Marketplace />} />
-                    <Route path=":name" element={<Explore />} />
+                    <Route
+                      path="marketplace/*"
+                      element={
+                        <div className="absolute inset-0 z-50">
+                          <Marketplace />
+                        </div>
+                      }
+                    />
+                    <Route path=":name" element={null} />
                   </Route>
                   <Route
                     path="/community/:name"
