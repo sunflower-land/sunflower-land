@@ -23,7 +23,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MarketplaceProfile } from "./MarketplaceProfile";
 import { MyTrades } from "./profile/MyTrades";
-import { MarketplaceRewards } from "./MarketplaceRewards";
+import { MarketplaceRewards } from "./rewards/MarketplaceRewards";
 import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
 import { MarketplaceHotNow } from "./MarketplaceHotNow";
