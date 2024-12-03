@@ -10,7 +10,7 @@ import {
 } from "features/game/lib/tradingLevels";
 import { formatNumber } from "lib/utils/formatNumber";
 import React, { useContext } from "react";
-import trade_point from "src/assets/icons/trade_point.webp";
+import trade_point from "src/assets/icons/trade_points_coupon.webp";
 
 const _tradingPoints = (state: MachineState) =>
   state.context.state.trades.tradePoints;
