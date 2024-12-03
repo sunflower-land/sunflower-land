@@ -161,8 +161,6 @@ export const MakeOffer: React.FC<{
     );
   }
 
-  const isComingSoon = tradeType === "onchain" && CONFIG.NETWORK === "mainnet";
-
   if (display.type === "resources") {
     return (
       <ResourceOffer
@@ -209,14 +207,6 @@ export const MakeOffer: React.FC<{
         </Label>
         <p className="text-xs mb-2">{t("marketplace.sflLocked.description")}</p>
       </div>
-
-      {isComingSoon && (
-        <div className="p-2">
-          <Label type="danger" className="-ml-1 mb-2">
-            {t("marketplace.onchainComingSoon")}
-          </Label>
-        </div>
-      )}
 
       <div className="flex">
         <Button className="mr-1" onClick={() => onClose()}>
