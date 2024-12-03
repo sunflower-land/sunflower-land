@@ -4050,7 +4050,6 @@
   "whatsOn.mysterySeasonText": "Prepara le tue risorse e padroneggia il mercato. La stagione dei misteri sta arrivando!",
   "whatsOn.date.nov1": "1° novembre",
   "whatsOn.date.nov4": "4 novembre",
-  "whatsOn.date.dec2": "2 dicembre",
   "whatsOn.date.dec18Jan31": "18 dicembre - 31 gennaio",
   "whatsOn.date.feb1": "1° febbraio",
   "description.whiteSheepOnesie.boost": "+0,25 lana",
@@ -4427,5 +4426,6 @@
   "marketplace.unlockSelling": "Sblocca la vendita",
   "marketplace.unlockOffering": "Sblocca l'offerta",
   "marketplace.vip.access": "Accesso illimitato al marketplace",
-  "marketplace.vip.season.access": "Accesso illimitato al marketplace durante la stagione"
+  "marketplace.vip.season.access": "Accesso illimitato al marketplace durante la stagione",
+  "whatsOn.date.dec2": "9 dicembre"
 }

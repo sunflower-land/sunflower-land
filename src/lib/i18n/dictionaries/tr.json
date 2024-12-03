@@ -4050,7 +4050,6 @@
   "whatsOn.mysterySeasonText": "Kaynaklarınızı hazırlayın ve pazarda ustalaşın. Gizemli mevsim geliyor!",
   "whatsOn.date.nov1": "1 Kasım",
   "whatsOn.date.nov4": "4 Kasım",
-  "whatsOn.date.dec2": "2 Aralık",
   "whatsOn.date.dec18Jan31": "18 Aralık - 31 Ocak",
   "whatsOn.date.feb1": "1 Şubat",
   "description.whiteSheepOnesie.boost": "+0.25 Yün",
@@ -4427,5 +4426,6 @@
   "marketplace.unlockSelling": "Satışın kilidini açın",
   "marketplace.unlockOffering": "Teklifin kilidini aç",
   "marketplace.vip.access": "Sınırsız pazar erişimi",
-  "marketplace.vip.season.access": "Sezon boyunca sınırsız pazar yeri erişimi"
+  "marketplace.vip.season.access": "Sezon boyunca sınırsız pazar yeri erişimi",
+  "whatsOn.date.dec2": "9 Aralık"
 }

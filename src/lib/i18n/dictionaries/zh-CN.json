@@ -4050,7 +4050,6 @@
   "whatsOn.mysterySeasonText": "准备好您的资源并掌控市场。神秘季节即将来临！",
   "whatsOn.date.nov1": "11 月 1 日",
   "whatsOn.date.nov4": "11 月 4 日",
-  "whatsOn.date.dec2": "12 月 2 日",
   "whatsOn.date.dec18Jan31": "12 月 18 日至 1 月 31 日",
   "whatsOn.date.feb1": "2 月 1 日",
   "description.whiteSheepOnesie.boost": "+0.25 羊毛",
@@ -4427,5 +4426,6 @@
   "marketplace.unlockSelling": "解锁销售",
   "marketplace.unlockOffering": "解锁优惠",
   "marketplace.vip.access": "无限制的市场访问权限",
-  "marketplace.vip.season.access": "赛季期间无限量进入市场"
+  "marketplace.vip.season.access": "赛季期间无限量进入市场",
+  "whatsOn.date.dec2": "12 月 9 日"
 }

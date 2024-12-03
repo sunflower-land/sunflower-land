@@ -4050,7 +4050,6 @@
   "whatsOn.mysterySeasonText": "Siapkan sumber daya Anda & kuasai pasar. Musim misteri akan datang!",
   "whatsOn.date.nov1": "1 November",
   "whatsOn.date.nov4": "4 November",
-  "whatsOn.date.dec2": "2 Desember",
   "whatsOn.date.dec18Jan31": "18 Desember - 31 Januari",
   "whatsOn.date.feb1": "1 Februari",
   "description.whiteSheepOnesie.boost": "+0.25 Wol",
@@ -4427,5 +4426,6 @@
   "marketplace.unlockSelling": "Buka kunci penjualan",
   "marketplace.unlockOffering": "Buka penawaran",
   "marketplace.vip.access": "Akses pasar tanpa batas",
-  "marketplace.vip.season.access": "Akses pasar tanpa batas selama musim"
+  "marketplace.vip.season.access": "Akses pasar tanpa batas selama musim",
+  "whatsOn.date.dec2": "9 Desember"
 }

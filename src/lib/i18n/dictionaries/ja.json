@@ -4050,7 +4050,6 @@
   "whatsOn.mysterySeasonText": "リソースを準備し、マーケットプレイスをマスターしましょう。ミステリーシーズンがやってくる！",
   "whatsOn.date.nov1": "11 月 1 日",
   "whatsOn.date.nov4": "11 月 4 日",
-  "whatsOn.date.dec2": "12 月 2 日",
   "whatsOn.date.dec18Jan31": "12 月 18 日から 1 月 31 日まで",
   "whatsOn.date.feb1": "2 月 1 日",
   "description.whiteSheepOnesie.boost": "+0.25 ウール",
@@ -4427,5 +4426,6 @@
   "marketplace.unlockSelling": "販売のロックを解除",
   "marketplace.unlockOffering": "オファーのロック解除",
   "marketplace.vip.access": "無制限のマーケットプレイスアクセス",
-  "marketplace.vip.season.access": "シーズン中はマーケットプレイスに無制限にアクセス可能"
+  "marketplace.vip.season.access": "シーズン中はマーケットプレイスに無制限にアクセス可能",
+  "whatsOn.date.dec2": "12 月 9 日"
 }

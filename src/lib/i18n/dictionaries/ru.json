@@ -4050,7 +4050,6 @@
   "whatsOn.mysterySeasonText": "Подготовьте свои ресурсы и освойте рынок. Наступает сезон загадок!",
   "whatsOn.date.nov1": "1 ноября",
   "whatsOn.date.nov4": "4 ноября",
-  "whatsOn.date.dec2": "2 декабря",
   "whatsOn.date.dec18Jan31": "18 декабря — 31 января",
   "whatsOn.date.feb1": "1 февраля",
   "description.whiteSheepOnesie.boost": "+0.25 Шерсть",
@@ -4427,5 +4426,6 @@
   "marketplace.unlockSelling": "Разблокируйте продажи",
   "marketplace.unlockOffering": "Предложение по разблокировке",
   "marketplace.vip.access": "Неограниченный доступ к торговой площадке",
-  "marketplace.vip.season.access": "Неограниченный доступ к торговой площадке в течение сезона"
+  "marketplace.vip.season.access": "Неограниченный доступ к торговой площадке в течение сезона",
+  "whatsOn.date.dec2": "9 декабря"
 }

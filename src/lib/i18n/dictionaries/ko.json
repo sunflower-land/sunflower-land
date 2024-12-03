@@ -4050,7 +4050,6 @@
   "whatsOn.mysterySeasonText": "리소스를 준비하고 마켓플레이스를 마스터하세요.미스터리 시즌이 다가옵니다!",
   "whatsOn.date.nov1": "11월 1일",
   "whatsOn.date.nov4": "11월 4일",
-  "whatsOn.date.dec2": "12월 2일",
   "whatsOn.date.dec18Jan31": "12월 18일 - 1월 31일",
   "whatsOn.date.feb1": "2월 1일",
   "description.whiteSheepOnesie.boost": "+0.25 울",
@@ -4427,5 +4426,6 @@
   "marketplace.unlockSelling": "판매 잠금 해제",
   "marketplace.unlockOffering": "오퍼링 잠금 해제",
   "marketplace.vip.access": "무제한 마켓플레이스 액세스",
-  "marketplace.vip.season.access": "시즌 동안 무제한 마켓플레이스 이용"
+  "marketplace.vip.season.access": "시즌 동안 무제한 마켓플레이스 이용",
+  "whatsOn.date.dec2": "12월 9일"
 }
