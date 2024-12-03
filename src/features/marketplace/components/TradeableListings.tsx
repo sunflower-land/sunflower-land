@@ -148,7 +148,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-1">
             <Label icon={tradeIcon} type="default" className="mb-2">
               {t("marketplace.listings")}
             </Label>

@@ -20,6 +20,9 @@ import { TradeableSummary } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";
 import { ResourceOffer } from "./ResourceOffer";
 import { InventoryItemName } from "features/game/types/game";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { getKeys } from "features/game/types/craftables";
+import { KNOWN_ITEMS } from "features/game/types";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 
@@ -39,6 +42,10 @@ export const MakeOffer: React.FC<{
   const [quantity, setQuantity] = useState(1);
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const isResource = getKeys(TRADE_LIMITS).includes(
+    KNOWN_ITEMS[Number(itemId)],
+  );
 
   const tradeType = getTradeType({
     collection: display.type,
@@ -161,7 +168,7 @@ export const MakeOffer: React.FC<{
     );
   }
 
-  if (display.type === "resources") {
+  if (isResource) {
     return (
       <ResourceOffer
         itemName={display.name as InventoryItemName}
@@ -181,7 +188,7 @@ export const MakeOffer: React.FC<{
   return (
     <>
       <div className="p-2">
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-2">
           <Label type="default" className="-ml-1 mb-1">
             {t("marketplace.makeOffer")}
           </Label>
