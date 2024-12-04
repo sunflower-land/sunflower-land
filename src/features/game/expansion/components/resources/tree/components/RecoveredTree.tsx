@@ -12,11 +12,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { chopAudio, loadAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
 import { IslandType } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const tool = "Axe";
 
@@ -55,7 +55,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   const shakeGif = useRef<SpriteSheetInstance>();
   const { t } = useAppTranslation();
 
-  loadAudio([chopAudio]);
+  const { play: chopAudio } = useSound("chop");
 
   // prevent performing react state update on an unmounted component
   useEffect(() => {
@@ -67,7 +67,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   useEffect(() => {
     if (touchCount > 0) {
       setShowSpritesheet(true);
-      chopAudio.play();
+      chopAudio();
       shakeGif.current?.goToAndPlay(0);
     }
   }, [touchCount]);

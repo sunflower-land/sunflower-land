@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -10,8 +10,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { SmoothieShackModal } from "./SmoothieShackModal";
-import { bakeryAudio, loadAudio } from "lib/utils/sfx";
 import { SMOOTHIE_SHACK_VARIANTS } from "features/island/lib/alternateArt";
+import { useSound } from "lib/utils/hooks/useSound";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -28,9 +28,7 @@ export const SmoothieShack: React.FC<Props> = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    loadAudio([bakeryAudio]);
-  }, []);
+  const { play: bakeryAudio } = useSound("bakery");
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({
@@ -59,7 +57,7 @@ export const SmoothieShack: React.FC<Props> = ({
 
     if (isBuilt) {
       if (idle || crafting) {
-        bakeryAudio.play();
+        bakeryAudio();
         setShowModal(true);
         return;
       }

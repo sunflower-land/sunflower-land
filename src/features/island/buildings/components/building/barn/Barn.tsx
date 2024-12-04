@@ -1,15 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { barnAudio, loadAudio } from "lib/utils/sfx";
 import { useNavigate } from "react-router-dom";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const BARN_IMAGES: Record<AnimalBuildingLevel, string> = {
   1: SUNNYSIDE.building.barnLevel1,
@@ -50,9 +50,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    loadAudio([barnAudio]);
-  }, []);
+  const { play: barnAudio } = useSound("barn");
 
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);
   const animalsNeedLove = useSelector(gameService, _animalsNeedLove);
@@ -66,7 +64,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
     if (isBuilt) {
       // Add future on click actions here
-      barnAudio.play();
+      barnAudio();
       navigate("/barn");
     }
   };

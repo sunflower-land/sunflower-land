@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import observatory from "assets/sfts/mom/observatory.webp";
 import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.webp";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { loadAudio, observatoryAnimationAudio } from "lib/utils/sfx";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Loading } from "features/auth/components";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const Observatory: React.FC = () => {
   // Using rand value helps force-replay gifs.
@@ -17,9 +17,7 @@ export const Observatory: React.FC = () => {
   const [modalTimer, setModalTimer] = useState<number>();
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    loadAudio([observatoryAnimationAudio]);
-  }, []);
+  const { play, isPlaying, stop } = useSound("observatory");
 
   const handleOpenTelescope = () => {
     setLoading(true);
@@ -27,7 +25,7 @@ export const Observatory: React.FC = () => {
   };
 
   const handleCloseTelescope = () => {
-    observatoryAnimationAudio.stop();
+    stop();
 
     setPlayRand(undefined);
     setModalTimer(clearTimeout(modalTimer) as undefined);
@@ -62,8 +60,8 @@ export const Observatory: React.FC = () => {
               alt="Telescope Animation"
               onLoad={() => {
                 setLoading(false);
-                if (!observatoryAnimationAudio.playing() && playRand) {
-                  observatoryAnimationAudio.play();
+                if (!isPlaying() && playRand) {
+                  play();
                   setModalTimer(window.setTimeout(handleCloseTelescope, 26000));
                 }
               }}

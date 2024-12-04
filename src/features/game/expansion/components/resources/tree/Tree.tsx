@@ -4,7 +4,6 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { loadAudio, treeFallAudio } from "lib/utils/sfx";
 import {
   GameState,
   InventoryItemName,
@@ -27,6 +26,7 @@ import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const HITS = 3;
 const tool = "Axe";
@@ -85,9 +85,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    loadAudio([treeFallAudio]);
-  }, []);
+  const { play: treeFallAudio } = useSound("tree_fall");
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -183,7 +181,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         setCollectedAmount(resource.wood.amount);
       }
 
-      treeFallAudio.play();
+      treeFallAudio();
 
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
