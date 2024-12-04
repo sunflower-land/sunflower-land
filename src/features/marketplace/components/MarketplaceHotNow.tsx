@@ -8,12 +8,14 @@ import { useNavigate } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
+import whaleIcon from "assets/icons/whale.webp";
 import walletIcon from "assets/icons/wallet.png";
 import { MarketplaceTrends } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import { loadTrends } from "../actions/loadTrends";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
+import { TopTrades } from "./TopTrades";
 
 export const MarketplaceHotNow: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -133,6 +135,22 @@ export const MarketplaceHotNow: React.FC = () => {
 
       <MarketplaceStats trends={trends} />
 
+      <InnerPanel className="mb-2">
+        <div className="p-2">
+          <div className="flex items-center justify-between">
+            <Label type="default" icon={whaleIcon} className="-ml-1 mb-2">
+              {t("marketplace.whaleTrades")}
+            </Label>
+
+            <Label type="transparent" icon={SUNNYSIDE.icons.stopwatch}>
+              {t("marketplace.7days")}
+            </Label>
+          </div>
+
+          <TopTrades trends={trends} />
+        </div>
+      </InnerPanel>
+
       <InnerPanel>
         <div className="p-2">
           <Label type="success" className="-ml-1 mb-2">
@@ -150,7 +168,7 @@ export const MarketplaceStats: React.FC<{
   trends?: MarketplaceTrends;
 }> = ({ trends }) => {
   const { t } = useAppTranslation();
-  if (!trends) {
+  if (!trends?.topTrades) {
     return (
       <InnerPanel className="mb-1">
         <Loading />

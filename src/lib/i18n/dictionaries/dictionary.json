@@ -4451,5 +4451,7 @@
   "marketplace.sales": "Sales",
   "marketplace.currentPrice": "Current Price",
   "marketplace.hoarding": "Store progress required",
-  "marketplace.hoarding.description": "You must store your game progress in order to be able to purchase this listing."
+  "marketplace.hoarding.description": "You must store your game progress in order to be able to purchase this listing.",
+  "marketplace.whaleTrades": "Whale Trades",
+  "marketplace.7days": "Last 7 Days"
 }

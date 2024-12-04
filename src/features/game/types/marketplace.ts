@@ -103,6 +103,17 @@ export type MarketplaceTrends = {
   trades: number;
   owners: number;
   items: TrendingItem[];
+  topTrades: {
+    buyer: {
+      id: number;
+      username?: string;
+      bumpkinUri: string;
+    };
+    sfl: number;
+    itemId: number;
+    quantity: number;
+    collection: CollectionName;
+  }[];
 };
 
 type BudNFTName = `Bud #${number}`;
