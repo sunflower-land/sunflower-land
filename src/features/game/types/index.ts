@@ -314,6 +314,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sour Shake": 583,
   "Spaghetti al Limone": 584,
   "Lemon Cheesecake": 585,
+  "Trade Cake": 586,
 
   Wood: 601,
   Stone: 602,

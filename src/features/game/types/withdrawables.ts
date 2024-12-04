@@ -95,7 +95,7 @@ const canWithdrawTimebasedItem = (availableAt: Date) => {
   return now >= availableAt;
 };
 
-const animalFood: Record<AnimalFoodName, () => boolean> = {
+export const animalFood: Record<AnimalFoodName, () => boolean> = {
   Hay: () => false,
   "Kernel Blend": () => false,
   NutriBarley: () => false,
@@ -619,6 +619,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
   "Sour Shake": () => false,
   "Spaghetti al Limone": () => false,
   "Lemon Cheesecake": () => false,
+  "Trade Cake": () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -975,7 +976,7 @@ const exoticCrops: Record<ExoticCropName, () => boolean> = {
   Chiogga: () => false,
 };
 
-const bait: Record<FishingBait, () => boolean> = {
+export const bait: Record<FishingBait, () => boolean> = {
   Earthworm: () => false,
   Grub: () => false,
   "Red Wiggler": () => false,

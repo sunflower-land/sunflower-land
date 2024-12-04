@@ -437,6 +437,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Trade Point": new Decimal(500),
     "Fairy Circle": new Decimal(1),
     "Red Balloon Flower": new Decimal(1),
     Tomato: new Decimal(100),

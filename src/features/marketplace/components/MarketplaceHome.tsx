@@ -6,7 +6,7 @@ import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
 import filterIcon from "assets/icons/filter_icon.webp";
 import tradeIcon from "assets/icons/trade.png";
-import trade_point from "src/assets/icons/trade_point.webp";
+import trade_point from "src/assets/icons/trade_points_coupon.webp";
 
 import {
   Route,

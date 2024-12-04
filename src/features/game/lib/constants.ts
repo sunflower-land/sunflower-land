@@ -81,6 +81,7 @@ export type StockableName = Extract<
   | "Radish Seed"
   | "Wheat Seed"
   | "Kale Seed"
+  | "Barley Seed"
   | "Grape Seed"
   | "Olive Seed"
   | "Rice Seed"

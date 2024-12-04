@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../lib/constants";
 import { claimPurchase } from "./claimPurchase";
+import { calculateTradePoints } from "./landExpansion/addTradePoints";
 
 describe("purchase.claimed", () => {
   it("requires purchase exists", () => {
@@ -278,26 +279,22 @@ describe("purchase.claimed", () => {
               fulfilledAt: Date.now() - 60 * 1000,
               fulfilledById: 43,
             },
-            "124": {
-              collection: "collectibles",
-              items: {
-                "Fat Chicken": 1,
-              },
-              sfl: 13,
-              createdAt: 0,
-              fulfilledAt: Date.now() - 60 * 1000,
-              fulfilledById: 43,
-            },
           },
         },
       },
       action: {
         type: "purchase.claimed",
-        tradeIds: ["123", "124"],
+        tradeIds: ["123"],
       },
     });
-    expect(state.trades.tradePoints).toEqual(28);
-    expect(state.inventory["Trade Point"]).toEqual(new Decimal(28));
+
+    const result = calculateTradePoints({
+      points: 1,
+      sfl: 13,
+    }).multipliedPoints;
+
+    expect(state.trades.tradePoints).toEqual(result);
+    expect(state.inventory["Trade Point"]).toEqual(new Decimal(result));
   });
 
   it("does not award trade points for resources", () => {

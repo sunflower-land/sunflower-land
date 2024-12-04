@@ -850,6 +850,7 @@ export const ITEM_TRADE_TYPES: {
     "Vampire Bear": "instant",
     "Super Totem": "instant",
     "Egg Basket": "instant",
+    "Trade Cake": "instant",
   },
   wearables: {
     "Beige Farmer Potion": "instant",

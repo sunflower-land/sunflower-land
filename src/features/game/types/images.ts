@@ -17,7 +17,7 @@ import rice from "assets/greenhouse/rice.webp";
 import riceSeed from "assets/greenhouse/rice_seed.webp";
 
 import gem from "assets/icons/gem.webp";
-import tradePoint from "assets/icons/trade_point.webp";
+import tradePoint from "assets/icons/trade_points_coupon.webp";
 
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
@@ -4439,5 +4439,9 @@ export const ITEM_DETAILS: Items = {
   "Trade Point": {
     image: tradePoint,
     description: COUPONS["Trade Point"].description,
+  },
+  "Trade Cake": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Cake that you can redeem at Trade Rewards Shop",
   },
 };

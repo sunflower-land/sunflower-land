@@ -2,15 +2,31 @@ export {};
 
 jest.doMock("assets/sunnyside", () => ({
   SUNNYSIDE: {
+    achievement: {},
+    announcement: {},
+    badges: {},
+    crops: {},
+    captcha: {},
+    skills: {},
+    land: {},
     soil: {},
     animals: {},
+    animalFoods: {},
+    crafting: {},
     vfx: {},
+    fx: {},
+    fruit: {},
+    brand: {},
+    building: {},
     icons: {},
     npcs: {},
+    sfts: {},
     resource: {},
     tools: {},
     ui: {},
     decorations: {},
+    splash: {},
+    tutorial: {},
   },
 }));
 

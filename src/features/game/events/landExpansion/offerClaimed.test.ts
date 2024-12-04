@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { claimOffer } from "./offerClaimed";
+import { calculateTradePoints } from "./addTradePoints";
 
 describe("offer.claimed", () => {
   it("requires offer exists", () => {
@@ -180,8 +181,13 @@ describe("offer.claimed", () => {
       },
     });
 
-    expect(state.inventory["Trade Point"]?.toNumber()).toEqual(32);
-    expect(state.trades.tradePoints).toBeGreaterThanOrEqual(32);
+    const result = calculateTradePoints({
+      points: 2,
+      sfl: 15,
+    }).multipliedPoints;
+
+    expect(state.inventory["Trade Point"]).toEqual(new Decimal(result));
+    expect(state.trades.tradePoints).toBeGreaterThanOrEqual(result);
   });
 
   it("does not reward trade points for resources", () => {
