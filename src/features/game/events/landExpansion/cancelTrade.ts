@@ -26,6 +26,10 @@ export function cancelTrade({
       throw new Error(`Trade #${action.tradeId} does not exist`);
     }
 
+    if (trade.collection !== "collectibles") {
+      throw new Error(`Trade #${action.tradeId} is not a collectible`);
+    }
+
     if (trade.boughtAt) {
       throw new Error(`Trade #${action.tradeId} already bought`);
     }

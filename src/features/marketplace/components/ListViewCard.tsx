@@ -30,7 +30,6 @@ export const ListViewCard: React.FC<Props> = ({
 }) => {
   const { type, name, image, buff } = details;
   const { t } = useAppTranslation();
-  const isResources = getKeys(TRADE_LIMITS).includes(name as InventoryItemName);
 
   const itemId = getItemId({ name, collection: type });
   const tradeType = getTradeType({
@@ -38,6 +37,9 @@ export const ListViewCard: React.FC<Props> = ({
     id: itemId,
     trade: { sfl: price?.toNumber() ?? 0 },
   });
+  const isResources =
+    getKeys(TRADE_LIMITS).includes(name as InventoryItemName) &&
+    type === "collectibles";
 
   return (
     <div className="relative cursor-pointer h-full">
