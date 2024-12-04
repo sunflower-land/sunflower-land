@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
-import { tradeToId } from "../../lib/offers";
+import { getItemId, tradeToId } from "../../lib/offers";
 import Decimal from "decimal.js-light";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -23,7 +23,6 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import sflIcon from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
-import { KNOWN_IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
@@ -55,7 +54,10 @@ export const MyOffers: React.FC = () => {
             const offerItemName = getKeys(
               offer.items ?? {},
             )[0] as InventoryItemName;
-            const offerItemId = KNOWN_IDS[offerItemName];
+            const offerItemId = getItemId({
+              name: offerItemName,
+              collection: offer.collection,
+            });
             return (
               offerItemId === Number(params.id) &&
               offer.collection === params.collection
