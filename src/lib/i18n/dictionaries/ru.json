@@ -4436,5 +4436,7 @@
   "marketplace.welcome.six": "Зарабатывайте баллы за сделки и получайте награды.",
   "marketplace.welcome.seven": "Предметы торговой площадки предназначены для использования в игре, а не для спекуляций или инвестиций",
   "marketplace.welcome.gotIt": "Понял",
-  "marketplace.welcome.title": "Добро пожаловать на рынок"
+  "marketplace.welcome.title": "Добро пожаловать на рынок",
+  "marketplace.whaleTrades": "Торговля китами",
+  "marketplace.7days": "Последние 7 дней"
 }

@@ -4436,5 +4436,7 @@
   "marketplace.welcome.six": "Sammeln Sie Punkte bei Trades und schalten Sie Prämien frei.",
   "marketplace.welcome.seven": "Die Marktplatzgegenstände sind für den Gebrauch im Spiel bestimmt, nicht für Spekulationen oder Investitionen",
   "marketplace.welcome.gotIt": "Ich hab's",
-  "marketplace.welcome.title": "Willkommen auf dem Marketplace"
+  "marketplace.welcome.title": "Willkommen auf dem Marketplace",
+  "marketplace.whaleTrades": "Handel mit Walen",
+  "marketplace.7days": "Letzte 7 Tage"
 }

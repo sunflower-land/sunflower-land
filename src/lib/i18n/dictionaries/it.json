@@ -4436,5 +4436,7 @@
   "marketplace.welcome.six": "Guadagna punti sulle negoziazioni e sblocca premi.",
   "marketplace.welcome.seven": "Gli articoli del marketplace sono destinati all'uso nel gioco, non alla speculazione o all'investimento",
   "marketplace.welcome.gotIt": "Capito",
-  "marketplace.welcome.title": "Benvenuto nel Marketplace"
+  "marketplace.welcome.title": "Benvenuto nel Marketplace",
+  "marketplace.whaleTrades": "Commercio di balene",
+  "marketplace.7days": "Ultimi 7 giorni"
 }
