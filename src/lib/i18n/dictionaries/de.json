@@ -4427,5 +4427,14 @@
   "marketplace.unlockOffering": "Angebot freischalten",
   "marketplace.vip.access": "Unbegrenzter Marktplatzzugang",
   "marketplace.vip.season.access": "Unbegrenzter Marktplatzzugang während der Saison",
-  "whatsOn.date.dec2": "9. Dezember"
+  "whatsOn.date.dec2": "9. Dezember",
+  "marketplace.welcome.one": "Hallöchen, Partner! Willkommen auf dem Marktplatz. Ihr One-Stop-Shop für alles, was mit Landwirtschaft zu tun hat.",
+  "marketplace.welcome.two": "Hier kannst du Ressourcen handeln, exklusive Sammlerstücke kaufen und deine Farm aufwerten.",
+  "marketplace.welcome.three": "Der Marktplatz verwendet ausschließlich $SFL, die Währung von Sunflower Land. Du kannst $SFL im Spiel verdienen oder mit anderen Spielern handeln.",
+  "marketplace.welcome.four": "Tauschen Sie Ressourcen, Sammlerstücke und Wearables für Ihre Farm ein.",
+  "marketplace.welcome.five": "Verkaufe Ressourcen und Gegenstände, um SFL zu verdienen.",
+  "marketplace.welcome.six": "Sammeln Sie Punkte bei Trades und schalten Sie Prämien frei.",
+  "marketplace.welcome.seven": "Die Marktplatzgegenstände sind für den Gebrauch im Spiel bestimmt, nicht für Spekulationen oder Investitionen",
+  "marketplace.welcome.gotIt": "Ich hab's",
+  "marketplace.welcome.title": "Willkommen auf dem Marketplace"
 }
