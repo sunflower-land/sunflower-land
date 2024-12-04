@@ -4,7 +4,6 @@ import {
   Listing,
   Offer,
 } from "features/game/types/marketplace";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import { TradeableDisplay } from "../lib/tradeables";
 import Decimal from "decimal.js-light";
@@ -54,7 +53,10 @@ export const OfferTable: React.FC<{
               }}
             >
               <div className="p-1.5 mr-2 lg:mr-12 text-left w-auto flex items-center">
-                <img src={details.image} className="h-8 mr-4" />
+                <img
+                  src={details.image}
+                  className="h-8 mr-4 w-8 object-contain"
+                />
                 <p className="text-sm">{details.name}</p>
               </div>
               <div className="flex-1 flex items-center justify-between">
@@ -89,7 +91,6 @@ export const ListingTable: React.FC<{
   collection: CollectionName;
   details: TradeableDisplay;
 }> = ({ listings, collection, details }) => {
-  const { t } = useAppTranslation();
   return (
     <div className="w-full text-xs  border-collapse  ">
       <div>
@@ -114,9 +115,12 @@ export const ListingTable: React.FC<{
                 borderTop: index === 0 ? "1px solid #b96f50" : "",
               }}
             >
-              <div className="p-1.5 mr-2 lg:mr-12 text-left w-auto flex items-center">
-                <img src={details.image} className="h-8 mr-4" />
-                <p className="text-sm">
+              <div className="p-1.5 mr-2 w-1/2 sm:w-1/3 text-left flex items-center">
+                <img
+                  src={details.image}
+                  className="h-8 mr-4 w-8 object-contain"
+                />
+                <p className="py-0.5 text-xs sm:text-sm truncate">
                   {`${isResource ? quantity + " x" : ""} ${details.name}`}
                 </p>
               </div>
@@ -130,7 +134,7 @@ export const ListingTable: React.FC<{
                       }
                     />
                   </div>
-                  <p className="text-xs sm:text-sm flex-1 truncate">
+                  <p className="text-xs py-0.5 sm:text-sm flex-1 truncate">
                     {listing.listedBy.username}
                   </p>
                 </div>

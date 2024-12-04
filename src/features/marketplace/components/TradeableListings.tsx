@@ -167,6 +167,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               (isResource ? (
                 <ResourceTable
                   balance={balance}
+                  itemName={KNOWN_ITEMS[Number(params.id)]}
                   items={tradeable?.listings.map((listing) => ({
                     id: listing.id,
                     price: listing.sfl,
@@ -176,7 +177,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                         decimalPlaces: 4,
                       }),
                     ),
-                    createdById: listing.listedById,
+                    createdBy: listing.listedBy,
                   }))}
                   inventoryCount={count}
                   id={farmId}
@@ -194,27 +195,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                 />
               ))}
           </div>
-          {/* {!isResource && (
-            <div className="w-full justify-end hidden sm:flex sm:visible">
-              <Button
-                className="w-full sm:w-fit"
-                disabled={!count}
-                onClick={onListClick}
-              >
-                {t("marketplace.listForSale")}
-              </Button>
-            </div>
-          )} */}
         </div>
-        {/* {!isResource && (
-          <Button
-            className="w-full sm:hidden"
-            disabled={!count}
-            onClick={onListClick}
-          >
-            {t("marketplace.listForSale")}
-          </Button>
-        )} */}
       </InnerPanel>
     </>
   );

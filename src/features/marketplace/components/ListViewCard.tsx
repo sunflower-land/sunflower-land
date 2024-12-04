@@ -50,7 +50,7 @@ export const ListViewCard: React.FC<Props> = ({
           <img
             src={image}
             className={classNames("object-contain h-[80%] mt-1", {
-              "h-[65%] mt-2": isResources,
+              "h-[55%] mt-3": isResources,
             })}
           />
         </div>
@@ -67,7 +67,7 @@ export const ListViewCard: React.FC<Props> = ({
           {price && price.gt(0) && (
             <div className="flex items-center absolute top-0 left-0">
               <img src={sfl} className="h-4 sm:h-5 mr-1" />
-              <p className="text-xxs sm:text-xs whitespace-nowrap">
+              <p className="text-xs whitespace-nowrap">
                 {isResources
                   ? t("marketplace.pricePerUnit", {
                       price: formatNumber(price, {

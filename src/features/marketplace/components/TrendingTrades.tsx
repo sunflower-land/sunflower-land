@@ -67,7 +67,10 @@ export const TrendingTrades: React.FC<{
             >
               <td className="p-1.5 text-left">
                 <div className="flex items-center">
-                  <img src={details.image} className="h-8 mr-4" />
+                  <img
+                    src={details.image}
+                    className="h-8 mr-4 w-8 object-contain"
+                  />
                   <p className="text-sm">{details.name}</p>
                 </div>
               </td>

@@ -22,7 +22,7 @@ export const TradeableItemDetails: React.FC<{
         <img src={bg} className="w-full rounded" />
         <img
           src={display.image}
-          className="w-1/2 absolute"
+          className="h-1/2 absolute"
           style={{
             left: "50%",
             transform: "translate(-50%, 50%)",

@@ -237,6 +237,7 @@ export const TradeableOffers: React.FC<{
               )}
               {!!tradeable?.offers.length && (
                 <ResourceTable
+                  itemName={KNOWN_ITEMS[Number(id)]}
                   balance={balance}
                   items={tradeable?.offers.map((offer) => ({
                     id: offer.tradeId,
@@ -247,7 +248,7 @@ export const TradeableOffers: React.FC<{
                         decimalPlaces: 4,
                       }),
                     ),
-                    createdById: offer.offeredById,
+                    createdBy: offer.offeredBy,
                   }))}
                   inventoryCount={
                     getBasketItems(inventory)[
@@ -263,6 +264,15 @@ export const TradeableOffers: React.FC<{
                 />
               )}
             </div>
+          </div>
+          <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
+            <Button
+              className="w-full sm:w-fit"
+              disabled={!tradeable}
+              onClick={() => setShowMakeOffer(true)}
+            >
+              {t("marketplace.makeOffer")}
+            </Button>
           </div>
         </InnerPanel>
       )}
