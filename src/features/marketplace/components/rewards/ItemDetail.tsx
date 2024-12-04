@@ -87,9 +87,7 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
       const inventoryAmount = state.inventory[item] ?? new Decimal(0);
       const inventoryLimit = INVENTORY_LIMIT(state)[item];
 
-      if (!!inventoryLimit && inventoryAmount.gte(inventoryLimit)) {
-        return true;
-      }
+      return !!inventoryLimit && inventoryAmount.gte(inventoryLimit);
     });
 
   return (
