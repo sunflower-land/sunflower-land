@@ -63,6 +63,7 @@ export const SUNNYSIDE = {
     pharaohSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/pharaoh_seasonal_rares.png`,
     bullRunSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bull_run_seasonal_rares.webp`,
     marketplace: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/marketplace_dark.png`,
+    marketplaceLight: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/marketplace.png`,
   },
   //Badges(Pre-LandExpansion Skills)
   badges: {

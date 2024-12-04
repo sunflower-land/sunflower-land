@@ -9,6 +9,7 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { MarketplaceIntroduction } from "./components/MarketplaceIntroduction";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 
@@ -22,6 +23,7 @@ export const Marketplace: React.FC = () => {
 
   return (
     <>
+      <MarketplaceIntroduction />
       <div className="bg-[#181425] w-full h-full">
         <OuterPanel className="h-full">
           <div
