@@ -4437,5 +4437,13 @@
   "marketplace.welcome.gotIt": "Entendi",
   "marketplace.welcome.title": "Bem-vindo ao Marketplace",
   "marketplace.whaleTrades": "Comércio de baleias",
-  "marketplace.7days": "Últimos 7 dias"
+  "marketplace.7days": "Últimos 7 dias",
+  "marketplace.reward.seedLimit": "Uma ou mais sementes está acima do limite de estoque",
+  "marketplace.reward.shop": "Loja de prêmios do Marketplace",
+  "marketplace.reward.contains": "Contém",
+  "marketplace.reward.toolPack.description": "Um estoque de ferramentas",
+  "marketplace.reward.seedPack.description": "Um estoque de sementes",
+  "marketplace.reward.diggingPack.description": "Um estoque de ferramentas de escavação",
+  "marketplace.reward.fishingPack.description": "Um pacote de utilitários de pesca",
+  "marketplace.reward.animalPack.description": "Um pacote de ração para animais"
 }

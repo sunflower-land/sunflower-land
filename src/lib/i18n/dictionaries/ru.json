@@ -4437,5 +4437,13 @@
   "marketplace.welcome.gotIt": "Понял",
   "marketplace.welcome.title": "Добро пожаловать на рынок",
   "marketplace.whaleTrades": "Торговля китами",
-  "marketplace.7days": "Последние 7 дней"
+  "marketplace.7days": "Последние 7 дней",
+  "marketplace.reward.seedLimit": "Запасы одного или нескольких семян превышают лимит",
+  "marketplace.reward.shop": "Магазин вознаграждений Marketplace",
+  "marketplace.reward.contains": "Содержит",
+  "marketplace.reward.toolPack.description": "Запас инструментов",
+  "marketplace.reward.seedPack.description": "Семена на складе",
+  "marketplace.reward.diggingPack.description": "Запас инструментов для землеройных работ",
+  "marketplace.reward.fishingPack.description": "Пакет рыболовных утилит",
+  "marketplace.reward.animalPack.description": "Пакет кормов для животных"
 }

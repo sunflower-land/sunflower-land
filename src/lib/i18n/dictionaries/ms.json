@@ -4437,5 +4437,13 @@
   "marketplace.welcome.gotIt": "Mendapat",
   "marketplace.welcome.title": "Selamat datang ke Pasaran",
   "marketplace.whaleTrades": "Perdagangan Paus",
-  "marketplace.7days": "7 Hari Terakhir"
+  "marketplace.7days": "7 Hari Terakhir",
+  "marketplace.reward.seedLimit": "Salah satu daripada lebih benih berada di atas had inventori",
+  "marketplace.reward.shop": "Kedai Ganjaran Pasaran",
+  "marketplace.reward.contains": "Mengandungi",
+  "marketplace.reward.toolPack.description": "Alat bernilai stok",
+  "marketplace.reward.seedPack.description": "Bernilai stok benih",
+  "marketplace.reward.diggingPack.description": "Alat penggalian bernilai stok",
+  "marketplace.reward.fishingPack.description": "Satu pek utiliti memancing",
+  "marketplace.reward.animalPack.description": "Satu pek makanan haiwan"
 }

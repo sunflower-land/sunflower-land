@@ -4437,5 +4437,13 @@
   "marketplace.welcome.gotIt": "明白了",
   "marketplace.welcome.title": "欢迎来到市场",
   "marketplace.whaleTrades": "鲸鱼交易",
-  "marketplace.7days": "最近 7 天"
+  "marketplace.7days": "最近 7 天",
+  "marketplace.reward.seedLimit": "再有一颗种子超过库存限制",
+  "marketplace.reward.shop": "商城奖励商店",
+  "marketplace.reward.contains": "包含",
+  "marketplace.reward.toolPack.description": "价值一大批工具",
+  "marketplace.reward.seedPack.description": "一支股票的种子",
+  "marketplace.reward.diggingPack.description": "一只股票的挖掘工具",
+  "marketplace.reward.fishingPack.description": "一包钓鱼工具",
+  "marketplace.reward.animalPack.description": "一包动物饲料"
 }

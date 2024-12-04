@@ -4437,5 +4437,13 @@
   "marketplace.welcome.gotIt": "J'ai compris",
   "marketplace.welcome.title": "Bienvenue sur la place de marché",
   "marketplace.whaleTrades": "Commerce de baleines",
-  "marketplace.7days": "Les 7 derniers jours"
+  "marketplace.7days": "Les 7 derniers jours",
+  "marketplace.reward.seedLimit": "Une ou plusieurs graines sont au-dessus de la limite d'inventaire",
+  "marketplace.reward.shop": "Boutique de récompenses Marketplace",
+  "marketplace.reward.contains": "Contient",
+  "marketplace.reward.toolPack.description": "Un stock d'outils",
+  "marketplace.reward.seedPack.description": "Un stock de graines",
+  "marketplace.reward.diggingPack.description": "L'équivalent d'un stock d'outils de creusement",
+  "marketplace.reward.fishingPack.description": "Un pack d'accessoires de pêche",
+  "marketplace.reward.animalPack.description": "Un pack d'aliments pour animaux"
 }

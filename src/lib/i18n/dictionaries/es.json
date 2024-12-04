@@ -4437,5 +4437,13 @@
   "marketplace.welcome.gotIt": "Lo tengo",
   "marketplace.welcome.title": "Bienvenido al Marketplace",
   "marketplace.whaleTrades": "Comercio de ballenas",
-  "marketplace.7days": "Últimos 7 días"
+  "marketplace.7days": "Últimos 7 días",
+  "marketplace.reward.seedLimit": "Una o más semillas supera el límite de inventario",
+  "marketplace.reward.shop": "Tienda de recompensas de Marketplace",
+  "marketplace.reward.contains": "Contiene",
+  "marketplace.reward.toolPack.description": "Un stock de herramientas",
+  "marketplace.reward.seedPack.description": "Un stock de semillas",
+  "marketplace.reward.diggingPack.description": "Un stock de herramientas de excavación",
+  "marketplace.reward.fishingPack.description": "Un paquete de utilidades de pesca",
+  "marketplace.reward.animalPack.description": "Un paquete de pienso para animales"
 }

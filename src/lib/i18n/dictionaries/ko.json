@@ -4437,5 +4437,13 @@
   "marketplace.welcome.gotIt": "알겠어",
   "marketplace.welcome.title": "마켓플레이스에 오신 것을 환영합니다",
   "marketplace.whaleTrades": "고래 거래",
-  "marketplace.7days": "지난 7일"
+  "marketplace.7days": "지난 7일",
+  "marketplace.reward.seedLimit": "하나 이상의 씨앗이 재고 한도를 초과했습니다.",
+  "marketplace.reward.shop": "마켓플레이스 리워드 샵",
+  "marketplace.reward.contains": "포함",
+  "marketplace.reward.toolPack.description": "재고가 있는 도구",
+  "marketplace.reward.seedPack.description": "재고 가치의 씨앗",
+  "marketplace.reward.diggingPack.description": "재고가 있는 재고품 굴착 도구",
+  "marketplace.reward.fishingPack.description": "낚시 유틸리티 팩",
+  "marketplace.reward.animalPack.description": "동물 사료 한 팩"
 }

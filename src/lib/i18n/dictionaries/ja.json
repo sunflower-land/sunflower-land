@@ -4437,5 +4437,13 @@
   "marketplace.welcome.gotIt": "わかった",
   "marketplace.welcome.title": "マーケットプレイスへようこそ",
   "marketplace.whaleTrades": "クジラ取引",
-  "marketplace.7days": "過去 7 日間"
+  "marketplace.7days": "過去 7 日間",
+  "marketplace.reward.seedLimit": "1 つまたは複数のシードが在庫制限を超えています",
+  "marketplace.reward.shop": "マーケットプレイスリワードショップ",
+  "marketplace.reward.contains": "含む",
+  "marketplace.reward.toolPack.description": "一株分のツール",
+  "marketplace.reward.seedPack.description": "一株分の種子",
+  "marketplace.reward.diggingPack.description": "一株分の掘り出し道具",
+  "marketplace.reward.fishingPack.description": "釣りユーティリティのパック",
+  "marketplace.reward.animalPack.description": "動物用飼料のパック"
 }
