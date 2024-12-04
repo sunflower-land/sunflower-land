@@ -14,6 +14,7 @@ import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router-dom";
 import { TradeableStats } from "./TradeableStats";
+import { secondsToString } from "lib/utils/time";
 
 export const TradeableImage: React.FC<{
   display: TradeableDisplay;
@@ -74,7 +75,8 @@ export const TradeableImage: React.FC<{
 
 export const TradeableDescription: React.FC<{
   display: TradeableDisplay;
-}> = ({ display }) => {
+  tradeable?: TradeableDetails;
+}> = ({ display, tradeable }) => {
   const { t } = useAppTranslation();
 
   return (
@@ -94,6 +96,22 @@ export const TradeableDescription: React.FC<{
           </Label>
         )}
       </div>
+      {tradeable?.expiresAt && (
+        <div className="p-2">
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            {`${secondsToString((tradeable.expiresAt - Date.now()) / 1000, {
+              length: "short",
+            })} left`}
+          </Label>
+        </div>
+      )}
+      {tradeable && !tradeable?.isActive && (
+        <div className="p-2">
+          <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+            {`Not for sale`}
+          </Label>
+        </div>
+      )}
     </InnerPanel>
   );
 };
@@ -105,7 +123,7 @@ export const TradeableInfo: React.FC<{
   return (
     <>
       <TradeableImage display={display} supply={tradeable?.supply} />
-      <TradeableDescription display={display} />
+      <TradeableDescription display={display} tradeable={tradeable} />
     </>
   );
 };

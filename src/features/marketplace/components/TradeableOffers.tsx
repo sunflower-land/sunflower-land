@@ -182,14 +182,17 @@ export const TradeableOffers: React.FC<{
               )}
               {!loading && (
                 <div className="flex items-center">
-                  <Button
-                    className="w-full sm:w-fit mr-1"
-                    disabled={!tradeable}
-                    onClick={() => setShowMakeOffer(true)}
-                  >
-                    {t("marketplace.makeOffer")}
-                  </Button>
-                  {topOffer && (
+                  {tradeable?.isActive && (
+                    <Button
+                      className="w-full sm:w-fit mr-1"
+                      disabled={!tradeable || !tradeable?.isActive}
+                      onClick={() => setShowMakeOffer(true)}
+                    >
+                      {t("marketplace.makeOffer")}
+                    </Button>
+                  )}
+
+                  {topOffer && tradeable?.isActive && (
                     <Button
                       onClick={() => setShowAcceptOffer(true)}
                       className="w-fit "

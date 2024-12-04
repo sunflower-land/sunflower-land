@@ -216,6 +216,16 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
 
           <Option
+            icon={SUNNYSIDE.icons.stopwatch}
+            label="Limited"
+            onClick={() => {
+              navigate(`/marketplace/collection?filters=temporary`);
+              onClose();
+            }}
+            isActive={filters === "temporary"}
+          />
+
+          <Option
             icon={SUNNYSIDE.icons.heart}
             label="Cosmetics"
             onClick={() => {

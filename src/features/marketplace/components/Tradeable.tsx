@@ -29,10 +29,10 @@ import { TradeableListings } from "./TradeableListings";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TradeableStats } from "./TradeableStats";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/decorations";
 import { tradeToId } from "../lib/offers";
 import { getDayOfYear } from "lib/utils/time";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -64,11 +64,10 @@ export const Tradeable: React.FC = () => {
   if (display.type === "collectibles") {
     const name = KNOWN_ITEMS[Number(id)];
 
-    if (name in TRADE_LIMITS) {
-      // Resources
-      count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
-    } else {
+    if (name in COLLECTIBLES_DIMENSIONS) {
       count = getChestItems(game)[name]?.toNumber() ?? 0;
+    } else {
+      count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
     }
   }
 

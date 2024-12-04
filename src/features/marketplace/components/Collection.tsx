@@ -82,6 +82,7 @@ export const Collection: React.FC<{
                   );
                   onNavigated?.();
                 }}
+                expiresAt={item.expiresAt}
               />
             </div>
           );

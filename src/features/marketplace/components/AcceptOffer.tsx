@@ -71,7 +71,9 @@ const AcceptOfferContent: React.FC<{
 
   if (display.type === "collectibles") {
     const name = KNOWN_ITEMS[itemId];
-    hasItem = !!getChestItems(game)[name]?.gte(1);
+    hasItem =
+      !!getChestItems(game)[name]?.gte(1) ||
+      !!getBasketItems(game.inventory)[name]?.gte(1);
   }
 
   if (display.type === "wearables") {

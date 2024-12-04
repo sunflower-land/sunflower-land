@@ -115,7 +115,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
 
-  const showBuyNow = !isResources && cheapestListing;
+  const showBuyNow = !isResources && cheapestListing && tradeable?.isActive;
   const showWalletRequired = showBuyNow && cheapestListing?.type === "onchain";
   const showFreeListing = !isVIP && dailyListings === 0;
 
@@ -260,13 +260,15 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   {t("marketplace.buyNow")}
                 </Button>
               )}
-              <Button
-                disabled={!count}
-                onClick={onListClick}
-                className="w-full sm:w-auto"
-              >
-                {t("marketplace.listForSale")}
-              </Button>
+              {tradeable?.isActive && (
+                <Button
+                  disabled={!count}
+                  onClick={onListClick}
+                  className="w-full sm:w-auto"
+                >
+                  {t("marketplace.listForSale")}
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -281,13 +283,15 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               {t("marketplace.buyNow")}
             </Button>
           )}
-          <Button
-            onClick={onListClick}
-            disabled={!count || (!isVIP && dailyListings >= 1)}
-            className="w-full sm:w-auto"
-          >
-            {t("marketplace.listForSale")}
-          </Button>
+          {tradeable?.isActive && (
+            <Button
+              onClick={onListClick}
+              disabled={!count || (!isVIP && dailyListings >= 1)}
+              className="w-full sm:w-auto"
+            >
+              {t("marketplace.listForSale")}
+            </Button>
+          )}
         </div>
       </InnerPanel>
     </>

@@ -32,7 +32,11 @@ import { getTradeType } from "../lib/getTradeType";
 import { ResourceList } from "./ResourceList";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
+import {
+  CollectibleName,
+  COLLECTIBLES_DIMENSIONS,
+  getKeys,
+} from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 type TradeableListItemProps = {
@@ -92,15 +96,23 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   };
 
   const getAvailable = () => {
+    const isPlaceable =
+      COLLECTIBLES_DIMENSIONS[display.name as CollectibleName];
     switch (display.type) {
       case "collectibles":
-        return isResource
-          ? getBasketItems(state.inventory)[
+        if (isPlaceable) {
+          return (
+            getChestItems(state)[
               display.name as InventoryItemName
             ]?.toNumber() ?? 0
-          : getChestItems(state)[
-              display.name as InventoryItemName
-            ]?.toNumber() ?? 0;
+          );
+        }
+
+        return (
+          getBasketItems(state.inventory)[
+            display.name as InventoryItemName
+          ]?.toNumber() ?? 0
+        );
       case "buds":
         return getChestBuds(state)[id] ? 1 : 0;
       case "wearables":
