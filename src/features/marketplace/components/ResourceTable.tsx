@@ -58,7 +58,7 @@ export const ResourceTable: React.FC<{
         >
           <div className="p-1.5 truncate flex sm:w-1/3 items-center">
             <div className="flex items-center">
-              <div className="relative w-8 h-8">
+              <div className="relative w-8 h-8 flex items-center">
                 <NPC
                   width={20}
                   parts={interpretTokenUri(createdBy.bumpkinUri).equipped}

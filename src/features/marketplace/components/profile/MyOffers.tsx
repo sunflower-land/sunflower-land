@@ -182,13 +182,13 @@ export const MyOffers: React.FC = () => {
                         navigate(`/marketplace/${offer.collection}/${itemId}`)
                       }
                     >
-                      <div className="p-1.5 truncate flex w-1/2 sm:w-1/3 items-center">
+                      <div className="p-1.5 flex w-1/2 sm:w-1/3 items-center">
                         <div className="flex items-center">
                           <img
                             src={details.image}
-                            className="w-4 h-4 sm:h-8 sm:w-8 mr-3 sm:mr-4"
+                            className="h-8 w-8 object-contain mr-3 sm:mr-4"
                           />
-                          <p className="py-0.5text-xs sm:text-sm">
+                          <p className="py-0.5 text-xxs sm:text-sm">
                             {`${isResource ? `${quantity} x` : ""} ${details.name}`}
                           </p>
                         </div>

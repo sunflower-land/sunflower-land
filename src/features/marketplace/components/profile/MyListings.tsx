@@ -167,9 +167,9 @@ export const MyListings: React.FC = () => {
                         <div className="flex items-center">
                           <img
                             src={details.image}
-                            className="h-4 w-4 object-contain sm:h-8 sm:w-8 mr-3 sm:mr-4"
+                            className="object-contain h-8 w-8 mr-3 sm:mr-4"
                           />
-                          <p className="text-xs py-0.5 sm:text-sm truncate">
+                          <p className="text-xxs py-0.5 sm:text-sm">
                             {`${isResource ? `${quantity} x` : ""} ${details.name}`}
                           </p>
                         </div>
