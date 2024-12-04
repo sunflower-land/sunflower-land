@@ -10249,7 +10249,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Trade Point",
   },
   "Trade Cake": {
-    description: "",
+    description: "Cake that you can redeem at Trade Rewards Shop",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },

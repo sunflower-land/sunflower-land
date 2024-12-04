@@ -4442,6 +4442,6 @@ export const ITEM_DETAILS: Items = {
   },
   "Trade Cake": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "",
+    description: "Cake that you can redeem at Trade Rewards Shop",
   },
 };
