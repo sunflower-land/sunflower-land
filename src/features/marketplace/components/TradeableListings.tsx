@@ -195,27 +195,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                 />
               ))}
           </div>
-          {/* {!isResource && (
-            <div className="w-full justify-end hidden sm:flex sm:visible">
-              <Button
-                className="w-full sm:w-fit"
-                disabled={!count}
-                onClick={onListClick}
-              >
-                {t("marketplace.listForSale")}
-              </Button>
-            </div>
-          )} */}
         </div>
-        {/* {!isResource && (
-          <Button
-            className="w-full sm:hidden"
-            disabled={!count}
-            onClick={onListClick}
-          >
-            {t("marketplace.listForSale")}
-          </Button>
-        )} */}
       </InnerPanel>
     </>
   );

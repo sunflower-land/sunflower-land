@@ -261,7 +261,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 </Button>
               )}
               <Button
-                disabled={!tradeable}
+                disabled={!count}
                 onClick={onListClick}
                 className="w-full sm:w-auto"
               >

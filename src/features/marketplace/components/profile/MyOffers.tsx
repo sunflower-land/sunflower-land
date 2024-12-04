@@ -186,32 +186,27 @@ export const MyOffers: React.FC = () => {
                         <div className="flex items-center">
                           <img
                             src={details.image}
-                            className="w-4 object-contain sm:h-8 mr-3 sm:mr-4"
+                            className="w-4 h-4 sm:h-8 sm:w-8 mr-3 sm:mr-4"
                           />
-                          <p className="text-xs sm:text-sm">
+                          <p className="py-0.5text-xs sm:text-sm">
                             {`${isResource ? `${quantity} x` : ""} ${details.name}`}
                           </p>
                         </div>
                       </div>
                       <div className="p-1.5 truncate flex flex-1 items-center">
-                        <div className="flex flex-col items-center">
-                          <div
-                            className={classNames(
-                              "flex justify-start w-16 mx-auto space-x-1",
-                              {
-                                "ml-1.5": !isResource,
-                              },
-                            )}
-                          >
+                        <div className="flex flex-col items-start justify-center">
+                          <div className="flex justify-start space-x-1">
                             <img src={sflIcon} className="h-5" />
-                            <span>{price}</span>
+                            <span className="sm:text-sm">
+                              {price.toFixed(2)}
+                            </span>
                           </div>
                           {isResource && (
-                            <span className="text-xxs ml-1.5">
+                            <div className="text-xxs w-full text-end">
                               {t("bumpkinTrade.price/unit", {
                                 price: unitPrice.toFixed(4),
                               })}
-                            </span>
+                            </div>
                           )}
                         </div>
                       </div>

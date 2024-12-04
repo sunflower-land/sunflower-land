@@ -205,7 +205,11 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             {t("are.you.sure")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary display={display} sfl={price} quantity={quantity} />
+          <TradeableSummary
+            display={display}
+            sfl={price}
+            quantity={Math.max(1, quantity)}
+          />
         </div>
 
         <div className="flex">
@@ -230,7 +234,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             <TradeableSummary
               display={display}
               sfl={price}
-              quantity={quantity}
+              quantity={Math.max(1, quantity)}
             />
           </div>
 

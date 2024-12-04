@@ -114,9 +114,9 @@ export const ListingTable: React.FC<{
                 borderTop: index === 0 ? "1px solid #b96f50" : "",
               }}
             >
-              <div className="p-1.5 mr-2 lg:mr-12 text-left w-auto flex items-center">
+              <div className="p-1.5 mr-2 w-1/2 sm:w-1/3 text-left flex items-center">
                 <img src={details.image} className="h-8 mr-4" />
-                <p className="text-sm">
+                <p className="py-0.5 text-xs sm:text-sm truncate">
                   {`${isResource ? quantity + " x" : ""} ${details.name}`}
                 </p>
               </div>
