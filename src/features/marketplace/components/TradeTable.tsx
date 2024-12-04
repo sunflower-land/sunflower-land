@@ -4,7 +4,6 @@ import {
   Listing,
   Offer,
 } from "features/game/types/marketplace";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import { TradeableDisplay } from "../lib/tradeables";
 import Decimal from "decimal.js-light";
@@ -92,7 +91,6 @@ export const ListingTable: React.FC<{
   collection: CollectionName;
   details: TradeableDisplay;
 }> = ({ listings, collection, details }) => {
-  const { t } = useAppTranslation();
   return (
     <div className="w-full text-xs  border-collapse  ">
       <div>
@@ -136,7 +134,7 @@ export const ListingTable: React.FC<{
                       }
                     />
                   </div>
-                  <p className="text-xs sm:text-sm flex-1 truncate">
+                  <p className="text-xs py-0.5 sm:text-sm flex-1 truncate">
                     {listing.listedBy.username}
                   </p>
                 </div>
