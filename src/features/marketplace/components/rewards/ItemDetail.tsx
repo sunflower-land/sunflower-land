@@ -174,8 +174,13 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
         </>
       )}
       {showSuccess && (
-        <div className="flex flex-col space-y-1">
-          <span className="p-2 text-xs">{`Transaction complete! Enjoy your ${itemName}`}</span>
+        <div className="flex flex-col items-center space-y-1">
+          <img
+            src={SUNNYSIDE.icons.confirm}
+            alt="Success"
+            className="mt-1.5 w-8"
+          />
+          <span className="p-2 text-xs">{`Redemption complete! Enjoy your ${itemName}!`}</span>
           <Button className="capitalize" onClick={onClose}>
             {t("ok")}
           </Button>
