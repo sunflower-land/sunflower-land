@@ -152,7 +152,7 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
                 <Label type="default" className="my-2">
                   {"Contains"}
                 </Label>
-                <div className="flex flex-row flex-wrap">
+                <div className="flex flex-row flex-wrap max-h-40 scrollable overflow-y-auto">
                   {getKeys(items).map((item, index) => {
                     if (items[item] === 0) return;
                     return (
