@@ -166,7 +166,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         collection: display.type,
         itemId: BigInt(id),
         item: display.name,
-        quantity: BigInt(quantity),
+        quantity: BigInt(Math.max(1, quantity)),
         SFL: BigInt(price),
       },
       domain: {
