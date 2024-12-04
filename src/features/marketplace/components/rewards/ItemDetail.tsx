@@ -150,7 +150,7 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
             {getKeys(items).length > 1 && (
               <>
                 <Label type="default" className="my-2">
-                  {"Contains"}
+                  {t("marketplace.reward.contains")}
                 </Label>
                 <div className="flex flex-row flex-wrap max-h-40 scrollable overflow-y-auto">
                   {getKeys(items).map((item, index) => {

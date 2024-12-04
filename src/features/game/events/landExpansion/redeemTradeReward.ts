@@ -9,6 +9,7 @@ import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { bait, animalFood } from "features/game/types/withdrawables";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
+import { translate } from "lib/i18n/translate";
 
 export type TradeRewardsItem =
   | Extract<
@@ -109,7 +110,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 250,
     },
     image: SUNNYSIDE.tools.wood_pickaxe,
-    description: "A stock's worth of tools",
+    description: translate("marketplace.reward.toolPack.description"),
   },
   "Seed Pack": {
     name: "Seed Pack",
@@ -126,7 +127,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 500,
     },
     image: CROP_LIFECYCLE.Sunflower.seed,
-    description: "A stock's worth of seeds",
+    description: translate("marketplace.reward.seedPack.description"),
   },
   "Fishing Pack": {
     name: "Fishing Pack",
@@ -146,7 +147,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 50,
     },
     image: SUNNYSIDE.icons.fish,
-    description: "A pack of fishing utilities",
+    description: translate("marketplace.reward.fishingPack.description"),
   },
   "Animal Pack": {
     name: "Animal Pack",
@@ -163,7 +164,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 50,
     },
     image: ITEM_DETAILS["Mixed Grain"].image,
-    description: "A pack of animal feeds",
+    description: translate("marketplace.reward.animalPack.description"),
   },
   "Digging Pack": {
     name: "Digging Pack",
@@ -180,7 +181,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 50,
     },
     image: SUNNYSIDE.tools.sand_shovel,
-    description: "A stock's worth of digging tools",
+    description: translate("marketplace.reward.diggingPack.description"),
   },
 });
 
