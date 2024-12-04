@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Panel } from "components/ui/Panel";
 import {
   TRADE_REWARDS,
   TradeRewardsItem,
@@ -93,7 +93,19 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
     });
 
   return (
-    <CloseButtonPanel onClose={onClose}>
+    <Panel>
+      <div className="flex items-center w-full">
+        <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
+        <span className="flex-1 text-center">{itemName}</span>
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="cursor-pointer"
+          onClick={onClose}
+          style={{
+            width: `${PIXEL_SCALE * 9}px`,
+          }}
+        />
+      </div>
       {!showSuccess && (
         <>
           <div className="w-full p-2 px-1">
@@ -116,11 +128,30 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
                 />
               </div>
               <div className="flex flex-col space-y-2">
-                <Label className="text-sm" type={"default"}>
-                  {itemName}
+                <span className="text-xs leading-none">{description}</span>
+                {hasHitInventoryLimit && (
+                  <Label type="danger">
+                    <span className="text-xxs">
+                      {t("marketplace.reward.seedLimit")}
+                    </span>
+                  </Label>
+                )}
+                <div className="flex flex-1 items-end">
+                  <RequirementLabel
+                    type="item"
+                    item={"Trade Point"}
+                    showLabel
+                    balance={inventory["Trade Point"] ?? new Decimal(0)}
+                    requirement={new Decimal(ingredients["Trade Point"])}
+                  />
+                </div>
+              </div>
+            </div>
+            {getKeys(items).length > 1 && (
+              <>
+                <Label type="default" className="my-2">
+                  {"Contains"}
                 </Label>
-                <p>{description}</p>
-                <p>{"Contains:"}</p>
                 <div className="flex flex-row flex-wrap">
                   {getKeys(items).map((item, index) => {
                     if (items[item] === 0) return;
@@ -133,22 +164,8 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
                     );
                   })}
                 </div>
-                <div className="flex flex-1 content-start flex-col flex-wrap">
-                  <RequirementLabel
-                    type="item"
-                    item={"Trade Point"}
-                    showLabel
-                    balance={inventory["Trade Point"] ?? new Decimal(0)}
-                    requirement={new Decimal(ingredients["Trade Point"])}
-                  />
-                </div>
-                {hasHitInventoryLimit && (
-                  <Label type="danger">
-                    {t("marketplace.reward.seedLimit")}
-                  </Label>
-                )}
-              </div>
-            </div>
+              </>
+            )}
           </div>
           <div
             className={classNames("flex w-full", {
@@ -187,6 +204,6 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
           </Button>
         </div>
       )}
-    </CloseButtonPanel>
+    </Panel>
   );
 };

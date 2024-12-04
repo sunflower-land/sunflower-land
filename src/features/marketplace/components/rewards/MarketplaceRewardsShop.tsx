@@ -9,9 +9,9 @@ import { getKeys } from "features/game/types/decorations";
 import React, { useContext, useState } from "react";
 import { RewardsViewCard } from "./RewardsViewCard";
 import { Context } from "features/game/GameProvider";
-import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ItemDetail } from "./ItemDetail";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Modal } from "components/ui/Modal";
 
 export const TradeRewardsShop: React.FC = () => {
   const { t } = useAppTranslation();
@@ -53,9 +53,9 @@ export const TradeRewardsShop: React.FC = () => {
           })}
         </div>
       </InnerPanel>
-      <ModalOverlay show={showDetails} onBackdropClick={onClose}>
+      <Modal show={showDetails} onHide={onClose}>
         <ItemDetail onClose={onClose} itemName={selected} />
-      </ModalOverlay>
+      </Modal>
     </>
   );
 };
