@@ -10,6 +10,8 @@ import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { CraftingBoxModalContent } from "./components/CraftingBoxModalContent";
 
+import craftingBoxAnimation from "assets/buildings/crafting_box_animation.webp";
+
 const _craftingStatus = (state: MachineState) =>
   state.context.state.craftingBox.status;
 const _craftingReadyAt = (state: MachineState) =>
@@ -38,7 +40,11 @@ export const CraftingBox: React.FC = () => {
     <>
       <BuildingImageWrapper name="Crafting Box" onClick={handleOpen}>
         <img
-          src={ITEM_DETAILS["Crafting Box"].image}
+          src={
+            craftingStatus === "crafting"
+              ? craftingBoxAnimation
+              : ITEM_DETAILS["Crafting Box"].image
+          }
           alt={t("crafting.craftingBox")}
           className={`cursor-pointer hover:img-highlight absolute`}
           style={{
