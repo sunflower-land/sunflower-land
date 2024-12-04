@@ -32,6 +32,7 @@ export type TradeReward = {
   items: Partial<Record<InventoryItemName, number>>;
   ingredients: Record<Extract<InventoryItemName, "Trade Point">, number>;
   image: string;
+  description: string;
 };
 
 export const TRADE_REWARDS: (
@@ -46,6 +47,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 50,
     },
     image: ITEM_DETAILS["Treasure Key"].image,
+    description: ITEM_DETAILS["Treasure Key"].description,
   },
   "Rare Key": {
     name: "Rare Key",
@@ -56,6 +58,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 250,
     },
     image: ITEM_DETAILS["Rare Key"].image,
+    description: ITEM_DETAILS["Rare Key"].description,
   },
   "Luxury Key": {
     name: "Luxury Key",
@@ -66,6 +69,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 1000,
     },
     image: ITEM_DETAILS["Luxury Key"].image,
+    description: ITEM_DETAILS["Luxury Key"].description,
   },
   "Prize Ticket": {
     name: "Prize Ticket",
@@ -76,6 +80,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 1500,
     },
     image: ITEM_DETAILS["Prize Ticket"].image,
+    description: ITEM_DETAILS["Prize Ticket"].description,
   },
   "Trade Cake": {
     name: "Trade Cake",
@@ -86,6 +91,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 500,
     },
     image: ITEM_DETAILS["Trade Cake"].image,
+    description: ITEM_DETAILS["Trade Cake"].description,
   },
   "Tool Pack": {
     name: "Tool Pack",
@@ -103,6 +109,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 250,
     },
     image: SUNNYSIDE.tools.wood_pickaxe,
+    description: "A stock's worth of tools",
   },
   "Seed Pack": {
     name: "Seed Pack",
@@ -119,6 +126,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 500,
     },
     image: CROP_LIFECYCLE.Sunflower.seed,
+    description: "A stock's worth of seeds",
   },
   "Fishing Pack": {
     name: "Fishing Pack",
@@ -138,6 +146,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 50,
     },
     image: SUNNYSIDE.icons.fish,
+    description: "A pack of fishing utilities",
   },
   "Animal Pack": {
     name: "Animal Pack",
@@ -154,6 +163,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 50,
     },
     image: ITEM_DETAILS["Mixed Grain"].image,
+    description: "A pack of animal feeds",
   },
   "Digging Pack": {
     name: "Digging Pack",
@@ -170,6 +180,7 @@ export const TRADE_REWARDS: (
       "Trade Point": 50,
     },
     image: SUNNYSIDE.tools.sand_shovel,
+    description: "A stock's worth of digging tools",
   },
 });
 

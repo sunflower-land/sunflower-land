@@ -1,10 +1,186 @@
+import { useActor } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
+import confetti from "canvas-confetti";
+import classNames from "classnames";
+import { Box } from "components/ui/Box";
+import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React from "react";
+import {
+  TRADE_REWARDS,
+  TradeRewardsItem,
+} from "features/game/events/landExpansion/redeemTradeReward";
+import { Context } from "features/game/GameProvider";
+import { INVENTORY_LIMIT, PIXEL_SCALE } from "features/game/lib/constants";
+import { getKeys } from "features/game/types/decorations";
+import { ITEM_DETAILS } from "features/game/types/images";
+import React, { useContext, useLayoutEffect, useState } from "react";
+import { t } from "xstate";
 
-export const ItemDetail: React.FC = () => {
+interface Props {
+  onClose: () => void;
+  itemName: TradeRewardsItem;
+}
+export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
+  const { gameService, showAnimations } = useContext(Context);
+  const [imageWidth, setImageWidth] = useState<number>(0);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
+  const [confirmBuy, setConfirmBuy] = useState(false);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const { ingredients, items, image, description } =
+    TRADE_REWARDS(state)[itemName];
+
+  useLayoutEffect(() => {
+    const imgElement = new Image();
+
+    imgElement.onload = function () {
+      const trueWidth = imgElement.width;
+      const scaledWidth = trueWidth * PIXEL_SCALE;
+
+      setImageWidth(scaledWidth);
+    };
+
+    imgElement.src = image;
+  }, [image]);
+
+  const { inventory } = state;
+
+  const canBuy = () =>
+    inventory["Trade Point"]?.gte(ingredients["Trade Point"]) &&
+    !hasHitInventoryLimit;
+
+  const getButtonLabel = () => {
+    if (confirmBuy) return `${t("confirm")} ${t("buy")}`;
+
+    return `${t("buy")}`;
+  };
+
+  const buttonHandler = () => {
+    if (!confirmBuy) {
+      setConfirmBuy(true);
+      return;
+    }
+
+    handleBuy();
+  };
+
+  const handleBuy = () => {
+    gameService.send("reward.redeemed", {
+      item: itemName,
+    });
+
+    if (showAnimations) confetti();
+    setShowSuccess(true);
+    setConfirmBuy(false);
+  };
+
+  const hasHitInventoryLimit =
+    itemName === "Seed Pack" &&
+    getKeys(items).some((item) => {
+      const inventoryAmount = state.inventory[item] ?? new Decimal(0);
+      const inventoryLimit = INVENTORY_LIMIT(state)[item];
+
+      if (!!inventoryLimit && inventoryAmount.gte(inventoryLimit)) {
+        return true;
+      }
+    });
+
   return (
-    <CloseButtonPanel>
-      <div></div>
+    <CloseButtonPanel onClose={onClose}>
+      {!showSuccess && (
+        <>
+          <div className="w-full p-2 px-1">
+            <div className="flex">
+              <div
+                className="w-[50%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+                style={{
+                  backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <img
+                  src={image}
+                  alt={itemName}
+                  className={"w-full"}
+                  style={{
+                    width: `${imageWidth}px`,
+                  }}
+                />
+              </div>
+              <div className="flex flex-col space-y-2">
+                <Label className="text-sm" type={"default"}>
+                  {itemName}
+                </Label>
+                <p>{description}</p>
+                <p>{"Contains:"}</p>
+                <div className="flex flex-row flex-wrap">
+                  {getKeys(items).map((item, index) => {
+                    if (items[item] === 0) return;
+                    return (
+                      <Box
+                        key={index}
+                        image={ITEM_DETAILS[item].image}
+                        count={new Decimal(items[item] ?? 0)}
+                      />
+                    );
+                  })}
+                </div>
+                <div className="flex flex-1 content-start flex-col flex-wrap">
+                  <RequirementLabel
+                    type="item"
+                    item={"Trade Point"}
+                    showLabel
+                    balance={inventory["Trade Point"] ?? new Decimal(0)}
+                    requirement={new Decimal(ingredients["Trade Point"])}
+                  />
+                </div>
+                {hasHitInventoryLimit && (
+                  <Label type="danger">
+                    {`One of more seeds is above inventory limit`}
+                  </Label>
+                )}
+              </div>
+            </div>
+          </div>
+          <div
+            className={classNames("flex w-full", {
+              "space-x-1": confirmBuy,
+            })}
+          >
+            {confirmBuy && (
+              <Button
+                className="capitalize"
+                onClick={() => setConfirmBuy(false)}
+              >
+                {t("cancel")}
+              </Button>
+            )}
+
+            <Button
+              disabled={!canBuy()}
+              onClick={buttonHandler}
+              className="capitalize"
+            >
+              {getButtonLabel()}
+            </Button>
+          </div>
+        </>
+      )}
+      {showSuccess && (
+        <div className="flex flex-col space-y-1">
+          <span className="p-2 text-xs">{`Transaction complete! Enjoy your ${itemName}`}</span>
+          <Button className="capitalize" onClick={onClose}>
+            {t("ok")}
+          </Button>
+        </div>
+      )}
     </CloseButtonPanel>
   );
 };
