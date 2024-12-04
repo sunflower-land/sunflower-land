@@ -11,6 +11,13 @@ jest.doMock("assets/sunnyside", () => ({
     tools: {},
     ui: {},
     decorations: {},
+    crops: {},
+    badges: {},
+    building: {},
+    achievement: {},
+    sfts: {},
+    animalFoods: {},
+    crafting: {},
   },
 }));
 
