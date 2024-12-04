@@ -4248,7 +4248,6 @@
   "marketplace.listing.cancelling": "出品をキャンセルする",
   "marketplace.listing.cancelling.success": "おめでとうございます。出品は正常にキャンセルされました。",
   "marketplace.listing.cancelling.failure": "おっと、何かがおかしくなりました。もう一度試してください。",
-  "marketplace.yourListings": "あなたのリスト",
   "marketplace.cancelListing": "出品をキャンセル",
   "marketplace.cancelListing.areYouSure": "このリストをキャンセルしてもよろしいですか?",
   "marketplace.cancelListing.selectListing": "キャンセルするリスティングを選択してください。",

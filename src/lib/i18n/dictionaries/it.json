@@ -4248,7 +4248,6 @@
   "marketplace.listing.cancelling": "Annullamento dell'inserzione",
   "marketplace.listing.cancelling.success": "Congratulazioni, hai cancellato con successo la tua inserzione!",
   "marketplace.listing.cancelling.failure": "Ops, qualcosa è andato storto. Per favore riprova.",
-  "marketplace.yourListings": "Le tue inserzioni",
   "marketplace.cancelListing": "Annulla inserzione",
   "marketplace.cancelListing.areYouSure": "Sei sicuro di voler cancellare questa inserzione?",
   "marketplace.cancelListing.selectListing": "Seleziona l'inserzione che desideri cancellare.",

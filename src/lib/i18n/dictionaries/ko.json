@@ -4248,7 +4248,6 @@
   "marketplace.listing.cancelling": "리스팅 취소",
   "marketplace.listing.cancelling.success": "축하합니다. 리스팅이 성공적으로 취소되었습니다!",
   "marketplace.listing.cancelling.failure": "죄송합니다. 문제가 발생했습니다.다시 시도해 주세요.",
-  "marketplace.yourListings": "내 리스팅",
   "marketplace.cancelListing": "리스팅 취소",
   "marketplace.cancelListing.areYouSure": "정말 이 리스팅을 취소하시겠습니까?",
   "marketplace.cancelListing.selectListing": "취소하려는 리스팅을 선택하십시오.",

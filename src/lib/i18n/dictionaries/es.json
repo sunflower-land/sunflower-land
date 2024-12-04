@@ -4248,7 +4248,6 @@
   "marketplace.listing.cancelling": "Cancelación del anuncio",
   "marketplace.listing.cancelling.success": "¡Enhorabuena, has cancelado correctamente tu anuncio!",
   "marketplace.listing.cancelling.failure": "Vaya, algo salió mal. Por favor, inténtelo de nuevo.",
-  "marketplace.yourListings": "Tus anuncios",
   "marketplace.cancelListing": "Cancelar anuncio",
   "marketplace.cancelListing.areYouSure": "¿Estás seguro de que quieres cancelar este anuncio?",
   "marketplace.cancelListing.selectListing": "Selecciona el anuncio que deseas cancelar.",

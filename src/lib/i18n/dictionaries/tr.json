@@ -4248,7 +4248,6 @@
   "marketplace.listing.cancelling": "Kaydı iptal etme",
   "marketplace.listing.cancelling.success": "Tebrikler, kaydınızı başarıyla iptal ettiniz!",
   "marketplace.listing.cancelling.failure": "Hata, bir şeyler ters gitti. Lütfen tekrar deneyin.",
-  "marketplace.yourListings": "Listeleriniz",
   "marketplace.cancelListing": "İlan İptal Et",
   "marketplace.cancelListing.areYouSure": "Bu kaydı iptal etmek istediğinizden emin misiniz?",
   "marketplace.cancelListing.selectListing": "Lütfen iptal etmek istediğiniz kaydı seçin.",

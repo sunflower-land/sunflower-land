@@ -4248,7 +4248,6 @@
   "marketplace.listing.cancelling": "Отмена объявления",
   "marketplace.listing.cancelling.success": "Поздравляем, вы успешно отменили объявление!",
   "marketplace.listing.cancelling.failure": "Упс, что-то пошло не так. Пожалуйста, попробуйте еще раз.",
-  "marketplace.yourListings": "Ваши объявления",
   "marketplace.cancelListing": "Отменить объявление",
   "marketplace.cancelListing.areYouSure": "Вы действительно хотите отменить это объявление?",
   "marketplace.cancelListing.selectListing": "Выберите объявление, которое хотите отменить.",

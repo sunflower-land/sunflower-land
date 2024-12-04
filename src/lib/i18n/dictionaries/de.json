@@ -4248,7 +4248,6 @@
   "marketplace.listing.cancelling": "Inserat stornieren",
   "marketplace.listing.cancelling.success": "Herzlichen Glückwunsch, Sie haben Ihr Angebot erfolgreich storniert!",
   "marketplace.listing.cancelling.failure": "Ups, etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
-  "marketplace.yourListings": "Deine Inserate",
   "marketplace.cancelListing": "Angebot stornieren",
   "marketplace.cancelListing.areYouSure": "Bist du sicher, dass du dieses Angebot stornieren möchtest?",
   "marketplace.cancelListing.selectListing": "Bitte wählen Sie das Angebot aus, das Sie stornieren möchten.",
