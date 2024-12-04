@@ -102,7 +102,7 @@ export const TRADE_REWARDS: (
     ingredients: {
       "Trade Point": 250,
     },
-    image: ITEM_DETAILS["Pickaxe"].image,
+    image: SUNNYSIDE.tools.wood_pickaxe,
   },
   "Seed Pack": {
     name: "Seed Pack",
