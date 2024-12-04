@@ -2,7 +2,6 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
-import { isMobile } from "mobile-device-detect";
 
 import trade from "assets/icons/trade.png";
 import sflIcon from "assets/icons/sfl.webp";
@@ -11,7 +10,6 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
-import Decimal from "decimal.js-light";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
@@ -22,9 +20,7 @@ import classNames from "classnames";
 import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
-import { formatNumber } from "lib/utils/formatNumber";
 import { tradeToId } from "features/marketplace/lib/offers";
-import { KNOWN_ITEMS } from "features/game/types";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 const _isCancellingOffer = (state: MachineState) =>
@@ -124,106 +120,101 @@ export const MyListings: React.FC = () => {
             {getKeys(filteredListings).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
             ) : (
-              <table className="w-full text-xs  border-collapse bg-[#ead4aa] ">
-                <thead>
-                  <tr>
-                    <th className="p-1.5 w-2/5 text-left">
-                      <p>{t("marketplace.item")}</p>
-                    </th>
-                    <th className="p-1.5 text-left">
-                      <p>{t("marketplace.unitPrice")}</p>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {getKeys(filteredListings).map((id, index) => {
-                    const listing = listings[id];
-                    const itemName = getKeys(
-                      listing.items ?? {},
-                    )[0] as InventoryItemName;
-                    const itemId = tradeToId({
-                      details: {
-                        collection: listing.collection,
-                        items: listing.items,
-                      },
-                    });
-                    const details = getTradeableDisplay({
-                      id: itemId,
-                      type: listing.collection,
-                    });
+              <div className="w-full text-xs border-collapse mb-2">
+                {getKeys(filteredListings).map((id, index) => {
+                  const listing = listings[id];
+                  const itemName = getKeys(
+                    listing.items ?? {},
+                  )[0] as InventoryItemName;
+                  const itemId = tradeToId({
+                    details: {
+                      collection: listing.collection,
+                      items: listing.items,
+                    },
+                  });
+                  const details = getTradeableDisplay({
+                    id: itemId,
+                    type: listing.collection,
+                  });
 
-                    const isResource =
-                      getKeys(TRADE_LIMITS).includes(
-                        KNOWN_ITEMS[Number(params.id)],
-                      ) && params.collection === "collectibles";
-                    const quantity = listing.items[itemName];
-                    const price = listing.sfl;
+                  const isResource =
+                    getKeys(TRADE_LIMITS).includes(itemName) &&
+                    listing.collection === "collectibles";
 
-                    return (
-                      <tr
-                        key={index}
-                        className={classNames(
-                          "relative bg-[#ead4aa] !py-10 transition-all",
-                          {
-                            "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
-                              Number(params.id) !== itemId,
-                          },
-                        )}
-                        style={{
-                          borderBottom: "1px solid #b96f50",
-                          borderTop: index === 0 ? "1px solid #b96f50" : "",
-                        }}
-                        onClick={() =>
-                          navigate(
-                            `/marketplace/${listing.collection}/${itemId}`,
-                          )
-                        }
-                      >
-                        <td className="p-1.5 text-left w-12">
-                          <div className="flex items-center">
-                            <img
-                              src={details.image}
-                              className={"h-8 mr-3 sm:mr-4"}
-                            />
-                            <p className="text-sm">
-                              {isMobile
-                                ? `${isResource ? "x " + quantity : ""}`
-                                : `${isResource ? quantity + " x" : ""} ${details.name}`}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="p-1.5 text-left relative">
-                          <div className="flex items-center">
-                            <img src={sflIcon} className="h-5 mr-1" />
-                            <p className="text-sm">
-                              {new Decimal(
-                                isResource
-                                  ? formatNumber(price / Number(quantity), {
-                                      decimalPlaces: 4,
-                                    })
-                                  : price,
-                              ).toFixed(4)}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="p-1.5 truncate flex items-center justify-end pr-2 h-full">
-                          <Button
-                            variant="secondary"
-                            className="w-auto h-10"
-                            onClick={
-                              listing.boughtAt
-                                ? () => setClaimId(id)
-                                : () => setRemoveListingId(id)
-                            }
+                  const quantity = listing.items[itemName];
+                  const price = listing.sfl;
+                  const unitPrice = price / (quantity ?? 1);
+
+                  return (
+                    <div
+                      key={index}
+                      className={classNames(
+                        "relative bg-[#ead4aa] transition-all flex items-center",
+                        {
+                          "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
+                            Number(params.id) !== itemId,
+                        },
+                      )}
+                      style={{
+                        borderBottom: "1px solid #b96f50",
+                        borderTop: index === 0 ? "1px solid #b96f50" : "",
+                      }}
+                      onClick={() =>
+                        navigate(`/marketplace/${listing.collection}/${itemId}`)
+                      }
+                    >
+                      <div className="p-1.5 truncate flex w-1/2 sm:w-1/3 items-center">
+                        <div className="flex items-center">
+                          <img
+                            src={details.image}
+                            className="w-4 object-contain sm:h-8 mr-3 sm:mr-4"
+                          />
+                          <p className="text-xs sm:text-sm">
+                            {`${isResource ? `${quantity} x` : ""} ${details.name}`}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="p-1.5 truncate flex flex-1 items-center">
+                        <div className="flex flex-col items-center">
+                          <div
+                            className={classNames(
+                              "flex justify-start w-16 mx-auto space-x-1",
+                              {
+                                "ml-1.5": !isResource,
+                              },
+                            )}
                           >
+                            <img src={sflIcon} className="h-5" />
+                            <span>{price}</span>
+                          </div>
+                          {isResource && (
+                            <span className="text-xxs ml-1.5">
+                              {t("bumpkinTrade.price/unit", {
+                                price: unitPrice.toFixed(4),
+                              })}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="p-1 text-center w-[65px] sm:min-w-[94px]">
+                        <Button
+                          variant="secondary"
+                          className="w-full h-8 rounded-none"
+                          onClick={
+                            listing.boughtAt
+                              ? () => setClaimId(id)
+                              : () => setRemoveListingId(id)
+                          }
+                        >
+                          <p className="text-xxs sm:text-sm">
                             {t(listing.boughtAt ? "claim" : "cancel")}
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </p>
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         </div>

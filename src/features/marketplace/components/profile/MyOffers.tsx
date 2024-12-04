@@ -12,7 +12,6 @@ import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { getItemId, tradeToId } from "../../lib/offers";
-import Decimal from "decimal.js-light";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
@@ -26,7 +25,6 @@ import { Button } from "components/ui/Button";
 import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { isMobile } from "mobile-device-detect";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -141,97 +139,98 @@ export const MyOffers: React.FC = () => {
             {getKeys(filteredOffers).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyOffers")}</p>
             ) : (
-              <table className="w-full text-xs border-collapse bg-[#ead4aa] ">
-                <thead>
-                  <tr>
-                    <th className="p-1.5 text-left">
-                      <p>{t("marketplace.item")}</p>
-                    </th>
-                    <th className="p-1.5 text-left">
-                      <p>{t("marketplace.unitPrice")}</p>
-                    </th>
+              <div className="w-full text-xs border-collapse mb-2">
+                {getKeys(filteredOffers).map((id, index) => {
+                  const offer = filteredOffers[id];
+                  const itemName = getKeys(
+                    offer.items ?? {},
+                  )[0] as InventoryItemName;
+                  const itemId = tradeToId({
+                    details: {
+                      collection: offer.collection,
+                      items: offer.items,
+                    },
+                  });
+                  const details = getTradeableDisplay({
+                    id: itemId,
+                    type: offer.collection,
+                  });
 
-                    <th className="p-1.5 "></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {getKeys(filteredOffers).map((id, index) => {
-                    const offer = filteredOffers[id];
+                  const isResource =
+                    getKeys(TRADE_LIMITS).includes(itemName) &&
+                    offer.collection === "collectibles";
 
-                    const itemId = tradeToId({ details: offer });
-                    const details = getTradeableDisplay({
-                      id: itemId,
-                      type: offer.collection,
-                    });
-                    const itemName = getKeys(
-                      offer.items ?? {},
-                    )[0] as InventoryItemName;
-                    const quantity = offer.items[itemName];
-                    const isResource =
-                      offer.collection === "collectibles" &&
-                      getKeys(TRADE_LIMITS).includes(itemName);
+                  const quantity = offer.items[itemName];
+                  const price = offer.sfl;
+                  const unitPrice = price / (quantity ?? 1);
 
-                    return (
-                      <tr
-                        key={index}
-                        className={classNames(
-                          "relative bg-[#ead4aa] !py-10 transition-all",
-                          {
-                            "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
-                              Number(params.id) !== itemId,
-                          },
-                        )}
-                        style={{
-                          borderBottom: "1px solid #b96f50",
-                          borderTop: index === 0 ? "1px solid #b96f50" : "",
-                        }}
-                        onClick={() =>
-                          navigate(`/marketplace/${details.type}/${itemId}`)
-                        }
-                      >
-                        <td className="p-1.5 w-2/5 text-left">
-                          <div className="flex items-center">
-                            <img src={details.image} className="h-8 mr-4" />
-
-                            <p className="text-sm">
-                              {isMobile
-                                ? `${isResource ? "x " + quantity : ""}`
-                                : `${isResource ? quantity + " x" : ""} ${details.name}`}
-                            </p>
-                          </div>
-                        </td>
-                        <td className="p-1.5 text-left relative">
-                          <div className="flex items-center">
-                            <img src={sflIcon} className="h-5 mr-1" />
-                            <p className="text-sm">
-                              {new Decimal(
-                                isResource
-                                  ? formatNumber(offer.sfl / Number(quantity), {
-                                      decimalPlaces: 4,
-                                    })
-                                  : offer.sfl,
-                              ).toFixed(2)}
-                            </p>
-                          </div>
-                        </td>
-
-                        <td className="p-1.5 truncate flex items-center justify-end pr-2 h-full">
-                          <Button
-                            variant="secondary"
-                            className="w-auto h-10"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setRemoveId(id);
-                            }}
+                  return (
+                    <div
+                      key={index}
+                      className={classNames(
+                        "relative bg-[#ead4aa] transition-all flex items-center",
+                        {
+                          "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
+                            Number(params.id) !== itemId,
+                        },
+                      )}
+                      style={{
+                        borderBottom: "1px solid #b96f50",
+                        borderTop: index === 0 ? "1px solid #b96f50" : "",
+                      }}
+                      onClick={() =>
+                        navigate(`/marketplace/${offer.collection}/${itemId}`)
+                      }
+                    >
+                      <div className="p-1.5 truncate flex w-1/2 sm:w-1/3 items-center">
+                        <div className="flex items-center">
+                          <img
+                            src={details.image}
+                            className="w-4 object-contain sm:h-8 mr-3 sm:mr-4"
+                          />
+                          <p className="text-xs sm:text-sm">
+                            {`${isResource ? `${quantity} x` : ""} ${details.name}`}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="p-1.5 truncate flex flex-1 items-center">
+                        <div className="flex flex-col items-center">
+                          <div
+                            className={classNames(
+                              "flex justify-start w-16 mx-auto space-x-1",
+                              {
+                                "ml-1.5": !isResource,
+                              },
+                            )}
                           >
-                            {t("cancel")}
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                            <img src={sflIcon} className="h-5" />
+                            <span>{price}</span>
+                          </div>
+                          {isResource && (
+                            <span className="text-xxs ml-1.5">
+                              {t("bumpkinTrade.price/unit", {
+                                price: unitPrice.toFixed(4),
+                              })}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="p-1 text-center w-[65px] sm:min-w-[94px]">
+                        <Button
+                          variant="secondary"
+                          className="w-full h-8 rounded-none"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setRemoveId(id);
+                          }}
+                        >
+                          <p className="text-xxs sm:text-sm">{t("cancel")}</p>
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         </div>

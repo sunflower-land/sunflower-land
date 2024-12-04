@@ -56,7 +56,7 @@ export const ResourceTable: React.FC<{
             borderTop: index === 0 ? "1px solid #b96f50" : "",
           }}
         >
-          <div className="p-1.5 truncate flex sm:flex-1 items-center">
+          <div className="p-1.5 truncate flex sm:w-1/3 items-center">
             <div className="flex items-center">
               <div className="relative w-8 h-8">
                 <NPC
@@ -70,7 +70,7 @@ export const ResourceTable: React.FC<{
             </div>
           </div>
           <div className="p-1.5 truncate flex flex-1 items-center">
-            <div className="flex items-center justify-start w-16 mx-auto space-x-1">
+            <div className="flex items-center justify-start w-16 space-x-1">
               <img src={ITEM_DETAILS[itemName].image} className="h-4" />
               <span>{2000}</span>
             </div>
@@ -79,7 +79,7 @@ export const ResourceTable: React.FC<{
             <div className="flex flex-col items-center">
               <div className="flex justify-start w-16 mx-auto space-x-1">
                 <img src={token} className="h-5" />
-                <span>{1000}</span>
+                <span>{price}</span>
               </div>
               <span className="text-xxs ml-1.5">
                 {t("bumpkinTrade.price/unit", {
