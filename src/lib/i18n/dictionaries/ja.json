@@ -4427,5 +4427,14 @@
   "marketplace.unlockOffering": "オファーのロック解除",
   "marketplace.vip.access": "無制限のマーケットプレイスアクセス",
   "marketplace.vip.season.access": "シーズン中はマーケットプレイスに無制限にアクセス可能",
-  "whatsOn.date.dec2": "12 月 9 日"
+  "whatsOn.date.dec2": "12 月 9 日",
+  "marketplace.welcome.one": "やあ、相棒！マーケットプレイスへようこそ。農場の美味しいものをすべて揃えたワンストップショップ。",
+  "marketplace.welcome.two": "ここでは、資源を交換したり、限定グッズを購入したり、農場を強化したりできます。",
+  "marketplace.welcome.three": "マーケットプレイスでは、サンフラワーランドの通貨である$SFLのみを使用しています。$SFLはゲーム内で獲得することも、他のプレイヤーと取引することもできます。",
+  "marketplace.welcome.four": "農場の資源、収集品、ウェアラブルを交換しましょう。",
+  "marketplace.welcome.five": "資源やアイテムを販売して$SFLを獲得しましょう。",
+  "marketplace.welcome.six": "トレードでポイントを獲得し、報酬をアンロックしましょう。",
+  "marketplace.welcome.seven": "マーケットプレイスアイテムはゲーム内での使用を目的としており、投機や投資を目的としたものではありません",
+  "marketplace.welcome.gotIt": "わかった",
+  "marketplace.welcome.title": "マーケットプレイスへようこそ"
 }

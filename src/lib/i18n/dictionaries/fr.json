@@ -4427,5 +4427,14 @@
   "marketplace.unlockOffering": "Débloquez l'offre",
   "marketplace.vip.access": "Accès illimité à la place de marché",
   "marketplace.vip.season.access": "Accès illimité à la place de marché pendant la saison",
-  "whatsOn.date.dec2": "le 9 décembre"
+  "whatsOn.date.dec2": "le 9 décembre",
+  "marketplace.welcome.one": "Bonjour, partenaire ! Bienvenue sur la Marketplace. Votre guichet unique pour tout ce qui touche à la ferme.",
+  "marketplace.welcome.two": "Ici, vous pouvez échanger des ressources, acheter des objets de collection exclusifs et dynamiser votre ferme.",
+  "marketplace.welcome.three": "La place de marché utilise exclusivement le $SFL, la devise de Sunflower Land. Vous pouvez gagner des $ SFL en jeu ou en échangeant avec d'autres joueurs.",
+  "marketplace.welcome.four": "Échangez des ressources, des objets de collection et des accessoires portables pour votre ferme.",
+  "marketplace.welcome.five": "Vendez des ressources et des objets pour gagner des $ SFL.",
+  "marketplace.welcome.six": "Gagnez des points sur les transactions et débloquez des récompenses.",
+  "marketplace.welcome.seven": "Les objets de la place de marché sont destinés à être utilisés dans le jeu, et non à la spéculation ou à l'investissement",
+  "marketplace.welcome.gotIt": "J'ai compris",
+  "marketplace.welcome.title": "Bienvenue sur la place de marché"
 }

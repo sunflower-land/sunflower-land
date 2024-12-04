@@ -4427,5 +4427,14 @@
   "marketplace.unlockOffering": "오퍼링 잠금 해제",
   "marketplace.vip.access": "무제한 마켓플레이스 액세스",
   "marketplace.vip.season.access": "시즌 동안 무제한 마켓플레이스 이용",
-  "whatsOn.date.dec2": "12월 9일"
+  "whatsOn.date.dec2": "12월 9일",
+  "marketplace.welcome.one": "안녕하세요, 파트너!마켓플레이스에 오신 것을 환영합니다.농장의 맛을 느낄 수 있는 모든 것을 원스톱으로 구매할 수 있는 곳입니다.",
+  "marketplace.welcome.two": "여기서 자원을 교환하고, 독점 수집품을 구입하고, 농장을 강화할 수 있습니다.",
+  "marketplace.welcome.three": "마켓플레이스는 선플라워 랜드의 통화인 $SFL을 독점적으로 사용합니다.게임 내에서 또는 다른 플레이어와 거래하여 $SFL을 벌 수 있습니다.",
+  "marketplace.welcome.four": "농장에 필요한 자원, 수집품, 웨어러블을 거래하세요.",
+  "marketplace.welcome.five": "리소스와 아이템을 판매하여 $SFL을 받으세요.",
+  "marketplace.welcome.six": "거래에서 포인트를 적립하고 보상을 잠금 해제하세요.",
+  "marketplace.welcome.seven": "마켓플레이스 아이템은 투기나 투자가 아닌 게임 내 사용을 위한 것입니다.",
+  "marketplace.welcome.gotIt": "알겠어",
+  "marketplace.welcome.title": "마켓플레이스에 오신 것을 환영합니다"
 }
