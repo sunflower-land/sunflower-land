@@ -145,6 +145,8 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
 
+  const isWorldRoute = pathname.includes("/world");
+
   return (
     <div className="p-1 h-full">
       <div className="flex flex-col h-full">
@@ -153,17 +155,19 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             icon={SUNNYSIDE.icons.expression_alerted}
             label="Hot now"
             onClick={() => {
-              navigate(`/marketplace/hot`);
+              navigate(`${isWorldRoute ? "/world" : ""}/marketplace/hot`);
               onClose();
             }}
-            isActive={pathname === "/marketplace/hot"}
+            isActive={
+              pathname === `${isWorldRoute ? "/world" : ""}/marketplace/hot`
+            }
           />
           <Option
             icon={lightning}
             label="Power ups"
             onClick={() =>
               navigate(
-                `/marketplace/collection?filters=collectibles,wearables,utility`,
+                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=collectibles,wearables,utility`,
               )
             }
             isActive={filters === "collectibles,wearables,utility"}
@@ -176,7 +180,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                       isActive: filters === "utility,collectibles",
                       onClick: () => {
                         navigate(
-                          `/marketplace/collection?filters=utility,collectibles`,
+                          `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=utility,collectibles`,
                         );
                         onClose();
                       },
@@ -187,7 +191,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                       isActive: filters === "utility,wearables",
                       onClick: () => {
                         navigate(
-                          `/marketplace/collection?filters=utility,wearables`,
+                          `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=utility,wearables`,
                         );
                         onClose();
                       },
@@ -201,7 +205,9 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             icon={ITEM_DETAILS.Eggplant.image}
             label="Resources"
             onClick={() => {
-              navigate(`/marketplace/collection?filters=resources`);
+              navigate(
+                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=resources`,
+              );
               onClose();
             }}
             isActive={filters === "resources"}
@@ -212,7 +218,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             label="Cosmetics"
             onClick={() => {
               navigate(
-                `/marketplace/collection?filters=collectibles,wearables,cosmetic`,
+                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=collectibles,wearables,cosmetic`,
               );
               onClose();
             }}
@@ -224,7 +230,9 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               icon={budIcon}
               label="Bud NFTs"
               onClick={() => {
-                navigate(`/marketplace/collection?filters=buds`);
+                navigate(
+                  `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=buds`,
+                );
                 onClose();
               }}
               isActive={filters === "buds"}
@@ -237,19 +245,23 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             icon={tradeIcon}
             label="My trades"
             onClick={() => {
-              navigate(`/marketplace/trades`);
+              navigate(`${isWorldRoute ? "/world" : ""}/marketplace/trades`);
               onClose();
             }}
-            isActive={pathname === "/marketplace/trades"}
+            isActive={
+              pathname === `${isWorldRoute ? "/world" : ""}/marketplace/trades`
+            }
           />
           <Option
             icon={trade_point}
             label="My rewards"
             onClick={() => {
-              navigate(`/marketplace/rewards`);
+              navigate(`${isWorldRoute ? "/world" : ""}/marketplace/rewards`);
               onClose();
             }}
-            isActive={pathname === "/marketplace/rewards"}
+            isActive={
+              pathname === `${isWorldRoute ? "/world" : ""}/marketplace/rewards`
+            }
           />
         </div>
       </div>
