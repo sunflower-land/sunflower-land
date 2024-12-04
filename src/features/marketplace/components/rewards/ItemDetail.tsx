@@ -16,14 +16,15 @@ import { Context } from "features/game/GameProvider";
 import { INVENTORY_LIMIT, PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useLayoutEffect, useState } from "react";
-import { t } from "xstate";
 
 interface Props {
   onClose: () => void;
   itemName: TradeRewardsItem;
 }
 export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
+  const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
@@ -143,7 +144,7 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
                 </div>
                 {hasHitInventoryLimit && (
                   <Label type="danger">
-                    {`One of more seeds is above inventory limit`}
+                    {t("marketplace.reward.seedLimit")}
                   </Label>
                 )}
               </div>

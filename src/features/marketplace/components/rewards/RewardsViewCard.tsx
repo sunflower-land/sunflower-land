@@ -31,7 +31,7 @@ export const RewardsViewCard: React.FC<Props> = ({ onClick, TradeReward }) => {
         >
           <div className="flex items-center absolute top-0 right-0">
             <p className="text-xxs sm:text-xs whitespace-nowrap mr-1">
-              {`${ingredients["Trade Point"]}`}
+              {ingredients["Trade Point"]}
             </p>
             <img
               src={ITEM_DETAILS["Trade Point"].image}

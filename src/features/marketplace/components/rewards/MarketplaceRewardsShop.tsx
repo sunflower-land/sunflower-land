@@ -11,8 +11,10 @@ import { RewardsViewCard } from "./RewardsViewCard";
 import { Context } from "features/game/GameProvider";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ItemDetail } from "./ItemDetail";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const TradeRewardsShop: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const [
@@ -33,7 +35,7 @@ export const TradeRewardsShop: React.FC = () => {
     <>
       <InnerPanel className="h-auto  w-full mb-1">
         <Label className="mb-2" type="default">
-          {`Trade Rewards Shop`}
+          {t("marketplace.reward.shop")}
         </Label>
         <div className="flex flex-wrap flex-row">
           {getKeys(TRADE_REWARDS(state)).map((item) => {
