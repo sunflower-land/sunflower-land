@@ -237,6 +237,7 @@ export const TradeableOffers: React.FC<{
               )}
               {!!tradeable?.offers.length && (
                 <ResourceTable
+                  itemName={KNOWN_ITEMS[Number(id)]}
                   balance={balance}
                   items={tradeable?.offers.map((offer) => ({
                     id: offer.tradeId,
@@ -247,7 +248,7 @@ export const TradeableOffers: React.FC<{
                         decimalPlaces: 4,
                       }),
                     ),
-                    createdById: offer.offeredById,
+                    createdBy: offer.offeredBy,
                   }))}
                   inventoryCount={
                     getBasketItems(inventory)[
