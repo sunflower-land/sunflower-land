@@ -23,12 +23,9 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
-// import marketplaceIcon from "assets/icons/shop_disc.png";
-import shopIcon from "assets/icons/shop.png";
 import { hasFeatureAccess } from "lib/flags";
-import { useNavigate } from "react-router-dom";
 import { TransactionCountdown } from "./Transaction";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { MarketplaceButton } from "./components/MarketplaceButton";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -43,15 +40,12 @@ const HudComponent: React.FC<{
   moveButtonsUp?: boolean;
   location: PlaceableLocation;
 }> = ({ isFarming, location }) => {
-  const { authService } = useContext(AuthProvider.Context);
-
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const farmAddress = useSelector(gameService, _farmAddress);
   const hasMarketplaceAccess = useSelector(gameService, _showMarketplace);
 
-  const [showMarketplace, setShowMarketplace] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
@@ -59,8 +53,6 @@ const HudComponent: React.FC<{
   const button = useSound("button");
 
   const autosaving = gameState.matches("autosaving");
-
-  const navigate = useNavigate();
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -153,14 +145,14 @@ const HudComponent: React.FC<{
         />
 
         <div
-          className="absolute z-50 flex flex-col justify-between"
+          className="absolute z-50 flex flex-col space-y-2.5 justify-between"
           style={{
             left: `${PIXEL_SCALE * 3}px`,
             bottom: `${PIXEL_SCALE * 3}px`,
             width: `${PIXEL_SCALE * 22}px`,
-            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
           }}
         >
+          {hasMarketplaceAccess && <MarketplaceButton />}
           <CodexButton />
           <TravelButton />
         </div>
@@ -201,39 +193,6 @@ const HudComponent: React.FC<{
           show={showBuyCurrencies}
           onClose={handleBuyCurrenciesModal}
         />
-
-        {hasMarketplaceAccess && (
-          <>
-            <div
-              onClick={() => {
-                navigate("/marketplace/hot");
-              }}
-              className="absolute flex z-50 cursor-pointer hover:img-highlight"
-              style={{
-                left: `${PIXEL_SCALE * 3}px`,
-                bottom: `${PIXEL_SCALE * 78}px`,
-                width: `${PIXEL_SCALE * 22}px`,
-              }}
-            >
-              <img
-                src={SUNNYSIDE.ui.round_button}
-                className="absolute"
-                style={{
-                  width: `${PIXEL_SCALE * 22}px`,
-                }}
-              />
-              <img
-                src={shopIcon}
-                className="absolute"
-                style={{
-                  top: `${PIXEL_SCALE * 2.6}px`,
-                  left: `${PIXEL_SCALE * 4.3}px`,
-                  width: `${PIXEL_SCALE * 13.5}px`,
-                }}
-              />
-            </div>
-          </>
-        )}
       </HudContainer>
     </>
   );

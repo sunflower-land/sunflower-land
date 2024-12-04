@@ -4,7 +4,7 @@ import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import React, { useContext, useEffect, useState } from "react";
 import { TrendingTrades } from "./TrendingTrades";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
@@ -32,6 +32,8 @@ export const MarketplaceHotNow: React.FC = () => {
     );
   }, []);
 
+  const isWorldRoute = useLocation().pathname.includes("/world");
+
   return (
     <div className="overflow-y-scroll scrollable pr-1">
       <InnerPanel className="mb-1">
@@ -46,7 +48,9 @@ export const MarketplaceHotNow: React.FC = () => {
               <ButtonPanel
                 className="w-full h-full"
                 onClick={() =>
-                  navigate("/marketplace/collection?filters=resources")
+                  navigate(
+                    `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=resources`,
+                  )
                 }
               >
                 <div className="flex items-center">
@@ -75,7 +79,7 @@ export const MarketplaceHotNow: React.FC = () => {
                 className="w-full h-full"
                 onClick={() =>
                   navigate(
-                    "/marketplace/collection?filters=collectibles,wearables,utility",
+                    `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=collectibles,wearables,utility`,
                   )
                 }
               >
@@ -105,7 +109,7 @@ export const MarketplaceHotNow: React.FC = () => {
                 className=" w-full h-full"
                 onClick={() =>
                   navigate(
-                    "/marketplace/collection?filters=collectibles,wearables,cosmetic",
+                    `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=collectibles,wearables,cosmetic`,
                   )
                 }
               >

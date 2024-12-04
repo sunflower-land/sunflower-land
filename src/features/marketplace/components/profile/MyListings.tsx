@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
 import { Modal } from "components/ui/Modal";
@@ -34,6 +34,7 @@ export const MyListings: React.FC = () => {
   const params = useParams();
   const { gameService } = useContext(Context);
   const { authService } = useContext(Auth.Context);
+  const isWorldRoute = useLocation().pathname.includes("/world");
 
   const [claimId, setClaimId] = useState<string>();
   const [removeListingId, setRemoveListingId] = useState<string>();
@@ -160,7 +161,9 @@ export const MyListings: React.FC = () => {
                         borderTop: index === 0 ? "1px solid #b96f50" : "",
                       }}
                       onClick={() =>
-                        navigate(`/marketplace/${listing.collection}/${itemId}`)
+                        navigate(
+                          `${isWorldRoute ? "/world" : ""}/marketplace/${listing.collection}/${itemId}`,
+                        )
                       }
                     >
                       <div className="p-1.5 flex w-1/2 sm:w-1/3 items-center">

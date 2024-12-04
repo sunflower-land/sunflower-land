@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
@@ -16,6 +16,8 @@ export const Collection: React.FC<{
 }> = ({ search, onNavigated }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+
+  const isWorldRoute = useLocation().pathname.includes("/world");
 
   // Get query string params
   const [queryParams] = useSearchParams();
@@ -75,7 +77,9 @@ export const Collection: React.FC<{
                 details={display}
                 price={new Decimal(item.floor)}
                 onClick={() => {
-                  navigate(`/marketplace/${item.collection}/${item.id}`);
+                  navigate(
+                    `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
+                  );
                   onNavigated?.();
                 }}
               />

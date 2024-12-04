@@ -39,8 +39,7 @@ import { DynamicClouds } from "./components/DynamicClouds";
 import { StaticClouds } from "./components/StaticClouds";
 import { BackgroundIslands } from "./components/BackgroundIslands";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Marketplace } from "features/marketplace/Marketplace";
-import { useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { pickEmptyPosition } from "./placeable/lib/collisionDetection";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "./lib/constants";
@@ -679,7 +678,7 @@ const isVisiting = (state: MachineState) => state.matches("visiting");
 const isPaused = (state: MachineState) => !!state.context.paused;
 
 export const Land: React.FC = () => {
-  const { gameService, showAnimations, showTimers } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
 
   const paused = useSelector(gameService, isPaused);
 
@@ -866,7 +865,7 @@ export const Land: React.FC = () => {
               onTouchEnd={(e) => e.stopPropagation()}
               className="pointer-events-auto w-full h-full"
             >
-              <Marketplace />
+              <Outlet />
             </div>
           </div>,
           document.body,

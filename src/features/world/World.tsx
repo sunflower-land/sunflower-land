@@ -1,12 +1,12 @@
 import { Context, GameProvider } from "features/game/GameProvider";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
-import React, { useContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { PhaserComponent } from "./Phaser";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";
@@ -31,11 +31,22 @@ import { Forbidden } from "features/auth/components/Forbidden";
 interface Props {
   isCommunity?: boolean;
 }
+
+export const WorldContext = createContext<{
+  isCommunity: boolean;
+}>({
+  isCommunity: false,
+});
+
 export const World: React.FC<Props> = ({ isCommunity = false }) => {
   return (
     <GameProvider>
       <ModalProvider>
-        <Explore isCommunity={isCommunity} />
+        <WorldContext.Provider value={{ isCommunity }}>
+          <Explore />
+          {/* Outlet for nested routes ie /world/marketplace/* */}
+          <Outlet />
+        </WorldContext.Provider>
       </ModalProvider>
     </GameProvider>
   );
@@ -47,7 +58,6 @@ const _isLoading = (state: MachineState) => state.matches("loading");
 const _isConnecting = (state: MMOMachineState) => state.matches("connecting");
 const _isConnected = (state: MMOMachineState) => state.matches("connected");
 const _isJoining = (state: MMOMachineState) => state.matches("joining");
-const _isJoined = (state: MMOMachineState) => state.matches("joined");
 const _isKicked = (state: MMOMachineState) => state.matches("kicked");
 const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
@@ -69,7 +79,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
   const { name } = useParams();
   const navigate = useNavigate();
 
@@ -89,7 +98,10 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const [mmoState] = useActor(mmoService);
 
   useEffect(() => {
-    navigate(`/world/${mmoState.context.sceneId}`);
+    if (mmoState.context.sceneId) {
+      navigate(`/world/${mmoState.context.sceneId}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mmoState.context.sceneId]);
 
   // We need to listen to events outside of MMO scope (Settings Panel)
@@ -112,7 +124,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
-  const isIntroducting = useSelector(mmoService, _isIntroducing);
+  const isIntroducing = useSelector(mmoService, _isIntroducing);
 
   const isTraveling =
     isInitialising || isConnecting || isConnected || isKicked || isJoining;
@@ -150,7 +162,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
         route={name as SceneId}
       />
 
-      <Modal show={isIntroducting}>
+      <Modal show={isIntroducing}>
         <WorldIntroduction
           onClose={() => {
             mmoService.send("CONTINUE");
@@ -207,8 +219,9 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   );
 };
 
-export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
+export const Explore: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { isCommunity } = useContext(WorldContext);
   const isLoading = useSelector(gameService, _isLoading);
 
   return (

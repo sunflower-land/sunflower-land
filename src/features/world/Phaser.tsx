@@ -265,7 +265,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   // When route changes, switch scene
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || !route || mmoService.state.context.sceneId === route) return;
 
     const activeScene = game.current?.scene
       .getScenes(false)

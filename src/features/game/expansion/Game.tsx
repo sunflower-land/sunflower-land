@@ -73,6 +73,7 @@ import { Button } from "components/ui/Button";
 import { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
 import { OffersAcceptedPopup } from "./components/OffersAcceptedPopup";
+import { Marketplace } from "features/marketplace/Marketplace";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -288,8 +289,9 @@ const GameContent: React.FC = () => {
     <>
       <div className="absolute w-full h-full z-10">
         <Routes>
-          <Route path="/" element={<Land />} />
-          <Route path="/marketplace/*" element={<Land />} />
+          <Route path="/" element={<Land />}>
+            <Route path="marketplace/*" element={<Marketplace />} />
+          </Route>
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />

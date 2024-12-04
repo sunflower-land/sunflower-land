@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Context } from "features/game/GameProvider";
 import { CollectionName } from "features/game/types/marketplace";
@@ -28,6 +28,7 @@ type CollectionItem = {
 
 export const MyCollection: React.FC = () => {
   const { t } = useAppTranslation();
+  const isWorldRoute = useLocation().pathname.includes("/world");
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -110,7 +111,9 @@ export const MyCollection: React.FC = () => {
                   <ListViewCard
                     details={details}
                     onClick={() => {
-                      navigate(`/marketplace/${details.type}/${item.id}`);
+                      navigate(
+                        `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${item.id}`,
+                      );
                     }}
                     count={item.count}
                   />

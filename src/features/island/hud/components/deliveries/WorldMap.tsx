@@ -5,7 +5,7 @@ import worldMap from "assets/map/world_map.png";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { OuterPanel } from "components/ui/Panel";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -16,6 +16,7 @@ const showDebugBorders = false;
 
 export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
+  const [location] = useState(useLocation());
   const { t } = useAppTranslation();
 
   const navigate = useNavigate();

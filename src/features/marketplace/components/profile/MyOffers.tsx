@@ -12,7 +12,7 @@ import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { getItemId, tradeToId } from "../../lib/offers";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { RemoveOffer } from "../RemoveOffer";
@@ -32,6 +32,7 @@ const _authToken = (state: AuthMachineState) =>
 export const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
   const params = useParams();
+  const isWorldRoute = useLocation().pathname.includes("/world");
 
   const { gameService } = useContext(Context);
   const { authService } = useContext(Auth.Context);
@@ -179,7 +180,9 @@ export const MyOffers: React.FC = () => {
                         borderTop: index === 0 ? "1px solid #b96f50" : "",
                       }}
                       onClick={() =>
-                        navigate(`/marketplace/${offer.collection}/${itemId}`)
+                        navigate(
+                          `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${itemId}`,
+                        )
                       }
                     >
                       <div className="p-1.5 flex w-1/2 sm:w-1/3 items-center">
