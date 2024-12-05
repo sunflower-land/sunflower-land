@@ -45,7 +45,8 @@ export type BumpkinRevampSkillTree =
   | "Mining"
   | "Cooking"
   | "Bees & Flowers"
-  | "Machinery";
+  | "Machinery"
+  | "Compost";
 
 export type BumpkinSkill = {
   name: BumpkinSkillName;
@@ -296,7 +297,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
 export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Crops - Tier 1
   "Green Thumb 2": {
-    name: "Green Thumb 2",
+    name: "Green Thumb",
     tree: "Crops",
     requirements: {
       points: 1,
@@ -343,18 +344,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Efficient Bin": {
-    name: "Efficient Bin",
-    tree: "Crops",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: translate("skill.efficientBin"),
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Old Farmer": {
     name: "Old Farmer",
     tree: "Crops",
@@ -364,18 +353,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts: translate("skill.oldFarmer"),
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Turbo Charged": {
-    name: "Turbo Charged",
-    tree: "Fruit",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "spring",
-    },
-    boosts: translate("skill.turboCharged"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -476,18 +453,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts: translate("skill.hectareFarm"),
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Premium Worms": {
-    name: "Premium Worms",
-    tree: "Crops",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts: translate("skill.premiumWorms"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -768,18 +733,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Fishing - Tier 1
-  "Swift Decomposer": {
-    name: "Swift Decomposer",
-    tree: "Fishing",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: "Composter speed 10% quicker",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Fisherman's 2 Fold": {
     name: "Fisherman's 2 Fold",
     tree: "Fishing",
@@ -805,31 +758,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Wriggly Treat": {
-    name: "Wriggly Treat",
-    tree: "Fishing",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: "+1 Red Wriggler bait from composting",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   // Fishing - Tier 2
-  "Wormy Treat": {
-    name: "Wormy Treat",
-    tree: "Fishing",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: "+1 Worm from composting",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Fisherman's 5 Fold": {
     name: "Fisherman's 5 Fold",
     tree: "Fishing",
@@ -867,19 +796,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
   },
   // Fishing - Tier 3
-  "Composting Bonanza": {
-    name: "Composting Bonanza",
-    tree: "Fishing",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts:
-      "-50% eggs to speed up composters, 1 hour reduction in composting time",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Frenzied Fish": {
     name: "Frenzied Fish",
     tree: "Fishing",
@@ -892,19 +808,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Composting Overhaul": {
-    name: "Composting Overhaul",
-    tree: "Fishing",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts:
-      "+2 Baits from all composters but reduced fertiliser drop (-5 Sprout Mixes, -5 Rapid Growth, -1 Fruit Blend)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "More With Less": {
     name: "More With Less",
     tree: "Fishing",
@@ -913,7 +816,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "basic",
     },
-    boosts: "+10 daily fishing limit but -1 bait from all composters",
+    boosts: "+10 daily fishing limit but -1 worm from all composters",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -1688,6 +1591,119 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
     power: true,
+  },
+
+  // Compost - Tier 1
+  "Efficient Bin": {
+    name: "Efficient Bin",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: translate("skill.efficientBin"),
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Turbo Charged": {
+    name: "Turbo Charged",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: translate("skill.turboCharged"),
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Wormy Treat": {
+    name: "Wormy Treat",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "+1 Worm from composting",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Feathery Business": {
+    name: "Feathery Business",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "Use feathers to speed up composters instead of eggs",
+    image: SUNNYSIDE.skills.green_thumb_LE,
+    disabled: false,
+  },
+  // Compost - Tier 2
+  "Premium Worms": {
+    name: "Premium Worms",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: translate("skill.premiumWorms"),
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Swift Decomposer": {
+    name: "Swift Decomposer",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: "-10% compost time",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Composting Bonanza": {
+    name: "Composting Bonanza",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts:
+      "Additional 1 hour reduction in composting time but double resources when boosting composters",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  // Compost - Tier 3
+  "Composting Overhaul": {
+    name: "Composting Overhaul",
+    tree: "Compost",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: "+2 worms but -5 fertilisers from all composters",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Composting Revamp": {
+    name: "Composting Revamp",
+    tree: "Compost",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: "+5 fertilisers but -3 worms from all composters",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
   },
 } satisfies Record<string, BumpkinSkillRevamp>;
 
