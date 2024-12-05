@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "Tüy Ekle",
   "guide.compost.feathers": "Tüyler",
   "guide.compost.addFeathers.confirmation": "Kompost üretim süresini {{time}} azaltmak için {{noFeathers}} Tüyleri eklemek istediğinizden emin misiniz?",
-  "skill.oldFarmer": "+0.1 Gelişmiş Mahsul verimi"
+  "skill.oldFarmer": "+0.1 Gelişmiş Mahsul verimi",
+  "restock.restocktoAmount": "Mağazanız aşağıdaki miktarlarda stok yenilenecektir:"
 }

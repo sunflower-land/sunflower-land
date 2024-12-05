@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "Ajouter des plumes",
   "guide.compost.feathers": "Plumes",
   "guide.compost.addFeathers.confirmation": "Êtes-vous sûr de vouloir ajouter {{noFeathers}} plumes pour réduire le temps de production de compost de {{time}} ?",
-  "skill.oldFarmer": "+0,1 Rendement des cultures avancé"
+  "skill.oldFarmer": "+0,1 Rendement des cultures avancé",
+  "restock.restocktoAmount": "Votre boutique se réapprovisionnera aux quantités suivantes :"
 }

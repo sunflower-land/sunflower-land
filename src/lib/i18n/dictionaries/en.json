@@ -3776,6 +3776,7 @@
   "restock.outOfStock": "{{npc}} ran out of stock. Choose your desired restock option below:",
   "restock.selectOption": "Select your desired restock option:",
   "restock.itemsToRestock": "The following quantities will be added to the existing stock in your shop:",
+  "restock.restocktoAmount": "Your shop will restock to the following amounts:",
   "restock.moreStock": "Restock to get more stock.",
   "restock.dailyShipment": "Daily Shipment",
   "restock.shipmentArrived": "Your daily free shipment has arrived!",

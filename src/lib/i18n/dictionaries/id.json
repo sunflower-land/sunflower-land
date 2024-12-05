@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "Tambahkan Bulu",
   "guide.compost.feathers": "Bulu",
   "guide.compost.addFeathers.confirmation": "Apakah Anda yakin ingin menambahkan {{noFeathers}} Bulu untuk mengurangi waktu produksi kompos sebesar {{time}}?",
-  "skill.oldFarmer": "+0.1 Hasil panen lanjutan"
+  "skill.oldFarmer": "+0.1 Hasil panen lanjutan",
+  "restock.restocktoAmount": "Toko Anda akan mengisi kembali ke jumlah berikut:"
 }

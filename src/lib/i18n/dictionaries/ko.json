@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "깃털 추가",
   "guide.compost.feathers": "깃털",
   "guide.compost.addFeathers.confirmation": "퇴비 생산 시간을 {{time}} 단축하기 위해 {{noFeathers}} 깃털을 추가하시겠습니까?",
-  "skill.oldFarmer": "+0.1 고급 작물 수확량"
+  "skill.oldFarmer": "+0.1 고급 작물 수확량",
+  "restock.restocktoAmount": "상점은 다음 수량으로 재입고됩니다."
 }

@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "フェザーを追加",
   "guide.compost.feathers": "フェザー",
   "guide.compost.addFeathers.confirmation": "{{noFeathers}} フェザーを追加してコンポストの製造時間を {{time}} 短縮してもよろしいですか？",
-  "skill.oldFarmer": "+0.1 アドバンスド・クロップ・イールド"
+  "skill.oldFarmer": "+0.1 アドバンスド・クロップ・イールド",
+  "restock.restocktoAmount": "ショップは次の金額に補充します。"
 }

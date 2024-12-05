@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "Добавить перья",
   "guide.compost.feathers": "Перья",
   "guide.compost.addFeathers.confirmation": "Вы действительно хотите добавить {{noFeathers}} перья, чтобы сократить время производства компоста на {{time}}?",
-  "skill.oldFarmer": "+0.1 Повышенная урожайность"
+  "skill.oldFarmer": "+0.1 Повышенная урожайность",
+  "restock.restocktoAmount": "Ваш магазин пополнит запасы на следующие суммы:"
 }

@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "Adicionar penas",
   "guide.compost.feathers": "Penas",
   "guide.compost.addFeathers.confirmation": "Tem certeza de que deseja adicionar {{noFeathers}} penas para reduzir o tempo de produção de composto em {{time}}?",
-  "skill.oldFarmer": "+0,1 Rendimento avançado da safra"
+  "skill.oldFarmer": "+0,1 Rendimento avançado da safra",
+  "restock.restocktoAmount": "Sua loja reabastecerá para os seguintes valores:"
 }

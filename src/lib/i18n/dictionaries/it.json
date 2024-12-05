@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "Aggiungi piume",
   "guide.compost.feathers": "piume",
   "guide.compost.addFeathers.confirmation": "Sei sicuro di voler aggiungere {{noFeathers}} piume per ridurre i tempi di produzione del compost di {{time}}?",
-  "skill.oldFarmer": "+0.1 Rendimento avanzato del raccolto"
+  "skill.oldFarmer": "+0.1 Rendimento avanzato del raccolto",
+  "restock.restocktoAmount": "Il tuo negozio verrà rifornito fino ai seguenti importi:"
 }

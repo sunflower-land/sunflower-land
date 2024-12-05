@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "添加羽毛",
   "guide.compost.feathers": "羽毛",
   "guide.compost.addFeathers.confirmation": "你确定要添加 {{noFeathers}} 羽毛来缩短堆肥生产时间 {{time}} 吗？",
-  "skill.oldFarmer": "+0.1 高级作物产量"
+  "skill.oldFarmer": "+0.1 高级作物产量",
+  "restock.restocktoAmount": "您的商店将按以下金额补货："
 }

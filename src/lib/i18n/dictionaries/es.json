@@ -4456,5 +4456,6 @@
   "guide.compost.addFeathers": "Añadir plumas",
   "guide.compost.feathers": "Plumas",
   "guide.compost.addFeathers.confirmation": "¿Estás seguro de que quieres añadir plumas de {{noFeathers}} para reducir el tiempo de producción de abono en {{time}}?",
-  "skill.oldFarmer": "+0.1 Rendimiento de cultivo avanzado"
+  "skill.oldFarmer": "+0.1 Rendimiento de cultivo avanzado",
+  "restock.restocktoAmount": "Tu tienda se reabastecerá hasta los siguientes importes:"
 }
