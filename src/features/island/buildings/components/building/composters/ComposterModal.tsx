@@ -33,7 +33,10 @@ import {
   getReadyAt,
 } from "features/game/events/landExpansion/startComposter";
 import { isWearableActive } from "features/game/lib/wearables";
-import { getSpeedUpCost } from "features/game/events/landExpansion/accelerateComposter";
+import {
+  getSpeedUpCost,
+  getSpeedUpTime,
+} from "features/game/events/landExpansion/accelerateComposter";
 
 const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
   "Compost Bin": { min: 2, max: 4 },
@@ -189,8 +192,12 @@ export const ComposterModal: React.FC<Props> = ({
 
   const { inventory, bumpkin, buildings } = state;
 
-  const { produce, worm, eggBoostMilliseconds } =
-    composterDetails[composterName];
+  const { produce, worm } = composterDetails[composterName];
+
+  const { eggBoostMilliseconds } = getSpeedUpTime({
+    state,
+    composter: composterName,
+  });
 
   const { eggBoostRequirements } = getSpeedUpCost(state, composterName);
 

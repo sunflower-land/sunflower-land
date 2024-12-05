@@ -27,6 +27,22 @@ export function getSpeedUpCost(gameState: GameState, composter: ComposterName) {
   return { eggBoostRequirements };
 }
 
+export function getSpeedUpTime({
+  state,
+  composter,
+}: {
+  state: GameState;
+  composter: ComposterName;
+}) {
+  let { eggBoostMilliseconds } = composterDetails[composter];
+
+  if (state.bumpkin.skills["Composting Bonanza"]) {
+    eggBoostMilliseconds += 60 * 60 * 1000;
+  }
+
+  return { eggBoostMilliseconds };
+}
+
 export function accelerateComposter({
   state,
   action,
@@ -53,7 +69,10 @@ export function accelerateComposter({
       throw new Error(translate("error.composterAlreadyBoosted"));
     }
 
-    const { eggBoostMilliseconds } = composterDetails[action.building];
+    const { eggBoostMilliseconds } = getSpeedUpTime({
+      state: stateCopy,
+      composter: action.building,
+    });
     const { eggBoostRequirements } = getSpeedUpCost(stateCopy, action.building);
 
     if (
