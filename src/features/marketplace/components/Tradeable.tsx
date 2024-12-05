@@ -1,8 +1,5 @@
-import {
-  CollectionName,
-  TradeableDetails,
-} from "features/game/types/marketplace";
-import React, { useContext, useEffect, useState } from "react";
+import { CollectionName } from "features/game/types/marketplace";
+import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -33,6 +30,7 @@ import { getKeys } from "features/game/types/decorations";
 import { tradeToId } from "../lib/offers";
 import { getDayOfYear } from "lib/utils/time";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import useSWR from "swr";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -50,7 +48,6 @@ export const Tradeable: React.FC = () => {
   }>();
   const navigate = useNavigate();
 
-  const [tradeable, setTradeable] = useState<TradeableDetails | null>();
   const [showListItem, setShowListItem] = useState(false);
 
   const display = getTradeableDisplay({
@@ -80,21 +77,20 @@ export const Tradeable: React.FC = () => {
     count = getChestBuds(game)[Number(id)] ? 1 : 0;
   }
 
-  const load = async () => {
-    try {
-      setTradeable(undefined);
-
-      const data = await loadTradeable({
+  const {
+    data: tradeable,
+    error,
+    mutate: reload,
+  } = useSWR(
+    [collection, id, authState.context.user.rawToken as string],
+    ([collection, id, token]) =>
+      loadTradeable({
         type: collection as CollectionName,
         id: Number(id),
-        token: authState.context.user.rawToken as string,
-      });
-
-      setTradeable(data);
-    } catch {
-      setTradeable(null);
-    }
-  };
+        token,
+      }),
+  );
+  if (error) throw error;
 
   const getDailyListings = () => {
     const today = getDayOfYear(new Date());
@@ -105,11 +101,6 @@ export const Tradeable: React.FC = () => {
 
     return dailyListings.date === today ? dailyListings.count : 0;
   };
-
-  useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameState.value === "loading"]);
 
   // TODO 404 view
   if (tradeable === null) {
@@ -166,7 +157,7 @@ export const Tradeable: React.FC = () => {
           count={count}
           tradeable={tradeable}
           onBack={onBack}
-          reload={load}
+          reload={reload}
           onListClick={() => setShowListItem(true)}
         />
 
@@ -191,7 +182,7 @@ export const Tradeable: React.FC = () => {
           onListClose={() => {
             setShowListItem(false);
           }}
-          reload={load}
+          reload={reload}
         />
 
         <TradeableOffers
@@ -199,7 +190,7 @@ export const Tradeable: React.FC = () => {
           tradeable={tradeable}
           display={display}
           farmId={farmId}
-          reload={load}
+          reload={reload}
         />
 
         <SaleHistory history={tradeable?.history} />

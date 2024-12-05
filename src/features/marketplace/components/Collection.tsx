@@ -8,7 +8,17 @@ import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
-import useSWR from "swr";
+import useSWR, { preload } from "swr";
+
+export const collectionFetcher = ([filters, token]: [string, string]) =>
+  loadMarketplace({ filters, token });
+
+export const preloadCollections = (token: string) => {
+  preload(["collectibles", token], collectionFetcher);
+  preload(["wearables", token], collectionFetcher);
+  preload(["resources", token], collectionFetcher);
+  preload(["buds", token], collectionFetcher);
+};
 
 export const Collection: React.FC<{
   search?: string;
@@ -30,14 +40,60 @@ export const Collection: React.FC<{
 
   const navigate = useNavigate();
 
-  const { data, error, isLoading } = useSWR(
-    [filters, authState.context.user.rawToken as string],
-    ([filters, token]) =>
-      loadMarketplace({
-        filters,
-        token,
-      }),
+  const token = authState.context.user.rawToken as string;
+
+  const {
+    data: wearables,
+    isLoading: isWearablesLoading,
+    error: wearablesError,
+  } = useSWR(
+    filters.includes("wearables") ? ["wearables", token] : null,
+    collectionFetcher,
   );
+
+  const {
+    data: collectibles,
+    isLoading: isCollectiblesLoading,
+    error: collectiblesError,
+  } = useSWR(
+    filters.includes("collectibles") ? ["collectibles", token] : null,
+    collectionFetcher,
+  );
+  const {
+    data: resources,
+    isLoading: isResourcesLoading,
+    error: resourcesError,
+  } = useSWR(
+    filters.includes("resources") ? ["resources", token] : null,
+    collectionFetcher,
+  );
+  const {
+    data: buds,
+    isLoading: isBudsLoading,
+    error: budsError,
+  } = useSWR(
+    filters.includes("buds") ? ["buds", token] : null,
+    collectionFetcher,
+  );
+
+  const data = {
+    items: [
+      ...(collectibles?.items || []),
+      ...(resources?.items || []),
+      ...(wearables?.items || []),
+      ...(buds?.items || []),
+    ],
+  };
+  const isLoading =
+    isWearablesLoading ||
+    isCollectiblesLoading ||
+    isResourcesLoading ||
+    isBudsLoading;
+
+  // Errors are handled by the game machine
+  if (wearablesError || collectiblesError || resourcesError || budsError) {
+    throw wearablesError || collectiblesError || resourcesError || budsError;
+  }
 
   if (isLoading) {
     return (

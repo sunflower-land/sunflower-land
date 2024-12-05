@@ -97,6 +97,7 @@ import {
 } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
+import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -670,6 +671,7 @@ export function startGame(authContext: AuthContext) {
               }),
             },
           ],
+          entry: () => preloadHotNow(authContext.user.rawToken as string),
           invoke: {
             src: async (context) => {
               const fingerprint = "X";
