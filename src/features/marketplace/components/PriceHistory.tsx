@@ -6,7 +6,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SaleHistory as ISaleHistory } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import classNames from "classnames";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { getRelativeTime } from "lib/utils/time";
 import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
@@ -68,7 +68,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                     <div className="flex items-center">
                       <div className="relative w-12 h-8">
                         <div className="absolute -top-1">
-                          <NPC
+                          <NPCIcon
                             width={20}
                             parts={
                               interpretTokenUri(seller.bumpkinUri).equipped
@@ -77,7 +77,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                         </div>
 
                         <div className="absolute left-3.5">
-                          <NPC
+                          <NPCIcon
                             width={20}
                             parts={interpretTokenUri(buyer.bumpkinUri).equipped}
                           />

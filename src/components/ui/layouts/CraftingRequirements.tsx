@@ -15,7 +15,7 @@ import {
   BumpkinItem,
   ITEM_IDS,
 } from "features/game/types/bumpkin";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
@@ -203,7 +203,7 @@ export const CraftingRequirements: React.FC<Props> = ({
             <div className="relative sm:w-4/5 my-1 flex">
               <img src={icon} className="sm:w-full w-14 my-2 rounded-lg" />
               <div className="sm:absolute -ml-4 bottom-16 w-10 h-4 right-0">
-                <NPC
+                <NPCIcon
                   key={details.wearable}
                   parts={{
                     body: "Beige Farmer Potion",

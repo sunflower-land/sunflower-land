@@ -35,7 +35,7 @@ import { Fireworks } from "./components/Fireworks";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 interface Props {
   onClose: () => void;
@@ -165,7 +165,7 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
                     className="absolute"
                     style={{ left: "4px", top: "-7px" }}
                   >
-                    <NPC width={20} parts={bumpkin} />
+                    <NPCIcon width={20} parts={bumpkin} />
                   </div>
                 )}
 

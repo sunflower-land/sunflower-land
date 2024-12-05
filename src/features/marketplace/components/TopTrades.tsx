@@ -6,7 +6,7 @@ import classNames from "classnames";
 import sflIcon from "assets/icons/sfl.webp";
 import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { useNavigate } from "react-router-dom";
 
@@ -57,7 +57,7 @@ export const TopTrades: React.FC<{
                   }}
                 >
                   <div className="relative w-8 h-8 flex items-center justify-center mr-2">
-                    <NPC
+                    <NPCIcon
                       width={20}
                       parts={interpretTokenUri(item.buyer.bumpkinUri).equipped}
                     />

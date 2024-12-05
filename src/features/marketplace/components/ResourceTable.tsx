@@ -6,7 +6,7 @@ import token from "assets/icons/sfl.webp";
 import { Decimal } from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 
 type TableItem = {
@@ -59,7 +59,7 @@ export const ResourceTable: React.FC<{
           <div className="p-1.5 truncate flex sm:w-1/3 items-center">
             <div className="flex items-center">
               <div className="relative w-8 h-8 flex items-center">
-                <NPC
+                <NPCIcon
                   width={20}
                   parts={interpretTokenUri(createdBy.bumpkinUri).equipped}
                 />

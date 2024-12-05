@@ -43,7 +43,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { getCompetitionLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { Loading } from "features/auth/components";
 import { getRelativeTime } from "lib/utils/time";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable, NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { hasFeatureAccess } from "lib/flags";
 import { connectToFSL } from "features/auth/actions/oauth";
@@ -85,7 +85,7 @@ export const CompetitionBoard: React.FC = () => {
           onClick={() => setIsOpen(true)}
         />
         <div className="absolute left-12 top-14 pointer-events-none">
-          <NPC parts={NPC_WEARABLES.richie} />
+          <NPCPlaceable parts={NPC_WEARABLES.richie} />
         </div>
       </MapPlacement>
       <Modal show={isOpen} onHide={() => setIsOpen(false)}>
@@ -443,7 +443,7 @@ export const CompetitionTable: React.FC<{ items: CompetitionPlayer[] }> = ({
               className="p-1.5 text-left pl-8 relative"
             >
               <div className="absolute" style={{ left: "4px", top: "-7px" }}>
-                <NPC width={20} parts={bumpkin} />
+                <NPCIcon width={20} parts={bumpkin} />
               </div>
               {username}
             </td>

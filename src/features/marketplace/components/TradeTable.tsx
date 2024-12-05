@@ -12,7 +12,7 @@ import sflIcon from "assets/icons/sfl.webp";
 import { getKeys } from "features/game/types/decorations";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { InventoryItemName } from "features/game/types/game";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 
 type TradeTableItem = {
@@ -62,7 +62,7 @@ export const OfferTable: React.FC<{
               <div className="flex-1 flex items-center justify-between">
                 <div className="flex items-center flex-1 overflow-hidden">
                   <div className="relative w-8 h-8">
-                    <NPC
+                    <NPCIcon
                       width={20}
                       parts={
                         interpretTokenUri(offer.offeredBy.bumpkinUri).equipped
@@ -127,7 +127,7 @@ export const ListingTable: React.FC<{
               <div className="flex-1 flex items-center justify-between">
                 <div className="flex items-center flex-1 overflow-hidden">
                   <div className="relative w-8 h-8">
-                    <NPC
+                    <NPCIcon
                       width={20}
                       parts={
                         interpretTokenUri(listing.listedBy.bumpkinUri).equipped
