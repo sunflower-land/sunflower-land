@@ -1,6 +1,6 @@
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
@@ -29,6 +29,8 @@ import classNames from "classnames";
 import { MarketplaceHotNow } from "./MarketplaceHotNow";
 import { CONFIG } from "lib/config";
 import { MarketplaceUser } from "./MarketplaceUser";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -147,6 +149,8 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
 
+  const { gameService } = useContext(Context);
+
   const isWorldRoute = pathname.includes("/world");
 
   return (
@@ -215,15 +219,20 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             isActive={filters === "resources"}
           />
 
-          <Option
-            icon={SUNNYSIDE.icons.stopwatch}
-            label="Limited"
-            onClick={() => {
-              navigate(`/marketplace/collection?filters=temporary`);
-              onClose();
-            }}
-            isActive={filters === "temporary"}
-          />
+          {hasFeatureAccess(
+            gameService.getSnapshot().context.state,
+            "MARKETPLACE_ADMIN",
+          ) && (
+            <Option
+              icon={SUNNYSIDE.icons.stopwatch}
+              label="Limited"
+              onClick={() => {
+                navigate(`/marketplace/collection?filters=temporary`);
+                onClose();
+              }}
+              isActive={filters === "temporary"}
+            />
+          )}
 
           <Option
             icon={SUNNYSIDE.icons.heart}
