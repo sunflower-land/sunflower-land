@@ -1701,8 +1701,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "basic",
     },
-    boosts:
-      "+5 fertilisers from all composters but reduced worm outputs: (-2 earthworm, -2 grub, -1 red wigglers)",
+    boosts: "+5 fertilisers but -3 worms from all composters",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
