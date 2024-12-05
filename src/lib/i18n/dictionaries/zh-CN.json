@@ -4446,5 +4446,6 @@
   "marketplace.reward.fishingPack.description": "一包钓鱼工具",
   "marketplace.reward.animalPack.description": "一包动物饲料",
   "marketplace.whaleTrades": "鲸鱼交易商",
-  "marketplace.topFriends": "顶级朋友"
+  "marketplace.topFriends": "顶级朋友",
+  "marketplace.notForSale": "不出售"
 }

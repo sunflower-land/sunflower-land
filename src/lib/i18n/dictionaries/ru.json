@@ -4446,5 +4446,6 @@
   "marketplace.reward.fishingPack.description": "Пакет рыболовных утилит",
   "marketplace.reward.animalPack.description": "Пакет кормов для животных",
   "marketplace.whaleTrades": "Торговцы китами",
-  "marketplace.topFriends": "Лучшие друзья"
+  "marketplace.topFriends": "Лучшие друзья",
+  "marketplace.notForSale": "Не продается"
 }

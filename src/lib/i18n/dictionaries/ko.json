@@ -4446,5 +4446,6 @@
   "marketplace.reward.fishingPack.description": "낚시 유틸리티 팩",
   "marketplace.reward.animalPack.description": "동물 사료 한 팩",
   "marketplace.whaleTrades": "웨일 트레이더",
-  "marketplace.topFriends": "탑 프렌즈"
+  "marketplace.topFriends": "탑 프렌즈",
+  "marketplace.notForSale": "비매품"
 }

@@ -4446,5 +4446,6 @@
   "marketplace.reward.fishingPack.description": "Eine Packung Angelzubehör",
   "marketplace.reward.animalPack.description": "Eine Packung Tierfutter",
   "marketplace.whaleTrades": "Walhändler",
-  "marketplace.topFriends": "Beste Freunde"
+  "marketplace.topFriends": "Beste Freunde",
+  "marketplace.notForSale": "Nicht zu verkaufen"
 }

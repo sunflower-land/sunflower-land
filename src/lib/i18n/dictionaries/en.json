@@ -4446,5 +4446,6 @@
   "marketplace.welcome.seven": "The marketplace items are intended for in-game use, not speculation or investment",
   "marketplace.welcome.gotIt": "Got it",
   "marketplace.welcome.title": "Welcome to the Marketplace",
-  "marketplace.topFriends": "Top Friends"
+  "marketplace.topFriends": "Top Friends",
+  "marketplace.notForSale": "Not for sale"
 }

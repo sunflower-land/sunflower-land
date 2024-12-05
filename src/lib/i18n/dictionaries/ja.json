@@ -4446,5 +4446,6 @@
   "marketplace.reward.fishingPack.description": "釣りユーティリティのパック",
   "marketplace.reward.animalPack.description": "動物用飼料のパック",
   "marketplace.whaleTrades": "クジラ商人",
-  "marketplace.topFriends": "トップフレンド"
+  "marketplace.topFriends": "トップフレンド",
+  "marketplace.notForSale": "非売品"
 }

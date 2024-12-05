@@ -4446,5 +4446,6 @@
   "marketplace.reward.fishingPack.description": "Un pacchetto di attrezzi per la pesca",
   "marketplace.reward.animalPack.description": "Una confezione di mangimi per animali",
   "marketplace.whaleTrades": "Commercianti di balene",
-  "marketplace.topFriends": "I migliori amici"
+  "marketplace.topFriends": "I migliori amici",
+  "marketplace.notForSale": "Non in vendita"
 }

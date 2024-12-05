@@ -4446,5 +4446,6 @@
   "marketplace.reward.fishingPack.description": "Bir paket balıkçılık araçları",
   "marketplace.reward.animalPack.description": "Bir paket hayvan yemi",
   "marketplace.whaleTrades": "Balina Tüccarları",
-  "marketplace.topFriends": "En İyi Arkadaşlar"
+  "marketplace.topFriends": "En İyi Arkadaşlar",
+  "marketplace.notForSale": "Satılık değil"
 }
