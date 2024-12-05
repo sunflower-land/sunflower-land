@@ -901,6 +901,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Halloween Scarecrow": 2166,
   "Vampire Bear": 2167,
   "Super Totem": 2168,
+  //Christmas 2024
+  "Christmas Stocking": 2169,
+  "Golden Christmas Stocking": 2170,
+  "Cozy Fireplace": 2171,
+  "Christmas Rug": 2172,
+  "Christmas Candle": 2173,
 };
 
 // The reverse of above

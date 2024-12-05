@@ -407,7 +407,8 @@ export type BumpkinOnesie =
   | "Camel Onesie"
   | "Rocket Onesie"
   | "White Sheep Onesie"
-  | "Black Sheep Onesie";
+  | "Black Sheep Onesie"
+  | "Gingerbread Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -888,6 +889,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Adventurer's Suit": 417,
   "Adventurer's Torch": 418,
   "Pumpkin Head": 419,
+  "Gingerbread Onesie": 420,
 };
 
 // The reverse of above
@@ -1368,4 +1370,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Adventurer's Suit": "dress",
   "Adventurer's Torch": "tool",
   "Pumpkin Head": "hat",
+  "Gingerbread Onesie": "onesie",
 };

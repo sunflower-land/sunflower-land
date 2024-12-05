@@ -1471,6 +1471,81 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Super Totem": SuperTotem,
+  "Christmas Stocking": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 10}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 10}px`,
+      }}
+      image={ITEM_DETAILS["Christmas Stocking"].image}
+      alt="Christmas Stocking"
+    />
+  ),
+  "Golden Christmas Stocking": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 10}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 10}px`,
+      }}
+      image={ITEM_DETAILS["Golden Christmas Stocking"].image}
+      alt="Golden Christmas Stocking"
+    />
+  ),
+  "Cozy Fireplace": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Cozy Fireplace"].image}
+      alt="Cozy Fireplace"
+    />
+  ),
+  "Christmas Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+      image={ITEM_DETAILS["Christmas Rug"].image}
+      alt="Christmas Rug"
+    />
+  ),
+  "Christmas Candle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 13}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 13}px`,
+      }}
+      image={ITEM_DETAILS["Christmas Candle"].image}
+      alt="Christmas Candle"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
