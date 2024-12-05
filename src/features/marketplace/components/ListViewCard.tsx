@@ -14,12 +14,15 @@ import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import { secondsToString } from "lib/utils/time";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = {
   details: TradeableDisplay;
   count?: number;
   price?: Decimal;
   onClick?: () => void;
+  expiresAt?: number;
 };
 
 export const ListViewCard: React.FC<Props> = ({
@@ -27,6 +30,7 @@ export const ListViewCard: React.FC<Props> = ({
   price,
   onClick,
   count,
+  expiresAt,
 }) => {
   const { type, name, image, buff } = details;
   const { t } = useAppTranslation();
@@ -102,6 +106,18 @@ export const ListViewCard: React.FC<Props> = ({
                 className="h-4 mr-1"
               />
               <p className="text-xs truncate pb-0.5">{buff.shortDescription}</p>
+            </div>
+          )}
+
+          {expiresAt && (
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
+              <p className="text-xs truncate pb-0.5">
+                {" "}
+                {`${secondsToString((expiresAt - Date.now()) / 1000, {
+                  length: "short",
+                })} left`}
+              </p>
             </div>
           )}
         </div>

@@ -17,6 +17,8 @@ export type Tradeable = {
   floor: number;
   supply: number;
   collection: CollectionName;
+  isActive: boolean;
+  expiresAt?: number;
 };
 
 export type Offer = {
