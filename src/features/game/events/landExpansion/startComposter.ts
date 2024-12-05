@@ -59,7 +59,6 @@ export function getCompostAmount({
   building: ComposterName;
 }) {
   let { produceAmount } = composterDetails[building];
-  const { produce } = composterDetails[building];
 
   if (skills["Efficient Bin"] && building === "Compost Bin") {
     produceAmount += 5;
@@ -73,7 +72,7 @@ export function getCompostAmount({
     produceAmount += 10;
   }
 
-  if (skills["Composting Overhaul"] && produce === "Sprout Mix") {
+  if (skills["Composting Overhaul"]) {
     produceAmount -= 5;
   }
 
