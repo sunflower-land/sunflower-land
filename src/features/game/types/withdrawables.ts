@@ -1549,7 +1549,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Seedling Hat": () => false,
   "Stormy Dumbo": () => false,
   "Ugly Christmas Sweater": () => true,
-  "Candy Cane": () => true,
+  "Candy Cane": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
   "Elf Hat": () => true,
   "Elf Potion": () =>
     canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
@@ -1765,4 +1765,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Adventurer's Suit": () => true,
   "Adventurer's Torch": () => true,
   "Pumpkin Head": () => true,
+  "Gingerbread Onesie": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
 };
