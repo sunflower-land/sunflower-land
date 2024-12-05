@@ -683,7 +683,10 @@ export function startGame(authContext: AuthContext) {
               }),
             },
           ],
-          entry: () => preloadHotNow(authContext.user.rawToken as string),
+          entry: () => {
+            if (CONFIG.API_URL)
+              preloadHotNow(authContext.user.rawToken as string);
+          },
           invoke: {
             src: async (context) => {
               const fingerprint = "X";

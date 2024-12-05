@@ -35,17 +35,20 @@ import { Context } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { useTranslation } from "react-i18next";
+import { Label } from "components/ui/Label";
+import { Button } from "components/ui/Button";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [showQuickswap, setShowQuickswap] = useState(false);
 
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
   useEffect(() => {
     const token = authState.context.user.rawToken as string;
-    preloadCollections(token);
+    if (CONFIG.API_URL) preloadCollections(token);
   }, []);
   const { t } = useTranslation();
 
@@ -57,6 +60,30 @@ export const MarketplaceNavigation: React.FC = () => {
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
           <Filters onClose={() => setShowFilters(false)} />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={showQuickswap} onHide={() => setShowQuickswap(false)}>
+        <CloseButtonPanel onClose={() => setShowQuickswap(false)}>
+          <div className="p-1">
+            <Label type="danger" className="mb-2">
+              {t("marketplace.quickswap")}
+            </Label>
+            <p className="text-sm mb-2">
+              {t("marketplace.quickswap.description")}
+            </p>
+            <p className="text-sm mb-2">{t("marketplace.quickswap.warning")}</p>
+            <Button
+              onClick={() => {
+                window.open(
+                  "https://quickswap.exchange/#/swap?swapIndex=0&currency0=ETH&currency1=0xD1f9c58e33933a993A3891F8acFe05a68E1afC05",
+                  "_blank",
+                );
+              }}
+            >
+              {t("continue")}
+            </Button>
+          </div>
         </CloseButtonPanel>
       </Modal>
 
@@ -92,7 +119,7 @@ export const MarketplaceNavigation: React.FC = () => {
           <InnerPanel
             className="cursor-pointer"
             onClick={() => {
-              window.open("https://sunflower-land.com/sfl", "_blank");
+              setShowQuickswap(true);
             }}
           >
             <div className="flex justify-between items-center pr-1">
@@ -102,6 +129,9 @@ export const MarketplaceNavigation: React.FC = () => {
               </div>
               <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
             </div>
+            <p className="text-xxs italic">
+              {t("marketplace.estimated.price")}
+            </p>
           </InnerPanel>
         </div>
 

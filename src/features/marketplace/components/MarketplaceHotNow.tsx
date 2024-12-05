@@ -17,8 +17,11 @@ import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { TopTrades } from "./TopTrades";
 import useSWR, { preload } from "swr";
+import { CONFIG } from "lib/config";
 
-const hotNowFetcher = ([, token]: [string, string]) => loadTrends({ token });
+const hotNowFetcher = ([, token]: [string, string]) => {
+  if (CONFIG.API_URL) return loadTrends({ token });
+};
 export const preloadHotNow = (token: string) =>
   preload(["/marketplace/trends", token], hotNowFetcher);
 
