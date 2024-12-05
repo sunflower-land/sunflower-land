@@ -478,9 +478,13 @@ export const Trade: React.FC<{
 
   const resourceListings = getKeys(trades).filter((listingId) => {
     const listing = trades[listingId];
+    const collection = listing.collection;
     const item = getKeys(listing.items)[0];
 
-    return getKeys(TRADE_LIMITS).includes(item as InventoryItemName);
+    return (
+      getKeys(TRADE_LIMITS).includes(item as InventoryItemName) &&
+      collection === "collectibles"
+    );
   });
 
   const onList = (items: Items, sfl: number) => {
