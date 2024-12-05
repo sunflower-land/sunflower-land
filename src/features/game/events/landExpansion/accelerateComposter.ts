@@ -87,7 +87,7 @@ export function accelerateComposter({
         resourceBoostRequirements,
       )
     ) {
-      throw new Error(`Missing ${boostResource}`);
+      throw new Error(`Missing ${boostResource}s`);
     }
 
     // Subtract resources
