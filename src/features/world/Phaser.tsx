@@ -63,6 +63,9 @@ import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import worldIcon from "assets/icons/world.png";
 
+import { ChristmasScene } from "./scenes/ChristmasScene";
+import { hasFeatureAccess } from "lib/flags";
+
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
 
@@ -138,7 +141,9 @@ export const PhaserComponent: React.FC<Props> = ({
     Preloader,
     new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
-    new PlazaScene({ gameState: gameService.state.context.state }),
+    ...(hasFeatureAccess(gameService.state.context.state, "CHRISTMAS_2024")
+      ? [ChristmasScene]
+      : [new PlazaScene({ gameState: gameService.state.context.state })]),
     RetreatScene,
     KingdomScene,
     GoblinHouseScene,
@@ -495,7 +500,7 @@ export const PhaserComponent: React.FC<Props> = ({
           <Label
             type="chill"
             icon={worldIcon}
-            className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center"
+            className="fixed z-10 top-2 left-1/2 -translate-x-1/2 flex items-center"
           >
             {t("mmo.connecting")}
           </Label>
@@ -504,7 +509,7 @@ export const PhaserComponent: React.FC<Props> = ({
           <Label
             type="danger"
             icon={SUNNYSIDE.icons.cancel}
-            className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
+            className="fixed z-10 top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
             onClick={() => mmoService.send("RETRY")}
           >
             {t("mmo.connectionFailed")}
