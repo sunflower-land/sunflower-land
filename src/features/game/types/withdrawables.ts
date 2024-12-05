@@ -928,6 +928,13 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Halloween Scarecrow": () => true,
   "Vampire Bear": () => true,
   "Super Totem": () => false,
+
+  "Christmas Stocking": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
+  "Golden Christmas Stocking": () =>
+    canWithdrawTimebasedItem(new Date("2025-01-01")),
+  "Cozy Fireplace": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
+  "Christmas Rug": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
+  "Christmas Candle": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
