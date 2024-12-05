@@ -218,10 +218,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                         : cheapestListing?.sfl ?? "? SFL"}
                     </p>
                     <p className="text-xs">
-                      $
-                      {new Decimal(usd)
+                      {`${new Decimal(usd)
                         .mul(cheapestListing?.sfl ?? 0)
-                        .toFixed(2)}
+                        .toFixed(2)}`}
                     </p>
                   </div>
                 </>

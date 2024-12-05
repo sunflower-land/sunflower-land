@@ -77,7 +77,7 @@ export const TopTrades: React.FC<{
                 <div>
                   <p className="text-sm">{new Decimal(price).toFixed(2)}</p>
                   <p className="text-xxs">
-                    ${new Decimal(usd).mul(price).toFixed(2)}
+                    {`$${new Decimal(usd).mul(price).toFixed(2)}`}
                   </p>
                 </div>
               </div>

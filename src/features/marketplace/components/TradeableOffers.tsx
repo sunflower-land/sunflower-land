@@ -177,7 +177,7 @@ export const TradeableOffers: React.FC<{
                   <div>
                     <p className="text-base">{`${topOffer.sfl} SFL`}</p>
                     <p className="text-xxs">
-                      ${new Decimal(usd).mul(topOffer.sfl).toFixed(2)}
+                      {`$${new Decimal(usd).mul(topOffer.sfl).toFixed(2)}`}
                     </p>
                   </div>
                 </div>

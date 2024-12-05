@@ -34,6 +34,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
+import { useTranslation } from "react-i18next";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -46,6 +47,7 @@ export const MarketplaceNavigation: React.FC = () => {
     const token = authState.context.user.rawToken as string;
     preloadCollections(token);
   }, []);
+  const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
@@ -98,7 +100,7 @@ export const MarketplaceNavigation: React.FC = () => {
                 <img src={sflIcon} className="w-6" />
                 <span className="text-sm ml-2">{`$${price.toFixed(2)}`}</span>
               </div>
-              <p className="text-xxs underline">Quickswap</p>
+              <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
             </div>
           </InnerPanel>
         </div>

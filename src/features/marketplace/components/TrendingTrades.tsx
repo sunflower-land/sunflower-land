@@ -91,7 +91,7 @@ export const TrendingTrades: React.FC<{
                       {new Decimal(prices.dates[0].low).toFixed(2)}
                     </p>
                     <p className="text-xxs">
-                      ${new Decimal(usd).mul(prices.dates[0].low).toFixed(2)}
+                      {`$${new Decimal(usd).mul(prices.dates[0].low).toFixed(2)}`}
                     </p>
                   </div>
                 </div>
