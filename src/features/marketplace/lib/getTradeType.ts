@@ -851,6 +851,11 @@ export const ITEM_TRADE_TYPES: {
     "Super Totem": "instant",
     "Egg Basket": "instant",
     "Trade Cake": "instant",
+    "Christmas Stocking": "instant",
+    "Golden Christmas Stocking": "instant",
+    "Cozy Fireplace": "instant",
+    "Christmas Rug": "instant",
+    "Christmas Candle": "instant",
   },
   wearables: {
     "Beige Farmer Potion": "instant",
@@ -1267,6 +1272,7 @@ export const ITEM_TRADE_TYPES: {
     "Adventurer's Suit": "instant",
     "Adventurer's Torch": "instant",
     "Pumpkin Head": "instant",
+    "Gingerbread Onesie": "instant",
   },
 };
 
