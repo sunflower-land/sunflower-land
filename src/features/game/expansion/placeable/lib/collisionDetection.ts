@@ -268,6 +268,7 @@ const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Nightshade Faction Rug",
   "Sleepy Rug",
   "Crop Circle",
+  "Christmas Rug",
 ];
 
 function detectHomeCollision({
