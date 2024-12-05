@@ -18,6 +18,7 @@ export const preloadCollections = (token: string) => {
   preload(["wearables", token], collectionFetcher);
   preload(["resources", token], collectionFetcher);
   preload(["buds", token], collectionFetcher);
+  preload(["limited", token], collectionFetcher);
 };
 
 export const Collection: React.FC<{
@@ -75,6 +76,14 @@ export const Collection: React.FC<{
     filters.includes("buds") ? ["buds", token] : null,
     collectionFetcher,
   );
+  const {
+    data: limited,
+    isLoading: isLimitedLoading,
+    error: limitedError,
+  } = useSWR(
+    filters.includes("temporary") ? ["temporary", token] : null,
+    collectionFetcher,
+  );
 
   const data = {
     items: [
@@ -82,17 +91,31 @@ export const Collection: React.FC<{
       ...(resources?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
+      ...(limited?.items || []),
     ],
   };
   const isLoading =
     isWearablesLoading ||
     isCollectiblesLoading ||
     isResourcesLoading ||
-    isBudsLoading;
+    isBudsLoading ||
+    isLimitedLoading;
 
   // Errors are handled by the game machine
-  if (wearablesError || collectiblesError || resourcesError || budsError) {
-    throw wearablesError || collectiblesError || resourcesError || budsError;
+  if (
+    wearablesError ||
+    collectiblesError ||
+    resourcesError ||
+    budsError ||
+    limitedError
+  ) {
+    throw (
+      wearablesError ||
+      collectiblesError ||
+      resourcesError ||
+      budsError ||
+      limitedError
+    );
   }
 
   if (isLoading) {
