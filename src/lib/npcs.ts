@@ -68,6 +68,7 @@ export type NPCName =
   | "wobble"
   | "santa"
   | "elf"
+  | "ginger"
   | "misty"
   | "poppy"
   | "stevie"
@@ -913,7 +914,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   santa: {
     body: "Beige Farmer Potion",
-    hair: "Sun Spots",
+    hair: "Greyed Glory",
     hat: "Santa Hat",
     beard: "Santa Beard",
     suit: "Santa Suit",
@@ -923,6 +924,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   elf: {
     body: "Light Brown Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Elf Hat",
+    suit: "Elf Suit",
+    background: "Christmas Background",
+    shoes: "Black Farmer Boots",
+    tool: "Candy Cane",
+  },
+  ginger: {
+    onesie: "Gingerbread Onesie",
+    body: "Beige Farmer Potion",
     hair: "Sun Spots",
     hat: "Elf Hat",
     suit: "Elf Suit",

@@ -41,6 +41,7 @@ import { Marketplace } from "features/marketplace/Marketplace";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { ChristmasReward } from "./npcs/Santa";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -839,6 +840,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         onHide={closeModal}
       >
         <GoblinMarket onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "christmas_reward"} onHide={closeModal}>
+        <ChristmasReward onClose={closeModal} />
       </Modal>
     </>
   );
