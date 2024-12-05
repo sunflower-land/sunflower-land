@@ -35,7 +35,7 @@ export const MapPlacement: React.FC<Props> = ({
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
         height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
         width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
-        zIndex: z,
+        zIndex: z === undefined ? "unset" : z,
       }}
     >
       {children}
