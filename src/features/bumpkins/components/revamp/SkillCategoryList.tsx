@@ -37,6 +37,7 @@ const iconList: Record<BumpkinRevampSkillTree, string> = {
   Mining: SUNNYSIDE.tools.stone_pickaxe,
   "Bees & Flowers": ITEM_DETAILS["Red Pansy"].image,
   Machinery: ITEM_DETAILS["Crop Machine"].image,
+  Compost: ITEM_DETAILS["Compost Bin"].image,
 };
 
 export const SkillCategoryList = ({
