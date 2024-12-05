@@ -1,6 +1,6 @@
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
@@ -15,7 +15,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { Collection } from "./Collection";
+import { Collection, preloadCollections } from "./Collection";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -31,10 +31,20 @@ import { CONFIG } from "lib/config";
 import { MarketplaceUser } from "./MarketplaceUser";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
+import * as Auth from "features/auth/lib/Provider";
+import { useActor } from "@xstate/react";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
+  useEffect(() => {
+    const token = authState.context.user.rawToken as string;
+    preloadCollections(token);
+  }, []);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { TrendingTrades } from "./TrendingTrades";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,6 +16,11 @@ import { loadTrends } from "../actions/loadTrends";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { TopTrades } from "./TopTrades";
+import useSWR, { preload } from "swr";
+
+const hotNowFetcher = ([, token]: [string, string]) => loadTrends({ token });
+export const preloadHotNow = (token: string) =>
+  preload(["/marketplace/trends", token], hotNowFetcher);
 
 export const MarketplaceHotNow: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -24,13 +29,12 @@ export const MarketplaceHotNow: React.FC = () => {
 
   const { t } = useAppTranslation();
 
-  const [trends, setTrends] = useState<MarketplaceTrends>();
-
-  useEffect(() => {
-    loadTrends({ token: authState.context.user.rawToken as string }).then(
-      setTrends,
-    );
-  }, []);
+  const { data, error } = useSWR(
+    ["/marketplace/trends", authState.context.user.rawToken as string],
+    hotNowFetcher,
+  );
+  // Errors are handled by the game machine
+  if (error) throw error;
 
   const isWorldRoute = useLocation().pathname.includes("/world");
 
@@ -137,7 +141,7 @@ export const MarketplaceHotNow: React.FC = () => {
         </div>
       </InnerPanel>
 
-      <MarketplaceStats trends={trends} />
+      <MarketplaceStats trends={data} />
 
       <InnerPanel className="mb-2">
         <div className="p-2">
@@ -151,7 +155,7 @@ export const MarketplaceHotNow: React.FC = () => {
             </Label>
           </div>
 
-          <TopTrades trends={trends} />
+          <TopTrades trends={data} />
         </div>
       </InnerPanel>
 
@@ -161,7 +165,7 @@ export const MarketplaceHotNow: React.FC = () => {
             {t("marketplace.trending")}
           </Label>
 
-          <TrendingTrades trends={trends} />
+          <TrendingTrades trends={data} />
         </div>
       </InnerPanel>
     </div>
