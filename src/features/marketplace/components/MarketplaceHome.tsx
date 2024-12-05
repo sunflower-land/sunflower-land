@@ -28,6 +28,7 @@ import { Tradeable } from "./Tradeable";
 import classNames from "classnames";
 import { MarketplaceHotNow } from "./MarketplaceHotNow";
 import { CONFIG } from "lib/config";
+import { MarketplaceUser } from "./MarketplaceUser";
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -80,6 +81,7 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/rewards" element={<MarketplaceRewards />} />
               <Route path="/collection/*" element={<Collection />} />
               <Route path="/:collection/:id" element={<Tradeable />} />
+              <Route path="/profile/:id" element={<MarketplaceUser />} />
               {/* default to hot */}
               <Route path="/" element={<MarketplaceHotNow />} />
             </Routes>

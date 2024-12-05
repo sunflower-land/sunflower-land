@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { BumpkinItem } from "./bumpkin";
-import { InventoryItemName } from "./game";
+import { GameState, InventoryItemName } from "./game";
 
 // 1% tax on mainnet for testing
 // 10% tax on sales
@@ -61,25 +61,27 @@ export type TradeHistory = {
   dates: Record<string, TradeHistoryDate>;
 };
 
+export type Sale = {
+  id: string;
+  sfl: number;
+  quantity: number;
+  fulfilledAt: number;
+  fulfilledBy: {
+    id: number;
+    username?: string;
+    bumpkinUri: string;
+  };
+  initiatedBy: {
+    id: number;
+    username?: string;
+    bumpkinUri: string;
+  };
+  source: "offer" | "listing";
+};
+
 export type SaleHistory = {
   history: TradeHistory;
-  sales: {
-    id: string;
-    sfl: number;
-    quantity: number;
-    source: "offer" | "listing";
-    fulfilledAt: number;
-    fulfilledBy: {
-      id: number;
-      bumpkinUri: string;
-      username?: string;
-    };
-    initiatedBy: {
-      id: number;
-      bumpkinUri: string;
-      username?: string;
-    };
-  }[];
+  sales: Sale[];
 };
 
 export type TradeableDetails = Tradeable & {
@@ -114,6 +116,27 @@ export type MarketplaceTrends = {
     quantity: number;
     collection: CollectionName;
   }[];
+};
+
+export type MarketplaceProfile = {
+  id: number;
+  username: string;
+  level: number;
+  tokenUri: string;
+  totalTrades: number;
+  profit: number;
+
+  listings: GameState["trades"]["listings"];
+  offers: GameState["trades"]["offers"];
+
+  friends: {
+    id: number;
+    tokenUri: string;
+    username: string;
+    trades: number;
+  }[];
+
+  trades: Sale[];
 };
 
 type BudNFTName = `Bud #${number}`;

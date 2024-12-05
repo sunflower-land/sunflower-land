@@ -8,12 +8,13 @@ import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
+import { useNavigate } from "react-router-dom";
 
 export const TopTrades: React.FC<{
   trends?: MarketplaceTrends;
 }> = ({ trends }) => {
   const { t } = useAppTranslation();
-
+  const navigate = useNavigate();
   if (!trends) {
     return <Loading />;
   }
@@ -49,7 +50,12 @@ export const TopTrades: React.FC<{
                   <p className="text-sm">{`${details.name}`}</p>
                 </div>
 
-                <div className="flex items-center flex-1 sm:w-1/2 w-full">
+                <div
+                  className="flex items-center flex-1 sm:w-1/2 w-full cursor-pointer"
+                  onClick={() => {
+                    navigate(`/marketplace/profile/${item.buyer.id}`);
+                  }}
+                >
                   <div className="relative w-8 h-8 flex items-center justify-center mr-2">
                     <NPC
                       width={20}

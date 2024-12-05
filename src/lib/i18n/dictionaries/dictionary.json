@@ -4459,7 +4459,7 @@
   "marketplace.currentPrice": "Current Price",
   "marketplace.hoarding": "Store progress required",
   "marketplace.hoarding.description": "You must store your game progress in order to be able to purchase this listing.",
-  "marketplace.whaleTrades": "Whale Trades",
+  "marketplace.whaleTrades": "Whale Traders",
   "marketplace.7days": "Last 7 Days",
   "marketplace.welcome.one": "Howdy there, partner! Welcome to the Marketplace. Your one-stop shop for all things farm-tastic.",
   "marketplace.welcome.two": "Here you can trade resources, buy exclusive collectibles & boost your farm.",
@@ -4469,5 +4469,6 @@
   "marketplace.welcome.six": "Earn points on trades and unlock rewards.",
   "marketplace.welcome.seven": "The marketplace items are intended for in-game use, not speculation or investment",
   "marketplace.welcome.gotIt": "Got it",
-  "marketplace.welcome.title": "Welcome to the Marketplace"
+  "marketplace.welcome.title": "Welcome to the Marketplace",
+  "marketplace.topFriends": "Top Friends"
 }

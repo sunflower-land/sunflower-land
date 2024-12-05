@@ -11,6 +11,7 @@ import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { getRelativeTime } from "lib/utils/time";
 import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
 import decreaseLeftArrow from "assets/icons/decrease_left_arrow.webp";
+import { useNavigate } from "react-router-dom";
 
 export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   history,
@@ -32,6 +33,9 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
   sales,
 }) => {
   const { t } = useAppTranslation();
+
+  const navigate = useNavigate();
+
   if (sales.length === 0) {
     return <p className="mb-2 ml-1">{t("marketplace.noSales")}</p>;
   }
@@ -53,9 +57,12 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
               return (
                 <tr
                   key={index}
-                  className={classNames("relative", {
+                  className={classNames("relative cursor-pointer", {
                     "bg-[#ead4aa]": index % 2 === 0,
                   })}
+                  onClick={() => {
+                    navigate(`/marketplace/profile/${buyer.id}`);
+                  }}
                 >
                   <td className="p-1.5 sm:w-1/3 truncate text-center relative">
                     <div className="flex items-center">
