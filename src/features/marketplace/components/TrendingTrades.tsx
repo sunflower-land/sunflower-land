@@ -3,7 +3,7 @@ import {
   MarketplaceTrends,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React from "react";
+import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import classNames from "classnames";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,12 +12,16 @@ import increaseIcon from "assets/icons/increase_arrow.png";
 import decreaseIcon from "assets/icons/decrease_arrow.png";
 import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
+import { Context } from "features/game/GameProvider";
 
 export const TrendingTrades: React.FC<{
   trends?: MarketplaceTrends;
 }> = ({ trends }) => {
   const { t } = useAppTranslation();
   const isWorldRoute = useLocation().pathname.includes("/world");
+
+  const { gameService } = useContext(Context);
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   const navigate = useNavigate();
 
@@ -82,9 +86,14 @@ export const TrendingTrades: React.FC<{
               <td className="p-1.5 text-left relative">
                 <div className="flex items-center">
                   <img src={sflIcon} className="h-5 mr-1" />
-                  <p className="text-sm">
-                    {new Decimal(prices.dates[0].low).toFixed(2)}
-                  </p>
+                  <div>
+                    <p className="text-sm">
+                      {new Decimal(prices.dates[0].low).toFixed(2)}
+                    </p>
+                    <p className="text-xxs">
+                      ${new Decimal(usd).mul(prices.dates[0].low).toFixed(2)}
+                    </p>
+                  </div>
                 </div>
               </td>
               <td className="p-1.5 text-right relative">

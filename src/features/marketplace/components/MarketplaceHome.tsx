@@ -7,6 +7,7 @@ import lightning from "assets/icons/lightning.png";
 import filterIcon from "assets/icons/filter_icon.webp";
 import tradeIcon from "assets/icons/trade.png";
 import trade_point from "src/assets/icons/trade_points_coupon.webp";
+import sflIcon from "assets/icons/sfl.webp";
 
 import {
   Route,
@@ -46,6 +47,9 @@ export const MarketplaceNavigation: React.FC = () => {
     preloadCollections(token);
   }, []);
 
+  const { gameService } = useContext(Context);
+  const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
@@ -68,19 +72,36 @@ export const MarketplaceNavigation: React.FC = () => {
       </div>
 
       <div className="flex h-[calc(100%-50px)] lg:h-full">
-        <InnerPanel className="w-64 h-96 mr-1 hidden lg:flex  flex-col">
-          <div className="flex  items-center">
-            <TextInput
-              icon={SUNNYSIDE.icons.search}
-              value={search}
-              onValueChange={setSearch}
-              onCancel={() => setSearch("")}
-            />
-          </div>
-          <div className="flex-1">
-            <Filters onClose={() => setShowFilters(false)} />
-          </div>
-        </InnerPanel>
+        <div className="w-64  mr-1 hidden lg:flex  flex-col">
+          <InnerPanel className="w-full flex-col mb-1">
+            <div className="flex  items-center">
+              <TextInput
+                icon={SUNNYSIDE.icons.search}
+                value={search}
+                onValueChange={setSearch}
+                onCancel={() => setSearch("")}
+              />
+            </div>
+            <div className="flex-1">
+              <Filters onClose={() => setShowFilters(false)} />
+            </div>
+          </InnerPanel>
+
+          <InnerPanel
+            className="cursor-pointer"
+            onClick={() => {
+              window.open("https://sunflower-land.com/sfl", "_blank");
+            }}
+          >
+            <div className="flex justify-between items-center pr-1">
+              <div className="flex items-center">
+                <img src={sflIcon} className="w-6" />
+                <span className="text-sm ml-2">{`$${price.toFixed(2)}`}</span>
+              </div>
+              <p className="text-xxs underline">Quickswap</p>
+            </div>
+          </InnerPanel>
+        </div>
 
         <div className="flex-1 flex flex-col w-full">
           {search ? (
