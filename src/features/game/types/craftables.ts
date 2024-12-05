@@ -1378,6 +1378,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Halloween Scarecrow": { width: 1, height: 1 },
   "Vampire Bear": { width: 1, height: 1 },
   "Super Totem": { width: 1, height: 1 },
+  "Christmas Stocking": { width: 1, height: 1 },
+  "Golden Christmas Stocking": { width: 1, height: 1 },
+  "Cozy Fireplace": { width: 2, height: 1 },
+  "Christmas Rug": { width: 3, height: 2 },
+  "Christmas Candle": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
