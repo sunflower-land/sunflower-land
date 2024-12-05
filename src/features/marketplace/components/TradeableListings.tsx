@@ -24,7 +24,7 @@ import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
 import { ResourceTable } from "./ResourceTable";
 import { formatNumber, shortenCount } from "lib/utils/formatNumber";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { PurchaseModalContent } from "./PurchaseModalContent";
 import { TradeableDisplay } from "../lib/tradeables";
 import { KNOWN_ITEMS } from "features/game/types";

@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { useSound } from "lib/utils/hooks/useSound";

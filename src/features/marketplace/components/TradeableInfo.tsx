@@ -12,7 +12,7 @@ import brownBg from "assets/brand/brown_background.png";
 import { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
 

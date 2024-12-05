@@ -24,7 +24,7 @@ import { Panel } from "components/ui/Panel";
 import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import { Land } from "./Land";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";

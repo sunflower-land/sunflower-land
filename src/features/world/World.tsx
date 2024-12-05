@@ -6,7 +6,7 @@ import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router";
 import { SceneId } from "./mmoMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";

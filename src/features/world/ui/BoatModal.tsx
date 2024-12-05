@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {

@@ -16,7 +16,7 @@ import classNames from "classnames";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Placeable } from "features/game/expansion/placeable/Placeable";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";

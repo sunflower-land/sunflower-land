@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
 import { ModalProvider } from "../components/modal/ModalProvider";

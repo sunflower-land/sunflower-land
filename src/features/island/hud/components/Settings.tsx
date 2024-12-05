@@ -14,7 +14,7 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import settings from "assets/icons/settings.png";
 import sound_on from "assets/icons/sound_on.png";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { GameOptionsModal } from "./settings-menu/GameOptions";
 import { useSound } from "lib/utils/hooks/useSound";
 

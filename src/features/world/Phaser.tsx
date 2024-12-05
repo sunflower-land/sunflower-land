@@ -35,7 +35,7 @@ import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { Label } from "components/ui/Label";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
