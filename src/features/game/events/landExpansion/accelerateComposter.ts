@@ -22,7 +22,7 @@ export function getSpeedUpCost(gameState: GameState, composter: ComposterName) {
   let { eggBoostRequirements } = composterDetails[composter];
 
   if (gameState.bumpkin.skills["Composting Bonanza"]) {
-    eggBoostRequirements *= 0.5;
+    eggBoostRequirements *= 2;
   }
   return { eggBoostRequirements };
 }

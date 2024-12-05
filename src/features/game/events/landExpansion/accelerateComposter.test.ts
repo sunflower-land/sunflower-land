@@ -262,7 +262,7 @@ describe("accelerateComposter", () => {
       state.buildings["Premium Composter"]?.[0].producing?.readyAt,
     ).toEqual(readyAt - 4 * 60 * 60 * 1000);
   });
-  it("subtracts half the amount of eggs when player has Composting Bonanza Skill", () => {
+  it("subtracts double the amount of eggs when player has Composting Bonanza Skill", () => {
     const readyAt =
       Date.now() +
       composterDetails["Premium Composter"].timeToFinishMilliseconds;
@@ -281,7 +281,7 @@ describe("accelerateComposter", () => {
             "Composting Bonanza": 1,
           },
         },
-        inventory: { Egg: new Decimal(33) },
+        inventory: { Egg: new Decimal(60) },
         buildings: {
           "Premium Composter": [
             {
@@ -300,7 +300,7 @@ describe("accelerateComposter", () => {
       },
     });
 
-    expect(state.inventory.Egg).toEqual(new Decimal(18));
+    expect(state.inventory.Egg).toEqual(new Decimal(0));
   });
 
   it("uses feathers instead of eggs to compost when player has Feathery Business skill", () => {

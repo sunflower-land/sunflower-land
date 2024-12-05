@@ -1676,7 +1676,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts:
-      "-50% resources to speed up composters, 1 hour reduction in composting time",
+      "Additional 1 hour reduction in composting time but double resources when boosting composters",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
