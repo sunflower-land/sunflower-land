@@ -1612,7 +1612,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     requirements: {
       points: 1,
       tier: 1,
-      island: "spring",
+      island: "basic",
     },
     boosts: translate("skill.turboCharged"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
