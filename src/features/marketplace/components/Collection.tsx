@@ -18,7 +18,7 @@ export const preloadCollections = (token: string) => {
   preload(["wearables", token], collectionFetcher);
   preload(["resources", token], collectionFetcher);
   preload(["buds", token], collectionFetcher);
-  preload(["limited", token], collectionFetcher);
+  preload(["temporary", token], collectionFetcher);
 };
 
 export const Collection: React.FC<{
