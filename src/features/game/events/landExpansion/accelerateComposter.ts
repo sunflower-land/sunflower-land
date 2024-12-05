@@ -19,12 +19,12 @@ type Options = {
 };
 
 export function getSpeedUpCost(gameState: GameState, composter: ComposterName) {
-  let { eggBoostRequirements } = composterDetails[composter];
+  let { resourceBoostRequirements } = composterDetails[composter];
 
   if (gameState.bumpkin.skills["Composting Bonanza"]) {
-    eggBoostRequirements *= 2;
+    resourceBoostRequirements *= 2;
   }
-  return { eggBoostRequirements };
+  return { resourceBoostRequirements };
 }
 
 export function getSpeedUpTime({
@@ -34,13 +34,13 @@ export function getSpeedUpTime({
   state: GameState;
   composter: ComposterName;
 }) {
-  let { eggBoostMilliseconds } = composterDetails[composter];
+  let { resourceBoostMilliseconds } = composterDetails[composter];
 
   if (state.bumpkin.skills["Composting Bonanza"]) {
-    eggBoostMilliseconds += 60 * 60 * 1000;
+    resourceBoostMilliseconds += 60 * 60 * 1000;
   }
 
-  return { eggBoostMilliseconds };
+  return { resourceBoostMilliseconds };
 }
 
 export function accelerateComposter({
@@ -69,43 +69,37 @@ export function accelerateComposter({
       throw new Error(translate("error.composterAlreadyBoosted"));
     }
 
-    const { eggBoostMilliseconds } = getSpeedUpTime({
+    const { resourceBoostMilliseconds } = getSpeedUpTime({
       state: stateCopy,
       composter: action.building,
     });
-    const { eggBoostRequirements } = getSpeedUpCost(stateCopy, action.building);
+    const { resourceBoostRequirements } = getSpeedUpCost(
+      stateCopy,
+      action.building,
+    );
+
+    const boostResource = stateCopy.bumpkin.skills["Feathery Business"]
+      ? "Feather"
+      : "Egg";
 
     if (
-      !!stateCopy.bumpkin.skills["Feathery Business"] &&
-      !(stateCopy.inventory.Feather ?? new Decimal(0)).gte(eggBoostRequirements)
+      !(stateCopy.inventory[boostResource] ?? new Decimal(0)).gte(
+        resourceBoostRequirements,
+      )
     ) {
-      throw new Error(`Missing Feathers`);
+      throw new Error(`Missing ${boostResource}`);
     }
 
-    if (
-      !stateCopy.bumpkin.skills["Feathery Business"] &&
-      !(stateCopy.inventory.Egg ?? new Decimal(0)).gte(eggBoostRequirements)
-    ) {
-      throw new Error("Missing Eggs");
-    }
+    // Subtract resources
+    stateCopy.inventory[boostResource] = (
+      stateCopy.inventory[boostResource] ?? new Decimal(0)
+    ).sub(resourceBoostRequirements);
 
-    // Subtract feathers if player has feathery business
-    if (stateCopy.bumpkin.skills["Feathery Business"]) {
-      stateCopy.inventory.Feather = (
-        stateCopy.inventory.Feather ?? new Decimal(0)
-      ).sub(eggBoostRequirements);
-    } else {
-      // else subtract eggs
-      stateCopy.inventory.Egg = (stateCopy.inventory.Egg ?? new Decimal(0)).sub(
-        eggBoostRequirements,
-      );
-    }
     // Subtract time
-    producing.readyAt -= eggBoostMilliseconds;
+    producing.readyAt -= resourceBoostMilliseconds;
 
     composter.boost = {
-      [stateCopy.bumpkin.skills["Feathery Business"] ? "Egg" : "Feather"]:
-        eggBoostRequirements,
+      [boostResource]: resourceBoostRequirements,
     };
 
     return stateCopy;

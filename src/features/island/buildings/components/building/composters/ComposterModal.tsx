@@ -194,12 +194,12 @@ export const ComposterModal: React.FC<Props> = ({
 
   const { produce, worm } = composterDetails[composterName];
 
-  const { eggBoostMilliseconds } = getSpeedUpTime({
+  const { resourceBoostMilliseconds } = getSpeedUpTime({
     state,
     composter: composterName,
   });
 
-  const { eggBoostRequirements } = getSpeedUpCost(state, composterName);
+  const { resourceBoostRequirements } = getSpeedUpCost(state, composterName);
 
   const { produceAmount } = getCompostAmount({
     skills: bumpkin.skills,
@@ -218,6 +218,8 @@ export const ComposterModal: React.FC<Props> = ({
   const produces = buildings[composterName]?.[0].producing?.items ?? {};
   const requires = buildings[composterName]?.[0].requires ?? {};
   const boost = buildings[composterName]?.[0].boost;
+
+  const boostResource = bumpkin.skills["Feathery Business"] ? "Feather" : "Egg";
 
   const hasRequirements = getKeys(requires).every((name) => {
     const amount = requires[name] || new Decimal(0);
@@ -325,21 +327,15 @@ export const ComposterModal: React.FC<Props> = ({
               <OuterPanel className="!p-1">
                 <div className="flex justify-between mb-1">
                   <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                    {`${secondsToString(eggBoostMilliseconds / 1000, {
+                    {`${secondsToString(resourceBoostMilliseconds / 1000, {
                       length: "short",
                     })} Boost`}
                   </Label>
                   <RequirementLabel
                     type="item"
-                    item={
-                      bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
-                    }
-                    requirement={new Decimal(eggBoostRequirements)}
-                    balance={
-                      inventory[
-                        bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
-                      ] ?? new Decimal(0)
-                    }
+                    item={boostResource}
+                    requirement={new Decimal(resourceBoostRequirements)}
+                    balance={inventory[boostResource] ?? new Decimal(0)}
                   />
                 </div>
                 <p className="text-xs mb-2">
@@ -352,11 +348,9 @@ export const ComposterModal: React.FC<Props> = ({
                 <Button
                   disabled={
                     !boost &&
-                    !(
-                      inventory[
-                        bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
-                      ] ?? new Decimal(0)
-                    ).gte(eggBoostRequirements)
+                    !(inventory[boostResource] ?? new Decimal(0)).gte(
+                      resourceBoostRequirements,
+                    )
                   }
                   onClick={() => showConfirmBoostModal(true)}
                 >
@@ -372,16 +366,22 @@ export const ComposterModal: React.FC<Props> = ({
                   messages={[
                     bumpkin.skills["Feathery Business"]
                       ? t("guide.compost.addFeathers.confirmation", {
-                          noFeathers: eggBoostRequirements,
-                          time: secondsToString(eggBoostMilliseconds / 1000, {
-                            length: "short",
-                          }),
+                          noFeathers: resourceBoostRequirements,
+                          time: secondsToString(
+                            resourceBoostMilliseconds / 1000,
+                            {
+                              length: "short",
+                            },
+                          ),
                         })
                       : t("guide.compost.addEggs.confirmation", {
-                          noEggs: eggBoostRequirements,
-                          time: secondsToString(eggBoostMilliseconds / 1000, {
-                            length: "short",
-                          }),
+                          noEggs: resourceBoostRequirements,
+                          time: secondsToString(
+                            resourceBoostMilliseconds / 1000,
+                            {
+                              length: "short",
+                            },
+                          ),
                         }),
                   ]}
                   onCancel={() => showConfirmBoostModal(false)}
@@ -392,11 +392,9 @@ export const ComposterModal: React.FC<Props> = ({
                       : "guide.compost.addEggs",
                   )}
                   disabled={
-                    !(
-                      inventory[
-                        bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
-                      ] ?? new Decimal(0)
-                    ).gte(eggBoostRequirements)
+                    !(inventory[boostResource] ?? new Decimal(0)).gte(
+                      resourceBoostRequirements,
+                    )
                   }
                 />
               </OuterPanel>
@@ -410,19 +408,12 @@ export const ComposterModal: React.FC<Props> = ({
                   icon={SUNNYSIDE.icons.stopwatch}
                   secondaryIcon={SUNNYSIDE.icons.confirm}
                 >
-                  {`${secondsToString(eggBoostMilliseconds / 1000, {
+                  {`${secondsToString(resourceBoostMilliseconds / 1000, {
                     length: "short",
                   })} Boosted`}
                 </Label>
-                <Label
-                  type="default"
-                  icon={
-                    ITEM_DETAILS[
-                      bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
-                    ].image
-                  }
-                >
-                  {eggBoostRequirements}{" "}
+                <Label type="default" icon={ITEM_DETAILS[boostResource].image}>
+                  {resourceBoostRequirements}{" "}
                   {t(
                     bumpkin.skills["Feathery Business"]
                       ? "guide.compost.feathers"
