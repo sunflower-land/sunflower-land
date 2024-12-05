@@ -28,12 +28,46 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { setImageWidth } from "lib/images";
 import { Loading } from "features/auth/components";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import {
+  getCompostAmount,
+  getReadyAt,
+} from "features/game/events/landExpansion/startComposter";
+import { isWearableActive } from "features/game/lib/wearables";
 
-const WORM_OUTPUT: Record<ComposterName, string> = {
-  "Compost Bin": "2-4",
-  "Turbo Composter": "2-3",
-  "Premium Composter": "1-3",
+const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
+  "Compost Bin": { min: 2, max: 4 },
+  "Turbo Composter": { min: 2, max: 3 },
+  "Premium Composter": { min: 1, max: 3 },
 };
+
+function getWormOutput({
+  state,
+  building,
+}: {
+  state: GameState;
+  building: ComposterName;
+}) {
+  const { skills } = state.bumpkin;
+  let { min, max } = WORM_OUTPUT[building];
+  if (isWearableActive({ name: "Bucket O' Worms", game: state })) {
+    min += 1;
+    max += 1;
+  }
+
+  // +1 Worm if the player has Wormy Treat skill
+  if (skills["Wormy Treat"]) {
+    min += 1;
+    max += 1;
+  }
+
+  // +2 Bait if the player has Composting Overhaul skill
+  if (skills["Composting Overhaul"]) {
+    min += 2;
+    max += 2;
+  }
+  return { min, max };
+}
+
 export const COMPOSTER_IMAGES: Record<
   ComposterName,
   {
@@ -132,14 +166,19 @@ export const ComposterModal: React.FC<Props> = ({
 
   const { inventory, bumpkin, buildings } = state;
 
-  const {
-    produce,
-    produceAmount,
-    worm,
-    eggBoostMilliseconds,
-    eggBoostRequirements,
-    timeToFinishMilliseconds,
-  } = composterDetails[composterName];
+  const { produce, worm, eggBoostMilliseconds, eggBoostRequirements } =
+    composterDetails[composterName];
+
+  const { produceAmount } = getCompostAmount({
+    skills: bumpkin.skills,
+    building: composterName,
+  });
+
+  const { min, max } = getWormOutput({ state, building: composterName });
+  const { timeToFinishMilliseconds } = getReadyAt({
+    gameState: state,
+    composter: composterName,
+  });
 
   const composting = !!readyAt && readyAt > Date.now();
   const isReady = readyAt && readyAt < Date.now();
@@ -445,9 +484,7 @@ export const ComposterModal: React.FC<Props> = ({
               <div className="flex space-x-1 justify-start">
                 <SquareIcon icon={ITEM_DETAILS[worm].image} width={14} />
                 <div className="block">
-                  <p className="text-xs mb-1">
-                    {`${WORM_OUTPUT[composterName]} ${worm}s`}
-                  </p>
+                  <p className="text-xs mb-1">{`${min}-${max} ${worm}s`}</p>
                   <Label
                     icon={SUNNYSIDE.tools.fishing_rod}
                     type="default"
