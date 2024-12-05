@@ -4447,5 +4447,10 @@
   "marketplace.reward.animalPack.description": "Una confezione di mangimi per animali",
   "marketplace.whaleTrades": "Commercianti di balene",
   "marketplace.topFriends": "I migliori amici",
-  "marketplace.notForSale": "Non in vendita"
+  "marketplace.notForSale": "Non in vendita",
+  "description.christmasStocking": "Una classica calza festiva, perfetta da riempire con dolcetti e sorprese natalizi.",
+  "description.goldenChristmasStocking": "Una lussuosa calza con accenti dorati, che aggiunge un tocco elegante al tuo arredamento natalizio.",
+  "description.cozyFireplace": "Un caminetto caldo e invitante che fa da sfondo perfetto per le riunioni natalizie.",
+  "description.christmasRug": "Un tappeto festivo decorato con motivi stagionali per portare calore e spirito natalizio a casa tua.",
+  "description.christmasCandle": "Una candela incandescente dal profumo festivo, ideale per creare un'atmosfera accogliente e magica."
 }

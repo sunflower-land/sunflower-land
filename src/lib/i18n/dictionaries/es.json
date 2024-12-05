@@ -4447,5 +4447,10 @@
   "marketplace.reward.animalPack.description": "Un paquete de pienso para animales",
   "marketplace.whaleTrades": "Comerciantes de ballenas",
   "marketplace.topFriends": "Mejores amigos",
-  "marketplace.notForSale": "No está a la venta"
+  "marketplace.notForSale": "No está a la venta",
+  "description.christmasStocking": "Un calcetín festivo clásico, perfecto para llenarlo con sorpresas y golosinas navideñas.",
+  "description.goldenChristmasStocking": "Un calcetín lujoso con detalles dorados que añade un toque elegante a tu decoración navideña.",
+  "description.cozyFireplace": "Una chimenea cálida y acogedora que crea el telón de fondo perfecto para las reuniones navideñas.",
+  "description.christmasRug": "Una alfombra festiva adornada con motivos de temporada para aportar calidez y espíritu navideño a tu hogar.",
+  "description.christmasCandle": "Una vela encendida con un aroma festivo, ideal para crear un ambiente acogedor y mágico."
 }

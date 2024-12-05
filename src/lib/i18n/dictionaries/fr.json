@@ -4447,5 +4447,10 @@
   "marketplace.reward.animalPack.description": "Un pack d'aliments pour animaux",
   "marketplace.whaleTrades": "Commerçants de baleines",
   "marketplace.topFriends": "Les meilleurs amis",
-  "marketplace.notForSale": "Non à vendre"
+  "marketplace.notForSale": "Non à vendre",
+  "description.christmasStocking": "Un bas de fête classique, parfait pour garnir de friandises et de surprises pour les fêtes.",
+  "description.goldenChristmasStocking": "Une chaussette luxueuse aux accents dorés qui ajoutera une touche d'élégance à votre décoration de Noël.",
+  "description.cozyFireplace": "Une cheminée chaleureuse et accueillante qui constitue la toile de fond idéale pour les fêtes de fin d'année.",
+  "description.christmasRug": "Un tapis festif orné de motifs saisonniers pour apporter chaleur et esprit des fêtes à votre intérieur.",
+  "description.christmasCandle": "Une bougie rougeoyante au parfum festif, idéale pour créer une atmosphère chaleureuse et magique."
 }
