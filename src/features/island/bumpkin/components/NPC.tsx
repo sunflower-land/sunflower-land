@@ -66,85 +66,81 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
   }
 
   return (
-    <>
-      <div
-        className={classNames(`absolute `, {
-          "cursor-pointer hover:img-highlight": !!onClick,
-        })}
-        onClick={() => !!onClick && onClick()}
+    <div
+      className={classNames(`absolute `, {
+        "cursor-pointer hover:img-highlight": !!onClick,
+      })}
+      onClick={() => !!onClick && onClick()}
+      style={{
+        width: `${width}px`, // Use passed width for character
+        height: `${width * 2}px`, // Adjust height based on the width
+      }}
+    >
+      <img
+        src={shadow}
         style={{
-          width: `${width}px`, // Use passed width for character
-          height: `${width * 2}px`, // Adjust height based on the width
+          width: `${width * 0.94}px`, // Scale shadow based on width
+          top: `${width * 1.25}px`,
+          left: `${width * 0.06}px`,
         }}
-      >
-        <>
-          <img
-            src={shadow}
-            style={{
-              width: `${width * 0.94}px`, // Scale shadow based on width
-              top: `${width * 1.25}px`,
-              left: `${width * 0.06}px`,
-            }}
-            className="absolute pointer-events-none"
-          />
-          {auraBack && (
-            <Spritesheet
-              className="absolute w-full inset-0 pointer-events-none"
-              style={{
-                width: `${width * 1.25}px`,
-                top: `${width * 0.125}px`,
-                left: `${width * -0.125}px`,
-                imageRendering: "pixelated" as const,
-              }}
-              image={auraBack}
-              widthFrame={AURA_WIDTH}
-              heightFrame={FRAME_HEIGHT}
-              zoomScale={scale}
-              steps={AURA_STEPS}
-              fps={14}
-              autoplay={true}
-              loop={true}
-            />
-          )}
-          <Spritesheet
-            className="absolute w-full inset-0 pointer-events-none"
-            style={{
-              width: `${width * 1.25}px`,
-              top: `${width * 0.31}px`,
-              left: `${width * -0.125}px`,
-              imageRendering: "pixelated" as const,
-            }}
-            image={idle}
-            widthFrame={FRAME_WIDTH}
-            heightFrame={FRAME_HEIGHT}
-            zoomScale={scale}
-            steps={STEPS}
-            fps={14}
-            autoplay={true}
-            loop={true}
-          />
-          {auraFront && (
-            <Spritesheet
-              className="absolute w-full inset-0 pointer-events-none"
-              style={{
-                width: `${width * 1.25}px`,
-                top: `${width * 0.44}px`,
-                left: `${width * -0.125}px`,
-                imageRendering: "pixelated" as const,
-              }}
-              image={auraFront}
-              widthFrame={AURA_WIDTH}
-              heightFrame={FRAME_HEIGHT}
-              zoomScale={scale}
-              steps={AURA_STEPS}
-              fps={14}
-              autoplay={true}
-              loop={true}
-            />
-          )}
-        </>
-      </div>
-    </>
+        className="absolute pointer-events-none"
+      />
+      {auraBack && (
+        <Spritesheet
+          className="absolute w-full inset-0 pointer-events-none"
+          style={{
+            width: `${width * 1.25}px`,
+            top: `${width * 0.125}px`,
+            left: `${width * -0.125}px`,
+            imageRendering: "pixelated" as const,
+          }}
+          image={auraBack}
+          widthFrame={AURA_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          zoomScale={scale}
+          steps={AURA_STEPS}
+          fps={14}
+          autoplay={true}
+          loop={true}
+        />
+      )}
+      <Spritesheet
+        className="absolute w-full inset-0 pointer-events-none"
+        style={{
+          width: `${width * 1.25}px`,
+          top: `${width * 0.31}px`,
+          left: `${width * -0.125}px`,
+          imageRendering: "pixelated" as const,
+        }}
+        image={idle}
+        widthFrame={FRAME_WIDTH}
+        heightFrame={FRAME_HEIGHT}
+        zoomScale={scale}
+        steps={STEPS}
+        fps={14}
+        autoplay={true}
+        loop={true}
+      />
+      {auraFront && (
+        <Spritesheet
+          className="absolute w-full inset-0 pointer-events-none"
+          style={{
+            width: `${width * 1.25}px`,
+            top: `${width * 0.44}px`,
+            left: `${width * -0.125}px`,
+            imageRendering: "pixelated" as const,
+          }}
+          image={auraFront}
+          widthFrame={AURA_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          zoomScale={scale}
+          steps={AURA_STEPS}
+          fps={14}
+          autoplay={true}
+          loop={true}
+        />
+      )}
+    </div>
   );
 };
 
@@ -171,73 +167,69 @@ export const NPCIcon: React.FC<NPCProps> = ({
   }
 
   return (
-    <>
-      <div
-        className="absolute"
+    <div
+      className="absolute"
+      style={{
+        width: `${width}px`, // Use passed width for character
+        height: `${width * 2}px`, // Adjust height based on the width
+      }}
+    >
+      {auraBack && (
+        <Spritesheet
+          className="absolute w-full inset-0 pointer-events-none"
+          style={{
+            width: `${width * 1.25}px`,
+            top: `${width * 0.125}px`,
+            left: `${width * -0.125}px`,
+            imageRendering: "pixelated" as const,
+          }}
+          image={auraBack}
+          widthFrame={AURA_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          zoomScale={new SpringValue(1)}
+          steps={AURA_STEPS}
+          fps={14}
+          autoplay={true}
+          loop={true}
+        />
+      )}
+      <Spritesheet
+        className="w-full inset-0 pointer-events-none"
         style={{
-          width: `${width}px`, // Use passed width for character
-          height: `${width * 2}px`, // Adjust height based on the width
+          width: `${width * 1.25}px`,
+          top: `${width * 0.31}px`,
+          left: `${width * -0.125}px`,
+          imageRendering: "pixelated" as const,
         }}
-      >
-        <>
-          {auraBack && (
-            <Spritesheet
-              className="absolute w-full inset-0 pointer-events-none"
-              style={{
-                width: `${width * 1.25}px`,
-                top: `${width * 0.125}px`,
-                left: `${width * -0.125}px`,
-                imageRendering: "pixelated" as const,
-              }}
-              image={auraBack}
-              widthFrame={AURA_WIDTH}
-              heightFrame={FRAME_HEIGHT}
-              zoomScale={new SpringValue(1)}
-              steps={AURA_STEPS}
-              fps={14}
-              autoplay={true}
-              loop={true}
-            />
-          )}
-          <Spritesheet
-            className="w-full inset-0 pointer-events-none"
-            style={{
-              width: `${width * 1.25}px`,
-              top: `${width * 0.31}px`,
-              left: `${width * -0.125}px`,
-              imageRendering: "pixelated" as const,
-            }}
-            image={idle}
-            widthFrame={FRAME_WIDTH}
-            heightFrame={FRAME_HEIGHT}
-            zoomScale={new SpringValue(1)}
-            steps={STEPS}
-            fps={14}
-            autoplay={true}
-            loop={true}
-          />
-          {auraFront && (
-            <Spritesheet
-              className="absolute w-full inset-0 pointer-events-none"
-              style={{
-                width: `${width * 1.25}px`,
-                top: `${width * 0.44}px`,
-                left: `${width * -0.125}px`,
-                imageRendering: "pixelated" as const,
-              }}
-              image={auraFront}
-              widthFrame={AURA_WIDTH}
-              heightFrame={FRAME_HEIGHT}
-              zoomScale={new SpringValue(1)}
-              steps={AURA_STEPS}
-              fps={14}
-              autoplay={true}
-              loop={true}
-            />
-          )}
-        </>
-      </div>
-    </>
+        image={idle}
+        widthFrame={FRAME_WIDTH}
+        heightFrame={FRAME_HEIGHT}
+        zoomScale={new SpringValue(1)}
+        steps={STEPS}
+        fps={14}
+        autoplay={true}
+        loop={true}
+      />
+      {auraFront && (
+        <Spritesheet
+          className="absolute w-full inset-0 pointer-events-none"
+          style={{
+            width: `${width * 1.25}px`,
+            top: `${width * 0.44}px`,
+            left: `${width * -0.125}px`,
+            imageRendering: "pixelated" as const,
+          }}
+          image={auraFront}
+          widthFrame={AURA_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          zoomScale={new SpringValue(1)}
+          steps={AURA_STEPS}
+          fps={14}
+          autoplay={true}
+          loop={true}
+        />
+      )}
+    </div>
   );
 };
 
