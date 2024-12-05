@@ -44,10 +44,6 @@ export function getReadyAt({
     timeToFinishMilliseconds = timeToFinishMilliseconds * 0.9;
   }
 
-  if (gameState.bumpkin.skills["Composting Bonanza"]) {
-    timeToFinishMilliseconds = timeToFinishMilliseconds - 1 * 60 * 60 * 1000;
-  }
-
   return { timeToFinishMilliseconds };
 }
 
