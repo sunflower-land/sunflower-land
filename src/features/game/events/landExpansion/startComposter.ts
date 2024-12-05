@@ -77,10 +77,6 @@ export function getCompostAmount({
     produceAmount -= 5;
   }
 
-  if (skills["More With Less"]) {
-    produceAmount -= 1;
-  }
-
   return { produceAmount };
 }
 

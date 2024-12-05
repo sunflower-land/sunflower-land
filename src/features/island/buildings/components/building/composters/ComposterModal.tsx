@@ -65,6 +65,22 @@ function getWormOutput({
     min += 2;
     max += 2;
   }
+
+  // -1 bait if player has More with less skill (in exchange for +10 fishing limit)
+  if (skills["More With Less"]) {
+    min -= 1;
+    max -= 1;
+  }
+
+  // If min somehow goes negative, show as 0
+  if (min < 0) {
+    min = 0;
+  }
+
+  if (max < 0) {
+    max = 0;
+  }
+
   return { min, max };
 }
 
