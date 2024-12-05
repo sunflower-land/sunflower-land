@@ -108,7 +108,7 @@ export const TradeableDescription: React.FC<{
       {tradeable && !tradeable?.isActive && (
         <div className="p-2">
           <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-            {`Not for sale`}
+            {t("marketplace.notForSale")}
           </Label>
         </div>
       )}
