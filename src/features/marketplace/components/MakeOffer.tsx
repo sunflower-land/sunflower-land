@@ -23,6 +23,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/craftables";
 import { KNOWN_ITEMS } from "features/game/types";
+import Decimal from "decimal.js-light";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 
@@ -35,6 +36,8 @@ export const MakeOffer: React.FC<{
 }> = ({ onClose, display, itemId, authToken, floorPrice }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   const balance = useSelector(gameService, _balance);
 
@@ -207,6 +210,9 @@ export const MakeOffer: React.FC<{
             isOutOfRange={balance.lt(offer)}
             icon={sflIcon}
           />
+          <p className="text-xxs ml-2">
+            {`$${new Decimal(usd).mul(offer).toFixed(2)}`}
+          </p>
         </div>
 
         <Label type="default" className="-ml-1 mb-1" icon={lockIcon}>

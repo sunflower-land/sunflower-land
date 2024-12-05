@@ -25,6 +25,7 @@ import { Button } from "components/ui/Button";
 import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import Decimal from "decimal.js-light";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -88,6 +89,8 @@ export const MyOffers: React.FC = () => {
 
     setClaimId(undefined);
   };
+
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   return (
     <>
@@ -198,11 +201,14 @@ export const MyOffers: React.FC = () => {
                       </div>
                       <div className="p-1.5 truncate flex flex-1 items-center">
                         <div className="flex flex-col items-start justify-center">
-                          <div className="flex justify-start space-x-1">
-                            <img src={sflIcon} className="h-5" />
-                            <span className="sm:text-sm">
-                              {price.toFixed(2)}
-                            </span>
+                          <div className="flex items-center justify-start space-x-1">
+                            <img src={sflIcon} className="h-6" />
+                            <div>
+                              <span className="sm:text-sm">{`${price.toFixed(2)} SFL`}</span>
+                              <p className="text-xxs">
+                                {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+                              </p>
+                            </div>
                           </div>
                           {isResource && (
                             <div className="text-xxs w-full text-end">

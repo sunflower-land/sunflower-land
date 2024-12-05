@@ -1,10 +1,8 @@
-import { Marketplace, CollectionName } from "features/game/types/marketplace";
+import { Marketplace } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
-
-export type MarketplaceFilter = CollectionName | "utility";
 
 export async function loadMarketplace({
   filters,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
 import sfl from "assets/icons/sfl.webp";
@@ -14,12 +14,16 @@ import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import { secondsToString } from "lib/utils/time";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GameProvider";
 
 type Props = {
   details: TradeableDisplay;
   count?: number;
   price?: Decimal;
   onClick?: () => void;
+  expiresAt?: number;
 };
 
 export const ListViewCard: React.FC<Props> = ({
@@ -27,7 +31,11 @@ export const ListViewCard: React.FC<Props> = ({
   price,
   onClick,
   count,
+  expiresAt,
 }) => {
+  const { gameService } = useContext(Context);
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   const { type, name, image, buff } = details;
   const { t } = useAppTranslation();
 
@@ -67,18 +75,23 @@ export const ListViewCard: React.FC<Props> = ({
           }}
         >
           {price && price.gt(0) && (
-            <div className="flex items-center absolute top-0 left-0">
-              <img src={sfl} className="h-4 sm:h-5 mr-1" />
-              <p className="text-xs whitespace-nowrap">
-                {isResources
-                  ? t("marketplace.pricePerUnit", {
-                      price: formatNumber(price, {
+            <div className="absolute top-0 left-0">
+              <div className="flex items-center ">
+                <img src={sfl} className="h-4 sm:h-5 mr-1" />
+                <p className="text-xs whitespace-nowrap">
+                  {isResources
+                    ? t("marketplace.pricePerUnit", {
+                        price: formatNumber(price, {
+                          decimalPlaces: 4,
+                        }),
+                      })
+                    : `${formatNumber(price, {
                         decimalPlaces: 4,
-                      }),
-                    })
-                  : `${formatNumber(price, {
-                      decimalPlaces: 4,
-                    })}`}
+                      })}`}
+                </p>
+              </div>
+              <p className="text-xxs">
+                {`$${new Decimal(usd).mul(price).toFixed(2)}`}
               </p>
             </div>
           )}
@@ -102,6 +115,18 @@ export const ListViewCard: React.FC<Props> = ({
                 className="h-4 mr-1"
               />
               <p className="text-xs truncate pb-0.5">{buff.shortDescription}</p>
+            </div>
+          )}
+
+          {expiresAt && (
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
+              <p className="text-xs truncate pb-0.5">
+                {" "}
+                {`${secondsToString((expiresAt - Date.now()) / 1000, {
+                  length: "short",
+                })} left`}
+              </p>
             </div>
           )}
         </div>

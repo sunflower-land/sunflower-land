@@ -60,8 +60,8 @@ export type ComposterDetails = {
   produce: CompostName;
   produceAmount: number;
   worm: Worm;
-  eggBoostRequirements: number;
-  eggBoostMilliseconds: number;
+  resourceBoostRequirements: number;
+  resourceBoostMilliseconds: number;
 };
 
 export const composterDetails: Record<ComposterName, ComposterDetails> = {
@@ -70,24 +70,24 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     produce: "Sprout Mix",
     produceAmount: 10,
     timeToFinishMilliseconds: 6 * 60 * 60 * 1000,
-    eggBoostRequirements: 10,
-    eggBoostMilliseconds: 2 * 60 * 60 * 1000,
+    resourceBoostRequirements: 10,
+    resourceBoostMilliseconds: 2 * 60 * 60 * 1000,
   },
   "Turbo Composter": {
     produce: "Fruitful Blend",
     produceAmount: 3,
     worm: "Grub",
     timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
-    eggBoostRequirements: 20,
-    eggBoostMilliseconds: 3 * 60 * 60 * 1000,
+    resourceBoostRequirements: 20,
+    resourceBoostMilliseconds: 3 * 60 * 60 * 1000,
   },
   "Premium Composter": {
     produce: "Rapid Root",
     produceAmount: 10,
     worm: "Red Wiggler",
     timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
-    eggBoostRequirements: 30,
-    eggBoostMilliseconds: 4 * 60 * 60 * 1000,
+    resourceBoostRequirements: 30,
+    resourceBoostMilliseconds: 4 * 60 * 60 * 1000,
   },
 };
 

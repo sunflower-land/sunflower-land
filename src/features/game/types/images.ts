@@ -562,6 +562,12 @@ import whiteFestiveFox from "assets/sfts/white-xmas-fox.png";
 import sapoDocuras from "assets/sfts/sapo_docuras.gif";
 import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
+import christmasStocking from "assets/sfts/christmas_stocking.webp";
+import goldenChristmasStocking from "assets/sfts/golden_christmas_stocking.webp";
+import cozyFireplace from "assets/sfts/cozy_fireplace.webp";
+import christmasRug from "assets/sfts/christmas_rug.webp";
+import christmasCandle from "assets/sfts/christmas_candle.webp";
+
 // Flowers
 import beehive from "assets/sfts/beehive.webp";
 import flowerBed from "assets/flowers/empty.webp";
@@ -4443,5 +4449,25 @@ export const ITEM_DETAILS: Items = {
   "Trade Cake": {
     image: SUNNYSIDE.icons.expression_confused,
     description: "Cake that you can redeem at Trade Rewards Shop",
+  },
+  "Christmas Stocking": {
+    image: christmasStocking,
+    description: translate("description.christmasStocking"),
+  },
+  "Golden Christmas Stocking": {
+    image: goldenChristmasStocking,
+    description: translate("description.goldenChristmasStocking"),
+  },
+  "Cozy Fireplace": {
+    image: cozyFireplace,
+    description: translate("description.cozyFireplace"),
+  },
+  "Christmas Rug": {
+    image: christmasRug,
+    description: translate("description.christmasRug"),
+  },
+  "Christmas Candle": {
+    image: christmasCandle,
+    description: translate("description.christmasCandle"),
   },
 };
