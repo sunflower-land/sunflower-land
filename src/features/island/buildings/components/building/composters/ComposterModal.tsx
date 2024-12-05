@@ -72,16 +72,19 @@ function getWormOutput({
     max -= 1;
   }
 
+  // -2 Earthworm with Composting Revamp
   if (skills["Composting Revamp"] && building === "Compost Bin") {
     min -= 2;
     max -= 2;
   }
 
+  // -2 Grub with Composting Revamp
   if (skills["Composting Revamp"] && building === "Turbo Composter") {
     min -= 2;
     max -= 2;
   }
 
+  // -1 Red Wiggler with Composting Revamp
   if (skills["Composting Revamp"] && building === "Premium Composter") {
     min -= 1;
     max -= 1;
