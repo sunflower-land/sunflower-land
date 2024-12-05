@@ -76,6 +76,10 @@ export function getCompostAmount({
     produceAmount -= 5;
   }
 
+  if (skills["Composting Revamp"]) {
+    produceAmount += 5;
+  }
+
   return { produceAmount };
 }
 
