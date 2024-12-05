@@ -1630,6 +1630,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Feathery Business": {
+    name: "Feathery Business",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "Use feathers to speed up composters instead of eggs",
+    image: SUNNYSIDE.skills.green_thumb_LE,
+    disabled: false,
+  },
   // Compost - Tier 2
   "Premium Worms": {
     name: "Premium Worms",

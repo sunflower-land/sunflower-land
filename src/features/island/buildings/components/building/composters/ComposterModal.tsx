@@ -119,13 +119,18 @@ export const ComposterModal: React.FC<Props> = ({
   onBoost,
 }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const { t } = useAppTranslation();
 
   const [tab, setTab] = useState(0);
 
-  const state = gameState.context.state;
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
+  const { inventory, bumpkin, buildings } = state;
 
   const {
     produce,
@@ -139,14 +144,14 @@ export const ComposterModal: React.FC<Props> = ({
   const composting = !!readyAt && readyAt > Date.now();
   const isReady = readyAt && readyAt < Date.now();
 
-  const produces = state.buildings[composterName]?.[0].producing?.items ?? {};
-  const requires = state.buildings[composterName]?.[0].requires ?? {};
-  const boost = state.buildings[composterName]?.[0].boost;
+  const produces = buildings[composterName]?.[0].producing?.items ?? {};
+  const requires = buildings[composterName]?.[0].requires ?? {};
+  const boost = buildings[composterName]?.[0].boost;
 
   const hasRequirements = getKeys(requires).every((name) => {
     const amount = requires[name] || new Decimal(0);
 
-    const count = state.inventory[name] || new Decimal(0);
+    const count = inventory[name] || new Decimal(0);
 
     return count.gte(amount);
   });
@@ -255,38 +260,73 @@ export const ComposterModal: React.FC<Props> = ({
                   </Label>
                   <RequirementLabel
                     type="item"
-                    item="Egg"
+                    item={
+                      bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
+                    }
                     requirement={new Decimal(eggBoostRequirements)}
-                    balance={state.inventory.Egg ?? new Decimal(0)}
+                    balance={
+                      inventory[
+                        bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
+                      ] ?? new Decimal(0)
+                    }
                   />
                 </div>
                 <p className="text-xs mb-2">
-                  {t("guide.compost.addEggs.speed")}
-                  {"."}
+                  {t(
+                    bumpkin.skills["Feathery Business"]
+                      ? "guide.compost.addFeathers.speed"
+                      : "guide.compost.addEggs.speed",
+                  )}
                 </p>
                 <Button
                   disabled={
-                    !boost && !state.inventory.Egg?.gte(eggBoostRequirements)
+                    !boost &&
+                    !(
+                      inventory[
+                        bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
+                      ] ?? new Decimal(0)
+                    ).gte(eggBoostRequirements)
                   }
                   onClick={() => showConfirmBoostModal(true)}
                 >
-                  {t("guide.compost.addEggs")}
+                  {t(
+                    bumpkin.skills["Feathery Business"]
+                      ? "guide.compost.addFeathers"
+                      : "guide.compost.addEggs",
+                  )}
                 </Button>
                 <ConfirmationModal
                   show={isConfirmBoostModalOpen}
                   onHide={() => showConfirmBoostModal(false)}
                   messages={[
-                    t("guide.compost.addEggs.confirmation", {
-                      noEggs: eggBoostRequirements,
-                      time: secondsToString(eggBoostMilliseconds / 1000, {
-                        length: "short",
-                      }),
-                    }),
+                    bumpkin.skills["Feathery Business"]
+                      ? t("guide.compost.addFeathers.confirmation", {
+                          noFeathers: eggBoostRequirements,
+                          time: secondsToString(eggBoostMilliseconds / 1000, {
+                            length: "short",
+                          }),
+                        })
+                      : t("guide.compost.addEggs.confirmation", {
+                          noEggs: eggBoostRequirements,
+                          time: secondsToString(eggBoostMilliseconds / 1000, {
+                            length: "short",
+                          }),
+                        }),
                   ]}
                   onCancel={() => showConfirmBoostModal(false)}
                   onConfirm={applyBoost}
-                  confirmButtonLabel={t("guide.compost.addEggs")}
-                  disabled={!state.inventory.Egg?.gte(eggBoostRequirements)}
+                  confirmButtonLabel={t(
+                    bumpkin.skills["Feathery Business"]
+                      ? "guide.compost.addFeathers"
+                      : "guide.compost.addEggs",
+                  )}
+                  disabled={
+                    !(
+                      inventory[
+                        bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
+                      ] ?? new Decimal(0)
+                    ).gte(eggBoostRequirements)
+                  }
                 />
               </OuterPanel>
             </>
@@ -303,8 +343,20 @@ export const ComposterModal: React.FC<Props> = ({
                     length: "short",
                   })} Boosted`}
                 </Label>
-                <Label type="default" icon={ITEM_DETAILS.Egg.image}>
-                  {eggBoostRequirements} {t("guide.compost.eggs")}
+                <Label
+                  type="default"
+                  icon={
+                    ITEM_DETAILS[
+                      bumpkin.skills["Feathery Business"] ? "Feather" : "Egg"
+                    ].image
+                  }
+                >
+                  {eggBoostRequirements}{" "}
+                  {t(
+                    bumpkin.skills["Feathery Business"]
+                      ? "guide.compost.feathers"
+                      : "guide.compost.eggs",
+                  )}
                 </Label>
               </div>
             </OuterPanel>
@@ -413,10 +465,7 @@ export const ComposterModal: React.FC<Props> = ({
                   key={index}
                   type="item"
                   item={ingredientName}
-                  balance={
-                    gameState.context.state.inventory[ingredientName] ??
-                    new Decimal(0)
-                  }
+                  balance={inventory[ingredientName] ?? new Decimal(0)}
                   requirement={new Decimal(requires[ingredientName] ?? 0)}
                 />
               ))}
