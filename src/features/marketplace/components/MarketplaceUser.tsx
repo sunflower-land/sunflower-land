@@ -1,24 +1,14 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useEffect, useState } from "react";
-import { TrendingTrades } from "./TrendingTrades";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
-import whaleIcon from "assets/icons/whale.webp";
-import walletIcon from "assets/icons/wallet.png";
-import {
-  MarketplaceProfile,
-  MarketplaceTrends,
-} from "features/game/types/marketplace";
+import { MarketplaceProfile } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
-import { loadTrends } from "../actions/loadTrends";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
-import { TopTrades } from "./TopTrades";
 import { loadProfile } from "../actions/loadProfile";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
@@ -99,11 +89,12 @@ export const MarketplaceUser: React.FC = () => {
 
       <InnerPanel className="mb-1">
         <Label type="default" icon={tradeIcon} className="ml-2">
-          Top friends
+          {t("marketplace.topFriends")}
         </Label>
         <div className="flex flex-wrap">
           {profile.friends.map((friend) => (
             <div
+              key={friend.id}
               className="flex items-center w-full sm:w-1/3 pr-4 cursor-pointer"
               onClick={() => {
                 navigate(`/marketplace/profile/${friend.id}`);

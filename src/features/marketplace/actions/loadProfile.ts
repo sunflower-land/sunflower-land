@@ -1,8 +1,4 @@
-import {
-  CollectionName,
-  MarketplaceProfile,
-  TradeableDetails,
-} from "features/game/types/marketplace";
+import { MarketplaceProfile } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
