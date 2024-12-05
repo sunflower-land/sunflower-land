@@ -1309,7 +1309,6 @@
   "pete.teaser.six": "Plante Sementes",
   "pete.teaser.seven": "Crie um Espantalho",
   "pete.teaser.eight": "Cozinhe comida e evolua",
-  "guide.compost.addEggs.speed": "Adicione ovos para acelerar a produção",
   "guide.compost.addEggs": "Adicione ovos",
   "guide.compost.eggs": "Ovos",
   "guide.compost.cropGrowthTime": "-50% Tempo de crescimento da plantação",
@@ -4353,7 +4352,6 @@
   "skill.bettysFriend": "A receita de entrega da Betty Coin aumentou em 30%",
   "skill.efficientBin": "+5 Sprout Mix ao coletar da caixa de compostagem",
   "skill.turboCharged": "+5 Fruitful Blend ao coletar no Turbo Composter",
-  "skill.oldFarmer": "+0.1 Rendimento avançado da safra",
   "skill.strongRoots": "Rabanete, trigo, couve e cevada crescem 10% mais rápido",
   "skill.coinSwindler": "+10% de moedas ao vender safras (Seed Shop)",
   "skill.goldenSunflower": "0,15% de chance de obter +0,35 de ouro ao colher girassóis manualmente",
@@ -4452,5 +4450,11 @@
   "description.goldenChristmasStocking": "Uma meia luxuosa com detalhes dourados, adicionando um toque elegante à sua decoração de Natal.",
   "description.cozyFireplace": "Uma lareira aconchegante e convidativa que cria o cenário perfeito para reuniões de fim de ano.",
   "description.christmasRug": "Um tapete festivo adornado com padrões sazonais para trazer calor e espírito natalino à sua casa.",
-  "description.christmasCandle": "Uma vela brilhante com um aroma festivo, ideal para criar uma atmosfera aconchegante e mágica."
+  "description.christmasCandle": "Uma vela brilhante com um aroma festivo, ideal para criar uma atmosfera aconchegante e mágica.",
+  "guide.compost.addEggs.speed": "Adicione ovos para acelerar a produção.",
+  "guide.compost.addFeathers.speed": "Adicione penas para acelerar a produção",
+  "guide.compost.addFeathers": "Adicionar penas",
+  "guide.compost.feathers": "Penas",
+  "guide.compost.addFeathers.confirmation": "Tem certeza de que deseja adicionar {{noFeathers}} penas para reduzir o tempo de produção de composto em {{time}}?",
+  "skill.oldFarmer": "+0,1 Rendimento avançado da safra"
 }

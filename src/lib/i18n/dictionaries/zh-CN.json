@@ -1661,7 +1661,6 @@
   "goblinMessages.msg8": "我想尝点新玩意儿，有什么新奇的东西吗？",
   "goblinMessages.msg9": "嘿喂，有零食可以分享吗？我保证我不会把它给偷走……应该。",
   "goblinMessages.msg10": "我不在乎是什么，只管给我吃的！",
-  "guide.compost.addEggs.speed": "添加鸡蛋以加快生产速度",
   "guide.compost.addEggs": "添加鸡蛋",
   "guide.compost.eggs": "鸡蛋",
   "guide.compost.cropGrowthTime": "-50% 庄稼生长时间",
@@ -4353,7 +4352,6 @@
   "skill.bettysFriend": "Betty Coin 的交付收入增长了 30%",
   "skill.efficientBin": "从堆肥箱收集时 +5 Sprout Mix",
   "skill.turboCharged": "从 Turbo Composter 收集时获得 +5 富有成效",
-  "skill.oldFarmer": "+0.1 提高作物产量",
   "skill.strongRoots": "萝卜、小麦、羽衣甘蓝、大麦的生长速度加快 10%",
   "skill.coinSwindler": "出售农作物时金币 +10%（种子商店）",
   "skill.goldenSunflower": "手动收获向日葵时有 0.15% 几率获得 +0.35 金币",
@@ -4452,5 +4450,11 @@
   "description.goldenChristmasStocking": "一款带有金色装饰的奢华长袜，为您的圣诞装饰增添优雅气息。",
   "description.cozyFireplace": "温暖宜人的壁炉为节日聚会提供了完美的背景。",
   "description.christmasRug": "一款装饰有季节性图案的节日地毯，为您的家带来温暖和节日气氛。",
-  "description.christmasCandle": "一款带有节日气味的发光蜡烛，非常适合营造舒适而神奇的氛围。"
+  "description.christmasCandle": "一款带有节日气味的发光蜡烛，非常适合营造舒适而神奇的氛围。",
+  "guide.compost.addEggs.speed": "添加鸡蛋以加快生产。",
+  "guide.compost.addFeathers.speed": "添加羽毛以加快生产",
+  "guide.compost.addFeathers": "添加羽毛",
+  "guide.compost.feathers": "羽毛",
+  "guide.compost.addFeathers.confirmation": "你确定要添加 {{noFeathers}} 羽毛来缩短堆肥生产时间 {{time}} 吗？",
+  "skill.oldFarmer": "+0.1 高级作物产量"
 }

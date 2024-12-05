@@ -1897,7 +1897,6 @@
   "greenhouse.oilInMachine": "{{oil}} Aceite en máquina",
   "greenhouse.insertOil": "Agregar aceite: {{oil}} disponible",
   "greenhouse.numberOil": "{{oil}} Petróleo",
-  "guide.compost.addEggs.speed": "Agregue huevos para acelerar la producción",
   "guide.compost.addEggs": "Agregar huevos",
   "guide.compost.eggs": "Huevos",
   "guide.compost.cropGrowthTime": "-50% de tiempo de crecimiento del cultivo",
@@ -4353,7 +4352,6 @@
   "skill.bettysFriend": "Los ingresos por entrega de Betty Coin aumentaron un 30%",
   "skill.efficientBin": "+5 de mezcla de brotes al recolectarlos en la papelera de abono",
   "skill.turboCharged": "Mezcla más de 5 veces fructífera al recolectarla en Turbo Composter",
-  "skill.oldFarmer": "+0.1 Rendimiento de cultivo avanzado",
   "skill.strongRoots": "El rábano, el trigo, la col rizada y la cebada crecen un 10% más rápido",
   "skill.coinSwindler": "+10% de monedas al vender cosechas (Seed Shop)",
   "skill.goldenSunflower": "0,15% de probabilidad de obtener +0,35 de oro al cosechar girasoles manualmente",
@@ -4452,5 +4450,11 @@
   "description.goldenChristmasStocking": "Un calcetín lujoso con detalles dorados que añade un toque elegante a tu decoración navideña.",
   "description.cozyFireplace": "Una chimenea cálida y acogedora que crea el telón de fondo perfecto para las reuniones navideñas.",
   "description.christmasRug": "Una alfombra festiva adornada con motivos de temporada para aportar calidez y espíritu navideño a tu hogar.",
-  "description.christmasCandle": "Una vela encendida con un aroma festivo, ideal para crear un ambiente acogedor y mágico."
+  "description.christmasCandle": "Una vela encendida con un aroma festivo, ideal para crear un ambiente acogedor y mágico.",
+  "guide.compost.addEggs.speed": "Agregue huevos para acelerar la producción.",
+  "guide.compost.addFeathers.speed": "Añada plumas para acelerar la producción",
+  "guide.compost.addFeathers": "Añadir plumas",
+  "guide.compost.feathers": "Plumas",
+  "guide.compost.addFeathers.confirmation": "¿Estás seguro de que quieres añadir plumas de {{noFeathers}} para reducir el tiempo de producción de abono en {{time}}?",
+  "skill.oldFarmer": "+0.1 Rendimiento de cultivo avanzado"
 }

@@ -1319,7 +1319,6 @@
   "goblinTrade.vipDelivery": "Hmmm, on dirait que vous êtes un Bumpkin de base. Je ne commerce qu'avec les VIP.",
   "goldTooth.intro.part1": "Arrr, mes matelots ! La zone de recherche de trésors regorge de richesses et d'aventures, et elle ouvrira bientôt ses portes aux intrépides fermiers!",
   "goldTooth.intro.part2": "Soyez prêts à rejoindre mon équipage, car la chasse aux richesses commence sous peu!",
-  "guide.compost.addEggs.speed": "Ajoutez des œufs pour accélérer la production",
   "guide.compost.addEggs": "Ajouter des œufs",
   "guide.compost.eggs": "Œufs",
   "guide.compost.cropGrowthTime": "-50% Temps de croissance des cultures",
@@ -4353,7 +4352,6 @@
   "skill.bettysFriend": "Le chiffre d'affaires de livraison de Betty Coin a augmenté de 30 %",
   "skill.efficientBin": "+5 Sprout Mix lors de la collecte dans le bac à compost",
   "skill.turboCharged": "+5 Fruitful Blend lors de la collecte auprès de Turbo Composter",
-  "skill.oldFarmer": "+0,1 Rendement avancé des cultures",
   "skill.strongRoots": "Le radis, le blé, le chou frisé et l'orge poussent 10 % plus vite",
   "skill.coinSwindler": "+10 % de pièces lors de la vente de récoltes (Seed Shop)",
   "skill.goldenSunflower": "0,15 % de chances de gagner +0,35 pièces d'or en récoltant manuellement des tournesols",
@@ -4452,5 +4450,11 @@
   "description.goldenChristmasStocking": "Une chaussette luxueuse aux accents dorés qui ajoutera une touche d'élégance à votre décoration de Noël.",
   "description.cozyFireplace": "Une cheminée chaleureuse et accueillante qui constitue la toile de fond idéale pour les fêtes de fin d'année.",
   "description.christmasRug": "Un tapis festif orné de motifs saisonniers pour apporter chaleur et esprit des fêtes à votre intérieur.",
-  "description.christmasCandle": "Une bougie rougeoyante au parfum festif, idéale pour créer une atmosphère chaleureuse et magique."
+  "description.christmasCandle": "Une bougie rougeoyante au parfum festif, idéale pour créer une atmosphère chaleureuse et magique.",
+  "guide.compost.addEggs.speed": "Ajoutez des œufs pour accélérer la production.",
+  "guide.compost.addFeathers.speed": "Ajoutez des plumes pour accélérer la production",
+  "guide.compost.addFeathers": "Ajouter des plumes",
+  "guide.compost.feathers": "Plumes",
+  "guide.compost.addFeathers.confirmation": "Êtes-vous sûr de vouloir ajouter {{noFeathers}} plumes pour réduire le temps de production de compost de {{time}} ?",
+  "skill.oldFarmer": "+0,1 Rendement des cultures avancé"
 }

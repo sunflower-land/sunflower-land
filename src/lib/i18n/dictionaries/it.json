@@ -1896,7 +1896,6 @@
   "greenhouse.oilInMachine": "{{oil}} Olio nella macchina",
   "greenhouse.insertOil": "Inserisci olio: {{oil}} disponibili",
   "greenhouse.numberOil": "{{oil}} Olio",
-  "guide.compost.addEggs.speed": "Aggiungi uova per accelerare la produzione",
   "guide.compost.addEggs": "Aggiungi uova",
   "guide.compost.eggs": "Uova",
   "guide.compost.cropGrowthTime": "-50% tempo di crescita delle colture",
@@ -4353,7 +4352,6 @@
   "skill.bettysFriend": "I ricavi delle consegne di Betty Coin sono aumentati del 30%",
   "skill.efficientBin": "+5 Sprout Mix quando si raccoglie dal contenitore del compost",
   "skill.turboCharged": "+5 Miscela fruttuosa quando si raccoglie da Turbo Composter",
-  "skill.oldFarmer": "+0.1 Rendimento del raccolto avanzato",
   "skill.strongRoots": "Ravanello, frumento, cavolo riccio, orzo crescono del 10% più velocemente",
   "skill.coinSwindler": "+10% di monete quando si vendono colture (Seed Shop)",
   "skill.goldenSunflower": "0,15% di possibilità di ottenere +0,35 oro raccogliendo manualmente i girasoli",
@@ -4452,5 +4450,11 @@
   "description.goldenChristmasStocking": "Una lussuosa calza con accenti dorati, che aggiunge un tocco elegante al tuo arredamento natalizio.",
   "description.cozyFireplace": "Un caminetto caldo e invitante che fa da sfondo perfetto per le riunioni natalizie.",
   "description.christmasRug": "Un tappeto festivo decorato con motivi stagionali per portare calore e spirito natalizio a casa tua.",
-  "description.christmasCandle": "Una candela incandescente dal profumo festivo, ideale per creare un'atmosfera accogliente e magica."
+  "description.christmasCandle": "Una candela incandescente dal profumo festivo, ideale per creare un'atmosfera accogliente e magica.",
+  "guide.compost.addEggs.speed": "Aggiungi le uova per accelerare la produzione.",
+  "guide.compost.addFeathers.speed": "Aggiungi piume per velocizzare la produzione",
+  "guide.compost.addFeathers": "Aggiungi piume",
+  "guide.compost.feathers": "piume",
+  "guide.compost.addFeathers.confirmation": "Sei sicuro di voler aggiungere {{noFeathers}} piume per ridurre i tempi di produzione del compost di {{time}}?",
+  "skill.oldFarmer": "+0.1 Rendimento avanzato del raccolto"
 }

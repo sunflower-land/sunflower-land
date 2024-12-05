@@ -1915,7 +1915,6 @@
   "greenhouse.oilInMachine": "{{oil}} 기계에 든 오일",
   "greenhouse.insertOil": "인서트 오일: {{oil}} 사용 가능",
   "greenhouse.numberOil": "{{oil}} 오일",
-  "guide.compost.addEggs.speed": "생산 속도를 높이기 위해 계란을 추가하십시오",
   "guide.compost.addEggs": "계란 추가",
   "guide.compost.eggs": "달걀",
   "guide.compost.cropGrowthTime": "-50% 작물 성장 시간",
@@ -4353,7 +4352,6 @@
   "skill.bettysFriend": "베티 코인 배송 수익 30% 증가",
   "skill.efficientBin": "퇴비통에서 수거 시 스프라우트 믹스 +5",
   "skill.turboCharged": "터보 컴포스터에서 수집 시 과일 블렌드 +5",
-  "skill.oldFarmer": "+0.1 고급 작물 수확량",
   "skill.strongRoots": "무, 밀, 케일, 보리가 10% 더 빠르게 자랍니다.",
   "skill.coinSwindler": "농작물 판매 시 +10% 코인 (시드 샵)",
   "skill.goldenSunflower": "해바라기 수동 수확 시 0.15% 확률로 +0.35 골드 획득",
@@ -4452,5 +4450,11 @@
   "description.goldenChristmasStocking": "금색 액센트가 있는 고급스러운 스타킹으로 크리스마스 장식에 우아한 느낌을 더합니다.",
   "description.cozyFireplace": "따뜻하고 매력적인 벽난로는 휴일 모임에 완벽한 배경을 제공합니다.",
   "description.christmasRug": "계절 패턴으로 장식된 축제용 러그로 집에 따뜻함과 크리스마스 분위기를 더하세요.",
-  "description.christmasCandle": "축제 향기가 나는 빛나는 양초로 아늑하고 마법 같은 분위기를 조성하기에 이상적입니다."
+  "description.christmasCandle": "축제 향기가 나는 빛나는 양초로 아늑하고 마법 같은 분위기를 조성하기에 이상적입니다.",
+  "guide.compost.addEggs.speed": "생산 속도를 높이려면 계란을 추가하십시오.",
+  "guide.compost.addFeathers.speed": "깃털을 추가하여 생산 속도 향상",
+  "guide.compost.addFeathers": "깃털 추가",
+  "guide.compost.feathers": "깃털",
+  "guide.compost.addFeathers.confirmation": "퇴비 생산 시간을 {{time}} 단축하기 위해 {{noFeathers}} 깃털을 추가하시겠습니까?",
+  "skill.oldFarmer": "+0.1 고급 작물 수확량"
 }
