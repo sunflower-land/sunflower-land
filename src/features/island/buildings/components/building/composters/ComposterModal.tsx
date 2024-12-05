@@ -33,6 +33,7 @@ import {
   getReadyAt,
 } from "features/game/events/landExpansion/startComposter";
 import { isWearableActive } from "features/game/lib/wearables";
+import { getSpeedUpCost } from "features/game/events/landExpansion/accelerateComposter";
 
 const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
   "Compost Bin": { min: 2, max: 4 },
@@ -188,8 +189,10 @@ export const ComposterModal: React.FC<Props> = ({
 
   const { inventory, bumpkin, buildings } = state;
 
-  const { produce, worm, eggBoostMilliseconds, eggBoostRequirements } =
+  const { produce, worm, eggBoostMilliseconds } =
     composterDetails[composterName];
+
+  const { eggBoostRequirements } = getSpeedUpCost(state, composterName);
 
   const { produceAmount } = getCompostAmount({
     skills: bumpkin.skills,
@@ -506,7 +509,9 @@ export const ComposterModal: React.FC<Props> = ({
               <div className="flex space-x-1 justify-start">
                 <SquareIcon icon={ITEM_DETAILS[worm].image} width={14} />
                 <div className="block">
-                  <p className="text-xs mb-1">{`${min}-${max} ${worm}s`}</p>
+                  <p className="text-xs mb-1">
+                    {max === 0 ? `0 ${worm}s` : `${min}-${max} ${worm}s`}
+                  </p>
                   <Label
                     icon={SUNNYSIDE.tools.fishing_rod}
                     type="default"
