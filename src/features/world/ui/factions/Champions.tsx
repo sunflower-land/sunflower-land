@@ -161,11 +161,8 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
                 className="p-1.5 text-left pl-8 relative truncate"
               >
                 {bumpkin && (
-                  <div
-                    className="absolute"
-                    style={{ left: "4px", top: "-7px" }}
-                  >
-                    <NPCIcon width={20} parts={bumpkin} />
+                  <div className="absolute" style={{ left: "4px", top: "1px" }}>
+                    <NPCIcon width={24} parts={bumpkin} />
                   </div>
                 )}
 

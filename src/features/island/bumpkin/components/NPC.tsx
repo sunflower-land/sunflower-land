@@ -146,7 +146,7 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
 
 export const NPCIcon: React.FC<NPCProps> = ({
   parts,
-  width = PIXEL_SCALE * 16, // Default to original width if not passed
+  width = PIXEL_SCALE * 14, // Default to original width if not passed
 }) => {
   const [show, setShow] = useState(false);
 
@@ -167,20 +167,13 @@ export const NPCIcon: React.FC<NPCProps> = ({
   }
 
   return (
-    <div
-      className="absolute"
-      style={{
-        width: `${width}px`, // Use passed width for character
-        height: `${width * 2}px`, // Adjust height based on the width
-      }}
-    >
+    <div>
       {auraBack && (
         <Spritesheet
           className="absolute w-full inset-0 pointer-events-none"
           style={{
-            width: `${width * 1.25}px`,
-            top: `${width * 0.125}px`,
-            left: `${width * -0.125}px`,
+            width: `${width}px`,
+            top: `${width * -0.21}px`,
             imageRendering: "pixelated" as const,
           }}
           image={auraBack}
@@ -196,9 +189,7 @@ export const NPCIcon: React.FC<NPCProps> = ({
       <Spritesheet
         className="w-full inset-0 pointer-events-none"
         style={{
-          width: `${width * 1.25}px`,
-          top: `${width * 0.31}px`,
-          left: `${width * -0.125}px`,
+          width: `${width}px`,
           imageRendering: "pixelated" as const,
         }}
         image={idle}
@@ -214,9 +205,8 @@ export const NPCIcon: React.FC<NPCProps> = ({
         <Spritesheet
           className="absolute w-full inset-0 pointer-events-none"
           style={{
-            width: `${width * 1.25}px`,
-            top: `${width * 0.44}px`,
-            left: `${width * -0.125}px`,
+            width: `${width}px`,
+            top: `${width * 0.14}px`,
             imageRendering: "pixelated" as const,
           }}
           image={auraFront}

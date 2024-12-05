@@ -58,7 +58,6 @@ export const TopTrades: React.FC<{
                 >
                   <div className="relative w-8 h-8 flex items-center justify-center mr-2">
                     <NPCIcon
-                      width={20}
                       parts={interpretTokenUri(item.buyer.bumpkinUri).equipped}
                     />
                   </div>
