@@ -1,14 +1,13 @@
 import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
 import { TradeableDetails } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TradeableDisplay } from "../lib/tradeables";
 
 import grassBg from "assets/ui/3x3_bg.png";
 import brownBg from "assets/brand/brown_background.png";
-
+import lightningIcon from "assets/icons/lightning.png";
 import { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
@@ -38,7 +37,7 @@ export const TradeableImage: React.FC<{
   };
 
   return (
-    <InnerPanel className="w-full flex relative mb-1" style={{ padding: 0 }}>
+    <div className="w-full flex relative mb-1" style={{ padding: 0 }}>
       <div className="flex flex-wrap absolute top-2 right-2">
         {/* {tradeable && (
       <Label
@@ -48,7 +47,7 @@ export const TradeableImage: React.FC<{
       >{`42% (7D)`}</Label>
     )} */}
 
-        {supply && !isResource && (
+        {!!supply && !isResource && (
           <Label type="default">{t("marketplace.supply", { supply })}</Label>
         )}
       </div>
@@ -60,7 +59,7 @@ export const TradeableImage: React.FC<{
       {!isBackground && (
         <img
           src={display.image}
-          className={`absolute ${isPortrait ? "h-1/2" : "w-1/3"}`}
+          className={`absolute rounded-md ${isPortrait ? "h-1/2" : "w-1/3"}`}
           style={{
             left: "50%",
             transform: "translate(-50%, 50%)",
@@ -69,7 +68,7 @@ export const TradeableImage: React.FC<{
           onLoad={handleImageLoad}
         />
       )}
-    </InnerPanel>
+    </div>
   );
 };
 
@@ -80,17 +79,28 @@ export const TradeableDescription: React.FC<{
   const { t } = useAppTranslation();
 
   return (
-    <InnerPanel>
+    <div>
       <div className="p-2">
-        <Label type="default" className="mb-1" icon={SUNNYSIDE.icons.search}>
-          {t("marketplace.description")}
-        </Label>
+        <div className="flex items-center justify-between">
+          <Label type="default" className="mb-1" icon={SUNNYSIDE.icons.search}>
+            {t("marketplace.about")}
+          </Label>
+          {tradeable && !tradeable?.isActive && (
+            <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+              {t("marketplace.notForSale")}
+            </Label>
+          )}
+        </div>
         <p className="text-sm mb-2">{display.description}</p>
         {display.buff && (
           <Label
-            icon={display.buff.boostTypeIcon}
-            type={display.buff.labelType}
-            className="mb-2"
+            icon={
+              display.buff.boostedItemIcon ??
+              display.buff.boostTypeIcon ??
+              lightningIcon
+            }
+            type={"transparent"}
+            className="mb-2 ml-2"
           >
             {display.buff.shortDescription}
           </Label>
@@ -105,14 +115,7 @@ export const TradeableDescription: React.FC<{
           </Label>
         </div>
       )}
-      {tradeable && !tradeable?.isActive && (
-        <div className="p-2">
-          <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-            {t("marketplace.notForSale")}
-          </Label>
-        </div>
-      )}
-    </InnerPanel>
+    </div>
   );
 };
 
