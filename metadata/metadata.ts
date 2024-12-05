@@ -10259,6 +10259,66 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Trade Cake",
   },
+  "Christmas Stocking": {
+    name: "Christmas Stocking",
+    description:
+      "A classic festive stocking, perfect for filling with holiday treats and surprises.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2169.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Golden Christmas Stocking": {
+    name: "Golden Christmas Stocking",
+    description:
+      "A luxurious stocking with golden accents, adding an elegant touch to your Christmas decor.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2170.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Cozy Fireplace": {
+    name: "Cozy Fireplace",
+    description:
+      "A warm and inviting fireplace that sets the perfect backdrop for holiday gatherings.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2171.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Christmas Rug": {
+    name: "Christmas Rug",
+    description:
+      "A festive rug adorned with seasonal patterns to bring warmth and holiday spirit to your home.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2172.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Christmas Candle": {
+    name: "Christmas Candle",
+    description:
+      "A glowing candle with a festive scent, ideal for creating a cozy and magical atmosphere.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2173.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -15732,6 +15792,18 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/419.png",
-    name: "Adventurer's Suit",
+    name: "Pumpkin Head",
+  },
+  "Gingerbread Onesie": {
+    description:
+      "Step into the holiday spirit with this cozy and charming Gingerbread Onesie! Designed to resemble a freshly baked gingerbread cookie, this onesie features a rich, golden-brown fabric adorned with frosting-like white trims and colorful gumdrop buttons.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/420.png",
+    name: "Gingerbread Onesie",
   },
 };
