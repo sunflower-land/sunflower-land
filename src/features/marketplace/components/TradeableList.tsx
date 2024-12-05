@@ -278,6 +278,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
@@ -321,6 +323,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                 maxDecimalPlaces={2}
                 icon={sflIcon}
               />
+              <p className="text-xxs ml-2">
+                {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+              </p>
             </div>
             <div
               className="flex justify-between"

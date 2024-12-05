@@ -36,6 +36,7 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useParams } from "react-router-dom";
+import Decimal from "decimal.js-light";
 
 // JWT TOKEN
 
@@ -61,6 +62,8 @@ export const TradeableOffers: React.FC<{
   const isVIP = useSelector(gameService, _isVIP);
   const { t } = useAppTranslation();
   const { id } = useParams();
+
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -171,7 +174,12 @@ export const TradeableOffers: React.FC<{
               {topOffer ? (
                 <div className="flex items-center">
                   <img src={sflIcon} className="h-8 mr-2" />
-                  <p className="text-base">{`${topOffer.sfl} SFL`}</p>
+                  <div>
+                    <p className="text-base">{`${topOffer.sfl} SFL`}</p>
+                    <p className="text-xxs">
+                      {`$${new Decimal(usd).mul(topOffer.sfl).toFixed(2)}`}
+                    </p>
+                  </div>
                 </div>
               ) : !loading && tradeable?.offers.length === 0 ? (
                 <p className="text-sm self-end mb-2 text-left">

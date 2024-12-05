@@ -1,6 +1,6 @@
 import { MarketplaceTrends } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React from "react";
+import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import classNames from "classnames";
 import sflIcon from "assets/icons/sfl.webp";
@@ -9,12 +9,16 @@ import { Loading } from "features/auth/components";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { useNavigate } from "react-router-dom";
+import { Context } from "features/game/GameProvider";
 
 export const TopTrades: React.FC<{
   trends?: MarketplaceTrends;
 }> = ({ trends }) => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
+  const { gameService } = useContext(Context);
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   if (!trends) {
     return <Loading />;
   }
@@ -69,8 +73,13 @@ export const TopTrades: React.FC<{
               </div>
 
               <div className="p-1.5 text-right relative flex items-center justify-end w-32">
-                <img src={sflIcon} className="h-5 mr-1" />
-                <p className="text-sm">{new Decimal(price).toFixed(2)}</p>
+                <img src={sflIcon} className="h-6 mr-1" />
+                <div>
+                  <p className="text-sm">{new Decimal(price).toFixed(2)}</p>
+                  <p className="text-xxs">
+                    {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+                  </p>
+                </div>
               </div>
             </div>
           );
