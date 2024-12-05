@@ -1663,7 +1663,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "basic",
     },
-    boosts: "Composter speed 10% quicker",
+    boosts: "-10% compost time",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -1676,7 +1676,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts:
-      "-50% eggs to speed up composters, 1 hour reduction in composting time",
+      "-50% resources to speed up composters, 1 hour reduction in composting time",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
