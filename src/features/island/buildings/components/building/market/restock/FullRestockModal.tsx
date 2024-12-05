@@ -12,7 +12,6 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { Label } from "components/ui/Label";
 import confetti from "canvas-confetti";
 import { Box } from "components/ui/Box";
-import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { SEEDS } from "features/game/types/seeds";
@@ -64,32 +63,13 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
     onClose();
   };
 
-  const getRestockAmount = (item: StockableName, amount: Decimal): Decimal => {
-    const remainingStock = state.stock[item];
+  const restockTools = Object.entries(INITIAL_STOCK(state)).filter(
+    (item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS },
+  );
 
-    // If there's no stock left
-    if (!remainingStock) {
-      // return total stock amount
-      return amount;
-    } else {
-      // else return difference between total and remaining stock
-      return amount.sub(remainingStock);
-    }
-  };
-
-  const restockTools = Object.entries(INITIAL_STOCK(state))
-    .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
-    .filter(([item, amount]) => {
-      const restockAmount = getRestockAmount(item as StockableName, amount);
-      return restockAmount.gt(0);
-    });
-
-  const restockSeeds = Object.entries(INITIAL_STOCK(state))
-    .filter((item) => item[0] in SEEDS())
-    .filter(([item, amount]) => {
-      const restockAmount = getRestockAmount(item as StockableName, amount);
-      return restockAmount.gt(0);
-    });
+  const restockSeeds = Object.entries(INITIAL_STOCK(state)).filter(
+    (item) => item[0] in SEEDS(),
+  );
 
   return (
     <>
@@ -98,7 +78,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
           {t("restock")}
         </Label>
         <p className="mb-1">{t("gems.buyReplenish")}</p>
-        <div className="mb-2 text-xs">{t("restock.itemsToRestock")}</div>
+        <div className="mb-2 text-xs">{t("restock.restocktoAmount")}</div>
       </div>
       <div className="mt-1 h-40 overflow-y-auto overflow-x-hidden scrollable pl-1">
         {restockTools.length > 0 && (
@@ -114,7 +94,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
           {restockTools.map(([item, amount]) => (
             <Box
               key={item}
-              count={getRestockAmount(item as StockableName, amount)}
+              count={amount}
               image={ITEM_DETAILS[item as StockableName].image}
             />
           ))}
@@ -132,7 +112,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
           {restockSeeds.map(([item, amount]) => (
             <Box
               key={item}
-              count={getRestockAmount(item as StockableName, amount)}
+              count={amount}
               image={ITEM_DETAILS[item as StockableName].image}
             />
           ))}
