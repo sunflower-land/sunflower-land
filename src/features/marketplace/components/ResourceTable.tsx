@@ -72,7 +72,7 @@ export const ResourceTable: React.FC<{
           <div className="p-1.5 truncate flex flex-1 items-center">
             <div className="flex items-center justify-start w-16 space-x-1">
               <img src={ITEM_DETAILS[itemName].image} className="h-4" />
-              <span>{2000}</span>
+              <span>{quantity}</span>
             </div>
           </div>
           <div className="p-1.5 truncate flex flex-1 items-center">
