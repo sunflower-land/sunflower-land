@@ -25,6 +25,8 @@ import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 import { hasFeatureAccess } from "lib/flags";
+import { CandyHUD } from "./CandyHud";
+import { getDayOfChristmas } from "features/game/events/landExpansion/collectCandy";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -41,6 +43,10 @@ const HudComponent: React.FC = () => {
   const hasMarketplaceAccess = hasFeatureAccess(
     gameState.context.state,
     "MARKETPLACE",
+  );
+
+  const { dayOfChristmas } = getDayOfChristmas(
+    gameService?.state?.context?.state ?? {},
   );
 
   const { pathname } = useLocation();
@@ -152,6 +158,16 @@ const HudComponent: React.FC = () => {
               />
             </CloseButtonPanel>
           </Modal>
+        )}
+        {hasFeatureAccess(gameState.context.state, "CHRISTMAS_2024") && (
+          <div
+            className="fixed z-50 flex justify-center w-full"
+            style={{
+              top: `${PIXEL_SCALE * 3}px`,
+            }}
+          >
+            {dayOfChristmas <= 12 && <CandyHUD />}
+          </div>
         )}
       </HudContainer>
     </>
