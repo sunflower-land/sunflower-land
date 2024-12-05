@@ -94,6 +94,7 @@ export function makeGame(farm: any): GameState {
     npcs: farm.npcs,
     buds: farm.buds,
     christmas: farm.christmas,
+    christmas2024: farm.christmas2024,
     flowerShop: farm.flowerShop,
     specialEvents: farm.specialEvents,
     experiments: farm.experiments,
