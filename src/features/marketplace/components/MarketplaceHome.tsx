@@ -60,6 +60,10 @@ export const MarketplaceNavigation: React.FC = () => {
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
           <Filters onClose={() => setShowFilters(false)} />
+          <EstimatedPrice
+            price={price}
+            onClick={() => setShowQuickswap(true)}
+          />
         </CloseButtonPanel>
       </Modal>
 
@@ -116,23 +120,10 @@ export const MarketplaceNavigation: React.FC = () => {
             </div>
           </InnerPanel>
 
-          <InnerPanel
-            className="cursor-pointer"
-            onClick={() => {
-              setShowQuickswap(true);
-            }}
-          >
-            <div className="flex justify-between items-center pr-1">
-              <div className="flex items-center">
-                <img src={sflIcon} className="w-6" />
-                <span className="text-sm ml-2">{`$${price.toFixed(2)}`}</span>
-              </div>
-              <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
-            </div>
-            <p className="text-xxs italic">
-              {t("marketplace.estimated.price")}
-            </p>
-          </InnerPanel>
+          <EstimatedPrice
+            price={price}
+            onClick={() => setShowQuickswap(true)}
+          />
         </div>
 
         <div className="flex-1 flex flex-col w-full">
@@ -350,5 +341,24 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
+  price,
+  onClick,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <InnerPanel className="cursor-pointer" onClick={onClick}>
+      <div className="flex justify-between items-center pr-1">
+        <div className="flex items-center">
+          <img src={sflIcon} className="w-6" />
+          <span className="text-sm ml-2">{`$${price.toFixed(2)}`}</span>
+        </div>
+        <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
+      </div>
+      <p className="text-xxs italic">{t("marketplace.estimated.price")}</p>
+    </InnerPanel>
   );
 };
