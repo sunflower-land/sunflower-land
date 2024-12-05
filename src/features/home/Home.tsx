@@ -22,7 +22,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { BumpkinPainting } from "./components/BumpkinPainting";
 import { Bumpkin, IslandType } from "features/game/types/game";
-import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
+import {
+  HOME_BOUNDS,
+  NON_COLLIDING_OBJECTS,
+} from "features/game/expansion/placeable/lib/collisionDetection";
 import { Bud } from "features/island/buds/Bud";
 import { InteriorBumpkins } from "./components/InteriorBumpkins";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -106,7 +109,7 @@ export const Home: React.FC = () => {
               y={y}
               height={height}
               width={width}
-              z={name.includes("Rug") ? 0 : 1}
+              z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
             >
               <Collectible
                 location="home"

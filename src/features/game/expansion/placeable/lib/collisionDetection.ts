@@ -252,7 +252,7 @@ export const ANIMAL_HOUSE_BOUNDS: Record<
   },
 };
 
-const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
+export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Chess Rug",
   "Twister Rug",
   "Rug",
