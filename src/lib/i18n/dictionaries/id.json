@@ -4436,7 +4436,6 @@
   "marketplace.welcome.seven": "Item pasar dimaksudkan untuk penggunaan dalam game, bukan spekulasi atau investasi",
   "marketplace.welcome.gotIt": "Mengerti",
   "marketplace.welcome.title": "Selamat Datang di Marketplace",
-  "marketplace.whaleTrades": "Perdagangan Paus",
   "marketplace.7days": "7 Hari Terakhir",
   "marketplace.reward.seedLimit": "Satu dari lebih banyak benih berada di atas batas persediaan",
   "marketplace.reward.shop": "Toko Hadiah Marketplace",
@@ -4445,5 +4444,7 @@
   "marketplace.reward.seedPack.description": "Stok benih senilai",
   "marketplace.reward.diggingPack.description": "Alat penggali senilai saham",
   "marketplace.reward.fishingPack.description": "Satu paket utilitas memancing",
-  "marketplace.reward.animalPack.description": "Satu pak pakan ternak"
+  "marketplace.reward.animalPack.description": "Satu pak pakan ternak",
+  "marketplace.whaleTrades": "Pedagang Paus",
+  "marketplace.topFriends": "Teman Teratas"
 }

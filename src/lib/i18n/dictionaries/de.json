@@ -4436,7 +4436,6 @@
   "marketplace.welcome.seven": "Die Marktplatzgegenstände sind für den Gebrauch im Spiel bestimmt, nicht für Spekulationen oder Investitionen",
   "marketplace.welcome.gotIt": "Ich hab's",
   "marketplace.welcome.title": "Willkommen auf dem Marketplace",
-  "marketplace.whaleTrades": "Handel mit Walen",
   "marketplace.7days": "Letzte 7 Tage",
   "marketplace.reward.seedLimit": "Ein oder mehrere Samen haben das Inventarlimit überschritten",
   "marketplace.reward.shop": "Marketplace Prämienshop",
@@ -4445,5 +4444,7 @@
   "marketplace.reward.seedPack.description": "Ein Bestand an Saatgut",
   "marketplace.reward.diggingPack.description": "Grabwerkzeuge im Wert eines Lagerbestands",
   "marketplace.reward.fishingPack.description": "Eine Packung Angelzubehör",
-  "marketplace.reward.animalPack.description": "Eine Packung Tierfutter"
+  "marketplace.reward.animalPack.description": "Eine Packung Tierfutter",
+  "marketplace.whaleTrades": "Walhändler",
+  "marketplace.topFriends": "Beste Freunde"
 }

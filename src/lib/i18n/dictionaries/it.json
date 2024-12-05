@@ -4436,7 +4436,6 @@
   "marketplace.welcome.seven": "Gli articoli del marketplace sono destinati all'uso nel gioco, non alla speculazione o all'investimento",
   "marketplace.welcome.gotIt": "Capito",
   "marketplace.welcome.title": "Benvenuto nel Marketplace",
-  "marketplace.whaleTrades": "Commercio di balene",
   "marketplace.7days": "Ultimi 7 giorni",
   "marketplace.reward.seedLimit": "Uno o più semi è al di sopra del limite di inventario",
   "marketplace.reward.shop": "Negozio di premi Marketplace",
@@ -4445,5 +4444,7 @@
   "marketplace.reward.seedPack.description": "Una scorta di semi",
   "marketplace.reward.diggingPack.description": "Una scorta di attrezzi da scavo",
   "marketplace.reward.fishingPack.description": "Un pacchetto di attrezzi per la pesca",
-  "marketplace.reward.animalPack.description": "Una confezione di mangimi per animali"
+  "marketplace.reward.animalPack.description": "Una confezione di mangimi per animali",
+  "marketplace.whaleTrades": "Commercianti di balene",
+  "marketplace.topFriends": "I migliori amici"
 }

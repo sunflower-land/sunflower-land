@@ -4436,7 +4436,6 @@
   "marketplace.welcome.seven": "Marketplace öğeleri oyun içi kullanım için tasarlanmıştır, spekülasyon veya yatırım için değil",
   "marketplace.welcome.gotIt": "Anladım",
   "marketplace.welcome.title": "Marketplace'e Hoş Geldiniz",
-  "marketplace.whaleTrades": "Balina Ticareti",
   "marketplace.7days": "Son 7 Gün",
   "marketplace.reward.seedLimit": "Daha fazla tohumdan biri envanter sınırının üzerinde",
   "marketplace.reward.shop": "Pazar Yeri Ödül Mağazası",
@@ -4445,5 +4444,7 @@
   "marketplace.reward.seedPack.description": "Bir stok değerinde tohum",
   "marketplace.reward.diggingPack.description": "Bir hisse senedi değerinde kazma aletleri",
   "marketplace.reward.fishingPack.description": "Bir paket balıkçılık araçları",
-  "marketplace.reward.animalPack.description": "Bir paket hayvan yemi"
+  "marketplace.reward.animalPack.description": "Bir paket hayvan yemi",
+  "marketplace.whaleTrades": "Balina Tüccarları",
+  "marketplace.topFriends": "En İyi Arkadaşlar"
 }
