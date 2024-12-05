@@ -118,6 +118,7 @@ import beachTrunks from "assets/wearables/120.webp";
 import clubPolo from "assets/wearables/121.webp";
 import dawnBreakerBackground from "assets/wearables/122.webp";
 import dawnLamp from "assets/wearables/123.webp";
+import gingerbreadOnesie from "assets/wearables/420.webp";
 
 export const BUMPKIN_ITEM_IMAGES: Record<BumpkinItem, string> = {
   "Beige Farmer Potion": beigeFarmerPotion,
@@ -542,4 +543,6 @@ export const BUMPKIN_ITEM_IMAGES: Record<BumpkinItem, string> = {
   "Adventurer's Torch": "",
   "Pumpkin Head": "",
   "Gam3s Cap": "",
+
+  "Gingerbread Onesie": gingerbreadOnesie,
 };
