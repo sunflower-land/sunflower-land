@@ -4457,5 +4457,10 @@
   "guide.compost.feathers": "Federn",
   "guide.compost.addFeathers.confirmation": "Möchten Sie wirklich {{noFeathers}} Federn hinzufügen, um die Zeit für die Kompostproduktion um {{time}} zu verkürzen?",
   "skill.oldFarmer": "+0.1 Fortgeschrittener Ernteertrag",
-  "restock.restocktoAmount": "Ihr Shop wird auf die folgenden Mengen auffüllen:"
+  "restock.restocktoAmount": "Ihr Shop wird auf die folgenden Mengen auffüllen:",
+  "marketplace.quickswap": "Schneller Tausch",
+  "marketplace.quickswap.description": "Sie werden bald zu Quickswap weitergeleitet, einer dezentralen und von der Community betriebenen Börse, um $SFL zu kaufen.",
+  "marketplace.quickswap.warning": "Die im Spiel angegebenen Preise basieren auf Community-Preisen und spiegeln möglicherweise nicht den aktuellen Markt wider. Fahren Sie auf eigenes Risiko fort.",
+  "marketplace.estimated.price": "*Geschätzter SFL/USD-Preis",
+  "marketplace.quickswap.continue": "Weiter"
 }

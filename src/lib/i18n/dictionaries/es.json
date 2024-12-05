@@ -4457,5 +4457,10 @@
   "guide.compost.feathers": "Plumas",
   "guide.compost.addFeathers.confirmation": "¿Estás seguro de que quieres añadir plumas de {{noFeathers}} para reducir el tiempo de producción de abono en {{time}}?",
   "skill.oldFarmer": "+0.1 Rendimiento de cultivo avanzado",
-  "restock.restocktoAmount": "Tu tienda se reabastecerá hasta los siguientes importes:"
+  "restock.restocktoAmount": "Tu tienda se reabastecerá hasta los siguientes importes:",
+  "marketplace.quickswap": "Intercambio rápido",
+  "marketplace.quickswap.description": "Estás a punto de ser redirigido a Quickswap, un intercambio descentralizado e impulsado por la comunidad para comprar $SFL.",
+  "marketplace.quickswap.warning": "Los precios que se muestran en el juego se estiman en función de los precios de la comunidad y es posible que no reflejen el mercado actual. Procede bajo tu propia responsabilidad.",
+  "marketplace.estimated.price": "*Precio estimado de SFL/USD",
+  "marketplace.quickswap.continue": "Continuar"
 }

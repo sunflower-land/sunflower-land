@@ -4457,5 +4457,10 @@
   "guide.compost.feathers": "piume",
   "guide.compost.addFeathers.confirmation": "Sei sicuro di voler aggiungere {{noFeathers}} piume per ridurre i tempi di produzione del compost di {{time}}?",
   "skill.oldFarmer": "+0.1 Rendimento avanzato del raccolto",
-  "restock.restocktoAmount": "Il tuo negozio verrà rifornito fino ai seguenti importi:"
+  "restock.restocktoAmount": "Il tuo negozio verrà rifornito fino ai seguenti importi:",
+  "marketplace.quickswap": "Scambio rapido",
+  "marketplace.quickswap.description": "Stai per essere reindirizzato a Quickswap, un exchange decentralizzato e guidato dalla comunità per acquistare $SFL.",
+  "marketplace.quickswap.warning": "I prezzi indicati nel gioco sono stimati in base ai prezzi della community e potrebbero non riflettere il mercato attuale. Procedete a vostro rischio e pericolo.",
+  "marketplace.estimated.price": "*Prezzo SFL/USD stimato",
+  "marketplace.quickswap.continue": "Continua"
 }

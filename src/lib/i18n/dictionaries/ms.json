@@ -4457,5 +4457,10 @@
   "guide.compost.feathers": "Bulu",
   "guide.compost.addFeathers.confirmation": "Adakah anda pasti ingin menambah {{noFeathers}} Bulu untuk mengurangkan masa pengeluaran kompos sebanyak {{time}}?",
   "skill.oldFarmer": "+0.1 Hasil Tanaman Lanjutan",
-  "restock.restocktoAmount": "Kedai anda akan menambah stok kepada jumlah berikut:"
+  "restock.restocktoAmount": "Kedai anda akan menambah stok kepada jumlah berikut:",
+  "marketplace.quickswap": "Pertukaran pantas",
+  "marketplace.quickswap.description": "Anda akan diarahkan ke Quickswap, pertukaran terdesentralisasi dan didorong oleh komuniti untuk membeli $SFL.",
+  "marketplace.quickswap.warning": "Harga yang ditunjukkan dalam permainan dianggarkan berdasarkan harga komuniti & mungkin tidak mencerminkan pasaran semasa. Teruskan dengan risiko anda sendiri.",
+  "marketplace.estimated.price": "*Anggaran harga SFL/USD",
+  "marketplace.quickswap.continue": "Teruskan"
 }

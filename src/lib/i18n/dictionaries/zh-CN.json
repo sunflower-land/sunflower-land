@@ -4457,5 +4457,10 @@
   "guide.compost.feathers": "羽毛",
   "guide.compost.addFeathers.confirmation": "你确定要添加 {{noFeathers}} 羽毛来缩短堆肥生产时间 {{time}} 吗？",
   "skill.oldFarmer": "+0.1 高级作物产量",
-  "restock.restocktoAmount": "您的商店将按以下金额补货："
+  "restock.restocktoAmount": "您的商店将按以下金额补货：",
+  "marketplace.quickswap": "快速交换",
+  "marketplace.quickswap.description": "您将被重定向到Quickswap，这是一家由社区驱动的去中心化交易所，用于购买$SFL。",
+  "marketplace.quickswap.warning": "游戏内显示的价格是根据社区价格估算的，可能无法反映当前的市场。风险自负。",
+  "marketplace.estimated.price": "*预计 SFL/USD 价格",
+  "marketplace.quickswap.continue": "继续"
 }

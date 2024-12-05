@@ -4457,5 +4457,10 @@
   "guide.compost.feathers": "Tüyler",
   "guide.compost.addFeathers.confirmation": "Kompost üretim süresini {{time}} azaltmak için {{noFeathers}} Tüyleri eklemek istediğinizden emin misiniz?",
   "skill.oldFarmer": "+0.1 Gelişmiş Mahsul verimi",
-  "restock.restocktoAmount": "Mağazanız aşağıdaki miktarlarda stok yenilenecektir:"
+  "restock.restocktoAmount": "Mağazanız aşağıdaki miktarlarda stok yenilenecektir:",
+  "marketplace.quickswap": "Hızlı Değişim",
+  "marketplace.quickswap.description": "$SFL satın almak için merkezi olmayan ve topluluk odaklı bir borsa olan Quickswap'a yönlendirilmek üzeresiniz.",
+  "marketplace.quickswap.warning": "Oyun içinde gösterilen fiyatlar topluluk fiyatlarına göre tahmin edilir ve mevcut pazarı yansıtmayabilir. Kendi sorumluluğunuzda ilerleyin.",
+  "marketplace.estimated.price": "*Tahmini SFL/USD fiyatı",
+  "marketplace.quickswap.continue": "Devamı"
 }
