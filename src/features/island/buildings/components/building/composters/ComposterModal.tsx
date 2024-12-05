@@ -72,7 +72,22 @@ function getWormOutput({
     max -= 1;
   }
 
-  // If min somehow goes negative, show as 0
+  if (skills["Composting Revamp"] && building === "Compost Bin") {
+    min -= 2;
+    max -= 2;
+  }
+
+  if (skills["Composting Revamp"] && building === "Turbo Composter") {
+    min -= 2;
+    max -= 2;
+  }
+
+  if (skills["Composting Revamp"] && building === "Premium Composter") {
+    min -= 1;
+    max -= 1;
+  }
+
+  // If min/max somehow goes negative, show as 0
   if (min < 0) {
     min = 0;
   }
