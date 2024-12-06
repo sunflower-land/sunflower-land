@@ -5,6 +5,7 @@ import { useActor } from "@xstate/react";
 import { useNavigate, useParams } from "react-router";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
+import { isMobile } from "mobile-device-detect";
 
 import { SaleHistory } from "./PriceHistory";
 import { TradeableOffers } from "./TradeableOffers";
@@ -18,7 +19,7 @@ import {
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { TradeableHeader } from "./TradeableHeader";
-import { TradeableDescription, TradeableImage } from "./TradeableInfo";
+import { TradeableInfo, TradeableMobileInfo } from "./TradeableInfo";
 import { MyListings } from "./profile/MyListings";
 import { MyOffers } from "./profile/MyOffers";
 import { TradeableListings } from "./TradeableListings";
@@ -30,15 +31,12 @@ import { tradeToId } from "../lib/offers";
 import { getDayOfYear } from "lib/utils/time";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import useSWR from "swr";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const { t } = useAppTranslation();
 
   const farmId = gameState.context.farmId;
   const authToken = authState.context.user.rawToken as string;
@@ -130,87 +128,43 @@ export const Tradeable: React.FC = () => {
   }
 
   return (
-    <div className="flex  flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
-      <InnerPanel
-        className="mb-1  z-10 sticky top-0 cursor-pointer"
-        onClick={onBack}
-      >
-        <div className="flex flex-wrap justify-between items-center">
-          <div className="flex cursor-pointer items-center w-fit">
-            <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
-            <p className="capitalize underline">{display.name}</p>
+    <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
+      <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
+        <InnerPanel
+          className="mb-1  z-10 sticky top-0 cursor-pointer"
+          onClick={onBack}
+        >
+          <div className="flex flex-wrap justify-between items-center">
+            <div className="flex cursor-pointer items-center w-fit">
+              <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
+              <p className="capitalize underline">{display.name}</p>
+            </div>
           </div>
-          <p className="text-xs mr-4">
-            {t("marketplace.youOwn", {
-              count: Math.floor(count),
-            })}
-          </p>
-        </div>
-      </InnerPanel>
-      {/* Mobile Header */}
-      <InnerPanel className=" w-full mb-1 sm:hidden flex">
-        <div className="w-1/3 mr-2">
-          <TradeableImage display={display} supply={tradeable?.supply} />
-        </div>
-        <div className="flex-1">
-          <TradeableHeader
-            dailyListings={getDailyListings()}
-            authToken={authToken}
-            farmId={farmId}
-            collection={collection as CollectionName}
-            display={display}
-            count={count}
-            tradeable={tradeable}
-            onBack={onBack}
-            reload={reload}
-            onListClick={() => setShowListItem(true)}
-          />
-        </div>
-        {/* <div className="flex-1 flex flex-col">
-          <TradeableDescription display={display} tradeable={tradeable} />
-
-          <div className="flex flex-1 items-end">
-            <TradeableStats history={tradeable?.history} price={latestSale} />
-          </div>
-        </div> */}
-      </InnerPanel>
-      <InnerPanel className=" w-full mb-1 sm:hidden flex">
-        <div className="flex-1 flex flex-col">
-          <TradeableDescription display={display} tradeable={tradeable} />
-
-          <div className="flex flex-1 items-end">
-            <TradeableStats history={tradeable?.history} price={latestSale} />
-          </div>
-        </div>
-      </InnerPanel>
-
-      {/* Desktop Header */}
-      <InnerPanel className="hidden sm:flex flex-col sm:flex-row w-full mb-1">
-        <div className="h-full mr-2">
-          <TradeableImage display={display} supply={tradeable?.supply} />
-        </div>
-        <div className="flex-1 flex flex-col">
-          <TradeableHeader
-            dailyListings={getDailyListings()}
-            authToken={authToken}
-            farmId={farmId}
-            collection={collection as CollectionName}
-            display={display}
-            count={count}
-            tradeable={tradeable}
-            onBack={onBack}
-            reload={reload}
-            onListClick={() => setShowListItem(true)}
-          />
-
-          <TradeableDescription display={display} tradeable={tradeable} />
-
-          <div className="flex flex-1 items-end">
-            <TradeableStats history={tradeable?.history} price={latestSale} />
-          </div>
-        </div>
-      </InnerPanel>
+        </InnerPanel>
+        {isMobile ? (
+          <TradeableMobileInfo display={display} tradeable={tradeable} />
+        ) : (
+          <TradeableInfo display={display} tradeable={tradeable} />
+        )}
+      </div>
       <div className="w-full">
+        <TradeableHeader
+          dailyListings={getDailyListings()}
+          authToken={authToken}
+          farmId={farmId}
+          collection={collection as CollectionName}
+          display={display}
+          count={count}
+          tradeable={tradeable}
+          onBack={onBack}
+          reload={reload}
+          onListClick={() => setShowListItem(true)}
+        />
+
+        {!isMobile && (
+          <TradeableStats history={tradeable?.history} price={latestSale} />
+        )}
+
         {hasListings && <MyListings />}
         {hasOffers && <MyOffers />}
 
