@@ -1263,7 +1263,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "basic",
     },
-    boosts: "+5% Food deliveries revenue",
+    boosts: "+10% Food deliveries revenue",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
