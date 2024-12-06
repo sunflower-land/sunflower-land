@@ -4462,7 +4462,5 @@
   "marketplace.quickswap.description": "$SFLを購入するための分散型でコミュニティ主導の取引所であるQuickswapにリダイレクトされようとしています。",
   "marketplace.quickswap.warning": "ゲーム内で表示される価格はコミュニティ価格に基づいて推定されており、現在の市場を反映していない場合があります。自己責任で進めてください。",
   "marketplace.estimated.price": "*シンガポールドル/米ドルの推定価格",
-  "marketplace.quickswap.continue": "続行",
-  "marketplace.about": "について",
-  "marketplace.wantToUnlock": "無制限の取引をアンロックしたいですか？"
+  "marketplace.quickswap.continue": "続行"
 }

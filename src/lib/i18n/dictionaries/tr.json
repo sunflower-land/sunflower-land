@@ -4462,7 +4462,5 @@
   "marketplace.quickswap.description": "$SFL satın almak için merkezi olmayan ve topluluk odaklı bir borsa olan Quickswap'a yönlendirilmek üzeresiniz.",
   "marketplace.quickswap.warning": "Oyun içinde gösterilen fiyatlar topluluk fiyatlarına göre tahmin edilir ve mevcut pazarı yansıtmayabilir. Kendi sorumluluğunuzda ilerleyin.",
   "marketplace.estimated.price": "*Tahmini SFL/USD fiyatı",
-  "marketplace.quickswap.continue": "Devamı",
-  "marketplace.about": "Hakkında",
-  "marketplace.wantToUnlock": "Sınırsız alım satımın kilidini açmak ister misiniz?"
+  "marketplace.quickswap.continue": "Devamı"
 }

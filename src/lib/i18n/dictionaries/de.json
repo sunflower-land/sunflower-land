@@ -4462,7 +4462,5 @@
   "marketplace.quickswap.description": "Sie werden bald zu Quickswap weitergeleitet, einer dezentralen und von der Community betriebenen Börse, um $SFL zu kaufen.",
   "marketplace.quickswap.warning": "Die im Spiel angegebenen Preise basieren auf Community-Preisen und spiegeln möglicherweise nicht den aktuellen Markt wider. Fahren Sie auf eigenes Risiko fort.",
   "marketplace.estimated.price": "*Geschätzter SFL/USD-Preis",
-  "marketplace.quickswap.continue": "Weiter",
-  "marketplace.about": "Über",
-  "marketplace.wantToUnlock": "Willst du unbegrenzt viele Trades freischalten?"
+  "marketplace.quickswap.continue": "Weiter"
 }
