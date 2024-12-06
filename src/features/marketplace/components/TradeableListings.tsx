@@ -157,9 +157,11 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               {t("marketplace.listings")}
             </Label>
 
-            <Button onClick={onListClick} className="w-auto">
-              {t("marketplace.listForSale")}
-            </Button>
+            {!isResource && (
+              <Button onClick={onListClick} className="w-auto">
+                {t("marketplace.listForSale")}
+              </Button>
+            )}
           </div>
           <div className="mb-2">
             {loading && <Loading />}
