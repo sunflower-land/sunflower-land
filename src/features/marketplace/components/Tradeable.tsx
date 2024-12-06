@@ -147,8 +147,46 @@ export const Tradeable: React.FC = () => {
           </p>
         </div>
       </InnerPanel>
-      <InnerPanel className="flex flex-col sm:flex-row w-full mb-1">
-        <div className="w-full sm:w-1/3 md:w-1/4 sm:max-w-[300px] mr-2">
+      {/* Mobile Header */}
+      <InnerPanel className=" w-full mb-1 sm:hidden flex">
+        <div className="w-1/3 mr-2">
+          <TradeableImage display={display} supply={tradeable?.supply} />
+        </div>
+        <div className="flex-1">
+          <TradeableHeader
+            dailyListings={getDailyListings()}
+            authToken={authToken}
+            farmId={farmId}
+            collection={collection as CollectionName}
+            display={display}
+            count={count}
+            tradeable={tradeable}
+            onBack={onBack}
+            reload={reload}
+            onListClick={() => setShowListItem(true)}
+          />
+        </div>
+        {/* <div className="flex-1 flex flex-col">
+          <TradeableDescription display={display} tradeable={tradeable} />
+
+          <div className="flex flex-1 items-end">
+            <TradeableStats history={tradeable?.history} price={latestSale} />
+          </div>
+        </div> */}
+      </InnerPanel>
+      <InnerPanel className=" w-full mb-1 sm:hidden flex">
+        <div className="flex-1 flex flex-col">
+          <TradeableDescription display={display} tradeable={tradeable} />
+
+          <div className="flex flex-1 items-end">
+            <TradeableStats history={tradeable?.history} price={latestSale} />
+          </div>
+        </div>
+      </InnerPanel>
+
+      {/* Desktop Header */}
+      <InnerPanel className="hidden sm:flex flex-col sm:flex-row w-full mb-1">
+        <div className="h-full mr-2">
           <TradeableImage display={display} supply={tradeable?.supply} />
         </div>
         <div className="flex-1 flex flex-col">

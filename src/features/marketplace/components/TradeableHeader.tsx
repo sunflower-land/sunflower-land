@@ -149,8 +149,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           </Panel>
         </Modal>
       )}
-      <div className="w-full mb-1">
-        <div className="p-2 pt-1">
+      <div className="w-full mb-1 flex flex-col h-full">
+        <div className="px-2 pt-1 mb-2 sm:mb-0">
           <div className="flex items-center justify-between flex-wrap">
             {!isResources && (
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
@@ -164,7 +164,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                     <p className={classNames("text-base")}>
                       {!tradeable
                         ? "0.00 SFL"
-                        : cheapestListing?.sfl ?? "? SFL"}
+                        : `${cheapestListing?.sfl ?? "?"} SFL`}
                     </p>
                     <p className="text-xs">
                       {`$${new Decimal(usd)
@@ -180,9 +180,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 <>
                   <div className="flex flex-col space-y-1">
                     <div className="flex">
-                      <img src={sflIcon} className="h-8 mr-2" />
+                      <img src={sflIcon} className="h-10 mr-2" />
                       {tradeable ? (
-                        <p className="text-base">
+                        <p className="text-lg">
                           {t("marketplace.pricePerUnit", {
                             price: tradeable.floor
                               ? formatNumber(tradeable.floor, {
@@ -194,7 +194,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                         </p>
                       ) : (
                         <>
-                          <span className="text-base loading-fade-pulse">
+                          <span className="text-lg loading-fade-pulse">
                             {t("marketplace.pricePerUnit", {
                               price: "0.0000",
                             })}
@@ -215,12 +215,12 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 <Button
                   onClick={() => setShowPurchaseModal(true)}
                   disabled={!balance.gt(cheapestListing.sfl)}
-                  className="mr-1 w-full sm:w-auto"
+                  className="w-full sm:w-auto"
                 >
                   {t("marketplace.buyNow")}
                 </Button>
               )}
-              {tradeable?.isActive && (
+              {tradeable?.isActive && isResources && (
                 <Button
                   disabled={!count}
                   onClick={onListClick}
@@ -233,17 +233,17 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           </div>
         </div>
         {/* Mobile display */}
-        <div className="flex items-center justify-between sm:hidden w-full sm:w-auto">
+        <div className="sm:hidden w-full sm:w-auto flex-1 flex flex-col justify-end">
           {showBuyNow && (
             <Button
               onClick={() => setShowPurchaseModal(true)}
               disabled={!balance.gt(cheapestListing.sfl)}
-              className="mr-1 w-full sm:w-auto"
+              className="w-full sm:w-auto"
             >
               {t("marketplace.buyNow")}
             </Button>
           )}
-          {tradeable?.isActive && (
+          {tradeable?.isActive && isResources && (
             <Button
               onClick={onListClick}
               disabled={!count || (!isVIP && dailyListings >= 1)}

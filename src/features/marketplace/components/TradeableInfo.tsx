@@ -37,24 +37,10 @@ export const TradeableImage: React.FC<{
   };
 
   return (
-    <div className="w-full flex relative mb-1" style={{ padding: 0 }}>
-      <div className="flex flex-wrap absolute top-2 right-2">
-        {/* {tradeable && (
-      <Label
-        type="formula"
-        icon={increaseArrow}
-        className="mr-2"
-      >{`42% (7D)`}</Label>
-    )} */}
-
-        {!!supply && !isResource && (
-          <Label type="default">{t("marketplace.supply", { supply })}</Label>
-        )}
-      </div>
-
+    <div className="w-full h-full flex relative mb-1" style={{ padding: 0 }}>
       <img
         src={isBackground ? display.image : background}
-        className="w-full rounded-sm"
+        className="w-full h-full rounded-lg object-contain"
       />
       {!isBackground && (
         <img
@@ -99,8 +85,8 @@ export const TradeableDescription: React.FC<{
               display.buff.boostTypeIcon ??
               lightningIcon
             }
-            type={"transparent"}
-            className="mb-2 ml-2"
+            type={"vibrant"}
+            className="mb-2"
           >
             {display.buff.shortDescription}
           </Label>
