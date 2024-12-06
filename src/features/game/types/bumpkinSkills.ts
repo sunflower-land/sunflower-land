@@ -1110,18 +1110,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Iron Hustle": {
-    name: "Iron Hustle",
-    tree: "Mining",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: "Iron recovers 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Tap Prospector": {
     name: "Tap Prospector",
     tree: "Mining",
@@ -1147,6 +1135,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
   },
   // Mining - Tier 2
+  "Iron Hustle": {
+    name: "Iron Hustle",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: "Iron recovers 30% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   "Frugal Miner": {
     name: "Frugal Miner",
     tree: "Mining",
