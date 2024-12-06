@@ -4462,5 +4462,7 @@
   "marketplace.quickswap.description": "Você está prestes a ser redirecionado para o Quickswap, uma bolsa descentralizada e voltada para a comunidade para comprar $ SFL.",
   "marketplace.quickswap.warning": "Os preços mostrados no jogo são estimados com base nos preços comunitários e podem não refletir o mercado atual. Prossiga por sua própria conta e risco.",
   "marketplace.estimated.price": "*Preço estimado em SFL/USD",
-  "marketplace.quickswap.continue": "Continuar"
+  "marketplace.quickswap.continue": "Continuar",
+  "marketplace.about": "Sobre",
+  "marketplace.wantToUnlock": "Quer desbloquear negociações ilimitadas?"
 }

@@ -4462,5 +4462,7 @@
   "marketplace.quickswap.description": "Anda akan diarahkan ke Quickswap, pertukaran yang terdesentralisasi dan digerakkan oleh komunitas untuk membeli $SFL.",
   "marketplace.quickswap.warning": "Harga yang ditampilkan dalam game diperkirakan berdasarkan harga komunitas & mungkin tidak mencerminkan pasar saat ini. Lanjutkan dengan risiko Anda sendiri.",
   "marketplace.estimated.price": "*Perkiraan harga SFL/USD",
-  "marketplace.quickswap.continue": "Lanjutkan"
+  "marketplace.quickswap.continue": "Lanjutkan",
+  "marketplace.about": "Tentang",
+  "marketplace.wantToUnlock": "Ingin membuka perdagangan tanpa batas?"
 }
