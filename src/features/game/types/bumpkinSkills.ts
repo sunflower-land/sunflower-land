@@ -1429,6 +1429,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Flower Sale": {
+    name: "Flower Sale",
+    tree: "Bees & Flowers",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Flowers Seeds cost 20% less coins",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Bees & Flowers - Tier 2
   "Buzzworthy Treats": {
     name: "Buzzworthy Treats",
