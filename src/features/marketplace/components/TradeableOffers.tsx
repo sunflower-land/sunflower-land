@@ -263,7 +263,6 @@ export const TradeableOffers: React.FC<{
           <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
             <Button
               className="w-full sm:w-fit"
-              disabled={!tradeable}
               onClick={() => setShowMakeOffer(true)}
             >
               {t("marketplace.makeOffer")}

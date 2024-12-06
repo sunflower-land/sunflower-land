@@ -16,12 +16,76 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Context } from "features/game/GameProvider";
 
-type TradeTableItem = {
+type TradeRowProps = {
+  details: TradeableDisplay;
   price: number;
-  expiresAt: string;
-  createdById: number;
-  icon?: string;
+  usd: number;
+  user: {
+    username: string;
+    bumpkinUri: string;
+  };
+  isResource?: boolean;
+  quantity?: number;
+  index: number;
 };
+
+const TradeRow: React.FC<TradeRowProps> = ({
+  details,
+  price,
+  usd,
+  user,
+  isResource = false,
+  quantity = 1,
+  index,
+}) => (
+  <div
+    className={classNames(
+      "flex items-center relative transition-all text-xs sm:text-sm",
+      {
+        "bg-[#ead4aa]": index % 2 === 0,
+      },
+    )}
+    style={{
+      borderBottom: "1px solid #b96f50",
+      borderTop: index === 0 ? "1px solid #b96f50" : "",
+    }}
+  >
+    <div className="p-1.5 flex w-1/3 items-center">
+      <img
+        src={details.image}
+        className="h-6 w-6 sm:h-8 sm:w-8 mr-3 object-contain"
+      />
+      <p className="py-0.5 text-xxs sm:text-sm">
+        {`${isResource ? quantity + " x" : ""} ${details.name}`}
+      </p>
+    </div>
+    <div className="flex-1 flex items-center justify-between">
+      <div className="flex items-center flex-1 overflow-hidden">
+        <div className="relative w-8 h-8">
+          <NPC width={20} parts={interpretTokenUri(user.bumpkinUri).equipped} />
+        </div>
+        <p className="text-xs sm:text-sm flex-1 truncate">{user.username}</p>
+      </div>
+      <div className="p-1.5 text-right relative flex items-center justify-end">
+        <img src={sflIcon} className="h-6 mr-1" />
+        <div>
+          <p className="text-sm">
+            {new Decimal(
+              isResource
+                ? formatNumber(price / quantity, {
+                    decimalPlaces: 4,
+                  })
+                : price,
+            ).toFixed(2)}
+          </p>
+          <p className="text-xxs">
+            {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 export const OfferTable: React.FC<{
   offers: Offer[];
@@ -31,65 +95,21 @@ export const OfferTable: React.FC<{
   const { gameService } = useContext(Context);
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
-  if (offers.length === 0) {
-    return null;
-  }
+  if (offers.length === 0) return null;
 
   return (
     <div className="w-full text-xs border-collapse mb-2">
       <div>
-        {offers.map((offer, index) => {
-          const quantity = 1; // TODO?
-          const price = offer.sfl;
-
-          return (
-            <div
-              key={index}
-              className={classNames(
-                "flex items-center relative transition-all",
-                {
-                  "bg-[#ead4aa]": index % 2 === 0,
-                },
-              )}
-              style={{
-                borderBottom: "1px solid #b96f50",
-                borderTop: index === 0 ? "1px solid #b96f50" : "",
-              }}
-            >
-              <div className="p-1.5 mr-2 lg:mr-12 text-left w-auto flex items-center">
-                <img
-                  src={details.image}
-                  className="h-8 mr-4 w-8 object-contain"
-                />
-                <p className="text-sm">{details.name}</p>
-              </div>
-              <div className="flex-1 flex items-center justify-between">
-                <div className="flex items-center flex-1 overflow-hidden">
-                  <div className="relative w-8 h-8">
-                    <NPC
-                      width={20}
-                      parts={
-                        interpretTokenUri(offer.offeredBy.bumpkinUri).equipped
-                      }
-                    />
-                  </div>
-                  <p className="text-xs sm:text-sm flex-1 truncate">
-                    {offer.offeredBy.username}
-                  </p>
-                </div>
-                <div className="p-1.5 text-right relative flex items-center justify-end">
-                  <img src={sflIcon} className="h-6 mr-1" />
-                  <div>
-                    <p className="text-sm">{new Decimal(price).toFixed(2)}</p>
-                    <p className="text-xxs">
-                      {`${new Decimal(usd).mul(price).toFixed(2)}`}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {offers.map((offer, index) => (
+          <TradeRow
+            key={index}
+            details={details}
+            price={offer.sfl}
+            usd={usd}
+            user={offer.offeredBy}
+            index={index}
+          />
+        ))}
       </div>
     </div>
   );
@@ -104,71 +124,24 @@ export const ListingTable: React.FC<{
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   return (
-    <div className="w-full text-xs  border-collapse  ">
+    <div className="w-full text-xs border-collapse">
       <div>
         {listings.map((listing, index) => {
           const isResource =
             collection === "collectibles" &&
             getKeys(TRADE_LIMITS).includes(details.name as InventoryItemName);
-          const quantity = 1; // TODO?
-          const price = listing.sfl;
 
           return (
-            <div
+            <TradeRow
               key={index}
-              className={classNames(
-                "flex items-center relative transition-all",
-                {
-                  "bg-[#ead4aa]": index % 2 === 0,
-                },
-              )}
-              style={{
-                borderBottom: "1px solid #b96f50",
-                borderTop: index === 0 ? "1px solid #b96f50" : "",
-              }}
-            >
-              <div className="p-1.5 mr-2 w-1/2 sm:w-1/3 text-left flex items-center">
-                <img
-                  src={details.image}
-                  className="h-8 mr-4 w-8 object-contain"
-                />
-                <p className="py-0.5 text-xs sm:text-sm truncate">
-                  {`${isResource ? quantity + " x" : ""} ${details.name}`}
-                </p>
-              </div>
-              <div className="flex-1 flex items-center justify-between">
-                <div className="flex items-center flex-1 overflow-hidden">
-                  <div className="relative w-8 h-8">
-                    <NPC
-                      width={20}
-                      parts={
-                        interpretTokenUri(listing.listedBy.bumpkinUri).equipped
-                      }
-                    />
-                  </div>
-                  <p className="text-xs py-0.5 sm:text-sm flex-1 truncate">
-                    {listing.listedBy.username}
-                  </p>
-                </div>
-                <div className="p-1.5 text-right relative flex items-center justify-end">
-                  <img src={sflIcon} className="h-6 mr-1" />
-                  <div>
-                    <p className="text-sm">
-                      {new Decimal(
-                        isResource
-                          ? formatNumber(price / Number(quantity), {
-                              decimalPlaces: 4,
-                            })
-                          : price,
-                      ).toFixed(2)}
-                    </p>
-                    <p className="text-xxs">
-                      {`$${new Decimal(usd).mul(price).toFixed(2)}`}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+              details={details}
+              price={listing.sfl}
+              usd={usd}
+              user={listing.listedBy}
+              isResource={isResource}
+              quantity={1}
+              index={index}
+            />
           );
         })}
       </div>
