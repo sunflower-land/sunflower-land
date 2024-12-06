@@ -30,7 +30,6 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { KNOWN_ITEMS } from "features/game/types";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { Button } from "components/ui/Button";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -150,16 +149,10 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <div className="flex items-start justify-between mb-1">
+          <div className="flex items-center justify-between mb-1">
             <Label icon={tradeIcon} type="default" className="mb-2">
               {t("marketplace.listings")}
             </Label>
-
-            {!isResource && (
-              <Button onClick={onListClick} className="w-auto">
-                {t("marketplace.listForSale")}
-              </Button>
-            )}
           </div>
           <div className="mb-2">
             {loading && <Loading />}
