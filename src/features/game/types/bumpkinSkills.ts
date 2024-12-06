@@ -1350,7 +1350,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts:
-      "Ability make all meals currently cooking ready to be eaten (1/72h)",
+      "Ability make all meals currently cooking ready to be eaten (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
     power: true,
