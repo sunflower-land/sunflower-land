@@ -296,7 +296,11 @@ export const getFoodExpBoost = (
   }
 
   // Juicy Boost - 10% exp boost on juice
-  if (food.name.includes("Juice") && skills["Juicy Boost"]) {
+  if (
+    isCookable(food) &&
+    food.building === "Smoothie Shack" &&
+    skills["Juicy Boost"]
+  ) {
     boostedExp = boostedExp.mul(1.1);
   }
 

@@ -1312,7 +1312,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "basic",
     },
-    boosts: "+10% experience from drinking juices",
+    boosts: "+10% experience from drinking smoothies",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
