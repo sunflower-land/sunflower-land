@@ -1528,6 +1528,19 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Petal Blessed": {
+    name: "Petal Blessed",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    disabled: false,
+    boosts:
+      "[Action] Ability to make all flowers currently growing ready to be harvested (Cooldown: 96 hours)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Machinery - Tier 1
   "Crop Processor Unit": {
