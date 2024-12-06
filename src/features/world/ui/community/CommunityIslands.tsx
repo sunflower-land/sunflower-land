@@ -1,6 +1,6 @@
 import { OuterPanel } from "components/ui/Panel";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import dignity from "assets/icons/dignity.png";
 import unicorn from "assets/icons/unicorn.png";

@@ -8,8 +8,8 @@ import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { useNavigate } from "react-router-dom";
 import { Context } from "features/game/GameProvider";
+import { useNavigate } from "react-router";
 
 export const TopTrades: React.FC<{
   trends?: MarketplaceTrends;

@@ -26,7 +26,7 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { VIPAccess } from "features/game/components/VipAccess";

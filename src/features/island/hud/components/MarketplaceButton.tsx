@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shopIcon from "assets/icons/shop.png";
 import { SUNNYSIDE } from "assets/sunnyside";

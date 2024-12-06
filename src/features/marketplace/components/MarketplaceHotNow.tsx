@@ -4,7 +4,7 @@ import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import React, { useContext } from "react";
 import { TrendingTrades } from "./TrendingTrades";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";

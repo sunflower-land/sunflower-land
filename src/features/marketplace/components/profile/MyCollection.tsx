@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 import { Context } from "features/game/GameProvider";
 import { CollectionName } from "features/game/types/marketplace";

@@ -35,8 +35,8 @@ import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { useParams } from "react-router-dom";
 import Decimal from "decimal.js-light";
+import { useParams } from "react-router";
 
 // JWT TOKEN
 

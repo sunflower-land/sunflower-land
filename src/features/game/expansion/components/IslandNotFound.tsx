@@ -3,7 +3,7 @@ import React from "react";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const IslandNotFound = () => {

@@ -9,7 +9,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {

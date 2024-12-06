@@ -15,7 +15,7 @@ import {
   useLocation,
   useNavigate,
   useSearchParams,
-} from "react-router-dom";
+} from "react-router";
 import { Collection, preloadCollections } from "./Collection";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
