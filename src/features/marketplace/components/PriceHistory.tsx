@@ -22,7 +22,7 @@ export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
       <Label type="default" className="m-1">
         {t("marketplace.saleHistory")}
       </Label>
-      <div className="p-2">
+      <div className="p-1">
         {history ? <Sales sales={history.sales ?? []} /> : <Loading />}
       </div>
     </InnerPanel>

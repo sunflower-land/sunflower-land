@@ -1,7 +1,12 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
+
+import lock from "assets/icons/lock.png";
+import trade from "assets/icons/trade.png";
+
 import * as Auth from "features/auth/lib/Provider";
+
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
@@ -14,13 +19,13 @@ import { RemoveOffer } from "../RemoveOffer";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { NPC_WEARABLES } from "lib/npcs";
 import { AuthMachineState } from "features/auth/lib/authMachine";
+import sflIcon from "assets/icons/sfl.webp";
+import classNames from "classnames";
+import { Button } from "components/ui/Button";
 import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { MyTableRow } from "./MyTableRow";
-
-import lock from "assets/icons/lock.png";
-import trade from "assets/icons/trade.png";
+import Decimal from "decimal.js-light";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -164,26 +169,69 @@ export const MyOffers: React.FC = () => {
                   const unitPrice = price / (quantity ?? 1);
 
                   return (
-                    <MyTableRow
+                    <div
                       key={index}
-                      index={index}
-                      id={id}
-                      itemId={itemId}
-                      pageItemId={params.id ?? ""}
-                      itemName={itemName}
-                      quantity={quantity ?? 0}
-                      price={price}
-                      collection={offer.collection}
-                      unitPrice={unitPrice}
-                      usdPrice={usd}
-                      isResource={isResource}
-                      onCancel={() => setRemoveId(id)}
-                      onRowClick={() =>
+                      className={classNames(
+                        "relative bg-[#ead4aa] transition-all flex items-center",
+                        {
+                          "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
+                            Number(params.id) !== itemId,
+                        },
+                      )}
+                      style={{
+                        borderBottom: "1px solid #b96f50",
+                        borderTop: index === 0 ? "1px solid #b96f50" : "",
+                      }}
+                      onClick={() =>
                         navigate(
                           `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${itemId}`,
                         )
                       }
-                    />
+                    >
+                      <div className="p-1.5 flex w-1/2 sm:w-1/3 items-center">
+                        <div className="flex items-center">
+                          <img
+                            src={details.image}
+                            className="h-8 w-8 object-contain mr-3 sm:mr-4"
+                          />
+                          <p className="py-0.5 text-xxs sm:text-sm">
+                            {`${isResource ? `${quantity} x` : ""} ${details.name}`}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="p-1.5 truncate flex flex-1 items-center">
+                        <div className="flex flex-col items-start justify-center">
+                          <div className="flex items-center justify-start space-x-1">
+                            <img src={sflIcon} className="h-6" />
+                            <div>
+                              <span className="sm:text-sm">{`${price.toFixed(2)} SFL`}</span>
+                              <p className="text-xxs">
+                                {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+                              </p>
+                            </div>
+                          </div>
+                          {isResource && (
+                            <div className="text-xxs w-full text-end">
+                              {t("bumpkinTrade.price/unit", {
+                                price: unitPrice.toFixed(4),
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="p-1 text-center w-[65px] sm:min-w-[94px]">
+                        <Button
+                          variant="secondary"
+                          className="w-full h-8 rounded-none"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setRemoveId(id);
+                          }}
+                        >
+                          <p className="text-xxs sm:text-sm">{t("cancel")}</p>
+                        </Button>
+                      </div>
+                    </div>
                   );
                 })}
               </div>

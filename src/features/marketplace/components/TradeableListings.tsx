@@ -162,9 +162,8 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             {!!tradeable?.listings.length &&
               (isResource ? (
                 <ResourceTable
-                  isResource={isResource}
                   balance={balance}
-                  details={display}
+                  itemName={KNOWN_ITEMS[Number(params.id)]}
                   items={tradeable?.listings.map((listing) => ({
                     id: listing.id,
                     price: listing.sfl,
@@ -187,8 +186,8 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               ) : (
                 <ListingTable
                   listings={tradeable?.listings}
+                  collection={tradeable?.collection}
                   details={display}
-                  isResource={isResource}
                 />
               ))}
           </div>
