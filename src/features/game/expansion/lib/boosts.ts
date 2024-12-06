@@ -268,6 +268,10 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
+  if (food.name in FISH_CONSUMABLES && !!skills["Fishy Feast"]) {
+    boostedExp = boostedExp.mul(1.2);
+  }
+
   if (hasVipAccess(game.inventory)) {
     boostedExp = boostedExp.mul(1.1);
   }

@@ -856,6 +856,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Fishy Feast": {
+    name: "Fishy Feast",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: "+20% Fish XP",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Animals - Tier 1
   "Eggcellent Production": {
