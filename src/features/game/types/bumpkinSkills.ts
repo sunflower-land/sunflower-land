@@ -770,6 +770,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "10% chance of +1 advanced fish",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Reel Deal": {
+    name: "Reel Deal",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "Rods cost 50% less coins",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Fishing - Tier 2
   "Fisherman's 5 Fold": {
     name: "Fisherman's 5 Fold",
