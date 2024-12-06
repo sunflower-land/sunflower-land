@@ -24,6 +24,7 @@ import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/craftables";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
+import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 
@@ -123,6 +124,14 @@ export const MakeOffer: React.FC<{
     onClose();
   };
 
+  const estTradePoints =
+    offer === 0
+      ? 0
+      : calculateTradePoints({
+          sfl: offer,
+          points: tradeType === "instant" ? 2 : 10,
+        }).multipliedPoints;
+
   if (showConfirmation) {
     return (
       <>
@@ -131,7 +140,12 @@ export const MakeOffer: React.FC<{
             {t("are.you.sure")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary display={display} sfl={offer} quantity={quantity} />
+          <TradeableSummary
+            display={display}
+            sfl={offer}
+            quantity={quantity}
+            estTradePoints={estTradePoints}
+          />
         </div>
 
         <div className="flex">
@@ -157,6 +171,7 @@ export const MakeOffer: React.FC<{
               display={display}
               sfl={offer}
               quantity={quantity}
+              estTradePoints={estTradePoints}
             />
           </div>
 
