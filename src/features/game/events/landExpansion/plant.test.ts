@@ -2017,7 +2017,7 @@ describe("getCropTime", () => {
     );
   });
 
-  it("applies a +5% speed boost with Green Thumb 2 skill", () => {
+  it("applies a +5% speed boost with Green Thumb skill", () => {
     const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Corn",
@@ -2028,7 +2028,7 @@ describe("getCropTime", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           skills: {
-            "Green Thumb 2": 1,
+            "Green Thumb": 1,
           },
         },
       },

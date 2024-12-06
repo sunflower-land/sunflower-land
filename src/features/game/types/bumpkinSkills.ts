@@ -296,7 +296,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
 
 export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Crops - Tier 1
-  "Green Thumb 2": {
+  "Green Thumb": {
     name: "Green Thumb",
     tree: "Crops",
     requirements: {
