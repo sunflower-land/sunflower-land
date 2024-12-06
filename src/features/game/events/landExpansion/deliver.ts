@@ -255,7 +255,7 @@ export function getOrderSellPrice<T>(
     game.bumpkin?.skills["Betty's Friend"] &&
     order.reward.coins
   ) {
-    mul += 0.2;
+    mul += 0.3;
   }
 
   if (

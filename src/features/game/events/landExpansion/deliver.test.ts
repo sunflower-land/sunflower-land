@@ -1156,7 +1156,7 @@ describe("deliver", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
   });
 
-  it("add 20% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
+  it("add 30% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1193,7 +1193,7 @@ describe("deliver", () => {
       createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.coins).toEqual(120);
+    expect(state.coins).toEqual(130);
   });
   it("add 20% coins bonus if has Forge-Ward Profits skill on Blacksmith's orders with Coins reward", () => {
     const state = deliverOrder({
@@ -1235,7 +1235,7 @@ describe("deliver", () => {
     expect(state.coins).toEqual(120);
   });
 
-  it("does not add 20% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
+  it("does not add 30% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
