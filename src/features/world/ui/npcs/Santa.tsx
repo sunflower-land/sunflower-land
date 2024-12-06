@@ -16,7 +16,7 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { secondsToString } from "lib/utils/time";
+import { getTimeLeft, secondsToString } from "lib/utils/time";
 import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -63,6 +63,18 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
       />
     );
   }
+
+  const startDate = new Date("2024-12-12T00:00:00.000Z");
+  const endDate = new Date("2024-12-28T00:00:00.000Z");
+
+  const getTotalSecondsAvailable = () => {
+    return (endDate.getTime() - startDate.getTime()) / 1000;
+  };
+
+  const timeRemaining = getTimeLeft(
+    startDate.getTime(),
+    getTotalSecondsAvailable(),
+  );
 
   const { dayOfChristmas } = getDayOfChristmas(gameState.context.state);
 
@@ -124,7 +136,17 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
         <Label className="ml-1.5" icon={gift} type="default">
           {t("christmas.days.completed", { completed: complete })}
         </Label>
+
         <p className="text-xs mb-1">{t("npcDialogues.santa.dialogue4")}</p>
+
+        <Label icon={SUNNYSIDE.icons.stopwatch} type="info" className="mb-1 ">
+          {t("time.remaining", {
+            time: secondsToString(timeRemaining, {
+              length: "medium",
+              removeTrailingZeros: true,
+            }),
+          })}
+        </Label>
 
         <div className="flex overflow-x-auto space-x-1.5 p-2 scrollable">
           {Object.entries(rewards).map(([day, reward]) => (
