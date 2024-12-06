@@ -1698,7 +1698,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "basic",
     },
-    boosts: "Use feathers to speed up composters instead of eggs",
+    boosts:
+      "Use feathers to speed up composters instead of eggs but requires 2x feathers to boost",
     image: SUNNYSIDE.skills.green_thumb_LE,
     disabled: false,
   },
