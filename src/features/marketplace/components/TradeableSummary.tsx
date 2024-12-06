@@ -98,7 +98,7 @@ export const TradeableSummary: React.FC<{
       <div
         className="flex justify-between"
         style={{
-          borderBottom: "1px solid #ead4aa",
+          borderBottom: estTradePoints ? "1px solid #ead4aa" : "none",
           padding: "5px 5px 5px 2px",
         }}
       >
