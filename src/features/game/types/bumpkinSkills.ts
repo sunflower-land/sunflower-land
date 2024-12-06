@@ -1134,19 +1134,19 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  // Mining - Tier 2
   "Forge-Ward Profits": {
     name: "Forge-Ward Profits",
     tree: "Mining",
     requirements: {
-      points: 2,
-      tier: 2,
+      points: 1,
+      tier: 1,
       island: "basic",
     },
     boosts: "+20% Blacksmith deliveries revenue",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  // Mining - Tier 2
   "Frugal Miner": {
     name: "Frugal Miner",
     tree: "Mining",
