@@ -8,7 +8,7 @@ import filterIcon from "assets/icons/filter_icon.webp";
 import tradeIcon from "assets/icons/trade.png";
 import trade_point from "src/assets/icons/trade_points_coupon.webp";
 import sflIcon from "assets/icons/sfl.webp";
-
+import crownIcon from "assets/icons/vip.webp";
 import {
   Route,
   Routes,
@@ -33,15 +33,23 @@ import { MarketplaceUser } from "./MarketplaceUser";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
+import { MachineState } from "features/game/lib/gameMachine";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+
+const _isVIP = (state: MachineState) =>
+  hasVipAccess(state.context.state.inventory);
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickswap, setShowQuickswap] = useState(false);
+
+  const { openModal } = useContext(ModalContext);
 
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
@@ -54,6 +62,8 @@ export const MarketplaceNavigation: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
+  const isVIP = useSelector(gameService, _isVIP);
 
   return (
     <>
@@ -124,6 +134,23 @@ export const MarketplaceNavigation: React.FC = () => {
             price={price}
             onClick={() => setShowQuickswap(true)}
           />
+
+          {!isVIP && (
+            <InnerPanel
+              className="p-2 cursor-pointer"
+              onClick={() => {
+                openModal("VIP_ITEMS");
+              }}
+            >
+              <div className="flex items-center justify-between mb-1">
+                <Label icon={crownIcon} type="danger" className="ml-1">
+                  {t("vipAccess")}
+                </Label>
+                <p className="text-xxs underline">{t("readMore")}</p>
+              </div>
+              <p className="text-xxs">{t("marketplace.wantToUnlock")}</p>
+            </InnerPanel>
+          )}
         </div>
 
         <div className="flex-1 flex flex-col w-full">
@@ -350,7 +377,7 @@ const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <InnerPanel className="cursor-pointer" onClick={onClick}>
+    <InnerPanel className="cursor-pointer mb-1" onClick={onClick}>
       <div className="flex justify-between items-center pr-1">
         <div className="flex items-center">
           <img src={sflIcon} className="w-6" />

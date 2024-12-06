@@ -52,8 +52,8 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
     >
       <div className="w-1/3 pr-1">
         <div>
-          <div className="flex justify-between">
-            <Label type="transparent" className="whitespace-nowrap">
+          <div className="flex">
+            <Label type="transparent" className="whitespace-nowrap mr-2">
               <span className="text-xxs sm:text-xs">
                 {t("marketplace.oneDayChange")}
               </span>
@@ -79,8 +79,8 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
       </div>
       <div className="w-1/3 pr-1">
         <div>
-          <div className="flex justify-between">
-            <Label type="transparent" className="whitespace-nowrap">
+          <div className="flex ">
+            <Label type="transparent" className="whitespace-nowrap mr-2">
               <span className="text-xxs sm:text-xs">
                 {t("marketplace.sevenDayChange")}
               </span>
@@ -106,9 +106,9 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
       </div>
       <div className="w-1/3">
         <div>
-          <div className="flex justify-between">
+          <div className="flex">
             <div>
-              <Label type="transparent" className="whitespace-nowrap">
+              <Label type="transparent" className="whitespace-nowrap mr-2">
                 <span className="text-xxs sm:text-xs">
                   {t("marketplace.sales")}
                 </span>

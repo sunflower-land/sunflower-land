@@ -197,7 +197,7 @@ export const MakeOffer: React.FC<{
   return (
     <>
       <div className="p-2">
-        <div className="flex justify-between mb-2">
+        <div className="flex flex-wrap justify-between mb-2">
           <Label type="default" className="-ml-1 mb-1">
             {t("marketplace.makeOffer")}
           </Label>
@@ -207,7 +207,7 @@ export const MakeOffer: React.FC<{
               onUpgrade={() => {
                 openModal("BUY_BANNER");
               }}
-              text={t("marketplace.unlockSelling")}
+              // text={t("marketplace.unlockSelling")}
               labelType={!isVIP ? "danger" : undefined}
             />
           )}

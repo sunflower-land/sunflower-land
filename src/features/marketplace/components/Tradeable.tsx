@@ -30,7 +30,6 @@ import { tradeToId } from "../lib/offers";
 import { getDayOfYear } from "lib/utils/time";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import useSWR from "swr";
-import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Tradeable: React.FC = () => {
@@ -141,23 +140,14 @@ export const Tradeable: React.FC = () => {
             <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
             <p className="capitalize underline">{display.name}</p>
           </div>
-          <Label
-            secondaryIcon={SUNNYSIDE.icons.basket}
-            type="transparent"
-            className="mr-4"
-          >
+          <p className="text-xs mr-4">
             {t("marketplace.youOwn", {
               count: Math.floor(count),
             })}
-          </Label>
+          </p>
         </div>
       </InnerPanel>
-      <InnerPanel className="flex flex-col sm:flex-row w-full mr-1 mb-1">
-        {/* {isMobile ? (
-          <TradeableMobileInfo display={display} tradeable={tradeable} />
-        ) : ( */}
-        {/* <TradeableInfo display={display} tradeable={tradeable} /> */}
-        {/* )} */}
+      <InnerPanel className="flex flex-col sm:flex-row w-full mb-1">
         <div className="w-full sm:w-1/3 md:w-1/4 sm:max-w-[300px] mr-2">
           <TradeableImage display={display} supply={tradeable?.supply} />
         </div>
