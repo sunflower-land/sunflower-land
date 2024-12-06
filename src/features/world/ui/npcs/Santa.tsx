@@ -133,20 +133,22 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
             </p>
           </>
         )}
-        <Label className="ml-1.5" icon={gift} type="default">
-          {t("christmas.days.completed", { completed: complete })}
-        </Label>
+        <div className="flex justify-between flex-wrap mb-2 gap-1 ml-1.5">
+          <Label className="flex" icon={gift} type="default">
+            {t("christmas.days.completed", { completed: complete })}
+          </Label>
+
+          <Label className="flex" icon={SUNNYSIDE.icons.stopwatch} type="info">
+            {t("megaStore.timeRemaining", {
+              timeRemaining: secondsToString(timeRemaining, {
+                length: "medium",
+                removeTrailingZeros: true,
+              }),
+            })}
+          </Label>
+        </div>
 
         <p className="text-xs mb-1">{t("npcDialogues.santa.dialogue4")}</p>
-
-        <Label icon={SUNNYSIDE.icons.stopwatch} type="info" className="mb-1 ">
-          {t("time.remaining", {
-            time: secondsToString(timeRemaining, {
-              length: "medium",
-              removeTrailingZeros: true,
-            }),
-          })}
-        </Label>
 
         <div className="flex overflow-x-auto space-x-1.5 p-2 scrollable">
           {Object.entries(rewards).map(([day, reward]) => (
