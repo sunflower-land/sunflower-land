@@ -1,5 +1,4 @@
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
 import React, { useEffect, useState } from "react";
 import increaseArrow from "assets/icons/increase_arrow.png";
 import decreaseArrow from "assets/icons/decrease_arrow.png";
@@ -42,11 +41,19 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
       };
 
   return (
-    <div className="flex w-full gap-0.5 flex-col justify-evenly sm:gap-0 sm:flex-row sm:flex-wrap sm:mb-1">
-      <div className="w-full sm:w-1/3 sm:pr-1">
-        <InnerPanel>
-          <div className="flex justify-between">
-            <Label type="info" className="whitespace-nowrap">
+    <div
+      className="flex w-full  gap-0 flex-wrap mb-1 mx-1"
+      style={{
+        background: "#c2856978",
+        border: "1px solid #c28569",
+        borderRadius: "5px",
+        padding: "3px",
+      }}
+    >
+      <div className="w-1/3 pr-1">
+        <div>
+          <div className="flex">
+            <Label type="transparent" className="whitespace-nowrap mr-2">
               <span className="text-xxs sm:text-xs">
                 {t("marketplace.oneDayChange")}
               </span>
@@ -68,12 +75,12 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
               `${prices.oneDayPriceChange.toFixed(2)} SFL`
             )}
           </p>
-        </InnerPanel>
+        </div>
       </div>
-      <div className="w-full sm:w-1/3 sm:pr-1">
-        <InnerPanel>
-          <div className="flex justify-between">
-            <Label type="info" className="whitespace-nowrap">
+      <div className="w-1/3 pr-1">
+        <div>
+          <div className="flex ">
+            <Label type="transparent" className="whitespace-nowrap mr-2">
               <span className="text-xxs sm:text-xs">
                 {t("marketplace.sevenDayChange")}
               </span>
@@ -95,13 +102,13 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
               `${prices.sevenDayPriceChange.toFixed(2)} SFL`
             )}
           </p>
-        </InnerPanel>
+        </div>
       </div>
-      <div className="w-full md:w-1/3">
-        <InnerPanel>
-          <div className="flex justify-between">
+      <div className="w-1/3">
+        <div>
+          <div className="flex">
             <div>
-              <Label type="info" className="whitespace-nowrap">
+              <Label type="transparent" className="whitespace-nowrap mr-2">
                 <span className="text-xxs sm:text-xs">
                   {t("marketplace.sales")}
                 </span>
@@ -115,7 +122,7 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
               </p>
             </div>
           </div>
-        </InnerPanel>
+        </div>
       </div>
     </div>
   );
