@@ -209,6 +209,7 @@ export const TradeableOffers: React.FC<{
             <Loading className="mb-2 ml-2" />
           ) : (
             <OfferTable
+              isResource={isResource}
               details={display}
               offers={tradeable?.offers ?? []}
               id={farmId}
@@ -232,7 +233,8 @@ export const TradeableOffers: React.FC<{
               )}
               {!!tradeable?.offers.length && (
                 <ResourceTable
-                  itemName={KNOWN_ITEMS[Number(id)]}
+                  isResource={isResource}
+                  details={display}
                   balance={balance}
                   items={tradeable?.offers.map((offer) => ({
                     id: offer.tradeId,
