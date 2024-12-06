@@ -191,7 +191,6 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
-              z={1}
             >
               <Building
                 name={name}
@@ -284,7 +283,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`tree-${id}`}
@@ -393,7 +391,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`crimstone-${id}`}
@@ -421,7 +418,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`ruby-${id}`}
@@ -449,7 +445,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             name="Oil Reserve"
@@ -476,7 +471,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             name="Fruit Patch"
