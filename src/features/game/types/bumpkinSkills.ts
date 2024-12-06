@@ -1466,6 +1466,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Petalled Perk": {
+    name: "Petalled Perk",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "10% chance of +1 Flower",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   // Bees & Flowers - Tier 3
   "Bee Collective": {
     name: "Bee Collective",
@@ -1488,18 +1500,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "spring",
     },
     boosts: "Flowers grow 20% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Petalled Perk": {
-    name: "Petalled Perk",
-    tree: "Bees & Flowers",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "spring",
-    },
-    boosts: "10% chance of +1 Flower",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
