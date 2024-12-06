@@ -754,9 +754,21 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "basic",
     },
-    boosts: "10% chance of +1 fish",
+    boosts: "10% chance of +1 basic fish",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+  },
+  "Fishy Roll": {
+    name: "Fishy Roll",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "10% chance of +1 advanced fish",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
   "Fisherman's 5 Fold": {
@@ -794,6 +806,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Increase bar for catching game",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+  },
+  "Fishy Gamble": {
+    name: "Fishy Gamble",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: "10% chance of +1 expert fish",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 3
   "Frenzied Fish": {
