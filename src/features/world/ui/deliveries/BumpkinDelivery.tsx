@@ -50,6 +50,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { FriendshipInfoPanel } from "components/ui/FriendshipInfoPanel";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -446,7 +447,16 @@ export const Gifts: React.FC<{
     </>
   );
 };
+const host = window.location.host.replace(/^www\./, "");
+const LOCAL_STORAGE_KEY = `gift-info-read.${host}-${window.location.pathname}`;
 
+function acknowledgeGiftInfoRead() {
+  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
+}
+
+function hasReadGiftInfo() {
+  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
+}
 const BumpkinGiftBar: React.FC<{
   game: GameState;
   npc: NPCName;
@@ -476,14 +486,25 @@ const BumpkinGiftBar: React.FC<{
     }
   }, [friendship.points]);
 
+  const [showGiftsInfo, setShowGiftsInfo] = useState(false);
+  const [showAlert, setShowAlert] = useState(!hasReadGiftInfo());
+  const { t } = useAppTranslation();
+
+  const handleAlert = () => {
+    setShowAlert(false);
+    acknowledgeGiftInfoRead();
+  };
+
   const nextGift = getNextGift({ game, npc });
   let percentage = 0;
+  let giftProgress = "";
 
   const progress = friendship.points - (friendship.giftClaimedAtPoints ?? 0);
   if (nextGift) {
     const endGoal =
       nextGift.friendshipPoints - (friendship.giftClaimedAtPoints ?? 0);
     percentage = (progress / endGoal) * 100;
+    giftProgress = `${friendship.points}/${nextGift.friendshipPoints} ${t("friendship.gift.points")}`;
   }
 
   const giftIsReady = percentage >= 100;
@@ -515,11 +536,40 @@ const BumpkinGiftBar: React.FC<{
 
         <img
           src={gift}
-          onClick={openReward}
-          className={classNames("h-6 ml-1 mb-0.5", {
-            "animate-pulsate img-shadow cursor-pointer": giftIsReady,
+          onClick={() =>
+            giftIsReady
+              ? openReward()
+              : (setShowGiftsInfo(!showGiftsInfo), handleAlert())
+          }
+          className={classNames("h-6 ml-1 mb-0.5 cursor-pointer", {
+            "animate-pulsate img-shadow": giftIsReady,
           })}
         />
+        {!giftIsReady && nextGift && (
+          <FriendshipInfoPanel
+            show={showGiftsInfo}
+            className="right-[3%] top-[91%] w-max"
+            nextGift={nextGift ?? {}}
+            giftProgress={giftProgress ?? ""}
+            giftTitle={
+              friendship.giftClaimedAtPoints
+                ? t("friendship.gift.nextReward")
+                : t("friendship.gift.firstReward")
+            }
+            onClick={() => setShowGiftsInfo(false)}
+          />
+        )}
+
+        {!giftIsReady && !friendship.giftClaimedAtPoints && showAlert && (
+          <img
+            className="absolute ready h-3"
+            style={{
+              left: "86%",
+              top: "-42%",
+            }}
+            src={SUNNYSIDE.icons.expression_alerted}
+          />
+        )}
 
         <div
           className={classNames(
