@@ -41,6 +41,32 @@ describe("cancelTrade", () => {
     ).toThrow("Trade #123 is not a collectible");
   });
 
+  it("does not throw if trade is resources", () => {
+    expect(() =>
+      cancelTrade({
+        action: {
+          tradeId: "123",
+          type: "trade.cancelled",
+        },
+        state: {
+          ...TEST_FARM,
+          trades: {
+            listings: {
+              "123": {
+                collection: "resources",
+                createdAt: 1000000,
+                sfl: 5,
+                items: {
+                  Parsnip: 10,
+                },
+              },
+            },
+          },
+        },
+      }),
+    ).not.toThrow();
+  });
+
   it("enures trade is not bought", () => {
     expect(() =>
       cancelTrade({
