@@ -83,19 +83,24 @@ export const Row: React.FC<RowProps> = ({
           </p>
         </div>
       </div>
-      <div className="p-1.5 truncate flex flex-1 items-center">
+      <div
+        className={classNames("p-1.5 truncate flex items-center", {
+          "flex-2": !isResource,
+          "flex-1": isResource,
+        })}
+      >
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-start space-x-1">
             <img src={token} className="h-6" />
             <div>
-              <span className="sm:text-sm">{`${price.toFixed(2)} SFL`}</span>
+              <span className="text-xxs sm:text-sm">{`${price.toFixed(2)} SFL`}</span>
               {!isResource && (
                 <p className="text-xxs">
                   {`$${new Decimal(item.usd ?? 0).mul(price).toFixed(2)} USD`}
                 </p>
               )}
               {isResource && (
-                <div className="text-xxs w-full">
+                <div className="text-[16px] sm:text-xxs w-full">
                   {t("bumpkinTrade.price/unit", {
                     price: formatNumber(price / Number(quantity), {
                       decimalPlaces: 4,
