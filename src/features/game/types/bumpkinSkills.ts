@@ -984,6 +984,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Victoria's Secretary": {
+    name: "Victoria's Secretary",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "desert",
+    },
+    boosts: "Victoria's coin delivery revenue increased by 50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Greenhouse - Tier 2
   "Olive Express": {
     name: "Olive Express",

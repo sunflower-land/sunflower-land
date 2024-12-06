@@ -259,6 +259,14 @@ export function getOrderSellPrice<T>(
   }
 
   if (
+    order.from === "victoria" &&
+    game.bumpkin?.skills["Victoria's Secretary"] &&
+    order.reward.coins
+  ) {
+    mul += 0.5;
+  }
+
+  if (
     order.from === "blacksmith" &&
     game.bumpkin?.skills["Forge-Ward Profits"] &&
     order.reward.coins
