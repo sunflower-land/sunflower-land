@@ -170,15 +170,8 @@ export function getCropTime({
     seconds = seconds * 0.95;
   }
 
-  if (skills["Strong Roots"]) {
-    if (
-      crop === "Radish" ||
-      crop === "Wheat" ||
-      crop === "Kale" ||
-      crop === "Barley"
-    ) {
-      seconds = seconds * 0.9;
-    }
+  if (skills["Strong Roots"] && isAdvancedCrop(crop)) {
+    seconds = seconds * 0.9;
   }
 
   // Olive Express: 10% reduction

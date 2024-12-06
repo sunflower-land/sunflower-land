@@ -2039,7 +2039,7 @@ describe("getCropTime", () => {
     expect(time).toEqual(baseHarvestSeconds * 0.95);
   });
 
-  it("applies a +10% speed boost on Radish, Wheat and Kale with Strong Roots skill", () => {
+  it("applies a +10% speed boost on advanced crops with Strong Roots skill", () => {
     const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Radish",

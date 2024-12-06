@@ -3843,7 +3843,7 @@
   "skill.efficientBin": "+5 Sprout Mix when collecting from Compost Bin",
   "skill.turboCharged": "+5 Fruitful Blend when collecting from Turbo Composter",
   "skill.oldFarmer": "+0.1 Advanced Crop yield",
-  "skill.strongRoots": "Radish, Wheat, Kale, Barley grow 10% faster",
+  "skill.strongRoots": "Advanced crops grow 10% faster",
   "skill.coinSwindler": "+10% coins when selling crops (Seed Shop)",
   "skill.goldenSunflower": "1 in 700 chance to get +0.35 gold when manually harvesting sunflowers",
   "skill.chonkyScarecrow": "Increases Basic Scarecrow's area of effect (AOE) to a 7x7 area",
