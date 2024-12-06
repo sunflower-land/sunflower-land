@@ -42,9 +42,9 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
 
   return (
     <div
-      className="flex w-full  gap-0 flex-wrap mb-1"
+      className="flex w-full  gap-0 flex-wrap mb-1 mx-1"
       style={{
-        background: "#ead4aa",
+        background: "#c2856978",
         border: "1px solid #c28569",
         borderRadius: "5px",
         padding: "3px",
