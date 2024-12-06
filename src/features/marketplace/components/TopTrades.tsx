@@ -8,7 +8,7 @@ import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { Context } from "features/game/GameProvider";
 
 export const TopTrades: React.FC<{
