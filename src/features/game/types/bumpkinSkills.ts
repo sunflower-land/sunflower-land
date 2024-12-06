@@ -840,7 +840,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "basic",
     },
-    boosts: "+1 Yield during fish frenzy",
+    boosts: "+1 fish and 50% chance of +1 fish during fish frenzy",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
