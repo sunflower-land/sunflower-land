@@ -310,7 +310,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`stone-${id}`}
@@ -338,7 +337,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`iron-${id}`}
@@ -366,7 +364,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`gold-${id}`}
@@ -500,7 +497,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             name="Crop Plot"
@@ -527,7 +523,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             name="Flower Bed"
@@ -554,7 +549,6 @@ const getIslandElements = ({
               key={`mushroom-${id}`}
               x={x}
               y={y}
-              z={1}
               height={MUSHROOM_DIMENSIONS.height}
               width={MUSHROOM_DIMENSIONS.width}
             >
@@ -583,14 +577,7 @@ const getIslandElements = ({
             const { x, y } = buds[id]!.coordinates!;
 
             return (
-              <MapPlacement
-                key={`bud-${id}`}
-                x={x}
-                y={y}
-                height={1}
-                width={1}
-                z={1}
-              >
+              <MapPlacement key={`bud-${id}`} x={x} y={y} height={1} width={1}>
                 <Bud id={String(id)} x={x} y={y} />
               </MapPlacement>
             );
@@ -613,7 +600,6 @@ const getIslandElements = ({
               y={y}
               height={1}
               width={1}
-              z={1}
             >
               <Airdrop key={`airdrop-${airdrop.id}`} airdrop={airdrop} />
             </MapPlacement>
@@ -633,7 +619,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             name="Beehive"
@@ -678,7 +663,6 @@ const getIslandElements = ({
           y={y}
           height={1}
           width={1}
-          z={1}
         >
           <RecipeStack
             key={`recipe-${recipes}`}
