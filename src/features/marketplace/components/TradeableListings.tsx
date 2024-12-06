@@ -23,7 +23,7 @@ import {
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
 import { ResourceTable } from "./ResourceTable";
-import { formatNumber, shortenCount } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { useParams } from "react-router";
 import { PurchaseModalContent } from "./PurchaseModalContent";
 import { TradeableDisplay } from "../lib/tradeables";
@@ -57,6 +57,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   showListItem,
   reload,
   onListClose,
+  onListClick,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -151,11 +152,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
           <div className="flex items-center justify-between mb-1">
             <Label icon={tradeIcon} type="default" className="mb-2">
               {t("marketplace.listings")}
-            </Label>
-            <Label type="default" className="mb-2">
-              {t("marketplace.availableListings", {
-                count: shortenCount(tradeable?.listings.length ?? 0),
-              })}
             </Label>
           </div>
           <div className="mb-2">
