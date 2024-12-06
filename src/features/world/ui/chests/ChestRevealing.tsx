@@ -10,6 +10,7 @@ import {
   ChestReward,
   PIRATE_CHEST_REWARDS,
   MANEKI_NEKO_REWARDS,
+  FESTIVE_TREE_REWARDS,
 } from "features/game/types/chests";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useCallback, useContext, useEffect } from "react";
@@ -35,7 +36,8 @@ export type ChestRewardType =
   | "Expert Desert Rewards"
   | "Pirate Chest"
   | "Maneki Neko"
-  | "Daily Reward";
+  | "Daily Reward"
+  | "Festive Tree Rewards";
 
 interface Props {
   type: ChestRewardType;
@@ -55,6 +57,7 @@ const CHEST_LOOT: (
   "Pirate Chest": PIRATE_CHEST_REWARDS,
   "Maneki Neko": MANEKI_NEKO_REWARDS,
   "Daily Reward": possibleRewards(state),
+  "Festive Tree Rewards": FESTIVE_TREE_REWARDS,
 });
 
 export const ChestRevealing: React.FC<Props> = ({ type }) => {
