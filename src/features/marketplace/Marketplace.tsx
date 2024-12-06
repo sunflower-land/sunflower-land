@@ -57,7 +57,7 @@ export const Marketplace: React.FC = () => {
               src={SUNNYSIDE.icons.close}
               className="flex-none cursor-pointer absolute right-2"
               onClick={() => {
-                fromRoute ? navigate(fromRoute) : navigate("/");
+                navigate(fromRoute);
               }}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,

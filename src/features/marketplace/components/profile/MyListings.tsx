@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 
 import trade from "assets/icons/trade.png";
+import sflIcon from "assets/icons/sfl.webp";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -14,12 +15,14 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
 import { Modal } from "components/ui/Modal";
 import { ClaimPurchase } from "./ClaimPurchase";
+import { Button } from "components/ui/Button";
+import classNames from "classnames";
 import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
 import { tradeToId } from "features/marketplace/lib/offers";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { MyTableRow } from "./MyTableRow";
+import Decimal from "decimal.js-light";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -147,26 +150,73 @@ export const MyListings: React.FC = () => {
                   const unitPrice = price / (quantity ?? 1);
 
                   return (
-                    <MyTableRow
-                      key={id}
-                      index={index}
-                      id={id}
-                      pageItemId={params.id ?? ""}
-                      itemId={itemId}
-                      itemName={itemName}
-                      quantity={quantity ?? 0}
-                      price={price}
-                      collection={listing.collection}
-                      unitPrice={unitPrice}
-                      usdPrice={usd}
-                      isResource={isResource}
-                      onCancel={() => setRemoveListingId(id)}
-                      onRowClick={() =>
+                    <div
+                      key={index}
+                      className={classNames(
+                        "relative bg-[#ead4aa] transition-all flex items-center",
+                        {
+                          "hover:shadow-md hover:scale-[100.5%] cursor-pointer":
+                            Number(params.id) !== itemId,
+                        },
+                      )}
+                      style={{
+                        borderBottom: "1px solid #b96f50",
+                        borderTop: index === 0 ? "1px solid #b96f50" : "",
+                      }}
+                      onClick={() =>
                         navigate(
-                          `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${itemId}`,
+                          `${isWorldRoute ? "/world" : ""}/marketplace/${listing.collection}/${itemId}`,
                         )
                       }
-                    />
+                    >
+                      <div className="p-1.5 flex w-1/2 sm:w-1/3 items-center">
+                        <div className="flex items-center">
+                          <img
+                            src={details.image}
+                            className="object-contain h-8 w-8 mr-3 sm:mr-4"
+                          />
+                          <p className="text-xxs py-0.5 sm:text-sm">
+                            {`${isResource ? `${quantity} x` : ""} ${details.name}`}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="p-1.5 truncate flex flex-1 items-center">
+                        <div className="flex flex-col items-start justify-center">
+                          <div className="flex items-center justify-start space-x-1">
+                            <img src={sflIcon} className="h-6" />
+                            <div>
+                              <span className="sm:text-sm">{`${price.toFixed(2)} SFL`}</span>
+                              <p className="text-xxs">
+                                {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+                              </p>
+                            </div>
+                          </div>
+
+                          {isResource && (
+                            <div className="text-xxs w-full text-end">
+                              {t("bumpkinTrade.price/unit", {
+                                price: unitPrice.toFixed(4),
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="p-1 text-center w-[65px] sm:min-w-[94px]">
+                        <Button
+                          variant="secondary"
+                          className="w-full h-8 rounded-none"
+                          onClick={
+                            listing.boughtAt
+                              ? () => setClaimId(id)
+                              : () => setRemoveListingId(id)
+                          }
+                        >
+                          <p className="text-xxs sm:text-sm">
+                            {t(listing.boughtAt ? "claim" : "cancel")}
+                          </p>
+                        </Button>
+                      </div>
+                    </div>
                   );
                 })}
               </div>

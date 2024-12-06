@@ -48,7 +48,7 @@ export const MakeOffer: React.FC<{
   const { openModal } = useContext(ModalContext);
 
   const [offer, setOffer] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -93,7 +93,7 @@ export const MakeOffer: React.FC<{
         item: display.name,
         collection: display.type,
         id: BigInt(itemId),
-        quantity: BigInt(Math.max(1, quantity)),
+        quantity: BigInt(1),
         SFL: BigInt(offer),
       },
     });
@@ -120,7 +120,7 @@ export const MakeOffer: React.FC<{
         collection: display.type,
         signature,
         contract: CONFIG.MARKETPLACE_VERIFIER_CONTRACT,
-        quantity: Math.max(1, quantity),
+        quantity,
         sfl: offer,
       },
       authToken,
@@ -162,7 +162,7 @@ export const MakeOffer: React.FC<{
             <TradeableSummary
               display={display}
               sfl={offer}
-              quantity={Math.max(1, quantity)}
+              quantity={quantity}
             />
           </div>
 
