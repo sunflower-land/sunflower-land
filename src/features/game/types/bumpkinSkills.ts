@@ -1523,7 +1523,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "spring",
     },
-    boosts: "Honey speed increased by +0.5 but yield reduced by -0.5",
+    boosts:
+      "Honey speed increased by +0.5 but flower growth time increased by 50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },

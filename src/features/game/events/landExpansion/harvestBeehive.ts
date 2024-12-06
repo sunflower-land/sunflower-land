@@ -83,10 +83,6 @@ export const getHoneyMultiplier = (game: GameState) => {
     multiplier += 0.1;
   }
 
-  if (bumpkin.skills["Flowery Abode"]) {
-    multiplier -= 0.5;
-  }
-
   if (isCollectibleBuilt({ name: "King of Bears", game })) {
     multiplier += 0.25;
   }
