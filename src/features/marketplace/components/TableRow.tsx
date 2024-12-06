@@ -73,8 +73,11 @@ export const Row: React.FC<RowProps> = ({
         </div>
       </div>
       <div className="p-1.5 truncate flex flex-1 items-center">
-        <div className="flex items-center justify-start w-16 space-x-1">
-          <img src={details.image} className="h-4" />
+        <div className="flex items-center justify-start space-x-1">
+          <img
+            src={details.image}
+            className="h-6 w-6 sm:h-8 sm:w-8 object-contain mr-3 sm:mr-4"
+          />
           <p className="py-0.5 text-xxs sm:text-sm">
             {`${isResource ? quantity : details.name}`}
           </p>
