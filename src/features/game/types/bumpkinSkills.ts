@@ -581,15 +581,28 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   // Fruit - Tier 3
   "Generous Orchard": {
-    name: "Gene",
+    name: "Generous Orchard",
     tree: "Fruit",
     disabled: false,
     requirements: {
-      points: 2,
-      tier: 2,
+      points: 3,
+      tier: 3,
       island: "spring",
     },
     boosts: "10% chance to get +1 patch fruit yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Long Pickings": {
+    name: "Long Pickings",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts:
+      "Apple and Banana grow 2x faster, but Tomato, Lemon, Blueberry and Orange take 2x longer to grow",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 

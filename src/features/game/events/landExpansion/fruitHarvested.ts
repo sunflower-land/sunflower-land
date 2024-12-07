@@ -15,7 +15,7 @@ import {
   PatchFruit,
   PatchFruitName,
 } from "features/game/types/fruits";
-import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
+import { GameState, PlantedFruit } from "features/game/types/game";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
@@ -64,7 +64,7 @@ export function isFruitGrowing(patch: FruitPatch) {
   const fruit = patch.fruit;
   if (!fruit) return false;
 
-  const { name, amount, harvestsLeft, harvestedAt, plantedAt } = fruit;
+  const { name, harvestsLeft, harvestedAt, plantedAt } = fruit;
   if (!harvestsLeft) return false;
 
   const { seed } = PATCH_FRUIT()[name];
@@ -228,7 +228,7 @@ export function harvestFruit({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { fruitPatches, bumpkin, collectibles } = stateCopy;
+    const { fruitPatches, bumpkin } = stateCopy;
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
@@ -265,12 +265,7 @@ export function harvestFruit({
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-    patch.fruit.harvestedAt = getPlantedAt(
-      seed,
-      (stateCopy.bumpkin as Bumpkin).equipped,
-      stateCopy,
-      createdAt,
-    );
+    patch.fruit.harvestedAt = getPlantedAt(seed, stateCopy, createdAt);
 
     patch.fruit.amount = getFruitYield({
       game: stateCopy,

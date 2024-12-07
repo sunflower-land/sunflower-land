@@ -10,10 +10,9 @@ import {
   PATCH_FRUIT_SEEDS,
   PatchFruitSeedName,
 } from "features/game/types/fruits";
-import { Bumpkin, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import { getFruitYield } from "./fruitHarvested";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 
@@ -63,14 +62,13 @@ function getHarvestRange({ state }: { state: GameState }) {
 
 export function getPlantedAt(
   patchFruitSeedName: PatchFruitSeedName,
-  wearables: BumpkinParts,
   game: GameState,
   createdAt: number,
 ) {
   if (!patchFruitSeedName) return createdAt;
 
   const fruitTime = PATCH_FRUIT_SEEDS()[patchFruitSeedName].plantSeconds;
-  const boostedTime = getFruitPatchTime(patchFruitSeedName, game, wearables);
+  const boostedTime = getFruitPatchTime(patchFruitSeedName, game);
 
   const offset = fruitTime - boostedTime;
 
@@ -121,7 +119,6 @@ export function getFruitTime({
 export const getFruitPatchTime = (
   patchFruitSeedName: PatchFruitSeedName,
   game: GameState,
-  _: BumpkinParts,
 ) => {
   const { bumpkin } = game;
   let seconds = PATCH_FRUIT_SEEDS()[patchFruitSeedName]?.plantSeconds ?? 0;
@@ -190,6 +187,15 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.9;
   }
 
+  // Long Pickings - -50% growth in Apple and Banana, but 2x in the rest
+  if (bumpkin.skills["Long Pickings"]) {
+    if (isAdvancedFruitSeed(patchFruitSeedName)) {
+      seconds = seconds * 0.5;
+    } else {
+      seconds = seconds * 2;
+    }
+  }
+
   return seconds;
 };
 
@@ -254,12 +260,7 @@ export function plantFruit({
 
     patch.fruit = {
       name: fruitName,
-      plantedAt: getPlantedAt(
-        action.seed,
-        (stateCopy.bumpkin as Bumpkin).equipped,
-        stateCopy,
-        createdAt,
-      ),
+      plantedAt: getPlantedAt(action.seed, stateCopy, createdAt),
       amount: getFruitYield({
         name: fruitName,
         game: stateCopy,
