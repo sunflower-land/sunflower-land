@@ -531,6 +531,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "No Axe No Worries": {
+    name: "No Axe No Worries",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Chop fruit branches without axes, but get no wood drops",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Fruit - Tier 3
 
   // Trees - Tier 1
