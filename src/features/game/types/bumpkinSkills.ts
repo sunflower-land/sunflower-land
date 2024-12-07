@@ -543,6 +543,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Chop fruit branches without axes, but get no wood drops",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Fruity Woody": {
+    name: "Fruity Woody",
+    tree: "Fruit",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Fruit plants drop +1 wood when chopped",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   "Pear Turbocharge": {
     name: "Pear Turbocharge",
     tree: "Fruit",
@@ -607,18 +619,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
   },
   // Trees - Tier 2
-  "Fruity Woody": {
-    name: "Fruity Woody",
-    tree: "Trees",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: "Fruit plants drop +1 wood when chopped",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Tough Tree": {
     name: "Tough Tree",
     tree: "Trees",
