@@ -22,9 +22,43 @@ export type PlantFruitAction = {
   index: string;
   seed: PatchFruitSeedName;
 };
-
-function getHarvestsLeft() {
+function getDefaultHarvestsLeft() {
   return randomInt(3, 6);
+}
+
+function getHarvestsLeft({
+  state,
+  harvestsLeft = getDefaultHarvestsLeft,
+}: {
+  state: GameState;
+  harvestsLeft?: () => number;
+}) {
+  let harvestCount = harvestsLeft();
+
+  if (isCollectibleBuilt({ name: "Immortal Pear", game: state })) {
+    if (state.bumpkin.skills["Pear Turbocharge"]) {
+      harvestCount += 2;
+    } else {
+      harvestCount += 1;
+    }
+  }
+  return { harvestCount };
+}
+
+function getHarvestRange({ state }: { state: GameState }) {
+  let minHarvest = 3;
+  let maxHarvest = 6;
+  if (isCollectibleBuilt({ name: "Immortal Pear", game: state })) {
+    if (state.bumpkin.skills["Pear Turbocharge"]) {
+      minHarvest += 2;
+      maxHarvest += 2;
+    } else {
+      minHarvest += 1;
+      maxHarvest += 1;
+    }
+  }
+
+  return { minHarvest, maxHarvest };
 }
 
 export function getPlantedAt(
@@ -170,7 +204,7 @@ export function plantFruit({
   state,
   action,
   createdAt = Date.now(),
-  harvestsLeft = getHarvestsLeft,
+  harvestsLeft = getDefaultHarvestsLeft,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { fruitPatches, bumpkin } = stateCopy;
@@ -199,15 +233,18 @@ export function plantFruit({
       throw new Error("Not enough seeds");
     }
 
-    let harvestCount = harvestsLeft();
-    const invalidAmount = harvestCount > 6 || harvestCount < 3;
+    const { harvestCount } = getHarvestsLeft({
+      state: stateCopy,
+      harvestsLeft,
+    });
+
+    const { minHarvest, maxHarvest } = getHarvestRange({ state: stateCopy });
+
+    const invalidAmount =
+      harvestCount > maxHarvest || harvestCount < minHarvest;
 
     if (invalidAmount) {
       throw new Error("Invalid harvests left amount");
-    }
-
-    if (isCollectibleBuilt({ name: "Immortal Pear", game: stateCopy })) {
-      harvestCount += 1;
     }
 
     stateCopy.inventory[action.seed] =

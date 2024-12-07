@@ -543,6 +543,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Chop fruit branches without axes, but get no wood drops",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Pear Turbocharge": {
+    name: "Pear Turbocharge",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Double Immortal Pear's effect",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Fruit - Tier 3
 
   // Trees - Tier 1
