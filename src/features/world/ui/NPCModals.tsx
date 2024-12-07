@@ -36,6 +36,7 @@ import { ExampleDonations } from "./donations/ExampleDonations";
 import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 import { HalloweenNPC } from "./npcs/HalloweenNPC";
 import { FlowerBounties } from "./flowerShop/FlowerBounties";
+import { Santa } from "./npcs/Santa";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -113,6 +114,32 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           >
             <ExampleDonations onClose={closeModal} />
           </CloseButtonPanel>
+        )}
+        {npc === "santa" && <Santa onClose={closeModal} />}
+        {npc === "ginger" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["ginger"]}
+            message={[
+              {
+                text: t("npcDialogues.ginger.dialogue1"),
+              },
+              {
+                text: t("npcDialogues.ginger.dialogue2"),
+              },
+            ]}
+          />
+        )}
+        {npc === "elf" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["elf"]}
+            message={[
+              {
+                text: t("npcDialogues.elf.dialogue1"),
+              },
+            ]}
+          />
         )}
         {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
