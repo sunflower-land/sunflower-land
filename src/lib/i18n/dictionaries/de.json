@@ -4352,9 +4352,7 @@
   "skill.bettysFriend": "Der Umsatz mit Betty Coin-Lieferungen stieg um 30%",
   "skill.efficientBin": "+5 Sprout Mix beim Sammeln aus dem Kompostbehälter",
   "skill.turboCharged": "+5 Fruchtbare Mischung beim Sammeln im Turbo Composter",
-  "skill.strongRoots": "Rettich, Weizen, Grünkohl und Gerste wachsen 10% schneller",
   "skill.coinSwindler": "+10% Münzen beim Verkauf von Pflanzen (Seed Shop)",
-  "skill.goldenSunflower": "0,15% Chance, +0,35 Gold zu erhalten, wenn Sonnenblumen manuell geerntet werden",
   "skill.chonkyScarecrow": "Erhöht den Wirkungsbereich (AOE) von Basic Scarecrow auf eine Fläche von 7x7",
   "skill.horrorMike": "Erhöht den Wirkungsbereich (AOE) von Scary Mike auf eine Fläche von 7x7",
   "skill.instantGrowth": "Gewährt die Fähigkeit, sofort alle aktuell wachsenden Pflanzen zu ernten (einmal alle 72 Stunden nutzbar)",
@@ -4464,5 +4462,7 @@
   "marketplace.estimated.price": "*Geschätzter SFL/USD-Preis",
   "marketplace.quickswap.continue": "Weiter",
   "marketplace.about": "Über",
-  "marketplace.wantToUnlock": "Willst du unbegrenzt viele Trades freischalten?"
+  "marketplace.wantToUnlock": "Willst du unbegrenzt viele Trades freischalten?",
+  "skill.strongRoots": "Fortgeschrittene Pflanzen wachsen 10% schneller",
+  "skill.goldenSunflower": "Chance von 1 zu 700, beim manuellen Ernten von Sonnenblumen +0,35 Gold zu erhalten"
 }

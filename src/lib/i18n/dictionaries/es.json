@@ -4352,9 +4352,7 @@
   "skill.bettysFriend": "Los ingresos por entrega de Betty Coin aumentaron un 30%",
   "skill.efficientBin": "+5 de mezcla de brotes al recolectarlos en la papelera de abono",
   "skill.turboCharged": "Mezcla más de 5 veces fructífera al recolectarla en Turbo Composter",
-  "skill.strongRoots": "El rábano, el trigo, la col rizada y la cebada crecen un 10% más rápido",
   "skill.coinSwindler": "+10% de monedas al vender cosechas (Seed Shop)",
-  "skill.goldenSunflower": "0,15% de probabilidad de obtener +0,35 de oro al cosechar girasoles manualmente",
   "skill.chonkyScarecrow": "Aumenta el área de efecto (AOE) del Espantapájaros básico a un área de 7x7",
   "skill.horrorMike": "Aumenta el área de efecto (AOE) de Scary Mike a un área de 7x7",
   "skill.instantGrowth": "Otorga la capacidad de cosechar al instante todos los cultivos en crecimiento (se puede usar una vez cada 72 horas)",
@@ -4464,5 +4462,7 @@
   "marketplace.estimated.price": "*Precio estimado de SFL/USD",
   "marketplace.quickswap.continue": "Continuar",
   "marketplace.about": "Acerca de",
-  "marketplace.wantToUnlock": "¿Quieres desbloquear operaciones ilimitadas?"
+  "marketplace.wantToUnlock": "¿Quieres desbloquear operaciones ilimitadas?",
+  "skill.strongRoots": "Los cultivos avanzados crecen un 10% más rápido",
+  "skill.goldenSunflower": "Probabilidad de 1 en 700 de obtener +0.35 de oro al cosechar girasoles manualmente"
 }

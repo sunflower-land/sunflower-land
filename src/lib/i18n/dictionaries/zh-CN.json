@@ -4352,9 +4352,7 @@
   "skill.bettysFriend": "Betty Coin 的交付收入增长了 30%",
   "skill.efficientBin": "从堆肥箱收集时 +5 Sprout Mix",
   "skill.turboCharged": "从 Turbo Composter 收集时获得 +5 富有成效",
-  "skill.strongRoots": "萝卜、小麦、羽衣甘蓝、大麦的生长速度加快 10%",
   "skill.coinSwindler": "出售农作物时金币 +10%（种子商店）",
-  "skill.goldenSunflower": "手动收获向日葵时有 0.15% 几率获得 +0.35 金币",
   "skill.chonkyScarecrow": "将基础稻草人的效果区域 (AOE) 增加到 7x7 区域",
   "skill.horrorMike": "将 Scary Mike 的效果区域 (AOE) 增加到 7x7 区域",
   "skill.instantGrowth": "提供立即收获所有当前生长中的作物的能力（每 72 小时使用一次）",
@@ -4464,5 +4462,7 @@
   "marketplace.estimated.price": "*预计 SFL/USD 价格",
   "marketplace.quickswap.continue": "继续",
   "marketplace.about": "关于",
-  "marketplace.wantToUnlock": "想解锁无限交易吗？"
+  "marketplace.wantToUnlock": "想解锁无限交易吗？",
+  "skill.strongRoots": "先进作物的生长速度加快 10%",
+  "skill.goldenSunflower": "手动收获向日葵时，700 分之一的几率获得 +0.35 金币"
 }

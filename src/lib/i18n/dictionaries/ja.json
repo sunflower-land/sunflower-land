@@ -4352,9 +4352,7 @@
   "skill.bettysFriend": "ベティコインの配送収益が30％増加しました",
   "skill.efficientBin": "コンポストビンから回収するとスプラウトミックス+5",
   "skill.turboCharged": "ターボコンポストから収集すると+5フルーツフルブレンド",
-  "skill.strongRoots": "大根、小麦、ケール、大麦の成長が10％速い",
   "skill.coinSwindler": "作物を売ると+10％のコイン（シードショップ）",
-  "skill.goldenSunflower": "ヒマワリを手作業で収穫すると 0.15% の確率で+0.35ゴールドを獲得できる",
   "skill.chonkyScarecrow": "ベーシックスケアクロウの効果範囲 (AOE) を7x7の範囲に拡大します",
   "skill.horrorMike": "スカリー・マイクの効果範囲 (AOE) を7x7の範囲に増やします",
   "skill.instantGrowth": "現在栽培中の作物をすべて即座に収穫できる（72時間に1回使用可能）",
@@ -4464,5 +4462,7 @@
   "marketplace.estimated.price": "*シンガポールドル/米ドルの推定価格",
   "marketplace.quickswap.continue": "続行",
   "marketplace.about": "について",
-  "marketplace.wantToUnlock": "無制限の取引をアンロックしたいですか？"
+  "marketplace.wantToUnlock": "無制限の取引をアンロックしたいですか？",
+  "skill.strongRoots": "先進作物の成長が 10% 速くなる",
+  "skill.goldenSunflower": "ヒマワリを手作業で収穫すると、700分の1の確率で+0.35ゴールドを獲得する"
 }

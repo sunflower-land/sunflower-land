@@ -4352,9 +4352,7 @@
   "skill.bettysFriend": "A receita de entrega da Betty Coin aumentou em 30%",
   "skill.efficientBin": "+5 Sprout Mix ao coletar da caixa de compostagem",
   "skill.turboCharged": "+5 Fruitful Blend ao coletar no Turbo Composter",
-  "skill.strongRoots": "Rabanete, trigo, couve e cevada crescem 10% mais rápido",
   "skill.coinSwindler": "+10% de moedas ao vender safras (Seed Shop)",
-  "skill.goldenSunflower": "0,15% de chance de obter +0,35 de ouro ao colher girassóis manualmente",
   "skill.chonkyScarecrow": "Aumenta a área de efeito (AOE) do Espantalho Básico para uma área de 7x7",
   "skill.horrorMike": "Aumenta a área de efeito (AOE) de Scary Mike para uma área de 7x7",
   "skill.instantGrowth": "Concede a capacidade de colher instantaneamente todas as safras atualmente em crescimento (utilizáveis uma vez a cada 72 horas)",
@@ -4464,5 +4462,7 @@
   "marketplace.estimated.price": "*Preço estimado em SFL/USD",
   "marketplace.quickswap.continue": "Continuar",
   "marketplace.about": "Sobre",
-  "marketplace.wantToUnlock": "Quer desbloquear negociações ilimitadas?"
+  "marketplace.wantToUnlock": "Quer desbloquear negociações ilimitadas?",
+  "skill.strongRoots": "Culturas avançadas crescem 10% mais rápido",
+  "skill.goldenSunflower": "1 chance em 700 de obter +0,35 de ouro ao colher girassóis manualmente"
 }

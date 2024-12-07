@@ -4352,9 +4352,7 @@
   "skill.bettysFriend": "베티 코인 배송 수익 30% 증가",
   "skill.efficientBin": "퇴비통에서 수거 시 스프라우트 믹스 +5",
   "skill.turboCharged": "터보 컴포스터에서 수집 시 과일 블렌드 +5",
-  "skill.strongRoots": "무, 밀, 케일, 보리가 10% 더 빠르게 자랍니다.",
   "skill.coinSwindler": "농작물 판매 시 +10% 코인 (시드 샵)",
-  "skill.goldenSunflower": "해바라기 수동 수확 시 0.15% 확률로 +0.35 골드 획득",
   "skill.chonkyScarecrow": "기본 허수아비의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다.",
   "skill.horrorMike": "무서운 마이크의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다.",
   "skill.instantGrowth": "현재 자라는 모든 작물을 즉시 수확할 수 있는 기능을 부여합니다 (72시간마다 한 번 사용 가능).",
@@ -4464,5 +4462,7 @@
   "marketplace.estimated.price": "*SFL/USD 예상 가격",
   "marketplace.quickswap.continue": "계속",
   "marketplace.about": "에 대해",
-  "marketplace.wantToUnlock": "무제한 거래를 잠금 해제하고 싶으신가요?"
+  "marketplace.wantToUnlock": "무제한 거래를 잠금 해제하고 싶으신가요?",
+  "skill.strongRoots": "고급 작물은 10% 더 빠르게 성장합니다",
+  "skill.goldenSunflower": "손으로 해바라기를 수확할 때 700분의 1의 확률로 +0.35골드를 획득할 수 있습니다"
 }

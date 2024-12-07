@@ -4352,9 +4352,7 @@
   "skill.bettysFriend": "Pendapatan pengiriman Betty Coin meningkat 30%",
   "skill.efficientBin": "+5 Campuran Kecambah saat mengumpulkan dari Tempat Sampah Kompos",
   "skill.turboCharged": "+5 Campuran Berbuah saat mengumpulkan dari Turbo Composter",
-  "skill.strongRoots": "Lobak, Gandum, Kale, Barley tumbuh 10% lebih cepat",
   "skill.coinSwindler": "Koin +10% saat menjual tanaman (Toko Benih)",
-  "skill.goldenSunflower": "Peluang 0,15% mendapatkan +0,35 emas saat memanen bunga matahari secara manual",
   "skill.chonkyScarecrow": "Meningkatkan area efek Dasar Scarecrow (AOE) menjadi area 7x7",
   "skill.horrorMike": "Meningkatkan area efek Scary Mike (AOE) menjadi area 7x7",
   "skill.instantGrowth": "Memberikan kemampuan untuk langsung memanen semua tanaman yang sedang tumbuh (dapat digunakan setiap 72 jam sekali)",
@@ -4464,5 +4462,7 @@
   "marketplace.estimated.price": "*Perkiraan harga SFL/USD",
   "marketplace.quickswap.continue": "Lanjutkan",
   "marketplace.about": "Tentang",
-  "marketplace.wantToUnlock": "Ingin membuka perdagangan tanpa batas?"
+  "marketplace.wantToUnlock": "Ingin membuka perdagangan tanpa batas?",
+  "skill.strongRoots": "Tanaman maju tumbuh 10% lebih cepat",
+  "skill.goldenSunflower": "Peluang 1 dari 700 untuk mendapatkan +0,35 emas saat memanen bunga matahari secara manual"
 }

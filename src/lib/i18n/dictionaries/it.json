@@ -4352,9 +4352,7 @@
   "skill.bettysFriend": "I ricavi delle consegne di Betty Coin sono aumentati del 30%",
   "skill.efficientBin": "+5 Sprout Mix quando si raccoglie dal contenitore del compost",
   "skill.turboCharged": "+5 Miscela fruttuosa quando si raccoglie da Turbo Composter",
-  "skill.strongRoots": "Ravanello, frumento, cavolo riccio, orzo crescono del 10% più velocemente",
   "skill.coinSwindler": "+10% di monete quando si vendono colture (Seed Shop)",
-  "skill.goldenSunflower": "0,15% di possibilità di ottenere +0,35 oro raccogliendo manualmente i girasoli",
   "skill.chonkyScarecrow": "Aumenta l'area d'effetto (AOE) dello Spaventapasseri base a un'area di 7x7",
   "skill.horrorMike": "Aumenta l'area d'effetto (AOE) di Scary Mike a un'area di 7x7",
   "skill.instantGrowth": "Garantisce la possibilità di raccogliere istantaneamente tutte le colture attualmente in crescita (utilizzabile una volta ogni 72 ore)",
@@ -4464,5 +4462,7 @@
   "marketplace.estimated.price": "*Prezzo SFL/USD stimato",
   "marketplace.quickswap.continue": "Continua",
   "marketplace.about": "Informazioni su",
-  "marketplace.wantToUnlock": "Vuoi sbloccare transazioni illimitate?"
+  "marketplace.wantToUnlock": "Vuoi sbloccare transazioni illimitate?",
+  "skill.strongRoots": "Le colture avanzate crescono del 10% più velocemente",
+  "skill.goldenSunflower": "1 possibilità su 700 di ottenere +0,35 oro raccogliendo manualmente i girasoli"
 }
