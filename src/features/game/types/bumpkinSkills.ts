@@ -618,6 +618,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       "Blueberry and Orange grow 2x faster, but Tomato, Lemon, Apple and Banana take 2x longer to grow",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Zesty Vibes": {
+    name: "Zesty Vibes",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: "+1 Tomato and Lemon yield, but -0.5 all other patch fruit yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Trees - Tier 1
   "Lumberjack's Extra": {
