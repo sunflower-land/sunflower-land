@@ -576,7 +576,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "spring",
     },
-    boosts: "Tango Coins revenue doubled",
+    boosts: "Tango coins deliveries revenue +50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
