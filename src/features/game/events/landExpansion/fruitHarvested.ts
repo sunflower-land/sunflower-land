@@ -127,15 +127,7 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 0.1;
   }
 
-  if (bumpkin.skills["Red Sour"] && (name === "Tomato" || name === "Lemon")) {
-    amount += 0.1;
-  }
-
   if (bumpkin.skills["Fruitful Fumble"]) {
-    amount += 0.1;
-  }
-
-  if (bumpkin.skills["Tropical Orchard"] && isAdvancedFruit(name)) {
     amount += 0.1;
   }
 

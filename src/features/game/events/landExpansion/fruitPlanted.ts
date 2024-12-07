@@ -156,26 +156,6 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.9;
   }
 
-  // Fruit Turbocharge Skill: 10% reduction
-  if (
-    isBasicFruitSeed(patchFruitSeedName) &&
-    bumpkin.skills["Fruit Turbocharge"]
-  ) {
-    seconds = seconds * 0.9;
-  }
-
-  // Prime Produce Skill: 10% reduction
-  if (
-    isAdvancedFruitSeed(patchFruitSeedName) &&
-    bumpkin.skills["Prime Produce"]
-  ) {
-    seconds = seconds * 0.9;
-  }
-
-  if (bumpkin.skills["Accelerated Fruit"]) {
-    seconds = seconds * 0.95;
-  }
-
   return seconds;
 };
 

@@ -886,40 +886,6 @@ describe("fruitHarvested", () => {
       });
     });
 
-    it("gives +.1 Tomato & Lemon yield with Red Sour skill", () => {
-      const amount = getFruitYield({
-        game: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...TEST_FARM.bumpkin,
-            skills: {
-              "Red Sour": 1,
-            },
-          },
-        },
-        name: "Tomato",
-      });
-
-      expect(amount).toEqual(1.1);
-    });
-
-    it("does not give Red Sour skill bonus if not a Tomato or Lemon", () => {
-      const amount = getFruitYield({
-        game: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...TEST_FARM.bumpkin,
-            skills: {
-              "Red Sour": 1,
-            },
-          },
-        },
-        name: "Blueberry",
-      });
-
-      expect(amount).toEqual(1);
-    });
-
     it("gives +.1 basic fruit yield with Fruitful Fumble skill", () => {
       const amount = getFruitYield({
         game: {
@@ -935,40 +901,6 @@ describe("fruitHarvested", () => {
       });
 
       expect(amount).toEqual(1.1);
-    });
-
-    it("gives +.1 advanced fruit yield with Tropical Orchard skill", () => {
-      const amount = getFruitYield({
-        game: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...TEST_FARM.bumpkin,
-            skills: {
-              "Tropical Orchard": 1,
-            },
-          },
-        },
-        name: "Apple",
-      });
-
-      expect(amount).toEqual(1.1);
-    });
-
-    it("does not give Tropical Orchard skill bonus if not a basic fruit", () => {
-      const amount = getFruitYield({
-        game: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...TEST_FARM.bumpkin,
-            skills: {
-              "Tropical Orchard": 1,
-            },
-          },
-        },
-        name: "Blueberry",
-      });
-
-      expect(amount).toEqual(1);
     });
   });
 });
