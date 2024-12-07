@@ -196,6 +196,14 @@ export const getFruitPatchTime = (
     }
   }
 
+  if (bumpkin.skills["Short Pickings"]) {
+    if (isBasicFruitSeed(patchFruitSeedName)) {
+      seconds = seconds * 0.5;
+    } else {
+      seconds = seconds * 2;
+    }
+  }
+
   return seconds;
 };
 

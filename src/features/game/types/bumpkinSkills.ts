@@ -605,6 +605,19 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       "Apple and Banana grow 2x faster, but Tomato, Lemon, Blueberry and Orange take 2x longer to grow",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Short Pickings": {
+    name: "Short Pickings",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts:
+      "Blueberry and Orange grow 2x faster, but Tomato, Lemon, Apple and Banana take 2x longer to grow",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Trees - Tier 1
   "Lumberjack's Extra": {

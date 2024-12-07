@@ -1472,4 +1472,28 @@ describe("getFruitTime", () => {
     expect(appleTime).toEqual(applePlantSeconds * 0.5);
     expect(orangeTime).toEqual(orangePlantSeconds * 2);
   });
+  it("takes 2x faster to grow Orange with Short Pickings skill, but Apples take 2x longer to grow", () => {
+    const applePlantSeconds = PATCH_FRUIT_SEEDS()["Apple Seed"].plantSeconds;
+    const appleTime = getFruitPatchTime("Apple Seed", {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: {
+          "Short Pickings": 1,
+        },
+      },
+    });
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS()["Orange Seed"].plantSeconds;
+    const orangeTime = getFruitPatchTime("Orange Seed", {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: {
+          "Short Pickings": 1,
+        },
+      },
+    });
+    expect(appleTime).toEqual(applePlantSeconds * 2);
+    expect(orangeTime).toEqual(orangePlantSeconds * 0.5);
+  });
 });
