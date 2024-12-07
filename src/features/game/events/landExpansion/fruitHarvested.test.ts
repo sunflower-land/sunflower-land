@@ -970,22 +970,5 @@ describe("fruitHarvested", () => {
 
       expect(amount).toEqual(1);
     });
-
-    it("gives +0.05 fruit bonus with Fruity Heaven", () => {
-      const amount = getFruitYield({
-        game: {
-          ...GAME_STATE,
-          bumpkin: {
-            ...GAME_STATE.bumpkin,
-            skills: {
-              "Fruity Heaven": 1,
-            },
-          },
-        },
-        name: "Blueberry",
-      });
-
-      expect(amount).toEqual(1.05);
-    });
   });
 });

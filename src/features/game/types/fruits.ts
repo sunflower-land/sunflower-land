@@ -5,6 +5,7 @@
 import { getKeys } from "./craftables";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
+import { SeedName } from "./seeds";
 
 export type PatchFruitName =
   | "Apple"
@@ -35,8 +36,8 @@ export type PatchFruitSeed = {
   disabled?: boolean;
 };
 
-export function isPatchFruitSeed(seed: PatchFruitSeedName) {
-  return getKeys(PATCH_FRUIT_SEEDS()).includes(seed);
+export function isPatchFruitSeed(seed: SeedName) {
+  return getKeys(PATCH_FRUIT_SEEDS()).includes(seed as PatchFruitSeedName);
 }
 
 export const PATCH_FRUIT_SEEDS: () => Record<

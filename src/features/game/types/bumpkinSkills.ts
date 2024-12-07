@@ -514,7 +514,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "spring",
     },
-    boosts: "+0.05 patch fruit yield",
+    boosts: "Fruit Patch seeds cost 10% less",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
