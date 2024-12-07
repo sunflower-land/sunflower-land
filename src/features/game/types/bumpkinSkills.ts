@@ -602,7 +602,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "spring",
     },
     boosts:
-      "Apple and Banana grow 2x faster, but Tomato, Lemon, Blueberry and Orange take 2x longer to grow",
+      "Apple and Banana grow 2x faster, but all other patch fruits take 2x longer to grow",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Short Pickings": {
@@ -615,7 +615,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "spring",
     },
     boosts:
-      "Blueberry and Orange grow 2x faster, but Tomato, Lemon, Apple and Banana take 2x longer to grow",
+      "Blueberry and Orange grow 2x faster, but all other patch fruits take 2x longer to grow",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Zesty Vibes": {
