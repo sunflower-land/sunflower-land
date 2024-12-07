@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import { PATCH_FRUIT, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, FruitPatch } from "features/game/types/game";
 import {
@@ -901,6 +905,50 @@ describe("fruitHarvested", () => {
       });
 
       expect(amount).toEqual(1.1);
+    });
+    it("give +0.1 fruit yield when macaw is placed", () => {
+      const amount = getFruitYield({
+        game: {
+          ...INITIAL_FARM,
+          collectibles: {
+            Macaw: [
+              {
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                id: "123",
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        name: "Apple",
+      });
+
+      expect(amount).toEqual(1.1);
+    });
+    it("gives +0.2 fruit yield when macaw is placed AND has Loyal Macaw Skill", () => {
+      const amount = getFruitYield({
+        game: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Loyal Macaw": 1 },
+          },
+          collectibles: {
+            Macaw: [
+              {
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                id: "123",
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        name: "Apple",
+      });
+
+      expect(amount).toEqual(1.2);
     });
   });
 });

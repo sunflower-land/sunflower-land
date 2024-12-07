@@ -506,6 +506,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Loyal Macaw": {
+    name: "Loyal Macaw",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Macaw's effect doubled",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Fruit - Tier 2
   Catchup: {
     name: "Catchup",

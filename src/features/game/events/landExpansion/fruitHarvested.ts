@@ -110,7 +110,11 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
   }
 
   if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {
-    amount += 0.1;
+    if (game.bumpkin.skills["Loyal Macaw"]) {
+      amount += 0.2;
+    } else {
+      amount += 0.1;
+    }
   }
 
   if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
