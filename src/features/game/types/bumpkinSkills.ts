@@ -567,6 +567,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Double Immortal Pear's effect",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Crime Fruit": {
+    name: "Crime Fruit",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Increase Tomato and Lemon stock by 10",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Fruit - Tier 3
 
   // Trees - Tier 1
