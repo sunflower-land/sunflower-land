@@ -171,7 +171,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           {
             name: "Marks" as const,
             icon: factions,
-            count: 0,
+            count: inCompleteKingdomChores,
           },
         ]
       : []),
