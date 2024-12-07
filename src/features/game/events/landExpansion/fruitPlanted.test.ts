@@ -1499,7 +1499,7 @@ describe("getFruitTime", () => {
     expect(time).toEqual(plantSeconds);
   });
 
-  it("applies a 10% growth speed boost on Tomato & Lemon seeds with Catchup skill", () => {
+  it("applies a 10% growth speed boost on Fruit seeds with Catchup skill", () => {
     const seed = "Tomato Seed";
     const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
@@ -1517,26 +1517,6 @@ describe("getFruitTime", () => {
     );
 
     expect(time).toEqual(plantSeconds * 0.9);
-  });
-
-  it("does not applies Catchup skill on other seeds", () => {
-    const seed = "Apple Seed";
-    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
-    const time = getFruitPatchTime(
-      seed,
-      {
-        ...TEST_FARM,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          skills: {
-            Catchup: 1,
-          },
-        },
-      },
-      INITIAL_BUMPKIN.equipped,
-    );
-
-    expect(time).toEqual(plantSeconds);
   });
 
   it("applies a 10% growth speed boost on basic fruit with Fruit Turbocharge skill", () => {

@@ -527,7 +527,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "spring",
     },
-    boosts: "-10% growth time for Tomatoes and Lemons",
+    boosts: "-10% patch fruit growth time ",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },

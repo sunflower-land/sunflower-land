@@ -152,11 +152,7 @@ export const getFruitPatchTime = (
   }
 
   // Catchup Skill: 10% reduction
-  if (
-    (patchFruitSeedName === "Tomato Seed" ||
-      patchFruitSeedName === "Lemon Seed") &&
-    bumpkin.skills["Catchup"]
-  ) {
+  if (bumpkin.skills["Catchup"]) {
     seconds = seconds * 0.9;
   }
 
