@@ -5,8 +5,13 @@ import {
   TICKET_REWARDS,
   deliverOrder,
 } from "./deliver";
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
@@ -1156,7 +1161,7 @@ describe("deliver", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
   });
 
-  it("add 20% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
+  it("add 30% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1193,7 +1198,7 @@ describe("deliver", () => {
       createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.coins).toEqual(120);
+    expect(state.coins).toEqual(130);
   });
   it("add 20% coins bonus if has Forge-Ward Profits skill on Blacksmith's orders with Coins reward", () => {
     const state = deliverOrder({
@@ -1235,7 +1240,7 @@ describe("deliver", () => {
     expect(state.coins).toEqual(120);
   });
 
-  it("does not add 20% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
+  it("does not add 30% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1394,7 +1399,7 @@ describe("deliver", () => {
     expect(state.coins).toEqual(480);
   });
 
-  it("gives 5% more revenue on completed food orders with Nom Nom skill", () => {
+  it("gives 10% more revenue on completed food orders with Nom Nom skill", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1430,8 +1435,47 @@ describe("deliver", () => {
       },
     });
 
-    expect(state.coins).toEqual(336);
+    expect(state.coins).toEqual(352);
   });
+  it("does not give 10% more revenue on completed fish orders with Nom Nom skill", () => {
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        coins: 0,
+        inventory: {
+          Anchovy: new Decimal(1),
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                Anchovy: 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          skills: {
+            "Nom Nom": 1,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(320);
+  });
+
   it("gives 100% more Coins profit on completed deliveries if double delivery is active", () => {
     const state = deliverOrder({
       state: {

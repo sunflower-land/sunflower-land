@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { COOKABLE_CAKES } from "features/game/types/consumables";
+import { CONSUMABLES, COOKABLE_CAKES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
 import {
   GameState,
@@ -25,6 +25,7 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 import { KNOWN_IDS } from "features/game/types";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { availableWardrobe } from "./equip";
+import { FISH } from "features/game/types/fishing";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -255,7 +256,15 @@ export function getOrderSellPrice<T>(
     game.bumpkin?.skills["Betty's Friend"] &&
     order.reward.coins
   ) {
-    mul += 0.2;
+    mul += 0.3;
+  }
+
+  if (
+    order.from === "victoria" &&
+    game.bumpkin?.skills["Victoria's Secretary"] &&
+    order.reward.coins
+  ) {
+    mul += 0.5;
   }
 
   if (
@@ -287,11 +296,11 @@ export function getOrderSellPrice<T>(
     mul += 0.5;
   }
 
-  // Nom Nom - 5% bonus with food orders
+  // Nom Nom - 10% bonus with food orders
   if (game.bumpkin?.skills["Nom Nom"]) {
     const items = getKeys(order.items);
-    if (items.some((name) => name in COOKABLE_CAKES)) {
-      mul += 0.05;
+    if (items.some((name) => name in CONSUMABLES && !(name in FISH))) {
+      mul += 0.1;
     }
   }
 

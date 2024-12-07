@@ -296,7 +296,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
 
 export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Crops - Tier 1
-  "Green Thumb 2": {
+  "Green Thumb": {
     name: "Green Thumb",
     tree: "Crops",
     requirements: {
@@ -754,9 +754,33 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "basic",
     },
-    boosts: "10% chance of +1 fish",
+    boosts: "10% chance of +1 basic fish",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+  },
+  "Fishy Roll": {
+    name: "Fishy Roll",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "10% chance of +1 advanced fish",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Reel Deal": {
+    name: "Reel Deal",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "Rods cost 50% less coins",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
   "Fisherman's 5 Fold": {
@@ -795,6 +819,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Fishy Gamble": {
+    name: "Fishy Gamble",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: "10% chance of +1 expert fish",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Fishing - Tier 3
   "Frenzied Fish": {
     name: "Frenzied Fish",
@@ -804,7 +840,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "basic",
     },
-    boosts: "+1 Yield during fish frenzy",
+    boosts: "+1 fish and 50% chance of +1 fish during fish frenzy",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -819,6 +855,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "+10 daily fishing limit but -1 worm from all composters",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+  },
+  "Fishy Feast": {
+    name: "Fishy Feast",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: "+20% Fish XP",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Animals - Tier 1
@@ -936,6 +984,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Victoria's Secretary": {
+    name: "Victoria's Secretary",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "desert",
+    },
+    boosts: "Victoria's coin delivery revenue increased by 50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Greenhouse - Tier 2
   "Olive Express": {
     name: "Olive Express",
@@ -1050,18 +1110,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Iron Hustle": {
-    name: "Iron Hustle",
-    tree: "Mining",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: "Iron recovers 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Tap Prospector": {
     name: "Tap Prospector",
     tree: "Mining",
@@ -1074,16 +1122,28 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  // Mining - Tier 2
   "Forge-Ward Profits": {
     name: "Forge-Ward Profits",
+    tree: "Mining",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: "+20% Blacksmith deliveries revenue",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  // Mining - Tier 2
+  "Iron Hustle": {
+    name: "Iron Hustle",
     tree: "Mining",
     requirements: {
       points: 2,
       tier: 2,
       island: "basic",
     },
-    boosts: "+20% Blacksmith deliveries revenue",
+    boosts: "Iron recovers 30% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -1096,18 +1156,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts: "Pickaxes cost 20% less Coins",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Fireside Alchemist": {
-    name: "Fireside Alchemist",
-    tree: "Mining",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: "Crimstone recovers 15% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -1131,6 +1179,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Midas Sprint": {
+    name: "Midas Sprint",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: "Gold Recovers 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   // Mining - Tier 3
   "Golden Touch": {
     name: "Golden Touch",
@@ -1141,18 +1201,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts: "+0.5 Gold Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Midas Sprint": {
-    name: "Midas Sprint",
-    tree: "Mining",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts: "Gold Recovers 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -1181,6 +1229,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Fireside Alchemist": {
+    name: "Fireside Alchemist",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: "Crimstone recovers 15% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
 
   // Cooking - Tier 1
   "Fast Feasts": {
@@ -1203,7 +1263,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "basic",
     },
-    boosts: "+5% Food deliveries revenue",
+    boosts: "+10% Food deliveries revenue",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -1252,7 +1312,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "basic",
     },
-    boosts: "+10% experience from drinking juices",
+    boosts: "+10% experience from drinking smoothies",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -1290,7 +1350,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "basic",
     },
     boosts:
-      "Ability make all meals currently cooking ready to be eaten (1/72h)",
+      "Ability make all meals currently cooking ready to be eaten (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
     power: true,
@@ -1369,6 +1429,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Flower Sale": {
+    name: "Flower Sale",
+    tree: "Bees & Flowers",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Flowers Seeds cost 20% less coins",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Bees & Flowers - Tier 2
   "Buzzworthy Treats": {
     name: "Buzzworthy Treats",
@@ -1406,6 +1478,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Petalled Perk": {
+    name: "Petalled Perk",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "10% chance of +1 Flower",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   // Bees & Flowers - Tier 3
   "Bee Collective": {
     name: "Bee Collective",
@@ -1431,18 +1515,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Petalled Perk": {
-    name: "Petalled Perk",
-    tree: "Bees & Flowers",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "spring",
-    },
-    boosts: "10% chance of +1 Flower",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Flowery Abode": {
     name: "Flowery Abode",
     tree: "Bees & Flowers",
@@ -1451,9 +1523,23 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "spring",
     },
-    boosts: "Honey speed increased by +0.5 but yield reduced by -0.5",
+    boosts:
+      "Honey speed increased by +0.5 but flower growth time increased by 50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+  },
+  "Petal Blessed": {
+    name: "Petal Blessed",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    disabled: false,
+    boosts:
+      "[Action] Ability to make all flowers currently growing ready to be harvested (Cooldown: 96 hours)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Machinery - Tier 1
@@ -1638,7 +1724,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "basic",
     },
-    boosts: "Use feathers to speed up composters instead of eggs",
+    boosts:
+      "Use feathers to speed up composters instead of eggs but requires 2x feathers to boost",
     image: SUNNYSIDE.skills.green_thumb_LE,
     disabled: false,
   },

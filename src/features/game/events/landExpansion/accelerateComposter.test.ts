@@ -317,7 +317,7 @@ describe("accelerateComposter", () => {
           },
         },
         inventory: {
-          Feather: new Decimal(30),
+          Feather: new Decimal(60),
           Egg: new Decimal(30),
         },
         buildings: {

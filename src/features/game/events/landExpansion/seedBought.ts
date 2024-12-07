@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
-import { GameState, Inventory } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
@@ -16,12 +16,8 @@ export type SeedBoughtAction = {
   amount: number;
 };
 
-export function getBuyPrice(
-  name: SeedName,
-  seed: Seed,
-  inventory: Inventory,
-  game: GameState,
-) {
+export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
+  const { inventory, bumpkin } = game;
   if (
     name in FLOWER_SEEDS() &&
     isCollectibleBuilt({ name: "Hungry Caterpillar", game })
@@ -45,6 +41,10 @@ export function getBuyPrice(
   //LEGACY SKILL Contributor Artist Skill
   if (price && inventory.Artist?.gte(1)) {
     price = price * 0.9;
+  }
+
+  if (name in FLOWER_SEEDS() && bumpkin.skills["Flower Sale"]) {
+    price = price * 0.8;
   }
 
   return price;
@@ -98,7 +98,7 @@ export function seedBought({ state, action }: Options) {
       );
     }
 
-    const price = getBuyPrice(item, seed, stateCopy.inventory, stateCopy);
+    const price = getBuyPrice(item, seed, stateCopy);
     const totalExpenses = price * amount;
 
     if (totalExpenses && stateCopy.coins < totalExpenses) {
