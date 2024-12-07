@@ -135,7 +135,7 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 0.1;
   }
 
-  if (bumpkin.skills["Fruitful Fumble"] && isBasicFruit(name)) {
+  if (bumpkin.skills["Fruitful Fumble"]) {
     amount += 0.1;
   }
 

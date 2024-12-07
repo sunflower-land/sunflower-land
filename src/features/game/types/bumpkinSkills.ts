@@ -490,7 +490,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "spring",
     },
-    boosts: "+0.1 Basic Fruit Yield (Blueberries, Oranges)",
+    boosts: "+0.1 Fruit Patch Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
