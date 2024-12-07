@@ -33,7 +33,7 @@ export const TradePointsProgressBar: React.FC<Props> = ({ tradingPoints }) => {
   };
 
   return (
-    <InnerPanel className="flex items-center mb-2">
+    <InnerPanel className="flex items-center mb-1">
       <div className="ml-1">
         <Label icon={trade_point} type="vibrant">
           {`Trading Level: ${currentTradingLevel} ${maxTradingLevel ? "(MAX)" : ""}`}

@@ -90,9 +90,11 @@ export const ListViewCard: React.FC<Props> = ({
                       })}`}
                 </p>
               </div>
-              <p className="text-xxs">
-                {`$${new Decimal(usd).mul(price).toFixed(2)}`}
-              </p>
+              {!isResources && (
+                <p className="text-xxs">
+                  {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+                </p>
+              )}
             </div>
           )}
 
