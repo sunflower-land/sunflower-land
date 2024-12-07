@@ -470,18 +470,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Fruit - Tier 1
-  "Red Sour": {
-    name: "Red Sour",
-    tree: "Fruit",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "spring",
-    },
-    boosts: "+0.1 Fruit Yield (Tomatoes, Lemons)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Fruitful Fumble": {
     name: "Fruitful Fumble",
     tree: "Fruit",
@@ -491,18 +479,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "spring",
     },
     boosts: "+0.1 Fruit Patch Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Tropical Orchard": {
-    name: "Tropical Orchard",
-    tree: "Fruit",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "spring",
-    },
-    boosts: "+0.1 Advanced Fruit Yield (Apples, Bananas)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -518,6 +494,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Fruity Profit": {
+    name: "Fruity Profit",
+    tree: "Fruit",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Tango coins deliveries revenue +50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   // Fruit - Tier 2
   Catchup: {
     name: "Catchup",
@@ -527,85 +515,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "spring",
     },
-    boosts: "-10% patch fruit growth time ",
+    boosts: "-10% patch fruit growth time",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
-  },
-  "Fruit Turbocharge": {
-    name: "Fruit Turbocharge",
-    tree: "Fruit",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "spring",
-    },
-    boosts: "-10% growth time for Blueberries and Oranges",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Prime Produce": {
-    name: "Prime Produce",
-    tree: "Fruit",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "spring",
-    },
-    boosts: "-10% growth time for Apples and Bananas",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Accelerated Fruit": {
-    name: "Accelerated Fruit",
-    tree: "Fruit",
-    disabled: false,
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "spring",
-    },
-    boosts: "-5% growth time for all patch fruits",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 3
-  "Fruity Profit": {
-    name: "Fruity Profit",
-    tree: "Fruit",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "spring",
-    },
-    boosts: "Tango coins deliveries revenue +50%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Plantation Goodies": {
-    name: "Plantation Goodies",
-    tree: "Fruit",
-    disabled: false,
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "spring",
-    },
-    boosts: "5% chance of +1 patch fruit yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Fruity Rush Hour": {
-    name: "Fruity Rush Hour",
-    tree: "Fruit",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "spring",
-    },
-    boosts:
-      "Ability to make all fruit currently growing ready to be harvested (1/72h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-    power: true,
-  },
 
   // Trees - Tier 1
   "Lumberjack's Extra": {
