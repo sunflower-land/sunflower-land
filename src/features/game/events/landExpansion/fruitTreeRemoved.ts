@@ -64,9 +64,9 @@ export function getWoodReward({ state }: { state: GameState }) {
     woodReward += 1;
   }
 
-  // Get no wood reward with No Axe No Worries Skill
+  // Get -1 wood reward with No Axe No Worries Skill
   if (state.bumpkin.skills["No Axe No Worries"]) {
-    return { woodReward: 0 };
+    woodReward -= 1;
   }
 
   return { woodReward };

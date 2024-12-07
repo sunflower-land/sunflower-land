@@ -540,7 +540,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "spring",
     },
-    boosts: "Chop fruit branches without axes, but get no wood drops",
+    boosts:
+      "Chop fruit branches without axes, but get -1 wood from fruit branches",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Fruity Woody": {
