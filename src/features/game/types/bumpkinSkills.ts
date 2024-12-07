@@ -580,6 +580,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 3
+  "Generous Orchard": {
+    name: "Gene",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "10% chance to get +1 patch fruit yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Trees - Tier 1
   "Lumberjack's Extra": {
