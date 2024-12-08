@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
+import { Context } from "features/game/GameProvider";
 
 export const WhatsNew: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -20,6 +21,12 @@ export const WhatsNew: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [collection, setCollection] = useState<ICollection>();
   const isWorldRoute = useLocation().pathname.includes("/world");
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const load = async () => {
     setIsLoading(true);
@@ -49,6 +56,7 @@ export const WhatsNew: React.FC = () => {
         const display = getTradeableDisplay({
           type: item.collection,
           id: item.id,
+          state,
         });
 
         return (

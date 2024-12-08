@@ -114,7 +114,8 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
 
           {itemNames.length > 0 &&
             itemNames.map((name) => {
-              const buff = COLLECTIBLE_BUFF_LABELS[name as CollectibleName];
+              const buff =
+                COLLECTIBLE_BUFF_LABELS(game)[name as CollectibleName];
               return (
                 <ButtonPanel
                   variant="card"

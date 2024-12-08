@@ -62,6 +62,7 @@ export const OffersAcceptedPopup: React.FC = () => {
           const details = getTradeableDisplay({
             id: itemId,
             type: offer.collection,
+            state: state.context.state,
           });
           const amount = offer.items[itemName as InventoryItemName];
           const sfl = new Decimal(offer.sfl).mul(1 - MARKETPLACE_TAX);
