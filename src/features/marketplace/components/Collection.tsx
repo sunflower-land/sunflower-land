@@ -28,6 +28,7 @@ export const Collection: React.FC<{
   onNavigated?: () => void;
 }> = ({ search, onNavigated }) => {
   const { authService } = useContext(Auth.Context);
+
   const [authState] = useActor(authService);
 
   const isWorldRoute = useLocation().pathname.includes("/world");
