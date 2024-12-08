@@ -60,10 +60,7 @@ export const FriendshipInfoPanel: React.FC<Props> = ({
                   {!!wearable && (
                     <>
                       <img
-                        src={
-                          `/src/assets/wearables/${ITEM_IDS[wearable[0]]}.webp` ??
-                          SUNNYSIDE.icons.player_small
-                        }
+                        src={`/src/assets/wearables/${ITEM_IDS[wearable[0]]}.webp`}
                         alt={wearable[0]}
                         className="w-4 mr-0.5"
                       />
