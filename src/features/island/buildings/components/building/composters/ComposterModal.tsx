@@ -37,6 +37,7 @@ import {
   getSpeedUpCost,
   getSpeedUpTime,
 } from "features/game/events/landExpansion/accelerateComposter";
+import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 
 const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
   "Compost Bin": { min: 2, max: 4 },
@@ -456,7 +457,10 @@ export const ComposterModal: React.FC<Props> = ({
             type="success"
             className="text-xs whitespace-pre-line"
           >
-            {"+0.2"} {t("crops")}
+            {isCollectibleActive({ name: "Knowledge Crab", game: state })
+              ? "+0.4"
+              : "+0.2"}{" "}
+            {t("crops")}
           </Label>
         );
       }
