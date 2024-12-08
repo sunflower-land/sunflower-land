@@ -14,7 +14,7 @@ import {
   isWearablesItem,
   _megastore,
 } from "./MegaStore";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import lightning from "assets/icons/lightning.png";
 
@@ -22,6 +22,11 @@ export const MegaStoreMonthly: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const megastore = useSelector(gameService, _megastore);
   const [selectedItem, setSelectedItem] = useState<
     WearablesItem | CollectiblesItem | null
@@ -102,7 +107,7 @@ export const MegaStoreMonthly: React.FC<{
           isVisible={isVisible}
           item={selectedItem}
           image={getItemImage(selectedItem)}
-          buff={getItemBuffLabel(selectedItem)}
+          buff={getItemBuffLabel(selectedItem, state)}
           isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
           onClose={() => setSelectedItem(null)}
           readonly={readonly}

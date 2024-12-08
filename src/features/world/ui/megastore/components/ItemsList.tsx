@@ -19,7 +19,7 @@ import {
 } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -41,6 +41,11 @@ export const ItemsList: React.FC<Props> = ({
   onItemClick,
 }) => {
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
@@ -81,7 +86,7 @@ export const ItemsList: React.FC<Props> = ({
           )}.`}</span>
         ) : (
           sortedItems.map((item) => {
-            const buff = getItemBuffLabel(item);
+            const buff = getItemBuffLabel(item, state);
             const balanceOfItem = getBalanceOfItem(item);
 
             return (

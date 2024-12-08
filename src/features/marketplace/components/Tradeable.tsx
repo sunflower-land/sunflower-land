@@ -57,6 +57,7 @@ export const Tradeable: React.FC = () => {
   const display = getTradeableDisplay({
     id: Number(id),
     type: collection as CollectionName,
+    state: gameState.context.state,
   });
 
   let count = 0;

@@ -12,6 +12,7 @@ import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
 import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { Context } from "features/game/GameProvider";
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -29,6 +30,12 @@ export const Collection: React.FC<{
   search?: string;
   onNavigated?: () => void;
 }> = ({ search, onNavigated }) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const isWorldRoute = useLocation().pathname.includes("/world");
@@ -139,6 +146,7 @@ export const Collection: React.FC<{
       const display = getTradeableDisplay({
         type: item.collection,
         id: item.id,
+        state,
       });
       if (filters.includes("utility") && !display.buff) return false;
       if (filters.includes("cosmetic") && display.buff) return false;
@@ -191,7 +199,8 @@ export const Collection: React.FC<{
               const display = getTradeableDisplay({
                 type: item.collection,
                 id: item.id,
-              });
+                state,
+          });
 
               return (
                 <div key={item.id} style={style} className="pr-1 pb-1">
