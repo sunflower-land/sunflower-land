@@ -7,14 +7,15 @@ import lightning from "assets/icons/lightning.png";
 import filterIcon from "assets/icons/filter_icon.webp";
 import tradeIcon from "assets/icons/trade.png";
 import trade_point from "src/assets/icons/trade_points_coupon.webp";
-
+import sflIcon from "assets/icons/sfl.webp";
+import crownIcon from "assets/icons/vip.webp";
 import {
   Route,
   Routes,
   useLocation,
   useNavigate,
   useSearchParams,
-} from "react-router-dom";
+} from "react-router";
 import { Collection, preloadCollections } from "./Collection";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
@@ -32,25 +33,71 @@ import { MarketplaceUser } from "./MarketplaceUser";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
+import { useTranslation } from "react-i18next";
+import { Label } from "components/ui/Label";
+import { Button } from "components/ui/Button";
+import { MachineState } from "features/game/lib/gameMachine";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+
+const _isVIP = (state: MachineState) =>
+  hasVipAccess(state.context.state.inventory);
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [showQuickswap, setShowQuickswap] = useState(false);
+
+  const { openModal } = useContext(ModalContext);
 
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
   useEffect(() => {
     const token = authState.context.user.rawToken as string;
-    preloadCollections(token);
+    if (CONFIG.API_URL) preloadCollections(token);
   }, []);
+  const { t } = useTranslation();
+
+  const { gameService } = useContext(Context);
+  const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
+  const isVIP = useSelector(gameService, _isVIP);
 
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
           <Filters onClose={() => setShowFilters(false)} />
+          <EstimatedPrice
+            price={price}
+            onClick={() => setShowQuickswap(true)}
+          />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={showQuickswap} onHide={() => setShowQuickswap(false)}>
+        <CloseButtonPanel onClose={() => setShowQuickswap(false)}>
+          <div className="p-1">
+            <Label type="danger" className="mb-2">
+              {t("marketplace.quickswap")}
+            </Label>
+            <p className="text-sm mb-2">
+              {t("marketplace.quickswap.description")}
+            </p>
+            <p className="text-sm mb-2">{t("marketplace.quickswap.warning")}</p>
+            <Button
+              onClick={() => {
+                window.open(
+                  "https://quickswap.exchange/#/swap?swapIndex=0&currency0=ETH&currency1=0xD1f9c58e33933a993A3891F8acFe05a68E1afC05",
+                  "_blank",
+                );
+              }}
+            >
+              {t("continue")}
+            </Button>
+          </div>
         </CloseButtonPanel>
       </Modal>
 
@@ -68,19 +115,43 @@ export const MarketplaceNavigation: React.FC = () => {
       </div>
 
       <div className="flex h-[calc(100%-50px)] lg:h-full">
-        <InnerPanel className="w-64 h-96 mr-1 hidden lg:flex  flex-col">
-          <div className="flex  items-center">
-            <TextInput
-              icon={SUNNYSIDE.icons.search}
-              value={search}
-              onValueChange={setSearch}
-              onCancel={() => setSearch("")}
-            />
-          </div>
-          <div className="flex-1">
-            <Filters onClose={() => setShowFilters(false)} />
-          </div>
-        </InnerPanel>
+        <div className="w-64  mr-1 hidden lg:flex  flex-col">
+          <InnerPanel className="w-full flex-col mb-1">
+            <div className="flex  items-center">
+              <TextInput
+                icon={SUNNYSIDE.icons.search}
+                value={search}
+                onValueChange={setSearch}
+                onCancel={() => setSearch("")}
+              />
+            </div>
+            <div className="flex-1">
+              <Filters onClose={() => setShowFilters(false)} />
+            </div>
+          </InnerPanel>
+
+          <EstimatedPrice
+            price={price}
+            onClick={() => setShowQuickswap(true)}
+          />
+
+          {!isVIP && (
+            <InnerPanel
+              className="p-2 cursor-pointer"
+              onClick={() => {
+                openModal("VIP_ITEMS");
+              }}
+            >
+              <div className="flex items-center justify-between mb-1">
+                <Label icon={crownIcon} type="danger" className="ml-1">
+                  {t("vipAccess")}
+                </Label>
+                <p className="text-xxs underline">{t("readMore")}</p>
+              </div>
+              <p className="text-xxs">{t("marketplace.wantToUnlock")}</p>
+            </InnerPanel>
+          )}
+        </div>
 
         <div className="flex-1 flex flex-col w-full">
           {search ? (
@@ -297,5 +368,24 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
+  price,
+  onClick,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <InnerPanel className="cursor-pointer mb-1" onClick={onClick}>
+      <div className="flex justify-between items-center pr-1">
+        <div className="flex items-center">
+          <img src={sflIcon} className="w-6" />
+          <span className="text-sm ml-2">{`$${price.toFixed(2)}`}</span>
+        </div>
+        <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
+      </div>
+      <p className="text-xxs italic">{t("marketplace.estimated.price")}</p>
+    </InnerPanel>
   );
 };

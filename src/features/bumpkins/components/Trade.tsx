@@ -483,7 +483,7 @@ export const Trade: React.FC<{
 
     return (
       getKeys(TRADE_LIMITS).includes(item as InventoryItemName) &&
-      collection === "collectibles"
+      (collection === "resources" || collection === "collectibles")
     );
   });
 

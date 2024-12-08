@@ -3,15 +3,17 @@ import React, { useContext } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
 import useSWR, { preload } from "swr";
+import { CONFIG } from "lib/config";
 
-export const collectionFetcher = ([filters, token]: [string, string]) =>
-  loadMarketplace({ filters, token });
+export const collectionFetcher = ([filters, token]: [string, string]) => {
+  if (CONFIG.API_URL) return loadMarketplace({ filters, token });
+};
 
 export const preloadCollections = (token: string) => {
   preload(["collectibles", token], collectionFetcher);

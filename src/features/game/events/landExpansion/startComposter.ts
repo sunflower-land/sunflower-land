@@ -9,6 +9,7 @@ import {
   CompostBuilding,
   GameState,
   InventoryItemName,
+  Skills,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { produce } from "immer";
@@ -24,7 +25,13 @@ type Options = {
   createdAt?: number;
 };
 
-const getReadyAt = (gameState: GameState, composter: ComposterName) => {
+export function getReadyAt({
+  gameState,
+  composter,
+}: {
+  gameState: GameState;
+  composter: ComposterName;
+}) {
   let { timeToFinishMilliseconds } = composterDetails[composter];
 
   // gives +10% speed boost if the player has the Soil Krabby
@@ -37,12 +44,40 @@ const getReadyAt = (gameState: GameState, composter: ComposterName) => {
     timeToFinishMilliseconds = timeToFinishMilliseconds * 0.9;
   }
 
-  if (gameState.bumpkin.skills["Composting Bonanza"]) {
-    timeToFinishMilliseconds = timeToFinishMilliseconds - 1 * 60 * 60 * 1000;
+  return { timeToFinishMilliseconds };
+}
+
+export function getCompostAmount({
+  skills,
+  building,
+}: {
+  skills: Skills;
+  building: ComposterName;
+}) {
+  let { produceAmount } = composterDetails[building];
+
+  if (skills["Efficient Bin"] && building === "Compost Bin") {
+    produceAmount += 5;
   }
 
-  return timeToFinishMilliseconds;
-};
+  if (skills["Turbo Charged"] && building === "Turbo Composter") {
+    produceAmount += 5;
+  }
+
+  if (skills["Premium Worms"] && building === "Premium Composter") {
+    produceAmount += 10;
+  }
+
+  if (skills["Composting Overhaul"]) {
+    produceAmount -= 5;
+  }
+
+  if (skills["Composting Revamp"]) {
+    produceAmount += 5;
+  }
+
+  return { produceAmount };
+}
 
 export function startComposter({
   state,
@@ -50,12 +85,14 @@ export function startComposter({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
+    const { building } = action;
+    const buildings = stateCopy.buildings[building] as CompostBuilding[];
     if (!buildings) {
       throw new Error(translate("error.composterNotExist"));
     }
 
-    const { skills } = stateCopy.bumpkin;
+    const { bumpkin, inventory } = stateCopy;
+    const { skills } = bumpkin;
     const composter = buildings[0];
     const { producing, requires } = composter;
 
@@ -69,40 +106,27 @@ export function startComposter({
 
     // remove the requirements from the player's inventory
     getKeys(requires ?? {}).forEach((name) => {
-      const previous =
-        stateCopy.inventory[name as InventoryItemName] || new Decimal(0);
+      const previous = inventory[name as InventoryItemName] || new Decimal(0);
 
       if (previous.lt(requires?.[name] ?? 0)) {
         throw new Error(translate("error.missing"));
       }
 
-      stateCopy.inventory[name as InventoryItemName] = previous.minus(
+      inventory[name as InventoryItemName] = previous.minus(
         requires?.[name] ?? 0,
       );
     });
 
-    const { produce, worm } = composterDetails[action.building];
-    let { produceAmount } = composterDetails[action.building];
+    const { produce, worm } = composterDetails[building];
 
-    if (skills["Efficient Bin"] && action.building === "Compost Bin") {
-      produceAmount += 5;
-    }
-
-    if (skills["Turbo Charged"] && action.building === "Turbo Composter") {
-      produceAmount += 5;
-    }
-
-    if (skills["Premium Worms"] && action.building === "Premium Composter") {
-      produceAmount += 10;
-    }
-
-    if (skills["Composting Overhaul"] && produce === "Sprout Mix") {
-      produceAmount -= 5;
-    }
-
-    if (skills["More With Less"]) {
-      produceAmount -= 1;
-    }
+    const { produceAmount } = getCompostAmount({
+      skills,
+      building,
+    });
+    const { timeToFinishMilliseconds } = getReadyAt({
+      gameState: stateCopy,
+      composter: building,
+    });
 
     // start the production
     buildings[0].producing = {
@@ -112,7 +136,7 @@ export function startComposter({
         [worm]: 1,
       },
       startedAt: createdAt,
-      readyAt: createdAt + getReadyAt(stateCopy, action.building),
+      readyAt: createdAt + timeToFinishMilliseconds,
     };
 
     return stateCopy;

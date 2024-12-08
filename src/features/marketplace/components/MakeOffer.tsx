@@ -8,6 +8,7 @@ import { GameWallet } from "features/wallet/Wallet";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { config } from "features/wallet/WalletProvider";
+import { VIPAccess } from "features/game/components/VipAccess";
 
 import { TradeableDisplay } from "../lib/tradeables";
 import { Context } from "features/game/GameProvider";
@@ -23,9 +24,13 @@ import { InventoryItemName } from "features/game/types/game";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/craftables";
 import { KNOWN_ITEMS } from "features/game/types";
+import Decimal from "decimal.js-light";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const _balance = (state: MachineState) => state.context.state.balance;
-
+const _isVIP = (state: MachineState) =>
+  hasVipAccess(state.context.state.inventory);
 export const MakeOffer: React.FC<{
   display: TradeableDisplay;
   floorPrice: number;
@@ -36,7 +41,11 @@ export const MakeOffer: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   const balance = useSelector(gameService, _balance);
+  const isVIP = useSelector(gameService, _isVIP);
+  const { openModal } = useContext(ModalContext);
 
   const [offer, setOffer] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -188,10 +197,21 @@ export const MakeOffer: React.FC<{
   return (
     <>
       <div className="p-2">
-        <div className="flex justify-between mb-2">
+        <div className="flex flex-wrap justify-between mb-2">
           <Label type="default" className="-ml-1 mb-1">
             {t("marketplace.makeOffer")}
           </Label>
+          {!isVIP && (
+            <VIPAccess
+              isVIP={isVIP}
+              onUpgrade={() => {
+                openModal("BUY_BANNER");
+              }}
+              // text={t("marketplace.unlockSelling")}
+              labelType={!isVIP ? "danger" : undefined}
+            />
+          )}
+
           {tradeType === "onchain" && (
             <Label type="formula" icon={walletIcon} className="-mr-1">
               {t("marketplace.walletRequired")}
@@ -207,6 +227,9 @@ export const MakeOffer: React.FC<{
             isOutOfRange={balance.lt(offer)}
             icon={sflIcon}
           />
+          <p className="text-xxs ml-2">
+            {`$${new Decimal(usd).mul(offer).toFixed(2)}`}
+          </p>
         </div>
 
         <Label type="default" className="-ml-1 mb-1" icon={lockIcon}>
@@ -220,7 +243,7 @@ export const MakeOffer: React.FC<{
           {t("cancel")}
         </Button>
         <Button
-          disabled={!offer || balance.lt(offer)}
+          disabled={!offer || balance.lt(offer) || !isVIP}
           onClick={submitOffer}
           className="relative"
         >

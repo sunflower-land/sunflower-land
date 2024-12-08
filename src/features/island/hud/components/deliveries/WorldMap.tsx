@@ -5,7 +5,7 @@ import worldMap from "assets/map/world_map.png";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { OuterPanel } from "components/ui/Panel";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getBumpkinLevel } from "features/game/lib/level";

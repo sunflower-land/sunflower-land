@@ -53,7 +53,7 @@ import { Label } from "components/ui/Label";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";

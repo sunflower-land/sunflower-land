@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
@@ -38,6 +38,14 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getDayOfYear } from "lib/utils/time";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+
+const _isVIP = (state: MachineState) =>
+  hasVipAccess(state.context.state.inventory);
 
 type TradeableListItemProps = {
   authToken: string;
@@ -64,7 +72,25 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
+  const { openModal } = useContext(ModalContext);
+
+  const isVIP = useSelector(gameService, _isVIP);
+
   const { state } = gameState.context;
+
+  const getDailyListings = () => {
+    const today = getDayOfYear(new Date());
+    const dailyListings = gameState.context.state.trades.dailyListings ?? {
+      date: 0,
+      count: 0,
+    };
+
+    return dailyListings.date === today ? dailyListings.count : 0;
+  };
+
+  const dailyListings = getDailyListings();
+
+  const hasAccess = isVIP || dailyListings < 1;
 
   const tradeType = getTradeType({
     collection: display.type,
@@ -278,6 +304,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
@@ -290,6 +318,17 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <Label type="formula" icon={walletIcon} className="my-1 mr-0.5">
             {t("marketplace.walletRequired")}
           </Label>
+        )}
+
+        {!hasAccess && (
+          <VIPAccess
+            isVIP={isVIP}
+            onUpgrade={() => {
+              openModal("BUY_BANNER");
+            }}
+            text={t("marketplace.unlockSelling")}
+            labelType={!isVIP && dailyListings >= 1 ? "danger" : undefined}
+          />
         )}
       </div>
       <div className="flex justify-between">
@@ -321,6 +360,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                 maxDecimalPlaces={2}
                 icon={sflIcon}
               />
+              <p className="text-xxs ml-2">
+                {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+              </p>
             </div>
             <div
               className="flex justify-between"

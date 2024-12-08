@@ -4,7 +4,7 @@ import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import React, { useContext } from "react";
 import { TrendingTrades } from "./TrendingTrades";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
@@ -17,8 +17,11 @@ import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { TopTrades } from "./TopTrades";
 import useSWR, { preload } from "swr";
+import { CONFIG } from "lib/config";
 
-const hotNowFetcher = ([, token]: [string, string]) => loadTrends({ token });
+const hotNowFetcher = ([, token]: [string, string]) => {
+  if (CONFIG.API_URL) return loadTrends({ token });
+};
 export const preloadHotNow = (token: string) =>
   preload(["/marketplace/trends", token], hotNowFetcher);
 

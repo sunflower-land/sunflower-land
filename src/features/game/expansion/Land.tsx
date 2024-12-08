@@ -39,7 +39,7 @@ import { DynamicClouds } from "./components/DynamicClouds";
 import { StaticClouds } from "./components/StaticClouds";
 import { BackgroundIslands } from "./components/BackgroundIslands";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router";
 import { createPortal } from "react-dom";
 import {
   NON_COLLIDING_OBJECTS,
@@ -191,7 +191,6 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
-              z={1}
             >
               <Building
                 name={name}
@@ -284,7 +283,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`tree-${id}`}
@@ -393,7 +391,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`crimstone-${id}`}
@@ -421,7 +418,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             key={`ruby-${id}`}
@@ -449,7 +445,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             name="Oil Reserve"
@@ -476,7 +471,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          z={1}
         >
           <Resource
             name="Fruit Patch"

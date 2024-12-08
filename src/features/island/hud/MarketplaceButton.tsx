@@ -1,7 +1,7 @@
 import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import shopIcon from "assets/icons/shop.png";
 

@@ -4,7 +4,7 @@ import {
   Listing,
   Offer,
 } from "features/game/types/marketplace";
-import React from "react";
+import React, { useContext } from "react";
 import { TradeableDisplay } from "../lib/tradeables";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -14,6 +14,7 @@ import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { InventoryItemName } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
+import { Context } from "features/game/GameProvider";
 
 type TradeTableItem = {
   price: number;
@@ -27,6 +28,9 @@ export const OfferTable: React.FC<{
   id: number;
   details: TradeableDisplay;
 }> = ({ offers, id, details }) => {
+  const { gameService } = useContext(Context);
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   if (offers.length === 0) {
     return null;
   }
@@ -74,8 +78,13 @@ export const OfferTable: React.FC<{
                   </p>
                 </div>
                 <div className="p-1.5 text-right relative flex items-center justify-end">
-                  <img src={sflIcon} className="h-5 mr-1" />
-                  <p className="text-sm">{new Decimal(price).toFixed(2)}</p>
+                  <img src={sflIcon} className="h-6 mr-1" />
+                  <div>
+                    <p className="text-sm">{new Decimal(price).toFixed(2)}</p>
+                    <p className="text-xxs">
+                      {`${new Decimal(usd).mul(price).toFixed(2)}`}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -91,6 +100,9 @@ export const ListingTable: React.FC<{
   collection: CollectionName;
   details: TradeableDisplay;
 }> = ({ listings, collection, details }) => {
+  const { gameService } = useContext(Context);
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   return (
     <div className="w-full text-xs  border-collapse  ">
       <div>
@@ -139,16 +151,21 @@ export const ListingTable: React.FC<{
                   </p>
                 </div>
                 <div className="p-1.5 text-right relative flex items-center justify-end">
-                  <img src={sflIcon} className="h-5 mr-1" />
-                  <p className="text-sm">
-                    {new Decimal(
-                      isResource
-                        ? formatNumber(price / Number(quantity), {
-                            decimalPlaces: 4,
-                          })
-                        : price,
-                    ).toFixed(2)}
-                  </p>
+                  <img src={sflIcon} className="h-6 mr-1" />
+                  <div>
+                    <p className="text-sm">
+                      {new Decimal(
+                        isResource
+                          ? formatNumber(price / Number(quantity), {
+                              decimalPlaces: 4,
+                            })
+                          : price,
+                      ).toFixed(2)}
+                    </p>
+                    <p className="text-xxs">
+                      {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

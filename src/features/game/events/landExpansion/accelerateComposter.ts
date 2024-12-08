@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import {
   ComposterName,
   composterDetails,
@@ -18,12 +19,33 @@ type Options = {
 };
 
 export function getSpeedUpCost(gameState: GameState, composter: ComposterName) {
-  let { eggBoostRequirements } = composterDetails[composter];
+  let { resourceBoostRequirements } = composterDetails[composter];
 
   if (gameState.bumpkin.skills["Composting Bonanza"]) {
-    eggBoostRequirements *= 0.5;
+    resourceBoostRequirements *= 2;
   }
-  return { eggBoostRequirements };
+
+  if (gameState.bumpkin.skills["Feathery Business"]) {
+    resourceBoostRequirements *= 2;
+  }
+
+  return { resourceBoostRequirements };
+}
+
+export function getSpeedUpTime({
+  state,
+  composter,
+}: {
+  state: GameState;
+  composter: ComposterName;
+}) {
+  let { resourceBoostMilliseconds } = composterDetails[composter];
+
+  if (state.bumpkin.skills["Composting Bonanza"]) {
+    resourceBoostMilliseconds += 60 * 60 * 1000;
+  }
+
+  return { resourceBoostMilliseconds };
 }
 
 export function accelerateComposter({
@@ -52,19 +74,38 @@ export function accelerateComposter({
       throw new Error(translate("error.composterAlreadyBoosted"));
     }
 
-    const { eggBoostMilliseconds } = composterDetails[action.building];
-    const { eggBoostRequirements } = getSpeedUpCost(stateCopy, action.building);
-    if (!stateCopy.inventory.Egg?.gte(eggBoostRequirements)) {
-      throw new Error(translate("error.missingEggs"));
+    const { resourceBoostMilliseconds } = getSpeedUpTime({
+      state: stateCopy,
+      composter: action.building,
+    });
+    const { resourceBoostRequirements } = getSpeedUpCost(
+      stateCopy,
+      action.building,
+    );
+
+    const boostResource = stateCopy.bumpkin.skills["Feathery Business"]
+      ? "Feather"
+      : "Egg";
+
+    if (
+      !(stateCopy.inventory[boostResource] ?? new Decimal(0)).gte(
+        resourceBoostRequirements,
+      )
+    ) {
+      throw new Error(`Missing ${boostResource}s`);
     }
 
-    // Subtract eggs
-    stateCopy.inventory.Egg = stateCopy.inventory.Egg.sub(eggBoostRequirements);
+    // Subtract resources
+    stateCopy.inventory[boostResource] = (
+      stateCopy.inventory[boostResource] ?? new Decimal(0)
+    ).sub(resourceBoostRequirements);
 
     // Subtract time
-    producing.readyAt -= eggBoostMilliseconds;
+    producing.readyAt -= resourceBoostMilliseconds;
 
-    composter.boost = { Egg: eggBoostRequirements };
+    composter.boost = {
+      [boostResource]: resourceBoostRequirements,
+    };
 
     return stateCopy;
   });

@@ -32,10 +32,11 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { VIPAccess } from "features/game/components/VipAccess";
+
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { useParams } from "react-router-dom";
+import Decimal from "decimal.js-light";
+import { useParams } from "react-router";
 
 // JWT TOKEN
 
@@ -61,6 +62,8 @@ export const TradeableOffers: React.FC<{
   const isVIP = useSelector(gameService, _isVIP);
   const { t } = useAppTranslation();
   const { id } = useParams();
+
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -158,20 +161,17 @@ export const TradeableOffers: React.FC<{
               <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
               </Label>
-              <VIPAccess
-                isVIP={isVIP}
-                onUpgrade={() => {
-                  openModal("BUY_BANNER");
-                }}
-                text={t("marketplace.unlockSelling")}
-                labelType={!isVIP ? "danger" : undefined}
-              />
             </div>
             <div className="flex items-center justify-between">
               {topOffer ? (
                 <div className="flex items-center">
                   <img src={sflIcon} className="h-8 mr-2" />
-                  <p className="text-base">{`${topOffer.sfl} SFL`}</p>
+                  <div>
+                    <p className="text-base">{`${topOffer.sfl} SFL`}</p>
+                    <p className="text-xxs">
+                      {`$${new Decimal(usd).mul(topOffer.sfl).toFixed(2)}`}
+                    </p>
+                  </div>
                 </div>
               ) : !loading && tradeable?.offers.length === 0 ? (
                 <p className="text-sm self-end mb-2 text-left">
@@ -224,14 +224,6 @@ export const TradeableOffers: React.FC<{
               <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
               </Label>
-              <VIPAccess
-                isVIP={isVIP}
-                onUpgrade={() => {
-                  openModal("BUY_BANNER");
-                }}
-                text={t("marketplace.unlockSelling")}
-                labelType={!isVIP ? "danger" : undefined}
-              />
             </div>
             <div className="mb-2">
               {loading && <Loading />}

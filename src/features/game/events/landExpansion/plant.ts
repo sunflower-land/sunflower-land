@@ -42,6 +42,7 @@ import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
 import { randomInt } from "lib/utils/random";
+import { hasFeatureAccess } from "lib/flags";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -165,19 +166,12 @@ export function getCropTime({
     seconds = seconds * 0.5;
   }
 
-  if (skills["Green Thumb 2"]) {
+  if (skills["Green Thumb"] && hasFeatureAccess(game, "SKILLS_REVAMP")) {
     seconds = seconds * 0.95;
   }
 
-  if (skills["Strong Roots"]) {
-    if (
-      crop === "Radish" ||
-      crop === "Wheat" ||
-      crop === "Kale" ||
-      crop === "Barley"
-    ) {
-      seconds = seconds * 0.9;
-    }
+  if (skills["Strong Roots"] && isAdvancedCrop(crop)) {
+    seconds = seconds * 0.9;
   }
 
   // Olive Express: 10% reduction
@@ -374,7 +368,7 @@ export function getCropYieldAmount({
   }
 
   //Bumpkin Skill boost Green Thumb Skill
-  if (skills["Green Thumb"]) {
+  if (skills["Green Thumb"] && !hasFeatureAccess(game, "SKILLS_REVAMP")) {
     amount *= 1.05;
   }
 

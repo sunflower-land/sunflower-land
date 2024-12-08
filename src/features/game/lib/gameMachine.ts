@@ -137,6 +137,12 @@ export interface Context {
     wardrobe: Record<BumpkinItem, number>;
   };
   announcements: Announcements;
+  prices: {
+    sfl: {
+      usd: number;
+      timestamp: number;
+    } | null;
+  };
   auctionResults?: AuctionResults;
   promoCode?: string;
   moderation: Moderation;
@@ -638,6 +644,12 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         sessionId: INITIAL_SESSION,
         announcements: {},
+        prices: {
+          sfl: {
+            timestamp: Date.now(),
+            usd: 1.23,
+          },
+        },
         moderation: {
           muted: [],
           kicked: [],
@@ -671,7 +683,10 @@ export function startGame(authContext: AuthContext) {
               }),
             },
           ],
-          entry: () => preloadHotNow(authContext.user.rawToken as string),
+          entry: () => {
+            if (CONFIG.API_URL)
+              preloadHotNow(authContext.user.rawToken as string);
+          },
           invoke: {
             src: async (context) => {
               const fingerprint = "X";
@@ -705,6 +720,7 @@ export function startGame(authContext: AuthContext) {
                 discordId: response.discordId,
                 fslId: response.fslId,
                 oauthNonce: response.oauthNonce,
+                prices: response.prices,
               };
             },
             onDone: [
@@ -2120,6 +2136,7 @@ export function startGame(authContext: AuthContext) {
           discordId: (_, event) => event.data.discordId,
           fslId: (_, event) => event.data.fslId,
           oauthNonce: (_, event) => event.data.oauthNonce,
+          prices: (_, event) => event.data.prices,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

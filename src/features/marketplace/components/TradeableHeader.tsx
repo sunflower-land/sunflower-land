@@ -26,15 +26,15 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { VIPAccess } from "features/game/components/VipAccess";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
+import Decimal from "decimal.js-light";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -119,6 +119,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const showWalletRequired = showBuyNow && cheapestListing?.type === "onchain";
   const showFreeListing = !isVIP && dailyListings === 0;
 
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   return (
     <>
       {cheapestListing && (
@@ -155,9 +157,12 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
         <div className="p-2 pt-1">
           <div className="flex flex-wrap items-center justify-between mb-3 space-y-1">
             <div
-              className={classNames("flex items-center justify-between", {
-                "w-full": isMobile && showWalletRequired,
-              })}
+              className={classNames(
+                "flex items-center justify-between w-full",
+                {
+                  "w-full": isMobile && showWalletRequired,
+                },
+              )}
             >
               <Label
                 type="default"
@@ -178,25 +183,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 </Label>
               )}
             </div>
-            <div
-              className={classNames("flex items-center justify-between", {
-                "w-full": isMobile && showFreeListing,
-              })}
-            >
-              <VIPAccess
-                isVIP={isVIP}
-                onUpgrade={() => {
-                  openModal("BUY_BANNER");
-                }}
-                text={t("marketplace.unlockSelling")}
-                labelType={!isVIP && dailyListings >= 1 ? "danger" : undefined}
-              />
-              {!isVIP && dailyListings === 0 && (
-                <Label type="success" className="ml-0 sm:ml-3">
-                  {t("remaining.free.listing")}
-                </Label>
-              )}
-            </div>
           </div>
 
           <div className="flex items-center justify-between flex-wrap">
@@ -204,14 +190,25 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
                 <>
                   <img src={sflIcon} className="h-8 mr-2" />
-                  <p
+                  <div
                     className={classNames(
-                      "text-base",
                       !tradeable ? "loading-fade-pulse" : "",
                     )}
                   >
-                    {!tradeable ? "0.00 SFL" : cheapestListing?.sfl ?? "? SFL"}
-                  </p>
+                    <p className={classNames("text-base")}>
+                      {!tradeable
+                        ? "0.00 SFL"
+                        : `${formatNumber(cheapestListing?.sfl ?? 0, {
+                            decimalPlaces: 2,
+                            showTrailingZeros: true,
+                          })} SFL`}
+                    </p>
+                    <p className="text-xs">
+                      {`$${new Decimal(usd)
+                        .mul(cheapestListing?.sfl ?? 0)
+                        .toFixed(2)}`}
+                    </p>
+                  </div>
                 </>
               </div>
             )}
