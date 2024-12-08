@@ -199,6 +199,7 @@ export const Box: React.FC<BoxProps> = ({
         {/** Show alternate Icon */}
         {!showCountLabel && alternateIcon && (
           <CountLabel
+            isHover={isHover}
             count={precisionCount}
             labelType={countLabelType}
             rightShiftPx={LABEL_RIGHT_SHIFT_PX}

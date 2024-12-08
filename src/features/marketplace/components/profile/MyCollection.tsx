@@ -115,7 +115,6 @@ export const MyCollection: React.FC = () => {
                         `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${item.id}`,
                       );
                     }}
-                    count={item.count}
                   />
                 </div>
               );
