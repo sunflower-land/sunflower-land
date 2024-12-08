@@ -60,7 +60,12 @@ export const FriendshipInfoPanel: React.FC<Props> = ({
                   {!!wearable && (
                     <>
                       <img
-                        src={`/src/assets/wearables/${ITEM_IDS[wearable[0]]}.webp`}
+                        src={
+                          new URL(
+                            `/src/assets/wearables/${ITEM_IDS[wearable[0]]}.webp`,
+                            import.meta.url,
+                          ).href
+                        }
                         alt={wearable[0]}
                         className="w-4 mr-0.5"
                       />
