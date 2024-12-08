@@ -110,8 +110,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       obsessionCompletedAt >= currentObsession.startDate &&
       obsessionCompletedAt <= currentObsession.endDate
     )
-      return 0;
-    return 1;
+      return 1;
+    return 0;
   };
 
   const incompleteFlowerBounties = state.bounties.requests.filter(

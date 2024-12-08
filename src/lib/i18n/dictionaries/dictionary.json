@@ -4340,6 +4340,10 @@
   "description.cozyFireplace": "A warm and inviting fireplace that sets the perfect backdrop for holiday gatherings.",
   "description.christmasRug": "A festive rug adorned with seasonal patterns to bring warmth and holiday spirit to your home.",
   "description.christmasCandle": "A glowing candle with a festive scent, ideal for creating a cozy and magical atmosphere.",
+  "friendship.gift.points": "Points",
+  "friendship.gift.nextReward": "Next Reward:",
+  "friendship.gift.firstReward": "First Reward:",
+  "friendship.gift.progress": "Progress:",
 
   "npcDialogues.pumpkinPete.chore1": "Have you seen the strange objects in the sky? Keep an eye on your crops!",
   "npcDialogues.pumpkinPete.chore2": "These new animal products are bringing so many new farming possibilities!",
