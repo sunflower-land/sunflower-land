@@ -74,6 +74,7 @@ export const MyCollection: React.FC = () => {
     const details = getTradeableDisplay({
       id: item.id,
       type: item.collection,
+      state: gameState.context.state,
     });
 
     return details.name.toLowerCase().includes(search.toLowerCase());
@@ -101,6 +102,7 @@ export const MyCollection: React.FC = () => {
               const details = getTradeableDisplay({
                 id: item.id,
                 type: item.collection,
+                state: gameState.context.state,
               });
 
               return (

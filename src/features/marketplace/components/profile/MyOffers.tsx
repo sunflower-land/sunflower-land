@@ -158,6 +158,7 @@ export const MyOffers: React.FC = () => {
                   const details = getTradeableDisplay({
                     id: itemId,
                     type: offer.collection,
+                    state: gameState.context.state,
                   });
 
                   const isResource =

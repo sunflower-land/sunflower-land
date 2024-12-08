@@ -8,7 +8,7 @@ import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { KNOWN_ITEMS } from "features/game/types";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasMaxItems } from "features/game/lib/processEvent";
 import Decimal from "decimal.js-light";
@@ -38,6 +38,11 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
@@ -46,6 +51,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const display = getTradeableDisplay({
     id: tradeable.id,
     type: collection,
+    state,
   });
 
   let updatedInventory = inventory;

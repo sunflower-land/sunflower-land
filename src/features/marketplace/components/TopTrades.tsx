@@ -10,6 +10,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Context } from "features/game/GameProvider";
 import { useNavigate } from "react-router";
+import { useActor } from "@xstate/react";
 
 export const TopTrades: React.FC<{
   trends?: MarketplaceTrends;
@@ -17,6 +18,11 @@ export const TopTrades: React.FC<{
   const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   if (!trends) {
@@ -33,6 +39,7 @@ export const TopTrades: React.FC<{
           const details = getTradeableDisplay({
             type: item.collection,
             id: item.itemId,
+            state,
           });
 
           return (

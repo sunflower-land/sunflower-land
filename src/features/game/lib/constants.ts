@@ -220,15 +220,19 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
   };
 
   if (
-    state?.buildings.Warehouse &&
-    isBuildingReady(state.buildings.Warehouse)
+    state?.buildings["Warehouse"] &&
+    isBuildingReady(state?.buildings["Warehouse"])
   ) {
-    // Multiply each seed quantity by 1.2
-    for (const seed in seeds) {
-      seeds[seed as keyof typeof seeds] = new Decimal(
-        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2),
-      );
-    }
+    // Multiply each seed quantity by 1.2 and round up
+    getKeys(seeds).forEach(
+      (seed) =>
+        (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(1.2).toNumber()))),
+    );
+  }
+
+  if (state?.bumpkin.skills["Crime Fruit"]) {
+    seeds["Tomato Seed"] = seeds["Tomato Seed"].add(10);
+    seeds["Lemon Seed"] = seeds["Lemon Seed"].add(10);
   }
 
   return seeds;

@@ -7,7 +7,7 @@ import trade from "assets/icons/trade.png";
 import sflIcon from "assets/icons/sfl.webp";
 
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -34,6 +34,11 @@ export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
   const params = useParams();
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const { authService } = useContext(Auth.Context);
   const isWorldRoute = useLocation().pathname.includes("/world");
 
@@ -139,6 +144,7 @@ export const MyListings: React.FC = () => {
                   const details = getTradeableDisplay({
                     id: itemId,
                     type: listing.collection,
+                    state,
                   });
 
                   const isResource =
