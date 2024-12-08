@@ -283,13 +283,6 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(2);
   }
 
-  if (
-    isCollectibleBuilt({ name: "Miffy", game }) &&
-    createdAt < new Date("2024-11-01T00:00:00").getTime()
-  ) {
-    boostedExp = boostedExp.mul(2);
-  }
-
   // Munching Mastery - 5% exp boost
   if (skills["Munching Mastery"]) {
     boostedExp = boostedExp.mul(1.05);
