@@ -22,6 +22,7 @@ import { secondsToString } from "lib/utils/time";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { AdminSettings } from "features/island/hud/components/settings-menu/general-settings/AdminSettings";
 import { CONFIG } from "lib/config";
+import { hasFeatureAccess } from "lib/flags";
 
 type Player = {
   id: number;
@@ -191,10 +192,17 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
               icon: SUNNYSIDE.icons.player,
               name: "Player",
             },
-            {
-              icon: SUNNYSIDE.icons.heart,
-              name: "Trades",
-            },
+            ...(!hasFeatureAccess(
+              gameService.getSnapshot().context.state,
+              "MARKETPLACE",
+            )
+              ? [
+                  {
+                    icon: SUNNYSIDE.icons.heart,
+                    name: "Trades",
+                  },
+                ]
+              : []),
             ...(!!gameService.getSnapshot().context.state.wardrobe[
               "Gift Giver"
             ] || CONFIG.NETWORK === "amoy"

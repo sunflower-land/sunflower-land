@@ -196,10 +196,14 @@ export const BumpkinModal: React.FC<Props> = ({
         icon: SUNNYSIDE.icons.wardrobe,
         name: t("equip"),
       },
-      {
-        icon: token,
-        name: t("trades"),
-      },
+      ...(!hasFeatureAccess(gameState, "MARKETPLACE")
+        ? [
+            {
+              icon: token,
+              name: t("trades"),
+            },
+          ]
+        : []),
       ...(hasFeatureAccess(gameState, "SKILLS_REVAMP")
         ? [
             {
