@@ -6,7 +6,7 @@ import {
 } from "features/game/types/bumpkin";
 import React, { useEffect, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { OuterPanel, InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -196,7 +196,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
               key={JSON.stringify(equipped)}
             />
             <div className="absolute w-8 h-8 bottom-10 right-4">
-              <NPC parts={equipped} key={JSON.stringify(equipped)} />
+              <NPCIcon parts={equipped} key={JSON.stringify(equipped)} />
             </div>
           </div>
           <Button disabled={!isDirty || warn} onClick={() => finish(equipped)}>

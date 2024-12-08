@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -41,7 +41,7 @@ export const HeliosAuction: React.FC = () => {
               top: `${PIXEL_SCALE * -4}px`,
             }}
           >
-            <NPC
+            <NPCPlaceable
               // onClick={() => setIsOpen(true)}
               parts={NPC_WEARABLES["hammerin harry"]}
             />

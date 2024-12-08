@@ -3,7 +3,7 @@ import * as Auth from "features/auth/lib/Provider";
 
 import boat from "assets/decorations/isle_boat.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
@@ -198,7 +198,7 @@ export const DiscordBoat: React.FC = () => {
             right: `${PIXEL_SCALE * 30}px`,
           }}
         >
-          <NPC parts={NPC_WEARABLES.wobble} />
+          <NPCIcon parts={NPC_WEARABLES.wobble} />
         </div>
         <img
           src={SUNNYSIDE.decorations.treasure_chest}

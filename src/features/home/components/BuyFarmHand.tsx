@@ -11,7 +11,7 @@ import { BB_TO_GEM_RATIO, GameState } from "features/game/types/game";
 import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { Panel } from "components/ui/Panel";
 import confetti from "canvas-confetti";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -67,7 +67,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
             {`${t("buyFarmHand.newFarmhandGreeting")}`}
           </p>
           <div className="h-16 w-16 mb-4">
-            <NPC parts={parts} />
+            <NPCIcon parts={parts} />
           </div>
         </div>
         <Button onClick={onClose}>{t("close")}</Button>

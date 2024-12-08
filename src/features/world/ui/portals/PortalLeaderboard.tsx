@@ -16,7 +16,7 @@ import { Loading } from "features/auth/components/Loading";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Button } from "components/ui/Button";
 
 export const PortalLeaderboard: React.FC<{
@@ -138,8 +138,8 @@ export const CompetitionTable: React.FC<{
               style={{ border: "1px solid #b96f50" }}
               className="p-1.5 text-left pl-8 relative"
             >
-              <div className="absolute" style={{ left: "4px", top: "-7px" }}>
-                <NPC width={20} parts={bumpkin} />
+              <div className="absolute" style={{ left: "4px", top: "1px" }}>
+                <NPCIcon width={24} parts={bumpkin} />
               </div>
               {username}
             </td>

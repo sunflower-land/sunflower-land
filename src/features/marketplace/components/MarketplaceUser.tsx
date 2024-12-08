@@ -10,7 +10,7 @@ import { Loading } from "features/auth/components";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { loadProfile } from "../actions/loadProfile";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Sales } from "./PriceHistory";
 
@@ -47,7 +47,7 @@ export const MarketplaceUser: React.FC = () => {
         <div className="w-full sm:w-1/3 pr-1 mb-1">
           <InnerPanel className="flex items-center">
             <div className="h-16 w-16 flex items-center justify-center mr-2 relative">
-              <NPC parts={interpretTokenUri(profile.tokenUri).equipped} />
+              <NPCIcon parts={interpretTokenUri(profile.tokenUri).equipped} />
             </div>
             <div className="flex-1 overflow-hidden">
               <Label type="default" className="mb-0.5">
@@ -101,7 +101,7 @@ export const MarketplaceUser: React.FC = () => {
               }}
             >
               <div className="h-16 w-16 flex items-center justify-center relative">
-                <NPC parts={interpretTokenUri(friend.tokenUri).equipped} />
+                <NPCIcon parts={interpretTokenUri(friend.tokenUri).equipped} />
               </div>
               <div className="flex-1 overflow-hidden">
                 <p className="text-sm truncate">{friend.username}</p>

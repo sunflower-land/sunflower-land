@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BedName, Bumpkin, GameState } from "features/game/types/game";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon, NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -68,7 +68,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
                 top: `${-12 * PIXEL_SCALE}px`,
               }}
             >
-              <NPC
+              <NPCPlaceable
                 key={JSON.stringify(bumpkin.equipped)}
                 parts={bumpkin.equipped}
               />
@@ -95,7 +95,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
                   top: `${-12 * PIXEL_SCALE}px`,
                 }}
               >
-                <NPC
+                <NPCPlaceable
                   key={JSON.stringify(farmHands[id].equipped)}
                   parts={farmHands[id].equipped}
                 />
@@ -290,7 +290,7 @@ const InteriorBed: React.FC<{
         </div>
         {equipment && (
           <div className="absolute">
-            <NPC key={JSON.stringify(equipment)} parts={equipment} />
+            <NPCIcon key={JSON.stringify(equipment)} parts={equipment} />
           </div>
         )}
       </div>

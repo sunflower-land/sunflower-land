@@ -4,7 +4,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "components/ui/Modal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { GarbageCollectorModal } from "./components/GarbageCollectorModal";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -54,7 +54,7 @@ export const GarbageCollector: React.FC = () => {
               bottom: `${PIXEL_SCALE * 41}px`,
             }}
           >
-            <NPC
+            <NPCPlaceable
               parts={{
                 body: "Goblin Potion",
                 hair: "Teal Mohawk",

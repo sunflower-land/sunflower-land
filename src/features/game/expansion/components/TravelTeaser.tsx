@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -261,7 +261,7 @@ export const TravelTeaser: React.FC = () => {
               />
             )}
 
-            <NPC
+            <NPCPlaceable
               parts={NPC_WEARABLES["pumpkin' pete"]}
               onClick={() => setShowModal(true)}
             />

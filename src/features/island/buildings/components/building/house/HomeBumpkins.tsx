@@ -1,6 +1,6 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Bumpkin, GameState } from "features/game/types/game";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -41,7 +41,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
               onClick={() => setSelectedFarmHandId(id)}
               style={{ width: `${GRID_WIDTH_PX}px` }}
             >
-              <NPC
+              <NPCPlaceable
                 key={JSON.stringify(farmHands[id].equipped)}
                 parts={farmHands[id].equipped}
               />
