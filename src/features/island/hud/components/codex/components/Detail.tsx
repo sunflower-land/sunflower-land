@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemName } from "features/game/types/game";
@@ -12,6 +12,8 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import Crown from "assets/icons/vip.webp";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -44,6 +46,12 @@ export const Detail: React.FC<Props> = ({
     availability,
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   useLayoutEffect(() => {
     const image = new Image();
@@ -58,7 +66,7 @@ export const Detail: React.FC<Props> = ({
     image.src = ITEM_DETAILS[name].image;
   }, []);
 
-  const buff = COLLECTIBLE_BUFF_LABELS[name];
+  const buff = COLLECTIBLE_BUFF_LABELS(state)[name];
 
   return (
     <>

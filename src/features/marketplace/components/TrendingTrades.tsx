@@ -13,14 +13,19 @@ import decreaseIcon from "assets/icons/decrease_arrow.png";
 import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 export const TrendingTrades: React.FC<{
   trends?: MarketplaceTrends;
 }> = ({ trends }) => {
   const { t } = useAppTranslation();
   const isWorldRoute = useLocation().pathname.includes("/world");
-
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   const navigate = useNavigate();
@@ -50,6 +55,7 @@ export const TrendingTrades: React.FC<{
           const details = getTradeableDisplay({
             id: itemId,
             type: item.collection,
+            state,
           });
 
           const prices = getPriceHistory({
