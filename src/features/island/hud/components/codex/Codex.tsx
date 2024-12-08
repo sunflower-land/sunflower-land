@@ -100,7 +100,19 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     gameService.state?.context?.state?.username ??
     String(gameService?.state?.context?.farmId);
 
-  const incompleteObsession = state.npcs?.bert?.questCompletedAt ? 0 : 1;
+  const currentObsession = state.bertObsession;
+  const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
+
+  const incompleteObsession = () => {
+    if (!currentObsession) return 0;
+    if (!obsessionCompletedAt) return 1;
+    if (
+      obsessionCompletedAt >= currentObsession.startDate &&
+      obsessionCompletedAt <= currentObsession.endDate
+    )
+      return 0;
+    return 1;
+  };
 
   const incompleteFlowerBounties = state.bounties.requests.filter(
     (deal) => deal.name in FLOWERS,
@@ -153,7 +165,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     {
       name: "Leaderboard" as const,
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
-      count: incompleteObsession + incompleteFlowerBountiesCount,
+      count: incompleteObsession() + incompleteFlowerBountiesCount,
     },
     {
       name: "Fish",
