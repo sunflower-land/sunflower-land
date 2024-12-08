@@ -4464,5 +4464,9 @@
   "marketplace.about": "关于",
   "marketplace.wantToUnlock": "想解锁无限交易吗？",
   "skill.strongRoots": "先进作物的生长速度加快 10%",
-  "skill.goldenSunflower": "手动收获向日葵时，700 分之一的几率获得 +0.35 金币"
+  "skill.goldenSunflower": "手动收获向日葵时，700 分之一的几率获得 +0.35 金币",
+  "friendship.gift.points": "积分",
+  "friendship.gift.nextReward": "下一个奖励：",
+  "friendship.gift.firstReward": "第一笔奖励：",
+  "friendship.gift.progress": "进展："
 }

@@ -4464,5 +4464,9 @@
   "marketplace.about": "Hakkında",
   "marketplace.wantToUnlock": "Sınırsız alım satımın kilidini açmak ister misiniz?",
   "skill.strongRoots": "Gelişmiş ürünler %10 daha hızlı büyüyor",
-  "skill.goldenSunflower": "Ayçiçeği manuel olarak hasat ederken 700'de 1'i +0.35 altın alma şansı"
+  "skill.goldenSunflower": "Ayçiçeği manuel olarak hasat ederken 700'de 1'i +0.35 altın alma şansı",
+  "friendship.gift.points": "Puanlar",
+  "friendship.gift.nextReward": "Sonraki Ödül:",
+  "friendship.gift.firstReward": "İlk Ödül:",
+  "friendship.gift.progress": "İlerleme:"
 }

@@ -4464,5 +4464,9 @@
   "marketplace.about": "Über",
   "marketplace.wantToUnlock": "Willst du unbegrenzt viele Trades freischalten?",
   "skill.strongRoots": "Fortgeschrittene Pflanzen wachsen 10% schneller",
-  "skill.goldenSunflower": "Chance von 1 zu 700, beim manuellen Ernten von Sonnenblumen +0,35 Gold zu erhalten"
+  "skill.goldenSunflower": "Chance von 1 zu 700, beim manuellen Ernten von Sonnenblumen +0,35 Gold zu erhalten",
+  "friendship.gift.points": "Punkte",
+  "friendship.gift.nextReward": "Nächste Belohnung:",
+  "friendship.gift.firstReward": "Erste Belohnung:",
+  "friendship.gift.progress": "Fortschritt:"
 }

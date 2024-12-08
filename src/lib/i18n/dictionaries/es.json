@@ -4464,5 +4464,9 @@
   "marketplace.about": "Acerca de",
   "marketplace.wantToUnlock": "¿Quieres desbloquear operaciones ilimitadas?",
   "skill.strongRoots": "Los cultivos avanzados crecen un 10% más rápido",
-  "skill.goldenSunflower": "Probabilidad de 1 en 700 de obtener +0.35 de oro al cosechar girasoles manualmente"
+  "skill.goldenSunflower": "Probabilidad de 1 en 700 de obtener +0.35 de oro al cosechar girasoles manualmente",
+  "friendship.gift.points": "Puntos",
+  "friendship.gift.nextReward": "Próxima recompensa:",
+  "friendship.gift.firstReward": "Primera recompensa:",
+  "friendship.gift.progress": "Progreso:"
 }

@@ -4464,5 +4464,9 @@
   "marketplace.about": "À propos",
   "marketplace.wantToUnlock": "Vous voulez débloquer un nombre illimité de transactions ?",
   "skill.strongRoots": "Les cultures avancées poussent 10 % plus vite",
-  "skill.goldenSunflower": "1 chance sur 700 de gagner +0,35 points d'or en récoltant manuellement des tournesols"
+  "skill.goldenSunflower": "1 chance sur 700 de gagner +0,35 points d'or en récoltant manuellement des tournesols",
+  "friendship.gift.points": "Points",
+  "friendship.gift.nextReward": "Récompense suivante :",
+  "friendship.gift.firstReward": "Première récompense :",
+  "friendship.gift.progress": "Progrès :"
 }

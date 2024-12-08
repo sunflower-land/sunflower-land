@@ -4464,5 +4464,9 @@
   "marketplace.about": "Mengenai",
   "marketplace.wantToUnlock": "Mahu membuka kunci dagangan tanpa had?",
   "skill.strongRoots": "Tanaman lanjutan tumbuh 10% lebih cepat",
-  "skill.goldenSunflower": "1 dalam 700 peluang untuk mendapatkan +0.35 emas apabila menuai bunga matahari secara manual"
+  "skill.goldenSunflower": "1 dalam 700 peluang untuk mendapatkan +0.35 emas apabila menuai bunga matahari secara manual",
+  "friendship.gift.points": "Titik",
+  "friendship.gift.nextReward": "Ganjaran seterusnya:",
+  "friendship.gift.firstReward": "Ganjaran Pertama:",
+  "friendship.gift.progress": "Kemajuan:"
 }

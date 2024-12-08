@@ -4464,5 +4464,9 @@
   "marketplace.about": "Informazioni su",
   "marketplace.wantToUnlock": "Vuoi sbloccare transazioni illimitate?",
   "skill.strongRoots": "Le colture avanzate crescono del 10% più velocemente",
-  "skill.goldenSunflower": "1 possibilità su 700 di ottenere +0,35 oro raccogliendo manualmente i girasoli"
+  "skill.goldenSunflower": "1 possibilità su 700 di ottenere +0,35 oro raccogliendo manualmente i girasoli",
+  "friendship.gift.points": "Punti",
+  "friendship.gift.nextReward": "Prossima ricompensa:",
+  "friendship.gift.firstReward": "Prima ricompensa:",
+  "friendship.gift.progress": "Progresso:"
 }

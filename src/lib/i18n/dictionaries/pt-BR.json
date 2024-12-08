@@ -4464,5 +4464,9 @@
   "marketplace.about": "Sobre",
   "marketplace.wantToUnlock": "Quer desbloquear negociações ilimitadas?",
   "skill.strongRoots": "Culturas avançadas crescem 10% mais rápido",
-  "skill.goldenSunflower": "1 chance em 700 de obter +0,35 de ouro ao colher girassóis manualmente"
+  "skill.goldenSunflower": "1 chance em 700 de obter +0,35 de ouro ao colher girassóis manualmente",
+  "friendship.gift.points": "Pontos",
+  "friendship.gift.nextReward": "Próxima recompensa:",
+  "friendship.gift.firstReward": "Primeira recompensa:",
+  "friendship.gift.progress": "Progresso:"
 }

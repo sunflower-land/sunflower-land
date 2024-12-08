@@ -4464,5 +4464,9 @@
   "marketplace.about": "について",
   "marketplace.wantToUnlock": "無制限の取引をアンロックしたいですか？",
   "skill.strongRoots": "先進作物の成長が 10% 速くなる",
-  "skill.goldenSunflower": "ヒマワリを手作業で収穫すると、700分の1の確率で+0.35ゴールドを獲得する"
+  "skill.goldenSunflower": "ヒマワリを手作業で収穫すると、700分の1の確率で+0.35ゴールドを獲得する",
+  "friendship.gift.points": "ポイント",
+  "friendship.gift.nextReward": "次の報酬:",
+  "friendship.gift.firstReward": "最初の報酬:",
+  "friendship.gift.progress": "進行状況:"
 }

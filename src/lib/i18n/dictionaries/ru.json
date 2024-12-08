@@ -4464,5 +4464,9 @@
   "marketplace.about": "О нас",
   "marketplace.wantToUnlock": "Хотите разблокировать неограниченное количество сделок?",
   "skill.strongRoots": "Передовые культуры растут на 10% быстрее",
-  "skill.goldenSunflower": "1 из 700 шансов получить +0,35 золота при ручном сборе подсолнухов"
+  "skill.goldenSunflower": "1 из 700 шансов получить +0,35 золота при ручном сборе подсолнухов",
+  "friendship.gift.points": "Очки",
+  "friendship.gift.nextReward": "Следующая награда:",
+  "friendship.gift.firstReward": "Первая награда:",
+  "friendship.gift.progress": "Прогресс:"
 }
