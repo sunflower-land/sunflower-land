@@ -92,7 +92,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
       }
     }
 
-    const boost = COLLECTIBLE_BUFF_LABELS[details.item];
+    const boost = COLLECTIBLE_BUFF_LABELS(game)[details.item];
 
     return (
       <>

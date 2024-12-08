@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { getListingCollection, getListingItem } from "../lib/listings";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
 
@@ -26,6 +26,11 @@ export const RemoveListing: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const trades = useSelector(gameService, _trades);
   const listings = trades.listings ?? {};
@@ -46,7 +51,7 @@ export const RemoveListing: React.FC<Props> = ({
 
   const itemId = getListingItem({ listing });
   const collection = getListingCollection({ listing });
-  const display = getTradeableDisplay({ id: itemId, type: collection });
+  const display = getTradeableDisplay({ id: itemId, type: collection, state });
 
   return (
     <Panel>

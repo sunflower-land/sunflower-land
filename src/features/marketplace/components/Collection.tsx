@@ -10,6 +10,7 @@ import { getTradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
+import { Context } from "features/game/GameProvider";
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -27,6 +28,12 @@ export const Collection: React.FC<{
   search?: string;
   onNavigated?: () => void;
 }> = ({ search, onNavigated }) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const { authService } = useContext(Auth.Context);
 
   const [authState] = useActor(authService);
@@ -134,6 +141,7 @@ export const Collection: React.FC<{
       const display = getTradeableDisplay({
         type: item.collection,
         id: item.id,
+        state,
       });
       if (filters.includes("utility") && !display.buff) return false;
       if (filters.includes("cosmetic") && display.buff) return false;
@@ -148,6 +156,7 @@ export const Collection: React.FC<{
           const display = getTradeableDisplay({
             type: item.collection,
             id: item.id,
+            state,
           });
 
           return (
