@@ -919,6 +919,19 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Animals sleep 5% less time",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Double Bale": {
+    name: "Double Bale",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Double Bale's Effect",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
   // Animals - Tier 2
 
   // Animals - Tier 3

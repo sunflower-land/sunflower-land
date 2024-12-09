@@ -156,7 +156,11 @@ function getEggYieldBoosts(game: GameState) {
   }
 
   if (isCollectibleBuilt({ name: "Bale", game })) {
-    boost += 0.1;
+    if (game.bumpkin.skills["Double Bale"]) {
+      boost += 0.2;
+    } else {
+      boost += 0.1;
+    }
   }
 
   if (game.bumpkin.skills["Abundant Harvest"]) {
