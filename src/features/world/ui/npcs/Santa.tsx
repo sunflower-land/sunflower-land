@@ -150,11 +150,11 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
 
         <p className="text-xs mb-1">{t("npcDialogues.santa.dialogue4")}</p>
 
-        <div className="flex overflow-x-auto space-x-1.5 p-2 scrollable">
+        <div className="flex flex-row flex-wrap overflow-y-auto scrollable max-h-96">
           {Object.entries(rewards).map(([day, reward]) => (
             <div
               key={day}
-              className="bg-brown-600 flex-shrink-0 flex flex-col items-center"
+              className="bg-brown-600 flex-shrink-0 flex flex-col items-center mr-1 mb-1"
               style={{
                 ...pixelDarkBorderStyle,
                 width: "140px",
