@@ -421,6 +421,10 @@ import {
   RedeemTradeRewardsAction,
 } from "./landExpansion/redeemTradeReward";
 import { collectCandy, CollectCandyAction } from "./landExpansion/collectCandy";
+import {
+  activateInstantCrops,
+  ActivateInstantCropsAction,
+} from "./activationSkills/activateInstantCrops";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -505,6 +509,7 @@ export type PlayingEvent =
   | ClaimBonusAction
   | AccelerateComposterAction
   | BuyFarmHandAction
+  | ActivateInstantCropsAction
   | EquipFarmHandAction
   | HarvestBeehiveAction
   | PlantFlowerAction
@@ -746,6 +751,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
   "candy.collected": collectCandy,
+  "instantCrops.activated": activateInstantCrops,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

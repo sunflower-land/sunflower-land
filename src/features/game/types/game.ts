@@ -15,7 +15,11 @@ import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
-import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
+import {
+  BumpkinSkillName,
+  BumpkinRevampSkillName,
+  ActivationSkillName,
+} from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
@@ -363,6 +367,10 @@ export type Skills = Partial<
   Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
 >;
 
+export type ActivationSkills = Partial<
+  Record<ActivationSkillName, { activatedAt: number }>
+>;
+
 export type Bumpkin = {
   id: number;
   equipped: BumpkinParts;
@@ -372,6 +380,7 @@ export type Bumpkin = {
   achievements?: Partial<Record<AchievementName, number>>;
   activity: Partial<Record<BumpkinActivityName, number>>;
   previousSkillsResetAt?: number;
+  activationSkills?: ActivationSkills;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";

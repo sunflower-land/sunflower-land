@@ -1895,6 +1895,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
 
 export type BumpkinRevampSkillName = keyof typeof BUMPKIN_REVAMP_SKILL_TREE;
 
+export type ActivationSkillName = Extract<
+  BumpkinRevampSkillName,
+  | "Instant Growth"
+  | "Tree Blitz"
+  | "Greenhouse Guru"
+  | "Instant Gratification"
+  | "Grease Lightning"
+  | "Petal Blessed"
+>;
+
 export const SKILL_TREE_CATEGORIES = Array.from(
   new Set(
     getKeys(BUMPKIN_SKILL_TREE).map((skill) => BUMPKIN_SKILL_TREE[skill].tree),
