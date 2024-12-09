@@ -931,8 +931,19 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Double Bale's Effect",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-
   // Animals - Tier 2
+  "Fine Fibers": {
+    name: "Fine Fibers",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "+0.1 Feather, Leather and Merino Wool yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Animals - Tier 3
 

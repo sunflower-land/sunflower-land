@@ -181,6 +181,10 @@ function getFeatherYieldBoosts(game: GameState) {
     boost += 0.1;
   }
 
+  if (game.bumpkin.skills["Fine Fibers"]) {
+    boost += 0.1;
+  }
+
   return boost;
 }
 
@@ -209,6 +213,10 @@ function getMerinoWoolYieldBoosts(game: GameState) {
   }
 
   if (isCollectibleBuilt({ name: "Toxic Tuft", game })) {
+    boost += 0.1;
+  }
+
+  if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
   }
 
@@ -245,6 +253,10 @@ function getLeatherYieldBoosts(game: GameState) {
   }
 
   if (isCollectibleBuilt({ name: "Mootant", game })) {
+    boost += 0.1;
+  }
+
+  if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
   }
 
