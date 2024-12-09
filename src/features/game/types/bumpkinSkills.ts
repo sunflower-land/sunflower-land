@@ -1019,6 +1019,20 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
+  "Sheepwise Diet": {
+    name: "Sheepwise Diet",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts:
+      "Sheep require 25% less feed, but other animals require 50% more feed",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
   // Greenhouse - Tier 1
   "Olive Garden": {
     name: "Olive Garden",

@@ -376,6 +376,14 @@ export function getBoostedFoodQuantity({
     }
   }
 
+  if (game.bumpkin.skills["Sheepwise Diet"]) {
+    if (animalType === "Sheep") {
+      foodQuantity *= 0.75;
+    } else {
+      foodQuantity *= 1.5;
+    }
+  }
+
   return foodQuantity;
 }
 
