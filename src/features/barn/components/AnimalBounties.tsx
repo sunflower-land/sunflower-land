@@ -126,7 +126,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                         height: "25px",
                       }}
                     >
-                      {generateBountyCoins({ game: state, bounty: deal })}
+                      {generateBountyCoins({ game: state, bounty: deal }).coins}
                     </Label>
                   )}
 
