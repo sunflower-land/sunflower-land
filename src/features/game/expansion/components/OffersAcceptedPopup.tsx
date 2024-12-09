@@ -15,7 +15,6 @@ import { InventoryItemName } from "features/game/types/game";
 import { tradeToId } from "features/marketplace/lib/offers";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import Decimal from "decimal.js-light";
-import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 
@@ -66,7 +65,7 @@ export const OffersAcceptedPopup: React.FC = () => {
             type: offer.collection,
           });
           const amount = offer.items[itemName as InventoryItemName];
-          const sfl = new Decimal(offer.sfl).mul(1 - MARKETPLACE_TAX);
+          const sfl = new Decimal(offer.sfl);
           const estTradePoints = calculateTradePoints({
             sfl: offer.sfl,
             points: !offer.signature ? 2 : 10,
