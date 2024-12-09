@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "12月",
   "marketplace.pricePerUnit": "{{price}} /ユニット",
   "description.babyPanda": "ガスヒーローイベントのかわいいパンダ。2024年3月の初心者向け体験が倍増します。",
-  "description.miffy": "珍しいモルチです。FSLコンペティション (2024年10月) の期間中は経験値が2倍になります。"
+  "description.miffy": "珍しいモルチです。FSLコンペティション (2024年10月) の期間中は経験値が2倍になります。",
+  "npcDialogues.santa.intro1": "ホーホーホーバンプキン!私の散らばったキャンディーを見つけた人には、期間限定で毎日報酬を差し上げます。",
+  "npcDialogues.santa.intro2": "パンプキンプラザには、毎日10個のピースが散らばっています。",
+  "npcDialogues.santa.intro3": "キャンディーを10個集めて、毎日の賞品を受け取りましょう！",
+  "npcDialogues.santa.dialogue1": "ホーホーホー！足りないキャンディーを集めて報酬をもらおう。",
+  "npcDialogues.santa.dialogue2": "おめでとうございます、あなたは私のキャンディーを見つけました！",
+  "npcDialogues.santa.dialogue3": "よくやった！12日間のクリスマスを完了しました。特別なプレゼント用にフェスティブツリーを置くのを忘れないでね。",
+  "npcDialogues.santa.dialogue4": "チャレンジを12日連続でクリアすると、特別賞品がもらえます。",
+  "npcDialogues.santa.dialogue5": "ホーホーホー！よくやったバンプキン、私のキャンディーを見つけたね。",
+  "npcDialogues.ginger.dialogue1": "このフェスティブツリーには、ギフトやデコレーションがいっぱいです。",
+  "npcDialogues.ginger.dialogue2": "振ったらサンタから何がもらえるんだろう...",
+  "npcDialogues.elf.dialogue1": "おっと、広場のあちこちにキャンディケインを落としてしまいました。見つけたら、サンタさんに持って帰って素敵なご褒美をもらってください！",
+  "candy.remaining": "{{candies}} 残り",
+  "christmas.days": "デイ {{day}}",
+  "christmas.days.completed": "{{completed}} /12 日完了しました",
+  "npcDialogues.santa.nextChallenge": "次の課題:"
 }

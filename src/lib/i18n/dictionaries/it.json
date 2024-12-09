@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "Dicembre",
   "marketplace.pricePerUnit": "{{price}} /unità",
   "description.babyPanda": "Un simpatico panda dell'evento Gas Hero. Doppia esperienza per principianti nel mese di marzo 2024.",
-  "description.miffy": "Un Morchi raro. Raddoppia gli XP durante la competizione FSL (ottobre 2024)."
+  "description.miffy": "Un Morchi raro. Raddoppia gli XP durante la competizione FSL (ottobre 2024).",
+  "npcDialogues.santa.intro1": "Oh Ho Ho Bumpkin! Per un periodo limitato, offro ricompense giornaliere a chi troverà le mie caramelle sparse.",
+  "npcDialogues.santa.intro2": "Ogni giorno troverai 10 pezzi sparsi per il Pumpkin Plaza.",
+  "npcDialogues.santa.intro3": "Raccogli le 10 caramelle e richiedi i premi giornalieri!",
+  "npcDialogues.santa.dialogue1": "Oh oh oh! Raccogli le mie caramelle mancanti per una ricompensa.",
+  "npcDialogues.santa.dialogue2": "Congratulazioni, hai trovato le mie caramelle!",
+  "npcDialogues.santa.dialogue3": "Ben fatto! Hai completato i 12 giorni di Natale. Non dimenticare di posizionare l'albero festivo per un regalo speciale.",
+  "npcDialogues.santa.dialogue4": "Completa la sfida per 12 giorni consecutivi per un premio speciale.",
+  "npcDialogues.santa.dialogue5": "Oh Oh Oh! Ben fatto Bumpkin, hai trovato le mie caramelle.",
+  "npcDialogues.ginger.dialogue1": "Questo albero festivo è pieno di regali e decorazioni.",
+  "npcDialogues.ginger.dialogue2": "Mi chiedo cosa posso ricevere da Babbo Natale dopo averlo scosso...",
+  "npcDialogues.elf.dialogue1": "Ops, ho fatto cadere dei bastoncini di zucchero in giro per la piazza. Se ne trovi, riportali a Babbo Natale per una dolce ricompensa!",
+  "candy.remaining": "{{candies}} rimanente",
+  "christmas.days": "Giorno {{day}}",
+  "christmas.days.completed": "{{completed}} /12 giorni completati",
+  "npcDialogues.santa.nextChallenge": "Prossima sfida:"
 }

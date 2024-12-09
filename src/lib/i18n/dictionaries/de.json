@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "Dezember",
   "marketplace.pricePerUnit": "{{price}} /Einheit",
   "description.babyPanda": "Ein süßer Panda aus dem Gas Hero-Event. Doppeltes Erlebnis für Anfänger im März 2024.",
-  "description.miffy": "Ein seltener Morchi. Verdoppelt die XP während des FSL-Wettbewerbs (Oktober 2024)."
+  "description.miffy": "Ein seltener Morchi. Verdoppelt die XP während des FSL-Wettbewerbs (Oktober 2024).",
+  "npcDialogues.santa.intro1": "Ho Ho Ho Bumpkin! Für eine begrenzte Zeit vergebe ich täglich Belohnungen für diejenigen, die meine verstreuten Süßigkeiten finden.",
+  "npcDialogues.santa.intro2": "Jeden Tag finden Sie 10 Stücke, die auf dem Pumpkin Plaza verstreut sind.",
+  "npcDialogues.santa.intro3": "Sammle die 10 Süßigkeiten und hol dir die täglichen Preise!",
+  "npcDialogues.santa.dialogue1": "Ho ho ho! Sammle meine fehlenden Süßigkeiten für eine Belohnung ein.",
+  "npcDialogues.santa.dialogue2": "Herzlichen Glückwunsch, du hast meine Süßigkeiten gefunden!",
+  "npcDialogues.santa.dialogue3": "Gut gemacht! Ihr habt die 12 Weihnachtstage abgeschlossen. Vergiss nicht, den Festlichen Baum für ein besonderes Geschenk zu platzieren.",
+  "npcDialogues.santa.dialogue4": "Schließe die Herausforderung 12 Tage hintereinander ab, um einen Sonderpreis zu erhalten.",
+  "npcDialogues.santa.dialogue5": "Ho Ho Ho! Gut gemacht Bumpkin, du hast meine Süßigkeiten gefunden.",
+  "npcDialogues.ginger.dialogue1": "Dieser festliche Baum ist voller Geschenke und Dekorationen.",
+  "npcDialogues.ginger.dialogue2": "Ich frage mich, was ich vom Weihnachtsmann bekommen kann, nachdem ich ihn geschüttelt habe...",
+  "npcDialogues.elf.dialogue1": "Ups, ich habe ein paar Zuckerstangen auf dem Platz fallen lassen. Wenn du welche findest, bring sie zurück zum Weihnachtsmann für eine süße Belohnung!",
+  "candy.remaining": "{{candies}} übrig",
+  "christmas.days": "Tag {{day}}",
+  "christmas.days.completed": "{{completed}} /12 Tage abgeschlossen",
+  "npcDialogues.santa.nextChallenge": "Nächste Herausforderung:"
 }

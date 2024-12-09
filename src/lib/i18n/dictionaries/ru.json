@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "Декабрь",
   "marketplace.pricePerUnit": "{{price}} /единица измерения",
   "description.babyPanda": "Симпатичная панда с мероприятия Gas Hero. Двойной опыт для новичков в марте 2024 года.",
-  "description.miffy": "Редкий морчи. Удваивает XP во время соревнований FSL (октябрь 2024 года)."
+  "description.miffy": "Редкий морчи. Удваивает XP во время соревнований FSL (октябрь 2024 года).",
+  "npcDialogues.santa.intro1": "Хо-хо-хо! В течение ограниченного времени я ежедневно даю награды тем, кто найдет мои разбросанные конфеты.",
+  "npcDialogues.santa.intro2": "Каждый день вы найдете 10 штук, разбросанных по всей площади Pumpkin Plaza.",
+  "npcDialogues.santa.intro3": "Соберите 10 конфет и получите ежедневные призы!",
+  "npcDialogues.santa.dialogue1": "Хо-хо-хо! Соберите мои недостающие конфеты и получите награду.",
+  "npcDialogues.santa.dialogue2": "Поздравляю, вы нашли мою конфету!",
+  "npcDialogues.santa.dialogue3": "Отлично! Вы завершили 12 дней Рождества. Не забудьте поставить праздничную елку в качестве особого подарка.",
+  "npcDialogues.santa.dialogue4": "Выполните задание 12 дней подряд и получите специальный приз.",
+  "npcDialogues.santa.dialogue5": "Хо-хо-хо! Молодец, Бампкин, ты нашёл мою конфету.",
+  "npcDialogues.ginger.dialogue1": "Это праздничное дерево полно подарков и украшений.",
+  "npcDialogues.ginger.dialogue2": "Интересно, что я могу получить от Санты, встряхнув его...",
+  "npcDialogues.elf.dialogue1": "Упс, я разбросала по площади несколько леденцов. Если вы их найдете, верните их Санте и получите сладкую награду!",
+  "candy.remaining": "осталось {{candies}}",
+  "christmas.days": "День {{day}}",
+  "christmas.days.completed": "{{completed}} /12 дней завершено",
+  "npcDialogues.santa.nextChallenge": "Следующий вызов:"
 }

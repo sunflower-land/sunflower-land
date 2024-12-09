@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "12월",
   "marketplace.pricePerUnit": "{{price}} /단위",
   "description.babyPanda": "가스 히어로 이벤트의 귀여운 판다.2024년 3월에는 초보자를 위한 더블 익스피리언스.",
-  "description.miffy": "희귀한 모르치입니다.FSL 대회 기간 동안 경험치가 두 배로 증가합니다 (2024년 10월)."
+  "description.miffy": "희귀한 모르치입니다.FSL 대회 기간 동안 경험치가 두 배로 증가합니다 (2024년 10월).",
+  "npcDialogues.santa.intro1": "호 호 호 범프킨!한정된 기간 동안, 흩어진 사탕을 찾는 사람들에게 매일 보상을 주고 있어요.",
+  "npcDialogues.santa.intro2": "펌킨 플라자에는 매일 10개의 조각이 흩어져 있습니다.",
+  "npcDialogues.santa.intro3": "사탕 10개를 모으고 일일 상품을 받으세요!",
+  "npcDialogues.santa.dialogue1": "호 호 호!사라진 사탕을 모아 보상을 받으세요.",
+  "npcDialogues.santa.dialogue2": "축하해, 내 사탕을 찾았어!",
+  "npcDialogues.santa.dialogue3": "잘 했어!12일간의 크리스마스를 마쳤습니다.특별한 선물을 위해 페스티벌 트리를 놓는 것도 잊지 마세요.",
+  "npcDialogues.santa.dialogue4": "12일 연속으로 챌린지를 완료하면 특별 상품을 받을 수 있습니다.",
+  "npcDialogues.santa.dialogue5": "호 호 호!잘했어 범프킨, 내 사탕 찾았잖아",
+  "npcDialogues.ginger.dialogue1": "이 축제 나무는 선물과 장식으로 가득합니다.",
+  "npcDialogues.ginger.dialogue2": "흔들어서 산타한테 뭘 받을 수 있을지 궁금하네요...",
+  "npcDialogues.elf.dialogue1": "죄송합니다. 광장에 사탕수수를 떨어뜨렸어요.찾으면 산타에게 가져다 주면 달콤한 보상을 받을 수 있어요!",
+  "candy.remaining": "{{candies}} 남음",
+  "christmas.days": "하루 {{day}}",
+  "christmas.days.completed": "{{completed}} /12일 완료",
+  "npcDialogues.santa.nextChallenge": "다음 과제:"
 }

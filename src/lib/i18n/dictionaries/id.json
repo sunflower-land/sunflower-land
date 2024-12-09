@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "Desember",
   "marketplace.pricePerUnit": "{{price}} /unit",
   "description.babyPanda": "Panda lucu dari acara Pahlawan Gas. Pengalaman ganda untuk pemula selama Maret 2024.",
-  "description.miffy": "Morchi langka. Menggandakan XP selama Kompetisi FSL (Oktober 2024)."
+  "description.miffy": "Morchi langka. Menggandakan XP selama Kompetisi FSL (Oktober 2024).",
+  "npcDialogues.santa.intro1": "Ho Ho Ho Bumpkin! Untuk waktu yang terbatas, saya memberikan hadiah harian bagi mereka yang menemukan permen saya yang tersebar.",
+  "npcDialogues.santa.intro2": "Setiap hari Anda akan menemukan 10 buah yang tersebar di seluruh Pumpkin Plaza.",
+  "npcDialogues.santa.intro3": "Kumpulkan 10 permen dan klaim hadiah harian!",
+  "npcDialogues.santa.dialogue1": "Ho ho ho! Kumpulkan permen saya yang hilang untuk hadiah.",
+  "npcDialogues.santa.dialogue2": "Selamat, Anda menemukan permen saya!",
+  "npcDialogues.santa.dialogue3": "Bagus sekali! Anda telah menyelesaikan 12 Hari Natal. Jangan lupa untuk menempatkan Pohon Pesta untuk hadiah khusus.",
+  "npcDialogues.santa.dialogue4": "Selesaikan tantangan 12 hari berturut-turut untuk hadiah khusus.",
+  "npcDialogues.santa.dialogue5": "Ho Ho Ho! Bagus Bumpkin, Anda menemukan permen saya.",
+  "npcDialogues.ginger.dialogue1": "Pohon Meriah ini penuh dengan hadiah dan dekorasi.",
+  "npcDialogues.ginger.dialogue2": "Saya bertanya-tanya apa yang bisa saya terima dari Santa setelah mengguncangnya...",
+  "npcDialogues.elf.dialogue1": "Ups, aku menjatuhkan beberapa tongkat permen di sekitar alun-alun. Jika Anda menemukannya, bawa mereka kembali ke Santa untuk hadiah manis!",
+  "candy.remaining": "{{candies}} tersisa",
+  "christmas.days": "Hari {{day}}",
+  "christmas.days.completed": "{{completed}} /12 Hari Selesai",
+  "npcDialogues.santa.nextChallenge": "Tantangan berikutnya:"
 }

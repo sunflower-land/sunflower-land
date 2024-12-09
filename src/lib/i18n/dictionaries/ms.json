@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "Disember",
   "marketplace.pricePerUnit": "{{price}} /unit",
   "description.babyPanda": "Panda comel dari acara Gas Hero. Pengalaman berganda untuk pemula pada bulan Mac 2024.",
-  "description.miffy": "Morchi yang jarang berlaku. Berganda XP semasa Pertandingan FSL (Oktober 2024)."
+  "description.miffy": "Morchi yang jarang berlaku. Berganda XP semasa Pertandingan FSL (Oktober 2024).",
+  "npcDialogues.santa.intro1": "Ho Ho Ho Bumpkin! Untuk masa yang terhad, saya memberikan ganjaran harian bagi mereka yang menemui gula-gula saya yang tersebar.",
+  "npcDialogues.santa.intro2": "Setiap hari anda akan menemui 10 keping yang tersebar di seluruh Pumpkin Plaza.",
+  "npcDialogues.santa.intro3": "Kumpulkan 10 gula-gula dan tuntut hadiah harian!",
+  "npcDialogues.santa.dialogue1": "Ho ho ho! Kumpulkan gula-gula saya yang hilang untuk hadiah.",
+  "npcDialogues.santa.dialogue2": "Tahniah, anda menemui gula-gula saya!",
+  "npcDialogues.santa.dialogue3": "Baik selesai! Anda telah menyelesaikan 12 Hari Krismas. Jangan lupa meletakkan Pokok Perayaan untuk hadiah istimewa.",
+  "npcDialogues.santa.dialogue4": "Selesaikan cabaran 12 hari berturut-turut untuk hadiah istimewa.",
+  "npcDialogues.santa.dialogue5": "Ho Ho Ho! Baiklah Bumpkin, awak jumpa gula-gula saya.",
+  "npcDialogues.ginger.dialogue1": "Pokok Perayaan ini penuh dengan hadiah dan hiasan.",
+  "npcDialogues.ginger.dialogue2": "Saya tertanya-tanya apa yang boleh saya terima dari Santa selepas menggoncangkannya...",
+  "npcDialogues.elf.dialogue1": "Oops, saya menjatuhkan tongkat gula-gula di sekitar plaza. Sekiranya anda menemui apa-apa, bawa mereka kembali ke Santa untuk ganjaran yang manis!",
+  "candy.remaining": "{{candies}} baki",
+  "christmas.days": "Hari {{day}}",
+  "christmas.days.completed": "{{completed}} /12 Hari Selesai",
+  "npcDialogues.santa.nextChallenge": "Cabaran seterusnya:"
 }

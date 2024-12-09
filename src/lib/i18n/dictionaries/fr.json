@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "décembre",
   "marketplace.pricePerUnit": "{{price}} /unité",
   "description.babyPanda": "Un adorable panda de l'événement Gas Hero. Double expérience pour les débutants en mars 2024.",
-  "description.miffy": "Un Morchi rare. Double l'expérience lors de la compétition de FSL (octobre 2024)."
+  "description.miffy": "Un Morchi rare. Double l'expérience lors de la compétition de FSL (octobre 2024).",
+  "npcDialogues.santa.intro1": "Ho Ho Ho Bumpkin ! Pendant une durée limitée, je donne des récompenses quotidiennes à ceux qui trouvent mes bonbons éparpillés.",
+  "npcDialogues.santa.intro2": "Chaque jour, vous trouverez 10 pièces éparpillées sur le Pumpkin Plaza.",
+  "npcDialogues.santa.intro3": "Collectionne les 10 bonbons et remporte les prix quotidiens !",
+  "npcDialogues.santa.dialogue1": "Ho ho ho ! Récupérez mes bonbons manquants pour obtenir une récompense.",
+  "npcDialogues.santa.dialogue2": "Félicitations, tu as trouvé mes bonbons !",
+  "npcDialogues.santa.dialogue3": "Bravo ! Vous avez terminé les 12 jours de Noël. N'oubliez pas de placer le sapin de fête pour un cadeau spécial.",
+  "npcDialogues.santa.dialogue4": "Terminez le défi 12 jours d'affilée pour gagner un prix spécial.",
+  "npcDialogues.santa.dialogue5": "Ho Ho Ho ! Bravo Bumpkin, tu as trouvé mes bonbons.",
+  "npcDialogues.ginger.dialogue1": "Cet arbre de fête regorge de cadeaux et de décorations.",
+  "npcDialogues.ginger.dialogue2": "Je me demande ce que je peux recevoir du Père Noël après l'avoir secoué...",
+  "npcDialogues.elf.dialogue1": "Oups, j'ai fait tomber des cannes à sucre sur la place. Si vous en trouvez, rapportez-les au Père Noël pour obtenir une jolie récompense !",
+  "candy.remaining": "{{candies}} restant",
+  "christmas.days": "Journée {{day}}",
+  "christmas.days.completed": "{{completed}} /12 jours terminés",
+  "npcDialogues.santa.nextChallenge": "Prochain défi :"
 }

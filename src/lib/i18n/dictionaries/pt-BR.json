@@ -4466,5 +4466,20 @@
   "whatsOn.date.dec2": "dezembro",
   "marketplace.pricePerUnit": "{{price}} /unidade",
   "description.babyPanda": "Um panda fofo do evento Gas Hero. Experiência dupla para iniciantes em março de 2024.",
-  "description.miffy": "Um Morchi raro. Duplica a XP durante a competição FSL (outubro de 2024)."
+  "description.miffy": "Um Morchi raro. Duplica a XP durante a competição FSL (outubro de 2024).",
+  "npcDialogues.santa.intro1": "Ho Ho Ho Bumpkin! Por um tempo limitado, estou dando recompensas diárias para aqueles que encontrarem meus doces espalhados.",
+  "npcDialogues.santa.intro2": "Todos os dias você encontrará 10 peças espalhadas pelo Pumpkin Plaza.",
+  "npcDialogues.santa.intro3": "Colete os 10 doces e reivindique os prêmios diários!",
+  "npcDialogues.santa.dialogue1": "Ho ho ho! Colete meus doces perdidos para receber uma recompensa.",
+  "npcDialogues.santa.dialogue2": "Parabéns, você encontrou meu doce!",
+  "npcDialogues.santa.dialogue3": "Bem feito! Você completou os 12 dias de Natal. Não se esqueça de colocar a Árvore Festiva como presente especial.",
+  "npcDialogues.santa.dialogue4": "Complete o desafio 12 dias seguidos para ganhar um prêmio especial.",
+  "npcDialogues.santa.dialogue5": "Ho Ho Ho! Muito bem, Bumpkin, você encontrou meus doces.",
+  "npcDialogues.ginger.dialogue1": "Esta árvore festiva está cheia de presentes e decorações.",
+  "npcDialogues.ginger.dialogue2": "Eu me pergunto o que posso receber do Papai Noel depois de sacudi-lo...",
+  "npcDialogues.elf.dialogue1": "Opa, eu deixei cair alguns bastões de doces na praça. Se você encontrar algum, leve-o de volta ao Papai Noel para receber uma doce recompensa!",
+  "candy.remaining": "{{candies}} restante",
+  "christmas.days": "Dia {{day}}",
+  "christmas.days.completed": "{{completed}} /12 dias concluídos",
+  "npcDialogues.santa.nextChallenge": "Próximo desafio:"
 }
