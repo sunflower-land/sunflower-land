@@ -895,6 +895,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "+0.2 Egg, Wool and Milk yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Efficient Feeding": {
+    name: "Efficient Feeding",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Animals require 5% less feed",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Animals - Tier 2
 
   // Animals - Tier 3

@@ -348,6 +348,10 @@ export function getBoostedFoodQuantity({
     foodQuantity *= 0.9;
   }
 
+  if (game.bumpkin.skills["Efficient Feeding"]) {
+    foodQuantity *= 0.95;
+  }
+
   return foodQuantity;
 }
 
