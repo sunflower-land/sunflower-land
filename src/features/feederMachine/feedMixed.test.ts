@@ -111,4 +111,33 @@ describe("feedMixed", () => {
     expect(state.inventory.Corn).toEqual(new Decimal(5));
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(10));
   });
+  it("uses kale to mix mixed grain instead of wheat barley and corn", () => {
+    const state = feedMixed({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Kale Mix": 1,
+          },
+        },
+        inventory: {
+          Corn: new Decimal(10),
+          Wheat: new Decimal(10),
+          Barley: new Decimal(10),
+          Kale: new Decimal(10),
+        },
+      },
+      action: {
+        type: "feed.mixed",
+        item: "Mixed Grain",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory.Corn).toEqual(new Decimal(10));
+    expect(state.inventory.Wheat).toEqual(new Decimal(10));
+    expect(state.inventory.Barley).toEqual(new Decimal(10));
+    expect(state.inventory.Kale).toEqual(new Decimal(7));
+  });
 });

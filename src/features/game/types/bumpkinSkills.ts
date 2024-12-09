@@ -968,6 +968,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Animal Affection tools give 50% more animal xp",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Kale Mix": {
+    name: "Kale Mix",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Mixed Grain requires 3 kale to mix instead",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Animals - Tier 3
 
