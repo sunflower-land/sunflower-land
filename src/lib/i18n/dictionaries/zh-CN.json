@@ -4422,7 +4422,6 @@
   "marketplace.unlockOffering": "解锁优惠",
   "marketplace.vip.access": "无限制的市场访问权限",
   "marketplace.vip.season.access": "赛季期间无限量进入市场",
-  "whatsOn.date.dec2": "12 月 9 日",
   "marketplace.welcome.one": "你好，伙伴！欢迎来到市场。您可一站式购买所有农场美味佳品。",
   "marketplace.welcome.two": "在这里，您可以交易资源，购买独家收藏品并扩大您的农场。",
   "marketplace.welcome.three": "该市场仅使用向日葵乐园的货币 $SFL。你可以在游戏中赚取$SFL，也可以与其他玩家进行交易。",
@@ -4468,5 +4467,6 @@
   "friendship.gift.points": "积分",
   "friendship.gift.nextReward": "下一个奖励：",
   "friendship.gift.firstReward": "第一笔奖励：",
-  "friendship.gift.progress": "进展："
+  "friendship.gift.progress": "进展：",
+  "whatsOn.date.dec2": "十二月"
 }

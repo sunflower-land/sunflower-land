@@ -4422,7 +4422,6 @@
   "marketplace.unlockOffering": "Buka penawaran",
   "marketplace.vip.access": "Akses pasar tanpa batas",
   "marketplace.vip.season.access": "Akses pasar tanpa batas selama musim",
-  "whatsOn.date.dec2": "9 Desember",
   "marketplace.welcome.one": "Halo, rekan! Selamat datang di pasar. Toko serba ada Anda untuk semua hal yang lezat di pertanian.",
   "marketplace.welcome.two": "Di sini Anda dapat memperdagangkan sumber daya, membeli koleksi eksklusif & meningkatkan pertanian Anda.",
   "marketplace.welcome.three": "Pasar secara eksklusif menggunakan $SFL, mata uang Sunflower Land. Anda bisa mendapatkan $SFL dalam game atau berdagang dengan pemain lain.",
@@ -4468,5 +4467,6 @@
   "friendship.gift.points": "Poin",
   "friendship.gift.nextReward": "Hadiah Berikutnya:",
   "friendship.gift.firstReward": "Hadiah Pertama:",
-  "friendship.gift.progress": "Kemajuan:"
+  "friendship.gift.progress": "Kemajuan:",
+  "whatsOn.date.dec2": "Desember"
 }

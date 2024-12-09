@@ -4422,7 +4422,6 @@
   "marketplace.unlockOffering": "Предложение по разблокировке",
   "marketplace.vip.access": "Неограниченный доступ к торговой площадке",
   "marketplace.vip.season.access": "Неограниченный доступ к торговой площадке в течение сезона",
-  "whatsOn.date.dec2": "9 декабря",
   "marketplace.welcome.one": "Привет, партнер! Добро пожаловать на рынок. Ваш универсальный магазин, где можно купить все, что нужно для сельского хозяйства.",
   "marketplace.welcome.two": "Здесь вы можете торговать ресурсами, покупать эксклюзивные коллекционные предметы и развивать свою ферму.",
   "marketplace.welcome.three": "Торговая площадка использует исключительно доллары SFL, валюту Sunflower Land. Вы можете зарабатывать доллары SFL в игре или торговать с другими игроками.",
@@ -4468,5 +4467,6 @@
   "friendship.gift.points": "Очки",
   "friendship.gift.nextReward": "Следующая награда:",
   "friendship.gift.firstReward": "Первая награда:",
-  "friendship.gift.progress": "Прогресс:"
+  "friendship.gift.progress": "Прогресс:",
+  "whatsOn.date.dec2": "Декабрь"
 }

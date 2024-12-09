@@ -4422,7 +4422,6 @@
   "marketplace.unlockOffering": "Angebot freischalten",
   "marketplace.vip.access": "Unbegrenzter Marktplatzzugang",
   "marketplace.vip.season.access": "Unbegrenzter Marktplatzzugang während der Saison",
-  "whatsOn.date.dec2": "9. Dezember",
   "marketplace.welcome.one": "Hallöchen, Partner! Willkommen auf dem Marktplatz. Ihr One-Stop-Shop für alles, was mit Landwirtschaft zu tun hat.",
   "marketplace.welcome.two": "Hier kannst du Ressourcen handeln, exklusive Sammlerstücke kaufen und deine Farm aufwerten.",
   "marketplace.welcome.three": "Der Marktplatz verwendet ausschließlich $SFL, die Währung von Sunflower Land. Du kannst $SFL im Spiel verdienen oder mit anderen Spielern handeln.",
@@ -4468,5 +4467,6 @@
   "friendship.gift.points": "Punkte",
   "friendship.gift.nextReward": "Nächste Belohnung:",
   "friendship.gift.firstReward": "Erste Belohnung:",
-  "friendship.gift.progress": "Fortschritt:"
+  "friendship.gift.progress": "Fortschritt:",
+  "whatsOn.date.dec2": "Dezember"
 }

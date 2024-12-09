@@ -4422,7 +4422,6 @@
   "marketplace.unlockOffering": "오퍼링 잠금 해제",
   "marketplace.vip.access": "무제한 마켓플레이스 액세스",
   "marketplace.vip.season.access": "시즌 동안 무제한 마켓플레이스 이용",
-  "whatsOn.date.dec2": "12월 9일",
   "marketplace.welcome.one": "안녕하세요, 파트너!마켓플레이스에 오신 것을 환영합니다.농장의 맛을 느낄 수 있는 모든 것을 원스톱으로 구매할 수 있는 곳입니다.",
   "marketplace.welcome.two": "여기서 자원을 교환하고, 독점 수집품을 구입하고, 농장을 강화할 수 있습니다.",
   "marketplace.welcome.three": "마켓플레이스는 선플라워 랜드의 통화인 $SFL을 독점적으로 사용합니다.게임 내에서 또는 다른 플레이어와 거래하여 $SFL을 벌 수 있습니다.",
@@ -4468,5 +4467,6 @@
   "friendship.gift.points": "포인트",
   "friendship.gift.nextReward": "다음 보상:",
   "friendship.gift.firstReward": "첫 보상:",
-  "friendship.gift.progress": "진행:"
+  "friendship.gift.progress": "진행:",
+  "whatsOn.date.dec2": "12월"
 }

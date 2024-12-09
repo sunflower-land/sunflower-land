@@ -4422,7 +4422,6 @@
   "marketplace.unlockOffering": "Débloquez l'offre",
   "marketplace.vip.access": "Accès illimité à la place de marché",
   "marketplace.vip.season.access": "Accès illimité à la place de marché pendant la saison",
-  "whatsOn.date.dec2": "le 9 décembre",
   "marketplace.welcome.one": "Bonjour, partenaire ! Bienvenue sur la Marketplace. Votre guichet unique pour tout ce qui touche à la ferme.",
   "marketplace.welcome.two": "Ici, vous pouvez échanger des ressources, acheter des objets de collection exclusifs et dynamiser votre ferme.",
   "marketplace.welcome.three": "La place de marché utilise exclusivement le $SFL, la devise de Sunflower Land. Vous pouvez gagner des $ SFL en jeu ou en échangeant avec d'autres joueurs.",
@@ -4468,5 +4467,6 @@
   "friendship.gift.points": "Points",
   "friendship.gift.nextReward": "Récompense suivante :",
   "friendship.gift.firstReward": "Première récompense :",
-  "friendship.gift.progress": "Progrès :"
+  "friendship.gift.progress": "Progrès :",
+  "whatsOn.date.dec2": "décembre"
 }

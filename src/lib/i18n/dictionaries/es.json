@@ -4422,7 +4422,6 @@
   "marketplace.unlockOffering": "Oferta de desbloqueo",
   "marketplace.vip.access": "Acceso ilimitado al mercado",
   "marketplace.vip.season.access": "Acceso ilimitado al mercado durante la temporada",
-  "whatsOn.date.dec2": "9 de diciembre",
   "marketplace.welcome.one": "¡Qué tal, compañero! Bienvenido al Marketplace. Su ventanilla única para todo lo relacionado con Farm-tastic.",
   "marketplace.welcome.two": "Aquí puedes intercambiar recursos, comprar objetos coleccionables exclusivos y mejorar tu granja.",
   "marketplace.welcome.three": "El mercado utiliza exclusivamente $SFL, la moneda de Sunflower Land. Puedes ganar $ SFL en el juego o comerciar con otros jugadores.",
@@ -4468,5 +4467,6 @@
   "friendship.gift.points": "Puntos",
   "friendship.gift.nextReward": "Próxima recompensa:",
   "friendship.gift.firstReward": "Primera recompensa:",
-  "friendship.gift.progress": "Progreso:"
+  "friendship.gift.progress": "Progreso:",
+  "whatsOn.date.dec2": "diciembre"
 }

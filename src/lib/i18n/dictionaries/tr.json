@@ -4422,7 +4422,6 @@
   "marketplace.unlockOffering": "Teklifin kilidini aç",
   "marketplace.vip.access": "Sınırsız pazar erişimi",
   "marketplace.vip.season.access": "Sezon boyunca sınırsız pazar yeri erişimi",
-  "whatsOn.date.dec2": "9 Aralık",
   "marketplace.welcome.one": "Selamlar, ortak! Marketplace'e hoş geldiniz. Çiftlikle ilgili her şey için tek adresiniz.",
   "marketplace.welcome.two": "Burada kaynak ticareti yapabilir, özel koleksiyonlar satın alabilir ve çiftliğinizi güçlendirebilirsiniz.",
   "marketplace.welcome.three": "Pazar yeri yalnızca Sunflower Land'in para birimi olan $SFL kullanır. Oyun içinde $ SFL kazanabilir veya diğer oyuncularla ticaret yapabilirsiniz.",
@@ -4468,5 +4467,6 @@
   "friendship.gift.points": "Puanlar",
   "friendship.gift.nextReward": "Sonraki Ödül:",
   "friendship.gift.firstReward": "İlk Ödül:",
-  "friendship.gift.progress": "İlerleme:"
+  "friendship.gift.progress": "İlerleme:",
+  "whatsOn.date.dec2": "Aralık"
 }
