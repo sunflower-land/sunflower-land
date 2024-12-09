@@ -9,7 +9,7 @@ export type Coordinates = {
 export type Position = {
   height?: number;
   width?: number;
-  z?: number;
+  z?: number | string;
 } & Coordinates;
 
 type Props = Position;
