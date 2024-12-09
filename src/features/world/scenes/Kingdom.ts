@@ -24,6 +24,7 @@ import {
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
 import { hasReadCropsAndChickensNotice } from "../ui/portals/CropsAndChickens";
+import { hasFeatureAccess } from "lib/flags";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -124,6 +125,11 @@ export class KingdomScene extends BaseScene {
         frameHeight: 25,
       },
     );
+
+    this.load.spritesheet("portal_halloween", "world/portal_halloween.png", {
+      frameWidth: 23,
+      frameHeight: 32,
+    });
 
     this.load.spritesheet("castle_bud_1", "world/castle_bud_1.webp", {
       frameWidth: 32,
@@ -243,6 +249,37 @@ export class KingdomScene extends BaseScene {
       .setOffset(0, 0)
       .setImmovable(true)
       .setCollideWorldBounds(true);
+
+    if (hasFeatureAccess(this.gameState, "HALLOWEEN_2024")) {
+      const halloweenPortal = this.add.sprite(193, 577, "portal_halloween");
+      this.anims.create({
+        key: "portal_halloween_anim",
+        frames: this.anims.generateFrameNumbers("portal_halloween", {
+          start: 0,
+          end: 17,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+      halloweenPortal.play("portal_halloween_anim", true);
+      halloweenPortal
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          if (this.checkDistanceToSprite(halloweenPortal, 40)) {
+            interactableModalManager.open("halloween");
+          } else {
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
+          }
+        });
+
+      this.physics.world.enable(halloweenPortal);
+      this.colliders?.add(halloweenPortal);
+      (halloweenPortal.body as Phaser.Physics.Arcade.Body)
+        .setSize(32, 32)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+    }
 
     const fruitDashPortal = this.add.sprite(40, 510, "portal");
     fruitDashPortal.play("portal_anim", true);

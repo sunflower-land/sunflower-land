@@ -63,6 +63,7 @@ const featureFlags = {
   BEDS: timeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   BULL_RUN_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   BALE_AOE_END: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
+  HALLOWEEN_2024: defaultFeatureFlag,
   CHRISTMAS_2024: (game: GameState) => {
     if (Date.now() > new Date("2024-12-28").getTime()) {
       return false;
