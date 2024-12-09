@@ -274,7 +274,6 @@
   "description.grinxs.hammer.boost": "Kos pengembangan separuh",
   "description.time.warp.totem.boost": "Pengurangan 50% kepada Masa Tanaman, Mineral, Buah, Memasak dan Pokok",
   "description.radiant.ray.boost": "+0.1 Besi",
-  "description.babyPanda.boost": "Pemula 2x XP Boost",
   "description.hungryHare.boost": "Lobak Fermentasi 2x XP",
   "description.turbo.sprout.boost": "-50% Masa Pertumbuhan di Rumah Hijau",
   "description.soybliss.boost": "+1 Kacang soya",
@@ -1543,7 +1542,6 @@
   "description.rare.key": "Lawati pantai untuk membuka kunci ganjaran anda",
   "description.luxury.key": "Lawati plaza berhampiran kawasan hutan untuk membuka kunci ganjaran anda",
   "description.prizeTicket": "Tiket yang berharga. Anda boleh menggunakannya untuk memasuki undian goblin bulanan.",
-  "description.babyPanda": "Panda comel dari acara Gas Hero. Pengalaman berganda untuk pemula pada bulan Mac.",
   "description.baozi": "Hidangan lazat dari acara Tahun Baru Lunar.",
   "description.communityEgg": "Wow, anda mesti benar-benar mengambil berat tentang komuniti!",
   "description.hungryHare": "Arnab yang gembira ini melewati ladang anda. Item acara khas dari Paskah 2024",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "Kami menganjurkan pertandingan pertanian pertama dengan ID FSL.",
   "description.marty": "Seorang juara FSL Morchi.",
   "description.morty": "Seorang Morchi ditemui di Tanah Bunga Matahari!",
-  "description.miffy": "Morchi yang jarang berlaku. Gandakan XP semasa Pertandingan FSL.",
   "description.mog": "Morchi yang malas.",
-  "miffy.boost": "2x XP",
   "raffle.entry": "kemasukan",
   "competition.prizes.two": "50,000 SFL akan dimenangi.",
   "guide.factionPet.four": "Setelah puak mencapai serangan 2 atau lebih minggu, bonus XP akan diberikan kepada setiap ahli puak yang menyumbang apabila bumpkin mereka makan!",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "Ganjaran Pertama:",
   "friendship.gift.progress": "Kemajuan:",
   "whatsOn.date.dec2": "Disember",
-  "marketplace.pricePerUnit": "{{price}} /unit"
+  "marketplace.pricePerUnit": "{{price}} /unit",
+  "description.babyPanda": "Panda comel dari acara Gas Hero. Pengalaman berganda untuk pemula pada bulan Mac 2024.",
+  "description.miffy": "Morchi yang jarang berlaku. Berganda XP semasa Pertandingan FSL (Oktober 2024)."
 }

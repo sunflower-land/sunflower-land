@@ -265,7 +265,6 @@
   "description.radiant.ray.boost": "+0.1 铁矿",
   "description.beekeeper.hat.boost": "+20% 蜂蜜生产速度",
   "description.flower.fox.boost": "-10% 花卉生长时间",
-  "description.babyPanda.boost": "新玩家在 2024 年 3 月期间 2 倍 XP",
   "description.hungryHare.boost": "发酵胡萝卜 XP x2",
   "description.battle.fish.boost": "+0.05 石油",
   "description.lemon.shark.boost": "+0.2 柠檬",
@@ -2169,7 +2168,6 @@
   "description.rare.key": "到沙滩上开箱解锁奖赏",
   "description.luxury.key": "到广场上靠近林地处开箱解锁奖赏",
   "description.prizeTicket": "抽奖奖券。您可以用它投注参与每月 Goblin 抽奖。",
-  "description.babyPanda": "Gas Hero 活动送的可爱熊猫。为当期 3 月份期间的新手提供翻倍经验。",
   "description.baozi": "农历新年活动送的美味小吃。",
   "description.scroll": "（往期）帮派冲突时季使用的票券。",
   "description.amberFossil": "法老秘宝时季使用的票券。",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "我们将举办有史以来第一次使用FSL ID的农业竞赛。",
   "description.marty": "FSL 冠军 Morchi。",
   "description.morty": "在向日葵之地发现了莫奇！",
-  "description.miffy": "稀有的 Morchi。在 FSL 比赛中将经验值翻倍。",
   "description.mog": "一个懒散的 Morchi。",
-  "miffy.boost": "2x XP",
   "raffle.entry": "条目",
   "competition.prizes.two": "将赢取 50,000 SFL。",
   "guide.factionPet.four": "一旦阵营达到 2 周或更长时间的连胜纪录，每位派系成员在 bumpkin 吃东西时都会获得经验值加成！",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "第一笔奖励：",
   "friendship.gift.progress": "进展：",
   "whatsOn.date.dec2": "十二月",
-  "marketplace.pricePerUnit": "{{price}} /单位"
+  "marketplace.pricePerUnit": "{{price}} /单位",
+  "description.babyPanda": "Gas Hero 活动中的一只可爱熊猫。2024 年 3 月为初学者提供双重体验。",
+  "description.miffy": "稀有的 Morchi。在 FSL 比赛期间（2024 年 10 月）将经验值翻倍。"
 }

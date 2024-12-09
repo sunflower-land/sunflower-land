@@ -274,7 +274,6 @@
   "description.grinxs.hammer.boost": "拡張コストを半減",
   "description.time.warp.totem.boost": "作物、ミネラル、フルーツ、調理、樹木にかかる時間を 50% 削減",
   "description.radiant.ray.boost": "+0.1 アイアン",
-  "description.babyPanda.boost": "初級者経験値2倍ブースト",
   "description.hungryHare.boost": "発酵ニンジン 2x XP",
   "description.turbo.sprout.boost": "-温室内の成長時間 -50%",
   "description.soybliss.boost": "+1 ダイズ",
@@ -1543,7 +1542,6 @@
   "description.rare.key": "ビーチに行って報酬をアンロックしよう",
   "description.luxury.key": "森の近くの広場に行って報酬をアンロックしよう",
   "description.prizeTicket": "貴重なチケット。これを使って毎月のゴブリン抽選に参加できます。",
-  "description.babyPanda": "ガスヒーローイベントのかわいいパンダ。3月の初心者向け体験が倍増します。",
   "description.baozi": "旧正月イベントのおいしいごちそう。",
   "description.communityEgg": "うわー、あなたは本当にコミュニティを気にかけているに違いありません！",
   "description.hungryHare": "この貪欲なウサギはあなたの農場を飛び回ります。2024年イースターの特別イベントアイテムです。",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "FSL IDを使った初めての農業コンテストを開催します。",
   "description.marty": "FSLチャンピオンのモルチ。",
   "description.morty": "ひまわりランドでモルチを発見！",
-  "description.miffy": "珍しいモルチ。FSLコンペティション中はXPが2倍になります。",
   "description.mog": "怠惰なモルチ。",
-  "miffy.boost": "XP x 2",
   "raffle.entry": "エントリ",
   "competition.prizes.two": "5万SFLが当選します。",
   "guide.factionPet.four": "陣営が2週間以上連勝すると、貢献した各陣営メンバーのバンプキンが食べると、XPボーナスが与えられます！",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "最初の報酬:",
   "friendship.gift.progress": "進行状況:",
   "whatsOn.date.dec2": "12月",
-  "marketplace.pricePerUnit": "{{price}} /ユニット"
+  "marketplace.pricePerUnit": "{{price}} /ユニット",
+  "description.babyPanda": "ガスヒーローイベントのかわいいパンダ。2024年3月の初心者向け体験が倍増します。",
+  "description.miffy": "珍しいモルチです。FSLコンペティション (2024年10月) の期間中は経験値が2倍になります。"
 }

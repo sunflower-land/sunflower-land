@@ -274,7 +274,6 @@
   "description.grinxs.hammer.boost": "Halbiert die Erweiterungskosten",
   "description.time.warp.totem.boost": "50% Ermäßigung auf Ernte-, Mineral-, Obst-, Koch- und Baumzeit",
   "description.radiant.ray.boost": "+0.1 Eisen",
-  "description.babyPanda.boost": "2-facher XP-Boost für Anfänger",
   "description.hungryHare.boost": "Fermentierte Karotten 2x XP",
   "description.turbo.sprout.boost": "-50% Wachstumszeit im Gewächshaus",
   "description.soybliss.boost": "+1 Sojabohne",
@@ -1543,7 +1542,6 @@
   "description.rare.key": "Besuche den Strand, um deine Belohnung freizuschalten",
   "description.luxury.key": "Besuche den Platz in der Nähe von Wäldern, um deine Belohnung freizuschalten",
   "description.prizeTicket": "Ein wertvolles Ticket. Sie können es verwenden, um an der monatlichen Goblin-Verlosung teilzunehmen.",
-  "description.babyPanda": "Ein süßer Panda aus dem Gas Hero-Event. Doppeltes Erlebnis für Anfänger im März.",
   "description.baozi": "Ein köstlicher Leckerbissen vom Mondneujahrsfest.",
   "description.communityEgg": "Wow, du musst dich wirklich um die Community kümmern!",
   "description.hungryHare": "Dieses gefräßige Kaninchen hüpft durch deine Farm. Ein besonderer Eventartikel ab Ostern 2024",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "Wir veranstalten den allerersten Landwirtschaftswettbewerb mit FSL ID.",
   "description.marty": "Ein FSL-Champion Morchi.",
   "description.morty": "Ein Morchi, der im Sonnenblumenland entdeckt wurde!",
-  "description.miffy": "Ein seltener Morchi. Verdoppelt die XP während des FSL-Wettkampfs.",
   "description.mog": "Ein fauler Morchi.",
-  "miffy.boost": "2 x XP",
   "raffle.entry": "Eintrag",
   "competition.prizes.two": "50.000 SFL sind zu gewinnen.",
   "guide.factionPet.four": "Sobald die Fraktion eine Serie von 2 oder mehr Wochen erreicht hat, erhält jedes beitragende Fraktionsmitglied einen EP-Bonus, wenn sein Bumpkin frisst!",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "Erste Belohnung:",
   "friendship.gift.progress": "Fortschritt:",
   "whatsOn.date.dec2": "Dezember",
-  "marketplace.pricePerUnit": "{{price}} /Einheit"
+  "marketplace.pricePerUnit": "{{price}} /Einheit",
+  "description.babyPanda": "Ein süßer Panda aus dem Gas Hero-Event. Doppeltes Erlebnis für Anfänger im März 2024.",
+  "description.miffy": "Ein seltener Morchi. Verdoppelt die XP während des FSL-Wettbewerbs (Oktober 2024)."
 }
