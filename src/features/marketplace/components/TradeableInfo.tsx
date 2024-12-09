@@ -26,9 +26,10 @@ export const TradeableImage: React.FC<{
     display.name as InventoryItemName,
   );
 
-  const isBackground = display.name.includes("Background");
+  const isBumpkinBackground = display.name.includes("Background");
   const useBrownBackground = params.collection === "wearables" || isResource;
-  const background = useBrownBackground ? brownBg : grassBg;
+  const itemBackground = useBrownBackground ? brownBg : grassBg;
+  const background = display.type === "buds" ? display.image : itemBackground;
 
   const [isPortrait, setIsPortrait] = React.useState(false);
 
@@ -54,10 +55,10 @@ export const TradeableImage: React.FC<{
       </div>
 
       <img
-        src={isBackground ? display.image : background}
+        src={isBumpkinBackground ? display.image : background}
         className="w-full rounded-sm"
       />
-      {!isBackground && (
+      {!isBumpkinBackground && display.type !== "buds" && (
         <img
           src={display.image}
           className={`absolute ${isPortrait ? "h-1/2" : "w-1/3"}`}
