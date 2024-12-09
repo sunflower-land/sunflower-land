@@ -196,6 +196,7 @@ export const TradeableOffers: React.FC<{
 
                   {topOffer && tradeable?.isActive && (
                     <Button
+                      disabled={topOffer.offeredBy.id === farmId}
                       onClick={() => setShowAcceptOffer(true)}
                       className="w-full sm:w-fit"
                     >
