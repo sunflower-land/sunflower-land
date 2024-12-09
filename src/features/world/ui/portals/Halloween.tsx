@@ -200,11 +200,8 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
   if (page === "accumulator") {
     return (
       <PortalLeaderboard
-        isAccumulator
         onBack={() => setPage("play")}
         name={"halloween"}
-        startDate={new Date(Date.UTC(2024, 10, 1))}
-        endDate={new Date(Date.UTC(2024, 10, 6))}
         formatPoints={(points: number) =>
           millisecondsToString(points, { length: "full" })
         }
@@ -226,19 +223,18 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
           prize={prize}
           history={dailyAttempt}
           mission={t("halloween.portal.missionObjectives", {
-            targetScore: prize?.score ?? 0,
+            targetScore: millisecondsToString(prize?.score ?? 0, {
+              length: "full",
+            }),
           })}
         />
       </div>
       <div className="flex">
         <Button className="mr-1" onClick={() => setPage("leaderboard")}>
-          {t("competition.highscore")}
+          {t("competition.leaderboard")}
         </Button>
-        <Button className="mr-1" onClick={() => setPage("accumulator")}>
-          {t("competition.accumulator")}
-        </Button>
+        <Button onClick={playNow}>{t("minigame.playNow")}</Button>
       </div>
-      <Button onClick={playNow}>{t("minigame.playNow")}</Button>
     </>
   );
 };
