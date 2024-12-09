@@ -238,7 +238,6 @@
   "description.christmas.festive.tree.boost": "Бесплатный подарок на рождество",
   "description.grinxs.hammer.boost": "Снижает стоимость расширений вдвое",
   "description.time.warp.totem.boost": "Время роста урожая (овощи и фрукты), готовки, восстановления минералов и деревьев уменьшается на 50%",
-  "description.babyPanda.boost": "2x буст к опыту для новичков",
   "description.hungryHare.boost": "2x опыта от Fermented Carrots",
   "description.turbo.sprout.boost": "-50% к времени роста тепличных культур",
   "description.paw.shield.boost": "+25% к насыщению питомца фракции и к получаемым маркам",
@@ -1453,7 +1452,6 @@
   "description.rare.key": "Посети пляж для получения награды",
   "description.luxury.key": "Посети плазу рядом с лесом для получения награды",
   "description.prizeTicket": "Призовой билет. С его помощью можно принять участие в ежемесячном гоблинском розыгрыше.",
-  "description.babyPanda": "Милая панда из события с Gas Hero. Удваивает опыт для новичков в течение марта.",
   "description.baozi": "Вкусное угощение с Лунного Нового Года.",
   "description.communityEgg": "Ого, ты, должно быть, действительно заботишься о сообществе!",
   "description.hungryHare": "Этот прожорливый кролик скачет по твоей ферме. Предмет особого события на Пасху 2024",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "Мы проводим первое в истории сельскохозяйственное соревнование с FSL ID.",
   "description.marty": "Чемпион FSL Морчи.",
   "description.morty": "Морчи, обнаруженный в стране подсолнухов!",
-  "description.miffy": "Редкий морчи. Удваивает опыт во время соревнований FSL.",
   "description.mog": "Ленивый Морчи.",
-  "miffy.boost": "В 2 раза больше XP",
   "raffle.entry": "запись",
   "competition.prizes.two": "Будет выиграно 50 000 австралийских франков.",
   "guide.factionPet.four": "Как только фракция продержится 2 или более недель, каждый член фракции, вносящий вклад в игру, получит бонус к опыту, когда их сожрать!",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "Первая награда:",
   "friendship.gift.progress": "Прогресс:",
   "whatsOn.date.dec2": "Декабрь",
-  "marketplace.pricePerUnit": "{{price}} /единица измерения"
+  "marketplace.pricePerUnit": "{{price}} /единица измерения",
+  "description.babyPanda": "Симпатичная панда с мероприятия Gas Hero. Двойной опыт для новичков в марте 2024 года.",
+  "description.miffy": "Редкий морчи. Удваивает XP во время соревнований FSL (октябрь 2024 года)."
 }

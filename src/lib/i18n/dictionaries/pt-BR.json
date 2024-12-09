@@ -218,7 +218,6 @@
   "description.christmas.festive.tree.boost": "Presente Grátis no Natal",
   "description.grinxs.hammer.boost": "Reduz pela Metade os Custos de Expansão",
   "description.radiant.ray.boost": "+0.1 Ferro",
-  "description.babyPanda.boost": "2x XP Mar 2024",
   "description.flower.fox.boost": "-10% Tempo de Crescimento de Flores",
   "description.clam.shell": "Uma concha de marisco.",
   "description.sea.cucumber": "Um pepino-do-mar.",
@@ -2808,7 +2807,6 @@
   "description.tofuScramble": "Uma mistura saudável, repleta de proteínas e sabor.",
   "description.beetrootBlaze": "Um prato picante de cogumelos mágicos com infusão de beterraba",
   "description.fermented.shroomSyrup": "A essência das abelhas e dos fungos encantados",
-  "description.babyPanda": "Um panda fofo do evento Gas Hero. Experiência dupla para iniciantes em março.",
   "description.baozi": "Uma delícia do evento do Ano Novo Lunar.",
   "description.communityEgg": "Nossa, você realmente deve se preocupar com a comunidade!",
   "description.hungryHare": "Este coelho voraz pula pela sua fazenda. Um item de evento especial da Páscoa de 2024",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "Estamos organizando a primeira competição agrícola com o FSL ID.",
   "description.marty": "Um campeão da FSL, Morchi.",
   "description.morty": "Um Morchi descoberto na Terra dos Girassóis!",
-  "description.miffy": "Um Morchi raro. Duplica a EXP durante a competição FSL.",
   "description.mog": "Um Morchi preguiçoso.",
-  "miffy.boost": "2x XP",
   "raffle.entry": "submeter",
   "competition.prizes.two": "50.000 SFL a serem ganhos.",
   "guide.factionPet.four": "Quando a facção atingir uma sequência de 2 ou mais semanas, um bônus de EXP será concedido a cada membro contribuinte da facção quando seu caipira comer!",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "Primeira recompensa:",
   "friendship.gift.progress": "Progresso:",
   "whatsOn.date.dec2": "dezembro",
-  "marketplace.pricePerUnit": "{{price}} /unidade"
+  "marketplace.pricePerUnit": "{{price}} /unidade",
+  "description.babyPanda": "Um panda fofo do evento Gas Hero. Experiência dupla para iniciantes em março de 2024.",
+  "description.miffy": "Um Morchi raro. Duplica a XP durante a competição FSL (outubro de 2024)."
 }

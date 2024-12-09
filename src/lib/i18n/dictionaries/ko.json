@@ -274,7 +274,6 @@
   "description.grinxs.hammer.boost": "확장 비용을 절반으로 절감",
   "description.time.warp.totem.boost": "농작물, 광물, 과일, 요리 및 나무 심기 시간 50% 감소",
   "description.radiant.ray.boost": "+0.1 아이언",
-  "description.babyPanda.boost": "초심자 경험치 2배 부스트",
   "description.hungryHare.boost": "발효 당근 2x XP",
   "description.turbo.sprout.boost": "-50% 온실에서의 성장 시간",
   "description.soybliss.boost": "+1 대두",
@@ -1543,7 +1542,6 @@
   "description.rare.key": "해변을 방문하여 보상을 받으세요",
   "description.luxury.key": "삼림 근처 광장을 방문하여 보상을 받으세요",
   "description.prizeTicket": "소중한 티켓.이를 사용해 매월 진행되는 고블린 추첨에 참가할 수 있습니다.",
-  "description.babyPanda": "가스 히어로 이벤트의 귀여운 판다.3월에는 초보자를 위한 더블 체험이 가능합니다.",
   "description.baozi": "설날 이벤트에서 가져온 맛있는 간식입니다.",
   "description.communityEgg": "와우, 커뮤니티에 정말 관심이 있으실 거예요!",
   "description.hungryHare": "이 굶주린 토끼는 농장을 뛰어다닙니다.2024년 부활절의 특별 이벤트 아이템.",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "우리는 FSL ID를 사용한 최초의 농업 대회를 개최하고 있습니다.",
   "description.marty": "FSL 챔피언 모르치",
   "description.morty": "선플라워 랜드에서 발견된 모르키!",
-  "description.miffy": "희귀한 모르치입니다.FSL 대회 기간 동안 XP가 두 배로 증가합니다.",
   "description.mog": "게으른 모르치.",
-  "miffy.boost": "경험치 2배",
   "raffle.entry": "기입",
   "competition.prizes.two": "50,000 SFL을 획득할 예정입니다.",
   "guide.factionPet.four": "진영이 2주 이상 연속으로 종료되면, 기여한 각 파벌 멤버에게 범프킨이 식사를 하면 XP 보너스가 지급됩니다!",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "첫 보상:",
   "friendship.gift.progress": "진행:",
   "whatsOn.date.dec2": "12월",
-  "marketplace.pricePerUnit": "{{price}} /단위"
+  "marketplace.pricePerUnit": "{{price}} /단위",
+  "description.babyPanda": "가스 히어로 이벤트의 귀여운 판다.2024년 3월에는 초보자를 위한 더블 익스피리언스.",
+  "description.miffy": "희귀한 모르치입니다.FSL 대회 기간 동안 경험치가 두 배로 증가합니다 (2024년 10월)."
 }

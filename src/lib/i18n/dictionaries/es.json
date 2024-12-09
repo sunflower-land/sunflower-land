@@ -274,7 +274,6 @@
   "description.grinxs.hammer.boost": "Reduce los costos de expansión en un -50%.",
   "description.time.warp.totem.boost": "Disminuye el tiempo de cosecha, recolección de minerales y frutas, cocción, y producción de madera en un -50%.",
   "description.radiant.ray.boost": "Incrementa la producción de hierro en +0.1.",
-  "description.babyPanda.boost": "Duplica la ganancia de experiencia para los jugadores principiantes.",
   "description.hungryHare.boost": "Duplica la XP obtenida de las zanahorias fermentadas (2x XP).",
   "description.soybliss.boost": "Incrementa la producción de soja en +1.",
   "description.grape.granny.boost": "Aumenta la recolección de uvas en +1.",
@@ -1527,7 +1526,6 @@
   "description.rare.key": "Visita la playa para desbloquear tu recompensa",
   "description.luxury.key": "Visita la plaza cerca de los bosques para desbloquear tu recompensa",
   "description.prizeTicket": "Un billete preciado. Puedes usarlo para participar en el sorteo mensual de duendes.",
-  "description.babyPanda": "Un lindo panda del evento Gas Hero. Experiencia doble para principiantes durante marzo.",
   "description.baozi": "Un delicioso obsequio del evento del Año Nuevo Lunar.",
   "description.communityEgg": "Vaya, realmente debes preocuparte por la comunidad!",
   "description.hungryHare": "Este conejo voraz salta por tu granja. Un objeto para un evento especial de la Pascua de 2024",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "Estamos organizando la primera competencia agrícola con FSL ID.",
   "description.marty": "Morchi, campeón de la FSL.",
   "description.morty": "¡Un Morchi descubierto en Sunflower Land!",
-  "description.miffy": "Un Morchi poco común. Duplica la EXP durante la competición de la FSL.",
   "description.mog": "Un Morchi perezoso.",
-  "miffy.boost": "2 veces XP",
   "raffle.entry": "entrada",
   "competition.prizes.two": "50 000 SFL por ganar.",
   "guide.factionPet.four": "Cuando la facción alcance una racha de 2 o más semanas, ¡se otorgará una bonificación de XP a cada miembro de la facción que contribuya cuando su conejita se coma!",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "Primera recompensa:",
   "friendship.gift.progress": "Progreso:",
   "whatsOn.date.dec2": "diciembre",
-  "marketplace.pricePerUnit": "{{price}} /unidad"
+  "marketplace.pricePerUnit": "{{price}} /unidad",
+  "description.babyPanda": "Un lindo panda del evento Gas Hero. Experiencia doble para principiantes durante marzo de 2024.",
+  "description.miffy": "Un Morchi poco común. Duplica la EXP durante la competición de la FSL (octubre de 2024)."
 }

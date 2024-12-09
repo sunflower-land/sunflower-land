@@ -234,7 +234,6 @@
   "description.grinxs.hammer.boost": "Genişleme maliyetlerini yarıya indirir",
   "description.radiant.ray.boost": "+0.1 Demir",
   "description.beekeeper.hat.boost": "+0.2 Bal Üretim Hızı",
-  "description.babyPanda.boost": "Başlangıç 2x XP Takviyesi",
   "description.flower.fox.boost": "-10% Çiçek Büyüme Hızı",
   "description.clam.shell": "Bir İstiridye kabuğu.",
   "description.sea.cucumber": "Bir Deniz hıyarı.",
@@ -1043,7 +1042,6 @@
   "description.homeOwnerPainting": "Bu evin sahibinin bir tablosu.",
   "description.rare.key": "Sahili ziyaret edin ve sandığınızı açın",
   "description.luxury.key": "Plazanın Ağaç diyarına yakın olan kısmında sandığınızı açın",
-  "description.babyPanda": "Gas Hero etkinliğinden sevimli bir panda. Mart ayında yeni başlayanlar için 2x XP.",
   "description.baozi": "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
   "gameOptions.logout": "Çıkış Yap",
   "gameOptions.confirmLogout": "Oturumu kapatmak istediğinizden emin misiniz?",
@@ -3623,9 +3621,7 @@
   "competition.intro.two": "FSL ID ile ilk çiftçilik yarışmasına ev sahipliği yapıyoruz.",
   "description.marty": "Bir FSL şampiyonu Morchi.",
   "description.morty": "Ayçiçeği Ülkesinde bir Morchi keşfedildi!",
-  "description.miffy": "Nadir bir Morchi. FSL Yarışması sırasında DP'yi ikiye katlar.",
   "description.mog": "Tembel bir Morchi.",
-  "miffy.boost": "2 kat Deneyim",
   "raffle.entry": "giriş",
   "competition.prizes.two": "50.000 SFL kazanılacak.",
   "guide.factionPet.four": "Grup 2 veya daha fazla haftalık bir seriye ulaştığında, katkıda bulunan her fraksiyon üyesine, bumpkinleri yemek yediğinde bir DP bonusu verilecektir!",
@@ -4468,5 +4464,7 @@
   "friendship.gift.firstReward": "İlk Ödül:",
   "friendship.gift.progress": "İlerleme:",
   "whatsOn.date.dec2": "Aralık",
-  "marketplace.pricePerUnit": "{{price}} /birim"
+  "marketplace.pricePerUnit": "{{price}} /birim",
+  "description.babyPanda": "Gas Hero etkinliğinden sevimli bir panda. Mart 2024'te yeni başlayanlar için çifte deneyim.",
+  "description.miffy": "Nadir bir Morchi. FSL Yarışması sırasında DP'yi ikiye katlar (Ekim 2024)."
 }
