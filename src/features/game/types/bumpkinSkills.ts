@@ -1032,6 +1032,19 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       "Sheep require 25% less feed, but other animals require 50% more feed",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Cow-Smart Nutrition": {
+    name: "Cow-Smart Nutrition",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts:
+      "Cows require 25% less feed, but other animals require 50% more feed",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Greenhouse - Tier 1
   "Olive Garden": {

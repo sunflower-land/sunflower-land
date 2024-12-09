@@ -384,6 +384,14 @@ export function getBoostedFoodQuantity({
     }
   }
 
+  if (game.bumpkin.skills["Cow-Smart Nutrition"]) {
+    if (animalType === "Cow") {
+      foodQuantity *= 0.75;
+    } else {
+      foodQuantity *= 1.5;
+    }
+  }
+
   return foodQuantity;
 }
 
