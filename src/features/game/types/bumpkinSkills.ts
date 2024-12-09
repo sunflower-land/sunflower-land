@@ -992,8 +992,19 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Reduced medicine cost (coming soon)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-
   // Animals - Tier 3
+  "Healthy Livestock": {
+    name: "Healthy Livestock",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: "Chance of sickness reduced by 50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Greenhouse - Tier 1
   "Olive Garden": {
