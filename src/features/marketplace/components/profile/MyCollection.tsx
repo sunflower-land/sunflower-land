@@ -19,6 +19,7 @@ import { TextInput } from "components/ui/TextInput";
 import { ListViewCard } from "../ListViewCard";
 
 import chest from "assets/icons/chest.png";
+import { isNode } from "features/game/expansion/lib/expansionNodes";
 
 type CollectionItem = {
   id: number;
@@ -41,13 +42,15 @@ export const MyCollection: React.FC = () => {
   let items: CollectionItem[] = [];
 
   const inventory = getChestItems(gameState.context.state);
-  getKeys(inventory).forEach((name) => {
-    items.push({
-      id: KNOWN_IDS[name],
-      collection: "collectibles",
-      count: inventory[name]?.toNumber() ?? 0,
+  getKeys(inventory)
+    .filter((name) => !isNode(name))
+    .forEach((name) => {
+      items.push({
+        id: KNOWN_IDS[name],
+        collection: "collectibles",
+        count: inventory[name]?.toNumber() ?? 0,
+      });
     });
-  });
 
   const wardrobe = availableWardrobe(gameState.context.state);
   getKeys(wardrobe).forEach((name) => {
