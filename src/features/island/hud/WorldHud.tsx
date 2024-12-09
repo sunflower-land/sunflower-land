@@ -159,16 +159,17 @@ const HudComponent: React.FC = () => {
             </CloseButtonPanel>
           </Modal>
         )}
-        {hasFeatureAccess(gameState.context.state, "CHRISTMAS_2024") && (
-          <div
-            className="fixed z-50 flex justify-center w-full"
-            style={{
-              top: `${PIXEL_SCALE * 3}px`,
-            }}
-          >
-            {dayOfChristmas <= 12 && <CandyHUD />}
-          </div>
-        )}
+        {pathname.includes("plaza") &&
+          hasFeatureAccess(gameState.context.state, "CHRISTMAS_2024") && (
+            <div
+              className="fixed z-50 flex justify-center w-full"
+              style={{
+                top: `${PIXEL_SCALE * 3}px`,
+              }}
+            >
+              {dayOfChristmas <= 12 && <CandyHUD />}
+            </div>
+          )}
       </HudContainer>
     </>
   );
