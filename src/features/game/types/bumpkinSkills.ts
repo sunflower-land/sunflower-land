@@ -883,81 +883,167 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Animals - Tier 1
-  "Eggcellent Production": {
-    name: "Eggcellent Production",
+  "Abundant Harvest": {
+    name: "Abundant Harvest",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 1,
       tier: 1,
-      island: "basic",
+      island: "spring",
     },
-    boosts: "+0.1 Egg Yield",
+    boosts: "+0.2 Egg, Wool and Milk yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
   },
-  "Fowl Acceleration": {
-    name: "Fowl Acceleration",
+  "Efficient Feeding": {
+    name: "Efficient Feeding",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 1,
       tier: 1,
-      island: "basic",
+      island: "spring",
     },
-    boosts: "Chickens lay eggs 10% quicker",
+    boosts: "Animals require 5% less feed",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Restless Animals": {
+    name: "Restless Animals",
+    tree: "Animals",
     disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Animals sleep 5% less time",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Double Bale": {
+    name: "Double Bale",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Double Bale's Effect",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Animals - Tier 2
-  "Bountiful Bales": {
-    name: "Bountiful Bales",
+  "Fine Fibers": {
+    name: "Fine Fibers",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 2,
       tier: 2,
-      island: "basic",
+      island: "spring",
     },
-    boosts: "Hay Bale effect increased to +0.4",
+    boosts: "+0.1 Feather, Leather and Merino Wool yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
   },
-  "Hay Tree": {
-    name: "Hay Tree",
+  "Bountiful Bounties": {
+    name: "Bountiful Bounties",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 2,
       tier: 2,
-      island: "basic",
+      island: "spring",
     },
-    boosts: "Unlock 2nd Hay Bale",
+    boosts: "Animal Bounties reward 50% more coins",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Heartwarming Instruments": {
+    name: "Heartwarming Instruments",
+    tree: "Animals",
     disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Animal Affection tools give 50% more animal xp",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Kale Mix": {
+    name: "Kale Mix",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Mixed Grain requires 3 kale to mix instead",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Alternate Medicine": {
+    tree: "Animals",
+    name: "Alternate Medicine",
+    disabled: true,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Reduced medicine cost (coming soon)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Animals - Tier 3
-  "Cozy Coop": {
-    name: "Cozy Coop",
+  "Healthy Livestock": {
+    name: "Healthy Livestock",
     tree: "Animals",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts: "+5 Hen capacity per House",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
-  },
-  "Egg Rush": {
-    name: "Egg Rush",
-    tree: "Animals",
     requirements: {
       points: 3,
       tier: 3,
-      island: "basic",
+      island: "spring",
+    },
+    boosts: "Chance of sickness reduced by 50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Clucky Grazing": {
+    name: "Clucky Grazing",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
     },
     boosts:
-      "Ability to instantly reduce egg laying time by 10hours to chickens currently laying eggs (1/96h)",
+      "Chickens require 25% less feed, but other animals require 50% more feed",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
+  "Sheepwise Diet": {
+    name: "Sheepwise Diet",
+    tree: "Animals",
     disabled: false,
-    power: true,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts:
+      "Sheep require 25% less feed, but other animals require 50% more feed",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Cow-Smart Nutrition": {
+    name: "Cow-Smart Nutrition",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts:
+      "Cows require 25% less feed, but other animals require 50% more feed",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Greenhouse - Tier 1
