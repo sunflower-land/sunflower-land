@@ -470,18 +470,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Fruit - Tier 1
-  "Red Sour": {
-    name: "Red Sour",
-    tree: "Fruit",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "spring",
-    },
-    boosts: "+0.1 Fruit Yield (Tomatoes, Lemons)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Fruitful Fumble": {
     name: "Fruitful Fumble",
     tree: "Fruit",
@@ -490,19 +478,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "spring",
     },
-    boosts: "+0.1 Basic Fruit Yield (Blueberries, Oranges)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Tropical Orchard": {
-    name: "Tropical Orchard",
-    tree: "Fruit",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "spring",
-    },
-    boosts: "+0.1 Advanced Fruit Yield (Apples, Bananas)",
+    boosts: "+0.1 Fruit Patch Yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
@@ -514,9 +490,33 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 1,
       island: "spring",
     },
-    boosts: "+0.05 patch fruit yield",
+    boosts: "Fruit Patch seeds cost 10% less",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+  },
+  "Fruity Profit": {
+    name: "Fruity Profit",
+    tree: "Fruit",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Tango coins deliveries revenue +50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Loyal Macaw": {
+    name: "Loyal Macaw",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Macaw's effect doubled",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 2
   Catchup: {
@@ -527,36 +527,12 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "spring",
     },
-    boosts: "-10% growth time for Tomatoes and Lemons",
+    boosts: "-10% patch fruit growth time",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Fruit Turbocharge": {
-    name: "Fruit Turbocharge",
-    tree: "Fruit",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "spring",
-    },
-    boosts: "-10% growth time for Blueberries and Oranges",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Prime Produce": {
-    name: "Prime Produce",
-    tree: "Fruit",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "spring",
-    },
-    boosts: "-10% growth time for Apples and Bananas",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Accelerated Fruit": {
-    name: "Accelerated Fruit",
+  "No Axe No Worries": {
+    name: "No Axe No Worries",
     tree: "Fruit",
     disabled: false,
     requirements: {
@@ -564,24 +540,49 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 2,
       island: "spring",
     },
-    boosts: "-5% growth time for all patch fruits",
+    boosts:
+      "Chop fruit branches without axes, but get -1 wood from fruit branches",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fruity Woody": {
+    name: "Fruity Woody",
+    tree: "Fruit",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Fruit plants drop +1 wood when chopped",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Pear Turbocharge": {
+    name: "Pear Turbocharge",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Double Immortal Pear's effect",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Crime Fruit": {
+    name: "Crime Fruit",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Increase Tomato and Lemon stock by 10",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 3
-  "Fruity Profit": {
-    name: "Fruity Profit",
-    tree: "Fruit",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "spring",
-    },
-    boosts: "Tango Coins revenue doubled",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Plantation Goodies": {
-    name: "Plantation Goodies",
+  "Generous Orchard": {
+    name: "Generous Orchard",
     tree: "Fruit",
     disabled: false,
     requirements: {
@@ -589,22 +590,46 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "spring",
     },
-    boosts: "5% chance of +1 patch fruit yield",
+    boosts: "10% chance to get +1 patch fruit yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "Fruity Rush Hour": {
-    name: "Fruity Rush Hour",
+  "Long Pickings": {
+    name: "Long Pickings",
     tree: "Fruit",
+    disabled: false,
     requirements: {
       points: 3,
       tier: 3,
       island: "spring",
     },
     boosts:
-      "Ability to make all fruit currently growing ready to be harvested (1/72h)",
+      "Apple and Banana grow 2x faster, but all other patch fruits take 2x longer to grow",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Short Pickings": {
+    name: "Short Pickings",
+    tree: "Fruit",
     disabled: false,
-    power: true,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts:
+      "Blueberry and Orange grow 2x faster, but all other patch fruits take 2x longer to grow",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Zesty Vibes": {
+    name: "Zesty Vibes",
+    tree: "Fruit",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: "+1 Tomato and Lemon yield, but -0.5 all other patch fruit yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Trees - Tier 1
@@ -657,18 +682,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
   },
   // Trees - Tier 2
-  "Fruity Woody": {
-    name: "Fruity Woody",
-    tree: "Trees",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: "Fruit plants drop +1 wood when chopped",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Tough Tree": {
     name: "Tough Tree",
     tree: "Trees",
