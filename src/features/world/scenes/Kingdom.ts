@@ -125,6 +125,11 @@ export class KingdomScene extends BaseScene {
       },
     );
 
+    this.load.spritesheet("portal_halloween", "world/portal_halloween.png", {
+      frameWidth: 23,
+      frameHeight: 32,
+    });
+
     this.load.spritesheet("castle_bud_1", "world/castle_bud_1.webp", {
       frameWidth: 32,
       frameHeight: 32,
@@ -239,6 +244,35 @@ export class KingdomScene extends BaseScene {
     this.physics.world.enable(cropsAndChickensPortal);
     this.colliders?.add(cropsAndChickensPortal);
     (cropsAndChickensPortal.body as Phaser.Physics.Arcade.Body)
+      .setSize(32, 32)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    const halloweenPortal = this.add.sprite(193, 577, "portal_halloween");
+    this.anims.create({
+      key: "portal_halloween_anim",
+      frames: this.anims.generateFrameNumbers("portal_halloween", {
+        start: 0,
+        end: 17,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    halloweenPortal.play("portal_halloween_anim", true);
+    halloweenPortal
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(halloweenPortal, 40)) {
+          interactableModalManager.open("halloween");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+
+    this.physics.world.enable(halloweenPortal);
+    this.colliders?.add(halloweenPortal);
+    (halloweenPortal.body as Phaser.Physics.Arcade.Body)
       .setSize(32, 32)
       .setOffset(0, 0)
       .setImmovable(true)
