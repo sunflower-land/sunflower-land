@@ -883,7 +883,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Animals - Tier 1
-
+  "Abundant Harvest": {
+    name: "Abundant Harvest",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "+0.2 Egg, Wool and Milk yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Animals - Tier 2
 
   // Animals - Tier 3

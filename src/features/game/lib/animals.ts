@@ -159,6 +159,10 @@ function getEggYieldBoosts(game: GameState) {
     boost += 0.1;
   }
 
+  if (game.bumpkin.skills["Abundant Harvest"]) {
+    boost += 0.2;
+  }
+
   return boost;
 }
 
@@ -185,6 +189,11 @@ function getWoolYieldBoosts(game: GameState) {
   if (isWearableActive({ name: "White Sheep Onesie", game })) {
     boost += 0.25;
   }
+
+  if (game.bumpkin.skills["Abundant Harvest"]) {
+    boost += 0.2;
+  }
+
   return boost;
 }
 
@@ -214,6 +223,10 @@ function getMilkYieldBoosts(game: GameState) {
   }
 
   if (isCollectibleBuilt({ name: "Longhorn Cowfish", game })) {
+    boost += 0.2;
+  }
+
+  if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
   }
 

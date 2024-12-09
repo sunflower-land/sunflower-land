@@ -1732,4 +1732,88 @@ describe("claimProduce", () => {
     expect(state.inventory["Alien Chicken"]).toEqual(new Decimal(1));
     expect(state.henHouse.animals["0"].reward).toBeUndefined();
   });
+  it("gives +0.2 Egg when Abundant Harvest is selected", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Abundant Harvest": 1,
+          },
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              type: "Chicken",
+              state: "ready",
+              experience: 120,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: "0" },
+    });
+
+    expect(state.inventory.Egg).toEqual(new Decimal(1.2));
+  });
+  it("gives +0.2 Wool when Abundant Harvest is selected", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Abundant Harvest": 1,
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Sheep",
+              state: "ready",
+              experience: 120,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: "0" },
+    });
+
+    expect(state.inventory.Wool).toEqual(new Decimal(1.2));
+  });
+  it("gives +0.2 Milk when Abundant Harvest is selected", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Abundant Harvest": 1,
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Cow",
+              state: "ready",
+              experience: 180,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: "0" },
+    });
+
+    expect(state.inventory.Milk).toEqual(new Decimal(1.2));
+  });
 });
