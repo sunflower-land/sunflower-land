@@ -907,6 +907,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Animals require 5% less feed",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Restless Animals": {
+    name: "Restless Animals",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: "Animals sleep 5% less time",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Animals - Tier 2
 
   // Animals - Tier 3
