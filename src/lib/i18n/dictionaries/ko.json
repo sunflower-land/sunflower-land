@@ -4391,7 +4391,6 @@
   "reward.collectible": "농장을 위한 수집품",
   "accept": "수락",
   "marketplace.youOwn": "본인 소유: {{count}}",
-  "marketplace.pricePerUnit": "단위당 {{price}}",
   "marketplace.purchasing.success": "축하합니다. 구매가 성공적으로 완료되었습니다!",
   "marketplace.offerPrice": "오퍼 가격",
   "marketplace.availableListings": "{{count}} 사용 가능",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "다음 보상:",
   "friendship.gift.firstReward": "첫 보상:",
   "friendship.gift.progress": "진행:",
-  "whatsOn.date.dec2": "12월"
+  "whatsOn.date.dec2": "12월",
+  "marketplace.pricePerUnit": "{{price}} /단위"
 }

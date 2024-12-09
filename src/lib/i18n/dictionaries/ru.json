@@ -4391,7 +4391,6 @@
   "reward.collectible": "Предмет коллекционирования для вашей фермы",
   "accept": "Принять",
   "marketplace.youOwn": "Вы владеете: {{count}}",
-  "marketplace.pricePerUnit": "{{price}} за единицу",
   "marketplace.purchasing.success": "Поздравляем, ваша покупка прошла успешно!",
   "marketplace.offerPrice": "Цена предложения",
   "marketplace.availableListings": "{{count}} доступно",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "Следующая награда:",
   "friendship.gift.firstReward": "Первая награда:",
   "friendship.gift.progress": "Прогресс:",
-  "whatsOn.date.dec2": "Декабрь"
+  "whatsOn.date.dec2": "Декабрь",
+  "marketplace.pricePerUnit": "{{price}} /единица измерения"
 }

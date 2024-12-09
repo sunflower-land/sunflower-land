@@ -4391,7 +4391,6 @@
   "reward.collectible": "農場用の収集品",
   "accept": "承諾する",
   "marketplace.youOwn": "あなたが所有している:{{count}}",
-  "marketplace.pricePerUnit": "ユニットあたり {{price}}",
   "marketplace.purchasing.success": "おめでとうございます。購入は成功しました！",
   "marketplace.offerPrice": "オファー価格",
   "marketplace.availableListings": "{{count}} ご利用可能",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "次の報酬:",
   "friendship.gift.firstReward": "最初の報酬:",
   "friendship.gift.progress": "進行状況:",
-  "whatsOn.date.dec2": "12月"
+  "whatsOn.date.dec2": "12月",
+  "marketplace.pricePerUnit": "{{price}} /ユニット"
 }

@@ -4391,7 +4391,6 @@
   "reward.collectible": "Koleksi untuk Ladang anda",
   "accept": "Terima",
   "marketplace.youOwn": "Anda memiliki: {{count}}",
-  "marketplace.pricePerUnit": "{{price}} seunit",
   "marketplace.purchasing.success": "Tahniah, pembelian anda berjaya!",
   "marketplace.offerPrice": "Harga tawaran",
   "marketplace.availableListings": "{{count}} tersedia",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "Ganjaran seterusnya:",
   "friendship.gift.firstReward": "Ganjaran Pertama:",
   "friendship.gift.progress": "Kemajuan:",
-  "whatsOn.date.dec2": "Disember"
+  "whatsOn.date.dec2": "Disember",
+  "marketplace.pricePerUnit": "{{price}} /unit"
 }

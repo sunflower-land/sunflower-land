@@ -4391,7 +4391,6 @@
   "reward.collectible": "Koleksi untuk Peternakan Anda",
   "accept": "Menerima",
   "marketplace.youOwn": "Anda memiliki: {{count}}",
-  "marketplace.pricePerUnit": "{{price}} per unit",
   "marketplace.purchasing.success": "Selamat, pembelian Anda berhasil!",
   "marketplace.offerPrice": "Harga penawaran",
   "marketplace.availableListings": "{{count}} tersedia",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "Hadiah Berikutnya:",
   "friendship.gift.firstReward": "Hadiah Pertama:",
   "friendship.gift.progress": "Kemajuan:",
-  "whatsOn.date.dec2": "Desember"
+  "whatsOn.date.dec2": "Desember",
+  "marketplace.pricePerUnit": "{{price}} /unit"
 }

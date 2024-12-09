@@ -4391,7 +4391,6 @@
   "reward.collectible": "Un oggetto da collezione per la tua fattoria",
   "accept": "Accetta",
   "marketplace.youOwn": "Possiedi: {{count}}",
-  "marketplace.pricePerUnit": "{{price}} per unità",
   "marketplace.purchasing.success": "Congratulazioni, il tuo acquisto è andato a buon fine!",
   "marketplace.offerPrice": "Prezzo dell'offerta",
   "marketplace.availableListings": "{{count}} disponibile",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "Prossima ricompensa:",
   "friendship.gift.firstReward": "Prima ricompensa:",
   "friendship.gift.progress": "Progresso:",
-  "whatsOn.date.dec2": "Dicembre"
+  "whatsOn.date.dec2": "Dicembre",
+  "marketplace.pricePerUnit": "{{price}} /unità"
 }

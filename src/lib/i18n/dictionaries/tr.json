@@ -4391,7 +4391,6 @@
   "reward.collectible": "Çiftliğiniz için bir koleksiyon",
   "accept": "Kabul Etmek",
   "marketplace.youOwn": "Sahibiniz: {{count}}",
-  "marketplace.pricePerUnit": "birim başına {{price}}",
   "marketplace.purchasing.success": "Tebrikler, satın alımınız başarılı oldu!",
   "marketplace.offerPrice": "Teklif fiyatı",
   "marketplace.availableListings": "{{count}} mevcut",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "Sonraki Ödül:",
   "friendship.gift.firstReward": "İlk Ödül:",
   "friendship.gift.progress": "İlerleme:",
-  "whatsOn.date.dec2": "Aralık"
+  "whatsOn.date.dec2": "Aralık",
+  "marketplace.pricePerUnit": "{{price}} /birim"
 }

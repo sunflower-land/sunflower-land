@@ -4391,7 +4391,6 @@
   "reward.collectible": "Ein Sammlerstück für deine Farm",
   "accept": "Akzeptieren",
   "marketplace.youOwn": "Du besitzt: {{count}}",
-  "marketplace.pricePerUnit": "{{price}} pro Einheit",
   "marketplace.purchasing.success": "Herzlichen Glückwunsch, Ihr Kauf war erfolgreich!",
   "marketplace.offerPrice": "Angebotspreis",
   "marketplace.availableListings": "{{count}} verfügbar",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "Nächste Belohnung:",
   "friendship.gift.firstReward": "Erste Belohnung:",
   "friendship.gift.progress": "Fortschritt:",
-  "whatsOn.date.dec2": "Dezember"
+  "whatsOn.date.dec2": "Dezember",
+  "marketplace.pricePerUnit": "{{price}} /Einheit"
 }

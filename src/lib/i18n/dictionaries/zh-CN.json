@@ -4391,7 +4391,6 @@
   "reward.collectible": "为你的农场准备的收藏品",
   "accept": "接受",
   "marketplace.youOwn": "你拥有：{{count}}",
-  "marketplace.pricePerUnit": "每单位 {{price}}",
   "marketplace.purchasing.success": "恭喜，您的购买成功了！",
   "marketplace.offerPrice": "报价价格",
   "marketplace.availableListings": "{{count}} 可用",
@@ -4468,5 +4467,6 @@
   "friendship.gift.nextReward": "下一个奖励：",
   "friendship.gift.firstReward": "第一笔奖励：",
   "friendship.gift.progress": "进展：",
-  "whatsOn.date.dec2": "十二月"
+  "whatsOn.date.dec2": "十二月",
+  "marketplace.pricePerUnit": "{{price}} /单位"
 }
