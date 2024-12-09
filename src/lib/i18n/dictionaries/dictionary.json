@@ -2329,7 +2329,7 @@
   "marketplace.unlockSelling": "Unlock selling",
   "marketplace.unlockOffering": "Unlock offering",
   "marketplace.youOwn": "You own: {{count}}",
-  "marketplace.pricePerUnit": "{{price}} per unit",
+  "marketplace.pricePerUnit": "{{price}}/unit",
   "marketplace.areYouSureYouWantToBuy": "Are you sure you want to buy this item?",
   "marketplace.successfulPurchase": "You just successfully bought this item!",
   "marketplace.signAndBuy": "Sign & Buy",
