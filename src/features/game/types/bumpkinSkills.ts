@@ -980,6 +980,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Mixed Grain requires 3 kale to mix instead",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Alternate Medicine": {
+    tree: "Animals",
+    name: "Alternate Medicine",
+    disabled: true,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Reduced medicine cost (coming soon)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Animals - Tier 3
 
