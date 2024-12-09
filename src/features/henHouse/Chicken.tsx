@@ -544,7 +544,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           style={{
             color: "#ffffff",
           }}
-        >{`+${formatNumber(animalXP)}`}</span>
+        >{`+${animalXP}`}</span>
       </Transition>
     </>
   );
