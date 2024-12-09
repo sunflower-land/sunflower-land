@@ -30,6 +30,7 @@ import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { hasFeatureAccess } from "lib/flags";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
+  // Crops
   Sunflower: 2000,
   Potato: 2000,
   Pumpkin: 2000,
@@ -44,6 +45,7 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Radish: 400,
   Wheat: 400,
   Kale: 400,
+  Barley: 400,
   Olive: 100,
   Rice: 100,
   Grape: 100,
@@ -58,9 +60,30 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Iron: 200,
   Gold: 100,
   Crimstone: 20,
-  Egg: 200,
   Honey: 100,
+  Egg: 200,
+  Feather: 200,
+  Leather: 200,
+  Milk: 200,
+  Wool: 200,
+  "Merino Wool": 200,
 };
+
+const betaResouces: TradeableName[] = [
+  "Tomato",
+  "Lemon",
+  "Crimstone",
+  "Grape",
+  "Rice",
+  "Olive",
+  "Honey",
+  "Barley",
+  "Milk",
+  "Leather",
+  "Wool",
+  "Merino Wool",
+  "Feather",
+];
 
 const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
   const { t } = useAppTranslation();
@@ -292,13 +315,7 @@ export const SalesPanel: React.FC<{
               {getKeys(MARKET_BUNDLES)
                 .filter(
                   (name) =>
-                    (name !== "Tomato" &&
-                      name !== "Lemon" &&
-                      name !== "Crimstone" &&
-                      name !== "Grape" &&
-                      name !== "Rice" &&
-                      name !== "Olive" &&
-                      name !== "Honey") ||
+                    !betaResouces.includes(name) ||
                     hasFeatureAccess(state, "NEW_RESOURCES_GE"),
                 )
                 .map((name) => {
