@@ -37,7 +37,7 @@ import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
-import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
+import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 
 export const ANIMAL_EMOTION_ICONS: Record<
@@ -347,6 +347,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const level = getAnimalLevel(cow.experience, "Cow");
 
+  const { animalXP } = getAnimalXP({ state: game, name: showLoveItem! });
+
   return (
     <>
       {mutantName && (
@@ -491,7 +493,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
             style={{
               color: "#ffffff",
             }}
-          >{`+${formatNumber(ITEM_XP[showLoveItem!])}`}</span>
+          >{`+${formatNumber(animalXP)}`}</span>
         </Transition>
       </div>
     </>

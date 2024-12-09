@@ -37,7 +37,7 @@ import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { ANIMAL_FOOD_EXPERIENCE } from "features/game/types/animals";
-import { ITEM_XP } from "features/game/events/landExpansion/loveAnimal";
+import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 
 const _animalState = (state: AnimalMachineState) =>
@@ -302,6 +302,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const level = getAnimalLevel(sheep.experience, "Sheep");
 
+  const { animalXP } = getAnimalXP({ state: game, name: showLoveItem! });
+
   return (
     <>
       {mutantName && (
@@ -446,7 +448,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
             style={{
               color: "#ffffff",
             }}
-          >{`+${formatNumber(ITEM_XP[showLoveItem!])}`}</span>
+          >{`+${formatNumber(animalXP)}`}</span>
         </Transition>
       </div>
     </>
