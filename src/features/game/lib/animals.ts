@@ -368,6 +368,14 @@ export function getBoostedFoodQuantity({
     foodQuantity *= 0.95;
   }
 
+  if (game.bumpkin.skills["Clucky Grazing"]) {
+    if (animalType === "Chicken") {
+      foodQuantity *= 0.75;
+    } else {
+      foodQuantity *= 1.5;
+    }
+  }
+
   return foodQuantity;
 }
 

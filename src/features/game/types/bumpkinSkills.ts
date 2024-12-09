@@ -1005,6 +1005,19 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Chance of sickness reduced by 50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Clucky Grazing": {
+    name: "Clucky Grazing",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts:
+      "Chickens require 25% less feed, but other animals require 50% more feed",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Greenhouse - Tier 1
   "Olive Garden": {
