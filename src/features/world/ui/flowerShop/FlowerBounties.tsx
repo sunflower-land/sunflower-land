@@ -109,6 +109,7 @@ export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
           );
 
           const isDisabled = !state.inventory[deal.name]?.gt(0);
+          const { coins } = generateBountyCoins({ game: state, bounty: deal });
 
           return (
             <div
@@ -143,7 +144,7 @@ export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
                     {!isSold && !!deal.coins && (
                       <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
                         {/* For Future proofing */}
-                        {generateBountyCoins({ game: state, bounty: deal })}
+                        {coins}
                       </Label>
                     )}
 

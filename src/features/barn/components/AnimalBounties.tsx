@@ -74,7 +74,10 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
             const isSold = !!state.bounties.completed.find(
               (request) => request.id === deal.id,
             );
-
+            const { coins } = generateBountyCoins({
+              game: state,
+              bounty: deal,
+            });
             return (
               <div
                 key={deal.id}
@@ -126,7 +129,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                         height: "25px",
                       }}
                     >
-                      {generateBountyCoins({ game: state, bounty: deal }).coins}
+                      {coins}
                     </Label>
                   )}
 
