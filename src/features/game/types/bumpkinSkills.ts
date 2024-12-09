@@ -883,82 +883,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Animals - Tier 1
-  "Eggcellent Production": {
-    name: "Eggcellent Production",
-    tree: "Animals",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: "+0.1 Egg Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Fowl Acceleration": {
-    name: "Fowl Acceleration",
-    tree: "Animals",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: "Chickens lay eggs 10% quicker",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
+
   // Animals - Tier 2
-  "Bountiful Bales": {
-    name: "Bountiful Bales",
-    tree: "Animals",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: "Hay Bale effect increased to +0.4",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Hay Tree": {
-    name: "Hay Tree",
-    tree: "Animals",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: "Unlock 2nd Hay Bale",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
+
   // Animals - Tier 3
-  "Cozy Coop": {
-    name: "Cozy Coop",
-    tree: "Animals",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts: "+5 Hen capacity per House",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Egg Rush": {
-    name: "Egg Rush",
-    tree: "Animals",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts:
-      "Ability to instantly reduce egg laying time by 10hours to chickens currently laying eggs (1/96h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-    power: true,
-  },
 
   // Greenhouse - Tier 1
   "Olive Garden": {
