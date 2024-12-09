@@ -944,6 +944,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "+0.1 Feather, Leather and Merino Wool yield",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Bountiful Bounties": {
+    name: "Bountiful Bounties",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Animal Bounties reward 50% more coins",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Animals - Tier 3
 

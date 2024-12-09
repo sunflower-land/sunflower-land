@@ -6,7 +6,10 @@ import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
 import { getSickAnimalRewardAmount } from "features/game/events/landExpansion/sellAnimal";
-import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
+import {
+  generateBountyCoins,
+  generateBountyTicket,
+} from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -123,7 +126,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                         height: "25px",
                       }}
                     >
-                      {deal.coins}
+                      {generateBountyCoins({ game: state, bounty: deal })}
                     </Label>
                   )}
 
