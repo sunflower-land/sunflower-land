@@ -8,6 +8,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 // TODO - move make offer here, signing state + submitting state
 
@@ -15,7 +16,8 @@ export const TradeableItemDetails: React.FC<{
   display: TradeableDisplay;
   quantity: number;
   sfl: number;
-}> = ({ display, quantity, sfl }) => {
+  estTradePoints?: number;
+}> = ({ display, quantity, sfl, estTradePoints }) => {
   return (
     <div className="flex">
       <div className="h-12 w-12 mr-2 relative">
@@ -36,6 +38,17 @@ export const TradeableItemDetails: React.FC<{
           <span className="text-sm">{`${sfl} SFL`}</span>
           <img src={sflIcon} className="h-6 ml-1" />
         </div>
+        {estTradePoints && (
+          <div className="flex items-center">
+            <span className="text-sm">
+              {`${formatNumber(estTradePoints, {
+                decimalPlaces: 2,
+                showTrailingZeros: false,
+              })} Trade Points`}
+            </span>
+            <img src={ITEM_DETAILS["Trade Point"].image} className="h-6 ml-1" />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -45,7 +58,8 @@ export const TradeableSummary: React.FC<{
   display: TradeableDisplay;
   sfl: number;
   quantity: number;
-}> = ({ display, sfl, quantity }) => {
+  estTradePoints?: number;
+}> = ({ display, sfl, quantity, estTradePoints }) => {
   const { t } = useAppTranslation();
 
   return (
@@ -84,6 +98,7 @@ export const TradeableSummary: React.FC<{
       <div
         className="flex justify-between"
         style={{
+          borderBottom: estTradePoints ? "1px solid #ead4aa" : "none",
           padding: "5px 5px 5px 2px",
         }}
       >
@@ -96,6 +111,26 @@ export const TradeableSummary: React.FC<{
           },
         )} SFL`}</p>
       </div>
+      {!!estTradePoints && (
+        <div
+          className="flex justify-between"
+          style={{
+            padding: "5px 5px 5px 2px",
+          }}
+        >
+          <span className="text-xs">{`Trade Points earned`}</span>
+          <div className="flex flex-row">
+            <p className="text-xs font-secondary mr-1">{`${formatNumber(
+              new Decimal(estTradePoints),
+              {
+                decimalPlaces: 2,
+                showTrailingZeros: false,
+              },
+            )}`}</p>
+            <img src={ITEM_DETAILS["Trade Point"].image} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

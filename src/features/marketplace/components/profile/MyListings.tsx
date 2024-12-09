@@ -94,11 +94,13 @@ export const MyListings: React.FC = () => {
   return (
     <>
       <Modal show={!!removeListingId} onHide={handleHide}>
-        <RemoveListing
-          listingIds={removeListingId ? [removeListingId] : []}
-          authToken={authToken}
-          onClose={() => setRemoveListingId(undefined)}
-        />
+        {!!removeListingId && (
+          <RemoveListing
+            listingId={removeListingId}
+            authToken={authToken}
+            onClose={() => setRemoveListingId(undefined)}
+          />
+        )}
       </Modal>
       <Modal show={!!claimId} onHide={() => setClaimId(undefined)}>
         {claimId && (

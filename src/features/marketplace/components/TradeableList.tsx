@@ -38,6 +38,8 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -235,6 +237,14 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
+  const estTradePoints =
+    price === 0
+      ? 0
+      : calculateTradePoints({
+          sfl: price,
+          points: tradeType === "instant" ? 1 : 5,
+        }).multipliedPoints;
+
   if (showConfirmation) {
     return (
       <>
@@ -247,6 +257,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             display={display}
             sfl={price}
             quantity={Math.max(1, quantity)}
+            estTradePoints={estTradePoints}
           />
         </div>
 
@@ -273,6 +284,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               display={display}
               sfl={price}
               quantity={Math.max(1, quantity)}
+              estTradePoints={estTradePoints}
             />
           </div>
 
@@ -393,6 +405,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             <div
               className="flex justify-between"
               style={{
+                borderBottom: "1px solid #ead4aa",
                 padding: "5px 5px 5px 2px",
               }}
             >
@@ -406,6 +419,24 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                   showTrailingZeros: false,
                 },
               )} SFL`}</p>
+            </div>
+            <div
+              className="flex justify-between"
+              style={{
+                padding: "5px 5px 5px 2px",
+              }}
+            >
+              <span className="text-xs">{`Trade Points earned`}</span>
+              <div className="flex flex-row">
+                <p className="text-xs font-secondary mr-1">{`${formatNumber(
+                  new Decimal(estTradePoints),
+                  {
+                    decimalPlaces: 2,
+                    showTrailingZeros: false,
+                  },
+                )}`}</p>
+                <img src={ITEM_DETAILS["Trade Point"].image} />
+              </div>
             </div>
             <Label type="default" icon={lockIcon} className="my-1 -ml-0.5">
               {t("marketplace.itemSecured")}

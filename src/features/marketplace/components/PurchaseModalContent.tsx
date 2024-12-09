@@ -13,6 +13,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { hasMaxItems } from "features/game/lib/processEvent";
 import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -75,6 +76,14 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     onClose();
   };
 
+  const estTradePoints =
+    price === 0
+      ? 0
+      : calculateTradePoints({
+          sfl: price,
+          points: listing.type === "instant" ? 2 : 10,
+        }).multipliedPoints;
+
   if (hasMax && listing.type === "instant") {
     return (
       <>
@@ -124,6 +133,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
           display={display}
           sfl={price}
           quantity={listing.quantity}
+          estTradePoints={estTradePoints}
         />
       </div>
       <div className="flex space-x-1">
