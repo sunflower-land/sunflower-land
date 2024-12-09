@@ -150,7 +150,7 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
 
         <p className="text-xs mb-1">{t("npcDialogues.santa.dialogue4")}</p>
 
-        <div className="flex flex-row flex-wrap overflow-y-auto scrollable max-h-96">
+        <div className="flex flex-row justify-center flex-wrap overflow-y-auto scrollable max-h-96">
           {Object.entries(rewards).map(([day, reward]) => (
             <div
               key={day}
@@ -175,7 +175,7 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
                 {t("christmas.days", { day })}
               </Label>
 
-              <div className="flex justify-center p-2 w-full h-full overflow-x-auto scrollable">
+              <div className="flex justify-center p-2 w-full h-full overflow-y-auto scrollable">
                 {reward.sfl > 0 && (
                   <>
                     <div className="flex flex-col">
