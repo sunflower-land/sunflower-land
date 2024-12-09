@@ -956,6 +956,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: "Animal Bounties reward 50% more coins",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Heartwarming Instruments": {
+    name: "Heartwarming Instruments",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: "Animal Affection tools give 50% more animal xp",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Animals - Tier 3
 

@@ -55,7 +55,9 @@ export function loveAnimal({
 
     const level = getAnimalLevel(animal.experience, animal.type);
 
-    animal.experience += ITEM_XP[action.item];
+    const { animalXP } = getAnimalXP({ name: action.item, state: copy });
+
+    animal.experience += animalXP;
     animal.lovedAt = createdAt;
 
     animal.item = getAnimalItem(
@@ -162,6 +164,24 @@ export const ITEM_XP: Record<LoveAnimalItem, number> = {
   Brush: 40,
   "Music Box": 50,
 };
+
+export function getAnimalXP({
+  name,
+  state,
+}: {
+  name: LoveAnimalItem;
+  state: GameState;
+}) {
+  let animalXP = ITEM_XP[name];
+  let multiplier = 1;
+
+  if (state.bumpkin.skills["Heartwarming Instruments"]) {
+    multiplier += 0.5;
+  }
+  animalXP *= multiplier;
+
+  return { animalXP };
+}
 
 function getAnimalItem(level: AnimalLevel, randomGenerator: () => number) {
   // Pick weighted item from array - https://gist.github.com/oepn/33bc587bc09ce9895c43
