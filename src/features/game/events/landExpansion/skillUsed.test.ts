@@ -85,10 +85,10 @@ describe("skillUse", () => {
               crop: {
                 id: "456",
                 name: "Kale",
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
                 amount: 20,
               },
-              createdAt: Date.now(),
+              createdAt: dateNow,
               x: 1,
               y: 1,
               height: 1,
@@ -98,10 +98,10 @@ describe("skillUse", () => {
               crop: {
                 id: "147",
                 name: "Kale",
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
                 amount: 20,
               },
-              createdAt: Date.now(),
+              createdAt: dateNow,
               x: 1,
               y: 1,
               height: 1,
@@ -113,7 +113,7 @@ describe("skillUse", () => {
           type: "skill.used",
           skill: "Instant Growth",
         },
-        createdAt: Date.now(),
+        createdAt: dateNow,
       });
 
       expect(state.crops["123"].crop?.plantedAt).toEqual(1);
@@ -133,10 +133,10 @@ describe("skillUse", () => {
               crop: {
                 id: "456",
                 name: "Kale",
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
                 amount: 20,
               },
-              createdAt: Date.now(),
+              createdAt: dateNow,
               x: 1,
               y: 1,
               height: 1,
@@ -146,10 +146,10 @@ describe("skillUse", () => {
               crop: {
                 id: "147",
                 name: "Kale",
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
                 amount: 20,
               },
-              createdAt: Date.now(),
+              createdAt: dateNow,
               x: 1,
               y: 1,
               height: 1,
@@ -161,11 +161,11 @@ describe("skillUse", () => {
           type: "skill.used",
           skill: "Instant Gratification",
         },
-        createdAt: Date.now(),
+        createdAt: dateNow,
       });
 
-      expect(state.crops["123"].crop?.plantedAt).toEqual(Date.now());
-      expect(state.crops["789"].crop?.plantedAt).toEqual(Date.now());
+      expect(state.crops["123"].crop?.plantedAt).toEqual(dateNow);
+      expect(state.crops["789"].crop?.plantedAt).toEqual(dateNow);
     });
   });
 
@@ -182,29 +182,29 @@ describe("skillUse", () => {
             "123": {
               wood: {
                 amount: 1,
-                choppedAt: Date.now(),
+                choppedAt: dateNow,
               },
               x: 1,
               y: 1,
               height: 2,
               width: 2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
             },
             "456": {
               wood: {
                 amount: 1,
-                choppedAt: Date.now(),
+                choppedAt: dateNow,
               },
               x: 3,
               y: 1,
               height: 2,
               width: 2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
             },
           },
         },
         action: { type: "skill.used", skill: "Tree Blitz" },
-        createdAt: Date.now(),
+        createdAt: dateNow,
       });
 
       expect(state.trees["123"].wood.choppedAt).toEqual(1);
@@ -222,33 +222,33 @@ describe("skillUse", () => {
             "123": {
               wood: {
                 amount: 1,
-                choppedAt: Date.now(),
+                choppedAt: dateNow,
               },
               x: 1,
               y: 1,
               height: 2,
               width: 2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
             },
             "456": {
               wood: {
                 amount: 1,
-                choppedAt: Date.now(),
+                choppedAt: dateNow,
               },
               x: 3,
               y: 1,
               height: 2,
               width: 2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
             },
           },
         },
         action: { type: "skill.used", skill: "Instant Growth" },
-        createdAt: Date.now(),
+        createdAt: dateNow,
       });
 
-      expect(state.trees["123"].wood.choppedAt).toEqual(Date.now());
-      expect(state.trees["456"].wood.choppedAt).toEqual(Date.now());
+      expect(state.trees["123"].wood.choppedAt).toEqual(dateNow);
+      expect(state.trees["456"].wood.choppedAt).toEqual(dateNow);
     });
   });
 
@@ -296,7 +296,7 @@ describe("skillUse", () => {
           },
         },
         action: { type: "skill.used", skill: "Greenhouse Guru" },
-        createdAt: Date.now(),
+        createdAt: dateNow,
       });
 
       expect(state.greenhouse.pots[1].plant?.plantedAt).toEqual(1);
@@ -355,7 +355,7 @@ describe("skillUse", () => {
           },
         },
         action: { type: "skill.used", skill: "Petal Blessed" },
-        createdAt: Date.now(),
+        createdAt: dateNow,
       });
 
       expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(1);
@@ -412,7 +412,7 @@ describe("skillUse", () => {
           },
         },
         action: { type: "skill.used", skill: "Grease Lightning" },
-        createdAt: Date.now(),
+        createdAt: dateNow,
       });
 
       expect(state.oilReserves["123"].oil.drilledAt).toEqual(1);
@@ -474,13 +474,13 @@ describe("skillUse", () => {
           },
         },
         action: { type: "skill.used", skill: "Instant Gratification" },
-        createdAt: Date.now(),
+        createdAt: dateNow,
       });
       expect(state.buildings["Fire Pit"]?.[0].crafting?.readyAt).toEqual(
-        Date.now(),
+        dateNow,
       );
       expect(state.buildings["Smoothie Shack"]?.[0].crafting?.readyAt).toEqual(
-        Date.now(),
+        dateNow,
       );
     });
   });
