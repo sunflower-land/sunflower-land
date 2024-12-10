@@ -1,6 +1,5 @@
 import { Loading } from "features/auth/components";
-import AutoSizer from "react-virtualized-auto-sizer";
-import React, { useContext, useLayoutEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
@@ -12,6 +11,7 @@ import { InnerPanel } from "components/ui/Panel";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
 import { FixedSizeGrid as Grid } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -34,22 +34,9 @@ export const Collection: React.FC<{
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
   const [queryParams] = useSearchParams();
-  const [containerHeight, setContainerHeight] = useState(800);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    if (containerRef.current) {
-      setContainerHeight(containerRef.current.clientHeight);
-
-      // Optional: Update on resize
-      const resizeObserver = new ResizeObserver((entries) => {
-        setContainerHeight(entries[0].contentRect.height);
-      });
-
-      resizeObserver.observe(containerRef.current);
-      return () => resizeObserver.disconnect();
-    }
-  }, []);
+  const gridRef = useRef<any>(null);
+  const location = useLocation();
 
   let filters = queryParams.get("filters") ?? "";
 
@@ -136,6 +123,9 @@ export const Collection: React.FC<{
     );
   }
 
+  // Get scroll position from location state if it exists
+  const savedScrollPosition = location.state?.scrollPosition;
+
   if (isLoading) {
     return (
       <InnerPanel className="h-full flex ">
@@ -163,81 +153,90 @@ export const Collection: React.FC<{
     return 160;
   };
 
-  const SCROLLBAR_WIDTH = 10; // Width of the scrollbar in pixels
-
-  // Function to determine number of columns based on width
-  const getColumnCount = (width: number) => {
-    // Subtract scrollbar width from total width for accurate column calculation
-    const adjustedWidth = width - SCROLLBAR_WIDTH;
-
-    // Matching your Tailwind classes:
-    // w-1/2 (2 columns) - default
-    // sm:w-1/3 (3 columns) - 640px+
-    // md:w-1/4 (4 columns) - 768px+
-    // lg:w-1/5 (5 columns) - 1024px+
-    // xl:w-[14.2%] (7 columns) - 1280px+
-    if (adjustedWidth >= 1280) return 7; // xl
-    if (adjustedWidth >= 1024) return 5; // lg
-    if (adjustedWidth >= 768) return 4; // md
-    if (adjustedWidth >= 640) return 3; // sm
-    return 2; // default
-  };
-
-  const Cell = ({ columnIndex, rowIndex, style }: any) => {
-    const columnCount = getColumnCount(style.width);
-    const itemIndex = rowIndex * columnCount + columnIndex;
-    const item = items[itemIndex];
-
-    if (!item) return null;
-
-    const display = getTradeableDisplay({
-      type: item.collection,
-      id: item.id,
-    });
-
-    return (
-      <div style={style} className="pr-1 pb-1">
-        <ListViewCard
-          details={display}
-          price={new Decimal(item.floor)}
-          onClick={() => {
-            navigate(
-              `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
-            );
-            onNavigated?.();
-          }}
-          expiresAt={item.expiresAt}
-        />
-      </div>
-    );
-  };
-
   return (
-    <div className="h-full w-full">
-      <InnerPanel className="h-full">
-        <div className="h-full w-full">
-          <AutoSizer>
-            {({ height, width }) => {
-              const columnCount = getColumnCount(width - 5);
-              const rowCount = Math.ceil(items.length / columnCount);
+    <InnerPanel className="h-full">
+      <div className="h-full w-full">
+        <AutoSizer>
+          {({ height, width }) => {
+            const SCROLLBAR_WIDTH = 10;
+
+            // Function to determine number of columns based on width
+            const getColumnCount = (width: number) => {
+              if (width >= 1280) return 7; // xl
+              if (width >= 1024) return 5; // lg
+              if (width >= 768) return 4; // md
+              if (width >= 640) return 3; // sm
+              return 2; // default
+            };
+
+            const columnCount = getColumnCount(width);
+            const rowCount = Math.ceil(items.length / columnCount);
+            const adjustedWidth = width - SCROLLBAR_WIDTH;
+            const columnWidth = adjustedWidth / columnCount;
+
+            const Cell = ({
+              columnIndex,
+              rowIndex,
+              style,
+            }: {
+              columnIndex: number;
+              rowIndex: number;
+              style: React.CSSProperties;
+            }) => {
+              const itemIndex = rowIndex * columnCount + columnIndex;
+              const item = items[itemIndex];
+
+              if (!item) return null;
+
+              const display = getTradeableDisplay({
+                type: item.collection,
+                id: item.id,
+              });
 
               return (
-                <Grid
-                  columnCount={columnCount}
-                  columnWidth={(width - SCROLLBAR_WIDTH) / columnCount}
-                  height={height}
-                  rowCount={rowCount}
-                  rowHeight={getRowHeight()}
-                  width={width}
-                  className="scrollable"
-                >
-                  {Cell}
-                </Grid>
+                <div key={item.id} style={style} className="pr-1 pb-1">
+                  <ListViewCard
+                    details={display}
+                    price={new Decimal(item.floor)}
+                    onClick={() => {
+                      const scrollPosition =
+                        gridRef.current?._outerRef.scrollTop;
+                      navigate(
+                        `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
+                        {
+                          state: {
+                            scrollPosition,
+                            route: `${location.pathname}${location.search}`,
+                          },
+                        },
+                      );
+                      onNavigated?.();
+                    }}
+                    expiresAt={item.expiresAt}
+                  />
+                </div>
               );
-            }}
-          </AutoSizer>
-        </div>
-      </InnerPanel>
-    </div>
+            };
+
+            return (
+              <Grid
+                ref={gridRef}
+                columnCount={columnCount}
+                columnWidth={columnWidth}
+                height={height}
+                rowCount={rowCount}
+                rowHeight={getRowHeight()}
+                width={width}
+                className="scrollable"
+                initialScrollTop={savedScrollPosition}
+                itemData={{ width }}
+              >
+                {Cell}
+              </Grid>
+            );
+          }}
+        </AutoSizer>
+      </div>
+    </InnerPanel>
   );
 };

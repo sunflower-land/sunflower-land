@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
 import sfl from "assets/icons/sfl.webp";
@@ -24,6 +23,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { CountLabel } from "components/ui/CountLabel";
 import classNames from "classnames";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { ListViewImage } from "./ListViewImage";
 
 type Props = {
   details: TradeableDisplay;
@@ -97,28 +97,12 @@ export const ListViewCard: React.FC<Props> = ({
             "h-32": details.type === "buds",
           })}
         >
-          {details.type === "buds" ? (
-            <div className="absolute -inset-1.5 overflow-hidden">
-              <LazyLoadImage
-                alt={name}
-                effect="blur"
-                src={image}
-                className="object-cover w-full h-full"
-                wrapperClassName="w-full h-full"
-              />
-            </div>
-          ) : (
-            <LazyLoadImage
-              alt={name}
-              effect="blur"
-              threshold={3000}
-              height="100%"
-              src={image}
-              className={classNames("object-contain h-[80%] mt-1", {
-                "h-[55%] mt-3": isResources,
-              })}
-            />
-          )}
+          <ListViewImage
+            name={name}
+            image={image}
+            type={type}
+            isResources={isResources}
+          />
           {tradeType === "onchain" && (
             <img
               src={wallet}

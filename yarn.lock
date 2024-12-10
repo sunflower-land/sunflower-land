@@ -5109,14 +5109,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-lazy-load-image-component@^1.6.4":
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/@types/react-lazy-load-image-component/-/react-lazy-load-image-component-1.6.4.tgz#b524656f3a468ca18740768075afbc51b4242412"
-  integrity sha512-8pFPeDPF4yVG4lU1/ixZidJEEDZmEOYOTYDvmIu2IAabyuv97Q7n/93nMCocHvQ7vD1czKGiW+op55D9m3MkdA==
-  dependencies:
-    "@types/react" "*"
-    csstype "^3.0.2"
-
 "@types/react-test-renderer@>=16.9.0":
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-17.0.1.tgz#3120f7d1c157fba9df0118dae20cb0297ee0e06b"
@@ -9517,11 +9509,6 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA==
 
-lodash.throttle@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
-  integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
-
 lodash@^4.17.14, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
@@ -10675,14 +10662,6 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
-
-react-lazy-load-image-component@^1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/react-lazy-load-image-component/-/react-lazy-load-image-component-1.6.2.tgz#af1773e4d66519ad6b3c2015290c23b5de97c81b"
-  integrity sha512-dAdH5PsRgvDMlHC7QpZRA9oRzEZl1kPFwowmR9Mt0IUUhxk2wwq43PB6Ffwv84HFYuPmsxDUCka0E9KVXi8roQ==
-  dependencies:
-    lodash.debounce "^4.0.8"
-    lodash.throttle "^4.1.1"
 
 react-native-webview@^11.26.0:
   version "11.26.1"
