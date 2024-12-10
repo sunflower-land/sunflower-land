@@ -168,4 +168,87 @@ describe("skillUse", () => {
       expect(state.crops["789"].crop?.plantedAt).toEqual(Date.now());
     });
   });
+
+  describe("useTreeBlitz", () => {
+    it("activates Tree Blitz", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Tree Blitz": 1 },
+          },
+          trees: {
+            "123": {
+              wood: {
+                amount: 1,
+                choppedAt: Date.now(),
+              },
+              x: 1,
+              y: 1,
+              height: 2,
+              width: 2,
+              createdAt: Date.now(),
+            },
+            "456": {
+              wood: {
+                amount: 1,
+                choppedAt: Date.now(),
+              },
+              x: 3,
+              y: 1,
+              height: 2,
+              width: 2,
+              createdAt: Date.now(),
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Tree Blitz" },
+        createdAt: Date.now(),
+      });
+
+      expect(state.trees["123"].wood.choppedAt).toEqual(1);
+      expect(state.trees["456"].wood.choppedAt).toEqual(1);
+    });
+    it("does not activate Tree Blitz when they have a different skill", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          trees: {
+            "123": {
+              wood: {
+                amount: 1,
+                choppedAt: Date.now(),
+              },
+              x: 1,
+              y: 1,
+              height: 2,
+              width: 2,
+              createdAt: Date.now(),
+            },
+            "456": {
+              wood: {
+                amount: 1,
+                choppedAt: Date.now(),
+              },
+              x: 3,
+              y: 1,
+              height: 2,
+              width: 2,
+              createdAt: Date.now(),
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Growth" },
+        createdAt: Date.now(),
+      });
+
+      expect(state.trees["123"].wood.choppedAt).toEqual(Date.now());
+      expect(state.trees["456"].wood.choppedAt).toEqual(Date.now());
+    });
+  });
 });

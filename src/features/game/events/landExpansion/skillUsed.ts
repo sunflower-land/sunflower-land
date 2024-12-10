@@ -4,7 +4,7 @@ import {
   BumpkinSkillRevamp,
 } from "features/game/types/bumpkinSkills";
 import { getKeys } from "features/game/types/decorations";
-import { GameState, CropPlot } from "features/game/types/game";
+import { GameState, CropPlot, Tree } from "features/game/types/game";
 import { produce } from "immer";
 
 export type SkillUseAction = {
@@ -30,9 +30,19 @@ function useInstantGrowth({ crops }: { crops: Record<string, CropPlot> }) {
   return crops;
 }
 
+function useTreeBlitz({ trees }: { trees: Record<string, Tree> }) {
+  getKeys(trees).forEach((tree) => {
+    const { wood } = trees[tree];
+    if (wood) {
+      wood.choppedAt = 1;
+    }
+  });
+  return trees;
+}
+
 export function skillUse({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
-    const { bumpkin, crops } = stateCopy;
+    const { bumpkin, crops, trees } = stateCopy;
 
     const { skill } = action;
 
@@ -76,8 +86,13 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
       stateCopy.crops = useInstantGrowth({ crops });
     }
 
+    if (skill === "Tree Blitz") {
+      stateCopy.trees = useTreeBlitz({ trees });
+    }
+
     // Return the new state
     bumpkin.previousPowerUseAt[skill] = createdAt;
+
     return stateCopy;
   });
 }
