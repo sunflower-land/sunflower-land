@@ -45,6 +45,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getDayOfYear } from "lib/utils/time";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { parseEther } from "viem";
 
 const _isVIP = (state: MachineState) =>
   hasVipAccess(state.context.state.inventory);
@@ -207,7 +208,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         itemId: BigInt(id),
         item: display.name,
         quantity: BigInt(Math.max(1, quantity)),
-        SFL: BigInt(price),
+        SFL: parseEther(String(price)),
       },
       domain: {
         name: CONFIG.NETWORK === "mainnet" ? "Sunflower Land" : "TESTING",

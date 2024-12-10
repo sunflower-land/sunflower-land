@@ -100,7 +100,8 @@ export const config = createConfig({
   ],
   transports: {
     [polygon.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
-    [polygonAmoy.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
+    // polygon RPC is unreliable for gas estimation, so prioritise alchemy on testnet
+    [polygonAmoy.id]: fallback([http(CONFIG.ALCHEMY_RPC), http()]),
   },
 });
 

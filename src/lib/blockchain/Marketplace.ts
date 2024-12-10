@@ -9,6 +9,7 @@ import {
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
+import { parseEther } from "viem";
 
 const address = CONFIG.MARKETPLACE_CONTRACT;
 
@@ -110,6 +111,10 @@ export type ListingPurchasedParams = {
     collection: string;
     itemName: string;
   };
+  mintAmounts: {
+    sfl: number | string;
+    items: number | string;
+  };
 };
 
 export async function listingPurchasedTransaction({
@@ -122,6 +127,7 @@ export async function listingPurchasedTransaction({
   listing,
   playerAmount,
   teamAmount,
+  mintAmounts,
 }: ListingPurchasedParams): Promise<string> {
   const oldSessionId = sessionId;
 
@@ -132,7 +138,7 @@ export async function listingPurchasedTransaction({
     args: [
       CONFIG.TOKEN_CONTRACT as `0x${string}`,
       CONFIG.USDC_CONTRACT as `0x${string}`,
-      BigInt(listing.sfl),
+      parseEther(listing.sfl.toString()),
       BigInt(0),
     ],
   });
@@ -144,7 +150,16 @@ export async function listingPurchasedTransaction({
     functionName: "purchaseListing",
     args: [
       {
-        listing: listing as any,
+        listing: {
+          signature: listing.signature as `0x${string}`,
+          id: listing.id,
+          farmId: BigInt(listing.farmId),
+          itemId: BigInt(listing.itemId),
+          sfl: parseEther(listing.sfl.toString()),
+          quantity: BigInt(listing.quantity),
+          collection: listing.collection,
+          itemName: listing.itemName,
+        },
         sessionId: sessionId as `0x${string}`,
         nextSessionId: nextSessionId as `0x${string}`,
         buyerFarmId: BigInt(farmId),
@@ -153,6 +168,10 @@ export async function listingPurchasedTransaction({
         teamAmount: BigInt(teamAmount),
         signature: signature as `0x${string}`,
         amountOutMinimum,
+        mintAmounts: {
+          sfl: parseEther(mintAmounts.sfl.toString()),
+          items: BigInt(mintAmounts.items),
+        },
       },
     ],
     account: sender as `0x${string}`,

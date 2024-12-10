@@ -82,6 +82,15 @@ export default [
       { internalType: "uint256", name: "amountOutMinimum", type: "uint256" },
       {
         components: [
+          { internalType: "uint256", name: "sfl", type: "uint256" },
+          { internalType: "uint256", name: "items", type: "uint256" },
+        ],
+        internalType: "struct SunflowerLandMarketplace.MintAmounts",
+        name: "mintAmounts",
+        type: "tuple",
+      },
+      {
+        components: [
           { internalType: "bytes", name: "signature", type: "bytes" },
           { internalType: "string", name: "tradeId", type: "string" },
           { internalType: "uint256", name: "farmId", type: "uint256" },
@@ -223,6 +232,15 @@ export default [
             internalType: "uint256",
             name: "amountOutMinimum",
             type: "uint256",
+          },
+          {
+            components: [
+              { internalType: "uint256", name: "sfl", type: "uint256" },
+              { internalType: "uint256", name: "items", type: "uint256" },
+            ],
+            internalType: "struct SunflowerLandMarketplace.MintAmounts",
+            name: "mintAmounts",
+            type: "tuple",
           },
           { internalType: "bytes", name: "signature", type: "bytes" },
         ],
