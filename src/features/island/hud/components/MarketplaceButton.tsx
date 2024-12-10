@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import shopIcon from "assets/icons/shop.png";
+import tradeIcon from "assets/icons/trade.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 
@@ -42,12 +42,12 @@ export const MarketplaceButton = () => {
           }}
         />
         <img
-          src={shopIcon}
+          src={tradeIcon}
           className="absolute"
           style={{
             top: `${PIXEL_SCALE * 2.6}px`,
-            left: `${PIXEL_SCALE * 4.3}px`,
-            width: `${PIXEL_SCALE * 13.5}px`,
+            left: `${PIXEL_SCALE * 3.4}px`,
+            width: `${PIXEL_SCALE * 15.5}px`,
           }}
         />
       </div>

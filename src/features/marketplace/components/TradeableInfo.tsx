@@ -12,7 +12,7 @@ import brownBg from "assets/brand/brown_background.png";
 import { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
 
@@ -85,33 +85,34 @@ export const TradeableDescription: React.FC<{
         <Label type="default" className="mb-1" icon={SUNNYSIDE.icons.search}>
           {t("marketplace.description")}
         </Label>
-        <p className="text-sm mb-2">{display.description}</p>
-        {display.buff && (
-          <Label
-            icon={display.buff.boostTypeIcon}
-            type={display.buff.labelType}
-            className="mb-2"
-          >
-            {display.buff.shortDescription}
-          </Label>
+        <div className="flex flex-col space-y-1">
+          <p className="text-xs mb-1">{display.description}</p>
+          {display.buff && (
+            <Label
+              icon={display.buff.boostTypeIcon}
+              type={display.buff.labelType}
+            >
+              {display.buff.shortDescription}
+            </Label>
+          )}
+        </div>
+        {tradeable?.expiresAt && (
+          <div className="p-2">
+            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+              {`${secondsToString((tradeable.expiresAt - Date.now()) / 1000, {
+                length: "short",
+              })} left`}
+            </Label>
+          </div>
+        )}
+        {tradeable && !tradeable?.isActive && (
+          <div className="p-2">
+            <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+              {t("marketplace.notForSale")}
+            </Label>
+          </div>
         )}
       </div>
-      {tradeable?.expiresAt && (
-        <div className="p-2">
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            {`${secondsToString((tradeable.expiresAt - Date.now()) / 1000, {
-              length: "short",
-            })} left`}
-          </Label>
-        </div>
-      )}
-      {tradeable && !tradeable?.isActive && (
-        <div className="p-2">
-          <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-            {t("marketplace.notForSale")}
-          </Label>
-        </div>
-      )}
     </InnerPanel>
   );
 };
@@ -139,9 +140,12 @@ export const TradeableMobileInfo: React.FC<{
   }
 
   return (
-    <div className="flex justify-between gap-1 items-center">
-      <TradeableImage display={display} supply={tradeable?.supply} />
-      <TradeableStats history={tradeable?.history} price={latestSale} />
-    </div>
+    <>
+      <div className="flex justify-between gap-1 items-center">
+        <TradeableImage display={display} supply={tradeable?.supply} />
+        <TradeableStats history={tradeable?.history} price={latestSale} />
+      </div>
+      <TradeableDescription display={display} tradeable={tradeable} />
+    </>
   );
 };

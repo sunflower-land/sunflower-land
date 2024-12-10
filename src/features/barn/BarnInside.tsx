@@ -4,7 +4,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Hud } from "features/island/hud/Hud";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";

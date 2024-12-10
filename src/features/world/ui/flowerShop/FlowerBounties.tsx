@@ -5,7 +5,10 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
+import {
+  generateBountyCoins,
+  generateBountyTicket,
+} from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -106,6 +109,7 @@ export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
           );
 
           const isDisabled = !state.inventory[deal.name]?.gt(0);
+          const { coins } = generateBountyCoins({ game: state, bounty: deal });
 
           return (
             <div
@@ -139,7 +143,8 @@ export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
 
                     {!isSold && !!deal.coins && (
                       <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
-                        {deal.coins}
+                        {/* For Future proofing */}
+                        {coins}
                       </Label>
                     )}
 

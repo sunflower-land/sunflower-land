@@ -11,11 +11,6 @@ import { translate } from "lib/i18n/translate";
 export const COLLECTIBLE_BUFF_LABELS: Partial<
   Record<InventoryItemName, BuffLabel>
 > = {
-  Miffy: {
-    shortDescription: translate("miffy.boost"),
-    labelType: "info",
-    boostedItemIcon: powerup,
-  },
   // Crop Boosts
   "Basic Scarecrow": {
     shortDescription: translate("description.basic.scarecrow.boost"),
@@ -601,12 +596,6 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS.Gold.image,
-  },
-
-  "Baby Panda": {
-    shortDescription: translate("description.babyPanda.boost"),
-    labelType: "success",
-    boostTypeIcon: powerup,
   },
 
   "Flower Fox": {

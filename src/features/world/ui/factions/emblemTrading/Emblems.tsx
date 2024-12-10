@@ -23,7 +23,7 @@ import {
 import { getRelativeTime } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { LeaveFaction } from "../LeaveFaction";
 
 interface Props {

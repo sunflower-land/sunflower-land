@@ -1433,7 +1433,7 @@ export interface GameState {
   };
   buds?: Record<number, Bud>;
 
-  christmas?: Christmas;
+  christmas2024?: Christmas;
   flowerShop?: FlowerShop;
   megastore: MegaStore;
   specialEvents: SpecialEvents;

@@ -19,7 +19,6 @@ import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
-import { Bumpkin } from "features/game/types/game";
 import {
   GREENHOUSE_FRUIT_SEEDS,
   PATCH_FRUIT,
@@ -67,7 +66,7 @@ export const Seeds: React.FC = () => {
 
   const { inventory } = state;
 
-  const price = getBuyPrice(selectedName, selected, inventory, state);
+  const price = getBuyPrice(selectedName, selected, state);
 
   const onSeedClick = (seedName: SeedName) => {
     setSelectedName(seedName);
@@ -219,11 +218,7 @@ export const Seeds: React.FC = () => {
     }
 
     if (yields && yields in PATCH_FRUIT())
-      return getFruitPatchTime(
-        selectedName as PatchFruitSeedName,
-        state,
-        (state.bumpkin as Bumpkin)?.equipped ?? {},
-      );
+      return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
 
     if (
       selectedName in GREENHOUSE_SEEDS ||

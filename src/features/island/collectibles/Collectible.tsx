@@ -42,6 +42,7 @@ export type CollectibleProps = {
   grid: GameGrid;
   location: PlaceableLocation;
   game: GameState;
+  z?: number | string;
 };
 
 type Props = CollectibleProps & {
@@ -151,6 +152,7 @@ const CollectibleComponent: React.FC<Props> = ({
   grid,
   location,
   game,
+  z,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
@@ -159,7 +161,7 @@ const CollectibleComponent: React.FC<Props> = ({
   useUiRefresher({ active: inProgress });
 
   return (
-    <div className="h-full">
+    <div className="h-full" style={{ zIndex: z }}>
       {inProgress ? (
         <InProgressCollectible
           key={id}
@@ -228,14 +230,18 @@ const LandscapingCollectible: React.FC<Props> = (props) => {
             </InnerPanel>
           </div>
         )}
-        <CollectiblePlaced {...props} />
+        <div style={{ zIndex: props.z }}>
+          <CollectiblePlaced {...props} />
+        </div>
       </div>
     );
   }
 
   return (
     <MoveableComponent {...(props as any)}>
-      <CollectiblePlaced {...props} />
+      <div style={{ zIndex: props.z }}>
+        <CollectiblePlaced {...props} />
+      </div>
     </MoveableComponent>
   );
 };

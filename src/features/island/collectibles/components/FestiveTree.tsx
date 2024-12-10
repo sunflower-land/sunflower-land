@@ -5,7 +5,6 @@ import festiveTreeImage from "assets/sfts/festive_tree.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
@@ -14,6 +13,7 @@ import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
 
 interface Props {
   id: string;
@@ -26,7 +26,10 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
 
   const [showGiftedModal, setShowGiftedModal] = useState(false);
   const [showWrongTimeModal, setShowWrongTimeModal] = useState(false);
-  const trees = gameState.context.state.collectibles["Festive Tree"] ?? [];
+  const trees = [
+    ...(gameState.context.state.collectibles["Festive Tree"] || []),
+    ...(gameState.context.state.home.collectibles["Festive Tree"] || []),
+  ];
   const tree = trees.find((t) => t.id === id);
 
   const [isRevealing, setIsRevealing] = useState(false);
@@ -105,8 +108,8 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
 
       {gameState.matches("revealing") && isRevealing && (
         <Modal show>
-          <Panel bumpkinParts={NPC_WEARABLES.santa}>
-            <Revealing icon={festiveTreeImage} />
+          <Panel>
+            <ChestRevealing type="Festive Tree Rewards" />
           </Panel>
         </Modal>
       )}

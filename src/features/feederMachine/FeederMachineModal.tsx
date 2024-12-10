@@ -14,6 +14,7 @@ import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { ANIMAL_FOODS, Feed, FeedType } from "features/game/types/animals";
 import { Label } from "components/ui/Label";
+import { getIngredients } from "./feedMixed";
 
 interface Props {
   show: boolean;
@@ -28,10 +29,17 @@ const FOOD_TYPE_TERMS = {
 export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService, shortcutItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const [selectedName, setSelectedName] = useState<
     AnimalFoodName | AnimalMedicineName
   >("Hay");
-  const { coins, ingredients } = ANIMAL_FOODS[selectedName];
+  const { coins } = ANIMAL_FOODS[selectedName];
+
+  const { ingredients } = getIngredients({ state, name: selectedName });
 
   const groupedItems = getKeys(ANIMAL_FOODS).reduce(
     (acc, item) => {
@@ -44,12 +52,6 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
     },
     {} as Record<FeedType, Feed[]>,
   );
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
     setSelectedName(item);

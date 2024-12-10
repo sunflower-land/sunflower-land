@@ -8,6 +8,7 @@ import { GameWallet } from "features/wallet/Wallet";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { config } from "features/wallet/WalletProvider";
+import { VIPAccess } from "features/game/components/VipAccess";
 
 import { TradeableDisplay } from "../lib/tradeables";
 import { Context } from "features/game/GameProvider";
@@ -24,9 +25,13 @@ import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/craftables";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 
 const _balance = (state: MachineState) => state.context.state.balance;
-
+const _isVIP = (state: MachineState) =>
+  hasVipAccess(state.context.state.inventory);
 export const MakeOffer: React.FC<{
   display: TradeableDisplay;
   floorPrice: number;
@@ -40,9 +45,11 @@ export const MakeOffer: React.FC<{
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   const balance = useSelector(gameService, _balance);
+  const isVIP = useSelector(gameService, _isVIP);
+  const { openModal } = useContext(ModalContext);
 
   const [offer, setOffer] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -87,7 +94,7 @@ export const MakeOffer: React.FC<{
         item: display.name,
         collection: display.type,
         id: BigInt(itemId),
-        quantity: BigInt(1),
+        quantity: BigInt(Math.max(1, quantity)),
         SFL: BigInt(offer),
       },
     });
@@ -114,7 +121,7 @@ export const MakeOffer: React.FC<{
         collection: display.type,
         signature,
         contract: CONFIG.MARKETPLACE_VERIFIER_CONTRACT,
-        quantity,
+        quantity: Math.max(1, quantity),
         sfl: offer,
       },
       authToken,
@@ -122,6 +129,14 @@ export const MakeOffer: React.FC<{
 
     onClose();
   };
+
+  const estTradePoints =
+    offer === 0
+      ? 0
+      : calculateTradePoints({
+          sfl: offer,
+          points: tradeType === "instant" ? 2 : 10,
+        }).multipliedPoints;
 
   if (showConfirmation) {
     return (
@@ -131,7 +146,12 @@ export const MakeOffer: React.FC<{
             {t("are.you.sure")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary display={display} sfl={offer} quantity={quantity} />
+          <TradeableSummary
+            display={display}
+            sfl={offer}
+            quantity={quantity}
+            estTradePoints={estTradePoints}
+          />
         </div>
 
         <div className="flex">
@@ -156,7 +176,8 @@ export const MakeOffer: React.FC<{
             <TradeableSummary
               display={display}
               sfl={offer}
-              quantity={quantity}
+              quantity={Math.max(1, quantity)}
+              estTradePoints={estTradePoints}
             />
           </div>
 
@@ -191,10 +212,21 @@ export const MakeOffer: React.FC<{
   return (
     <>
       <div className="p-2">
-        <div className="flex justify-between mb-2">
+        <div className="flex flex-wrap justify-between mb-2">
           <Label type="default" className="-ml-1 mb-1">
             {t("marketplace.makeOffer")}
           </Label>
+          {!isVIP && (
+            <VIPAccess
+              isVIP={isVIP}
+              onUpgrade={() => {
+                openModal("BUY_BANNER");
+              }}
+              // text={t("marketplace.unlockSelling")}
+              labelType={!isVIP ? "danger" : undefined}
+            />
+          )}
+
           {tradeType === "onchain" && (
             <Label type="formula" icon={walletIcon} className="-mr-1">
               {t("marketplace.walletRequired")}
@@ -226,7 +258,7 @@ export const MakeOffer: React.FC<{
           {t("cancel")}
         </Button>
         <Button
-          disabled={!offer || balance.lt(offer)}
+          disabled={!offer || balance.lt(offer) || !isVIP}
           onClick={submitOffer}
           className="relative"
         >

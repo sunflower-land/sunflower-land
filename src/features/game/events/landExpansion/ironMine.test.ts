@@ -254,7 +254,7 @@ describe("mineIron", () => {
           },
         },
       });
-      expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.1 * 1000);
+      expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.3 * 1000);
     });
 
     it("returns normal mined at", () => {

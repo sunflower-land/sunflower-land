@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { useSelector } from "@xstate/react";
-import { Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 

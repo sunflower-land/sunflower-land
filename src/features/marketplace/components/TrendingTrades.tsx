@@ -6,7 +6,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import classNames from "classnames";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import sflIcon from "assets/icons/sfl.webp";
 import increaseIcon from "assets/icons/increase_arrow.png";
 import decreaseIcon from "assets/icons/decrease_arrow.png";

@@ -16,6 +16,8 @@ import { tradeToId } from "features/marketplace/lib/offers";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import Decimal from "decimal.js-light";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
+import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 /**
  * Display listings that have been fulfilled
@@ -65,6 +67,10 @@ export const MarketplaceSalesPopup: React.FC = () => {
           });
           const amount = listing.items[itemName as InventoryItemName];
           const sfl = new Decimal(listing.sfl).mul(1 - MARKETPLACE_TAX);
+          const estTradePoints = calculateTradePoints({
+            sfl: listing.sfl,
+            points: !listing.signature ? 1 : 5,
+          }).multipliedPoints;
           return (
             <div className="flex flex-col space-y-1" key={listingId}>
               <div className="flex items-center justify-between">
@@ -79,6 +85,18 @@ export const MarketplaceSalesPopup: React.FC = () => {
                         decimalPlaces: 4,
                       })} SFL`}</p>
                       <img src={token} className="w-4" />
+                    </div>
+                    <div className="flex items-center">
+                      <span className="text-xs">
+                        {`${formatNumber(estTradePoints, {
+                          decimalPlaces: 2,
+                          showTrailingZeros: false,
+                        })} Trade Points`}
+                      </span>
+                      <img
+                        src={ITEM_DETAILS["Trade Point"].image}
+                        className="h-6 ml-1"
+                      />
                     </div>
                   </div>
                 </div>

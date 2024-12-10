@@ -24,6 +24,11 @@ export function getSpeedUpCost(gameState: GameState, composter: ComposterName) {
   if (gameState.bumpkin.skills["Composting Bonanza"]) {
     resourceBoostRequirements *= 2;
   }
+
+  if (gameState.bumpkin.skills["Feathery Business"]) {
+    resourceBoostRequirements *= 2;
+  }
+
   return { resourceBoostRequirements };
 }
 

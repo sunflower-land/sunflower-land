@@ -5,7 +5,10 @@ import { Context } from "features/game/GameProvider";
 import { PatchFruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 import Decimal from "decimal.js-light";
-import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
+import {
+  getRequiredAxeAmount,
+  getWoodReward,
+} from "features/game/events/landExpansion/fruitTreeRemoved";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
@@ -158,8 +161,9 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
     });
 
     if (!newState.matches("hoarding")) {
+      const { woodReward } = getWoodReward({ state: game });
       setCollectingWood(true);
-      setCollectedWoodAmount(1);
+      setCollectedWoodAmount(woodReward);
 
       treeFallAudio();
 

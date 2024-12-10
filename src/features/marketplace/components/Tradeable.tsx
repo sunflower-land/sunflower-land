@@ -2,7 +2,7 @@ import { CollectionName } from "features/game/types/marketplace";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { isMobile } from "mobile-device-detect";

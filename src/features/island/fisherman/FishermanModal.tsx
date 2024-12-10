@@ -40,9 +40,13 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getRemainingReels } from "features/game/events/landExpansion/castRod";
 import { BuffLabel } from "features/game/types";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getReelGemPrice } from "features/game/events/landExpansion/buyMoreReels";
-import { getItemImage } from "features/world/ui/beach/Digby";
+import {
+  BUMPKIN_REVAMP_SKILL_TREE,
+  BumpkinRevampSkillName,
+} from "features/game/types/bumpkinSkills";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -523,12 +527,63 @@ export const FishermanModal: React.FC<Props> = ({
 };
 
 const BoostReelItems: Partial<
-  Record<BumpkinItem | CollectibleName, BuffLabel & { location: string }>
+  Record<
+    BumpkinItem | CollectibleName | BumpkinRevampSkillName,
+    BuffLabel & { location: string }
+  >
 > = {
   "Angler Waders": {
     ...(BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"] as BuffLabel),
     location: "Expert Angler Achievement",
   },
+  "Fisherman's 2 Fold": {
+    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 2 Fold"].boosts,
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.icons.fish,
+    location: "Fishing Skill Tree",
+  },
+  "Fisherman's 5 Fold": {
+    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts,
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.icons.fish,
+    location: "Fishing Skill Tree",
+  },
+  "More With Less": {
+    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts,
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.icons.fish,
+    location: "Fishing Skill Tree",
+  },
+};
+
+const isWearable = (
+  item: BumpkinItem | CollectibleName | BumpkinRevampSkillName,
+): item is BumpkinItem => {
+  return getKeys(ITEM_IDS).includes(item as BumpkinItem);
+};
+
+const isSkill = (
+  item: BumpkinItem | CollectibleName | BumpkinRevampSkillName,
+): item is BumpkinRevampSkillName =>
+  getKeys(BUMPKIN_REVAMP_SKILL_TREE).includes(item as BumpkinRevampSkillName);
+
+export const getItemImage = (
+  item: BumpkinItem | CollectibleName | BumpkinRevampSkillName,
+): string => {
+  if (!item) return "";
+
+  if (isWearable(item)) {
+    return getImageUrl(ITEM_IDS[item]);
+  }
+
+  if (isSkill(item)) {
+    return BUMPKIN_REVAMP_SKILL_TREE[item].image;
+  }
+
+  return ITEM_DETAILS[item].image;
 };
 
 const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {

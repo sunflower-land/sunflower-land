@@ -268,6 +268,10 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
+  if (food.name in FISH_CONSUMABLES && !!skills["Fishy Feast"]) {
+    boostedExp = boostedExp.mul(1.2);
+  }
+
   if (hasVipAccess(game.inventory)) {
     boostedExp = boostedExp.mul(1.1);
   }
@@ -279,20 +283,17 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(2);
   }
 
-  if (
-    isCollectibleBuilt({ name: "Miffy", game }) &&
-    createdAt < new Date("2024-11-01T00:00:00").getTime()
-  ) {
-    boostedExp = boostedExp.mul(2);
-  }
-
   // Munching Mastery - 5% exp boost
   if (skills["Munching Mastery"]) {
     boostedExp = boostedExp.mul(1.05);
   }
 
   // Juicy Boost - 10% exp boost on juice
-  if (food.name.includes("Juice") && skills["Juicy Boost"]) {
+  if (
+    isCookable(food) &&
+    food.building === "Smoothie Shack" &&
+    skills["Juicy Boost"]
+  ) {
     boostedExp = boostedExp.mul(1.1);
   }
 

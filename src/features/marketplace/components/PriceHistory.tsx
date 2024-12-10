@@ -11,7 +11,7 @@ import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { getRelativeTime } from "lib/utils/time";
 import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
 import decreaseLeftArrow from "assets/icons/decrease_left_arrow.webp";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   history,
@@ -22,7 +22,7 @@ export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
       <Label type="default" className="m-1">
         {t("marketplace.saleHistory")}
       </Label>
-      <div className="p-1">
+      <div className="p-2">
         {history ? <Sales sales={history.sales ?? []} /> : <Loading />}
       </div>
     </InnerPanel>

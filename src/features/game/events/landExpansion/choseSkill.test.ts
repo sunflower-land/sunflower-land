@@ -13,10 +13,10 @@ describe("choseSkill", () => {
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[4],
-            skills: { "Green Thumb 2": 1 },
+            skills: { "Green Thumb": 1 },
           },
         },
-        action: { type: "skill.chosen", skill: "Green Thumb 2" },
+        action: { type: "skill.chosen", skill: "Green Thumb" },
         createdAt: dateNow,
       });
     }).toThrow("You already have this skill");
@@ -32,11 +32,11 @@ describe("choseSkill", () => {
           skills: {},
         },
       },
-      action: { type: "skill.chosen", skill: "Green Thumb 2" },
+      action: { type: "skill.chosen", skill: "Green Thumb" },
       createdAt: dateNow,
     });
 
-    expect(result.bumpkin?.skills).toEqual({ "Green Thumb 2": 1 });
+    expect(result.bumpkin?.skills).toEqual({ "Green Thumb": 1 });
   });
 
   it("adds the Cultivator skill to bumpkin", () => {
@@ -46,7 +46,7 @@ describe("choseSkill", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
-          skills: { "Green Thumb 2": 1 },
+          skills: { "Green Thumb": 1 },
         },
       },
       action: { type: "skill.chosen", skill: "Young Farmer" },
@@ -55,7 +55,7 @@ describe("choseSkill", () => {
 
     expect(result.bumpkin?.skills).toEqual({
       "Young Farmer": 1,
-      "Green Thumb 2": 1,
+      "Green Thumb": 1,
     });
   });
 
@@ -67,7 +67,7 @@ describe("choseSkill", () => {
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[4],
-            skills: { "Green Thumb 2": 1 },
+            skills: { "Green Thumb": 1 },
           },
         },
         action: { type: "skill.chosen", skill: "Strong Roots" },
@@ -83,7 +83,7 @@ describe("choseSkill", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[4],
-          skills: { "Green Thumb 2": 1, "Young Farmer": 1 },
+          skills: { "Green Thumb": 1, "Young Farmer": 1 },
         },
       },
       action: { type: "skill.chosen", skill: "Strong Roots" },
@@ -91,7 +91,7 @@ describe("choseSkill", () => {
     });
 
     expect(result.bumpkin?.skills).toEqual({
-      "Green Thumb 2": 1,
+      "Green Thumb": 1,
       "Young Farmer": 1,
       "Strong Roots": 1,
     });
@@ -106,7 +106,7 @@ describe("choseSkill", () => {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[8],
             skills: {
-              "Green Thumb 2": 1,
+              "Green Thumb": 1,
               "Young Farmer": 1,
               "Experienced Farmer": 1,
             },
@@ -126,7 +126,7 @@ describe("choseSkill", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[8],
           skills: {
-            "Green Thumb 2": 1,
+            "Green Thumb": 1,
             "Young Farmer": 1,
             "Experienced Farmer": 1,
             "Strong Roots": 1,
@@ -138,7 +138,7 @@ describe("choseSkill", () => {
     });
 
     expect(result.bumpkin?.skills).toEqual({
-      "Green Thumb 2": 1,
+      "Green Thumb": 1,
       "Young Farmer": 1,
       "Experienced Farmer": 1,
       "Strong Roots": 1,
@@ -159,7 +159,7 @@ describe("choseSkill", () => {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[8],
             skills: {
-              "Green Thumb 2": 1,
+              "Green Thumb": 1,
               "Young Farmer": 1,
               "Experienced Farmer": 1,
               "Strong Roots": 1,
@@ -185,7 +185,7 @@ describe("choseSkill", () => {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[8],
             skills: {
-              "Green Thumb 2": 1,
+              "Green Thumb": 1,
               "Young Farmer": 1,
               "Experienced Farmer": 1,
               "Strong Roots": 1,

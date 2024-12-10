@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable unused-imports/no-unused-vars */
 import React from "react";
 import { GRID_WIDTH_PX } from "../../lib/constants";
 
@@ -10,6 +12,7 @@ export type Position = {
   height?: number;
   width?: number;
   z?: number;
+  canCollide?: boolean;
 } & Coordinates;
 
 type Props = Position;
@@ -26,6 +29,7 @@ export const MapPlacement: React.FC<Props> = ({
   width,
   children,
   z = "unset",
+  canCollide = true,
 }) => {
   return (
     <div
@@ -35,7 +39,7 @@ export const MapPlacement: React.FC<Props> = ({
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
         height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
         width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
-        zIndex: z === undefined ? "unset" : z,
+        zIndex: z,
       }}
     >
       {children}

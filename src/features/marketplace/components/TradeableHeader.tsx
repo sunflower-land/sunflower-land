@@ -26,10 +26,9 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { VIPAccess } from "features/game/components/VipAccess";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import classNames from "classnames";
@@ -158,9 +157,12 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
         <div className="p-2 pt-1">
           <div className="flex flex-wrap items-center justify-between mb-3 space-y-1">
             <div
-              className={classNames("flex items-center justify-between", {
-                "w-full": isMobile && showWalletRequired,
-              })}
+              className={classNames(
+                "flex items-center justify-between w-full",
+                {
+                  "w-full": isMobile && showWalletRequired,
+                },
+              )}
             >
               <Label
                 type="default"
@@ -181,25 +183,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 </Label>
               )}
             </div>
-            <div
-              className={classNames("flex items-center justify-between", {
-                "w-full": isMobile && showFreeListing,
-              })}
-            >
-              <VIPAccess
-                isVIP={isVIP}
-                onUpgrade={() => {
-                  openModal("BUY_BANNER");
-                }}
-                text={t("marketplace.unlockSelling")}
-                labelType={!isVIP && dailyListings >= 1 ? "danger" : undefined}
-              />
-              {!isVIP && dailyListings === 0 && (
-                <Label type="success" className="ml-0 sm:ml-3">
-                  {t("remaining.free.listing")}
-                </Label>
-              )}
-            </div>
           </div>
 
           <div className="flex items-center justify-between flex-wrap">
@@ -215,10 +198,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                     <p className={classNames("text-base")}>
                       {!tradeable
                         ? "0.00 SFL"
-                        : cheapestListing?.sfl ?? "? SFL"}
+                        : `${formatNumber(cheapestListing?.sfl ?? 0, {
+                            decimalPlaces: 2,
+                            showTrailingZeros: true,
+                          })} SFL`}
                     </p>
                     <p className="text-xs">
-                      {`${new Decimal(usd)
+                      {`$${new Decimal(usd)
                         .mul(cheapestListing?.sfl ?? 0)
                         .toFixed(2)}`}
                     </p>

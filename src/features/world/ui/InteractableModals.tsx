@@ -37,6 +37,7 @@ import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
+import { ChristmasReward } from "./npcs/Santa";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -824,6 +825,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         onHide={closeModal}
       >
         <GoblinMarket onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "christmas_reward"} onHide={closeModal}>
+        <ChristmasReward onClose={closeModal} />
       </Modal>
     </>
   );

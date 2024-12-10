@@ -68,6 +68,11 @@ export function getToolPrice(
     price = price * 0.8;
   }
 
+  // Reel Deal: 50% off fishing rods
+  if (bumpkin.skills["Reel Deal"] && name === "Rod") {
+    price *= 0.5;
+  }
+
   // Artist's Discount Skill: 10% off
   if (inventory["Artist"]?.gte(1)) {
     price = price * 0.9;
