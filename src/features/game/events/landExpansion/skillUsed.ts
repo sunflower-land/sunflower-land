@@ -4,7 +4,12 @@ import {
   BumpkinSkillRevamp,
 } from "features/game/types/bumpkinSkills";
 import { getKeys } from "features/game/types/decorations";
-import { GameState, CropPlot, Tree } from "features/game/types/game";
+import {
+  GameState,
+  CropPlot,
+  Tree,
+  GreenhousePot,
+} from "features/game/types/game";
 import { produce } from "immer";
 
 export type SkillUseAction = {
@@ -40,9 +45,24 @@ function useTreeBlitz({ trees }: { trees: Record<string, Tree> }) {
   return trees;
 }
 
+function useGreenhouseGuru({
+  greenhousePot,
+}: {
+  greenhousePot: Record<string, GreenhousePot>;
+}) {
+  getKeys(greenhousePot).forEach((pot) => {
+    const { plant } = greenhousePot[pot];
+    if (plant) {
+      plant.plantedAt = 1;
+    }
+  });
+
+  return greenhousePot;
+}
+
 export function skillUse({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
-    const { bumpkin, crops, trees } = stateCopy;
+    const { bumpkin, crops, trees, greenhouse } = stateCopy;
 
     const { skill } = action;
 
@@ -88,6 +108,12 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
 
     if (skill === "Tree Blitz") {
       stateCopy.trees = useTreeBlitz({ trees });
+    }
+
+    if (skill === "Greenhouse Guru") {
+      stateCopy.greenhouse.pots = useGreenhouseGuru({
+        greenhousePot: greenhouse.pots,
+      });
     }
 
     // Return the new state

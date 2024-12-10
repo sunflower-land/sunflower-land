@@ -1143,6 +1143,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       points: 3,
       tier: 3,
       island: "desert",
+      cooldown: 96 * 60 * 60 * 1000,
     },
     boosts:
       "Ability to make all Greenhouse crops currently growing ready to be harvested (1/96h)",

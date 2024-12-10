@@ -251,4 +251,55 @@ describe("skillUse", () => {
       expect(state.trees["456"].wood.choppedAt).toEqual(Date.now());
     });
   });
+
+  describe.only("useGreenhouseGuru", () => {
+    it("activates Greenhouse Guru", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Greenhouse Guru": 1 },
+          },
+          greenhouse: {
+            oil: 76,
+            pots: {
+              "1": {
+                plant: {
+                  amount: 1,
+                  name: "Olive",
+                  plantedAt: 1733803854974,
+                },
+              },
+              "2": {
+                plant: {
+                  amount: 1,
+                  name: "Olive",
+                  plantedAt: 1733803856819,
+                },
+              },
+              "3": {
+                plant: {
+                  amount: 1,
+                  name: "Olive",
+                  plantedAt: 1733803855784,
+                },
+              },
+              "4": {
+                plant: {
+                  amount: 1,
+                  name: "Olive",
+                  plantedAt: 1733803857337,
+                },
+              },
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Greenhouse Guru" },
+        createdAt: Date.now(),
+      });
+
+      expect(state.greenhouse.pots[1].plant?.plantedAt).toEqual(1);
+    });
+  });
 });
