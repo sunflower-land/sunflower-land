@@ -259,7 +259,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "basic",
+    type: "spring",
   },
   mysteryPrizes: {},
   minigames: {
@@ -325,6 +325,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     ...TEST_BUMPKIN,
     skills: {
       "Double Nom": 1,
+      "Cow-Smart Nutrition": 1,
     },
   },
   buds: {
@@ -1705,7 +1706,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         type: "Cow",
         createdAt: 0,
         lovedAt: 0,
-        state: "ready",
+        state: "idle",
         item: "Brush",
         reward: {
           items: [
@@ -1724,7 +1725,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         type: "Sheep",
         createdAt: 0,
         lovedAt: 0,
-        state: "happy",
+        state: "idle",
         item: "Brush",
       },
     },

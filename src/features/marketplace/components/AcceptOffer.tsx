@@ -25,6 +25,7 @@ import {
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { Context } from "features/game/GameProvider";
 import { TradeableSummary } from "./TradeableSummary";
+import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -95,6 +96,14 @@ const AcceptOfferContent: React.FC<{
     hasItem = !!getBasketItems(game.inventory)[name]?.gte(offer.quantity);
   }
 
+  const estTradePoints =
+    offer.sfl === 0
+      ? 0
+      : calculateTradePoints({
+          sfl: offer.sfl,
+          points: offer.type === "instant" ? 1 : 5,
+        }).multipliedPoints;
+
   return (
     <>
       <div className="p-2">
@@ -112,6 +121,7 @@ const AcceptOfferContent: React.FC<{
           display={display}
           sfl={offer.sfl}
           quantity={offer.quantity}
+          estTradePoints={estTradePoints}
         />
       </div>
 

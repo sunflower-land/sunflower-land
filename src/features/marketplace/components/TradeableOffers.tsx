@@ -162,9 +162,9 @@ export const TradeableOffers: React.FC<{
                 {t("marketplace.offers")}
               </Label>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex w-full flex-col sm:flex-row items-center justify-between">
               {topOffer ? (
-                <div className="flex items-center">
+                <div className="flex w-full mb-2 sm:mb-0 items-center">
                   <img src={sflIcon} className="h-8 mr-2" />
                   <div>
                     <p className="text-base">{`${topOffer.sfl} SFL`}</p>
@@ -181,23 +181,28 @@ export const TradeableOffers: React.FC<{
                 <div />
               )}
               {!loading && (
-                <div className="flex items-center">
+                <div className="flex items-center w-full sm:w-fit">
                   {tradeable?.isActive && (
                     <Button
                       className="w-full sm:w-fit mr-1"
                       disabled={!tradeable || !tradeable?.isActive}
                       onClick={() => setShowMakeOffer(true)}
                     >
-                      {t("marketplace.makeOffer")}
+                      <span className="whitespace-nowrap text-xs sm:text-sm">
+                        {t("marketplace.makeOffer")}
+                      </span>
                     </Button>
                   )}
 
                   {topOffer && tradeable?.isActive && (
                     <Button
+                      disabled={topOffer.offeredBy.id === farmId}
                       onClick={() => setShowAcceptOffer(true)}
-                      className="w-fit "
+                      className="w-full sm:w-fit"
                     >
-                      {t("marketplace.acceptOffer")}
+                      <span className="whitespace-nowrap text-xs sm:text-sm">
+                        {t("marketplace.acceptOffer")}
+                      </span>
                     </Button>
                   )}
                 </div>
@@ -209,6 +214,7 @@ export const TradeableOffers: React.FC<{
             <Loading className="mb-2 ml-2" />
           ) : (
             <OfferTable
+              isResource={isResource}
               details={display}
               offers={tradeable?.offers ?? []}
               id={farmId}
@@ -232,7 +238,8 @@ export const TradeableOffers: React.FC<{
               )}
               {!!tradeable?.offers.length && (
                 <ResourceTable
-                  itemName={KNOWN_ITEMS[Number(id)]}
+                  isResource={isResource}
+                  details={display}
                   balance={balance}
                   items={tradeable?.offers.map((offer) => ({
                     id: offer.tradeId,
@@ -263,7 +270,6 @@ export const TradeableOffers: React.FC<{
           <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
             <Button
               className="w-full sm:w-fit"
-              disabled={!tradeable}
               onClick={() => setShowMakeOffer(true)}
             >
               {t("marketplace.makeOffer")}

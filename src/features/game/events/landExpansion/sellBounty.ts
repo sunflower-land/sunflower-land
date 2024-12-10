@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isWearableActive } from "features/game/lib/wearables";
+import { ANIMALS } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { BountyRequest, GameState } from "features/game/types/game";
@@ -61,6 +62,26 @@ export function generateBountyTicket({
   return amount;
 }
 
+export function generateBountyCoins({
+  game,
+  bounty,
+}: {
+  game: GameState;
+  bounty: BountyRequest;
+}) {
+  let { coins = 0 } = bounty;
+  let multiplier = 1;
+
+  const isAnimalBounty = bounty.name in ANIMALS;
+
+  if (game.bumpkin.skills["Bountiful Bounties"] && isAnimalBounty) {
+    multiplier += 0.5;
+  }
+
+  coins *= multiplier;
+  return { coins };
+}
+
 export function sellBounty({
   state,
   action,
@@ -106,9 +127,14 @@ export function sellBounty({
     }
     draft.inventory[request.name] = item.minus(1);
 
+    const { coins } = generateBountyCoins({
+      game: draft,
+      bounty: request,
+    });
+
     // Add rewards
     if (request.coins) {
-      draft.coins += request.coins;
+      draft.coins += coins;
     }
 
     getKeys(request.items ?? {}).forEach((name) => {

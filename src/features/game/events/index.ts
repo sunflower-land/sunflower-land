@@ -420,6 +420,7 @@ import {
   redeemTradeReward,
   RedeemTradeRewardsAction,
 } from "./landExpansion/redeemTradeReward";
+import { collectCandy, CollectCandyAction } from "./landExpansion/collectCandy";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -548,7 +549,9 @@ export type PlayingEvent =
   | DiscoverRecipeAction
   | UnlockFarmhandAction
   | ClaimPurchaseAction
-  | RedeemTradeRewardsAction;
+  | RedeemTradeRewardsAction
+  // To remove once December is finished
+  | CollectCandyAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -742,6 +745,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "fishing.reelsBought": buyMoreReels,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
+  "candy.collected": collectCandy,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

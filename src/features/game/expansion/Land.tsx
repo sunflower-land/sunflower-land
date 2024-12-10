@@ -229,7 +229,7 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
-              z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
+              canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
             >
               <Collectible
                 location="farm"
@@ -242,6 +242,7 @@ const getIslandElements = ({
                 y={coordinates.y}
                 grid={grid}
                 game={game}
+                z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : "unset"}
               />
             </MapPlacement>
           );
@@ -825,7 +826,20 @@ export const Land: React.FC = () => {
                 airdrops,
                 beehives,
                 oilReserves,
-              }).sort((a, b) => b.props.y - a.props.y)}
+              }).sort((a, b) => {
+                if (a.props.canCollide === false) {
+                  return -1;
+                }
+
+                if (b.props.y > a.props.y) {
+                  return 1;
+                }
+                if (a.props.y > b.props.y) {
+                  return -1;
+                }
+
+                return 0;
+              })}
           </div>
 
           {landscaping && <Placeable location="farm" />}

@@ -27,6 +27,7 @@ import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _isVIP = (state: MachineState) =>
@@ -48,7 +49,7 @@ export const MakeOffer: React.FC<{
   const { openModal } = useContext(ModalContext);
 
   const [offer, setOffer] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -93,7 +94,7 @@ export const MakeOffer: React.FC<{
         item: display.name,
         collection: display.type,
         id: BigInt(itemId),
-        quantity: BigInt(1),
+        quantity: BigInt(Math.max(1, quantity)),
         SFL: BigInt(offer),
       },
     });
@@ -120,7 +121,7 @@ export const MakeOffer: React.FC<{
         collection: display.type,
         signature,
         contract: CONFIG.MARKETPLACE_VERIFIER_CONTRACT,
-        quantity,
+        quantity: Math.max(1, quantity),
         sfl: offer,
       },
       authToken,
@@ -128,6 +129,14 @@ export const MakeOffer: React.FC<{
 
     onClose();
   };
+
+  const estTradePoints =
+    offer === 0
+      ? 0
+      : calculateTradePoints({
+          sfl: offer,
+          points: tradeType === "instant" ? 2 : 10,
+        }).multipliedPoints;
 
   if (showConfirmation) {
     return (
@@ -137,7 +146,12 @@ export const MakeOffer: React.FC<{
             {t("are.you.sure")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary display={display} sfl={offer} quantity={quantity} />
+          <TradeableSummary
+            display={display}
+            sfl={offer}
+            quantity={quantity}
+            estTradePoints={estTradePoints}
+          />
         </div>
 
         <div className="flex">
@@ -162,7 +176,8 @@ export const MakeOffer: React.FC<{
             <TradeableSummary
               display={display}
               sfl={offer}
-              quantity={quantity}
+              quantity={Math.max(1, quantity)}
+              estTradePoints={estTradePoints}
             />
           </div>
 
