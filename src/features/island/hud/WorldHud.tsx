@@ -27,6 +27,7 @@ import { MarketplaceButton } from "./components/MarketplaceButton";
 import { hasFeatureAccess } from "lib/flags";
 import { CandyHUD } from "./CandyHud";
 import { getDayOfChristmas } from "features/game/events/landExpansion/collectCandy";
+import { isMobile } from "mobile-device-detect";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -162,9 +163,11 @@ const HudComponent: React.FC = () => {
         {pathname.includes("plaza") &&
           hasFeatureAccess(gameState.context.state, "CHRISTMAS_2024") && (
             <div
-              className="fixed z-50 flex justify-center w-full"
+              className="absolute z-40 flex justify-center w-full"
               style={{
-                top: `${PIXEL_SCALE * 3}px`,
+                top: isMobile
+                  ? `${PIXEL_SCALE * 15}px`
+                  : `${PIXEL_SCALE * 3}px`,
               }}
             >
               {dayOfChristmas <= 12 && <CandyHUD />}
