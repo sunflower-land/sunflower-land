@@ -28,12 +28,14 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
+import { millisecondsToString } from "lib/utils/time";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
   skillsInPath: BumpkinSkillRevamp[];
   readonly: boolean;
   onBack: () => void;
+  onClose: () => void;
 }
 
 export const SkillPathDetails: React.FC<Props> = ({
@@ -41,6 +43,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   skillsInPath,
   readonly,
   onBack,
+  onClose,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -52,6 +55,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   // States
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [useSkillConfirmation, setUseSkillConfirmation] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
   ); // Default to first skill in path
@@ -85,20 +89,20 @@ export const SkillPathDetails: React.FC<Props> = ({
     }
   };
 
-  const confirmationModal: React.ReactNode = (
-    <ConfirmationModal
-      show={showConfirmationModal}
-      onHide={() => setShowConfirmationModal(false)}
-      messages={[
-        `Are you sure you want to claim ${selectedSkill.name}?`,
-        `This will cost ${selectedSkill.requirements.points} skill points.`,
-      ]}
-      onCancel={() => setShowConfirmationModal(false)}
-      onConfirm={handleClaim}
-      confirmButtonLabel="Claim Skill"
-      disabled={missingPointRequirement || missingSkillsRequirement}
-    />
-  );
+  const useSkill = () => {
+    onClose();
+    setUseSkillConfirmation(false);
+    gameService.send("skill.used", { skill: selectedSkill.name });
+  };
+
+  const { cooldown = 0 } = selectedSkill.requirements;
+
+  const canUsePowerSkill =
+    (bumpkin.previousPowerUseAt?.[
+      selectedSkill.name as BumpkinRevampSkillName
+    ] ?? 0) +
+      cooldown <
+    Date.now();
 
   const renderSkillTier = (skills: BumpkinSkillRevamp[]) => {
     return skills.map((skill) => {
@@ -187,8 +191,8 @@ export const SkillPathDetails: React.FC<Props> = ({
 
             {hasSelectedSkill && selectedSkill.power && (
               <Button
-                disabled={true}
-                onClick={() => setShowConfirmationModal(true)}
+                disabled={!canUsePowerSkill}
+                onClick={() => setUseSkillConfirmation(true)}
               >
                 {"Use"}
               </Button>
@@ -196,7 +200,29 @@ export const SkillPathDetails: React.FC<Props> = ({
           </div>
 
           {/* Confirmation Modal */}
-          {confirmationModal}
+          <ConfirmationModal
+            show={showConfirmationModal}
+            onHide={() => setShowConfirmationModal(false)}
+            messages={[
+              `Are you sure you want to claim ${selectedSkill.name}?`,
+              `This will cost ${selectedSkill.requirements.points} skill points.`,
+            ]}
+            onCancel={() => setShowConfirmationModal(false)}
+            onConfirm={handleClaim}
+            confirmButtonLabel="Claim Skill"
+            disabled={missingPointRequirement || missingSkillsRequirement}
+          />
+          <ConfirmationModal
+            show={useSkillConfirmation}
+            onHide={() => setUseSkillConfirmation(false)}
+            messages={[
+              `Are you sure you want to use ${selectedSkill.name}?`,
+              `You won't be able to use this skill again for ${millisecondsToString(selectedSkill.requirements.cooldown ?? 0, { length: "short", removeTrailingZeros: true })}`,
+            ]}
+            onCancel={() => setUseSkillConfirmation(false)}
+            onConfirm={useSkill}
+            confirmButtonLabel={"Use Skill"}
+          />
         </div>
       }
       content={
