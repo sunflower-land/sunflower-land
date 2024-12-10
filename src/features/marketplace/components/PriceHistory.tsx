@@ -8,10 +8,11 @@ import { Loading } from "features/auth/components";
 import classNames from "classnames";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { getRelativeTime } from "lib/utils/time";
+import { getRelativeTime, getShortRelativeTime } from "lib/utils/time";
 import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
 import decreaseLeftArrow from "assets/icons/decrease_left_arrow.webp";
 import { useNavigate } from "react-router";
+import { isMobile } from "mobile-device-detect";
 
 export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   history,
@@ -103,7 +104,9 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                     </div>
                   </td>
                   <td className="p-1.5 text-xs sm:text-sm truncate text-center">
-                    {getRelativeTime(fulfilledAt)}
+                    {isMobile
+                      ? getShortRelativeTime(fulfilledAt)
+                      : getRelativeTime(fulfilledAt)}
                   </td>
                 </tr>
               );
