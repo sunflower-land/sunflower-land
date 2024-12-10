@@ -19,8 +19,10 @@ type MyTableRowProps = {
   collection: CollectionName;
   unitPrice: number;
   usdPrice: number;
+  isFulfilled: boolean;
   isResource: boolean;
   onCancel: (id: string) => void;
+  onClaim: (id: string) => void;
   onRowClick: () => void;
 };
 
@@ -35,8 +37,10 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
   unitPrice,
   usdPrice,
   isResource,
+  isFulfilled,
   onCancel,
   onRowClick,
+  onClaim,
 }) => {
   const { t } = useAppTranslation();
   const details = getTradeableDisplay({
@@ -98,10 +102,16 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
           className="w-full h-8 rounded-none"
           onClick={(e) => {
             e.stopPropagation();
-            onCancel(id);
+            if (isFulfilled) {
+              onClaim(id);
+            } else {
+              onCancel(id);
+            }
           }}
         >
-          <p className="text-xxs sm:text-sm">{t("cancel")}</p>
+          <p className="text-xxs sm:text-sm">
+            {isFulfilled ? t("claim") : t("cancel")}
+          </p>
         </Button>
       </div>
     </div>
