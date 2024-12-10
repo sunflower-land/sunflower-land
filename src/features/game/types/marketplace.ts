@@ -4,7 +4,7 @@ import { GameState, InventoryItemName } from "./game";
 
 // 1% tax on mainnet for testing
 // 10% tax on sales
-export const MARKETPLACE_TAX = CONFIG.NETWORK === "mainnet" ? 0.01 : 0.1;
+export const MARKETPLACE_TAX = CONFIG.NETWORK === "mainnet" ? 0.05 : 0.1;
 
 export type CollectionName =
   | "collectibles"
