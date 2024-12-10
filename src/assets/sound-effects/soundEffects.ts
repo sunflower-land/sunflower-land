@@ -36,6 +36,7 @@ export const SOUNDS = {
     mountain_escape: `${CONFIG.PROTECTED_IMAGE_URL}/songs/mountain_escape.mp3`,
     royal_farms: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/songs/royal_farms.mp3`,
     willow_tree: `${CONFIG.PROTECTED_IMAGE_URL}/songs/willow_tree.mp3`,
+    sunflower_christmas: `${CONFIG.PROTECTED_IMAGE_URL}/songs/sunflower_christmas.mp3`,
   },
   doors: {
     open: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Door/Farm_Game_Farming_Door_Open_Chest_2_Wood_Creak_Storage_Hinge.mp3`,
