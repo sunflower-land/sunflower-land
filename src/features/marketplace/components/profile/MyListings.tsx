@@ -60,7 +60,8 @@ export const MyListings: React.FC = () => {
 
             return (
               listing.collection === params.collection &&
-              listingItemId === Number(params.id)
+              listingItemId === Number(params.id) &&
+              !!listing.fulfilledAt
             );
           }),
         )
@@ -161,6 +162,7 @@ export const MyListings: React.FC = () => {
                       collection={listing.collection}
                       unitPrice={unitPrice}
                       usdPrice={usd}
+                      isFulfilled={!!listing.fulfilledAt}
                       isResource={isResource}
                       onCancel={() => setRemoveListingId(id)}
                       onRowClick={() =>
@@ -168,6 +170,7 @@ export const MyListings: React.FC = () => {
                           `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${itemId}`,
                         )
                       }
+                      onClaim={() => setClaimId(id)}
                     />
                   );
                 })}

@@ -6,12 +6,13 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SaleHistory as ISaleHistory } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import classNames from "classnames";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { getRelativeTime } from "lib/utils/time";
+import { getRelativeTime, getShortRelativeTime } from "lib/utils/time";
 import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
 import decreaseLeftArrow from "assets/icons/decrease_left_arrow.webp";
 import { useNavigate } from "react-router";
+import { isMobile } from "mobile-device-detect";
 
 export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   history,
@@ -66,10 +67,10 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                 >
                   <td className="p-1.5 sm:w-1/3 truncate text-center relative">
                     <div className="flex items-center">
-                      <div className="relative w-12 h-8">
+                      <div className="relative w-10 h-6">
                         <div className="absolute -top-1">
-                          <NPC
-                            width={20}
+                          <NPCIcon
+                            width={24}
                             parts={
                               interpretTokenUri(seller.bumpkinUri).equipped
                             }
@@ -77,8 +78,8 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                         </div>
 
                         <div className="absolute left-3.5">
-                          <NPC
-                            width={20}
+                          <NPCIcon
+                            width={24}
                             parts={interpretTokenUri(buyer.bumpkinUri).equipped}
                           />
                         </div>
@@ -103,7 +104,9 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                     </div>
                   </td>
                   <td className="p-1.5 text-xs sm:text-sm truncate text-center">
-                    {getRelativeTime(fulfilledAt)}
+                    {isMobile
+                      ? getShortRelativeTime(fulfilledAt)
+                      : getRelativeTime(fulfilledAt)}
                   </td>
                 </tr>
               );

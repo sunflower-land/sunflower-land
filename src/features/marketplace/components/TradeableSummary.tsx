@@ -9,6 +9,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 // TODO - move make offer here, signing state + submitting state
 
@@ -18,6 +19,7 @@ export const TradeableItemDetails: React.FC<{
   sfl: number;
   estTradePoints?: number;
 }> = ({ display, quantity, sfl, estTradePoints }) => {
+  const isResource = display.name in TRADE_LIMITS;
   return (
     <div className="flex">
       <div className="h-12 w-12 mr-2 relative">
@@ -38,7 +40,7 @@ export const TradeableItemDetails: React.FC<{
           <span className="text-sm">{`${sfl} SFL`}</span>
           <img src={sflIcon} className="h-6 ml-1" />
         </div>
-        {estTradePoints && (
+        {estTradePoints && !isResource && (
           <div className="flex items-center">
             <span className="text-sm">
               {`${formatNumber(estTradePoints, {
@@ -61,6 +63,8 @@ export const TradeableSummary: React.FC<{
   estTradePoints?: number;
 }> = ({ display, sfl, quantity, estTradePoints }) => {
   const { t } = useAppTranslation();
+
+  const isResource = display.name in TRADE_LIMITS;
 
   return (
     <div>
@@ -98,7 +102,8 @@ export const TradeableSummary: React.FC<{
       <div
         className="flex justify-between"
         style={{
-          borderBottom: estTradePoints ? "1px solid #ead4aa" : "none",
+          borderBottom:
+            !!estTradePoints && !isResource ? "1px solid #ead4aa" : "none",
           padding: "5px 5px 5px 2px",
         }}
       >
@@ -111,7 +116,7 @@ export const TradeableSummary: React.FC<{
           },
         )} SFL`}</p>
       </div>
-      {!!estTradePoints && (
+      {!!estTradePoints && !isResource && (
         <div
           className="flex justify-between"
           style={{

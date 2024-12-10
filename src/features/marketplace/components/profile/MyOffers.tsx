@@ -176,6 +176,7 @@ export const MyOffers: React.FC = () => {
                       collection={offer.collection}
                       unitPrice={unitPrice}
                       usdPrice={usd}
+                      isFulfilled={!!offer.fulfilledAt}
                       isResource={isResource}
                       onCancel={() => setRemoveId(id)}
                       onRowClick={() =>
@@ -183,6 +184,7 @@ export const MyOffers: React.FC = () => {
                           `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${itemId}`,
                         )
                       }
+                      onClaim={() => setClaimId(id)}
                     />
                   );
                 })}

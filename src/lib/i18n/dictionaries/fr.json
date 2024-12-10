@@ -4471,15 +4471,17 @@
   "npcDialogues.santa.intro2": "Chaque jour, vous trouverez 10 pièces éparpillées sur le Pumpkin Plaza.",
   "npcDialogues.santa.intro3": "Collectionne les 10 bonbons et remporte les prix quotidiens !",
   "npcDialogues.santa.dialogue1": "Ho ho ho ! Récupérez mes bonbons manquants pour obtenir une récompense.",
-  "npcDialogues.santa.dialogue2": "Félicitations, tu as trouvé mes bonbons !",
   "npcDialogues.santa.dialogue3": "Bravo ! Vous avez terminé les 12 jours de Noël. N'oubliez pas de placer le sapin de fête pour un cadeau spécial.",
   "npcDialogues.santa.dialogue4": "Terminez le défi 12 jours d'affilée pour gagner un prix spécial.",
   "npcDialogues.santa.dialogue5": "Ho Ho Ho ! Bravo Bumpkin, tu as trouvé mes bonbons.",
   "npcDialogues.ginger.dialogue1": "Cet arbre de fête regorge de cadeaux et de décorations.",
   "npcDialogues.ginger.dialogue2": "Je me demande ce que je peux recevoir du Père Noël après l'avoir secoué...",
-  "npcDialogues.elf.dialogue1": "Oups, j'ai fait tomber des cannes à sucre sur la place. Si vous en trouvez, rapportez-les au Père Noël pour obtenir une jolie récompense !",
   "candy.remaining": "{{candies}} restant",
   "christmas.days": "Journée {{day}}",
   "christmas.days.completed": "{{completed}} /12 jours terminés",
-  "npcDialogues.santa.nextChallenge": "Prochain défi :"
+  "npcDialogues.santa.nextChallenge": "Prochain défi :",
+  "interactableModals.festiveTree.message1": "On dit que les cadeaux déposés sous ses branches apportent la fortune, et lors de la nuit la plus longue de la période des fêtes, quelqu'un cache un cadeau spécial à ceux qui en sont dignes.",
+  "interactableModals.festiveTree.message2": "À ce jour, l'arbre de fête reste un symbole d'espoir, de fortune et de joie de donner au Pays des Tournesols.",
+  "npcDialogues.santa.dialogue2": "Félicitations, tu as trouvé mes bonbons !",
+  "npcDialogues.elf.dialogue1": "Oups, j'ai fait tomber des bonbons sur la place. Si vous en trouvez, rapportez-les au Père Noël pour obtenir une jolie récompense !"
 }

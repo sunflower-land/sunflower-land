@@ -2185,6 +2185,9 @@
   "interactableModals.castle.message": "Hold it there peasant! There is no way I'm letting you visit the castle",
   "interactableModals.woodlands.message": "Are you travelling to the woodlands? Make sure you pick up some delicious mushrooms!",
   "interactableModals.port.message": "Hold it there! The Goblin's are still building the port. It will be ready for travel and fishing soon.",
+
+  "interactableModals.festiveTree.message1": "It's said that gifts left beneath its branches bring fortune, and on the longest night of the festive period, someone hides a special gift for the worthy to receive.",
+  "interactableModals.festiveTree.message2": "To this day, the Festive Tree remains a beacon of hope, fortune, and the joy of giving in Sunflower Land.",
   "introPage.welcome": "Welcome to the Potion Room, my curious apprentice!",
   "introPage.description": "I am Mad Scientist Bumpkin, here to assist you on this magical quest into the world of botanic sorcery. Get ready to uncover the secrets of Sunflower Land! Each attempt will cost 320 coins.",
   "introPage.mission": "Your mission: decipher the right combination of potions within the enchanted grid.",
@@ -4450,7 +4453,7 @@
   "npcDialogues.santa.intro2": "Each day you will find 10 pieces scattered throughout the Pumpkin Plaza.",
   "npcDialogues.santa.intro3": "Collect the 10 candy and claim the daily prizes!",
   "npcDialogues.santa.dialogue1": "Ho ho ho! Collect my missing candy for a reward.",
-  "npcDialogues.santa.dialogue2": "Congratutlations, you found my candy!",
+  "npcDialogues.santa.dialogue2": "Congratulations, you found my candy!",
   "npcDialogues.santa.dialogue3": "Well done! You have completed the 12 Days of Christmas. Don't forget to place the Festive Tree for a special gift.",
   "npcDialogues.santa.dialogue4": "Complete the challenge 12 days in a row for a special prize.",
   "npcDialogues.santa.dialogue5": "Ho Ho Ho! Well done Bumpkin, you found my candy.",
@@ -4458,7 +4461,7 @@
   "npcDialogues.ginger.dialogue1": "This Festive Tree is full of gifts and decorations.",
   "npcDialogues.ginger.dialogue2": "I wonder what I can receive from Santa after shaking it...",
 
-  "npcDialogues.elf.dialogue1": "Oops, I dropped some candy canes around the plaza. If you find any, bring them back to Santa for a sweet reward!",
+  "npcDialogues.elf.dialogue1": "Oops, I dropped some candies around the plaza. If you find any, bring them back to Santa for a sweet reward!",
 
   "candy.remaining": "{{candies}} remaining",
   "christmas.days": "Day {{day}}",

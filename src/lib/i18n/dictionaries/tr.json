@@ -4471,15 +4471,17 @@
   "npcDialogues.santa.intro2": "Her gün Pumpkin Plaza'ya dağılmış 10 parça bulacaksınız.",
   "npcDialogues.santa.intro3": "10 şekeri topla ve günlük ödülleri al!",
   "npcDialogues.santa.dialogue1": "Ho ho ho! Ödül için eksik şekerimi topla.",
-  "npcDialogues.santa.dialogue2": "Tebrikler, şekerimi buldun!",
   "npcDialogues.santa.dialogue3": "Aferin! Noel'in 12 Gününü tamamladınız. Özel bir hediye için Festival Ağacını yerleştirmeyi unutmayın.",
   "npcDialogues.santa.dialogue4": "Özel bir ödül için mücadeleyi arka arkaya 12 gün tamamlayın.",
   "npcDialogues.santa.dialogue5": "Ho Ho Ho! Aferin Bumpkin, şekerimi buldun.",
   "npcDialogues.ginger.dialogue1": "Bu Şenlik Ağacı hediyeler ve süslemelerle doludur.",
   "npcDialogues.ginger.dialogue2": "Noel Baba'dan salladıktan sonra ne alabileceğimi merak ediyorum...",
-  "npcDialogues.elf.dialogue1": "Hata, meydanın etrafına biraz şeker kamışı attım. Eğer bulursan, tatlı bir ödül için onları Noel Baba'ya geri getir!",
   "candy.remaining": "{{candies}} kalan",
   "christmas.days": "Gün {{day}}",
   "christmas.days.completed": "{{completed}} /12 Gün Tamamlandı",
-  "npcDialogues.santa.nextChallenge": "Sonraki meydan okuma:"
+  "npcDialogues.santa.nextChallenge": "Sonraki meydan okuma:",
+  "interactableModals.festiveTree.message1": "Dallarının altında bırakılan hediyelerin servet getirdiği ve bayram döneminin en uzun gecesinde birinin almaya layık olanlar için özel bir hediye sakladığı söylenir.",
+  "interactableModals.festiveTree.message2": "Bayram Ağacı, bugüne kadar Ayçiçeği Ülkesinde umut, servet ve vermenin sevincinin bir işareti olmaya devam ediyor.",
+  "npcDialogues.santa.dialogue2": "Tebrikler, şekerimi buldun!",
+  "npcDialogues.elf.dialogue1": "Hata, meydanın etrafına biraz şeker attım. Eğer bulursan, tatlı bir ödül için onları Noel Baba'ya geri getir!"
 }

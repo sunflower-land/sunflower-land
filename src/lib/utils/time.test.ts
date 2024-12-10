@@ -8,6 +8,7 @@ import {
   ONE_SEC,
   getRelativeTime,
   getTimeUntil,
+  getShortRelativeTime,
 } from "./time";
 
 describe("time", () => {
@@ -681,6 +682,50 @@ describe("time", () => {
       const target = new Date(now.getTime() + oneSecond);
 
       expect(getTimeUntil(target, now)).toBe("1 second");
+    });
+  });
+
+  describe("getShortRelativeTime", () => {
+    it('returns "now" for the current timestamp', () => {
+      const now = new Date();
+      const result = getShortRelativeTime(now.getTime());
+      expect(result).toEqual("now");
+    });
+
+    it("returns seconds in short format for timestamps within the past minute", () => {
+      const now = new Date();
+      const pastTimestamp = now.getTime() - 5000; // 5 seconds ago
+      const result = getShortRelativeTime(pastTimestamp);
+      expect(result).toBe("5s ago");
+    });
+
+    it("returns minutes in short format for timestamps within the past hour", () => {
+      const now = new Date();
+      const pastTimestamp = now.getTime() - 300000; // 5 minutes ago
+      const result = getShortRelativeTime(pastTimestamp);
+      expect(result).toBe("5m ago");
+    });
+
+    it("returns hours in short format for timestamps within the past day", () => {
+      const now = new Date();
+      const pastTimestamp = now.getTime() - 7200000; // 2 hours ago
+      const result = getShortRelativeTime(pastTimestamp);
+      expect(result).toBe("2h ago");
+    });
+
+    it("returns days in short format for timestamps older than a day", () => {
+      const now = new Date();
+      const pastTimestamp = now.getTime() - 604800000; // 7 days ago
+      const result = getShortRelativeTime(pastTimestamp);
+      expect(result).toBe("7d ago");
+    });
+
+    it("handles singular units correctly", () => {
+      const now = new Date();
+      expect(getShortRelativeTime(now.getTime() - 1000)).toBe("1s ago");
+      expect(getShortRelativeTime(now.getTime() - 60000)).toBe("1m ago");
+      expect(getShortRelativeTime(now.getTime() - 3600000)).toBe("1h ago");
+      expect(getShortRelativeTime(now.getTime() - 86400000)).toBe("1d ago");
     });
   });
 });

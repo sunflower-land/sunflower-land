@@ -42,15 +42,9 @@ export const CandyHUD: React.FC = () => {
           secondaryIcon={SUNNYSIDE.icons.confirm}
           className="ml-1.5"
         >
-          {`Complete`}
+          {t("chores.complete")}
         </Label>
       )}
     </InnerPanel>
-    // <Panel>
-    //   <div className="flex">
-    //     <img src={candy} className="h-4 mr-2" />
-    //     <p className="text-xs">10 remaining</p>
-    //   </div>
-    // </Panel>
   );
 };

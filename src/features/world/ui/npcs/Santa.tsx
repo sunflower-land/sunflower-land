@@ -148,22 +148,21 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
           </Label>
         </div>
 
-        <p className="text-xs mb-1">{t("npcDialogues.santa.dialogue4")}</p>
+        <p className="text-xs mb-2">{t("npcDialogues.santa.dialogue4")}</p>
 
-        <div className="flex overflow-x-auto space-x-1.5 p-2 scrollable">
+        <div className="flex flex-row justify-center gap-1 flex-wrap overflow-y-auto scrollable max-h-96">
           {Object.entries(rewards).map(([day, reward]) => (
             <div
               key={day}
-              className="bg-brown-600 flex-shrink-0 flex flex-col items-center"
+              className="bg-brown-600 flex-shrink-0 flex flex-col items-center mr-1 mb-1 w-28 sm:w-32 md:w-32 lg:w-34"
               style={{
                 ...pixelDarkBorderStyle,
-                width: "140px",
-                height: "140px",
+                height: "120px",
               }}
             >
               <Label
                 type="default"
-                className="text-center bottom-1 text-xxs mb-2"
+                className="text-center bottom-1 text-xxs "
                 secondaryIcon={
                   complete >= Number(day) ? SUNNYSIDE.icons.confirm : gift
                 }
@@ -175,10 +174,10 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
                 {t("christmas.days", { day })}
               </Label>
 
-              <div className="flex justify-center p-2 w-full h-full overflow-x-auto scrollable">
+              <div className="flex justify-center w-full h-full overflow-y-auto scrollable">
                 {reward.sfl > 0 && (
                   <>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col items-center">
                       <SquareIcon key={`${day}-sfl`} icon={token} width={20} />
                       <span className="text-xxs flex text-center">
                         {reward.sfl + " SFL"}
@@ -189,36 +188,36 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
                 {Object.entries(reward.items).length > 0 && (
                   <div className="flex flex-col">
                     {getKeys(reward.items).map((item) => (
-                      <>
-                        <div className="flex items-center flex-col mb-6">
-                          <SquareIcon
-                            key={`${day}-${item}`}
-                            icon={ITEM_DETAILS[item as InventoryItemName].image}
-                            width={20}
-                          />
-                          <span className="text-xxs flex text-center">
-                            {reward.items[item] + " " + item}
-                          </span>
-                        </div>
-                      </>
+                      <div
+                        className="flex items-center flex-col mb-6"
+                        key={`${day}-${item}-item`}
+                      >
+                        <SquareIcon
+                          icon={ITEM_DETAILS[item as InventoryItemName].image}
+                          width={20}
+                        />
+                        <span className="text-xxs flex text-center">
+                          {reward.items[item] + " " + item}
+                        </span>
+                      </div>
                     ))}
                   </div>
                 )}
                 {Object.entries(reward.wearables).length > 0 && (
                   <div className="flex flex-col">
                     {getKeys(reward.wearables).map((item) => (
-                      <>
-                        <div className="flex items-center flex-col mb-6">
-                          <SquareIcon
-                            key={`${day}-${item}`}
-                            icon={getImageUrl(ITEM_IDS[item as BumpkinItem])}
-                            width={20}
-                          />
-                          <span className="text-xxs flex text-center">
-                            {reward.wearables[item] + " " + item}
-                          </span>
-                        </div>
-                      </>
+                      <div
+                        className="flex items-center flex-col mb-6"
+                        key={`${day}-${item}-wearable`}
+                      >
+                        <SquareIcon
+                          icon={getImageUrl(ITEM_IDS[item as BumpkinItem])}
+                          width={20}
+                        />
+                        <span className="text-xxs flex text-center">
+                          {reward.wearables[item] + " " + item}
+                        </span>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -244,10 +243,18 @@ export const ChristmasReward: React.FC<Props> = ({ onClose }) => {
 
   const { t } = useAppTranslation();
 
+  const claimed = () => {
+    gameService.send("candy.collected");
+    gameService.send("SAVE");
+    setState("claimed");
+  };
+
   if (state === "intro") {
     return (
       <SpeakingModal
-        onClose={() => setState("reward")}
+        onClose={() => {
+          setState("reward");
+        }}
         bumpkinParts={NPC_WEARABLES.santa}
         message={[
           {
@@ -264,13 +271,9 @@ export const ChristmasReward: React.FC<Props> = ({ onClose }) => {
 
   const reward = DAILY_CHRISTMAS_REWARDS[dayOfChristmas];
   return (
-    <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES.santa}>
+    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.santa}>
       <ClaimReward
-        onClaim={() => {
-          gameService.send("candy.collected");
-          gameService.send("SAVE");
-          setState("claimed");
-        }}
+        onClaim={claimed}
         reward={{
           createdAt: 0,
           id: "christmas-reward-2024",
