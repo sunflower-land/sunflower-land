@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { RankData } from "./actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 interface Props {
   rankings: RankData[];
@@ -49,8 +49,8 @@ export const TicketTable: React.FC<Props> = ({
               style={{ border: "1px solid #b96f50" }}
               className="p-1.5 text-left pl-8 relative truncate"
             >
-              <div className="absolute" style={{ left: "4px", top: "-7px" }}>
-                <NPC width={20} parts={bumpkin} />
+              <div className="absolute" style={{ left: "4px", top: "1px" }}>
+                <NPCIcon width={24} parts={bumpkin} />
               </div>
               {id}
             </td>

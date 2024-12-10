@@ -1,7 +1,7 @@
 import React from "react";
 import { Decimal } from "decimal.js-light";
 import { TradeableDisplay } from "../lib/tradeables";
-import { Row } from "./TableRow";
+import { TableRow } from "./TableRow";
 import { TableItem } from "./TableRow";
 
 export const ResourceTable: React.FC<{
@@ -26,7 +26,7 @@ export const ResourceTable: React.FC<{
   return (
     <div className="max-h-[200px] scrollable overflow-y-auto relative">
       {items.map((item, index) => (
-        <Row
+        <TableRow
           key={item.id}
           item={item}
           index={index}
