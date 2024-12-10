@@ -136,9 +136,9 @@ export const ToastPanel: React.FC = () => {
   return (
     <>
       {showToasts && (
-        <HudContainer>
+        <HudContainer className="z-[99999]">
           <InnerPanel
-            className="flex flex-col items-start absolute z-[99999] pointer-events-none"
+            className="flex flex-col items-start absolute pointer-events-none"
             style={{
               top: `${PIXEL_SCALE * 54}px`,
               left: `${PIXEL_SCALE * 3}px`,
