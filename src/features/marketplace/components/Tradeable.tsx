@@ -2,7 +2,7 @@ import { CollectionName } from "features/game/types/marketplace";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { isMobile } from "mobile-device-detect";
@@ -37,6 +37,7 @@ export const Tradeable: React.FC = () => {
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const location = useLocation();
 
   const farmId = gameState.context.farmId;
   const authToken = authState.context.user.rawToken as string;
@@ -108,7 +109,13 @@ export const Tradeable: React.FC = () => {
   }
 
   const onBack = () => {
-    navigate(-1);
+    const { route, scrollPosition } = location.state ?? {};
+
+    if (route) {
+      navigate(route, { state: { scrollPosition } });
+    } else {
+      navigate(-1);
+    }
   };
 
   const trades = gameState.context.state.trades;

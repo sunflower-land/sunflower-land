@@ -12,7 +12,6 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
-import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -22,6 +21,8 @@ import { getChestBuds } from "features/island/hud/components/inventory/utils/inv
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { CountLabel } from "components/ui/CountLabel";
+import classNames from "classnames";
+import { ListViewImage } from "./ListViewImage";
 
 type Props = {
   details: TradeableDisplay;
@@ -82,23 +83,35 @@ export const ListViewCard: React.FC<Props> = ({
       className="relative cursor-pointer h-full"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
+      style={{ paddingTop: "1px" }}
     >
       <ButtonPanel
         onClick={onClick}
         variant="card"
         className="h-full flex flex-col"
       >
-        <div className="flex flex-col items-center h-20 p-2 pt-4">
-          <img
-            src={image}
-            className={classNames("object-contain h-[80%] mt-1", {
-              "h-[55%] mt-3": isResources,
-            })}
+        <div
+          className={classNames("flex flex-col items-center relative", {
+            "h-20 p-2 pt-4": details.type !== "buds",
+            "h-32": details.type === "buds",
+          })}
+        >
+          <ListViewImage
+            name={name}
+            image={image}
+            type={type}
+            isResources={isResources}
           />
+          {tradeType === "onchain" && (
+            <img
+              src={wallet}
+              className="h-5 mr-1 absolute bottom-1 -right-1.5"
+            />
+          )}
         </div>
 
         <div
-          className="bg-white px-2 py-2 flex-1"
+          className="bg-white px-2 py-2 flex-1 z-10"
           style={{
             background: "#fff0d4",
             borderTop: "1px solid #e4a672",
@@ -130,20 +143,13 @@ export const ListViewCard: React.FC<Props> = ({
             </div>
           )}
 
-          {tradeType === "onchain" && (
-            <img
-              src={wallet}
-              className="h-5 mr-1 absolute bottom-[62px] -right-1"
-            />
-          )}
-
           {count > 0 ? (
             <CountLabel
               isHover={isHover}
               count={new Decimal(count)}
               labelType="default"
               rightShiftPx={-11}
-              topShiftPx={-11}
+              topShiftPx={-12}
             />
           ) : null}
 

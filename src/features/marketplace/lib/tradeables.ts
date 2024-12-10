@@ -45,7 +45,7 @@ export function getTradeableDisplay({
     return {
       name,
       description: "?",
-      image: `https://${budImageDomain}.sunflower-land.com/images/${id}.webp`,
+      image: `https://${budImageDomain}.sunflower-land.com/small-nfts/${id}.webp`,
       type,
       //   buff: TODO
     };
