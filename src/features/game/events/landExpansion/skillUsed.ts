@@ -11,8 +11,10 @@ import {
   GreenhousePot,
   FlowerBeds,
   OilReserve,
+  Buildings,
 } from "features/game/types/game";
 import { produce } from "immer";
+import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -86,10 +88,35 @@ function useGreaseLightning({
   return oilReserves;
 }
 
+function useInstantGratification({
+  buildings,
+  createdAt = Date.now(),
+}: {
+  buildings: Buildings;
+  createdAt?: number;
+}) {
+  getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((building) => {
+    const crafting = buildings[building]?.[0].crafting;
+
+    if (crafting) {
+      crafting.readyAt = createdAt;
+    }
+  });
+
+  return buildings;
+}
+
 export function skillUse({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
-    const { bumpkin, crops, trees, greenhouse, flowers, oilReserves } =
-      stateCopy;
+    const {
+      bumpkin,
+      crops,
+      trees,
+      greenhouse,
+      flowers,
+      oilReserves,
+      buildings,
+    } = stateCopy;
 
     const { skill } = action;
 
@@ -151,6 +178,10 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
 
     if (skill === "Grease Lightning") {
       stateCopy.oilReserves = useGreaseLightning({ oilReserves });
+    }
+
+    if (skill === "Instant Gratification") {
+      stateCopy.buildings = useInstantGratification({ buildings, createdAt });
     }
 
     // Return the new state

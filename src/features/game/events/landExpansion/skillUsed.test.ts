@@ -420,4 +420,68 @@ describe("skillUse", () => {
       expect(state.oilReserves["789"].oil.drilledAt).toEqual(1);
     });
   });
+
+  describe("useInstantGratification", () => {
+    it("activates Instant Gratification", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                coordinates: {
+                  x: -4,
+                  y: -8,
+                },
+                readyAt: 1718582635573,
+                createdAt: 1718582635573,
+                id: "2c7826e2",
+                oil: 1.36458333333333,
+                crafting: {
+                  name: "Antipasto",
+                  boost: {
+                    Oil: 0.125,
+                  },
+                  amount: 1,
+                  readyAt: 1733818134518,
+                },
+              },
+            ],
+            "Smoothie Shack": [
+              {
+                id: "cf3cf862",
+                createdAt: 1725322118500,
+                coordinates: {
+                  x: -7,
+                  y: -8,
+                },
+                readyAt: 1725322118500,
+                oil: 13.25,
+                crafting: {
+                  name: "Grape Juice",
+                  boost: {
+                    Oil: 1,
+                  },
+                  amount: 1,
+                  readyAt: 1733819691587,
+                },
+              },
+            ],
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: Date.now(),
+      });
+      expect(state.buildings["Fire Pit"]?.[0].crafting?.readyAt).toEqual(
+        Date.now(),
+      );
+      expect(state.buildings["Smoothie Shack"]?.[0].crafting?.readyAt).toEqual(
+        Date.now(),
+      );
+    });
+  });
 });
