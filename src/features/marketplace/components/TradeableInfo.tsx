@@ -91,6 +91,7 @@ export const TradeableDescription: React.FC<{
           {display.buff && (
             <Label
               icon={display.buff.boostTypeIcon}
+              secondaryIcon={display.buff.boostedItemIcon}
               type={display.buff.labelType}
             >
               {display.buff.shortDescription}
