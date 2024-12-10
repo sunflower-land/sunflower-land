@@ -22,7 +22,6 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { CountLabel } from "components/ui/CountLabel";
 import classNames from "classnames";
-import "react-lazy-load-image-component/src/effects/blur.css";
 import { ListViewImage } from "./ListViewImage";
 
 type Props = {
