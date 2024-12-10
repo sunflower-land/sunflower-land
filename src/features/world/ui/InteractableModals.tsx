@@ -841,7 +841,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       >
         <GoblinMarket onClose={closeModal} />
       </Modal>
-      <Modal show={interactable === "christmas_reward"} onHide={closeModal}>
+      <Modal show={interactable === "christmas_reward"}>
         <ChristmasReward onClose={closeModal} />
       </Modal>
     </>
