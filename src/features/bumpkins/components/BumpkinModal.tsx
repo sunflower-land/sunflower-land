@@ -328,7 +328,7 @@ export const BumpkinModal: React.FC<Props> = ({
           </div>
         )}
         {tab === 2 && !isLoading && <Trade floorPrices={floorPrices} />}
-        {tab === 3 && <Skills readonly={readonly} />}
+        {tab === 3 && <Skills readonly={readonly} onClose={onClose} />}
       </div>
     </CloseButtonPanel>
   );
