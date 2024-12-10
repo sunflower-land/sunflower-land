@@ -77,8 +77,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
   // Sounds
-  const { play: playFeedAnimal } = useSound("feed_animal", true);
-  const { play: playSheepCollect } = useSound("sheep_collect", true);
+  const { play: playFeedAnimal } = useSound("feed_animal");
+  const { play: playSheepCollect } = useSound("sheep_collect");
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
