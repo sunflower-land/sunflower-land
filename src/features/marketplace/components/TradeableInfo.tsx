@@ -99,7 +99,7 @@ export const TradeableDescription: React.FC<{
           )}
         </div>
         {tradeable?.expiresAt && (
-          <div className="p-2">
+          <div className="p-2 pl-0 pb-0">
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
               {`${secondsToString((tradeable.expiresAt - Date.now()) / 1000, {
                 length: "short",
@@ -108,7 +108,7 @@ export const TradeableDescription: React.FC<{
           </div>
         )}
         {tradeable && !tradeable?.isActive && (
-          <div className="p-2">
+          <div className="p-2 pl-0 pb-0">
             <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
               {t("marketplace.notForSale")}
             </Label>
