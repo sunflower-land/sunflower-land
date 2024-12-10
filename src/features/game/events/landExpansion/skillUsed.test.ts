@@ -363,4 +363,61 @@ describe("skillUse", () => {
       expect(state.flowers.flowerBeds["789"].flower?.plantedAt).toEqual(1);
     });
   });
+  describe("useGreaseLightning", () => {
+    it("activates Grease Lightning", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Grease Lightning": 1 },
+          },
+          oilReserves: {
+            "123": {
+              createdAt: 1718896710652,
+              oil: {
+                drilledAt: 1733773070581,
+                amount: 22.1,
+              },
+              width: 2,
+              x: 10,
+              y: -1,
+              drilled: 147,
+              height: 2,
+            },
+            "456": {
+              createdAt: 1715647670891,
+              oil: {
+                drilledAt: 1733773070329,
+                amount: 22.1,
+              },
+              width: 2,
+              x: 8,
+              y: -1,
+              drilled: 189,
+              height: 2,
+            },
+            "789": {
+              createdAt: 1716767207652,
+              oil: {
+                drilledAt: 1733773071663,
+                amount: 22.1,
+              },
+              width: 2,
+              x: 6,
+              y: -1,
+              drilled: 174,
+              height: 2,
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Grease Lightning" },
+        createdAt: Date.now(),
+      });
+
+      expect(state.oilReserves["123"].oil.drilledAt).toEqual(1);
+      expect(state.oilReserves["456"].oil.drilledAt).toEqual(1);
+      expect(state.oilReserves["789"].oil.drilledAt).toEqual(1);
+    });
+  });
 });

@@ -10,6 +10,7 @@ import {
   Tree,
   GreenhousePot,
   FlowerBeds,
+  OilReserve,
 } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -71,9 +72,24 @@ function usePetalBlessed({ flowerBeds }: { flowerBeds: FlowerBeds }) {
   return flowerBeds;
 }
 
+function useGreaseLightning({
+  oilReserves,
+}: {
+  oilReserves: Record<string, OilReserve>;
+}) {
+  getKeys(oilReserves).forEach((reserve) => {
+    const { oil } = oilReserves[reserve];
+    if (oil) {
+      oil.drilledAt = 1;
+    }
+  });
+  return oilReserves;
+}
+
 export function skillUse({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
-    const { bumpkin, crops, trees, greenhouse, flowers } = stateCopy;
+    const { bumpkin, crops, trees, greenhouse, flowers, oilReserves } =
+      stateCopy;
 
     const { skill } = action;
 
@@ -131,6 +147,10 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
       stateCopy.flowers.flowerBeds = usePetalBlessed({
         flowerBeds: flowers.flowerBeds,
       });
+    }
+
+    if (skill === "Grease Lightning") {
+      stateCopy.oilReserves = useGreaseLightning({ oilReserves });
     }
 
     // Return the new state
