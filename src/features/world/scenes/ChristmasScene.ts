@@ -265,6 +265,7 @@ export class ChristmasScene extends BaseScene {
   }
 
   preload() {
+    this.load.audio("sunflower_christmas", SOUNDS.songs.sunflower_christmas);
     this.load.audio("chime", SOUNDS.notifications.chime);
 
     this.load.image("candy", "world/candy.png");
@@ -357,19 +358,6 @@ export class ChristmasScene extends BaseScene {
     });
 
     super.preload();
-
-    // Ambience SFX
-    if (!this.sound.get("nature_1")) {
-      const nature1 = this.sound.add("nature_1");
-      nature1.play({ loop: true, volume: 0.01 });
-    }
-
-    // Shut down the sound when the scene changes
-    this.events.once("shutdown", () => {
-      this.sound.getAllPlaying().forEach((sound) => {
-        sound.destroy();
-      });
-    });
   }
 
   updateColyseus(faction: string) {
@@ -380,6 +368,19 @@ export class ChristmasScene extends BaseScene {
 
   async create() {
     super.create();
+
+    // Ambience SFX
+    if (!this.sound.get("sunflower_christmas")) {
+      const christmas_music = this.sound.add("sunflower_christmas");
+      christmas_music.play({ loop: true, volume: 0.3 });
+    }
+
+    // Shut down the sound when the scene changes
+    this.events.once("shutdown", () => {
+      this.sound.getAllPlaying().forEach((sound) => {
+        sound.destroy();
+      });
+    });
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
