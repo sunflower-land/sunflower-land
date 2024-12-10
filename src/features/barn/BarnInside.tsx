@@ -87,10 +87,9 @@ export const BarnInside: React.FC = () => {
         ...barn.animals[id],
       }))
       // Group by type first (Cow, then Sheep)
-      .sort((a, b) => b.experience - a.experience)
       .sort((a, b) => {
         if (a.type === b.type) {
-          return a.experience - b.experience;
+          return b.experience - a.experience;
         }
         return a.type === "Cow" ? -1 : 1;
       });
