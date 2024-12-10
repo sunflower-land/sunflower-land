@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { TradeableDisplay } from "../lib/tradeables";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
-import { Row } from "./TableRow";
+import { TableRow } from "./TableRow";
 
 export const OfferTable: React.FC<{
   offers: Offer[];
@@ -21,7 +21,7 @@ export const OfferTable: React.FC<{
       <div>
         {offers.map((offer, index) => {
           return (
-            <Row
+            <TableRow
               farmId={id}
               balance={new Decimal(0)}
               tableType="offers"
@@ -58,7 +58,7 @@ export const ListingTable: React.FC<{
       <div>
         {listings.map((listing, index) => {
           return (
-            <Row
+            <TableRow
               key={index}
               farmId={142}
               balance={new Decimal(0)}

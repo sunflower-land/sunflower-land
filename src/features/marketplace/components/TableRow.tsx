@@ -5,7 +5,7 @@ import React from "react";
 import token from "assets/icons/sfl.webp";
 import { Decimal } from "decimal.js-light";
 
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -34,7 +34,7 @@ interface RowProps {
   onClick?: (id: string) => void;
 }
 
-export const Row: React.FC<RowProps> = ({
+export const TableRow: React.FC<RowProps> = ({
   item,
   index,
   farmId,
@@ -64,7 +64,7 @@ export const Row: React.FC<RowProps> = ({
       <div className="p-1.5 truncate flex sm:w-1/3 items-center">
         <div className="flex items-center">
           <div className="relative w-8 h-8 flex items-center">
-            <NPC
+            <NPCIcon
               width={20}
               parts={interpretTokenUri(createdBy.bumpkinUri).equipped}
             />
