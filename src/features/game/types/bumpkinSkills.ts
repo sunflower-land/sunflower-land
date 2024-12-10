@@ -67,6 +67,7 @@ export type BumpkinSkillRevamp = {
     points: number;
     tier: 1 | 2 | 3;
     island: IslandType;
+    cooldown?: number;
   };
   boosts: string;
   image: string;
@@ -426,6 +427,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       points: 3,
       tier: 3,
       island: "basic",
+      cooldown: 1000 * 60 * 60 * 72,
     },
     boosts: translate("skill.instantGrowth"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -738,6 +740,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       points: 3,
       tier: 3,
       island: "basic",
+      cooldown: 1000 * 60 * 60 * 24,
     },
     boosts: "Ability to make all trees instantly grow (1/24h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1447,6 +1450,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       points: 3,
       tier: 3,
       island: "basic",
+      cooldown: 1000 * 60 * 60 * 72, // 72 hours
     },
     boosts:
       "Ability make all meals currently cooking ready to be eaten (1/96h)",
@@ -1634,8 +1638,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       points: 3,
       tier: 3,
       island: "spring",
+      cooldown: 1000 * 60 * 60 * 96, // 96 hours
     },
     disabled: false,
+    power: true,
     boosts:
       "[Action] Ability to make all flowers currently growing ready to be harvested (Cooldown: 96 hours)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1771,6 +1777,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       points: 3,
       tier: 3,
       island: "desert",
+      cooldown: 1000 * 60 * 60 * 96, // 96 hours
     },
     boosts: "Ability to make empty oil wells instantly refill (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
