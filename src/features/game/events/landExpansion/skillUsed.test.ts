@@ -302,4 +302,65 @@ describe("skillUse", () => {
       expect(state.greenhouse.pots[1].plant?.plantedAt).toEqual(1);
     });
   });
+
+  describe("usePetalBlessed", () => {
+    it("activates Petal Blessed", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Petal Blessed": 1 },
+          },
+          flowers: {
+            flowerBeds: {
+              "123": {
+                x: 1,
+                width: 3,
+                createdAt: 1715650356584,
+                y: -10,
+                height: 1,
+                flower: {
+                  plantedAt: 1733412398960,
+                  amount: 2,
+                  name: "Yellow Carnation",
+                },
+              },
+              "456": {
+                x: 1,
+                width: 3,
+                createdAt: 1715650403667,
+                y: -9,
+                height: 1,
+                flower: {
+                  plantedAt: 1733412401734,
+                  amount: 4,
+                  name: "Yellow Carnation",
+                },
+              },
+              "789": {
+                x: 1,
+                width: 3,
+                createdAt: 1715649513672,
+                y: -11,
+                height: 1,
+                flower: {
+                  plantedAt: 1733412395200,
+                  amount: 1,
+                  name: "Yellow Carnation",
+                },
+              },
+            },
+            discovered: {},
+          },
+        },
+        action: { type: "skill.used", skill: "Petal Blessed" },
+        createdAt: Date.now(),
+      });
+
+      expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(1);
+      expect(state.flowers.flowerBeds["456"].flower?.plantedAt).toEqual(1);
+      expect(state.flowers.flowerBeds["789"].flower?.plantedAt).toEqual(1);
+    });
+  });
 });

@@ -9,6 +9,7 @@ import {
   CropPlot,
   Tree,
   GreenhousePot,
+  FlowerBeds,
 } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -60,9 +61,19 @@ function useGreenhouseGuru({
   return greenhousePot;
 }
 
+function usePetalBlessed({ flowerBeds }: { flowerBeds: FlowerBeds }) {
+  getKeys(flowerBeds).forEach((bed) => {
+    const { flower } = flowerBeds[bed];
+    if (flower) {
+      flower.plantedAt = 1;
+    }
+  });
+  return flowerBeds;
+}
+
 export function skillUse({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
-    const { bumpkin, crops, trees, greenhouse } = stateCopy;
+    const { bumpkin, crops, trees, greenhouse, flowers } = stateCopy;
 
     const { skill } = action;
 
@@ -113,6 +124,12 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
     if (skill === "Greenhouse Guru") {
       stateCopy.greenhouse.pots = useGreenhouseGuru({
         greenhousePot: greenhouse.pots,
+      });
+    }
+
+    if (skill === "Petal Blessed") {
+      stateCopy.flowers.flowerBeds = usePetalBlessed({
+        flowerBeds: flowers.flowerBeds,
       });
     }
 
