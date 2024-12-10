@@ -4471,15 +4471,17 @@
   "npcDialogues.santa.intro2": "Ogni giorno troverai 10 pezzi sparsi per il Pumpkin Plaza.",
   "npcDialogues.santa.intro3": "Raccogli le 10 caramelle e richiedi i premi giornalieri!",
   "npcDialogues.santa.dialogue1": "Oh oh oh! Raccogli le mie caramelle mancanti per una ricompensa.",
-  "npcDialogues.santa.dialogue2": "Congratulazioni, hai trovato le mie caramelle!",
   "npcDialogues.santa.dialogue3": "Ben fatto! Hai completato i 12 giorni di Natale. Non dimenticare di posizionare l'albero festivo per un regalo speciale.",
   "npcDialogues.santa.dialogue4": "Completa la sfida per 12 giorni consecutivi per un premio speciale.",
   "npcDialogues.santa.dialogue5": "Oh Oh Oh! Ben fatto Bumpkin, hai trovato le mie caramelle.",
   "npcDialogues.ginger.dialogue1": "Questo albero festivo è pieno di regali e decorazioni.",
   "npcDialogues.ginger.dialogue2": "Mi chiedo cosa posso ricevere da Babbo Natale dopo averlo scosso...",
-  "npcDialogues.elf.dialogue1": "Ops, ho fatto cadere dei bastoncini di zucchero in giro per la piazza. Se ne trovi, riportali a Babbo Natale per una dolce ricompensa!",
   "candy.remaining": "{{candies}} rimanente",
   "christmas.days": "Giorno {{day}}",
   "christmas.days.completed": "{{completed}} /12 giorni completati",
-  "npcDialogues.santa.nextChallenge": "Prossima sfida:"
+  "npcDialogues.santa.nextChallenge": "Prossima sfida:",
+  "interactableModals.festiveTree.message1": "Si dice che i regali lasciati sotto i suoi rami portino fortuna e, nella notte più lunga del periodo festivo, qualcuno nasconde un regalo speciale per i degni di riceverlo.",
+  "interactableModals.festiveTree.message2": "Ancora oggi, l'albero festivo rimane un faro di speranza, fortuna e gioia di donare in Sunflower Land.",
+  "npcDialogues.santa.dialogue2": "Congratulazioni, hai trovato le mie caramelle!",
+  "npcDialogues.elf.dialogue1": "Ops, ho fatto cadere delle caramelle in giro per la piazza. Se ne trovi, riportali a Babbo Natale per una dolce ricompensa!"
 }

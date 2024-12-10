@@ -4471,15 +4471,17 @@
   "npcDialogues.santa.intro2": "Cada día encontrarás 10 piezas repartidas por toda la Pumpkin Plaza.",
   "npcDialogues.santa.intro3": "¡Recoge los 10 caramelos y reclama los premios diarios!",
   "npcDialogues.santa.dialogue1": "¡Jo, jo, jo! Recoge los caramelos que me faltan para obtener una recompensa.",
-  "npcDialogues.santa.dialogue2": "¡Enhorabuena, encontraste mis caramelos!",
   "npcDialogues.santa.dialogue3": "¡Bien hecho! Has completado los 12 días de Navidad. No olvides colocar el árbol festivo para hacer un regalo especial.",
   "npcDialogues.santa.dialogue4": "Completa el desafío 12 días seguidos para conseguir un premio especial.",
   "npcDialogues.santa.dialogue5": "¡Jo, jo, jo! Bien hecho Bumpkin, encontraste mis caramelos.",
   "npcDialogues.ginger.dialogue1": "Este árbol festivo está lleno de regalos y decoraciones.",
   "npcDialogues.ginger.dialogue2": "Me pregunto qué puedo recibir de Papá Noel después de sacudirlo...",
-  "npcDialogues.elf.dialogue1": "Vaya, se me cayeron unos bastones de caramelo por la plaza. Si encuentras alguno, ¡devuélveselo a Papá Noel para recibir una dulce recompensa!",
   "candy.remaining": "Quedan {{candies}}",
   "christmas.days": "Día {{day}}",
   "christmas.days.completed": "{{completed}} /12 días completados",
-  "npcDialogues.santa.nextChallenge": "Próximo desafío:"
+  "npcDialogues.santa.nextChallenge": "Próximo desafío:",
+  "interactableModals.festiveTree.message1": "Se dice que los regalos que se dejan debajo de sus ramas traen fortuna, y en la noche más larga del período festivo, alguien esconde un regalo especial para que lo merezca recibir.",
+  "interactableModals.festiveTree.message2": "Hasta el día de hoy, el Árbol Festivo sigue siendo un faro de esperanza, fortuna y la alegría de dar en Sunflower Land.",
+  "npcDialogues.santa.dialogue2": "¡Felicidades, encontraste mis caramelos!",
+  "npcDialogues.elf.dialogue1": "Vaya, se me cayeron unos caramelos por la plaza. Si encuentras alguno, ¡devuélveselo a Papá Noel para recibir una dulce recompensa!"
 }

@@ -4471,15 +4471,17 @@
   "npcDialogues.santa.intro2": "パンプキンプラザには、毎日10個のピースが散らばっています。",
   "npcDialogues.santa.intro3": "キャンディーを10個集めて、毎日の賞品を受け取りましょう！",
   "npcDialogues.santa.dialogue1": "ホーホーホー！足りないキャンディーを集めて報酬をもらおう。",
-  "npcDialogues.santa.dialogue2": "おめでとうございます、あなたは私のキャンディーを見つけました！",
   "npcDialogues.santa.dialogue3": "よくやった！12日間のクリスマスを完了しました。特別なプレゼント用にフェスティブツリーを置くのを忘れないでね。",
   "npcDialogues.santa.dialogue4": "チャレンジを12日連続でクリアすると、特別賞品がもらえます。",
   "npcDialogues.santa.dialogue5": "ホーホーホー！よくやったバンプキン、私のキャンディーを見つけたね。",
   "npcDialogues.ginger.dialogue1": "このフェスティブツリーには、ギフトやデコレーションがいっぱいです。",
   "npcDialogues.ginger.dialogue2": "振ったらサンタから何がもらえるんだろう...",
-  "npcDialogues.elf.dialogue1": "おっと、広場のあちこちにキャンディケインを落としてしまいました。見つけたら、サンタさんに持って帰って素敵なご褒美をもらってください！",
   "candy.remaining": "{{candies}} 残り",
   "christmas.days": "デイ {{day}}",
   "christmas.days.completed": "{{completed}} /12 日完了しました",
-  "npcDialogues.santa.nextChallenge": "次の課題:"
+  "npcDialogues.santa.nextChallenge": "次の課題:",
+  "interactableModals.festiveTree.message1": "枝の下に残された贈り物は幸運をもたらすと言われており、祝祭期間の最も長い夜には、誰かが受け取る価値のある人に特別な贈り物を隠します。",
+  "interactableModals.festiveTree.message2": "今日に至るまで、フェスティブツリーはひまわりランドの希望と幸運、そして与えることの喜びの光であり続けています。",
+  "npcDialogues.santa.dialogue2": "おめでとうございます、あなたは私のキャンディーを見つけました！",
+  "npcDialogues.elf.dialogue1": "おっと、広場のあちこちにキャンディーを落としてしまいました。見つけたらサンタさんに持って帰って素敵なご褒美をもらおう！"
 }
