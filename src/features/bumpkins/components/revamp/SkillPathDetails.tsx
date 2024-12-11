@@ -85,21 +85,6 @@ export const SkillPathDetails: React.FC<Props> = ({
     }
   };
 
-  const confirmationModal: React.ReactNode = (
-    <ConfirmationModal
-      show={showConfirmationModal}
-      onHide={() => setShowConfirmationModal(false)}
-      messages={[
-        `Are you sure you want to claim ${selectedSkill.name}?`,
-        `This will cost ${selectedSkill.requirements.points} skill points.`,
-      ]}
-      onCancel={() => setShowConfirmationModal(false)}
-      onConfirm={handleClaim}
-      confirmButtonLabel="Claim Skill"
-      disabled={missingPointRequirement || missingSkillsRequirement}
-    />
-  );
-
   const renderSkillTier = (skills: BumpkinSkillRevamp[]) => {
     return skills.map((skill) => {
       const hasSkill = !!bumpkin?.skills[skill.name as BumpkinRevampSkillName];
@@ -184,19 +169,21 @@ export const SkillPathDetails: React.FC<Props> = ({
                 {"Claimed"}
               </Button>
             )}
-
-            {hasSelectedSkill && selectedSkill.power && (
-              <Button
-                disabled={true}
-                onClick={() => setShowConfirmationModal(true)}
-              >
-                {"Use"}
-              </Button>
-            )}
           </div>
 
           {/* Confirmation Modal */}
-          {confirmationModal}
+          <ConfirmationModal
+            show={showConfirmationModal}
+            onHide={() => setShowConfirmationModal(false)}
+            messages={[
+              `Are you sure you want to claim ${selectedSkill.name}?`,
+              `This will cost ${selectedSkill.requirements.points} skill points.`,
+            ]}
+            onCancel={() => setShowConfirmationModal(false)}
+            onConfirm={handleClaim}
+            confirmButtonLabel="Claim Skill"
+            disabled={missingPointRequirement || missingSkillsRequirement}
+          />
         </div>
       }
       content={

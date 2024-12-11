@@ -421,6 +421,7 @@ import {
   RedeemTradeRewardsAction,
 } from "./landExpansion/redeemTradeReward";
 import { collectCandy, CollectCandyAction } from "./landExpansion/collectCandy";
+import { skillUse, SkillUseAction } from "./landExpansion/skillUsed";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -523,6 +524,7 @@ export type PlayingEvent =
   | PurchaseMinigameAction
   | StartMinigameAttemptAction
   | SubmitMinigameScoreAction
+  | SkillUseAction
   | SupplyCropMachineAction
   | HarvestCropMachineAction
   | SupplyCookingOilAction
@@ -734,6 +736,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.fed": feedAnimal,
   "animal.loved": loveAnimal,
   "feed.mixed": feedMixed,
+  "skill.used": skillUse,
   "building.upgraded": upgradeBuilding,
   "crafting.started": startCrafting,
   "crafting.collected": collectCrafting,
