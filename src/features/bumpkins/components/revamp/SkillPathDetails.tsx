@@ -28,6 +28,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
+import { millisecondsToString } from "lib/utils/time";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -57,7 +58,8 @@ export const SkillPathDetails: React.FC<Props> = ({
   ); // Default to first skill in path
 
   // Destructure selectedSkill properties
-  const { tree, requirements, name, image, boosts, disabled } = selectedSkill;
+  const { tree, requirements, name, image, boosts, disabled, power } =
+    selectedSkill;
 
   // Functions
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
@@ -145,29 +147,49 @@ export const SkillPathDetails: React.FC<Props> = ({
             <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
               {boosts}
             </span>
-            <div className="flex flex-col lg:items-center my-2">
-              <Label type="default">
-                {t(
-                  requirements.points > 1
-                    ? "skillTier.skillPoints.plural"
-                    : "skillTier.skillPoints.singular",
-                  {
-                    points: requirements.points,
-                  },
+            <div className="flex justify-between my-2 flex-col flex-wrap">
+              <div className="flex sm:flex-row lg:flex-col-reverse items-center justify-between">
+                <Label type="default" className="mb-2">
+                  {t(
+                    requirements.points > 1
+                      ? "skillTier.skillPoints.plural"
+                      : "skillTier.skillPoints.singular",
+                    {
+                      points: requirements.points,
+                    },
+                  )}
+                </Label>
+                {!!power && (
+                  <Label
+                    type="info"
+                    icon={SUNNYSIDE.icons.stopwatch}
+                    className="mb-2"
+                  >
+                    {t("skill.cooldown", {
+                      cooldown: millisecondsToString(
+                        selectedSkill.requirements.cooldown ?? 0,
+                        {
+                          length: "short",
+                          isShortFormat: true,
+                          removeTrailingZeros: true,
+                        },
+                      ),
+                    })}
+                  </Label>
                 )}
-              </Label>
-            </div>
-            <div className="flex flex-col lg:items-center">
-              {missingPointRequirement && (
-                <Label type="danger" className=" mb-2">
-                  {t("skillTier.notEnoughPoints")}
-                </Label>
-              )}
-              {disabled && (
-                <Label type="danger" className="mb-2">
-                  {t("skillTier.skillDisabled")}
-                </Label>
-              )}
+              </div>
+              <div className="flex sm:flex-row lg:flex-col items-center justify-between">
+                {disabled && (
+                  <Label type="danger" className="mb-2">
+                    {t("skillTier.skillDisabled")}
+                  </Label>
+                )}
+                {missingPointRequirement && (
+                  <Label type="danger" className="mb-2">
+                    {t("skillTier.notEnoughPoints")}
+                  </Label>
+                )}
+              </div>
             </div>
           </div>
 
