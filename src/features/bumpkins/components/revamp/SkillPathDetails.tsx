@@ -151,29 +151,18 @@ export const SkillPathDetails: React.FC<Props> = ({
 
           {/* Claim/Claimed/Use Button */}
           <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-            {!hasSelectedSkill && (
-              <Button
-                disabled={
-                  missingPointRequirement ||
-                  missingSkillsRequirement ||
-                  hasSelectedSkill ||
-                  selectedSkill.disabled ||
-                  readonly
-                }
-                onClick={() => setShowConfirmationModal(true)}
-              >
-                {"Claim"}
-              </Button>
-            )}
-
-            {hasSelectedSkill && (
-              <Button
-                disabled={true}
-                onClick={() => setShowConfirmationModal(true)}
-              >
-                {"Claimed"}
-              </Button>
-            )}
+            <Button
+              disabled={
+                hasSelectedSkill ||
+                missingPointRequirement ||
+                missingSkillsRequirement ||
+                selectedSkill.disabled ||
+                readonly
+              }
+              onClick={() => setShowConfirmationModal(true)}
+            >
+              {hasSelectedSkill ? "Claimed" : "Claim"}
+            </Button>
           </div>
 
           {/* Confirmation Modal */}
