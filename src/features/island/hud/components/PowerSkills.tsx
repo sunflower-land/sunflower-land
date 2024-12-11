@@ -169,7 +169,9 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
             </div>
             <div className="flex flex-wrap mb-2">
               {powerSkillsUnlocked.map((skill: BumpkinRevampSkillName) => {
-                const skillData = BUMPKIN_REVAMP_SKILL_TREE[skill];
+                const skillData = BUMPKIN_REVAMP_SKILL_TREE[
+                  skill
+                ] as BumpkinSkillRevamp;
                 return (
                   <Box
                     key={skill}
