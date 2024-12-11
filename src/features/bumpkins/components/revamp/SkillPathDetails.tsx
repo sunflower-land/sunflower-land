@@ -61,6 +61,8 @@ export const SkillPathDetails: React.FC<Props> = ({
   const { tree, requirements, name, image, boosts, disabled, power } =
     selectedSkill;
 
+  const { buff, debuff } = boosts;
+
   // Functions
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
   const { availableTier, pointsToNextTier } = getUnlockedTierForTree(
@@ -144,10 +146,29 @@ export const SkillPathDetails: React.FC<Props> = ({
               </div>
               <span className="sm:text-center">{name}</span>
             </div>
-            <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
-              {boosts}
-            </span>
-            <div className="flex justify-between my-2 flex-col flex-wrap">
+            <div className="flex flex-col max-lg:items-start lg:items-center mt-2">
+              {buff && (
+                <Label
+                  type={buff.labelType}
+                  icon={buff.boostTypeIcon}
+                  secondaryIcon={buff.boostedItemIcon}
+                  className="mb-2"
+                >
+                  {buff.shortDescription}
+                </Label>
+              )}
+              {debuff && (
+                <Label
+                  type={debuff.labelType}
+                  icon={debuff.boostTypeIcon}
+                  secondaryIcon={debuff.boostedItemIcon}
+                  className="mb-2"
+                >
+                  {debuff.shortDescription}
+                </Label>
+              )}
+            </div>
+            <div className="flex justify-between flex-col flex-wrap">
               <div className="flex sm:flex-row lg:flex-col-reverse items-center justify-between">
                 <Label type="default" className="mb-2">
                   {t(

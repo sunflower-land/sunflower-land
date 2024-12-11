@@ -259,7 +259,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "spring",
+    type: "desert",
   },
   mysteryPrizes: {},
   minigames: {
