@@ -56,29 +56,29 @@ export const SkillPathDetails: React.FC<Props> = ({
     skillsInPath[0],
   ); // Default to first skill in path
 
+  // Destructure selectedSkill properties
+  const { tree, requirements, name, image, boosts, disabled } = selectedSkill;
+
   // Functions
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
   const { availableTier, pointsToNextTier } = getUnlockedTierForTree(
-    selectedSkill.tree,
+    tree,
     bumpkin,
   );
-  const hasSelectedSkill =
-    !!bumpkin?.skills[selectedSkill.name as BumpkinRevampSkillName];
-  const missingPointRequirement =
-    selectedSkill.requirements.points > availableSkillPoints;
-  const missingSkillsRequirement =
-    selectedSkill.requirements.tier > availableTier;
+  const hasSelectedSkill = !!bumpkin?.skills[name as BumpkinRevampSkillName];
+  const missingPointRequirement = requirements.points > availableSkillPoints;
+  const missingSkillsRequirement = requirements.tier > availableTier;
 
   // Claim
   const handleClaim = () => {
     setShowConfirmationModal(false);
     const state = gameService.send("skill.chosen", {
-      skill: selectedSkill.name,
+      skill: name,
     });
 
     // Analytics
     gameAnalytics.trackMilestone({
-      event: `Bumpkin:SkillUnlocked:${selectedSkill.name}`,
+      event: `Bumpkin:SkillUnlocked:${name}`,
     });
 
     if (Object.keys(state.context.state.bumpkin.skills).length === 1) {
@@ -138,21 +138,21 @@ export const SkillPathDetails: React.FC<Props> = ({
                 />
               )}
               <div className="sm:mt-2">
-                <SquareIcon icon={selectedSkill.image} width={14} />
+                <SquareIcon icon={image} width={14} />
               </div>
-              <span className="sm:text-center">{selectedSkill.name}</span>
+              <span className="sm:text-center">{name}</span>
             </div>
             <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
-              {selectedSkill.boosts}
+              {boosts}
             </span>
             <div className="flex flex-col lg:items-center my-2">
               <Label type="default">
                 {t(
-                  selectedSkill.requirements.points > 1
+                  requirements.points > 1
                     ? "skillTier.skillPoints.plural"
                     : "skillTier.skillPoints.singular",
                   {
-                    points: selectedSkill.requirements.points,
+                    points: requirements.points,
                   },
                 )}
               </Label>
@@ -163,7 +163,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                   {t("skillTier.notEnoughPoints")}
                 </Label>
               )}
-              {selectedSkill.disabled && (
+              {disabled && (
                 <Label type="danger" className="mb-2">
                   {t("skillTier.skillDisabled")}
                 </Label>
@@ -179,7 +179,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                   hasSelectedSkill ||
                   missingPointRequirement ||
                   missingSkillsRequirement ||
-                  selectedSkill.disabled ||
+                  disabled ||
                   readonly
                 }
                 onClick={() => setShowConfirmationModal(true)}
@@ -194,9 +194,9 @@ export const SkillPathDetails: React.FC<Props> = ({
             show={showConfirmationModal}
             onHide={() => setShowConfirmationModal(false)}
             messages={[
-              t("skill.confirmationMessage", { skillName: selectedSkill.name }),
+              t("skill.confirmationMessage", { skillName: name }),
               t("skill.costMessage", {
-                points: selectedSkill.requirements.points,
+                points: requirements.points,
               }),
             ]}
             onCancel={() => setShowConfirmationModal(false)}
@@ -247,18 +247,13 @@ export const SkillPathDetails: React.FC<Props> = ({
                       className={tierUnlocked ? "ml-1" : "ml-2"}
                       icon={tierUnlocked ? undefined : SUNNYSIDE.icons.lock}
                     >
-                      {`Tier ${tier}`}
+                      {t("skillTier.number", { number: tier })}
                     </Label>
                     {!tierUnlocked && Number(tier) === availableTier + 1 && (
                       <Label type="default" className="ml-1">
-                        {t(
-                          pointsToNextTier > 1
-                            ? "skillTier.pointsToUnlock.plural"
-                            : "skillTier.pointsToUnlock.singular",
-                          {
-                            points: pointsToNextTier,
-                          },
-                        )}
+                        {t("skillTier.pointsToUnlock", {
+                          points: pointsToNextTier,
+                        })}
                       </Label>
                     )}
                   </div>
