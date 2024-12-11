@@ -139,9 +139,14 @@ export const SkillPathDetails: React.FC<Props> = ({
               </div>
               <span className="sm:text-center">{selectedSkill.name}</span>
             </div>
-            <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center py-2">
+            <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
               {selectedSkill.boosts}
             </span>
+            <div className="flex flex-col lg:items-center">
+              <Label type="default" className="my-2">
+                {`${selectedSkill.requirements.points} Skill Point${selectedSkill.requirements.points > 1 ? "s" : ""}`}
+              </Label>
+            </div>
           </div>
 
           {/* Claim/Claimed/Use Button */}
@@ -161,7 +166,7 @@ export const SkillPathDetails: React.FC<Props> = ({
               </Button>
             )}
 
-            {hasSelectedSkill && !selectedSkill.power && (
+            {hasSelectedSkill && (
               <Button
                 disabled={true}
                 onClick={() => setShowConfirmationModal(true)}
