@@ -1,5 +1,5 @@
 import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
+import { ErrorCode, ERRORS } from "lib/errors";
 import { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 
@@ -49,7 +49,7 @@ type Request = {
 
 export async function postEffect(
   request: Request,
-): Promise<{ gameState: GameState; data: any }> {
+): Promise<{ gameState: GameState; errorCode?: ErrorCode; data: any }> {
   const response = await window.fetch(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -75,10 +75,11 @@ export async function postEffect(
     throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
 
-  const { gameState, ...data } = await response.json();
+  const { gameState, errorCode, ...data } = await response.json();
 
   return {
     gameState: makeGame(gameState),
+    errorCode,
     data,
   };
 }

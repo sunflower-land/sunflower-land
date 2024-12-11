@@ -4519,5 +4519,6 @@
   "marketplace.estimated.price": "*Estimated SFL/USD price",
   "marketplace.quickswap.continue": "Continue",
   "marketplace.about": "About",
-  "marketplace.wantToUnlock": "Want to unlock unlimited trades?"
+  "marketplace.wantToUnlock": "Want to unlock unlimited trades?",
+  "marketplace.tradeInitiated": "Great news! It looks like someone is fulfilling your trade. Please wait for the trade to complete."
 }
