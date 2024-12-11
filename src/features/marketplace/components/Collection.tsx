@@ -161,7 +161,7 @@ export const Collection: React.FC<{
 
   const getRowHeight = () => {
     if (filters === "resources") return 150;
-    if (filters === "buds") return 200;
+    if (filters === "buds") return 250;
 
     return 160;
   };
