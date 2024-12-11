@@ -17,6 +17,7 @@ import {
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { millisecondsToString } from "lib/utils/time";
 import React, { useContext, useState } from "react";
@@ -26,6 +27,7 @@ interface PowerSkillsProps {
   onHide: () => void;
 }
 export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
+  const { t } = useAppTranslation();
   return (
     <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
@@ -34,7 +36,7 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
         tabs={[
           {
             icon: SUNNYSIDE.icons.player,
-            name: "Power Skills",
+            name: t("powerSkills.title"),
           },
         ]}
       >
@@ -48,6 +50,7 @@ interface PowerSkillsContentProps {
   onClose: () => void;
 }
 const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
     {
@@ -108,10 +111,10 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                   className="mb-2"
                 >
                   {canUsePowerSkill ? (
-                    `Power Skill Ready`
+                    t("powerSkills.ready")
                   ) : (
                     <div className="flex lg:flex-col items-center">
-                      <p className="mr-1">{"Next skill use in:"}</p>
+                      <p className="mr-1">{t("powerSkills.nextUse")}</p>
                       <TimerDisplay time={nextSkillUseCountdown} />
                     </div>
                   )}
@@ -126,7 +129,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                   disabled={!canUsePowerSkill}
                   onClick={() => setUseSkillConfirmation(true)}
                 >
-                  {"Use"}
+                  {t("powerSkills.use")}
                 </Button>
               )}
             </div>
@@ -136,12 +139,22 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               show={useSkillConfirmation}
               onHide={() => setUseSkillConfirmation(false)}
               messages={[
-                `Are you sure you want to use ${selectedSkill.name}?`,
-                `You won't be able to use this skill again for ${millisecondsToString(selectedSkill.requirements.cooldown ?? 0, { length: "short", removeTrailingZeros: true })}`,
+                t("powerSkills.confirmationMessage", {
+                  skillName: selectedSkill.name,
+                }),
+                t("powerSkills.cooldownMessage", {
+                  cooldown: millisecondsToString(
+                    selectedSkill.requirements.cooldown ?? 0,
+                    {
+                      length: "short",
+                      removeTrailingZeros: true,
+                    },
+                  ),
+                }),
               ]}
               onCancel={() => setUseSkillConfirmation(false)}
               onConfirm={useSkill}
-              confirmButtonLabel={"Use Skill"}
+              confirmButtonLabel={t("powerSkills.useSkill")}
             />
           </div>
         }
@@ -151,7 +164,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               className="flex flex-row my-2 items-center"
               style={{ margin: `${PIXEL_SCALE * 2}px` }}
             >
-              <Label type="default">{"Unlocked Skills"}</Label>
+              <Label type="default">{t("powerSkills.unlockedSkills")}</Label>
             </div>
             <div className="flex flex-wrap mb-2">
               {powerSkillsUnlocked.map((skill) => {
