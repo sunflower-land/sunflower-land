@@ -74,7 +74,7 @@ const HudComponent: React.FC<{
   const powerSkills = getPowerSkills();
   const { skills } = gameState.context.state.bumpkin;
   const hasPowerSkills = powerSkills.some(
-    (skill) => (skills[skill.name as BumpkinRevampSkillName] ?? 0) > 0,
+    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
   );
 
   return (

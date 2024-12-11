@@ -16,6 +16,9 @@ import {
   BumpkinSkillRevamp,
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
+import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { millisecondsToString } from "lib/utils/time";
 import React, { useContext, useState } from "react";
 
@@ -24,6 +27,7 @@ interface PowerSkillsProps {
   onHide: () => void;
 }
 export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
+  const { t } = useAppTranslation();
   return (
     <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
@@ -32,7 +36,7 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
         tabs={[
           {
             icon: SUNNYSIDE.icons.player,
-            name: "Power Skills",
+            name: t("powerSkills.title"),
           },
         ]}
       >
@@ -46,6 +50,7 @@ interface PowerSkillsContentProps {
   onClose: () => void;
 }
 const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
     {
@@ -68,19 +73,20 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
     gameService.send("skill.used", { skill: selectedSkill?.name });
   };
 
-  const { cooldown = 0 } = selectedSkill.requirements;
+  const { boosts, image, name, power, requirements } = selectedSkill;
+  const { cooldown = 0 } = requirements;
+  const { buff, debuff } = boosts;
 
-  const canUsePowerSkill =
+  const nextSkillUse =
     (bumpkin.previousPowerUseAt?.[
       selectedSkill.name as BumpkinRevampSkillName
-    ] ?? 0) +
-      cooldown <
-    Date.now();
+    ] ?? 0) + cooldown;
+  const nextSkillUseCountdown = useCountdown(nextSkillUse);
+
+  const canUsePowerSkill = nextSkillUse < Date.now();
+
   return (
     <>
-      {/* {powerSkillsUnlocked.map((skill, index) => {
-        return <div key={index}>{skill.name}</div>;
-      })} */}
       <SplitScreenView
         panel={
           <div className="flex flex-col h-full justify-between">
@@ -88,23 +94,63 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
             <div className="flex flex-col h-full px-1 py-0">
               <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 sm:py-0 py-2">
                 <div className="sm:mt-2">
-                  <SquareIcon icon={selectedSkill.image} width={14} />
+                  <SquareIcon icon={image} width={14} />
                 </div>
-                <span className="sm:text-center">{selectedSkill.name}</span>
+                <span className="sm:text-center">{name}</span>
               </div>
-              <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center py-2">
-                {selectedSkill.boosts}
-              </span>
+              <div className="flex flex-col max-lg:items-start lg:items-center mt-2">
+                {buff && (
+                  <Label
+                    type={buff.labelType}
+                    icon={buff.boostTypeIcon}
+                    secondaryIcon={buff.boostedItemIcon}
+                    className="mb-2"
+                  >
+                    {buff.shortDescription}
+                  </Label>
+                )}
+                {debuff && (
+                  <Label
+                    type={debuff.labelType}
+                    icon={debuff.boostTypeIcon}
+                    secondaryIcon={debuff.boostedItemIcon}
+                    className="mb-2"
+                  >
+                    {debuff.shortDescription}
+                  </Label>
+                )}
+              </div>
+              <div className="flex flex-col lg:items-center">
+                <Label
+                  type={canUsePowerSkill ? "success" : "info"}
+                  icon={
+                    !canUsePowerSkill ? SUNNYSIDE.icons.stopwatch : undefined
+                  }
+                  secondaryIcon={
+                    canUsePowerSkill ? SUNNYSIDE.icons.confirm : undefined
+                  }
+                  className="mb-2"
+                >
+                  {canUsePowerSkill ? (
+                    t("powerSkills.ready")
+                  ) : (
+                    <div className="flex lg:flex-col items-center">
+                      <p className="mr-1">{t("powerSkills.nextUse")}</p>
+                      <TimerDisplay time={nextSkillUseCountdown} />
+                    </div>
+                  )}
+                </Label>
+              </div>
             </div>
 
             {/* Claim/Claimed/Use Button */}
             <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-              {selectedSkill.power && (
+              {power && (
                 <Button
                   disabled={!canUsePowerSkill}
                   onClick={() => setUseSkillConfirmation(true)}
                 >
-                  {"Use"}
+                  {t("powerSkills.use")}
                 </Button>
               )}
             </div>
@@ -114,12 +160,19 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               show={useSkillConfirmation}
               onHide={() => setUseSkillConfirmation(false)}
               messages={[
-                `Are you sure you want to use ${selectedSkill.name}?`,
-                `You won't be able to use this skill again for ${millisecondsToString(selectedSkill.requirements.cooldown ?? 0, { length: "short", removeTrailingZeros: true })}`,
+                t("powerSkills.confirmationMessage", {
+                  skillName: name,
+                }),
+                t("powerSkills.cooldownMessage", {
+                  cooldown: millisecondsToString(cooldown, {
+                    length: "short",
+                    removeTrailingZeros: true,
+                  }),
+                }),
               ]}
               onCancel={() => setUseSkillConfirmation(false)}
               onConfirm={useSkill}
-              confirmButtonLabel={"Use Skill"}
+              confirmButtonLabel={t("powerSkills.useSkill")}
             />
           </div>
         }
@@ -129,19 +182,20 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               className="flex flex-row my-2 items-center"
               style={{ margin: `${PIXEL_SCALE * 2}px` }}
             >
-              <Label type="default">{"Unlocked Skills"}</Label>
+              <Label type="default">{t("powerSkills.unlockedSkills")}</Label>
             </div>
             <div className="flex flex-wrap mb-2">
               {powerSkillsUnlocked.map((skill) => {
+                const { image, name } = skill;
                 return (
                   <Box
-                    key={skill.name}
+                    key={name}
                     className="mb-1"
-                    image={skill.image}
+                    image={image}
                     isSelected={selectedSkill === skill}
                     onClick={() => setSelectedSkill(skill)}
                   >
-                    {skill.name}
+                    {name}
                   </Box>
                 );
               })}
