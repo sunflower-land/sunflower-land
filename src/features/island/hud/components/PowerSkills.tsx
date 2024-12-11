@@ -16,6 +16,8 @@ import {
   BumpkinSkillRevamp,
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
+import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { millisecondsToString } from "lib/utils/time";
 import React, { useContext, useState } from "react";
 
@@ -70,17 +72,16 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
 
   const { cooldown = 0 } = selectedSkill.requirements;
 
-  const canUsePowerSkill =
+  const nextSkillUse =
     (bumpkin.previousPowerUseAt?.[
       selectedSkill.name as BumpkinRevampSkillName
-    ] ?? 0) +
-      cooldown <
-    Date.now();
+    ] ?? 0) + cooldown;
+  const nextSkillUseCountdown = useCountdown(nextSkillUse);
+
+  const canUsePowerSkill = nextSkillUse < Date.now();
+
   return (
     <>
-      {/* {powerSkillsUnlocked.map((skill, index) => {
-        return <div key={index}>{skill.name}</div>;
-      })} */}
       <SplitScreenView
         panel={
           <div className="flex flex-col h-full justify-between">
@@ -92,9 +93,30 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                 </div>
                 <span className="sm:text-center">{selectedSkill.name}</span>
               </div>
-              <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center py-2">
+              <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center my-2">
                 {selectedSkill.boosts}
               </span>
+              <div className="flex flex-col lg:items-center">
+                <Label
+                  type={canUsePowerSkill ? "success" : "info"}
+                  icon={
+                    !canUsePowerSkill ? SUNNYSIDE.icons.stopwatch : undefined
+                  }
+                  secondaryIcon={
+                    canUsePowerSkill ? SUNNYSIDE.icons.confirm : undefined
+                  }
+                  className="mb-2"
+                >
+                  {canUsePowerSkill ? (
+                    `Power Skill Ready`
+                  ) : (
+                    <div className="flex lg:flex-col items-center">
+                      <p className="mr-1">{"Next skill use in:"}</p>
+                      <TimerDisplay time={nextSkillUseCountdown} />
+                    </div>
+                  )}
+                </Label>
+              </div>
             </div>
 
             {/* Claim/Claimed/Use Button */}
