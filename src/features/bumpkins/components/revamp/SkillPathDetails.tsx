@@ -147,18 +147,25 @@ export const SkillPathDetails: React.FC<Props> = ({
             </span>
             <div className="flex flex-col lg:items-center my-2">
               <Label type="default">
-                {`${selectedSkill.requirements.points} Skill Point${selectedSkill.requirements.points > 1 ? "s" : ""}`}
+                {t(
+                  selectedSkill.requirements.points > 1
+                    ? "skillTier.skillPoints.plural"
+                    : "skillTier.skillPoints.singular",
+                  {
+                    points: selectedSkill.requirements.points,
+                  },
+                )}
               </Label>
             </div>
             <div className="flex flex-col lg:items-center">
               {missingPointRequirement && (
                 <Label type="danger" className=" mb-2">
-                  {`Not enough skill points`}
+                  {t("skillTier.notEnoughPoints")}
                 </Label>
               )}
               {selectedSkill.disabled && (
                 <Label type="danger" className="mb-2">
-                  {`Skill is disabled`}
+                  {t("skillTier.skillDisabled")}
                 </Label>
               )}
             </div>
@@ -177,7 +184,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                 }
                 onClick={() => setShowConfirmationModal(true)}
               >
-                {hasSelectedSkill ? "Claimed" : "Claim"}
+                {t(hasSelectedSkill ? "skill.claimed" : "skill.claim")}
               </Button>
             </div>
           )}
@@ -187,12 +194,14 @@ export const SkillPathDetails: React.FC<Props> = ({
             show={showConfirmationModal}
             onHide={() => setShowConfirmationModal(false)}
             messages={[
-              `Are you sure you want to claim ${selectedSkill.name}?`,
-              `This will cost ${selectedSkill.requirements.points} skill points.`,
+              t("skill.confirmationMessage", { skillName: selectedSkill.name }),
+              t("skill.costMessage", {
+                points: selectedSkill.requirements.points,
+              }),
             ]}
             onCancel={() => setShowConfirmationModal(false)}
             onConfirm={handleClaim}
-            confirmButtonLabel="Claim Skill"
+            confirmButtonLabel={t("skill.claimSkill")}
             disabled={missingPointRequirement || missingSkillsRequirement}
           />
         </div>
@@ -216,7 +225,9 @@ export const SkillPathDetails: React.FC<Props> = ({
                 onClick={onBack}
               />
             )}
-            <Label type="default">{selectedSkillPath + " Skills"}</Label>
+            <Label type="default">
+              {t("skillPath.skills", { skillPath: selectedSkillPath })}
+            </Label>
             <Label type="default" className="ml-1">
               {`${t("skillPts")} ${availableSkillPoints}`}
             </Label>
@@ -240,7 +251,14 @@ export const SkillPathDetails: React.FC<Props> = ({
                     </Label>
                     {!tierUnlocked && Number(tier) === availableTier + 1 && (
                       <Label type="default" className="ml-1">
-                        {`${pointsToNextTier} Skill Point${pointsToNextTier > 1 ? "s" : ""} to next tier`}
+                        {t(
+                          pointsToNextTier > 1
+                            ? "skillTier.pointsToUnlock.plural"
+                            : "skillTier.pointsToUnlock.singular",
+                          {
+                            points: pointsToNextTier,
+                          },
+                        )}
                       </Label>
                     )}
                   </div>
