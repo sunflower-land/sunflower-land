@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "Dikatakan bahwa hadiah yang ditinggalkan di bawah cabang-cabangnya membawa keberuntungan, dan pada malam terpanjang dari periode perayaan, seseorang menyembunyikan hadiah khusus untuk diterima yang layak.",
   "interactableModals.festiveTree.message2": "Sampai hari ini, Pohon Meriah tetap menjadi mercusuar harapan, keberuntungan, dan kegembiraan memberi di Tanah Bunga Matahari.",
   "npcDialogues.santa.dialogue2": "Selamat, Anda menemukan permen saya!",
-  "npcDialogues.elf.dialogue1": "Ups, aku menjatuhkan beberapa permen di sekitar alun-alun. Jika Anda menemukannya, bawa mereka kembali ke Santa untuk hadiah manis!"
+  "npcDialogues.elf.dialogue1": "Ups, aku menjatuhkan beberapa permen di sekitar alun-alun. Jika Anda menemukannya, bawa mereka kembali ke Santa untuk hadiah manis!",
+  "marketplace.itemNotStoredOnChain": "{{name}} tidak disimpan pada rantai",
+  "marketplace.itemNotStoredOnChain.listing.warning": "Item ini perlu disimpan dalam rantai sebelum dapat dicantumkan untuk dijual.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "SFL Anda perlu disimpan dalam rantai sebelum dapat menyelesaikan penawaran ini.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "SFL Anda perlu disimpan dalam rantai sebelum Anda dapat menyelesaikan pembelian ini.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Barang Anda harus disimpan dalam rantai sebelum dapat diterima."
 }

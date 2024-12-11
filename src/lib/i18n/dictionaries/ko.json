@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "나뭇가지 아래에 남은 선물은 행운을 가져다준다고 하며, 축제 기간 중 가장 긴 밤이 되면 누군가가 받을 자격이 있는 사람을 위해 특별한 선물을 숨깁니다.",
   "interactableModals.festiveTree.message2": "오늘날까지도 페스티벌 트리는 선플라워 랜드에서 희망과 행운, 그리고 기부하는 기쁨의 등대로 남아 있습니다.",
   "npcDialogues.santa.dialogue2": "축하해요, 제 사탕을 찾았어요!",
-  "npcDialogues.elf.dialogue1": "이런, 광장에 사탕을 좀 떨어뜨렸어요.찾으면 산타에게 가져다 주면 달콤한 보상을 받을 수 있어요!"
+  "npcDialogues.elf.dialogue1": "이런, 광장에 사탕을 좀 떨어뜨렸어요.찾으면 산타에게 가져다 주면 달콤한 보상을 받을 수 있어요!",
+  "marketplace.itemNotStoredOnChain": "{{name}} 체인에 저장되지 않음",
+  "marketplace.itemNotStoredOnChain.listing.warning": "이 품목은 판매용으로 등록하기 전에 체인에 보관해야 합니다.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "이 오퍼를 완료하려면 먼저 SFL을 체인에 저장해야 합니다.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "구매를 완료하려면 먼저 SFL을 체인에 저장해야 합니다.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "물품을 수령하기 전에 체인에 보관해야 합니다."
 }

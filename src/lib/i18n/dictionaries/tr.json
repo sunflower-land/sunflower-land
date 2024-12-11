@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "Dallarının altında bırakılan hediyelerin servet getirdiği ve bayram döneminin en uzun gecesinde birinin almaya layık olanlar için özel bir hediye sakladığı söylenir.",
   "interactableModals.festiveTree.message2": "Bayram Ağacı, bugüne kadar Ayçiçeği Ülkesinde umut, servet ve vermenin sevincinin bir işareti olmaya devam ediyor.",
   "npcDialogues.santa.dialogue2": "Tebrikler, şekerimi buldun!",
-  "npcDialogues.elf.dialogue1": "Hata, meydanın etrafına biraz şeker attım. Eğer bulursan, tatlı bir ödül için onları Noel Baba'ya geri getir!"
+  "npcDialogues.elf.dialogue1": "Hata, meydanın etrafına biraz şeker attım. Eğer bulursan, tatlı bir ödül için onları Noel Baba'ya geri getir!",
+  "marketplace.itemNotStoredOnChain": "{{name}} zincirde saklanmadı",
+  "marketplace.itemNotStoredOnChain.listing.warning": "Bu öğenin satışa sunulmadan önce zincirde saklanması gerekecektir.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "Bu teklifi tamamlayabilmesi için SFL'nizin zincirde saklanması gerekir.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "Bu satın alma işlemini tamamlayabilmeniz için SFL'nizin zincirde saklanması gerekecektir.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Öğenizin kabul edilebilmesi için zincirde saklanması gerekecektir."
 }

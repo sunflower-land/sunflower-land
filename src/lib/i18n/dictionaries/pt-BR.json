@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "Diz-se que presentes deixados sob seus galhos trazem fortuna e, na noite mais longa do período festivo, alguém esconde um presente especial para os dignos receberem.",
   "interactableModals.festiveTree.message2": "Até hoje, a Árvore Festiva continua sendo um farol de esperança, fortuna e alegria de doar na Terra dos Girassóis.",
   "npcDialogues.santa.dialogue2": "Parabéns, você encontrou meu doce!",
-  "npcDialogues.elf.dialogue1": "Opa, deixei cair alguns doces na praça. Se você encontrar algum, leve-o de volta ao Papai Noel para receber uma doce recompensa!"
+  "npcDialogues.elf.dialogue1": "Opa, deixei cair alguns doces na praça. Se você encontrar algum, leve-o de volta ao Papai Noel para receber uma doce recompensa!",
+  "marketplace.itemNotStoredOnChain": "{{name}} não armazenado na cadeia",
+  "marketplace.itemNotStoredOnChain.listing.warning": "Esse item precisará ser armazenado em uma rede antes de ser colocado à venda.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "Seu SFL precisará ser armazenado em cadeia antes de poder concluir esta oferta.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "Seu SFL precisará ser armazenado em cadeia antes que você possa concluir esta compra.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Seu item precisará ser armazenado em cadeia antes de ser aceito."
 }

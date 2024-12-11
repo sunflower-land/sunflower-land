@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "Man sagt, dass Geschenke, die unter den Ästen zurückbleiben, Glück bringen, und in der längsten Nacht der Festtage versteckt jemand ein besonderes Geschenk für die Würdigen.",
   "interactableModals.festiveTree.message2": "Bis heute ist der Festliche Baum ein Leuchtturm der Hoffnung, des Glücks und der Freude am Schenken im Sonnenblumenland.",
   "npcDialogues.santa.dialogue2": "Herzlichen Glückwunsch, du hast meine Süßigkeiten gefunden!",
-  "npcDialogues.elf.dialogue1": "Ups, ich habe ein paar Süßigkeiten auf dem Platz fallen lassen. Wenn du welche findest, bring sie zurück zum Weihnachtsmann für eine süße Belohnung!"
+  "npcDialogues.elf.dialogue1": "Ups, ich habe ein paar Süßigkeiten auf dem Platz fallen lassen. Wenn du welche findest, bring sie zurück zum Weihnachtsmann für eine süße Belohnung!",
+  "marketplace.itemNotStoredOnChain": "{{name}} nicht in der Kette gespeichert",
+  "marketplace.itemNotStoredOnChain.listing.warning": "Dieser Artikel muss an der Kette aufbewahrt werden, bevor er zum Verkauf angeboten werden kann.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "Ihr SFL muss in der Kette aufbewahrt werden, bevor dieses Angebot abgeschlossen werden kann.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "Ihr SFL muss an der Kette aufbewahrt werden, bevor Sie diesen Kauf abschließen können.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Ihr Artikel muss an einer Kette aufbewahrt werden, bevor er angenommen werden kann."
 }

@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "枝の下に残された贈り物は幸運をもたらすと言われており、祝祭期間の最も長い夜には、誰かが受け取る価値のある人に特別な贈り物を隠します。",
   "interactableModals.festiveTree.message2": "今日に至るまで、フェスティブツリーはひまわりランドの希望と幸運、そして与えることの喜びの光であり続けています。",
   "npcDialogues.santa.dialogue2": "おめでとうございます、あなたは私のキャンディーを見つけました！",
-  "npcDialogues.elf.dialogue1": "おっと、広場のあちこちにキャンディーを落としてしまいました。見つけたらサンタさんに持って帰って素敵なご褒美をもらおう！"
+  "npcDialogues.elf.dialogue1": "おっと、広場のあちこちにキャンディーを落としてしまいました。見つけたらサンタさんに持って帰って素敵なご褒美をもらおう！",
+  "marketplace.itemNotStoredOnChain": "{{name}} はチェーンに保存されていません",
+  "marketplace.itemNotStoredOnChain.listing.warning": "この商品は、販売前にチェーンで保管する必要があります。",
+  "marketplace.itemNotStoredOnChain.offer.warning": "このオファーを完了するには、SFLをチェーンに保存する必要があります。",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "この購入を完了するには、SFLをチェーンに保管する必要があります。",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "商品を受け取るには、チェーンで保管する必要があります。"
 }

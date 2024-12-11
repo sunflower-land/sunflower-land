@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "Se dice que los regalos que se dejan debajo de sus ramas traen fortuna, y en la noche más larga del período festivo, alguien esconde un regalo especial para que lo merezca recibir.",
   "interactableModals.festiveTree.message2": "Hasta el día de hoy, el Árbol Festivo sigue siendo un faro de esperanza, fortuna y la alegría de dar en Sunflower Land.",
   "npcDialogues.santa.dialogue2": "¡Felicidades, encontraste mis caramelos!",
-  "npcDialogues.elf.dialogue1": "Vaya, se me cayeron unos caramelos por la plaza. Si encuentras alguno, ¡devuélveselo a Papá Noel para recibir una dulce recompensa!"
+  "npcDialogues.elf.dialogue1": "Vaya, se me cayeron unos caramelos por la plaza. Si encuentras alguno, ¡devuélveselo a Papá Noel para recibir una dulce recompensa!",
+  "marketplace.itemNotStoredOnChain": "{{name}} no se almacena en la cadena",
+  "marketplace.itemNotStoredOnChain.listing.warning": "Este artículo tendrá que guardarse en cadena antes de que pueda ponerse a la venta.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "Tu SFL tendrá que estar guardada en cadena antes de poder completar esta oferta.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "Tu SFL tendrá que estar guardada en cadena antes de que puedas completar esta compra.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Tu artículo tendrá que guardarse en una cadena antes de que pueda ser aceptado."
 }

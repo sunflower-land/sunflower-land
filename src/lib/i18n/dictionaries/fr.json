@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "On dit que les cadeaux déposés sous ses branches apportent la fortune, et lors de la nuit la plus longue de la période des fêtes, quelqu'un cache un cadeau spécial à ceux qui en sont dignes.",
   "interactableModals.festiveTree.message2": "À ce jour, l'arbre de fête reste un symbole d'espoir, de fortune et de joie de donner au Pays des Tournesols.",
   "npcDialogues.santa.dialogue2": "Félicitations, tu as trouvé mes bonbons !",
-  "npcDialogues.elf.dialogue1": "Oups, j'ai fait tomber des bonbons sur la place. Si vous en trouvez, rapportez-les au Père Noël pour obtenir une jolie récompense !"
+  "npcDialogues.elf.dialogue1": "Oups, j'ai fait tomber des bonbons sur la place. Si vous en trouvez, rapportez-les au Père Noël pour obtenir une jolie récompense !",
+  "marketplace.itemNotStoredOnChain": "{{name}} non stocké sur la chaîne",
+  "marketplace.itemNotStoredOnChain.listing.warning": "Cet article devra être stocké en chaîne avant de pouvoir être mis en vente.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "Votre SFL devra être stocké en chaîne avant de pouvoir compléter cette offre.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "Votre SFL devra être stocké dans une chaîne avant que vous puissiez finaliser cet achat.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Votre article devra être stocké dans une chaîne avant de pouvoir être accepté."
 }

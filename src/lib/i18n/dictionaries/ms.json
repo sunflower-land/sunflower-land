@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "Dikatakan bahawa hadiah yang ditinggalkan di bawah cawangannya membawa kekayaan, dan pada malam terpanjang dalam tempoh perayaan, seseorang menyembunyikan hadiah istimewa untuk orang yang layak diterima.",
   "interactableModals.festiveTree.message2": "Sehingga hari ini, Pokok Perayaan tetap menjadi suar harapan, kekayaan, dan kegembiraan memberi di Tanah Bunga Matahari.",
   "npcDialogues.santa.dialogue2": "Tahniah, anda menemui gula-gula saya!",
-  "npcDialogues.elf.dialogue1": "Oops, saya menjatuhkan beberapa gula-gula di sekitar plaza. Sekiranya anda menemui apa-apa, bawa mereka kembali ke Santa untuk ganjaran yang manis!"
+  "npcDialogues.elf.dialogue1": "Oops, saya menjatuhkan beberapa gula-gula di sekitar plaza. Sekiranya anda menemui apa-apa, bawa mereka kembali ke Santa untuk ganjaran yang manis!",
+  "marketplace.itemNotStoredOnChain": "{{name}} tidak disimpan pada rantai",
+  "marketplace.itemNotStoredOnChain.listing.warning": "Item ini perlu disimpan di rantai sebelum ia boleh disenaraikan untuk dijual.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "SFL anda perlu disimpan di rantai sebelum dapat menyelesaikan tawaran ini.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "SFL anda perlu disimpan di rantai sebelum anda dapat menyelesaikan pembelian ini.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Item anda perlu disimpan di rantai sebelum ia boleh diterima."
 }

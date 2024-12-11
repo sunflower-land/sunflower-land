@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "Si dice che i regali lasciati sotto i suoi rami portino fortuna e, nella notte più lunga del periodo festivo, qualcuno nasconde un regalo speciale per i degni di riceverlo.",
   "interactableModals.festiveTree.message2": "Ancora oggi, l'albero festivo rimane un faro di speranza, fortuna e gioia di donare in Sunflower Land.",
   "npcDialogues.santa.dialogue2": "Congratulazioni, hai trovato le mie caramelle!",
-  "npcDialogues.elf.dialogue1": "Ops, ho fatto cadere delle caramelle in giro per la piazza. Se ne trovi, riportali a Babbo Natale per una dolce ricompensa!"
+  "npcDialogues.elf.dialogue1": "Ops, ho fatto cadere delle caramelle in giro per la piazza. Se ne trovi, riportali a Babbo Natale per una dolce ricompensa!",
+  "marketplace.itemNotStoredOnChain": "{{name}} non memorizzato sulla catena",
+  "marketplace.itemNotStoredOnChain.listing.warning": "Questo articolo dovrà essere immagazzinato in catena prima di poter essere messo in vendita.",
+  "marketplace.itemNotStoredOnChain.offer.warning": "Il tuo SFL dovrà essere archiviato in catena prima di poter completare questa offerta.",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "Il tuo SFL dovrà essere archiviato in catena prima di poter completare l'acquisto.",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Il tuo articolo dovrà essere immagazzinato in catena prima di poter essere accettato."
 }

@@ -4483,5 +4483,10 @@
   "interactableModals.festiveTree.message1": "据说留在树枝下的礼物会带来财富，在节日期间最长的夜晚，有人藏了一份特别的礼物供值得领取。",
   "interactableModals.festiveTree.message2": "时至今日，节日树仍然是向日葵乐园的希望、财富和捐赠喜悦的灯塔。",
   "npcDialogues.santa.dialogue2": "恭喜你，你找到了我的糖果！",
-  "npcDialogues.elf.dialogue1": "哎呀，我在广场周围丢了一些糖果。如果你找到了，把它们带回给圣诞老人以获得甜蜜的奖励！"
+  "npcDialogues.elf.dialogue1": "哎呀，我在广场周围丢了一些糖果。如果你找到了，把它们带回给圣诞老人以获得甜蜜的奖励！",
+  "marketplace.itemNotStoredOnChain": "{{name}} 未存储在链上",
+  "marketplace.itemNotStoredOnChain.listing.warning": "这件商品需要先存放在链子上，然后才能上市出售。",
+  "marketplace.itemNotStoredOnChain.offer.warning": "您的SFL需要存储在链上才能完成此优惠。",
+  "marketplace.itemNotStoredOnChain.purchase.warning": "在完成此次购买之前，您的SFL需要存储在链上。",
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "您的物品需要先存放在链子上，然后才能被接受。"
 }
