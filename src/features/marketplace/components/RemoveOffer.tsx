@@ -9,7 +9,11 @@ import { tradeToId } from "../lib/offers";
 import { TradeOffer } from "features/game/types/game";
 import sflIcon from "assets/icons/sfl.webp";
 import bg from "assets/ui/3x3_bg.png";
-import { MarketplaceTradeableName } from "features/game/types/marketplace";
+import {
+  MarketplaceTradeableName,
+  TRADE_INITIATION_MS,
+} from "features/game/types/marketplace";
+import { TradeInitiated } from "./RemoveListing";
 
 interface Props {
   id: string;
@@ -45,6 +49,23 @@ export const RemoveOffer: React.FC<Props> = ({
   const itemId = tradeToId({ details: offer });
   const display = getTradeableDisplay({ id: itemId, type: offer.collection });
   const quantity = offer.items[display.name as MarketplaceTradeableName];
+
+  const initiatedAt = offer.initiatedAt;
+  const isBeingPurchased =
+    !!initiatedAt && Date.now() - initiatedAt < TRADE_INITIATION_MS;
+
+  if (isBeingPurchased) {
+    return (
+      <TradeInitiated
+        initiatedAt={initiatedAt}
+        display={display}
+        quantity={
+          offer.items[display.name as MarketplaceTradeableName] as number
+        }
+        sfl={offer.sfl}
+      />
+    );
+  }
 
   return (
     <Panel>
