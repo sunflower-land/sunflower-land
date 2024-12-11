@@ -140,15 +140,21 @@ export const Collection: React.FC<{
         type: item.collection,
         id: item.id,
       });
-      if (filters.includes("utility") && !display.buff) return false;
-      if (filters.includes("cosmetic") && display.buff) return false;
+
+      if (filters.includes("utility") && display.buffs.length === 0) {
+        return false;
+      }
+
+      if (filters.includes("cosmetic") && display.buffs.length > 0) {
+        return false;
+      }
 
       return display.name.toLowerCase().includes(search?.toLowerCase() ?? "");
     }) ?? [];
 
   const getRowHeight = () => {
     if (filters === "resources") return 150;
-    if (filters === "buds") return 200;
+    if (filters === "buds") return 250;
 
     return 160;
   };

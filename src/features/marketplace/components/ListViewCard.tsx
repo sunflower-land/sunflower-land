@@ -43,7 +43,7 @@ export const ListViewCard: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
-  const { type, name, image, buff } = details;
+  const { type, name, image, buffs } = details;
   const { t } = useAppTranslation();
 
   const state = useSelector(gameService, _state);
@@ -155,15 +155,15 @@ export const ListViewCard: React.FC<Props> = ({
 
           <p className="text-xs mb-1 py-0.5 truncate text-[#181425]">{name}</p>
 
-          {buff && (
-            <div className="flex items-center">
+          {buffs.map((buff) => (
+            <div key={buff.shortDescription} className="flex items-center">
               <img
                 src={buff.boostedItemIcon ?? lightning}
                 className="h-4 mr-1"
               />
               <p className="text-xs truncate pb-0.5">{buff.shortDescription}</p>
             </div>
-          )}
+          ))}
 
           {expiresAt && (
             <div className="flex items-center">
