@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -6,7 +6,7 @@ import { Offer } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import walletIcon from "assets/icons/wallet.png";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { GameWallet } from "features/wallet/Wallet";
 import { TradeableDisplay } from "../lib/tradeables";
 import confetti from "canvas-confetti";
@@ -21,11 +21,19 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import {
   BlockchainEvent,
   Context as ContextType,
+  MachineState,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { Context } from "features/game/GameProvider";
 import { TradeableSummary } from "./TradeableSummary";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
+import { InventoryItemName } from "features/game/types/game";
+import Decimal from "decimal.js-light";
+import { StoreOnChain } from "./StoreOnChain";
+
+const _state = (state: MachineState) => state.context.state;
+const _previousInventory = (state: MachineState) =>
+  state.context.state.previousInventory;
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -38,7 +46,9 @@ const AcceptOfferContent: React.FC<{
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const state = useSelector(gameService, _state);
+  const previousInventory = useSelector(gameService, _previousInventory);
+  const [needsSync, setNeedsSync] = useState(false);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -55,6 +65,16 @@ const AcceptOfferContent: React.FC<{
   );
 
   const confirm = async () => {
+    if (offer.type === "onchain") {
+      const prevBal =
+        previousInventory[display.name as InventoryItemName] ?? new Decimal(0);
+
+      if (prevBal.lt(offer.quantity)) {
+        setNeedsSync(true);
+        return;
+      }
+    }
+
     gameService.send("marketplace.offerAccepted", {
       effect: {
         type: "marketplace.offerAccepted",
@@ -66,34 +86,32 @@ const AcceptOfferContent: React.FC<{
     onClose();
   };
 
-  const game = gameState.context.state;
-
   let hasItem = false;
 
   if (display.type === "collectibles") {
     const name = KNOWN_ITEMS[itemId];
     hasItem =
-      !!getChestItems(game)[name]?.gte(offer.quantity) ||
-      !!getBasketItems(game.inventory)[name]?.gte(offer.quantity);
+      !!getChestItems(state)[name]?.gte(offer.quantity) ||
+      !!getBasketItems(state.inventory)[name]?.gte(offer.quantity);
   }
 
   if (display.type === "resources") {
     const name = KNOWN_ITEMS[itemId];
-    hasItem = !!getBasketItems(game.inventory)[name]?.gte(offer.quantity);
+    hasItem = !!getBasketItems(state.inventory)[name]?.gte(offer.quantity);
   }
 
   if (display.type === "wearables") {
     const name = ITEM_NAMES[itemId];
-    hasItem = !!availableWardrobe(game)[name];
+    hasItem = !!availableWardrobe(state)[name];
   }
 
   if (display.type === "buds") {
-    hasItem = !!getChestBuds(game)[itemId];
+    hasItem = !!getChestBuds(state)[itemId];
   }
 
   if (display.type === "resources") {
     const name = KNOWN_ITEMS[itemId];
-    hasItem = !!getBasketItems(game.inventory)[name]?.gte(offer.quantity);
+    hasItem = !!getBasketItems(state.inventory)[name]?.gte(offer.quantity);
   }
 
   const estTradePoints =
@@ -103,6 +121,16 @@ const AcceptOfferContent: React.FC<{
           sfl: offer.sfl,
           points: offer.type === "instant" ? 1 : 5,
         }).multipliedPoints;
+
+  if (needsSync) {
+    return (
+      <StoreOnChain
+        itemName={display.name}
+        onClose={onClose}
+        actionType="acceptOffer"
+      />
+    );
+  }
 
   return (
     <>
