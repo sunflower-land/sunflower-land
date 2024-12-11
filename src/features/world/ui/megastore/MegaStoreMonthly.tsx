@@ -14,19 +14,16 @@ import {
   isWearablesItem,
   _megastore,
 } from "./MegaStore";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import lightning from "assets/icons/lightning.png";
-
+import { MachineState } from "features/game/lib/gameMachine";
+const _state = (state: MachineState) => state.context.state;
 export const MegaStoreMonthly: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const megastore = useSelector(gameService, _megastore);
   const [selectedItem, setSelectedItem] = useState<
     WearablesItem | CollectiblesItem | null

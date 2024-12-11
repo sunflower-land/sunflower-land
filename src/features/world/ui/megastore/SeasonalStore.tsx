@@ -26,7 +26,8 @@ import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_COLLECTIBLES, OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { GameState } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
@@ -72,7 +73,7 @@ export const getItemDescription = (item: SeasonalStoreItem | null): string => {
 
   return OPEN_SEA_COLLECTIBLES[item.collectible].description;
 };
-
+const _state = (state: MachineState) => state.context.state;
 export const SeasonalStore: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
@@ -81,11 +82,7 @@ export const SeasonalStore: React.FC<{
   );
   const [selectedTier, setSelectedTier] = useState<SeasonalStoreTier>();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const [isVisible, setIsVisible] = useState(false);
   const createdAt = Date.now();
 

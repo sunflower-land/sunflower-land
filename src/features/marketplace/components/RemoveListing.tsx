@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { getListingCollection, getListingItem } from "../lib/listings";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
 
@@ -19,6 +19,8 @@ interface Props {
   onClose: () => void;
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const RemoveListing: React.FC<Props> = ({
   listingId,
   onClose,
@@ -26,11 +28,7 @@ export const RemoveListing: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   const trades = useSelector(gameService, _trades);
   const listings = trades.listings ?? {};

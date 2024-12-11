@@ -2,7 +2,7 @@ import { Loading } from "features/auth/components";
 import React, { useContext, useRef } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
@@ -13,6 +13,7 @@ import { CONFIG } from "lib/config";
 import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -26,16 +27,14 @@ export const preloadCollections = (token: string) => {
   preload(["temporary", token], collectionFetcher);
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const Collection: React.FC<{
   search?: string;
   onNavigated?: () => void;
 }> = ({ search, onNavigated }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const isWorldRoute = useLocation().pathname.includes("/world");
@@ -200,7 +199,7 @@ export const Collection: React.FC<{
                 type: item.collection,
                 id: item.id,
                 state,
-          });
+              });
 
               return (
                 <div key={item.id} style={style} className="pr-1 pb-1">

@@ -12,22 +12,19 @@ import chest from "assets/icons/chest.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   mutant: MutantAnimal;
   show: boolean;
   onContinue: () => void;
 }
-
+const _state = (state: MachineState) => state.context.state;
 export const MutantAnimalModal = ({ mutant, show, onContinue }: Props) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const boost = COLLECTIBLE_BUFF_LABELS(state)[mutant];
 
   return (

@@ -8,7 +8,8 @@ import { CollectionName } from "features/game/types/marketplace";
 
 import sflIcon from "assets/icons/sfl.webp";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
 
 type MyTableRowProps = {
   index: number;
@@ -27,7 +28,7 @@ type MyTableRowProps = {
   onClaim: (id: string) => void;
   onRowClick: () => void;
 };
-
+const _state = (state: MachineState) => state.context.state;
 export const MyTableRow: React.FC<MyTableRowProps> = ({
   id,
   index,
@@ -46,11 +47,7 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const details = getTradeableDisplay({
     id: itemId,
     type: collection,
