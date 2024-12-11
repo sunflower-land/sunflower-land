@@ -58,7 +58,10 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   // Functions
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-  const availableTier = getUnlockedTierForTree(selectedSkill.tree, bumpkin);
+  const { availableTier, pointsToNextTier } = getUnlockedTierForTree(
+    selectedSkill.tree,
+    bumpkin,
+  );
   const hasSelectedSkill =
     !!bumpkin?.skills[selectedSkill.name as BumpkinRevampSkillName];
   const missingPointRequirement =
@@ -142,28 +145,42 @@ export const SkillPathDetails: React.FC<Props> = ({
             <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
               {selectedSkill.boosts}
             </span>
-            <div className="flex flex-col lg:items-center">
-              <Label type="default" className="my-2">
+            <div className="flex flex-col lg:items-center my-2">
+              <Label type="default">
                 {`${selectedSkill.requirements.points} Skill Point${selectedSkill.requirements.points > 1 ? "s" : ""}`}
               </Label>
+            </div>
+            <div className="flex flex-col lg:items-center">
+              {missingPointRequirement && (
+                <Label type="danger" className=" mb-2">
+                  {`Not enough skill points`}
+                </Label>
+              )}
+              {selectedSkill.disabled && (
+                <Label type="danger" className="mb-2">
+                  {`Skill is disabled`}
+                </Label>
+              )}
             </div>
           </div>
 
           {/* Claim/Claimed/Use Button */}
-          <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-            <Button
-              disabled={
-                hasSelectedSkill ||
-                missingPointRequirement ||
-                missingSkillsRequirement ||
-                selectedSkill.disabled ||
-                readonly
-              }
-              onClick={() => setShowConfirmationModal(true)}
-            >
-              {hasSelectedSkill ? "Claimed" : "Claim"}
-            </Button>
-          </div>
+          {!readonly && (
+            <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+              <Button
+                disabled={
+                  hasSelectedSkill ||
+                  missingPointRequirement ||
+                  missingSkillsRequirement ||
+                  selectedSkill.disabled ||
+                  readonly
+                }
+                onClick={() => setShowConfirmationModal(true)}
+              >
+                {hasSelectedSkill ? "Claimed" : "Claim"}
+              </Button>
+            </div>
+          )}
 
           {/* Confirmation Modal */}
           <ConfirmationModal
@@ -213,14 +230,20 @@ export const SkillPathDetails: React.FC<Props> = ({
 
               return (
                 <div key={tier} className="flex flex-col">
-                  <Label
-                    type={tierUnlocked ? "default" : "warning"}
-                    className={tierUnlocked ? "ml-1" : "ml-2"}
-                    icon={tierUnlocked ? undefined : SUNNYSIDE.icons.lock}
-                  >
-                    {`Tier ${tier}`}
-                  </Label>
-
+                  <div className="flex flex-row items-center">
+                    <Label
+                      type={tierUnlocked ? "default" : "warning"}
+                      className={tierUnlocked ? "ml-1" : "ml-2"}
+                      icon={tierUnlocked ? undefined : SUNNYSIDE.icons.lock}
+                    >
+                      {`Tier ${tier}`}
+                    </Label>
+                    {!tierUnlocked && Number(tier) === availableTier + 1 && (
+                      <Label type="default" className="ml-1">
+                        {`${pointsToNextTier} Skill Point${pointsToNextTier > 1 ? "s" : ""} to next tier`}
+                      </Label>
+                    )}
+                  </div>
                   <div className="flex flex-wrap mb-2">
                     {renderSkillTier(skills)}
                   </div>
