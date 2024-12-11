@@ -1030,6 +1030,7 @@ export type TradeListing = {
   signature?: string;
   fulfilledAt?: number;
   fulfilledById?: number;
+  initiatedAt?: number;
 };
 
 export type TradeOffer = {
@@ -1040,6 +1041,7 @@ export type TradeOffer = {
   fulfilledAt?: number;
   fulfilledById?: number;
   signature?: string;
+  initiatedAt?: number;
 };
 
 type FishingSpot = {
