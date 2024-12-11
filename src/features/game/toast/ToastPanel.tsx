@@ -136,7 +136,7 @@ export const ToastPanel: React.FC = () => {
   return (
     <>
       {showToasts && (
-        <HudContainer className="z-[99999]">
+        <HudContainer zIndex="z-[99999]">
           <InnerPanel
             className="flex flex-col items-start absolute pointer-events-none"
             style={{
