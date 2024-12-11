@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import {
   MEGASTORE,
@@ -24,6 +24,10 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_COLLECTIBLES, OPEN_SEA_WEARABLES } from "metadata/metadata";
+import { GameState } from "features/game/types/game";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
@@ -50,6 +54,7 @@ export const getItemImage = (item: SeasonalStoreItem | null): string => {
 
 export const getItemBuffLabel = (
   item: SeasonalStoreItem | null,
+  state: GameState,
 ): BuffLabel | undefined => {
   if (!item) return;
 
@@ -57,7 +62,7 @@ export const getItemBuffLabel = (
     return BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   }
 
-  return COLLECTIBLE_BUFF_LABELS[item.collectible];
+  return COLLECTIBLE_BUFF_LABELS(state)[item.collectible];
 };
 export const getItemDescription = (item: SeasonalStoreItem | null): string => {
   if (!item) return "";
@@ -68,7 +73,7 @@ export const getItemDescription = (item: SeasonalStoreItem | null): string => {
 
   return OPEN_SEA_COLLECTIBLES[item.collectible].description;
 };
-
+const _state = (state: MachineState) => state.context.state;
 export const SeasonalStore: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
@@ -76,7 +81,8 @@ export const SeasonalStore: React.FC<{
     null,
   );
   const [selectedTier, setSelectedTier] = useState<SeasonalStoreTier>();
-
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const [isVisible, setIsVisible] = useState(false);
   const createdAt = Date.now();
 
@@ -124,7 +130,7 @@ export const SeasonalStore: React.FC<{
           item={selectedItem}
           tier={selectedTier}
           image={getItemImage(selectedItem)}
-          buff={getItemBuffLabel(selectedItem)}
+          buff={getItemBuffLabel(selectedItem, state)}
           isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
           onClose={() => {
             setSelectedItem(null);

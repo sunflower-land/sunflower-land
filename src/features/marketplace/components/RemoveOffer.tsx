@@ -10,6 +10,8 @@ import { TradeOffer } from "features/game/types/game";
 import sflIcon from "assets/icons/sfl.webp";
 import bg from "assets/ui/3x3_bg.png";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   id: string;
@@ -17,6 +19,8 @@ interface Props {
   authToken: string;
   onClose: () => void;
 }
+const _state = (state: MachineState) => state.context.state;
+
 export const RemoveOffer: React.FC<Props> = ({
   id,
   onClose,
@@ -25,6 +29,7 @@ export const RemoveOffer: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
 
   const confirm = async () => {
     gameService.send("marketplace.offerCancelled", {
@@ -43,7 +48,11 @@ export const RemoveOffer: React.FC<Props> = ({
   }
 
   const itemId = tradeToId({ details: offer });
-  const display = getTradeableDisplay({ id: itemId, type: offer.collection });
+  const display = getTradeableDisplay({
+    id: itemId,
+    type: offer.collection,
+    state,
+  });
   const quantity = offer.items[display.name as MarketplaceTradeableName];
 
   return (

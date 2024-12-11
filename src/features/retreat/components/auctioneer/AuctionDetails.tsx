@@ -114,7 +114,7 @@ export const AuctionDetails: React.FC<Props> = ({
     : getImageUrl(ITEM_IDS[item.wearable]);
 
   const buffLabel = isCollectible
-    ? COLLECTIBLE_BUFF_LABELS[item.collectible]
+    ? COLLECTIBLE_BUFF_LABELS(game)[item.collectible]
     : BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   return (
     <div className="w-full flex flex-col items-center">

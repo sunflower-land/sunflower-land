@@ -3,12 +3,15 @@ import { Marketplace as ICollection } from "features/game/types/marketplace";
 import React, { useContext, useEffect, useState } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { useNavigate, useLocation } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
 
+const _state = (state: MachineState) => state.context.state;
 export const WhatsNew: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
@@ -20,6 +23,8 @@ export const WhatsNew: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [collection, setCollection] = useState<ICollection>();
   const isWorldRoute = useLocation().pathname.includes("/world");
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
 
   const load = async () => {
     setIsLoading(true);
@@ -49,6 +54,7 @@ export const WhatsNew: React.FC = () => {
         const display = getTradeableDisplay({
           type: item.collection,
           id: item.id,
+          state,
         });
 
         return (

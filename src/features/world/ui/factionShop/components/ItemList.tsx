@@ -29,7 +29,7 @@ interface Props {
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
-
+const _state = (state: MachineState) => state.context.state;
 export const ItemsList: React.FC<Props> = ({
   items,
   type,
@@ -37,6 +37,7 @@ export const ItemsList: React.FC<Props> = ({
   onItemClick,
 }) => {
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
 
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
@@ -81,7 +82,7 @@ export const ItemsList: React.FC<Props> = ({
           )}.`}</span>
         ) : (
           sortedItems.map((item) => {
-            const buff = getItemBuffLabel(item);
+            const buff = getItemBuffLabel(item, state);
             const balanceOfItem = getBalanceOfItem(item);
 
             return (

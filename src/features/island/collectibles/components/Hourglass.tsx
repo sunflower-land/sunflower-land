@@ -36,7 +36,9 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 export type HourglassType =
   | "Gourmet Hourglass"
@@ -55,6 +57,7 @@ type InformationModalProps = {
   name: string;
   onClose: () => void;
   onRemove: () => void;
+  state: GameState;
 };
 
 const HourglassInfoModal: React.FC<InformationModalProps> = ({
@@ -64,12 +67,14 @@ const HourglassInfoModal: React.FC<InformationModalProps> = ({
   hasExpired,
   onClose,
   onRemove,
+  state,
 }) => {
   const { t } = useAppTranslation();
 
   const remainingSeconds = (boostEndAt - Date.now()) / 1000;
-  const boostDescription = COLLECTIBLE_BUFF_LABELS[name as InventoryItemName]
-    ?.shortDescription as string;
+  const boostDescription = COLLECTIBLE_BUFF_LABELS(state)[
+    name as InventoryItemName
+  ]?.shortDescription as string;
 
   return (
     <Modal show={show}>
@@ -170,6 +175,8 @@ interface HourglassProps extends CollectibleProps {
   hourglass: HourglassType;
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const Hourglass: React.FC<HourglassProps> = ({
   createdAt,
   id,
@@ -177,6 +184,7 @@ export const Hourglass: React.FC<HourglassProps> = ({
   hourglass,
 }) => {
   const { gameService, showTimers } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const [_, setRender] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
@@ -215,6 +223,7 @@ export const Hourglass: React.FC<HourglassProps> = ({
         boostEndAt={createdAt + HOURGLASS_DETAILS[hourglass].boostMillis}
         onClose={() => setShowModal(false)}
         onRemove={handleRemove}
+        state={state}
       />
       {hasExpired && (
         <img
