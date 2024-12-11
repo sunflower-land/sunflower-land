@@ -1613,24 +1613,16 @@ export function startGame(authContext: AuthContext) {
                 });
               }
 
-              const { gameState, errorCode, data } = await postEffect({
+              const { gameState, data } = await postEffect({
                 farmId: Number(context.farmId),
                 effect,
                 token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
               });
 
-              return { state: gameState, errorCode, response: data };
+              return { state: gameState, response: data };
             },
             onDone: [
-              {
-                target: "effectFailure",
-                cond: (_, event) => !!event.data.errorCode,
-                actions: assign((_, event) => ({
-                  errorCode: event.data.errorCode,
-                  actions: [],
-                })),
-              },
               {
                 target: "effectSuccess",
                 actions: [
