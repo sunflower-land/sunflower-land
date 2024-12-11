@@ -537,21 +537,26 @@ const BoostReelItems: Partial<
     location: "Expert Angler Achievement",
   },
   "Fisherman's 2 Fold": {
-    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 2 Fold"].boosts,
+    shortDescription:
+      BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 2 Fold"].boosts.buff
+        .shortDescription,
     labelType: "success",
     boostTypeIcon: powerup,
     boostedItemIcon: SUNNYSIDE.icons.fish,
     location: "Fishing Skill Tree",
   },
   "Fisherman's 5 Fold": {
-    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts,
+    shortDescription:
+      BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts.buff
+        .shortDescription,
     labelType: "success",
     boostTypeIcon: powerup,
     boostedItemIcon: SUNNYSIDE.icons.fish,
     location: "Fishing Skill Tree",
   },
   "More With Less": {
-    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts,
+    shortDescription:
+      BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts.buff.shortDescription,
     labelType: "success",
     boostTypeIcon: powerup,
     boostedItemIcon: SUNNYSIDE.icons.fish,

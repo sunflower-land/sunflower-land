@@ -12,6 +12,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
+  BUMPKIN_REVAMP_SKILL_TREE,
   BumpkinRevampSkillName,
   BumpkinSkillRevamp,
   getPowerSkills,
@@ -61,10 +62,10 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   const { skills } = bumpkin;
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(
-    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
+    (skill) => !!skills[skill as BumpkinRevampSkillName],
   );
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
-    powerSkillsUnlocked[0],
+    BUMPKIN_REVAMP_SKILL_TREE[powerSkillsUnlocked[0]],
   );
   const [useSkillConfirmation, setUseSkillConfirmation] = useState(false);
   const useSkill = () => {
@@ -167,16 +168,17 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               <Label type="default">{t("powerSkills.unlockedSkills")}</Label>
             </div>
             <div className="flex flex-wrap mb-2">
-              {powerSkillsUnlocked.map((skill) => {
+              {powerSkillsUnlocked.map((skill: BumpkinRevampSkillName) => {
+                const skillData = BUMPKIN_REVAMP_SKILL_TREE[skill];
                 return (
                   <Box
-                    key={skill.name}
+                    key={skill}
                     className="mb-1"
-                    image={skill.image}
-                    isSelected={selectedSkill === skill}
-                    onClick={() => setSelectedSkill(skill)}
+                    image={skillData.image}
+                    isSelected={selectedSkill === skillData}
+                    onClick={() => setSelectedSkill(skillData)}
                   >
-                    {skill.name}
+                    {skillData.name}
                   </Box>
                 );
               })}
