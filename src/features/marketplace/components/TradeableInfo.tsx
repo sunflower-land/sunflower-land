@@ -49,9 +49,9 @@ export const TradeableImage: React.FC<{
       >{`42% (7D)`}</Label>
     )} */}
 
-        {supply && !isResource && (
+        {supply && !isResource ? (
           <Label type="default">{t("marketplace.supply", { supply })}</Label>
-        )}
+        ) : null}
       </div>
 
       <img

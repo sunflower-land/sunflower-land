@@ -57,7 +57,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   showListItem,
   reload,
   onListClose,
-  onListClick,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -79,9 +78,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     gameService,
     "marketplaceListing",
     "marketplaceListingSuccess",
-    () => {
-      if (showAnimations) confetti();
-    },
   );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -98,10 +94,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     gameService,
     "marketplaceListingCancellingSuccess",
     "playing",
-    () => {
-      reload();
-      if (showAnimations) confetti();
-    },
+    reload,
   );
 
   const handleSelectListing = (id: string) => {

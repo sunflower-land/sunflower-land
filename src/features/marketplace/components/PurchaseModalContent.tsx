@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Tradeable, Listing } from "features/game/types/marketplace";
@@ -14,10 +14,13 @@ import { hasMaxItems } from "features/game/lib/processEvent";
 import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
+import { StoreOnChain } from "./StoreOnChain";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
   state.context.state.previousInventory;
+const _previousBalance = (state: MachineState) =>
+  state.context.state.previousBalance;
 
 type PurchaseModalContentProps = {
   authToken: string;
@@ -40,8 +43,11 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
 
+  const [needsSync, setNeedsSync] = useState(false);
+
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
+  const previousBalance = useSelector(gameService, _previousBalance);
 
   const collection = tradeable.collection;
   const display = getTradeableDisplay({
@@ -65,6 +71,11 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   });
 
   const confirm = async () => {
+    if (listing.type === "onchain" && previousBalance.lt(price)) {
+      setNeedsSync(true);
+      return;
+    }
+
     gameService.send("marketplace.listingPurchased", {
       effect: {
         type: "marketplace.listingPurchased",
@@ -117,6 +128,13 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
       </>
     );
   }
+
+  if (needsSync) {
+    return (
+      <StoreOnChain itemName="SFL" onClose={onClose} actionType="purchase" />
+    );
+  }
+
   return (
     <>
       <div className="p-2">

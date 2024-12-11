@@ -3,7 +3,10 @@ import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { MARKETPLACE_TAX } from "features/game/types/marketplace";
+import {
+  CollectionName,
+  MARKETPLACE_TAX,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
@@ -45,6 +48,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getDayOfYear } from "lib/utils/time";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { StoreOnChain } from "./StoreOnChain";
 
 const _isVIP = (state: MachineState) =>
   hasVipAccess(state.context.state.inventory);
@@ -73,6 +77,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [needsSync, setNeedsSync] = useState(false);
 
   const { openModal } = useContext(ModalContext);
 
@@ -150,6 +155,25 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     }
   };
 
+  const getOnChainStatus = (name: string, collection: CollectionName) => {
+    if (collection === "wearables") {
+      const prevBalance = state.previousWardrobe[name as BumpkinItem] ?? 0;
+
+      return prevBalance >= Math.max(1, quantity);
+    }
+
+    if (collection === "collectibles") {
+      const prevBalance =
+        state.previousInventory[name as InventoryItemName] ?? new Decimal(0);
+
+      return prevBalance.gte(Math.max(1, quantity));
+    }
+
+    if (collection === "buds") return true;
+
+    return false;
+  };
+
   // Otherwise show the list item UI
   const submitListing = () => {
     if (count > 0 && available === 0) {
@@ -158,6 +182,13 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     }
 
     if (tradeType === "onchain") {
+      const isItemOnChain = getOnChainStatus(display.name, display.type);
+
+      if (!isItemOnChain) {
+        setNeedsSync(true);
+        return;
+      }
+
       setIsSigning(true);
       return;
     }
@@ -234,6 +265,16 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         <div className="p-2 mb-1">{t("marketplace.itemInUseWarning")}</div>
         <Button onClick={onClose}>{t("close")}</Button>
       </div>
+    );
+  }
+
+  if (needsSync) {
+    return (
+      <StoreOnChain
+        onClose={onClose}
+        itemName={display.name}
+        actionType="listing"
+      />
     );
   }
 

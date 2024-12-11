@@ -5,7 +5,7 @@ export const useOnMachineTransition = <TContext, TEvent extends EventObject>(
   service: Interpreter<TContext, any, TEvent>,
   prevState: string,
   newState: string,
-  callback: () => void,
+  callback?: () => void,
   shouldListen = true,
 ) => {
   useEffect(() => {
@@ -15,7 +15,11 @@ export const useOnMachineTransition = <TContext, TEvent extends EventObject>(
       if (!state.changed) return;
 
       // Check if the state transitioned from prevState to newState
-      if (state.history?.matches(prevState) && state.matches(newState)) {
+      if (
+        state.history?.matches(prevState) &&
+        state.matches(newState) &&
+        callback
+      ) {
         callback();
       }
     };

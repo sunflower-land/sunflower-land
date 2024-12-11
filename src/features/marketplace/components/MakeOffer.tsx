@@ -28,10 +28,15 @@ import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
+import { StoreOnChain } from "./StoreOnChain";
 
 const _balance = (state: MachineState) => state.context.state.balance;
+const _previousBalance = (state: MachineState) =>
+  state.context.state.previousBalance;
 const _isVIP = (state: MachineState) =>
   hasVipAccess(state.context.state.inventory);
+const _usd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0.0;
+
 export const MakeOffer: React.FC<{
   display: TradeableDisplay;
   floorPrice: number;
@@ -42,16 +47,18 @@ export const MakeOffer: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
-
   const balance = useSelector(gameService, _balance);
+  const previousBalance = useSelector(gameService, _previousBalance);
   const isVIP = useSelector(gameService, _isVIP);
+  const usd = useSelector(gameService, _usd);
+
   const { openModal } = useContext(ModalContext);
 
   const [offer, setOffer] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [needsSync, setNeedsSync] = useState(false);
 
   const isResource = getKeys(TRADE_LIMITS).includes(
     KNOWN_ITEMS[Number(itemId)],
@@ -106,6 +113,13 @@ export const MakeOffer: React.FC<{
 
   const submitOffer = () => {
     if (tradeType === "onchain") {
+      const needsToSync = previousBalance.lt(offer);
+
+      if (needsToSync) {
+        setNeedsSync(true);
+        return;
+      }
+
       setIsSigning(true);
       return;
     }
@@ -137,6 +151,10 @@ export const MakeOffer: React.FC<{
           sfl: offer,
           points: tradeType === "instant" ? 2 : 10,
         }).multipliedPoints;
+
+  if (needsSync) {
+    return <StoreOnChain itemName="SFL" onClose={onClose} actionType="offer" />;
+  }
 
   if (showConfirmation) {
     return (
