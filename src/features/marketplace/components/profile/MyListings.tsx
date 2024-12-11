@@ -6,7 +6,7 @@ import * as Auth from "features/auth/lib/Provider";
 import trade from "assets/icons/trade.png";
 
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -26,16 +26,12 @@ const _isCancellingOffer = (state: MachineState) =>
 const _trades = (state: MachineState) => state.context.state.trades;
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
-
+const _state = (state: MachineState) => state.context.state;
 export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
   const params = useParams();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
   const isWorldRoute = useLocation().pathname.includes("/world");
 

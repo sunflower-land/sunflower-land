@@ -13,7 +13,8 @@ import {
   MarketplaceTradeableName,
   TRADE_INITIATION_MS,
 } from "features/game/types/marketplace";
-import { useActor } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 import { TradeInitiated } from "./RemoveListing";
 
 interface Props {
@@ -22,6 +23,8 @@ interface Props {
   authToken: string;
   onClose: () => void;
 }
+const _state = (state: MachineState) => state.context.state;
+
 export const RemoveOffer: React.FC<Props> = ({
   id,
   onClose,
@@ -30,11 +33,7 @@ export const RemoveOffer: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   const confirm = async () => {
     gameService.send("marketplace.offerCancelled", {

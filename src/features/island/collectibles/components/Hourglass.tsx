@@ -37,7 +37,8 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { useActor } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 export type HourglassType =
   | "Gourmet Hourglass"
@@ -174,6 +175,8 @@ interface HourglassProps extends CollectibleProps {
   hourglass: HourglassType;
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const Hourglass: React.FC<HourglassProps> = ({
   createdAt,
   id,
@@ -181,11 +184,7 @@ export const Hourglass: React.FC<HourglassProps> = ({
   hourglass,
 }) => {
   const { gameService, showTimers } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const [_, setRender] = useState(0);
   const [showModal, setShowModal] = useState(false);
 

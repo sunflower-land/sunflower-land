@@ -13,7 +13,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import Crown from "assets/icons/vip.webp";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -29,7 +30,7 @@ type Props = {
   children?: React.ReactNode;
   onBack: () => void;
 };
-
+const _state = (state: MachineState) => state.context.state;
 export const Detail: React.FC<Props> = ({
   name,
   caught,
@@ -47,11 +48,7 @@ export const Detail: React.FC<Props> = ({
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   useLayoutEffect(() => {
     const image = new Image();
