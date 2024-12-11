@@ -147,8 +147,14 @@ export const Collection: React.FC<{
         id: item.id,
         state,
       });
-      if (filters.includes("utility") && !display.buff) return false;
-      if (filters.includes("cosmetic") && display.buff) return false;
+
+      if (filters.includes("utility") && display.buffs.length === 0) {
+        return false;
+      }
+
+      if (filters.includes("cosmetic") && display.buffs.length > 0) {
+        return false;
+      }
 
       return display.name.toLowerCase().includes(search?.toLowerCase() ?? "");
     }) ?? [];
