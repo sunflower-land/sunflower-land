@@ -156,7 +156,7 @@ export const NPCIcon: React.FC<NPCProps> = ({
         />
       )}
       <div
-        className="absolute w-full inset-0 pointer-events-none"
+        className="w-full inset-0 pointer-events-none"
         style={{
           width: `${width}px`,
           imageRendering: "pixelated" as const,
