@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Spritesheet from "components/animation/SpriteAnimator";
 import classNames from "classnames";
 import {
@@ -127,12 +127,6 @@ export const NPCIcon: React.FC<NPCProps> = ({
   parts,
   width = PIXEL_SCALE * 14, // Default to original width if not passed
 }) => {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setShow(true);
-  }, []);
-
   const idle = getAnimatedWebpUrl(parts, ["idle-small"]);
   const auraBack =
     parts.aura &&
@@ -140,10 +134,6 @@ export const NPCIcon: React.FC<NPCProps> = ({
   const auraFront =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[parts.aura]}.png`;
-
-  if (!show) {
-    return null;
-  }
 
   return (
     <div>
