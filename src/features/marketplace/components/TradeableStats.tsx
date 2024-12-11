@@ -11,11 +11,11 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
-  price: number;
+  marketPrice: number;
   history?: SaleHistory;
 }
 
-export const TradeableStats: React.FC<Props> = ({ history, price }) => {
+export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
   const { t } = useAppTranslation();
   const [loading, setLoading] = useState(true);
 
@@ -29,7 +29,7 @@ export const TradeableStats: React.FC<Props> = ({ history, price }) => {
     ? getPriceHistory({
         history: history.history,
         from: new Date(Date.now() - 1000 * 60 * 60 * 24 * 31).getTime(), // 31 days ago
-        price,
+        price: marketPrice,
       })
     : {
         dates: [],

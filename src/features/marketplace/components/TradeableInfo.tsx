@@ -2,7 +2,10 @@ import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { TradeableDetails } from "features/game/types/marketplace";
+import {
+  getMarketPrice,
+  TradeableDetails,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TradeableDisplay } from "../lib/tradeables";
 
@@ -141,11 +144,15 @@ export const TradeableMobileInfo: React.FC<{
       tradeable.history.sales[0].sfl / tradeable.history.sales[0].quantity;
   }
 
+  const marketPrice = getMarketPrice({ tradeable });
   return (
     <>
       <div className="flex justify-between gap-1 items-center">
         <TradeableImage display={display} supply={tradeable?.supply} />
-        <TradeableStats history={tradeable?.history} price={latestSale} />
+        <TradeableStats
+          history={tradeable?.history}
+          marketPrice={marketPrice}
+        />
       </div>
       <TradeableDescription display={display} tradeable={tradeable} />
     </>
