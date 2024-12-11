@@ -12,7 +12,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
-  BUMPKIN_REVAMP_SKILL_TREE,
   BumpkinRevampSkillName,
   BumpkinSkillRevamp,
   getPowerSkills,
@@ -62,10 +61,10 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   const { skills } = bumpkin;
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(
-    (skill) => !!skills[skill as BumpkinRevampSkillName],
+    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
   );
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
-    BUMPKIN_REVAMP_SKILL_TREE[powerSkillsUnlocked[0]],
+    powerSkillsUnlocked[0],
   );
   const [useSkillConfirmation, setUseSkillConfirmation] = useState(false);
   const useSkill = () => {
@@ -74,7 +73,9 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
     gameService.send("skill.used", { skill: selectedSkill?.name });
   };
 
-  const { cooldown = 0 } = selectedSkill.requirements;
+  const { boosts, image, name, power, requirements } = selectedSkill;
+  const { cooldown = 0 } = requirements;
+  const { buff, debuff } = boosts;
 
   const nextSkillUse =
     (bumpkin.previousPowerUseAt?.[
@@ -93,13 +94,32 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
             <div className="flex flex-col h-full px-1 py-0">
               <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 sm:py-0 py-2">
                 <div className="sm:mt-2">
-                  <SquareIcon icon={selectedSkill.image} width={14} />
+                  <SquareIcon icon={image} width={14} />
                 </div>
-                <span className="sm:text-center">{selectedSkill.name}</span>
+                <span className="sm:text-center">{name}</span>
               </div>
-              <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center my-2">
-                {selectedSkill.boosts}
-              </span>
+              <div className="flex flex-col max-lg:items-start lg:items-center mt-2">
+                {buff && (
+                  <Label
+                    type={buff.labelType}
+                    icon={buff.boostTypeIcon}
+                    secondaryIcon={buff.boostedItemIcon}
+                    className="mb-2"
+                  >
+                    {buff.shortDescription}
+                  </Label>
+                )}
+                {debuff && (
+                  <Label
+                    type={debuff.labelType}
+                    icon={debuff.boostTypeIcon}
+                    secondaryIcon={debuff.boostedItemIcon}
+                    className="mb-2"
+                  >
+                    {debuff.shortDescription}
+                  </Label>
+                )}
+              </div>
               <div className="flex flex-col lg:items-center">
                 <Label
                   type={canUsePowerSkill ? "success" : "info"}
@@ -125,7 +145,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
 
             {/* Claim/Claimed/Use Button */}
             <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-              {selectedSkill.power && (
+              {power && (
                 <Button
                   disabled={!canUsePowerSkill}
                   onClick={() => setUseSkillConfirmation(true)}
@@ -141,16 +161,13 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               onHide={() => setUseSkillConfirmation(false)}
               messages={[
                 t("powerSkills.confirmationMessage", {
-                  skillName: selectedSkill.name,
+                  skillName: name,
                 }),
                 t("powerSkills.cooldownMessage", {
-                  cooldown: millisecondsToString(
-                    selectedSkill.requirements.cooldown ?? 0,
-                    {
-                      length: "short",
-                      removeTrailingZeros: true,
-                    },
-                  ),
+                  cooldown: millisecondsToString(cooldown, {
+                    length: "short",
+                    removeTrailingZeros: true,
+                  }),
                 }),
               ]}
               onCancel={() => setUseSkillConfirmation(false)}
@@ -168,19 +185,17 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               <Label type="default">{t("powerSkills.unlockedSkills")}</Label>
             </div>
             <div className="flex flex-wrap mb-2">
-              {powerSkillsUnlocked.map((skill: BumpkinRevampSkillName) => {
-                const skillData = BUMPKIN_REVAMP_SKILL_TREE[
-                  skill
-                ] as BumpkinSkillRevamp;
+              {powerSkillsUnlocked.map((skill) => {
+                const { image, name } = skill;
                 return (
                   <Box
-                    key={skill}
+                    key={name}
                     className="mb-1"
-                    image={skillData.image}
-                    isSelected={selectedSkill === skillData}
-                    onClick={() => setSelectedSkill(skillData)}
+                    image={image}
+                    isSelected={selectedSkill === skill}
+                    onClick={() => setSelectedSkill(skill)}
                   >
-                    {skillData.name}
+                    {name}
                   </Box>
                 );
               })}
