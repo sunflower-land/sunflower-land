@@ -10,10 +10,9 @@ import { SkillPathDetails } from "./SkillPathDetails";
 
 interface Props {
   readonly: boolean;
-  onClose: () => void;
 }
 
-export const Skills: React.FC<Props> = ({ readonly, onClose }) => {
+export const Skills: React.FC<Props> = ({ readonly }) => {
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinRevampSkillTree | null>(null);
   const [skillsInPath, setSkillsInTree] = useState<BumpkinSkillRevamp[]>([]);
@@ -48,7 +47,6 @@ export const Skills: React.FC<Props> = ({ readonly, onClose }) => {
           skillsInPath={skillsInPath}
           readonly={readonly}
           onBack={handleBackToSkillList}
-          onClose={onClose}
         />
       )}
     </div>
