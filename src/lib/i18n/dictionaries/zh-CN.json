@@ -4488,5 +4488,6 @@
   "marketplace.itemNotStoredOnChain.listing.warning": "这件商品需要先存放在链子上，然后才能上市出售。",
   "marketplace.itemNotStoredOnChain.offer.warning": "您的SFL需要存储在链上才能完成此优惠。",
   "marketplace.itemNotStoredOnChain.purchase.warning": "在完成此次购买之前，您的SFL需要存储在链上。",
-  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "您的物品需要先存放在链子上，然后才能被接受。"
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "您的物品需要先存放在链子上，然后才能被接受。",
+  "marketplace.tradeInitiated": "好消息！看来有人在完成你的交易。请等待交易完成。"
 }

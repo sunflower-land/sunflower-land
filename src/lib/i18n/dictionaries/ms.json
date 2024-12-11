@@ -4488,5 +4488,6 @@
   "marketplace.itemNotStoredOnChain.listing.warning": "Item ini perlu disimpan di rantai sebelum ia boleh disenaraikan untuk dijual.",
   "marketplace.itemNotStoredOnChain.offer.warning": "SFL anda perlu disimpan di rantai sebelum dapat menyelesaikan tawaran ini.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "SFL anda perlu disimpan di rantai sebelum anda dapat menyelesaikan pembelian ini.",
-  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Item anda perlu disimpan di rantai sebelum ia boleh diterima."
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Item anda perlu disimpan di rantai sebelum ia boleh diterima.",
+  "marketplace.tradeInitiated": "Berita hebat! Nampaknya seseorang memenuhi perdagangan anda. Sila tunggu perdagangan selesai."
 }

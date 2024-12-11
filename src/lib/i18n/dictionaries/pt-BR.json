@@ -4488,5 +4488,6 @@
   "marketplace.itemNotStoredOnChain.listing.warning": "Esse item precisará ser armazenado em uma rede antes de ser colocado à venda.",
   "marketplace.itemNotStoredOnChain.offer.warning": "Seu SFL precisará ser armazenado em cadeia antes de poder concluir esta oferta.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Seu SFL precisará ser armazenado em cadeia antes que você possa concluir esta compra.",
-  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Seu item precisará ser armazenado em cadeia antes de ser aceito."
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Seu item precisará ser armazenado em cadeia antes de ser aceito.",
+  "marketplace.tradeInitiated": "Ótima notícia! Parece que alguém está cumprindo seu negócio. Aguarde a conclusão da negociação."
 }

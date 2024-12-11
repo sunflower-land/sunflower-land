@@ -4488,5 +4488,6 @@
   "marketplace.itemNotStoredOnChain.listing.warning": "Этот товар необходимо будет хранить в сети, прежде чем его можно будет выставить на продажу.",
   "marketplace.itemNotStoredOnChain.offer.warning": "Ваш SFL необходимо будет сохранить в сети, прежде чем компания сможет выполнить это предложение.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Прежде чем вы сможете совершить эту покупку, ваш SFL необходимо сохранить в сети.",
-  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Ваш товар необходимо будет хранить в сети, прежде чем его можно будет принять."
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Ваш товар необходимо будет хранить в сети, прежде чем его можно будет принять.",
+  "marketplace.tradeInitiated": "Отличная новость! Похоже, кто-то выполняет вашу сделку. Пожалуйста, дождитесь завершения сделки."
 }

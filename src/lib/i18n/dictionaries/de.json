@@ -4488,5 +4488,6 @@
   "marketplace.itemNotStoredOnChain.listing.warning": "Dieser Artikel muss an der Kette aufbewahrt werden, bevor er zum Verkauf angeboten werden kann.",
   "marketplace.itemNotStoredOnChain.offer.warning": "Ihr SFL muss in der Kette aufbewahrt werden, bevor dieses Angebot abgeschlossen werden kann.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Ihr SFL muss an der Kette aufbewahrt werden, bevor Sie diesen Kauf abschließen können.",
-  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Ihr Artikel muss an einer Kette aufbewahrt werden, bevor er angenommen werden kann."
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Ihr Artikel muss an einer Kette aufbewahrt werden, bevor er angenommen werden kann.",
+  "marketplace.tradeInitiated": "Tolle Neuigkeiten! Es sieht so aus, als ob jemand Ihren Beruf erfüllt. Bitte warten Sie, bis der Handel abgeschlossen ist."
 }

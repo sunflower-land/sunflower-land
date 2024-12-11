@@ -4488,5 +4488,6 @@
   "marketplace.itemNotStoredOnChain.listing.warning": "Questo articolo dovrà essere immagazzinato in catena prima di poter essere messo in vendita.",
   "marketplace.itemNotStoredOnChain.offer.warning": "Il tuo SFL dovrà essere archiviato in catena prima di poter completare questa offerta.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Il tuo SFL dovrà essere archiviato in catena prima di poter completare l'acquisto.",
-  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Il tuo articolo dovrà essere immagazzinato in catena prima di poter essere accettato."
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Il tuo articolo dovrà essere immagazzinato in catena prima di poter essere accettato.",
+  "marketplace.tradeInitiated": "Ottime notizie! Sembra che qualcuno stia adempiendo al tuo mestiere. Attendi il completamento dello scambio."
 }

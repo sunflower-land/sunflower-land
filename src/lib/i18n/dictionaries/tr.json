@@ -4488,5 +4488,6 @@
   "marketplace.itemNotStoredOnChain.listing.warning": "Bu öğenin satışa sunulmadan önce zincirde saklanması gerekecektir.",
   "marketplace.itemNotStoredOnChain.offer.warning": "Bu teklifi tamamlayabilmesi için SFL'nizin zincirde saklanması gerekir.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Bu satın alma işlemini tamamlayabilmeniz için SFL'nizin zincirde saklanması gerekecektir.",
-  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Öğenizin kabul edilebilmesi için zincirde saklanması gerekecektir."
+  "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Öğenizin kabul edilebilmesi için zincirde saklanması gerekecektir.",
+  "marketplace.tradeInitiated": "Harika haber! Görünüşe göre birisi ticaretinizi gerçekleştiriyor. Lütfen ticaretin tamamlanmasını bekleyin."
 }
