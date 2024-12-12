@@ -568,6 +568,11 @@ import cozyFireplace from "assets/sfts/cozy_fireplace.webp";
 import christmasRug from "assets/sfts/christmas_rug.webp";
 import christmasCandle from "assets/sfts/christmas_candle.webp";
 
+import santaPenguin from "assets/sfts/santa_penguin.webp";
+import penguinPool from "assets/sfts/penguin_pool.webp";
+import snowman from "assets/sfts/snowman.webp";
+import festiveToyTrain from "assets/sfts/festive_toy_train.webp";
+
 // Flowers
 import beehive from "assets/sfts/beehive.webp";
 import flowerBed from "assets/flowers/empty.webp";
@@ -4469,5 +4474,21 @@ export const ITEM_DETAILS: Items = {
   "Christmas Candle": {
     image: christmasCandle,
     description: translate("description.christmasCandle"),
+  },
+  "Santa Penguin": {
+    image: santaPenguin,
+    description: translate("description.santaPenguin"),
+  },
+  "Penguin Pool": {
+    image: penguinPool,
+    description: translate("description.penguinPool"),
+  },
+  Snowman: {
+    image: snowman,
+    description: translate("description.snowman"),
+  },
+  "Festive Toy Train": {
+    image: festiveToyTrain,
+    description: translate("description.festiveToyTrain"),
   },
 };
