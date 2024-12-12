@@ -69,22 +69,26 @@ const AcceptOfferContent: React.FC<{
 
   const confirm = async () => {
     if (offer.type === "onchain") {
-      let prevBal = new Decimal(0);
       if (display.type === "collectibles") {
-        prevBal =
+        const prevBal =
           previousInventory[display.name as InventoryItemName] ??
           new Decimal(0);
+
+        if (prevBal.lt(offer.quantity)) {
+          setNeedsSync(true);
+          return;
+        }
       }
 
       if (display.type === "wearables") {
-        prevBal = new Decimal(
+        const prevBal = new Decimal(
           previousWardrobe[display.name as BumpkinItem] ?? 0,
         );
-      }
 
-      if (prevBal.lt(offer.quantity)) {
-        setNeedsSync(true);
-        return;
+        if (prevBal.lt(offer.quantity)) {
+          setNeedsSync(true);
+          return;
+        }
       }
     }
 
