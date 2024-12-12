@@ -107,7 +107,7 @@ export const TradeableSummary: React.FC<{
           padding: "5px 5px 5px 2px",
         }}
       >
-        <span className="text-xs"> {t("marketplace.sellerWillReceive")}</span>
+        <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
         <p className="text-xs font-secondary">{`${formatNumber(
           new Decimal(sfl).mul(1 - MARKETPLACE_TAX),
           {

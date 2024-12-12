@@ -33,7 +33,6 @@ import { getBasketItems } from "features/island/hud/components/inventory/utils/i
 import { KNOWN_ITEMS } from "features/game/types";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
@@ -58,8 +57,6 @@ export const TradeableOffers: React.FC<{
 }> = ({ tradeable, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
-  const { openModal } = useContext(ModalContext);
-  const isVIP = useSelector(gameService, _isVIP);
   const { t } = useAppTranslation();
   const { id } = useParams();
 
@@ -76,7 +73,6 @@ export const TradeableOffers: React.FC<{
     gameService,
     "marketplaceOffering",
     "marketplaceOfferingSuccess",
-    confetti,
   );
 
   const hasPendingOfferEffect = useSelector(

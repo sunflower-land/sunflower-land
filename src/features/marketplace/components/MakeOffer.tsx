@@ -17,7 +17,7 @@ import { signTypedData } from "@wagmi/core";
 import walletIcon from "assets/icons/wallet.png";
 import sflIcon from "assets/icons/sfl.webp";
 import lockIcon from "assets/icons/lock.png";
-import { TradeableSummary } from "./TradeableSummary";
+import { TradeableItemDetails, TradeableSummary } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";
 import { ResourceOffer } from "./ResourceOffer";
 import { InventoryItemName } from "features/game/types/game";
@@ -164,10 +164,10 @@ export const MakeOffer: React.FC<{
             {t("are.you.sure")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary
+          <TradeableItemDetails
             display={display}
+            quantity={Math.max(1, quantity)}
             sfl={offer}
-            quantity={quantity}
             estTradePoints={estTradePoints}
           />
         </div>
