@@ -60,8 +60,7 @@ export const MyListings: React.FC = () => {
 
             return (
               listing.collection === params.collection &&
-              listingItemId === Number(params.id) &&
-              !!listing.fulfilledAt
+              listingItemId === Number(params.id)
             );
           }),
         )
