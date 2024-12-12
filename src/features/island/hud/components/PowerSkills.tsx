@@ -93,7 +93,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               </div>
               <span className="sm:text-center">{name}</span>
             </div>
-            <div className="flex flex-col max-lg:items-start lg:items-center mt-2">
+            <div className="flex flex-col items-start mt-2">
               {buff && (
                 <Label
                   type={buff.labelType}

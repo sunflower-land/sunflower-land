@@ -148,7 +148,7 @@ export const SkillPathDetails: React.FC<Props> = ({
               )}
             </div>
             <div className="flex justify-between flex-col flex-wrap">
-              <div className="flex max-lg:flex-row lg:flex-col-reverse items-start justify-between">
+              <div className="flex flex-row lg:flex-col-reverse items-start justify-between">
                 <RequirementLabel
                   type="skillPoints"
                   points={availableSkillPoints}
@@ -172,13 +172,11 @@ export const SkillPathDetails: React.FC<Props> = ({
                   </Label>
                 )}
               </div>
-              <div className="flex max-lg:flex-row lg:flex-col items-start justify-between">
-                {disabled && (
-                  <Label type="danger" className="mb-2">
-                    {t("skillTier.skillDisabled")}
-                  </Label>
-                )}
-              </div>
+              {disabled && (
+                <Label type="danger" className="mb-2">
+                  {t("skillTier.skillDisabled")}
+                </Label>
+              )}
             </div>
           </div>
 
