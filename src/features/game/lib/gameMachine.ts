@@ -477,6 +477,19 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
         onDone: [
           {
             target: `${stateName}Success`,
+            cond: (_: Context, event: DoneInvokeEvent<any>) =>
+              !event.data.state.transaction,
+            actions: [
+              assign((_, event: DoneInvokeEvent<any>) => ({
+                actions: [],
+                state: event.data.state,
+              })),
+            ],
+          },
+          // If there is a transaction on the gameState move into playing so that
+          // the transaction flow can handle the rest of the flow
+          {
+            target: `playing`,
             actions: [
               assign((_, event: DoneInvokeEvent<any>) => ({
                 actions: [],
