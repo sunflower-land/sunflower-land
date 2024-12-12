@@ -24,6 +24,8 @@ interface Props {
   onClose: () => void;
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const RemoveListing: React.FC<Props> = ({
   listingId,
   onClose,
@@ -31,6 +33,7 @@ export const RemoveListing: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
 
   const trades = useSelector(gameService, _trades);
   const listings = trades.listings ?? {};
@@ -55,7 +58,7 @@ export const RemoveListing: React.FC<Props> = ({
 
   const itemId = getListingItem({ listing });
   const collection = getListingCollection({ listing });
-  const display = getTradeableDisplay({ id: itemId, type: collection });
+  const display = getTradeableDisplay({ id: itemId, type: collection, state });
 
   if (isBeingPurchased) {
     return (

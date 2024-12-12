@@ -173,7 +173,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                     : undefined
                 }
               >
-                {t("marketplace.youOwn", {
+                {t("marketplace.available", {
                   count: Math.floor(count),
                 })}
               </Label>

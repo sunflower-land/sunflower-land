@@ -284,7 +284,7 @@ export const ItemsList: React.FC<Props> = ({
           )}.`}</span>
         ) : (
           sortedItems.map((item) => {
-            const buff = getItemBuffLabel(item);
+            const buff = getItemBuffLabel(item, state);
             const isItemKey = isKey(
               getItemName(item) as unknown as InventoryItemName,
             );

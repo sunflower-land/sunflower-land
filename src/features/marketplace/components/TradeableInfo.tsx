@@ -91,15 +91,18 @@ export const TradeableDescription: React.FC<{
         </Label>
         <div className="flex flex-col space-y-1">
           <p className="text-xs mb-1">{display.description}</p>
-          {display.buff && (
-            <Label
-              icon={display.buff.boostTypeIcon}
-              secondaryIcon={display.buff.boostedItemIcon}
-              type={display.buff.labelType}
-            >
-              {display.buff.shortDescription}
-            </Label>
-          )}
+          <div className="flex flex-col space-y-1">
+            {display.buffs.map((buff) => (
+              <Label
+                key={buff.shortDescription}
+                icon={buff.boostTypeIcon}
+                secondaryIcon={buff.boostedItemIcon}
+                type={buff.labelType}
+              >
+                {buff.shortDescription}
+              </Label>
+            ))}
+          </div>
         </div>
         {tradeable?.expiresAt && (
           <div className="p-2 pl-0 pb-0">

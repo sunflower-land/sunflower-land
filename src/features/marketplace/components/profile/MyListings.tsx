@@ -26,11 +26,12 @@ const _isCancellingOffer = (state: MachineState) =>
 const _trades = (state: MachineState) => state.context.state.trades;
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
-
+const _state = (state: MachineState) => state.context.state;
 export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
   const params = useParams();
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
   const isWorldRoute = useLocation().pathname.includes("/world");
 
@@ -138,6 +139,7 @@ export const MyListings: React.FC = () => {
                   const details = getTradeableDisplay({
                     id: itemId,
                     type: listing.collection,
+                    state,
                   });
 
                   const isResource =
@@ -161,7 +163,7 @@ export const MyListings: React.FC = () => {
                       collection={listing.collection}
                       unitPrice={unitPrice}
                       usdPrice={usd}
-                      isFulfilled={!!listing.fulfilledAt}
+                      isFulfilled={!!listing.fulfilledAt || !!listing.boughtAt}
                       isResource={isResource}
                       onCancel={() => setRemoveListingId(id)}
                       onRowClick={() =>

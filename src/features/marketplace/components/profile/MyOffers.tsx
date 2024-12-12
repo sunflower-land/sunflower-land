@@ -74,7 +74,7 @@ export const MyOffers: React.FC = () => {
     const offer = offers[claimId as string];
 
     gameService.send("offer.claimed", {
-      tradeId: claimId,
+      tradeIds: [claimId],
     });
 
     // For on chain items let's fire a refresh
@@ -153,6 +153,7 @@ export const MyOffers: React.FC = () => {
                   const details = getTradeableDisplay({
                     id: itemId,
                     type: offer.collection,
+                    state: gameState.context.state,
                   });
 
                   const isResource =

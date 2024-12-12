@@ -135,7 +135,7 @@ export const MegaStoreSeasonal: React.FC<{
           isVisible={isVisible}
           item={selectedItem}
           image={getItemImage(selectedItem)}
-          buff={getItemBuffLabel(selectedItem)}
+          buff={getItemBuffLabel(selectedItem, state)}
           isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
           onClose={() => setSelectedItem(null)}
           readonly={readonly}

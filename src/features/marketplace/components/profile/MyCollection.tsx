@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import { useLocation, useNavigate } from "react-router";
 
@@ -20,8 +20,6 @@ import { ListViewCard } from "../ListViewCard";
 
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
-import { FixedSizeGrid as Grid } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
 
 type CollectionItem = {
   id: number;
@@ -30,7 +28,6 @@ type CollectionItem = {
 };
 
 export const MyCollection: React.FC = () => {
-  const gridRef = useRef<any>(null);
   const { t } = useAppTranslation();
   const location = useLocation();
   const isWorldRoute = location.pathname.includes("/world");
@@ -80,69 +77,51 @@ export const MyCollection: React.FC = () => {
     const details = getTradeableDisplay({
       id: item.id,
       type: item.collection,
+      state: gameState.context.state,
     });
 
     return details.name.toLowerCase().includes(search.toLowerCase());
   });
 
-  const calculatePanelHeight = (width: number) => {
-    const getColumnCount = (width: number) => {
-      if (width >= 1280) return 7; // xl
-      if (width >= 1024) return 5; // lg
-      if (width >= 768) return 4; // md
-      if (width >= 640) return 3; // sm
-      return 2; // default
-    };
+  // Separate items into three categories
+  const budsItems = items.filter((item) => item.collection === "buds");
+  const wearableItems = items.filter((item) => item.collection === "wearables");
+  const collectibleItems = items.filter(
+    (item) => item.collection === "collectibles",
+  );
 
-    const columnCount = getColumnCount(width);
-    const rowCount = Math.ceil(items.length / columnCount);
-    // 160 is row height, 100 accounts for header + search + padding
-    return rowCount * 160 + 100;
-  };
+  const ItemGrid: React.FC<{ items: CollectionItem[] }> = ({ items }) => (
+    <div className="flex flex-wrap">
+      {items.map((item) => {
+        const details = getTradeableDisplay({
+          id: item.id,
+          type: item.collection,
+          state: gameState.context.state,
+        });
 
-  const Cell = ({
-    columnIndex,
-    rowIndex,
-    style,
-    data,
-  }: {
-    columnIndex: number;
-    rowIndex: number;
-    style: React.CSSProperties;
-    data: { width: number; items: CollectionItem[]; columnCount: number };
-  }) => {
-    const itemIndex = rowIndex * data.columnCount + columnIndex;
-    const item = data.items[itemIndex];
-
-    if (!item) return null;
-
-    const details = getTradeableDisplay({
-      id: item.id,
-      type: item.collection,
-    });
-
-    return (
-      <div style={style} className="pr-1 pb-1">
-        <ListViewCard
-          details={details}
-          onClick={() => {
-            const scrollPosition = gridRef.current?._outerRef.scrollTop;
-            navigate(
-              `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
-              {
-                state: {
-                  scrollPosition,
-                  route: `${location.pathname}${location.search}`,
-                },
-              },
-            );
-          }}
-        />
-      </div>
-    );
-  };
-
-  const savedScrollPosition = useLocation().state?.scrollPosition;
+        return (
+          <div
+            key={`${item.collection}-${item.id}`}
+            className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/7 p-1"
+          >
+            <ListViewCard
+              details={details}
+              onClick={() => {
+                navigate(
+                  `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
+                  {
+                    state: {
+                      route: `${location.pathname}${location.search}`,
+                    },
+                  },
+                );
+              }}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
 
   return (
     <>
@@ -156,7 +135,7 @@ export const MyCollection: React.FC = () => {
         <Label className="mb-2 ml-2" type="default" icon={chest}>
           {t("marketplace.myCollection")}
         </Label>
-        <div className="flex items-center">
+        <div className="flex items-center mb-2">
           <TextInput
             icon={SUNNYSIDE.icons.search}
             value={search}
@@ -167,39 +146,33 @@ export const MyCollection: React.FC = () => {
           {items.length === 0 ? (
             <p className="text-sm">{t("marketplace.noCollection")}</p>
           ) : (
-            <div style={{ height: calculatePanelHeight(window.innerWidth) }}>
-              <AutoSizer>
-                {({ height, width }) => {
-                  const getColumnCount = (width: number) => {
-                    if (width >= 1280) return 7; // xl
-                    if (width >= 1024) return 5; // lg
-                    if (width >= 768) return 4; // md
-                    if (width >= 640) return 3; // sm
-                    return 2; // default
-                  };
+            <div className="space-y-3">
+              {collectibleItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("collectibles")} (${collectibleItems.length})`}
+                  </Label>
+                  <ItemGrid items={collectibleItems} />
+                </div>
+              )}
 
-                  const columnCount = getColumnCount(width);
-                  const rowCount = Math.ceil(items.length / columnCount);
-                  const columnWidth = width / columnCount;
+              {wearableItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("wearables")} (${wearableItems.length})`}
+                  </Label>
+                  <ItemGrid items={wearableItems} />
+                </div>
+              )}
 
-                  return (
-                    <Grid
-                      ref={gridRef}
-                      columnCount={columnCount}
-                      columnWidth={columnWidth}
-                      height={height}
-                      rowCount={rowCount}
-                      rowHeight={160}
-                      width={width}
-                      className="scrollable"
-                      initialScrollTop={savedScrollPosition}
-                      itemData={{ width, items, columnCount }}
-                    >
-                      {Cell}
-                    </Grid>
-                  );
-                }}
-              </AutoSizer>
+              {budsItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("buds")} (${budsItems.length})`}
+                  </Label>
+                  <ItemGrid items={budsItems} />
+                </div>
+              )}
             </div>
           )}
         </div>

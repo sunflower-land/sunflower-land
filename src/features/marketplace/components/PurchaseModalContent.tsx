@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Tradeable, Listing } from "features/game/types/marketplace";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTradeableDisplay } from "../lib/tradeables";
 import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
@@ -15,6 +14,7 @@ import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { StoreOnChain } from "./StoreOnChain";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -31,6 +31,8 @@ type PurchaseModalContentProps = {
   onClose: () => void;
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   authToken,
   tradeable,
@@ -39,9 +41,10 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   onClose,
   listing,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
-  const { t } = useAppTranslation();
+  const state = useSelector(gameService, _state);
 
   const [needsSync, setNeedsSync] = useState(false);
 
@@ -53,6 +56,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const display = getTradeableDisplay({
     id: tradeable.id,
     type: collection,
+    state,
   });
 
   let updatedInventory = inventory;
