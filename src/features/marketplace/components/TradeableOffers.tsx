@@ -98,17 +98,17 @@ export const TradeableOffers: React.FC<{
     gameService,
     "marketplaceOfferCancellingSuccess",
     "playing",
-    () => {
-      reload();
-      if (showAnimations) confetti();
-    },
+    reload,
   );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
     "marketplaceAcceptingSuccess",
     "playing",
-    reload,
+    () => {
+      reload();
+      if (showAnimations) confetti();
+    },
   );
 
   const handleHide = () => {
