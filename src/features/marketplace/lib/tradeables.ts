@@ -1,9 +1,8 @@
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { BuffLabel, KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
 import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "features/game/types/bumpkin";
-import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { GameState, InventoryItemName } from "features/game/types/game";
+import { getItemBuffs } from "features/game/types/getItemBuffs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   CollectionName,
@@ -11,14 +10,17 @@ import {
 } from "features/game/types/marketplace";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
+import { BudName } from "features/game/types/buds";
+import { translate } from "lib/i18n/translate";
 
 export type TradeableDisplay = {
   name: string;
   description: string;
   image: string;
   type: CollectionName;
-  buff?: BuffLabel;
+  buffs: BuffLabel[];
 };
+
 export function getTradeableDisplay({
   id,
   type,
@@ -36,20 +38,20 @@ export function getTradeableDisplay({
       name,
       description: details.description, // TODO support translation
       image: new URL(`/src/assets/wearables/${id}.webp`, import.meta.url).href,
-      buff: BUMPKIN_ITEM_BUFF_LABELS[name],
+      buffs: getItemBuffs({ state, item: name, collection: "wearables" }),
       type,
     };
   }
 
   if (type === "buds") {
-    const name = `Bud #${id}`;
+    const name = `Bud #${id}` as BudName;
 
     return {
       name,
-      description: "?",
+      description: translate("description.bud.generic"),
       image: `https://${budImageDomain}.sunflower-land.com/small-nfts/${id}.webp`,
       type,
-      //   buff: TODO
+      buffs: getItemBuffs({ state, item: name, collection: "buds" }),
     };
   }
 
@@ -61,7 +63,7 @@ export function getTradeableDisplay({
     name,
     description: details.description,
     image: details.image,
-    buff: COLLECTIBLE_BUFF_LABELS(state)[name],
+    buffs: getItemBuffs({ state, item: name, collection: "collectibles" }),
     type,
   };
 }
