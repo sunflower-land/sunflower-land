@@ -35,7 +35,7 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
         container={OuterPanel}
         tabs={[
           {
-            icon: SUNNYSIDE.icons.player,
+            icon: SUNNYSIDE.icons.lightning,
             name: t("powerSkills.title"),
           },
         ]}
