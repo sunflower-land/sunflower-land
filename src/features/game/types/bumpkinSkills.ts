@@ -7,6 +7,7 @@ import { BuffLabel } from ".";
 import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
+import bee from "assets/icons/bee.webp";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -504,8 +505,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.instantGrowth"),
-        labelType: "vibrant",
-        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        labelType: "transparent",
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -934,7 +934,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.tools.axe,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    image: SUNNYSIDE?.skills?.tough_tree,
     disabled: false,
   },
   "Feller's Discount": {
@@ -1005,8 +1005,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.treeBlitz"),
-        labelType: "vibrant",
-        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        labelType: "transparent",
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1644,8 +1643,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.greenhouseGuru"),
-        labelType: "vibrant",
-        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        labelType: "transparent",
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2137,9 +2135,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.instantGratification"),
-        labelType: "vibrant",
-        boostTypeIcon: SUNNYSIDE.icons.lightning,
-        boostedItemIcon: ITEM_DETAILS["Chef Hat"].image,
+        labelType: "transparent",
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2369,6 +2365,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.beeCollective"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: bee,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2387,6 +2384,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.flowerPower"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2405,11 +2403,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.floweryAbode.buff"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Honey"].image,
       },
       debuff: {
         shortDescription: translate("skill.floweryAbode.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2429,8 +2429,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.petalBlessed"),
-        labelType: "vibrant",
-        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        labelType: "transparent",
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2455,6 +2454,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.cropProcessorUnit.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2471,7 +2471,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.oilGadget"),
-        labelType: "info",
+        labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
@@ -2511,6 +2511,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.leakProofTank"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2554,6 +2555,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.rapidRig.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2645,8 +2647,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.greaseLightning"),
-        labelType: "vibrant",
-        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        labelType: "transparent",
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,

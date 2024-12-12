@@ -60,6 +60,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   // Destructure selectedSkill properties
   const { tree, requirements, name, image, boosts, disabled, power } =
     selectedSkill;
+  const { cooldown } = requirements;
 
   const { buff, debuff } = boosts;
 
@@ -146,7 +147,16 @@ export const SkillPathDetails: React.FC<Props> = ({
               </div>
               <span className="sm:text-center">{name}</span>
             </div>
-            <div className="flex flex-col max-lg:items-start lg:items-center mt-2">
+            <div className="flex flex-col items-start mt-2">
+              {!!power && (
+                <Label
+                  type="vibrant"
+                  icon={SUNNYSIDE.icons.lightning}
+                  className="mb-2"
+                >
+                  {t("skill.powerSkill")}
+                </Label>
+              )}
               {buff && (
                 <Label
                   type={buff.labelType}
@@ -169,7 +179,7 @@ export const SkillPathDetails: React.FC<Props> = ({
               )}
             </div>
             <div className="flex justify-between flex-col flex-wrap">
-              <div className="flex sm:flex-row lg:flex-col-reverse items-center justify-between">
+              <div className="flex max-lg:flex-row lg:flex-col-reverse items-start justify-between">
                 <Label type="default" className="mb-2">
                   {t(
                     requirements.points > 1
@@ -180,26 +190,23 @@ export const SkillPathDetails: React.FC<Props> = ({
                     },
                   )}
                 </Label>
-                {!!power && (
+                {!!power && !!cooldown && (
                   <Label
                     type="info"
                     icon={SUNNYSIDE.icons.stopwatch}
                     className="mb-2"
                   >
                     {t("skill.cooldown", {
-                      cooldown: millisecondsToString(
-                        selectedSkill.requirements.cooldown ?? 0,
-                        {
-                          length: "short",
-                          isShortFormat: true,
-                          removeTrailingZeros: true,
-                        },
-                      ),
+                      cooldown: millisecondsToString(cooldown ?? 0, {
+                        length: "short",
+                        isShortFormat: true,
+                        removeTrailingZeros: true,
+                      }),
                     })}
                   </Label>
                 )}
               </div>
-              <div className="flex sm:flex-row lg:flex-col items-center justify-between">
+              <div className="flex max-lg:flex-row lg:flex-col items-start justify-between">
                 {disabled && (
                   <Label type="danger" className="mb-2">
                     {t("skillTier.skillDisabled")}
