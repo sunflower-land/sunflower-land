@@ -1546,6 +1546,66 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Christmas Candle"
     />
   ),
+  "Santa Penguin": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Santa Penguin"].image}
+      alt="Santa Penguin"
+    />
+  ),
+  "Penguin Pool": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Penguin Pool"].image}
+      alt="Penguin Pool"
+    />
+  ),
+  Snowman: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Snowman"].image}
+      alt="Snowman"
+    />
+  ),
+  "Festive Toy Train": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Festive Toy Train"].image}
+      alt="Festive Toy Train"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
