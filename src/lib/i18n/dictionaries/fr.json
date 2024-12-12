@@ -4521,5 +4521,9 @@
   "budBuff.type.saphiro.boost": "Vitesse de récolte +10 %",
   "budBuff.type.snow.boost": "+0,3 Cultures avancées",
   "budBuff.type.beach.boost": "+0,2 Fruits",
-  "description.bud.generic": "Un animal de ferme sympathique qui dynamisera votre ferme et votre expérience de jeu à Sunflower Land"
+  "description.bud.generic": "Un animal de ferme sympathique qui dynamisera votre ferme et votre expérience de jeu à Sunflower Land",
+  "description.santaPenguin": "Un pingouin toujours prêt pour les fêtes de fin d'année !",
+  "description.penguinPool": "Gardez un œil sur ces pingouins ou ils provoqueront le chaos sur votre île !",
+  "description.snowman": "Un bonhomme de neige spécial qui, pour une raison ou une autre, ne fond jamais ! ?",
+  "description.festiveToyTrain": "Un bonhomme de neige spécial qui, pour une raison ou une autre, ne fond jamais ! ?"
 }

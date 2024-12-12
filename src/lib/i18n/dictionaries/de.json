@@ -4521,5 +4521,9 @@
   "budBuff.type.saphiro.boost": "+10% Erntetempo",
   "budBuff.type.snow.boost": "+0.3 Fortgeschrittene Nutzpflanzen",
   "budBuff.type.beach.boost": "+0.2 Obst",
-  "description.bud.generic": "Ein freundliches Farmtier, das dein Farm- und Spielerlebnis in Sunflower Land auf die Spitze treibt"
+  "description.bud.generic": "Ein freundliches Farmtier, das dein Farm- und Spielerlebnis in Sunflower Land auf die Spitze treibt",
+  "description.santaPenguin": "Ein Pinguin, der immer bereit für die Weihnachtszeit ist!",
+  "description.penguinPool": "Behalte diese Pinguine im Auge oder sie werden Chaos auf deiner Insel anrichten!",
+  "description.snowman": "Ein besonderer Schneemann, der aus irgendeinem Grund niemals schmilzt!?",
+  "description.festiveToyTrain": "Ein besonderer Schneemann, der aus irgendeinem Grund niemals schmilzt!?"
 }

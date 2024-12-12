@@ -4521,5 +4521,9 @@
   "budBuff.type.saphiro.boost": "+10% de velocidad de cultivo",
   "budBuff.type.snow.boost": "+0.3 Cultivos avanzados",
   "budBuff.type.beach.boost": "+0.2 Fruta",
-  "description.bud.generic": "Una simpática mascota granjera que acelerará tu experiencia de granja y juego en Sunflower Land"
+  "description.bud.generic": "Una simpática mascota granjera que acelerará tu experiencia de granja y juego en Sunflower Land",
+  "description.santaPenguin": "¡Un pingüino que siempre está listo para la temporada festiva!",
+  "description.penguinPool": "¡No pierdas de vista a estos pingüinos o provocarán el caos en tu isla!",
+  "description.snowman": "¿¡Un muñeco de nieve especial que por alguna razón nunca se derrite!?",
+  "description.festiveToyTrain": "¿¡Un muñeco de nieve especial que por alguna razón nunca se derrite!?"
 }

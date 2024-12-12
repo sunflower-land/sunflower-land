@@ -4521,5 +4521,9 @@
   "budBuff.type.saphiro.boost": "+10% 作物速度",
   "budBuff.type.snow.boost": "+0.3 高级作物",
   "budBuff.type.beach.boost": "+0.2 水果",
-  "description.bud.generic": "一只友好的农场宠物，可以为你的向日葵地农场和游戏体验注入活力"
+  "description.bud.generic": "一只友好的农场宠物，可以为你的向日葵地农场和游戏体验注入活力",
+  "description.santaPenguin": "一只随时为节日做好准备的企鹅！",
+  "description.penguinPool": "留意这些企鹅，否则它们会在你的岛上造成混乱！",
+  "description.snowman": "一个特殊的雪人，由于某种原因永远不会融化！？",
+  "description.festiveToyTrain": "一个特殊的雪人，由于某种原因永远不会融化！？"
 }

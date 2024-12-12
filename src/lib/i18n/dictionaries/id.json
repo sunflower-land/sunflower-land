@@ -4521,5 +4521,9 @@
   "budBuff.type.saphiro.boost": "+10% Kecepatan Paning",
   "budBuff.type.snow.boost": "+0.3 Tanaman Tingkat Lanjut",
   "budBuff.type.beach.boost": "+0.2 Buah",
-  "description.bud.generic": "Hewan peliharaan bertani ramah yang akan mengisi daya pertanian Sunflower Land dan pengalaman bermain game Anda"
+  "description.bud.generic": "Hewan peliharaan bertani ramah yang akan mengisi daya pertanian Sunflower Land dan pengalaman bermain game Anda",
+  "description.santaPenguin": "Seekor penguin yang selalu siap untuk musim perayaan!",
+  "description.penguinPool": "Awasi penguin ini atau mereka akan menyebabkan kekacauan di pulau Anda!",
+  "description.snowman": "Manusia salju khusus yang karena alasan tertentu tidak pernah meleleh!?",
+  "description.festiveToyTrain": "Manusia salju khusus yang karena alasan tertentu tidak pernah meleleh!?"
 }

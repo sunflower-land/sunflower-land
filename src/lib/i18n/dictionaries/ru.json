@@ -4521,5 +4521,9 @@
   "budBuff.type.saphiro.boost": "Скорость кадрирования: +10%",
   "budBuff.type.snow.boost": "+0.3 Продвинутые культуры",
   "budBuff.type.beach.boost": "+0.2 Фрукты",
-  "description.bud.generic": "Дружелюбный фермерский питомец, который зарядит вашу ферму Sunflower Land и игровой опыт"
+  "description.bud.generic": "Дружелюбный фермерский питомец, который зарядит вашу ферму Sunflower Land и игровой опыт",
+  "description.santaPenguin": "Пингвин, который всегда готов к праздничному сезону!",
+  "description.penguinPool": "Внимательно следите за этими пингвинами, иначе они устроят хаос на вашем острове!",
+  "description.snowman": "Особый снеговик, который почему-то никогда не тает!?",
+  "description.festiveToyTrain": "Особый снеговик, который почему-то никогда не тает!?"
 }

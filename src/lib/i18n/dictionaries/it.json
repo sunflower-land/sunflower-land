@@ -4521,5 +4521,9 @@
   "budBuff.type.saphiro.boost": "+10% Velocità di ritaglio",
   "budBuff.type.snow.boost": "+0.3 Colture avanzate",
   "budBuff.type.beach.boost": "+0,2 frutta",
-  "description.bud.generic": "Un simpatico animaletto da fattoria che darà il massimo alla tua fattoria e alla tua esperienza di gioco in Sunflower Land"
+  "description.bud.generic": "Un simpatico animaletto da fattoria che darà il massimo alla tua fattoria e alla tua esperienza di gioco in Sunflower Land",
+  "description.santaPenguin": "Un pinguino sempre pronto per le festività natalizie!",
+  "description.penguinPool": "Tieni d'occhio questi pinguini o causeranno il caos sulla tua isola!",
+  "description.snowman": "Un pupazzo di neve speciale che per qualche motivo non si scioglie mai!?",
+  "description.festiveToyTrain": "Un pupazzo di neve speciale che per qualche motivo non si scioglie mai!?"
 }

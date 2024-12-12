@@ -4521,5 +4521,9 @@
   "budBuff.type.saphiro.boost": "+10% クロップスピード",
   "budBuff.type.snow.boost": "+0.3 アドバンスド・クロップ",
   "budBuff.type.beach.boost": "+0.2 フルーツ",
-  "description.bud.generic": "サンフラワーランドの農場やゲーム体験を盛り上げてくれる、フレンドリーなファーミングペット"
+  "description.bud.generic": "サンフラワーランドの農場やゲーム体験を盛り上げてくれる、フレンドリーなファーミングペット",
+  "description.santaPenguin": "ホリデーシーズンにいつでも準備万端なペンギン！",
+  "description.penguinPool": "これらのペンギンから目を離さないでください。さもないと、島に混乱が生じます！",
+  "description.snowman": "なぜか溶けない特別な雪だるま!?",
+  "description.festiveToyTrain": "なぜか溶けない特別な雪だるま!?"
 }
