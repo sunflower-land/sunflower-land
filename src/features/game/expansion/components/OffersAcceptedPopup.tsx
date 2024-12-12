@@ -106,11 +106,11 @@ export const OffersAcceptedPopup: React.FC = () => {
         })}
       </div>
       <div className="flex space-x-1">
-        <Button className="w-full" onClick={() => claimAll()}>
-          {t("claim")}
-        </Button>
         <Button className="w-full" onClick={() => gameService.send("CLOSE")}>
           {t("close")}
+        </Button>
+        <Button className="w-full" onClick={() => claimAll()}>
+          {t("claim")}
         </Button>
       </div>
     </>
