@@ -4525,5 +4525,6 @@
   "description.santaPenguin": "Festival sezonuna her zaman hazır bir penguen!",
   "description.penguinPool": "Gözlerini bu penguenlerde tut yoksa adanda kaosa neden olurlar!",
   "description.snowman": "Bazı nedenlerden dolayı asla erimeyen özel bir kardan adam!?",
-  "description.festiveToyTrain": "Bazı nedenlerden dolayı asla erimeyen özel bir kardan adam!?"
+  "description.festiveToyTrain": "Bazı nedenlerden dolayı asla erimeyen özel bir kardan adam!?",
+  "marketplace.available": "Mevcut: {{count}}"
 }

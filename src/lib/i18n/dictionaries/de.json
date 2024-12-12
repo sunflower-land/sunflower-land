@@ -4525,5 +4525,6 @@
   "description.santaPenguin": "Ein Pinguin, der immer bereit für die Weihnachtszeit ist!",
   "description.penguinPool": "Behalte diese Pinguine im Auge oder sie werden Chaos auf deiner Insel anrichten!",
   "description.snowman": "Ein besonderer Schneemann, der aus irgendeinem Grund niemals schmilzt!?",
-  "description.festiveToyTrain": "Ein besonderer Schneemann, der aus irgendeinem Grund niemals schmilzt!?"
+  "description.festiveToyTrain": "Ein besonderer Schneemann, der aus irgendeinem Grund niemals schmilzt!?",
+  "marketplace.available": "Verfügbar: {{count}}"
 }

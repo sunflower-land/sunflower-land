@@ -4525,5 +4525,6 @@
   "description.santaPenguin": "Um pinguim que está sempre pronto para a época festiva!",
   "description.penguinPool": "Fique de olho nesses pinguins ou eles causarão o caos em sua ilha!",
   "description.snowman": "Um boneco de neve especial que, por algum motivo, nunca derrete!?",
-  "description.festiveToyTrain": "Um boneco de neve especial que, por algum motivo, nunca derrete!?"
+  "description.festiveToyTrain": "Um boneco de neve especial que, por algum motivo, nunca derrete!?",
+  "marketplace.available": "Disponível: {{count}}"
 }

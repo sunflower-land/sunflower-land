@@ -4525,5 +4525,6 @@
   "description.santaPenguin": "Un pingouin toujours prêt pour les fêtes de fin d'année !",
   "description.penguinPool": "Gardez un œil sur ces pingouins ou ils provoqueront le chaos sur votre île !",
   "description.snowman": "Un bonhomme de neige spécial qui, pour une raison ou une autre, ne fond jamais ! ?",
-  "description.festiveToyTrain": "Un bonhomme de neige spécial qui, pour une raison ou une autre, ne fond jamais ! ?"
+  "description.festiveToyTrain": "Un bonhomme de neige spécial qui, pour une raison ou une autre, ne fond jamais ! ?",
+  "marketplace.available": "Disponible : {{count}}"
 }

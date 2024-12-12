@@ -4525,5 +4525,6 @@
   "description.santaPenguin": "언제나 축제 시즌을 맞이할 준비가 되어 있는 펭귄!",
   "description.penguinPool": "이 펭귄들을 계속 주시하세요. 그렇지 않으면 섬을 혼란에 빠뜨릴 거예요!",
   "description.snowman": "왠지 녹지 않는 특별한 눈사람!?",
-  "description.festiveToyTrain": "왠지 녹지 않는 특별한 눈사람!?"
+  "description.festiveToyTrain": "왠지 녹지 않는 특별한 눈사람!?",
+  "marketplace.available": "구매 가능: {{count}}"
 }

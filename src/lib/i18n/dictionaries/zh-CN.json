@@ -4525,5 +4525,6 @@
   "description.santaPenguin": "一只随时为节日做好准备的企鹅！",
   "description.penguinPool": "留意这些企鹅，否则它们会在你的岛上造成混乱！",
   "description.snowman": "一个特殊的雪人，由于某种原因永远不会融化！？",
-  "description.festiveToyTrain": "一个特殊的雪人，由于某种原因永远不会融化！？"
+  "description.festiveToyTrain": "一个特殊的雪人，由于某种原因永远不会融化！？",
+  "marketplace.available": "可用：{{count}}"
 }

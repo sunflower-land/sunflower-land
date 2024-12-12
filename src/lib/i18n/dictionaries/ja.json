@@ -4525,5 +4525,6 @@
   "description.santaPenguin": "ホリデーシーズンにいつでも準備万端なペンギン！",
   "description.penguinPool": "これらのペンギンから目を離さないでください。さもないと、島に混乱が生じます！",
   "description.snowman": "なぜか溶けない特別な雪だるま!?",
-  "description.festiveToyTrain": "なぜか溶けない特別な雪だるま!?"
+  "description.festiveToyTrain": "なぜか溶けない特別な雪だるま!?",
+  "marketplace.available": "ご利用可能:{{count}}"
 }

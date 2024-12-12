@@ -4525,5 +4525,6 @@
   "description.santaPenguin": "Seekor penguin yang selalu siap untuk musim perayaan!",
   "description.penguinPool": "Awasi penguin ini atau mereka akan menyebabkan kekacauan di pulau Anda!",
   "description.snowman": "Manusia salju khusus yang karena alasan tertentu tidak pernah meleleh!?",
-  "description.festiveToyTrain": "Manusia salju khusus yang karena alasan tertentu tidak pernah meleleh!?"
+  "description.festiveToyTrain": "Manusia salju khusus yang karena alasan tertentu tidak pernah meleleh!?",
+  "marketplace.available": "Tersedia: {{count}}"
 }
