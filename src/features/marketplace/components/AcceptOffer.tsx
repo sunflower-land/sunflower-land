@@ -16,7 +16,7 @@ import {
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
-import { ITEM_NAMES } from "features/game/types/bumpkin";
+import { BumpkinItem, ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import {
   BlockchainEvent,
@@ -34,6 +34,8 @@ import { StoreOnChain } from "./StoreOnChain";
 const _state = (state: MachineState) => state.context.state;
 const _previousInventory = (state: MachineState) =>
   state.context.state.previousInventory;
+const _previousWardrobe = (state: MachineState) =>
+  state.context.state.previousWardrobe;
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -48,6 +50,7 @@ const AcceptOfferContent: React.FC<{
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const previousInventory = useSelector(gameService, _previousInventory);
+  const previousWardrobe = useSelector(gameService, _previousWardrobe);
   const [needsSync, setNeedsSync] = useState(false);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -66,8 +69,18 @@ const AcceptOfferContent: React.FC<{
 
   const confirm = async () => {
     if (offer.type === "onchain") {
-      const prevBal =
-        previousInventory[display.name as InventoryItemName] ?? new Decimal(0);
+      let prevBal = new Decimal(0);
+      if (display.type === "collectibles") {
+        prevBal =
+          previousInventory[display.name as InventoryItemName] ??
+          new Decimal(0);
+      }
+
+      if (display.type === "wearables") {
+        prevBal = new Decimal(
+          previousWardrobe[display.name as BumpkinItem] ?? 0,
+        );
+      }
 
       if (prevBal.lt(offer.quantity)) {
         setNeedsSync(true);
