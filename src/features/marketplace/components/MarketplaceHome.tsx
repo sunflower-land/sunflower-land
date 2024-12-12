@@ -381,7 +381,7 @@ const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
       <div className="flex justify-between items-center pr-1">
         <div className="flex items-center">
           <img src={sflIcon} className="w-6" />
-          <span className="text-sm ml-2">{`$${price.toFixed(2)}`}</span>
+          <span className="text-sm ml-2">{`$${price.toFixed(4)}`}</span>
         </div>
         <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
       </div>
