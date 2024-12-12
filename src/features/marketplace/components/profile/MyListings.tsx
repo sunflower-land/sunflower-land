@@ -163,7 +163,7 @@ export const MyListings: React.FC = () => {
                       collection={listing.collection}
                       unitPrice={unitPrice}
                       usdPrice={usd}
-                      isFulfilled={!!listing.fulfilledAt}
+                      isFulfilled={!!listing.fulfilledAt || !!listing.boughtAt}
                       isResource={isResource}
                       onCancel={() => setRemoveListingId(id)}
                       onRowClick={() =>
