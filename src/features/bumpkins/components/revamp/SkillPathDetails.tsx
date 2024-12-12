@@ -46,43 +46,42 @@ export const SkillPathDetails: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
-  const { bumpkin } = state;
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
-  // States
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
-  ); // Default to first skill in path
+  );
 
-  // Destructure selectedSkill properties
+  const { bumpkin } = state;
   const { tree, requirements, name, image, boosts, disabled, power } =
     selectedSkill;
-  const { cooldown } = requirements;
-
+  const { cooldown, points, tier } = requirements;
   const { buff, debuff } = boosts;
 
-  // Functions
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
   const { availableTier, pointsToNextTier } = getUnlockedTierForTree(
     tree,
     bumpkin,
   );
   const hasSelectedSkill = !!bumpkin?.skills[name as BumpkinRevampSkillName];
-  const missingPointRequirement = requirements.points > availableSkillPoints;
-  const missingSkillsRequirement = requirements.tier > availableTier;
+  const missingPointRequirement = points > availableSkillPoints;
+  const missingSkillsRequirement = tier > availableTier;
+  const isClaimDisabled =
+    hasSelectedSkill ||
+    missingPointRequirement ||
+    missingSkillsRequirement ||
+    disabled ||
+    readonly;
 
-  // Claim
   const handleClaim = () => {
     setShowConfirmationModal(false);
-    const state = gameService.send("skill.chosen", {
-      skill: name,
-    });
+    const state = gameService.send("skill.chosen", { skill: name });
 
-    // Analytics
     gameAnalytics.trackMilestone({
       event: `Bumpkin:SkillUnlocked:${name}`,
     });
@@ -92,35 +91,6 @@ export const SkillPathDetails: React.FC<Props> = ({
         event: `Tutorial:Skill:Completed`,
       });
     }
-  };
-
-  const renderSkillTier = (skills: BumpkinSkillRevamp[]) => {
-    return skills.map((skill) => {
-      const hasSkill = !!bumpkin?.skills[skill.name as BumpkinRevampSkillName];
-
-      return (
-        <Box
-          key={skill.name}
-          className="mb-1"
-          image={skill.image}
-          isSelected={selectedSkill === skill}
-          onClick={() => setSelectedSkill(skill)}
-          showOverlay={hasSkill}
-          overlayIcon={
-            <img
-              src={SUNNYSIDE.icons.confirm}
-              alt="claimed"
-              className="relative object-contain"
-              style={{
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
-            />
-          }
-        >
-          {skill.name}
-        </Box>
-      );
-    });
   };
 
   return (
@@ -184,7 +154,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                 <RequirementLabel
                   type="skillPoints"
                   points={availableSkillPoints}
-                  requirement={requirements.points}
+                  requirement={points}
                   className="mb-2"
                   hideIcon={true} // Hide the div icon
                 />
@@ -218,13 +188,7 @@ export const SkillPathDetails: React.FC<Props> = ({
           {!readonly && (
             <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
               <Button
-                disabled={
-                  hasSelectedSkill ||
-                  missingPointRequirement ||
-                  missingSkillsRequirement ||
-                  disabled ||
-                  readonly
-                }
+                disabled={isClaimDisabled}
                 onClick={() => setShowConfirmationModal(true)}
               >
                 {t(hasSelectedSkill ? "skill.claimed" : "skill.claim")}
@@ -238,14 +202,12 @@ export const SkillPathDetails: React.FC<Props> = ({
             onHide={() => setShowConfirmationModal(false)}
             messages={[
               t("skill.confirmationMessage", { skillName: name }),
-              t("skill.costMessage", {
-                points: requirements.points,
-              }),
+              t("skill.costMessage", { points }),
             ]}
             onCancel={() => setShowConfirmationModal(false)}
             onConfirm={handleClaim}
             confirmButtonLabel={t("skill.claimSkill")}
-            disabled={missingPointRequirement || missingSkillsRequirement}
+            disabled={isClaimDisabled}
           />
         </div>
       }
@@ -276,8 +238,8 @@ export const SkillPathDetails: React.FC<Props> = ({
           {/* Skills */}
           {Object.entries(createRevampSkillPath(skillsInPath)).map(
             ([tier, skills]) => {
-              const requirements = skills[0].requirements.tier;
-              const tierUnlocked = requirements <= availableTier;
+              const { tier: tierRequirement } = skills[0].requirements;
+              const tierUnlocked = tierRequirement <= availableTier;
 
               return (
                 <div key={tier} className="flex flex-col">
@@ -298,7 +260,33 @@ export const SkillPathDetails: React.FC<Props> = ({
                     )}
                   </div>
                   <div className="flex flex-wrap mb-2">
-                    {renderSkillTier(skills)}
+                    {skills.map((skill) => {
+                      const hasSkill =
+                        !!bumpkin?.skills[skill.name as BumpkinRevampSkillName];
+
+                      return (
+                        <Box
+                          key={skill.name}
+                          className="mb-1"
+                          image={skill.image}
+                          isSelected={selectedSkill === skill}
+                          onClick={() => setSelectedSkill(skill)}
+                          showOverlay={hasSkill}
+                          overlayIcon={
+                            <img
+                              src={SUNNYSIDE.icons.confirm}
+                              alt="claimed"
+                              className="relative object-contain"
+                              style={{
+                                width: `${PIXEL_SCALE * 12}px`,
+                              }}
+                            />
+                          }
+                        >
+                          {skill.name}
+                        </Box>
+                      );
+                    })}
                   </div>
                 </div>
               );
