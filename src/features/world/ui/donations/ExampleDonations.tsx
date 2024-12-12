@@ -15,12 +15,11 @@ const CONTRIBUTORS = [
   "deefault",
   "Jc",
   "Andando",
-  "frogchard",
   "whaitte",
   "LittleEins",
-  "Neonlight",
   "Netherzapdos",
   "PurpleDrvnk",
+  "RadishPies",
 ];
 const CHRISTMAS_EVENT_DONATION_ADDRESS = CONFIG.CHRISTMAS_EVENT_DONATION;
 
