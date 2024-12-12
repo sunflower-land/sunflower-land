@@ -17,8 +17,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { getChestBuds } from "features/island/hud/components/inventory/utils/inventory";
-import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { CountLabel } from "components/ui/CountLabel";
 import classNames from "classnames";
@@ -60,23 +58,23 @@ export const ListViewCard: React.FC<Props> = ({
     type === "collectibles";
 
   // Check inventory count
-  const getCount = () => {
+  const getTotalCount = () => {
     switch (details.type) {
       case "collectibles":
         return (
           state.inventory[details.name as InventoryItemName]?.toNumber() || 0
         );
       case "buds":
-        return getChestBuds(state)[itemId] ? 1 : 0;
+        return state.buds?.[itemId] ? 1 : 0;
       case "wearables":
-        return availableWardrobe(state)[name as BumpkinItem] || 0;
+        return state.wardrobe[name as BumpkinItem] || 0;
 
       default:
         return 0;
     }
   };
 
-  const count = getCount();
+  const count = getTotalCount();
 
   return (
     <div
