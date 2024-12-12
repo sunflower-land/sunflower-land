@@ -86,123 +86,113 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   const canUsePowerSkill = nextSkillUse < Date.now();
 
   return (
-    <>
-      <SplitScreenView
-        panel={
-          <div className="flex flex-col h-full justify-between">
-            {/* Header */}
-            <div className="flex flex-col h-full px-1 py-0">
-              <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 sm:py-0 py-2">
-                <div className="sm:mt-2">
-                  <SquareIcon icon={image} width={14} />
-                </div>
-                <span className="sm:text-center">{name}</span>
+    <SplitScreenView
+      panel={
+        <div className="flex flex-col h-full justify-between">
+          <div className="flex flex-col h-full px-1 py-0">
+            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 sm:py-0 py-2">
+              <div className="sm:mt-2">
+                <SquareIcon icon={image} width={14} />
               </div>
-              <div className="flex flex-col max-lg:items-start lg:items-center mt-2">
-                {buff && (
-                  <Label
-                    type={buff.labelType}
-                    icon={buff.boostTypeIcon}
-                    secondaryIcon={buff.boostedItemIcon}
-                    className="mb-2"
-                  >
-                    {buff.shortDescription}
-                  </Label>
-                )}
-                {debuff && (
-                  <Label
-                    type={debuff.labelType}
-                    icon={debuff.boostTypeIcon}
-                    secondaryIcon={debuff.boostedItemIcon}
-                    className="mb-2"
-                  >
-                    {debuff.shortDescription}
-                  </Label>
-                )}
-              </div>
-              <div className="flex flex-col lg:items-center">
+              <span className="sm:text-center">{name}</span>
+            </div>
+            <div className="flex flex-col max-lg:items-start lg:items-center mt-2">
+              {buff && (
                 <Label
-                  type={canUsePowerSkill ? "success" : "info"}
-                  icon={
-                    !canUsePowerSkill ? SUNNYSIDE.icons.stopwatch : undefined
-                  }
-                  secondaryIcon={
-                    canUsePowerSkill ? SUNNYSIDE.icons.confirm : undefined
-                  }
+                  type={buff.labelType}
+                  icon={buff.boostTypeIcon}
+                  secondaryIcon={buff.boostedItemIcon}
                   className="mb-2"
                 >
-                  {canUsePowerSkill ? (
-                    t("powerSkills.ready")
-                  ) : (
-                    <div className="flex lg:flex-col items-center">
-                      <p className="mr-1">{t("powerSkills.nextUse")}</p>
-                      <TimerDisplay time={nextSkillUseCountdown} />
-                    </div>
-                  )}
+                  {buff.shortDescription}
                 </Label>
-              </div>
-            </div>
-
-            {/* Claim/Claimed/Use Button */}
-            <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-              {power && (
-                <Button
-                  disabled={!canUsePowerSkill}
-                  onClick={() => setUseSkillConfirmation(true)}
+              )}
+              {debuff && (
+                <Label
+                  type={debuff.labelType}
+                  icon={debuff.boostTypeIcon}
+                  secondaryIcon={debuff.boostedItemIcon}
+                  className="mb-2"
                 >
-                  {t("powerSkills.use")}
-                </Button>
+                  {debuff.shortDescription}
+                </Label>
               )}
             </div>
+            <div className="flex flex-col lg:items-center">
+              <Label
+                type={canUsePowerSkill ? "success" : "info"}
+                icon={!canUsePowerSkill ? SUNNYSIDE.icons.stopwatch : undefined}
+                secondaryIcon={
+                  canUsePowerSkill ? SUNNYSIDE.icons.confirm : undefined
+                }
+                className="mb-2"
+              >
+                {canUsePowerSkill ? (
+                  t("powerSkills.ready")
+                ) : (
+                  <div className="flex lg:flex-col items-center">
+                    <p className="mr-1">{t("powerSkills.nextUse")}</p>
+                    <TimerDisplay time={nextSkillUseCountdown} />
+                  </div>
+                )}
+              </Label>
+            </div>
+          </div>
 
-            {/* Confirmation Modal */}
-            <ConfirmationModal
-              show={useSkillConfirmation}
-              onHide={() => setUseSkillConfirmation(false)}
-              messages={[
-                t("powerSkills.confirmationMessage", {
-                  skillName: name,
-                }),
-                t("powerSkills.cooldownMessage", {
-                  cooldown: millisecondsToString(cooldown, {
-                    length: "short",
-                    removeTrailingZeros: true,
-                  }),
-                }),
-              ]}
-              onCancel={() => setUseSkillConfirmation(false)}
-              onConfirm={useSkill}
-              confirmButtonLabel={t("powerSkills.useSkill")}
-            />
+          <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+            {power && (
+              <Button
+                disabled={!canUsePowerSkill}
+                onClick={() => setUseSkillConfirmation(true)}
+              >
+                {t("powerSkills.use")}
+              </Button>
+            )}
           </div>
-        }
-        content={
-          <div className="pl-1">
-            <div
-              className="flex flex-row my-2 items-center"
-              style={{ margin: `${PIXEL_SCALE * 2}px` }}
-            >
-              <Label type="default">{t("powerSkills.unlockedSkills")}</Label>
-            </div>
-            <div className="flex flex-wrap mb-2">
-              {powerSkillsUnlocked.map((skill) => {
-                const { image, name } = skill;
-                return (
-                  <Box
-                    key={name}
-                    className="mb-1"
-                    image={image}
-                    isSelected={selectedSkill === skill}
-                    onClick={() => setSelectedSkill(skill)}
-                  >
-                    {name}
-                  </Box>
-                );
-              })}
-            </div>
+
+          <ConfirmationModal
+            show={useSkillConfirmation}
+            onHide={() => setUseSkillConfirmation(false)}
+            messages={[
+              t("powerSkills.confirmationMessage", {
+                skillName: name,
+              }),
+              t("powerSkills.cooldownMessage", {
+                cooldown: millisecondsToString(cooldown, {
+                  length: "short",
+                  removeTrailingZeros: true,
+                }),
+              }),
+            ]}
+            onCancel={() => setUseSkillConfirmation(false)}
+            onConfirm={useSkill}
+            confirmButtonLabel={t("powerSkills.useSkill")}
+          />
+        </div>
+      }
+      content={
+        <div className="pl-1">
+          <div
+            className="flex flex-row my-2 items-center"
+            style={{ margin: `${PIXEL_SCALE * 2}px` }}
+          >
+            <Label type="default">{t("powerSkills.unlockedSkills")}</Label>
           </div>
-        }
-      />
-    </>
+          <div className="flex flex-wrap mb-2">
+            {powerSkillsUnlocked.map((skill) => (
+              <Box
+                key={skill.name}
+                className="mb-1"
+                image={skill.image}
+                isSelected={selectedSkill === skill}
+                onClick={() => setSelectedSkill(skill)}
+              >
+                {skill.name}
+              </Box>
+            ))}
+          </div>
+        </div>
+      }
+    />
   );
 };
