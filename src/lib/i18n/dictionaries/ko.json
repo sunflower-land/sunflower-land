@@ -4489,5 +4489,7 @@
   "marketplace.itemNotStoredOnChain.offer.warning": "이 오퍼를 완료하려면 먼저 SFL을 체인에 저장해야 합니다.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "구매를 완료하려면 먼저 SFL을 체인에 저장해야 합니다.",
   "marketplace.itemNotStoredOnChain.acceptOffer.warning": "물품을 수령하기 전에 체인에 보관해야 합니다.",
-  "marketplace.tradeInitiated": "좋은 소식입니다!누군가가 거래를 성사시키고 있는 것 같습니다.거래가 완료될 때까지 기다려 주세요."
+  "marketplace.tradeInitiated": "좋은 소식입니다!누군가가 거래를 성사시키고 있는 것 같습니다.거래가 완료될 때까지 기다려 주세요.",
+  "description.immortal.pear.boosted.boost": "종자당 과일 수확량 +2",
+  "description.macaw.boosted.boost": "+0.2 과일 패치 수확량"
 }

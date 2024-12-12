@@ -4489,5 +4489,7 @@
   "marketplace.itemNotStoredOnChain.offer.warning": "Seu SFL precisará ser armazenado em cadeia antes de poder concluir esta oferta.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Seu SFL precisará ser armazenado em cadeia antes que você possa concluir esta compra.",
   "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Seu item precisará ser armazenado em cadeia antes de ser aceito.",
-  "marketplace.tradeInitiated": "Ótima notícia! Parece que alguém está cumprindo seu negócio. Aguarde a conclusão da negociação."
+  "marketplace.tradeInitiated": "Ótima notícia! Parece que alguém está cumprindo seu negócio. Aguarde a conclusão da negociação.",
+  "description.immortal.pear.boosted.boost": "+2 Colheita de frutas por semente",
+  "description.macaw.boosted.boost": "+0,2 Rendimento de canteiros de frutas"
 }

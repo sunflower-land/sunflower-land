@@ -4489,5 +4489,7 @@
   "marketplace.itemNotStoredOnChain.offer.warning": "SFL Anda perlu disimpan dalam rantai sebelum dapat menyelesaikan penawaran ini.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "SFL Anda perlu disimpan dalam rantai sebelum Anda dapat menyelesaikan pembelian ini.",
   "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Barang Anda harus disimpan dalam rantai sebelum dapat diterima.",
-  "marketplace.tradeInitiated": "Kabar bagus! Sepertinya seseorang memenuhi perdagangan Anda. Harap tunggu sampai perdagangan selesai."
+  "marketplace.tradeInitiated": "Kabar bagus! Sepertinya seseorang memenuhi perdagangan Anda. Harap tunggu sampai perdagangan selesai.",
+  "description.immortal.pear.boosted.boost": "+2 Panen Buah per biji",
+  "description.macaw.boosted.boost": "+0.2 Hasil Petak Buah"
 }

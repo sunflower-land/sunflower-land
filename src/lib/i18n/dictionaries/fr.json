@@ -4489,5 +4489,7 @@
   "marketplace.itemNotStoredOnChain.offer.warning": "Votre SFL devra être stocké en chaîne avant de pouvoir compléter cette offre.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Votre SFL devra être stocké dans une chaîne avant que vous puissiez finaliser cet achat.",
   "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Votre article devra être stocké dans une chaîne avant de pouvoir être accepté.",
-  "marketplace.tradeInitiated": "Excellente nouvelle ! Il semblerait que quelqu'un exécute votre transaction. Veuillez patienter jusqu'à la fin de la transaction."
+  "marketplace.tradeInitiated": "Excellente nouvelle ! Il semblerait que quelqu'un exécute votre transaction. Veuillez patienter jusqu'à la fin de la transaction.",
+  "description.immortal.pear.boosted.boost": "Récolte de fruits +2 par graine",
+  "description.macaw.boosted.boost": "Rendement des parcelles fruitières de +0,2"
 }

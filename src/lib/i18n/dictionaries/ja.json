@@ -4489,5 +4489,7 @@
   "marketplace.itemNotStoredOnChain.offer.warning": "このオファーを完了するには、SFLをチェーンに保存する必要があります。",
   "marketplace.itemNotStoredOnChain.purchase.warning": "この購入を完了するには、SFLをチェーンに保管する必要があります。",
   "marketplace.itemNotStoredOnChain.acceptOffer.warning": "商品を受け取るには、チェーンで保管する必要があります。",
-  "marketplace.tradeInitiated": "素晴らしいニュースです！誰かがあなたの取引を履行しているようです。取引が完了するまでお待ちください。"
+  "marketplace.tradeInitiated": "素晴らしいニュースです！誰かがあなたの取引を履行しているようです。取引が完了するまでお待ちください。",
+  "description.immortal.pear.boosted.boost": "種1個につき +2 フルーツ収穫",
+  "description.macaw.boosted.boost": "+0.2 フルーツパッチ収量"
 }

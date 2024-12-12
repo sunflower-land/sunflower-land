@@ -4489,5 +4489,7 @@
   "marketplace.itemNotStoredOnChain.offer.warning": "Tu SFL tendrá que estar guardada en cadena antes de poder completar esta oferta.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Tu SFL tendrá que estar guardada en cadena antes de que puedas completar esta compra.",
   "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Tu artículo tendrá que guardarse en una cadena antes de que pueda ser aceptado.",
-  "marketplace.tradeInitiated": "¡Buenas noticias! Parece que alguien está realizando su operación. Espere a que se complete la transacción."
+  "marketplace.tradeInitiated": "¡Buenas noticias! Parece que alguien está realizando su operación. Espere a que se complete la transacción.",
+  "description.immortal.pear.boosted.boost": "+2 cosechas de fruta por semilla",
+  "description.macaw.boosted.boost": "+0.2 Rendimiento de los huertos frutales"
 }

@@ -4489,5 +4489,7 @@
   "marketplace.itemNotStoredOnChain.offer.warning": "Bu teklifi tamamlayabilmesi için SFL'nizin zincirde saklanması gerekir.",
   "marketplace.itemNotStoredOnChain.purchase.warning": "Bu satın alma işlemini tamamlayabilmeniz için SFL'nizin zincirde saklanması gerekecektir.",
   "marketplace.itemNotStoredOnChain.acceptOffer.warning": "Öğenizin kabul edilebilmesi için zincirde saklanması gerekecektir.",
-  "marketplace.tradeInitiated": "Harika haber! Görünüşe göre birisi ticaretinizi gerçekleştiriyor. Lütfen ticaretin tamamlanmasını bekleyin."
+  "marketplace.tradeInitiated": "Harika haber! Görünüşe göre birisi ticaretinizi gerçekleştiriyor. Lütfen ticaretin tamamlanmasını bekleyin.",
+  "description.immortal.pear.boosted.boost": "Tohum başına +2 Meyve Hasadı",
+  "description.macaw.boosted.boost": "+0.2 Meyve Yama Verimi"
 }
