@@ -20,19 +20,27 @@ export const TradeableItemDetails: React.FC<{
   estTradePoints?: number;
 }> = ({ display, quantity, sfl, estTradePoints }) => {
   const isResource = display.name in TRADE_LIMITS;
+  const isBud = display.name.includes("Bud");
+
   return (
     <div className="flex">
       <div className="h-12 w-12 mr-2 relative">
-        <img src={bg} className="w-full rounded" />
-        <img
-          src={display.image}
-          className="h-1/2 absolute"
-          style={{
-            left: "50%",
-            transform: "translate(-50%, 50%)",
-            bottom: "50%",
-          }}
-        />
+        {isBud ? (
+          <img src={display.image} className="w-full rounded" />
+        ) : (
+          <>
+            <img src={bg} className="w-full rounded" />
+            <img
+              src={display.image}
+              className="h-1/2 absolute"
+              style={{
+                left: "50%",
+                transform: "translate(-50%, 50%)",
+                bottom: "50%",
+              }}
+            />
+          </>
+        )}
       </div>
       <div>
         <span className="text-sm">{`${quantity} x ${display.name}`}</span>
@@ -48,7 +56,7 @@ export const TradeableItemDetails: React.FC<{
                 showTrailingZeros: false,
               })} Trade Points`}
             </span>
-            <img src={ITEM_DETAILS["Trade Point"].image} className="h-6 ml-1" />
+            <img src={ITEM_DETAILS["Trade Point"].image} className="h-4 ml-1" />
           </div>
         )}
       </div>
