@@ -101,7 +101,7 @@ export const MarketplaceNavigation: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <div className="flex  items-center lg:hidden h-[50px]">
+      <div className="flex items-center lg:hidden h-[50px]">
         <TextInput
           icon={SUNNYSIDE.icons.search}
           value={search}
