@@ -29,6 +29,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
 import { millisecondsToString } from "lib/utils/time";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -180,16 +181,13 @@ export const SkillPathDetails: React.FC<Props> = ({
             </div>
             <div className="flex justify-between flex-col flex-wrap">
               <div className="flex max-lg:flex-row lg:flex-col-reverse items-start justify-between">
-                <Label type="default" className="mb-2">
-                  {t(
-                    requirements.points > 1
-                      ? "skillTier.skillPoints.plural"
-                      : "skillTier.skillPoints.singular",
-                    {
-                      points: requirements.points,
-                    },
-                  )}
-                </Label>
+                <RequirementLabel
+                  type="skillPoints"
+                  points={availableSkillPoints}
+                  requirement={requirements.points}
+                  className="mb-2"
+                  hideIcon={true} // Hide the div icon
+                />
                 {!!power && !!cooldown && (
                   <Label
                     type="info"
@@ -210,11 +208,6 @@ export const SkillPathDetails: React.FC<Props> = ({
                 {disabled && (
                   <Label type="danger" className="mb-2">
                     {t("skillTier.skillDisabled")}
-                  </Label>
-                )}
-                {missingPointRequirement && (
-                  <Label type="danger" className="mb-2">
-                    {t("skillTier.notEnoughPoints")}
                   </Label>
                 )}
               </div>
@@ -277,9 +270,6 @@ export const SkillPathDetails: React.FC<Props> = ({
             )}
             <Label type="default">
               {t("skillPath.skills", { skillPath: selectedSkillPath })}
-            </Label>
-            <Label type="default" className="ml-1">
-              {`${t("skillPts")} ${availableSkillPoints}`}
             </Label>
           </div>
 
