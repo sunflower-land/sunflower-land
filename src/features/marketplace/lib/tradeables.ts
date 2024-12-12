@@ -3,7 +3,7 @@ import { BuffLabel, KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
 import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   CollectionName,
@@ -22,9 +22,11 @@ export type TradeableDisplay = {
 export function getTradeableDisplay({
   id,
   type,
+  state,
 }: {
   id: number;
   type: CollectionName;
+  state: GameState;
 }): TradeableDisplay {
   if (type === "wearables") {
     const name = ITEM_NAMES[id];
@@ -59,7 +61,7 @@ export function getTradeableDisplay({
     name,
     description: details.description,
     image: details.image,
-    buff: COLLECTIBLE_BUFF_LABELS[name],
+    buff: COLLECTIBLE_BUFF_LABELS(state)[name],
     type,
   };
 }

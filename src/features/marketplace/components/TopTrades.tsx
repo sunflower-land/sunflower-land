@@ -10,13 +10,17 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { useLocation, useNavigate } from "react-router";
 import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
+const _state = (state: MachineState) => state.context.state;
 export const TopTrades: React.FC<{
   trends?: MarketplaceTrends;
 }> = ({ trends }) => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const isWorldRoute = useLocation().pathname.includes("/world");
 
@@ -33,6 +37,7 @@ export const TopTrades: React.FC<{
           const details = getTradeableDisplay({
             type: item.collection,
             id: item.itemId,
+            state,
           });
 
           return (
