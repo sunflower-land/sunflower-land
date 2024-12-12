@@ -302,20 +302,14 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const requirementMet = isRequirementMet();
 
   const labelType = () => {
-    if (props.type === "wearable") {
-      if (requirementMet) {
-        return "success";
-      }
-      return "danger";
+    switch (props.type) {
+      case "wearable":
+        return requirementMet ? "success" : "danger";
+      case "skillPoints":
+        return requirementMet ? "default" : "danger";
+      default:
+        return requirementMet ? "transparent" : "danger";
     }
-    if (props.type === "skillPoints") {
-      if (requirementMet) {
-        return "default";
-      }
-      return "danger";
-    }
-
-    return requirementMet ? "transparent" : "danger";
   };
 
   return (
