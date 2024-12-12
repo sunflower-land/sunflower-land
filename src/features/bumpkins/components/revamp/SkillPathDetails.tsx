@@ -5,7 +5,7 @@ import {
   createRevampSkillPath,
   BumpkinRevampSkillName,
 } from "features/game/types/bumpkinSkills";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -30,6 +30,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
 import { millisecondsToString } from "lib/utils/time";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -37,6 +38,8 @@ interface Props {
   readonly: boolean;
   onBack: () => void;
 }
+
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
@@ -46,18 +49,13 @@ export const SkillPathDetails: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const bumpkin = useSelector(gameService, _bumpkin);
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
   );
 
-  const { bumpkin } = state;
   const { tree, requirements, name, image, boosts, disabled, power } =
     selectedSkill;
   const { cooldown, points, tier } = requirements;
@@ -68,7 +66,7 @@ export const SkillPathDetails: React.FC<Props> = ({
     tree,
     bumpkin,
   );
-  const hasSelectedSkill = !!bumpkin?.skills[name as BumpkinRevampSkillName];
+  const hasSelectedSkill = !!bumpkin.skills[name as BumpkinRevampSkillName];
   const missingPointRequirement = points > availableSkillPoints;
   const missingSkillsRequirement = tier > availableTier;
   const isClaimDisabled =
@@ -262,7 +260,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                   <div className="flex flex-wrap mb-2">
                     {skills.map((skill) => {
                       const hasSkill =
-                        !!bumpkin?.skills[skill.name as BumpkinRevampSkillName];
+                        !!bumpkin.skills[skill.name as BumpkinRevampSkillName];
 
                       return (
                         <Box

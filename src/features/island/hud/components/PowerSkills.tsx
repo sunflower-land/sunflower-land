@@ -1,4 +1,4 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -11,6 +11,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineState } from "features/game/lib/gameMachine";
 import {
   BumpkinRevampSkillName,
   BumpkinSkillRevamp,
@@ -46,19 +47,16 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
   );
 };
 
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 interface PowerSkillsContentProps {
   onClose: () => void;
 }
 const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const { bumpkin } = state;
-  const { skills } = bumpkin;
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const { skills, previousPowerUseAt } = bumpkin;
+
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(
     (skill) => !!skills[skill.name as BumpkinRevampSkillName],
@@ -78,9 +76,8 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   const { buff, debuff } = boosts;
 
   const nextSkillUse =
-    (bumpkin.previousPowerUseAt?.[
-      selectedSkill.name as BumpkinRevampSkillName
-    ] ?? 0) + cooldown;
+    (previousPowerUseAt?.[selectedSkill.name as BumpkinRevampSkillName] ?? 0) +
+    cooldown;
   const nextSkillUseCountdown = useCountdown(nextSkillUse);
 
   const canUsePowerSkill = nextSkillUse < Date.now();
