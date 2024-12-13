@@ -409,6 +409,10 @@ export function getBoostedFoodQuantity({
     }
   }
 
+  if (game.bumpkin.skills["Chonky Feed"]) {
+    foodQuantity *= 1.5;
+  }
+
   return foodQuantity;
 }
 

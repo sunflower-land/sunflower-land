@@ -1518,6 +1518,30 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Chonky Feed": {
+    name: "Chonky Feed",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.chonkyFeed.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Hay.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.chonkyFeed.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
 
   // Greenhouse - Tier 1
   "Olive Garden": {

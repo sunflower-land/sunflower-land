@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { ANIMAL_SLEEP_DURATION, feedAnimal } from "./feedAnimal";
+import { ANIMAL_SLEEP_DURATION, feedAnimal, handleFoodXP } from "./feedAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_LEVELS } from "features/game/types/animals";
 
@@ -1215,5 +1215,49 @@ describe("feedAnimal", () => {
     });
 
     expect(state.barn.animals["0"].state).toBe("ready");
+  });
+
+  it("handles chonky feed skill", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Mixed Grain": new Decimal(2),
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Chonky Feed": 1,
+          },
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Mixed Grain",
+      },
+    });
+
+    const { foodXp } = handleFoodXP({
+      state: state,
+      animal: "Chicken",
+      level: 1,
+      food: "Mixed Grain",
+    });
+
+    expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(0.5));
+    expect(state.henHouse.animals["0"].experience).toEqual(foodXp);
   });
 });
