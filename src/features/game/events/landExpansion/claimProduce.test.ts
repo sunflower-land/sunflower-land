@@ -1819,4 +1819,80 @@ describe("claimProduce", () => {
 
     expect(state.inventory.Milk).toEqual(new Decimal(1.2));
   });
+  it("applies a Bale to Cow if the player has the Bale Economy skill", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Bale Economy": 1,
+          },
+        },
+        collectibles: {
+          Bale: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Cow",
+              state: "ready",
+              experience: 180,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: "0" },
+    });
+
+    expect(state.inventory.Milk).toEqual(new Decimal(1.1));
+  });
+  it("applies a Bale boost to Sheep if the player has the Bale Economy skill", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Bale Economy": 1,
+          },
+        },
+        collectibles: {
+          Bale: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Sheep",
+              state: "ready",
+              experience: 180,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: "0" },
+    });
+
+    expect(state.inventory.Wool).toEqual(new Decimal(1.1));
+  });
 });

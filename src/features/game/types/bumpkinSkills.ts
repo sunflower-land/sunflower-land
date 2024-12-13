@@ -1293,33 +1293,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "Double Bale": {
-    name: "Double Bale",
-    tree: "Animals",
-    disabled: false,
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "spring",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.doubleBale"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Bale.image,
-      },
-    },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  // Animals - Tier 2
   "Fine Fibers": {
     name: "Fine Fibers",
     tree: "Animals",
     disabled: false,
     requirements: {
-      points: 2,
-      tier: 2,
+      points: 1,
+      tier: 1,
       island: "spring",
     },
     boosts: {
@@ -1337,8 +1317,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Animals",
     disabled: false,
     requirements: {
-      points: 2,
-      tier: 2,
+      points: 1,
+      tier: 1,
       island: "spring",
     },
     boosts: {
@@ -1347,6 +1327,45 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Animals - Tier 2
+  "Double Bale": {
+    name: "Double Bale",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.doubleBale"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Bale.image,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Bale Economy": {
+    name: "Bale Economy",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.baleEconomy"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS.Bale.image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,

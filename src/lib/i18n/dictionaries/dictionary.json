@@ -3905,6 +3905,7 @@
   "skill.efficientFeeding": "-5% feed to feed all animals",
   "skill.restlessAnimals": "-5% Animal sleep time",
   "skill.doubleBale": "Double Bale's Effect",
+  "skill.baleEconomy": "Bale affects milk and wool production",
   "skill.fineFibers": "+0.1 Feather, Leather and Merino Wool yield",
   "skill.bountifulBounties": "+50% Coins from Animal Bounties",
   "skill.heartwarmingInstruments": "+50% Animal XP from Animal Affection tools",
