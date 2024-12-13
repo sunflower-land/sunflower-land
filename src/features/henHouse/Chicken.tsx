@@ -21,7 +21,6 @@ import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { Transition } from "@headlessui/react";
-import { ANIMAL_FOOD_EXPERIENCE } from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   AnimalFoodName,
@@ -35,7 +34,10 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
-import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
+import {
+  handleFoodXP,
+  REQUIRED_FOOD_QTY,
+} from "features/game/events/landExpansion/feedAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -339,13 +341,14 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getAnimalXPEarned = () => {
-    if (hasGoldEgg) {
-      return ANIMAL_FOOD_EXPERIENCE.Chicken[level][favFood];
-    }
+    const { foodXp } = handleFoodXP({
+      state: game,
+      animal: "Chicken",
+      level,
+      food: hasGoldEgg ? favFood : (selectedItem as AnimalFoodName),
+    });
 
-    return ANIMAL_FOOD_EXPERIENCE.Chicken[level][
-      selectedItem as AnimalFoodName
-    ];
+    return foodXp;
   };
 
   const animalImageInfo = () => {

@@ -34,11 +34,13 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
-import { formatNumber } from "lib/utils/formatNumber";
-import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
-import { ANIMAL_FOOD_EXPERIENCE } from "features/game/types/animals";
+import {
+  handleFoodXP,
+  REQUIRED_FOOD_QTY,
+} from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import { formatNumber } from "lib/utils/formatNumber";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -304,6 +306,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const { animalXP } = getAnimalXP({ state: game, name: showLoveItem! });
 
+  const { foodXp } = handleFoodXP({
+    state: game,
+    animal: "Sheep",
+    level,
+    food: selectedItem as AnimalFoodName,
+  });
+
   return (
     <>
       {mutantName && (
@@ -429,7 +438,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
                   ? "#71e358"
                   : "#fff",
             }}
-          >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Sheep[level][selectedItem as AnimalFoodName])}`}</span>
+          >{`+${formatNumber(foodXp)}`}</span>
         </Transition>
         <Transition
           appear={true}

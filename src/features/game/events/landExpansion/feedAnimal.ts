@@ -90,16 +90,21 @@ const handleGoldenEggFeeding = (
   favouriteFood: AnimalFoodName,
   copy: GameState,
 ) => {
-  const foodXps = ANIMAL_FOOD_EXPERIENCE[animalType];
-  const favouriteFoodXp = foodXps[level as AnimalLevel][favouriteFood];
+  const { foodXp } = handleFoodXP({
+    state: copy,
+    animal: animalType,
+    level: level as AnimalLevel,
+    food: favouriteFood,
+  });
   const beforeFeedXp = animal.experience;
 
   const isReady = handleAnimalExperience(
     animal,
     animalType,
     beforeFeedXp,
-    favouriteFoodXp,
+    foodXp,
   );
+
   animal.state = isReady ? "ready" : "happy";
 
   copy.bumpkin.activity = trackActivity(
