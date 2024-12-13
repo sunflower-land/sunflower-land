@@ -754,6 +754,7 @@ import blackSheep from "assets/sfts/black_sheep.webp";
 import alienChicken from "assets/sfts/alien_chicken.webp";
 import toxicTuft from "assets/sfts/toxic_tuft.webp";
 import mootant from "assets/sfts/mootant.webp";
+import tradeCake from "assets/food/trade_cake.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4452,7 +4453,7 @@ export const ITEM_DETAILS: Items = {
     description: COUPONS["Trade Point"].description,
   },
   "Trade Cake": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: tradeCake,
     description: "Cake that you can redeem at Trade Rewards Shop",
   },
   "Christmas Stocking": {
