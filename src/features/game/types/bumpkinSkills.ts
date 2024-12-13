@@ -1150,7 +1150,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
+    disabled: true,
   },
   "Fishy Gamble": {
     name: "Fishy Gamble",
