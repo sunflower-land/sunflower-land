@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "已解锁技能",
   "powerSkills.confirmationMessage": "你确定要使用 {{skillName}} 吗？",
   "powerSkills.cooldownMessage": "你将无法再次使用此技能获得 {{cooldown}}",
-  "powerSkills.useSkill": "使用技能"
+  "powerSkills.useSkill": "使用技能",
+  "upgrade.building.nextLevel": "下一级："
 }

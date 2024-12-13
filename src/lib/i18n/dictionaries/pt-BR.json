@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "Habilidades desbloqueadas",
   "powerSkills.confirmationMessage": "Tem certeza de que deseja usar {{skillName}}?",
   "powerSkills.cooldownMessage": "Você não poderá usar essa habilidade novamente por {{cooldown}}",
-  "powerSkills.useSkill": "Use a habilidade"
+  "powerSkills.useSkill": "Use a habilidade",
+  "upgrade.building.nextLevel": "Próximo nível:"
 }

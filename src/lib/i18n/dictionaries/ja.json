@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "アンロックされたスキル",
   "powerSkills.confirmationMessage": "本当に {{skillName}} を使用してもよろしいですか？",
   "powerSkills.cooldownMessage": "{{cooldown}} ではこのスキルを再び使用することはできません",
-  "powerSkills.useSkill": "スキルを使う"
+  "powerSkills.useSkill": "スキルを使う",
+  "upgrade.building.nextLevel": "次のレベル:"
 }

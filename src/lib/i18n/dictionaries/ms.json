@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "Kemahiran yang tidak dikunci",
   "powerSkills.confirmationMessage": "Adakah anda pasti mahu menggunakan {{skillName}}?",
   "powerSkills.cooldownMessage": "Anda tidak akan dapat menggunakan kemahiran ini lagi untuk {{cooldown}}",
-  "powerSkills.useSkill": "Gunakan Kemahiran"
+  "powerSkills.useSkill": "Gunakan Kemahiran",
+  "upgrade.building.nextLevel": "Tahap Seterusnya:"
 }

@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "Разблокированные навыки",
   "powerSkills.confirmationMessage": "Вы действительно хотите использовать {{skillName}}?",
   "powerSkills.cooldownMessage": "Вы больше не сможете использовать этот навык для {{cooldown}}",
-  "powerSkills.useSkill": "Используйте навык"
+  "powerSkills.useSkill": "Используйте навык",
+  "upgrade.building.nextLevel": "Следующий уровень:"
 }

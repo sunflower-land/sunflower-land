@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "Kilitsiz Beceriler",
   "powerSkills.confirmationMessage": "{{skillName}} kullanmak istediğinizden emin misiniz?",
   "powerSkills.cooldownMessage": "Bu beceriyi bir daha {{cooldown}} için kullanamayacaksınız.",
-  "powerSkills.useSkill": "Beceri Kullan"
+  "powerSkills.useSkill": "Beceri Kullan",
+  "upgrade.building.nextLevel": "Sonraki Seviye:"
 }

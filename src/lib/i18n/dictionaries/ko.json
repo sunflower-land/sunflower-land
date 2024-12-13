@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "잠금 해제된 스킬",
   "powerSkills.confirmationMessage": "정말로 {{skillName}} 를 사용하시겠습니까?",
   "powerSkills.cooldownMessage": "{{cooldown}} 에는 이 스킬을 다시 사용할 수 없습니다.",
-  "powerSkills.useSkill": "스킬 사용"
+  "powerSkills.useSkill": "스킬 사용",
+  "upgrade.building.nextLevel": "다음 레벨:"
 }

@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "Abilità sbloccate",
   "powerSkills.confirmationMessage": "Sei sicuro di voler usare {{skillName}}?",
   "powerSkills.cooldownMessage": "Non potrai più usare questa abilità per {{cooldown}}",
-  "powerSkills.useSkill": "Usa abilità"
+  "powerSkills.useSkill": "Usa abilità",
+  "upgrade.building.nextLevel": "Livello successivo:"
 }

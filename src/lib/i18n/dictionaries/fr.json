@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "Compétences débloquées",
   "powerSkills.confirmationMessage": "Êtes-vous sûr de vouloir utiliser {{skillName}} ?",
   "powerSkills.cooldownMessage": "Vous ne pourrez plus utiliser cette compétence pour {{cooldown}}",
-  "powerSkills.useSkill": "Utiliser la compétence"
+  "powerSkills.useSkill": "Utiliser la compétence",
+  "upgrade.building.nextLevel": "Niveau suivant :"
 }

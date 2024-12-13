@@ -4679,5 +4679,6 @@
   "powerSkills.unlockedSkills": "Keterampilan Tidak Terkunci",
   "powerSkills.confirmationMessage": "Apakah Anda yakin ingin menggunakan {{skillName}}?",
   "powerSkills.cooldownMessage": "Anda tidak akan dapat menggunakan skill ini lagi untuk {{cooldown}}",
-  "powerSkills.useSkill": "Gunakan Keterampilan"
+  "powerSkills.useSkill": "Gunakan Keterampilan",
+  "upgrade.building.nextLevel": "Tingkat Berikutnya:"
 }
