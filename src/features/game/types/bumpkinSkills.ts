@@ -42,7 +42,7 @@ export type BumpkinSkillTree =
 
 export type BumpkinRevampSkillTree =
   | "Crops"
-  | "Fruit"
+  | "Fruit Patch"
   | "Trees"
   | "Fishing"
   | "Animals"
@@ -581,7 +581,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Fruit - Tier 1
   "Fruitful Fumble": {
     name: "Fruitful Fumble",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     requirements: {
       points: 1,
       tier: 1,
@@ -599,7 +599,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Fruity Heaven": {
     name: "Fruity Heaven",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     requirements: {
       points: 1,
       tier: 1,
@@ -617,7 +617,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Fruity Profit": {
     name: "Fruity Profit",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     requirements: {
       points: 1,
       tier: 1,
@@ -636,7 +636,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Loyal Macaw": {
     name: "Loyal Macaw",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     disabled: false,
     requirements: {
       points: 1,
@@ -656,7 +656,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Fruit - Tier 2
   Catchup: {
     name: "Catchup",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     requirements: {
       points: 2,
       tier: 2,
@@ -674,7 +674,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "No Axe No Worries": {
     name: "No Axe No Worries",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     disabled: false,
     requirements: {
       points: 2,
@@ -698,7 +698,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Fruity Woody": {
     name: "Fruity Woody",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     requirements: {
       points: 2,
       tier: 2,
@@ -717,7 +717,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Pear Turbocharge": {
     name: "Pear Turbocharge",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     disabled: false,
     requirements: {
       points: 2,
@@ -736,7 +736,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Crime Fruit": {
     name: "Crime Fruit",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     disabled: false,
     requirements: {
       points: 2,
@@ -756,7 +756,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Fruit - Tier 3
   "Generous Orchard": {
     name: "Generous Orchard",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     disabled: false,
     requirements: {
       points: 3,
@@ -774,7 +774,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Long Pickings": {
     name: "Long Pickings",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     disabled: false,
     requirements: {
       points: 3,
@@ -799,7 +799,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Short Pickings": {
     name: "Short Pickings",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     disabled: false,
     requirements: {
       points: 3,
@@ -824,7 +824,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
   "Zesty Vibes": {
     name: "Zesty Vibes",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     disabled: false,
     requirements: {
       points: 3,
@@ -2148,29 +2148,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Double Nom": {
-    name: "Double Nom",
-    tree: "Cooking",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.doubleNom.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-      },
-      debuff: {
-        shortDescription: translate("skill.doubleNom.debuff"),
-        labelType: "danger",
-        boostTypeIcon: redArrowDown,
-      },
-    },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Turbo Fry": {
     name: "Turbo Fry",
     tree: "Cooking",
@@ -2185,6 +2162,25 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
+  "Drive-Through Deli": {
+    name: "Drive-Through Deli",
+    tree: "Cooking",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.driveThroughDeli"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Cheese.image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2210,8 +2206,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
     power: true,
   },
-  "Drive-Through Deli": {
-    name: "Drive-Through Deli",
+  "Double Nom": {
+    name: "Double Nom",
     tree: "Cooking",
     requirements: {
       points: 3,
@@ -2220,10 +2216,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.driveThroughDeli"),
+        shortDescription: translate("skill.doubleNom.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Cheese.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.doubleNom.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2469,8 +2469,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.floweryAbode.buff"),
-        labelType: "info",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Honey"].image,
       },
       debuff: {
