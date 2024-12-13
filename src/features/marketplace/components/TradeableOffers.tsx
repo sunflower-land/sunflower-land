@@ -36,6 +36,7 @@ import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
+import { KeyedMutator } from "swr";
 
 // JWT TOKEN
 
@@ -53,7 +54,7 @@ export const TradeableOffers: React.FC<{
   farmId: number;
   display: TradeableDisplay;
   itemId: number;
-  reload: () => void;
+  reload: KeyedMutator<TradeableDetails>;
 }> = ({ tradeable, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
@@ -105,6 +106,22 @@ export const TradeableOffers: React.FC<{
       reload();
       if (showAnimations) confetti();
     },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "loading",
+    "playing",
+    () =>
+      reload(undefined, {
+        optimisticData: {
+          ...tradeable!,
+          offers:
+            tradeable?.offers?.filter(
+              (offer) => selectedOffer?.tradeId !== offer.tradeId,
+            ) ?? [],
+        },
+      }),
   );
 
   const handleHide = () => {
