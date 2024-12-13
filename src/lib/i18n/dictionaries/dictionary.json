@@ -3929,7 +3929,7 @@
   "skill.riceRocket": "-10% Rice growth time",
   "skill.vineVelocity": "-10% Grape growth time",
   "skill.greenhouseGuru": "Ability to make all greenhouse produce currently growing ready to be harvested",
-  "skill.greenhouseGamble": "5% chance of +1 greenhouse produce",
+  "skill.greenhouseGamble": "25% chance of +1 greenhouse produce",
   "skill.slickSaver": "-1 Oil to grow greenhouse products",
   "skill.rockAndRoll": "+0.1 Stone Yield",
   "skill.ironBumpkin": "+0.1 Iron Yield",

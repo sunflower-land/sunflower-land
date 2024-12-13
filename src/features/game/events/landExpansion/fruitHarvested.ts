@@ -24,7 +24,6 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseFruit } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
-import { randomInt } from "lib/utils/random";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -215,13 +214,6 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
       amount += 1;
     } else {
       amount -= 0.5;
-    }
-  }
-
-  // Greenhouse Gamble 5% chance of +1 yield
-  if (isGreenhouseFruit(name) && bumpkin.skills["Greenhouse Gamble"]) {
-    if (randomInt(0, 20) === 1) {
-      amount += 1;
     }
   }
 

@@ -41,7 +41,6 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
-import { randomInt } from "lib/utils/random";
 import { hasFeatureAccess } from "lib/flags";
 
 export type LandExpansionPlantAction = {
@@ -646,13 +645,6 @@ export function getCropYieldAmount({
   // Rice and Shine +0.2 yield
   if (crop === "Rice" && skills["Rice and Shine"]) {
     amount += 0.2;
-  }
-
-  // Greenhouse Gamble 5% chance of +1 yield
-  if (isGreenhouseCrop(crop) && bumpkin.skills["Greenhouse Gamble"]) {
-    if (randomInt(0, 20) === 1) {
-      amount += 1;
-    }
   }
 
   if (
