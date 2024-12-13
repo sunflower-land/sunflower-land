@@ -3823,6 +3823,7 @@
   "description.barn.delight": "A magical elixir that cures animal sickness.",
   "description.omnifeed": "Acts as the best feed for all animals.",
   "upgrade.building": "Upgrade {{building}}",
+  "upgrade.building.nextLevel": "Next Level:",
   "upgrade.intro": "Hey there bumpkin, looking to upgrade your {{building}} so you can get yourself some more {{animals}}?",
   "upgrade": "Upgrade",
   "animals.buy": "Buy {{animal}}",
