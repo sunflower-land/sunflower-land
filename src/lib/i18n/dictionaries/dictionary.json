@@ -3992,7 +3992,7 @@
   "skill.featheryBusiness.buff": "Use feathers instead of eggs to boost composters",
   "skill.featheryBusiness.debuff": "2x feathers to boost composters",
   "skill.swiftDecomposer": "-10% compost time",
-  "skill.compostingBonanza.buff": "Additional 1 hour reduction in composting time when boosting composters",
+  "skill.compostingBonanza.buff": "Speed up composters by an additional hour when boosting",
   "skill.premiumWorms": "+10 Rapid Root",
   "skill.compostingBonanza.debuff": "2x resources to boost composters",
   "skill.compostingOverhaul.buff": "+2 Worms",
