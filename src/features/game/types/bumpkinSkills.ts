@@ -1543,6 +1543,26 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
+  "Apple-Tastic": {
+    name: "Apple-Tastic",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+      cooldown: 1000 * 60 * 60 * 24 * 7,
+    },
+    power: true,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.appleTastic"),
+        labelType: "transparent",
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
   // Greenhouse - Tier 1
   "Olive Garden": {
     name: "Olive Garden",
