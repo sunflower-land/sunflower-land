@@ -11,6 +11,7 @@ import { TradeableDisplay } from "../lib/tradeables";
 
 import grassBg from "assets/ui/3x3_bg.png";
 import brownBg from "assets/brand/brown_background.png";
+import lockIcon from "assets/icons/lock.png";
 
 import { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
@@ -18,6 +19,11 @@ import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
+import {
+  BUMPKIN_RELEASES,
+  INVENTORY_RELEASES,
+} from "features/game/types/withdrawables";
+import { BumpkinItem } from "features/game/types/bumpkin";
 
 export const TradeableImage: React.FC<{
   display: TradeableDisplay;
@@ -83,6 +89,22 @@ export const TradeableDescription: React.FC<{
 }> = ({ display, tradeable }) => {
   const { t } = useAppTranslation();
 
+  let tradeAt = undefined;
+  let withdrawAt = undefined;
+  if (tradeable?.collection === "wearables") {
+    tradeAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.tradeAt;
+    withdrawAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.withdrawAt;
+  }
+
+  if (tradeable?.collection === "collectibles") {
+    tradeAt = INVENTORY_RELEASES[display.name as InventoryItemName]?.tradeAt;
+    withdrawAt =
+      INVENTORY_RELEASES[display.name as InventoryItemName]?.withdrawAt;
+  }
+
+  const canTrade = !!tradeAt && tradeAt <= new Date();
+  const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+
   return (
     <InnerPanel>
       <div className="p-2">
@@ -113,11 +135,25 @@ export const TradeableDescription: React.FC<{
             </Label>
           </div>
         )}
-        {tradeable && !tradeable?.isActive && (
+        {tradeable && !tradeable?.isActive && !tradeAt && (
           <div className="p-2 pl-0 pb-0">
+            <Label type="danger">{t("marketplace.notForSale")}</Label>
+          </div>
+        )}
+        {!canTrade && !!tradeAt && (
+          <div className="p-2 pl-0 pb-0 flex items-center justify-between">
             <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-              {t("marketplace.notForSale")}
+              {t("coming.soon")}
             </Label>
+            <Label type="transparent">{tradeAt.toLocaleDateString()}</Label>
+          </div>
+        )}
+        {!canWithdraw && !!withdrawAt && (
+          <div className="p-2 pl-0 pb-0 flex items-center justify-between flex-wrap">
+            <Label type="danger" icon={lockIcon}>
+              {t("marketplace.withdrawComingSoon")}
+            </Label>
+            <Label type="transparent">{withdrawAt.toLocaleDateString()}</Label>
           </div>
         )}
       </div>
