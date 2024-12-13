@@ -8,7 +8,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_IDS } from "features/game/types";
 import { getKeys } from "features/game/types/craftables";
-import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
@@ -20,6 +19,7 @@ import { ListViewCard } from "../ListViewCard";
 
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
+import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
 
 type CollectionItem = {
   id: number;
@@ -54,7 +54,9 @@ export const MyCollection: React.FC = () => {
 
   const wardrobe = availableWardrobe(gameState.context.state);
   getKeys(wardrobe).forEach((name) => {
-    if (BUMPKIN_WITHDRAWABLES[name]()) {
+    const withdrawAt = BUMPKIN_RELEASES[name]?.withdrawAt;
+    const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+    if (canWithdraw) {
       items.push({
         id: ITEM_IDS[name],
         collection: "wearables",
