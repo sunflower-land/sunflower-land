@@ -34,8 +34,7 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const { ingredients, items, image, description } =
-    TRADE_REWARDS(state)[itemName];
+  const { ingredients, items, image, description } = TRADE_REWARDS[itemName];
 
   useLayoutEffect(() => {
     const imgElement = new Image();

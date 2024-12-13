@@ -70,9 +70,7 @@ describe("redeemTradeRewards", () => {
         inventory: {
           ...INITIAL_FARM.inventory,
           "Trade Point": new Decimal(
-            TRADE_REWARDS(INITIAL_FARM)["Treasure Key"].ingredients[
-              "Trade Point"
-            ],
+            TRADE_REWARDS["Treasure Key"].ingredients["Trade Point"],
           ),
         },
       },

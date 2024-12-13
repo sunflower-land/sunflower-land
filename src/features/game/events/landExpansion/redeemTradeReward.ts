@@ -37,9 +37,7 @@ export type TradeReward = {
   description: string;
 };
 
-export const TRADE_REWARDS: (
-  state: GameState,
-) => Record<TradeRewardsItem, TradeReward> = (state) => ({
+export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
   "Treasure Key": {
     name: "Treasure Key",
     items: {
@@ -102,7 +100,7 @@ export const TRADE_REWARDS: (
         return {
           ...acc,
           // Rods are given in another pack
-          [name]: name === "Rod" ? 0 : INITIAL_STOCK(state)[name].toNumber(),
+          [name]: name === "Rod" ? 0 : INITIAL_STOCK()[name].toNumber(),
         };
       },
       {} as Partial<Record<InventoryItemName, number>>,
@@ -119,7 +117,7 @@ export const TRADE_REWARDS: (
       (acc, name) => {
         return {
           ...acc,
-          [name]: INITIAL_STOCK(state)[name].toNumber(),
+          [name]: INITIAL_STOCK()[name].toNumber(),
         };
       },
       {} as Partial<Record<InventoryItemName, number>>,
@@ -133,7 +131,7 @@ export const TRADE_REWARDS: (
   "Fishing Pack": {
     name: "Fishing Pack",
     items: {
-      Rod: INITIAL_STOCK(state).Rod.toNumber(),
+      Rod: INITIAL_STOCK().Rod.toNumber(),
       ...getKeys(BAIT).reduce(
         (acc, bait) => {
           return {
@@ -173,7 +171,7 @@ export const TRADE_REWARDS: (
       (acc, tool) => {
         return {
           ...acc,
-          [tool]: INITIAL_STOCK(state)[tool],
+          [tool]: INITIAL_STOCK()[tool],
         };
       },
       {} as Partial<Record<InventoryItemName, number>>,
@@ -184,7 +182,7 @@ export const TRADE_REWARDS: (
     image: SUNNYSIDE.tools.sand_shovel,
     description: translate("marketplace.reward.diggingPack.description"),
   },
-});
+};
 
 export type RedeemTradeRewardsAction = {
   type: "reward.redeemed";
@@ -200,7 +198,7 @@ export function redeemTradeReward({ state, action }: Options): GameState {
   return produce(state, (game) => {
     const tradePoint = game.inventory["Trade Point"] ?? new Decimal(0);
     const { item } = action;
-    const { ingredients, items } = TRADE_REWARDS(game)[item];
+    const { ingredients, items } = TRADE_REWARDS[item];
     const tradePointCost = ingredients["Trade Point"];
 
     if (tradePoint.lt(tradePointCost)) {

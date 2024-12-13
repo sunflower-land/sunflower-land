@@ -48,7 +48,7 @@ export const TradeRewardsShop: React.FC = () => {
           {t("marketplace.reward.shop")}
         </Label>
         <div className="flex flex-wrap flex-row">
-          {getKeys(TRADE_REWARDS(state)).map((item) => {
+          {getKeys(TRADE_REWARDS).map((item) => {
             return (
               <div
                 className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-[14.2%] pr-1 pb-1"
@@ -56,7 +56,7 @@ export const TradeRewardsShop: React.FC = () => {
               >
                 <RewardsViewCard
                   onClick={() => onClick(item)}
-                  TradeReward={TRADE_REWARDS(state)[item]}
+                  TradeReward={TRADE_REWARDS[item]}
                 />
               </div>
             );
