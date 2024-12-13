@@ -93,5 +93,7 @@ export const canWithdrawBoostedWearable = (
 
   if ((state.wardrobe?.[name] ?? 0) > 1) return true;
 
+  if (!withdrawConditions[name]) return true;
+
   return withdrawConditions[name]?.(state) ?? false;
 };

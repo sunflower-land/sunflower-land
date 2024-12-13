@@ -25,6 +25,7 @@ import { ListViewImage } from "./ListViewImage";
 type Props = {
   details: TradeableDisplay;
   price?: Decimal;
+  lastSalePrice?: Decimal;
   onClick?: () => void;
   expiresAt?: number;
 };
@@ -34,6 +35,7 @@ const _state = (state: MachineState) => state.context.state;
 export const ListViewCard: React.FC<Props> = ({
   details,
   price,
+  lastSalePrice,
   onClick,
   expiresAt,
 }) => {
@@ -115,6 +117,7 @@ export const ListViewCard: React.FC<Props> = ({
             borderTop: "1px solid #e4a672",
             margin: "0 -8px",
             marginBottom: "-2.6px",
+            height: "100px",
           }}
         >
           {price?.gt(0) && (
@@ -173,6 +176,14 @@ export const ListViewCard: React.FC<Props> = ({
                 })} left`}
               </p>
             </div>
+          )}
+
+          {lastSalePrice?.gt(0) && (
+            <p className="text-xxs truncate pb-0.5">
+              {`Last sale: ${formatNumber(lastSalePrice, {
+                decimalPlaces: 2,
+              })} SFL`}
+            </p>
           )}
         </div>
       </ButtonPanel>
