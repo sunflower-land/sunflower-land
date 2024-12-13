@@ -1223,7 +1223,6 @@ describe("feedAnimal", () => {
       state: {
         ...INITIAL_FARM,
         inventory: {
-          ...INITIAL_FARM.inventory,
           "Mixed Grain": new Decimal(2),
         },
         bumpkin: {
