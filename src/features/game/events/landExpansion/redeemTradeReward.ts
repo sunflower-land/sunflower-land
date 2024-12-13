@@ -17,82 +17,26 @@ export type TradeRewardsItem =
       InventoryItemName,
       "Treasure Key" | "Rare Key" | "Luxury Key" | "Prize Ticket"
     >
-  | TradeRewardPacks
   | TradeFood;
 
-type TradeRewardPacks =
+export type TradeRewardPacks =
   | "Tool Pack"
   | "Seed Pack"
   | "Fishing Pack"
-  | "Animal Pack"
+  | "Animal Feed Pack"
   | "Digging Pack";
 
 export type TradeFood = "Trade Cake";
 
 export type TradeReward = {
-  name: TradeRewardsItem;
+  name: TradeRewardsItem | TradeRewardPacks;
   items: Partial<Record<InventoryItemName, number>>;
   ingredients: Record<Extract<InventoryItemName, "Trade Point">, number>;
   image: string;
   description: string;
 };
 
-export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
-  "Treasure Key": {
-    name: "Treasure Key",
-    items: {
-      "Treasure Key": 1,
-    },
-    ingredients: {
-      "Trade Point": 1200,
-    },
-    image: ITEM_DETAILS["Treasure Key"].image,
-    description: ITEM_DETAILS["Treasure Key"].description,
-  },
-  "Rare Key": {
-    name: "Rare Key",
-    items: {
-      "Rare Key": 1,
-    },
-    ingredients: {
-      "Trade Point": 3600,
-    },
-    image: ITEM_DETAILS["Rare Key"].image,
-    description: ITEM_DETAILS["Rare Key"].description,
-  },
-  "Luxury Key": {
-    name: "Luxury Key",
-    items: {
-      "Luxury Key": 1,
-    },
-    ingredients: {
-      "Trade Point": 6000,
-    },
-    image: ITEM_DETAILS["Luxury Key"].image,
-    description: ITEM_DETAILS["Luxury Key"].description,
-  },
-  "Prize Ticket": {
-    name: "Prize Ticket",
-    items: {
-      "Prize Ticket": 1,
-    },
-    ingredients: {
-      "Trade Point": 20000,
-    },
-    image: ITEM_DETAILS["Prize Ticket"].image,
-    description: ITEM_DETAILS["Prize Ticket"].description,
-  },
-  "Trade Cake": {
-    name: "Trade Cake",
-    items: {
-      "Trade Cake": 1,
-    },
-    ingredients: {
-      "Trade Point": 3000,
-    },
-    image: ITEM_DETAILS["Trade Cake"].image,
-    description: ITEM_DETAILS["Trade Cake"].description,
-  },
+export const TRADE_REWARDS_PACKS: Record<TradeRewardPacks, TradeReward> = {
   "Tool Pack": {
     name: "Tool Pack",
     items: getKeys(WORKBENCH_TOOLS).reduce(
@@ -165,8 +109,8 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
     image: SUNNYSIDE.icons.fish,
     description: translate("marketplace.reward.fishingPack.description"),
   },
-  "Animal Pack": {
-    name: "Animal Pack",
+  "Animal Feed Pack": {
+    name: "Animal Feed Pack",
     items: getKeys(ANIMAL_FOODS).reduce(
       (acc, feed) => {
         return {
@@ -182,6 +126,72 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
     image: ITEM_DETAILS["Mixed Grain"].image,
     description: translate("marketplace.reward.animalPack.description"),
   },
+};
+
+export const TRADE_REWARDS_ITEMS: Record<TradeRewardsItem, TradeReward> = {
+  "Treasure Key": {
+    name: "Treasure Key",
+    items: {
+      "Treasure Key": 1,
+    },
+    ingredients: {
+      "Trade Point": 1200,
+    },
+    image: ITEM_DETAILS["Treasure Key"].image,
+    description: ITEM_DETAILS["Treasure Key"].description,
+  },
+  "Rare Key": {
+    name: "Rare Key",
+    items: {
+      "Rare Key": 1,
+    },
+    ingredients: {
+      "Trade Point": 3600,
+    },
+    image: ITEM_DETAILS["Rare Key"].image,
+    description: ITEM_DETAILS["Rare Key"].description,
+  },
+  "Luxury Key": {
+    name: "Luxury Key",
+    items: {
+      "Luxury Key": 1,
+    },
+    ingredients: {
+      "Trade Point": 6000,
+    },
+    image: ITEM_DETAILS["Luxury Key"].image,
+    description: ITEM_DETAILS["Luxury Key"].description,
+  },
+  "Prize Ticket": {
+    name: "Prize Ticket",
+    items: {
+      "Prize Ticket": 1,
+    },
+    ingredients: {
+      "Trade Point": 20000,
+    },
+    image: ITEM_DETAILS["Prize Ticket"].image,
+    description: ITEM_DETAILS["Prize Ticket"].description,
+  },
+  "Trade Cake": {
+    name: "Trade Cake",
+    items: {
+      "Trade Cake": 1,
+    },
+    ingredients: {
+      "Trade Point": 3000,
+    },
+    image: ITEM_DETAILS["Trade Cake"].image,
+    description: ITEM_DETAILS["Trade Cake"].description,
+  },
+};
+
+export const TRADE_REWARDS: Record<
+  TradeRewardsItem | TradeRewardPacks,
+  TradeReward
+> = {
+  ...TRADE_REWARDS_PACKS,
+  ...TRADE_REWARDS_ITEMS,
 };
 
 export type RedeemTradeRewardsAction = {

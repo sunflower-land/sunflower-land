@@ -10,6 +10,7 @@ import Decimal from "decimal.js-light";
 import { Panel } from "components/ui/Panel";
 import {
   TRADE_REWARDS,
+  TradeRewardPacks,
   TradeRewardsItem,
 } from "features/game/events/landExpansion/redeemTradeReward";
 import { Context } from "features/game/GameProvider";
@@ -21,7 +22,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 
 interface Props {
   onClose: () => void;
-  itemName: TradeRewardsItem;
+  itemName: TradeRewardsItem | TradeRewardPacks;
 }
 export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
   const { t } = useAppTranslation();
