@@ -104,13 +104,15 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     "playing",
     () =>
       reload(undefined, {
-        optimisticData: {
-          ...tradeable!,
-          listings:
-            tradeable?.listings?.filter(
-              (listing) => selectedListing?.id !== listing.id,
-            ) ?? [],
-        },
+        optimisticData: tradeable
+          ? {
+              ...tradeable,
+              listings:
+                tradeable?.listings?.filter(
+                  (listing) => selectedListing?.id !== listing.id,
+                ) ?? [],
+            }
+          : undefined,
       }),
   );
 

@@ -114,13 +114,15 @@ export const TradeableOffers: React.FC<{
     "playing",
     () =>
       reload(undefined, {
-        optimisticData: {
-          ...tradeable!,
-          offers:
-            tradeable?.offers?.filter(
-              (offer) => selectedOffer?.tradeId !== offer.tradeId,
-            ) ?? [],
-        },
+        optimisticData: tradeable
+          ? {
+              ...tradeable,
+              offers:
+                tradeable?.offers?.filter(
+                  (offer) => selectedOffer?.tradeId !== offer.tradeId,
+                ) ?? [],
+            }
+          : undefined,
       }),
   );
 
