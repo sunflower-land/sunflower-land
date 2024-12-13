@@ -236,6 +236,7 @@ export const SkillPathDetails: React.FC<Props> = ({
             ([tier, skills]) => {
               const { tier: tierRequirement } = skills[0].requirements;
               const tierUnlocked = tierRequirement <= availableTier;
+              const availableSkills = skills.filter((skill) => !skill.disabled);
 
               return (
                 <div key={tier} className="flex flex-col">
@@ -256,7 +257,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                     )}
                   </div>
                   <div className="flex flex-wrap mb-2">
-                    {skills.map((skill) => {
+                    {availableSkills.map((skill) => {
                       const hasSkill =
                         !!bumpkin.skills[skill.name as BumpkinRevampSkillName];
 
