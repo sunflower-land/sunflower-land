@@ -691,6 +691,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.noAxeNoWorries.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+        boostedItemIcon: SUNNYSIDE.resource.wood,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -785,11 +786,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.longPickings.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
       debuff: {
         shortDescription: translate("skill.longPickings.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -808,11 +811,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.shortPickings.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
       debuff: {
         shortDescription: translate("skill.shortPickings.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -967,8 +972,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.moneyTree"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
     image: SUNNYSIDE?.skills?.money_tree,
@@ -1282,8 +1287,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.restlessAnimals"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1416,8 +1421,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.healthyLivestock"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2270,8 +2275,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.flowerSale"),
-        labelType: "info",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Sunpetal Seed"].image,
       },
     },
@@ -2449,6 +2454,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.cropProcessorUnit.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
       debuff: {
         shortDescription: translate("skill.cropProcessorUnit.debuff"),
@@ -2529,8 +2535,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.cropExtensionModule"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
         boostedItemIcon: ITEM_DETAILS["Cabbage"].image,
       },
     },
@@ -2550,6 +2556,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.rapidRig.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
       debuff: {
         shortDescription: translate("skill.rapidRig.debuff"),
@@ -2630,6 +2637,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.efficiencyExtensionModule"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -2789,6 +2797,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.compostingBonanza.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
       debuff: {
         shortDescription: translate("skill.compostingBonanza.debuff"),
