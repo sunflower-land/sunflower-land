@@ -196,7 +196,7 @@ export const TRADE_REWARDS: Record<
 
 export type RedeemTradeRewardsAction = {
   type: "reward.redeemed";
-  item: TradeRewardsItem;
+  item: TradeRewardsItem | TradeRewardPacks;
 };
 
 type Options = {
