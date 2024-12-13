@@ -112,7 +112,7 @@ import sequenceHat from "assets/wearables/114.webp";
 import sequenceShirt from "assets/wearables/115.webp";
 import stPatricksHat from "assets/wearables/116.webp";
 import bunnyOnesie from "assets/wearables/117.webp";
-import lightBrownWorriedFarmerPotion from "assets/wearables/118.webp";
+// import lightBrownWorriedFarmerPotion from "assets/wearables/118.webp";
 import polkastarterShirt from "assets/wearables/119.webp";
 import beachTrunks from "assets/wearables/120.webp";
 import clubPolo from "assets/wearables/121.webp";
@@ -233,7 +233,7 @@ export const BUMPKIN_ITEM_IMAGES: Record<BumpkinItem, string> = {
   "Sequence Shirt": sequenceShirt,
   "St Patricks Hat": stPatricksHat,
   "Bunny Onesie": bunnyOnesie,
-  "Light Brown Worried Farmer Potion": lightBrownWorriedFarmerPotion,
+  "Light Brown Worried Farmer Potion": "",
   "Polkastarter Shirt": polkastarterShirt,
   "Beach Trunks": beachTrunks,
   "Club Polo": clubPolo,
