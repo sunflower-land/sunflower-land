@@ -44,7 +44,7 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       "Treasure Key": 1,
     },
     ingredients: {
-      "Trade Point": 50,
+      "Trade Point": 1200,
     },
     image: ITEM_DETAILS["Treasure Key"].image,
     description: ITEM_DETAILS["Treasure Key"].description,
@@ -55,7 +55,7 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       "Rare Key": 1,
     },
     ingredients: {
-      "Trade Point": 250,
+      "Trade Point": 3600,
     },
     image: ITEM_DETAILS["Rare Key"].image,
     description: ITEM_DETAILS["Rare Key"].description,
@@ -66,7 +66,7 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       "Luxury Key": 1,
     },
     ingredients: {
-      "Trade Point": 1000,
+      "Trade Point": 6000,
     },
     image: ITEM_DETAILS["Luxury Key"].image,
     description: ITEM_DETAILS["Luxury Key"].description,
@@ -77,7 +77,7 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       "Prize Ticket": 1,
     },
     ingredients: {
-      "Trade Point": 1500,
+      "Trade Point": 20000,
     },
     image: ITEM_DETAILS["Prize Ticket"].image,
     description: ITEM_DETAILS["Prize Ticket"].description,
@@ -88,7 +88,7 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       "Trade Cake": 1,
     },
     ingredients: {
-      "Trade Point": 500,
+      "Trade Point": 3000,
     },
     image: ITEM_DETAILS["Trade Cake"].image,
     description: ITEM_DETAILS["Trade Cake"].description,
@@ -106,10 +106,27 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       {} as Partial<Record<InventoryItemName, number>>,
     ), // Gets the amount of tools to give out based on the amounts in INITIAL_STOCK
     ingredients: {
-      "Trade Point": 250,
+      "Trade Point": 7500,
     },
     image: SUNNYSIDE.tools.wood_pickaxe,
     description: translate("marketplace.reward.toolPack.description"),
+  },
+  "Digging Pack": {
+    name: "Digging Pack",
+    items: getKeys(TREASURE_TOOLS).reduce(
+      (acc, tool) => {
+        return {
+          ...acc,
+          [tool]: INITIAL_STOCK()[tool],
+        };
+      },
+      {} as Partial<Record<InventoryItemName, number>>,
+    ),
+    ingredients: {
+      "Trade Point": 3500,
+    },
+    image: SUNNYSIDE.tools.sand_shovel,
+    description: translate("marketplace.reward.diggingPack.description"),
   },
   "Seed Pack": {
     name: "Seed Pack",
@@ -123,7 +140,7 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       {} as Partial<Record<InventoryItemName, number>>,
     ),
     ingredients: {
-      "Trade Point": 500,
+      "Trade Point": 3000,
     },
     image: CROP_LIFECYCLE.Sunflower.seed,
     description: translate("marketplace.reward.seedPack.description"),
@@ -143,7 +160,7 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       ),
     },
     ingredients: {
-      "Trade Point": 50,
+      "Trade Point": 750,
     },
     image: SUNNYSIDE.icons.fish,
     description: translate("marketplace.reward.fishingPack.description"),
@@ -160,27 +177,10 @@ export const TRADE_REWARDS: Record<TradeRewardsItem, TradeReward> = {
       {} as Partial<Record<InventoryItemName, number>>,
     ),
     ingredients: {
-      "Trade Point": 50,
+      "Trade Point": 700,
     },
     image: ITEM_DETAILS["Mixed Grain"].image,
     description: translate("marketplace.reward.animalPack.description"),
-  },
-  "Digging Pack": {
-    name: "Digging Pack",
-    items: getKeys(TREASURE_TOOLS).reduce(
-      (acc, tool) => {
-        return {
-          ...acc,
-          [tool]: INITIAL_STOCK()[tool],
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ),
-    ingredients: {
-      "Trade Point": 50,
-    },
-    image: SUNNYSIDE.tools.sand_shovel,
-    description: translate("marketplace.reward.diggingPack.description"),
   },
 };
 

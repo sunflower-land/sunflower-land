@@ -33,7 +33,7 @@ describe("redeemTradeRewards", () => {
           inventory: {
             ...INITIAL_FARM.inventory,
             "Sunflower Seed": INVENTORY_LIMIT(INITIAL_FARM)["Sunflower Seed"],
-            "Trade Point": new Decimal(500),
+            "Trade Point": new Decimal(3000),
           },
         },
         action: {
@@ -91,7 +91,7 @@ describe("redeemTradeRewards", () => {
         inventory: {
           ...INITIAL_FARM.inventory,
           "Sunflower Seed": new Decimal(0),
-          "Trade Point": new Decimal(500),
+          "Trade Point": new Decimal(3000),
         },
       },
       action: {
