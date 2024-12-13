@@ -23,12 +23,15 @@ import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PortalLeaderboard } from "./PortalLeaderboard";
 
-export function hasReadHalloweenNotice() {
-  return !!localStorage.getItem("halloween.notice");
+export function hasReadChristmasDeliveryMayhemNotice() {
+  return !!localStorage.getItem("christmas-delivery-mayhemn.notice");
 }
 
 function acknowledgeIntro() {
-  return localStorage.setItem("halloween.notice", new Date().toISOString());
+  return localStorage.setItem(
+    "christmas-delivery-mayhemn.notice",
+    new Date().toISOString(),
+  );
 }
 
 export const MinigamePrizeUI: React.FC<{
@@ -99,7 +102,8 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const minigame = gameState.context.state.minigames.games["halloween"];
+  const minigame =
+    gameState.context.state.minigames.games["christmas-delivery"];
 
   const [showIntro, setShowIntro] = useState(!minigame?.history);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -138,7 +142,7 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
     highscore: 0,
   };
 
-  const prize = gameState.context.state.minigames.prizes["halloween"];
+  const prize = gameState.context.state.minigames.prizes["christmas-delivery"];
 
   const playNow = () => {
     setIsPlaying(true);
@@ -147,14 +151,14 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
   if (isPlaying) {
     return (
       <div>
-        <Portal portalName="halloween" onClose={onClose} />
+        <Portal portalName="christmas-delivery" onClose={onClose} />
       </div>
     );
   }
 
   const onClaim = () => {
     gameService.send("minigame.prizeClaimed", {
-      id: "halloween",
+      id: "christmas-delivery",
     });
 
     onClose();
@@ -162,7 +166,7 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
 
   const isComplete = isMinigameComplete({
     game: gameState.context.state,
-    name: "halloween",
+    name: "christmas-delivery",
   });
 
   if (isComplete && !dailyAttempt.prizeClaimedAt && prize) {
@@ -170,10 +174,10 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         onClaim={onClaim}
         reward={{
-          message: t("halloween.portal.rewardMessage"),
+          message: t("christmas-delivery-mayhem.portal.rewardMessage"),
           createdAt: Date.now(),
           factionPoints: 0,
-          id: "halloween-rewards",
+          id: "christmas-delivery-rewards",
           items: prize.items,
           wearables: prize.wearables,
           sfl: 0,
@@ -187,9 +191,9 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
     return (
       <PortalLeaderboard
         onBack={() => setPage("play")}
-        name={"halloween"}
-        startDate={new Date(Date.UTC(2024, 10, 1))}
-        endDate={new Date(Date.UTC(2024, 10, 6))}
+        name={"christmas-delivery"}
+        startDate={new Date(Date.UTC(2024, 11, 14))}
+        endDate={new Date(Date.UTC(2025, 0, 1))}
         formatPoints={(points: number) =>
           millisecondsToString(points, { length: "full" })
         }
@@ -201,7 +205,7 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
     return (
       <PortalLeaderboard
         onBack={() => setPage("play")}
-        name={"halloween"}
+        name={"christmas-delivery"}
         formatPoints={(points: number) =>
           millisecondsToString(points, { length: "full" })
         }
@@ -214,15 +218,17 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
       <div className="mb-1">
         <div className="p-2">
           <Label type="default" className="mb-1" icon={factions}>
-            {t("halloween.portal.title")}
+            {t("christmas-delivery-mayhem.portal.title")}
           </Label>
-          <InlineDialogue message={t("halloween.portal.description")} />
+          <InlineDialogue
+            message={t("christmas-delivery-mayhem.portal.description")}
+          />
         </div>
 
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={t("halloween.portal.missionObjectives", {
+          mission={t("christmas-delivery-mayhem.portal.missionObjectives", {
             targetScore: millisecondsToString(prize?.score ?? 0, {
               length: "full",
             }),
