@@ -10,9 +10,10 @@ import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
 import { FactionName, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ITEM_IDS } from "features/game/types/bumpkin";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
+import { BUMPKIN_ITEM_IMAGES } from "features/game/types/bumpkinItemImages";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -664,6 +665,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     if (reaction in ITEM_DETAILS) {
       const image = ITEM_DETAILS[reaction as InventoryItemName].image;
+
+      this.loadTexture(reaction, image, () => {
+        this._react(reaction, quantity);
+      });
+    }
+
+    if (reaction in BUMPKIN_ITEM_IMAGES) {
+      const image = BUMPKIN_ITEM_IMAGES[reaction as BumpkinItem];
 
       this.loadTexture(reaction, image, () => {
         this._react(reaction, quantity);
