@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
@@ -88,6 +89,7 @@ interface Props {
 }
 
 export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -173,6 +175,8 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   if (page === "leaderboard") {
     return (
       <PortalLeaderboard
+        farmId={gameService.state.context.farmId}
+        jwt={authService.state.context.user.rawToken as string}
         onBack={() => setPage("play")}
         name={"chicken-rescue"}
       />
