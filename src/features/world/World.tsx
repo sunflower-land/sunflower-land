@@ -44,7 +44,7 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
       <ModalProvider>
         <WorldContext.Provider value={{ isCommunity }}>
           <Explore />
-          <div className="pointer-events-none">
+          <div className="pointer-events-none inset-safe-area">
             <div
               onMouseDown={(e) => e.stopPropagation()}
               onMouseUp={(e) => e.stopPropagation()}
