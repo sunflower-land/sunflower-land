@@ -33,10 +33,10 @@ import { getBasketItems } from "features/island/hud/components/inventory/utils/i
 import { KNOWN_ITEMS } from "features/game/types";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
+import { KeyedMutator } from "swr";
 
 // JWT TOKEN
 
@@ -54,12 +54,10 @@ export const TradeableOffers: React.FC<{
   farmId: number;
   display: TradeableDisplay;
   itemId: number;
-  reload: () => void;
+  reload: KeyedMutator<TradeableDetails>;
 }> = ({ tradeable, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
-  const { openModal } = useContext(ModalContext);
-  const isVIP = useSelector(gameService, _isVIP);
   const { t } = useAppTranslation();
   const { id } = useParams();
 
@@ -76,7 +74,6 @@ export const TradeableOffers: React.FC<{
     gameService,
     "marketplaceOffering",
     "marketplaceOfferingSuccess",
-    confetti,
   );
 
   const hasPendingOfferEffect = useSelector(
@@ -98,6 +95,13 @@ export const TradeableOffers: React.FC<{
     gameService,
     "marketplaceOfferCancellingSuccess",
     "playing",
+    reload,
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceAcceptingSuccess",
+    "playing",
     () => {
       reload();
       if (showAnimations) confetti();
@@ -106,9 +110,20 @@ export const TradeableOffers: React.FC<{
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
-    "marketplaceAcceptingSuccess",
+    "loading",
     "playing",
-    reload,
+    () =>
+      reload(undefined, {
+        optimisticData: tradeable
+          ? {
+              ...tradeable,
+              offers:
+                tradeable?.offers?.filter(
+                  (offer) => selectedOffer?.tradeId !== offer.tradeId,
+                ) ?? [],
+            }
+          : undefined,
+      }),
   );
 
   const handleHide = () => {

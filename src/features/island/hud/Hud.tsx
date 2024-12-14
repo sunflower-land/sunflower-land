@@ -26,6 +26,11 @@ import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 import { hasFeatureAccess } from "lib/flags";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
+import { PowerSkillsButton } from "./components/PowerSkillsButton";
+import {
+  BumpkinRevampSkillName,
+  getPowerSkills,
+} from "features/game/types/bumpkinSkills";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -66,6 +71,11 @@ const HudComponent: React.FC<{
   };
 
   const isFullUser = farmAddress !== undefined;
+  const powerSkills = getPowerSkills();
+  const { skills } = gameState.context.state.bumpkin;
+  const hasPowerSkills = powerSkills.some(
+    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
+  );
 
   return (
     <>
@@ -152,6 +162,7 @@ const HudComponent: React.FC<{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         >
+          {hasPowerSkills && <PowerSkillsButton />}
           {hasMarketplaceAccess && <MarketplaceButton />}
           <CodexButton />
           <TravelButton />

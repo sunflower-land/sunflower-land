@@ -41,7 +41,7 @@ export const CraftingBox: React.FC = () => {
       <BuildingImageWrapper name="Crafting Box" onClick={handleOpen}>
         <img
           src={
-            craftingStatus === "crafting"
+            craftingStatus === "crafting" && !isReady
               ? craftingBoxAnimation
               : ITEM_DETAILS["Crafting Box"].image
           }

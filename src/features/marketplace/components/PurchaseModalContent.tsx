@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Tradeable, Listing } from "features/game/types/marketplace";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTradeableDisplay } from "../lib/tradeables";
 import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
@@ -14,10 +13,14 @@ import { hasMaxItems } from "features/game/lib/processEvent";
 import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
+import { StoreOnChain } from "./StoreOnChain";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
   state.context.state.previousInventory;
+const _previousBalance = (state: MachineState) =>
+  state.context.state.previousBalance;
 
 type PurchaseModalContentProps = {
   authToken: string;
@@ -28,6 +31,8 @@ type PurchaseModalContentProps = {
   onClose: () => void;
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   authToken,
   tradeable,
@@ -36,17 +41,22 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   onClose,
   listing,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
-  const { t } = useAppTranslation();
+  const state = useSelector(gameService, _state);
+
+  const [needsSync, setNeedsSync] = useState(false);
 
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
+  const previousBalance = useSelector(gameService, _previousBalance);
 
   const collection = tradeable.collection;
   const display = getTradeableDisplay({
     id: tradeable.id,
     type: collection,
+    state,
   });
 
   let updatedInventory = inventory;
@@ -65,6 +75,11 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   });
 
   const confirm = async () => {
+    if (listing.type === "onchain" && previousBalance.lt(price)) {
+      setNeedsSync(true);
+      return;
+    }
+
     gameService.send("marketplace.listingPurchased", {
       effect: {
         type: "marketplace.listingPurchased",
@@ -117,6 +132,13 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
       </>
     );
   }
+
+  if (needsSync) {
+    return (
+      <StoreOnChain itemName="SFL" onClose={onClose} actionType="purchase" />
+    );
+  }
+
   return (
     <>
       <div className="p-2">

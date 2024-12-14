@@ -1,4 +1,7 @@
-import { CollectionName } from "features/game/types/marketplace";
+import {
+  CollectionName,
+  getMarketPrice,
+} from "features/game/types/marketplace";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
@@ -54,6 +57,7 @@ export const Tradeable: React.FC = () => {
   const display = getTradeableDisplay({
     id: Number(id),
     type: collection as CollectionName,
+    state: gameState.context.state,
   });
 
   let count = 0;
@@ -128,11 +132,7 @@ export const Tradeable: React.FC = () => {
     (offer) => tradeToId({ details: trades.offers![offer] }) === Number(id),
   );
 
-  let latestSale = 0;
-  if (tradeable?.history.sales.length) {
-    latestSale =
-      tradeable.history.sales[0].sfl / tradeable.history.sales[0].quantity;
-  }
+  const marketPrice = getMarketPrice({ tradeable });
 
   return (
     <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
@@ -169,7 +169,10 @@ export const Tradeable: React.FC = () => {
         />
 
         {!isMobile && (
-          <TradeableStats history={tradeable?.history} price={latestSale} />
+          <TradeableStats
+            history={tradeable?.history}
+            marketPrice={marketPrice}
+          />
         )}
 
         {hasListings && <MyListings />}

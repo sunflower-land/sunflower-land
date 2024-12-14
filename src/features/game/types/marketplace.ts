@@ -1,10 +1,15 @@
 import { CONFIG } from "lib/config";
 import { BumpkinItem } from "./bumpkin";
 import { GameState, InventoryItemName } from "./game";
+import { KNOWN_ITEMS } from ".";
+import { TRADE_LIMITS } from "../actions/tradeLimits";
 
 // 1% tax on mainnet for testing
 // 10% tax on sales
-export const MARKETPLACE_TAX = CONFIG.NETWORK === "mainnet" ? 0.01 : 0.1;
+export const MARKETPLACE_TAX = CONFIG.NETWORK === "mainnet" ? 0.05 : 0.1;
+
+// Give it 15 minutes to resolve (cannot cancel while it is being purchased)
+export const TRADE_INITIATION_MS = 15 * 60 * 1000;
 
 export type CollectionName =
   | "collectibles"
@@ -234,4 +239,40 @@ export function getPriceHistory({
     sevenDayPriceChange,
     thirtyDayPriceChange,
   };
+}
+
+/**
+ * What is the market price of an item
+ * For resources, it is the cheapest listing (floor price)
+ * For others, it is the latest sale
+ */
+export function getMarketPrice({
+  tradeable,
+}: {
+  tradeable?: TradeableDetails;
+}) {
+  if (!tradeable) {
+    return 0;
+  }
+
+  let price = 0;
+
+  const isResource =
+    tradeable?.collection === "collectibles" &&
+    KNOWN_ITEMS[tradeable.id] in TRADE_LIMITS;
+
+  // If a resource, set the price to the floor
+  if (isResource) {
+    const cheapestListing = tradeable.listings?.reduce((cheapest, listing) => {
+      return listing.sfl < cheapest.sfl ? listing : cheapest;
+    }, tradeable.listings[0]);
+
+    price = cheapestListing?.sfl;
+  } else if (tradeable?.history.sales.length) {
+    // Set it to the latest sale
+    price =
+      tradeable.history.sales[0].sfl / tradeable.history.sales[0].quantity;
+  }
+
+  return price;
 }

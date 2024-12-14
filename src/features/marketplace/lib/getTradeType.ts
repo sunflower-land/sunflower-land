@@ -856,6 +856,10 @@ export const ITEM_TRADE_TYPES: {
     "Cozy Fireplace": "instant",
     "Christmas Rug": "instant",
     "Christmas Candle": "instant",
+    "Santa Penguin": "instant",
+    "Penguin Pool": "instant",
+    Snowman: "instant",
+    "Festive Toy Train": "instant",
   },
   wearables: {
     "Beige Farmer Potion": "instant",

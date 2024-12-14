@@ -19,6 +19,10 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { AnimalBuildingType } from "features/game/types/animals";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
+import powerup from "assets/icons/level_up.png";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
+import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 
 interface Props {
   buildingName: AnimalBuildingType;
@@ -140,6 +144,25 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                   />
                 </div>
               </InnerPanel>
+            </div>
+            <div className="flex flex-wrap justify-between">
+              <Label
+                type="default"
+                icon={
+                  buildingName === "Hen House"
+                    ? HEN_HOUSE_VARIANTS[state.island.type][nextLevel]
+                    : BARN_IMAGES[nextLevel]
+                }
+                iconWidth={11}
+                className={`${buildingName === "Hen House" ? "ml-2" : "ml-1.5"} mt-2`}
+              >
+                <span className="pl-1.5">{`${t("upgrade.building.nextLevel")} ${nextLevel}`}</span>
+              </Label>
+              <Label
+                type="success"
+                secondaryIcon={powerup}
+                className="mr-1 mt-2"
+              >{`+${buildingName === "Hen House" && isCollectibleBuilt({ name: "Chicken Coop", game: state }) ? 10 : 5} ${t("capacity")}`}</Label>
             </div>
             <Button
               className="mt-2"

@@ -384,7 +384,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
     "Camel Onesie": {
       shortDescription: translate("description.camel.onesie.boost"),
       labelType: "success",
-      boostedItemIcon: powerup,
+      boostTypeIcon: powerup,
     },
     "Crab Trap": {
       shortDescription: translate("bumpkinItemBuff.crab.trap"),

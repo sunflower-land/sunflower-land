@@ -42,6 +42,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
 
     if (soldListingIds.some((id) => trades.listings?.[id].signature)) {
       gameService.send("RESET");
+      return;
     }
 
     gameService.send("CLOSE");
@@ -64,6 +65,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
           const details = getTradeableDisplay({
             id: itemId,
             type: listing.collection,
+            state: state.context.state,
           });
           const amount = listing.items[itemName as InventoryItemName];
           const sfl = new Decimal(listing.sfl).mul(1 - MARKETPLACE_TAX);
@@ -105,7 +107,14 @@ export const MarketplaceSalesPopup: React.FC = () => {
           );
         })}
       </div>
-      <Button onClick={() => claimAll()}>{t("claim")}</Button>
+      <div className="flex space-x-1">
+        <Button className="w-full" onClick={() => gameService.send("CLOSE")}>
+          {t("close")}
+        </Button>
+        <Button className="w-full" onClick={() => claimAll()}>
+          {t("claim")}
+        </Button>
+      </div>
     </>
   );
 };

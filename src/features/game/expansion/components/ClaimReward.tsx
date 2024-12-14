@@ -114,7 +114,8 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
 
           {itemNames.length > 0 &&
             itemNames.map((name) => {
-              const buff = COLLECTIBLE_BUFF_LABELS[name as CollectibleName];
+              const buff =
+                COLLECTIBLE_BUFF_LABELS(game)[name as CollectibleName];
               return (
                 <ButtonPanel
                   variant="card"
@@ -135,13 +136,16 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                           type="success"
                           icon={powerup}
                           className="ml-1 mb-1"
-                        >{`+${new Decimal(
-                          getFoodExpBoost(
-                            CONSUMABLES[name as ConsumableName],
-                            bumpkin as Bumpkin,
-                            game,
-                            buds ?? {},
+                        >{`+${formatNumber(
+                          new Decimal(
+                            getFoodExpBoost(
+                              CONSUMABLES[name as ConsumableName],
+                              bumpkin as Bumpkin,
+                              game,
+                              buds ?? {},
+                            ),
                           ),
+                          { decimalPlaces: 0 },
                         )} XP`}</Label>
                       )}
                     </div>

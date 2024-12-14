@@ -503,7 +503,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         animalState={chickenMachineState}
         experience={chicken.experience}
         animal={chicken}
-        className="absolute bottom-1 left-1/2 transform -translate-x-1/2 ml-0.5"
+        className="absolute bottom-1 left-1/2 transform -translate-x-1/2 ml-0.5 pointer-events-none"
         // Don't block level up UI with wakes in panel if accidentally clicked
         onLevelUp={() => setShowWakesIn(false)}
       />

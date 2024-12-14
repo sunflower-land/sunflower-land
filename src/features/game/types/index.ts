@@ -907,6 +907,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Cozy Fireplace": 2171,
   "Christmas Rug": 2172,
   "Christmas Candle": 2173,
+  "Santa Penguin": 2174,
+  "Penguin Pool": 2175,
+  Snowman: 2176,
+  "Festive Toy Train": 2177,
 };
 
 // The reverse of above

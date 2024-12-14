@@ -23,7 +23,7 @@ export const Marketplace: React.FC = () => {
   return (
     <>
       <MarketplaceIntroduction />
-      <div className="bg-[#181425] w-full h-full">
+      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
         <OuterPanel className="h-full">
           <div
             className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px]  mb-0.5"

@@ -935,6 +935,11 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Cozy Fireplace": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
   "Christmas Rug": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
   "Christmas Candle": () => canWithdrawTimebasedItem(new Date("2025-01-01")),
+
+  "Santa Penguin": () => true,
+  "Penguin Pool": () => true,
+  Snowman: () => true,
+  "Festive Toy Train": () => true,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {

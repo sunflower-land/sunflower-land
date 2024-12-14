@@ -80,7 +80,7 @@ export const DraftBid: React.FC<Props> = ({
         return `Minimum bid is ${minTickets} SFL`;
       }
 
-      return `Minimum bid is ${minTickets} ${ingredient}'s`;
+      return `Minimum bid is ${minTickets} ${ingredient}s`;
     }
 
     if (isSFLAuction && gameState.balance.lt(tickets)) {

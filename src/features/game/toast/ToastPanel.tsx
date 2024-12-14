@@ -14,6 +14,10 @@ import coins from "assets/icons/coins.webp";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { BumpkinItem } from "../types/bumpkin";
+import { Bud } from "../types/buds";
+import { BUMPKIN_ITEM_IMAGES } from "../types/bumpkinItemImages";
+import { budImageDomain } from "features/island/collectibles/components/Bud";
 
 const MAX_TOAST = 6;
 
@@ -30,7 +34,19 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
     return FACTION_POINT_ICONS[faction];
   }
 
-  return ITEM_DETAILS[item]?.image;
+  if (ITEM_DETAILS[item as InventoryItemName]) {
+    return ITEM_DETAILS[item as InventoryItemName]?.image;
+  }
+
+  if (BUMPKIN_ITEM_IMAGES[item as BumpkinItem]) {
+    return BUMPKIN_ITEM_IMAGES[item as BumpkinItem];
+  }
+
+  if (item.startsWith("Bud #")) {
+    return `https://${budImageDomain}.sunflower-land.com/small-nfts/${item.split("#")[1]}.webp`;
+  }
+
+  return "";
 };
 
 const _faction = (state: MachineState) => state.context.state.faction;
@@ -47,6 +63,8 @@ export const ToastPanel: React.FC = () => {
     setCoinBalance,
     setExperience,
     setFactionPoints,
+    setWardrobe,
+    setBuds,
   } = useContext(ToastContext);
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
@@ -63,6 +81,10 @@ export const ToastPanel: React.FC = () => {
   const newCoinBalance = useRef<number>();
   const oldFactionPoints = useRef<number>();
   const newFactionPoints = useRef<number>();
+  const oldWardrobe = useRef<Partial<Record<BumpkinItem, number>>>();
+  const newWardrobe = useRef<Partial<Record<BumpkinItem, number>>>();
+  const oldBuds = useRef<Partial<Record<number, Bud>>>();
+  const newBuds = useRef<Partial<Record<number, Bud>>>();
 
   /**
    * Listens to game state transitions.
@@ -83,6 +105,10 @@ export const ToastPanel: React.FC = () => {
     newCoinBalance.current = state.context.state.coins;
     oldFactionPoints.current = newFactionPoints.current;
     newFactionPoints.current = faction?.points;
+    oldWardrobe.current = newWardrobe.current;
+    newWardrobe.current = state.context.state.wardrobe;
+    oldBuds.current = newBuds.current;
+    newBuds.current = state.context.state.buds;
 
     // inventory is set and changed
     if (
@@ -123,6 +149,16 @@ export const ToastPanel: React.FC = () => {
     ) {
       setFactionPoints(newFactionPoints.current);
     }
+
+    // wardrobe is set and changed
+    if (!!newWardrobe.current && oldWardrobe.current !== newWardrobe.current) {
+      setWardrobe(newWardrobe.current);
+    }
+
+    // buds is set and changed
+    if (!!newBuds.current && oldBuds.current !== newBuds.current) {
+      setBuds(newBuds.current);
+    }
   });
 
   // show toast only if there are toasts in the toast list
@@ -136,9 +172,9 @@ export const ToastPanel: React.FC = () => {
   return (
     <>
       {showToasts && (
-        <HudContainer>
+        <HudContainer zIndex="z-[99999]">
           <InnerPanel
-            className="flex flex-col items-start absolute z-[99999] pointer-events-none"
+            className="flex flex-col items-start absolute pointer-events-none"
             style={{
               top: `${PIXEL_SCALE * 54}px`,
               left: `${PIXEL_SCALE * 3}px`,

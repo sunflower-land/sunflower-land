@@ -30,7 +30,6 @@ import classNames from "classnames";
 import { MarketplaceHotNow } from "./MarketplaceHotNow";
 import { CONFIG } from "lib/config";
 import { MarketplaceUser } from "./MarketplaceUser";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor, useSelector } from "@xstate/react";
@@ -101,7 +100,7 @@ export const MarketplaceNavigation: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <div className="flex  items-center lg:hidden h-[50px]">
+      <div className="flex items-center lg:hidden h-[50px]">
         <TextInput
           icon={SUNNYSIDE.icons.search}
           value={search}
@@ -300,20 +299,15 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             isActive={filters === "resources"}
           />
 
-          {hasFeatureAccess(
-            gameService.getSnapshot().context.state,
-            "MARKETPLACE_ADMIN",
-          ) && (
-            <Option
-              icon={SUNNYSIDE.icons.stopwatch}
-              label="Limited"
-              onClick={() => {
-                navigate(`/marketplace/collection?filters=temporary`);
-                onClose();
-              }}
-              isActive={filters === "temporary"}
-            />
-          )}
+          <Option
+            icon={SUNNYSIDE.icons.stopwatch}
+            label="Limited"
+            onClick={() => {
+              navigate(`/marketplace/collection?filters=temporary`);
+              onClose();
+            }}
+            isActive={filters === "temporary"}
+          />
 
           <Option
             icon={SUNNYSIDE.icons.heart}
@@ -327,19 +321,17 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             isActive={filters === "collectibles,wearables,cosmetic"}
           />
 
-          {CONFIG.NETWORK !== "mainnet" && (
-            <Option
-              icon={budIcon}
-              label="Bud NFTs"
-              onClick={() => {
-                navigate(
-                  `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=buds`,
-                );
-                onClose();
-              }}
-              isActive={filters === "buds"}
-            />
-          )}
+          <Option
+            icon={budIcon}
+            label="Bud NFTs"
+            onClick={() => {
+              navigate(
+                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=buds`,
+              );
+              onClose();
+            }}
+            isActive={filters === "buds"}
+          />
         </div>
 
         <div>
@@ -381,7 +373,7 @@ const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
       <div className="flex justify-between items-center pr-1">
         <div className="flex items-center">
           <img src={sflIcon} className="w-6" />
-          <span className="text-sm ml-2">{`$${price.toFixed(2)}`}</span>
+          <span className="text-sm ml-2">{`$${price.toFixed(4)}`}</span>
         </div>
         <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
       </div>

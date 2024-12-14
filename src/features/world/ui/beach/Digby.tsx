@@ -348,15 +348,17 @@ export const getItemImage = (item: BumpkinItem | CollectibleName): string => {
   return ITEM_DETAILS[item].image;
 };
 
-const BoostDigItems: Partial<
+const BoostDigItems: (
+  state: GameState,
+) => Partial<
   Record<BumpkinItem | CollectibleName, BuffLabel & { location: string }>
-> = {
+> = (state) => ({
   "Pharaoh Chicken": {
-    ...(COLLECTIBLE_BUFF_LABELS["Pharaoh Chicken"] as BuffLabel),
+    ...(COLLECTIBLE_BUFF_LABELS(state)["Pharaoh Chicken"] as BuffLabel),
     location: "Marketplace",
   },
   "Heart of Davy Jones": {
-    ...(COLLECTIBLE_BUFF_LABELS["Heart of Davy Jones"] as BuffLabel),
+    ...(COLLECTIBLE_BUFF_LABELS(state)["Heart of Davy Jones"] as BuffLabel),
     location: "Marketplace",
   },
   "Bionic Drill": {
@@ -373,7 +375,7 @@ const BoostDigItems: Partial<
         },
       }
     : {}),
-};
+});
 
 const getDefaultTab = (game: GameState) => {
   if (!hasReadDigbyIntro()) return 1;
@@ -490,33 +492,50 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 </div>
                 <span className="text-xs my-2">{t("digby.moreDigsIntro")}</span>
                 <div className="flex flex-col my-2 space-y-1">
-                  {getKeys(BoostDigItems).map((item) => (
-                    <div key={item} className="flex space-x-2">
-                      <div
-                        className="bg-brown-600 cursor-pointer relative"
-                        style={{
-                          ...pixelDarkBorderStyle,
-                        }}
-                      >
-                        <SquareIcon icon={getItemImage(item)} width={20} />
-                      </div>
-                      <div className="flex flex-col justify-center space-y-1">
-                        <div className="flex flex-col space-y-0.5">
-                          <span className="text-xs">{item}</span>
-                          <span className="text-xxs italic">
-                            {BoostDigItems[item]?.location}
-                          </span>
-                        </div>
-                        <Label
-                          type={BoostDigItems[item]?.labelType ?? "default"}
-                          icon={BoostDigItems[item]?.boostTypeIcon}
-                          secondaryIcon={BoostDigItems[item]?.boostedItemIcon}
+                  {getKeys(BoostDigItems(gameState.context.state)).map(
+                    (item) => (
+                      <div key={item} className="flex space-x-2">
+                        <div
+                          className="bg-brown-600 cursor-pointer relative"
+                          style={{
+                            ...pixelDarkBorderStyle,
+                          }}
                         >
-                          {BoostDigItems[item]?.shortDescription}
-                        </Label>
+                          <SquareIcon icon={getItemImage(item)} width={20} />
+                        </div>
+                        <div className="flex flex-col justify-center space-y-1">
+                          <div className="flex flex-col space-y-0.5">
+                            <span className="text-xs">{item}</span>
+                            <span className="text-xxs italic">
+                              {
+                                BoostDigItems(gameState.context.state)[item]
+                                  ?.location
+                              }
+                            </span>
+                          </div>
+                          <Label
+                            type={
+                              BoostDigItems(gameState.context.state)[item]
+                                ?.labelType ?? "default"
+                            }
+                            icon={
+                              BoostDigItems(gameState.context.state)[item]
+                                ?.boostTypeIcon
+                            }
+                            secondaryIcon={
+                              BoostDigItems(gameState.context.state)[item]
+                                ?.boostedItemIcon
+                            }
+                          >
+                            {
+                              BoostDigItems(gameState.context.state)[item]
+                                ?.shortDescription
+                            }
+                          </Label>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ),
+                  )}
                 </div>
               </div>
               <Button
