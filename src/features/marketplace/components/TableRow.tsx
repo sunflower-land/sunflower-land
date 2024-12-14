@@ -65,7 +65,7 @@ export const TableRow: React.FC<RowProps> = ({
         <div className="flex items-center">
           <div className="relative w-8 h-8 flex items-center">
             <NPCIcon
-              width={20}
+              width={24}
               parts={interpretTokenUri(createdBy.bumpkinUri).equipped}
             />
           </div>

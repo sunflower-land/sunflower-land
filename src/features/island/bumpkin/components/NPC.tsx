@@ -20,9 +20,7 @@ import {
   getAnimationUrl,
 } from "features/world/lib/animations";
 
-const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
-const STEPS = 9;
 const AURA_WIDTH = 160 / 8;
 const AURA_STEPS = 8;
 
