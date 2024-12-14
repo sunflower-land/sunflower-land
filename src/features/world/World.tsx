@@ -44,8 +44,17 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
       <ModalProvider>
         <WorldContext.Provider value={{ isCommunity }}>
           <Explore />
-          {/* Outlet for nested routes ie /world/marketplace/* */}
-          <Outlet />
+          <div className="pointer-events-none">
+            <div
+              onMouseDown={(e) => e.stopPropagation()}
+              onMouseUp={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
+              className="pointer-events-auto"
+            >
+              <Outlet />
+            </div>
+          </div>
         </WorldContext.Provider>
       </ModalProvider>
     </GameProvider>
