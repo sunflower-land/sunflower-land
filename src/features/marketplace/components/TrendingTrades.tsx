@@ -48,7 +48,7 @@ export const TrendingTrades: React.FC<{
         </tr>
       </thead>
       <tbody>
-        {trends.items.map((item, index) => {
+        {trends.items.slice(0, 5).map((item, index) => {
           const itemId = item.id;
           const details = getTradeableDisplay({
             id: itemId,
@@ -92,10 +92,7 @@ export const TrendingTrades: React.FC<{
                   <img src={sflIcon} className="h-5 mr-1" />
                   <div>
                     <p className="text-sm">
-                      {new Decimal(prices.dates[0].low).toFixed(2)}
-                    </p>
-                    <p className="text-xxs">
-                      {`$${new Decimal(usd).mul(prices.dates[0].low).toFixed(2)}`}
+                      {new Decimal(prices.dates[0].low).toFixed(4)}
                     </p>
                   </div>
                 </div>

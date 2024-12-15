@@ -31,7 +31,7 @@ export const TopTrades: React.FC<{
   return (
     <div className="w-full text-xs  border-collapse  ">
       <div>
-        {trends.topTrades.map((item, index) => {
+        {trends.topTrades.slice(0, 5).map((item, index) => {
           const price = item.sfl;
 
           const details = getTradeableDisplay({
