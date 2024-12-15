@@ -876,7 +876,7 @@ export const Land: React.FC = () => {
             aria-label="Hud"
             className="fixed inset-safe-area pointer-events-none z-10"
           >
-            <div // Prevent click through
+            <div
               onMouseDown={(e) => e.stopPropagation()}
               onMouseUp={(e) => e.stopPropagation()}
               onTouchStart={(e) => e.stopPropagation()}
