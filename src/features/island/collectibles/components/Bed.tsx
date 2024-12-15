@@ -28,6 +28,17 @@ export const BED_WIDTH: Record<BedName, number> = {
   "Royal Bed": 16,
 };
 
+export const BED_Height: Record<BedName, number> = {
+  "Basic Bed": 20,
+  "Fisher Bed": 38,
+  "Floral Bed": 22,
+  "Sturdy Bed": 20,
+  "Desert Bed": 26,
+  "Cow Bed": 22,
+  "Pirate Bed": 34,
+  "Royal Bed": 22,
+};
+
 const _farmhands = (state: MachineState) =>
   state.context.state.farmHands.bumpkins;
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
@@ -105,12 +116,13 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
         }}
       >
         <img
-          className="absolute bottom-0"
+          className="absolute"
           src={ITEM_DETAILS[name].image}
           alt={name}
           style={{
             width: `${PIXEL_SCALE * BED_WIDTH[name]}px`,
             left: `-${((BED_WIDTH[name] - 16) * PIXEL_SCALE) / 2}px`,
+            top: `-${(BED_Height[name] * PIXEL_SCALE) / 2}px`,
           }}
         />
         {canSleepHere && !isLandscaping && (
