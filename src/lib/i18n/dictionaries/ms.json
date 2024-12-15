@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "Tahap Seterusnya:",
   "description.treasure.key": "Kunci ajaib yang boleh membuka kunci dada asas yang terletak di plaza berhampiran Tywin.",
   "description.rare.key": "Kunci sihir yang boleh membuka kunci dada langka yang terletak di selatan pantai.",
-  "description.luxury.key": "Kunci ajaib yang boleh membuka kunci peti mewah yang terletak di plaza berhampiran Bert."
+  "description.luxury.key": "Kunci ajaib yang boleh membuka kunci peti mewah yang terletak di plaza berhampiran Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minigame - Kekacauan Penghantaran Krismas",
+  "christmas-delivery-mayhem.portal.description": "Bantu elf membungkus hadiah mereka. Adakah anda mempunyai masa yang cukup untuk melakukannya?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda."
 }

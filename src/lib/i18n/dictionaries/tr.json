@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "Sonraki Seviye:",
   "description.treasure.key": "Tywin yakınlarındaki plazada bulunan temel sandığın kilidini açabilen sihirli bir anahtar.",
   "description.rare.key": "Plajın güneyinde bulunan nadir sandığın kilidini açabilen sihirli bir anahtar.",
-  "description.luxury.key": "Bert yakınlarındaki plazada bulunan lüks sandığın kilidini açabilen sihirli bir anahtar."
+  "description.luxury.key": "Bert yakınlarındaki plazada bulunan lüks sandığın kilidini açabilen sihirli bir anahtar.",
+  "christmas-delivery-mayhem.portal.title": "Mini oyun - Noel Teslimatı Kargaşası",
+  "christmas-delivery-mayhem.portal.description": "Elflerin hediyelerini toplamasına yardım et. Bunu yapmak için yeterli zamanın olacak mı?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Görev: Ulaşın {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz."
 }

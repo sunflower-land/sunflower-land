@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "Próximo nível:",
   "description.treasure.key": "Uma chave mágica que pode desbloquear o baú básico localizado na praça perto de Tywin.",
   "description.rare.key": "Uma chave mágica que pode desbloquear o baú raro localizado no sul da praia.",
-  "description.luxury.key": "Uma chave mágica que pode abrir o baú de luxo localizado na praça perto de Bert."
+  "description.luxury.key": "Uma chave mágica que pode abrir o baú de luxo localizado na praça perto de Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minigame - Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Ajude os elfos a empacotar seus presentes. Você terá tempo suficiente para fazer isso?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Missão: Alcance {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa."
 }
