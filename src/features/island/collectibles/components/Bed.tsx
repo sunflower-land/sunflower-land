@@ -122,7 +122,7 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
           style={{
             width: `${PIXEL_SCALE * BED_WIDTH[name]}px`,
             left: `-${((BED_WIDTH[name] - 16) * PIXEL_SCALE) / 2}px`,
-            top: `-${(BED_Height[name] * PIXEL_SCALE) / 2}px`,
+            top: `-${(BED_HEIGHT[name] * PIXEL_SCALE) / 2}px`,
           }}
         />
         {canSleepHere && !isLandscaping && (
