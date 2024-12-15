@@ -1447,9 +1447,6 @@
   "description.farmhand.coupon": "Купон для обмена на помощника.",
   "description.farmhand": "Бампкин, принятый для помощи на ферме",
   "description.tulip.bulb": "(LEGACY) Билет, используемый во время Spring Blossom",
-  "description.treasure.key": "Посети плазу для получения награды",
-  "description.rare.key": "Посети пляж для получения награды",
-  "description.luxury.key": "Посети плазу рядом с лесом для получения награды",
   "description.prizeTicket": "Призовой билет. С его помощью можно принять участие в ежемесячном гоблинском розыгрыше.",
   "description.baozi": "Вкусное угощение с Лунного Нового Года.",
   "description.communityEgg": "Ого, ты, должно быть, действительно заботишься о сообществе!",
@@ -4680,5 +4677,8 @@
   "powerSkills.confirmationMessage": "Вы действительно хотите использовать {{skillName}}?",
   "powerSkills.cooldownMessage": "Вы больше не сможете использовать этот навык для {{cooldown}}",
   "powerSkills.useSkill": "Используйте навык",
-  "upgrade.building.nextLevel": "Следующий уровень:"
+  "upgrade.building.nextLevel": "Следующий уровень:",
+  "description.treasure.key": "Волшебный ключ, позволяющий разблокировать основной сундук, расположенный на площади рядом с Тайвином.",
+  "description.rare.key": "Волшебный ключ, с помощью которого можно разблокировать редкий сундук, расположенный на юге пляжа.",
+  "description.luxury.key": "Волшебный ключ, с помощью которого можно разблокировать роскошный сундук, расположенный на площади рядом с Бертом."
 }

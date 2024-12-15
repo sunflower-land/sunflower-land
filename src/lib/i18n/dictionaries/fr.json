@@ -1037,9 +1037,6 @@
   "description.farmhand.coupon": "Un coupon à échanger contre un ouvrier agricole de votre choix.",
   "description.farmhand": "Un Bumpkin adopté dans votre ferme.",
   "description.tulip.bulb": "(LEGACY) Un billet utilisé pendant la Floraison du Printemps.",
-  "description.treasure.key": "Visitez la place pour débloquer votre récompense",
-  "description.rare.key": "Visitez la plage pour débloquer votre récompense",
-  "description.luxury.key": "Visitez la place près des bois pour débloquer votre récompense",
   "description.prizeTicket": "Un ticket pour participer au concours de fin de saison",
   "description.baozi": "Une délicieuse friandise de l'événement du Nouvel An lunaire.",
   "description.communityEgg": "Wow, vous devez vraiment vous soucier de la communauté !",
@@ -4680,5 +4677,8 @@
   "powerSkills.confirmationMessage": "Êtes-vous sûr de vouloir utiliser {{skillName}} ?",
   "powerSkills.cooldownMessage": "Vous ne pourrez plus utiliser cette compétence pour {{cooldown}}",
   "powerSkills.useSkill": "Utiliser la compétence",
-  "upgrade.building.nextLevel": "Niveau suivant :"
+  "upgrade.building.nextLevel": "Niveau suivant :",
+  "description.treasure.key": "Une clé magique qui permet de déverrouiller le coffre de base situé sur la place près de Tywin.",
+  "description.rare.key": "Une clé magique qui permet de débloquer le coffre rare situé au sud de la plage.",
+  "description.luxury.key": "Une clé magique qui permet d'ouvrir le coffre de luxe situé sur la place près de Bert."
 }

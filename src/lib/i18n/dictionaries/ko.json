@@ -1537,9 +1537,6 @@
   "description.farmhand.coupon": "원하는 팜 핸드로 교환할 수 있는 쿠폰입니다.",
   "description.farmhand": "농장에서 입양한 범프킨",
   "description.tulip.bulb": "(레거시) 봄꽃 시즌에 사용되는 티켓",
-  "description.treasure.key": "플라자를 방문하여 보상을 획득하세요",
-  "description.rare.key": "해변을 방문하여 보상을 받으세요",
-  "description.luxury.key": "삼림 근처 광장을 방문하여 보상을 받으세요",
   "description.prizeTicket": "소중한 티켓.이를 사용해 매월 진행되는 고블린 추첨에 참가할 수 있습니다.",
   "description.baozi": "설날 이벤트에서 가져온 맛있는 간식입니다.",
   "description.communityEgg": "와우, 커뮤니티에 정말 관심이 있으실 거예요!",
@@ -4680,5 +4677,8 @@
   "powerSkills.confirmationMessage": "정말로 {{skillName}} 를 사용하시겠습니까?",
   "powerSkills.cooldownMessage": "{{cooldown}} 에는 이 스킬을 다시 사용할 수 없습니다.",
   "powerSkills.useSkill": "스킬 사용",
-  "upgrade.building.nextLevel": "다음 레벨:"
+  "upgrade.building.nextLevel": "다음 레벨:",
+  "description.treasure.key": "타이윈 근처 광장에 있는 기본 상자를 열 수 있는 마법 열쇠.",
+  "description.rare.key": "해변 남쪽에 있는 희귀 상자를 열 수 있는 마법 열쇠.",
+  "description.luxury.key": "버트 근처 광장에 있는 고급 상자를 열 수 있는 마법 열쇠."
 }
