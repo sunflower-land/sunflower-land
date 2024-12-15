@@ -20,6 +20,7 @@ export type CollectionName =
 export type Tradeable = {
   id: number;
   floor: number;
+  lastSalePrice: number;
   supply: number;
   collection: CollectionName;
   isActive: boolean;

@@ -65,6 +65,7 @@ export const WhatsNew: React.FC = () => {
             <ListViewCard
               details={display}
               price={new Decimal(item.floor)}
+              lastSalePrice={new Decimal(item.lastSalePrice)}
               onClick={() => {
                 navigate(
                   `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
