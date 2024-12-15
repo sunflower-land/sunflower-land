@@ -149,7 +149,7 @@ export const TradeableDescription: React.FC<{
           </div>
         )}
         {!canTrade && !!tradeAt && (
-          <div className="p-2 pl-0 pb-0 flex items-center justify-between">
+          <div className="p-2 pl-0 pb-0 flex items-center justify-between  flex-wrap">
             <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
               {t("coming.soon")}
             </Label>
