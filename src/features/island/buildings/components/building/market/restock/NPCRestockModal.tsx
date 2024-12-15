@@ -27,14 +27,12 @@ interface RestockModalProps {
     seconds: number;
   };
   npc: RestockNPC;
-  hasGemExperiment: boolean;
 }
 
 export const NPCRestockModal: React.FC<RestockModalProps> = ({
   onClose,
   shipmentTime,
   npc,
-  hasGemExperiment,
 }) => {
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
@@ -109,7 +107,7 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
         )}
       </div>
       <p className="text-xs p-1 pb-1.5 italic">{t("gems.restockToMaxStock")}</p>
-      {hasGemExperiment && shipmentTime && (
+      {shipmentTime && (
         <div className="px-1 text-xs flex flex-wrap mb-2">
           <span className="mr-2">{t("gems.nextFreeShipment")}</span>
           <TimerDisplay time={shipmentTime} />

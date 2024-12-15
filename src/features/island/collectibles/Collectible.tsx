@@ -28,7 +28,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
-import { hasFeatureAccess } from "lib/flags";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 
@@ -290,8 +289,6 @@ export const Building: React.FC<{
     return () => clearInterval(interval);
   }, []);
 
-  const speedUpAccess = hasFeatureAccess(state, "GEM_BOOSTS");
-
   return (
     <>
       <div className="p-1 ">
@@ -319,22 +316,20 @@ export const Building: React.FC<{
         <Button className="mr-1" onClick={onClose}>
           {t("close")}
         </Button>
-        {speedUpAccess && (
-          <Button
-            disabled={!state.inventory.Gem?.gte(gems)}
-            className="relative ml-1"
-            onClick={() => onInstantBuilt(gems)}
+        <Button
+          disabled={!state.inventory.Gem?.gte(gems)}
+          className="relative ml-1"
+          onClick={() => onInstantBuilt(gems)}
+        >
+          {t("gems.speedUp")}
+          <Label
+            type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+            icon={ITEM_DETAILS.Gem.image}
+            className="flex absolute right-0 top-0.5"
           >
-            {t("gems.speedUp")}
-            <Label
-              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-              icon={ITEM_DETAILS.Gem.image}
-              className="flex absolute right-0 top-0.5"
-            >
-              {gems}
-            </Label>
-          </Button>
-        )}
+            {gems}
+          </Label>
+        </Button>
       </div>
     </>
   );
