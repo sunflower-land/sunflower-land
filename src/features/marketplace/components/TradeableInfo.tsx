@@ -25,6 +25,14 @@ import {
 } from "features/game/types/withdrawables";
 import { BumpkinItem } from "features/game/types/bumpkin";
 
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("en-US", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  });
+};
+
 export const TradeableImage: React.FC<{
   display: TradeableDisplay;
   supply?: number;
@@ -145,7 +153,7 @@ export const TradeableDescription: React.FC<{
             <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
               {t("coming.soon")}
             </Label>
-            <Label type="transparent">{tradeAt.toLocaleDateString()}</Label>
+            <Label type="transparent">{formatDate(tradeAt)}</Label>
           </div>
         )}
         {!canWithdraw && !!withdrawAt && (
@@ -153,7 +161,7 @@ export const TradeableDescription: React.FC<{
             <Label type="danger" icon={lockIcon}>
               {t("marketplace.withdrawComingSoon")}
             </Label>
-            <Label type="transparent">{withdrawAt.toLocaleDateString()}</Label>
+            <Label type="transparent">{formatDate(withdrawAt)}</Label>
           </div>
         )}
       </div>
