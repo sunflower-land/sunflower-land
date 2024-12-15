@@ -1537,9 +1537,6 @@
   "description.farmhand.coupon": "お好きなファームハンドと交換できるクーポン。",
   "description.farmhand": "農場に養子縁組されたバンプキン",
   "description.tulip.bulb": "(LEGACY) スプリングブロッサムの期間に使用されたチケット",
-  "description.treasure.key": "プラザに行って報酬をアンロックしよう",
-  "description.rare.key": "ビーチに行って報酬をアンロックしよう",
-  "description.luxury.key": "森の近くの広場に行って報酬をアンロックしよう",
   "description.prizeTicket": "貴重なチケット。これを使って毎月のゴブリン抽選に参加できます。",
   "description.baozi": "旧正月イベントのおいしいごちそう。",
   "description.communityEgg": "うわー、あなたは本当にコミュニティを気にかけているに違いありません！",
@@ -4680,5 +4677,12 @@
   "powerSkills.confirmationMessage": "本当に {{skillName}} を使用してもよろしいですか？",
   "powerSkills.cooldownMessage": "{{cooldown}} ではこのスキルを再び使用することはできません",
   "powerSkills.useSkill": "スキルを使う",
-  "upgrade.building.nextLevel": "次のレベル:"
+  "upgrade.building.nextLevel": "次のレベル:",
+  "description.treasure.key": "タイウィン近くの広場にある基本宝箱を開放できる魔法の鍵。",
+  "description.rare.key": "ビーチの南にある珍しい宝箱を開けることができる魔法の鍵。",
+  "description.luxury.key": "バート近くの広場にある豪華な宝箱を開けることができる魔法の鍵。",
+  "christmas-delivery-mayhem.portal.title": "ミニゲーム-クリスマスデリバリーメイヘム",
+  "christmas-delivery-mayhem.portal.description": "エルフがプレゼントを詰めるのを手伝ってください。それには十分な時間がありますか？",
+  "christmas-delivery-mayhem.portal.missionObjectives": "ミッション:リーチ {{targetScore}}。",
+  "christmas-delivery-mayhem.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。"
 }

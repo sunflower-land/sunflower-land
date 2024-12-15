@@ -1521,9 +1521,6 @@
   "description.farmhand.coupon": "Un cupón para canjearlo por un peón agrícola de su elección.",
   "description.farmhand": "Un Bumpkin adoptado en tu granja",
   "description.tulip.bulb": "(LEGACY) Un billete usado durante el Spring Blossom",
-  "description.treasure.key": "Visita la plaza para desbloquear tu recompensa",
-  "description.rare.key": "Visita la playa para desbloquear tu recompensa",
-  "description.luxury.key": "Visita la plaza cerca de los bosques para desbloquear tu recompensa",
   "description.prizeTicket": "Un billete preciado. Puedes usarlo para participar en el sorteo mensual de duendes.",
   "description.baozi": "Un delicioso obsequio del evento del Año Nuevo Lunar.",
   "description.communityEgg": "Vaya, realmente debes preocuparte por la comunidad!",
@@ -4680,5 +4677,12 @@
   "powerSkills.confirmationMessage": "¿Estás seguro de que quieres usar {{skillName}}?",
   "powerSkills.cooldownMessage": "No podrás volver a usar esta habilidad para {{cooldown}}",
   "powerSkills.useSkill": "Usa la habilidad",
-  "upgrade.building.nextLevel": "Siguiente nivel:"
+  "upgrade.building.nextLevel": "Siguiente nivel:",
+  "description.treasure.key": "Una llave mágica que puede abrir el cofre básico ubicado en la plaza cerca de Tywin.",
+  "description.rare.key": "Una llave mágica que puede abrir el cofre raro que se encuentra al sur de la playa.",
+  "description.luxury.key": "Una llave mágica que puede abrir el lujoso cofre ubicado en la plaza cerca de Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minijuego: Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Ayuda a los elfos a empacar sus regalos. ¿Tendrás tiempo suficiente para hacerlo?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Misión: Alcanzar {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa."
 }

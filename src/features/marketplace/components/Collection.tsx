@@ -163,7 +163,7 @@ export const Collection: React.FC<{
     if (filters === "resources") return 150;
     if (filters === "buds") return 250;
 
-    return 160;
+    return 180;
   };
 
   return (
@@ -212,6 +212,7 @@ export const Collection: React.FC<{
                   <ListViewCard
                     details={display}
                     price={new Decimal(item.floor)}
+                    lastSalePrice={new Decimal(item.lastSalePrice)}
                     onClick={() => {
                       const scrollPosition =
                         gridRef.current?._outerRef.scrollTop;

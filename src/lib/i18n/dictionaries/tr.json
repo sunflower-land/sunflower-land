@@ -1029,7 +1029,6 @@
   "description.farmhand.coupon": "Seçtiğiniz bir bumpkini satın almak için takas edebileceğiniz bir kupon.",
   "description.farmhand": "Çiftliğinizde evlat edinilmiş bir Bumpkin",
   "description.tulip.bulb": "(LEGACY) Bahar Çiçeği sırasında kullanılan bir bilet",
-  "description.treasure.key": "Ödülünüzün kilidini açmak için Plazayı ziyaret edin",
   "description.prizeTicket": "Ödül çekilişlerine katılmak için bir bilet",
   "description.blue.egg": "Mavi bir Paskalya yumurtası",
   "description.orange.egg": "Turuncu bir Paskalya yumurtası",
@@ -1039,8 +1038,6 @@
   "description.pink.egg": "Pembe bir Paskalya yumurtası",
   "description.purple.egg": "Mor bir Paskalya yumurtası",
   "description.homeOwnerPainting": "Bu evin sahibinin bir tablosu.",
-  "description.rare.key": "Sahili ziyaret edin ve sandığınızı açın",
-  "description.luxury.key": "Plazanın Ağaç diyarına yakın olan kısmında sandığınızı açın",
   "description.baozi": "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
   "gameOptions.logout": "Çıkış Yap",
   "gameOptions.confirmLogout": "Oturumu kapatmak istediğinizden emin misiniz?",
@@ -4680,5 +4677,12 @@
   "powerSkills.confirmationMessage": "{{skillName}} kullanmak istediğinizden emin misiniz?",
   "powerSkills.cooldownMessage": "Bu beceriyi bir daha {{cooldown}} için kullanamayacaksınız.",
   "powerSkills.useSkill": "Beceri Kullan",
-  "upgrade.building.nextLevel": "Sonraki Seviye:"
+  "upgrade.building.nextLevel": "Sonraki Seviye:",
+  "description.treasure.key": "Tywin yakınlarındaki plazada bulunan temel sandığın kilidini açabilen sihirli bir anahtar.",
+  "description.rare.key": "Plajın güneyinde bulunan nadir sandığın kilidini açabilen sihirli bir anahtar.",
+  "description.luxury.key": "Bert yakınlarındaki plazada bulunan lüks sandığın kilidini açabilen sihirli bir anahtar.",
+  "christmas-delivery-mayhem.portal.title": "Mini oyun - Noel Teslimatı Kargaşası",
+  "christmas-delivery-mayhem.portal.description": "Elflerin hediyelerini toplamasına yardım et. Bunu yapmak için yeterli zamanın olacak mı?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Görev: Ulaşın {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz."
 }

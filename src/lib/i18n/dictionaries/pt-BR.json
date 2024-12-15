@@ -1001,9 +1001,6 @@
   "description.farmhand": "Um Bumpkin adotado em sua fazenda",
   "description.tulip.bulb": "(LEGACY) Um ticket usado durante a ",
   "description.prizeTicket": "Um ticket para entrar nos sorteios de prêmios",
-  "description.treasure.key": "Visite o Plaza para desbloquear sua recompensa",
-  "description.rare.key": "Visite a praia para desbloquear sua recompensa",
-  "description.luxury.key": "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
   "description.scroll": "Um ticket usado durante a temporada Clash of Factions",
   "description.amberFossil": "Um ticket usado durante a temporada Pharaoh's Treasure",
   "description.blue.egg": "Um ovo de Páscoa azul",
@@ -4680,5 +4677,12 @@
   "powerSkills.confirmationMessage": "Tem certeza de que deseja usar {{skillName}}?",
   "powerSkills.cooldownMessage": "Você não poderá usar essa habilidade novamente por {{cooldown}}",
   "powerSkills.useSkill": "Use a habilidade",
-  "upgrade.building.nextLevel": "Próximo nível:"
+  "upgrade.building.nextLevel": "Próximo nível:",
+  "description.treasure.key": "Uma chave mágica que pode desbloquear o baú básico localizado na praça perto de Tywin.",
+  "description.rare.key": "Uma chave mágica que pode desbloquear o baú raro localizado no sul da praia.",
+  "description.luxury.key": "Uma chave mágica que pode abrir o baú de luxo localizado na praça perto de Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minigame - Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Ajude os elfos a empacotar seus presentes. Você terá tempo suficiente para fazer isso?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Missão: Alcance {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa."
 }

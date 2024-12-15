@@ -1520,9 +1520,6 @@
   "description.farmhand.coupon": "Un coupon da scambiare con un bracciante agricolo a tua scelta.",
   "description.farmhand": "Un Bumpkin adottato nella tua fattoria",
   "description.tulip.bulb": "(LEGACY) Un biglietto utilizzato durante lo Spring Blossom",
-  "description.treasure.key": "Visita la piazza per sbloccare la tua ricompensa",
-  "description.rare.key": "Visita la spiaggia per sbloccare la tua ricompensa",
-  "description.luxury.key": "Visita la piazza vicino ai boschi per sbloccare la tua ricompensa",
   "description.prizeTicket": "Un biglietto prezioso. Puoi usarlo per partecipare alla lotteria mensile dei goblin.",
   "description.baozi": "Una deliziosa sorpresa dell'evento del capodanno lunare.",
   "description.communityEgg": "Wow, devi davvero preoccuparti della comunità!",
@@ -4680,5 +4677,12 @@
   "powerSkills.confirmationMessage": "Sei sicuro di voler usare {{skillName}}?",
   "powerSkills.cooldownMessage": "Non potrai più usare questa abilità per {{cooldown}}",
   "powerSkills.useSkill": "Usa abilità",
-  "upgrade.building.nextLevel": "Livello successivo:"
+  "upgrade.building.nextLevel": "Livello successivo:",
+  "description.treasure.key": "Una chiave magica che può sbloccare il baule base situato nella piazza vicino a Tywin.",
+  "description.rare.key": "Una chiave magica che può aprire il raro scrigno situato a sud della spiaggia.",
+  "description.luxury.key": "Una chiave magica che può aprire il lussuoso baule situato nella piazza vicino a Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minigioco - Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Aiuta gli elfi a impacchettare i loro doni. Avrai abbastanza tempo per farlo?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Missione: raggiungere {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa."
 }

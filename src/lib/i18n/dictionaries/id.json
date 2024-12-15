@@ -1537,9 +1537,6 @@
   "description.farmhand.coupon": "Kupon untuk ditukar dengan tangan petani pilihan Anda.",
   "description.farmhand": "Bumpkin yang diadopsi di pertanian Anda",
   "description.tulip.bulb": "(LEGACY) Tiket yang digunakan selama Musim Semi Blossom",
-  "description.treasure.key": "Kunjungi plaza untuk membuka hadiah Anda",
-  "description.rare.key": "Kunjungi pantai untuk membuka hadiah Anda",
-  "description.luxury.key": "Kunjungi plaza dekat hutan untuk membuka hadiah Anda",
   "description.prizeTicket": "Tiket berharga. Anda dapat menggunakannya untuk memasuki undian goblin bulanan.",
   "description.baozi": "Suguhan lezat dari acara Tahun Baru Imlek.",
   "description.communityEgg": "Wow, Anda harus benar-benar peduli dengan komunitas!",
@@ -4680,5 +4677,12 @@
   "powerSkills.confirmationMessage": "Apakah Anda yakin ingin menggunakan {{skillName}}?",
   "powerSkills.cooldownMessage": "Anda tidak akan dapat menggunakan skill ini lagi untuk {{cooldown}}",
   "powerSkills.useSkill": "Gunakan Keterampilan",
-  "upgrade.building.nextLevel": "Tingkat Berikutnya:"
+  "upgrade.building.nextLevel": "Tingkat Berikutnya:",
+  "description.treasure.key": "Kunci ajaib yang dapat membuka peti dasar yang terletak di alun-alun dekat Tywin.",
+  "description.rare.key": "Kunci ajaib yang dapat membuka peti langka yang terletak di selatan pantai.",
+  "description.luxury.key": "Kunci ajaib yang dapat membuka peti mewah yang terletak di alun-alun dekat Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minigame - Kekacauan Pengiriman Natal",
+  "christmas-delivery-mayhem.portal.description": "Bantu para elf mengemas hadiah mereka. Apakah Anda akan memiliki cukup waktu untuk melakukannya?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu."
 }

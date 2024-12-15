@@ -1537,9 +1537,6 @@
   "description.farmhand.coupon": "Ein Gutschein, den Sie gegen einen Landarbeiter Ihrer Wahl eintauschen können.",
   "description.farmhand": "Ein adoptierter Bumpkin auf deiner Farm",
   "description.tulip.bulb": "(LEGACY) Ein Ticket, das während der Frühlingsblüte verwendet wurde",
-  "description.treasure.key": "Besuche den Platz, um deine Belohnung freizuschalten",
-  "description.rare.key": "Besuche den Strand, um deine Belohnung freizuschalten",
-  "description.luxury.key": "Besuche den Platz in der Nähe von Wäldern, um deine Belohnung freizuschalten",
   "description.prizeTicket": "Ein wertvolles Ticket. Sie können es verwenden, um an der monatlichen Goblin-Verlosung teilzunehmen.",
   "description.baozi": "Ein köstlicher Leckerbissen vom Mondneujahrsfest.",
   "description.communityEgg": "Wow, du musst dich wirklich um die Community kümmern!",
@@ -4680,5 +4677,12 @@
   "powerSkills.confirmationMessage": "Sind Sie sicher, dass Sie {{skillName}} verwenden möchten?",
   "powerSkills.cooldownMessage": "Du wirst diesen Skill für {{cooldown}} nicht mehr verwenden können",
   "powerSkills.useSkill": "Benutze Skill",
-  "upgrade.building.nextLevel": "Nächstes Level:"
+  "upgrade.building.nextLevel": "Nächstes Level:",
+  "description.treasure.key": "Ein magischer Schlüssel, mit dem die Grundtruhe auf dem Platz in der Nähe von Tywin geöffnet werden kann.",
+  "description.rare.key": "Ein magischer Schlüssel, der die seltene Truhe im Süden des Strandes öffnen kann.",
+  "description.luxury.key": "Ein magischer Schlüssel, mit dem die luxuriöse Truhe auf dem Platz in der Nähe von Bert geöffnet werden kann.",
+  "christmas-delivery-mayhem.portal.title": "Minispiel - Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Hilf den Elfen, ihre Geschenke zu packen. Wirst du genug Zeit dafür haben?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung."
 }

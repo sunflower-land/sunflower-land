@@ -2163,9 +2163,6 @@
   "description.farmhand.coupon": "挑选兑换雇农的票券。",
   "description.farmhand": "你农场上雇养的乡包佬",
   "description.tulip.bulb": "（往期）春暖花开时季使用的票券。",
-  "description.treasure.key": "到广场上开箱解锁奖赏",
-  "description.rare.key": "到沙滩上开箱解锁奖赏",
-  "description.luxury.key": "到广场上靠近林地处开箱解锁奖赏",
   "description.prizeTicket": "抽奖奖券。您可以用它投注参与每月 Goblin 抽奖。",
   "description.baozi": "农历新年活动送的美味小吃。",
   "description.scroll": "（往期）帮派冲突时季使用的票券。",
@@ -4680,5 +4677,12 @@
   "powerSkills.confirmationMessage": "您确定要使用 {{skillName}} 吗？",
   "powerSkills.cooldownMessage": "您将无法再次使用此技能，直到 {{cooldown}} 冷却完成",
   "powerSkills.useSkill": "使用技能",
-  "upgrade.building.nextLevel": "下一级："
+  "upgrade.building.nextLevel": "下一级：",
+  "description.treasure.key": "一把魔法钥匙，可以解锁位于泰温附近广场的基本宝箱。",
+  "description.rare.key": "一把魔法钥匙，可以解锁位于海滩南部的稀有宝箱。",
+  "description.luxury.key": "一把魔法钥匙，可以解锁位于伯特附近广场的豪华宝箱。",
+  "christmas-delivery-mayhem.portal.title": "小游戏-圣诞节快递混乱",
+  "christmas-delivery-mayhem.portal.description": "帮助精灵们打包礼物。你有足够的时间去做吗？",
+  "christmas-delivery-mayhem.portal.missionObjectives": "任务：达到 {{targetScore}}。",
+  "christmas-delivery-mayhem.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。"
 }
