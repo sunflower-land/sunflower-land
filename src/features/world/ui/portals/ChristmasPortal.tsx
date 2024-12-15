@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import * as AuthProvider from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -101,6 +102,7 @@ interface Props {
 export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { authService } = useContext(AuthProvider.Context);
 
   const minigame =
     gameState.context.state.minigames.games["christmas-delivery"];
@@ -194,6 +196,8 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
         name={"christmas-delivery"}
         startDate={new Date(Date.UTC(2024, 11, 14))}
         endDate={new Date(Date.UTC(2025, 0, 1))}
+        farmId={gameService.state.context.farmId}
+        jwt={authService.state.context.user.rawToken as string}
       />
     );
   }
@@ -206,6 +210,8 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
         name={"christmas-delivery"}
         startDate={new Date(Date.UTC(2024, 11, 14))}
         endDate={new Date(Date.UTC(2025, 0, 1))}
+        farmId={gameService.state.context.farmId}
+        jwt={authService.state.context.user.rawToken as string}
       />
     );
   }
