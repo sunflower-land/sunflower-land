@@ -47,7 +47,6 @@ const featureFlags = {
   MARKETPLACE: defaultFeatureFlag,
   MARKETPLACE_ADMIN: adminFeatureFlag,
   MARKETPLACE_REWARDS: defaultFeatureFlag,
-  CHRISTMAS_DELIVERY: defaultFeatureFlag,
   CROP_QUICK_SELECT: () => false,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,

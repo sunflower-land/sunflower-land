@@ -765,37 +765,35 @@ export class ChristmasScene extends BaseScene {
       : "explorer_hat";
     this.add.image(288.5, 248, featuredHat);
 
-    if (hasFeatureAccess(this.gameState, "CHRISTMAS_DELIVERY")) {
-      //Christmas Portal
-      const christmasPortal = this.add.sprite(464, 315, "xmas_portal");
-      this.anims.create({
-        key: "xmas_portal_anim",
-        frames: this.anims.generateFrameNumbers("xmas_portal", {
-          start: 0,
-          end: 8,
-        }),
-        repeat: -1,
-        frameRate: 10,
+    //Christmas Portal
+    const christmasPortal = this.add.sprite(464, 315, "xmas_portal");
+    this.anims.create({
+      key: "xmas_portal_anim",
+      frames: this.anims.generateFrameNumbers("xmas_portal", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    christmasPortal.play("xmas_portal_anim", true);
+    christmasPortal
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(christmasPortal, 40)) {
+          interactableModalManager.open("christmas_portal");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
-      christmasPortal.play("xmas_portal_anim", true);
-      christmasPortal
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          if (this.checkDistanceToSprite(christmasPortal, 40)) {
-            interactableModalManager.open("christmas_portal");
-          } else {
-            this.currentPlayer?.speak(translate("base.iam.far.away"));
-          }
-        });
 
-      this.physics.world.enable(christmasPortal);
-      this.colliders?.add(christmasPortal);
-      (christmasPortal.body as Phaser.Physics.Arcade.Body)
-        .setSize(32, 32)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
-    }
+    this.physics.world.enable(christmasPortal);
+    this.colliders?.add(christmasPortal);
+    (christmasPortal.body as Phaser.Physics.Arcade.Body)
+      .setSize(32, 32)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
 
     const donate_christmas_npc = this.add.sprite(
       563,
