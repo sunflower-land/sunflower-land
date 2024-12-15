@@ -21,6 +21,7 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PortalLeaderboard } from "./PortalLeaderboard";
+import { secondsToString } from "lib/utils/time";
 
 export function hasReadChristmasDeliveryMayhemNotice() {
   return !!localStorage.getItem("christmas-delivery-mayhemn.notice");
