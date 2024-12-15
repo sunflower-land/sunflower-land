@@ -28,7 +28,7 @@ export const BED_WIDTH: Record<BedName, number> = {
   "Royal Bed": 16,
 };
 
-export const BED_Height: Record<BedName, number> = {
+export const BED_HEIGHT: Record<BedName, number> = {
   "Basic Bed": 20,
   "Fisher Bed": 38,
   "Floral Bed": 22,
