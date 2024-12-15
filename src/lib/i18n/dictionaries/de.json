@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "Nächstes Level:",
   "description.treasure.key": "Ein magischer Schlüssel, mit dem die Grundtruhe auf dem Platz in der Nähe von Tywin geöffnet werden kann.",
   "description.rare.key": "Ein magischer Schlüssel, der die seltene Truhe im Süden des Strandes öffnen kann.",
-  "description.luxury.key": "Ein magischer Schlüssel, mit dem die luxuriöse Truhe auf dem Platz in der Nähe von Bert geöffnet werden kann."
+  "description.luxury.key": "Ein magischer Schlüssel, mit dem die luxuriöse Truhe auf dem Platz in der Nähe von Bert geöffnet werden kann.",
+  "christmas-delivery-mayhem.portal.title": "Minispiel - Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Hilf den Elfen, ihre Geschenke zu packen. Wirst du genug Zeit dafür haben?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung."
 }

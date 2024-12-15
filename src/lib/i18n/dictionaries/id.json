@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "Tingkat Berikutnya:",
   "description.treasure.key": "Kunci ajaib yang dapat membuka peti dasar yang terletak di alun-alun dekat Tywin.",
   "description.rare.key": "Kunci ajaib yang dapat membuka peti langka yang terletak di selatan pantai.",
-  "description.luxury.key": "Kunci ajaib yang dapat membuka peti mewah yang terletak di alun-alun dekat Bert."
+  "description.luxury.key": "Kunci ajaib yang dapat membuka peti mewah yang terletak di alun-alun dekat Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minigame - Kekacauan Pengiriman Natal",
+  "christmas-delivery-mayhem.portal.description": "Bantu para elf mengemas hadiah mereka. Apakah Anda akan memiliki cukup waktu untuk melakukannya?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu."
 }

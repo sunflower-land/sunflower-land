@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "Niveau suivant :",
   "description.treasure.key": "Une clé magique qui permet de déverrouiller le coffre de base situé sur la place près de Tywin.",
   "description.rare.key": "Une clé magique qui permet de débloquer le coffre rare situé au sud de la plage.",
-  "description.luxury.key": "Une clé magique qui permet d'ouvrir le coffre de luxe situé sur la place près de Bert."
+  "description.luxury.key": "Une clé magique qui permet d'ouvrir le coffre de luxe situé sur la place près de Bert.",
+  "christmas-delivery-mayhem.portal.title": "Mini-jeu - Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Aidez les elfes à emballer leurs cadeaux. Auras-tu assez de temps pour le faire ?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Mission : Atteindre {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense."
 }

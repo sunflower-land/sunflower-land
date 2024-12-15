@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "次のレベル:",
   "description.treasure.key": "タイウィン近くの広場にある基本宝箱を開放できる魔法の鍵。",
   "description.rare.key": "ビーチの南にある珍しい宝箱を開けることができる魔法の鍵。",
-  "description.luxury.key": "バート近くの広場にある豪華な宝箱を開けることができる魔法の鍵。"
+  "description.luxury.key": "バート近くの広場にある豪華な宝箱を開けることができる魔法の鍵。",
+  "christmas-delivery-mayhem.portal.title": "ミニゲーム-クリスマスデリバリーメイヘム",
+  "christmas-delivery-mayhem.portal.description": "エルフがプレゼントを詰めるのを手伝ってください。それには十分な時間がありますか？",
+  "christmas-delivery-mayhem.portal.missionObjectives": "ミッション:リーチ {{targetScore}}。",
+  "christmas-delivery-mayhem.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。"
 }

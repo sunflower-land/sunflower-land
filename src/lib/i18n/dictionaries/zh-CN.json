@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "下一级：",
   "description.treasure.key": "一把魔法钥匙，可以解锁位于泰温附近广场的基本宝箱。",
   "description.rare.key": "一把魔法钥匙，可以解锁位于海滩南部的稀有宝箱。",
-  "description.luxury.key": "一把魔法钥匙，可以解锁位于伯特附近广场的豪华宝箱。"
+  "description.luxury.key": "一把魔法钥匙，可以解锁位于伯特附近广场的豪华宝箱。",
+  "christmas-delivery-mayhem.portal.title": "小游戏-圣诞节快递混乱",
+  "christmas-delivery-mayhem.portal.description": "帮助精灵们打包礼物。你有足够的时间去做吗？",
+  "christmas-delivery-mayhem.portal.missionObjectives": "任务：达到 {{targetScore}}。",
+  "christmas-delivery-mayhem.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。"
 }

@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "Livello successivo:",
   "description.treasure.key": "Una chiave magica che può sbloccare il baule base situato nella piazza vicino a Tywin.",
   "description.rare.key": "Una chiave magica che può aprire il raro scrigno situato a sud della spiaggia.",
-  "description.luxury.key": "Una chiave magica che può aprire il lussuoso baule situato nella piazza vicino a Bert."
+  "description.luxury.key": "Una chiave magica che può aprire il lussuoso baule situato nella piazza vicino a Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minigioco - Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Aiuta gli elfi a impacchettare i loro doni. Avrai abbastanza tempo per farlo?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Missione: raggiungere {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa."
 }

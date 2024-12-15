@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "다음 레벨:",
   "description.treasure.key": "타이윈 근처 광장에 있는 기본 상자를 열 수 있는 마법 열쇠.",
   "description.rare.key": "해변 남쪽에 있는 희귀 상자를 열 수 있는 마법 열쇠.",
-  "description.luxury.key": "버트 근처 광장에 있는 고급 상자를 열 수 있는 마법 열쇠."
+  "description.luxury.key": "버트 근처 광장에 있는 고급 상자를 열 수 있는 마법 열쇠.",
+  "christmas-delivery-mayhem.portal.title": "미니게임 - 크리스마스 딜리버리 메이 헴",
+  "christmas-delivery-mayhem.portal.description": "엘프들이 선물을 포장하도록 도와주세요.할 시간이 충분한가요?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "임무: {{targetScore}} 에 도달하세요.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다."
 }

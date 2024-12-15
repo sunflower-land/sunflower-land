@@ -4680,5 +4680,9 @@
   "upgrade.building.nextLevel": "Siguiente nivel:",
   "description.treasure.key": "Una llave mágica que puede abrir el cofre básico ubicado en la plaza cerca de Tywin.",
   "description.rare.key": "Una llave mágica que puede abrir el cofre raro que se encuentra al sur de la playa.",
-  "description.luxury.key": "Una llave mágica que puede abrir el lujoso cofre ubicado en la plaza cerca de Bert."
+  "description.luxury.key": "Una llave mágica que puede abrir el lujoso cofre ubicado en la plaza cerca de Bert.",
+  "christmas-delivery-mayhem.portal.title": "Minijuego: Christmas Delivery Mayhem",
+  "christmas-delivery-mayhem.portal.description": "Ayuda a los elfos a empacar sus regalos. ¿Tendrás tiempo suficiente para hacerlo?",
+  "christmas-delivery-mayhem.portal.missionObjectives": "Misión: Alcanzar {{targetScore}}.",
+  "christmas-delivery-mayhem.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa."
 }
