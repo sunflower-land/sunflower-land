@@ -160,7 +160,11 @@ export const PickServer: React.FC<Props> = ({ onClose }) => {
                     )}
 
                     <img
-                      src={SUNNYSIDE.icons.chevron_right}
+                      src={
+                        selectedServer === server.id
+                          ? SUNNYSIDE.icons.confirm
+                          : SUNNYSIDE.icons.chevron_right
+                      }
                       className="h-5 ml-2"
                     />
                   </div>
