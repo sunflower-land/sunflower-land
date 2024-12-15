@@ -284,8 +284,8 @@ export const FactionDetails: React.FC<{
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 text-left pl-8 relative truncate"
               >
-                <div className="absolute" style={{ left: "4px" }}>
-                  <NPCIcon width={25} parts={bumpkin} />
+                <div className="absolute" style={{ left: "4px", top: "1px" }}>
+                  <NPCIcon width={24} parts={bumpkin} />
                 </div>
                 {id}
               </td>
