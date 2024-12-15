@@ -2214,7 +2214,6 @@
   "minigame.playNow": "Gioca ora",
   "minigame.purchase": "Acquisto",
   "minigame.chickenRescueHelp": "Puoi aiutarmi a salvare i polli?",
-  "minigame.discovered.one": "Salve Bumpkin, hai scoperto un portale!",
   "minigame.discovered.two": "Entra nel regno magico per guadagnare ricompense e gloria. Buona fortuna!",
   "minigame.communityEvent": "Evento comunitario",
   "minigame.festivalOfColors": "Festival dei colori",
@@ -4684,5 +4683,7 @@
   "christmas-delivery-mayhem.portal.title": "Minigioco - Christmas Delivery Mayhem",
   "christmas-delivery-mayhem.portal.description": "Aiuta gli elfi a impacchettare i loro doni. Avrai abbastanza tempo per farlo?",
   "christmas-delivery-mayhem.portal.missionObjectives": "Missione: raggiungere {{targetScore}}.",
-  "christmas-delivery-mayhem.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa."
+  "christmas-delivery-mayhem.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
+  "minigame.discovered.one": "Salve Bumpkin, hai scoperto un portale creato dalla community.",
+  "marketplace.withdrawComingSoon": "Data di prelievo"
 }

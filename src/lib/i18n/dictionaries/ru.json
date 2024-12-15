@@ -2138,7 +2138,6 @@
   "minigame.playNow": "Играть",
   "minigame.purchase": "Купить",
   "minigame.chickenRescueHelp": "Можешь ли ты помочь мне вывести цыплят?",
-  "minigame.discovered.one": "Привет, ты открыл портал!",
   "minigame.discovered.two": "Шагните в волшебный мир, чтобы получить награды и славу. Удачи!",
   "minigame.communityEvent": "Общественное мероприятие",
   "minigame.festivalOfColors": "Фестиваль красок",
@@ -4684,5 +4683,7 @@
   "christmas-delivery-mayhem.portal.title": "Мини-игра - Рождественский хаос в доставке",
   "christmas-delivery-mayhem.portal.description": "Помогите эльфам упаковать подарки. Хватит ли у вас на это времени?",
   "christmas-delivery-mayhem.portal.missionObjectives": "Миссия: достичь {{targetScore}}.",
-  "christmas-delivery-mayhem.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда."
+  "christmas-delivery-mayhem.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
+  "minigame.discovered.one": "Привет, Бампкин, вы обнаружили портал, созданный сообществом.",
+  "marketplace.withdrawComingSoon": "Дата вывода средств"
 }

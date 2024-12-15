@@ -2438,7 +2438,6 @@
   "minigame.playNow": "马上游玩",
   "minigame.purchase": "购买",
   "minigame.chickenRescueHelp": "您能帮我救救小鸡吗？",
-  "minigame.discovered.one": "哈喽喂，乡包佬，你发现了一个传送门！",
   "minigame.discovered.two": "踏入魔法世界以获得奖励和荣耀。祝你好运！",
   "minigame.communityEvent": "社区活动",
   "minigame.festivalOfColors": "七彩节",
@@ -4684,5 +4683,7 @@
   "christmas-delivery-mayhem.portal.title": "小游戏-圣诞节快递混乱",
   "christmas-delivery-mayhem.portal.description": "帮助精灵们打包礼物。你有足够的时间去做吗？",
   "christmas-delivery-mayhem.portal.missionObjectives": "任务：达到 {{targetScore}}。",
-  "christmas-delivery-mayhem.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。"
+  "christmas-delivery-mayhem.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
+  "minigame.discovered.one": "你好 Bumpkin，你发现了一个由社区构建的门户。",
+  "marketplace.withdrawComingSoon": "提款日期"
 }

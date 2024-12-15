@@ -2256,7 +2256,6 @@
   "minigame.playNow": "Main sekarang",
   "minigame.purchase": "Pembelian",
   "minigame.chickenRescueHelp": "Bolehkah anda membantu saya menyelamatkan ayam itu?",
-  "minigame.discovered.one": "Howdy Bumpkin, anda telah menemui portal!",
   "minigame.discovered.two": "Melangkah ke alam ajaib untuk mendapatkan ganjaran dan kemuliaan. Semoga berjaya!",
   "minigame.communityEvent": "Acara komuniti",
   "minigame.festivalOfColors": "Festival warna",
@@ -4684,5 +4683,7 @@
   "christmas-delivery-mayhem.portal.title": "Minigame - Kekacauan Penghantaran Krismas",
   "christmas-delivery-mayhem.portal.description": "Bantu elf membungkus hadiah mereka. Adakah anda mempunyai masa yang cukup untuk melakukannya?",
   "christmas-delivery-mayhem.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
-  "christmas-delivery-mayhem.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda."
+  "christmas-delivery-mayhem.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
+  "minigame.discovered.one": "Howdy Bumpkin, anda telah menemui portal yang dibina oleh komuniti.",
+  "marketplace.withdrawComingSoon": "Tarikh pengeluaran"
 }

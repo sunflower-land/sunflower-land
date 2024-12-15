@@ -2256,7 +2256,6 @@
   "minigame.playNow": "今すぐプレイ",
   "minigame.purchase": "購入",
   "minigame.chickenRescueHelp": "ニワトリを救うのを手伝ってくれる？",
-  "minigame.discovered.one": "やあ、バンプキン、ポータルを発見したね！",
   "minigame.discovered.two": "魔法の領域に足を踏み入れて、報酬と栄光を獲得してください。幸運を祈ります！",
   "minigame.communityEvent": "コミュニティイベント",
   "minigame.festivalOfColors": "色彩フェスティバル",
@@ -4684,5 +4683,7 @@
   "christmas-delivery-mayhem.portal.title": "ミニゲーム-クリスマスデリバリーメイヘム",
   "christmas-delivery-mayhem.portal.description": "エルフがプレゼントを詰めるのを手伝ってください。それには十分な時間がありますか？",
   "christmas-delivery-mayhem.portal.missionObjectives": "ミッション:リーチ {{targetScore}}。",
-  "christmas-delivery-mayhem.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。"
+  "christmas-delivery-mayhem.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
+  "minigame.discovered.one": "こんにちは、バンプキン、コミュニティによって構築されたポータルを発見しました。",
+  "marketplace.withdrawComingSoon": "出金日"
 }

@@ -3006,7 +3006,6 @@
   "minigame.playNow": "Jouez dès maintenant",
   "minigame.purchase": "Acheter",
   "minigame.chickenRescueHelp": "Peux-tu m'aider à sauver les poulets ?",
-  "minigame.discovered.one": "Howdy Bumpkin, tu as découvert un portail !",
   "minigame.discovered.two": "Entrez dans le château magique pour gagner des récompenses et de la gloire. Bonne chance !",
   "minigame.communityEvent": "Événement communautaire",
   "minigame.festivalOfColors": "Festival des couleurs",
@@ -4684,5 +4683,7 @@
   "christmas-delivery-mayhem.portal.title": "Mini-jeu - Christmas Delivery Mayhem",
   "christmas-delivery-mayhem.portal.description": "Aidez les elfes à emballer leurs cadeaux. Auras-tu assez de temps pour le faire ?",
   "christmas-delivery-mayhem.portal.missionObjectives": "Mission : Atteindre {{targetScore}}.",
-  "christmas-delivery-mayhem.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense."
+  "christmas-delivery-mayhem.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
+  "minigame.discovered.one": "Howdy Bumpkin, vous avez découvert un portail créé par la communauté.",
+  "marketplace.withdrawComingSoon": "Date de retrait"
 }

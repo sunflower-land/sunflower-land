@@ -2253,7 +2253,6 @@
   "minigame.playNow": "지금 플레이하세요",
   "minigame.purchase": "구매",
   "minigame.chickenRescueHelp": "닭들을 살릴 수 있게 도와주실 수 있나요?",
-  "minigame.discovered.one": "안녕하세요 범프킨, 포털을 발견하셨군요!",
   "minigame.discovered.two": "마법의 세계로 들어가 보상과 영광을 얻으세요.행운을 빕니다!",
   "minigame.communityEvent": "커뮤니티 이벤트",
   "minigame.festivalOfColors": "페스티벌 오브 컬러",
@@ -4684,5 +4683,7 @@
   "christmas-delivery-mayhem.portal.title": "미니게임 - 크리스마스 딜리버리 메이 헴",
   "christmas-delivery-mayhem.portal.description": "엘프들이 선물을 포장하도록 도와주세요.할 시간이 충분한가요?",
   "christmas-delivery-mayhem.portal.missionObjectives": "임무: {{targetScore}} 에 도달하세요.",
-  "christmas-delivery-mayhem.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다."
+  "christmas-delivery-mayhem.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
+  "minigame.discovered.one": "안녕하세요 범프킨, 커뮤니티에서 만든 포털을 발견하셨군요.",
+  "marketplace.withdrawComingSoon": "출금 날짜"
 }

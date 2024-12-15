@@ -3011,7 +3011,6 @@
   "minigame.playNow": "Şimdi oyna",
   "minigame.purchase": "Satın alma",
   "minigame.chickenRescueHelp": "Tavukları kurtarmama yardım eder misin?",
-  "minigame.discovered.one": "Merhaba Bumpkin, bir portal keşfettin!",
   "minigame.discovered.two": "Ödüller ve zafer kazanmak için büyülü alemlere adım atın. İyi şanslar!",
   "minigame.communityEvent": "Topluluk etkinliği",
   "minigame.festivalOfColors": "Renkler Festivali",
@@ -4684,5 +4683,7 @@
   "christmas-delivery-mayhem.portal.title": "Mini oyun - Noel Teslimatı Kargaşası",
   "christmas-delivery-mayhem.portal.description": "Elflerin hediyelerini toplamasına yardım et. Bunu yapmak için yeterli zamanın olacak mı?",
   "christmas-delivery-mayhem.portal.missionObjectives": "Görev: Ulaşın {{targetScore}}.",
-  "christmas-delivery-mayhem.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz."
+  "christmas-delivery-mayhem.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
+  "minigame.discovered.one": "Merhaba Bumpkin, topluluk tarafından inşa edilmiş bir portal keşfettin.",
+  "marketplace.withdrawComingSoon": "Para çekme tarihi"
 }
