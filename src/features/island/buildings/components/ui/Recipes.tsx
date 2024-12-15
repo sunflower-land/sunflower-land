@@ -98,16 +98,7 @@ export const Recipes: React.FC<Props> = ({
       selected?.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
-  const isGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
   const cook = async () => {
-    if (isGemExperiment) {
-      onCook(selected.name);
-      return;
-    }
-
-    onClose();
-    // delay to allow the modal to close to avoid content flashing
-    await new Promise((resolve) => setTimeout(resolve, 300));
     onCook(selected.name);
   };
 
@@ -149,9 +140,7 @@ export const Recipes: React.FC<Props> = ({
 
   const hasDoubleNom = !!bumpkin.skills["Double Nom"];
 
-  const hasGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
-
-  if (hasGemExperiment && !hideCooking && crafting) {
+  if (!hideCooking && crafting) {
     return (
       <Cooking
         name={currentlyCooking as CookableName}

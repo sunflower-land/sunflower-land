@@ -13,7 +13,6 @@ import { CookableName } from "features/game/types/consumables";
 import { GameState, IslandType } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
@@ -248,8 +247,6 @@ export const Constructing: React.FC<{
     return () => clearInterval(interval);
   }, []);
 
-  const speedUpAccess = hasFeatureAccess(state, "GEM_BOOSTS");
-
   return (
     <>
       <div className="p-1 ">
@@ -277,22 +274,20 @@ export const Constructing: React.FC<{
         <Button className="mr-1" onClick={onClose}>
           {t("close")}
         </Button>
-        {speedUpAccess && (
-          <Button
-            disabled={!state.inventory.Gem?.gte(gems)}
-            className="relative ml-1"
-            onClick={() => onInstantBuilt(gems)}
+        <Button
+          disabled={!state.inventory.Gem?.gte(gems)}
+          className="relative ml-1"
+          onClick={() => onInstantBuilt(gems)}
+        >
+          {t("gems.speedUp")}
+          <Label
+            type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+            icon={ITEM_DETAILS.Gem.image}
+            className="flex absolute right-0 top-0.5"
           >
-            {t("gems.speedUp")}
-            <Label
-              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-              icon={ITEM_DETAILS.Gem.image}
-              className="flex absolute right-0 top-0.5"
-            >
-              {gems}
-            </Label>
-          </Button>
-        )}
+            {gems}
+          </Label>
+        </Button>
       </div>
     </>
   );

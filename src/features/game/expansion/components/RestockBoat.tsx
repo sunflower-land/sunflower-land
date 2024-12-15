@@ -12,7 +12,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
-import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -22,7 +21,6 @@ import Decimal from "decimal.js-light";
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 const canRestock = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "GEM_BOOSTS") &&
   canRestockShipment({ game: state.context.state }) &&
   !!state.context.state.shipments.restockedAt;
 

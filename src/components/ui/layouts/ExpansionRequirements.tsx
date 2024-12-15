@@ -22,7 +22,6 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 import { Button } from "../Button";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
@@ -189,8 +188,7 @@ export const Expanding: React.FC<{
     game: state,
   });
 
-  const hasAccess =
-    hasFeatureAccess(state, "GEM_BOOSTS") && state.island.type !== "desert";
+  const hasAccess = state.island.type !== "desert";
 
   useEffect(() => {
     const interval = setInterval(() => {
