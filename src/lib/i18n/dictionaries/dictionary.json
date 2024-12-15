@@ -4718,5 +4718,6 @@
   "powerSkills.unlockedSkills": "Unlocked Skills",
   "powerSkills.confirmationMessage": "Are you sure you want to use {{skillName}}?",
   "powerSkills.cooldownMessage": "You won't be able to use this skill again for {{cooldown}}",
-  "powerSkills.useSkill": "Use Skill"
+  "powerSkills.useSkill": "Use Skill",
+  "marketplace.withdrawComingSoon": "Withdraw date"
 }

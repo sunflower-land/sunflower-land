@@ -470,3 +470,10 @@ export function getDailyFishingLimit(game: GameState): number {
 
   return limit;
 }
+
+export const BAIT: Record<FishingBait, true> = {
+  Earthworm: true,
+  Grub: true,
+  "Red Wiggler": true,
+  "Fishing Lure": true,
+};

@@ -1,12 +1,13 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, INVENTORY_LIMIT } from "features/game/lib/constants";
+import { ANIMAL_FOODS } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
+import { BAIT } from "features/game/types/fishing";
 import { InventoryItemName, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS } from "features/game/types/seeds";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
-import { bait, animalFood } from "features/game/types/withdrawables";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
@@ -133,7 +134,7 @@ export const TRADE_REWARDS: (
     name: "Fishing Pack",
     items: {
       Rod: INITIAL_STOCK(state).Rod.toNumber(),
-      ...getKeys(bait).reduce(
+      ...getKeys(BAIT).reduce(
         (acc, bait) => {
           return {
             ...acc,
@@ -151,7 +152,7 @@ export const TRADE_REWARDS: (
   },
   "Animal Pack": {
     name: "Animal Pack",
-    items: getKeys(animalFood).reduce(
+    items: getKeys(ANIMAL_FOODS).reduce(
       (acc, feed) => {
         return {
           ...acc,
