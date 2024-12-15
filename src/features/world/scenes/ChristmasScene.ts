@@ -237,10 +237,10 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 454,
-    y: 319,
+    x: 370,
+    y: 345,
     npc: "ginger",
-    direction: "left",
+    direction: "right",
   },
 ];
 
@@ -332,6 +332,16 @@ export class ChristmasScene extends BaseScene {
     this.load.spritesheet("penguin_emperor", "world/penguin_emperor.webp", {
       frameWidth: 19,
       frameHeight: 15,
+    });
+
+    this.load.spritesheet("xmas_portal", "world/xmaswarp.png", {
+      frameWidth: 30,
+      frameHeight: 30,
+    });
+
+    this.load.spritesheet("donate_christmas_npc", `world/elfr.png`, {
+      frameWidth: 20,
+      frameHeight: 19,
     });
 
     this.load.image("chest", "world/rare_chest.png");
@@ -754,6 +764,65 @@ export class ChristmasScene extends BaseScene {
       ? "cowboy_hat"
       : "explorer_hat";
     this.add.image(288.5, 248, featuredHat);
+
+    //Christmas Portal
+    const christmasPortal = this.add.sprite(464, 315, "xmas_portal");
+    this.anims.create({
+      key: "xmas_portal_anim",
+      frames: this.anims.generateFrameNumbers("xmas_portal", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    christmasPortal.play("xmas_portal_anim", true);
+    christmasPortal
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(christmasPortal, 40)) {
+          interactableModalManager.open("christmas_portal");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+
+    this.physics.world.enable(christmasPortal);
+    this.colliders?.add(christmasPortal);
+    (christmasPortal.body as Phaser.Physics.Arcade.Body)
+      .setSize(32, 32)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    const donate_christmas_npc = this.add.sprite(
+      450,
+      295,
+      "donate_christmas_npc",
+    );
+    this.anims.create({
+      key: "donate_christmas_npc_animation",
+      frames: this.anims.generateFrameNumbers("donate_christmas_npc", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 12,
+    });
+    donate_christmas_npc.play("donate_christmas_npc_animation", true);
+    donate_christmas_npc
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (this.checkDistanceToSprite(donate_christmas_npc, 75)) {
+          interactableModalManager.open("donations");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+    const label = new Label(this, "DONATE");
+    this.add.existing(label);
+    label.setPosition(450, 295 - 15);
+    label.setDepth(10000);
 
     // Penguins
     const santaPenguin = this.add.sprite(210, 237, "penguin_santa");

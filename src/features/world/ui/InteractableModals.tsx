@@ -37,6 +37,7 @@ import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
+import { ChristmasPortal } from "./portals/ChristmasPortal";
 import { ChristmasReward } from "./npcs/Santa";
 
 type InteractableName =
@@ -126,6 +127,7 @@ type InteractableName =
   | "desert_book_4"
   | "world_map"
   | "halloween"
+  | "christmas_portal"
   | "festive_tree";
 
 class InteractableModalManager {
@@ -505,6 +507,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES.luna}
         >
           <Halloween onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "christmas_portal"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal} bumpkinParts={NPC_WEARABLES.elf}>
+          <ChristmasPortal onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
 
