@@ -180,6 +180,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
           }}
         />
       </Modal>
+      <WorldHud />
     </>
   );
 };
@@ -244,7 +245,6 @@ export const Explore: React.FC = () => {
     >
       <GameWrapper>
         {!isLoading && <MMO isCommunity={isCommunity} />}
-        <WorldHud />
       </GameWrapper>
     </div>
   );
