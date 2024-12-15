@@ -7697,7 +7697,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Treasure Key": {
     name: "Treasure Key",
-    description: "A magic key that can unlock rewards in the plaza",
+    description:
+      "A magic key that can unlock the basic chest located in the plaza near Tywin.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/931.png",
@@ -7708,7 +7709,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Luxury Key": {
     name: "Luxury Key",
-    description: "A magic key that can unlock rewards in the plaza",
+    description:
+      "A magic key that can unlock the luxury chest located in the plaza near Bert.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/932.png",
@@ -7720,7 +7722,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
 
   "Rare Key": {
     name: "Rare Key",
-    description: "A magic key that can unlock rewards in the beach",
+    description:
+      "A magic key that can unlock the rare chest located in the south of the beach.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/933.png",
