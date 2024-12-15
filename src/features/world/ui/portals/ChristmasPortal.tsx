@@ -15,7 +15,6 @@ import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MinigameHistory, MinigamePrize } from "features/game/types/game";
-import { millisecondsToString, secondsToString } from "lib/utils/time";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
@@ -194,9 +193,6 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
         name={"christmas-delivery"}
         startDate={new Date(Date.UTC(2024, 11, 14))}
         endDate={new Date(Date.UTC(2025, 0, 1))}
-        formatPoints={(points: number) =>
-          millisecondsToString(points, { length: "full" })
-        }
       />
     );
   }
@@ -204,11 +200,11 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
   if (page === "accumulator") {
     return (
       <PortalLeaderboard
+        isAccumulator
         onBack={() => setPage("play")}
         name={"christmas-delivery"}
-        formatPoints={(points: number) =>
-          millisecondsToString(points, { length: "full" })
-        }
+        startDate={new Date(Date.UTC(2024, 11, 14))}
+        endDate={new Date(Date.UTC(2025, 0, 1))}
       />
     );
   }
@@ -229,18 +225,19 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
           prize={prize}
           history={dailyAttempt}
           mission={t("christmas-delivery-mayhem.portal.missionObjectives", {
-            targetScore: millisecondsToString(prize?.score ?? 0, {
-              length: "full",
-            }),
+            targetScore: prize?.score ?? 0,
           })}
         />
       </div>
       <div className="flex">
         <Button className="mr-1" onClick={() => setPage("leaderboard")}>
-          {t("competition.leaderboard")}
+          {t("competition.highscore")}
         </Button>
-        <Button onClick={playNow}>{t("minigame.playNow")}</Button>
+        <Button className="mr-1" onClick={() => setPage("accumulator")}>
+          {t("competition.accumulator")}
+        </Button>
       </div>
+      <Button onClick={playNow}>{t("minigame.playNow")}</Button>
     </>
   );
 };
