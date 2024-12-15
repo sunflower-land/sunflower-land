@@ -340,8 +340,8 @@ export class ChristmasScene extends BaseScene {
     });
 
     this.load.spritesheet("donate_christmas_npc", `world/elfr.png`, {
-      frameWidth: 20,
-      frameHeight: 19,
+      frameWidth: 16,
+      frameHeight: 21,
     });
 
     this.load.image("chest", "world/rare_chest.png");
@@ -796,8 +796,8 @@ export class ChristmasScene extends BaseScene {
       .setCollideWorldBounds(true);
 
     const donate_christmas_npc = this.add.sprite(
-      450,
-      295,
+      563,
+      407,
       "donate_christmas_npc",
     );
     this.anims.create({
@@ -821,7 +821,8 @@ export class ChristmasScene extends BaseScene {
       });
     const label = new Label(this, "DONATE");
     this.add.existing(label);
-    label.setPosition(450, 295 - 15);
+
+    label.setPosition(563, 407 - 15);
     label.setDepth(10000);
 
     // Penguins
