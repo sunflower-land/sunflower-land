@@ -1,23 +1,22 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Toast, ToastContext, ToastItem } from "./ToastProvider";
 import { Context } from "../GameProvider";
-import { PIXEL_SCALE } from "../lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import { FactionName, InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import token from "assets/icons/sfl.webp";
 import levelup from "assets/icons/level_up.png";
-import { ITEM_DETAILS } from "../types/images";
 import { HudContainer } from "components/ui/HudContainer";
 import coins from "assets/icons/coins.webp";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { BumpkinItem } from "../types/bumpkin";
+import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { Bud } from "../types/buds";
-import { BUMPKIN_ITEM_IMAGES } from "../types/bumpkinItemImages";
-import { budImageDomain } from "features/island/collectibles/components/Bud";
+import { KNOWN_IDS } from "../types";
+import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 
 const MAX_TOAST = 6;
 
@@ -34,16 +33,28 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
     return FACTION_POINT_ICONS[faction];
   }
 
-  if (ITEM_DETAILS[item as InventoryItemName]) {
-    return ITEM_DETAILS[item as InventoryItemName]?.image;
+  if (KNOWN_IDS[item as InventoryItemName]) {
+    return getTradeableDisplay({
+      id: KNOWN_IDS[item as InventoryItemName],
+      type: "collectibles",
+      state: INITIAL_FARM,
+    }).image;
   }
 
-  if (BUMPKIN_ITEM_IMAGES[item as BumpkinItem]) {
-    return BUMPKIN_ITEM_IMAGES[item as BumpkinItem];
+  if (ITEM_IDS[item as BumpkinItem]) {
+    return getTradeableDisplay({
+      id: ITEM_IDS[item as BumpkinItem],
+      type: "wearables",
+      state: INITIAL_FARM,
+    }).image;
   }
 
   if (item.startsWith("Bud #")) {
-    return `https://${budImageDomain}.sunflower-land.com/small-nfts/${item.split("#")[1]}.webp`;
+    return getTradeableDisplay({
+      id: Number(item.split("#")[1]),
+      type: "buds",
+      state: INITIAL_FARM,
+    }).image;
   }
 
   return "";

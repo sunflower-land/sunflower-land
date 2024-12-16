@@ -1,4 +1,4 @@
-import { SQUARE_WIDTH } from "features/game/lib/constants";
+import { INITIAL_FARM, SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "./SpeechBubble";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
@@ -9,11 +9,11 @@ import { NPCName, acknowledgedNPCs } from "lib/npcs";
 import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
 import { FactionName, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
-import { BUMPKIN_ITEM_IMAGES } from "features/game/types/bumpkinItemImages";
+import { KNOWN_IDS } from "features/game/types";
+import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -663,16 +663,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       return this._react(reaction, quantity);
     }
 
-    if (reaction in ITEM_DETAILS) {
-      const image = ITEM_DETAILS[reaction as InventoryItemName].image;
+    if (reaction in KNOWN_IDS) {
+      const image = getTradeableDisplay({
+        id: KNOWN_IDS[reaction as InventoryItemName],
+        type: "collectibles",
+        state: INITIAL_FARM,
+      }).image;
 
       this.loadTexture(reaction, image, () => {
         this._react(reaction, quantity);
       });
     }
 
-    if (reaction in BUMPKIN_ITEM_IMAGES) {
-      const image = BUMPKIN_ITEM_IMAGES[reaction as BumpkinItem];
+    if (reaction in ITEM_IDS) {
+      const image = getTradeableDisplay({
+        id: ITEM_IDS[reaction as BumpkinItem],
+        type: "wearables",
+        state: INITIAL_FARM,
+      }).image;
 
       this.loadTexture(reaction, image, () => {
         this._react(reaction, quantity);
