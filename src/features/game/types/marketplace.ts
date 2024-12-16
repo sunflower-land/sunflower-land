@@ -1,12 +1,10 @@
-import { CONFIG } from "lib/config";
 import { BumpkinItem } from "./bumpkin";
 import { GameState, InventoryItemName } from "./game";
 import { KNOWN_ITEMS } from ".";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
 
-// 1% tax on mainnet for testing
 // 10% tax on sales
-export const MARKETPLACE_TAX = CONFIG.NETWORK === "mainnet" ? 0.05 : 0.1;
+export const MARKETPLACE_TAX = 0.1;
 
 // Give it 15 minutes to resolve (cannot cancel while it is being purchased)
 export const TRADE_INITIATION_MS = 15 * 60 * 1000;
