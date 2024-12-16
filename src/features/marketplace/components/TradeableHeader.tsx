@@ -53,6 +53,9 @@ type TradeableHeaderProps = {
 const _balance = (state: MachineState) => state.context.state.balance;
 const _isVIP = (state: MachineState) =>
   hasVipAccess(state.context.state.inventory);
+const _bertObsession = (state: MachineState) =>
+  state.context.state.bertObsession;
+const _npcs = (state: MachineState) => state.context.state.npcs;
 
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   dailyListings,
@@ -60,6 +63,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   farmId,
   count,
   tradeable,
+  display,
   onListClick,
   reload,
 }) => {
@@ -68,6 +72,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const balance = useSelector(gameService, _balance);
   const isVIP = useSelector(gameService, _isVIP);
   const params = useParams();
+  const bertObsession = useSelector(gameService, _bertObsession);
+  const npcs = useSelector(gameService, _npcs);
 
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
@@ -81,6 +87,14 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const cheapestListing = filteredListings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, filteredListings[0]);
+
+  const isItemBertObsession = bertObsession?.name === display.name;
+  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
+  const isBertsObesessionCompleted =
+    !!obsessionCompletedAt &&
+    bertObsession &&
+    obsessionCompletedAt >= bertObsession.startDate &&
+    obsessionCompletedAt <= bertObsession.endDate;
 
   // Handle instant purchase
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -247,48 +261,74 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <div className="flex items-center mr-2 sm:mb-0.5 -ml-1" />
             )}
             {/* Desktop display */}
-            <div className="self-end justify-between hidden sm:flex sm:visible w-full sm:w-auto">
-              {showBuyNow && (
-                <Button
-                  onClick={() => setShowPurchaseModal(true)}
-                  disabled={!balance.gt(cheapestListing.sfl)}
-                  className="mr-1 w-full sm:w-auto"
-                >
-                  {t("marketplace.buyNow")}
-                </Button>
-              )}
-              {tradeable?.isActive && (
-                <Button
-                  disabled={!count}
-                  onClick={onListClick}
-                  className="w-full sm:w-auto"
-                >
-                  {t("marketplace.listForSale")}
-                </Button>
-              )}
+            <div className="flex flex-col">
+              <div className="self-end justify-between hidden sm:flex sm:visible w-full sm:w-auto">
+                {showBuyNow && (
+                  <Button
+                    onClick={() => setShowPurchaseModal(true)}
+                    disabled={!balance.gt(cheapestListing.sfl)}
+                    className="mr-1 w-full sm:w-auto"
+                  >
+                    {t("marketplace.buyNow")}
+                  </Button>
+                )}
+                {tradeable?.isActive && (
+                  <Button
+                    disabled={
+                      !count ||
+                      (!isVIP && dailyListings >= 1) ||
+                      (isItemBertObsession && isBertsObesessionCompleted)
+                    }
+                    onClick={onListClick}
+                    className="w-full sm:w-auto"
+                  >
+                    {t("marketplace.listForSale")}
+                  </Button>
+                )}
+              </div>
+              <div className="mt-1">
+                {isItemBertObsession && isBertsObesessionCompleted && (
+                  <Label type="danger" className="mr-1">
+                    {`You have completed Bert's Obsession recently`}
+                  </Label>
+                )}
+              </div>
             </div>
           </div>
         </div>
         {/* Mobile display */}
         <div className="flex items-center justify-between sm:hidden w-full sm:w-auto">
-          {showBuyNow && (
-            <Button
-              onClick={() => setShowPurchaseModal(true)}
-              disabled={!balance.gt(cheapestListing.sfl)}
-              className="mr-1 w-full sm:w-auto"
-            >
-              {t("marketplace.buyNow")}
-            </Button>
-          )}
-          {tradeable?.isActive && (
-            <Button
-              onClick={onListClick}
-              disabled={!count || (!isVIP && dailyListings >= 1)}
-              className="w-full sm:w-auto"
-            >
-              {t("marketplace.listForSale")}
-            </Button>
-          )}
+          <div>
+            {showBuyNow && (
+              <Button
+                onClick={() => setShowPurchaseModal(true)}
+                disabled={!balance.gt(cheapestListing.sfl)}
+                className="mr-1 w-full sm:w-auto"
+              >
+                {t("marketplace.buyNow")}
+              </Button>
+            )}
+            {tradeable?.isActive && (
+              <Button
+                onClick={onListClick}
+                disabled={
+                  !count ||
+                  (!isVIP && dailyListings >= 1) ||
+                  (isItemBertObsession && isBertsObesessionCompleted)
+                }
+                className="w-full sm:w-auto"
+              >
+                {t("marketplace.listForSale")}
+              </Button>
+            )}
+          </div>
+          <div>
+            {isItemBertObsession && isBertsObesessionCompleted && (
+              <Label type="danger" className="mr-1">
+                {`You have completed Bert's Obsession recently`}
+              </Label>
+            )}
+          </div>
         </div>
       </InnerPanel>
     </>
