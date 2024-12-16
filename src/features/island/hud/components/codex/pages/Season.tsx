@@ -130,7 +130,7 @@ export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <FlowerBountiesModal readonly setDeal={() => undefined} />
+        <FlowerBountiesModal readonly />
       </InnerPanel>
       <InnerPanel className="mb-1">
         <BertObsession readonly />
