@@ -91,7 +91,7 @@ describe("redeemTradeRewards", () => {
         inventory: {
           ...INITIAL_FARM.inventory,
           "Sunflower Seed": new Decimal(0),
-          "Trade Point": new Decimal(3000),
+          "Trade Point": new Decimal(1500),
         },
       },
       action: {

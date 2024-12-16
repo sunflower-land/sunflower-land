@@ -23,7 +23,7 @@ import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { FlowerBounties } from "features/world/ui/flowerShop/FlowerBounties";
+import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
 import { BertObsession } from "features/world/ui/npcs/Bert";
 
 const SEASON_GRAPHICS: Record<SeasonName, string> = {
@@ -130,7 +130,7 @@ export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <FlowerBounties readonly />
+        <FlowerBountiesModal readonly setDeal={() => undefined} />
       </InnerPanel>
       <InnerPanel className="mb-1">
         <BertObsession readonly />
