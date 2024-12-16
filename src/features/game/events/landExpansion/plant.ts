@@ -173,6 +173,10 @@ export function getCropTime({
     seconds = seconds * 0.9;
   }
 
+  if (isGreenhouseCrop(crop) && skills["Rice and Shine"]) {
+    seconds = seconds * 0.95;
+  }
+
   // Olive Express: 10% reduction
   if (crop === "Olive" && skills["Olive Express"]) {
     seconds = seconds * 0.9;

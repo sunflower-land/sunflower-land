@@ -3924,6 +3924,7 @@
   "skill.victoriasSecretary": "+50% Coins from Victoria's deliveries",
   "skill.glassRoom": "+0.1 Greenhouse produce yield",
   "skill.seedyBusiness": "-10% Greenhouse seeds cost",
+  "skill.riceAndShine": "-5% growth time for greenhouse products",
   "skill.oliveExpress": "-10% Olive growth time",
   "skill.riceRocket": "-10% Rice growth time",
   "skill.vineVelocity": "-10% Grape growth time",
