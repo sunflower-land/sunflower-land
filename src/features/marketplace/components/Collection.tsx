@@ -105,6 +105,26 @@ export const Collection: React.FC<{
       ...(limited?.items || []),
     ],
   };
+
+  if (!filters.includes("resources")) {
+    // Sort by price
+    data.items.sort((a, b) => {
+      // If floor prices are equal, sort by lastSalePrice
+      if (a.floor === b.floor) {
+        // If lastSalePrice is empty, order last
+        if (a.lastSalePrice === 0) return 1;
+        if (b.lastSalePrice === 0) return -1;
+        return a.lastSalePrice - b.lastSalePrice;
+      }
+
+      // If floor price is empty, order last
+      if (a.floor === 0) return 1;
+      if (b.floor === 0) return -1;
+
+      return a.floor - b.floor;
+    });
+  }
+
   const isLoading =
     isWearablesLoading ||
     isCollectiblesLoading ||
