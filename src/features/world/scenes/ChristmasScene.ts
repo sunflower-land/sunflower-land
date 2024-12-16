@@ -395,7 +395,7 @@ export class ChristmasScene extends BaseScene {
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(tradingBoard, 75)) {
-        interactableModalManager.open("trading_board");
+        this.registry.get("navigate")?.("/world/marketplace/hot");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
@@ -406,7 +406,7 @@ export class ChristmasScene extends BaseScene {
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         if (this.checkDistanceToSprite(tradingBoardIcon, 75)) {
-          interactableModalManager.open("trading_board");
+          this.registry.get("navigate")?.("/world/marketplace/hot");
         } else {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
