@@ -4,6 +4,8 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 import {
   generateBountyCoins,
   generateBountyTicket,
@@ -18,28 +20,54 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 
 const _exchange = (state: MachineState) => state.context.state.bounties;
+const _state = (state: MachineState) => state.context.state;
 
 interface Props {
   readonly?: boolean;
+  onClose: () => void;
 }
 
-export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
-  const { gameService } = useContext(Context);
-  const exchange = useSelector(gameService, _exchange);
+function acknowledgeIntro() {
+  localStorage.setItem(
+    "flower.bounties.acknowledged",
+    new Date().toISOString(),
+  );
+}
 
+function hasReadIntro() {
+  return !!localStorage.getItem("flower.bounties.acknowledged");
+}
+
+export const FlowerBounties: React.FC<Props> = ({ readonly, onClose }) => {
   const { t } = useAppTranslation();
 
+  const [showIntro, setShowIntro] = useState(!hasReadIntro());
   const [deal, setDeal] = useState<BountyRequest>();
 
-  const state = gameService.getSnapshot().context.state;
-
-  const deals = exchange.requests.filter((deal) => deal.name in FLOWERS);
-
-  const expiresAt = useCountdown(weekResetsAt());
+  if (showIntro && !readonly) {
+    return (
+      <SpeakingModal
+        message={[
+          {
+            text: t("bounties.flower.intro.one"),
+          },
+          {
+            text: t("bounties.flower.intro.two"),
+          },
+        ]}
+        bumpkinParts={NPC_WEARABLES.poppy}
+        onClose={() => {
+          acknowledgeIntro();
+          setShowIntro(false);
+        }}
+      />
+    );
+  }
 
   if (deal) {
     return (
@@ -51,6 +79,24 @@ export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
     );
   }
 
+  return (
+    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.poppy} onClose={onClose}>
+      <FlowerBountiesModal readonly={readonly} setDeal={setDeal} />
+    </CloseButtonPanel>
+  );
+};
+
+export const FlowerBountiesModal: React.FC<{
+  readonly?: boolean;
+  setDeal: (deal: BountyRequest) => void;
+}> = ({ readonly, setDeal }) => {
+  const { t } = useAppTranslation();
+  const expiresAt = useCountdown(weekResetsAt());
+
+  const { gameService } = useContext(Context);
+  const exchange = useSelector(gameService, _exchange);
+  const state = useSelector(gameService, _state);
+  const deals = exchange.requests.filter((deal) => deal.name in FLOWERS);
   return (
     <div className="p-1">
       <div className="flex flex-wrap items-center mb-2">
@@ -75,7 +121,10 @@ export const FlowerBounties: React.FC<Props> = ({ readonly }) => {
           );
 
           const isDisabled = !state.inventory[deal.name]?.gt(0);
-          const { coins } = generateBountyCoins({ game: state, bounty: deal });
+          const { coins } = generateBountyCoins({
+            game: state,
+            bounty: deal,
+          });
 
           return (
             <div

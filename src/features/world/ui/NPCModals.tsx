@@ -63,21 +63,8 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
   return undefined;
 }
 
-function acknowledgePoppyIntro() {
-  localStorage.setItem(
-    "flower.bounties.acknowledged",
-    new Date().toISOString(),
-  );
-}
-
-function hasReadPoppyIntro() {
-  return !!localStorage.getItem("flower.bounties.acknowledged");
-}
-
 export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   const { t } = useAppTranslation();
-
-  const [showPoppyIntro, setShowPoppyIntro] = useState(!hasReadPoppyIntro());
 
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
@@ -156,31 +143,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         )}
         {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
-        {npc === "poppy" &&
-          (showPoppyIntro ? (
-            <SpeakingModal
-              message={[
-                {
-                  text: t("bounties.flower.intro.one"),
-                },
-                {
-                  text: t("bounties.flower.intro.two"),
-                },
-              ]}
-              bumpkinParts={NPC_WEARABLES.poppy}
-              onClose={() => {
-                acknowledgePoppyIntro();
-                setShowPoppyIntro(false);
-              }}
-            />
-          ) : (
-            <CloseButtonPanel
-              bumpkinParts={NPC_WEARABLES.poppy}
-              onClose={closeModal}
-            >
-              <FlowerBounties />
-            </CloseButtonPanel>
-          ))}
+        {npc === "poppy" && <FlowerBounties onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
