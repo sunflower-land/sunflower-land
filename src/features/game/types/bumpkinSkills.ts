@@ -2829,6 +2829,25 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Fruitful Bounty": {
+    name: "Fruitful Bounty",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    disabled: false,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fruitfulBounty"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Fruitful Blend"].image,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Swift Decomposer": {
     name: "Swift Decomposer",
     tree: "Compost",

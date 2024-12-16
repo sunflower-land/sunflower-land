@@ -152,7 +152,12 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
   }
 
   if (fertiliser === "Fruitful Blend") {
-    amount += 0.1;
+    const fruitfulBlendBuff = 0.1;
+    if (bumpkin.skills["Fruitful Bounty"]) {
+      amount += fruitfulBlendBuff * 2;
+    } else {
+      amount += fruitfulBlendBuff;
+    }
   }
 
   if (name === "Banana" && isWearableActive({ name: "Banana Amulet", game })) {
