@@ -796,8 +796,8 @@ export class ChristmasScene extends BaseScene {
       .setCollideWorldBounds(true);
 
     const donate_christmas_npc = this.add.sprite(
-      563,
-      407,
+      380,
+      270,
       "donate_christmas_npc",
     );
     this.anims.create({
@@ -822,7 +822,7 @@ export class ChristmasScene extends BaseScene {
     const label = new Label(this, "DONATE");
     this.add.existing(label);
 
-    label.setPosition(563, 407 - 15);
+    label.setPosition(380, 270 - 15);
     label.setDepth(10000);
 
     // Penguins
