@@ -1,13 +1,9 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
-import { INITIAL_STOCK, INVENTORY_LIMIT } from "features/game/lib/constants";
-import { ANIMAL_FOODS } from "features/game/types/animals";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
-import { BAIT } from "features/game/types/fishing";
 import { InventoryItemName, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { SEEDS } from "features/game/types/seeds";
-import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
@@ -17,36 +13,123 @@ export type TradeRewardsItem =
       InventoryItemName,
       "Treasure Key" | "Rare Key" | "Luxury Key" | "Prize Ticket"
     >
-  | TradeRewardPacks
   | TradeFood;
 
-type TradeRewardPacks =
+export type TradeRewardPacks =
   | "Tool Pack"
   | "Seed Pack"
   | "Fishing Pack"
-  | "Animal Pack"
+  | "Animal Feed Pack"
   | "Digging Pack";
 
 export type TradeFood = "Trade Cake";
 
 export type TradeReward = {
-  name: TradeRewardsItem;
+  name: TradeRewardsItem | TradeRewardPacks;
   items: Partial<Record<InventoryItemName, number>>;
   ingredients: Record<Extract<InventoryItemName, "Trade Point">, number>;
   image: string;
   description: string;
 };
 
-export const TRADE_REWARDS: (
-  state: GameState,
-) => Record<TradeRewardsItem, TradeReward> = (state) => ({
+export const TRADE_REWARDS_PACKS: Record<TradeRewardPacks, TradeReward> = {
+  "Tool Pack": {
+    name: "Tool Pack",
+    items: {
+      Axe: 200,
+      Pickaxe: 60,
+      "Stone Pickaxe": 20,
+      "Iron Pickaxe": 5,
+      "Gold Pickaxe": 5,
+    },
+    ingredients: {
+      "Trade Point": 7500,
+    },
+    image: SUNNYSIDE.tools.wood_pickaxe,
+    description: translate("marketplace.reward.toolPack.description"),
+  },
+  "Digging Pack": {
+    name: "Digging Pack",
+    items: {
+      "Sand Shovel": 50,
+      "Sand Drill": 10,
+    },
+    ingredients: {
+      "Trade Point": 3500,
+    },
+    image: SUNNYSIDE.tools.sand_shovel,
+    description: translate("marketplace.reward.diggingPack.description"),
+  },
+  "Seed Pack": {
+    name: "Seed Pack",
+    items: {
+      "Sunflower Seed": 400,
+      "Potato Seed": 200,
+      "Pumpkin Seed": 150,
+      "Carrot Seed": 100,
+      "Cabbage Seed": 90,
+      "Soybean Seed": 90,
+      "Beetroot Seed": 80,
+      "Cauliflower Seed": 80,
+      "Parsnip Seed": 60,
+      "Eggplant Seed": 50,
+      "Corn Seed": 50,
+      "Radish Seed": 40,
+      "Wheat Seed": 40,
+      "Kale Seed": 30,
+      "Barley Seed": 30,
+
+      "Tomato Seed": 10,
+      "Blueberry Seed": 10,
+      "Orange Seed": 10,
+      "Apple Seed": 10,
+      "Banana Plant": 10,
+      "Lemon Seed": 10,
+    },
+    ingredients: {
+      "Trade Point": 3000,
+    },
+    image: CROP_LIFECYCLE.Sunflower.seed,
+    description: translate("marketplace.reward.seedPack.description"),
+  },
+  "Fishing Pack": {
+    name: "Fishing Pack",
+    items: {
+      Rod: 50,
+      Earthworm: 10,
+      Grub: 10,
+      "Red Wiggler": 10,
+    },
+    ingredients: {
+      "Trade Point": 750,
+    },
+    image: SUNNYSIDE.icons.fish,
+    description: translate("marketplace.reward.fishingPack.description"),
+  },
+  "Animal Feed Pack": {
+    name: "Animal Feed Pack",
+    items: {
+      "Kernel Blend": 25,
+      Hay: 25,
+      NutriBarley: 25,
+      "Mixed Grain": 25,
+    },
+    ingredients: {
+      "Trade Point": 700,
+    },
+    image: ITEM_DETAILS["Mixed Grain"].image,
+    description: translate("marketplace.reward.animalPack.description"),
+  },
+};
+
+export const TRADE_REWARDS_ITEMS: Record<TradeRewardsItem, TradeReward> = {
   "Treasure Key": {
     name: "Treasure Key",
     items: {
       "Treasure Key": 1,
     },
     ingredients: {
-      "Trade Point": 50,
+      "Trade Point": 1200,
     },
     image: ITEM_DETAILS["Treasure Key"].image,
     description: ITEM_DETAILS["Treasure Key"].description,
@@ -57,7 +140,7 @@ export const TRADE_REWARDS: (
       "Rare Key": 1,
     },
     ingredients: {
-      "Trade Point": 250,
+      "Trade Point": 3600,
     },
     image: ITEM_DETAILS["Rare Key"].image,
     description: ITEM_DETAILS["Rare Key"].description,
@@ -68,7 +151,7 @@ export const TRADE_REWARDS: (
       "Luxury Key": 1,
     },
     ingredients: {
-      "Trade Point": 1000,
+      "Trade Point": 6000,
     },
     image: ITEM_DETAILS["Luxury Key"].image,
     description: ITEM_DETAILS["Luxury Key"].description,
@@ -79,7 +162,7 @@ export const TRADE_REWARDS: (
       "Prize Ticket": 1,
     },
     ingredients: {
-      "Trade Point": 1500,
+      "Trade Point": 20000,
     },
     image: ITEM_DETAILS["Prize Ticket"].image,
     description: ITEM_DETAILS["Prize Ticket"].description,
@@ -90,105 +173,24 @@ export const TRADE_REWARDS: (
       "Trade Cake": 1,
     },
     ingredients: {
-      "Trade Point": 500,
+      "Trade Point": 3000,
     },
     image: ITEM_DETAILS["Trade Cake"].image,
     description: ITEM_DETAILS["Trade Cake"].description,
   },
-  "Tool Pack": {
-    name: "Tool Pack",
-    items: getKeys(WORKBENCH_TOOLS).reduce(
-      (acc, name) => {
-        return {
-          ...acc,
-          // Rods are given in another pack
-          [name]: name === "Rod" ? 0 : INITIAL_STOCK(state)[name].toNumber(),
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ), // Gets the amount of tools to give out based on the amounts in INITIAL_STOCK
-    ingredients: {
-      "Trade Point": 250,
-    },
-    image: SUNNYSIDE.tools.wood_pickaxe,
-    description: translate("marketplace.reward.toolPack.description"),
-  },
-  "Seed Pack": {
-    name: "Seed Pack",
-    items: getKeys(SEEDS()).reduce(
-      (acc, name) => {
-        return {
-          ...acc,
-          [name]: INITIAL_STOCK(state)[name].toNumber(),
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ),
-    ingredients: {
-      "Trade Point": 500,
-    },
-    image: CROP_LIFECYCLE.Sunflower.seed,
-    description: translate("marketplace.reward.seedPack.description"),
-  },
-  "Fishing Pack": {
-    name: "Fishing Pack",
-    items: {
-      Rod: INITIAL_STOCK(state).Rod.toNumber(),
-      ...getKeys(BAIT).reduce(
-        (acc, bait) => {
-          return {
-            ...acc,
-            [bait]: bait === "Fishing Lure" ? 0 : 10,
-          };
-        },
-        {} as Partial<Record<InventoryItemName, number>>,
-      ),
-    },
-    ingredients: {
-      "Trade Point": 50,
-    },
-    image: SUNNYSIDE.icons.fish,
-    description: translate("marketplace.reward.fishingPack.description"),
-  },
-  "Animal Pack": {
-    name: "Animal Pack",
-    items: getKeys(ANIMAL_FOODS).reduce(
-      (acc, feed) => {
-        return {
-          ...acc,
-          [feed]: feed === "Omnifeed" ? 0 : 25,
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ),
-    ingredients: {
-      "Trade Point": 50,
-    },
-    image: ITEM_DETAILS["Mixed Grain"].image,
-    description: translate("marketplace.reward.animalPack.description"),
-  },
-  "Digging Pack": {
-    name: "Digging Pack",
-    items: getKeys(TREASURE_TOOLS).reduce(
-      (acc, tool) => {
-        return {
-          ...acc,
-          [tool]: INITIAL_STOCK(state)[tool],
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ),
-    ingredients: {
-      "Trade Point": 50,
-    },
-    image: SUNNYSIDE.tools.sand_shovel,
-    description: translate("marketplace.reward.diggingPack.description"),
-  },
-});
+};
+
+export const TRADE_REWARDS: Record<
+  TradeRewardsItem | TradeRewardPacks,
+  TradeReward
+> = {
+  ...TRADE_REWARDS_PACKS,
+  ...TRADE_REWARDS_ITEMS,
+};
 
 export type RedeemTradeRewardsAction = {
   type: "reward.redeemed";
-  item: TradeRewardsItem;
+  item: TradeRewardsItem | TradeRewardPacks;
 };
 
 type Options = {
@@ -200,7 +202,7 @@ export function redeemTradeReward({ state, action }: Options): GameState {
   return produce(state, (game) => {
     const tradePoint = game.inventory["Trade Point"] ?? new Decimal(0);
     const { item } = action;
-    const { ingredients, items } = TRADE_REWARDS(game)[item];
+    const { ingredients, items } = TRADE_REWARDS[item];
     const tradePointCost = ingredients["Trade Point"];
 
     if (tradePoint.lt(tradePointCost)) {
