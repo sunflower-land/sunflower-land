@@ -1776,4 +1776,46 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.oil).toEqual(47);
   });
+
+  it("requires 1 more seed with Seeded Bounty skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Rice Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Seeded Bounty": 1,
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(2),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Rice Seed"]).toEqual(new Decimal(0));
+  });
 });

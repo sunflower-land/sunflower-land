@@ -149,6 +149,16 @@ const getOilUsage = ({
   return usage;
 };
 
+function getGreenhouseSeedUsage({ game }: { game: GameState }) {
+  let seed = 1;
+
+  if (game.bumpkin.skills["Seeded Bounty"]) {
+    seed += 1;
+  }
+
+  return seed;
+}
+
 export function plantGreenhouse({
   state,
   action,
@@ -169,7 +179,8 @@ export function plantGreenhouse({
     }
 
     const seeds = game.inventory[action.seed] ?? new Decimal(0);
-    if (seeds.lt(1)) {
+    const seedUsage = getGreenhouseSeedUsage({ game });
+    if (seeds.lt(seedUsage)) {
       throw new Error(`Missing ${action.seed}`);
     }
 
@@ -202,7 +213,7 @@ export function plantGreenhouse({
     };
 
     // Subtracts seed
-    game.inventory[action.seed] = seeds.sub(1);
+    game.inventory[action.seed] = seeds.sub(seedUsage);
 
     // Use oil
     game.greenhouse.oil -= getOilUsage({ seed: action.seed, game });

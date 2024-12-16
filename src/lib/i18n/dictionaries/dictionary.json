@@ -3928,6 +3928,7 @@
   "skill.oliveExpress": "-10% Olive growth time",
   "skill.riceRocket": "-10% Rice growth time",
   "skill.vineVelocity": "-10% Grape growth time",
+  "skill.seededBounty": "+0.5 Greenhouse produce yield but requires an extra seed to plant",
   "skill.greenhouseGuru": "Ability to make all greenhouse produce currently growing ready to be harvested",
   "skill.greenhouseGamble": "25% chance of +1 greenhouse produce",
   "skill.slickSaver": "-1 Oil to grow greenhouse products",

@@ -659,6 +659,10 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
+  if (isGreenhouseCrop(crop) && skills["Seeded Bounty"]) {
+    amount += 0.5;
+  }
+
   if (skills["Young Farmer"] && isBasicCrop(crop)) {
     amount += 0.1;
   }

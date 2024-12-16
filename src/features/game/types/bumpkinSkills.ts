@@ -1695,6 +1695,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Seeded Bounty": {
+    name: "Seeded Bounty",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.seededBounty"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Greenhouse - Tier 3
   "Greenhouse Guru": {
     name: "Greenhouse Guru",
