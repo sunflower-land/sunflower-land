@@ -44,9 +44,6 @@ const featureFlags = {
   ONBOARDING_REWARDS: (game: GameState) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
   SEASONAL_TIERS: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
-  MARKETPLACE: defaultFeatureFlag,
-  MARKETPLACE_ADMIN: adminFeatureFlag,
-  MARKETPLACE_REWARDS: defaultFeatureFlag,
   CROP_QUICK_SELECT: () => false,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,

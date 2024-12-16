@@ -689,8 +689,7 @@ export const Land: React.FC = () => {
 
   const { pathname } = useLocation();
   const state = useSelector(gameService, selectGameState);
-  const showMarketplace =
-    pathname.includes("marketplace") && hasFeatureAccess(state, "MARKETPLACE");
+  const showMarketplace = pathname.includes("marketplace");
 
   const {
     expansionConstruction,
