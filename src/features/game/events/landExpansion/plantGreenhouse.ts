@@ -142,6 +142,10 @@ const getOilUsage = ({
 }) => {
   let usage = OIL_USAGE[seed];
 
+  if (game.bumpkin.skills["Greasy Plants"]) {
+    usage *= 2;
+  }
+
   if (game.bumpkin.skills["Slick Saver"]) {
     usage -= 1;
   }

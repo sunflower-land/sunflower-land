@@ -1706,9 +1706,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.seededBounty"),
+        shortDescription: translate("skill.seededBounty.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.seededBounty.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1769,6 +1774,30 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+  },
+  "Greasy Plants": {
+    name: "Greasy Plants",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.greasyPlants.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.greasyPlants.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS.Oil.image,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Mining - Tier 1

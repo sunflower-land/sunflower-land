@@ -663,6 +663,10 @@ export function getCropYieldAmount({
     amount += 0.5;
   }
 
+  if (isGreenhouseCrop(crop) && skills["Greasy Plants"]) {
+    amount += 1;
+  }
+
   if (skills["Young Farmer"] && isBasicCrop(crop)) {
     amount += 0.1;
   }

@@ -142,6 +142,10 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 0.5;
   }
 
+  if (name === "Grape" && bumpkin.skills["Greasy Plants"]) {
+    amount += 1;
+  }
+
   //Faction Quiver
   const factionName = game.faction?.name;
   if (
