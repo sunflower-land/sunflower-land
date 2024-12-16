@@ -87,7 +87,7 @@ export const TRADE_REWARDS_PACKS: Record<TradeRewardPacks, TradeReward> = {
       "Lemon Seed": 10,
     },
     ingredients: {
-      "Trade Point": 3000,
+      "Trade Point": 1500,
     },
     image: CROP_LIFECYCLE.Sunflower.seed,
     description: translate("marketplace.reward.seedPack.description"),
