@@ -3903,7 +3903,7 @@
   "skill.fishyFeast": "+20% Fish XP",
   "skill.abundantHarvest": "+0.2 Egg, Wool and Milk yield",
   "skill.efficientFeeding": "-5% feed to feed all animals",
-  "skill.restlessAnimals": "-5% Animal sleep time",
+  "skill.restlessAnimals": "-10% Animal sleep time",
   "skill.doubleBale": "Double Bale's Effect",
   "skill.baleEconomy": "Bale affects milk and wool production",
   "skill.fineFibers": "+0.1 Feather, Leather and Merino Wool yield",

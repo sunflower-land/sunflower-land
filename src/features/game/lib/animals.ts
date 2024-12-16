@@ -465,7 +465,7 @@ export function getBoostedAwakeAt({
   }
 
   if (bumpkin.skills["Restless Animals"]) {
-    totalDuration *= 0.95;
+    totalDuration *= 0.9;
   }
 
   // Add the boosted duration to the created time
