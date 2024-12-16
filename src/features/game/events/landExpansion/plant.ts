@@ -637,16 +637,6 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
-  // Olive Garden +0.2 yield
-  if (crop === "Olive" && skills["Olive Garden"]) {
-    amount += 0.2;
-  }
-
-  // Rice and Shine +0.2 yield
-  if (crop === "Rice" && skills["Rice and Shine"]) {
-    amount += 0.2;
-  }
-
   if (
     crop === "Olive" &&
     isWearableActive({ game, name: "Olive Royalty Shirt" })

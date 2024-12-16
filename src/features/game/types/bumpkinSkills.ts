@@ -1564,63 +1564,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Greenhouse - Tier 1
-  "Olive Garden": {
-    name: "Olive Garden",
-    tree: "Greenhouse",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "desert",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.oliveGarden"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Olive.image,
-      },
-    },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Rice and Shine": {
-    name: "Rice and Shine",
-    tree: "Greenhouse",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "desert",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.riceAndShine"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Rice.image,
-      },
-    },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Grape Escape": {
-    name: "Grape Escape",
-    tree: "Greenhouse",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "desert",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.grapeEscape"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Grape.image,
-      },
-    },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Victoria's Secretary": {
     name: "Victoria's Secretary",
     tree: "Greenhouse",
