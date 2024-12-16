@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -38,7 +38,12 @@ import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
 import { ChristmasPortal } from "./portals/ChristmasPortal";
+import { Marketplace } from "features/marketplace/Marketplace";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 import { ChristmasReward } from "./npcs/Santa";
+import { MachineState } from "features/game/lib/gameMachine";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -164,11 +169,16 @@ interface Props {
   scene: SceneId;
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
   const [interactable, setInteractable] = useState<
     InteractableName | undefined
   >(getInitialModal(scene));
   const [isLoading, setIsLoading] = useState(false);
+
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -840,7 +850,11 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         dialogClassName="md:max-w-3xl"
         onHide={closeModal}
       >
-        <TradingBoard onClose={closeModal} />
+        {hasFeatureAccess(state, "MARKETPLACE") ? (
+          <Marketplace />
+        ) : (
+          <TradingBoard onClose={closeModal} />
+        )}
       </Modal>
       <Modal
         show={interactable === "goblin_market"}
