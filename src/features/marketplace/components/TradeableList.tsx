@@ -410,7 +410,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <NumberInput
                 value={price}
                 onValueChange={(decimal) => setPrice(decimal.toNumber())}
-                maxDecimalPlaces={2}
+                maxDecimalPlaces={tradeType === "onchain" ? 0 : 2}
                 icon={sflIcon}
               />
               <p className="text-xxs ml-2">
