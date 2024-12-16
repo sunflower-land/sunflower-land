@@ -6,7 +6,7 @@ import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { Outlet, useNavigate, useParams } from "react-router";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router";
 import { SceneId } from "./mmoMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";
@@ -90,6 +90,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const [gameState] = useActor(gameService);
   const { name } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const mmoService = useInterpret(mmoMachine, {
     context: {
@@ -97,7 +98,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       farmId: gameState.context.farmId,
       bumpkin: gameState.context.state.bumpkin,
       faction: gameState.context.state.faction?.name,
-      sceneId: name as SceneId,
+      sceneId: (name ?? "plaza") as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
       isCommunity,
       moderation: gameState.context.moderation,
@@ -107,7 +108,10 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const [mmoState] = useActor(mmoService);
 
   useEffect(() => {
-    if (mmoState.context.sceneId) {
+    if (
+      mmoState.context.sceneId &&
+      !location.pathname.includes("marketplace")
+    ) {
       navigate(`/world/${mmoState.context.sceneId}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

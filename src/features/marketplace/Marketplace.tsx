@@ -2,7 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import React, { useContext } from "react";
 import sflIcon from "assets/icons/sfl.webp";
 import { MarketplaceNavigation } from "./components/MarketplaceHome";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
@@ -17,8 +17,16 @@ export const Marketplace: React.FC = () => {
   const { gameService, fromRoute } = useContext(Context);
   const balance = useSelector(gameService, _balance);
   const navigate = useNavigate();
-
+  const location = useLocation();
   const { t } = useAppTranslation();
+
+  const handleClose = () => {
+    const defaultRoute = location.pathname.includes("/world")
+      ? "/world/plaza"
+      : "/";
+
+    fromRoute ? navigate(fromRoute) : navigate(defaultRoute);
+  };
 
   return (
     <>
@@ -56,9 +64,7 @@ export const Marketplace: React.FC = () => {
             <img
               src={SUNNYSIDE.icons.close}
               className="flex-none cursor-pointer absolute right-2"
-              onClick={() => {
-                fromRoute ? navigate(fromRoute) : navigate("/");
-              }}
+              onClick={handleClose}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
                 height: `${PIXEL_SCALE * 11}px`,
