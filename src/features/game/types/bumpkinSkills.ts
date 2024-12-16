@@ -1582,6 +1582,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Seedy Business": {
+    name: "Seedy Business",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.seedyBusiness"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Victoria's Secretary": {
     name: "Victoria's Secretary",
     tree: "Greenhouse",

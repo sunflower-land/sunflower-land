@@ -9,7 +9,11 @@ import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FLOWER_SEEDS } from "features/game/types/flowers";
 import { produce } from "immer";
-import { isPatchFruitSeed } from "features/game/types/fruits";
+import {
+  GREENHOUSE_FRUIT_SEEDS,
+  isPatchFruitSeed,
+} from "features/game/types/fruits";
+import { GREENHOUSE_SEEDS } from "features/game/types/crops";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -49,6 +53,13 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
   }
 
   if (isPatchFruitSeed(name) && bumpkin.skills["Fruity Heaven"]) {
+    price = price * 0.9;
+  }
+
+  if (
+    name in { ...GREENHOUSE_SEEDS, ...GREENHOUSE_FRUIT_SEEDS() } &&
+    bumpkin.skills["Seedy Business"]
+  ) {
     price = price * 0.9;
   }
 
