@@ -45,6 +45,7 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   selected: Cookable;
@@ -285,7 +286,14 @@ export const Cooking: React.FC<{
             <div className="flex items-center">
               <img src={xpIcon} className="h-4 mr-0.5" />
               <p className="text-xs">
-                {getFoodExpBoost(CONSUMABLES[name], bumpkin, state, buds ?? {})}
+                {formatNumber(
+                  getFoodExpBoost(
+                    CONSUMABLES[name],
+                    bumpkin,
+                    state,
+                    buds ?? {},
+                  ),
+                )}
               </p>
             </div>
           </div>
