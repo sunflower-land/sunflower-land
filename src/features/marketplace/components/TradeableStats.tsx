@@ -39,6 +39,9 @@ export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
         oneDayPriceChange: 0,
         sevenDayPriceChange: 0,
         thirtyDayPriceChange: 0,
+        oneDayPrice: 0,
+        sevenDayPrice: 0,
+        thirtyDayPrice: 0,
       };
 
   return (
@@ -65,7 +68,7 @@ export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
             {loading ? (
               <span className="loading-fade-pulse">{`0.00 SFL`}</span>
             ) : (
-              `${prices.oneDayPriceChange.toFixed(2)} SFL`
+              `${prices.oneDayPrice.toFixed(2)} SFL > ${marketPrice.toFixed(2)} SFL`
             )}
           </p>
         </InnerPanel>
@@ -92,7 +95,7 @@ export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
             {loading ? (
               <span className="loading-fade-pulse">{`0.00 SFL`}</span>
             ) : (
-              `${prices.sevenDayPriceChange.toFixed(2)} SFL`
+              `${prices.sevenDayPrice.toFixed(2)} SFL > ${marketPrice.toFixed(2)} SFL`
             )}
           </p>
         </InnerPanel>
