@@ -256,7 +256,7 @@ export const MakeOffer: React.FC<{
           <NumberInput
             value={offer}
             onValueChange={(decimal) => setOffer(decimal.toNumber())}
-            maxDecimalPlaces={2}
+            maxDecimalPlaces={tradeType === "onchain" ? 0 : 2}
             isOutOfRange={balance.lt(offer)}
             icon={sflIcon}
           />
