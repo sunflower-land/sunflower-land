@@ -65,7 +65,7 @@ export const DeliModal: React.FC<Props> = ({
           craftingService={craftingService}
           buildingName="Deli"
           buildingId={buildingId}
-          currentlyCooking={selected.name}
+          itemInProgress={itemInProgress}
         />
       </CloseButtonPanel>
     </Modal>

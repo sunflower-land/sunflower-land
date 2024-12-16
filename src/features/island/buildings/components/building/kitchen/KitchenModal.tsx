@@ -67,7 +67,7 @@ export const KitchenModal: React.FC<Props> = ({
             craftingService={craftingService}
             buildingName="Kitchen"
             buildingId={buildingId}
-            currentlyCooking={selected.name}
+            itemInProgress={itemInProgress}
           />
         </CloseButtonPanel>
       </Modal>

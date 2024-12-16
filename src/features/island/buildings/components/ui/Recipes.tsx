@@ -56,7 +56,7 @@ interface Props {
   crafting: boolean;
   buildingName: BuildingName;
   buildingId?: string;
-  currentlyCooking?: CookableName;
+  itemInProgress?: CookableName;
 }
 
 /**
@@ -79,7 +79,7 @@ export const Recipes: React.FC<Props> = ({
   crafting,
   craftingService,
   buildingId,
-  currentlyCooking,
+  itemInProgress,
   buildingName,
 }) => {
   const { gameService } = useContext(Context);
@@ -143,7 +143,7 @@ export const Recipes: React.FC<Props> = ({
   if (!hideCooking && crafting) {
     return (
       <Cooking
-        name={currentlyCooking as CookableName}
+        name={itemInProgress as CookableName}
         craftingService={craftingService!}
         state={state}
         onClose={() => setHideCooking(true)}
