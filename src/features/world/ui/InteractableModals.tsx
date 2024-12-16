@@ -12,7 +12,6 @@ import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 import { SceneId } from "../mmoMachine";
-import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";
@@ -39,7 +38,6 @@ import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
 import { ChristmasPortal } from "./portals/ChristmasPortal";
 import { Marketplace } from "features/marketplace/Marketplace";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ChristmasReward } from "./npcs/Santa";
@@ -845,17 +843,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <WorldMap onClose={closeModal} />
       </Modal>
 
-      <Modal
-        show={interactable === "trading_board"}
-        dialogClassName="md:max-w-3xl"
-        onHide={closeModal}
-      >
-        {hasFeatureAccess(state, "MARKETPLACE") ? (
-          <Marketplace />
-        ) : (
-          <TradingBoard onClose={closeModal} />
-        )}
-      </Modal>
+      {interactable === "trading_board" && <Marketplace />}
       <Modal
         show={interactable === "goblin_market"}
         dialogClassName="md:max-w-3xl"
