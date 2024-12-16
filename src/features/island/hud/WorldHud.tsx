@@ -41,10 +41,6 @@ const HudComponent: React.FC = () => {
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
-  const hasMarketplaceAccess = hasFeatureAccess(
-    gameState.context.state,
-    "MARKETPLACE",
-  );
 
   const { dayOfChristmas } = getDayOfChristmas(
     gameService?.state?.context?.state ?? {},
@@ -110,7 +106,7 @@ const HudComponent: React.FC = () => {
             width: `${PIXEL_SCALE * 22}px`,
           }}
         >
-          {hasMarketplaceAccess && <MarketplaceButton />}
+          <MarketplaceButton />
           <CodexButton />
           <TravelButton />
         </div>

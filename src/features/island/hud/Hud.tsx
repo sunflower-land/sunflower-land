@@ -23,7 +23,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
-import { hasFeatureAccess } from "lib/flags";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 import { PowerSkillsButton } from "./components/PowerSkillsButton";
@@ -33,8 +32,6 @@ import {
 } from "features/game/types/bumpkinSkills";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
-const _showMarketplace = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "MARKETPLACE");
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -49,7 +46,6 @@ const HudComponent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const farmAddress = useSelector(gameService, _farmAddress);
-  const hasMarketplaceAccess = useSelector(gameService, _showMarketplace);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
@@ -163,7 +159,7 @@ const HudComponent: React.FC<{
           }}
         >
           {hasPowerSkills && <PowerSkillsButton />}
-          {hasMarketplaceAccess && <MarketplaceButton />}
+          <MarketplaceButton />
           <CodexButton />
           <TravelButton />
         </div>

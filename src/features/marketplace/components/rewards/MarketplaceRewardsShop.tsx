@@ -13,7 +13,6 @@ import { Context } from "features/game/GameProvider";
 import { ItemDetail } from "./ItemDetail";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
-import { hasFeatureAccess } from "lib/flags";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
@@ -35,14 +34,6 @@ export const TradeRewardsShop: React.FC = () => {
   };
 
   const onClose = () => setShowDetails(false);
-
-  if (!hasFeatureAccess(state, "MARKETPLACE_REWARDS")) {
-    return (
-      <InnerPanel className="h-auto  w-full mb-1">
-        <p>{`Coming Soon`}</p>
-      </InnerPanel>
-    );
-  }
 
   return (
     <>
