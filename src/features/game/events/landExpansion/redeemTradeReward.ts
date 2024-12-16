@@ -1,13 +1,9 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
-import { INITIAL_STOCK, INVENTORY_LIMIT } from "features/game/lib/constants";
-import { ANIMAL_FOODS } from "features/game/types/animals";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
-import { BAIT } from "features/game/types/fishing";
 import { InventoryItemName, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { SEEDS } from "features/game/types/seeds";
-import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
@@ -39,16 +35,13 @@ export type TradeReward = {
 export const TRADE_REWARDS_PACKS: Record<TradeRewardPacks, TradeReward> = {
   "Tool Pack": {
     name: "Tool Pack",
-    items: getKeys(WORKBENCH_TOOLS).reduce(
-      (acc, name) => {
-        return {
-          ...acc,
-          // Rods are given in another pack
-          [name]: name === "Rod" ? 0 : INITIAL_STOCK()[name].toNumber(),
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ), // Gets the amount of tools to give out based on the amounts in INITIAL_STOCK
+    items: {
+      Axe: 200,
+      Pickaxe: 60,
+      "Stone Pickaxe": 20,
+      "Iron Pickaxe": 5,
+      "Gold Pickaxe": 5,
+    },
     ingredients: {
       "Trade Point": 7500,
     },
@@ -57,15 +50,10 @@ export const TRADE_REWARDS_PACKS: Record<TradeRewardPacks, TradeReward> = {
   },
   "Digging Pack": {
     name: "Digging Pack",
-    items: getKeys(TREASURE_TOOLS).reduce(
-      (acc, tool) => {
-        return {
-          ...acc,
-          [tool]: INITIAL_STOCK()[tool],
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ),
+    items: {
+      "Sand Shovel": 50,
+      "Sand Drill": 10,
+    },
     ingredients: {
       "Trade Point": 3500,
     },
@@ -74,15 +62,30 @@ export const TRADE_REWARDS_PACKS: Record<TradeRewardPacks, TradeReward> = {
   },
   "Seed Pack": {
     name: "Seed Pack",
-    items: getKeys(SEEDS()).reduce(
-      (acc, name) => {
-        return {
-          ...acc,
-          [name]: INITIAL_STOCK()[name].toNumber(),
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ),
+    items: {
+      "Sunflower Seed": 400,
+      "Potato Seed": 200,
+      "Pumpkin Seed": 150,
+      "Carrot Seed": 100,
+      "Cabbage Seed": 90,
+      "Soybean Seed": 90,
+      "Beetroot Seed": 80,
+      "Cauliflower Seed": 80,
+      "Parsnip Seed": 60,
+      "Eggplant Seed": 50,
+      "Corn Seed": 50,
+      "Radish Seed": 40,
+      "Wheat Seed": 40,
+      "Kale Seed": 30,
+      "Barley Seed": 30,
+
+      "Tomato Seed": 10,
+      "Blueberry Seed": 10,
+      "Orange Seed": 10,
+      "Apple Seed": 10,
+      "Banana Plant": 10,
+      "Lemon Seed": 10,
+    },
     ingredients: {
       "Trade Point": 3000,
     },
@@ -92,16 +95,10 @@ export const TRADE_REWARDS_PACKS: Record<TradeRewardPacks, TradeReward> = {
   "Fishing Pack": {
     name: "Fishing Pack",
     items: {
-      Rod: INITIAL_STOCK().Rod.toNumber(),
-      ...getKeys(BAIT).reduce(
-        (acc, bait) => {
-          return {
-            ...acc,
-            [bait]: bait === "Fishing Lure" ? 0 : 10,
-          };
-        },
-        {} as Partial<Record<InventoryItemName, number>>,
-      ),
+      Rod: 50,
+      Earthworm: 10,
+      Grub: 10,
+      "Red Wiggler": 10,
     },
     ingredients: {
       "Trade Point": 750,
@@ -111,15 +108,12 @@ export const TRADE_REWARDS_PACKS: Record<TradeRewardPacks, TradeReward> = {
   },
   "Animal Feed Pack": {
     name: "Animal Feed Pack",
-    items: getKeys(ANIMAL_FOODS).reduce(
-      (acc, feed) => {
-        return {
-          ...acc,
-          [feed]: feed === "Omnifeed" ? 0 : 25,
-        };
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    ),
+    items: {
+      "Kernel Blend": 25,
+      Hay: 25,
+      NutriBarley: 25,
+      "Mixed Grain": 25,
+    },
     ingredients: {
       "Trade Point": 700,
     },
