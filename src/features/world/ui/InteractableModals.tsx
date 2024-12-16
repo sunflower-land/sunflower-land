@@ -37,7 +37,6 @@ import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
 import { ChristmasPortal } from "./portals/ChristmasPortal";
-import { Marketplace } from "features/marketplace/Marketplace";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ChristmasReward } from "./npcs/Santa";
@@ -842,8 +841,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       >
         <WorldMap onClose={closeModal} />
       </Modal>
-
-      {interactable === "trading_board" && <Marketplace />}
       <Modal
         show={interactable === "goblin_market"}
         dialogClassName="md:max-w-3xl"
