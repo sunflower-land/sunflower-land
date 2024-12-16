@@ -30,7 +30,6 @@ import { useParams } from "react-router";
 import { getKeys } from "features/game/types/craftables";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
@@ -68,7 +67,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   reload,
 }) => {
   const { gameService } = useContext(Context);
-  const { openModal } = useContext(ModalContext);
   const balance = useSelector(gameService, _balance);
   const isVIP = useSelector(gameService, _isVIP);
   const params = useParams();
@@ -131,7 +129,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
 
   const showBuyNow = !isResources && cheapestListing && tradeable?.isActive;
   const showWalletRequired = showBuyNow && cheapestListing?.type === "onchain";
-  const showFreeListing = !isVIP && dailyListings === 0;
+  // const showFreeListing = !isVIP && dailyListings === 0;
 
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
