@@ -1564,6 +1564,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Greenhouse - Tier 1
+  "Glass Room": {
+    name: "Glass Room",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.glassRoom"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Victoria's Secretary": {
     name: "Victoria's Secretary",
     tree: "Greenhouse",

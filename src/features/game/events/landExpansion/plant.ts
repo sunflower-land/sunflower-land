@@ -651,6 +651,10 @@ export function getCropYieldAmount({
     amount += 2;
   }
 
+  if (isGreenhouseCrop(crop) && skills["Glass Room"]) {
+    amount += 0.1;
+  }
+
   if (skills["Young Farmer"] && isBasicCrop(crop)) {
     amount += 0.1;
   }
