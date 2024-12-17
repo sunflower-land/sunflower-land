@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "Nadir Hayvan NFT Koleksiyonları ve Giyilebilir Ürünleri kazanılacak.",
   "competition.prizes.two": "50.000 SFL ödül havuzu.",
   "competition.prizes.three": "Geliştiricileri yenebilirseniz bonus ödüller!",
-  "competition.rules.four": "Yarışmanın son 3 gününde liderlik tablosu gizlenecektir."
+  "competition.rules.four": "Yarışmanın son 3 gününde liderlik tablosu gizlenecektir.",
+  "instantCook.confirmationMessage": "Bu tarifi şimdi bitirmek istediğinizden emin misiniz?",
+  "instantCook.costMessage": "Bu size {{gems}} Mücevherlere mal olacak",
+  "instantCook.finish": "Şimdi Bitir"
 }

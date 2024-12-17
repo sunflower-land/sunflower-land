@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "Colecionáveis e vestíveis Rare Animal NFT a serem ganhos.",
   "competition.prizes.two": "Prêmio total de 50.000 SFL.",
   "competition.prizes.three": "Prêmios de bônus se você conseguir vencer os desenvolvedores!",
-  "competition.rules.four": "A tabela de classificação ficará oculta nos últimos 3 dias da competição."
+  "competition.rules.four": "A tabela de classificação ficará oculta nos últimos 3 dias da competição.",
+  "instantCook.confirmationMessage": "Tem certeza de que deseja terminar esta receita agora?",
+  "instantCook.costMessage": "Isso custará a você {{gems}} Gemas",
+  "instantCook.finish": "Conclua agora"
 }

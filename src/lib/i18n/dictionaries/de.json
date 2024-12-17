@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "Seltene NFT-Sammlerstücke und Wearables mit Tieren zu gewinnen.",
   "competition.prizes.two": "50.000 SFL Preispool.",
   "competition.prizes.three": "Bonuspreise, wenn du die Entwickler schlagen kannst!",
-  "competition.rules.four": "Die Bestenliste wird an den letzten 3 Tagen des Wettbewerbs ausgeblendet."
+  "competition.rules.four": "Die Bestenliste wird an den letzten 3 Tagen des Wettbewerbs ausgeblendet.",
+  "instantCook.confirmationMessage": "Bist du sicher, dass du dieses Rezept jetzt beenden möchtest?",
+  "instantCook.costMessage": "Das kostet dich {{gems}} Edelsteine",
+  "instantCook.finish": "Jetzt fertig"
 }

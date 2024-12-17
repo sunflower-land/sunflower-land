@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "Objets de collection et objets portables représentant des animaux rares en forme de NFT à gagner.",
   "competition.prizes.two": "Cagnotte de 50 000 SFL.",
   "competition.prizes.three": "Des prix bonus si tu peux battre les développeurs !",
-  "competition.rules.four": "Le classement sera masqué les 3 derniers jours de la compétition."
+  "competition.rules.four": "Le classement sera masqué les 3 derniers jours de la compétition.",
+  "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cette recette maintenant ?",
+  "instantCook.costMessage": "Cela vous coûtera {{gems}} Gemmes",
+  "instantCook.finish": "Terminez maintenant"
 }

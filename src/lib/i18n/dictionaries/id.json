@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "Koleksi & Pakaian NFT Hewan Langka akan dimenangkan.",
   "competition.prizes.two": "50.000 hadiah SFL.",
   "competition.prizes.three": "Hadiah bonus jika Anda bisa mengalahkan para pengembang!",
-  "competition.rules.four": "Papan peringkat akan disembunyikan pada 3 hari terakhir kompetisi."
+  "competition.rules.four": "Papan peringkat akan disembunyikan pada 3 hari terakhir kompetisi.",
+  "instantCook.confirmationMessage": "Apakah Anda yakin ingin menyelesaikan resep ini sekarang?",
+  "instantCook.costMessage": "Ini akan dikenakan biaya {{gems}} Permata",
+  "instantCook.finish": "Selesaikan Sekarang"
 }

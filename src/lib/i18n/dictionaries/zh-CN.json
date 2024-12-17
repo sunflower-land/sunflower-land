@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "稀有动物 NFT 收藏品和可穿戴设备将赢取。",
   "competition.prizes.two": "50,000 瑞士法郎的奖池。",
   "competition.prizes.three": "如果你能打败开发者，可以获得奖励！",
-  "competition.rules.four": "排行榜将在比赛的最后 3 天隐藏。"
+  "competition.rules.four": "排行榜将在比赛的最后 3 天隐藏。",
+  "instantCook.confirmationMessage": "你确定要立即完成这个食谱吗？",
+  "instantCook.costMessage": "这将花费你 {{gems}} 宝石",
+  "instantCook.finish": "立即完成"
 }
