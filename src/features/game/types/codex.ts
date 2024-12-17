@@ -14,6 +14,7 @@ export type CodexCategoryName =
   | "Leaderboard"
   | "Factions"
   | "Minigames"
+  | "Competition"
   | "Marks"
   | "Chore Board";
 

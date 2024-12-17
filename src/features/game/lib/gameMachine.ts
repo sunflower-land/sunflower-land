@@ -98,6 +98,8 @@ import {
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
+import { getBumpkinLevel } from "./level";
+import { hasFeatureAccess } from "lib/flags";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -561,6 +563,7 @@ export type BlockchainState = {
     | "provingPersonhood"
     | "somethingArrived"
     | "randomising"
+    | "competition"
     | StateName
     | StateNameWithStatus; // TEST ONLY
   context: Context;
@@ -937,6 +940,25 @@ export function startGame(authContext: AuthContext) {
                 getKeys(context.state.trades.listings ?? {}).some(
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
+            },
+            {
+              target: "competition",
+              cond: (context: Context) => {
+                if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
+                  return false;
+
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
+
+                if (level <= 5) return false;
+
+                const competition =
+                  context.state.competitions.progress.ANIMAL_TESTING;
+
+                // Show the competition introduction if they have not started it yet
+                return !competition;
+              },
             },
             {
               target: "playing",
@@ -1958,9 +1980,17 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+          },
+        },
+
+        competition: {
+          on: {
             "competition.started": (GAME_EVENT_HANDLERS as any)[
               "competition.started"
             ],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
           },
         },
 
