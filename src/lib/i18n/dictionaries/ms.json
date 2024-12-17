@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "Koleksi & Bahan Pakai NFT Haiwan Langka akan dimenangi.",
   "competition.prizes.two": "50,000 kumpulan hadiah SFL.",
   "competition.prizes.three": "Hadiah bonus jika anda boleh mengalahkan pembangun!",
-  "competition.rules.four": "Papan pendahulu akan disembunyikan pada 3 hari terakhir pertandingan."
+  "competition.rules.four": "Papan pendahulu akan disembunyikan pada 3 hari terakhir pertandingan.",
+  "instantCook.confirmationMessage": "Adakah anda pasti ingin menyelesaikan resipi ini sekarang?",
+  "instantCook.costMessage": "Ini akan menelan belanja {{gems}} Permata",
+  "instantCook.finish": "Selesaikan Sekarang"
 }

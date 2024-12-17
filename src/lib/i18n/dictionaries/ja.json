@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "珍しい動物のNFTグッズとウェアラブルが当たります。",
   "competition.prizes.two": "5万枚のSFL賞金プール。",
   "competition.prizes.three": "開発者に勝てばボーナス賞品がもらえます！",
-  "competition.rules.four": "リーダーボードは、コンテストの最後の3日間は非表示になります。"
+  "competition.rules.four": "リーダーボードは、コンテストの最後の3日間は非表示になります。",
+  "instantCook.confirmationMessage": "このレシピを今すぐ完成させてもよろしいですか？",
+  "instantCook.costMessage": "これには {{gems}} ジェムがかかります",
+  "instantCook.finish": "今すぐ終了"
 }

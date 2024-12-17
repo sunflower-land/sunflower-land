@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "Se pueden ganar coleccionables y wearables raros de Animal NFT.",
   "competition.prizes.two": "Bolsa de premios de 50 000 SFL.",
   "competition.prizes.three": "¡Premios adicionales si puedes derrotar a los desarrolladores!",
-  "competition.rules.four": "La clasificación permanecerá oculta durante los últimos 3 días de la competición."
+  "competition.rules.four": "La clasificación permanecerá oculta durante los últimos 3 días de la competición.",
+  "instantCook.confirmationMessage": "¿Estás seguro de que quieres terminar esta receta ahora?",
+  "instantCook.costMessage": "Esto te costará {{gems}} gemas",
+  "instantCook.finish": "Termina ahora"
 }

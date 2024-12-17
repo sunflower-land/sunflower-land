@@ -4684,5 +4684,8 @@
   "competition.prizes.one": "희귀 동물 NFT 수집품 및 웨어러블 당첨 예정.",
   "competition.prizes.two": "50,000 SFL 상금 풀.",
   "competition.prizes.three": "개발자를 이기면 보너스 상품을 받을 수 있습니다!",
-  "competition.rules.four": "순위표는 대회의 마지막 3일에 숨겨집니다."
+  "competition.rules.four": "순위표는 대회의 마지막 3일에 숨겨집니다.",
+  "instantCook.confirmationMessage": "이제 정말 이 레시피를 끝내시겠습니까?",
+  "instantCook.costMessage": "이 경우 {{gems}} 보석이 필요합니다.",
+  "instantCook.finish": "지금 끝내세요"
 }
