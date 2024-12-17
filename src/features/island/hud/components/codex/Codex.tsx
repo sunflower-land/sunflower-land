@@ -279,7 +279,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
 
-            {currentTab === "Factions" && state.faction && (
+            {currentTab === "Marks" && state.faction && (
               <FactionLeaderboard
                 leaderboard={data?.kingdom ?? null}
                 isLoading={data?.kingdom === undefined}
