@@ -40,7 +40,7 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
 
   // Animal Produce
   Egg: 500,
-  Feather: 100,
+  Feather: 1000,
   Honey: 100,
   Milk: 100,
   Leather: 100,
