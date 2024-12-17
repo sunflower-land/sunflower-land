@@ -47,7 +47,6 @@ export const FlowerBounties: React.FC<Props> = ({ readonly, onClose }) => {
   const { t } = useAppTranslation();
 
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
-  const [deal, setDeal] = useState<BountyRequest>();
 
   if (showIntro && !readonly) {
     return (
@@ -69,6 +68,25 @@ export const FlowerBounties: React.FC<Props> = ({ readonly, onClose }) => {
     );
   }
 
+  return (
+    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.poppy} onClose={onClose}>
+      <FlowerBountiesModal readonly={readonly} />
+    </CloseButtonPanel>
+  );
+};
+
+export const FlowerBountiesModal: React.FC<{
+  readonly?: boolean;
+}> = ({ readonly }) => {
+  const { t } = useAppTranslation();
+  const expiresAt = useCountdown(weekResetsAt());
+  const [deal, setDeal] = useState<BountyRequest>();
+
+  const { gameService } = useContext(Context);
+  const exchange = useSelector(gameService, _exchange);
+  const state = useSelector(gameService, _state);
+  const deals = exchange.requests.filter((deal) => deal.name in FLOWERS);
+
   if (deal) {
     return (
       <Deal
@@ -79,24 +97,6 @@ export const FlowerBounties: React.FC<Props> = ({ readonly, onClose }) => {
     );
   }
 
-  return (
-    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.poppy} onClose={onClose}>
-      <FlowerBountiesModal readonly={readonly} setDeal={setDeal} />
-    </CloseButtonPanel>
-  );
-};
-
-export const FlowerBountiesModal: React.FC<{
-  readonly?: boolean;
-  setDeal: (deal: BountyRequest) => void;
-}> = ({ readonly, setDeal }) => {
-  const { t } = useAppTranslation();
-  const expiresAt = useCountdown(weekResetsAt());
-
-  const { gameService } = useContext(Context);
-  const exchange = useSelector(gameService, _exchange);
-  const state = useSelector(gameService, _state);
-  const deals = exchange.requests.filter((deal) => deal.name in FLOWERS);
   return (
     <div className="p-1">
       <div className="flex flex-wrap items-center mb-2">
