@@ -4679,7 +4679,6 @@
   "christmas-delivery-mayhem.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
   "minigame.discovered.one": "你好 Bumpkin，你发现了一个由社区构建的门户。",
   "marketplace.withdrawComingSoon": "提款日期",
-  "competition.intro.two": "我们正在举办一场农业竞赛。现在是展示你的技能的时候了。",
   "competition.intro.three": "立即开始耕种并完成挑战以赢取奖品。",
   "competition.prizes.one": "稀有动物 NFT 收藏品和可穿戴设备将赢取。",
   "competition.prizes.two": "50,000 瑞士法郎的奖池。",
@@ -4687,5 +4686,7 @@
   "competition.rules.four": "排行榜将在比赛的最后 3 天隐藏。",
   "instantCook.confirmationMessage": "你确定要立即完成这个食谱吗？",
   "instantCook.costMessage": "这将花费你 {{gems}} 宝石",
-  "instantCook.finish": "立即完成"
+  "instantCook.finish": "立即完成",
+  "competition.intro.two": "我们正在举办一场农业竞赛，以寻找游戏中最好的牧场主。",
+  "competition.rules.five": "如果您击败克雷格、斯宾塞或亚当，则赢取奖金。"
 }

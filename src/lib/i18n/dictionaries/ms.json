@@ -4679,7 +4679,6 @@
   "christmas-delivery-mayhem.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
   "minigame.discovered.one": "Howdy Bumpkin, anda telah menemui portal yang dibina oleh komuniti.",
   "marketplace.withdrawComingSoon": "Tarikh pengeluaran",
-  "competition.intro.two": "Kami menganjurkan pertandingan pertanian. Sudah tiba masanya untuk menunjukkan kemahiran anda.",
   "competition.intro.three": "Mulakan pertanian hari ini dan selesaikan cabaran untuk memenangi hadiah.",
   "competition.prizes.one": "Koleksi & Bahan Pakai NFT Haiwan Langka akan dimenangi.",
   "competition.prizes.two": "50,000 kumpulan hadiah SFL.",
@@ -4687,5 +4686,7 @@
   "competition.rules.four": "Papan pendahulu akan disembunyikan pada 3 hari terakhir pertandingan.",
   "instantCook.confirmationMessage": "Adakah anda pasti ingin menyelesaikan resipi ini sekarang?",
   "instantCook.costMessage": "Ini akan menelan belanja {{gems}} Permata",
-  "instantCook.finish": "Selesaikan Sekarang"
+  "instantCook.finish": "Selesaikan Sekarang",
+  "competition.intro.two": "Kami menganjurkan pertandingan pertanian untuk mencari peternak terbaik dalam permainan.",
+  "competition.rules.five": "Menangi hadiah bonus jika anda mengalahkan Craig, Spencer atau Adam."
 }

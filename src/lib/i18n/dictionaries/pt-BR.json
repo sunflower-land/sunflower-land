@@ -4679,7 +4679,6 @@
   "christmas-delivery-mayhem.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
   "minigame.discovered.one": "Olá, Bumpkin, você descobriu um portal construído pela comunidade.",
   "marketplace.withdrawComingSoon": "Data de retirada",
-  "competition.intro.two": "Estamos organizando uma competição agrícola. É hora de mostrar suas habilidades.",
   "competition.intro.three": "Comece a cultivar hoje e complete os desafios para ganhar prêmios.",
   "competition.prizes.one": "Colecionáveis e vestíveis Rare Animal NFT a serem ganhos.",
   "competition.prizes.two": "Prêmio total de 50.000 SFL.",
@@ -4687,5 +4686,7 @@
   "competition.rules.four": "A tabela de classificação ficará oculta nos últimos 3 dias da competição.",
   "instantCook.confirmationMessage": "Tem certeza de que deseja terminar esta receita agora?",
   "instantCook.costMessage": "Isso custará a você {{gems}} Gemas",
-  "instantCook.finish": "Conclua agora"
+  "instantCook.finish": "Conclua agora",
+  "competition.intro.two": "Estamos organizando uma competição agrícola para encontrar os melhores fazendeiros do jogo.",
+  "competition.rules.five": "Ganhe um prêmio de bônus se você vencer Craig, Spencer ou Adam."
 }

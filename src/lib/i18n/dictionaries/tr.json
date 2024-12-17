@@ -4679,7 +4679,6 @@
   "christmas-delivery-mayhem.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
   "minigame.discovered.one": "Merhaba Bumpkin, topluluk tarafından inşa edilmiş bir portal keşfettin.",
   "marketplace.withdrawComingSoon": "Para çekme tarihi",
-  "competition.intro.two": "Bir çiftçilik yarışması düzenliyoruz. Yeteneklerinizi göstermenin zamanı geldi.",
   "competition.intro.three": "Bugün çiftçiliğe başlayın ve ödüller kazanmak için zorlukları tamamlayın.",
   "competition.prizes.one": "Nadir Hayvan NFT Koleksiyonları ve Giyilebilir Ürünleri kazanılacak.",
   "competition.prizes.two": "50.000 SFL ödül havuzu.",
@@ -4687,5 +4686,7 @@
   "competition.rules.four": "Yarışmanın son 3 gününde liderlik tablosu gizlenecektir.",
   "instantCook.confirmationMessage": "Bu tarifi şimdi bitirmek istediğinizden emin misiniz?",
   "instantCook.costMessage": "Bu size {{gems}} Mücevherlere mal olacak",
-  "instantCook.finish": "Şimdi Bitir"
+  "instantCook.finish": "Şimdi Bitir",
+  "competition.intro.two": "Oyundaki en iyi çiftçileri bulmak için bir çiftçilik yarışmasına ev sahipliği yapıyoruz.",
+  "competition.rules.five": "Craig, Spencer veya Adam'ı yenerseniz bir bonus ödül kazanın."
 }

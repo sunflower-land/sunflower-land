@@ -4679,7 +4679,6 @@
   "christmas-delivery-mayhem.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
   "minigame.discovered.one": "Howdy Bumpkin, vous avez découvert un portail créé par la communauté.",
   "marketplace.withdrawComingSoon": "Date de retrait",
-  "competition.intro.two": "Nous organisons un concours agricole. Il est temps de montrer vos compétences.",
   "competition.intro.three": "Commencez à cultiver dès aujourd'hui et relevez les défis pour gagner des prix.",
   "competition.prizes.one": "Objets de collection et objets portables représentant des animaux rares en forme de NFT à gagner.",
   "competition.prizes.two": "Cagnotte de 50 000 SFL.",
@@ -4687,5 +4686,7 @@
   "competition.rules.four": "Le classement sera masqué les 3 derniers jours de la compétition.",
   "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cette recette maintenant ?",
   "instantCook.costMessage": "Cela vous coûtera {{gems}} Gemmes",
-  "instantCook.finish": "Terminez maintenant"
+  "instantCook.finish": "Terminez maintenant",
+  "competition.intro.two": "Nous organisons un concours agricole pour trouver les meilleurs éleveurs du jeu.",
+  "competition.rules.five": "Gagnez un prix bonus si vous battez Craig, Spencer ou Adam."
 }

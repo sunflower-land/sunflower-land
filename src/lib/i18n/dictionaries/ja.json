@@ -4679,7 +4679,6 @@
   "christmas-delivery-mayhem.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
   "minigame.discovered.one": "こんにちは、バンプキン、コミュニティによって構築されたポータルを発見しました。",
   "marketplace.withdrawComingSoon": "出金日",
-  "competition.intro.two": "農業大会を開催しています。あなたの腕前を披露する時です。",
   "competition.intro.three": "今日から農業を始めて、チャレンジを完了して賞品を獲得してください。",
   "competition.prizes.one": "珍しい動物のNFTグッズとウェアラブルが当たります。",
   "competition.prizes.two": "5万枚のSFL賞金プール。",
@@ -4687,5 +4686,7 @@
   "competition.rules.four": "リーダーボードは、コンテストの最後の3日間は非表示になります。",
   "instantCook.confirmationMessage": "このレシピを今すぐ完成させてもよろしいですか？",
   "instantCook.costMessage": "これには {{gems}} ジェムがかかります",
-  "instantCook.finish": "今すぐ終了"
+  "instantCook.finish": "今すぐ終了",
+  "competition.intro.two": "ゲームで最高の牧場主を見つけるために、農業コンテストを開催しています。",
+  "competition.rules.five": "クレイグ、スペンサー、アダムを倒すとボーナス賞を獲得できます。"
 }

@@ -4679,7 +4679,6 @@
   "christmas-delivery-mayhem.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
   "minigame.discovered.one": "Hallo Bumpkin, du hast ein Portal entdeckt, das von der Community gebaut wurde.",
   "marketplace.withdrawComingSoon": "Datum der Auszahlung",
-  "competition.intro.two": "Wir veranstalten einen Landwirtschaftswettbewerb. Es ist Zeit, deine Fähigkeiten unter Beweis zu stellen.",
   "competition.intro.three": "Beginne noch heute mit der Landwirtschaft und meistere die Herausforderungen, um Preise zu gewinnen.",
   "competition.prizes.one": "Seltene NFT-Sammlerstücke und Wearables mit Tieren zu gewinnen.",
   "competition.prizes.two": "50.000 SFL Preispool.",
@@ -4687,5 +4686,7 @@
   "competition.rules.four": "Die Bestenliste wird an den letzten 3 Tagen des Wettbewerbs ausgeblendet.",
   "instantCook.confirmationMessage": "Bist du sicher, dass du dieses Rezept jetzt beenden möchtest?",
   "instantCook.costMessage": "Das kostet dich {{gems}} Edelsteine",
-  "instantCook.finish": "Jetzt fertig"
+  "instantCook.finish": "Jetzt fertig",
+  "competition.intro.two": "Wir veranstalten einen Farmwettbewerb, um die besten Rancher im Spiel zu finden.",
+  "competition.rules.five": "Gewinne einen Bonuspreis, wenn du Craig, Spencer oder Adam besiegst."
 }

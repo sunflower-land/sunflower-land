@@ -4679,7 +4679,6 @@
   "christmas-delivery-mayhem.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
   "minigame.discovered.one": "안녕하세요 범프킨, 커뮤니티에서 만든 포털을 발견하셨군요.",
   "marketplace.withdrawComingSoon": "출금 날짜",
-  "competition.intro.two": "농경대회를 개최하고 있습니다.이제 실력을 뽐낼 시간입니다.",
   "competition.intro.three": "오늘 파밍을 시작하고 챌린지를 완료하여 상품을 받으세요.",
   "competition.prizes.one": "희귀 동물 NFT 수집품 및 웨어러블 당첨 예정.",
   "competition.prizes.two": "50,000 SFL 상금 풀.",
@@ -4687,5 +4686,7 @@
   "competition.rules.four": "순위표는 대회의 마지막 3일에 숨겨집니다.",
   "instantCook.confirmationMessage": "이제 정말 이 레시피를 끝내시겠습니까?",
   "instantCook.costMessage": "이 경우 {{gems}} 보석이 필요합니다.",
-  "instantCook.finish": "지금 끝내세요"
+  "instantCook.finish": "지금 끝내세요",
+  "competition.intro.two": "게임 내 최고의 목장주들을 찾기 위한 농사 대회를 개최합니다.",
+  "competition.rules.five": "크레이그, 스펜서 또는 애덤을 이기면 보너스 상품을 받으세요."
 }
