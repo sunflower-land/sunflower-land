@@ -36,10 +36,7 @@ import {
 import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FLOWERS } from "features/game/types/flowers";
-import {
-  CompetitionDetails,
-  CompetitionModal,
-} from "features/competition/CompetitionBoard";
+import { CompetitionDetails } from "features/competition/CompetitionBoard";
 
 interface Props {
   show: boolean;

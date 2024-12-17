@@ -1,9 +1,5 @@
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Modal } from "components/ui/Modal";
 import React, { useContext, useEffect, useState } from "react";
-import board from "assets/decorations/competition_raft.webp";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -18,7 +14,6 @@ import {
   Panel,
 } from "components/ui/Panel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
-import walletIcon from "assets/icons/wallet.png";
 import sflIcon from "assets/icons/sfl.webp";
 import giftIcon from "assets/icons/gift.png";
 import classNames from "classnames";
@@ -41,7 +36,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { getCompetitionLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { Loading } from "features/auth/components";
 import { getRelativeTime } from "lib/utils/time";
-import { NPCPlaceable, NPCIcon } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CompetitionPrizes } from "./CompetitionPrizes";
@@ -105,7 +100,6 @@ export const CompetitionModal: React.FC<{
         <div className="flex">
           <Button
             onClick={() => {
-              console.log("STAT IT!");
               gameService.send("competition.started", {
                 name: competitionName,
               });

@@ -1,13 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-import gift from "assets/icons/gift.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CompetitionPrize, PRIZES } from "features/game/types/competitions";

@@ -62,43 +62,51 @@ export const COMPETITION_TASK_PROGRESS: Record<
 
   // TODO include existing progress
   "Sell cow": (game) => {
-    let bountied = game.farmActivity["Cow Bountied"] ?? 0;
+    const bountied = game.farmActivity["Cow Bountied"] ?? 0;
+
+    if (game.competitions.progress.ANIMAL_TESTING) return bountied;
 
     const soldInFirstFewDays = game.bounties.completed.filter(
       (bounty) =>
         bounty.id === "Cow" &&
         bounty.soldAt >= new Date("2024-12-16T00:00:00Z").getTime() &&
         bounty.soldAt < new Date("2024-12-23T00:00:00Z").getTime() &&
-        bounty.soldAt < Date.now(),
+        Date.now() >= new Date("2024-12-16T00:00:00Z").getTime() &&
+        Date.now() <= new Date("2024-12-23T00:00:00Z").getTime(),
     ).length;
 
-    return bountied + soldInFirstFewDays;
+    return bountied - soldInFirstFewDays;
   },
   "Sell sheep": (game) => {
-    let bountied = game.farmActivity["Sheep Bountied"] ?? 0;
+    const bountied = game.farmActivity["Sheep Bountied"] ?? 0;
+    if (game.competitions.progress.ANIMAL_TESTING) return bountied;
 
     const soldInFirstFewDays = game.bounties.completed.filter(
       (bounty) =>
         bounty.id === "Sheep" &&
         bounty.soldAt >= new Date("2024-12-16T00:00:00Z").getTime() &&
         bounty.soldAt < new Date("2024-12-23T00:00:00Z").getTime() &&
-        bounty.soldAt < Date.now(),
+        Date.now() >= new Date("2024-12-16T00:00:00Z").getTime() &&
+        Date.now() <= new Date("2024-12-23T00:00:00Z").getTime(),
     ).length;
 
-    return bountied + soldInFirstFewDays;
+    return bountied - soldInFirstFewDays;
   },
   "Sell chicken": (game) => {
-    let bountied = game.farmActivity["Chicken Bountied"] ?? 0;
+    const bountied = game.farmActivity["Chicken Bountied"] ?? 0;
+
+    if (game.competitions.progress.ANIMAL_TESTING) return bountied;
 
     const soldInFirstFewDays = game.bounties.completed.filter(
       (bounty) =>
         bounty.id === "Chicken" &&
         bounty.soldAt >= new Date("2024-12-16T00:00:00Z").getTime() &&
         bounty.soldAt < new Date("2024-12-23T00:00:00Z").getTime() &&
-        bounty.soldAt < Date.now(),
+        Date.now() >= new Date("2024-12-16T00:00:00Z").getTime() &&
+        Date.now() <= new Date("2024-12-23T00:00:00Z").getTime(),
     ).length;
 
-    return bountied + soldInFirstFewDays;
+    return bountied - soldInFirstFewDays;
   },
 };
 

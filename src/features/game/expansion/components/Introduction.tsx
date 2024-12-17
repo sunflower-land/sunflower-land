@@ -11,8 +11,6 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { hasFeatureAccess } from "lib/flags";
-import { COMPETITION_POINTS } from "features/game/types/competitions";
-import { CompetitionModal } from "features/competition/CompetitionBoard";
 
 export const Introduction: React.FC = () => {
   const { t } = useAppTranslation();
