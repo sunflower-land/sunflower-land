@@ -98,7 +98,6 @@ import {
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
-import { getBumpkinLevel } from "./level";
 import { hasFeatureAccess } from "lib/flags";
 
 // Run at startup in case removed from query params
@@ -947,14 +946,13 @@ export function startGame(authContext: AuthContext) {
                 if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
                   return false;
 
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
+                // const level = getBumpkinLevel(
+                //   context.state.bumpkin?.experience ?? 0,
+                // );
 
-                if (level <= 5) return false;
+                // if (level <= 5) return false;
 
-                const competition =
-                  context.state.competitions.progress.ANIMAL_TESTING;
+                const competition = context.state.competitions.progress.ANIMALS;
 
                 // Show the competition introduction if they have not started it yet
                 return !competition;
