@@ -14,6 +14,7 @@ import { Button } from "components/ui/Button";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import fastForward from "assets/icons/fast_forward.png";
 
 interface Props {
   craftingService: MachineInterpreter;
@@ -87,15 +88,13 @@ export const InProgressInfo: React.FC<Props> = ({
         </div>
         <Button
           disabled={!inventory.Gem?.gte(gems)}
-          className="w-24 h-12 mr-[6px] px-2 relative flex items-center justify-center"
+          className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
           onClick={() => setShowConfirmation(true)}
         >
-          <div className="flex items-center">
-            <span className="mr-1">{gems}</span>
-            <img
-              src={ITEM_DETAILS["Gem"].image}
-              className="h-5 inline-block translate-y-[2px]"
-            />
+          <div className="flex items-center justify-center gap-1 mx-2">
+            <img src={fastForward} className="h-5" />
+            <span className="text-sm flex items-center">{gems}</span>
+            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
           </div>
         </Button>
         <ConfirmationModal
