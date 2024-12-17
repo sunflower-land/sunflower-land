@@ -75,15 +75,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   const { t } = useAppTranslation();
-  // Remove listings that are mine
-  const filteredListings =
-    tradeable?.listings.filter((listing) => listing.listedById !== farmId) ??
-    [];
 
-  // Filter out my own listings
-  const cheapestListing = filteredListings.reduce((cheapest, listing) => {
+  const cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
-  }, filteredListings[0]);
+  }, tradeable?.listings[0]);
 
   // Check if the item is a bert obsession and whether the bert obsession is completed
   const isItemBertObsession = bertObsession?.name === display.name;
@@ -127,7 +122,12 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
 
-  const showBuyNow = !isResources && cheapestListing && tradeable?.isActive;
+  const showBuyNow =
+    !isResources &&
+    cheapestListing &&
+    tradeable?.isActive &&
+    // Don't show buy now if the listing is mine
+    cheapestListing.listedById !== farmId;
   const showWalletRequired = showBuyNow && cheapestListing?.type === "onchain";
   // const showFreeListing = !isVIP && dailyListings === 0;
 
