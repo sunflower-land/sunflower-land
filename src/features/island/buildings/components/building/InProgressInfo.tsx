@@ -86,17 +86,20 @@ export const InProgressInfo: React.FC<Props> = ({
             type="progress"
           />
         </div>
-        <Button
-          disabled={!inventory.Gem?.gte(gems)}
-          className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
-          onClick={() => setShowConfirmation(true)}
-        >
-          <div className="flex items-center justify-center gap-1 mx-2">
-            <img src={fastForward} className="h-5" />
-            <span className="text-sm flex items-center">{gems}</span>
-            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
-          </div>
-        </Button>
+        {name !== "Pizza Margherita" && (
+          <Button
+            disabled={!inventory.Gem?.gte(gems)}
+            className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
+            onClick={() => setShowConfirmation(true)}
+          >
+            <div className="flex items-center justify-center gap-1 mx-2">
+              <img src={fastForward} className="h-5" />
+              <span className="text-sm flex items-center">{gems}</span>
+              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+            </div>
+          </Button>
+        )}
+
         <ConfirmationModal
           show={showConfirmation}
           onHide={() => setShowConfirmation(false)}
