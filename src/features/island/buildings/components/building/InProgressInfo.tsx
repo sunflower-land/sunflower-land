@@ -106,10 +106,10 @@ export const InProgressInfo: React.FC<Props> = ({
             setShowConfirmation(false);
           }}
           messages={[
-            "Are you sure you want to finish this recipe now?",
-            `This will cost you ${gems} Gems`,
+            t("instantCook.confirmationMessage"),
+            t("instantCook.costMessage", { gems }),
           ]}
-          confirmButtonLabel={"Finish Now"}
+          confirmButtonLabel={t("instantCook.finish")}
         />
       </div>
     </div>

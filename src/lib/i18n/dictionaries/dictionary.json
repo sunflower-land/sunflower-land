@@ -4718,5 +4718,8 @@
   "powerSkills.confirmationMessage": "Are you sure you want to use {{skillName}}?",
   "powerSkills.cooldownMessage": "You won't be able to use this skill again for {{cooldown}}",
   "powerSkills.useSkill": "Use Skill",
-  "marketplace.withdrawComingSoon": "Withdraw date"
+  "marketplace.withdrawComingSoon": "Withdraw date",
+  "instantCook.confirmationMessage": "Are you sure you want to finish this recipe now?",
+  "instantCook.costMessage": "This will cost you {{gems}} Gems",
+  "instantCook.finish": "Finish Now"
 }
