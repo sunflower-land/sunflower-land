@@ -87,15 +87,16 @@ export const InProgressInfo: React.FC<Props> = ({
         </div>
         <Button
           disabled={!inventory.Gem?.gte(gems)}
-          className="w-16 h-12 mr-[6px]"
+          className="w-24 h-12 mr-[6px] px-2 relative flex items-center justify-center"
           onClick={() => setShowConfirmation(true)}
         >
-          <Label
-            type={inventory.Gem?.gte(gems) ? "default" : "danger"}
-            icon={ITEM_DETAILS.Gem.image}
-          >
-            {gems}
-          </Label>
+          <div className="flex items-center">
+            <span className="mr-1">{gems}</span>
+            <img
+              src={ITEM_DETAILS["Gem"].image}
+              className="h-5 inline-block translate-y-[2px]"
+            />
+          </div>
         </Button>
         <ConfirmationModal
           show={showConfirmation}
