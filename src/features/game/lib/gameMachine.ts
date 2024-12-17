@@ -946,11 +946,11 @@ export function startGame(authContext: AuthContext) {
                 if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
                   return false;
 
-                // const level = getBumpkinLevel(
-                //   context.state.bumpkin?.experience ?? 0,
-                // );
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
 
-                // if (level <= 5) return false;
+                if (level <= 5) return false;
 
                 const competition = context.state.competitions.progress.ANIMALS;
 
