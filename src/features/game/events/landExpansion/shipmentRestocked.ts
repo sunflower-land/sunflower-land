@@ -51,7 +51,7 @@ export function canRestockShipment({
   return restockedAt !== today;
 }
 
-export function nextShipmentAt({ game }: { game: GameState }): number {
+export function nextShipmentAt(): number {
   // TODO - new players get as soon as out of stock (first time)
 
   const currentTime = Date.now();
