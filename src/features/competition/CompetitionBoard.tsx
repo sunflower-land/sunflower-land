@@ -234,6 +234,10 @@ export const CompetitionDetails: React.FC<{
                   icon: SUNNYSIDE.icons.stopwatch,
                   text: t("competition.rules.four"),
                 },
+                {
+                  icon: giftIcon,
+                  text: t("competition.rules.five"),
+                },
               ]}
             />
           </div>

@@ -293,11 +293,8 @@ export const PRIZES: Record<number, CompetitionPrize> = {
     .fill({
       wearables: {
         "Infernal Bullwhip": 1,
-        "Chicken Suit": 1,
       },
-      items: {
-        "Black Sheep": 1,
-      },
+      items: {},
     })
     .reduce(
       (acc, item, index) => ({
@@ -312,9 +309,7 @@ export const PRIZES: Record<number, CompetitionPrize> = {
       wearables: {
         "Cowbell Necklace": 1,
       },
-      items: {
-        "Black Sheep": 1,
-      },
+      items: {},
     })
     .reduce(
       (acc, item, index) => ({
@@ -329,9 +324,7 @@ export const PRIZES: Record<number, CompetitionPrize> = {
       wearables: {
         "Black Sheep Onesie": 1,
       },
-      items: {
-        "Black Sheep": 1,
-      },
+      items: {},
     })
     .reduce(
       (acc, item, index) => ({
@@ -340,12 +333,11 @@ export const PRIZES: Record<number, CompetitionPrize> = {
       }),
       {},
     ),
-  // 51 - 75
-  ...new Array(25)
+  // 51 - 85
+  ...new Array(35)
     .fill({
       wearables: {
         "Merino Jumper": 1,
-        "Shepherd Staff": 1,
       },
       items: {},
     })
@@ -356,28 +348,25 @@ export const PRIZES: Record<number, CompetitionPrize> = {
       }),
       {},
     ),
-  // 76 - 100
-  ...new Array(25)
+  // 86 - 130
+  ...new Array(45)
     .fill({
       wearables: {
         "Chicken Suit": 1,
-        "Shepherd Staff": 1,
       },
       items: {},
     })
     .reduce(
       (acc, item, index) => ({
         ...acc,
-        [index + 76]: item,
+        [index + 86]: item,
       }),
       {},
     ),
-  // 101 - 200
+  // 131 - 230
   ...new Array(100)
     .fill({
-      wearables: {
-        "Shepherd Staff": 1,
-      },
+      wearables: {},
       items: {
         "Moo-ver": 1,
       },
@@ -385,11 +374,26 @@ export const PRIZES: Record<number, CompetitionPrize> = {
     .reduce(
       (acc, item, index) => ({
         ...acc,
-        [index + 101]: item,
+        [index + 131]: item,
       }),
       {},
     ),
-  // 201 - 300
+  // 231 - 280
+  ...new Array(50)
+    .fill({
+      wearables: {},
+      items: {
+        "Black Sheep": 1,
+      },
+    })
+    .reduce(
+      (acc, item, index) => ({
+        ...acc,
+        [index + 231]: item,
+      }),
+      {},
+    ),
+  // 281 - 380
   ...new Array(100)
     .fill({
       wearables: {},
@@ -400,7 +404,37 @@ export const PRIZES: Record<number, CompetitionPrize> = {
     .reduce(
       (acc, item, index) => ({
         ...acc,
-        [index + 201]: item,
+        [index + 281]: item,
+      }),
+      {},
+    ),
+  // 381 - 530
+  ...new Array(150)
+    .fill({
+      wearables: {
+        "Shepherd Staff": 1,
+      },
+      items: {},
+    })
+    .reduce(
+      (acc, item, index) => ({
+        ...acc,
+        [index + 381]: item,
+      }),
+      {},
+    ),
+  // 530 - 1000
+  ...new Array(470)
+    .fill({
+      wearables: {},
+      items: {
+        "Luxury Key": 1,
+      },
+    })
+    .reduce(
+      (acc, item, index) => ({
+        ...acc,
+        [index + 530]: item,
       }),
       {},
     ),
