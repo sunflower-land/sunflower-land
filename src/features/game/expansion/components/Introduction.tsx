@@ -11,8 +11,6 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { hasFeatureAccess } from "lib/flags";
-import { COMPETITION_POINTS } from "features/game/types/competitions";
-import { CompetitionModal } from "features/competition/CompetitionBoard";
 
 export const Introduction: React.FC = () => {
   const { t } = useAppTranslation();
@@ -24,30 +22,9 @@ export const Introduction: React.FC = () => {
     "ONBOARDING_REWARDS",
   );
 
-  // TODO - change to FSL
-  const competition = COMPETITION_POINTS.TESTING;
-
-  const competitionIsActive =
-    hasFeatureAccess(gameState.context.state, "FSL") &&
-    Date.now() > competition.startAt &&
-    competition.endAt > Date.now();
-
   return (
     <Modal show={gameState.matches("introduction")}>
-      {competitionIsActive && (
-        <CompetitionModal
-          competitionName="FSL"
-          onClose={() => {
-            acknowledgeIntroduction();
-            send("ACKNOWLEDGE");
-
-            gameAnalytics.trackMilestone({
-              event: "Tutorial:Intro:Completed",
-            });
-          }}
-        />
-      )}
-      {!competitionIsActive && showChallengesIntro && (
+      {!showChallengesIntro && (
         <Panel bumpkinParts={NPC_WEARABLES["richie"]}>
           <div className="h-32 flex flex-col ">
             <Label type={"default"}>{`Richie`}</Label>
@@ -76,7 +53,7 @@ export const Introduction: React.FC = () => {
           </div>
         </Panel>
       )}
-      {!competitionIsActive && !showChallengesIntro && (
+      {!showChallengesIntro && (
         <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
           <div className="h-32 flex flex-col ">
             <Label type={"default"}>{`Pumpkin' Pete`}</Label>

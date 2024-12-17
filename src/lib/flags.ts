@@ -71,6 +71,7 @@ const featureFlags = {
 
     return defaultFeatureFlag(game);
   },
+  ANIMAL_COMPETITION: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

@@ -74,6 +74,7 @@ import { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
 import { OffersAcceptedPopup } from "./components/OffersAcceptedPopup";
 import { Marketplace } from "features/marketplace/Marketplace";
+import { CompetitionModal } from "features/competition/CompetitionBoard";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -214,6 +215,7 @@ const isEffectFailure = (state: MachineState) =>
   );
 const hasMarketplaceSales = (state: MachineState) =>
   state.matches("marketplaceSale");
+const isCompetition = (state: MachineState) => state.matches("competition");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -376,6 +378,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const effectSuccess = useSelector(gameService, isEffectSuccess);
   const effectFailure = useSelector(gameService, isEffectFailure);
   const showSales = useSelector(gameService, hasMarketplaceSales);
+  const competition = useSelector(gameService, isCompetition);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
@@ -588,6 +591,15 @@ export const GameWrapper: React.FC = ({ children }) => {
 
         {claimingAuction && <ClaimAuction />}
         {refundAuction && <RefundAuction />}
+
+        {competition && (
+          <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>
+            <CompetitionModal
+              competitionName="ANIMAL_TESTING"
+              onClose={() => gameService.send("ACKNOWLEDGE")}
+            />
+          </Modal>
+        )}
 
         <Introduction />
         <NewMail />
