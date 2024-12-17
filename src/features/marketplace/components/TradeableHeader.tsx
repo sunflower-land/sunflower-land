@@ -34,7 +34,6 @@ import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
 import Decimal from "decimal.js-light";
-import { FLOWERS } from "features/game/types/flowers";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -56,7 +55,7 @@ const _isVIP = (state: MachineState) =>
 const _bertObsession = (state: MachineState) =>
   state.context.state.bertObsession;
 const _npcs = (state: MachineState) => state.context.state.npcs;
-const _bounties = (state: MachineState) => state.context.state.bounties;
+
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   dailyListings,
   authToken,
@@ -73,7 +72,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const params = useParams();
   const bertObsession = useSelector(gameService, _bertObsession);
   const npcs = useSelector(gameService, _npcs);
-  const bounties = useSelector(gameService, _bounties);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   const { t } = useAppTranslation();
@@ -95,17 +93,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     bertObsession &&
     obsessionCompletedAt >= bertObsession.startDate &&
     obsessionCompletedAt <= bertObsession.endDate;
-
-  // Check if item is a flower bounty and whether the bounty is completed
-  const flowerBounties = bounties.requests.filter(
-    (deal) => deal.name in FLOWERS,
-  );
-  const isFlowerBounty = flowerBounties.find(
-    (bounty) => bounty.name === display.name,
-  );
-  const isFlowerBountyCompleted = !!bounties.completed.find(
-    (bounty) => bounty.id === isFlowerBounty?.id,
-  );
 
   // Handle instant purchase
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -288,8 +275,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                     disabled={
                       !count ||
                       (!isVIP && dailyListings >= 1) ||
-                      (isItemBertObsession && isBertsObesessionCompleted) ||
-                      (!!isFlowerBounty && isFlowerBountyCompleted)
+                      (isItemBertObsession && isBertsObesessionCompleted)
                     }
                     onClick={onListClick}
                     className="w-full sm:w-auto"
@@ -302,11 +288,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 {isItemBertObsession && isBertsObesessionCompleted && (
                   <Label type="danger">
                     {`You have completed Bert's Obsession recently`}
-                  </Label>
-                )}
-                {isFlowerBounty && isFlowerBountyCompleted && (
-                  <Label type="danger">
-                    {`You have completed this flower bounty recently`}
                   </Label>
                 )}
               </div>
@@ -331,8 +312,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 disabled={
                   !count ||
                   (!isVIP && dailyListings >= 1) ||
-                  (isItemBertObsession && isBertsObesessionCompleted) ||
-                  (!!isFlowerBounty && isFlowerBountyCompleted)
+                  (isItemBertObsession && isBertsObesessionCompleted)
                 }
                 className="w-full sm:w-auto"
               >
@@ -344,11 +324,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             {isItemBertObsession && isBertsObesessionCompleted && (
               <Label type="danger">
                 {`You have completed Bert's Obsession recently`}
-              </Label>
-            )}
-            {isFlowerBounty && isFlowerBountyCompleted && (
-              <Label type="danger">
-                {`You have completed this flower bounty recently`}
               </Label>
             )}
           </div>
