@@ -48,7 +48,7 @@ export const MAX_ITEMS: Inventory = {
   Leather: new Decimal(1500),
   Wool: new Decimal(1500),
   "Merino Wool": new Decimal(1500),
-  Feather: new Decimal(1500),
+  Feather: new Decimal(3000),
   Milk: new Decimal(1500),
 
   "Speed Chicken": new Decimal(5),

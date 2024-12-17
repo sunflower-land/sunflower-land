@@ -6,9 +6,9 @@ describe("TRADE_LIMITS", () => {
   it("allows the hoarding limit to be at least 3x more than the trade limits", () => {
     Object.entries(TRADE_LIMITS).forEach(([name, quantity]) => {
       // console.log(name);
-      expect(MAX_ITEMS[name as InventoryItemName]?.toNumber()).toBeGreaterThan(
-        quantity * 3,
-      );
+      expect(
+        MAX_ITEMS[name as InventoryItemName]?.toNumber(),
+      ).toBeGreaterThanOrEqual(quantity * 3);
     });
   });
 });
