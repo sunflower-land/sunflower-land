@@ -595,7 +595,7 @@ export const GameWrapper: React.FC = ({ children }) => {
         {competition && (
           <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>
             <CompetitionModal
-              competitionName="ANIMAL_TESTING"
+              competitionName="ANIMALS"
               onClose={() => gameService.send("ACKNOWLEDGE")}
             />
           </Modal>

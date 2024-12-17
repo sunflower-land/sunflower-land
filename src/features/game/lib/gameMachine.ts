@@ -98,8 +98,8 @@ import {
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
-import { getBumpkinLevel } from "./level";
 import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "./level";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -953,8 +953,7 @@ export function startGame(authContext: AuthContext) {
 
                 if (level <= 5) return false;
 
-                const competition =
-                  context.state.competitions.progress.ANIMAL_TESTING;
+                const competition = context.state.competitions.progress.ANIMALS;
 
                 // Show the competition introduction if they have not started it yet
                 return !competition;

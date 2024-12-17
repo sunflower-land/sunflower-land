@@ -7,7 +7,7 @@ import { getKeys } from "./decorations";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ITEM_DETAILS } from "./images";
 
-export type CompetitionName = "TESTING" | "FSL" | "ANIMAL_TESTING";
+export type CompetitionName = "TESTING" | "FSL" | "ANIMALS";
 
 export type CompetitionProgress = {
   startedAt: number;
@@ -26,14 +26,40 @@ export type CompetitionTaskName =
   | "Eat pizza"
   | "Cook honey cake"
   | "Craft bear"
-  | "Craft basic hair";
+  | "Craft basic hair"
+  | "Harvest barley";
 
 export const COMPETITION_TASK_PROGRESS: Record<
   CompetitionTaskName,
   (game: GameState) => number
 > = {
   "Complete chore": (game) => game.chores?.choresCompleted ?? 0,
-  "Complete delivery": (game) => game.delivery.fulfilledCount ?? 0,
+  "Harvest barley": (game) => game.bumpkin.activity["Barley Harvested"] ?? 0,
+  // For deliveries, count the number since yesterday
+  "Complete delivery": (game) => {
+    const delivered = game.delivery.fulfilledCount ?? 0;
+
+    if (game.competitions.progress.ANIMALS) return delivered;
+
+    const deliveredSinceYesterday = getKeys(game.npcs ?? {}).reduce(
+      (total, npc) => {
+        const npcData = game.npcs?.[npc];
+
+        if (
+          npcData?.deliveryCompletedAt &&
+          npcData.deliveryCompletedAt >
+            new Date("2024-12-17T00:00:00Z").getTime()
+        ) {
+          return total + 1;
+        }
+
+        return total;
+      },
+      0,
+    );
+
+    return delivered - deliveredSinceYesterday;
+  },
   "Expand island": (game) => {
     let expansions = game.inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -60,34 +86,29 @@ export const COMPETITION_TASK_PROGRESS: Record<
   "Craft bear": (game) => game.farmActivity["Basic Bear Crafted"] ?? 0,
   "Eat pizza": (game) => game.bumpkin.activity["Pizza Margherita Fed"] ?? 0,
 
-  // TODO include existing progress
   "Sell cow": (game) => {
     const bountied = game.farmActivity["Cow Bountied"] ?? 0;
 
-    if (game.competitions.progress.ANIMAL_TESTING) return bountied;
+    if (game.competitions.progress.ANIMALS) return bountied;
 
     const soldInFirstFewDays = game.bounties.completed.filter(
       (bounty) =>
-        bounty.id === "Cow" &&
-        bounty.soldAt >= new Date("2024-12-16T00:00:00Z").getTime() &&
-        bounty.soldAt < new Date("2024-12-23T00:00:00Z").getTime() &&
-        Date.now() >= new Date("2024-12-16T00:00:00Z").getTime() &&
-        Date.now() <= new Date("2024-12-23T00:00:00Z").getTime(),
+        !!BOUNTIES["2024-12-16"].find(
+          (b) => b.id === bounty.id && b.name === "Cow",
+        ),
     ).length;
 
     return bountied - soldInFirstFewDays;
   },
   "Sell sheep": (game) => {
     const bountied = game.farmActivity["Sheep Bountied"] ?? 0;
-    if (game.competitions.progress.ANIMAL_TESTING) return bountied;
+    if (game.competitions.progress.ANIMALS) return bountied;
 
     const soldInFirstFewDays = game.bounties.completed.filter(
       (bounty) =>
-        bounty.id === "Sheep" &&
-        bounty.soldAt >= new Date("2024-12-16T00:00:00Z").getTime() &&
-        bounty.soldAt < new Date("2024-12-23T00:00:00Z").getTime() &&
-        Date.now() >= new Date("2024-12-16T00:00:00Z").getTime() &&
-        Date.now() <= new Date("2024-12-23T00:00:00Z").getTime(),
+        !!BOUNTIES["2024-12-16"].find(
+          (b) => b.id === bounty.id && b.name === "Sheep",
+        ),
     ).length;
 
     return bountied - soldInFirstFewDays;
@@ -95,15 +116,13 @@ export const COMPETITION_TASK_PROGRESS: Record<
   "Sell chicken": (game) => {
     const bountied = game.farmActivity["Chicken Bountied"] ?? 0;
 
-    if (game.competitions.progress.ANIMAL_TESTING) return bountied;
+    if (game.competitions.progress.ANIMALS) return bountied;
 
     const soldInFirstFewDays = game.bounties.completed.filter(
       (bounty) =>
-        bounty.id === "Chicken" &&
-        bounty.soldAt >= new Date("2024-12-16T00:00:00Z").getTime() &&
-        bounty.soldAt < new Date("2024-12-23T00:00:00Z").getTime() &&
-        Date.now() >= new Date("2024-12-16T00:00:00Z").getTime() &&
-        Date.now() <= new Date("2024-12-23T00:00:00Z").getTime(),
+        !!BOUNTIES["2024-12-16"].find(
+          (b) => b.id === bounty.id && b.name === "Chicken",
+        ),
     ).length;
 
     return bountied - soldInFirstFewDays;
@@ -122,10 +141,10 @@ export const COMPETITION_POINTS: Record<
     startAt: new Date("2024-09-04T00:00:00Z").getTime(),
     endAt: new Date("2024-10-06T00:00:00Z").getTime(),
     points: {
-      "Complete chore": 1,
+      "Complete chore": 2,
       "Complete delivery": 2,
-      "Level up": 10,
-      "Expand island": 15,
+      "Expand island": 10,
+      "Level up": 5,
     },
   },
   FSL: {
@@ -138,7 +157,7 @@ export const COMPETITION_POINTS: Record<
       "Expand island": 15,
     },
   },
-  ANIMAL_TESTING: {
+  ANIMALS: {
     startAt: new Date("2024-12-17T00:00:00Z").getTime(),
     endAt: new Date("2025-02-01T00:00:00Z").getTime(),
     points: {
@@ -147,9 +166,9 @@ export const COMPETITION_POINTS: Record<
       "Sell chicken": 3,
       "Complete delivery": 5,
       "Eat pizza": 5,
-      "Cook honey cake": 5,
       "Craft bear": 2,
       "Craft basic hair": 1,
+      "Harvest barley": 1,
     },
   },
 };
@@ -201,6 +220,10 @@ export const COMPETITION_TASK_DETAILS: Record<
   "Sell chicken": {
     icon: ITEM_DETAILS["Chicken"].image,
     description: "Sell a Chicken at the Hen House",
+  },
+  "Harvest barley": {
+    icon: ITEM_DETAILS["Barley"].image,
+    description: "Harvest Barley at the Farm",
   },
 };
 
@@ -381,4 +404,318 @@ export const PRIZES: Record<number, CompetitionPrize> = {
       }),
       {},
     ),
+};
+
+// Temporary put bounties in front-end for testing
+export const BOUNTIES = {
+  "2024-12-16": [
+    {
+      level: 6,
+      id: "4ee67e",
+      name: "Chicken",
+      coins: 140,
+    },
+    {
+      level: 15,
+      id: "e9dee5",
+      name: "Chicken",
+      coins: 720,
+    },
+    {
+      level: 3,
+      id: "228f0a",
+      name: "Chicken",
+      coins: 100,
+    },
+    {
+      level: 10,
+      id: "ed6d87",
+      name: "Chicken",
+      coins: 310,
+    },
+    {
+      level: 4,
+      id: "719d07",
+      name: "Chicken",
+      coins: 110,
+    },
+    {
+      level: 4,
+      id: "895746",
+      name: "Chicken",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 6,
+      id: "debf92",
+      name: "Chicken",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 5,
+      id: "9a8a96",
+      name: "Chicken",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 7,
+      id: "1e98cd",
+      name: "Chicken",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 12,
+      id: "69a44e",
+      name: "Sheep",
+      coins: 2550,
+    },
+    {
+      level: 7,
+      id: "21be87",
+      name: "Cow",
+      coins: 1810,
+    },
+    {
+      level: 8,
+      id: "5f6a54",
+      name: "Cow",
+      coins: 2400,
+    },
+    {
+      level: 3,
+      id: "65ce7b",
+      name: "Sheep",
+      coins: 320,
+    },
+    {
+      level: 7,
+      id: "971763",
+      name: "Sheep",
+      items: {
+        Horseshoe: 5,
+      },
+    },
+    {
+      level: 5,
+      id: "5f6493",
+      name: "Sheep",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 3,
+      id: "d88905",
+      name: "Cow",
+      items: {
+        Horseshoe: 2,
+      },
+    },
+    {
+      level: 3,
+      id: "bac051",
+      name: "Sheep",
+      items: {
+        Horseshoe: 2,
+      },
+    },
+    {
+      level: 5,
+      id: "bba5bd",
+      name: "Cow",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      id: "6d4249",
+      name: "Purple Cosmos",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      id: "26cb11",
+      name: "White Carnation",
+      items: {
+        Horseshoe: 7,
+      },
+    },
+    {
+      id: "acc666",
+      name: "White Pansy",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    // --- NEW BOUNTIES ---
+    {
+      level: 15,
+      id: "47a94c",
+      name: "Chicken",
+      coins: 720,
+    },
+    {
+      level: 4,
+      id: "7662de",
+      name: "Chicken",
+      coins: 110,
+    },
+    {
+      level: 8,
+      id: "fbdb49",
+      name: "Chicken",
+      coins: 220,
+    },
+    {
+      level: 12,
+      id: "b79148",
+      name: "Chicken",
+      coins: 470,
+    },
+    {
+      level: 14,
+      id: "497d88",
+      name: "Chicken",
+      coins: 650,
+    },
+    {
+      level: 15,
+      id: "968b20",
+      name: "Chicken",
+      coins: 720,
+    },
+    {
+      level: 2,
+      id: "f43e6f",
+      name: "Chicken",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 4,
+      id: "6c8c41",
+      name: "Chicken",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 5,
+      id: "158dc6",
+      name: "Chicken",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 7,
+      id: "ed45eb",
+      name: "Chicken",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 7,
+      id: "894475",
+      name: "Chicken",
+      items: {
+        Gem: 10,
+      },
+    },
+    {
+      level: 5,
+      id: "a0fe79",
+      name: "Chicken",
+      items: {
+        Gem: 5,
+      },
+    },
+    {
+      level: 4,
+      id: "21016d",
+      name: "Cow",
+      items: {
+        Horseshoe: 2,
+      },
+    },
+    {
+      level: 5,
+      id: "1e8b2d",
+      name: "Cow",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 7,
+      id: "67df3d",
+      name: "Cow",
+      items: {
+        Gem: 10,
+      },
+    },
+    {
+      level: 3,
+      id: "9e3e27",
+      name: "Cow",
+      coins: 540,
+    },
+    {
+      level: 5,
+      id: "a62e45",
+      name: "Cow",
+      coins: 930,
+    },
+    {
+      level: 7,
+      id: "297142",
+      name: "Cow",
+      coins: 1810,
+    },
+    {
+      level: 4,
+      id: "6ab20c",
+      name: "Sheep",
+      items: {
+        Horseshoe: 3,
+      },
+    },
+    {
+      level: 6,
+      id: "64901c",
+      name: "Sheep",
+      items: {
+        Gem: 10,
+      },
+    },
+    {
+      level: 3,
+      id: "2fa3f0",
+      name: "Sheep",
+      coins: 320,
+    },
+    {
+      level: 5,
+      id: "4543b8",
+      name: "Sheep",
+      coins: 480,
+    },
+    {
+      level: 8,
+      id: "362d96",
+      name: "Sheep",
+      coins: 1070,
+    },
+  ],
 };

@@ -294,7 +294,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
                 )}
               >
-                <CompetitionDetails competitionName="ANIMAL_TESTING" />
+                <CompetitionDetails competitionName="ANIMALS" />
               </div>
             )}
           </div>

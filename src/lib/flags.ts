@@ -71,7 +71,13 @@ const featureFlags = {
 
     return defaultFeatureFlag(game);
   },
-  ANIMAL_COMPETITION: defaultFeatureFlag,
+  ANIMAL_COMPETITION: (game) => {
+    if (defaultFeatureFlag(game)) {
+      return true;
+    }
+
+    return Date.now() >= new Date("2024-12-18T00:00:00Z").getTime();
+  },
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
