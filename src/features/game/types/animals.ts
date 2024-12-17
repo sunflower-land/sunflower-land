@@ -169,8 +169,8 @@ export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
     type: "medicine",
     description: translate("description.barn.delight"),
     ingredients: {
-      Egg: new Decimal(10),
-      Iron: new Decimal(1),
+      Lemon: new Decimal(5),
+      Honey: new Decimal(3),
     },
   },
   Omnifeed: {
