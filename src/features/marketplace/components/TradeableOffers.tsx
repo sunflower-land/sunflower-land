@@ -48,6 +48,9 @@ const _balance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _isVIP = (state: MachineState) =>
   hasVipAccess(state.context.state.inventory);
+const _bertObsession = (state: MachineState) =>
+  state.context.state.bertObsession;
+const _npcs = (state: MachineState) => state.context.state.npcs;
 
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
@@ -83,6 +86,8 @@ export const TradeableOffers: React.FC<{
   const authToken = useSelector(authService, _authToken);
   const balance = useSelector(gameService, _balance);
   const inventory = useSelector(gameService, _inventory);
+  const bertObsession = useSelector(gameService, _bertObsession);
+  const npcs = useSelector(gameService, _npcs);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState<Offer>();
@@ -143,6 +148,15 @@ export const TradeableOffers: React.FC<{
 
   const loading = !tradeable;
   const isResource = getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(id)]);
+
+  // Check if the item is a bert obsession and whether the bert obsession is completed
+  const isItemBertObsession = bertObsession?.name === display.name;
+  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
+  const isBertsObesessionCompleted =
+    !!obsessionCompletedAt &&
+    bertObsession &&
+    obsessionCompletedAt >= bertObsession.startDate &&
+    obsessionCompletedAt <= bertObsession.endDate;
 
   return (
     <>
@@ -211,7 +225,10 @@ export const TradeableOffers: React.FC<{
 
                   {topOffer && tradeable?.isActive && (
                     <Button
-                      disabled={topOffer.offeredBy.id === farmId}
+                      disabled={
+                        topOffer.offeredBy.id === farmId ||
+                        (isItemBertObsession && isBertsObesessionCompleted)
+                      }
                       onClick={() => setShowAcceptOffer(true)}
                       className="w-full sm:w-fit"
                     >

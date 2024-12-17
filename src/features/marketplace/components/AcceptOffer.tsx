@@ -32,10 +32,6 @@ import Decimal from "decimal.js-light";
 import { StoreOnChain } from "./StoreOnChain";
 
 const _state = (state: MachineState) => state.context.state;
-const _previousInventory = (state: MachineState) =>
-  state.context.state.previousInventory;
-const _previousWardrobe = (state: MachineState) =>
-  state.context.state.previousWardrobe;
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -49,9 +45,8 @@ const AcceptOfferContent: React.FC<{
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const previousInventory = useSelector(gameService, _previousInventory);
-  const previousWardrobe = useSelector(gameService, _previousWardrobe);
   const [needsSync, setNeedsSync] = useState(false);
+  const { previousInventory, previousWardrobe, bertObsession, npcs } = state;
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -149,6 +144,15 @@ const AcceptOfferContent: React.FC<{
     );
   }
 
+  // Check if the item is a bert obsession and whether the bert obsession is completed
+  const isItemBertObsession = bertObsession?.name === display.name;
+  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
+  const isBertsObesessionCompleted =
+    !!obsessionCompletedAt &&
+    bertObsession &&
+    obsessionCompletedAt >= bertObsession.startDate &&
+    obsessionCompletedAt <= bertObsession.endDate;
+
   return (
     <>
       <div className="p-2">
@@ -171,10 +175,9 @@ const AcceptOfferContent: React.FC<{
       </div>
 
       {!hasItem && (
-        <Label
-          type="danger"
-          className="my-2"
-        >{`You do not have ${display.name}`}</Label>
+        <Label type="danger" className="my-2">
+          {`You do not have ${display.name}`}
+        </Label>
       )}
 
       <div className="flex">
@@ -182,7 +185,9 @@ const AcceptOfferContent: React.FC<{
           {t("cancel")}
         </Button>
         <Button
-          disabled={!hasItem}
+          disabled={
+            !hasItem || (isItemBertObsession && isBertsObesessionCompleted)
+          }
           onClick={() => confirm()}
           className="relative"
         >
