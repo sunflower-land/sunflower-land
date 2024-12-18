@@ -22,7 +22,7 @@ import { InlineDialogue } from "./TypingMessage";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface WorldIntroductionProps {
-  onClose: () => void;
+  onClose: (username: string) => void;
 }
 
 export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
@@ -121,7 +121,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
               <NPCIcon parts={NPC_WEARABLES[delivery.from]} />
             </div>
           </div>
-          <Button onClick={onClose}>{t("ok")}</Button>
+          <Button onClick={() => onClose(username)}>{t("ok")}</Button>
         </div>
       </Panel>
     );
@@ -136,7 +136,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
         <Panel bumpkinParts={NPC_WEARABLES.mayor}>
           {alreadyHaveUsername ? (
             <SpeakingText
-              onClose={onClose}
+              onClose={() => onClose(username)}
               message={[
                 {
                   text: t("mayor.plaza.metBefore", {
@@ -150,7 +150,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
             />
           ) : (
             <SpeakingText
-              onClose={onClose}
+              onClose={() => onClose(username)}
               message={[
                 {
                   text: t("mayor.plaza.intro"),
@@ -241,7 +241,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
 
       {tab === 2 && (
         <CloseButtonPanel
-          onClose={onClose}
+          onClose={() => onClose(username)}
           bumpkinParts={{
             ...NPC_WEARABLES.mayor,
             body: "Light Brown Worried Farmer Potion",
@@ -280,7 +280,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
 
       {tab === 3 && (
         <SpeakingModal
-          onClose={onClose}
+          onClose={() => onClose(username)}
           bumpkinParts={NPC_WEARABLES.mayor}
           message={[
             {
@@ -289,11 +289,16 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
                 {
                   text: t("ok"),
                   cb: () => {
-                    // If mmo_introduction.read is set then go into the move state machine to joined
-                    // else set next tab
-                    setTab(4);
-                    setShowNameSetUpStatement(true);
-                    setShowMayorIntroStatement(false);
+                    onClose(username);
+                    // if (localStorage.getItem("mmo_introduction.read")) {
+
+                    //   onClose();
+                    //   return;
+                    // }
+
+                    // setTab(4);
+                    // setShowNameSetUpStatement(true);
+                    // setShowMayorIntroStatement(false);
                   },
                 },
               ],
@@ -303,7 +308,9 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
       )}
       {tab === 4 && (
         <SpeakingModal
-          onClose={delivery ? () => setShowNPCFind(true) : () => onClose()}
+          onClose={
+            delivery ? () => setShowNPCFind(true) : () => onClose(username)
+          }
           bumpkinParts={NPC_WEARABLES.mayor}
           message={[
             // If they haven't completed their first delivery then go into the next step

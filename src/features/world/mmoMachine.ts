@@ -393,11 +393,12 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
         CONTINUE: {
           target: "joined",
           actions: [
-            () =>
+            () => {
               localStorage.setItem(
                 "mmo_introduction.read",
                 Date.now().toString(),
-              ),
+              );
+            },
             assign({
               username: (_, event) => event.username,
             }),

@@ -20,13 +20,13 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWrapper } from "features/game/expansion/Game";
 import { WorldHud } from "features/island/hud/WorldHud";
 import { Loading } from "features/auth/components";
 import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
-import { WorldIntroduction } from "./ui/WorldIntroduction";
 
 interface Props {
   isCommunity?: boolean;
@@ -72,6 +72,8 @@ const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
 const _isIntroducing = (state: MMOMachineState) =>
   state.matches("introduction");
+const _isChoosingUsername = (state: MMOMachineState) =>
+  state.matches("chooseUsername");
 
 type MMOProps = { isCommunity: boolean };
 
@@ -138,6 +140,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
   const isIntroducing = useSelector(mmoService, _isIntroducing);
+  const isChoosingUsername = useSelector(mmoService, _isChoosingUsername);
   const isTraveling =
     isInitialising || isConnecting || isConnected || isKicked || isJoining;
 
@@ -174,16 +177,12 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
         route={name as SceneId}
       />
 
-      <Modal show={isIntroducing || !gameState.context.state.username}>
+      <Modal show={isIntroducing}>
         <WorldIntroduction
-          onClose={() => {
-            mmoService.send("CONTINUE", {
-              username: gameState.context.state.username,
-            });
+          onClose={(username: string) => {
+            mmoService.send("CONTINUE", { username });
             // BUG - need to call twice?
-            mmoService.send("CONTINUE", {
-              username: gameState.context.state.username,
-            });
+            mmoService.send("CONTINUE", { username });
           }}
         />
       </Modal>
