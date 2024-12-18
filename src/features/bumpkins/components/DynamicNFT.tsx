@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import silhouette from "assets/bumpkins/silhouette.png";
 
@@ -18,29 +18,9 @@ export const DynamicNFT: React.FC<Props> = ({
   showBackground,
   showTools = true,
 }) => {
-  const [imageSrc, setImageSrc] = useState<string>();
-  const [transitioned, setTransitioned] = useState<boolean>();
+  const [transitioned, setTransitioned] = useState<boolean>(false);
 
   const parts = cloneDeep(bumpkinParts);
-
-  useEffect(() => {
-    let isSubscribed = true;
-    const load = async () => {
-      const image = getBumpkinImageURL({
-        parts,
-      });
-
-      if (isSubscribed) {
-        setImageSrc(image);
-      }
-    };
-
-    load();
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, []);
 
   if (!parts) {
     return null;
@@ -54,20 +34,9 @@ export const DynamicNFT: React.FC<Props> = ({
     delete parts.tool;
   }
 
-  if (!imageSrc) {
-    return (
-      <div className={"relative w-full animate-pulse"}>
-        {showBackground && (
-          <div className="h-full w-full absolute bg-slate-800 opacity-50" />
-        )}
-        <img
-          src={silhouette}
-          alt="bumpkin"
-          className="relative w-full opacity-80"
-        />
-      </div>
-    );
-  }
+  const imageSrc = getBumpkinImageURL({
+    parts,
+  });
 
   return (
     <div className="relative w-full">
