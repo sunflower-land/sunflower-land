@@ -1955,31 +1955,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
-  "Ferrous Favor": {
-    name: "Ferrous Favor",
-    tree: "Mining",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.ferrousFavor.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Iron.image,
-      },
-      debuff: {
-        shortDescription: translate("skill.ferrousFavor.debuff"),
-        labelType: "danger",
-        boostTypeIcon: redArrowDown,
-        boostedItemIcon: ITEM_DETAILS.Stone.image,
-      },
-    },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
   "Midas Sprint": {
     name: "Midas Sprint",
     tree: "Mining",
@@ -1999,7 +1974,51 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
+  "Fire Kissed": {
+    name: "Fire Kissed",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fireKissed"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   // Mining - Tier 3
+  "Ferrous Favor": {
+    name: "Ferrous Favor",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.ferrousFavor.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.ferrousFavor.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+  },
   "Golden Touch": {
     name: "Golden Touch",
     tree: "Mining",
@@ -2033,25 +2052,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
         boostedItemIcon: ITEM_DETAILS.Pickaxe.image,
-      },
-    },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    disabled: false,
-  },
-  "Fire Kissed": {
-    name: "Fire Kissed",
-    tree: "Mining",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.fireKissed"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Crimstone.image,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
