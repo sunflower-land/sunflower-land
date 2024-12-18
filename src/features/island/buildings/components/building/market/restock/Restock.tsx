@@ -1,4 +1,3 @@
-import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import {
@@ -28,19 +27,19 @@ import { ShipmentRestockModal } from "./ShipmentRestockModal";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { capitalize } from "lodash";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+
+const _state = (state: MachineState) => state.context.state;
 
 export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
+  const shipmentAt = useCountdown(nextShipmentAt());
 
   const { ...shipmentTime } = shipmentAt;
   const shipmentIsReady = canRestockShipment({ game: state });
@@ -93,19 +92,13 @@ const RestockSelectionModal: React.FC<{
   showShipment: boolean;
 }> = ({ npc, showShipment }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEnhancedConfirm, setShowEnhancedConfirm] = useState(false);
   const [showShipmentConfirm, setShowShipmentConfirm] = useState(false);
   const { shopName, gemPrice, categoryLabel } = RestockItems[npc];
   const { labelText, icon } = categoryLabel;
-  const shipmentAt = useCountdown(nextShipmentAt({ game: state }));
+  const shipmentAt = useCountdown(nextShipmentAt());
 
   const { ...shipmentTime } = shipmentAt;
 
@@ -190,7 +183,6 @@ const RestockSelectionModal: React.FC<{
           </Button>
           <Button
             onClick={() => setShowEnhancedConfirm(true)}
-            disabled={showShipment}
             className="flex justify-between relative"
           >
             <p className="capitalize p-1 mb-1">
@@ -217,7 +209,6 @@ const RestockSelectionModal: React.FC<{
           <Button
             className="relative mt-1 justify-between"
             onClick={() => setShowConfirm(true)}
-            disabled={showShipment}
           >
             <p className="capitalize p-1 mb-1 text-left">{t("restock.full")}</p>
             <div className="flex w-full mb-1">
