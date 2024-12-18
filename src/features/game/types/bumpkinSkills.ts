@@ -1427,14 +1427,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  // Animals - Tier 3
   "Healthy Livestock": {
     name: "Healthy Livestock",
     tree: "Animals",
     disabled: false,
     requirements: {
-      points: 3,
-      tier: 3,
+      points: 2,
+      tier: 2,
       island: "spring",
     },
     boosts: {
@@ -1446,6 +1445,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  // Animals - Tier 3
   "Clucky Grazing": {
     name: "Clucky Grazing",
     tree: "Animals",
