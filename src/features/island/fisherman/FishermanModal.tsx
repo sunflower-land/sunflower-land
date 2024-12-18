@@ -357,7 +357,7 @@ const BaitSelection: React.FC<{
       )}
 
       {!fishingLimitReached && missingRod && (
-        <Label className="mb-1" type="danger">
+        <Label className="mb-1 ml-1" type="danger">
           {t("fishermanModal.needCraftRod")}
         </Label>
       )}
