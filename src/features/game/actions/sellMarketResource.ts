@@ -21,6 +21,7 @@ export type TradeableName = Extract<
   | "Radish"
   | "Wheat"
   | "Kale"
+  | "Barley"
   | "Grape"
   | "Rice"
   | "Olive"
@@ -35,8 +36,13 @@ export type TradeableName = Extract<
   | "Iron"
   | "Gold"
   | "Crimstone"
-  | "Egg"
   | "Honey"
+  | "Egg"
+  | "Feather"
+  | "Leather"
+  | "Milk"
+  | "Wool"
+  | "Merino Wool"
 >;
 
 type Request = {
