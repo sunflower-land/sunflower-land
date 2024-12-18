@@ -1,31 +1,36 @@
 import { hasFeatureAccess } from "lib/flags";
-import { BB_TO_GEM_RATIO, Inventory } from "./game";
+import { BB_TO_GEM_RATIO, Inventory, InventoryItemName } from "./game";
 import { SeasonalTicket, SEASONS } from "./seasons";
 import { TEST_FARM } from "../lib/constants";
 import Decimal from "decimal.js-light";
+import { BumpkinItem } from "./bumpkin";
 
 export type GarbageName =
-  | "Block Buck"
-  | "Crow Feather"
-  | "War Bond"
-  | "Love Letter"
-  | "Red Envelope"
-  | "Jack-o-lantern"
-  | "Blue Egg"
-  | "Green Egg"
-  | "Orange Egg"
-  | "Pink Egg"
-  | "Purple Egg"
-  | "Red Egg"
-  | "Yellow Egg"
-  | "Rapid Growth"
-  | "Tent"
-  | "Earthworm"
-  | "Grub"
-  | "Red Wiggler"
-  | SeasonalTicket
-  | "Chicken"
-  | "Hen House";
+  | Extract<
+      InventoryItemName,
+      | "Block Buck"
+      | "War Bond"
+      | "Love Letter"
+      | "Red Envelope"
+      | "Jack-o-lantern"
+      | "Blue Egg"
+      | "Green Egg"
+      | "Orange Egg"
+      | "Pink Egg"
+      | "Purple Egg"
+      | "Red Egg"
+      | "Yellow Egg"
+      | "Rapid Growth"
+      | "Tent"
+      | "Earthworm"
+      | "Grub"
+      | "Red Wiggler"
+      | SeasonalTicket
+      | "Chicken"
+      | "Hen House"
+      | "Basic Bear"
+    >
+  | Extract<BumpkinItem, "Basic Hair">;
 
 export type Garbage = {
   sellPrice: number;
@@ -177,4 +182,12 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
           items: Inventory;
         };
       })),
+  "Basic Bear": {
+    sellPrice: 1,
+    gems: 0,
+  },
+  "Basic Hair": {
+    sellPrice: 1,
+    gems: 0,
+  },
 };
