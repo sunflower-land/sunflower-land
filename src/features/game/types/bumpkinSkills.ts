@@ -1555,7 +1555,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       island: "spring",
       cooldown: 1000 * 60 * 60 * 24 * 7,
       items: {
-        Apple: new Decimal(150),
+        Apple: new Decimal(600),
       },
     },
     power: true,
