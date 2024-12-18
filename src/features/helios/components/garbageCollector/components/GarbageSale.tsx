@@ -45,8 +45,8 @@ export const GarbageSale: React.FC = () => {
     const selected = GARBAGE[name];
 
     let count = isWearable(name)
-      ? availableWardrobe(state)[name as BumpkinItem] ?? 0
-      : inventory[name as InventoryItemName] ?? new Decimal(0);
+      ? availableWardrobe(state)[name] ?? 0
+      : inventory[name] ?? new Decimal(0);
     if (new Decimal(count).gte(selected.limit ?? 0)) {
       count = new Decimal(count).minus(selected.limit ?? 0);
     }

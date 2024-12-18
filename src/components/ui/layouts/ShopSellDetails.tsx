@@ -76,14 +76,12 @@ export const ShopSellDetails: React.FC<Props> = ({
 const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
   const { item } = details;
   const image = isWearable(item)
-    ? new URL(
-        `/src/assets/wearables/${ITEM_IDS[item as BumpkinItem]}.webp`,
-        import.meta.url,
-      ).href
-    : ITEM_DETAILS[item as InventoryItemName].image;
+    ? new URL(`/src/assets/wearables/${ITEM_IDS[item]}.webp`, import.meta.url)
+        .href
+    : ITEM_DETAILS[item].image;
   const description = isWearable(item)
-    ? BUMPKIN_ITEM_BUFF_LABELS[item as BumpkinItem]?.shortDescription
-    : ITEM_DETAILS[item as InventoryItemName].description;
+    ? BUMPKIN_ITEM_BUFF_LABELS[item]?.shortDescription
+    : ITEM_DETAILS[item].description;
 
   return (
     <>

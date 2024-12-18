@@ -18,8 +18,9 @@ type Options = {
   action: SellGarbageAction;
 };
 
-export const isWearable = (item: InventoryItemName | BumpkinItem) =>
-  item in ITEM_IDS;
+export const isWearable = (
+  item: InventoryItemName | BumpkinItem,
+): item is BumpkinItem => item in ITEM_IDS;
 
 export function sellGarbage({ state, action }: Options) {
   return produce(state, (game) => {
@@ -40,8 +41,8 @@ export function sellGarbage({ state, action }: Options) {
 
     const isWearableItem = isWearable(item);
     const count = isWearableItem
-      ? availableWardrobe(state)[item as BumpkinItem] ?? 0
-      : inventory[item as InventoryItemName] ?? new Decimal(0);
+      ? availableWardrobe(state)[item] ?? 0
+      : inventory[item] ?? new Decimal(0);
 
     // Check if enough quantity
     if (isWearableItem) {
@@ -102,12 +103,10 @@ export function sellGarbage({ state, action }: Options) {
 
     // Update inventory/wardrobe
     if (isWearableItem) {
-      wardrobe[item as BumpkinItem] =
-        (wardrobe[item as BumpkinItem] ?? 0) - amount;
+      wardrobe[item] = (wardrobe[item] ?? 0) - amount;
     } else {
-      inventory[item as InventoryItemName] =
-        inventory[item as InventoryItemName]?.sub(amount) ??
-        new Decimal(0).sub(amount);
+      inventory[item] =
+        inventory[item]?.sub(amount) ?? new Decimal(0).sub(amount);
     }
 
     return game;
