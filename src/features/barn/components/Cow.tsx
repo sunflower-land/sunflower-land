@@ -40,7 +40,6 @@ import {
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
-import { formatNumber } from "lib/utils/formatNumber";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -483,7 +482,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
                   ? "#71e358"
                   : "#fff",
             }}
-          >{`+${formatNumber(foodXp)}`}</span>
+          >
+            {`+${foodXp}`}
+          </span>
         </Transition>
         <Transition
           appear={true}
@@ -502,7 +503,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
             style={{
               color: "#ffffff",
             }}
-          >{`+${animalXP}`}</span>
+          >
+            {`+${animalXP}`}
+          </span>
         </Transition>
       </div>
     </>

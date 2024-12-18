@@ -40,7 +40,6 @@ import {
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
-import { formatNumber } from "lib/utils/formatNumber";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -438,7 +437,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
                   ? "#71e358"
                   : "#fff",
             }}
-          >{`+${formatNumber(foodXp)}`}</span>
+          >
+            {`+${foodXp}`}
+          </span>
         </Transition>
         <Transition
           appear={true}
@@ -457,7 +458,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
             style={{
               color: "#ffffff",
             }}
-          >{`+${animalXP}`}</span>
+          >
+            {`+${animalXP}`}
+          </span>
         </Transition>
       </div>
     </>
