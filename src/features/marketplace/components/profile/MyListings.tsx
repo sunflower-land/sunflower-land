@@ -124,7 +124,7 @@ export const MyListings: React.FC = () => {
             {getKeys(filteredListings).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
             ) : (
-              <div className="w-full text-xs border-collapse mb-2">
+              <div className="w-full relative border-collapse mb-2 max-h-[200px] scrollable overflow-y-auto overflow-x-hidden">
                 {getKeys(filteredListings).map((id, index) => {
                   const listing = listings[id];
                   const itemName = getKeys(
