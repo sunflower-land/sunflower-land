@@ -280,6 +280,7 @@ export type CompetitionLeaderboardResponse = {
   miniboard: CompetitionPlayer[];
   lastUpdated: number;
   player?: CompetitionPlayer;
+  devs: CompetitionPlayer[];
 };
 
 export type CompetitionPrize = {

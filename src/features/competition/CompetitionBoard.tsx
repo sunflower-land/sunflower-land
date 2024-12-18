@@ -305,7 +305,7 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
       </InnerPanel>
     );
 
-  const { leaderboard, lastUpdated, miniboard, player } = data;
+  const { leaderboard, lastUpdated, miniboard, player, devs } = data;
   return (
     <>
       <InnerPanel className="mb-1">
@@ -326,6 +326,15 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
               <p className="text-center text-xs mb-2">{`...`}</p>
               <CompetitionTable items={miniboard} />
             </>
+          )}
+          {/* Add devs positions */}
+          {devs && (
+            <div className="mt-2 space-y-2">
+              <Label type="default" className="">
+                {`Devs`}
+              </Label>
+              <CompetitionTable items={devs} />
+            </div>
           )}
         </div>
       </InnerPanel>
