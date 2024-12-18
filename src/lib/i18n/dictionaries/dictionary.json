@@ -696,6 +696,8 @@
   "mayor.plaza.usernameValidation": "Just remember, your chosen name needs to follow our",
   "mayor.plaza.congratulations": "Well {{username}}, the paperwork is all done - you're officially a named citizen of Sunflower Land!",
   "mayor.plaza.firstDelivery": "good luck finding {{npc}}! I am sure I saw them around here somewhere...",
+  "mayor.plaza.businessDone": "Ok, now that we have the official business out of the way...",
+  "mayor.plaza.welcome": "I would like to officially welcome you to Pumpkin Plaza, a place where Bumpkins come from far and wide to socialize, complete deliveries and play mini-games.",
   "mayor.plaza.goodbye": "Alright, well {{text}}.",
   "mayor.plaza.bye": "Bye",
   "mayor.plaza.haveFun": "I better get back to work. Have fun exploring!",
@@ -4724,5 +4726,7 @@
   "marketplace.withdrawComingSoon": "Withdraw date",
   "instantCook.confirmationMessage": "Are you sure you want to finish this recipe now?",
   "instantCook.costMessage": "This will cost you {{gems}} Gems",
-  "instantCook.finish": "Finish Now"
+  "instantCook.finish": "Finish now",
+  "mayor": "Mayor",
+  "mayor.plaza.shortIntro": "Hey there Bumpkin, I am the mayor of this town and "
 }

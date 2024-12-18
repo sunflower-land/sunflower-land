@@ -20,15 +20,13 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWrapper } from "features/game/expansion/Game";
 import { WorldHud } from "features/island/hud/WorldHud";
 import { Loading } from "features/auth/components";
 import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
-import { NPCName } from "lib/npcs";
-import { Mayor } from "./ui/npcs/Mayor";
+import { WorldIntroduction } from "./ui/WorldIntroduction";
 
 interface Props {
   isCommunity?: boolean;
@@ -74,8 +72,6 @@ const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
 const _isIntroducing = (state: MMOMachineState) =>
   state.matches("introduction");
-const _isChoosingUsername = (state: MMOMachineState) =>
-  state.matches("chooseUsername");
 
 type MMOProps = { isCommunity: boolean };
 
@@ -142,7 +138,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
   const isIntroducing = useSelector(mmoService, _isIntroducing);
-  const isChoosingUsername = useSelector(mmoService, _isChoosingUsername);
   const isTraveling =
     isInitialising || isConnecting || isConnected || isKicked || isJoining;
 
@@ -179,26 +174,21 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
         route={name as SceneId}
       />
 
-      <Modal show={isIntroducing}>
+      <Modal show={isIntroducing || !gameState.context.state.username}>
         <WorldIntroduction
-          onClose={(firstDeliveryNpc?: NPCName) => {
-            mmoService.send("CONTINUE", { firstDeliveryNpc });
-            // BUG - need to call twice?
-            mmoService.send("CONTINUE", { firstDeliveryNpc });
-          }}
-        />
-      </Modal>
-
-      <Modal show={isChoosingUsername}>
-        <Mayor
-          firstDeliveryNpc={mmoState.context.firstDeliveryNpc}
           onClose={() => {
-            mmoService.send("SET_USERNAME", {
+            mmoService.send("CONTINUE", {
+              username: gameState.context.state.username,
+            });
+            // BUG - need to call twice?
+            mmoService.send("CONTINUE", {
               username: gameState.context.state.username,
             });
           }}
         />
       </Modal>
+
+      {/* <Modal show={isChoosingUsername}></Modal> */}
       <WorldHud />
     </>
   );

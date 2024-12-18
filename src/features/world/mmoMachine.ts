@@ -153,11 +153,6 @@ export type ConnectEvent = {
   serverId: string;
 };
 
-export type SetUsername = {
-  type: "SET_USERNAME";
-  username: string;
-};
-
 export type SwitchScene = {
   type: "SWITCH_SCENE";
   sceneId: SceneId;
@@ -170,14 +165,13 @@ export type UpdatePreviousScene = {
 
 export type MMOEvent =
   | PickServer
-  | { type: "CONTINUE"; firstDeliveryNpc?: NPCName }
+  | { type: "CONTINUE"; username?: string }
   | { type: "DISCONNECTED" }
   | { type: "RETRY" }
   | { type: "CHANGE_SERVER"; serverId: ServerId }
   | ConnectEvent
   | SwitchScene
-  | UpdatePreviousScene
-  | SetUsername;
+  | UpdatePreviousScene;
 
 export type MachineState = State<MMOContext, MMOEvent, MMOState>;
 
@@ -375,16 +369,12 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
         },
       },
     },
-
     joined: {
       always: [
         {
           target: "introduction",
-          cond: () => !localStorage.getItem("mmo_introduction.read"),
-        },
-        {
-          target: "chooseUsername",
-          cond: (context) => !context.username,
+          cond: (context) =>
+            !localStorage.getItem("mmo_introduction.read") || !context.username,
         },
       ],
       on: {
@@ -409,23 +399,12 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
                 Date.now().toString(),
               ),
             assign({
-              firstDeliveryNpc: (_, event) => event.firstDeliveryNpc,
+              username: (_, event) => event.username,
             }),
           ],
         },
       },
     },
-    chooseUsername: {
-      on: {
-        SET_USERNAME: {
-          target: "joined",
-          actions: assign({
-            username: (_, event) => (event as SetUsername).username,
-          }),
-        },
-      },
-    },
-
     kicked: {},
     reconnecting: {
       always: [

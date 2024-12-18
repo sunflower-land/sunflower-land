@@ -14,24 +14,33 @@ import { validateUsername, saveUsername, checkUsername } from "lib/username";
 import { Panel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { capitalize } from "lib/utils/capitalize";
+import { hasOrderRequirements } from "features/island/delivery/components/Orders";
+import { InlineDialogue } from "../TypingMessage";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { Label } from "components/ui/Label";
 
 interface MayorProps {
+  isIntroducing: boolean;
   onClose: () => void;
 }
 
-export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
+export const Mayor: React.FC<MayorProps> = ({ isIntroducing, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const usernameOnEnter = gameService.getSnapshot().context.state.username;
+
   const [username, setUsername] = useState<string>(
     gameState.context.state.username ?? "",
   );
   const [validationState, setValidationState] = useState<string | null>(null);
 
-  const [tab, setTab] = useState<number>(0);
+  const [tab, setTab] = useState<number>(!usernameOnEnter ? 0 : 4);
+  const [showNPCFind, setShowNPCFind] = useState(false);
   const [state, setState] = useState<
     "idle" | "loading" | "success" | "error" | "checking"
   >("idle");
@@ -76,26 +85,62 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
         username: username as string,
       });
       setState("success");
-      setTab(4);
+      setTab(3);
     } catch {
       setValidationState("Error saving username, please try again");
       setState("idle");
     }
   };
 
+  // Find a delivery that is ready
+  const delivery = gameState.context.state.delivery.orders.find((order) =>
+    hasOrderRequirements({
+      order,
+      state: gameState.context.state,
+    }),
+  );
+
+  if (showNPCFind && delivery) {
+    return (
+      <Panel bumpkinParts={NPC_WEARABLES.mayor}>
+        <div className="flex flex-col justify-between">
+          <div className="p-1">
+            <Label type={"default"} className="capitalize mb-1">{`${t(
+              "world.intro.find",
+            )} ${delivery.from}`}</Label>
+            <InlineDialogue
+              message={t("world.intro.findNPC", {
+                name: capitalize(delivery.from),
+              })}
+            />
+            <div className="relative mt-2 mb-2 mr-0.5 -ml-1">
+              <NPCIcon parts={NPC_WEARABLES[delivery.from]} />
+            </div>
+          </div>
+          <Button onClick={onClose}>{t("ok")}</Button>
+        </div>
+      </Panel>
+    );
+  }
+
+  // If you don't have a username then return the next step
+  // If they do have a username then start the second step
+
   return (
     <>
       {tab === 0 && (
         <Panel bumpkinParts={NPC_WEARABLES.mayor}>
-          {alreadyHaveUsername ? (
+          {alreadyHaveUsername && !isIntroducing ? (
             <SpeakingText
               onClose={onClose}
               message={[
                 {
-                  text: `Howdy ${username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`, //Translate
+                  text: t("mayor.plaza.metBefore", {
+                    username,
+                  }),
                 },
                 {
-                  text: t("mayor.plaza.changeNamePrompt"),
+                  text: t("mayor.plaza.coffee"),
                 },
               ]}
             />
@@ -113,13 +158,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   text: t("mayor.plaza.fixNamePrompt"),
                   actions: [
                     {
-                      text: t("no.thanks"),
-                      cb: () => {
-                        onClose();
-                      },
-                    },
-                    {
-                      text: t("yes.please"),
+                      text: t("ok"),
                       cb: () => {
                         setTab(1);
                       },
@@ -133,10 +172,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
       )}
 
       {tab === 1 && (
-        <CloseButtonPanel
-          onClose={state === "loading" ? undefined : onClose}
-          bumpkinParts={NPC_WEARABLES.mayor}
-        >
+        <Panel bumpkinParts={NPC_WEARABLES.mayor}>
           <>
             <div className="flex flex-col items-center p-1">
               <span>{t("mayor.plaza.enterUsernamePrompt")}</span>
@@ -146,7 +182,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   name="Username"
                   autoComplete="off"
                   className={
-                    "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2 text-center"
+                    "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2 my-1.5 text-center"
                   }
                   value={username}
                   onChange={(e) => {
@@ -169,7 +205,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                 />
 
                 {validationState && (
-                  <label className="absolute -bottom-1 right-0 text-red-500 text-[11px] font-error">
+                  <label className="absolute -bottom-1 right-0 text-black text-[11px] font-error">
                     {validationState}
                   </label>
                 )}
@@ -196,7 +232,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                         : t("submit")}
             </Button>
           </>
-        </CloseButtonPanel>
+        </Panel>
       )}
 
       {tab === 2 && (
@@ -210,7 +246,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           title="Beware!"
         >
           <>
-            <div className="flex flex-col space-y-2 px-1 pb-2 pt-0">
+            <div className="flex flex-col space-y-2 px-1 pb-2 pt-0 mb-2">
               <span>
                 {t("mayor.plaza.usernameValidation")}{" "}
                 <a
@@ -244,28 +280,49 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           bumpkinParts={NPC_WEARABLES.mayor}
           message={[
             {
-              text: t("mayor.plaza.niceToMeetYou"), //`Nice to meet you ${username}!`,
-            },
-            {
-              text: t("mayor.plaza.enjoyYourStay"), //"I hope you enjoy your stay in Sunflower Land! If you ever need me again, just come back to me!",
+              text: t("mayor.plaza.congratulations", { username }),
+              actions: [
+                {
+                  text: t("ok"),
+                  cb: () => {
+                    // If mmo_introduction.read is set then go into the move state machine to joined
+                    // else set next tab
+                    setTab(4);
+                  },
+                },
+              ],
             },
           ]}
         />
       )}
-
       {tab === 4 && (
-        <CloseButtonPanel bumpkinParts={NPC_WEARABLES.mayor}>
-          <div className="flex flex-col gap-2 p-1 pb-2">
-            <span>
-              {t("congrats")}
-              {username}
-              {","}
-              {t("mayor.paperworkComplete")}
-              {"!"}
-            </span>
-          </div>
-          <Button onClick={onClose}>{t("close")}</Button>
-        </CloseButtonPanel>
+        <SpeakingModal
+          onClose={delivery ? () => setShowNPCFind(true) : () => onClose()}
+          bumpkinParts={NPC_WEARABLES.mayor}
+          message={[
+            // If they haven't completed their first delivery then go into the next step
+            ...(!usernameOnEnter
+              ? [
+                  {
+                    text: t("mayor.plaza.businessDone"),
+                  },
+                ]
+              : [
+                  {
+                    text: t("mayor.plaza.role"),
+                  },
+                ]),
+
+            {
+              text: t("mayor.plaza.welcome"),
+            },
+            {
+              text: delivery
+                ? t("world.intro.delivery")
+                : t("world.intro.missingDelivery"),
+            },
+          ]}
+        />
       )}
     </>
   );
