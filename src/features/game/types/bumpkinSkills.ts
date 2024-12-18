@@ -2,12 +2,13 @@ import { getKeys } from "./craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
-import { IslandType } from "./game";
+import { Inventory, IslandType } from "./game";
 import { BuffLabel } from ".";
 import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
 import bee from "assets/icons/bee.webp";
+import Decimal from "decimal.js-light";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -73,6 +74,7 @@ export type BumpkinSkillRevamp = {
     tier: 1 | 2 | 3;
     island: IslandType;
     cooldown?: number;
+    items?: Inventory;
   };
   boosts: {
     buff: BuffLabel;
@@ -1552,6 +1554,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       tier: 3,
       island: "spring",
       cooldown: 1000 * 60 * 60 * 24 * 7,
+      items: {
+        Apple: new Decimal(150),
+      },
     },
     power: true,
     boosts: {
