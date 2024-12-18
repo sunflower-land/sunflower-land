@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import silhouette from "assets/bumpkins/silhouette.png";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
-import { buildImage } from "../actions/buildImage";
+import { getBumpkinImageURL } from "../actions/buildImage";
 import classNames from "classnames";
 import cloneDeep from "lodash.clonedeep";
 
@@ -26,7 +26,7 @@ export const DynamicNFT: React.FC<Props> = ({
   useEffect(() => {
     let isSubscribed = true;
     const load = async () => {
-      const image = await buildImage({
+      const image = getBumpkinImageURL({
         parts,
       });
 
