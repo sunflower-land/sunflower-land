@@ -1,12 +1,12 @@
-import {
-  ANIMAL_FOOD_EXPERIENCE,
-  AnimalLevel,
-  AnimalType,
-} from "features/game/types/animals";
-import React from "react";
+import { AnimalLevel, AnimalType } from "features/game/types/animals";
+import React, { useContext } from "react";
 import { Transition } from "@headlessui/react";
 import { formatNumber } from "lib/utils/formatNumber";
 import { AnimalFoodName } from "features/game/types/game";
+import { handleFoodXP } from "features/game/events/landExpansion/feedAnimal";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 type Props = {
   show: boolean;
@@ -16,6 +16,8 @@ type Props = {
   isFavourite: boolean;
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const FeedXPAnimation: React.FC<Props> = ({
   show,
   foodFed,
@@ -23,7 +25,9 @@ export const FeedXPAnimation: React.FC<Props> = ({
   level,
   isFavourite,
 }) => {
-  const xp = ANIMAL_FOOD_EXPERIENCE[animal][level][foodFed];
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
+  const { foodXp } = handleFoodXP({ state, animal, level, food: foodFed });
 
   return (
     <Transition
@@ -43,7 +47,7 @@ export const FeedXPAnimation: React.FC<Props> = ({
         style={{
           color: isFavourite ? "#71e358" : "#fff",
         }}
-      >{`+${formatNumber(xp)}`}</span>
+      >{`+${formatNumber(foodXp)}`}</span>
     </Transition>
   );
 };

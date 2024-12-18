@@ -90,16 +90,21 @@ const handleGoldenEggFeeding = (
   favouriteFood: AnimalFoodName,
   copy: GameState,
 ) => {
-  const foodXps = ANIMAL_FOOD_EXPERIENCE[animalType];
-  const favouriteFoodXp = foodXps[level as AnimalLevel][favouriteFood];
+  const { foodXp } = handleFoodXP({
+    state: copy,
+    animal: animalType,
+    level: level as AnimalLevel,
+    food: favouriteFood,
+  });
   const beforeFeedXp = animal.experience;
 
   const isReady = handleAnimalExperience(
     animal,
     animalType,
     beforeFeedXp,
-    favouriteFoodXp,
+    foodXp,
   );
+
   animal.state = isReady ? "ready" : "happy";
 
   copy.bumpkin.activity = trackActivity(
@@ -109,6 +114,26 @@ const handleGoldenEggFeeding = (
 
   return copy;
 };
+
+export function handleFoodXP({
+  state,
+  animal,
+  level,
+  food,
+}: {
+  state: GameState;
+  animal: AnimalType;
+  level: AnimalLevel;
+  food: AnimalFoodName;
+}) {
+  let foodXp = ANIMAL_FOOD_EXPERIENCE[animal][level][food];
+
+  if (state.bumpkin.skills["Chonky Feed"]) {
+    foodXp *= 2;
+  }
+
+  return { foodXp };
+}
 
 export function feedAnimal({
   state,
@@ -189,7 +214,13 @@ export function feedAnimal({
       throw new Error("No food provided");
     }
 
-    const foodXp = ANIMAL_FOOD_EXPERIENCE[action.animal][level][food];
+    const { foodXp } = handleFoodXP({
+      state: copy,
+      animal: action.animal,
+      level,
+      food,
+    });
+
     const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
     const boostedFoodQuantity = getBoostedFoodQuantity({
       animalType: action.animal,

@@ -31,7 +31,7 @@ const iconList: Record<BumpkinRevampSkillTree, string> = {
   Trees: SUNNYSIDE.skills.trees,
   Cooking: SUNNYSIDE.skills.cooking,
   Animals: SUNNYSIDE.skills.animals,
-  Fruit: ITEM_DETAILS.Apple.image,
+  "Fruit Patch": ITEM_DETAILS.Apple.image,
   Fishing: SUNNYSIDE.icons.fish,
   Greenhouse: ITEM_DETAILS.Greenhouse.image,
   Mining: SUNNYSIDE.tools.stone_pickaxe,

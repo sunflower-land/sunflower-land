@@ -210,7 +210,7 @@ export const BumpkinModal: React.FC<Props> = ({
       setCurrentTab={setTab}
       onClose={onClose}
       tabs={renderTabs()}
-      container={tab === 3 ? OuterPanel : undefined}
+      container={tab === 2 ? OuterPanel : undefined}
     >
       <div
         style={{
