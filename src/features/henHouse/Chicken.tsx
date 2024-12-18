@@ -38,7 +38,6 @@ import {
   handleFoodXP,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
-import { formatNumber } from "lib/utils/formatNumber";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
@@ -528,7 +527,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           style={{
             color: xpIndicatorColor,
           }}
-        >{`+${formatNumber(xpIndicatorAmount)}`}</span>
+        >
+          {`+${xpIndicatorAmount}`}
+        </span>
       </Transition>
       <Transition
         appear={true}
@@ -547,7 +548,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           style={{
             color: "#ffffff",
           }}
-        >{`+${animalXP}`}</span>
+        >
+          {`+${animalXP}`}
+        </span>
       </Transition>
     </>
   );
