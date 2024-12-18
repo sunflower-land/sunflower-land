@@ -270,14 +270,14 @@ export const PhaserComponent: React.FC<Props> = ({
 
   // When route changes, switch scene
   useEffect(() => {
-    if (!loaded || !route || mmoService.state.context.sceneId === route) return;
+    if (!loaded) return;
 
     const activeScene = game.current?.scene
       .getScenes(false)
       // Corn maze pauses when game is over so we need to filter for active and paused scenes.
       .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
-    if (activeScene) {
+    if (activeScene && activeScene.scene.key !== route) {
       activeScene.scene.start(route);
       mmoService.send("SWITCH_SCENE", { sceneId: route });
       mmoService.send("UPDATE_PREVIOUS_SCENE", {
