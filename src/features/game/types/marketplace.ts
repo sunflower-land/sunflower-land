@@ -83,6 +83,8 @@ export type Sale = {
     bumpkinUri: string;
   };
   source: "offer" | "listing";
+  itemId: number;
+  collection: CollectionName;
 };
 
 export type SaleHistory = {

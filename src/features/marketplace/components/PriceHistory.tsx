@@ -8,11 +8,13 @@ import { Loading } from "features/auth/components";
 import classNames from "classnames";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { getRelativeTime, getShortRelativeTime } from "lib/utils/time";
+import { getRelativeTime } from "lib/utils/time";
 import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
 import decreaseLeftArrow from "assets/icons/decrease_left_arrow.webp";
 import { useNavigate } from "react-router";
-import { isMobile } from "mobile-device-detect";
+import { getTradeableDisplay } from "../lib/tradeables";
+import { INITIAL_FARM } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   history,
@@ -47,9 +49,24 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
         <tbody>
           {sales.map(
             (
-              { sfl, quantity, fulfilledAt, fulfilledBy, initiatedBy, source },
+              {
+                sfl,
+                quantity,
+                collection,
+                itemId,
+                fulfilledAt,
+                fulfilledBy,
+                initiatedBy,
+                source,
+              },
               index,
             ) => {
+              const details = getTradeableDisplay({
+                id: itemId,
+                type: collection,
+                state: INITIAL_FARM,
+              });
+
               const [seller, buyer] =
                 source === "listing"
                   ? [initiatedBy, fulfilledBy]
@@ -97,16 +114,48 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                     </div>
                   </td>
 
-                  <td className="p-1.5 ">
-                    <div className="flex items-center">
-                      <img src={sflIcon} className="w-4 mr-1" />
-                      <p className="text-xs sm:text-sm">{sfl}</p>
+                  <td className="p-1.5 hidden sm:table-cell">
+                    <div className="flex items-center mb-1">
+                      <img src={details.image} className="w-4 mr-1" />
+                      <p className="text-xs sm:text-sm truncate">
+                        {details.name}
+                      </p>
                     </div>
                   </td>
-                  <td className="p-1.5 text-xs sm:text-sm truncate text-center">
-                    {isMobile
-                      ? getShortRelativeTime(fulfilledAt)
-                      : getRelativeTime(fulfilledAt)}
+                  <td className="p-1.5 hidden sm:table-cell">
+                    <div className="flex items-center">
+                      <img src={sflIcon} className="w-4 mr-1" />
+                      <p className="text-xs sm:text-sm">{`${sfl}`}</p>
+                    </div>
+                  </td>
+                  <td className="p-1.5 text-xs   hidden sm:table-cell">
+                    <div className="flex items-center justify-end">
+                      <p className="text-xs truncate">
+                        {getRelativeTime(fulfilledAt)}
+                      </p>
+                    </div>
+                  </td>
+                  <td className="p-1.5 table-cell sm:hidden">
+                    <div className="flex items-center mb-1">
+                      <img src={details.image} className="w-4 mr-1" />
+                      {quantity > 1 && (
+                        <p className="text-xs sm:text-sm mr-1">{`${quantity}x`}</p>
+                      )}
+                      <p className="text-xs sm:text-sm">{details.name}</p>
+                    </div>
+                    <div className="flex items-center mb-1">
+                      <img src={sflIcon} className="w-4 mr-1" />
+                      <p className="text-xs sm:text-sm">{`${sfl} SFL`}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <img
+                        src={SUNNYSIDE.icons.stopwatch}
+                        className="w-4 mr-1"
+                      />
+                      <p className="text-xs sm:text-sm">
+                        {getRelativeTime(fulfilledAt)}
+                      </p>
+                    </div>
                   </td>
                 </tr>
               );
