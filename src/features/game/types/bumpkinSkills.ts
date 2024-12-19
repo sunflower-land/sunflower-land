@@ -1413,7 +1413,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Alternate Medicine": {
     tree: "Animals",
     name: "Alternate Medicine",
-    disabled: true,
+    disabled: false,
     requirements: {
       points: 2,
       tier: 2,
