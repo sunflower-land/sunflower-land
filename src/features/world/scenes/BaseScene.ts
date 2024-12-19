@@ -726,7 +726,7 @@ export abstract class BaseScene extends Phaser.Scene {
       const nameTag = this.createPlayerText({
         x: 0,
         y: 0,
-        text: username ? username : `#${farmId}`,
+        text: username ?? "",
         color,
       });
       nameTag.setShadow(1, 1, "#161424", 0, false, true);

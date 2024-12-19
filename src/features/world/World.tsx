@@ -72,6 +72,8 @@ const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
 const _isIntroducing = (state: MMOMachineState) =>
   state.matches("introduction");
+const _isChoosingUsername = (state: MMOMachineState) =>
+  state.matches("chooseUsername");
 
 type MMOProps = { isCommunity: boolean };
 
@@ -138,7 +140,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
   const isIntroducing = useSelector(mmoService, _isIntroducing);
-
+  const isChoosingUsername = useSelector(mmoService, _isChoosingUsername);
   const isTraveling =
     isInitialising || isConnecting || isConnected || isKicked || isJoining;
 
@@ -165,7 +167,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     return <></>;
   }
 
-  // Otherwsie if connected, return Plaza Screen
+  // Otherwise if connected, return Plaza Screen
   return (
     <>
       <PhaserComponent
@@ -177,13 +179,15 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
       <Modal show={isIntroducing}>
         <WorldIntroduction
-          onClose={() => {
-            mmoService.send("CONTINUE");
+          onClose={(username: string) => {
+            mmoService.send("CONTINUE", { username });
             // BUG - need to call twice?
-            mmoService.send("CONTINUE");
+            mmoService.send("CONTINUE", { username });
           }}
         />
       </Modal>
+
+      {/* <Modal show={isChoosingUsername}></Modal> */}
       <WorldHud />
     </>
   );

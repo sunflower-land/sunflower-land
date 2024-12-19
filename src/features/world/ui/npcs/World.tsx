@@ -4,10 +4,11 @@ import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
+import { CloseButtonPanel } from "../../../game/components/CloseablePanel";
 import {
   SpeakingModal,
   SpeakingText,
-} from "features/game/components/SpeakingModal";
+} from "../../../game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { validateUsername, saveUsername, checkUsername } from "lib/username";
 import { Panel } from "components/ui/Panel";
@@ -15,35 +16,30 @@ import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { capitalize } from "lib/utils/capitalize";
 import { hasOrderRequirements } from "features/island/delivery/components/Orders";
-
+import { InlineDialogue } from "../TypingMessage";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Label } from "components/ui/Label";
-import { InlineDialogue } from "./TypingMessage";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-interface WorldIntroductionProps {
-  onClose: (username: string) => void;
+interface MayorProps {
+  isIntroducing: boolean;
+  onClose: () => void;
 }
 
-export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
-  onClose,
-}) => {
+export const Mayor: React.FC<MayorProps> = ({ isIntroducing, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  // If a player goes through the name set up they see an intro at the beginning.
-  // If for some reason a player gets into the introduction state (cleared local storage)
-  // but they already have a name, they won't see the intro so we need to check for that so we can show it.
-  const [showMayorIntroStatement, setShowMayorIntroStatement] = useState(true);
-  const [showNameSetUpStatement, setShowNameSetUpStatement] = useState(false);
+
+  const usernameOnEnter = gameService.getSnapshot().context.state.username;
+
   const [username, setUsername] = useState<string>(
     gameState.context.state.username ?? "",
   );
   const [validationState, setValidationState] = useState<string | null>(null);
 
-  const [tab, setTab] = useState<number>(!username ? 0 : 4);
+  const [tab, setTab] = useState<number>(!usernameOnEnter ? 0 : 4);
   const [showNPCFind, setShowNPCFind] = useState(false);
   const [state, setState] = useState<
     "idle" | "loading" | "success" | "error" | "checking"
@@ -121,7 +117,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
               <NPCIcon parts={NPC_WEARABLES[delivery.from]} />
             </div>
           </div>
-          <Button onClick={() => onClose(username)}>{t("ok")}</Button>
+          <Button onClick={onClose}>{t("ok")}</Button>
         </div>
       </Panel>
     );
@@ -134,9 +130,9 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
     <>
       {tab === 0 && (
         <Panel bumpkinParts={NPC_WEARABLES.mayor}>
-          {alreadyHaveUsername ? (
+          {alreadyHaveUsername && !isIntroducing ? (
             <SpeakingText
-              onClose={() => onClose(username)}
+              onClose={onClose}
               message={[
                 {
                   text: t("mayor.plaza.metBefore", {
@@ -150,7 +146,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
             />
           ) : (
             <SpeakingText
-              onClose={() => onClose(username)}
+              onClose={onClose}
               message={[
                 {
                   text: t("mayor.plaza.intro"),
@@ -241,7 +237,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
 
       {tab === 2 && (
         <CloseButtonPanel
-          onClose={() => onClose(username)}
+          onClose={onClose}
           bumpkinParts={{
             ...NPC_WEARABLES.mayor,
             body: "Light Brown Worried Farmer Potion",
@@ -280,7 +276,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
 
       {tab === 3 && (
         <SpeakingModal
-          onClose={() => onClose(username)}
+          onClose={onClose}
           bumpkinParts={NPC_WEARABLES.mayor}
           message={[
             {
@@ -289,16 +285,9 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
                 {
                   text: t("ok"),
                   cb: () => {
-                    onClose(username);
-                    // if (localStorage.getItem("mmo_introduction.read")) {
-
-                    //   onClose();
-                    //   return;
-                    // }
-
-                    // setTab(4);
-                    // setShowNameSetUpStatement(true);
-                    // setShowMayorIntroStatement(false);
+                    // If mmo_introduction.read is set then go into the move state machine to joined
+                    // else set next tab
+                    setTab(4);
                   },
                 },
               ],
@@ -308,21 +297,24 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
       )}
       {tab === 4 && (
         <SpeakingModal
-          onClose={
-            delivery ? () => setShowNPCFind(true) : () => onClose(username)
-          }
+          onClose={delivery ? () => setShowNPCFind(true) : () => onClose()}
           bumpkinParts={NPC_WEARABLES.mayor}
           message={[
             // If they haven't completed their first delivery then go into the next step
-            ...(showNameSetUpStatement
+            ...(!usernameOnEnter
               ? [
                   {
                     text: t("mayor.plaza.businessDone"),
                   },
                 ]
-              : []),
+              : [
+                  {
+                    text: t("mayor.plaza.role"),
+                  },
+                ]),
+
             {
-              text: `${showMayorIntroStatement ? t("mayor.plaza.shortIntro") : ""}${t("mayor.plaza.welcome")}`,
+              text: t("mayor.plaza.welcome"),
             },
             {
               text: delivery
