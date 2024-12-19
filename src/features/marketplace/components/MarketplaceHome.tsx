@@ -231,11 +231,25 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
-
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
   const isWorldRoute = pathname.includes("/world");
+
+  const baseUrl = `${isWorldRoute ? "/world" : ""}/marketplace`;
+  const navigateTo = ({
+    path,
+    filterParams,
+  }: {
+    path: string;
+    filterParams?: string;
+  }) => {
+    const url = filterParams
+      ? `${baseUrl}/collection?filters=${filterParams}`
+      : `${baseUrl}/${path}`;
+
+    navigate(url);
+    onClose();
+  };
 
   return (
     <div className="p-1 h-full">
@@ -244,21 +258,17 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <Option
             icon={SUNNYSIDE.icons.expression_alerted}
             label="Hot now"
-            onClick={() => {
-              navigate(`${isWorldRoute ? "/world" : ""}/marketplace/hot`);
-              onClose();
-            }}
-            isActive={
-              pathname === `${isWorldRoute ? "/world" : ""}/marketplace/hot`
-            }
+            onClick={() => navigateTo({ path: "hot" })}
+            isActive={pathname === `${baseUrl}/hot`}
           />
           <Option
             icon={lightning}
             label="Power ups"
             onClick={() =>
-              navigate(
-                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=collectibles,wearables,utility`,
-              )
+              navigateTo({
+                path: "collection",
+                filterParams: "collectibles,wearables,utility",
+              })
             }
             isActive={filters === "collectibles,wearables,utility"}
             options={
@@ -268,74 +278,68 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                       icon: ITEM_DETAILS["Freya Fox"].image,
                       label: "Collectibles",
                       isActive: filters === "utility,collectibles",
-                      onClick: () => {
-                        navigate(
-                          `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=utility,collectibles`,
-                        );
-                        onClose();
-                      },
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: "utility,collectibles",
+                        }),
                     },
                     {
                       icon: wearableIcon,
                       label: "Wearables",
                       isActive: filters === "utility,wearables",
-                      onClick: () => {
-                        navigate(
-                          `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=utility,wearables`,
-                        );
-                        onClose();
-                      },
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: "utility,wearables",
+                        }),
                     },
                   ]
                 : undefined
             }
           />
-
           <Option
             icon={ITEM_DETAILS.Eggplant.image}
             label="Resources"
-            onClick={() => {
-              navigate(
-                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=resources`,
-              );
-              onClose();
-            }}
+            onClick={() =>
+              navigateTo({
+                path: "collection",
+                filterParams: "resources",
+              })
+            }
             isActive={filters === "resources"}
           />
-
           <Option
             icon={SUNNYSIDE.icons.stopwatch}
             label="Limited"
-            onClick={() => {
-              navigate(
-                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=temporary`,
-              );
-              onClose();
-            }}
+            onClick={() =>
+              navigateTo({
+                path: "collection",
+                filterParams: "temporary",
+              })
+            }
             isActive={filters === "temporary"}
           />
-
           <Option
             icon={SUNNYSIDE.icons.heart}
             label="Cosmetics"
-            onClick={() => {
-              navigate(
-                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=collectibles,wearables,cosmetic`,
-              );
-              onClose();
-            }}
+            onClick={() =>
+              navigateTo({
+                path: "collection",
+                filterParams: "collectibles,wearables,cosmetic",
+              })
+            }
             isActive={filters === "collectibles,wearables,cosmetic"}
           />
-
           <Option
             icon={budIcon}
             label="Bud NFTs"
-            onClick={() => {
-              navigate(
-                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=buds`,
-              );
-              onClose();
-            }}
+            onClick={() =>
+              navigateTo({
+                path: "collection",
+                filterParams: "buds",
+              })
+            }
             isActive={filters === "buds"}
           />
         </div>
@@ -344,53 +348,44 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <Option
             icon={SUNNYSIDE.icons.player}
             label="My Profile"
-            onClick={() => {
-              navigate(
-                `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}`,
-              );
-              onClose();
-            }}
+            onClick={() =>
+              navigateTo({
+                path: `profile/${gameState.context.farmId}`,
+              })
+            }
             options={
               pathname.includes("profile")
                 ? [
                     {
                       icon: SUNNYSIDE.icons.lightning,
                       label: "Stats",
-                      onClick: () => {
-                        navigate(
-                          `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}`,
-                        );
-                        onClose();
-                      },
+                      onClick: () =>
+                        navigateTo({
+                          path: `profile/${gameState.context.farmId}`,
+                        }),
                       isActive:
                         pathname ===
-                        `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}`,
+                        `${baseUrl}/profile/${gameState.context.farmId}`,
                     },
                     {
                       icon: tradeIcon,
                       label: "Trades",
-                      onClick: () => {
-                        navigate(
-                          `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}/trades`,
-                        );
-                        onClose();
-                      },
+                      onClick: () =>
+                        navigateTo({
+                          path: `profile/${gameState.context.farmId}/trades`,
+                        }),
                       isActive:
                         pathname ===
-                        `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}/trades`,
+                        `${baseUrl}/profile/${gameState.context.farmId}/trades`,
                     },
                     {
                       icon: trade_point,
                       label: "Rewards",
-                      onClick: () => {
-                        navigate(
-                          `${isWorldRoute ? "/world" : ""}/marketplace/profile/rewards`,
-                        );
-                        onClose();
-                      },
-                      isActive:
-                        pathname ===
-                        `${isWorldRoute ? "/world" : ""}/marketplace/profile/rewards`,
+                      onClick: () =>
+                        navigateTo({
+                          path: "profile/rewards",
+                        }),
+                      isActive: pathname === `${baseUrl}/profile/rewards`,
                     },
                   ]
                 : undefined
