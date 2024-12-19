@@ -1019,8 +1019,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Fishing - Tier 1
-  "Fisherman's 2 Fold": {
-    name: "Fisherman's 2 Fold",
+  "Fisherman's 5 Fold": {
+    name: "Fisherman's 5 Fold",
     tree: "Fishing",
     requirements: {
       points: 1,
@@ -1029,7 +1029,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.fishermansTwoFold"),
+        shortDescription: translate("skill.fishermansFiveFold"),
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Rod"].image,
@@ -1096,8 +1096,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
-  "Fisherman's 5 Fold": {
-    name: "Fisherman's 5 Fold",
+  "Fisherman's 10 Fold": {
+    name: "Fisherman's 10 Fold",
     tree: "Fishing",
     requirements: {
       points: 2,
@@ -1106,7 +1106,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.fishermansFiveFold"),
+        shortDescription: translate("skill.fishermansTenFold"),
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Rod"].image,
