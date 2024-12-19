@@ -1019,8 +1019,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Fishing - Tier 1
-  "Fisherman's 2 Fold": {
-    name: "Fisherman's 2 Fold",
+  "Fisherman's 5 Fold": {
+    name: "Fisherman's 5 Fold",
     tree: "Fishing",
     requirements: {
       points: 1,
@@ -1029,7 +1029,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.fishermansTwoFold"),
+        shortDescription: translate("skill.fishermansFiveFold"),
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Rod"].image,
@@ -1096,8 +1096,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
-  "Fisherman's 5 Fold": {
-    name: "Fisherman's 5 Fold",
+  "Fisherman's 10 Fold": {
+    name: "Fisherman's 10 Fold",
     tree: "Fishing",
     requirements: {
       points: 2,
@@ -1106,7 +1106,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.fishermansFiveFold"),
+        shortDescription: translate("skill.fishermansTenFold"),
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Rod"].image,
@@ -1237,25 +1237,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Animals - Tier 1
-  "Abundant Harvest": {
-    name: "Abundant Harvest",
-    tree: "Animals",
-    disabled: false,
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "spring",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.abundantHarvest"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: SUNNYSIDE.resource.egg,
-      },
-    },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   "Efficient Feeding": {
     name: "Efficient Feeding",
     tree: "Animals",
@@ -1331,14 +1312,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  // Animals - Tier 2
   "Double Bale": {
     name: "Double Bale",
     tree: "Animals",
     disabled: false,
     requirements: {
-      points: 2,
-      tier: 2,
+      points: 1,
+      tier: 1,
       island: "spring",
     },
     boosts: {
@@ -1356,8 +1336,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Animals",
     disabled: false,
     requirements: {
-      points: 2,
-      tier: 2,
+      points: 1,
+      tier: 1,
       island: "spring",
     },
     boosts: {
@@ -1366,6 +1346,26 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
         boostedItemIcon: ITEM_DETAILS.Bale.image,
+      },
+    },
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Animals - Tier 2
+  "Abundant Harvest": {
+    name: "Abundant Harvest",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.abundantHarvest"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.resource.egg,
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -1411,7 +1411,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Alternate Medicine": {
     tree: "Animals",
     name: "Alternate Medicine",
-    disabled: true,
+    disabled: false,
     requirements: {
       points: 2,
       tier: 2,
