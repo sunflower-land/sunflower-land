@@ -27,7 +27,6 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
-import { hasFeatureAccess } from "lib/flags";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   // Crops
@@ -68,22 +67,6 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Wool: 200,
   "Merino Wool": 200,
 };
-
-const betaResouces: TradeableName[] = [
-  "Tomato",
-  "Lemon",
-  "Crimstone",
-  "Grape",
-  "Rice",
-  "Olive",
-  "Honey",
-  "Barley",
-  "Milk",
-  "Leather",
-  "Wool",
-  "Merino Wool",
-  "Feather",
-];
 
 const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
   const { t } = useAppTranslation();
@@ -312,40 +295,32 @@ export const SalesPanel: React.FC<{
             </div>
 
             <div className="flex flex-wrap mt-2">
-              {getKeys(MARKET_BUNDLES)
-                .filter(
-                  (name) =>
-                    !betaResouces.includes(name) ||
-                    hasFeatureAccess(state, "NEW_RESOURCES_GE"),
-                )
-                .map((name) => {
-                  const priceMovement = getPriceMovement(
-                    marketPrices?.prices?.currentPrices?.[name] ?? 0,
-                    marketPrices?.prices?.yesterdayPrices?.[name] ?? 0,
-                  );
+              {getKeys(MARKET_BUNDLES).map((name) => {
+                const priceMovement = getPriceMovement(
+                  marketPrices?.prices?.currentPrices?.[name] ?? 0,
+                  marketPrices?.prices?.yesterdayPrices?.[name] ?? 0,
+                );
 
-                  return (
-                    <div
-                      key={name}
-                      className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
-                    >
-                      <ListingCategoryCard
-                        itemName={name}
-                        pricePerUnit={
-                          marketPrices?.prices?.currentPrices?.[name]
-                        }
-                        disabled={!hasPrices || !hasVIP}
-                        marketBundle={MARKET_BUNDLES[name]}
-                        showPulse={showPulse}
-                        priceMovement={priceMovement}
-                        onClick={() => {
-                          if (!hasPrices || !hasVIP) return;
-                          onSell(name, marketPrices.prices.currentPrices[name]);
-                        }}
-                      />
-                    </div>
-                  );
-                })}
+                return (
+                  <div
+                    key={name}
+                    className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+                  >
+                    <ListingCategoryCard
+                      itemName={name}
+                      pricePerUnit={marketPrices?.prices?.currentPrices?.[name]}
+                      disabled={!hasPrices || !hasVIP}
+                      marketBundle={MARKET_BUNDLES[name]}
+                      showPulse={showPulse}
+                      priceMovement={priceMovement}
+                      onClick={() => {
+                        if (!hasPrices || !hasVIP) return;
+                        onSell(name, marketPrices.prices.currentPrices[name]);
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
