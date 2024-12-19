@@ -6,8 +6,10 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { OuterPanel } from "components/ui/Panel";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SquareIcon } from "components/ui/SquareIcon";
+import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -17,6 +19,7 @@ import {
   BumpkinSkillRevamp,
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
+import { InventoryItemName } from "features/game/types/game";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -48,6 +51,7 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
 };
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _inventory = (state: MachineState) => state.context.state.inventory;
 interface PowerSkillsContentProps {
   onClose: () => void;
 }
@@ -55,6 +59,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const bumpkin = useSelector(gameService, _bumpkin);
+  const inventory = useSelector(gameService, _inventory);
   const { skills, previousPowerUseAt } = bumpkin;
 
   const powerSkills = getPowerSkills();
@@ -72,7 +77,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   };
 
   const { boosts, image, name, power, requirements } = selectedSkill;
-  const { cooldown = 0 } = requirements;
+  const { cooldown = 0, items } = requirements;
   const { buff, debuff } = boosts;
 
   const nextSkillUse =
@@ -80,7 +85,28 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
     cooldown;
   const nextSkillUseCountdown = useCountdown(nextSkillUse);
 
-  const canUsePowerSkill = nextSkillUse < Date.now();
+  const canUsePowerSkill = () => {
+    // Check if cooldown period has passed
+    if (nextSkillUse < Date.now()) {
+      return true;
+    }
+
+    // If skill requires items, check if player has enough
+    if (items) {
+      // Loop through each required item and quantity
+      Object.entries(items).forEach(([item, quantity]) => {
+        // Get current inventory amount (default 0 if none)
+        // Check if inventory amount is less than required quantity
+        if (
+          (inventory[item as InventoryItemName] ?? new Decimal(0)).lt(quantity)
+        ) {
+          return false; // Player doesn't have enough of this item
+        }
+      });
+    }
+
+    return false; // Cooldown hasn't passed or missing required items
+  };
 
   return (
     <SplitScreenView
@@ -115,16 +141,33 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                 </Label>
               )}
             </div>
+            {items && (
+              <div className="flex flex-col items-center mb-2">
+                {Object.entries(items).map(([name, amount]) => (
+                  <RequirementLabel
+                    key={name}
+                    type="item"
+                    requirement={amount}
+                    item={name as InventoryItemName}
+                    balance={
+                      inventory[name as InventoryItemName] ?? new Decimal(0)
+                    }
+                  />
+                ))}
+              </div>
+            )}
             <div className="flex flex-col lg:items-center">
               <Label
-                type={canUsePowerSkill ? "success" : "info"}
-                icon={!canUsePowerSkill ? SUNNYSIDE.icons.stopwatch : undefined}
+                type={canUsePowerSkill() ? "success" : "info"}
+                icon={
+                  !canUsePowerSkill() ? SUNNYSIDE.icons.stopwatch : undefined
+                }
                 secondaryIcon={
-                  canUsePowerSkill ? SUNNYSIDE.icons.confirm : undefined
+                  canUsePowerSkill() ? SUNNYSIDE.icons.confirm : undefined
                 }
                 className="mb-2"
               >
-                {canUsePowerSkill ? (
+                {canUsePowerSkill() ? (
                   t("powerSkills.ready")
                 ) : (
                   <div className="flex lg:flex-col items-center">
@@ -139,7 +182,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
           <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
             {power && (
               <Button
-                disabled={!canUsePowerSkill}
+                disabled={!canUsePowerSkill()}
                 onClick={() => setUseSkillConfirmation(true)}
               >
                 {t("powerSkills.use")}
