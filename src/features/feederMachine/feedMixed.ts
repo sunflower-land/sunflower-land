@@ -27,13 +27,18 @@ export function getIngredients({
   state: GameState;
   name: AnimalFoodName | AnimalMedicineName;
 }) {
-  const { ingredients } = ANIMAL_FOODS[name];
+  let { ingredients } = ANIMAL_FOODS[name];
 
   if (state.bumpkin.skills["Kale Mix"] && name === "Mixed Grain") {
-    return {
-      ingredients: {
-        Kale: new Decimal(3),
-      },
+    ingredients = {
+      Kale: new Decimal(3),
+    };
+  }
+
+  if (state.bumpkin.skills["Alternate Medicine"] && name === "Barn Delight") {
+    ingredients = {
+      Lemon: ANIMAL_FOODS["Barn Delight"].ingredients.Lemon?.sub(1),
+      Honey: ANIMAL_FOODS["Barn Delight"].ingredients.Honey?.sub(1),
     };
   }
 
