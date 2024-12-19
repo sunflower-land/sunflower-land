@@ -86,7 +86,6 @@ const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
 const _game = (state: MachineState) => state.context.state;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _animalItem = (state: AnimalMachineState) => state.context.animal?.item;
 
 export const getMedicineOption = (): {
   name: InventoryItemName;
@@ -115,6 +114,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   }) as unknown as AnimalMachineInterpreter;
 
   const chickenMachineState = useSelector(chickenService, _animalState);
+
+  useEffect(() => {
+    if (chicken.state === "ready" && chickenMachineState !== "ready") {
+      chickenService.send({
+        type: "INSTANT_LEVEL_UP",
+        animal: chicken,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chicken.state]);
 
   useEffect(() => {
     if (chicken.state === "sick" && chickenMachineState !== "sick") {

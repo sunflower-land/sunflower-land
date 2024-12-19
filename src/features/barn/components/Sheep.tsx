@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -99,6 +99,16 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   });
 
   const { name: mutantName } = sheep.reward?.items?.[0] ?? {};
+
+  useEffect(() => {
+    if (sheep.state === "ready" && sheepState !== "ready") {
+      sheepService.send({
+        type: "INSTANT_LEVEL_UP",
+        animal: sheep,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheep.state]);
 
   const feedSheep = (item?: InventoryItemName) => {
     const updatedState = gameService.send({

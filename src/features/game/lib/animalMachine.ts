@@ -22,6 +22,7 @@ type AnimalFeedEvent = { type: "FEED"; animal: Animal };
 type AnimalLoveEvent = { type: "LOVE"; animal: Animal };
 type AnimalCureEvent = { type: "CURE"; animal: Animal };
 type AnimalSickEvent = { type: "SICK"; animal: Animal };
+type AnimalInstantLevelUpEvent = { type: "INSTANT_LEVEL_UP"; animal: Animal };
 type AnimalClaimProduceEvent = { type: "CLAIM_PRODUCE"; animal: Animal };
 
 type TEvent =
@@ -30,7 +31,8 @@ type TEvent =
   | AnimalClaimProduceEvent
   | AnimalSickEvent
   | AnimalCureEvent
-  | { type: "TICK" };
+  | { type: "TICK" }
+  | AnimalInstantLevelUpEvent;
 
 type MachineState = State<TContext, TEvent, MachineState>;
 
@@ -72,6 +74,13 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     animal: undefined,
   },
   on: {
+    // When the animal is insta ready it will be moved to the ready state.
+    INSTANT_LEVEL_UP: {
+      target: "ready",
+      actions: assign({
+        animal: (_, event) => (event as AnimalInstantLevelUpEvent).animal,
+      }),
+    },
     // Sickness can happen at any time so it will be handled here.
     // If the animal is sleeping or needs love, it will not be moved into the sick state.
     SICK: [
