@@ -15,7 +15,6 @@ import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 // Function imports
 import {
@@ -51,7 +50,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const bumpkin = useSelector(gameService, _bumpkin);
 
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
   );
@@ -77,7 +76,7 @@ export const SkillPathDetails: React.FC<Props> = ({
     readonly;
 
   const handleClaim = () => {
-    setShowConfirmationModal(false);
+    setShowConfirmation(false);
     const state = gameService.send("skill.chosen", { skill: name });
 
     gameAnalytics.trackMilestone({
@@ -182,29 +181,33 @@ export const SkillPathDetails: React.FC<Props> = ({
 
           {/* Claim/Claimed/Use Button */}
           {!readonly && (
-            <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-              <Button
-                disabled={isClaimDisabled}
-                onClick={() => setShowConfirmationModal(true)}
-              >
-                {t(hasSelectedSkill ? "skill.claimed" : "skill.claim")}
-              </Button>
+            <div className="flex sm:flex-col w-full">
+              {showConfirmation ? (
+                <>
+                  <Button
+                    className="mr-1 sm:mr-0"
+                    onClick={() => setShowConfirmation(false)}
+                  >
+                    {t("cancel")}
+                  </Button>
+                  <Button
+                    className="sm:mt-1"
+                    disabled={isClaimDisabled}
+                    onClick={handleClaim}
+                  >
+                    {t("skill.claimSkill")}
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  disabled={isClaimDisabled}
+                  onClick={() => setShowConfirmation(true)}
+                >
+                  {t(hasSelectedSkill ? "skill.claimed" : "skill.claim")}
+                </Button>
+              )}
             </div>
           )}
-
-          {/* Confirmation Modal */}
-          <ConfirmationModal
-            show={showConfirmationModal}
-            onHide={() => setShowConfirmationModal(false)}
-            messages={[
-              t("skill.confirmationMessage", { skillName: name }),
-              t("skill.costMessage", { points }),
-            ]}
-            onCancel={() => setShowConfirmationModal(false)}
-            onConfirm={handleClaim}
-            confirmButtonLabel={t("skill.claimSkill")}
-            disabled={isClaimDisabled}
-          />
         </div>
       }
       content={

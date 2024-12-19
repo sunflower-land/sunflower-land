@@ -289,8 +289,8 @@ const BaitSelection: React.FC<{
       <div>
         <InnerPanel className="my-1 relative">
           <div className="flex p-1">
-            <div className="h-10 w-10 mr-2 justify-items-center" >
-              <img src={ITEM_DETAILS[bait].image} className="h-10"/>
+            <div className="h-10 w-10 mr-2 justify-items-center">
+              <img src={ITEM_DETAILS[bait].image} className="h-10" />
             </div>
             <div>
               <p className="text-sm mb-1">{bait}</p>
