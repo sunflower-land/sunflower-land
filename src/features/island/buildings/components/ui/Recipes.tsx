@@ -7,7 +7,6 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getKeys } from "features/game/types/craftables";
 import {
   ConsumableName,
   Cookable,
@@ -34,6 +33,7 @@ import { BuildingOilTank } from "../building/BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { InventoryItemName } from "features/game/types/game";
 
 interface Props {
   selected: Cookable;
@@ -78,9 +78,14 @@ export const Recipes: React.FC<Props> = ({
   ] = useActor(gameService);
   const { inventory, buildings, bumpkin, buds } = state;
 
+  const ingredients = getCookingRequirements({
+    state,
+    item: selected.name,
+  });
+
   const lessIngredients = () =>
-    getKeys(selected.ingredients).some((name) =>
-      selected?.ingredients[name]?.greaterThan(inventory[name] || 0),
+    Object.entries(ingredients).some(([name, amount]) =>
+      amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
     );
 
   const cook = async () => {
@@ -134,7 +139,7 @@ export const Recipes: React.FC<Props> = ({
             }}
             hideDescription
             requirements={{
-              resources: getCookingRequirements({ state, item: selected.name }),
+              resources: ingredients,
               xp: new Decimal(
                 getFoodExpBoost(selected, bumpkin, state, buds ?? {}),
               ),
