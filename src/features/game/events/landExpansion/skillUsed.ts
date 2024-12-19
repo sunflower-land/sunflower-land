@@ -131,7 +131,7 @@ function useAppleTastic({
   game: GameState;
   items?: Inventory;
 }): GameState {
-  // Remove 150 apples from inventory
+  // Remove required items from inventory
   if (items) {
     Object.entries(items).forEach(([item, quantity]) => {
       game.inventory[item as InventoryItemName] =
@@ -148,16 +148,18 @@ function useAppleTastic({
 
     // Process each animal
     Object.values(animals).forEach((animal) => {
-      const currentXP = animal.experience;
-      const currentLevel = getAnimalLevel(currentXP, animal.type);
-      const maxLevel = (getKeys(ANIMAL_LEVELS[animal.type]).length -
-        1) as AnimalLevel;
+      const { state, experience, type, awakeAt } = animal;
+      if (state === "sick" || awakeAt > Date.now()) return;
 
-      if (isMaxLevel(animal.type, currentXP)) {
+      const currentXP = experience;
+      const currentLevel = getAnimalLevel(currentXP, type);
+      const maxLevel = (getKeys(ANIMAL_LEVELS[type]).length - 1) as AnimalLevel;
+
+      if (isMaxLevel(type, currentXP)) {
         // For max level animals, add XP to complete the next cycle
         const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
-        const maxLevelXp = ANIMAL_LEVELS[animal.type][maxLevel];
-        const levelBeforeMaxXp = ANIMAL_LEVELS[animal.type][levelBeforeMax];
+        const maxLevelXp = ANIMAL_LEVELS[type][maxLevel];
+        const levelBeforeMaxXp = ANIMAL_LEVELS[type][levelBeforeMax];
         const cycleXP = maxLevelXp - levelBeforeMaxXp;
         const excessXpBeforeFeed = Math.max(currentXP - maxLevelXp, 0);
         const currentCycleProgress = excessXpBeforeFeed % cycleXP;
@@ -166,7 +168,7 @@ function useAppleTastic({
       } else {
         // For non-max level animals, add XP to reach next level
         const nextLevel = (currentLevel + 1) as AnimalLevel;
-        const xpNeeded = ANIMAL_LEVELS[animal.type][nextLevel] - currentXP;
+        const xpNeeded = ANIMAL_LEVELS[type][nextLevel] - currentXP;
         animal.experience += xpNeeded;
       }
 
