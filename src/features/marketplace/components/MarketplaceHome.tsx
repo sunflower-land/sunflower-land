@@ -159,11 +159,11 @@ export const MarketplaceNavigation: React.FC = () => {
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
               <Route path="/hot" element={<MarketplaceHotNow />} />
-              <Route path="/trades" element={<MyTrades />} />
-              <Route path="/rewards" element={<MarketplaceRewards />} />
               <Route path="/collection/*" element={<Collection />} />
               <Route path="/:collection/:id" element={<Tradeable />} />
               <Route path="/profile/:id" element={<MarketplaceUser />} />
+              <Route path="/profile/:id/trades" element={<MyTrades />} />
+              <Route path="/profile/rewards" element={<MarketplaceRewards />} />
               {/* default to hot */}
               <Route path="/" element={<MarketplaceHotNow />} />
             </Routes>
@@ -176,18 +176,21 @@ export const MarketplaceNavigation: React.FC = () => {
 
 export type MarketplacePurpose = "boost" | "decoration" | "resource";
 
-const Option: React.FC<{
+interface OptionProps {
   icon: string;
   label: string;
   onClick: () => void;
   isActive?: boolean;
-  options?: {
-    icon: string;
-    label: string;
-    onClick: () => void;
-    isActive?: boolean;
-  }[];
-}> = ({ icon, label, onClick, options, isActive }) => {
+  options?: OptionProps[];
+}
+
+const Option: React.FC<OptionProps> = ({
+  icon,
+  label,
+  onClick,
+  options,
+  isActive,
+}) => {
   return (
     <div className="mb-1">
       <div
@@ -230,6 +233,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const filters = queryParams.get("filters");
 
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const isWorldRoute = pathname.includes("/world");
 
@@ -303,7 +307,9 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             icon={SUNNYSIDE.icons.stopwatch}
             label="Limited"
             onClick={() => {
-              navigate(`/marketplace/collection?filters=temporary`);
+              navigate(
+                `${isWorldRoute ? "/world" : ""}/marketplace/collection?filters=temporary`,
+              );
               onClose();
             }}
             isActive={filters === "temporary"}
@@ -336,25 +342,58 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <div>
           <Option
-            icon={tradeIcon}
-            label="My trades"
+            icon={SUNNYSIDE.icons.player}
+            label="My Profile"
             onClick={() => {
-              navigate(`${isWorldRoute ? "/world" : ""}/marketplace/trades`);
+              navigate(
+                `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}`,
+              );
               onClose();
             }}
-            isActive={
-              pathname === `${isWorldRoute ? "/world" : ""}/marketplace/trades`
-            }
-          />
-          <Option
-            icon={trade_point}
-            label="My rewards"
-            onClick={() => {
-              navigate(`${isWorldRoute ? "/world" : ""}/marketplace/rewards`);
-              onClose();
-            }}
-            isActive={
-              pathname === `${isWorldRoute ? "/world" : ""}/marketplace/rewards`
+            options={
+              pathname.includes("profile")
+                ? [
+                    {
+                      icon: SUNNYSIDE.icons.lightning,
+                      label: "Stats",
+                      onClick: () => {
+                        navigate(
+                          `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}`,
+                        );
+                        onClose();
+                      },
+                      isActive:
+                        pathname ===
+                        `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}`,
+                    },
+                    {
+                      icon: tradeIcon,
+                      label: "Trades",
+                      onClick: () => {
+                        navigate(
+                          `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}/trades`,
+                        );
+                        onClose();
+                      },
+                      isActive:
+                        pathname ===
+                        `${isWorldRoute ? "/world" : ""}/marketplace/profile/${gameState.context.farmId}/trades`,
+                    },
+                    {
+                      icon: trade_point,
+                      label: "Rewards",
+                      onClick: () => {
+                        navigate(
+                          `${isWorldRoute ? "/world" : ""}/marketplace/profile/rewards`,
+                        );
+                        onClose();
+                      },
+                      isActive:
+                        pathname ===
+                        `${isWorldRoute ? "/world" : ""}/marketplace/profile/rewards`,
+                    },
+                  ]
+                : undefined
             }
           />
         </div>
