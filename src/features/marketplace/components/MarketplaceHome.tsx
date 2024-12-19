@@ -204,7 +204,14 @@ const Option: React.FC<OptionProps> = ({
           <SquareIcon icon={icon} width={10} />
           <span className="text-sm ml-2">{label}</span>
         </div>
-        <img src={SUNNYSIDE.icons.chevron_right} className="w-4" />
+        <img
+          src={
+            options
+              ? SUNNYSIDE.icons.chevron_down
+              : SUNNYSIDE.icons.chevron_right
+          }
+          className={options ? "w-6" : "w-[18px]"}
+        />
       </div>
 
       {options?.map((option) => (
@@ -220,6 +227,10 @@ const Option: React.FC<OptionProps> = ({
             <SquareIcon icon={option.icon} width={10} />
             <span className="text-sm ml-2">{option.label}</span>
           </div>
+          <img
+            src={SUNNYSIDE.icons.chevron_right}
+            className={"w-[18px] mr-5"}
+          />
         </div>
       ))}
     </div>
@@ -231,6 +242,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
+  const { t } = useTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const isWorldRoute = pathname.includes("/world");
@@ -257,13 +269,13 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <div>
           <Option
             icon={SUNNYSIDE.icons.expression_alerted}
-            label="Hot now"
+            label={t("marketplace.trending")}
             onClick={() => navigateTo({ path: "hot" })}
             isActive={pathname === `${baseUrl}/hot`}
           />
           <Option
             icon={lightning}
-            label="Power ups"
+            label={t("marketplace.powerUps")}
             onClick={() =>
               navigateTo({
                 path: "collection",
@@ -276,7 +288,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 ? [
                     {
                       icon: ITEM_DETAILS["Freya Fox"].image,
-                      label: "Collectibles",
+                      label: t("marketplace.collectibles"),
                       isActive: filters === "utility,collectibles",
                       onClick: () =>
                         navigateTo({
@@ -286,7 +298,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     },
                     {
                       icon: wearableIcon,
-                      label: "Wearables",
+                      label: t("marketplace.wearables"),
                       isActive: filters === "utility,wearables",
                       onClick: () =>
                         navigateTo({
@@ -300,7 +312,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <Option
             icon={ITEM_DETAILS.Eggplant.image}
-            label="Resources"
+            label={t("marketplace.resources")}
             onClick={() =>
               navigateTo({
                 path: "collection",
@@ -311,7 +323,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <Option
             icon={SUNNYSIDE.icons.stopwatch}
-            label="Limited"
+            label={t("marketplace.limited")}
             onClick={() =>
               navigateTo({
                 path: "collection",
@@ -322,7 +334,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <Option
             icon={SUNNYSIDE.icons.heart}
-            label="Cosmetics"
+            label={t("marketplace.cosmetics")}
             onClick={() =>
               navigateTo({
                 path: "collection",
@@ -333,7 +345,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <Option
             icon={budIcon}
-            label="Bud NFTs"
+            label={t("marketplace.budNfts")}
             onClick={() =>
               navigateTo({
                 path: "collection",
@@ -347,7 +359,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <div>
           <Option
             icon={SUNNYSIDE.icons.player}
-            label="My Profile"
+            label={t("marketplace.myProfile")}
             onClick={() =>
               navigateTo({
                 path: `profile/${gameState.context.farmId}`,
@@ -358,7 +370,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 ? [
                     {
                       icon: SUNNYSIDE.icons.lightning,
-                      label: "Stats",
+                      label: t("marketplace.stats"),
                       onClick: () =>
                         navigateTo({
                           path: `profile/${gameState.context.farmId}`,
@@ -369,7 +381,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     },
                     {
                       icon: tradeIcon,
-                      label: "Trades",
+                      label: t("marketplace.trades"),
                       onClick: () =>
                         navigateTo({
                           path: `profile/${gameState.context.farmId}/trades`,
@@ -380,7 +392,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     },
                     {
                       icon: trade_point,
-                      label: "Rewards",
+                      label: t("marketplace.rewards"),
                       onClick: () =>
                         navigateTo({
                           path: "profile/rewards",
