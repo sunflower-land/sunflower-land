@@ -45,9 +45,10 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
         <WorldContext.Provider value={{ isCommunity }}>
           <Explore />
           <div
+            aria-label="World"
             className="fixed inset-safe-area pointer-events-none inset-safe-area"
             style={{
-              zIndex: 1000,
+              zIndex: 11,
             }}
           >
             <div
