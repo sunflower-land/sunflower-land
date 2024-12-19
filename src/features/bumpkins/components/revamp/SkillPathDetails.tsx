@@ -181,16 +181,20 @@ export const SkillPathDetails: React.FC<Props> = ({
 
           {/* Claim/Claimed/Use Button */}
           {!readonly && (
-            <div className="flex sm:flex-col-reverse w-full">
+            <div className="flex sm:flex-col w-full">
               {showConfirmation ? (
                 <>
                   <Button
-                    className="mr-1 sm:mt-1"
+                    className="mr-1 sm:mr-0"
                     onClick={() => setShowConfirmation(false)}
                   >
                     {t("cancel")}
                   </Button>
-                  <Button disabled={isClaimDisabled} onClick={handleClaim}>
+                  <Button
+                    className="sm:mt-1"
+                    disabled={isClaimDisabled}
+                    onClick={handleClaim}
+                  >
                     {t("skill.claimSkill")}
                   </Button>
                 </>
