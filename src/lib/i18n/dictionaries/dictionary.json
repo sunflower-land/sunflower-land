@@ -4719,8 +4719,6 @@
   "skillTier.skillDisabled": "Skill is disabled",
   "skill.claimed": "Claimed",
   "skill.claim": "Claim",
-  "skill.confirmationMessage": "Are you sure you want to claim {{skillName}}?",
-  "skill.costMessage": "This will cost {{points}} skill points.",
   "skill.claimSkill": "Claim Skill",
   "skill.cooldown": "{{cooldown}} Cooldown",
   "skill.powerSkill": "Power Skill",
