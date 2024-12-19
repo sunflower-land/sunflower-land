@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "スキルは無効です",
   "skill.claimed": "請求済み",
   "skill.claim": "請求",
-  "skill.confirmationMessage": "{{skillName}} を申請してよろしいですか？",
-  "skill.costMessage": "これには {{points}} スキルポイントが必要です。",
   "skill.claimSkill": "クレームスキル",
   "skill.cooldown": "{{cooldown}} クールダウン",
   "skill.powerSkill": "パワースキル",

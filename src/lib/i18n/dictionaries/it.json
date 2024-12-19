@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "L'abilità è disattivata",
   "skill.claimed": "Reclamato",
   "skill.claim": "Reclamo",
-  "skill.confirmationMessage": "Sei sicuro di voler richiedere {{skillName}}?",
-  "skill.costMessage": "Questo costerà {{points}} punti abilità.",
   "skill.claimSkill": "Claim Skill",
   "skill.cooldown": "{{cooldown}} Tempo di recupero",
   "skill.powerSkill": "Abilità di potere",

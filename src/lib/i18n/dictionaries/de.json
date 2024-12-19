@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "Skill ist deaktiviert",
   "skill.claimed": "Beansprucht",
   "skill.claim": "Reklamation",
-  "skill.confirmationMessage": "Sind Sie sicher, dass Sie {{skillName}} beanspruchen möchten?",
-  "skill.costMessage": "Das kostet {{points}} Skillpunkte.",
   "skill.claimSkill": "Skill beanspruchen",
   "skill.cooldown": "{{cooldown}} Abklingzeit",
   "skill.powerSkill": "Fähigkeit „Macht“",

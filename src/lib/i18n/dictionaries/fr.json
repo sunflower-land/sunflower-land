@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "La compétence est désactivée",
   "skill.claimed": "Réclamé",
   "skill.claim": "Réclamation",
-  "skill.confirmationMessage": "Êtes-vous sûr de vouloir réclamer {{skillName}} ?",
-  "skill.costMessage": "Cela vous coûtera {{points}} points de compétence.",
   "skill.claimSkill": "Réclamer une compétence",
   "skill.cooldown": "{{cooldown}} Temps de recharge",
   "skill.powerSkill": "Compétence de puissance",

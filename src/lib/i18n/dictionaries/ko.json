@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "스킬 비활성화",
   "skill.claimed": "클레임",
   "skill.claim": "클레임",
-  "skill.confirmationMessage": "정말로 {{skillName}} 를 청구하시겠습니까?",
-  "skill.costMessage": "이 경우 {{points}} 스킬 포인트가 소모됩니다.",
   "skill.claimSkill": "클레임 스킬",
   "skill.cooldown": "{{cooldown}} 재사용 대기시간",
   "skill.powerSkill": "파워 스킬",

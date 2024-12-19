@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "Beceri devre dışı",
   "skill.claimed": "İddia Edildi",
   "skill.claim": "Talep",
-  "skill.confirmationMessage": "{{skillName}} talep etmek istediğinizden emin misiniz?",
-  "skill.costMessage": "Bu, {{points}} beceri puanına mal olacaktır.",
   "skill.claimSkill": "Talep Becerisi",
   "skill.cooldown": "{{cooldown}} Bekleme Süresi",
   "skill.powerSkill": "Güç Becerisi",

@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "技能已禁用",
   "skill.claimed": "已习得",
   "skill.claim": "习得",
-  "skill.confirmationMessage": "您确定要习得 {{skillName}} 吗？",
-  "skill.costMessage": "这将消耗 {{points}} 点技能点数。",
   "skill.claimSkill": "习得技能",
   "skill.cooldown": "{{cooldown}} 冷却时间",
   "skill.powerSkill": "强力技能",

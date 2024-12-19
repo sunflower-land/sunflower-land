@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "Kemahiran dilumpuhkan",
   "skill.claimed": "Dituntut",
   "skill.claim": "Tuntutan",
-  "skill.confirmationMessage": "Adakah anda pasti ingin menuntut {{skillName}}?",
-  "skill.costMessage": "Ini akan menelan belanja mata kemahiran {{points}}.",
   "skill.claimSkill": "Kemahiran Tuntutan",
   "skill.cooldown": "{{cooldown}} Penyejukan",
   "skill.powerSkill": "Kemahiran Kuasa",

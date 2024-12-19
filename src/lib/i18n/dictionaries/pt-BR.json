@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "A habilidade está desativada",
   "skill.claimed": "Reivindicado",
   "skill.claim": "Reclamação",
-  "skill.confirmationMessage": "Tem certeza de que deseja reivindicar {{skillName}}?",
-  "skill.costMessage": "Isso custará {{points}} pontos de habilidade.",
   "skill.claimSkill": "Reivindique habilidade",
   "skill.cooldown": "{{cooldown}} Tempo de recarga",
   "skill.powerSkill": "Habilidade de poder",

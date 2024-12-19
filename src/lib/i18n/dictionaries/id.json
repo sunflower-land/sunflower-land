@@ -4630,8 +4630,6 @@
   "skillTier.skillDisabled": "Keterampilan dinonaktifkan",
   "skill.claimed": "Diklaim",
   "skill.claim": "Klaim",
-  "skill.confirmationMessage": "Apakah Anda yakin ingin mengklaim {{skillName}}?",
-  "skill.costMessage": "Ini akan dikenakan biaya poin keterampilan {{points}}.",
   "skill.claimSkill": "Klaim Keterampilan",
   "skill.cooldown": "{{cooldown}} Waktu pendinginan",
   "skill.powerSkill": "Keterampilan Kekuatan",
