@@ -61,6 +61,7 @@ export const MarketplaceNavigation: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+  const { farmId } = gameService.getSnapshot().context;
 
   const isVIP = useSelector(gameService, _isVIP);
 
@@ -68,7 +69,7 @@ export const MarketplaceNavigation: React.FC = () => {
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
-          <Filters onClose={() => setShowFilters(false)} />
+          <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
           <EstimatedPrice
             price={price}
             onClick={() => setShowQuickswap(true)}
@@ -125,7 +126,7 @@ export const MarketplaceNavigation: React.FC = () => {
               />
             </div>
             <div className="flex-1">
-              <Filters onClose={() => setShowFilters(false)} />
+              <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
             </div>
           </InnerPanel>
 
@@ -237,14 +238,15 @@ const Option: React.FC<OptionProps> = ({
   );
 };
 
-const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
+  onClose,
+  farmId,
+}) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
   const { t } = useTranslation();
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const isWorldRoute = pathname.includes("/world");
 
   const baseUrl = `${isWorldRoute ? "/world" : ""}/marketplace`;
@@ -362,7 +364,7 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             label={t("marketplace.myProfile")}
             onClick={() =>
               navigateTo({
-                path: `profile/${gameState.context.farmId}`,
+                path: `profile/${farmId}`,
               })
             }
             options={
@@ -373,22 +375,19 @@ const Filters: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                       label: t("marketplace.stats"),
                       onClick: () =>
                         navigateTo({
-                          path: `profile/${gameState.context.farmId}`,
+                          path: `profile/${farmId}`,
                         }),
-                      isActive:
-                        pathname ===
-                        `${baseUrl}/profile/${gameState.context.farmId}`,
+                      isActive: pathname === `${baseUrl}/profile/${farmId}`,
                     },
                     {
                       icon: tradeIcon,
                       label: t("marketplace.trades"),
                       onClick: () =>
                         navigateTo({
-                          path: `profile/${gameState.context.farmId}/trades`,
+                          path: `profile/${farmId}/trades`,
                         }),
                       isActive:
-                        pathname ===
-                        `${baseUrl}/profile/${gameState.context.farmId}/trades`,
+                        pathname === `${baseUrl}/profile/${farmId}/trades`,
                     },
                     {
                       icon: trade_point,
