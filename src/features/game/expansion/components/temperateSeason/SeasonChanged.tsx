@@ -293,11 +293,10 @@ const SeasonChangedContent = () => {
             ))}
           </div>
         </div>
-
-        <Button className="mt-1 capitalize" onClick={acknowledgeSeason}>
-          {t("temperateSeason.enterSeason", { season: season.season })}
-        </Button>
       </div>
+      <Button className="mt-1 capitalize" onClick={acknowledgeSeason}>
+        {t("temperateSeason.enterSeason", { season: season.season })}
+      </Button>
     </Panel>
   );
 };
