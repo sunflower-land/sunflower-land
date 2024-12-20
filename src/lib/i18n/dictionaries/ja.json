@@ -4713,5 +4713,14 @@
   "marketplace.limited": "限定",
   "marketplace.myProfile": "マイプロフィール",
   "marketplace.budNfts": "バッドNFT",
-  "description.golden.cow.boost": "無料で牛にエサをあげよう！"
+  "description.golden.cow.boost": "無料で牛にエサをあげよう！",
+  "temperateSeason.newSeason": "新シーズン",
+  "temperateSeason.seasonDetails": "シーズン詳細",
+  "temperateSeason.seasonalCrops": "季節の作物",
+  "temperateSeason.enterSeason": "{{season}} と入力してください",
+  "temperateSeason.introduction.one": "ハウディファーマー！現実の世界では7日ごとに、ひまわりランドの季節が変わります！",
+  "temperateSeason.introduction.two": "シーズンごとに異なる機会があります。特定の作物は特定の季節にしか育ちません。農場に影響する可能性のある季節のイベントに注目してください。",
+  "temperateSeason.introduction.three": "作物を守り、何にでも備えましょう！",
+  "temperateSeason.acknowledge": "わかった！",
+  "temperateSeason.possibleEvents": "可能なイベント"
 }

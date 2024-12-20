@@ -4713,5 +4713,14 @@
   "marketplace.limited": "Sınırlı",
   "marketplace.myProfile": "Profilim",
   "marketplace.budNfts": "Tomurcuk NFT'leri",
-  "description.golden.cow.boost": "İnekleri bedava besleyin!"
+  "description.golden.cow.boost": "İnekleri bedava besleyin!",
+  "temperateSeason.newSeason": "Yeni Sezon",
+  "temperateSeason.seasonDetails": "Sezon Detayları",
+  "temperateSeason.seasonalCrops": "Mevsim Bitkileri",
+  "temperateSeason.enterSeason": "{{season}} girin",
+  "temperateSeason.introduction.one": "Merhaba Çiftçi! Gerçek dünyada her 7 günde bir, Ayçiçeği Ülkesindeki mevsim değişecek!",
+  "temperateSeason.introduction.two": "Her sezon farklı fırsatlar getiriyor. Bazı mahsuller yalnızca belirli mevsimlerde büyüyebilir. Çiftliğinizi etkileyebilecek mevsimsel olaylara dikkat edin.",
+  "temperateSeason.introduction.three": "Ekinlerinizi koruduğunuzdan ve her şeye hazırlıklı olduğunuzdan emin olun!",
+  "temperateSeason.acknowledge": "Anladım!",
+  "temperateSeason.possibleEvents": "Olası Olaylar"
 }

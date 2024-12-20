@@ -4713,5 +4713,14 @@
   "marketplace.limited": "Limitiert",
   "marketplace.myProfile": "Mein Profil",
   "marketplace.budNfts": "Bud NFTs",
-  "description.golden.cow.boost": "Füttere Kühe kostenlos!"
+  "description.golden.cow.boost": "Füttere Kühe kostenlos!",
+  "temperateSeason.newSeason": "Neue Staffel",
+  "temperateSeason.seasonDetails": "Einzelheiten zur Saison",
+  "temperateSeason.seasonalCrops": "Saisonale Pflanzen",
+  "temperateSeason.enterSeason": "Geben Sie {{season}} ein",
+  "temperateSeason.introduction.one": "Hallo Farmer! In der realen Welt ändert sich die Jahreszeit im Sonnenblumenland alle 7 Tage!",
+  "temperateSeason.introduction.two": "Jede Jahreszeit bietet unterschiedliche Möglichkeiten. Bestimmte Pflanzen können nur zu bestimmten Jahreszeiten wachsen. Halten Sie Ausschau nach saisonalen Ereignissen, die sich auf Ihre Farm auswirken könnten.",
+  "temperateSeason.introduction.three": "Achte darauf, deine Pflanzen zu schützen und sei auf alles vorbereitet!",
+  "temperateSeason.acknowledge": "Ich hab's!",
+  "temperateSeason.possibleEvents": "Mögliche Ereignisse"
 }

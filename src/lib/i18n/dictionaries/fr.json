@@ -4713,5 +4713,14 @@
   "marketplace.limited": "Limité",
   "marketplace.myProfile": "Mon profil",
   "marketplace.budNfts": "Achetez des NFT",
-  "description.golden.cow.boost": "Nourrissez les vaches gratuitement !"
+  "description.golden.cow.boost": "Nourrissez les vaches gratuitement !",
+  "temperateSeason.newSeason": "Nouvelle saison",
+  "temperateSeason.seasonDetails": "Détails de la saison",
+  "temperateSeason.seasonalCrops": "Cultures saisonnières",
+  "temperateSeason.enterSeason": "Entrez {{season}}",
+  "temperateSeason.introduction.one": "Bonjour Farmer ! Tous les 7 jours dans le monde réel, la saison de Sunflower Land changera !",
+  "temperateSeason.introduction.two": "Chaque saison offre des opportunités différentes. Certaines cultures ne peuvent pousser qu'à certaines saisons. Surveillez les événements saisonniers qui pourraient affecter votre ferme.",
+  "temperateSeason.introduction.three": "Veillez à protéger vos cultures et soyez prêt à tout !",
+  "temperateSeason.acknowledge": "J'ai compris !",
+  "temperateSeason.possibleEvents": "Évènements possibles"
 }

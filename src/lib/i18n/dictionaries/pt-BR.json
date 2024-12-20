@@ -4713,5 +4713,14 @@
   "marketplace.limited": "Limitado",
   "marketplace.myProfile": "Meu perfil",
   "marketplace.budNfts": "NFTs da Bud",
-  "description.golden.cow.boost": "Alimente vacas de graça!"
+  "description.golden.cow.boost": "Alimente vacas de graça!",
+  "temperateSeason.newSeason": "Nova temporada",
+  "temperateSeason.seasonDetails": "Detalhes da temporada",
+  "temperateSeason.seasonalCrops": "Culturas sazonais",
+  "temperateSeason.enterSeason": "Digite {{season}}",
+  "temperateSeason.introduction.one": "Olá, Fazendeiro! A cada 7 dias no mundo real, a temporada em Sunflower Land mudará!",
+  "temperateSeason.introduction.two": "Cada temporada traz oportunidades diferentes. Certas safras só podem crescer em estações específicas. Fique atento aos eventos sazonais que podem afetar sua fazenda.",
+  "temperateSeason.introduction.three": "Certifique-se de proteger suas plantações e esteja preparado para qualquer coisa!",
+  "temperateSeason.acknowledge": "Entendi!",
+  "temperateSeason.possibleEvents": "Eventos possíveis"
 }

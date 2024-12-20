@@ -4713,5 +4713,14 @@
   "marketplace.limited": "Terbatas",
   "marketplace.myProfile": "Profil Saya",
   "marketplace.budNfts": "NFT Bud",
-  "description.golden.cow.boost": "Beri makan sapi secara gratis!"
+  "description.golden.cow.boost": "Beri makan sapi secara gratis!",
+  "temperateSeason.newSeason": "Musim Baru",
+  "temperateSeason.seasonDetails": "Rincian Musim",
+  "temperateSeason.seasonalCrops": "Tanaman Musiman",
+  "temperateSeason.enterSeason": "Masukkan {{season}}",
+  "temperateSeason.introduction.one": "Halo Petani! Setiap 7 hari di dunia nyata, musim di Sunflower Land akan berubah!",
+  "temperateSeason.introduction.two": "Setiap musim membawa peluang yang berbeda. Tanaman tertentu hanya dapat tumbuh pada musim tertentu. Awasi acara musiman yang dapat memengaruhi pertanian Anda.",
+  "temperateSeason.introduction.three": "Pastikan untuk melindungi tanaman Anda dan bersiaplah untuk apa pun!",
+  "temperateSeason.acknowledge": "Mengerti!",
+  "temperateSeason.possibleEvents": "Kemungkinan Peristiwa"
 }

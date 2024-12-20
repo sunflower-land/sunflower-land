@@ -4713,5 +4713,14 @@
   "marketplace.limited": "Ограничено",
   "marketplace.myProfile": "Мой профиль",
   "marketplace.budNfts": "Забавные NFT",
-  "description.golden.cow.boost": "Кормите коров бесплатно!"
+  "description.golden.cow.boost": "Кормите коров бесплатно!",
+  "temperateSeason.newSeason": "Новый сезон",
+  "temperateSeason.seasonDetails": "Сведения о сезоне",
+  "temperateSeason.seasonalCrops": "Сезонные культуры",
+  "temperateSeason.enterSeason": "Введите {{season}}",
+  "temperateSeason.introduction.one": "Привет, фермер! Каждые 7 дней в реальном мире сезон в Sunflower Land будет меняться!",
+  "temperateSeason.introduction.two": "Каждый сезон приносит разные возможности. Некоторые культуры могут расти только в определенные сезоны. Следите за сезонными событиями, которые могут повлиять на вашу ферму.",
+  "temperateSeason.introduction.three": "Обязательно защищайте свой урожай и будьте готовы ко всему!",
+  "temperateSeason.acknowledge": "Понял!",
+  "temperateSeason.possibleEvents": "Возможные события"
 }

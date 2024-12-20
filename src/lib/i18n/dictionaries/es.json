@@ -4713,5 +4713,14 @@
   "marketplace.limited": "Limitado",
   "marketplace.myProfile": "Mi perfil",
   "marketplace.budNfts": "Bud NFT",
-  "description.golden.cow.boost": "¡Alimenta a las vacas gratis!"
+  "description.golden.cow.boost": "¡Alimenta a las vacas gratis!",
+  "temperateSeason.newSeason": "Nueva temporada",
+  "temperateSeason.seasonDetails": "Detalles de la temporada",
+  "temperateSeason.seasonalCrops": "Cultivos estacionales",
+  "temperateSeason.enterSeason": "Ingresa {{season}}",
+  "temperateSeason.introduction.one": "¡Hola Farmer! ¡En el mundo real, cada 7 días cambia la estación del año en Sunflower Land!",
+  "temperateSeason.introduction.two": "Cada estación ofrece diferentes oportunidades. Ciertos cultivos solo pueden crecer en temporadas específicas. Esté atento a los eventos estacionales que podrían afectar a su granja.",
+  "temperateSeason.introduction.three": "¡Asegúrate de proteger tus cultivos y prepárate para cualquier cosa!",
+  "temperateSeason.acknowledge": "¡Lo tengo!",
+  "temperateSeason.possibleEvents": "Posibles eventos"
 }

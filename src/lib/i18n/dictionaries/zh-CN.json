@@ -4713,5 +4713,14 @@
   "marketplace.limited": "有限",
   "marketplace.myProfile": "我的个人资料",
   "marketplace.budNfts": "巴德 NFT",
-  "description.golden.cow.boost": "免费喂牛！"
+  "description.golden.cow.boost": "免费喂牛！",
+  "temperateSeason.newSeason": "新赛季",
+  "temperateSeason.seasonDetails": "赛季详情",
+  "temperateSeason.seasonalCrops": "季节性作物",
+  "temperateSeason.enterSeason": "输入 {{season}}",
+  "temperateSeason.introduction.one": "你好 Farmer！在现实世界中，每隔7天，向日葵之地的季节就会改变！",
+  "temperateSeason.introduction.two": "每个季节都会带来不同的机会。某些作物只能在特定季节生长。留意可能影响您的农场的季节性事件。",
+  "temperateSeason.introduction.three": "确保保护您的农作物并为任何事情做好准备！",
+  "temperateSeason.acknowledge": "明白了！",
+  "temperateSeason.possibleEvents": "可能发生的事件"
 }

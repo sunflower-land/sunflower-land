@@ -4713,5 +4713,14 @@
   "marketplace.limited": "Limitato",
   "marketplace.myProfile": "Il mio profilo",
   "marketplace.budNfts": "Compra NFT",
-  "description.golden.cow.boost": "Dai da mangiare alle mucche gratis!"
+  "description.golden.cow.boost": "Dai da mangiare alle mucche gratis!",
+  "temperateSeason.newSeason": "Nuova stagione",
+  "temperateSeason.seasonDetails": "Dettagli della stagione",
+  "temperateSeason.seasonalCrops": "Colture stagionali",
+  "temperateSeason.enterSeason": "Inserisci {{season}}",
+  "temperateSeason.introduction.one": "Salve Farmer! Ogni 7 giorni nel mondo reale, la stagione in Sunflower Land cambierà!",
+  "temperateSeason.introduction.two": "Ogni stagione offre diverse opportunità. Alcune colture possono crescere solo in stagioni specifiche. Tieni d'occhio gli eventi stagionali che potrebbero influire sulla tua fattoria.",
+  "temperateSeason.introduction.three": "Assicuratevi di proteggere le vostre colture e preparatevi a tutto!",
+  "temperateSeason.acknowledge": "Capito!",
+  "temperateSeason.possibleEvents": "Eventi possibili"
 }
