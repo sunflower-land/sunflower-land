@@ -860,6 +860,7 @@ export const ITEM_TRADE_TYPES: {
     "Penguin Pool": "instant",
     Snowman: "instant",
     "Festive Toy Train": "instant",
+    "Golden Cow": "onchain",
   },
   wearables: {
     "Beige Farmer Potion": "instant",
