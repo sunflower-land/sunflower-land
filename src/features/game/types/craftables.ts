@@ -1201,7 +1201,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Tin Turtle": { height: 1, width: 1 },
   "Basic Scarecrow": { width: 1, height: 1 },
   Bale: { width: 2, height: 2 },
-  "Sir Goldensnout": { width: 1, height: 2 },
+  "Sir Goldensnout": { width: 2, height: 2 },
   "Scary Mike": { width: 1, height: 1 },
   "Laurie the Chuckle Crow": { width: 1, height: 1 },
   "Queen Cornelia": { width: 1, height: 2 },
