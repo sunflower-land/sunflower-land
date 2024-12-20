@@ -555,6 +555,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
     return [!canRemove, translate("restrictionReason.recentlyUsed")];
   },
+  "Golden Cow": (game) => areAnyCowsSleeping(game),
 
   // Fishing Boosts
   Alba: (game) => hasFishedToday(game),
