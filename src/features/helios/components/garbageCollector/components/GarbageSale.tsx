@@ -16,7 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
-import { isWearable } from "features/game/events/landExpansion/garbageSold";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 
 export const GarbageSale: React.FC = () => {
   const { t } = useAppTranslation();
@@ -44,7 +44,7 @@ export const GarbageSale: React.FC = () => {
   const getAmount = (name: GarbageName) => {
     const selected = GARBAGE[name];
 
-    let count = isWearable(name)
+    let count = !isCollectible(name)
       ? availableWardrobe(state)[name] ?? 0
       : inventory[name] ?? new Decimal(0);
     if (new Decimal(count).gte(selected.limit ?? 0)) {
@@ -83,7 +83,7 @@ export const GarbageSale: React.FC = () => {
               key={name}
               onClick={() => setSelectedName(name)}
               image={
-                isWearable(name)
+                !isCollectible(name)
                   ? new URL(
                       `/src/assets/wearables/${ITEM_IDS[name as BumpkinItem]}.webp`,
                       import.meta.url,
