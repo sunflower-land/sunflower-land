@@ -343,6 +343,7 @@ import { AlienChicken } from "./components/AlienChicken";
 import { ToxicTuft } from "./components/ToxicTuft";
 import { Mootant } from "./components/Mootants";
 import { SuperTotem } from "./components/SuperTotem";
+import { GoldenCow } from "./components/GoldenCow";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -753,6 +754,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Toxic Tuft": ToxicTuft,
   Mootant: Mootant,
   Chicory: Chicory,
+  "Golden Cow": GoldenCow,
   "Adrift Ark": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

@@ -1259,4 +1259,42 @@ describe("feedAnimal", () => {
     expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(0.5));
     expect(state.henHouse.animals["0"].experience).toEqual(foodXp);
   });
+
+  it("feeds a cow for free if the player has a Golden Cow", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Mixed Grain": new Decimal(2),
+        },
+        collectibles: {
+          "Golden Cow": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+      },
+    });
+
+    expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(2));
+  });
 });

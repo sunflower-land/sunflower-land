@@ -805,4 +805,10 @@ export const COLLECTIBLE_BUFF_LABELS: (
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
   },
+  "Golden Cow": {
+    shortDescription: translate("description.golden.cow.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+    boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
+  },
 });
