@@ -31,10 +31,7 @@ import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
 } from "features/island/delivery/lib/delivery";
-import {
-  getSeasonalBanner,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUMPKIN_FLOWER_BONUSES,
@@ -682,9 +679,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   };
 
   const requiresSeasonPass = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
-  const hasSeasonPass =
-    (game.inventory[getSeasonalBanner()] ?? new Decimal(0))?.gte(1) ||
-    (game.inventory["Lifetime Farmer Banner"] ?? new Decimal(0))?.gte(1);
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
@@ -729,7 +723,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const missingLevels =
     (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
     getBumpkinLevel(game.bumpkin?.experience ?? 0);
-  const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
+  const missingVIPAccess = requiresSeasonPass && !hasVIP;
   const isLocked = missingLevels >= 1;
   const isTicketOrder = tickets > 0;
   const deliveryFrozen = isHoliday && isTicketOrder;

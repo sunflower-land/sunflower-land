@@ -9,10 +9,10 @@ import { produce } from "immer";
 import { NPCName } from "lib/npcs";
 import {
   getCurrentSeason,
-  getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { isWearableActive } from "features/game/lib/wearables";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -101,10 +101,7 @@ export function generateChoreRewards({
 
   if (!items[getSeasonalTicket(now)]) return items;
 
-  if (
-    !!game.inventory[getSeasonalBanner(now)] ||
-    !!game.inventory["Lifetime Farmer Banner"]
-  ) {
+  if (hasVipAccess(game.inventory, now)) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 2;
   }
 

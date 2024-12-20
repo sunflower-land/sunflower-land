@@ -12,7 +12,6 @@ import {
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
   getCurrentSeason,
-  getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { NPCName } from "lib/npcs";
@@ -26,6 +25,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { availableWardrobe } from "./equip";
 import { FISH } from "features/game/types/fishing";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -58,10 +58,7 @@ export function generateDeliveryTickets({
     return 0;
   }
 
-  if (
-    !!game.inventory[getSeasonalBanner(now)] ||
-    !!game.inventory["Lifetime Farmer Banner"]
-  ) {
+  if (hasVipAccess(game.inventory, now)) {
     amount += 2;
   }
 
