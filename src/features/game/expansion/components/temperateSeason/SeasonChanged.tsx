@@ -60,7 +60,6 @@ const SEASON_DETAILS: Record<
     ],
   },
   autumn: {
-    previousSeason: "summer",
     icon: SUNNYSIDE.resource.tree_stump,
     inSeason: [
       "Sunflower",
