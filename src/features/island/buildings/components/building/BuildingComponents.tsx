@@ -63,6 +63,7 @@ export const BUILDING_COMPONENTS: Record<
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
+      buildingName="Fire Pit"
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
@@ -88,6 +89,7 @@ export const BUILDING_COMPONENTS: Record<
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
+      buildingName="Bakery"
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
@@ -123,6 +125,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      buildingName="Kitchen"
     >
       <Kitchen
         buildingId={buildingId}
@@ -146,6 +149,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      buildingName="Deli"
     >
       <Deli
         buildingId={buildingId}
@@ -169,6 +173,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      buildingName="Smoothie Shack"
     >
       <SmoothieShack
         buildingId={buildingId}

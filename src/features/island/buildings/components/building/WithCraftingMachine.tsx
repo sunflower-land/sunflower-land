@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useInterpret, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import {
@@ -7,13 +7,21 @@ import {
   MachineInterpreter,
   MachineState,
 } from "../../lib/craftingMachine";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { BuildingProps } from "./Building";
 import { CookableName } from "features/game/types/consumables";
+import { BuildingName } from "features/game/types/buildings";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isCrafting = (state: MachineState) => state.matches("crafting");
 const isReady = (state: MachineState) => state.matches("ready");
 const itemName = (state: MachineState) => state.context.name;
+const _building =
+  (buildingName: BuildingName, buildingId: string) =>
+  (state: GameMachineState) =>
+    state.context.state.buildings[buildingName]?.find(
+      (building) => building.id === buildingId,
+    );
 
 export interface CraftingMachineChildProps extends BuildingProps {
   idle: boolean;
@@ -26,6 +34,7 @@ export interface CraftingMachineChildProps extends BuildingProps {
 
 type WithCraftingMachineProps = BuildingProps & {
   children: React.ReactElement<CraftingMachineChildProps>;
+  buildingName: BuildingName;
 };
 
 /**
@@ -37,6 +46,7 @@ export const WithCraftingMachine = ({
   craftingReadyAt,
   buildingId,
   children,
+  buildingName,
 }: WithCraftingMachineProps) => {
   const { gameService } = useContext(Context);
   const craftingMachineContext: CraftingContext = {
@@ -57,7 +67,23 @@ export const WithCraftingMachine = ({
   const crafting = useSelector(craftingService, isCrafting);
   const ready = useSelector(craftingService, isReady);
   const name = useSelector(craftingService, itemName);
+  const building = useSelector(
+    gameService,
+    _building(buildingName, buildingId),
+  );
 
+  useEffect(() => {
+    if (
+      !ready &&
+      building?.crafting?.readyAt &&
+      building?.crafting?.readyAt <= Date.now()
+    ) {
+      craftingService.send({
+        type: "INSTANT_READY",
+        readyAt: building?.crafting?.readyAt,
+      });
+    }
+  }, [building?.crafting?.readyAt]);
   // The building component is cloned and crafting state machine props are injected into it
   const clonedChildren = React.cloneElement(children, {
     idle,
