@@ -8,6 +8,7 @@ import {
 } from "features/game/types/game";
 
 import { ITEM_DETAILS } from "features/game/types/images";
+import { formatNumber } from "lib/utils/formatNumber";
 // TODO: Add love items
 
 type RequestItem = AnimalFoodName | AnimalMedicineName | LoveAnimalItem;
@@ -103,13 +104,7 @@ export const RequestBubble: React.FC<RequestBubbleProps> = ({
           <img className="w-full h-full" src={image.src} />
         </div>
         {quantity && (
-          <span className="text-xxs text-black">{`x${
-            Number.isInteger(Number(quantity))
-              ? Number(quantity)
-              : Number(quantity)
-                  .toFixed(2)
-                  .replace(/\.?0+$/, "")
-          }`}</span>
+          <span className="text-xxs text-black">{`x${formatNumber(quantity)}`}</span>
         )}
       </div>
     </div>
