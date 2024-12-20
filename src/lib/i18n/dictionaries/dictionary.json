@@ -4749,5 +4749,6 @@
   "temperateSeason.introduction.one": "Howdy Farmer! Every 7 days in the real world, the season in Sunflower Land will change!",
   "temperateSeason.introduction.two": "Each season brings different opportunities. Certain crops can only grow in specific seasons. Keep an eye out for seasonal events that could affect your farm.",
   "temperateSeason.introduction.three": "Make sure to protect your crops and be prepared for anything!",
-  "temperateSeason.acknowledge": "Got it!"
+  "temperateSeason.acknowledge": "Got it!",
+  "temperateSeason.possibleEvents": "Possible Events"
 }

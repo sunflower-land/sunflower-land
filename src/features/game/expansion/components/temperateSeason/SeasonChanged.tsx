@@ -95,29 +95,34 @@ const SEASON_DETAILS: Record<
   },
 };
 
-type SeasonEventName = "Tornado" | "Tsunami";
+type SeasonEventName = "Tornado" | "Tsunami" | "Unknown";
 const DUMMY_EVENT_DATA: Record<
   SeasonEventName,
   {
     icon: string;
     description: string;
+    resolution?: string;
   }
 > = {
   Tornado: {
-    icon: SUNNYSIDE.icons.plant,
-    description:
-      "A destructive tornado is approaching! Construct wind turbines to dissipate its energy.",
+    icon: SUNNYSIDE.icons.firePitIcon,
+    description: "A destructive tornado past through your farm!",
+    resolution: "Construct wind turbines to dissipate its energy.",
   },
   Tsunami: {
     icon: SUNNYSIDE.icons.water,
-    description:
-      "A massive wave threatens to flood your crops! Build mangroves along the coast to protect your farm.",
+    description: "There was a large tsunami that hit your farm!",
+    resolution: "Build mangroves along the coast to protect your farm.",
+  },
+  Unknown: {
+    icon: SUNNYSIDE.icons.lightning,
+    description: "Something is upcoming!",
   },
 };
 
 type WeekData = {
   day: string;
-  event: SeasonEventName;
+  event: SeasonEventName | "Unknown";
 };
 
 const DUMMY_WEEK_DATA: WeekData[] = [
@@ -125,10 +130,66 @@ const DUMMY_WEEK_DATA: WeekData[] = [
   { day: "Tuesday", event: "Tsunami" },
   { day: "Wednesday", event: "Tornado" },
   { day: "Thursday", event: "Tsunami" },
-  { day: "Friday", event: "Tornado" },
-  { day: "Saturday", event: "Tsunami" },
-  { day: "Sunday", event: "Tornado" },
+  { day: "Friday", event: "Unknown" },
+  { day: "Saturday", event: "Unknown" },
+  { day: "Sunday", event: "Unknown" },
 ];
+
+const SeasonDayDetails: React.FC<{
+  weekDay: number;
+  timestamp: number;
+  onClose: () => void;
+}> = ({ weekDay, timestamp, onClose }) => {
+  const { t } = useTranslation();
+
+  return (
+    <InnerPanel className="shadow">
+      <div className="flex flex-row justify-between mb-2">
+        <Label type="default">{DUMMY_WEEK_DATA[weekDay].event}</Label>
+        <Label type="info">{getRelativeTime(timestamp)}</Label>
+      </div>
+
+      <div className="flex gap-4 mb-2">
+        <div className="flex flex-col items-center">
+          <InnerPanel>
+            <img
+              src={DUMMY_EVENT_DATA[DUMMY_WEEK_DATA[weekDay].event].icon}
+              className="w-12 h-12 object-contain"
+            />
+          </InnerPanel>
+        </div>
+
+        <div className="flex-1 text-sm">
+          {DUMMY_EVENT_DATA[DUMMY_WEEK_DATA[weekDay].event].description}
+        </div>
+      </div>
+
+      {DUMMY_WEEK_DATA[weekDay].event === "Unknown" && (
+        <div className="flex flex-col gap-2 my-2 w-full">
+          <Label type="default">{t("temperateSeason.possibleEvents")}</Label>
+          <div className="flex flex-col gap-2">
+            {Object.entries(DUMMY_EVENT_DATA)
+              .filter(([name]) => name !== "Unknown")
+              .map(([name, data]) => (
+                <div key={name} className="flex items-center gap-1">
+                  <img src={data.icon} className="w-6 h-6" />
+
+                  <div className="flex flex-col">
+                    <span className="text-xs">{name}</span>
+                    {data.resolution && (
+                      <span className="text-xxs">{data.resolution}</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      <Button onClick={onClose}>{t("close")}</Button>
+    </InnerPanel>
+  );
+};
 
 const SeasonWeek = () => {
   const { gameService } = useContext(Context);
@@ -148,46 +209,14 @@ const SeasonWeek = () => {
         onBackdropClick={() => setShowWeekday(undefined)}
         className="inset-3 top-4"
       >
-        <InnerPanel className="shadow">
-          <div className="flex flex-row justify-between mb-2">
-            <Label type="default">
-              {DUMMY_WEEK_DATA[showWeekday ?? 0].event}
-            </Label>
-            <Label type="info">
-              {getRelativeTime(
-                new Date(
-                  weekDayStartsAt.getTime() +
-                    1000 * 60 * 60 * 24 * (showWeekday ?? 0),
-                ).getTime(),
-              )}
-            </Label>
-          </div>
-
-          <div className="flex gap-4 mb-2">
-            <div className="flex flex-col items-center">
-              <InnerPanel>
-                <img
-                  src={
-                    DUMMY_EVENT_DATA[DUMMY_WEEK_DATA[showWeekday ?? 0].event]
-                      .icon
-                  }
-                  className="w-12 h-12"
-                />
-              </InnerPanel>
-            </div>
-
-            <div className="flex-1 text-sm">
-              {
-                DUMMY_EVENT_DATA[DUMMY_WEEK_DATA[showWeekday ?? 0].event]
-                  .description
-              }
-            </div>
-          </div>
-
-          <Button onClick={() => setShowWeekday(undefined)}>
-            {t("close")}
-          </Button>
-        </InnerPanel>
+        <SeasonDayDetails
+          weekDay={showWeekday ?? 0}
+          timestamp={new Date(
+            weekDayStartsAt.getTime() +
+              1000 * 60 * 60 * 24 * (showWeekday ?? 0),
+          ).getTime()}
+          onClose={() => setShowWeekday(undefined)}
+        />
       </ModalOverlay>
 
       <div className="grid grid-cols-7 gap-1">
@@ -201,7 +230,7 @@ const SeasonWeek = () => {
             >
               <img
                 src={DUMMY_EVENT_DATA[data.event].icon}
-                className="absolute w-6 h-6"
+                className="absolute w-6 h-6 object-contain"
               />
               <span className="absolute -top-1 -right-1 text-xxs">
                 {data.day[0]}
