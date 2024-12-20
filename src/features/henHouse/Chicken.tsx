@@ -253,7 +253,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     const hasEnoughMedicine = medicineCount.gte(1);
 
     if (hasEnoughMedicine) {
-      shortcutItem("Barn Delight");
       playCureAnimal();
       cureChicken("Barn Delight");
       return;
