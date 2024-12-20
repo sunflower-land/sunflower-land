@@ -1,11 +1,12 @@
 import Decimal from "decimal.js-light";
-import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { GARBAGE, GarbageName } from "features/game/types/garbage";
 import { produce } from "immer";
 import { availableWardrobe } from "./equip";
+import { KNOWN_IDS } from "features/game/types";
 
 export type SellGarbageAction = {
   type: "garbage.sold";
@@ -18,9 +19,9 @@ type Options = {
   action: SellGarbageAction;
 };
 
-export const isWearable = (
+export const isCollectible = (
   item: InventoryItemName | BumpkinItem,
-): item is BumpkinItem => item in ITEM_IDS;
+): item is InventoryItemName => item in KNOWN_IDS;
 
 export function sellGarbage({ state, action }: Options) {
   return produce(state, (game) => {
@@ -38,14 +39,13 @@ export function sellGarbage({ state, action }: Options) {
     if (!new Decimal(amount).isInteger()) {
       throw new Error("Invalid amount");
     }
-
-    const isWearableItem = isWearable(item);
-    const count = isWearableItem
+    const isCollectibleItem = isCollectible(item);
+    const count = !isCollectibleItem
       ? availableWardrobe(state)[item] ?? 0
       : inventory[item] ?? new Decimal(0);
 
     // Check if enough quantity
-    if (isWearableItem) {
+    if (!isCollectibleItem) {
       if (Number(count) < amount) {
         throw new Error("Insufficient quantity to sell");
       }
@@ -58,8 +58,8 @@ export function sellGarbage({ state, action }: Options) {
     // Check limits
     const { limit = 0 } = GARBAGE[item];
     if (
-      (isWearableItem && Number(count) - amount < limit) ||
-      (!isWearableItem && new Decimal(count).sub(amount).lessThan(limit))
+      (!isCollectibleItem && Number(count) - amount < limit) ||
+      (!!isCollectibleItem && new Decimal(count).sub(amount).lessThan(limit))
     ) {
       throw new Error("Limit Reached");
     }
@@ -102,7 +102,7 @@ export function sellGarbage({ state, action }: Options) {
     );
 
     // Update inventory/wardrobe
-    if (isWearableItem) {
+    if (!isCollectibleItem) {
       wardrobe[item] = (wardrobe[item] ?? 0) - amount;
     } else {
       inventory[item] =

@@ -8,8 +8,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { formatDateRange } from "lib/utils/time";
 import { Label } from "../Label";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { isWearable } from "features/game/events/landExpansion/garbageSold";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 
 /**
  * The props for the details for items.
@@ -48,6 +48,7 @@ interface Props {
  * The view for displaying item name, details, properties and action.
  * @props The component props.
  */
+
 export const ShopSellDetails: React.FC<Props> = ({
   details,
   properties,
@@ -75,13 +76,13 @@ export const ShopSellDetails: React.FC<Props> = ({
 
 const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
   const { item } = details;
-  const image = isWearable(item)
-    ? new URL(`/src/assets/wearables/${ITEM_IDS[item]}.webp`, import.meta.url)
-        .href
-    : ITEM_DETAILS[item].image;
-  const description = isWearable(item)
-    ? BUMPKIN_ITEM_BUFF_LABELS[item]?.shortDescription
-    : ITEM_DETAILS[item].description;
+  const image = isCollectible(item)
+    ? ITEM_DETAILS[item].image
+    : new URL(`/src/assets/wearables/${ITEM_IDS[item]}.webp`, import.meta.url)
+        .href;
+  const description = isCollectible(item)
+    ? ITEM_DETAILS[item].description
+    : BUMPKIN_ITEM_BUFF_LABELS[item]?.shortDescription;
 
   return (
     <>
