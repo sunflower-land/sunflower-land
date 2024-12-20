@@ -203,7 +203,7 @@ const SeasonWeek = () => {
                 src={DUMMY_EVENT_DATA[data.event].icon}
                 className="absolute w-6 h-6"
               />
-              <span className="absolute top-0 right-0 text-xxs">
+              <span className="absolute -top-1 -right-1 text-xxs">
                 {data.day[0]}
               </span>
             </ButtonPanel>
