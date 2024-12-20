@@ -438,7 +438,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
               request={favFood}
-              quantity={requiredFoodQty}
+              quantity={!hasGoldenCow ? requiredFoodQty : undefined}
             />
           )}
           {sick && (
