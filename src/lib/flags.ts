@@ -77,6 +77,7 @@ const featureFlags = {
 
     return Date.now() >= new Date("2024-12-18T00:00:00Z").getTime();
   },
+  TEMPERATE_SEASON: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

@@ -100,6 +100,7 @@ import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "./level";
+import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -562,6 +563,7 @@ export type BlockchainState = {
     | "blacklisted"
     | "provingPersonhood"
     | "somethingArrived"
+    | "seasonChanged"
     | "randomising"
     | "competition"
     | StateName
@@ -898,6 +900,16 @@ export function startGame(authContext: AuthContext) {
               target: "somethingArrived",
               cond: (context) => !!context.revealed,
             },
+            {
+              target: "seasonChanged",
+              cond: (context) => {
+                return (
+                  hasFeatureAccess(context.state, "TEMPERATE_SEASON") &&
+                  context.state.season.startedAt !==
+                    getLastTemperateSeasonStartedAt()
+                );
+              },
+            },
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
             // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
@@ -981,6 +993,13 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context: Context) => ({
                 revealed: undefined,
               })),
+            },
+          },
+        },
+        seasonChanged: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
             },
           },
         },

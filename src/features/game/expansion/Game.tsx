@@ -75,6 +75,7 @@ import { Ocean } from "features/world/ui/Ocean";
 import { OffersAcceptedPopup } from "./components/OffersAcceptedPopup";
 import { Marketplace } from "features/marketplace/Marketplace";
 import { CompetitionModal } from "features/competition/CompetitionBoard";
+import { SeasonChanged } from "./components/temperateSeason/SeasonChanged";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -145,6 +146,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   provingPersonhood: false,
   sellMarketResource: false,
   somethingArrived: true,
+  seasonChanged: false,
 };
 
 // State change selectors
@@ -216,6 +218,7 @@ const isEffectFailure = (state: MachineState) =>
 const hasMarketplaceSales = (state: MachineState) =>
   state.matches("marketplaceSale");
 const isCompetition = (state: MachineState) => state.matches("competition");
+const isSeasonChanged = (state: MachineState) => state.matches("seasonChanged");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -379,6 +382,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const effectFailure = useSelector(gameService, isEffectFailure);
   const showSales = useSelector(gameService, hasMarketplaceSales);
   const competition = useSelector(gameService, isCompetition);
+  const seasonChanged = useSelector(gameService, isSeasonChanged);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
@@ -591,6 +595,7 @@ export const GameWrapper: React.FC = ({ children }) => {
 
         {claimingAuction && <ClaimAuction />}
         {refundAuction && <RefundAuction />}
+        {seasonChanged && <SeasonChanged />}
 
         {competition && (
           <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>

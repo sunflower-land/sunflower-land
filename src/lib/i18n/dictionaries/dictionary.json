@@ -4741,5 +4741,13 @@
   "instantCook.costMessage": "This will cost you {{gems}} Gems",
   "instantCook.finish": "Finish now",
   "mayor": "Mayor",
-  "mayor.plaza.shortIntro": "Hey there Bumpkin, I am the mayor of this town and "
+  "mayor.plaza.shortIntro": "Hey there Bumpkin, I am the mayor of this town and ",
+  "temperateSeason.newSeason": "New Season",
+  "temperateSeason.seasonDetails": "Season Details",
+  "temperateSeason.seasonalCrops": "Seasonal Crops",
+  "temperateSeason.enterSeason": "Enter {{season}}",
+  "temperateSeason.introduction.one": "Oh have I mentioned Seasons? Every 7 days in the real world, the seasons in Sunflower Land will change!",
+  "temperateSeason.introduction.two": "Each season brings different opportunities. Certain crops can only grow in specific seasons. Keep an eye out for random seasonal events that could affect your farm.",
+  "temperateSeason.introduction.three": "Make sure to protect your crops and be prepared for anything!",
+  "temperateSeason.acknowledge": "Got it!"
 }
