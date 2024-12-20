@@ -10,6 +10,7 @@ interface Props {
   className?: string;
   ingredients: InventoryItemName[];
   onClick: () => void;
+  title?: string;
 }
 
 export const IngredientsPopover: React.FC<Props> = ({
@@ -17,6 +18,7 @@ export const IngredientsPopover: React.FC<Props> = ({
   className,
   ingredients,
   onClick,
+  title,
 }) => {
   const { t } = useAppTranslation();
 
@@ -43,7 +45,7 @@ export const IngredientsPopover: React.FC<Props> = ({
         <div className="flex flex-col mb-1">
           <div className="flex space-x-1 mb-1">
             <span className="text-xs whitespace-nowrap">
-              {`${t("ingredients")}:`}
+              {`${title ?? t("ingredients")}:`}
             </span>
           </div>
           <div className="space-y-1">

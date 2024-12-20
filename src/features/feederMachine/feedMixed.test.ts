@@ -58,8 +58,8 @@ describe("feedMixed", () => {
         ...INITIAL_FARM,
         coins: 0,
         inventory: {
-          Egg: new Decimal(10),
-          Iron: new Decimal(1),
+          Lemon: new Decimal(5),
+          Honey: new Decimal(3),
         },
       },
       action: {
@@ -69,8 +69,8 @@ describe("feedMixed", () => {
       },
     });
     expect(state.inventory["Barn Delight"]).toEqual(new Decimal(1));
-    expect(state.inventory.Egg).toEqual(new Decimal(0));
-    expect(state.inventory.Iron).toEqual(new Decimal(0));
+    expect(state.inventory.Lemon).toEqual(new Decimal(0));
+    expect(state.inventory.Honey).toEqual(new Decimal(0));
   });
 
   it("removes the ingredients for 1 x Kernel Blend from inventory", () => {

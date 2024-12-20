@@ -169,8 +169,8 @@ export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
     type: "medicine",
     description: translate("description.barn.delight"),
     ingredients: {
-      Egg: new Decimal(10),
-      Iron: new Decimal(1),
+      Lemon: new Decimal(5),
+      Honey: new Decimal(3),
     },
   },
   Omnifeed: {
@@ -542,10 +542,10 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
     2: {
       Egg: new Decimal(1),
-      Feather: new Decimal(1),
     },
     3: {
-      Egg: new Decimal(2),
+      Egg: new Decimal(1),
+      Feather: new Decimal(1),
     },
     4: {
       Egg: new Decimal(2),
@@ -553,45 +553,46 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
     5: {
       Egg: new Decimal(2),
-      Feather: new Decimal(2),
+      Feather: new Decimal(1),
     },
     6: {
-      Egg: new Decimal(3),
+      Egg: new Decimal(2),
+      Feather: new Decimal(1),
     },
     7: {
-      Egg: new Decimal(3),
+      Egg: new Decimal(2),
       Feather: new Decimal(1),
     },
     8: {
       Egg: new Decimal(3),
-      Feather: new Decimal(2),
+      Feather: new Decimal(1),
     },
     9: {
       Egg: new Decimal(3),
-      Feather: new Decimal(3),
+      Feather: new Decimal(2),
     },
     10: {
       Egg: new Decimal(3),
-      Feather: new Decimal(3),
+      Feather: new Decimal(2),
     },
     11: {
       Egg: new Decimal(3),
-      Feather: new Decimal(3),
+      Feather: new Decimal(2),
     },
     12: {
       Egg: new Decimal(3),
-      Feather: new Decimal(3),
+      Feather: new Decimal(1),
     },
     13: {
-      Egg: new Decimal(3),
-      Feather: new Decimal(3),
+      Egg: new Decimal(4),
+      Feather: new Decimal(2),
     },
     14: {
-      Egg: new Decimal(3),
-      Feather: new Decimal(3),
+      Egg: new Decimal(4),
+      Feather: new Decimal(2),
     },
     15: {
-      Egg: new Decimal(3),
+      Egg: new Decimal(5),
       Feather: new Decimal(3),
     },
   },

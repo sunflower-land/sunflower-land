@@ -16,7 +16,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { getKeys } from "features/game/types/craftables";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { WITHDRAWABLES } from "features/game/types/withdrawables";
+import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
@@ -121,9 +121,14 @@ export const WithdrawItems: React.FC<Props> = ({
   };
 
   const withdrawableItems = getKeys(inventory)
-    .filter(
-      (itemName) => WITHDRAWABLES[itemName]() && !isCurrentObsession(itemName),
-    )
+    .filter((itemName) => {
+      const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
+      return (
+        !!withdrawAt &&
+        withdrawAt <= new Date() &&
+        !isCurrentObsession(itemName)
+      );
+    })
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const selectedItems = getKeys(selected)

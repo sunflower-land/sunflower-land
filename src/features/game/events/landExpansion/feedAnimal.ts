@@ -83,23 +83,28 @@ const handleAnimalExperience = (
   return currentCycleProgress + foodXp >= cycleXP;
 };
 
-const handleGoldenEggFeeding = (
+const handleFreeFeeding = (
   animal: Animal,
   animalType: AnimalType,
   level: number,
   favouriteFood: AnimalFoodName,
   copy: GameState,
 ) => {
-  const foodXps = ANIMAL_FOOD_EXPERIENCE[animalType];
-  const favouriteFoodXp = foodXps[level as AnimalLevel][favouriteFood];
+  const { foodXp } = handleFoodXP({
+    state: copy,
+    animal: animalType,
+    level: level as AnimalLevel,
+    food: favouriteFood,
+  });
   const beforeFeedXp = animal.experience;
 
   const isReady = handleAnimalExperience(
     animal,
     animalType,
     beforeFeedXp,
-    favouriteFoodXp,
+    foodXp,
   );
+
   animal.state = isReady ? "ready" : "happy";
 
   copy.bumpkin.activity = trackActivity(
@@ -109,6 +114,26 @@ const handleGoldenEggFeeding = (
 
   return copy;
 };
+
+export function handleFoodXP({
+  state,
+  animal,
+  level,
+  food,
+}: {
+  state: GameState;
+  animal: AnimalType;
+  level: AnimalLevel;
+  food: AnimalFoodName;
+}) {
+  let foodXp = ANIMAL_FOOD_EXPERIENCE[animal][level][food];
+
+  if (state.bumpkin.skills["Chonky Feed"]) {
+    foodXp *= 2;
+  }
+
+  return { foodXp };
+}
 
 export function feedAnimal({
   state,
@@ -163,9 +188,12 @@ export function feedAnimal({
 
     const level = getAnimalLevel(animal.experience, animal.type);
     const food = action.item as AnimalFoodName;
-    const isChicken = action.animal === "Chicken";
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
+      game: copy,
+    });
+    const hasGoldenCowPlaced = isCollectibleBuilt({
+      name: "Golden Cow",
       game: copy,
     });
     const favouriteFood = getAnimalFavoriteFood(
@@ -174,8 +202,19 @@ export function feedAnimal({
     );
 
     // Handle Golden Egg Free Food
-    if (isChicken && hasGoldenEggPlaced) {
-      return handleGoldenEggFeeding(
+    if (action.animal === "Chicken" && hasGoldenEggPlaced) {
+      return handleFreeFeeding(
+        animal,
+        action.animal,
+        level,
+        favouriteFood,
+        copy,
+      );
+    }
+
+    // Handle Golden Cow Free Food
+    if (action.animal === "Cow" && hasGoldenCowPlaced) {
+      return handleFreeFeeding(
         animal,
         action.animal,
         level,
@@ -189,7 +228,13 @@ export function feedAnimal({
       throw new Error("No food provided");
     }
 
-    const foodXp = ANIMAL_FOOD_EXPERIENCE[action.animal][level][food];
+    const { foodXp } = handleFoodXP({
+      state: copy,
+      animal: action.animal,
+      level,
+      food,
+    });
+
     const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
     const boostedFoodQuantity = getBoostedFoodQuantity({
       animalType: action.animal,

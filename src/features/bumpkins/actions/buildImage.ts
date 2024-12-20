@@ -12,6 +12,13 @@ type Response = {
   image: string;
 };
 
+export const getBumpkinImageURL = (bumpkin: Request) => {
+  const size = 100;
+  const tokenUri = tokenUriBuilder(bumpkin.parts);
+
+  return `${CONFIG.ANIMATION_URL}/bumpkin_image/0_v1_${tokenUri}/${size}`;
+};
+
 export async function buildImageRequest({ fileName }: { fileName: string }) {
   const response = await window.fetch(
     `${API_URL}/bumpkins/metadata/${fileName}`,

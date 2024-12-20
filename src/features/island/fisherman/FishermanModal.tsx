@@ -47,6 +47,7 @@ import {
   BumpkinRevampSkillName,
 } from "features/game/types/bumpkinSkills";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { hasFeatureAccess } from "lib/flags";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -288,7 +289,9 @@ const BaitSelection: React.FC<{
       <div>
         <InnerPanel className="my-1 relative">
           <div className="flex p-1">
-            <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
+            <div className="h-10 w-10 mr-2 justify-items-center">
+              <img src={ITEM_DETAILS[bait].image} className="h-10" />
+            </div>
             <div>
               <p className="text-sm mb-1">{bait}</p>
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
@@ -356,7 +359,7 @@ const BaitSelection: React.FC<{
       )}
 
       {!fishingLimitReached && missingRod && (
-        <Label className="mb-1" type="danger">
+        <Label className="mb-1 ml-1" type="danger">
           {t("fishermanModal.needCraftRod")}
         </Label>
       )}
@@ -537,24 +540,15 @@ const BoostReelItems: Partial<
     location: "Expert Angler Achievement",
   },
   "Fisherman's 2 Fold": {
-    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 2 Fold"].boosts,
-    labelType: "success",
-    boostTypeIcon: powerup,
-    boostedItemIcon: SUNNYSIDE.icons.fish,
+    ...BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 2 Fold"].boosts.buff,
     location: "Fishing Skill Tree",
   },
   "Fisherman's 5 Fold": {
-    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts,
-    labelType: "success",
-    boostTypeIcon: powerup,
-    boostedItemIcon: SUNNYSIDE.icons.fish,
+    ...BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts.buff,
     location: "Fishing Skill Tree",
   },
   "More With Less": {
-    shortDescription: BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts,
-    labelType: "success",
-    boostTypeIcon: powerup,
-    boostedItemIcon: SUNNYSIDE.icons.fish,
+    ...BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts.buff,
     location: "Fishing Skill Tree",
   },
 };
@@ -631,36 +625,49 @@ const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
               {t("fishing.lookingMoreReels")}
             </span>
             <div className="flex flex-col my-2 space-y-1">
-              {getKeys(BoostReelItems).map((item) => {
-                const boostItem = BoostReelItems[item];
-                return (
-                  <div key={item} className="flex space-x-2">
+              {Object.entries(BoostReelItems)
+                .filter(
+                  ([name]) =>
+                    !isSkill(
+                      name as
+                        | BumpkinItem
+                        | CollectibleName
+                        | BumpkinRevampSkillName,
+                    ) || hasFeatureAccess(state, "SKILLS_REVAMP"),
+                )
+                .map(([name, item]) => (
+                  <div key={name} className="flex space-x-2">
                     <div
                       className="bg-brown-600 cursor-pointer relative"
                       style={{
                         ...pixelDarkBorderStyle,
                       }}
                     >
-                      <SquareIcon icon={getItemImage(item)} width={20} />
+                      <SquareIcon
+                        icon={getItemImage(
+                          name as
+                            | BumpkinItem
+                            | CollectibleName
+                            | BumpkinRevampSkillName,
+                        )}
+                        width={20}
+                      />
                     </div>
                     <div className="flex flex-col justify-center space-y-1">
                       <div className="flex flex-col space-y-0.5">
-                        <span className="text-xs">{item}</span>
-                        <span className="text-xxs italic">
-                          {boostItem?.location}
-                        </span>
+                        <span className="text-xs">{name}</span>
+                        <span className="text-xxs italic">{item.location}</span>
                       </div>
                       <Label
-                        type={boostItem?.labelType ?? "default"}
-                        icon={boostItem?.boostTypeIcon}
-                        secondaryIcon={boostItem?.boostedItemIcon}
+                        type={item.labelType}
+                        icon={item.boostTypeIcon}
+                        secondaryIcon={item.boostedItemIcon}
                       >
-                        {boostItem?.shortDescription}
+                        {item.shortDescription}
                       </Label>
                     </div>
                   </div>
-                );
-              })}
+                ))}
             </div>
           </div>
           {reelsLeft > 0 && (

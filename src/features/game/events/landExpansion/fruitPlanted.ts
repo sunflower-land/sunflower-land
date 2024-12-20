@@ -110,6 +110,10 @@ export function getFruitTime({
     seconds = seconds * 0.9;
   }
 
+  if (name === "Grape Seed" && game.bumpkin.skills["Rice and Shine"]) {
+    seconds = seconds * 0.95;
+  }
+
   return seconds;
 }
 

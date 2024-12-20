@@ -701,6 +701,10 @@ export const INITIAL_FARM: GameState = {
     readyAt: 0,
     recipes: {},
   },
+  season: {
+    season: "spring",
+    startedAt: 0,
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -1017,6 +1021,10 @@ export const TEST_FARM: GameState = {
     readyAt: 0,
     recipes: {},
   },
+  season: {
+    season: "spring",
+    startedAt: 0,
+  },
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1150,5 +1158,9 @@ export const EMPTY: GameState = {
     startedAt: 0,
     readyAt: 0,
     recipes: {},
+  },
+  season: {
+    season: "spring",
+    startedAt: 0,
   },
 };

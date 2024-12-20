@@ -1,19 +1,22 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Toast, ToastContext, ToastItem } from "./ToastProvider";
 import { Context } from "../GameProvider";
-import { PIXEL_SCALE } from "../lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import { FactionName, InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import token from "assets/icons/sfl.webp";
 import levelup from "assets/icons/level_up.png";
-import { ITEM_DETAILS } from "../types/images";
 import { HudContainer } from "components/ui/HudContainer";
 import coins from "assets/icons/coins.webp";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
+import { Bud } from "../types/buds";
+import { KNOWN_IDS } from "../types";
+import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 
 const MAX_TOAST = 6;
 
@@ -30,7 +33,31 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
     return FACTION_POINT_ICONS[faction];
   }
 
-  return ITEM_DETAILS[item]?.image;
+  if (KNOWN_IDS[item as InventoryItemName]) {
+    return getTradeableDisplay({
+      id: KNOWN_IDS[item as InventoryItemName],
+      type: "collectibles",
+      state: INITIAL_FARM,
+    }).image;
+  }
+
+  if (ITEM_IDS[item as BumpkinItem]) {
+    return getTradeableDisplay({
+      id: ITEM_IDS[item as BumpkinItem],
+      type: "wearables",
+      state: INITIAL_FARM,
+    }).image;
+  }
+
+  if (item.startsWith("Bud #")) {
+    return getTradeableDisplay({
+      id: Number(item.split("#")[1]),
+      type: "buds",
+      state: INITIAL_FARM,
+    }).image;
+  }
+
+  return "";
 };
 
 const _faction = (state: MachineState) => state.context.state.faction;
@@ -47,6 +74,8 @@ export const ToastPanel: React.FC = () => {
     setCoinBalance,
     setExperience,
     setFactionPoints,
+    setWardrobe,
+    setBuds,
   } = useContext(ToastContext);
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
@@ -63,6 +92,10 @@ export const ToastPanel: React.FC = () => {
   const newCoinBalance = useRef<number>();
   const oldFactionPoints = useRef<number>();
   const newFactionPoints = useRef<number>();
+  const oldWardrobe = useRef<Partial<Record<BumpkinItem, number>>>();
+  const newWardrobe = useRef<Partial<Record<BumpkinItem, number>>>();
+  const oldBuds = useRef<Partial<Record<number, Bud>>>();
+  const newBuds = useRef<Partial<Record<number, Bud>>>();
 
   /**
    * Listens to game state transitions.
@@ -83,6 +116,10 @@ export const ToastPanel: React.FC = () => {
     newCoinBalance.current = state.context.state.coins;
     oldFactionPoints.current = newFactionPoints.current;
     newFactionPoints.current = faction?.points;
+    oldWardrobe.current = newWardrobe.current;
+    newWardrobe.current = state.context.state.wardrobe;
+    oldBuds.current = newBuds.current;
+    newBuds.current = state.context.state.buds;
 
     // inventory is set and changed
     if (
@@ -123,6 +160,16 @@ export const ToastPanel: React.FC = () => {
     ) {
       setFactionPoints(newFactionPoints.current);
     }
+
+    // wardrobe is set and changed
+    if (!!newWardrobe.current && oldWardrobe.current !== newWardrobe.current) {
+      setWardrobe(newWardrobe.current);
+    }
+
+    // buds is set and changed
+    if (!!newBuds.current && oldBuds.current !== newBuds.current) {
+      setBuds(newBuds.current);
+    }
   });
 
   // show toast only if there are toasts in the toast list
@@ -136,9 +183,9 @@ export const ToastPanel: React.FC = () => {
   return (
     <>
       {showToasts && (
-        <HudContainer>
+        <HudContainer zIndex="z-[99999]">
           <InnerPanel
-            className="flex flex-col items-start absolute z-[99999] pointer-events-none"
+            className="flex flex-col items-start absolute pointer-events-none"
             style={{
               top: `${PIXEL_SCALE * 54}px`,
               left: `${PIXEL_SCALE * 3}px`,

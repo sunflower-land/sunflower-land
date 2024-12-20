@@ -1,5 +1,4 @@
 import React from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { useEffect } from "react";
 import { useState } from "react";
@@ -8,10 +7,8 @@ import {
   CompetitionPlayer,
 } from "features/game/types/competitions";
 import { MinigameName } from "features/game/types/minigames";
-import { useContext } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getPortalLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import { Context } from "features/game/GameProvider";
 import { Loading } from "features/auth/components/Loading";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
@@ -21,14 +18,23 @@ import { Button } from "components/ui/Button";
 
 export const PortalLeaderboard: React.FC<{
   name: MinigameName;
+  farmId: number;
+  jwt: string;
   onBack: () => void;
   startDate?: Date;
   endDate?: Date;
   formatPoints?: (value: number) => string;
   isAccumulator?: boolean;
-}> = ({ name, onBack, startDate, endDate, formatPoints, isAccumulator }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const { gameService } = useContext(Context);
+}> = ({
+  name,
+  farmId,
+  jwt,
+  onBack,
+  startDate,
+  endDate,
+  formatPoints,
+  isAccumulator,
+}) => {
   const [data, setData] = useState<CompetitionLeaderboardResponse>();
 
   const formatDate = (date: Date) => date.toISOString().substring(0, 10);
@@ -45,9 +51,9 @@ export const PortalLeaderboard: React.FC<{
   useEffect(() => {
     const load = async () => {
       const data = await getPortalLeaderboard({
-        farmId: gameService.state.context.farmId,
+        farmId,
         name,
-        jwt: authService.state.context.user.rawToken as string,
+        jwt,
         from,
         to,
       });
@@ -60,14 +66,8 @@ export const PortalLeaderboard: React.FC<{
 
   if (!data) return <Loading />;
 
-  const {
-    leaderboard,
-    accumulators,
-    lastUpdated,
-    miniboard,
-    accumulatorMiniboard,
-    player,
-  } = data;
+  const { leaderboard, accumulators, miniboard, accumulatorMiniboard, player } =
+    data;
   const items = (!!isAccumulator && accumulators?.slice(0, 10)) || leaderboard;
   const title =
     !!isAccumulator && accumulators?.length

@@ -17,7 +17,7 @@ export const OfferTable: React.FC<{
   if (offers.length === 0) return null;
 
   return (
-    <div className="w-full text-xs border-collapse mb-2">
+    <div className="w-full relative border-collapse mb-2 max-h-[200px] scrollable overflow-y-auto overflow-x-hidden">
       <div>
         {offers.map((offer, index) => {
           return (
@@ -54,7 +54,7 @@ export const ListingTable: React.FC<{
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   return (
-    <div className="w-full text-xs border-collapse">
+    <div className="w-full relative border-collapse mb-2 max-h-[200px] scrollable overflow-y-auto overflow-x-hidden">
       <div>
         {listings.map((listing, index) => {
           return (

@@ -44,19 +44,14 @@ const featureFlags = {
   ONBOARDING_REWARDS: (game: GameState) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
   SEASONAL_TIERS: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
-  MARKETPLACE: defaultFeatureFlag,
-  MARKETPLACE_ADMIN: adminFeatureFlag,
-  MARKETPLACE_REWARDS: adminFeatureFlag,
   CROP_QUICK_SELECT: () => false,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
   SKILLS_REVAMP: adminFeatureFlag,
   FSL: betaTimeBasedFeatureFlag(new Date("2024-10-10T00:00:00Z")),
-  NEW_RESOURCES_GE: defaultFeatureFlag,
   ANIMAL_BUILDINGS: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   BARLEY: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
-  GEM_BOOSTS: (game: GameState) => game.experiments.includes("GEM_BOOSTS"),
   CHICKEN_GARBO: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   CRAFTING_BOX: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   FLOWER_BOUNTIES: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
@@ -75,6 +70,14 @@ const featureFlags = {
 
     return defaultFeatureFlag(game);
   },
+  ANIMAL_COMPETITION: (game) => {
+    if (defaultFeatureFlag(game)) {
+      return true;
+    }
+
+    return Date.now() >= new Date("2024-12-18T00:00:00Z").getTime();
+  },
+  TEMPERATE_SEASON: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

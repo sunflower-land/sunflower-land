@@ -1591,150 +1591,6 @@ describe("plantGreenhouse", () => {
     });
   });
 
-  it("boosts +0.2 Olive yield with Olive Garden skill", () => {
-    const now = Date.now();
-    const state = plantGreenhouse({
-      action: {
-        type: "greenhouse.planted",
-        seed: "Olive Seed",
-        id: 1,
-      },
-      state: {
-        ...farm,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          skills: {
-            "Olive Garden": 1,
-          },
-        },
-        inventory: {
-          "Olive Seed": new Decimal(1),
-        },
-        greenhouse: {
-          oil: 50,
-          pots: {
-            1: {},
-          },
-        },
-        buildings: {
-          Greenhouse: [
-            {
-              coordinates: { x: 0, y: 0 },
-              id: "1",
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      createdAt: now,
-    });
-
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        amount: 1.2,
-        name: "Olive",
-        plantedAt: now,
-      },
-    });
-  });
-
-  it("boosts +0.2 Rice yield with Rice and Shine skill", () => {
-    const now = Date.now();
-    const state = plantGreenhouse({
-      action: {
-        type: "greenhouse.planted",
-        seed: "Rice Seed",
-        id: 1,
-      },
-      state: {
-        ...farm,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          skills: {
-            "Rice and Shine": 1,
-          },
-        },
-        inventory: {
-          "Rice Seed": new Decimal(1),
-        },
-        greenhouse: {
-          oil: 50,
-          pots: {
-            1: {},
-          },
-        },
-        buildings: {
-          Greenhouse: [
-            {
-              coordinates: { x: 0, y: 0 },
-              id: "1",
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      createdAt: now,
-    });
-
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        amount: 1.2,
-        name: "Rice",
-        plantedAt: now,
-      },
-    });
-  });
-
-  it("boosts +0.2 Grape yield with Grape Escape skill", () => {
-    const now = Date.now();
-    const state = plantGreenhouse({
-      action: {
-        type: "greenhouse.planted",
-        seed: "Grape Seed",
-        id: 1,
-      },
-      state: {
-        ...farm,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          skills: {
-            "Grape Escape": 1,
-          },
-        },
-        inventory: {
-          "Grape Seed": new Decimal(1),
-        },
-        greenhouse: {
-          oil: 50,
-          pots: {
-            1: {},
-          },
-        },
-        buildings: {
-          Greenhouse: [
-            {
-              coordinates: { x: 0, y: 0 },
-              id: "1",
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      createdAt: now,
-    });
-
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        amount: 1.2,
-        name: "Grape",
-        plantedAt: now,
-      },
-    });
-  });
-
   it("boosts Olive growth speed by 10% with Olive Express skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
@@ -1879,165 +1735,6 @@ describe("plantGreenhouse", () => {
     });
   });
 
-  it("boosts +1 Olive yield with Greenhouse Gamble skill (5% chance, 1/20)", () => {
-    const now = Date.now();
-
-    let boosted = false;
-    for (let i = 0; i < 1000; i++) {
-      const state = plantGreenhouse({
-        action: {
-          type: "greenhouse.planted",
-          seed: "Olive Seed",
-          id: 1,
-        },
-        state: {
-          ...farm,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            skills: {
-              "Greenhouse Gamble": 1,
-            },
-          },
-          inventory: {
-            "Olive Seed": new Decimal(1),
-          },
-          greenhouse: {
-            oil: 50,
-            pots: {
-              1: {},
-            },
-          },
-          buildings: {
-            Greenhouse: [
-              {
-                coordinates: { x: 0, y: 0 },
-                id: "1",
-                createdAt: 0,
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        createdAt: now,
-      });
-
-      const plot = state.greenhouse.pots[1];
-
-      if (plot.plant && plot.plant.amount === 2) {
-        boosted = true;
-        break;
-      }
-    }
-
-    expect(boosted).toBe(true);
-  });
-
-  it("boosts +1 Rice yield with Greenhouse Gamble skill (5% chance, 1/20)", () => {
-    const now = Date.now();
-
-    let boosted = false;
-    for (let i = 0; i < 1000; i++) {
-      const state = plantGreenhouse({
-        action: {
-          type: "greenhouse.planted",
-          seed: "Rice Seed",
-          id: 1,
-        },
-        state: {
-          ...farm,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            skills: {
-              "Greenhouse Gamble": 1,
-            },
-          },
-          inventory: {
-            "Rice Seed": new Decimal(1),
-          },
-          greenhouse: {
-            oil: 50,
-            pots: {
-              1: {},
-            },
-          },
-          buildings: {
-            Greenhouse: [
-              {
-                coordinates: { x: 0, y: 0 },
-                id: "1",
-                createdAt: 0,
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        createdAt: now,
-      });
-
-      const plot = state.greenhouse.pots[1];
-
-      if (plot.plant && plot.plant.amount === 2) {
-        boosted = true;
-        break;
-      }
-    }
-
-    expect(boosted).toBe(true);
-  });
-
-  it("boosts +1 Grape yield with Greenhouse Gamble skill (5% chance, 1/20)", () => {
-    const now = Date.now();
-
-    let boosted = false;
-    for (let i = 0; i < 1000; i++) {
-      const state = plantGreenhouse({
-        action: {
-          type: "greenhouse.planted",
-          seed: "Grape Seed",
-          id: 1,
-        },
-        state: {
-          ...farm,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            skills: {
-              "Greenhouse Gamble": 1,
-            },
-          },
-          inventory: {
-            "Grape Seed": new Decimal(1),
-          },
-          greenhouse: {
-            oil: 50,
-            pots: {
-              1: {},
-            },
-          },
-          buildings: {
-            Greenhouse: [
-              {
-                coordinates: { x: 0, y: 0 },
-                id: "1",
-                createdAt: 0,
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        createdAt: now,
-      });
-
-      const plot = state.greenhouse.pots[1];
-
-      if (plot.plant && plot.plant.amount === 2) {
-        boosted = true;
-        break;
-      }
-    }
-
-    expect(boosted).toBe(true);
-  });
-
   it("requires 1 less oil with Slick Saver skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
@@ -2078,5 +1775,47 @@ describe("plantGreenhouse", () => {
     });
 
     expect(state.greenhouse.oil).toEqual(47);
+  });
+
+  it("requires 1 more seed with Seeded Bounty skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Rice Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Seeded Bounty": 1,
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(2),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Rice Seed"]).toEqual(new Decimal(0));
   });
 });

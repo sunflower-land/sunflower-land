@@ -424,6 +424,7 @@ import fieldMaple from "assets/decorations/field_maple.webp";
 import redMaple from "assets/decorations/red_maple.webp";
 import goldenMaple from "assets/decorations/golden_maple.webp";
 import Wagon from "assets/decorations/wagon.webp";
+import goldenCow from "assets/sfts/golden_cow.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -479,7 +480,7 @@ import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
-import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.png";
+import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.webp";
 import freyaFox from "assets/sfts/freya_fox.png";
 import grainGrinder from "assets/sfts/grain_grinder.png";
 
@@ -567,6 +568,11 @@ import goldenChristmasStocking from "assets/sfts/golden_christmas_stocking.webp"
 import cozyFireplace from "assets/sfts/cozy_fireplace.webp";
 import christmasRug from "assets/sfts/christmas_rug.webp";
 import christmasCandle from "assets/sfts/christmas_candle.webp";
+
+import santaPenguin from "assets/sfts/santa_penguin.webp";
+import penguinPool from "assets/sfts/penguin_pool.webp";
+import snowman from "assets/sfts/snowman.webp";
+import festiveToyTrain from "assets/sfts/festive_toy_train.webp";
 
 // Flowers
 import beehive from "assets/sfts/beehive.webp";
@@ -749,6 +755,7 @@ import blackSheep from "assets/sfts/black_sheep.webp";
 import alienChicken from "assets/sfts/alien_chicken.webp";
 import toxicTuft from "assets/sfts/toxic_tuft.webp";
 import mootant from "assets/sfts/mootant.webp";
+import tradeCake from "assets/food/trade_cake.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4447,7 +4454,7 @@ export const ITEM_DETAILS: Items = {
     description: COUPONS["Trade Point"].description,
   },
   "Trade Cake": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: tradeCake,
     description: "Cake that you can redeem at Trade Rewards Shop",
   },
   "Christmas Stocking": {
@@ -4469,5 +4476,25 @@ export const ITEM_DETAILS: Items = {
   "Christmas Candle": {
     image: christmasCandle,
     description: translate("description.christmasCandle"),
+  },
+  "Santa Penguin": {
+    image: santaPenguin,
+    description: translate("description.santaPenguin"),
+  },
+  "Penguin Pool": {
+    image: penguinPool,
+    description: translate("description.penguinPool"),
+  },
+  Snowman: {
+    image: snowman,
+    description: translate("description.snowman"),
+  },
+  "Festive Toy Train": {
+    image: festiveToyTrain,
+    description: translate("description.festiveToyTrain"),
+  },
+  "Golden Cow": {
+    image: goldenCow,
+    description: translate("description.golden.cow.boost"),
   },
 };

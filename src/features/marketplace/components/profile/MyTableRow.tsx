@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
@@ -7,6 +7,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CollectionName } from "features/game/types/marketplace";
 
 import sflIcon from "assets/icons/sfl.webp";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
 
 type MyTableRowProps = {
   index: number;
@@ -25,7 +28,7 @@ type MyTableRowProps = {
   onClaim: (id: string) => void;
   onRowClick: () => void;
 };
-
+const _state = (state: MachineState) => state.context.state;
 export const MyTableRow: React.FC<MyTableRowProps> = ({
   id,
   index,
@@ -43,9 +46,12 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
   onClaim,
 }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const details = getTradeableDisplay({
     id: itemId,
     type: collection,
+    state,
   });
 
   return (

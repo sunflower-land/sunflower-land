@@ -17,8 +17,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { getChestBuds } from "features/island/hud/components/inventory/utils/inventory";
-import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { CountLabel } from "components/ui/CountLabel";
 import classNames from "classnames";
@@ -27,6 +25,7 @@ import { ListViewImage } from "./ListViewImage";
 type Props = {
   details: TradeableDisplay;
   price?: Decimal;
+  lastSalePrice?: Decimal;
   onClick?: () => void;
   expiresAt?: number;
 };
@@ -36,6 +35,7 @@ const _state = (state: MachineState) => state.context.state;
 export const ListViewCard: React.FC<Props> = ({
   details,
   price,
+  lastSalePrice,
   onClick,
   expiresAt,
 }) => {
@@ -43,7 +43,7 @@ export const ListViewCard: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
-  const { type, name, image, buff } = details;
+  const { type, name, image, buffs } = details;
   const { t } = useAppTranslation();
 
   const state = useSelector(gameService, _state);
@@ -60,23 +60,23 @@ export const ListViewCard: React.FC<Props> = ({
     type === "collectibles";
 
   // Check inventory count
-  const getCount = () => {
+  const getTotalCount = () => {
     switch (details.type) {
       case "collectibles":
         return (
           state.inventory[details.name as InventoryItemName]?.toNumber() || 0
         );
       case "buds":
-        return getChestBuds(state)[itemId] ? 1 : 0;
+        return state.buds?.[itemId] ? 1 : 0;
       case "wearables":
-        return availableWardrobe(state)[name as BumpkinItem] || 0;
+        return state.wardrobe[name as BumpkinItem] || 0;
 
       default:
         return 0;
     }
   };
 
-  const count = getCount();
+  const count = getTotalCount();
 
   return (
     <div
@@ -117,6 +117,7 @@ export const ListViewCard: React.FC<Props> = ({
             borderTop: "1px solid #e4a672",
             margin: "0 -8px",
             marginBottom: "-2.6px",
+            height: "100px",
           }}
         >
           {price?.gt(0) && (
@@ -155,15 +156,15 @@ export const ListViewCard: React.FC<Props> = ({
 
           <p className="text-xs mb-1 py-0.5 truncate text-[#181425]">{name}</p>
 
-          {buff && (
-            <div className="flex items-center">
+          {buffs.map((buff) => (
+            <div key={buff.shortDescription} className="flex items-center">
               <img
                 src={buff.boostedItemIcon ?? lightning}
                 className="h-4 mr-1"
               />
               <p className="text-xs truncate pb-0.5">{buff.shortDescription}</p>
             </div>
-          )}
+          ))}
 
           {expiresAt && (
             <div className="flex items-center">
@@ -175,6 +176,14 @@ export const ListViewCard: React.FC<Props> = ({
                 })} left`}
               </p>
             </div>
+          )}
+
+          {lastSalePrice?.gt(0) && (
+            <p className="text-xxs truncate pb-0.5">
+              {`Last sale: ${formatNumber(lastSalePrice, {
+                decimalPlaces: 2,
+              })} SFL`}
+            </p>
           )}
         </div>
       </ButtonPanel>

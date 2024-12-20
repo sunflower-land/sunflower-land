@@ -39,9 +39,9 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
 
 export const getUnlockedTierForTree = (
   tree: BumpkinRevampSkillTree,
-  bumpkin?: Bumpkin,
-): number => {
-  if (!bumpkin) return 1;
+  bumpkin: Bumpkin,
+): { availableTier: number; pointsToNextTier: number } => {
+  let availableTier = 1;
 
   // Calculate the total points used in the tree
   const totalUsedSkillPoints = Object.keys(bumpkin.skills).reduce(
@@ -58,10 +58,19 @@ export const getUnlockedTierForTree = (
     0,
   );
 
-  // Determine the tier based on the total points used
-  if (totalUsedSkillPoints >= 5) return 3;
-  if (totalUsedSkillPoints >= 2) return 2;
-  return 1;
+  // Determine the tier and points needed for next tier
+  let pointsToNextTier = 2; // Points needed for tier 2
+  if (totalUsedSkillPoints >= 5) {
+    availableTier = 3;
+    pointsToNextTier = 0; // Already at max tier
+  } else if (totalUsedSkillPoints >= 2) {
+    availableTier = 2;
+    pointsToNextTier = 5 - totalUsedSkillPoints; // Points needed for tier 3
+  } else {
+    pointsToNextTier = 2 - totalUsedSkillPoints; // Points needed for tier 2
+  }
+
+  return { availableTier, pointsToNextTier };
 };
 
 export function choseSkill({ state, action }: Options) {
@@ -77,7 +86,7 @@ export function choseSkill({ state, action }: Options) {
     const bumpkinHasSkill = bumpkin.skills[action.skill];
 
     const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-    const availableTier = getUnlockedTierForTree(tree, bumpkin);
+    const { availableTier } = getUnlockedTierForTree(tree, bumpkin);
 
     if (!hasRequiredIslandExpansion(island.type, requirements.island)) {
       throw new Error("You are not at the correct island!");

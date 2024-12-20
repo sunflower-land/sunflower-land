@@ -13,7 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
+import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -21,6 +21,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { canWithdrawBoostedWearable } from "features/game/types/wearableValidation";
 
 export const isCurrentObsession = (itemName: BumpkinItem, game: GameState) => {
   const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
@@ -123,14 +124,17 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           {withdrawableItems.map((itemName) => {
             const wardrobeCount = wardrobe[itemName];
 
+            const withdrawAt = BUMPKIN_RELEASES[itemName]?.withdrawAt;
+            const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+            const isInUse = !canWithdrawBoostedWearable(itemName, state);
+
             return (
               <Box
                 count={new Decimal(wardrobeCount ?? 0)}
                 key={itemName}
                 onClick={() => onAdd(itemName)}
                 disabled={
-                  !BUMPKIN_WITHDRAWABLES[itemName](state) ||
-                  selected[itemName] !== undefined
+                  isInUse || !canWithdraw || selected[itemName] !== undefined
                 }
                 image={getImageUrl(ITEM_IDS[itemName])}
               />

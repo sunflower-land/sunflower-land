@@ -8,7 +8,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 
 // Section Icons
 import { Fish } from "./pages/Fish";
-import { CodexCategory } from "features/game/types/codex";
+import { CodexCategory, CodexCategoryName } from "features/game/types/codex";
 import { MilestoneReached } from "./components/MilestoneReached";
 import { MilestoneName } from "features/game/types/milestones";
 import { Flowers } from "./pages/Flowers";
@@ -23,6 +23,7 @@ import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 
 import factions from "assets/icons/factions.webp";
+import trophyIcon from "assets/icons/trophy.png";
 import chores from "assets/icons/chores.webp";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
@@ -35,6 +36,7 @@ import {
 import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FLOWERS } from "features/game/types/flowers";
+import { CompetitionDetails } from "features/competition/CompetitionBoard";
 
 interface Props {
   show: boolean;
@@ -50,7 +52,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
   ] = useActor(gameService);
 
-  const [currentTab, setCurrentTab] = useState<number>(0);
+  const [currentTab, setCurrentTab] = useState<CodexCategoryName>("Deliveries");
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
@@ -77,7 +79,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     fetchLeaderboards();
   }, [show]);
 
-  const handleTabClick = (index: number) => {
+  const handleTabClick = (index: CodexCategoryName) => {
     tab.play();
     setCurrentTab(index);
   };
@@ -103,16 +105,13 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const currentObsession = state.bertObsession;
   const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
 
-  const incompleteObsession = () => {
-    if (!currentObsession) return 0;
-    if (!obsessionCompletedAt) return 1;
-    if (
+  const incompleteObsession =
+    !currentObsession ||
+    (obsessionCompletedAt &&
       obsessionCompletedAt >= currentObsession.startDate &&
-      obsessionCompletedAt <= currentObsession.endDate
-    )
-      return 0;
-    return 1;
-  };
+      obsessionCompletedAt <= currentObsession.endDate)
+      ? 0
+      : 1;
 
   const incompleteFlowerBounties = state.bounties.requests.filter(
     (deal) => deal.name in FLOWERS,
@@ -146,26 +145,16 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: SUNNYSIDE.icons.player,
       count: incompleteDeliveries,
     },
-    ...(hasFeatureAccess(state, "CHORE_BOARD")
-      ? [
-          {
-            name: "Chore Board" as const,
-            icon: chores,
-            count: incompleteChores,
-          },
-        ]
-      : [
-          {
-            name: "Chores" as const,
-            icon: chores,
-            count: incompleteChores + inCompleteKingdomChores,
-          },
-        ]),
+    {
+      name: "Chore Board" as const,
+      icon: chores,
+      count: incompleteChores,
+    },
 
     {
       name: "Leaderboard" as const,
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
-      count: incompleteObsession() + incompleteFlowerBountiesCount,
+      count: incompleteObsession + incompleteFlowerBountiesCount,
     },
     {
       name: "Fish",
@@ -184,6 +173,16 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             name: "Marks" as const,
             icon: factions,
             count: inCompleteKingdomChores,
+          },
+        ]
+      : []),
+
+    ...(hasFeatureAccess(state, "ANIMAL_COMPETITION")
+      ? [
+          {
+            name: "Competition" as const,
+            icon: trophyIcon,
+            count: 0,
           },
         ]
       : []),
@@ -225,9 +224,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                     className={classNames(
                       "flex items-center relative p-0.5 mb-1 cursor-pointer",
                     )}
-                    onClick={() => handleTabClick(index)}
+                    onClick={() => handleTabClick(tab.name)}
                     style={{
-                      background: currentTab === index ? "#ead4aa" : undefined,
+                      background:
+                        currentTab === tab.name ? "#ead4aa" : undefined,
                     }}
                   >
                     {!!tab.count && (
@@ -254,8 +254,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 "overflow-y-auto scrollable": currentTab !== 5,
               })}
             > */}
-            {currentTab === 0 && <Deliveries onClose={onHide} />}
-            {currentTab === 1 && (
+            {currentTab === "Deliveries" && <Deliveries onClose={onHide} />}
+            {currentTab === "Chore Board" && (
               <>
                 {hasFeatureAccess(state, "CHORE_BOARD") ? (
                   <ChoreBoard />
@@ -264,7 +264,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 )}
               </>
             )}
-            {currentTab === 2 && (
+            {currentTab === "Leaderboard" && (
               <Season
                 id={id}
                 isLoading={data?.tickets === undefined}
@@ -272,20 +272,30 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 season={getCurrentSeason()}
               />
             )}
-            {currentTab === 3 && (
+            {currentTab === "Fish" && (
               <Fish onMilestoneReached={handleMilestoneReached} />
             )}
-            {currentTab === 4 && (
+            {currentTab === "Flowers" && (
               <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
 
-            {currentTab === 5 && state.faction && (
+            {currentTab === "Marks" && state.faction && (
               <FactionLeaderboard
                 leaderboard={data?.kingdom ?? null}
                 isLoading={data?.kingdom === undefined}
                 playerId={id}
                 faction={state.faction.name}
               />
+            )}
+
+            {currentTab === "Competition" && (
+              <div
+                className={classNames(
+                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
+                )}
+              >
+                <CompetitionDetails competitionName="ANIMALS" />
+              </div>
             )}
           </div>
         </OuterPanel>

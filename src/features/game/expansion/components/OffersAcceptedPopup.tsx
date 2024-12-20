@@ -63,6 +63,7 @@ export const OffersAcceptedPopup: React.FC = () => {
           const details = getTradeableDisplay({
             id: itemId,
             type: offer.collection,
+            state: state.context.state,
           });
           const amount = offer.items[itemName as InventoryItemName];
           const sfl = new Decimal(offer.sfl);
@@ -104,7 +105,14 @@ export const OffersAcceptedPopup: React.FC = () => {
           );
         })}
       </div>
-      <Button onClick={() => claimAll()}>{t("claim")}</Button>
+      <div className="flex space-x-1">
+        <Button className="w-full" onClick={() => gameService.send("CLOSE")}>
+          {t("close")}
+        </Button>
+        <Button className="w-full" onClick={() => claimAll()}>
+          {t("claim")}
+        </Button>
+      </div>
     </>
   );
 };

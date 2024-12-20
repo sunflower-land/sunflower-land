@@ -1,4 +1,4 @@
-import { InventoryItemName } from "./game";
+import { GameState, InventoryItemName } from "./game";
 import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
@@ -8,9 +8,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 
-export const COLLECTIBLE_BUFF_LABELS: Partial<
-  Record<InventoryItemName, BuffLabel>
-> = {
+export const COLLECTIBLE_BUFF_LABELS: (
+  state: GameState,
+) => Partial<Record<InventoryItemName, BuffLabel>> = (state) => ({
   // Crop Boosts
   "Basic Scarecrow": {
     shortDescription: translate("description.basic.scarecrow.boost"),
@@ -205,7 +205,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
 
   // Fruit Boosts
   "Immortal Pear": {
-    shortDescription: translate("description.immortal.pear.boost"),
+    shortDescription: state.bumpkin.skills["Pear Turbocharge"]
+      ? translate("description.immortal.pear.boosted.boost")
+      : translate("description.immortal.pear.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
   },
@@ -743,7 +745,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
   },
   Macaw: {
-    shortDescription: translate("description.macaw.boost"),
+    shortDescription: state.bumpkin.skills["Loyal Macaw"]
+      ? translate("description.macaw.boosted.boost")
+      : translate("description.macaw.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
   },
@@ -801,4 +805,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
   },
-};
+  "Golden Cow": {
+    shortDescription: translate("description.golden.cow.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+    boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
+  },
+});

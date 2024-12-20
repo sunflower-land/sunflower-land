@@ -2,12 +2,16 @@ import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { TradeableDetails } from "features/game/types/marketplace";
+import {
+  getMarketPrice,
+  TradeableDetails,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TradeableDisplay } from "../lib/tradeables";
 
 import grassBg from "assets/ui/3x3_bg.png";
 import brownBg from "assets/brand/brown_background.png";
+import lockIcon from "assets/icons/lock.png";
 
 import { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
@@ -15,6 +19,19 @@ import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
+import {
+  BUMPKIN_RELEASES,
+  INVENTORY_RELEASES,
+} from "features/game/types/withdrawables";
+import { BumpkinItem } from "features/game/types/bumpkin";
+
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("en-US", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  });
+};
 
 export const TradeableImage: React.FC<{
   display: TradeableDisplay;
@@ -49,9 +66,9 @@ export const TradeableImage: React.FC<{
       >{`42% (7D)`}</Label>
     )} */}
 
-        {supply && !isResource && (
+        {supply && !isResource ? (
           <Label type="default">{t("marketplace.supply", { supply })}</Label>
-        )}
+        ) : null}
       </div>
 
       <img
@@ -80,6 +97,22 @@ export const TradeableDescription: React.FC<{
 }> = ({ display, tradeable }) => {
   const { t } = useAppTranslation();
 
+  let tradeAt = undefined;
+  let withdrawAt = undefined;
+  if (tradeable?.collection === "wearables") {
+    tradeAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.tradeAt;
+    withdrawAt = BUMPKIN_RELEASES[display.name as BumpkinItem]?.withdrawAt;
+  }
+
+  if (tradeable?.collection === "collectibles") {
+    tradeAt = INVENTORY_RELEASES[display.name as InventoryItemName]?.tradeAt;
+    withdrawAt =
+      INVENTORY_RELEASES[display.name as InventoryItemName]?.withdrawAt;
+  }
+
+  const canTrade = !!tradeAt && tradeAt <= new Date();
+  const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+
   return (
     <InnerPanel>
       <div className="p-2">
@@ -88,17 +121,21 @@ export const TradeableDescription: React.FC<{
         </Label>
         <div className="flex flex-col space-y-1">
           <p className="text-xs mb-1">{display.description}</p>
-          {display.buff && (
-            <Label
-              icon={display.buff.boostTypeIcon}
-              type={display.buff.labelType}
-            >
-              {display.buff.shortDescription}
-            </Label>
-          )}
+          <div className="flex flex-col space-y-1">
+            {display.buffs.map((buff) => (
+              <Label
+                key={buff.shortDescription}
+                icon={buff.boostTypeIcon}
+                secondaryIcon={buff.boostedItemIcon}
+                type={buff.labelType}
+              >
+                {buff.shortDescription}
+              </Label>
+            ))}
+          </div>
         </div>
         {tradeable?.expiresAt && (
-          <div className="p-2">
+          <div className="p-2 pl-0 pb-0">
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
               {`${secondsToString((tradeable.expiresAt - Date.now()) / 1000, {
                 length: "short",
@@ -106,11 +143,25 @@ export const TradeableDescription: React.FC<{
             </Label>
           </div>
         )}
-        {tradeable && !tradeable?.isActive && (
-          <div className="p-2">
+        {tradeable && !tradeable?.isActive && !tradeAt && (
+          <div className="p-2 pl-0 pb-0">
+            <Label type="danger">{t("marketplace.notForSale")}</Label>
+          </div>
+        )}
+        {!canTrade && !!tradeAt && (
+          <div className="p-2 pl-0 pb-0 flex items-center justify-between  flex-wrap">
             <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-              {t("marketplace.notForSale")}
+              {t("coming.soon")}
             </Label>
+            <Label type="transparent">{formatDate(tradeAt)}</Label>
+          </div>
+        )}
+        {!canWithdraw && !!withdrawAt && (
+          <div className="p-2 pl-0 pb-0 flex items-center justify-between flex-wrap">
+            <Label type="danger" icon={lockIcon}>
+              {t("marketplace.withdrawComingSoon")}
+            </Label>
+            <Label type="transparent">{formatDate(withdrawAt)}</Label>
           </div>
         )}
       </div>
@@ -140,11 +191,15 @@ export const TradeableMobileInfo: React.FC<{
       tradeable.history.sales[0].sfl / tradeable.history.sales[0].quantity;
   }
 
+  const marketPrice = getMarketPrice({ tradeable });
   return (
     <>
       <div className="flex justify-between gap-1 items-center">
         <TradeableImage display={display} supply={tradeable?.supply} />
-        <TradeableStats history={tradeable?.history} price={latestSale} />
+        <TradeableStats
+          history={tradeable?.history}
+          marketPrice={marketPrice}
+        />
       </div>
       <TradeableDescription display={display} tradeable={tradeable} />
     </>

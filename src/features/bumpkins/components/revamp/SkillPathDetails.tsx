@@ -5,7 +5,7 @@ import {
   createRevampSkillPath,
   BumpkinRevampSkillName,
 } from "features/game/types/bumpkinSkills";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -15,7 +15,6 @@ import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 // Function imports
 import {
@@ -28,6 +27,9 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
+import { millisecondsToString } from "lib/utils/time";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -35,6 +37,8 @@ interface Props {
   readonly: boolean;
   onBack: () => void;
 }
+
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
@@ -44,38 +48,39 @@ export const SkillPathDetails: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
-  const { bumpkin } = state;
+  const bumpkin = useSelector(gameService, _bumpkin);
 
-  // States
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
-  ); // Default to first skill in path
+  );
 
-  // Functions
+  const { tree, requirements, name, image, boosts, disabled, power } =
+    selectedSkill;
+  const { cooldown, points, tier } = requirements;
+  const { buff, debuff } = boosts;
+
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-  const availableTier = getUnlockedTierForTree(selectedSkill.tree, bumpkin);
-  const hasSelectedSkill =
-    !!bumpkin?.skills[selectedSkill.name as BumpkinRevampSkillName];
-  const missingPointRequirement =
-    selectedSkill.requirements.points > availableSkillPoints;
-  const missingSkillsRequirement =
-    selectedSkill.requirements.tier > availableTier;
+  const { availableTier, pointsToNextTier } = getUnlockedTierForTree(
+    tree,
+    bumpkin,
+  );
+  const hasSelectedSkill = !!bumpkin.skills[name as BumpkinRevampSkillName];
+  const missingPointRequirement = points > availableSkillPoints;
+  const missingSkillsRequirement = tier > availableTier;
+  const isClaimDisabled =
+    hasSelectedSkill ||
+    missingPointRequirement ||
+    missingSkillsRequirement ||
+    disabled ||
+    readonly;
 
-  // Claim
   const handleClaim = () => {
-    setShowConfirmationModal(false);
-    const state = gameService.send("skill.chosen", {
-      skill: selectedSkill.name,
-    });
+    setShowConfirmation(false);
+    const state = gameService.send("skill.chosen", { skill: name });
 
-    // Analytics
     gameAnalytics.trackMilestone({
-      event: `Bumpkin:SkillUnlocked:${selectedSkill.name}`,
+      event: `Bumpkin:SkillUnlocked:${name}`,
     });
 
     if (Object.keys(state.context.state.bumpkin.skills).length === 1) {
@@ -83,50 +88,6 @@ export const SkillPathDetails: React.FC<Props> = ({
         event: `Tutorial:Skill:Completed`,
       });
     }
-  };
-
-  const confirmationModal: React.ReactNode = (
-    <ConfirmationModal
-      show={showConfirmationModal}
-      onHide={() => setShowConfirmationModal(false)}
-      messages={[
-        `Are you sure you want to claim ${selectedSkill.name}?`,
-        `This will cost ${selectedSkill.requirements.points} skill points.`,
-      ]}
-      onCancel={() => setShowConfirmationModal(false)}
-      onConfirm={handleClaim}
-      confirmButtonLabel="Claim Skill"
-      disabled={missingPointRequirement || missingSkillsRequirement}
-    />
-  );
-
-  const renderSkillTier = (skills: BumpkinSkillRevamp[]) => {
-    return skills.map((skill) => {
-      const hasSkill = !!bumpkin?.skills[skill.name as BumpkinRevampSkillName];
-
-      return (
-        <Box
-          key={skill.name}
-          className="mb-1"
-          image={skill.image}
-          isSelected={selectedSkill === skill}
-          onClick={() => setSelectedSkill(skill)}
-          showOverlay={hasSkill}
-          overlayIcon={
-            <img
-              src={SUNNYSIDE.icons.confirm}
-              alt="claimed"
-              className="relative object-contain"
-              style={{
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
-            />
-          }
-        >
-          {skill.name}
-        </Box>
-      );
-    });
   };
 
   return (
@@ -150,53 +111,103 @@ export const SkillPathDetails: React.FC<Props> = ({
                 />
               )}
               <div className="sm:mt-2">
-                <SquareIcon icon={selectedSkill.image} width={14} />
+                <SquareIcon icon={image} width={14} />
               </div>
-              <span className="sm:text-center">{selectedSkill.name}</span>
+              <span className="sm:text-center">{name}</span>
             </div>
-            <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center py-2">
-              {selectedSkill.boosts}
-            </span>
+            <div className="flex flex-col items-start mt-2">
+              {!!power && (
+                <Label
+                  type="vibrant"
+                  icon={SUNNYSIDE.icons.lightning}
+                  className="mb-2"
+                >
+                  {t("skill.powerSkill")}
+                </Label>
+              )}
+              {buff && (
+                <Label
+                  type={buff.labelType}
+                  icon={buff.boostTypeIcon}
+                  secondaryIcon={buff.boostedItemIcon}
+                  className="mb-2"
+                >
+                  {buff.shortDescription}
+                </Label>
+              )}
+              {debuff && (
+                <Label
+                  type={debuff.labelType}
+                  icon={debuff.boostTypeIcon}
+                  secondaryIcon={debuff.boostedItemIcon}
+                  className="mb-2"
+                >
+                  {debuff.shortDescription}
+                </Label>
+              )}
+            </div>
+            <div className="flex justify-between flex-col flex-wrap">
+              <div className="flex flex-row lg:flex-col-reverse items-start justify-between">
+                <RequirementLabel
+                  type="skillPoints"
+                  points={availableSkillPoints}
+                  requirement={points}
+                  className="mb-2"
+                  hideIcon={true} // Hide the div icon
+                />
+                {!!power && !!cooldown && (
+                  <Label
+                    type="info"
+                    icon={SUNNYSIDE.icons.stopwatch}
+                    className="mb-2"
+                  >
+                    {t("skill.cooldown", {
+                      cooldown: millisecondsToString(cooldown ?? 0, {
+                        length: "short",
+                        isShortFormat: true,
+                        removeTrailingZeros: true,
+                      }),
+                    })}
+                  </Label>
+                )}
+              </div>
+              {disabled && (
+                <Label type="danger" className="mb-2">
+                  {t("skillTier.skillDisabled")}
+                </Label>
+              )}
+            </div>
           </div>
 
           {/* Claim/Claimed/Use Button */}
-          <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-            {!hasSelectedSkill && (
-              <Button
-                disabled={
-                  missingPointRequirement ||
-                  missingSkillsRequirement ||
-                  hasSelectedSkill ||
-                  selectedSkill.disabled ||
-                  readonly
-                }
-                onClick={() => setShowConfirmationModal(true)}
-              >
-                {"Claim"}
-              </Button>
-            )}
-
-            {hasSelectedSkill && !selectedSkill.power && (
-              <Button
-                disabled={true}
-                onClick={() => setShowConfirmationModal(true)}
-              >
-                {"Claimed"}
-              </Button>
-            )}
-
-            {hasSelectedSkill && selectedSkill.power && (
-              <Button
-                disabled={true}
-                onClick={() => setShowConfirmationModal(true)}
-              >
-                {"Use"}
-              </Button>
-            )}
-          </div>
-
-          {/* Confirmation Modal */}
-          {confirmationModal}
+          {!readonly && (
+            <div className="flex sm:flex-col w-full">
+              {showConfirmation ? (
+                <>
+                  <Button
+                    className="mr-1 sm:mr-0"
+                    onClick={() => setShowConfirmation(false)}
+                  >
+                    {t("cancel")}
+                  </Button>
+                  <Button
+                    className="sm:mt-1"
+                    disabled={isClaimDisabled}
+                    onClick={handleClaim}
+                  >
+                    {t("skill.claimSkill")}
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  disabled={isClaimDisabled}
+                  onClick={() => setShowConfirmation(true)}
+                >
+                  {t(hasSelectedSkill ? "skill.claimed" : "skill.claim")}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       }
       content={
@@ -218,30 +229,64 @@ export const SkillPathDetails: React.FC<Props> = ({
                 onClick={onBack}
               />
             )}
-            <Label type="default">{selectedSkillPath + " Skills"}</Label>
-            <Label type="default" className="ml-1">
-              {`${t("skillPts")} ${availableSkillPoints}`}
+            <Label type="default">
+              {t("skillPath.skills", { skillPath: selectedSkillPath })}
             </Label>
           </div>
 
           {/* Skills */}
           {Object.entries(createRevampSkillPath(skillsInPath)).map(
             ([tier, skills]) => {
-              const requirements = skills[0].requirements.tier;
-              const tierUnlocked = requirements <= availableTier;
+              const { tier: tierRequirement } = skills[0].requirements;
+              const tierUnlocked = tierRequirement <= availableTier;
+              const availableSkills = skills.filter((skill) => !skill.disabled);
 
               return (
                 <div key={tier} className="flex flex-col">
-                  <Label
-                    type={tierUnlocked ? "default" : "warning"}
-                    className={tierUnlocked ? "ml-1" : "ml-2"}
-                    icon={tierUnlocked ? undefined : SUNNYSIDE.icons.lock}
-                  >
-                    {`Tier ${tier}`}
-                  </Label>
-
+                  <div className="flex flex-row items-center">
+                    <Label
+                      type={tierUnlocked ? "default" : "warning"}
+                      className={tierUnlocked ? "ml-1" : "ml-2"}
+                      icon={tierUnlocked ? undefined : SUNNYSIDE.icons.lock}
+                    >
+                      {t("skillTier.number", { number: tier })}
+                    </Label>
+                    {!tierUnlocked && Number(tier) === availableTier + 1 && (
+                      <Label type="default" className="ml-1">
+                        {t("skillTier.pointsToUnlock", {
+                          points: pointsToNextTier,
+                        })}
+                      </Label>
+                    )}
+                  </div>
                   <div className="flex flex-wrap mb-2">
-                    {renderSkillTier(skills)}
+                    {availableSkills.map((skill) => {
+                      const hasSkill =
+                        !!bumpkin.skills[skill.name as BumpkinRevampSkillName];
+
+                      return (
+                        <Box
+                          key={skill.name}
+                          className="mb-1"
+                          image={skill.image}
+                          isSelected={selectedSkill === skill}
+                          onClick={() => setSelectedSkill(skill)}
+                          showOverlay={hasSkill}
+                          overlayIcon={
+                            <img
+                              src={SUNNYSIDE.icons.confirm}
+                              alt="claimed"
+                              className="relative object-contain"
+                              style={{
+                                width: `${PIXEL_SCALE * 12}px`,
+                              }}
+                            />
+                          }
+                        >
+                          {skill.name}
+                        </Box>
+                      );
+                    })}
                   </div>
                 </div>
               );

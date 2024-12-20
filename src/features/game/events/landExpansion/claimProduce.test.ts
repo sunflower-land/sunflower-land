@@ -272,7 +272,7 @@ describe("claimProduce", () => {
               type: "Chicken",
               createdAt: 0,
               state: "ready",
-              experience: 120,
+              experience: 240,
               asleepAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
@@ -468,7 +468,7 @@ describe("claimProduce", () => {
               type: "Chicken",
               createdAt: 0,
               state: "ready",
-              experience: 120,
+              experience: 240,
               asleepAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
@@ -507,7 +507,7 @@ describe("claimProduce", () => {
               type: "Chicken",
               createdAt: 0,
               state: "ready",
-              experience: 120,
+              experience: 240,
               asleepAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
@@ -540,7 +540,7 @@ describe("claimProduce", () => {
               type: "Chicken",
               createdAt: 0,
               state: "ready",
-              experience: 120,
+              experience: 240,
               asleepAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
@@ -1375,7 +1375,7 @@ describe("claimProduce", () => {
               type: "Chicken",
               createdAt: 0,
               state: "ready",
-              experience: 120,
+              experience: 240,
               asleepAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
@@ -1591,7 +1591,7 @@ describe("claimProduce", () => {
             "0": {
               ...INITIAL_FARM.henHouse.animals["0"],
               state: "ready",
-              experience: 120,
+              experience: 240,
             },
           },
         },
@@ -1732,6 +1732,7 @@ describe("claimProduce", () => {
     expect(state.inventory["Alien Chicken"]).toEqual(new Decimal(1));
     expect(state.henHouse.animals["0"].reward).toBeUndefined();
   });
+
   it("gives +0.2 Egg when Abundant Harvest is selected", () => {
     const state = claimProduce({
       createdAt: now,
@@ -1760,6 +1761,7 @@ describe("claimProduce", () => {
 
     expect(state.inventory.Egg).toEqual(new Decimal(1.2));
   });
+
   it("gives +0.2 Wool when Abundant Harvest is selected", () => {
     const state = claimProduce({
       createdAt: now,
@@ -1788,6 +1790,7 @@ describe("claimProduce", () => {
 
     expect(state.inventory.Wool).toEqual(new Decimal(1.2));
   });
+
   it("gives +0.2 Milk when Abundant Harvest is selected", () => {
     const state = claimProduce({
       createdAt: now,
@@ -1815,5 +1818,81 @@ describe("claimProduce", () => {
     });
 
     expect(state.inventory.Milk).toEqual(new Decimal(1.2));
+  });
+  it("applies a Bale to Cow if the player has the Bale Economy skill", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Bale Economy": 1,
+          },
+        },
+        collectibles: {
+          Bale: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Cow",
+              state: "ready",
+              experience: 180,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: "0" },
+    });
+
+    expect(state.inventory.Milk).toEqual(new Decimal(1.1));
+  });
+  it("applies a Bale boost to Sheep if the player has the Bale Economy skill", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Bale Economy": 1,
+          },
+        },
+        collectibles: {
+          Bale: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Sheep",
+              state: "ready",
+              experience: 180,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: "0" },
+    });
+
+    expect(state.inventory.Wool).toEqual(new Decimal(1.1));
   });
 });

@@ -95,7 +95,6 @@ export const FirePitModal: React.FC<Props> = ({
             craftingService={craftingService}
             buildingName="Fire Pit"
             buildingId={buildingId}
-            currentlyCooking={selected.name}
           />
         </CloseButtonPanel>
       )}

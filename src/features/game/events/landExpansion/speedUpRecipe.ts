@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "features/game/types/buildings";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -129,6 +130,11 @@ export function speedUpRecipe({
     delete building.crafting;
 
     game = makeGemHistory({ game, amount: gems });
+
+    game.bumpkin.activity = trackActivity(
+      `${recipe.name} Cooked`,
+      game.bumpkin.activity,
+    );
 
     return game;
   });

@@ -41,7 +41,6 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
-import { randomInt } from "lib/utils/random";
 import { hasFeatureAccess } from "lib/flags";
 
 export type LandExpansionPlantAction = {
@@ -172,6 +171,10 @@ export function getCropTime({
 
   if (skills["Strong Roots"] && isAdvancedCrop(crop)) {
     seconds = seconds * 0.9;
+  }
+
+  if (isGreenhouseCrop(crop) && skills["Rice and Shine"]) {
+    seconds = seconds * 0.95;
   }
 
   // Olive Express: 10% reduction
@@ -638,23 +641,6 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
-  // Olive Garden +0.2 yield
-  if (crop === "Olive" && skills["Olive Garden"]) {
-    amount += 0.2;
-  }
-
-  // Rice and Shine +0.2 yield
-  if (crop === "Rice" && skills["Rice and Shine"]) {
-    amount += 0.2;
-  }
-
-  // Greenhouse Gamble 5% chance of +1 yield
-  if (isGreenhouseCrop(crop) && bumpkin.skills["Greenhouse Gamble"]) {
-    if (randomInt(0, 20) === 1) {
-      amount += 1;
-    }
-  }
-
   if (
     crop === "Olive" &&
     isWearableActive({ game, name: "Olive Royalty Shirt" })
@@ -667,6 +653,18 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Pharaoh Gnome", game })
   ) {
     amount += 2;
+  }
+
+  if (isGreenhouseCrop(crop) && skills["Glass Room"]) {
+    amount += 0.1;
+  }
+
+  if (isGreenhouseCrop(crop) && skills["Seeded Bounty"]) {
+    amount += 0.5;
+  }
+
+  if (isGreenhouseCrop(crop) && skills["Greasy Plants"]) {
+    amount += 1;
   }
 
   if (skills["Young Farmer"] && isBasicCrop(crop)) {

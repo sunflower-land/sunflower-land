@@ -98,6 +98,9 @@ import {
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
+import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "./level";
+import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -477,6 +480,19 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
         onDone: [
           {
             target: `${stateName}Success`,
+            cond: (_: Context, event: DoneInvokeEvent<any>) =>
+              !event.data.state.transaction,
+            actions: [
+              assign((_, event: DoneInvokeEvent<any>) => ({
+                actions: [],
+                state: event.data.state,
+              })),
+            ],
+          },
+          // If there is a transaction on the gameState move into playing so that
+          // the transaction flow can handle the rest of the flow
+          {
+            target: `playing`,
             actions: [
               assign((_, event: DoneInvokeEvent<any>) => ({
                 actions: [],
@@ -547,7 +563,9 @@ export type BlockchainState = {
     | "blacklisted"
     | "provingPersonhood"
     | "somethingArrived"
+    | "seasonChanged"
     | "randomising"
+    | "competition"
     | StateName
     | StateNameWithStatus; // TEST ONLY
   context: Context;
@@ -882,6 +900,16 @@ export function startGame(authContext: AuthContext) {
               target: "somethingArrived",
               cond: (context) => !!context.revealed,
             },
+            {
+              target: "seasonChanged",
+              cond: (context) => {
+                return (
+                  hasFeatureAccess(context.state, "TEMPERATE_SEASON") &&
+                  context.state.season.startedAt !==
+                    getLastTemperateSeasonStartedAt()
+                );
+              },
+            },
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
             // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
@@ -926,6 +954,24 @@ export function startGame(authContext: AuthContext) {
                 ),
             },
             {
+              target: "competition",
+              cond: (context: Context) => {
+                if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
+                  return false;
+
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
+
+                if (level <= 5) return false;
+
+                const competition = context.state.competitions.progress.ANIMALS;
+
+                // Show the competition introduction if they have not started it yet
+                return !competition;
+              },
+            },
+            {
               target: "playing",
             },
           ],
@@ -947,6 +993,13 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context: Context) => ({
                 revealed: undefined,
               })),
+            },
+          },
+        },
+        seasonChanged: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
             },
           },
         },
@@ -1945,9 +1998,17 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+          },
+        },
+
+        competition: {
+          on: {
             "competition.started": (GAME_EVENT_HANDLERS as any)[
               "competition.started"
             ],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
           },
         },
 

@@ -29,16 +29,18 @@ import {
   MutantAnimal,
 } from "features/game/types/game";
 import { Transition } from "@headlessui/react";
-import { ANIMAL_FOOD_EXPERIENCE } from "features/game/types/animals";
 import { useTranslation } from "react-i18next";
 import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
-import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
-import { formatNumber } from "lib/utils/formatNumber";
+import {
+  handleFoodXP,
+  REQUIRED_FOOD_QTY,
+} from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -140,6 +142,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Cow",
     foodQuantity: REQUIRED_FOOD_QTY.Cow,
+    game,
+  });
+
+  const hasGoldenCow = isCollectibleBuilt({
+    name: "Golden Cow",
     game,
   });
 
@@ -288,6 +295,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
 
+    if (hasGoldenCow) {
+      feedCow();
+      return;
+    }
+
     if (hasFoodSelected) {
       const foodCount =
         inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
@@ -313,6 +325,17 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
       return t("animal.notEnoughFood", { amount: requiredFoodQty });
+  };
+
+  const getAnimalXPEarned = () => {
+    const { foodXp } = handleFoodXP({
+      state: game,
+      animal: "Cow",
+      level,
+      food: hasGoldenCow ? favFood : (selectedItem as AnimalFoodName),
+    });
+
+    return foodXp;
   };
 
   const animalImageInfo = () => {
@@ -346,6 +369,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   if (cowMachineState === "initial") return null;
 
   const level = getAnimalLevel(cow.experience, "Cow");
+  const xpIndicatorColor =
+    favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldenCow
+      ? "#71e358"
+      : "#fff";
+  const xpIndicatorAmount = getAnimalXPEarned();
 
   const { animalXP } = getAnimalXP({ state: game, name: showLoveItem! });
 
@@ -410,7 +438,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
               request={favFood}
-              quantity={requiredFoodQty}
+              quantity={!hasGoldenCow ? requiredFoodQty : undefined}
             />
           )}
           {sick && (
@@ -449,7 +477,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           animal={cow}
           animalState={cowMachineState}
           experience={cow.experience}
-          className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
+          className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1 pointer-events-none"
           // Don't block level up UI with wakes in panel if accidentally clicked
           onLevelUp={() => setShowWakesIn(false)}
         />
@@ -469,12 +497,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           <span
             className="text-sm yield-text"
             style={{
-              color:
-                favFood === selectedItem || selectedItem === "Omnifeed"
-                  ? "#71e358"
-                  : "#fff",
+              color: xpIndicatorColor,
             }}
-          >{`+${formatNumber(ANIMAL_FOOD_EXPERIENCE.Cow[level][selectedItem as AnimalFoodName])}`}</span>
+          >
+            {`+${xpIndicatorAmount}`}
+          </span>
         </Transition>
         <Transition
           appear={true}
@@ -493,7 +520,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
             style={{
               color: "#ffffff",
             }}
-          >{`+${animalXP}`}</span>
+          >
+            {`+${animalXP}`}
+          </span>
         </Transition>
       </div>
     </>

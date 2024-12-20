@@ -29,7 +29,7 @@ export const NumberInput: React.FC<Props> = ({
   onValueChange,
   icon,
 }) => {
-  const VALID_DECIMAL_NUMBER = new RegExp(
+  const VALID_DECIMAL_NUMBER_WITH_PRECISION = new RegExp(
     `^\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`,
   );
   const INPUT_MAX_CHAR = Math.max(maxDecimalPlaces + 4, 20);
@@ -38,14 +38,20 @@ export const NumberInput: React.FC<Props> = ({
   const [isFocused, setIsFocused] = useState(false); // State for focus
 
   useEffect(() => {
+    const newValue = setPrecision(
+      new Decimal(value),
+      maxDecimalPlaces,
+    ).toString();
+
     if (
-      new Decimal(value).equals(new Decimal(numberDisplay ? numberDisplay : 0))
+      new Decimal(newValue).equals(
+        new Decimal(numberDisplay ? numberDisplay : 0),
+      )
     )
       return;
 
-    setNumberDisplay(
-      setPrecision(new Decimal(value), maxDecimalPlaces).toString(),
-    );
+    setNumberDisplay(newValue);
+    onValueChange?.(new Decimal(newValue));
   }, [value]);
 
   return (
@@ -74,9 +80,10 @@ export const NumberInput: React.FC<Props> = ({
             setNumberDisplay("");
             onValueChange?.(new Decimal(0));
           } else if (
-            (maxDecimalPlaces > 0 ? VALID_DECIMAL_NUMBER : VALID_INTEGER).test(
-              e.target.value,
-            )
+            (maxDecimalPlaces > 0
+              ? VALID_DECIMAL_NUMBER_WITH_PRECISION
+              : VALID_INTEGER
+            ).test(e.target.value)
           ) {
             const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
             setNumberDisplay(amount);

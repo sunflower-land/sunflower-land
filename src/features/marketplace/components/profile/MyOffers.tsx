@@ -74,7 +74,7 @@ export const MyOffers: React.FC = () => {
     const offer = offers[claimId as string];
 
     gameService.send("offer.claimed", {
-      tradeId: claimId,
+      tradeIds: [claimId],
     });
 
     // For on chain items let's fire a refresh
@@ -138,7 +138,7 @@ export const MyOffers: React.FC = () => {
             {getKeys(filteredOffers).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyOffers")}</p>
             ) : (
-              <div className="w-full text-xs border-collapse mb-2">
+              <div className="w-full relative border-collapse mb-2 max-h-[200px] scrollable overflow-y-auto overflow-x-hidden">
                 {getKeys(filteredOffers).map((id, index) => {
                   const offer = filteredOffers[id];
                   const itemName = getKeys(
@@ -153,6 +153,7 @@ export const MyOffers: React.FC = () => {
                   const details = getTradeableDisplay({
                     id: itemId,
                     type: offer.collection,
+                    state: gameState.context.state,
                   });
 
                   const isResource =

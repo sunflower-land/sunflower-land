@@ -1,10 +1,13 @@
-import { CONFIG } from "lib/config";
 import { BumpkinItem } from "./bumpkin";
 import { GameState, InventoryItemName } from "./game";
+import { KNOWN_ITEMS } from ".";
+import { TRADE_LIMITS } from "../actions/tradeLimits";
 
-// 1% tax on mainnet for testing
 // 10% tax on sales
-export const MARKETPLACE_TAX = CONFIG.NETWORK === "mainnet" ? 0.01 : 0.1;
+export const MARKETPLACE_TAX = 0.1;
+
+// Give it 15 minutes to resolve (cannot cancel while it is being purchased)
+export const TRADE_INITIATION_MS = 15 * 60 * 1000;
 
 export type CollectionName =
   | "collectibles"
@@ -15,6 +18,7 @@ export type CollectionName =
 export type Tradeable = {
   id: number;
   floor: number;
+  lastSalePrice: number;
   supply: number;
   collection: CollectionName;
   isActive: boolean;
@@ -79,6 +83,8 @@ export type Sale = {
     bumpkinUri: string;
   };
   source: "offer" | "listing";
+  itemId: number;
+  collection: CollectionName;
 };
 
 export type SaleHistory = {
@@ -151,8 +157,11 @@ export type MarketplaceTradeableName =
 export type PriceHistory = {
   dates: TradeHistoryDate[];
   sevenDayChange: number;
+  sevenDayPrice: number;
   oneDayChange: number;
+  oneDayPrice: number;
   thirtyDayChange: number;
+  thirtyDayPrice: number;
   oneDayPriceChange: number;
   sevenDayPriceChange: number;
   thirtyDayPriceChange: number;
@@ -211,19 +220,22 @@ export function getPriceHistory({
 
   const currentPrice = price ?? dates[0].high;
 
-  const sevenDayPriceChange = currentPrice - dates[6].low;
+  const sevenDayPrice = dates[6].low;
+  const sevenDayPriceChange = currentPrice - sevenDayPrice;
   const sevenDayChange =
-    sevenDayPriceChange === 0 ? 0 : (sevenDayPriceChange / dates[6].low) * 100;
+    sevenDayPriceChange === 0 ? 0 : (sevenDayPriceChange / sevenDayPrice) * 100;
 
-  const oneDayPriceChange = currentPrice - dates[1].low;
+  const oneDayPrice = dates[1].low;
+  const oneDayPriceChange = currentPrice - oneDayPrice;
   const oneDayChange =
-    oneDayPriceChange === 0 ? 0 : (oneDayPriceChange / dates[1].low) * 100;
+    oneDayPriceChange === 0 ? 0 : (oneDayPriceChange / oneDayPrice) * 100;
 
+  const thirtyDayPrice = dates[29].low;
   const thirtyDayPriceChange = currentPrice - dates[29].low;
   const thirtyDayChange =
     thirtyDayPriceChange === 0
       ? 0
-      : (thirtyDayPriceChange / dates[29].low) * 100;
+      : (thirtyDayPriceChange / thirtyDayPrice) * 100;
 
   return {
     dates,
@@ -233,5 +245,44 @@ export function getPriceHistory({
     oneDayPriceChange,
     sevenDayPriceChange,
     thirtyDayPriceChange,
+    oneDayPrice,
+    sevenDayPrice,
+    thirtyDayPrice,
   };
+}
+
+/**
+ * What is the market price of an item
+ * For resources, it is the cheapest listing (floor price)
+ * For others, it is the latest sale
+ */
+export function getMarketPrice({
+  tradeable,
+}: {
+  tradeable?: TradeableDetails;
+}) {
+  if (!tradeable) {
+    return 0;
+  }
+
+  let price = 0;
+
+  const isResource =
+    tradeable?.collection === "collectibles" &&
+    KNOWN_ITEMS[tradeable.id] in TRADE_LIMITS;
+
+  // If a resource, set the price to the floor
+  if (isResource) {
+    const cheapestListing = tradeable.listings?.reduce((cheapest, listing) => {
+      return listing.sfl < cheapest.sfl ? listing : cheapest;
+    }, tradeable.listings[0]);
+
+    price = cheapestListing?.sfl;
+  } else if (tradeable?.history.sales.length) {
+    // Set it to the latest sale
+    price =
+      tradeable.history.sales[0].sfl / tradeable.history.sales[0].quantity;
+  }
+
+  return price;
 }

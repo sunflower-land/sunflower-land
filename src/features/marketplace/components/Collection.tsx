@@ -2,7 +2,7 @@ import { Loading } from "features/auth/components";
 import React, { useContext, useRef } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
@@ -12,6 +12,8 @@ import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
 import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -25,10 +27,14 @@ export const preloadCollections = (token: string) => {
   preload(["temporary", token], collectionFetcher);
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const Collection: React.FC<{
   search?: string;
   onNavigated?: () => void;
 }> = ({ search, onNavigated }) => {
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const isWorldRoute = useLocation().pathname.includes("/world");
@@ -99,6 +105,26 @@ export const Collection: React.FC<{
       ...(limited?.items || []),
     ],
   };
+
+  if (!filters.includes("resources")) {
+    // Sort by price
+    data.items.sort((a, b) => {
+      // If floor prices are equal, sort by lastSalePrice
+      if (a.floor === b.floor) {
+        // If lastSalePrice is empty, order last
+        if (a.lastSalePrice === 0) return 1;
+        if (b.lastSalePrice === 0) return -1;
+        return a.lastSalePrice - b.lastSalePrice;
+      }
+
+      // If floor price is empty, order last
+      if (a.floor === 0) return 1;
+      if (b.floor === 0) return -1;
+
+      return a.floor - b.floor;
+    });
+  }
+
   const isLoading =
     isWearablesLoading ||
     isCollectiblesLoading ||
@@ -139,18 +165,25 @@ export const Collection: React.FC<{
       const display = getTradeableDisplay({
         type: item.collection,
         id: item.id,
+        state,
       });
-      if (filters.includes("utility") && !display.buff) return false;
-      if (filters.includes("cosmetic") && display.buff) return false;
+
+      if (filters.includes("utility") && display.buffs.length === 0) {
+        return false;
+      }
+
+      if (filters.includes("cosmetic") && display.buffs.length > 0) {
+        return false;
+      }
 
       return display.name.toLowerCase().includes(search?.toLowerCase() ?? "");
     }) ?? [];
 
   const getRowHeight = () => {
     if (filters === "resources") return 150;
-    if (filters === "buds") return 200;
+    if (filters === "buds") return 250;
 
-    return 160;
+    return 180;
   };
 
   return (
@@ -191,6 +224,7 @@ export const Collection: React.FC<{
               const display = getTradeableDisplay({
                 type: item.collection,
                 id: item.id,
+                state,
               });
 
               return (
@@ -198,6 +232,7 @@ export const Collection: React.FC<{
                   <ListViewCard
                     details={display}
                     price={new Decimal(item.floor)}
+                    lastSalePrice={new Decimal(item.lastSalePrice)}
                     onClick={() => {
                       const scrollPosition =
                         gridRef.current?._outerRef.scrollTop;

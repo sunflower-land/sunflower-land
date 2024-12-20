@@ -259,7 +259,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "spring",
+    type: "desert",
   },
   mysteryPrizes: {},
   minigames: {
@@ -438,6 +438,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Golden Cow": new Decimal(1),
     "Trade Point": new Decimal(500),
     "Fairy Circle": new Decimal(1),
     "Red Balloon Flower": new Decimal(1),

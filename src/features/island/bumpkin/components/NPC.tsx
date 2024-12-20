@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Spritesheet from "components/animation/SpriteAnimator";
 import classNames from "classnames";
 import {
@@ -11,16 +11,16 @@ import {
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import shadow from "assets/npcs/shadow.png";
 import { ZoomContext } from "components/ZoomProvider";
 import { SpringValue } from "react-spring";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
-import { getAnimationUrl } from "features/world/lib/animations";
+import {
+  getAnimatedWebpUrl,
+  getAnimationUrl,
+} from "features/world/lib/animations";
 
-const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
-const STEPS = 9;
 const AURA_WIDTH = 160 / 8;
 const AURA_STEPS = 8;
 
@@ -47,23 +47,14 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
   width = PIXEL_SCALE * 16, // Default to original width if not passed
 }) => {
   const { scale } = useContext(ZoomContext);
-  const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    setShow(true);
-  }, []);
-
-  const idle = getAnimationUrl(parts, ["idle-small"]);
+  const idle = getAnimatedWebpUrl(parts, ["idle-small"]);
   const auraBack =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[parts.aura]}.png`;
   const auraFront =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[parts.aura]}.png`;
-
-  if (!show) {
-    return null;
-  }
 
   return (
     <div
@@ -76,15 +67,6 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
         height: `${width * 2}px`, // Adjust height based on the width
       }}
     >
-      <img
-        src={shadow}
-        style={{
-          width: `${width * 0.94}px`, // Scale shadow based on width
-          top: `${width * 1.25}px`,
-          left: `${width * 0.06}px`,
-        }}
-        className="absolute pointer-events-none"
-      />
       {auraBack && (
         <Spritesheet
           className="absolute w-full inset-0 pointer-events-none"
@@ -104,7 +86,7 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
           loop={true}
         />
       )}
-      <Spritesheet
+      <div
         className="absolute w-full inset-0 pointer-events-none"
         style={{
           width: `${width * 1.25}px`,
@@ -112,15 +94,10 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
           left: `${width * -0.125}px`,
           imageRendering: "pixelated" as const,
         }}
-        image={idle}
-        widthFrame={FRAME_WIDTH}
-        heightFrame={FRAME_HEIGHT}
-        zoomScale={scale}
-        steps={STEPS}
-        fps={14}
-        autoplay={true}
-        loop={true}
-      />
+      >
+        <img src={idle} style={{ width: `${width * 1.25}px` }} />
+      </div>
+
       {auraFront && (
         <Spritesheet
           className="absolute w-full inset-0 pointer-events-none"
@@ -148,23 +125,13 @@ export const NPCIcon: React.FC<NPCProps> = ({
   parts,
   width = PIXEL_SCALE * 14, // Default to original width if not passed
 }) => {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setShow(true);
-  }, []);
-
-  const idle = getAnimationUrl(parts, ["idle-small"]);
+  const idle = getAnimatedWebpUrl(parts, ["idle-small"]);
   const auraBack =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[parts.aura]}.png`;
   const auraFront =
     parts.aura &&
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[parts.aura]}.png`;
-
-  if (!show) {
-    return null;
-  }
 
   return (
     <div>
@@ -186,21 +153,15 @@ export const NPCIcon: React.FC<NPCProps> = ({
           loop={true}
         />
       )}
-      <Spritesheet
+      <div
         className="w-full inset-0 pointer-events-none"
         style={{
           width: `${width}px`,
           imageRendering: "pixelated" as const,
         }}
-        image={idle}
-        widthFrame={FRAME_WIDTH}
-        heightFrame={FRAME_HEIGHT}
-        zoomScale={new SpringValue(1)}
-        steps={STEPS}
-        fps={14}
-        autoplay={true}
-        loop={true}
-      />
+      >
+        <img src={idle} style={{ width: `${width}px` }} />
+      </div>
       {auraFront && (
         <Spritesheet
           className="absolute w-full inset-0 pointer-events-none"

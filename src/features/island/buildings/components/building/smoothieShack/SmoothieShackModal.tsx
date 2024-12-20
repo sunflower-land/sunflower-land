@@ -65,7 +65,6 @@ export const SmoothieShackModal: React.FC<Props> = ({
           craftingService={craftingService}
           buildingName="Smoothie Shack"
           buildingId={buildingId}
-          currentlyCooking={selected.name}
         />
       </CloseButtonPanel>
     </Modal>

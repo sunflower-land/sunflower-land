@@ -152,6 +152,18 @@ interface HarvestsProps {
 }
 
 /**
+ * The props for skill points requirement label.
+ * @param type The type is skill points.
+ * @param points The skill points balance of the player.
+ * @param requirement The skill points requirement.
+ */
+interface SkillPointsProps {
+  type: "skillPoints";
+  points: number;
+  requirement: number;
+}
+
+/**
  * The default props.
  * @param className The class name for the label.
  */
@@ -174,6 +186,7 @@ type Props = (
   | XPProps
   | LevelProps
   | HarvestsProps
+  | SkillPointsProps
 ) &
   defaultProps;
 
@@ -254,6 +267,11 @@ export const RequirementLabel: React.FC<Props> = (props) => {
           maxHarvest: props.maxHarvest,
         })}`;
       }
+      case "skillPoints": {
+        const roundedDownPoints = formatNumber(props.points);
+        const roundedDownRequirement = formatNumber(props.requirement);
+        return `${t("skillPts")} ${roundedDownPoints}/${roundedDownRequirement}`;
+      }
     }
   };
 
@@ -269,6 +287,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return props.balance > 0;
       case "level":
         return props.currentLevel >= props.requirement;
+      case "skillPoints":
+        return props.points >= props.requirement;
       case "sellForSfl":
       case "sellForCoins":
       case "sellForGems":
@@ -282,14 +302,14 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const requirementMet = isRequirementMet();
 
   const labelType = () => {
-    if (props.type === "wearable") {
-      if (requirementMet) {
-        return "success";
-      }
-      return "danger";
+    switch (props.type) {
+      case "wearable":
+        return requirementMet ? "success" : "danger";
+      case "skillPoints":
+        return requirementMet ? "default" : "danger";
+      default:
+        return requirementMet ? "transparent" : "danger";
     }
-
-    return requirementMet ? "transparent" : "danger";
   };
 
   return (

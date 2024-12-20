@@ -18,6 +18,8 @@ import Decimal from "decimal.js-light";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { KNOWN_ITEMS } from "features/game/types";
 
 /**
  * Display listings that have been fulfilled
@@ -42,6 +44,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
 
     if (soldListingIds.some((id) => trades.listings?.[id].signature)) {
       gameService.send("RESET");
+      return;
     }
 
     gameService.send("CLOSE");
@@ -64,6 +67,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
           const details = getTradeableDisplay({
             id: itemId,
             type: listing.collection,
+            state: state.context.state,
           });
           const amount = listing.items[itemName as InventoryItemName];
           const sfl = new Decimal(listing.sfl).mul(1 - MARKETPLACE_TAX);
@@ -71,6 +75,11 @@ export const MarketplaceSalesPopup: React.FC = () => {
             sfl: listing.sfl,
             points: !listing.signature ? 1 : 5,
           }).multipliedPoints;
+
+          const isResource = getKeys(TRADE_LIMITS).includes(
+            KNOWN_ITEMS[Number(itemId)],
+          );
+
           return (
             <div className="flex flex-col space-y-1" key={listingId}>
               <div className="flex items-center justify-between">
@@ -86,18 +95,20 @@ export const MarketplaceSalesPopup: React.FC = () => {
                       })} SFL`}</p>
                       <img src={token} className="w-4" />
                     </div>
-                    <div className="flex items-center">
-                      <span className="text-xs">
-                        {`${formatNumber(estTradePoints, {
-                          decimalPlaces: 2,
-                          showTrailingZeros: false,
-                        })} Trade Points`}
-                      </span>
-                      <img
-                        src={ITEM_DETAILS["Trade Point"].image}
-                        className="h-6 ml-1"
-                      />
-                    </div>
+                    {!isResource && (
+                      <div className="flex items-center">
+                        <span className="text-xs">
+                          {`${formatNumber(estTradePoints, {
+                            decimalPlaces: 2,
+                            showTrailingZeros: false,
+                          })} Trade Points`}
+                        </span>
+                        <img
+                          src={ITEM_DETAILS["Trade Point"].image}
+                          className="h-6 ml-1"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -105,7 +116,14 @@ export const MarketplaceSalesPopup: React.FC = () => {
           );
         })}
       </div>
-      <Button onClick={() => claimAll()}>{t("claim")}</Button>
+      <div className="flex space-x-1">
+        <Button className="w-full" onClick={() => gameService.send("CLOSE")}>
+          {t("close")}
+        </Button>
+        <Button className="w-full" onClick={() => claimAll()}>
+          {t("claim")}
+        </Button>
+      </div>
     </>
   );
 };

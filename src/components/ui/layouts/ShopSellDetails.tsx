@@ -7,13 +7,16 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatDateRange } from "lib/utils/time";
 import { Label } from "../Label";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 
 /**
  * The props for the details for items.
  * @param item The item.
  */
 interface ItemDetailsProps {
-  item: InventoryItemName;
+  item: InventoryItemName | BumpkinItem;
   from?: Date;
   to?: Date;
 }
@@ -45,6 +48,7 @@ interface Props {
  * The view for displaying item name, details, properties and action.
  * @props The component props.
  */
+
 export const ShopSellDetails: React.FC<Props> = ({
   details,
   properties,
@@ -71,24 +75,30 @@ export const ShopSellDetails: React.FC<Props> = ({
 };
 
 const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
-  const item = ITEM_DETAILS[details.item];
-  const icon = item.image;
-  const title = details.item;
-  const description = item.description;
+  const { item } = details;
+  const image = isCollectible(item)
+    ? ITEM_DETAILS[item].image
+    : new URL(`/src/assets/wearables/${ITEM_IDS[item]}.webp`, import.meta.url)
+        .href;
+  const description = isCollectible(item)
+    ? ITEM_DETAILS[item].description
+    : BUMPKIN_ITEM_BUFF_LABELS[item]?.shortDescription;
 
   return (
     <>
       <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
-        {icon && (
+        {image && (
           <div className="sm:mt-2">
-            <SquareIcon icon={icon} width={14} />
+            <SquareIcon icon={image} width={14} />
           </div>
         )}
-        <span className="sm:text-center">{title}</span>
+        <span className="sm:text-center">{item}</span>
       </div>
-      <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
-        {description}
-      </span>
+      {description && (
+        <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
+          {description}
+        </span>
+      )}
     </>
   );
 };

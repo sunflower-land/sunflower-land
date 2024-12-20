@@ -1,8 +1,6 @@
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
-
-import xpIcon from "assets/icons/xp.png";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -12,10 +10,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import {
   ConsumableName,
-  CONSUMABLES,
   Cookable,
   CookableName,
-  COOKABLES,
 } from "features/game/types/consumables";
 
 import { InProgressInfo } from "../building/InProgressInfo";
@@ -24,7 +20,6 @@ import {
   getCookingTime,
   getFoodExpBoost,
 } from "features/game/expansion/lib/boosts";
-import { GameState } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -38,12 +33,6 @@ import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "../building/BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
-import { InnerPanel } from "components/ui/Panel";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { ResizableBar } from "components/ui/ProgressBar";
-import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
@@ -56,7 +45,6 @@ interface Props {
   crafting: boolean;
   buildingName: BuildingName;
   buildingId?: string;
-  currentlyCooking?: CookableName;
 }
 
 /**
@@ -79,7 +67,6 @@ export const Recipes: React.FC<Props> = ({
   crafting,
   craftingService,
   buildingId,
-  currentlyCooking,
   buildingName,
 }) => {
   const { gameService } = useContext(Context);
@@ -91,23 +78,12 @@ export const Recipes: React.FC<Props> = ({
   ] = useActor(gameService);
   const { inventory, buildings, bumpkin, buds } = state;
 
-  const [hideCooking, setHideCooking] = useState(false);
-
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
       selected?.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
-  const isGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
   const cook = async () => {
-    if (isGemExperiment) {
-      onCook(selected.name);
-      return;
-    }
-
-    onClose();
-    // delay to allow the modal to close to avoid content flashing
-    await new Promise((resolve) => setTimeout(resolve, 300));
     onCook(selected.name);
   };
 
@@ -123,8 +99,6 @@ export const Recipes: React.FC<Props> = ({
       item: "Instant Cook",
       type: "Fee",
     });
-
-    onClose();
 
     setTimeout(() => {
       craftingService?.send({
@@ -148,20 +122,6 @@ export const Recipes: React.FC<Props> = ({
   const isOilBoosted = buildings?.[buildingName]?.[0].crafting?.boost?.["Oil"];
 
   const hasDoubleNom = !!bumpkin.skills["Double Nom"];
-
-  const hasGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
-
-  if (hasGemExperiment && !hideCooking && crafting) {
-    return (
-      <Cooking
-        name={currentlyCooking as CookableName}
-        craftingService={craftingService!}
-        state={state}
-        onClose={() => setHideCooking(true)}
-        onInstantCooked={onInstantCook}
-      />
-    );
-  }
 
   return (
     <SplitScreenView
@@ -188,7 +148,7 @@ export const Recipes: React.FC<Props> = ({
             actionView={
               <>
                 {hasDoubleNom && (
-                  <Label type="info" icon={powerup}>
+                  <Label type="success" icon={powerup}>
                     {`Double Nom Boost: 2x Food`}
                   </Label>
                 )}
@@ -216,19 +176,15 @@ export const Recipes: React.FC<Props> = ({
               craftingService={craftingService}
               onClose={onClose}
               isOilBoosted={!!isOilBoosted}
+              onInstantCooked={onInstantCook}
+              state={state}
             />
           )}
-          {crafting && (
-            <div className="w-full">
-              <Label
-                className="mr-3 ml-2 mb-1"
-                icon={pumpkinSoup}
-                type="default"
-              >
-                {t("recipes")}
-              </Label>
-            </div>
-          )}
+          <div className="w-full">
+            <Label className="mr-3 ml-2 mb-1" icon={pumpkinSoup} type="default">
+              {t("recipes")}
+            </Label>
+          </div>
           <div className="flex flex-wrap h-fit">
             {validRecipes.map((item) => (
               <Box
@@ -240,91 +196,14 @@ export const Recipes: React.FC<Props> = ({
               />
             ))}
           </div>
-          {buildingId ? (
+          {buildingId && (
             <BuildingOilTank
               buildingName={buildingName}
               buildingId={buildingId}
             />
-          ) : null}
+          )}
         </>
       }
     />
-  );
-};
-
-export const Cooking: React.FC<{
-  craftingService: MachineInterpreter;
-  name: CookableName;
-  state: GameState;
-  onClose: () => void;
-  onInstantCooked: (gems: number) => void;
-}> = ({ name, craftingService, state, onClose, onInstantCooked }) => {
-  const { t } = useAppTranslation();
-  const [
-    {
-      context: { secondsTillReady, readyAt, buildingId },
-    },
-  ] = useActor(craftingService);
-
-  const { bumpkin, buds, inventory } = state;
-
-  const { cookingSeconds } = COOKABLES[name];
-
-  const { days, ...ready } = useCountdown(readyAt ?? 0);
-
-  const gems = getInstantGems({
-    readyAt: readyAt as number,
-    game: state,
-  });
-
-  return (
-    <InnerPanel>
-      <div className="p-1 flex justify-between items-center">
-        <Label
-          type="default"
-          icon={SUNNYSIDE.icons.stopwatch}
-        >{`In progress`}</Label>
-        <span className="text-xs underline cursor-pointer" onClick={onClose}>
-          {t("crafting.viewRecipes")}
-        </span>
-      </div>
-      <div className="flex items-center mb-1">
-        <Box image={ITEM_DETAILS[name].image} />
-        <div>
-          <div className="flex items-center flex-wrap">
-            <p className="text-sm mb-0.5 mr-2">{name}</p>
-            <div className="flex items-center">
-              <img src={xpIcon} className="h-4 mr-0.5" />
-              <p className="text-xs">
-                {getFoodExpBoost(CONSUMABLES[name], bumpkin, state, buds ?? {})}
-              </p>
-            </div>
-          </div>
-          <div className="relative flex flex-col w-full">
-            <div className="flex items-center gap-x-1">
-              <ResizableBar
-                percentage={(1 - secondsTillReady! / cookingSeconds) * 100}
-                type="progress"
-              />
-              <TimerDisplay time={ready} />
-            </div>
-          </div>
-        </div>
-      </div>
-      <Button
-        disabled={!inventory.Gem?.gte(gems)}
-        className="relative"
-        onClick={() => onInstantCooked(gems)}
-      >
-        {t("gems.speedUp")}
-        <Label
-          type={inventory.Gem?.gte(gems) ? "default" : "danger"}
-          icon={ITEM_DETAILS.Gem.image}
-          className="flex absolute right-0 top-0.5"
-        >
-          {gems}
-        </Label>
-      </Button>
-    </InnerPanel>
   );
 };

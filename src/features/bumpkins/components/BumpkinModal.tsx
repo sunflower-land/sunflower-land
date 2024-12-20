@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
-import token from "assets/icons/sfl.webp";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
@@ -18,14 +17,13 @@ import { Skills } from "./revamp/Skills";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
 import { AchievementBadges } from "./AchievementBadges";
-import { Trade } from "./Trade";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
@@ -34,7 +32,6 @@ import {
 } from "features/game/actions/getListingsFloorPrices";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
-import { Loading } from "features/auth/components";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
@@ -196,10 +193,6 @@ export const BumpkinModal: React.FC<Props> = ({
         icon: SUNNYSIDE.icons.wardrobe,
         name: t("equip"),
       },
-      {
-        icon: token,
-        name: t("trades"),
-      },
       ...(hasFeatureAccess(gameState, "SKILLS_REVAMP")
         ? [
             {
@@ -217,7 +210,7 @@ export const BumpkinModal: React.FC<Props> = ({
       setCurrentTab={setTab}
       onClose={onClose}
       tabs={renderTabs()}
-      container={tab === 3 ? OuterPanel : undefined}
+      container={tab === 2 ? OuterPanel : undefined}
     >
       <div
         style={{
@@ -322,13 +315,7 @@ export const BumpkinModal: React.FC<Props> = ({
             }}
           />
         )}
-        {tab === 2 && isLoading && (
-          <div className="my-2">
-            <Loading />
-          </div>
-        )}
-        {tab === 2 && !isLoading && <Trade floorPrices={floorPrices} />}
-        {tab === 3 && <Skills readonly={readonly} />}
+        {tab === 2 && <Skills readonly={readonly} />}
       </div>
     </CloseButtonPanel>
   );

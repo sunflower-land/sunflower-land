@@ -343,6 +343,7 @@ import { AlienChicken } from "./components/AlienChicken";
 import { ToxicTuft } from "./components/ToxicTuft";
 import { Mootant } from "./components/Mootants";
 import { SuperTotem } from "./components/SuperTotem";
+import { GoldenCow } from "./components/GoldenCow";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -753,6 +754,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Toxic Tuft": ToxicTuft,
   Mootant: Mootant,
   Chicory: Chicory,
+  "Golden Cow": GoldenCow,
   "Adrift Ark": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1544,6 +1546,66 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Christmas Candle"].image}
       alt="Christmas Candle"
+    />
+  ),
+  "Santa Penguin": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Santa Penguin"].image}
+      alt="Santa Penguin"
+    />
+  ),
+  "Penguin Pool": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Penguin Pool"].image}
+      alt="Penguin Pool"
+    />
+  ),
+  Snowman: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Snowman"].image}
+      alt="Snowman"
+    />
+  ),
+  "Festive Toy Train": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Festive Toy Train"].image}
+      alt="Festive Toy Train"
     />
   ),
 };

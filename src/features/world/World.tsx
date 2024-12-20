@@ -6,7 +6,7 @@ import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { Outlet, useNavigate, useParams } from "react-router";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router";
 import { SceneId } from "./mmoMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";
@@ -44,8 +44,23 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
       <ModalProvider>
         <WorldContext.Provider value={{ isCommunity }}>
           <Explore />
-          {/* Outlet for nested routes ie /world/marketplace/* */}
-          <Outlet />
+          <div
+            aria-label="World"
+            className="fixed inset-safe-area pointer-events-none inset-safe-area"
+            style={{
+              zIndex: 11,
+            }}
+          >
+            <div
+              onMouseDown={(e) => e.stopPropagation()}
+              onMouseUp={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
+              className="pointer-events-auto"
+            >
+              <Outlet />
+            </div>
+          </div>
         </WorldContext.Provider>
       </ModalProvider>
     </GameProvider>
@@ -63,6 +78,8 @@ const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
 const _isIntroducing = (state: MMOMachineState) =>
   state.matches("introduction");
+const _isChoosingUsername = (state: MMOMachineState) =>
+  state.matches("chooseUsername");
 
 type MMOProps = { isCommunity: boolean };
 
@@ -81,6 +98,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const [gameState] = useActor(gameService);
   const { name } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const mmoService = useInterpret(mmoMachine, {
     context: {
@@ -88,7 +106,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       farmId: gameState.context.farmId,
       bumpkin: gameState.context.state.bumpkin,
       faction: gameState.context.state.faction?.name,
-      sceneId: name as SceneId,
+      sceneId: (name ?? "plaza") as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
       isCommunity,
       moderation: gameState.context.moderation,
@@ -98,7 +116,10 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const [mmoState] = useActor(mmoService);
 
   useEffect(() => {
-    if (mmoState.context.sceneId) {
+    if (
+      mmoState.context.sceneId &&
+      !location.pathname.includes("marketplace")
+    ) {
       navigate(`/world/${mmoState.context.sceneId}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,7 +146,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
   const isIntroducing = useSelector(mmoService, _isIntroducing);
-
+  const isChoosingUsername = useSelector(mmoService, _isChoosingUsername);
   const isTraveling =
     isInitialising || isConnecting || isConnected || isKicked || isJoining;
 
@@ -152,7 +173,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     return <></>;
   }
 
-  // Otherwsie if connected, return Plaza Screen
+  // Otherwise if connected, return Plaza Screen
   return (
     <>
       <PhaserComponent
@@ -164,13 +185,16 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
       <Modal show={isIntroducing}>
         <WorldIntroduction
-          onClose={() => {
-            mmoService.send("CONTINUE");
+          onClose={(username: string) => {
+            mmoService.send("CONTINUE", { username });
             // BUG - need to call twice?
-            mmoService.send("CONTINUE");
+            mmoService.send("CONTINUE", { username });
           }}
         />
       </Modal>
+
+      {/* <Modal show={isChoosingUsername}></Modal> */}
+      <WorldHud />
     </>
   );
 };
@@ -235,7 +259,6 @@ export const Explore: React.FC = () => {
     >
       <GameWrapper>
         {!isLoading && <MMO isCommunity={isCommunity} />}
-        <WorldHud />
       </GameWrapper>
     </div>
   );

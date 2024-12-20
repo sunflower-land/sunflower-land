@@ -122,5 +122,6 @@ export function makeGame(farm: any): GameState {
     henHouse: farm.henHouse,
     barn: farm.barn,
     craftingBox: farm.craftingBox,
+    season: farm.season,
   };
 }

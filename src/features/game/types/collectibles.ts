@@ -225,7 +225,9 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   },
   "Immortal Pear": {
     description: translate("description.immortal.pear"),
-    boost: translate("description.immortal.pear.boost"),
+    boost: state?.bumpkin.skills["Pear Turbocharge"]
+      ? translate("description.immortal.pear.boosted.boost")
+      : translate("description.immortal.pear.boost"),
     ingredients: {
       Gold: new Decimal(5),
       Apple: new Decimal(10),
@@ -275,7 +277,9 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   },
   Macaw: {
     description: translate("description.macaw"),
-    boost: translate("description.macaw.boost"),
+    boost: state?.bumpkin.skills["Loyal Macaw"]
+      ? translate("description.macaw.boosted.boost")
+      : translate("description.macaw.boost"),
     coins: 10000,
     ingredients: {
       Apple: new Decimal(10),
