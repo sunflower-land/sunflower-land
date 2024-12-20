@@ -83,7 +83,7 @@ const handleAnimalExperience = (
   return currentCycleProgress + foodXp >= cycleXP;
 };
 
-const handleGoldenEggFeeding = (
+const handleFreeFeeding = (
   animal: Animal,
   animalType: AnimalType,
   level: number,
@@ -188,9 +188,12 @@ export function feedAnimal({
 
     const level = getAnimalLevel(animal.experience, animal.type);
     const food = action.item as AnimalFoodName;
-    const isChicken = action.animal === "Chicken";
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
+      game: copy,
+    });
+    const hasGoldenCowPlaced = isCollectibleBuilt({
+      name: "Golden Cow",
       game: copy,
     });
     const favouriteFood = getAnimalFavoriteFood(
@@ -199,8 +202,19 @@ export function feedAnimal({
     );
 
     // Handle Golden Egg Free Food
-    if (isChicken && hasGoldenEggPlaced) {
-      return handleGoldenEggFeeding(
+    if (action.animal === "Chicken" && hasGoldenEggPlaced) {
+      return handleFreeFeeding(
+        animal,
+        action.animal,
+        level,
+        favouriteFood,
+        copy,
+      );
+    }
+
+    // Handle Golden Cow Free Food
+    if (action.animal === "Cow" && hasGoldenCowPlaced) {
+      return handleFreeFeeding(
         animal,
         action.animal,
         level,

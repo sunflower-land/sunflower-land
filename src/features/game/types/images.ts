@@ -424,6 +424,7 @@ import fieldMaple from "assets/decorations/field_maple.webp";
 import redMaple from "assets/decorations/red_maple.webp";
 import goldenMaple from "assets/decorations/golden_maple.webp";
 import Wagon from "assets/decorations/wagon.webp";
+import goldenCow from "assets/sfts/golden_cow.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -479,7 +480,7 @@ import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
-import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.png";
+import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.webp";
 import freyaFox from "assets/sfts/freya_fox.png";
 import grainGrinder from "assets/sfts/grain_grinder.png";
 
@@ -4491,5 +4492,9 @@ export const ITEM_DETAILS: Items = {
   "Festive Toy Train": {
     image: festiveToyTrain,
     description: translate("description.festiveToyTrain"),
+  },
+  "Golden Cow": {
+    image: goldenCow,
+    description: translate("description.golden.cow.boost"),
   },
 };

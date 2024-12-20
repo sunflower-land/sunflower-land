@@ -123,7 +123,8 @@ export type EventDecorationName =
   | "Santa Penguin"
   | "Penguin Pool"
   | "Snowman"
-  | "Festive Toy Train";
+  | "Festive Toy Train"
+  | "Golden Cow";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -765,6 +766,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
   },
   "Festive Toy Train": {
+    width: 2,
+    height: 2,
+  },
+  "Golden Cow": {
     width: 2,
     height: 2,
   },
