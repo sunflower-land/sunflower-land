@@ -80,7 +80,7 @@ export const RequestBubble: React.FC<RequestBubbleProps> = ({
 
   return (
     <div
-      className={`absolute inline-flex justify-center items-center z-10`}
+      className={`absolute inline-flex justify-center items-center z-10 pointer-events-none`}
       style={{
         top: `${top}px`,
         left: `${left}px`,

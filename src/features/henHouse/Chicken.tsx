@@ -457,7 +457,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
                 top: CHICKEN_EMOTION_ICONS[chickenMachineState].top,
                 right: CHICKEN_EMOTION_ICONS[chickenMachineState].right,
               }}
-              className="absolute"
+              className="absolute pointer-events-none"
             />
           )}
           {/* Request */}

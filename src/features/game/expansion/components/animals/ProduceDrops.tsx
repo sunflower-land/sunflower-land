@@ -46,7 +46,7 @@ export const ProduceDrops: React.FC<Props> = ({
         return (
           <div
             key={item}
-            className={`flex items-center justify-center absolute bounce-drop ${className}`}
+            className={`flex items-center justify-center absolute bounce-drop pointer-events-none ${className}`}
             style={
               {
                 "--drop-delay": `${index * 400}ms`,
