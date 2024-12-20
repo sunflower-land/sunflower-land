@@ -4705,5 +4705,12 @@
   "world.intro.one": "やあ、バンプキン、パンプキンプラザへようこそ。ここでは、遠くから来たバンプキンたちが集まって、取引、配達の完了、ミニゲームのプレイを行っています。",
   "instantCook.finish": "今すぐ終了",
   "mayor": "市長",
-  "mayor.plaza.shortIntro": "やあ、バンプキン、私はこの町の市長だし、"
+  "mayor.plaza.shortIntro": "やあ、バンプキン、私はこの町の市長だし、",
+  "marketplace.rewards": "報酬",
+  "marketplace.trades": "取引",
+  "marketplace.stats": "統計情報",
+  "marketplace.wearables": "ウェアラブル",
+  "marketplace.limited": "限定",
+  "marketplace.myProfile": "マイプロフィール",
+  "marketplace.budNfts": "バッドNFT"
 }

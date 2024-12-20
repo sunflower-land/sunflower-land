@@ -4705,5 +4705,12 @@
   "world.intro.one": "Olá, Bumpkin, bem-vindo ao Pumpkin Plaza. Aqui, Bumpkins de todo o mundo se reúnem para negociar, concluir entregas e jogar minijogos.",
   "instantCook.finish": "Termine agora",
   "mayor": "Prefeito",
-  "mayor.plaza.shortIntro": "Olá, Bumpkin, eu sou o prefeito desta cidade e"
+  "mayor.plaza.shortIntro": "Olá, Bumpkin, eu sou o prefeito desta cidade e",
+  "marketplace.rewards": "Recompensas",
+  "marketplace.trades": "Negociações",
+  "marketplace.stats": "Estatísticas",
+  "marketplace.wearables": "Vestíveis",
+  "marketplace.limited": "Limitado",
+  "marketplace.myProfile": "Meu perfil",
+  "marketplace.budNfts": "NFTs da Bud"
 }

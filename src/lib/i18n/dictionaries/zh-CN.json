@@ -4705,5 +4705,12 @@
   "world.intro.one": "你好 Bumpkin，欢迎来到南瓜广场。在这里，来自世界各地的 Bumpkins 聚集在一起进行交易、完成交付和玩迷你游戏。",
   "instantCook.finish": "立即完成",
   "mayor": "市长",
-  "mayor.plaza.shortIntro": "嘿 Bumpkin，我是这个城镇的市长而且"
+  "mayor.plaza.shortIntro": "嘿 Bumpkin，我是这个城镇的市长而且",
+  "marketplace.rewards": "奖励",
+  "marketplace.trades": "交易",
+  "marketplace.stats": "统计数据",
+  "marketplace.wearables": "可穿戴设备",
+  "marketplace.limited": "有限",
+  "marketplace.myProfile": "我的个人资料",
+  "marketplace.budNfts": "巴德 NFT"
 }

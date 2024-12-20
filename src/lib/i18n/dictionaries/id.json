@@ -4705,5 +4705,12 @@
   "world.intro.one": "Halo Bumpkin, selamat datang di Pumpkin Plaza. Di sini Bumpkins dari jauh dan luas berkumpul untuk berdagang, menyelesaikan pengiriman, dan bermain mini-game.",
   "instantCook.finish": "Selesaikan sekarang",
   "mayor": "Walikota",
-  "mayor.plaza.shortIntro": "Hei, Bumpkin, aku walikota kota ini dan"
+  "mayor.plaza.shortIntro": "Hei, Bumpkin, aku walikota kota ini dan",
+  "marketplace.rewards": "Hadiah",
+  "marketplace.trades": "Perdagangan",
+  "marketplace.stats": "Statistik",
+  "marketplace.wearables": "Produk yang dapat dikenakan",
+  "marketplace.limited": "Terbatas",
+  "marketplace.myProfile": "Profil Saya",
+  "marketplace.budNfts": "NFT Bud"
 }

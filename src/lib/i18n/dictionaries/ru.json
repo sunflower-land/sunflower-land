@@ -4705,5 +4705,12 @@
   "world.intro.one": "Привет, Бампкин, добро пожаловать в Pumpkin Plaza. Здесь Бампкинсы со всего мира собираются вместе, чтобы торговать, доставлять товары и играть в мини-игры.",
   "instantCook.finish": "Закончите сейчас",
   "mayor": "Мэр",
-  "mayor.plaza.shortIntro": "Привет, Бампкин, я мэр этого города и"
+  "mayor.plaza.shortIntro": "Привет, Бампкин, я мэр этого города и",
+  "marketplace.rewards": "Награды",
+  "marketplace.trades": "Сделки",
+  "marketplace.stats": "Статистика",
+  "marketplace.wearables": "Носимые устройства",
+  "marketplace.limited": "Ограничено",
+  "marketplace.myProfile": "Мой профиль",
+  "marketplace.budNfts": "Забавные NFT"
 }

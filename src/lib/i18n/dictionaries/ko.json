@@ -4705,5 +4705,12 @@
   "world.intro.one": "안녕하세요 범프킨, 펌킨 플라자에 오신 것을 환영합니다.여기서는 멀리 떨어진 범프킨들이 모여 거래를 하고, 배송을 완료하고, 미니 게임을 플레이합니다.",
   "instantCook.finish": "지금 끝내세요",
   "mayor": "시장님",
-  "mayor.plaza.shortIntro": "안녕하세요 범프킨, 저는 이 마을의 시장이고"
+  "mayor.plaza.shortIntro": "안녕하세요 범프킨, 저는 이 마을의 시장이고",
+  "marketplace.rewards": "리워드",
+  "marketplace.trades": "거래",
+  "marketplace.stats": "통계",
+  "marketplace.wearables": "웨어러블",
+  "marketplace.limited": "리미티드",
+  "marketplace.myProfile": "내 프로필",
+  "marketplace.budNfts": "버드 NFT"
 }

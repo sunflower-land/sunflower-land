@@ -4705,5 +4705,12 @@
   "world.intro.one": "Merhaba Bumpkin, Pumpkin Plaza'ya hoş geldiniz. Burada uzak ve geniş yerlerden gelen Bumpkins ticaret yapmak, teslimatları tamamlamak ve mini oyunlar oynamak için bir araya geliyor.",
   "instantCook.finish": "Şimdi bitirin",
   "mayor": "Belediye Başkanı",
-  "mayor.plaza.shortIntro": "Merhaba Bumpkin, ben bu kasabanın belediye başkanıyım ve"
+  "mayor.plaza.shortIntro": "Merhaba Bumpkin, ben bu kasabanın belediye başkanıyım ve",
+  "marketplace.rewards": "Ödüller",
+  "marketplace.trades": "İşlemler",
+  "marketplace.stats": "İstatistikler",
+  "marketplace.wearables": "Giyilebilir cihazlar",
+  "marketplace.limited": "Sınırlı",
+  "marketplace.myProfile": "Profilim",
+  "marketplace.budNfts": "Tomurcuk NFT'leri"
 }
