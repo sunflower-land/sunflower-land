@@ -258,10 +258,13 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
     }
 
     if (items) {
-      Object.entries(items).forEach(([item, quantity]) => {
-        inventory[item as InventoryItemName] =
-          inventory[item as InventoryItemName]?.sub(quantity);
-      });
+      stateCopy.inventory = Object.entries(items).reduce(
+        (inv, [item, quantity]) => ({
+          ...inv,
+          [item]: inv[item as InventoryItemName]?.sub(quantity),
+        }),
+        inventory,
+      );
     }
 
     // Return the new state
