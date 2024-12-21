@@ -44,7 +44,7 @@ type Options = {
   createdAt?: number;
 };
 
-function isMaxLevel(animal: AnimalType, experience: number) {
+export function isMaxLevel(animal: AnimalType, experience: number) {
   const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
   const maxLevelXP = ANIMAL_LEVELS[animal][maxLevel];
 
