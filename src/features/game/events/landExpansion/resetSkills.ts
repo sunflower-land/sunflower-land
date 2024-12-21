@@ -59,7 +59,7 @@ export function resetSkills({ state, createdAt = Date.now() }: Options) {
     }
 
     // Check of player has enough SFL to reset skills
-    if (game.balance.toNumber() < 10) {
+    if (game.balance.lt(10)) {
       throw new Error("You do not have enough SFL to reset your skills");
     }
 
