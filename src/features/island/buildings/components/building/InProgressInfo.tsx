@@ -86,7 +86,8 @@ export const InProgressInfo: React.FC<Props> = ({
             type="progress"
           />
         </div>
-        {name !== "Pizza Margherita" && (
+        {(name !== "Pizza Margherita" ||
+          Date.now() > new Date("2025-01-31").getTime()) && (
           <Button
             disabled={!inventory.Gem?.gte(gems)}
             className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
