@@ -85,28 +85,13 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
     cooldown;
   const nextSkillUseCountdown = useCountdown(nextSkillUse);
 
-  const canUsePowerSkill = () => {
-    // Check if cooldown period has passed
-    if (nextSkillUse < Date.now()) {
-      return true;
-    }
+  const powerSkillReady = nextSkillUse < Date.now();
 
-    // If skill requires items, check if player has enough
-    if (items) {
-      // Loop through each required item and quantity
-      Object.entries(items).forEach(([item, quantity]) => {
-        // Get current inventory amount (default 0 if none)
-        // Check if inventory amount is less than required quantity
-        if (
-          (inventory[item as InventoryItemName] ?? new Decimal(0)).lt(quantity)
-        ) {
-          return false; // Player doesn't have enough of this item
-        }
-      });
-    }
-
-    return false; // Cooldown hasn't passed or missing required items
-  };
+  const itemsRequired =
+    !items ||
+    Object.entries(items).every(([item, quantity]) =>
+      (inventory[item as InventoryItemName] ?? new Decimal(0)).gte(quantity),
+    );
 
   return (
     <SplitScreenView
@@ -158,16 +143,14 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
             )}
             <div className="flex flex-col lg:items-center">
               <Label
-                type={canUsePowerSkill() ? "success" : "info"}
-                icon={
-                  !canUsePowerSkill() ? SUNNYSIDE.icons.stopwatch : undefined
-                }
+                type={powerSkillReady ? "success" : "info"}
+                icon={!powerSkillReady ? SUNNYSIDE.icons.stopwatch : undefined}
                 secondaryIcon={
-                  canUsePowerSkill() ? SUNNYSIDE.icons.confirm : undefined
+                  powerSkillReady ? SUNNYSIDE.icons.confirm : undefined
                 }
                 className="mb-2"
               >
-                {canUsePowerSkill() ? (
+                {powerSkillReady ? (
                   t("powerSkills.ready")
                 ) : (
                   <div className="flex lg:flex-col items-center">
@@ -179,16 +162,16 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-            {power && (
+          {power && (
+            <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
               <Button
-                disabled={!canUsePowerSkill()}
+                disabled={!powerSkillReady || !itemsRequired}
                 onClick={() => setUseSkillConfirmation(true)}
               >
                 {t("powerSkills.use")}
               </Button>
-            )}
-          </div>
+            </div>
+          )}
 
           <ConfirmationModal
             show={useSkillConfirmation}
