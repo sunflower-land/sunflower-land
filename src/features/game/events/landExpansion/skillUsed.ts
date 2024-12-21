@@ -13,7 +13,6 @@ import {
   OilReserve,
   Buildings,
   InventoryItemName,
-  Inventory,
 } from "features/game/types/game";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
@@ -124,21 +123,7 @@ function useInstantGratification({
   return buildings;
 }
 
-function useAppleTastic({
-  game,
-  items,
-}: {
-  game: GameState;
-  items?: Inventory;
-}): GameState {
-  // Remove required items from inventory
-  if (items) {
-    Object.entries(items).forEach(([item, quantity]) => {
-      game.inventory[item as InventoryItemName] =
-        game.inventory[item as InventoryItemName]?.sub(quantity);
-    });
-  }
-
+function useAppleTastic({ game }: { game: GameState }): GameState {
   // Get all animal buildings
   const buildings = ["henHouse", "barn"] as const;
 
@@ -269,7 +254,14 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
     }
 
     if (skill === "Apple-Tastic") {
-      stateCopy = useAppleTastic({ game: stateCopy, items });
+      stateCopy = useAppleTastic({ game: stateCopy });
+    }
+
+    if (items) {
+      Object.entries(items).forEach(([item, quantity]) => {
+        inventory[item as InventoryItemName] =
+          inventory[item as InventoryItemName]?.sub(quantity);
+      });
     }
 
     // Return the new state
