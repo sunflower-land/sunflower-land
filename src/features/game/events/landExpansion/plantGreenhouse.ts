@@ -133,13 +133,13 @@ export const getGreenhouseCropTime = ({
   return seconds;
 };
 
-const getOilUsage = ({
+export function getOilUsage({
   seed,
   game,
 }: {
   seed: GreenhouseSeed;
   game: GameState;
-}) => {
+}) {
   let usage = OIL_USAGE[seed];
 
   if (game.bumpkin.skills["Greasy Plants"]) {
@@ -151,7 +151,7 @@ const getOilUsage = ({
   }
 
   return usage;
-};
+}
 
 function getGreenhouseSeedUsage({ game }: { game: GameState }) {
   let seed = 1;
@@ -188,7 +188,9 @@ export function plantGreenhouse({
       throw new Error(`Missing ${action.seed}`);
     }
 
-    if (game.greenhouse.oil < getOilUsage({ seed: action.seed, game })) {
+    const oilUsage = getOilUsage({ seed: action.seed, game });
+
+    if (game.greenhouse.oil < oilUsage) {
       throw new Error("Not enough Oil");
     }
 
@@ -220,7 +222,7 @@ export function plantGreenhouse({
     game.inventory[action.seed] = seeds.sub(seedUsage);
 
     // Use oil
-    game.greenhouse.oil -= getOilUsage({ seed: action.seed, game });
+    game.greenhouse.oil -= oilUsage;
 
     // Tracks Analytics
     const activityName: BumpkinActivityName = `${plantName} Planted`;
