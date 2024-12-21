@@ -107,6 +107,12 @@ export function speedUpRecipe({
       throw new Error("Nothing is cooking");
     }
 
+    if (
+      recipe.name === "Pizza Margherita" &&
+      Date.now() < new Date("2025-01-31").getTime()
+    ) {
+      throw new Error("Pizza Margherita is not available");
+    }
     if (createdAt > recipe.readyAt) {
       throw new Error("Already cooked");
     }
