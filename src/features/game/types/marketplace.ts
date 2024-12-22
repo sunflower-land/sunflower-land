@@ -272,12 +272,12 @@ export function getMarketPrice({
     KNOWN_ITEMS[tradeable.id] in TRADE_LIMITS;
 
   // If a resource, set the price to the floor
-  if (isResource) {
-    const cheapestListing = tradeable.listings?.reduce((cheapest, listing) => {
+  if (isResource && tradeable.listings?.length > 0) {
+    const cheapestListing = tradeable.listings.reduce((cheapest, listing) => {
       return listing.sfl < cheapest.sfl ? listing : cheapest;
     }, tradeable.listings[0]);
 
-    price = cheapestListing?.sfl;
+    price = cheapestListing?.sfl ?? 0;
   } else if (tradeable?.history.sales.length) {
     // Set it to the latest sale
     price =
