@@ -23,7 +23,7 @@ import {
   BUMPKIN_RELEASES,
   INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import { BUMPKIN_ITEM_PART, BumpkinItem } from "features/game/types/bumpkin";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -113,6 +113,9 @@ export const TradeableDescription: React.FC<{
   const canTrade = !!tradeAt && tradeAt <= new Date();
   const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
 
+  const isWearable = display.type === "wearables";
+  const isCollectible = display.type === "collectibles";
+
   return (
     <InnerPanel>
       <div className="p-2">
@@ -122,6 +125,15 @@ export const TradeableDescription: React.FC<{
         <div className="flex flex-col space-y-1">
           <p className="text-xs mb-1">{display.description}</p>
           <div className="flex flex-col space-y-1">
+            {isWearable && (
+              <div className="flex items-center space-x-1">
+                <Label type="default">{t("wearable")}</Label>
+                <Label type="default" className="capitalize">
+                  {`${BUMPKIN_ITEM_PART[display.name as BumpkinItem]}`}
+                </Label>
+              </div>
+            )}
+            {isCollectible && <Label type="default">{t("collectible")}</Label>}
             {display.buffs.map((buff) => (
               <Label
                 key={buff.shortDescription}
