@@ -300,7 +300,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         </Label>
                       )}
                       {!!buff && (
-                        <div className="flex flex-row flex-wrap items-center">
+                        <div className="flex flex-col gap-1">
                           {buff.map(
                             (
                               {

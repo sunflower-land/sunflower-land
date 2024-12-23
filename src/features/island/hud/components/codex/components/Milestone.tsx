@@ -73,7 +73,7 @@ export const MilestonePanel: React.FC<{
         <div className="space-y-2 mr-1">
           <div className="flex flex-col space-y-1">
             {buffLabel && (
-              <div className="flex flex-row flex-wrap items-center">
+              <div className="flex flex-col gap-1">
                 {buffLabel.map(
                   (
                     {

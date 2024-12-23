@@ -9,6 +9,7 @@ import bee from "assets/icons/bee.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
+import { hasSeasonEnded } from "./seasons";
 
 export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {
   Halo: [
@@ -592,7 +593,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.bumpkin.crown.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Pirate Bounty"].image,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
+    },
+    {
+      shortDescription: translate("bumpkinItemBuff.bumpkin.crown.boost.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Mark.image,
     },
   ],
   "Goblin Crown": [
@@ -600,7 +607,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.goblin.crown.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Pirate Bounty"].image,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
+    },
+    {
+      shortDescription: translate("bumpkinItemBuff.goblin.crown.boost.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Mark.image,
     },
   ],
   "Nightshade Crown": [
@@ -608,7 +621,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.nightshade.crown.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Pirate Bounty"].image,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
+    },
+    {
+      shortDescription: translate("bumpkinItemBuff.nightshade.crown.boost.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Mark.image,
     },
   ],
   "Sunflorian Crown": [
@@ -616,7 +635,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.sunflorian.crown.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Pirate Bounty"].image,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
+    },
+    {
+      shortDescription: translate("bumpkinItemBuff.sunflorian.crown.boost.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Mark.image,
     },
   ],
   "Bumpkin Shield": [
@@ -716,28 +741,40 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
     },
   ],
   "Cowboy Hat": [
-    {
-      shortDescription: translate("description.cowboyHat.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
-    },
+    ...(hasSeasonEnded("Bull Run")
+      ? []
+      : ([
+          {
+            shortDescription: translate("description.cowboyHat.boost"),
+            labelType: "success",
+            boostTypeIcon: powerup,
+            boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+          },
+        ] as BuffLabel[])),
   ],
   "Cowboy Shirt": [
-    {
-      shortDescription: translate("description.cowboyShirt.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
-    },
+    ...(hasSeasonEnded("Bull Run")
+      ? []
+      : ([
+          {
+            shortDescription: translate("description.cowboyShirt.boost"),
+            labelType: "success",
+            boostTypeIcon: powerup,
+            boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+          },
+        ] as BuffLabel[])),
   ],
   "Cowboy Trouser": [
-    {
-      shortDescription: translate("description.cowboyTrouser.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
-    },
+    ...(hasSeasonEnded("Bull Run")
+      ? []
+      : ([
+          {
+            shortDescription: translate("description.cowboyTrouser.boost"),
+            labelType: "success",
+            boostTypeIcon: powerup,
+            boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
+          },
+        ] as BuffLabel[])),
   ],
   "Milk Apron": [
     {

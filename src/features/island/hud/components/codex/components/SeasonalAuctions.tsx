@@ -179,7 +179,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
                           : t("wearable")}
                       </Label>
                     ) : (
-                      <div className="flex flex-row flex-wrap items-center">
+                      <div className="flex flex-col gap-1">
                         {buffLabel.map(
                           (
                             {

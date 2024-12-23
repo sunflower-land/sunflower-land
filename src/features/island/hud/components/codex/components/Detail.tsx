@@ -112,7 +112,7 @@ export const Detail: React.FC<Props> = ({
               {additionalLabels}
               {/* Boost labels to go below */}
               {!!buff && (
-                <div className="flex flex-row flex-wrap items-center">
+                <div className="flex flex-col gap-1">
                   {buff.map(
                     (
                       {

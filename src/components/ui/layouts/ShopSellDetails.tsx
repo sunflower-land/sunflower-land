@@ -80,6 +80,9 @@ const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
     ? ITEM_DETAILS[item].image
     : new URL(`/src/assets/wearables/${ITEM_IDS[item]}.webp`, import.meta.url)
         .href;
+  const description = isCollectible(item)
+    ? ITEM_DETAILS[item].description
+    : BUMPKIN_ITEM_BUFF_LABELS[item]?.map((b) => b.shortDescription).join(", ");
 
   return (
     <>
@@ -91,15 +94,9 @@ const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
         )}
         <span className="sm:text-center">{item}</span>
       </div>
-      {isCollectible(item) ? (
+      {description && (
         <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
-          {ITEM_DETAILS[item].description}
-        </span>
-      ) : (
-        <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
-          {BUMPKIN_ITEM_BUFF_LABELS[item]
-            ?.map((b) => b.shortDescription)
-            .join(", ")}
+          {description}
         </span>
       )}
     </>

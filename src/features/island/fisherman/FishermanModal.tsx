@@ -660,14 +660,13 @@ const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
                         <span className="text-xs">{name}</span>
                         <span className="text-xxs italic">{item.location}</span>
                       </div>
-                      <div className="flex flex-row flex-wrap items-center">
+                      <div className="flex flex-col gap-1">
                         {item.buff.map((buff, index) => (
                           <Label
                             key={index}
                             type={buff.labelType}
                             icon={buff.boostTypeIcon}
                             secondaryIcon={buff.boostedItemIcon}
-                            className="mb-1"
                           >
                             {buff.shortDescription}
                           </Label>
