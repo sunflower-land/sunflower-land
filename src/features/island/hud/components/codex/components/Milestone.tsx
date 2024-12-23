@@ -73,13 +73,28 @@ export const MilestonePanel: React.FC<{
         <div className="space-y-2 mr-1">
           <div className="flex flex-col space-y-1">
             {buffLabel && (
-              <Label
-                type={buffLabel.labelType}
-                icon={buffLabel.boostTypeIcon}
-                secondaryIcon={buffLabel.boostedItemIcon}
-              >
-                {buffLabel.shortDescription}
-              </Label>
+              <div className="flex flex-row flex-wrap items-center">
+                {buffLabel.map(
+                  (
+                    {
+                      labelType,
+                      boostTypeIcon,
+                      boostedItemIcon,
+                      shortDescription,
+                    },
+                    index,
+                  ) => (
+                    <Label
+                      key={index}
+                      type={labelType}
+                      icon={boostTypeIcon}
+                      secondaryIcon={boostedItemIcon}
+                    >
+                      {shortDescription}
+                    </Label>
+                  ),
+                )}
+              </div>
             )}
             <Label type="default">{t("wearable")}</Label>
           </div>

@@ -72,9 +72,9 @@ const HourglassInfoModal: React.FC<InformationModalProps> = ({
   const { t } = useAppTranslation();
 
   const remainingSeconds = (boostEndAt - Date.now()) / 1000;
-  const boostDescription = COLLECTIBLE_BUFF_LABELS(state)[
-    name as InventoryItemName
-  ]?.shortDescription as string;
+  const boostDescription = COLLECTIBLE_BUFF_LABELS(state)
+    [name as InventoryItemName]?.map((buff) => buff.shortDescription)
+    .join(", ");
 
   return (
     <Modal show={show}>
@@ -106,7 +106,7 @@ const HourglassInfoModal: React.FC<InformationModalProps> = ({
               </Label>
               <p className="text-sm my-2">
                 {t("description.hourglass.running", {
-                  boost: boostDescription,
+                  boost: boostDescription ?? "",
                   hourglass: name,
                 })}
               </p>

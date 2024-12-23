@@ -42,7 +42,7 @@ interface ItemOverlayProps {
   item: SeasonalStoreItem | null;
   image: string;
   isWearable: boolean;
-  buff?: BuffLabel;
+  buff?: BuffLabel[];
   tier?: "basic" | "rare" | "epic" | "mega";
   isVisible: boolean;
   onClose: () => void;
@@ -353,13 +353,26 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                   <div className="flex flex-col space-y-2">
                     {!!buff && (
                       <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
-                        <Label
-                          type={buff.labelType}
-                          icon={buff.boostTypeIcon}
-                          secondaryIcon={buff.boostedItemIcon}
-                        >
-                          {buff.shortDescription}
-                        </Label>
+                        {buff.map(
+                          (
+                            {
+                              labelType,
+                              boostTypeIcon,
+                              boostedItemIcon,
+                              shortDescription,
+                            },
+                            index,
+                          ) => (
+                            <Label
+                              key={index}
+                              type={labelType}
+                              icon={boostTypeIcon}
+                              secondaryIcon={boostedItemIcon}
+                            >
+                              {shortDescription}
+                            </Label>
+                          ),
+                        )}
                       </div>
                     )}
                     <span className="text-xs leading-none">{description}</span>

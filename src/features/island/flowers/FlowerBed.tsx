@@ -274,14 +274,29 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                           {ITEM_DETAILS[item.name].description}
                         </span>
                         {boost && (
-                          <Label
-                            type={boost.labelType}
-                            icon={boost.boostTypeIcon}
-                            secondaryIcon={boost.boostedItemIcon}
-                            className="my-1"
-                          >
-                            {boost.shortDescription}
-                          </Label>
+                          <div className="flex flex-row flex-wrap items-center">
+                            {boost.map(
+                              (
+                                {
+                                  labelType,
+                                  boostTypeIcon,
+                                  boostedItemIcon,
+                                  shortDescription,
+                                },
+                                index,
+                              ) => (
+                                <Label
+                                  key={index}
+                                  type={labelType}
+                                  icon={boostTypeIcon}
+                                  secondaryIcon={boostedItemIcon}
+                                  className="mb-1"
+                                >
+                                  {shortDescription}
+                                </Label>
+                              ),
+                            )}
+                          </div>
                         )}
                       </>
                     );
