@@ -96,7 +96,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
       ? 0
       : calculateTradePoints({
           sfl: price,
-          points: listing.type === "instant" ? 2 : 10,
+          points: listing.type === "instant" ? 2 : 4,
         }).multipliedPoints;
 
   if (hasMax && listing.type === "instant") {
