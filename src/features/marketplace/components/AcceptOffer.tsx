@@ -131,7 +131,7 @@ const AcceptOfferContent: React.FC<{
       ? 0
       : calculateTradePoints({
           sfl: offer.sfl,
-          points: offer.type === "instant" ? 1 : 5,
+          points: offer.type === "instant" ? 1 : 3,
         }).multipliedPoints;
 
   if (needsSync) {

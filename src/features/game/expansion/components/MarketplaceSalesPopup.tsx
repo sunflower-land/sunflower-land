@@ -73,7 +73,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
           const sfl = new Decimal(listing.sfl).mul(1 - MARKETPLACE_TAX);
           const estTradePoints = calculateTradePoints({
             sfl: listing.sfl,
-            points: !listing.signature ? 1 : 5,
+            points: !listing.signature ? 1 : 3,
           }).multipliedPoints;
 
           const isResource = getKeys(TRADE_LIMITS).includes(
