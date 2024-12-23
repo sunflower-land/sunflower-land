@@ -149,7 +149,7 @@ export const MakeOffer: React.FC<{
       ? 0
       : calculateTradePoints({
           sfl: offer,
-          points: tradeType === "instant" ? 2 : 10,
+          points: tradeType === "instant" ? 2 : 4,
         }).multipliedPoints;
 
   if (needsSync) {

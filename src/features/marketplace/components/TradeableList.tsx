@@ -283,7 +283,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       ? 0
       : calculateTradePoints({
           sfl: price,
-          points: tradeType === "instant" ? 1 : 5,
+          points: tradeType === "instant" ? 1 : 3,
         }).multipliedPoints;
 
   if (showConfirmation) {
