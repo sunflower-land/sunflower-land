@@ -1933,11 +1933,12 @@ export const READONLY_COLLECTIBLES: Record<
     />
   ),
   "Rock Golem": () => (
-    <img
-      src={ITEM_DETAILS["Rock Golem"].image}
+    <div
       className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 34}px` }}
-    />
+      style={{ left: `${PIXEL_SCALE * -2}px`, width: `${PIXEL_SCALE * 34}px` }}
+    >
+      <img src={ITEM_DETAILS["Rock Golem"].image} className="w-full" />
+    </div>
   ),
   "Wicker Man": () => (
     <div
