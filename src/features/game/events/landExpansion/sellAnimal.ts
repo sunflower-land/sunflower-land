@@ -22,6 +22,10 @@ export function isValidDeal({
     return false;
   }
 
+  if (animal.awakeAt && animal.awakeAt > Date.now()) {
+    return false;
+  }
+
   return true;
 }
 
