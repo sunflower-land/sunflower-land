@@ -50,22 +50,6 @@ export function addTradePoints({
   sfl: number;
   items?: Partial<Record<MarketplaceTradeableName, number>>;
 }) {
-  // Exclude resources
-  if (items) {
-    const name = getKeys(items).filter(
-      (itemName) => itemName in KNOWN_IDS,
-    )[0] as InventoryItemName;
-    const isResource = getKeys(TRADE_LIMITS).includes(name);
-
-    if (isResource) {
-      return state;
-    }
-  }
-
-  if (sfl < 5) {
-    return state;
-  }
-
   const { multipliedPoints } = calculateTradePoints({ points, sfl, items });
 
   // Add points to gamestate
