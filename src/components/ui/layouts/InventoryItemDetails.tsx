@@ -118,7 +118,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
           {description}
         </span>
         {boost && (
-          <div className="flex flex-row flex-wrap items-center">
+          <div className="flex flex-col gap-1 mb-2">
             {boost.map(
               (
                 { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
@@ -129,7 +129,6 @@ export const InventoryItemDetails: React.FC<Props> = ({
                   type={labelType}
                   icon={boostTypeIcon}
                   secondaryIcon={boostedItemIcon}
-                  className="mb-1"
                 >
                   {shortDescription}
                 </Label>

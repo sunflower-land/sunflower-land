@@ -118,7 +118,6 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                 COLLECTIBLE_BUFF_LABELS(game)[name as CollectibleName];
               return (
                 <ButtonPanel
-                  variant="card"
                   className="flex items-start cursor-context-menu hover:brightness-100"
                   key={name}
                 >
@@ -150,7 +149,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                       )}
                     </div>
                     {buff ? (
-                      <div className="flex flex-row flex-wrap items-center">
+                      <div className="flex flex-col gap-1">
                         {buff.map(
                           (
                             {
@@ -166,7 +165,6 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                               type={labelType}
                               icon={boostTypeIcon}
                               secondaryIcon={boostedItemIcon}
-                              className="ml-1"
                             >
                               {shortDescription}
                             </Label>

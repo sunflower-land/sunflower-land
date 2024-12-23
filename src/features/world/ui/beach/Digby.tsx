@@ -524,7 +524,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                               {itemData.location}
                             </span>
                           </div>
-                          <div className="flex flex-row flex-wrap items-center">
+                          <div className="flex flex-col gap-1">
                             {itemData.buff.map(
                               (
                                 {

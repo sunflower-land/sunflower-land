@@ -274,7 +274,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                           {ITEM_DETAILS[item.name].description}
                         </span>
                         {boost && (
-                          <div className="flex flex-row flex-wrap items-center">
+                          <div className="flex flex-col gap-1">
                             {boost.map(
                               (
                                 {

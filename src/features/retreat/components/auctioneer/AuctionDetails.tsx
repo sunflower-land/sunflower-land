@@ -134,7 +134,7 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
 
         {buffLabel && (
-          <div className="flex flex-row flex-wrap items-center">
+          <div className="flex flex-col gap-1">
             {buffLabel.map(
               (
                 { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
