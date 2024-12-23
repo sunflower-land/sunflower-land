@@ -26,7 +26,6 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { GameState } from "features/game/types/game";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import {
   pixelBlueBorderStyle,
   pixelVibrantBorderStyle,
@@ -248,7 +247,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                       <OuterPanel
                         key={name}
                         className={classNames(
-                          "w-full relative hover:img-highlight !p-0",
+                          "w-full relative hover:img-highlight !p-0 flex items-center justify-center",
                           {
                             "img-highlight": selectedBumpkinItem === name,
                             "cursor-pointer":
@@ -288,8 +287,13 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                           </div>
                         )}
                         <img
-                          src={getImageUrl(ITEM_IDS[name])}
-                          className="w-full aspect-square"
+                          src={
+                            new URL(
+                              `/src/assets/wearables/${ITEM_IDS[name]}.webp`,
+                              import.meta.url,
+                            ).href
+                          }
+                          className="h-10"
                         />
                       </OuterPanel>
                     );
