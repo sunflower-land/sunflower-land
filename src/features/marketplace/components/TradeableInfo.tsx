@@ -115,6 +115,9 @@ export const TradeableDescription: React.FC<{
 
   const isWearable = display.type === "wearables";
   const isCollectible = display.type === "collectibles";
+  const isResource = getKeys(TRADE_LIMITS).includes(
+    display.name as InventoryItemName,
+  );
 
   return (
     <InnerPanel>
@@ -125,15 +128,18 @@ export const TradeableDescription: React.FC<{
         <div className="flex flex-col space-y-1">
           <p className="text-xs mb-1">{display.description}</p>
           <div className="flex flex-col space-y-1">
-            {isWearable && (
+            {isWearable ? (
               <div className="flex items-center space-x-1">
                 <Label type="default">{t("wearable")}</Label>
                 <Label type="default" className="capitalize">
-                  {`${BUMPKIN_ITEM_PART[display.name as BumpkinItem]}`}
+                  {BUMPKIN_ITEM_PART[display.name as BumpkinItem]}
                 </Label>
               </div>
+            ) : isResource ? (
+              <Label type="default">{t("marketplace.resource")}</Label>
+            ) : (
+              isCollectible && <Label type="default">{t("collectible")}</Label>
             )}
-            {isCollectible && <Label type="default">{t("collectible")}</Label>}
             {display.buffs.map((buff) => (
               <Label
                 key={buff.shortDescription}
