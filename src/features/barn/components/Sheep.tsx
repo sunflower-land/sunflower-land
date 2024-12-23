@@ -364,7 +364,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
                 top: ANIMAL_EMOTION_ICONS[sheepState].top,
                 right: ANIMAL_EMOTION_ICONS[sheepState].right,
               }}
-              className="absolute"
+              className="absolute pointer-events-none"
             />
           )}
           {/* Request */}

@@ -428,7 +428,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
                 top: ANIMAL_EMOTION_ICONS[cowMachineState].top,
                 right: ANIMAL_EMOTION_ICONS[cowMachineState].right,
               }}
-              className="absolute"
+              className="absolute pointer-events-none"
             />
           )}
           {/* Request */}
