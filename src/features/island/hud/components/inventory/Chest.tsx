@@ -285,7 +285,11 @@ export const Chest: React.FC<Props> = ({
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
   const boosts = getKeys(collectibles)
-    .filter((name) => name in COLLECTIBLE_BUFF_LABELS(state))
+    .filter(
+      (name) =>
+        name in COLLECTIBLE_BUFF_LABELS(state) &&
+        (COLLECTIBLE_BUFF_LABELS(state)[name] ?? []).length > 0,
+    )
     .filter((name) => !resources.includes(name) && !buildings.includes(name));
   const banners = getKeys(collectibles).filter((name) => name in BANNERS);
   const decorations = getKeys(collectibles).filter(

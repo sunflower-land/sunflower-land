@@ -18,6 +18,13 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
+    {
+      shortDescription: state.bumpkin.skills["Chonky Scarecrow"]
+        ? translate("description.basic.scarecrow.boost.aoe.skill")
+        : translate("description.basic.scarecrow.boost.aoe"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
   ],
   "Scary Mike": [
     {
@@ -25,12 +32,26 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "success",
       boostTypeIcon: powerup,
     },
+    {
+      shortDescription: state.bumpkin.skills["Horror Mike"]
+        ? translate("description.scary.mike.boost.aoe.skill")
+        : translate("description.scary.mike.boost.aoe"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
   ],
   "Laurie the Chuckle Crow": [
     {
       shortDescription: translate("description.laurie.chuckle.crow.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: state.bumpkin.skills["Laurie's Gains"]
+        ? translate("description.laurie.chuckle.crow.boost.aoe.skill")
+        : translate("description.laurie.chuckle.crow.boost.aoe"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
     },
   ],
   Nancy: [
@@ -42,17 +63,27 @@ export const COLLECTIBLE_BUFF_LABELS: (
   ],
   Scarecrow: [
     {
-      shortDescription: translate("description.scarecrow.boost.one"),
+      shortDescription: translate("description.nancy.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: translate("description.scarecrow.boost.two"),
+      shortDescription: translate("description.scarecrow.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
     },
   ],
   Kuebiko: [
+    {
+      shortDescription: translate("description.nancy.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.scarecrow.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
     {
       shortDescription: translate("description.kuebiko.boost"),
       labelType: "vibrant",
@@ -65,12 +96,22 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "success",
       boostTypeIcon: powerup,
     },
+    {
+      shortDescription: translate("description.gnome.boost.aoe"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
   ],
   "Sir Goldensnout": [
     {
       shortDescription: translate("description.sir.goldensnout.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: translate("description.sir.goldensnout.boost.aoe"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
     },
   ],
   "Lunar Calendar": [
@@ -122,7 +163,9 @@ export const COLLECTIBLE_BUFF_LABELS: (
   ],
   "Cabbage Boy": [
     {
-      shortDescription: translate("description.cabbage.boy.boost"),
+      shortDescription: state.collectibles["Cabbage Girl"]
+        ? translate("description.cabbage.boy.boost.boosted")
+        : translate("description.cabbage.boy.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: CROP_LIFECYCLE.Cabbage.crop,
@@ -137,12 +180,16 @@ export const COLLECTIBLE_BUFF_LABELS: (
     },
   ],
   Karkinos: [
-    {
-      shortDescription: translate("description.Karkinos.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Cabbage.crop,
-    },
+    ...(state.collectibles["Cabbage Boy"]
+      ? []
+      : ([
+          {
+            shortDescription: translate("description.Karkinos.boost"),
+            labelType: "success",
+            boostTypeIcon: powerup,
+            boostedItemIcon: CROP_LIFECYCLE.Cabbage.crop,
+          },
+        ] as BuffLabel[])),
   ],
   "Golden Cauliflower": [
     {
@@ -206,6 +253,11 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
+    {
+      shortDescription: translate("description.queen.cornelia.boost.aoe"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
     },
   ],
   Foliant: [
@@ -443,6 +495,17 @@ export const COLLECTIBLE_BUFF_LABELS: (
       shortDescription: translate("description.chicken.coop.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.egg,
+    },
+    {
+      shortDescription: translate("description.chicken.coop.boost.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: translate("description.chicken.coop.boost.three"),
+      labelType: "success",
+      boostTypeIcon: powerup,
     },
   ],
   "Farm Dog": [
@@ -481,13 +544,31 @@ export const COLLECTIBLE_BUFF_LABELS: (
   ],
   "Apprentice Beaver": [
     {
+      shortDescription: translate("description.woody.beaver.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.wood,
+    },
+    {
       shortDescription: translate("description.apprentice.beaver.boost"),
-      labelType: "vibrant",
-      boostTypeIcon: lightning,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.resource.wood,
     },
   ],
   "Foreman Beaver": [
+    {
+      shortDescription: translate("description.woody.beaver.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.wood,
+    },
+    {
+      shortDescription: translate("description.apprentice.beaver.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.resource.wood,
+    },
     {
       shortDescription: translate("description.foreman.beaver.boost"),
       labelType: "vibrant",
@@ -558,12 +639,24 @@ export const COLLECTIBLE_BUFF_LABELS: (
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.resource.stone,
     },
+    {
+      shortDescription: translate("description.turtle.boost.aoe"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.resource.stone,
+    },
   ],
   "Emerald Turtle": [
     {
       shortDescription: translate("description.emerald.turtle.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: translate("description.turtle.boost.aoe"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.resource.stone,
     },
   ],
   "Crimson Carp": [
@@ -781,6 +874,13 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
+    {
+      shortDescription: translate(
+        "description.time.warp.totem.boost.effectTime",
+      ),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
   ],
 
   // Marine Marvels with Boosts
@@ -826,10 +926,24 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
+    {
+      shortDescription: translate(
+        "description.gourmet.hourglass.boost.effectTime",
+      ),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
   ],
   "Harvest Hourglass": [
     {
       shortDescription: translate("description.harvest.hourglass.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate(
+        "description.harvest.hourglass.boost.effectTime",
+      ),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -840,10 +954,22 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
+    {
+      shortDescription: translate(
+        "description.timber.hourglass.boost.effectTime",
+      ),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
   ],
   "Ore Hourglass": [
     {
       shortDescription: translate("description.ore.hourglass.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.ore.hourglass.boost.effectTime"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -854,6 +980,13 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
+    {
+      shortDescription: translate(
+        "description.orchard.hourglass.boost.effectTime",
+      ),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
   ],
   "Fisher's Hourglass": [
     {
@@ -861,10 +994,24 @@ export const COLLECTIBLE_BUFF_LABELS: (
       labelType: "success",
       boostTypeIcon: powerup,
     },
+    {
+      shortDescription: translate(
+        "description.fishers.hourglass.boost.effectTime",
+      ),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
   ],
   "Blossom Hourglass": [
     {
       shortDescription: translate("description.blossom.hourglass.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate(
+        "description.blossom.hourglass.boost.effectTime",
+      ),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -929,7 +1076,13 @@ export const COLLECTIBLE_BUFF_LABELS: (
       shortDescription: translate("description.camel.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: SUNNYSIDE.tools.sand_shovel,
+      boostedItemIcon: ITEM_DETAILS.Sand.image,
+    },
+    {
+      shortDescription: translate("description.camel.boost.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
     },
   ],
   "Reveling Lemon": [
@@ -1072,6 +1225,11 @@ export const COLLECTIBLE_BUFF_LABELS: (
   "Super Totem": [
     {
       shortDescription: translate("description.superTotem.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.superTotem.boost.effectTime"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
