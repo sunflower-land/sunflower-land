@@ -71,15 +71,17 @@ export const getItemImage = (item: FactionShopItem | null): string => {
 export const getItemBuffLabel = (
   item: FactionShopItem | null,
   state: GameState,
-): BuffLabel | undefined => {
+): BuffLabel[] | undefined => {
   if (!item) return;
 
   if (isFoodItem(item)) {
-    return {
-      labelType: "info",
-      shortDescription: `${CONSUMABLES[item.name]?.experience} XP`,
-      boostTypeIcon: levelUp,
-    };
+    return [
+      {
+        labelType: "info",
+        shortDescription: `${CONSUMABLES[item.name]?.experience} XP`,
+        boostTypeIcon: levelUp,
+      },
+    ];
   }
   if (isWearablesItem(item)) {
     return BUMPKIN_ITEM_BUFF_LABELS[item.name];

@@ -348,29 +348,38 @@ export const getItemImage = (item: BumpkinItem | CollectibleName): string => {
   return ITEM_DETAILS[item].image;
 };
 
+interface BoostDigItem {
+  location: string;
+  buff: BuffLabel[];
+}
+
 const BoostDigItems: (
   state: GameState,
-) => Partial<
-  Record<BumpkinItem | CollectibleName, BuffLabel & { location: string }>
-> = (state) => ({
+) => Partial<Record<BumpkinItem | CollectibleName, BoostDigItem>> = (
+  state,
+) => ({
   "Pharaoh Chicken": {
-    ...(COLLECTIBLE_BUFF_LABELS(state)["Pharaoh Chicken"] as BuffLabel),
+    buff: COLLECTIBLE_BUFF_LABELS(state)["Pharaoh Chicken"] as BuffLabel[],
     location: "Marketplace",
   },
   "Heart of Davy Jones": {
-    ...(COLLECTIBLE_BUFF_LABELS(state)["Heart of Davy Jones"] as BuffLabel),
+    buff: COLLECTIBLE_BUFF_LABELS(state)["Heart of Davy Jones"] as BuffLabel[],
     location: "Marketplace",
   },
   "Bionic Drill": {
-    ...(BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel),
+    buff: BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel[],
     location: "Artefact Shop",
   },
   ...(getCurrentSeason() === "Pharaoh's Treasure"
     ? {
         "Pharaoh's Treasure Banner": {
-          shortDescription: "+5 digs",
-          labelType: "vibrant",
-          boostTypeIcon: gift,
+          buff: [
+            {
+              shortDescription: "+5 digs",
+              labelType: "vibrant",
+              boostTypeIcon: gift,
+            },
+          ],
           location: "VIP Item",
         },
       }
@@ -492,8 +501,8 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 </div>
                 <span className="text-xs my-2">{t("digby.moreDigsIntro")}</span>
                 <div className="flex flex-col my-2 space-y-1">
-                  {getKeys(BoostDigItems(gameState.context.state)).map(
-                    (item) => (
+                  {Object.entries(BoostDigItems(gameState.context.state)).map(
+                    ([item, itemData]) => (
                       <div key={item} className="flex space-x-2">
                         <div
                           className="bg-brown-600 cursor-pointer relative"
@@ -501,37 +510,42 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                             ...pixelDarkBorderStyle,
                           }}
                         >
-                          <SquareIcon icon={getItemImage(item)} width={20} />
+                          <SquareIcon
+                            icon={getItemImage(
+                              item as BumpkinItem | CollectibleName,
+                            )}
+                            width={20}
+                          />
                         </div>
                         <div className="flex flex-col justify-center space-y-1">
                           <div className="flex flex-col space-y-0.5">
                             <span className="text-xs">{item}</span>
                             <span className="text-xxs italic">
-                              {
-                                BoostDigItems(gameState.context.state)[item]
-                                  ?.location
-                              }
+                              {itemData.location}
                             </span>
                           </div>
-                          <Label
-                            type={
-                              BoostDigItems(gameState.context.state)[item]
-                                ?.labelType ?? "default"
-                            }
-                            icon={
-                              BoostDigItems(gameState.context.state)[item]
-                                ?.boostTypeIcon
-                            }
-                            secondaryIcon={
-                              BoostDigItems(gameState.context.state)[item]
-                                ?.boostedItemIcon
-                            }
-                          >
-                            {
-                              BoostDigItems(gameState.context.state)[item]
-                                ?.shortDescription
-                            }
-                          </Label>
+                          <div className="flex flex-row flex-wrap items-center">
+                            {itemData.buff.map(
+                              (
+                                {
+                                  labelType,
+                                  boostTypeIcon,
+                                  boostedItemIcon,
+                                  shortDescription,
+                                },
+                                index,
+                              ) => (
+                                <Label
+                                  key={index}
+                                  type={labelType}
+                                  icon={boostTypeIcon}
+                                  secondaryIcon={boostedItemIcon}
+                                >
+                                  {shortDescription}
+                                </Label>
+                              ),
+                            )}
+                          </div>
                         </div>
                       </div>
                     ),
