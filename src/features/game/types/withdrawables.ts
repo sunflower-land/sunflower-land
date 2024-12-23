@@ -707,7 +707,7 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: new Date("2025-11-01"),
     },
     "Golden Cow": {
-      tradeAt: new Date("2024-12-25"),
+      tradeAt: new Date("2024-12-23"),
       withdrawAt: new Date("2025-01-01"),
     },
   };
