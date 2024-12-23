@@ -51,14 +51,29 @@ export const MutantAnimalModal = ({ mutant, show, onContinue }: Props) => {
             {ITEM_DETAILS[mutant]?.description}
           </span>
           {boost && (
-            <Label
-              className="my-1"
-              type={boost.labelType}
-              icon={boost.boostTypeIcon}
-              secondaryIcon={boost?.boostedItemIcon}
-            >
-              {boost.shortDescription}
-            </Label>
+            <div className="flex flex-row flex-wrap items-center">
+              {boost.map(
+                (
+                  {
+                    labelType,
+                    boostTypeIcon,
+                    boostedItemIcon,
+                    shortDescription,
+                  },
+                  index,
+                ) => (
+                  <Label
+                    key={index}
+                    type={labelType}
+                    icon={boostTypeIcon}
+                    secondaryIcon={boostedItemIcon}
+                    className="mb-1"
+                  >
+                    {shortDescription}
+                  </Label>
+                ),
+              )}
+            </div>
           )}
         </div>
         <Button onClick={onContinue}>{t("continue")}</Button>

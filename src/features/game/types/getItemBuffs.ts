@@ -25,13 +25,13 @@ export function getItemBuffs({
   if (collection === "wearables") {
     const buff = BUMPKIN_ITEM_BUFF_LABELS[item as BumpkinItem];
 
-    return buff ? [buff] : [];
+    return buff ? buff : [];
   }
 
   if (collection === "collectibles") {
     const buff = COLLECTIBLE_BUFF_LABELS(state)[item as InventoryItemName];
 
-    return buff ? [buff] : [];
+    return buff ? buff : [];
   }
 
   return [];

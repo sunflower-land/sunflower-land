@@ -310,14 +310,28 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                   >
                     <p className="text-xs flex-1">{selectedBumpkinItem}</p>
                     {buffLabel && (
-                      <div className="mt-1">
-                        <Label
-                          type={buffLabel.labelType}
-                          icon={buffLabel.boostTypeIcon}
-                          secondaryIcon={buffLabel.boostedItemIcon}
-                        >
-                          {buffLabel.shortDescription}
-                        </Label>
+                      <div className="flex flex-row flex-wrap items-center mt-1">
+                        {buffLabel.map(
+                          (
+                            {
+                              labelType,
+                              boostTypeIcon,
+                              boostedItemIcon,
+                              shortDescription,
+                            },
+                            index,
+                          ) => (
+                            <Label
+                              key={index}
+                              type={labelType}
+                              icon={boostTypeIcon}
+                              secondaryIcon={boostedItemIcon}
+                              className="mb-1"
+                            >
+                              {shortDescription}
+                            </Label>
+                          ),
+                        )}
                       </div>
                     )}
                   </InnerPanel>

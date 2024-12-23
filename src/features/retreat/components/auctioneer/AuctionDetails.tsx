@@ -134,13 +134,23 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
 
         {buffLabel && (
-          <Label
-            type={buffLabel.labelType}
-            icon={buffLabel.boostTypeIcon}
-            secondaryIcon={buffLabel.boostedItemIcon}
-          >
-            {buffLabel.shortDescription}
-          </Label>
+          <div className="flex flex-row flex-wrap items-center">
+            {buffLabel.map(
+              (
+                { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+                index,
+              ) => (
+                <Label
+                  key={index}
+                  type={labelType}
+                  icon={boostTypeIcon}
+                  secondaryIcon={boostedItemIcon}
+                >
+                  {shortDescription}
+                </Label>
+              ),
+            )}
+          </div>
         )}
 
         <p className="text-center text-xs mb-3">

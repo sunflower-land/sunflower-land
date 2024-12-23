@@ -150,14 +150,29 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                       )}
                     </div>
                     {buff ? (
-                      <Label
-                        type={buff.labelType}
-                        icon={buff.boostTypeIcon}
-                        secondaryIcon={buff.boostedItemIcon}
-                        className="ml-1"
-                      >
-                        {buff.shortDescription}
-                      </Label>
+                      <div className="flex flex-row flex-wrap items-center">
+                        {buff.map(
+                          (
+                            {
+                              labelType,
+                              boostTypeIcon,
+                              boostedItemIcon,
+                              shortDescription,
+                            },
+                            index,
+                          ) => (
+                            <Label
+                              key={index}
+                              type={labelType}
+                              icon={boostTypeIcon}
+                              secondaryIcon={boostedItemIcon}
+                              className="ml-1"
+                            >
+                              {shortDescription}
+                            </Label>
+                          ),
+                        )}
+                      </div>
                     ) : (
                       <p className="text-xs ml-0.5">
                         {ITEM_DETAILS[name]?.description
@@ -189,14 +204,29 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                       className="mb-1"
                     >{`${formatNumber(airdrop.wearables[name] ?? 1)} x ${name}`}</Label>
                     {buff ? (
-                      <Label
-                        type={buff.labelType}
-                        icon={buff.boostTypeIcon}
-                        secondaryIcon={buff.boostedItemIcon}
-                        className="ml-1"
-                      >
-                        {buff.shortDescription}
-                      </Label>
+                      <div className="flex flex-row flex-wrap items-center">
+                        {buff.map(
+                          (
+                            {
+                              labelType,
+                              boostTypeIcon,
+                              boostedItemIcon,
+                              shortDescription,
+                            },
+                            index,
+                          ) => (
+                            <Label
+                              key={index}
+                              type={labelType}
+                              icon={boostTypeIcon}
+                              secondaryIcon={boostedItemIcon}
+                              className="ml-1"
+                            >
+                              {shortDescription}
+                            </Label>
+                          ),
+                        )}
+                      </div>
                     ) : (
                       <p className="text-xs ml-0.5">
                         {OPEN_SEA_WEARABLES[name as BumpkinItem]?.description ||
