@@ -4,6 +4,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
@@ -109,9 +110,9 @@ export function speedUpRecipe({
 
     if (
       recipe.name === "Pizza Margherita" &&
-      Date.now() < new Date("2025-01-31").getTime()
+      hasFeatureAccess(game, "PIZZA_SPEED_UP_RESTRICTION")
     ) {
-      throw new Error("Pizza Margherita is not available");
+      throw new Error("You can't speed up the pizza recipe");
     }
     if (createdAt > recipe.readyAt) {
       throw new Error("Already cooked");

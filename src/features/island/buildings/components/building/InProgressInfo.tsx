@@ -15,6 +15,7 @@ import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe
 import { GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   craftingService: MachineInterpreter;
@@ -87,7 +88,7 @@ export const InProgressInfo: React.FC<Props> = ({
           />
         </div>
         {(name !== "Pizza Margherita" ||
-          Date.now() > new Date("2025-01-31").getTime()) && (
+          !hasFeatureAccess(state, "PIZZA_SPEED_UP_RESTRICTION")) && (
           <Button
             disabled={!inventory.Gem?.gte(gems)}
             className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
