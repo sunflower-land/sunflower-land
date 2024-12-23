@@ -5,7 +5,7 @@ import { getKeys } from "features/game/types/decorations";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
 
-const TRADE_POINTS_MULTIPLIER = 0.5; // Value adjustable
+const TRADE_POINTS_MULTIPLIER = 0.25; // Value adjustable
 
 export function calculateTradePoints({
   points,
@@ -14,7 +14,7 @@ export function calculateTradePoints({
   points: number;
   sfl: number;
 }) {
-  const pointsCalculation = 1 + sfl ** TRADE_POINTS_MULTIPLIER;
+  const pointsCalculation = sfl * TRADE_POINTS_MULTIPLIER;
   const multipliedPoints = points * pointsCalculation;
 
   return { multipliedPoints };
