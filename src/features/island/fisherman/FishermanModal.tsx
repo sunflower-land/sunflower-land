@@ -539,12 +539,12 @@ const BoostReelItems: Partial<
     ...(BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"] as BuffLabel),
     location: "Expert Angler Achievement",
   },
-  "Fisherman's 2 Fold": {
-    ...BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 2 Fold"].boosts.buff,
-    location: "Fishing Skill Tree",
-  },
   "Fisherman's 5 Fold": {
     ...BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts.buff,
+    location: "Fishing Skill Tree",
+  },
+  "Fisherman's 10 Fold": {
+    ...BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 10 Fold"].boosts.buff,
     location: "Fishing Skill Tree",
   },
   "More With Less": {

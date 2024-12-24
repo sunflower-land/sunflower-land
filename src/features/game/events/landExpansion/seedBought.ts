@@ -60,7 +60,7 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
     name in { ...GREENHOUSE_SEEDS, ...GREENHOUSE_FRUIT_SEEDS() } &&
     bumpkin.skills["Seedy Business"]
   ) {
-    price = price * 0.9;
+    price = price * 0.85;
   }
 
   return price;
