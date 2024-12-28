@@ -2858,6 +2858,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: SUNNYSIDE.skills.green_thumb_LE,
     disabled: false,
   },
+  "Sprout Surge": {
+    name: "Sprout Surge",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    disabled: false,
+    power: true,
+    boosts: {
+      buff: {
+        shortDescription: "Put Sprout Mix on all plots",
+        labelType: "transparent",
+      },
+    },
+    image: SUNNYSIDE.skills.green_thumb_LE,
+  },
   // Compost - Tier 2
   "Premium Worms": {
     name: "Premium Worms",
@@ -2938,6 +2956,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+  },
+  "Root Rocket": {
+    name: "Root Rocket",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    disabled: false,
+    power: true,
+    boosts: {
+      buff: {
+        shortDescription: "Put Rapid Root on all plots",
+        labelType: "transparent",
+      },
+    },
+    image: SUNNYSIDE.skills.green_thumb_LE,
   },
   // Compost - Tier 3
   "Composting Overhaul": {

@@ -11,6 +11,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SquareIcon } from "components/ui/SquareIcon";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -20,7 +21,9 @@ import {
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { InventoryItemName } from "features/game/types/game";
+import { CROPS } from "features/game/types/crops";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { millisecondsToString } from "lib/utils/time";
@@ -52,6 +55,7 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _crops = (state: MachineState) => state.context.state.crops;
 interface PowerSkillsContentProps {
   onClose: () => void;
 }
@@ -60,6 +64,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const bumpkin = useSelector(gameService, _bumpkin);
   const inventory = useSelector(gameService, _inventory);
+  const crops = useSelector(gameService, _crops);
   const { skills, previousPowerUseAt } = bumpkin;
 
   const powerSkills = getPowerSkills();
@@ -70,19 +75,57 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
     powerSkillsUnlocked[0],
   );
   const [useSkillConfirmation, setUseSkillConfirmation] = useState(false);
+
   const useSkill = () => {
     onClose();
     setUseSkillConfirmation(false);
-    gameService.send("skill.used", { skill: selectedSkill?.name });
+
+    const isFertiliserSkill =
+      selectedSkill.name === "Sprout Surge" ||
+      selectedSkill.name === "Root Rocket";
+
+    if (isFertiliserSkill) {
+      Object.entries(crops).map(([id, cropPlot]) => {
+        const readyToHarvest =
+          !!cropPlot.crop &&
+          isReadyToHarvest(
+            Date.now(),
+            cropPlot.crop,
+            CROPS[cropPlot.crop.name],
+          );
+        if (!cropPlot.fertiliser && !readyToHarvest) {
+          const state = gameService.send("plot.fertilised", {
+            plotID: id,
+            fertiliser:
+              selectedSkill.name === "Sprout Surge"
+                ? "Sprout Mix"
+                : "Rapid Root",
+          });
+
+          if (
+            state.context.state.bumpkin?.activity?.["Crop Fertilised"] === 1
+          ) {
+            gameAnalytics.trackMilestone({
+              event: "Tutorial:Fertilised:Completed",
+            });
+          }
+
+          return;
+        }
+        return;
+      });
+    } else {
+      gameService.send("skill.used", { skill: selectedSkill?.name });
+    }
   };
 
   const { boosts, image, name, power, requirements } = selectedSkill;
-  const { cooldown = 0, items } = requirements;
+  const { cooldown, items } = requirements;
   const { buff, debuff } = boosts;
 
   const nextSkillUse =
     (previousPowerUseAt?.[selectedSkill.name as BumpkinRevampSkillName] ?? 0) +
-    cooldown;
+    (cooldown ?? 0);
   const nextSkillUseCountdown = useCountdown(nextSkillUse);
 
   const powerSkillReady = nextSkillUse < Date.now();
@@ -180,12 +223,16 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               t("powerSkills.confirmationMessage", {
                 skillName: name,
               }),
-              t("powerSkills.cooldownMessage", {
-                cooldown: millisecondsToString(cooldown, {
-                  length: "short",
-                  removeTrailingZeros: true,
-                }),
-              }),
+              ...(cooldown
+                ? [
+                    t("powerSkills.cooldownMessage", {
+                      cooldown: millisecondsToString(cooldown, {
+                        length: "short",
+                        removeTrailingZeros: true,
+                      }),
+                    }),
+                  ]
+                : []),
             ]}
             onCancel={() => setUseSkillConfirmation(false)}
             onConfirm={useSkill}
