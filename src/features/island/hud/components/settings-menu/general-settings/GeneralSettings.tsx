@@ -12,10 +12,20 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const { gameService, showAnimations, toggleAnimations } = useContext(Context);
+  const {
+    gameService,
+    showAnimations,
+    toggleAnimations,
+    enableQuickSelect,
+    toggleQuickSelect,
+  } = useContext(Context);
 
   const onToggleAnimations = () => {
     toggleAnimations();
+  };
+
+  const onToggleQuickSelect = () => {
+    toggleQuickSelect();
   };
 
   return (
@@ -53,6 +63,13 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
           {showAnimations
             ? t("gameOptions.generalSettings.disableAnimations")
             : t("gameOptions.generalSettings.enableAnimations")}
+        </span>
+      </Button>
+      <Button className="mb-1" onClick={onToggleQuickSelect}>
+        <span>
+          {enableQuickSelect
+            ? t("gameOptions.generalSettings.disableQuickSelect")
+            : t("gameOptions.generalSettings.enableQuickSelect")}
         </span>
       </Button>
       <Button onClick={() => onSubMenuClick("share")} className="mb-1">
