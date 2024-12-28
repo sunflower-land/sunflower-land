@@ -173,6 +173,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
               setShowQuickSelect(false);
             }}
             type={t("quickSelect.greenhouseSeeds")}
+            showExpanded
           />
         </Transition>
 
