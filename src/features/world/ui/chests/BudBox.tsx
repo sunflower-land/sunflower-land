@@ -39,10 +39,9 @@ const BUD_ORDER: TypeTrait[] = [
 /**
  * Based on day of year + year to get a consistent order of buds
  */
-export function getDailyBudBoxType(date: Date): TypeTrait {
-  const dayOfYear = getDayOfYear(date);
-
-  const index = dayOfYear % BUD_ORDER.length;
+export function getDailyBudBoxType(ms: number): TypeTrait {
+  const daysSinceEpoch = Math.floor(ms / (1000 * 60 * 60 * 24));
+  const index = daysSinceEpoch % BUD_ORDER.length;
   return BUD_ORDER[index];
 }
 
@@ -149,8 +148,9 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
         </div>
         <p className="text-xs mb-2">{t("budBox.description")}</p>
         {days.map((_, index) => {
-          const date = new Date(now + 24 * 60 * 60 * 1000 * index);
-          const dailyBud = getDailyBudBoxType(date);
+          const budTypeTimestamp = now + 24 * 60 * 60 * 1000 * index;
+          const date = new Date(budTypeTimestamp);
+          const dailyBud = getDailyBudBoxType(budTypeTimestamp);
           const hasBud = playerBudTypes.includes(dailyBud);
 
           return (
