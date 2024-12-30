@@ -152,6 +152,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
           const date = new Date(budTypeTimestamp);
           const dailyBud = getDailyBudBoxType(budTypeTimestamp);
           const hasBud = playerBudTypes.includes(dailyBud);
+          const ISOdate = new Date(date).toISOString().split("T")[0];
 
           return (
             <OuterPanel
@@ -206,7 +207,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
                   type="default"
                   className="absolute -top-2 -right-2 capitalize"
                 >
-                  {new Date(date).toISOString().split("T")[0]}
+                  {ISOdate}
                 </Label>
               )}
             </OuterPanel>
