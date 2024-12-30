@@ -48,7 +48,7 @@ export function getDailyBudBoxType(ms: number): TypeTrait {
 export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { t, i18n } = useAppTranslation();
+  const { t } = useAppTranslation();
 
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
@@ -70,29 +70,6 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
     setIsRevealing(true);
     setIsPicking(false);
     setIsLoading && setIsLoading(false);
-  };
-
-  const getDayOfWeek = (date: Date): string => {
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "long",
-    };
-
-    switch (i18n.language) {
-      case "fr":
-        return date.toLocaleDateString("fr-FR", options);
-      case "pt":
-        return date.toLocaleDateString("pt-PT", options);
-      case "tk":
-        return date.toLocaleDateString("tr-TR", options);
-      case "zh-CN":
-        return date.toLocaleDateString("zh-CN", options);
-      case "ko":
-        return date.toLocaleDateString("ko-KR", options);
-      case "ru":
-        return date.toLocaleDateString("ru-RU", options);
-      default:
-        return date.toLocaleDateString("en-US", options);
-    }
   };
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
@@ -117,7 +94,6 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
 
   const buds = getKeys(gameState.context.state.buds ?? {});
 
-  const days = new Array<number>(7).fill(0);
   const now = Date.now();
 
   const playerBudTypes = buds.map((id) => {
