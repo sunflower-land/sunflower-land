@@ -1687,6 +1687,8 @@
   "gameOptions.generalSettings.font": "Font",
   "gameOptions.generalSettings.disableAnimations": "Disable Animations",
   "gameOptions.generalSettings.enableAnimations": "Enable Animations",
+  "gameOptions.generalSettings.disableQuickSelect": "Disable QuickSelect",
+  "gameOptions.generalSettings.enableQuickSelect": "Enable QuickSelect",
   "gameOptions.generalSettings.share": "Share",
   "gameOptions.plazaSettings": "Plaza Settings",
   "gameOptions.plazaSettings.title.mutedPlayers": "Muted Players",
