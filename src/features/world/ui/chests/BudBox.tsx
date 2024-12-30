@@ -147,7 +147,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
           </Label>
         </div>
         <p className="text-xs mb-2">{t("budBox.description")}</p>
-        {days.map((_, index) => {
+        {BUD_ORDER.map((_, index) => {
           const budTypeTimestamp = now + 24 * 60 * 60 * 1000 * index;
           const date = new Date(budTypeTimestamp);
           const dailyBud = getDailyBudBoxType(budTypeTimestamp);
@@ -206,7 +206,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
                   type="default"
                   className="absolute -top-2 -right-2 capitalize"
                 >
-                  {getDayOfWeek(date)}
+                  {new Date(date).toISOString().split("T")[0]}
                 </Label>
               )}
             </OuterPanel>
