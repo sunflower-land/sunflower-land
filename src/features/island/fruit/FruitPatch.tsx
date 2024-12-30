@@ -65,7 +65,8 @@ interface Props {
 }
 
 export const FruitPatch: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem, shortcutItem } = useContext(Context);
+  const { gameService, selectedItem, shortcutItem, enableQuickSelect } =
+    useContext(Context);
   const { t } = useAppTranslation();
 
   const [playShakingAnimation, setPlayShakingAnimation] = useState(false);
@@ -102,7 +103,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    if (!item || !(item in PATCH_FRUIT_SEEDS()) || !inventory[item]?.gte(1)) {
+    if (
+      enableQuickSelect &&
+      (!item || !(item in PATCH_FRUIT_SEEDS()) || !inventory[item]?.gte(1))
+    ) {
       setShowQuickSelect(true);
       return;
     }
