@@ -1684,6 +1684,7 @@
   "gameOptions.generalSettings.darkMode": "Dark Mode",
   "gameOptions.generalSettings.lightMode": "Light Mode",
   "gameOptions.generalSettings.appearance": "Appearance",
+  "gameOptions.generalSettings.behaviour": "Behaviour",
   "gameOptions.generalSettings.font": "Font",
   "gameOptions.generalSettings.disableAnimations": "Disable Animations",
   "gameOptions.generalSettings.enableAnimations": "Enable Animations",
