@@ -11,6 +11,7 @@ import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "./modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 
 export const Hoarding: React.FC = () => {
   const { t } = useAppTranslation();
@@ -18,9 +19,23 @@ export const Hoarding: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { openModal } = useContext(ModalContext);
 
-  const maxedItem = gameState.context.maxedItem as InventoryItemName | "SFL";
-  const maxedItemImage =
-    maxedItem === "SFL" ? token : ITEM_DETAILS[maxedItem].image;
+  const maxedItem = gameState.context.maxedItem as
+    | InventoryItemName
+    | BumpkinItem
+    | "SFL";
+
+  let maxedItemImage = "";
+  if (maxedItem === "SFL") {
+    maxedItemImage = token;
+  } else if (maxedItem in ITEM_DETAILS) {
+    maxedItemImage = ITEM_DETAILS[maxedItem as InventoryItemName].image;
+  } else {
+    maxedItemImage = new URL(
+      `/src/assets/wearables/${ITEM_IDS[maxedItem as BumpkinItem]}.webp`,
+      import.meta.url,
+    ).href;
+  }
+
   const itemName = maxedItem === "SFL" ? maxedItem : maxedItem.toLowerCase();
 
   const sync = () => {

@@ -130,7 +130,7 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   fingerprint?: string;
-  maxedItem?: InventoryItemName | "SFL";
+  maxedItem?: InventoryItemName | BumpkinItem | "SFL";
   goblinSwarm?: Date;
   deviceTrackerId?: string;
   revealed?: {
