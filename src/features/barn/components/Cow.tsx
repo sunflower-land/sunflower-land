@@ -126,8 +126,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   // Sounds
-  const { play: playFeedAnimal } = useSound("feed_animal", true);
-  const { play: playCowCollect } = useSound("cow_collect", true);
+  const { play: playFeedAnimal } = useSound("feed_animal");
+  const { play: playCowCollect } = useSound("cow_collect");
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
