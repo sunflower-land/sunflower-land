@@ -108,6 +108,16 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
   useEffect(() => {
+    if (cow.state === "ready" && cowMachineState !== "ready") {
+      cowService.send({
+        type: "INSTANT_LEVEL_UP",
+        animal: cow,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cow.state]);
+
+  useEffect(() => {
     if (cow.state === "sick" && cowMachineState !== "sick") {
       cowService.send({
         type: "SICK",
