@@ -288,6 +288,7 @@ export type BumpkinHat =
   | "Stormy Dumbo"
   | "Gloomy Dumbo"
   | "New Years Tiara"
+  | "New Years Crown"
   | "Beekeeper Hat"
   | "Propeller Hat"
   | "Hornet Mask"
@@ -890,6 +891,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Adventurer's Torch": 418,
   "Pumpkin Head": 419,
   "Gingerbread Onesie": 420,
+  "New Years Crown": 421,
 };
 
 // The reverse of above
@@ -1371,4 +1373,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Adventurer's Torch": "tool",
   "Pumpkin Head": "hat",
   "Gingerbread Onesie": "onesie",
+  "New Years Crown": "hat",
 };
