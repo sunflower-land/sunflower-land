@@ -18,6 +18,12 @@ const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
   return defaultFeatureFlag(game) || Date.now() > date.getTime();
 };
 
+const timePeriodFeatureFlag =
+  ({ start, end }: { start: Date; end: Date }) =>
+  () => {
+    return Date.now() > start.getTime() && Date.now() < end.getTime();
+  };
+
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
 /**
@@ -59,25 +65,18 @@ const featureFlags = {
   BULL_RUN_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   BALE_AOE_END: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   HALLOWEEN_2024: defaultFeatureFlag,
-  CHRISTMAS_2024: (game: GameState) => {
-    if (Date.now() > new Date("2024-12-28").getTime()) {
-      return false;
-    }
-
-    if (Date.now() > new Date("2024-12-12").getTime()) {
-      return true;
-    }
-
-    return defaultFeatureFlag(game);
-  },
-  ANIMAL_COMPETITION: (game) => {
-    if (defaultFeatureFlag(game)) {
-      return true;
-    }
-
-    return Date.now() >= new Date("2024-12-18T00:00:00Z").getTime();
-  },
+  CHRISTMAS_2024: timePeriodFeatureFlag({
+    start: new Date("2024-12-12T00:00:00Z"),
+    end: new Date("2024-12-28T00:00:00Z"),
+  }),
+  ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
+    new Date("2024-12-18T00:00:00Z"),
+  ),
   TEMPERATE_SEASON: testnetFeatureFlag,
+  PIZZA_SPEED_UP_RESTRICTION: timePeriodFeatureFlag({
+    start: new Date("2024-12-18T00:00:00Z"),
+    end: new Date("2025-01-31T00:00:00Z"),
+  }),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
