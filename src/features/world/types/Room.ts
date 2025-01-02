@@ -79,6 +79,13 @@ export interface Trade extends Schema {
   tradeId: string;
 }
 
+export interface Dog extends Schema {
+  id: 1 | 2;
+  x: number;
+  y: number;
+  isWalking: boolean;
+}
+
 export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
@@ -90,4 +97,6 @@ export interface PlazaRoomState extends Schema {
   reactions: ArraySchema<Reaction>;
   trades: ArraySchema<Trade>;
   actions: ArraySchema<Action>;
+
+  dogs: MapSchema<Dog>;
 }

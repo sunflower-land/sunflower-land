@@ -13,6 +13,7 @@ import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { DogContainer } from "../containers/DogContainer";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -100,6 +101,10 @@ export class PlazaScene extends BaseScene {
 
   placeables: {
     [sessionId: string]: PlaceableContainer;
+  } = {};
+
+  dogs: {
+    [sessionId: string]: DogContainer;
   } = {};
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
@@ -194,6 +199,16 @@ export class PlazaScene extends BaseScene {
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
       frameHeight: 7,
+    });
+
+    this.load.spritesheet("dog_1", "world/dog_sheet_1.webp", {
+      frameWidth: 22,
+      frameHeight: 18,
+    });
+
+    this.load.spritesheet("dog_2", "world/dog_sheet_2.webp", {
+      frameWidth: 22,
+      frameHeight: 18,
     });
 
     super.preload();
@@ -664,6 +679,46 @@ export class PlazaScene extends BaseScene {
     });
   }
 
+  public addDog(id: 1 | 2, x: number, y: number) {
+    const dogContainer = new DogContainer(this, x, y, id);
+    this.dogs[id] = dogContainer;
+  }
+
+  public updateDogs() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    server.state.dogs.forEach((dog) => {
+      const dogContainer = this.dogs[dog.id];
+      if (!dogContainer) {
+        this.addDog(dog.id, dog.x, dog.y);
+        return;
+      }
+
+      if (dogContainer) {
+        const distance = Math.sqrt(
+          (dogContainer.x - dog.x) ** 2 + (dogContainer.y - dog.y) ** 2,
+        );
+        if (distance > 2) {
+          if (dog.x > dogContainer.x) {
+            dogContainer.faceRight();
+          } else if (dog.x < dogContainer.x) {
+            dogContainer.faceLeft();
+          }
+
+          dogContainer.walk();
+        } else {
+          dogContainer.idle();
+        }
+
+        dogContainer.x = Phaser.Math.Linear(dogContainer.x, dog.x, 0.05);
+        dogContainer.y = Phaser.Math.Linear(dogContainer.y, dog.y, 0.05);
+
+        dogContainer.setDepth(dogContainer.y);
+      }
+    });
+  }
+
   public update() {
     super.update();
     this.syncPlaceables();
@@ -671,5 +726,7 @@ export class PlazaScene extends BaseScene {
     if (this.movementAngle && this.arrows) {
       this.arrows.setVisible(false);
     }
+
+    this.updateDogs();
   }
 }
