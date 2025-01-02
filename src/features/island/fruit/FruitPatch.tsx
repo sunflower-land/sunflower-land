@@ -31,6 +31,7 @@ import { getKeys } from "features/game/types/decorations";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -104,6 +105,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     }
 
     if (
+      hasFeatureAccess(game, "FRUIT_PATCH_QUICK_SELECT") &&
       enableQuickSelect &&
       (!item || !(item in PATCH_FRUIT_SEEDS()) || !inventory[item]?.gte(1))
     ) {
