@@ -27,7 +27,7 @@ export const TomatoBombard: React.FC = () => {
 
   return (
     <div
-      className="relative w-full h-full cursor-pointer hover:img-highlight"
+      className="absolute w-full h-full cursor-pointer hover:img-highlight"
       onClick={boom}
     >
       {showSpritesheet && (
