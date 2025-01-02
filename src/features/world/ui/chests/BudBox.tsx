@@ -40,7 +40,7 @@ const BUD_ORDER: TypeTrait[] = [
  * Based on day of year + year to get a consistent order of buds
  */
 export function getDailyBudBoxType(ms: number): TypeTrait {
-  const daysSinceEpoch = Math.floor(ms / (1000 * 60 * 60 * 24));
+  const daysSinceEpoch = Math.floor(ms / (1000 * 60 * 60 * 24)) + 2; // +2 to match with current order
   const index = daysSinceEpoch % BUD_ORDER.length;
   return BUD_ORDER[index];
 }
