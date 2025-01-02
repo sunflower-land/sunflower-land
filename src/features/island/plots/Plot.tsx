@@ -106,6 +106,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
     gameService,
     selectedItem,
     showAnimations,
+    enableQuickSelect,
     showTimers,
     shortcutItem,
   } = useContext(Context);
@@ -263,6 +264,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
     if (!crop) {
       if (
         hasFeatureAccess(state, "CROP_QUICK_SELECT") &&
+        enableQuickSelect &&
         (!seed || !(seed in CROP_SEEDS) || !inventory[seed]?.gte(1))
       ) {
         setShowQuickSelect(true);

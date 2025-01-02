@@ -438,6 +438,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Orange Seed": new Decimal(10),
+    "Lemon Seed": new Decimal(10),
+    "Tomato Seed": new Decimal(10),
+    "Blueberry Seed": new Decimal(10),
+    "Banana Plant": new Decimal(10),
     "Golden Cow": new Decimal(1),
     "Trade Point": new Decimal(500),
     "Fairy Circle": new Decimal(1),

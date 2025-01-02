@@ -47,7 +47,7 @@ export const RESOURCES: Record<
     },
   },
   fruitPatches: {
-    component: () => <FruitPatch id="1" index={0} />,
+    component: () => <FruitPatch id="1" />,
     icon: fruitPatch,
     dimensions: {
       height: 2,

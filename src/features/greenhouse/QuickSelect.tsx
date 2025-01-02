@@ -18,6 +18,7 @@ type BaseProps = {
   }[];
   onClose: () => void;
   onSelected?: (name: InventoryItemName) => void;
+  showExpanded?: boolean;
 };
 
 type PropsWithType = BaseProps & {
@@ -40,6 +41,7 @@ export const QuickSelect: React.FC<Props> = ({
   onSelected,
   type = "", // Provide a default empty string
   emptyMessage,
+  showExpanded,
 }) => {
   const { gameService, shortcutItem } = useContext(Context);
   const ref = useRef<HTMLDivElement>(null); // Create a ref to the component
@@ -49,6 +51,7 @@ export const QuickSelect: React.FC<Props> = ({
 
   const [showEmptyPanel, setShowEmptyPanel] = useState(true);
   const available = options.filter((option) => inventory[option.name]?.gte(1));
+  const seedsShown = showExpanded ? available : available.slice(0, 3);
 
   useEffect(() => {
     if (available.length === 0) {
@@ -107,57 +110,55 @@ export const QuickSelect: React.FC<Props> = ({
     );
   }
 
-  const showBasket = available.length > 3;
-  const discLength = available.slice(0, 3).length + (showBasket ? 1 : 0);
+  const showBasket = available.length > 3 && !showExpanded;
+  const discLength = seedsShown.length + (showBasket ? 1 : 0);
 
   return (
     <div
       ref={ref}
-      className="flex shadow-md"
+      className="flex"
       style={{
         left: `50%`,
         transform: "translatex(-50%)",
       }}
     >
-      {available
-        .slice(0, 3)
-        .map(({ name, icon, showSecondaryImage }, index) => (
-          <div
+      {seedsShown.map(({ name, icon, showSecondaryImage }, index) => (
+        <div
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+            height: `${PIXEL_SCALE * 19}px`,
+            top:
+              // The first and last item in the array will be lower
+              index !== 0 && index !== discLength - 1
+                ? `${PIXEL_SCALE * -6}px`
+                : 0,
+          }}
+          className="flex items-center justify-center relative mr-1 cursor-pointer"
+          onClick={() => select(name)}
+          key={name}
+        >
+          <img
+            src={SUNNYSIDE.icons.disc}
+            className="absolute w-full h-full inset-0"
+          />
+          <img
+            src={ITEM_DETAILS[icon as InventoryItemName].image}
+            className="z-10 -mt-1"
             style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              height: `${PIXEL_SCALE * 19}px`,
-              top:
-                (discLength === 3 && index === 1) ||
-                (discLength === 4 && index >= 1)
-                  ? `${PIXEL_SCALE * -6}px`
-                  : 0,
+              width: `${PIXEL_SCALE * 10}px`,
             }}
-            className="flex items-center justify-center relative mr-1 cursor-pointer"
-            onClick={() => select(name)}
-            key={name}
-          >
+          />
+          {showSecondaryImage && (
             <img
-              src={SUNNYSIDE.icons.disc}
-              className="absolute w-full h-full inset-0"
-            />
-            <img
-              src={ITEM_DETAILS[icon as InventoryItemName].image}
-              className="z-10 -mt-1"
+              src={ITEM_DETAILS[name].image}
+              className="z-10 absolute top-0 right-0"
               style={{
-                width: `${PIXEL_SCALE * 10}px`,
+                width: `${PIXEL_SCALE * 6}px`,
               }}
             />
-            {showSecondaryImage && (
-              <img
-                src={ITEM_DETAILS[name].image}
-                className="z-10 absolute top-0 right-0"
-                style={{
-                  width: `${PIXEL_SCALE * 6}px`,
-                }}
-              />
-            )}
-          </div>
-        ))}
+          )}
+        </div>
+      ))}
       {showBasket && (
         <div
           style={{

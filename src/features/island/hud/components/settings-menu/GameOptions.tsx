@@ -50,6 +50,7 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { AdminSettings } from "./general-settings/AdminSettings";
+import { BehaviourSettings } from "./general-settings/BehaviourSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -71,7 +72,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const [showNftId, setShowNftId] = useState(false);
 
   const copypaste = useSound("copypaste");
-  const button = useSound("button");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
@@ -274,6 +274,7 @@ export type SettingMenuId =
   | "changeLanguage"
   | "share"
   | "appearance"
+  | "behaviour"
   | "font"
 
   // Amoy Testnet Actions
@@ -364,6 +365,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings.appearance"),
     parent: "general",
     content: AppearanceSettings,
+  },
+  behaviour: {
+    title: translate("gameOptions.generalSettings.behaviour"),
+    parent: "general",
+    content: BehaviourSettings,
   },
   font: {
     title: translate("gameOptions.generalSettings.font"),

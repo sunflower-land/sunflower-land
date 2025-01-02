@@ -12,11 +12,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const { gameService, showAnimations, toggleAnimations } = useContext(Context);
-
-  const onToggleAnimations = () => {
-    toggleAnimations();
-  };
+  const { gameService } = useContext(Context);
 
   return (
     <>
@@ -37,7 +33,6 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
           )}
         </Button>
       )}
-
       <Button onClick={() => onSubMenuClick("discord")} className="mb-1">
         <span>{`Discord`}</span>
       </Button>
@@ -48,12 +43,8 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
       <Button className="mb-1" onClick={() => onSubMenuClick("appearance")}>
         <span>{t("gameOptions.generalSettings.appearance")}</span>
       </Button>
-      <Button className="mb-1" onClick={onToggleAnimations}>
-        <span>
-          {showAnimations
-            ? t("gameOptions.generalSettings.disableAnimations")
-            : t("gameOptions.generalSettings.enableAnimations")}
-        </span>
+      <Button className="mb-1" onClick={() => onSubMenuClick("behaviour")}>
+        <span>{t("gameOptions.generalSettings.behaviour")}</span>
       </Button>
       <Button onClick={() => onSubMenuClick("share")} className="mb-1">
         <span>{t("gameOptions.generalSettings.share")}</span>

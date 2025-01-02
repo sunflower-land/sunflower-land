@@ -73,8 +73,13 @@ const selectPots = (state: MachineState) => state.context.state.greenhouse.pots;
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 
 export const GreenhousePot: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem, showAnimations, showTimers } =
-    useContext(Context);
+  const {
+    gameService,
+    selectedItem,
+    showAnimations,
+    enableQuickSelect,
+    showTimers,
+  } = useContext(Context);
 
   const { t } = useAppTranslation();
   const [_, setRender] = useState<number>(0);
@@ -97,7 +102,9 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       !SEED_TO_PLANT[seed as GreenHouseCropSeedName] ||
       !inventory[seed]?.gte(1)
     ) {
-      setShowQuickSelect(true);
+      if (enableQuickSelect) {
+        setShowQuickSelect(true);
+      }
       return;
     }
 
@@ -173,6 +180,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
               setShowQuickSelect(false);
             }}
             type={t("quickSelect.greenhouseSeeds")}
+            showExpanded
           />
         </Transition>
 
