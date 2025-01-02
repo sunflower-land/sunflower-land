@@ -22,6 +22,7 @@ import { ANIMAL_FOODS } from "../types/animals";
 import { ALLOWED_BUMPKIN_ITEMS, BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { BASIC_WEARABLES } from "../types/stylist";
 import { FACTION_SHOP_ITEMS } from "../types/factionShop";
+import { MaxedItem } from "./gameMachine";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
   Sunflower: new Decimal(30000),
@@ -610,7 +611,7 @@ export const MAX_SESSION_SFL = 255;
 
 export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   valid: boolean;
-  maxedItem?: InventoryItemName | BumpkinItem | "SFL";
+  maxedItem?: MaxedItem;
 } {
   let newState: GameState;
 
@@ -636,8 +637,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
 
   let maxedItem: InventoryItemName | BumpkinItem | undefined = undefined;
 
-  const inventory = newState.inventory;
-  const wardrobe = newState.wardrobe;
+  const { inventory, wardrobe } = newState;
   const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
   const listedItems = getActiveListedItems(newState);
@@ -665,7 +665,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
         .add(listingAmount)
         .minus(previousInventoryAmount);
 
-      const max = MAX_INVENTORY_ITEMS[name] || new Decimal(0);
+      const max = MAX_INVENTORY_ITEMS[name] ?? new Decimal(0);
 
       if (max.eq(0)) return true;
       if (diff.gt(max)) {

@@ -12,6 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "./modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
+import { isCollectible } from "../events/landExpansion/garbageSold";
 
 export const Hoarding: React.FC = () => {
   const { t } = useAppTranslation();
@@ -27,11 +28,11 @@ export const Hoarding: React.FC = () => {
   let maxedItemImage = "";
   if (maxedItem === "SFL") {
     maxedItemImage = token;
-  } else if (maxedItem in ITEM_DETAILS) {
-    maxedItemImage = ITEM_DETAILS[maxedItem as InventoryItemName].image;
+  } else if (isCollectible(maxedItem)) {
+    maxedItemImage = ITEM_DETAILS[maxedItem].image;
   } else {
     maxedItemImage = new URL(
-      `/src/assets/wearables/${ITEM_IDS[maxedItem as BumpkinItem]}.webp`,
+      `/src/assets/wearables/${ITEM_IDS[maxedItem]}.webp`,
       import.meta.url,
     ).href;
   }
