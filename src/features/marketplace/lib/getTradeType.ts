@@ -863,6 +863,7 @@ export const ITEM_TRADE_TYPES: {
     "Golden Cow": "onchain",
   },
   wearables: {
+    "New Years Crown": "instant",
     "Beige Farmer Potion": "instant",
     "Dark Brown Farmer Potion": "instant",
     "Light Brown Farmer Potion": "instant",

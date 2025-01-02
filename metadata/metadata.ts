@@ -15870,4 +15870,15 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/420.png",
     name: "Gingerbread Onesie",
   },
+  "New Years Crown": {
+    description: "Wow, it looks like someone started 2025 with a bang!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/421.png",
+    name: "New Years Crown",
+  },
 };
