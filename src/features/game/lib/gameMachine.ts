@@ -121,6 +121,8 @@ export type PastAction = GameEvent & {
   createdAt: Date;
 };
 
+export type MaxedItem = InventoryItemName | BumpkinItem | "SFL";
+
 export interface Context {
   farmId: number;
   state: GameState;
@@ -130,7 +132,7 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   fingerprint?: string;
-  maxedItem?: InventoryItemName | "SFL";
+  maxedItem?: MaxedItem;
   goblinSwarm?: Date;
   deviceTrackerId?: string;
   revealed?: {

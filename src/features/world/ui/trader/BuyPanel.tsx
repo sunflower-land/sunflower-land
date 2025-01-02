@@ -235,8 +235,10 @@ const ListView: React.FC<ListViewProps> = ({
     );
 
     const hasMaxedOut = hasMaxItems({
-      current: updatedInventory,
-      old: state.previousInventory,
+      currentInventory: updatedInventory,
+      oldInventory: state.previousInventory,
+      currentWardrobe: state.wardrobe,
+      oldWardrobe: state.previousWardrobe,
     });
 
     if (hasMaxedOut) {

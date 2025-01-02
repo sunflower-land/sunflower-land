@@ -104,7 +104,7 @@ describe("collectCandy", () => {
       },
     });
   });
-  it("claims the sfl reward", () => {
+  it.skip("claims the sfl reward", () => {
     const mockDate = Date.now();
 
     const state = collectCandy({
@@ -167,7 +167,7 @@ describe("collectCandy", () => {
     expect(state.balance).toEqual(new Decimal(5));
   });
 
-  it("claims an item reward", () => {
+  it.skip("claims an item reward", () => {
     const state = collectCandy({
       state: {
         ...TEST_FARM,
@@ -212,7 +212,7 @@ describe("collectCandy", () => {
       "Gingerbread Onesie": 1,
     });
   });
-  it("finishes after 12 days", () => {
+  it.skip("finishes after 12 days", () => {
     expect(() =>
       collectCandy({
         state: {

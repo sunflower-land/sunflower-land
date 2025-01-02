@@ -30,6 +30,9 @@ const _experience = (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
   state.context.state.previousInventory;
+const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+const _previousWardrobe = (state: MachineState) =>
+  state.context.state.previousWardrobe;
 const _balance = (state: MachineState) => state.context.state.balance;
 
 interface Props {
@@ -42,6 +45,8 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const experience = useSelector(gameService, _experience);
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
+  const wardrobe = useSelector(gameService, _wardrobe);
+  const previousWardrobe = useSelector(gameService, _previousWardrobe);
   const balance = useSelector(gameService, _balance);
 
   const { authService } = useContext(AuthProvider.Context);
@@ -127,8 +132,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     );
 
     const hasMaxedOut = hasMaxItems({
-      current: updatedInventory,
-      old: previousInventory,
+      currentInventory: updatedInventory,
+      oldInventory: previousInventory,
+      currentWardrobe: wardrobe,
+      oldWardrobe: previousWardrobe,
     });
 
     if (hasMaxedOut) {

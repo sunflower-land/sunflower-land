@@ -19,6 +19,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
   state.context.state.previousInventory;
+const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+const _previousWardrobe = (state: MachineState) =>
+  state.context.state.previousWardrobe;
 const _previousBalance = (state: MachineState) =>
   state.context.state.previousBalance;
 
@@ -50,6 +53,8 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
 
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
+  const wardrobe = useSelector(gameService, _wardrobe);
+  const previousWardrobe = useSelector(gameService, _previousWardrobe);
   const previousBalance = useSelector(gameService, _previousBalance);
 
   const collection = tradeable.collection;
@@ -70,8 +75,10 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   }
 
   const hasMax = hasMaxItems({
-    current: updatedInventory,
-    old: previousInventory,
+    currentInventory: updatedInventory,
+    oldInventory: previousInventory,
+    currentWardrobe: wardrobe,
+    oldWardrobe: previousWardrobe,
   });
 
   const confirm = async () => {
