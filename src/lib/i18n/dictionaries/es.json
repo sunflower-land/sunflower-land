@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "Cada estación ofrece diferentes oportunidades. Ciertos cultivos solo pueden crecer en temporadas específicas. Esté atento a los eventos estacionales que podrían afectar a su granja.",
   "temperateSeason.introduction.three": "¡Asegúrate de proteger tus cultivos y prepárate para cualquier cosa!",
   "temperateSeason.acknowledge": "¡Lo tengo!",
-  "temperateSeason.possibleEvents": "Posibles eventos"
+  "temperateSeason.possibleEvents": "Posibles eventos",
+  "gameOptions.generalSettings.behaviour": "Comportamiento",
+  "gameOptions.generalSettings.disableQuickSelect": "Desactivar QuickSelect",
+  "gameOptions.generalSettings.enableQuickSelect": "Activar QuickSelect"
 }

@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "Her sezon farklı fırsatlar getiriyor. Bazı mahsuller yalnızca belirli mevsimlerde büyüyebilir. Çiftliğinizi etkileyebilecek mevsimsel olaylara dikkat edin.",
   "temperateSeason.introduction.three": "Ekinlerinizi koruduğunuzdan ve her şeye hazırlıklı olduğunuzdan emin olun!",
   "temperateSeason.acknowledge": "Anladım!",
-  "temperateSeason.possibleEvents": "Olası Olaylar"
+  "temperateSeason.possibleEvents": "Olası Olaylar",
+  "gameOptions.generalSettings.behaviour": "Davranış",
+  "gameOptions.generalSettings.disableQuickSelect": "QuickSelect'i devre dışı bırak",
+  "gameOptions.generalSettings.enableQuickSelect": "Hızlı Seçimi Etkinleştir"
 }

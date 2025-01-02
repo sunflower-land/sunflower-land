@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "Chaque saison offre des opportunités différentes. Certaines cultures ne peuvent pousser qu'à certaines saisons. Surveillez les événements saisonniers qui pourraient affecter votre ferme.",
   "temperateSeason.introduction.three": "Veillez à protéger vos cultures et soyez prêt à tout !",
   "temperateSeason.acknowledge": "J'ai compris !",
-  "temperateSeason.possibleEvents": "Évènements possibles"
+  "temperateSeason.possibleEvents": "Évènements possibles",
+  "gameOptions.generalSettings.behaviour": "Comportement",
+  "gameOptions.generalSettings.disableQuickSelect": "Désactiver QuickSelect",
+  "gameOptions.generalSettings.enableQuickSelect": "Activer QuickSelect"
 }

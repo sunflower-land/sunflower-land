@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "Каждый сезон приносит разные возможности. Некоторые культуры могут расти только в определенные сезоны. Следите за сезонными событиями, которые могут повлиять на вашу ферму.",
   "temperateSeason.introduction.three": "Обязательно защищайте свой урожай и будьте готовы ко всему!",
   "temperateSeason.acknowledge": "Понял!",
-  "temperateSeason.possibleEvents": "Возможные события"
+  "temperateSeason.possibleEvents": "Возможные события",
+  "gameOptions.generalSettings.behaviour": "Поведение",
+  "gameOptions.generalSettings.disableQuickSelect": "Отключить быстрый выбор",
+  "gameOptions.generalSettings.enableQuickSelect": "Включить функцию быстрого выбора"
 }

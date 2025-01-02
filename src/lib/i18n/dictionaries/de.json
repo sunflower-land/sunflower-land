@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "Jede Jahreszeit bietet unterschiedliche Möglichkeiten. Bestimmte Pflanzen können nur zu bestimmten Jahreszeiten wachsen. Halten Sie Ausschau nach saisonalen Ereignissen, die sich auf Ihre Farm auswirken könnten.",
   "temperateSeason.introduction.three": "Achte darauf, deine Pflanzen zu schützen und sei auf alles vorbereitet!",
   "temperateSeason.acknowledge": "Ich hab's!",
-  "temperateSeason.possibleEvents": "Mögliche Ereignisse"
+  "temperateSeason.possibleEvents": "Mögliche Ereignisse",
+  "gameOptions.generalSettings.behaviour": "Verhalten",
+  "gameOptions.generalSettings.disableQuickSelect": "QuickSelect deaktivieren",
+  "gameOptions.generalSettings.enableQuickSelect": "QuickSelect aktivieren"
 }

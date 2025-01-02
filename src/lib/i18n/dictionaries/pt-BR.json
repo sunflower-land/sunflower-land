@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "Cada temporada traz oportunidades diferentes. Certas safras só podem crescer em estações específicas. Fique atento aos eventos sazonais que podem afetar sua fazenda.",
   "temperateSeason.introduction.three": "Certifique-se de proteger suas plantações e esteja preparado para qualquer coisa!",
   "temperateSeason.acknowledge": "Entendi!",
-  "temperateSeason.possibleEvents": "Eventos possíveis"
+  "temperateSeason.possibleEvents": "Eventos possíveis",
+  "gameOptions.generalSettings.behaviour": "Comportamento",
+  "gameOptions.generalSettings.disableQuickSelect": "Desativar QuickSelect",
+  "gameOptions.generalSettings.enableQuickSelect": "Ativar QuickSelec"
 }

@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "매 시즌마다 다른 기회가 있습니다.특정 작물은 특정 계절에만 자랄 수 있습니다.농장에 영향을 미칠 수 있는 계절별 이벤트를 주시하세요.",
   "temperateSeason.introduction.three": "농작물을 보호하고 어떤 상황에도 대비하세요!",
   "temperateSeason.acknowledge": "알겠어요!",
-  "temperateSeason.possibleEvents": "가능한 이벤트"
+  "temperateSeason.possibleEvents": "가능한 이벤트",
+  "gameOptions.generalSettings.behaviour": "행동",
+  "gameOptions.generalSettings.disableQuickSelect": "퀵 셀렉트 비활성화",
+  "gameOptions.generalSettings.enableQuickSelect": "퀵 셀렉트 활성화"
 }

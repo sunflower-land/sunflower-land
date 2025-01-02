@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "Setiap musim membawa peluang yang berbeda. Tanaman tertentu hanya dapat tumbuh pada musim tertentu. Awasi acara musiman yang dapat memengaruhi pertanian Anda.",
   "temperateSeason.introduction.three": "Pastikan untuk melindungi tanaman Anda dan bersiaplah untuk apa pun!",
   "temperateSeason.acknowledge": "Mengerti!",
-  "temperateSeason.possibleEvents": "Kemungkinan Peristiwa"
+  "temperateSeason.possibleEvents": "Kemungkinan Peristiwa",
+  "gameOptions.generalSettings.behaviour": "Perilaku",
+  "gameOptions.generalSettings.disableQuickSelect": "Nonaktifkan QuickSelect",
+  "gameOptions.generalSettings.enableQuickSelect": "Aktifkan QuickSelect"
 }

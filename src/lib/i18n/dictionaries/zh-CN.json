@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "每个季节都会带来不同的机会。某些作物只能在特定季节生长。留意可能影响您的农场的季节性事件。",
   "temperateSeason.introduction.three": "确保保护您的农作物并为任何事情做好准备！",
   "temperateSeason.acknowledge": "明白了！",
-  "temperateSeason.possibleEvents": "可能发生的事件"
+  "temperateSeason.possibleEvents": "可能发生的事件",
+  "gameOptions.generalSettings.behaviour": "行为",
+  "gameOptions.generalSettings.disableQuickSelect": "禁用快速选择",
+  "gameOptions.generalSettings.enableQuickSelect": "启用快速选择"
 }

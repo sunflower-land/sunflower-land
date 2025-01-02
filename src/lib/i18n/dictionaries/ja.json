@@ -4722,5 +4722,8 @@
   "temperateSeason.introduction.two": "シーズンごとに異なる機会があります。特定の作物は特定の季節にしか育ちません。農場に影響する可能性のある季節のイベントに注目してください。",
   "temperateSeason.introduction.three": "作物を守り、何にでも備えましょう！",
   "temperateSeason.acknowledge": "わかった！",
-  "temperateSeason.possibleEvents": "可能なイベント"
+  "temperateSeason.possibleEvents": "可能なイベント",
+  "gameOptions.generalSettings.behaviour": "動作",
+  "gameOptions.generalSettings.disableQuickSelect": "クイックセレクトを無効にする",
+  "gameOptions.generalSettings.enableQuickSelect": "クイックセレクトを有効にする"
 }
