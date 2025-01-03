@@ -40,7 +40,6 @@ import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
-import { AppearanceSettings } from "./general-settings/AppearanceSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
@@ -49,7 +48,7 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { AdminSettings } from "./general-settings/AdminSettings";
-import { BehaviourSettings } from "./general-settings/BehaviourSettings";
+import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -272,8 +271,7 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "share"
-  | "appearance"
-  | "behaviour"
+  | "appearance&behaviour"
 
   // Amoy Testnet Actions
   | "hoardingCheck"
@@ -359,15 +357,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: Share,
   },
-  appearance: {
-    title: translate("gameOptions.generalSettings.appearance"),
+  "appearance&behaviour": {
+    title: "Appearance & Behaviour",
     parent: "general",
-    content: AppearanceSettings,
-  },
-  behaviour: {
-    title: translate("gameOptions.generalSettings.behaviour"),
-    parent: "general",
-    content: BehaviourSettings,
+    content: AppearanceAndBehaviour,
   },
 
   // Developer Options

@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   changeFont,
   CHINESE_FONT_CONFIG,
   CYRILLIC_FONT_CONFIG,
   Font,
   FONT_CONFIG,
-  getCachedFont,
   KOREAN_FONT_CONFIG,
 } from "lib/utils/fonts";
 import { getKeys } from "features/game/types/decorations";
-import Dropdown from "components/ui/Dropdown";
+import CycleButton from "components/ui/CycleButton";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const FontSettings: React.FC = () => {
+  const { t } = useAppTranslation();
   const language = localStorage.getItem("language") ?? "en";
-  const font = getCachedFont();
-  const [currentFont, setFont] = useState<Font>(font);
   const fonts = (() => {
     switch (language) {
       case "zh-CN":
@@ -28,17 +27,16 @@ export const FontSettings: React.FC = () => {
     }
   })();
 
-  const handleFontChange = (font: string) => {
-    setFont(font as Font);
-    changeFont(font as Font);
-  };
+  const handleFontChange = (font: string) => changeFont(font as Font);
 
   return (
-    <Dropdown
-      label={"Font"}
-      value={currentFont}
-      onChange={handleFontChange}
-      options={fonts}
-    />
+    <div className={"flex items-center justify-between w-full"}>
+      <span>{t("gameOptions.generalSettings.font")}</span>
+      <CycleButton
+        onChange={handleFontChange}
+        options={fonts}
+        className="w-48"
+      />
+    </div>
   );
 };

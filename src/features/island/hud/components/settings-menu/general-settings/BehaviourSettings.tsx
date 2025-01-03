@@ -13,7 +13,10 @@ export const BehaviourSettings: React.FC = () => {
   } = useContext(Context);
 
   return (
-    <div className="flex flex-col items-center gap-2 m-3">
+    <div className="flex flex-col items-start gap-2">
+      <h1 className="text-lg mb-2">
+        {t("gameOptions.generalSettings.behaviour")}
+      </h1>
       <Switch
         checked={showAnimations}
         onChange={toggleAnimations}

@@ -9,16 +9,13 @@ export const AppearanceSettings: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useIsDarkMode();
 
   return (
-    <div className="flex flex-col items-center gap-2 m-3">
+    <div className="flex flex-col items-start gap-2">
+      <h1 className="text-lg">{t("gameOptions.generalSettings.appearance")}</h1>
       <FontSettings />
       <Switch
         checked={isDarkMode}
         onChange={toggleDarkMode}
-        label={
-          isDarkMode
-            ? t("gameOptions.generalSettings.darkMode")
-            : t("gameOptions.generalSettings.lightMode")
-        }
+        label={t("gameOptions.generalSettings.darkMode")}
       />
     </div>
   );
