@@ -40,8 +40,6 @@ import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
-import { AppearanceSettings } from "./general-settings/AppearanceSettings";
-import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
@@ -50,7 +48,7 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { AdminSettings } from "./general-settings/AdminSettings";
-import { BehaviourSettings } from "./general-settings/BehaviourSettings";
+import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -273,9 +271,7 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "share"
-  | "appearance"
-  | "behaviour"
-  | "font"
+  | "appearance&behaviour"
 
   // Amoy Testnet Actions
   | "hoardingCheck"
@@ -361,20 +357,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: Share,
   },
-  appearance: {
-    title: translate("gameOptions.generalSettings.appearance"),
+  "appearance&behaviour": {
+    title: translate("gameOptions.generalSettings.appearance&behaviour"),
     parent: "general",
-    content: AppearanceSettings,
-  },
-  behaviour: {
-    title: translate("gameOptions.generalSettings.behaviour"),
-    parent: "general",
-    content: BehaviourSettings,
-  },
-  font: {
-    title: translate("gameOptions.generalSettings.font"),
-    parent: "appearance",
-    content: FontSettings,
+    content: AppearanceAndBehaviour,
   },
 
   // Developer Options
@@ -384,7 +370,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: AdminSettings,
   },
   hoardingCheck: {
-    title: "Hoarding Check (Amoy)",
+    title: "Hoarding Check (DEV)",
     parent: "amoy",
     content: (props) => <DEV_HoarderCheck {...props} />,
   },
