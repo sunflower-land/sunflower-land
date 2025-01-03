@@ -370,7 +370,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: AdminSettings,
   },
   hoardingCheck: {
-    title: "Hoarding Check (Amoy)",
+    title: "Hoarding Check (DEV)",
     parent: "amoy",
     content: (props) => <DEV_HoarderCheck {...props} />,
   },
