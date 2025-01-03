@@ -136,7 +136,7 @@ const LandscapingHudComponent: React.FC<{
                   button.play();
                   child.send("CANCEL");
                 }}
-                className="w-full z-10 cursor-pointer hover:img-highlight relative"
+                className="w-full z-10 cursor-pointer hover:img-highlight relative group"
                 style={{
                   width: `${PIXEL_SCALE * 22}px`,
                   height: `${PIXEL_SCALE * 22}px`,
@@ -144,15 +144,22 @@ const LandscapingHudComponent: React.FC<{
                 }}
               >
                 <img
-                  src={SUNNYSIDE.ui.round_button}
+                  src={SUNNYSIDE.ui.round_button_pressed}
                   className="absolute"
                   style={{
                     width: `${PIXEL_SCALE * 22}px`,
                   }}
                 />
                 <img
+                  src={SUNNYSIDE.ui.round_button}
+                  className="absolute group-active:hidden"
+                  style={{
+                    width: `${PIXEL_SCALE * 22}px`,
+                  }}
+                />
+                <img
                   src={SUNNYSIDE.icons.cancel}
-                  className="absolute"
+                  className="absolute group-active:translate-y-[2px]"
                   style={{
                     top: `${PIXEL_SCALE * 5.5}px`,
                     left: `${PIXEL_SCALE * 5.5}px`,
@@ -197,7 +204,7 @@ const LandscapingHudComponent: React.FC<{
       {showRemove && (
         <div
           onClick={() => !isRestricted && remove()}
-          className="absolute flex z-50 flex-col cursor-pointer"
+          className="absolute flex z-50 flex-col cursor-pointer group"
           style={{
             marginLeft: `${PIXEL_SCALE * 2}px`,
             marginBottom: `${PIXEL_SCALE * 25}px`,
@@ -218,15 +225,22 @@ const LandscapingHudComponent: React.FC<{
             </Label>
           </div>
           <img
-            src={SUNNYSIDE.ui.round_button}
+            src={SUNNYSIDE.ui.round_button_pressed}
             className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          />
+          <img
+            src={SUNNYSIDE.ui.round_button}
+            className="absolute group-active:hidden"
             style={{
               width: `${PIXEL_SCALE * 22}px`,
             }}
           />
           {showRemoveConfirmation ? (
             <img
-              className="absolute"
+              className="absolute group-active:translate-y-[2px]"
               src={SUNNYSIDE.icons.confirm}
               style={{
                 width: `${PIXEL_SCALE * 12}px`,
@@ -237,7 +251,7 @@ const LandscapingHudComponent: React.FC<{
           ) : (
             <>
               <img
-                className="absolute"
+                className="absolute group-active:translate-y-[2px]"
                 src={ITEM_DETAILS["Rusty Shovel"].image}
                 style={{
                   width: `${PIXEL_SCALE * 14}px`,
@@ -248,7 +262,7 @@ const LandscapingHudComponent: React.FC<{
               {isRestricted && (
                 <img
                   src={SUNNYSIDE.icons.cancel}
-                  className="absolute right-0 top-0 w-1/2 object-contain"
+                  className="absolute right-0 top-0 w-1/2 object-contain group-active:translate-y-[2px]"
                   alt="restricted"
                 />
               )}
@@ -279,7 +293,7 @@ const Chest: React.FC<{
         onClick={() => {
           setShowChest(true);
         }}
-        className="z-50 cursor-pointer hover:img-highlight relative"
+        className="z-50 cursor-pointer hover:img-highlight relative group"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           height: `${PIXEL_SCALE * 22}px`,
@@ -287,15 +301,22 @@ const Chest: React.FC<{
         }}
       >
         <img
-          src={SUNNYSIDE.ui.round_button}
+          src={SUNNYSIDE.ui.round_button_pressed}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
+          src={SUNNYSIDE.ui.round_button}
+          className="absolute group-active:hidden"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        />
+        <img
           src={chest}
-          className="absolute"
+          className="absolute group-active:translate-y-[2px]"
           style={{
             top: `${PIXEL_SCALE * 5}px`,
             left: `${PIXEL_SCALE * 5}px`,

@@ -61,7 +61,10 @@ export const Button: React.FC<Props> = ({
   const buttonPressedImage =
     variant === "primary" ? SUNNYSIDE.ui.primaryButtonPressed : secondaryButton;
 
-  console.log(buttonImage, buttonPressedImage);
+  const buttonVariables = {
+    "--button-image": `url(${buttonImage})`,
+    "--button-pressed-image": `url(${buttonPressedImage})`,
+  };
   return (
     <>
       <button
@@ -73,8 +76,7 @@ export const Button: React.FC<Props> = ({
         type={type}
         disabled={disabled}
         style={{
-          "--button-image": `url(${buttonImage})`,
-          "--button-pressed-image": `url(${buttonPressedImage})`,
+          ...buttonVariables,
           borderStyle: "solid",
           borderWidth: `8px 8px 10px 8px`,
           imageRendering: "pixelated",
