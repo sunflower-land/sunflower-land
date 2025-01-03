@@ -147,23 +147,35 @@ export const ButtonPanel: React.FC<
   const { className, style, selected, ...otherDivProps } = divProps;
 
   let borderImage = SUNNYSIDE.ui.primaryButton;
+  let borderImagePressed = SUNNYSIDE.ui.primaryButtonPressed;
   if (variant === "secondary") {
     borderImage = usedButton;
+    borderImagePressed = usedButton;
   } else if (variant === "card") {
     borderImage = cardButton;
+    borderImagePressed = usedButton;
   }
+
+  const buttonVariables = {
+    "--button-image": `url(${borderImage})`,
+    "--button-pressed-image": `url(${borderImagePressed})`,
+  };
 
   return (
     <div
-      className={classNames(className, "relative", {
-        "opacity-50": !!disabled,
-        "cursor-pointer": !disabled,
-        "hover:brightness-90": !disabled,
-      })}
+      className={classNames(
+        `![border-image:var(--button-image)_3_3_4_3_fill] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill] ${className}`,
+        "relative",
+        {
+          "opacity-50": !!disabled,
+          "cursor-pointer": !disabled,
+          "hover:brightness-90": !disabled,
+        },
+      )}
       style={{
+        ...buttonVariables,
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${borderImage}) 3 3 4 3 fill`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         imageRendering: "pixelated",

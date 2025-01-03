@@ -56,29 +56,37 @@ export const Button: React.FC<Props> = ({
     ? longPressEvents
     : { onClick: !disabled ? onClickWithSound : undefined };
 
-  return (
-    <button
-      className={classnames(
-        "w-full p-1 text-sm object-contain justify-center items-center hover:brightness-90 cursor-pointer flex disabled:opacity-50",
-        className,
-        { "cursor-not-allowed": disabled },
-      )}
-      type={type}
-      disabled={disabled}
-      style={{
-        borderImage: `url(${
-          variant === "primary" ? SUNNYSIDE.ui.primaryButton : secondaryButton
-        }) 3 3 4 3 fill`,
+  const buttonImage =
+    variant === "primary" ? SUNNYSIDE.ui.primaryButton : secondaryButton;
+  const buttonPressedImage =
+    variant === "primary" ? SUNNYSIDE.ui.primaryButtonPressed : secondaryButton;
 
-        borderStyle: "solid",
-        borderWidth: `8px 8px 10px 8px`,
-        imageRendering: "pixelated",
-        borderImageRepeat: "stretch",
-        borderRadius: `${PIXEL_SCALE * 5}px`,
-      }}
-      {...clickEvents}
-    >
-      <div className="mb-1">{children}</div>
-    </button>
+  const buttonVariables = {
+    "--button-image": `url(${buttonImage})`,
+    "--button-pressed-image": `url(${buttonPressedImage})`,
+  };
+  return (
+    <>
+      <button
+        className={classnames(
+          `w-full p-1 text-sm object-contain justify-center items-center hover:brightness-90 cursor-pointer flex disabled:opacity-50 [border-image:var(--button-image)_3_3_4_3_fill] active:[border-image:var(--button-pressed-image)_3_3_4_3_fill]`,
+          className,
+          { "cursor-not-allowed": disabled },
+        )}
+        type={type}
+        disabled={disabled}
+        style={{
+          ...buttonVariables,
+          borderStyle: "solid",
+          borderWidth: `8px 8px 10px 8px`,
+          imageRendering: "pixelated",
+          borderImageRepeat: "stretch",
+          borderRadius: `${PIXEL_SCALE * 5}px`,
+        }}
+        {...clickEvents}
+      >
+        <div className="mb-1">{children}</div>
+      </button>
+    </>
   );
 };

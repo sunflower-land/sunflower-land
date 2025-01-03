@@ -26,7 +26,7 @@ export const MarketplaceButton = () => {
 
           setFromRoute(location.pathname);
         }}
-        className="relative flex z-50 cursor-pointer hover:img-highlight"
+        className="relative flex z-50 cursor-pointer hover:img-highlight group"
         style={{
           // left: `${PIXEL_SCALE * 3}px`,
           // bottom: `${PIXEL_SCALE * 78}px`,
@@ -35,15 +35,22 @@ export const MarketplaceButton = () => {
         }}
       >
         <img
-          src={SUNNYSIDE.ui.round_button}
+          src={SUNNYSIDE.ui.round_button_pressed}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
+          src={SUNNYSIDE.ui.round_button}
+          className="absolute group-active:hidden"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        />
+        <img
           src={tradeIcon}
-          className="absolute"
+          className="absolute group-active:translate-y-[2px]"
           style={{
             top: `${PIXEL_SCALE * 2.6}px`,
             left: `${PIXEL_SCALE * 3.4}px`,

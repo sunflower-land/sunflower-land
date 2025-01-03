@@ -86,7 +86,7 @@ const HudComponent: React.FC<{
                 }
               }}
               className={classNames(
-                "absolute flex z-50 cursor-pointer hover:img-highlight",
+                "absolute flex z-50 cursor-pointer hover:img-highlight group",
                 {
                   "opacity-50 cursor-not-allowed": !isFarming,
                 },
@@ -100,15 +100,22 @@ const HudComponent: React.FC<{
               }}
             >
               <img
-                src={SUNNYSIDE.ui.round_button}
+                src={SUNNYSIDE.ui.round_button_pressed}
                 className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * 22}px`,
                 }}
               />
               <img
+                src={SUNNYSIDE.ui.round_button}
+                className="absolute group-active:hidden"
+                style={{
+                  width: `${PIXEL_SCALE * 22}px`,
+                }}
+              />
+              <img
                 src={SUNNYSIDE.icons.drag}
-                className={"absolute"}
+                className={"absolute group-active:translate-y-[2px]"}
                 style={{
                   top: `${PIXEL_SCALE * 4}px`,
                   left: `${PIXEL_SCALE * 4}px`,

@@ -14,22 +14,30 @@ export const PowerSkillsButton: React.FC = () => {
           e.preventDefault();
           setShow(true);
         }}
-        className="relative flex z-50 cursor-pointer hover:img-highlight"
+        className="relative flex z-50 cursor-pointer hover:img-highlight group"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           height: `${PIXEL_SCALE * 22}px`,
         }}
       >
         <img
+          src={SUNNYSIDE.ui.round_button_pressed}
+          className="absolute group-active:hidden"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+            height: `${PIXEL_SCALE * 22}px`,
+          }}
+        />
+        <img
           src={SUNNYSIDE.ui.round_button}
-          className="absolute"
+          className="absolute group-active:translate-y-[2px]"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
           src={lightning}
-          className="absolute"
+          className="absolute group-active:translate-y-[2px]"
           style={{
             top: `${PIXEL_SCALE * 4}px`,
             left: `${PIXEL_SCALE * 7}px`,
