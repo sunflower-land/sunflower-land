@@ -128,12 +128,12 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         />
         <img
           src={SUNNYSIDE.ui.round_button}
-          className="absolute group-active:translate-y-[2px]"
+          className="absolute group-active:hidden"
           style={{
             width: `${buttonWidth}px`,
           }}
         />
-        {children}
+        <div className="group-active:translate-y-[2px]">{children}</div>
       </div>
     );
   };
