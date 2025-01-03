@@ -360,8 +360,12 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
     {},
   ),
 };
-
-export const MAX_WEARABLES = (): Wardrobe => ({
+/**
+ * Number in MAX_BUMPKIN_WEARABLES doesn't matter
+ * The hoard limit number will be set in MAX_WEARABLES() to 100
+ * If the Hoard limit needs to be set more than 100, please set it in MAX_WEARABLES()
+ */
+export const MAX_BUMPKIN_WEARABLES: Wardrobe = {
   ...getKeys(FACTION_SHOP_ITEMS)
     .filter((name) => FACTION_SHOP_ITEMS[name].type === "wearable")
     .reduce(
@@ -599,6 +603,18 @@ export const MAX_WEARABLES = (): Wardrobe => ({
 
   ...getKeys(BASIC_WEARABLES).reduce(
     (items, name) => ({ ...items, [name]: 100 }),
+    {},
+  ),
+  "Basic Hair": 1000,
+};
+
+// Set all Wearable hoard limit to 110
+export const MAX_WEARABLES = (): Wardrobe => ({
+  ...getKeys(MAX_BUMPKIN_WEARABLES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: 100,
+    }),
     {},
   ),
   "Basic Hair": 1000,
