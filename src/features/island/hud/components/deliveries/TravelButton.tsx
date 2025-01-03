@@ -52,7 +52,7 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
               left: `${PIXEL_SCALE * 5}px`,
               top: `${PIXEL_SCALE * 4}px`,
             }}
-            className="absolute group-active:trn"
+            className="absolute group-active:translate-y-[2px]"
           />
         </div>
       </div>
