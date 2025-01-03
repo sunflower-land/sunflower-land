@@ -358,7 +358,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: Share,
   },
   "appearance&behaviour": {
-    title: "Appearance & Behaviour",
+    title: translate("gameOptions.generalSettings.appearance&behaviour"),
     parent: "general",
     content: AppearanceAndBehaviour,
   },

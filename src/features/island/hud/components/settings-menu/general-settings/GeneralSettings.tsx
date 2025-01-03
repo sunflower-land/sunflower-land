@@ -44,7 +44,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         className="mb-1"
         onClick={() => onSubMenuClick("appearance&behaviour")}
       >
-        <span>{`Appearance & Behaviour`}</span>
+        <span>{t("gameOptions.generalSettings.appearance&behaviour")}</span>
       </Button>
       <Button onClick={() => onSubMenuClick("share")} className="mb-1">
         <span>{t("gameOptions.generalSettings.share")}</span>
