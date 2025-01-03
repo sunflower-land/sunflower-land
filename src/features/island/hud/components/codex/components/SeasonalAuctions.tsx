@@ -179,16 +179,28 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
                           : t("wearable")}
                       </Label>
                     ) : (
-                      <Label
-                        type={buffLabel.labelType}
-                        icon={buffLabel.boostTypeIcon}
-                        secondaryIcon={buffLabel.boostedItemIcon}
-                        style={{
-                          marginLeft: "3px",
-                        }}
-                      >
-                        {buffLabel.shortDescription}
-                      </Label>
+                      <div className="flex flex-col gap-1">
+                        {buffLabel.map(
+                          (
+                            {
+                              labelType,
+                              boostTypeIcon,
+                              boostedItemIcon,
+                              shortDescription,
+                            },
+                            index,
+                          ) => (
+                            <Label
+                              key={index}
+                              type={labelType}
+                              icon={boostTypeIcon}
+                              secondaryIcon={boostedItemIcon}
+                            >
+                              {shortDescription}
+                            </Label>
+                          ),
+                        )}
+                      </div>
                     )}
                   </div>
                 ) : (
@@ -253,7 +265,11 @@ const Drops: React.FC<{
         {buffLabel ? (
           <div className="flex">
             <img src={lightning} className="h-4 mr-0.5" />
-            <p className="text-xs">{buffLabel.shortDescription}</p>
+            <p className="text-xs">
+              {buffLabel
+                .map(({ shortDescription }) => shortDescription)
+                .join(", ")}
+            </p>
           </div>
         ) : detail.type === "collectible" ? (
           <div className="flex">
@@ -449,7 +465,9 @@ export const SeasonalAuctions: React.FC<Props> = ({
                         <div className="flex">
                           <img src={lightning} className="h-4 mr-0.5" />
                           <p className="text-xs">
-                            {buffLabel.shortDescription}
+                            {buffLabel
+                              .map(({ shortDescription }) => shortDescription)
+                              .join(", ")}
                           </p>
                         </div>
                       ) : isCollectible ? (

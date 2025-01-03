@@ -55,7 +55,7 @@ export const getItemImage = (item: SeasonalStoreItem | null): string => {
 export const getItemBuffLabel = (
   item: SeasonalStoreItem | null,
   state: GameState,
-): BuffLabel | undefined => {
+): BuffLabel[] | undefined => {
   if (!item) return;
 
   if (isWearablesItem(item)) {

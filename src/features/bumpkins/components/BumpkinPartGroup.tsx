@@ -18,7 +18,6 @@ import {
   pixelBlueBorderStyle,
   pixelVibrantBorderStyle,
 } from "features/game/lib/style";
-import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
   bumpkinParts: BumpkinPart[];
@@ -52,7 +51,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
           <OuterPanel
             key={name}
             className={classNames(
-              "w-full cursor-pointer relative aspect-square hover:img-highlight !p-0",
+              "w-full cursor-pointer relative aspect-square hover:img-highlight !p-0 flex items-center justify-center",
               {
                 "img-highlight": selected === name || bumpkinItem,
               },
@@ -75,10 +74,13 @@ export const BumpkinPartGroup: React.FC<Props> = ({
             <img
               src={
                 bumpkinItem
-                  ? getImageUrl(ITEM_IDS[bumpkinItem])
+                  ? new URL(
+                      `/src/assets/wearables/${ITEM_IDS[bumpkinItem]}.webp`,
+                      import.meta.url,
+                    ).href
                   : BUMPKIN_PART_SILHOUETTE[name]
               }
-              className="w-full"
+              className="h-10"
               style={{ imageRendering: "pixelated" }}
             />
             {selected === name && (

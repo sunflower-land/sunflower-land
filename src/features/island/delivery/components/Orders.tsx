@@ -21,7 +21,7 @@ import {
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, InventoryItemName, Order } from "features/game/types/game";
+import { GameState, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
@@ -54,8 +54,8 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { KNOWN_IDS } from "features/game/types";
+import { ITEM_IDS } from "features/game/types/bumpkin";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -175,12 +175,14 @@ export const OrderCard: React.FC<OrderCardProps> = ({
                 } else if (name === "sfl") {
                   img = token;
                 } else {
-                  if (name in KNOWN_IDS) {
-                    img = ITEM_DETAILS[name as InventoryItemName]?.image;
+                  if (isCollectible(name)) {
+                    img = ITEM_DETAILS[name].image;
                   } else {
                     img =
-                      getImageUrl(ITEM_IDS[name as BumpkinItem]) ??
-                      SUNNYSIDE.icons.expression_confused;
+                      new URL(
+                        `/src/assets/wearables/${ITEM_IDS[name]}.webp`,
+                        import.meta.url,
+                      ).href ?? SUNNYSIDE.icons.expression_confused;
                   }
                 }
 
