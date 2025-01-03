@@ -1,16 +1,20 @@
-import React from "react";
-import { Button } from "components/ui/Button";
+import React, { useState } from "react";
 import {
   changeFont,
   CHINESE_FONT_CONFIG,
   CYRILLIC_FONT_CONFIG,
+  Font,
   FONT_CONFIG,
+  getCachedFont,
   KOREAN_FONT_CONFIG,
 } from "lib/utils/fonts";
 import { getKeys } from "features/game/types/decorations";
+import Dropdown from "components/ui/Dropdown";
 
 export const FontSettings: React.FC = () => {
   const language = localStorage.getItem("language") ?? "en";
+  const font = getCachedFont();
+  const [currentFont, setFont] = useState<Font>(font);
   const fonts = (() => {
     switch (language) {
       case "zh-CN":
@@ -24,13 +28,17 @@ export const FontSettings: React.FC = () => {
     }
   })();
 
+  const handleFontChange = (font: string) => {
+    setFont(font as Font);
+    changeFont(font as Font);
+  };
+
   return (
-    <>
-      {fonts.map((font) => (
-        <Button key={font} className="mb-1" onClick={() => changeFont(font)}>
-          <span>{font}</span>
-        </Button>
-      ))}
-    </>
+    <Dropdown
+      label={"Font"}
+      value={currentFont}
+      onChange={handleFontChange}
+      options={fonts}
+    />
   );
 };

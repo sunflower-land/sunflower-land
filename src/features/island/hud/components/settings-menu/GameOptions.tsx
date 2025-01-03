@@ -41,7 +41,6 @@ import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
 import { AppearanceSettings } from "./general-settings/AppearanceSettings";
-import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
@@ -275,7 +274,6 @@ export type SettingMenuId =
   | "share"
   | "appearance"
   | "behaviour"
-  | "font"
 
   // Amoy Testnet Actions
   | "hoardingCheck"
@@ -370,11 +368,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings.behaviour"),
     parent: "general",
     content: BehaviourSettings,
-  },
-  font: {
-    title: translate("gameOptions.generalSettings.font"),
-    parent: "appearance",
-    content: FontSettings,
   },
 
   // Developer Options

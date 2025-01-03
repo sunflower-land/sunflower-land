@@ -1,27 +1,25 @@
 import React from "react";
-import { Button } from "components/ui/Button";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ContentComponentProps } from "../GameOptions";
+import Switch from "components/ui/Switch";
+import { FontSettings } from "./FontSettings";
 
-export const AppearanceSettings: React.FC<ContentComponentProps> = ({
-  onSubMenuClick,
-}) => {
+export const AppearanceSettings: React.FC = () => {
   const { t } = useAppTranslation();
   const { isDarkMode, toggleDarkMode } = useIsDarkMode();
 
   return (
-    <>
-      <Button className="mb-1" onClick={toggleDarkMode}>
-        <span>
-          {isDarkMode
+    <div className="flex flex-col items-center gap-2 m-3">
+      <FontSettings />
+      <Switch
+        checked={isDarkMode}
+        onChange={toggleDarkMode}
+        label={
+          isDarkMode
             ? t("gameOptions.generalSettings.darkMode")
-            : t("gameOptions.generalSettings.lightMode")}
-        </span>
-      </Button>
-      <Button className="mb-1" onClick={() => onSubMenuClick("font")}>
-        {t("gameOptions.generalSettings.font")}
-      </Button>
-    </>
+            : t("gameOptions.generalSettings.lightMode")
+        }
+      />
+    </div>
   );
 };
