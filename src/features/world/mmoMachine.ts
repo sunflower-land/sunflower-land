@@ -336,7 +336,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     joining: {
       invoke: {
         id: "joining",
-        src: (context, event) => async () => {
+        src: (context, event) => async (send) => {
           // Join server based on what was selected
           const server = await context.client?.joinOrCreate<PlazaRoomState>(
             context.serverId,
@@ -353,6 +353,10 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               moderation: context.moderation,
             },
           );
+
+          server?.onLeave((client) => {
+            send("DISCONNECTED");
+          });
 
           return { server };
         },
@@ -385,6 +389,9 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               serverId: (_, event) => event.serverId,
             }),
           ],
+        },
+        DISCONNECTED: {
+          target: "error",
         },
       },
     },
