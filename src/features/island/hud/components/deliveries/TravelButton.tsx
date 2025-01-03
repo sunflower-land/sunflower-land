@@ -17,9 +17,22 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
   return (
     <>
       <div className="relative">
+        <style>
+          {`
+              .active-button:active {
+                #round-button {
+                  display: none;
+                }
+
+                #world-icon {
+                  transform: translateY(2px);
+                }
+              }
+            `}
+        </style>
         <div
           id="deliveries"
-          className="flex relative z-50 justify-center cursor-pointer hover:img-highlight"
+          className="flex relative z-50 justify-center cursor-pointer hover:img-highlight active-button"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
             height: `${PIXEL_SCALE * 23}px`,
@@ -31,7 +44,15 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
           }}
         >
           <img
+            src={SUNNYSIDE.ui.round_button_pressed}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          />
+          <img
             src={SUNNYSIDE.ui.round_button}
+            id="round-button"
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 22}px`,
@@ -39,6 +60,7 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
           />
           <img
             src={world}
+            id="world-icon"
             style={{
               width: `${PIXEL_SCALE * 12}px`,
               left: `${PIXEL_SCALE * 5}px`,
