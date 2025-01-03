@@ -30,6 +30,7 @@ import { isMobile } from "mobile-device-detect";
 import { millisecondsToString } from "lib/utils/time";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { MachineState } from "features/game/lib/gameMachine";
+import tradeOffsIcon from "assets/icons/tradeOffs.png";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -263,15 +264,23 @@ export const SkillPathDetails: React.FC<Props> = ({
                     {availableSkills.map((skill) => {
                       const hasSkill =
                         !!bumpkin.skills[skill.name as BumpkinRevampSkillName];
+                      const { name, image, boosts, power } = skill;
 
                       return (
                         <Box
-                          key={skill.name}
+                          key={name}
                           className="mb-1"
-                          image={skill.image}
+                          image={image}
                           isSelected={selectedSkill === skill}
                           onClick={() => setSelectedSkill(skill)}
                           showOverlay={hasSkill}
+                          secondaryImage={
+                            power // If power skill show lightning
+                              ? SUNNYSIDE.icons.lightning
+                              : boosts.debuff // if skill has a drawback, show tradeOffs Icon
+                                ? tradeOffsIcon
+                                : boosts.buff.boostTypeIcon
+                          }
                           overlayIcon={
                             <img
                               src={SUNNYSIDE.icons.confirm}
@@ -282,9 +291,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                               }}
                             />
                           }
-                        >
-                          {skill.name}
-                        </Box>
+                        />
                       );
                     })}
                   </div>

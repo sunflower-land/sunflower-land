@@ -132,7 +132,7 @@ export function speedUpRecipe({
 
     game.inventory[recipe.name] = (
       game.inventory[recipe.name] ?? new Decimal(0)
-    ).add(1);
+    ).add(recipe.amount ?? 1);
 
     delete building.crafting;
 

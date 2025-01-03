@@ -15,6 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import {
+  getOilUsage,
   OIL_USAGE,
   SEED_TO_PLANT,
 } from "features/game/events/landExpansion/plantGreenhouse";
@@ -30,6 +31,7 @@ const selectMachineOil = (state: MachineState) =>
   new Decimal(state.context.state.greenhouse.oil);
 const selectInventoryOil = (state: MachineState) =>
   state.context.state.inventory.Oil ?? new Decimal(0);
+const _state = (state: MachineState) => state.context.state;
 
 interface Props {
   show: boolean;
@@ -46,7 +48,7 @@ export const GreenhouseOilModal: React.FC<Props> = ({ show, onHide }) => {
   const [addedOil, setAddedOil] = useState(new Decimal(0));
   const machineOil = useSelector(gameService, selectMachineOil);
   const inventoryOil = useSelector(gameService, selectInventoryOil);
-
+  const state = useSelector(gameService, _state);
   const newMachineOil = machineOil.add(addedOil);
   const availableOil = inventoryOil.sub(addedOil);
 
@@ -91,18 +93,25 @@ export const GreenhouseOilModal: React.FC<Props> = ({ show, onHide }) => {
           </Label>
           <p className="text-xs mb-2">{t("greenhouse.oilDescription")}</p>
           <div className="flex items-center flex-wrap gap-1">
-            {getKeys(OIL_USAGE).map((seed) => (
-              <Label
-                key={seed}
-                type="formula"
-                className="mx-1"
-                icon={ITEM_DETAILS[SEED_TO_PLANT[seed]].image}
-              >
-                {t("greenhouse.numberOil", {
-                  oil: formatNumber(OIL_USAGE[seed]),
-                })}
-              </Label>
-            ))}
+            {getKeys(OIL_USAGE).map((seed) => {
+              const oilUsage = getOilUsage({
+                seed,
+                game: state,
+              });
+
+              return (
+                <Label
+                  key={seed}
+                  type="formula"
+                  className="mx-1"
+                  icon={ITEM_DETAILS[SEED_TO_PLANT[seed]].image}
+                >
+                  {t("greenhouse.numberOil", {
+                    oil: formatNumber(oilUsage),
+                  })}
+                </Label>
+              );
+            })}
           </div>
 
           <div className="flex justify-between items-center gap-1 mb-2 mt-4 pl-1">
