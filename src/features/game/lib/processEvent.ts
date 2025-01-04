@@ -140,7 +140,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Primula Enigma": new Decimal(80),
 
   Sunstone: new Decimal(20),
-  Crimstone: new Decimal(100),
+  Crimstone: new Decimal(500),
   Gold: new Decimal(400),
   Iron: new Decimal(800),
   Stone: new Decimal(1600),
