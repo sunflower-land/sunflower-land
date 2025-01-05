@@ -153,6 +153,8 @@ const AcceptOfferContent: React.FC<{
     obsessionCompletedAt >= bertObsession.startDate &&
     obsessionCompletedAt <= bertObsession.endDate;
 
+  const isResource = display.type === "resources";
+
   return (
     <>
       <div className="p-2">
@@ -186,7 +188,8 @@ const AcceptOfferContent: React.FC<{
         </Button>
         <Button
           disabled={
-            !hasItem || (isItemBertObsession && isBertsObesessionCompleted)
+            !hasItem ||
+            (isItemBertObsession && isBertsObesessionCompleted && !isResource)
           }
           onClick={() => confirm()}
           className="relative"

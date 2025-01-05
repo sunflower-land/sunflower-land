@@ -275,7 +275,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                     disabled={
                       !count ||
                       (!isVIP && dailyListings >= 1) ||
-                      (isItemBertObsession && isBertsObesessionCompleted)
+                      (isItemBertObsession &&
+                        isBertsObesessionCompleted &&
+                        !isResources)
                     }
                     onClick={onListClick}
                     className="w-full sm:w-auto"
@@ -285,11 +287,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 )}
               </div>
               <div className="mt-1">
-                {isItemBertObsession && isBertsObesessionCompleted && (
-                  <Label type="danger">
-                    {`You have completed Bert's Obsession recently`}
-                  </Label>
-                )}
+                {isItemBertObsession &&
+                  isBertsObesessionCompleted &&
+                  !isResources && (
+                    <Label type="danger">
+                      {`You have completed Bert's Obsession recently`}
+                    </Label>
+                  )}
               </div>
             </div>
           </div>
@@ -312,7 +316,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 disabled={
                   !count ||
                   (!isVIP && dailyListings >= 1) ||
-                  (isItemBertObsession && isBertsObesessionCompleted)
+                  (isItemBertObsession &&
+                    isBertsObesessionCompleted &&
+                    !isResources)
                 }
                 className="w-full sm:w-auto"
               >
@@ -321,11 +327,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             )}
           </div>
           <div className="mt-1">
-            {isItemBertObsession && isBertsObesessionCompleted && (
-              <Label type="danger">
-                {`You have completed Bert's Obsession recently`}
-              </Label>
-            )}
+            {isItemBertObsession &&
+              isBertsObesessionCompleted &&
+              !isResources && (
+                <Label type="danger">
+                  {`You have completed Bert's Obsession recently`}
+                </Label>
+              )}
           </div>
         </div>
       </InnerPanel>
