@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "Bale afeta a produção de leite e lã",
   "skill.chonkyFeed.buff": "2x animal xp de ração animal",
   "skill.chonkyFeed.debuff": "+50% de ração para alimentar todos os animais",
-  "skill.appleTastic": "Suba instantaneamente o nível de todos os animais para obter 150 maçãs",
   "skill.glassRoom": "+0,1 Rendimento de produção em estufa",
   "skill.seedyBusiness": "-10% de custo de sementes de estufa",
   "skill.riceAndShine": "-5% de tempo de crescimento para produtos de estufa",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Comportamento",
   "gameOptions.generalSettings.disableQuickSelect": "Desativar QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Ativar QuickSelec",
-  "gameOptions.generalSettings.appearance&behaviour": "Aparência e comportamento"
+  "gameOptions.generalSettings.appearance&behaviour": "Aparência e comportamento",
+  "skill.appleTastic": "Use 600 maçãs para aumentar o nível de todos os animais"
 }

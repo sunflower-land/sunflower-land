@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "Bale affecte la production de lait et de laine",
   "skill.chonkyFeed.buff": "2 fois plus d'expérience animale provenant de l'alimentation animale",
   "skill.chonkyFeed.debuff": "+ 50 % de nourriture pour nourrir tous les animaux",
-  "skill.appleTastic": "Améliorez instantanément tous les animaux pour 150 pommes",
   "skill.glassRoom": "+0,1 Rendement des produits de serre",
   "skill.seedyBusiness": "-10 % du coût des semences de serre",
   "skill.riceAndShine": "-5 % de temps de croissance pour les produits de serre",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Comportement",
   "gameOptions.generalSettings.disableQuickSelect": "Désactiver QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Activer QuickSelect",
-  "gameOptions.generalSettings.appearance&behaviour": "Apparence et comportement"
+  "gameOptions.generalSettings.appearance&behaviour": "Apparence et comportement",
+  "skill.appleTastic": "Utilise 600 pommes pour améliorer tous les animaux"
 }

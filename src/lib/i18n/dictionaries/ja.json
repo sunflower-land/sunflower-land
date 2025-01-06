@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "ベールは牛乳と羊毛の生産に影響します",
   "skill.chonkyFeed.buff": "動物飼料から得られる動物経験値の2倍",
   "skill.chonkyFeed.debuff": "+50% の飼料ですべての動物に給餌できます",
-  "skill.appleTastic": "すべての動物を即座にレベルアップして150個のリンゴを手に入れよう",
   "skill.glassRoom": "+0.1 温室農産物の収量",
   "skill.seedyBusiness": "-10% 温室種子のコスト",
   "skill.riceAndShine": "温室製品の成長時間は-5％",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "動作",
   "gameOptions.generalSettings.disableQuickSelect": "クイックセレクトを無効にする",
   "gameOptions.generalSettings.enableQuickSelect": "クイックセレクトを有効にする",
-  "gameOptions.generalSettings.appearance&behaviour": "外観と動作"
+  "gameOptions.generalSettings.appearance&behaviour": "外観と動作",
+  "skill.appleTastic": "リンゴを600個使って全動物をレベルアップさせよう"
 }

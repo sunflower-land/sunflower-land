@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "Bale mempengaruhi produksi susu dan wol",
   "skill.chonkyFeed.buff": "2x hewan xp dari pakan ternak",
   "skill.chonkyFeed.debuff": "+50% pakan untuk memberi makan semua hewan",
-  "skill.appleTastic": "Tingkatkan level semua hewan secara instan untuk 150 apel",
   "skill.glassRoom": "+0.1 Hasil produksi rumah kaca",
   "skill.seedyBusiness": "-10% biaya benih rumah kaca",
   "skill.riceAndShine": "-5% waktu pertumbuhan untuk produk rumah kaca",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Perilaku",
   "gameOptions.generalSettings.disableQuickSelect": "Nonaktifkan QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Aktifkan QuickSelect",
-  "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Perilaku"
+  "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Perilaku",
+  "skill.appleTastic": "Gunakan 600 apel untuk menaikkan level semua hewan"
 }

@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "베일은 우유와 양모 생산에 영향을 미칩니다",
   "skill.chonkyFeed.buff": "동물 사료로 얻는 동물 경험치 2배",
   "skill.chonkyFeed.debuff": "모든 동물에게 먹이 주기 50% 증가",
-  "skill.appleTastic": "모든 동물을 즉시 레벨업하여 사과 150개를 획득하세요",
   "skill.glassRoom": "+0.1 온실 농산물 수확량",
   "skill.seedyBusiness": "-10% 온실 종자 비용",
   "skill.riceAndShine": "-5% 온실 제품 성장 시간",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "행동",
   "gameOptions.generalSettings.disableQuickSelect": "퀵 셀렉트 비활성화",
   "gameOptions.generalSettings.enableQuickSelect": "퀵 셀렉트 활성화",
-  "gameOptions.generalSettings.appearance&behaviour": "외모 및 행동"
+  "gameOptions.generalSettings.appearance&behaviour": "외모 및 행동",
+  "skill.appleTastic": "사과 600개를 사용해 모든 동물의 레벨을 올리세요"
 }

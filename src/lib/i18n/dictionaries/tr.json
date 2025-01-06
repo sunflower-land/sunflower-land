@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "Balya süt ve yün üretimini etkiler",
   "skill.chonkyFeed.buff": "Hayvan yeminden 2x hayvan xp",
   "skill.chonkyFeed.debuff": "Tüm hayvanları beslemek için+%50 yem",
-  "skill.appleTastic": "Anında 150 elma için tüm hayvanların seviyesini yükseltin",
   "skill.glassRoom": "+0.1 Sera üretimi verimi",
   "skill.seedyBusiness": "-10% Sera tohumları maliyeti",
   "skill.riceAndShine": "Sera ürünleri için% -5 büyüme süresi",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Davranış",
   "gameOptions.generalSettings.disableQuickSelect": "QuickSelect'i devre dışı bırak",
   "gameOptions.generalSettings.enableQuickSelect": "Hızlı Seçimi Etkinleştir",
-  "gameOptions.generalSettings.appearance&behaviour": "Görünüm ve Davranış"
+  "gameOptions.generalSettings.appearance&behaviour": "Görünüm ve Davranış",
+  "skill.appleTastic": "Tüm hayvanların seviyesini yükseltmek için 600 elma kullanın"
 }

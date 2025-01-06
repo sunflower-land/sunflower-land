@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "La balla influisce sulla produzione di latte e lana",
   "skill.chonkyFeed.buff": "2x animal xp da mangime per animali",
   "skill.chonkyFeed.debuff": "+50% di mangime per nutrire tutti gli animali",
-  "skill.appleTastic": "Fai salire di livello istantaneamente tutti gli animali per 150 mele",
   "skill.glassRoom": "+0.1 Rendimento dei prodotti in serra",
   "skill.seedyBusiness": "-10% Costo dei semi in serra",
   "skill.riceAndShine": "-5% di tempo di crescita per i prodotti in serra",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Comportamento",
   "gameOptions.generalSettings.disableQuickSelect": "Disattiva QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Abilita QuickSelect",
-  "gameOptions.generalSettings.appearance&behaviour": "Aspetto e comportamento"
+  "gameOptions.generalSettings.appearance&behaviour": "Aspetto e comportamento",
+  "skill.appleTastic": "Usa 600 mele per far salire di livello tutti gli animali"
 }

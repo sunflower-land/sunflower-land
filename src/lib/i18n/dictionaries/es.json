@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "La paca afecta a la producción de leche y lana",
   "skill.chonkyFeed.buff": "2 veces la experiencia animal obtenida con piensos",
   "skill.chonkyFeed.debuff": "+50% de pienso para alimentar a todos los animales",
-  "skill.appleTastic": "Sube de nivel instantáneamente a todos los animales para conseguir 150 manzanas",
   "skill.glassRoom": "+0,1 Rendimiento de productos de invernadero",
   "skill.seedyBusiness": "-10% de costo de semillas de invernadero",
   "skill.riceAndShine": "-5% de tiempo de crecimiento para productos de invernadero",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Comportamiento",
   "gameOptions.generalSettings.disableQuickSelect": "Desactivar QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Activar QuickSelect",
-  "gameOptions.generalSettings.appearance&behaviour": "Apariencia y comportamiento"
+  "gameOptions.generalSettings.appearance&behaviour": "Apariencia y comportamiento",
+  "skill.appleTastic": "Usa 600 manzanas para subir de nivel a todos los animales"
 }

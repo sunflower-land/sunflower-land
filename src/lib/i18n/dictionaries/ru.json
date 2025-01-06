@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "Тюк влияет на производство молока и шерсти",
   "skill.chonkyFeed.buff": "В 2 раза больше опыта животных из корма для животных",
   "skill.chonkyFeed.debuff": "+50% корма для всех животных",
-  "skill.appleTastic": "Мгновенно повышайте уровень всех животных за 150 яблок",
   "skill.glassRoom": "+0.1 Урожайность тепличных продуктов",
   "skill.seedyBusiness": "Стоимость семян для теплиц: -10%",
   "skill.riceAndShine": "Время роста тепличных продуктов: -5%",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Поведение",
   "gameOptions.generalSettings.disableQuickSelect": "Отключить быстрый выбор",
   "gameOptions.generalSettings.enableQuickSelect": "Включить функцию быстрого выбора",
-  "gameOptions.generalSettings.appearance&behaviour": "Внешний вид и поведение"
+  "gameOptions.generalSettings.appearance&behaviour": "Внешний вид и поведение",
+  "skill.appleTastic": "Используйте 600 яблок, чтобы повысить уровень всех животных"
 }

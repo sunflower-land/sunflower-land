@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "Bale menjejaskan pengeluaran susu dan bulu",
   "skill.chonkyFeed.buff": "2x xp haiwan dari makanan haiwan",
   "skill.chonkyFeed.debuff": "+50% makanan untuk memberi makan kepada semua haiwan",
-  "skill.appleTastic": "Naikkan tahap semua haiwan dengan serta-merta untuk 150 epal",
   "skill.glassRoom": "+0.1 Rumah hijau menghasilkan hasil",
   "skill.seedyBusiness": "-10% kos biji rumah hijau",
   "skill.riceAndShine": "-5% masa pertumbuhan untuk produk rumah hijau",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Tingkah Laku",
   "gameOptions.generalSettings.disableQuickSelect": "Lumpuhkan QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Dayakan QuickSelect",
-  "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Tingkah Laku"
+  "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Tingkah Laku",
+  "skill.appleTastic": "Gunakan 600 epal untuk meningkatkan semua haiwan"
 }

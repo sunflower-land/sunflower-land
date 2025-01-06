@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "Ballen beeinflusst die Milch- und Wollproduktion",
   "skill.chonkyFeed.buff": "2x Tier-XP aus Tierfutter",
   "skill.chonkyFeed.debuff": "+50% Futter, um alle Tiere zu füttern",
-  "skill.appleTastic": "Verbessere sofort alle Tiere für 150 Äpfel",
   "skill.glassRoom": "+0.1 Ertrag von Gewächshausprodukten",
   "skill.seedyBusiness": "-10% Kosten für Gewächshaussamen",
   "skill.riceAndShine": "-5% Wachstumszeit für Gewächshausprodukte",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "Verhalten",
   "gameOptions.generalSettings.disableQuickSelect": "QuickSelect deaktivieren",
   "gameOptions.generalSettings.enableQuickSelect": "QuickSelect aktivieren",
-  "gameOptions.generalSettings.appearance&behaviour": "Aussehen und Verhalten"
+  "gameOptions.generalSettings.appearance&behaviour": "Aussehen und Verhalten",
+  "skill.appleTastic": "Verwende 600 Äpfel, um alle Tiere aufzuleveln"
 }

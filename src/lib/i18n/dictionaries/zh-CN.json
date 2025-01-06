@@ -4676,7 +4676,6 @@
   "skill.baleEconomy": "Bale 影响牛奶和羊毛产量",
   "skill.chonkyFeed.buff": "来自动物饲料的 2 倍动物经验值",
   "skill.chonkyFeed.debuff": "+50% 饲料可喂养所有动物",
-  "skill.appleTastic": "立即升级所有动物获得 150 个苹果",
   "skill.glassRoom": "+0.1 温室农产品产量",
   "skill.seedyBusiness": "-10% 温室种子成本",
   "skill.riceAndShine": "温室产品的生长时间 -5%",
@@ -4726,5 +4725,6 @@
   "gameOptions.generalSettings.behaviour": "行为",
   "gameOptions.generalSettings.disableQuickSelect": "禁用快速选择",
   "gameOptions.generalSettings.enableQuickSelect": "启用快速选择",
-  "gameOptions.generalSettings.appearance&behaviour": "外表与行为"
+  "gameOptions.generalSettings.appearance&behaviour": "外表与行为",
+  "skill.appleTastic": "使用 600 个苹果来提升所有动物的等级"
 }
