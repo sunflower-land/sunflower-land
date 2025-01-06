@@ -360,8 +360,8 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
 };
 /**
  * Add wearable into array if it requires a hoard limit
- * The hoard limit number will be set in MAX_WEARABLES() to 100
- * If the Hoard limit needs to be set more than 100, please set it in MAX_WEARABLES()
+ * The hoard limit number will be set in MAX_WEARABLES to 100
+ * If the Hoard limit needs to be set more than 100, please set it in MAX_WEARABLES
  */
 export const MAX_BUMPKIN_WEARABLES: BumpkinItem[] = [
   "Knight Gambit",
@@ -600,7 +600,7 @@ export const MAX_BUMPKIN_WEARABLES: BumpkinItem[] = [
 ];
 
 // Set all Wearable hoard limit to 110
-export const MAX_WEARABLES = (): Wardrobe => ({
+export const MAX_WEARABLES: Wardrobe = {
   ...MAX_BUMPKIN_WEARABLES.reduce(
     (acc, name) => ({
       ...acc,
@@ -609,7 +609,7 @@ export const MAX_WEARABLES = (): Wardrobe => ({
     {},
   ),
   "Basic Hair": 1000,
-});
+};
 
 /**
  * Humanly possible SFL in a single session
@@ -696,7 +696,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
 
       const diff = wardrobeAmount + listedAmount - previousWardrobeAmount;
 
-      const max = MAX_WEARABLES()[name] || 0;
+      const max = MAX_WEARABLES[name] || 0;
 
       if (max === 0) return true;
       if (diff > max) {
@@ -739,7 +739,7 @@ export function hasMaxItems({
   const validWardrobeProgress = getKeys(currentWardrobe).every((name) => {
     const oldAmount = oldWardrobe[name] || 0;
     const diff = (currentWardrobe[name] ?? 0) - oldAmount;
-    const max = MAX_WEARABLES()[name] || 0;
+    const max = MAX_WEARABLES[name] || 0;
 
     if (max === 0) return true;
     if (diff > max) return false;
