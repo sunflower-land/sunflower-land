@@ -5,17 +5,32 @@ import { getKeys } from "features/game/types/decorations";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
 
-const TRADE_POINTS_MULTIPLIER = 0.5; // Value adjustable
+const TRADE_POINTS_MULTIPLIER = 0.25; // Value adjustable
 
 export function calculateTradePoints({
   points,
   sfl,
+  items,
 }: {
   points: number;
   sfl: number;
+  items?: Partial<Record<MarketplaceTradeableName, number>>;
 }) {
-  const pointsCalculation = 1 + sfl ** TRADE_POINTS_MULTIPLIER;
-  const multipliedPoints = points * pointsCalculation;
+  let multipliedPoints = 0;
+
+  if (items) {
+    const name = getKeys(items).filter(
+      (itemName) => itemName in KNOWN_IDS,
+    )[0] as InventoryItemName;
+    const isResource = getKeys(TRADE_LIMITS).includes(name);
+
+    if (isResource) {
+      return { multipliedPoints };
+    }
+  }
+
+  const pointsCalculation = sfl * TRADE_POINTS_MULTIPLIER;
+  multipliedPoints = points * pointsCalculation;
 
   return { multipliedPoints };
 }
@@ -31,19 +46,7 @@ export function addTradePoints({
   sfl: number;
   items?: Partial<Record<MarketplaceTradeableName, number>>;
 }) {
-  // Exclude resources
-  if (items) {
-    const name = getKeys(items).filter(
-      (itemName) => itemName in KNOWN_IDS,
-    )[0] as InventoryItemName;
-    const isResource = getKeys(TRADE_LIMITS).includes(name);
-
-    if (isResource) {
-      return state;
-    }
-  }
-
-  const { multipliedPoints } = calculateTradePoints({ points, sfl });
+  const { multipliedPoints } = calculateTradePoints({ points, sfl, items });
 
   // Add points to gamestate
   state.trades.tradePoints = (state.trades.tradePoints ?? 0) + multipliedPoints;
