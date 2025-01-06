@@ -121,11 +121,6 @@ const AcceptOfferContent: React.FC<{
     hasItem = !!getChestBuds(state)[itemId];
   }
 
-  if (display.type === "resources") {
-    const name = KNOWN_ITEMS[itemId];
-    hasItem = !!getBasketItems(state.inventory)[name]?.gte(offer.quantity);
-  }
-
   const estTradePoints =
     offer.sfl === 0
       ? 0
