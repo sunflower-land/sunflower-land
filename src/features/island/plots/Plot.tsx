@@ -39,7 +39,6 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getActiveCalenderEvent } from "features/game/types/calendar";
 import { TornadoPlot } from "./components/TornadoPlot";
 
 export function getYieldColour(yieldAmount: number) {

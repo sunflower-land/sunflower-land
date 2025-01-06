@@ -4,7 +4,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState } from "features/game/types/game";
 

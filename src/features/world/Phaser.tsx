@@ -63,8 +63,6 @@ import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import worldIcon from "assets/icons/world.png";
 
-import { hasFeatureAccess } from "lib/flags";
-
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
 
