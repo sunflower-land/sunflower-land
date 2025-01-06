@@ -4768,5 +4768,12 @@
   "tornado": "Tornado",
   "tornado.crops.destroyed": "Tornado destruction",
   "tornado.crops.destroyed.description": "A tornado has destroyed half of your crops. Please wait for the tornado to pass.",
-  "tornado.building.destroyed.description": "A tornado is raging through your farm - this building is not safe! Please wait for the tornado to pass."
+  "tornado.building.destroyed.description": "A tornado is raging through your farm - this building is not safe! Please wait for the tornado to pass.",
+  "tornado.protected.one": "You protected your farm from the tornado!",
+  "tornado.protected.two": "None of your crops were destroyed.",
+  "tornado.protected.three": "None of your buildings were damaged.",
+  "tornado.destroyed.one": "Oh no! A tornado is destroying your farm!",
+  "tornado.destroyed.two": "Some of your crops were destroyed.",
+  "tornado.destroyed.three": "Some of your buildings were damaged.",
+  "tornado.specialEvent": "Special Event - Tornado"
 }

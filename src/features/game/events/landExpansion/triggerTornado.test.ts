@@ -10,7 +10,7 @@ describe("triggerTornado", () => {
         state: {
           ...TEST_FARM,
           calendar: {
-            history: [],
+            dates: [],
           },
         },
         action: {
@@ -24,7 +24,7 @@ describe("triggerTornado", () => {
     const state: GameState = {
       ...TEST_FARM,
       calendar: {
-        history: [
+        dates: [
           {
             name: "tornado",
             date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3 - 100)
@@ -50,7 +50,7 @@ describe("triggerTornado", () => {
     const state: GameState = {
       ...TEST_FARM,
       calendar: {
-        history: [
+        dates: [
           {
             name: "tornado",
             date: now.toString(),
@@ -87,7 +87,7 @@ describe("triggerTornado", () => {
     const state: GameState = {
       ...TEST_FARM,
       calendar: {
-        history: [
+        dates: [
           {
             name: "tornado",
             date: now.toString(),
@@ -143,7 +143,7 @@ describe("triggerTornado", () => {
         bis1: FAKE_CROP,
       },
       calendar: {
-        history: [
+        dates: [
           {
             name: "tornado",
             date: now.toString(),
@@ -175,7 +175,7 @@ describe("triggerTornado", () => {
     const state: GameState = {
       ...TEST_FARM,
       calendar: {
-        history: [
+        dates: [
           {
             name: "tornado",
             date,

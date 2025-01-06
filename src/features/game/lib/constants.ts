@@ -440,7 +440,7 @@ export const INITIAL_FARM: GameState = {
   bank: { taxFreeSFL: 0 },
 
   calendar: {
-    history: [],
+    dates: [],
   },
 
   choreBoard: INITIAL_CHORE_BOARD,

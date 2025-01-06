@@ -1,4 +1,3 @@
-import { getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import { Tool } from "./tools";
 
@@ -14,9 +13,12 @@ export function getPendingCalendarEvent({
 }: {
   game: GameState;
 }): CalendarEventName | null {
-  const history = game.calendar?.history ?? [];
+  const history = game.calendar?.dates ?? [];
 
   const upcoming = history
+    // Is not in the future
+    .filter((event) => new Date(event.date) <= new Date())
+    // Has not been triggered already
     .filter((event) => !game.calendar[event.name]?.triggeredAt)
     // Filter out events 3 days old
     .filter((event) => {

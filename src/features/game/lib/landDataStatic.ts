@@ -257,7 +257,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     oil: 50,
   },
   calendar: {
-    history: [
+    dates: [
       {
         name: "tornado",
         date: new Date().toISOString().substring(0, 10),

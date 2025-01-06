@@ -1,5 +1,4 @@
 import { produce } from "immer";
-import { FACTION_BANNERS, FACTION_EMBLEMS } from "./joinFaction";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { getActiveCalenderEvent } from "features/game/types/calendar";
@@ -21,7 +20,7 @@ export function triggerTornado({
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (game) => {
-    const tornado = game.calendar.history.find(
+    const tornado = game.calendar.dates.find(
       (event) => event.name === "tornado",
     );
 
@@ -37,7 +36,6 @@ export function triggerTornado({
     }
 
     game.calendar.tornado = {
-      ...tornado,
       triggeredAt: createdAt,
     };
 
@@ -82,9 +80,6 @@ const TORNADO_DESTROYED_BUILDINGS: BuildingName[] = [
   "Deli",
 ];
 
-/**
- * Predictable remove half of the crops in a deterministic way
- */
 export function isBuildingDestroyed({
   name,
   game,
@@ -95,6 +90,10 @@ export function isBuildingDestroyed({
   const isTornado = getActiveCalenderEvent({ game }) === "tornado";
 
   if (!isTornado) {
+    return false;
+  }
+
+  if (game.calendar.tornado?.protected) {
     return false;
   }
 

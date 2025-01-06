@@ -1301,7 +1301,7 @@ export interface GameState {
   };
 
   calendar: {
-    history: { name: CalendarEventName; date: string }[];
+    dates: { name: CalendarEventName; date: string }[];
 
     tornado?: CalendarEvent;
   };
