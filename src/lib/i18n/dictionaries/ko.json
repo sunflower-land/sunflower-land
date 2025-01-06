@@ -4725,5 +4725,6 @@
   "temperateSeason.possibleEvents": "가능한 이벤트",
   "gameOptions.generalSettings.behaviour": "행동",
   "gameOptions.generalSettings.disableQuickSelect": "퀵 셀렉트 비활성화",
-  "gameOptions.generalSettings.enableQuickSelect": "퀵 셀렉트 활성화"
+  "gameOptions.generalSettings.enableQuickSelect": "퀵 셀렉트 활성화",
+  "gameOptions.generalSettings.appearance&behaviour": "외모 및 행동"
 }

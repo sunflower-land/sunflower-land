@@ -4725,5 +4725,6 @@
   "temperateSeason.possibleEvents": "可能なイベント",
   "gameOptions.generalSettings.behaviour": "動作",
   "gameOptions.generalSettings.disableQuickSelect": "クイックセレクトを無効にする",
-  "gameOptions.generalSettings.enableQuickSelect": "クイックセレクトを有効にする"
+  "gameOptions.generalSettings.enableQuickSelect": "クイックセレクトを有効にする",
+  "gameOptions.generalSettings.appearance&behaviour": "外観と動作"
 }

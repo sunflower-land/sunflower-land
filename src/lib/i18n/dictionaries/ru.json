@@ -4725,5 +4725,6 @@
   "temperateSeason.possibleEvents": "Возможные события",
   "gameOptions.generalSettings.behaviour": "Поведение",
   "gameOptions.generalSettings.disableQuickSelect": "Отключить быстрый выбор",
-  "gameOptions.generalSettings.enableQuickSelect": "Включить функцию быстрого выбора"
+  "gameOptions.generalSettings.enableQuickSelect": "Включить функцию быстрого выбора",
+  "gameOptions.generalSettings.appearance&behaviour": "Внешний вид и поведение"
 }

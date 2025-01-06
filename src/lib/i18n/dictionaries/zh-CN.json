@@ -4725,5 +4725,6 @@
   "temperateSeason.possibleEvents": "可能发生的事件",
   "gameOptions.generalSettings.behaviour": "行为",
   "gameOptions.generalSettings.disableQuickSelect": "禁用快速选择",
-  "gameOptions.generalSettings.enableQuickSelect": "启用快速选择"
+  "gameOptions.generalSettings.enableQuickSelect": "启用快速选择",
+  "gameOptions.generalSettings.appearance&behaviour": "外表与行为"
 }

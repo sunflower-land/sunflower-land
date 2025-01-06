@@ -4725,5 +4725,6 @@
   "temperateSeason.possibleEvents": "Kemungkinan Peristiwa",
   "gameOptions.generalSettings.behaviour": "Perilaku",
   "gameOptions.generalSettings.disableQuickSelect": "Nonaktifkan QuickSelect",
-  "gameOptions.generalSettings.enableQuickSelect": "Aktifkan QuickSelect"
+  "gameOptions.generalSettings.enableQuickSelect": "Aktifkan QuickSelect",
+  "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Perilaku"
 }

@@ -4725,5 +4725,6 @@
   "temperateSeason.possibleEvents": "Olası Olaylar",
   "gameOptions.generalSettings.behaviour": "Davranış",
   "gameOptions.generalSettings.disableQuickSelect": "QuickSelect'i devre dışı bırak",
-  "gameOptions.generalSettings.enableQuickSelect": "Hızlı Seçimi Etkinleştir"
+  "gameOptions.generalSettings.enableQuickSelect": "Hızlı Seçimi Etkinleştir",
+  "gameOptions.generalSettings.appearance&behaviour": "Görünüm ve Davranış"
 }
