@@ -159,63 +159,15 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
 
   if (readonly) {
     return (
-      <>
-        <div className="flex flex-col items-center space-y-2 mb-2">
-          <div className="flex flex-row justify-between w-full my-1">
-            <Label type="default">{"Bert's Obsession"}</Label>
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`${t("offer.end")} ${secondsToString(resetSeconds, {
-                length: "medium",
-                removeTrailingZeros: true,
-              })}`}
-            </Label>
-          </div>
-          <div className="w-full mb-1 mx-1">
-            <div className="flex">
-              <div
-                className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
-                style={
-                  isObsessionCollectible
-                    ? {
-                        backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }
-                    : {}
-                }
-              >
-                <img
-                  src={image}
-                  className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                />
-              </div>
-              <div className="flex flex-col space-y-2 justify-between">
-                <span className="text-xs leading-none">
-                  {t("obsessionDialogue.codex", {
-                    itemName: obsessionName ?? "",
-                    seasonalTicket: getSeasonalTicket().toLowerCase(),
-                  })}
-                </span>
-                <div className="flex flex-row flex-wrap">
-                  <Label
-                    className="whitespace-nowrap font-secondary relative mr-2"
-                    type="default"
-                  >
-                    {`Reward: ${reward} ${getSeasonalTicket()}s`}
-                  </Label>
-                  {obsessionCompletedAt &&
-                    obsessionCompletedAt >= currentObsession.startDate &&
-                    obsessionCompletedAt <= currentObsession.endDate && (
-                      <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                        {t("alr.completed")}
-                      </Label>
-                    )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
+      <BertObsessionReadonly
+        resetSeconds={resetSeconds}
+        isObsessionCollectible={isObsessionCollectible}
+        image={image}
+        reward={reward}
+        obsessionName={obsessionName}
+        obsessionCompletedAt={obsessionCompletedAt}
+        currentObsession={currentObsession}
+      />
     );
   }
 
@@ -311,5 +263,82 @@ const CompleteObsession: React.FC<{
         {t("bert.day", { seasonalTicket: getSeasonalTicket() })}
       </span>
     </>
+  );
+};
+
+const BertObsessionReadonly: React.FC<{
+  resetSeconds: number;
+  isObsessionCollectible: boolean;
+  image: string;
+  reward: number;
+  obsessionName?: string;
+  obsessionCompletedAt?: number;
+  currentObsession: CurrentObsession;
+}> = ({
+  resetSeconds,
+  isObsessionCollectible,
+  image,
+  reward,
+  obsessionName,
+  obsessionCompletedAt,
+  currentObsession,
+}) => {
+  const { t } = useAppTranslation();
+  return (
+    <div className="flex flex-col items-center space-y-2 mb-2">
+      <div className="flex flex-row justify-between w-full my-1">
+        <Label type="default">{"Bert's Obsession"}</Label>
+        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+          {`${t("offer.end")} ${secondsToString(resetSeconds, {
+            length: "medium",
+            removeTrailingZeros: true,
+          })}`}
+        </Label>
+      </div>
+      <div className="w-full mb-1 mx-1">
+        <div className="flex">
+          <div
+            className="relative min-w-[40%] rounded-md overflow-hidden shadow-md mx-2 flex justify-center items-center w-32 h-32 md:w-64 md:h-64"
+            style={
+              isObsessionCollectible
+                ? {
+                    backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }
+                : {}
+            }
+          >
+            <img
+              src={image}
+              className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+          </div>
+          <div className="flex flex-col space-y-2 justify-between">
+            <span className="text-xs leading-none">
+              {t("obsessionDialogue.codex", {
+                itemName: obsessionName ?? "",
+                seasonalTicket: getSeasonalTicket().toLowerCase(),
+              })}
+            </span>
+            <div className="flex flex-row flex-wrap gap-1">
+              <Label
+                className="whitespace-nowrap font-secondary relative"
+                type="default"
+              >
+                {`Reward: ${reward} ${getSeasonalTicket()}s`}
+              </Label>
+              {obsessionCompletedAt &&
+                obsessionCompletedAt >= currentObsession.startDate &&
+                obsessionCompletedAt <= currentObsession.endDate && (
+                  <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                    {t("alr.completed")}
+                  </Label>
+                )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

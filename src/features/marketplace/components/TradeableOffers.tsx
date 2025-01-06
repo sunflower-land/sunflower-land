@@ -227,7 +227,9 @@ export const TradeableOffers: React.FC<{
                     <Button
                       disabled={
                         topOffer.offeredBy.id === farmId ||
-                        (isItemBertObsession && isBertsObesessionCompleted)
+                        (isItemBertObsession &&
+                          isBertsObesessionCompleted &&
+                          !isResource)
                       }
                       onClick={() => setShowAcceptOffer(true)}
                       className="w-full sm:w-fit"
