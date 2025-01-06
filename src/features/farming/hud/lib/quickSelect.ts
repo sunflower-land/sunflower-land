@@ -10,5 +10,5 @@ export function cacheEnableQuickSelectSetting(show: boolean) {
 export function getEnableQuickSelectSetting(): boolean {
   const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
 
-  return cached ? JSON.parse(cached) : false;
+  return cached ? JSON.parse(cached) : true;
 }
