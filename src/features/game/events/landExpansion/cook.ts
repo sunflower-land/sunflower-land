@@ -8,9 +8,9 @@ import {
   Bumpkin,
   GameState,
   Inventory,
+  InventoryItemName,
   Skills,
 } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { translate } from "lib/i18n/translate";
 import { FeatureName } from "lib/flags";
@@ -141,19 +141,20 @@ export function getCookingRequirements({
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
 
-  ingredients = getKeys(ingredients).reduce((inventory, ingredient) => {
-    let amount = ingredients[ingredient] || new Decimal(0);
+  ingredients = Object.entries(ingredients).reduce(
+    (inventory, [ingredient, amount]) => {
+      // Double Nom - 2x ingredients
+      if (bumpkin.skills["Double Nom"]) {
+        amount = amount.mul(2);
+      }
 
-    // Double Nom - 2x ingredients
-    if (bumpkin.skills["Double Nom"]) {
-      amount = amount.mul(2);
-    }
-
-    return {
-      ...inventory,
-      [ingredient]: amount,
-    };
-  }, ingredients);
+      return {
+        ...inventory,
+        [ingredient]: amount,
+      };
+    },
+    ingredients,
+  );
 
   return ingredients;
 }
@@ -190,16 +191,12 @@ export function cook({
       throw new Error(translate("error.cookingInProgress"));
     }
 
-    const oilConsumed = getCookingOilBoost(
-      item,
-      stateCopy,
-      buildingId,
-    ).oilConsumed;
+    const { oilConsumed } = getCookingOilBoost(item, stateCopy, buildingId);
 
-    stateCopy.inventory = getKeys(ingredients).reduce(
-      (inventory, ingredient) => {
-        const count = inventory[ingredient] ?? new Decimal(0);
-        const amount = ingredients[ingredient] ?? new Decimal(0);
+    stateCopy.inventory = Object.entries(ingredients).reduce(
+      (inventory, [ingredient, amount]) => {
+        const count =
+          inventory[ingredient as InventoryItemName] ?? new Decimal(0);
 
         if (count.lessThan(amount)) {
           throw new Error(`Insufficient ingredient: ${ingredient}`);

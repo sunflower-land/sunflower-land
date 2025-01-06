@@ -390,20 +390,20 @@ describe("castRod", () => {
       expect(limit).toEqual(30);
     });
 
-    it("increases fishing limit by 2 with Fisherman's 2 Fold skill", () => {
+    it("increases fishing limit by 10 with Fisherman's 10 Fold skill", () => {
       const limit = getDailyFishingLimit({
         ...INITIAL_FARM,
         bumpkin: {
           ...INITIAL_FARM.bumpkin,
           skills: {
-            "Fisherman's 2 Fold": 1,
+            "Fisherman's 10 Fold": 1,
           },
         },
       });
-      expect(limit).toEqual(22);
+      expect(limit).toEqual(30);
     });
 
-    it("increases fishing limit by 5 with Fisherman's 2 Fold skill", () => {
+    it("increases fishing limit by 5 with Fisherman's 5 Fold skill", () => {
       const limit = getDailyFishingLimit({
         ...INITIAL_FARM,
         bumpkin: {
