@@ -1691,6 +1691,7 @@
   "gameOptions.generalSettings.disableQuickSelect": "Disable QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Enable QuickSelect",
   "gameOptions.generalSettings.share": "Share",
+  "gameOptions.generalSettings.appearance&behaviour": "Appearance & Behaviour",
   "gameOptions.plazaSettings": "Plaza Settings",
   "gameOptions.plazaSettings.title.mutedPlayers": "Muted Players",
   "gameOptions.plazaSettings.title.keybinds": "Keybinds",

@@ -52,31 +52,32 @@ export const LanguageSwitcher: React.FC = () => {
   return (
     <>
       <div className="p-1 space-y-2 max-h-[400px] overflow-y-auto scrollable">
-        {languageArray.map((languageCode) => (
-          <Button
-            key={languageCode}
-            onClick={() => {
-              setSelected(languageCode);
-              setConfirmModal(true);
-            }}
-            disabled={language === languageCode}
-          >
-            {languageDetails[languageCode].languageImage.map((img, index) => (
-              <img
-                key={index}
-                style={{ display: "inline-block", marginRight: "5px" }}
-                src={img}
-                alt={languageDetails[languageCode].imageAlt[index]}
-              />
-            ))}
-            <span
-              className={`${getFontNameClass(languageCode)} ${getFontSizeClass(languageCode)}`}
+        <div className="grid grid-cols-2 gap-1">
+          {languageArray.map((languageCode) => (
+            <Button
+              key={languageCode}
+              onClick={() => {
+                setSelected(languageCode);
+                setConfirmModal(true);
+              }}
+              disabled={language === languageCode}
             >
-              {languageDetails[languageCode].languageName}
-            </span>{" "}
-            {language === languageCode && t("changeLanguage.currentLanguage")}
-          </Button>
-        ))}
+              {languageDetails[languageCode].languageImage.map((img, index) => (
+                <img
+                  key={index}
+                  style={{ display: "inline-block", marginRight: "5px" }}
+                  src={img}
+                  alt={languageDetails[languageCode].imageAlt[index]}
+                />
+              ))}
+              <span
+                className={`${getFontNameClass(languageCode)} ${getFontSizeClass(languageCode)}`}
+              >
+                {languageDetails[languageCode].languageName}
+              </span>
+            </Button>
+          ))}
+        </div>
         <span>
           <a
             target="_blank"

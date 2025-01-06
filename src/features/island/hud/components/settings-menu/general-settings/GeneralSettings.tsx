@@ -40,11 +40,11 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
 
-      <Button className="mb-1" onClick={() => onSubMenuClick("appearance")}>
-        <span>{t("gameOptions.generalSettings.appearance")}</span>
-      </Button>
-      <Button className="mb-1" onClick={() => onSubMenuClick("behaviour")}>
-        <span>{t("gameOptions.generalSettings.behaviour")}</span>
+      <Button
+        className="mb-1"
+        onClick={() => onSubMenuClick("appearance&behaviour")}
+      >
+        <span>{t("gameOptions.generalSettings.appearance&behaviour")}</span>
       </Button>
       <Button onClick={() => onSubMenuClick("share")} className="mb-1">
         <span>{t("gameOptions.generalSettings.share")}</span>

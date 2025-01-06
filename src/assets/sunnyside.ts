@@ -730,6 +730,9 @@ export const SUNNYSIDE = {
     progressBarBorder: `${CONFIG.PROTECTED_IMAGE_URL}/ui/progress/progress_bar_border.png`,
     transparentBarEdge: `${CONFIG.PROTECTED_IMAGE_URL}/ui/progress/transparent_bar_edge.png`,
     transparentBarLong: `${CONFIG.PROTECTED_IMAGE_URL}/ui/progress/transparent_bar_long.png`,
+    // Toggle
+    turn_off: `${CONFIG.PROTECTED_IMAGE_URL}/ui/toggle/turn_off.png`,
+    turn_on: `${CONFIG.PROTECTED_IMAGE_URL}/ui/toggle/turn_on.png`,
   },
   //Decorations
   decorations: {

@@ -16,7 +16,7 @@ export const LoginSettings: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentMenu, setMenu] = useState<SettingMenuId | "login">("login");
 
-  const buttons: SettingMenuId[] = ["changeLanguage", "appearance"];
+  const buttons: SettingMenuId[] = ["changeLanguage", "appearance&behaviour"];
 
   const { t } = useAppTranslation();
 
@@ -38,13 +38,7 @@ export const LoginSettings: React.FC = () => {
               : t("gameOptions.generalSettings")
           }
           onClose={close}
-          onBack={
-            currentMenu === "font"
-              ? () => setMenu("appearance")
-              : currentMenu !== "login"
-                ? () => setMenu("login")
-                : undefined
-          }
+          onBack={() => setMenu("login")}
         >
           {currentMenu === "login" && (
             <>
