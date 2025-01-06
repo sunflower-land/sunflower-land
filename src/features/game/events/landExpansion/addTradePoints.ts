@@ -29,10 +29,6 @@ export function calculateTradePoints({
     }
   }
 
-  if (sfl < 5) {
-    return { multipliedPoints };
-  }
-
   const pointsCalculation = sfl * TRADE_POINTS_MULTIPLIER;
   multipliedPoints = points * pointsCalculation;
 
