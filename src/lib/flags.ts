@@ -77,6 +77,7 @@ const featureFlags = {
     start: new Date("2024-12-18T00:00:00Z"),
     end: new Date("2025-01-31T00:00:00Z"),
   }),
+  WEATHER_SHOP: testnetFeatureFlag,
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 

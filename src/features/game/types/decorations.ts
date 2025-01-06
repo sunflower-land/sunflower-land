@@ -136,6 +136,13 @@ export type InteriorDecorationName = "Rug" | "Wardrobe";
 export type AnimalDecorationName = "Wagon";
 
 export const DECORATION_TEMPLATES = {
+  "Tornado Pinwheel": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
   "King of Bears": {
     dimensions: {
       width: 3,

@@ -17,6 +17,7 @@ import {
   PurchaseableBait,
 } from "features/game/types/fishing";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { WEATHER_SHOP } from "features/game/types/calendar";
 
 type CraftableToolName =
   | WorkbenchToolName
@@ -34,6 +35,7 @@ export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
   ...TREASURE_TOOLS,
   ...PURCHASEABLE_BAIT,
   ...LOVE_ANIMAL_TOOLS,
+  ...WEATHER_SHOP,
 };
 
 type Options = {

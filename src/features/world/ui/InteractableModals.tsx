@@ -41,6 +41,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ChristmasReward } from "./npcs/Santa";
 import { MachineState } from "features/game/lib/gameMachine";
+import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -96,7 +97,7 @@ type InteractableName =
   | "crop_boom_finish"
   | "christmas_reward"
   | "goblin_hammer"
-  | "trading_board"
+  | "weather_shop"
   | "wishingWell"
   | "goblin_market"
   | "pledge_bumpkin"
@@ -149,6 +150,7 @@ class InteractableModalManager {
 export const interactableModalManager = new InteractableModalManager();
 
 function getInitialModal(scene: SceneId): InteractableName | undefined {
+  return "weather_shop";
   if (
     !hasReadFactionIntro() &&
     (scene === "goblin_house" ||
@@ -208,6 +210,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       )}
       <Modal show={interactable === "faction_intro"} onHide={closeModal}>
         <FactionWelcome onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "weather_shop"} onHide={closeModal}>
+        <WeatherShop onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
         <DesertNoticeboard onClose={closeModal} />

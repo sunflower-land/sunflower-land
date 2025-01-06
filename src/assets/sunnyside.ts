@@ -54,6 +54,7 @@ export const SUNNYSIDE = {
 
   //Announcement
   announcement: {
+    tornado: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/tornado.png`,
     springPrestige: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/spring_prestige.png`,
     desertPrestige: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_prestige.png`,
     desert_digging: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert.webp`,

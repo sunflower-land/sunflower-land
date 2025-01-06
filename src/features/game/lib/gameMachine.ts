@@ -101,6 +101,7 @@ import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow
 import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
+import { getPendingCalendarEvent } from "../types/calendar";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -526,6 +527,7 @@ export type BlockchainState = {
     | "playing"
     | "autosaving"
     | "buyingSFL"
+    | "calendarEvent"
     | "revealing"
     | "revealed"
     | "genieRevealed"
@@ -902,6 +904,7 @@ export function startGame(authContext: AuthContext) {
               target: "somethingArrived",
               cond: (context) => !!context.revealed,
             },
+
             {
               target: "seasonChanged",
               cond: (context) => {
@@ -912,6 +915,16 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
+
+            {
+              target: "calendarEvent",
+              cond: (context) => {
+                const event = getPendingCalendarEvent({ game: context.state });
+
+                return !!event;
+              },
+            },
+
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
             // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
@@ -1000,6 +1013,17 @@ export function startGame(authContext: AuthContext) {
         },
         seasonChanged: {
           on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        calendarEvent: {
+          on: {
+            "tornado.triggered": (GAME_EVENT_HANDLERS as any)[
+              "tornado.triggered"
+            ],
+
             ACKNOWLEDGE: {
               target: "notifying",
             },

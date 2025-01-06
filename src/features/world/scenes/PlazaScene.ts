@@ -174,7 +174,7 @@ export class PlazaScene extends BaseScene {
     });
 
     this.load.image("chest", "world/rare_chest.png");
-    this.load.image("trading_board", "world/trading_board.png");
+    this.load.image("weather_shop", "world/weather_shop.webp");
 
     this.load.image("basic_chest", "world/basic_chest.png");
     this.load.image("luxury_chest", "world/luxury_chest.png");
@@ -221,26 +221,14 @@ export class PlazaScene extends BaseScene {
   async create() {
     super.create();
 
-    const tradingBoard = this.add.sprite(725, 260, "trading_board");
-    tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(tradingBoard, 75)) {
-        interactableModalManager.open("trading_board");
+    const weatherShop = this.add.sprite(728, 250, "weather_shop");
+    weatherShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(weatherShop, 75)) {
+        interactableModalManager.open("weather_shop");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
-
-    const tradingBoardIcon = this.add.sprite(745, 240, "trade_icon");
-    tradingBoardIcon
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(tradingBoardIcon, 75)) {
-          interactableModalManager.open("trading_board");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-    tradingBoardIcon.setDepth(1000000);
 
     let bumpkins = PLAZA_BUMPKINS;
 
