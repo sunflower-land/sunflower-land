@@ -736,7 +736,7 @@ export const TEST_FARM: GameState = {
     "Basic Land": new Decimal(3),
   },
   calendar: {
-    history: [],
+    dates: [],
   },
   previousInventory: {},
   bounties: {
@@ -1061,7 +1061,7 @@ export const EMPTY: GameState = {
     requests: [],
   },
   calendar: {
-    history: [],
+    dates: [],
   },
   rewards: INITIAL_REWARDS,
   bank: { taxFreeSFL: 0 },
