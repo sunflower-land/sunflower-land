@@ -137,10 +137,22 @@ describe("triggerTornado", () => {
     const state: GameState = {
       ...TEST_FARM,
       crops: {
-        1: FAKE_CROP,
-        zf5a: FAKE_CROP,
-        a3tg: FAKE_CROP,
-        bis1: FAKE_CROP,
+        "1": {
+          ...FAKE_CROP,
+          createdAt: 1,
+        },
+        zf5a: {
+          ...FAKE_CROP,
+          createdAt: 2,
+        },
+        a3tg: {
+          ...FAKE_CROP,
+          createdAt: 3,
+        },
+        bis1: {
+          ...FAKE_CROP,
+          createdAt: 4,
+        },
       },
       calendar: {
         dates: [
@@ -164,9 +176,9 @@ describe("triggerTornado", () => {
     expect(newState.calendar.tornado?.protected).toBeFalsy();
 
     expect(newState.crops[1].crop).toBeUndefined();
-    expect(newState.crops["a3tg"].crop).toBeUndefined();
-    expect(newState.crops["zf5a"].crop).toBeDefined();
     expect(newState.crops["bis1"].crop).toBeDefined();
+    expect(newState.crops["zf5a"].crop).toBeUndefined();
+    expect(newState.crops["a3tg"].crop).toBeDefined();
   });
 
   it("should trigger the tornado", () => {

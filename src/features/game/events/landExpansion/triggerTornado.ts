@@ -48,8 +48,8 @@ export function triggerTornado({
 
     game.calendar.tornado.protected = hasPinwheel;
 
-    const cropsToRemove = getKeys(game.crops).filter(
-      (id) => !isCropDestroyed({ id, game }),
+    const cropsToRemove = getKeys(game.crops).filter((id) =>
+      isCropDestroyed({ id, game }),
     );
     cropsToRemove.forEach((crop) => {
       delete game.crops[crop].crop;
@@ -64,8 +64,8 @@ export function triggerTornado({
  */
 export function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
   // Sort oldest to newest
-  const crops = getKeys(game.crops).sort(
-    (a, b) => game.crops[b].createdAt - game.crops[a].createdAt,
+  const crops = getKeys(game.crops).sort((a, b) =>
+    game.crops[b].createdAt > game.crops[a].createdAt ? -1 : 1,
   );
   const cropsToRemove = crops.slice(0, Math.floor(crops.length / 2));
 
