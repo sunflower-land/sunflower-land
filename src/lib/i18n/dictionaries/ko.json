@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "나무를 베면 1% 의 확률로 코인 200개를 찾을 수 있습니다.",
   "skill.treeTurnaround": "나무가 즉시 자랄 확률 10%",
   "skill.treeBlitz": "모든 나무를 즉시 자라게 하는 능력",
-  "skill.fishermansTwoFold": "일일 낚시 한도 +2",
   "skill.fishyChance": "10% 확률로 기본 물고기 1마리 획득",
   "skill.fishyRoll": "10% 확률로 고급 물고기 1마리 획득",
   "skill.reelDeal": "로드 코인 비용 -50%",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "코랄레 배송 시 받는 +50% 코인",
   "skill.bigCatch": "캐칭 게임 기준 늘리기",
   "skill.fishyGamble": "10% 확률로 전문가 물고기 1마리 획득",
-  "skill.moreWithLess.buff": "일일 낚시 한도 +10",
   "skill.moreWithLess.debuff": "모든 퇴비화기에서 나온 벌레 1마리",
   "skill.fishyFeast": "+20% 물고기 경험치",
   "skill.abundantHarvest": "+0.2 계란, 양모 및 우유 생산량",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "애니멀 바운티 코인 50% 증가",
   "skill.heartwarmingInstruments": "애니멀 애정 도구 사용 시 동물 경험치 50% 증가",
   "skill.kaleMix": "믹스드 그레인 대신 믹스하려면 케일 3개가 필요합니다.",
-  "skill.alternateMedicine": "의약품 비용 절감 (곧 제공 예정)",
   "skill.healthyLivestock": "질병에 걸릴 확률 -50%",
   "skill.cluckyGrazing.buff": "닭에게 먹이는 사료 -25%",
   "skill.cluckyGrazing.debuff": "다른 동물에게 먹일 때 주는 사료 50% 증가",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "동물 사료로 얻는 동물 경험치 2배",
   "skill.chonkyFeed.debuff": "모든 동물에게 먹이 주기 50% 증가",
   "skill.glassRoom": "+0.1 온실 농산물 수확량",
-  "skill.seedyBusiness": "-10% 온실 종자 비용",
   "skill.riceAndShine": "-5% 온실 제품 성장 시간",
   "skill.seededBounty.buff": "+0.5 온실 농산물 수확량",
   "skill.seededBounty.debuff": "심을 수 있는 온실 씨앗 1개",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "퀵 셀렉트 비활성화",
   "gameOptions.generalSettings.enableQuickSelect": "퀵 셀렉트 활성화",
   "gameOptions.generalSettings.appearance&behaviour": "외모 및 행동",
-  "skill.appleTastic": "사과 600개를 사용해 모든 동물의 레벨을 올리세요"
+  "skill.appleTastic": "사과 600개를 사용해 모든 동물의 레벨을 올리세요",
+  "skill.fishermansTenFold": "일일 낚시 한도 +10",
+  "skill.moreWithLess.buff": "일일 낚시 한도 +15",
+  "skill.alternateMedicine": "반 딜라이트는 섞을 때 레몬과 꿀이 1개 덜 필요합니다.",
+  "skill.seedyBusiness": "-15% 온실 종자 비용"
 }

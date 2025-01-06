@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "1% de chance de encontrar 200 moedas ao cortar árvores",
   "skill.treeTurnaround": "10% de chance de as árvores crescerem instantaneamente",
   "skill.treeBlitz": "Capacidade de fazer todas as árvores crescerem instantaneamente",
-  "skill.fishermansTwoFold": "Limite diário de pesca de +2",
   "skill.fishyChance": "10% de chance de +1 peixe básico",
   "skill.fishyRoll": "10% de chance de +1 peixe avançado",
   "skill.reelDeal": "-50% de custo da moeda em bastão",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "+50% de moedas das entregas da Corale",
   "skill.bigCatch": "Aumente a barra para pegar o jogo",
   "skill.fishyGamble": "10% de chance de +1 peixe experiente",
-  "skill.moreWithLess.buff": "+10 limite diário de pesca",
   "skill.moreWithLess.debuff": "-1 minhoca de todos os compostores",
   "skill.fishyFeast": "+20% de EXP de Peixe",
   "skill.abundantHarvest": "+0,2 Produção de ovos, lã e leite",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+50% de moedas de Animal Bounties",
   "skill.heartwarmingInstruments": "+50% de EXP Animal das ferramentas Animal Affection",
   "skill.kaleMix": "Em vez disso, o grão misto requer 3 couves para misturar",
-  "skill.alternateMedicine": "Custo reduzido do medicamento (em breve)",
   "skill.healthyLivestock": "-50% de chance de adoecer",
   "skill.cluckyGrazing.buff": "-25% de ração para alimentar galinhas",
   "skill.cluckyGrazing.debuff": "+50% de ração para alimentar outros animais",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "2x animal xp de ração animal",
   "skill.chonkyFeed.debuff": "+50% de ração para alimentar todos os animais",
   "skill.glassRoom": "+0,1 Rendimento de produção em estufa",
-  "skill.seedyBusiness": "-10% de custo de sementes de estufa",
   "skill.riceAndShine": "-5% de tempo de crescimento para produtos de estufa",
   "skill.seededBounty.buff": "+0,5 Rendimento de produção em estufa",
   "skill.seededBounty.debuff": "+1 semente de estufa para plantar",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "Desativar QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Ativar QuickSelec",
   "gameOptions.generalSettings.appearance&behaviour": "Aparência e comportamento",
-  "skill.appleTastic": "Use 600 maçãs para aumentar o nível de todos os animais"
+  "skill.appleTastic": "Use 600 maçãs para aumentar o nível de todos os animais",
+  "skill.fishermansTenFold": "+10 limite diário de pesca",
+  "skill.moreWithLess.buff": "Limite diário de pesca de +15",
+  "skill.alternateMedicine": "Barn Delight requer menos 1 limão e mel para misturar",
+  "skill.seedyBusiness": "-15% de custo de sementes de estufa"
 }

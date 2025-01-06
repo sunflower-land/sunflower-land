@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "1% peluang mencari 200 Syiling semasa memotong pokok",
   "skill.treeTurnaround": "10% peluang untuk pokok tumbuh dengan serta-merta",
   "skill.treeBlitz": "Keupayaan untuk membuat semua pokok tumbuh dengan serta-merta",
-  "skill.fishermansTwoFold": "+2 had memancing harian",
   "skill.fishyChance": "10% peluang +1 ikan asas",
   "skill.fishyRoll": "10% peluang +1 ikan lanjutan",
   "skill.reelDeal": "-50% kos duit syiling",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "+50% syiling dari penghantaran Corale",
   "skill.bigCatch": "Meningkatkan bar untuk menangkap permainan",
   "skill.fishyGamble": "10% peluang untuk +1 ikan pakar",
-  "skill.moreWithLess.buff": "+10 had memancing harian",
   "skill.moreWithLess.debuff": "-1 cacing dari semua komposter",
   "skill.fishyFeast": "+20% Ikan XP",
   "skill.abundantHarvest": "+0.2 Hasil Telur, Bulu dan Susu",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+50% Syiling dari Ganjaran Haiwan",
   "skill.heartwarmingInstruments": "+50% XP Haiwan dari alat Animal Affection",
   "skill.kaleMix": "Biji-bijian Campuran memerlukan 3 kangkung untuk dicampur sebaliknya",
-  "skill.alternateMedicine": "Mengurangkan kos ubat (akan datang tidak lama lagi)",
   "skill.healthyLivestock": "-50% kemungkinan penyakit",
   "skill.cluckyGrazing.buff": "-25% makanan untuk memberi makan Ayam",
   "skill.cluckyGrazing.debuff": "+50% makanan untuk memberi makan haiwan lain",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "2x xp haiwan dari makanan haiwan",
   "skill.chonkyFeed.debuff": "+50% makanan untuk memberi makan kepada semua haiwan",
   "skill.glassRoom": "+0.1 Rumah hijau menghasilkan hasil",
-  "skill.seedyBusiness": "-10% kos biji rumah hijau",
   "skill.riceAndShine": "-5% masa pertumbuhan untuk produk rumah hijau",
   "skill.seededBounty.buff": "+0.5 Rumah hijau menghasilkan hasil",
   "skill.seededBounty.debuff": "+1 benih rumah hijau untuk ditanam",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "Lumpuhkan QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Dayakan QuickSelect",
   "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Tingkah Laku",
-  "skill.appleTastic": "Gunakan 600 epal untuk meningkatkan semua haiwan"
+  "skill.appleTastic": "Gunakan 600 epal untuk meningkatkan semua haiwan",
+  "skill.fishermansTenFold": "+10 had memancing harian",
+  "skill.moreWithLess.buff": "+15 had memancing harian",
+  "skill.alternateMedicine": "Barn Delight memerlukan 1 Lemon dan Madu kurang untuk dicampur",
+  "skill.seedyBusiness": "-15% kos biji rumah hijau"
 }

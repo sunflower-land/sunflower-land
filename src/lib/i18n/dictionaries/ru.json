@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "Вероятность найти 200 монет при рубке деревьев — 1%",
   "skill.treeTurnaround": "Вероятность мгновенного роста деревьев — 10%",
   "skill.treeBlitz": "Возможность мгновенно заставить все деревья расти",
-  "skill.fishermansTwoFold": "Дневной лимит на рыбалку:",
   "skill.fishyChance": "Вероятность получения +1 базовой рыбы: 10%",
   "skill.fishyRoll": "Вероятность поймать +1 продвинутую рыбу — 10%",
   "skill.reelDeal": "Стоимость стержневой монеты: -50%",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "+50% монет от поставок Corale",
   "skill.bigCatch": "Повысьте планку ловли игры",
   "skill.fishyGamble": "Вероятность поймать +1 опытную рыбу — 10%",
-  "skill.moreWithLess.buff": "Дневной лимит на рыбалку +10",
   "skill.moreWithLess.debuff": "-1 червь из всех компостеров",
   "skill.fishyFeast": "+20% к опыту рыбаков",
   "skill.abundantHarvest": "+0.2 Удои яиц, шерсти и молока",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+50% монет за награды за животных",
   "skill.heartwarmingInstruments": "+50% опыта животных с помощью инструментов Animal Affection",
   "skill.kaleMix": "Вместо смешанного зерна для смешивания требуется 3 капусты",
-  "skill.alternateMedicine": "Снижение стоимости лекарств (скоро)",
   "skill.healthyLivestock": "Вероятность заболевания: -50%",
   "skill.cluckyGrazing.buff": "-25% корма для кормления цыплят",
   "skill.cluckyGrazing.debuff": "+50% корма для других животных",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "В 2 раза больше опыта животных из корма для животных",
   "skill.chonkyFeed.debuff": "+50% корма для всех животных",
   "skill.glassRoom": "+0.1 Урожайность тепличных продуктов",
-  "skill.seedyBusiness": "Стоимость семян для теплиц: -10%",
   "skill.riceAndShine": "Время роста тепличных продуктов: -5%",
   "skill.seededBounty.buff": "+0,5 Урожайность тепличных продуктов",
   "skill.seededBounty.debuff": "+1 тепличное семя для посадки",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "Отключить быстрый выбор",
   "gameOptions.generalSettings.enableQuickSelect": "Включить функцию быстрого выбора",
   "gameOptions.generalSettings.appearance&behaviour": "Внешний вид и поведение",
-  "skill.appleTastic": "Используйте 600 яблок, чтобы повысить уровень всех животных"
+  "skill.appleTastic": "Используйте 600 яблок, чтобы повысить уровень всех животных",
+  "skill.fishermansTenFold": "Дневной лимит на рыбалку +10",
+  "skill.moreWithLess.buff": "Дневной лимит на рыбалку +15",
+  "skill.alternateMedicine": "Для смешивания Barn Delight требуется на 1 лимон и мед меньше",
+  "skill.seedyBusiness": "Стоимость семян для теплиц -15%"
 }

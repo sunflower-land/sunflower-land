@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "1 % de chances de trouver 200 pièces en coupant des arbres",
   "skill.treeTurnaround": "10 % de chances que les arbres poussent instantanément",
   "skill.treeBlitz": "Possibilité de faire pousser instantanément tous les arbres",
-  "skill.fishermansTwoFold": "Limite de pêche quotidienne de +2",
   "skill.fishyChance": "10 % de chances d'obtenir +1 poisson de base",
   "skill.fishyRoll": "10 % de chances d'obtenir +1 poisson avancé",
   "skill.reelDeal": "-50 % du coût des pièces",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "+50 % de pièces provenant des livraisons de Corale",
   "skill.bigCatch": "Augmenter la barre pour attraper le gibier",
   "skill.fishyGamble": "10 % de chances d'obtenir +1 poisson expert",
-  "skill.moreWithLess.buff": "Limite de pêche quotidienne de +10",
   "skill.moreWithLess.debuff": "-1 ver provenant de tous les composteurs",
   "skill.fishyFeast": "+20 % d'expérience de poisson",
   "skill.abundantHarvest": "+0,2 Rendement en œufs, en laine et en lait",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+ 50 % de pièces provenant d'Animal Bounties",
   "skill.heartwarmingInstruments": "+50 % d'expérience animale grâce aux outils Animal Affection",
   "skill.kaleMix": "Mixed Grain nécessite 3 choux pour être mélangé à la place",
-  "skill.alternateMedicine": "Réduction du coût des médicaments (bientôt disponible)",
   "skill.healthyLivestock": "-50 % de risque de maladie",
   "skill.cluckyGrazing.buff": "-25 % d'aliments pour nourrir les poulets",
   "skill.cluckyGrazing.debuff": "+50 % de nourriture pour nourrir d'autres animaux",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "2 fois plus d'expérience animale provenant de l'alimentation animale",
   "skill.chonkyFeed.debuff": "+ 50 % de nourriture pour nourrir tous les animaux",
   "skill.glassRoom": "+0,1 Rendement des produits de serre",
-  "skill.seedyBusiness": "-10 % du coût des semences de serre",
   "skill.riceAndShine": "-5 % de temps de croissance pour les produits de serre",
   "skill.seededBounty.buff": "+0,5 Rendement des produits de serre",
   "skill.seededBounty.debuff": "+1 graine de serre à planter",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "Désactiver QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Activer QuickSelect",
   "gameOptions.generalSettings.appearance&behaviour": "Apparence et comportement",
-  "skill.appleTastic": "Utilise 600 pommes pour améliorer tous les animaux"
+  "skill.appleTastic": "Utilise 600 pommes pour améliorer tous les animaux",
+  "skill.fishermansTenFold": "Limite de pêche quotidienne de +10",
+  "skill.moreWithLess.buff": "Limite de pêche quotidienne de +15",
+  "skill.alternateMedicine": "Barn Delight nécessite 1 citron et 1 miel en moins pour être mélangé",
+  "skill.seedyBusiness": "-15 % Coût des semences de serre"
 }

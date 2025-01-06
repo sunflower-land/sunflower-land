@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "1% peluang menemukan 200 Koin saat menebang pohon",
   "skill.treeTurnaround": "10% kesempatan bagi pohon untuk tumbuh secara instan",
   "skill.treeBlitz": "Kemampuan untuk membuat semua pohon langsung tumbuh",
-  "skill.fishermansTwoFold": "+2 batas memancing harian",
   "skill.fishyChance": "10% peluang +1 ikan dasar",
   "skill.fishyRoll": "10% peluang +1 ikan tingkat lanjut",
   "skill.reelDeal": "-50% biaya koin batang",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "Koin +50% dari pengiriman Corale",
   "skill.bigCatch": "Tingkatkan bar untuk menangkap permainan",
   "skill.fishyGamble": "10% peluang +1 ikan ahli",
-  "skill.moreWithLess.buff": "+10 batas memancing harian",
   "skill.moreWithLess.debuff": "-1 cacing dari semua komposter",
   "skill.fishyFeast": "+20% XP Ikan",
   "skill.abundantHarvest": "+0,2 Hasil telur, wol dan susu",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+50% Koin dari Animal Bounties",
   "skill.heartwarmingInstruments": "+50% XP Hewan dari alat Animal Affection",
   "skill.kaleMix": "Campuran Grain membutuhkan 3 kangkung untuk dicampur sebagai gantinya",
-  "skill.alternateMedicine": "Mengurangi biaya obat (segera hadir)",
   "skill.healthyLivestock": "-50% kemungkinan sakit",
   "skill.cluckyGrazing.buff": "-25% pakan untuk memberi makan Ayam",
   "skill.cluckyGrazing.debuff": "+50% pakan untuk memberi makan hewan lain",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "2x hewan xp dari pakan ternak",
   "skill.chonkyFeed.debuff": "+50% pakan untuk memberi makan semua hewan",
   "skill.glassRoom": "+0.1 Hasil produksi rumah kaca",
-  "skill.seedyBusiness": "-10% biaya benih rumah kaca",
   "skill.riceAndShine": "-5% waktu pertumbuhan untuk produk rumah kaca",
   "skill.seededBounty.buff": "+0.5 Hasil produksi rumah kaca",
   "skill.seededBounty.debuff": "+1 Benih rumah kaca untuk ditanam",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "Nonaktifkan QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Aktifkan QuickSelect",
   "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Perilaku",
-  "skill.appleTastic": "Gunakan 600 apel untuk menaikkan level semua hewan"
+  "skill.appleTastic": "Gunakan 600 apel untuk menaikkan level semua hewan",
+  "skill.fishermansTenFold": "+10 batas memancing harian",
+  "skill.moreWithLess.buff": "+15 batas memancing harian",
+  "skill.alternateMedicine": "Barn Delight membutuhkan 1 lebih sedikit Lemon dan Madu untuk dicampur",
+  "skill.seedyBusiness": "-15% biaya benih rumah kaca"
 }

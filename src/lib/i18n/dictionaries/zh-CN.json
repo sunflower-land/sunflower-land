@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "砍树时有 1% 的几率找到 200 个硬币",
   "skill.treeTurnaround": "树木有 10% 的几率立即生长",
   "skill.treeBlitz": "能够让所有树木立即生长",
-  "skill.fishermansTwoFold": "+2 每日钓鱼限额",
   "skill.fishyChance": "10% 几率获得 +1 条基础鱼",
   "skill.fishyRoll": "10% 几率获得 +1 条高级鱼",
   "skill.reelDeal": "-50% 钓鱼币成本",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "来自 Corale 配送的硬币 +50%",
   "skill.bigCatch": "增加捕捉游戏的门槛",
   "skill.fishyGamble": "10% 几率获得 +1 条专家鱼",
-  "skill.moreWithLess.buff": "+10 每日钓鱼上限",
   "skill.moreWithLess.debuff": "-1 个来自所有堆肥者的蠕虫",
   "skill.fishyFeast": "+20% 鱼类经验值",
   "skill.abundantHarvest": "+0.2 鸡蛋、羊毛和牛奶产量",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+50% 来自动物赏金的硬币",
   "skill.heartwarmingInstruments": "+50% 来自动物情感工具的动物经验值",
   "skill.kaleMix": "混合谷物需要 3 个羽衣甘蓝才能混合",
-  "skill.alternateMedicine": "降低药品成本（即将推出）",
   "skill.healthyLivestock": "生病几率 -50%",
   "skill.cluckyGrazing.buff": "-25% 喂鸡的饲料",
   "skill.cluckyGrazing.debuff": "+50% 用于喂养其他动物的饲料",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "来自动物饲料的 2 倍动物经验值",
   "skill.chonkyFeed.debuff": "+50% 饲料可喂养所有动物",
   "skill.glassRoom": "+0.1 温室农产品产量",
-  "skill.seedyBusiness": "-10% 温室种子成本",
   "skill.riceAndShine": "温室产品的生长时间 -5%",
   "skill.seededBounty.buff": "+0.5 温室农产品产量",
   "skill.seededBounty.debuff": "+1 种植温室种子",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "禁用快速选择",
   "gameOptions.generalSettings.enableQuickSelect": "启用快速选择",
   "gameOptions.generalSettings.appearance&behaviour": "外表与行为",
-  "skill.appleTastic": "使用 600 个苹果来提升所有动物的等级"
+  "skill.appleTastic": "使用 600 个苹果来提升所有动物的等级",
+  "skill.fishermansTenFold": "+10 每日钓鱼上限",
+  "skill.moreWithLess.buff": "+15 每日钓鱼上限",
+  "skill.alternateMedicine": "Barn Delight 需要减少 1 个柠檬和蜂蜜才能混合",
+  "skill.seedyBusiness": "-15% 温室种子成本"
 }

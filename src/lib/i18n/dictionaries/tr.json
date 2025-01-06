@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "Ağaçları keserken %1 200 jeton bulma şansı",
   "skill.treeTurnaround": "Ağaçların anında büyümesi için %10 şans",
   "skill.treeBlitz": "Tüm ağaçları anında büyütme yeteneği",
-  "skill.fishermansTwoFold": "+2 günlük balık tutma limiti",
   "skill.fishyChance": "%10 +1 temel balık şansı",
   "skill.fishyRoll": "%10 +1 gelişmiş balık şansı",
   "skill.reelDeal": "-50% çubuk bozuk para maliyeti",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "Corale'nin teslimatlarından +%50 madeni para",
   "skill.bigCatch": "Yakalama oyunu için çubuğu artırın",
   "skill.fishyGamble": "%10 +1 uzman balık şansı",
-  "skill.moreWithLess.buff": "+10 günlük balık tutma limiti",
   "skill.moreWithLess.debuff": "Tüm kompostörlerden -1 solucan",
   "skill.fishyFeast": "+20% Balık DP'si",
   "skill.abundantHarvest": "+0.2 Yumurta, Yün ve Süt verimi",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+%50 Hayvan Ödülleri'nden para",
   "skill.heartwarmingInstruments": "Animal Affection araçlarından +%50 Hayvan DP'si",
   "skill.kaleMix": "Karışık Tahıl, bunun yerine karıştırmak için 3 lahana gerektirir",
-  "skill.alternateMedicine": "Azaltılmış ilaç maliyeti (yakında)",
   "skill.healthyLivestock": "-% 50 hastalık olasılığı",
   "skill.cluckyGrazing.buff": "Tavukları beslemek için% -25 yem",
   "skill.cluckyGrazing.debuff": "Diğer hayvanları beslemek için +% 50 yem",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "Hayvan yeminden 2x hayvan xp",
   "skill.chonkyFeed.debuff": "Tüm hayvanları beslemek için+%50 yem",
   "skill.glassRoom": "+0.1 Sera üretimi verimi",
-  "skill.seedyBusiness": "-10% Sera tohumları maliyeti",
   "skill.riceAndShine": "Sera ürünleri için% -5 büyüme süresi",
   "skill.seededBounty.buff": "+0.5 Sera üretimi verimi",
   "skill.seededBounty.debuff": "Dikilecek +1 sera tohumu",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "QuickSelect'i devre dışı bırak",
   "gameOptions.generalSettings.enableQuickSelect": "Hızlı Seçimi Etkinleştir",
   "gameOptions.generalSettings.appearance&behaviour": "Görünüm ve Davranış",
-  "skill.appleTastic": "Tüm hayvanların seviyesini yükseltmek için 600 elma kullanın"
+  "skill.appleTastic": "Tüm hayvanların seviyesini yükseltmek için 600 elma kullanın",
+  "skill.fishermansTenFold": "+10 günlük balık tutma limiti",
+  "skill.moreWithLess.buff": "+15 günlük balıkçılık sınırı",
+  "skill.alternateMedicine": "Barn Delight karıştırmak için 1 daha az Limon ve Bal gerektirir",
+  "skill.seedyBusiness": "-15% Sera tohumları maliyeti"
 }

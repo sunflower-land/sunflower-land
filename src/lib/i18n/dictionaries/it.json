@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "1% di possibilità di trovare 200 monete tagliando gli alberi",
   "skill.treeTurnaround": "10% di possibilità che gli alberi crescano istantaneamente",
   "skill.treeBlitz": "Capacità di far crescere istantaneamente tutti gli alberi",
-  "skill.fishermansTwoFold": "+2 limiti di pesca giornalieri",
   "skill.fishyChance": "10% di possibilità di +1 pesce base",
   "skill.fishyRoll": "10% di possibilità di +1 pesce avanzato",
   "skill.reelDeal": "-50% costo della moneta a forma di asta",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "+50% monete dalle consegne di Corale",
   "skill.bigCatch": "Aumenta la barra per catturare la selvaggina",
   "skill.fishyGamble": "10% di possibilità di +1 pesce esperto",
-  "skill.moreWithLess.buff": "+10 limite di pesca giornaliero",
   "skill.moreWithLess.debuff": "-1 verme da tutte le compostiere",
   "skill.fishyFeast": "+20% Fish XP",
   "skill.abundantHarvest": "+0,2 Produzione di uova, lana e latte",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+50% di monete provenienti da Animal Bounties",
   "skill.heartwarmingInstruments": "+50% Animal XP grazie agli strumenti Animal Affection",
   "skill.kaleMix": "Mixed Grain richiede invece 3 cavoli per mescolarsi",
-  "skill.alternateMedicine": "Costo dei farmaci ridotto (disponibile a breve)",
   "skill.healthyLivestock": "-50% di probabilità di malattia",
   "skill.cluckyGrazing.buff": "-25% di mangime per nutrire i polli",
   "skill.cluckyGrazing.debuff": "+50% di mangime per nutrire altri animali",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "2x animal xp da mangime per animali",
   "skill.chonkyFeed.debuff": "+50% di mangime per nutrire tutti gli animali",
   "skill.glassRoom": "+0.1 Rendimento dei prodotti in serra",
-  "skill.seedyBusiness": "-10% Costo dei semi in serra",
   "skill.riceAndShine": "-5% di tempo di crescita per i prodotti in serra",
   "skill.seededBounty.buff": "+0,5 Rendimento dei prodotti in serra",
   "skill.seededBounty.debuff": "+1 seme in serra da piantare",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "Disattiva QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Abilita QuickSelect",
   "gameOptions.generalSettings.appearance&behaviour": "Aspetto e comportamento",
-  "skill.appleTastic": "Usa 600 mele per far salire di livello tutti gli animali"
+  "skill.appleTastic": "Usa 600 mele per far salire di livello tutti gli animali",
+  "skill.fishermansTenFold": "+10 limite di pesca giornaliero",
+  "skill.moreWithLess.buff": "+15 limite di pesca giornaliero",
+  "skill.alternateMedicine": "Barn Delight richiede 1 limone e miele in meno per miscelare",
+  "skill.seedyBusiness": "-15% Costo dei semi in serra"
 }

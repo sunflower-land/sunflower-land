@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "1% Chance, beim Baumfällen 200 Münzen zu finden",
   "skill.treeTurnaround": "10% Chance, dass Bäume sofort wachsen",
   "skill.treeBlitz": "Fähigkeit, alle Bäume sofort wachsen zu lassen",
-  "skill.fishermansTwoFold": "+2 tägliche Fangbegrenzung",
   "skill.fishyChance": "10% Chance auf +1 Grundfisch",
   "skill.fishyRoll": "10% Chance auf +1 fortgeschrittene Fische",
   "skill.reelDeal": "-50% Kosten für Stangenmünzen",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "+50% Münzen aus Corales Lieferungen",
   "skill.bigCatch": "Erhöhen Sie die Messlatte für das Fangspiel",
   "skill.fishyGamble": "10% Chance auf +1 Expertenfisch",
-  "skill.moreWithLess.buff": "+10 tägliches Fanglimit",
   "skill.moreWithLess.debuff": "-1 Wurm von allen Kompostern",
   "skill.fishyFeast": "+20% Fisch-EP",
   "skill.abundantHarvest": "+0.2 Ei-, Woll- und Milchleistung",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+50% Münzen aus Tierprämien",
   "skill.heartwarmingInstruments": "+50% Tier-EP mit den Werkzeugen „Tierliebe“",
   "skill.kaleMix": "Gemischtes Getreide benötigt stattdessen 3 Grünkohl zum Mischen",
-  "skill.alternateMedicine": "Reduzierte Arzneimittelkosten (demnächst)",
   "skill.healthyLivestock": "-50% Krankheitsrisiko",
   "skill.cluckyGrazing.buff": "-25% Futter für Hühner",
   "skill.cluckyGrazing.debuff": "+50% Futter für andere Tiere",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "2x Tier-XP aus Tierfutter",
   "skill.chonkyFeed.debuff": "+50% Futter, um alle Tiere zu füttern",
   "skill.glassRoom": "+0.1 Ertrag von Gewächshausprodukten",
-  "skill.seedyBusiness": "-10% Kosten für Gewächshaussamen",
   "skill.riceAndShine": "-5% Wachstumszeit für Gewächshausprodukte",
   "skill.seededBounty.buff": "+0.5 Ertrag von Gewächshausprodukten",
   "skill.seededBounty.debuff": "+1 Gewächshaussamen zum Pflanzen",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "QuickSelect deaktivieren",
   "gameOptions.generalSettings.enableQuickSelect": "QuickSelect aktivieren",
   "gameOptions.generalSettings.appearance&behaviour": "Aussehen und Verhalten",
-  "skill.appleTastic": "Verwende 600 Äpfel, um alle Tiere aufzuleveln"
+  "skill.appleTastic": "Verwende 600 Äpfel, um alle Tiere aufzuleveln",
+  "skill.fishermansTenFold": "+10 tägliches Fanglimit",
+  "skill.moreWithLess.buff": "+15 tägliches Fanglimit",
+  "skill.alternateMedicine": "Barn Delight benötigt 1 Zitrone und Honig weniger zum Mischen",
+  "skill.seedyBusiness": "-15% Kosten für Gewächshaussamen"
 }

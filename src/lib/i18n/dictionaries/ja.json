@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "木を切り刻むと 1% の確率で200枚のコインが見つかる",
   "skill.treeTurnaround": "樹木が瞬時に成長する確率は 10%",
   "skill.treeBlitz": "すべての木を瞬時に成長させる能力",
-  "skill.fishermansTwoFold": "+2 デイリーフィッシングリミット",
   "skill.fishyChance": "10% の確率で基本魚1匹獲得",
   "skill.fishyRoll": "10% の確率で上級魚1匹獲得",
   "skill.reelDeal": "-50% ロッドコインコスト",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "コラールの配達による+50％のコイン",
   "skill.bigCatch": "キャッチゲームのバーを増やす",
   "skill.fishyGamble": "10% の確率でエキスパートフィッシュ+1匹獲得",
-  "skill.moreWithLess.buff": "+10 デイリーフィッシングリミット",
   "skill.moreWithLess.debuff": "すべてのコンポストからのワーム-1個",
   "skill.fishyFeast": "魚経験値 +20%",
   "skill.abundantHarvest": "+0.2 卵、羊毛、乳生産量",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "アニマルバウンティの +50% コイン",
   "skill.heartwarmingInstruments": "アニマル・アフェクションツールから獲得できる動物経験値 +50%",
   "skill.kaleMix": "ミックスグレインの代わりにミックスするにはケールが3個必要です",
-  "skill.alternateMedicine": "医療費の削減（近日公開予定）",
   "skill.healthyLivestock": "-50% の確率で病気になる",
   "skill.cluckyGrazing.buff": "-25% の給餌用鶏用飼料",
   "skill.cluckyGrazing.debuff": "+50% のエサで他の動物にエサをあげる",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "動物飼料から得られる動物経験値の2倍",
   "skill.chonkyFeed.debuff": "+50% の飼料ですべての動物に給餌できます",
   "skill.glassRoom": "+0.1 温室農産物の収量",
-  "skill.seedyBusiness": "-10% 温室種子のコスト",
   "skill.riceAndShine": "温室製品の成長時間は-5％",
   "skill.seededBounty.buff": "+0.5 温室農産物の収量",
   "skill.seededBounty.debuff": "+1植える温室種子",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "クイックセレクトを無効にする",
   "gameOptions.generalSettings.enableQuickSelect": "クイックセレクトを有効にする",
   "gameOptions.generalSettings.appearance&behaviour": "外観と動作",
-  "skill.appleTastic": "リンゴを600個使って全動物をレベルアップさせよう"
+  "skill.appleTastic": "リンゴを600個使って全動物をレベルアップさせよう",
+  "skill.fishermansTenFold": "+10 デイリーフィッシングリミット",
+  "skill.moreWithLess.buff": "+15 デイリーフィッシングリミット",
+  "skill.alternateMedicine": "Barn Delightは混ぜるのにレモンとハチミツを1つ少なくする必要があります",
+  "skill.seedyBusiness": "-15% 温室種子のコスト"
 }

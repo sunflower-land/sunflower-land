@@ -4527,7 +4527,6 @@
   "skill.moneyTree": "1% de probabilidad de encontrar 200 monedas al cortar árboles",
   "skill.treeTurnaround": "10% de probabilidad de que los árboles crezcan al instante",
   "skill.treeBlitz": "Capacidad para hacer que todos los árboles crezcan al instante",
-  "skill.fishermansTwoFold": "+2 límite de pesca diario",
   "skill.fishyChance": "10% de probabilidad de obtener +1 pez básico",
   "skill.fishyRoll": "10% de probabilidad de obtener +1 pez avanzado",
   "skill.reelDeal": "-50% de coste de la moneda de varilla",
@@ -4535,7 +4534,6 @@
   "skill.fishyFortune": "+50% de monedas de las entregas de Corale",
   "skill.bigCatch": "Aumenta la barra para atrapar el juego",
   "skill.fishyGamble": "10% de probabilidad de obtener +1 pez experto",
-  "skill.moreWithLess.buff": "Límite de pesca diario de +10",
   "skill.moreWithLess.debuff": "-1 gusano de todos los compostadores",
   "skill.fishyFeast": "+20% de EXP por pesca",
   "skill.abundantHarvest": "+0.2 Producción de huevos, lana y leche",
@@ -4545,7 +4543,6 @@
   "skill.bountifulBounties": "+50% de monedas de Animal Bounties",
   "skill.heartwarmingInstruments": "+50% de EXP animal gracias a las herramientas de afecto animal",
   "skill.kaleMix": "En su lugar, Mixed Grain requiere 3 col rizada para mezclar",
-  "skill.alternateMedicine": "Reducción del costo de los medicamentos (próximamente)",
   "skill.healthyLivestock": "-50% de probabilidad de enfermedad",
   "skill.cluckyGrazing.buff": "-25% de pienso para alimentar pollos",
   "skill.cluckyGrazing.debuff": "Más del 50% de pienso para alimentar a otros animales",
@@ -4677,7 +4674,6 @@
   "skill.chonkyFeed.buff": "2 veces la experiencia animal obtenida con piensos",
   "skill.chonkyFeed.debuff": "+50% de pienso para alimentar a todos los animales",
   "skill.glassRoom": "+0,1 Rendimiento de productos de invernadero",
-  "skill.seedyBusiness": "-10% de costo de semillas de invernadero",
   "skill.riceAndShine": "-5% de tiempo de crecimiento para productos de invernadero",
   "skill.seededBounty.buff": "+0,5 Rendimiento de productos de invernadero",
   "skill.seededBounty.debuff": "+1 semilla de invernadero para plantar",
@@ -4726,5 +4722,9 @@
   "gameOptions.generalSettings.disableQuickSelect": "Desactivar QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Activar QuickSelect",
   "gameOptions.generalSettings.appearance&behaviour": "Apariencia y comportamiento",
-  "skill.appleTastic": "Usa 600 manzanas para subir de nivel a todos los animales"
+  "skill.appleTastic": "Usa 600 manzanas para subir de nivel a todos los animales",
+  "skill.fishermansTenFold": "Límite de pesca diario de +10",
+  "skill.moreWithLess.buff": "Límite de pesca diario de +15",
+  "skill.alternateMedicine": "Barn Delight requiere 1 limón y miel menos para mezclar",
+  "skill.seedyBusiness": "-15% del costo de las semillas de invernadero"
 }
