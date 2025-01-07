@@ -134,7 +134,7 @@ export function getAffectedWeather({
   if (
     weather === "tornado" &&
     !game.calendar.tornado?.protected &&
-    !isCropDestroyed({ id, game })
+    isCropDestroyed({ id, game })
   ) {
     return "tornado";
   }
