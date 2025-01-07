@@ -630,8 +630,17 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   }
 
   const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
+
+  const offerSFL = Object.values(newState.trades.offers ?? {}).reduce(
+    (acc, offer) => {
+      return acc.add(offer.sfl);
+    },
+    new Decimal(0),
+  );
+
   const progress = newState.balance
     .add(auctionSFL)
+    .add(offerSFL)
     .sub(newState.previousBalance ?? new Decimal(0));
 
   /**
