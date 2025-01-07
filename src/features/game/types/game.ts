@@ -87,6 +87,7 @@ import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
 import { SeasonalCollectibleName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import { CalendarEvent, CalendarEventName } from "./calendar";
+import { VipBundle } from "../lib/vipAccess";
 
 export type Reward = {
   coins?: number;
@@ -1305,6 +1306,11 @@ export interface GameState {
 
     tornado?: CalendarEvent;
     tsunami?: CalendarEvent;
+  };
+  vip?: {
+    bundle: VipBundle;
+    boughtAt: number;
+    expiresAt: number;
   };
 
   shipments: {

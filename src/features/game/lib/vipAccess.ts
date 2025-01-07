@@ -1,18 +1,19 @@
-import Decimal from "decimal.js-light";
-import { Inventory } from "../types/game";
-import { getSeasonalBanner } from "../types/seasons";
+import { GameState, Inventory } from "../types/game";
 
-export const hasVipAccess = (
-  inventory: Inventory,
-  now = new Date(),
-): boolean => {
-  const seasonBannerQuantity =
-    inventory[getSeasonalBanner(now)] ?? new Decimal(0);
-  const hasSeasonPass = seasonBannerQuantity.gt(0);
+export const hasVipAccess = ({
+  game,
+  now = Date.now(),
+}: {
+  game: GameState;
+  now?: number;
+}): boolean => {
+  return !!game.vip?.boughtAt && game.vip?.expiresAt > now;
+};
 
-  const lifetimeBannerQuantity =
-    inventory["Lifetime Farmer Banner"] ?? new Decimal(0);
-  const hasLifetimePass = lifetimeBannerQuantity.gt(0);
+export type VipBundle = "1_MONTH" | "3_MONTHS" | "1_YEAR";
 
-  return hasSeasonPass || hasLifetimePass;
+export const VIP_PRICES: Record<VipBundle, number> = {
+  "1_MONTH": 650, //4.99
+  "3_MONTHS": 1500, // 11.99
+  "1_YEAR": 6000, // 39.99
 };

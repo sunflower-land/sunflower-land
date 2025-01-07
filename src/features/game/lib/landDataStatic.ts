@@ -298,6 +298,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
   island: {
     type: "desert",
   },
+  competitions: {
+    progress: {
+      ANIMALS: {
+        initialProgress: {},
+        startedAt: 100,
+      },
+    },
+  },
   mysteryPrizes: {},
   minigames: {
     games: {},
