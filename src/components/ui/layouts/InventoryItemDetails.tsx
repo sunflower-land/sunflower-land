@@ -118,15 +118,22 @@ export const InventoryItemDetails: React.FC<Props> = ({
           {description}
         </span>
         {boost && (
-          <div className="flex mb-2 sm:justify-center">
-            <Label
-              type={boost.labelType}
-              icon={boost.boostTypeIcon}
-              secondaryIcon={boost.boostedItemIcon}
-              className="my-1"
-            >
-              {boost.shortDescription}
-            </Label>
+          <div className="flex flex-col gap-1 mb-2">
+            {boost.map(
+              (
+                { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+                index,
+              ) => (
+                <Label
+                  key={index}
+                  type={labelType}
+                  icon={boostTypeIcon}
+                  secondaryIcon={boostedItemIcon}
+                >
+                  {shortDescription}
+                </Label>
+              ),
+            )}
           </div>
         )}
       </>

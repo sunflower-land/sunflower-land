@@ -112,13 +112,28 @@ export const Detail: React.FC<Props> = ({
               {additionalLabels}
               {/* Boost labels to go below */}
               {!!buff && (
-                <Label
-                  type={buff.labelType}
-                  icon={buff.boostTypeIcon}
-                  secondaryIcon={buff.boostedItemIcon}
-                >
-                  {buff.shortDescription}
-                </Label>
+                <div className="flex flex-col gap-1">
+                  {buff.map(
+                    (
+                      {
+                        labelType,
+                        boostTypeIcon,
+                        boostedItemIcon,
+                        shortDescription,
+                      },
+                      index,
+                    ) => (
+                      <Label
+                        key={index}
+                        type={labelType}
+                        icon={boostTypeIcon}
+                        secondaryIcon={boostedItemIcon}
+                      >
+                        {shortDescription}
+                      </Label>
+                    ),
+                  )}
+                </div>
               )}
               {!!itemType && (
                 <Label type="default" className="capitalize">

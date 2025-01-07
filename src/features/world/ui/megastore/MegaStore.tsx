@@ -50,7 +50,7 @@ export const getItemImage = (
 export const getItemBuffLabel = (
   item: WearablesItem | CollectiblesItem | null,
   state: GameState,
-): BuffLabel | undefined => {
+): BuffLabel[] | undefined => {
   if (!item) return;
 
   if (isWearablesItem(item)) {

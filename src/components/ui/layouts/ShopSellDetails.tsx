@@ -82,7 +82,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
         .href;
   const description = isCollectible(item)
     ? ITEM_DETAILS[item].description
-    : BUMPKIN_ITEM_BUFF_LABELS[item]?.shortDescription;
+    : BUMPKIN_ITEM_BUFF_LABELS[item]?.map((b) => b.shortDescription).join(", ");
 
   return (
     <>

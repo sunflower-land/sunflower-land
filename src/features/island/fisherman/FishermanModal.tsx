@@ -529,26 +529,28 @@ export const FishermanModal: React.FC<Props> = ({
   );
 };
 
+interface BoostReelItem {
+  location: string;
+  buff: BuffLabel[];
+}
+
 const BoostReelItems: Partial<
-  Record<
-    BumpkinItem | CollectibleName | BumpkinRevampSkillName,
-    BuffLabel & { location: string }
-  >
+  Record<BumpkinItem | CollectibleName | BumpkinRevampSkillName, BoostReelItem>
 > = {
   "Angler Waders": {
-    ...(BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"] as BuffLabel),
+    buff: BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"] as BuffLabel[],
     location: "Expert Angler Achievement",
   },
   "Fisherman's 5 Fold": {
-    ...BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts.buff,
+    buff: [BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts.buff],
     location: "Fishing Skill Tree",
   },
   "Fisherman's 10 Fold": {
-    ...BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 10 Fold"].boosts.buff,
+    buff: [BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 10 Fold"].boosts.buff],
     location: "Fishing Skill Tree",
   },
   "More With Less": {
-    ...BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts.buff,
+    buff: Object.values(BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts),
     location: "Fishing Skill Tree",
   },
 };
@@ -658,13 +660,18 @@ const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
                         <span className="text-xs">{name}</span>
                         <span className="text-xxs italic">{item.location}</span>
                       </div>
-                      <Label
-                        type={item.labelType}
-                        icon={item.boostTypeIcon}
-                        secondaryIcon={item.boostedItemIcon}
-                      >
-                        {item.shortDescription}
-                      </Label>
+                      <div className="flex flex-col gap-1">
+                        {item.buff.map((buff, index) => (
+                          <Label
+                            key={index}
+                            type={buff.labelType}
+                            icon={buff.boostTypeIcon}
+                            secondaryIcon={buff.boostedItemIcon}
+                          >
+                            {buff.shortDescription}
+                          </Label>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))}
