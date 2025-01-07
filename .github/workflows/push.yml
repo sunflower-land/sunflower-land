@@ -3,7 +3,7 @@ name: Push Notifications deploy
 on:
   push:
     branches:
-      - feat/fcm_notifications
+      - feat/fcm-notifications
 
 jobs:
   deploy:
