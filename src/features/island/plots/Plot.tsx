@@ -10,6 +10,7 @@ import {
 import { CROPS, CROP_SEEDS } from "features/game/types/crops";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import {
+  getAffectedWeather,
   getCompletedWellCount,
   isPlotFertile,
 } from "features/game/events/landExpansion/plant";
@@ -38,6 +39,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useSound } from "lib/utils/hooks/useSound";
+import { TornadoPlot } from "./components/TornadoPlot";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -154,6 +156,10 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   });
 
   if (!isFertile) return <NonFertilePlot />;
+
+  const weather = getAffectedWeather({ id, game: state });
+
+  if (weather === "tornado") return <TornadoPlot game={state} />;
 
   const harvestCrop = async (crop: PlantedCrop) => {
     const newState = gameService.send("crop.harvested", {

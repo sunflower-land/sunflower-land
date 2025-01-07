@@ -118,3 +118,14 @@ export const GameProvider: React.FC = ({ children }) => {
     </Context.Provider>
   );
 };
+
+export const useGame = () => {
+  const context = React.useContext(Context);
+  const [gameState] = useActor(context.gameService);
+
+  if (!context) {
+    throw new Error("useAuth must be used within an GameProvider");
+  }
+
+  return { gameState, gameService: context.gameService };
+};

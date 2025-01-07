@@ -4787,5 +4787,20 @@
   "temperateSeason.introduction.two": "Each season brings different opportunities. Certain crops can only grow in specific seasons. Keep an eye out for seasonal events that could affect your farm.",
   "temperateSeason.introduction.three": "Make sure to protect your crops and be prepared for anything!",
   "temperateSeason.acknowledge": "Got it!",
-  "temperateSeason.possibleEvents": "Possible Events"
+  "temperateSeason.possibleEvents": "Possible Events",
+  "description.tornadoPinwheel": "A magical pinwheel that protects you from the tornado! One-use only.",
+  "temperateSeason.weatherShop.weather": "Weather",
+  "temperateSeason.weatherShop.buy.description": "Buy items to protect your farm from the weather",
+  "temperateSeason.weatherShop.buy.comingSoon": "Coming soon - February 1st",
+  "tornado": "Tornado",
+  "tornado.crops.destroyed": "Tornado destruction",
+  "tornado.crops.destroyed.description": "A tornado has destroyed half of your crops. Please wait for the tornado to pass.",
+  "tornado.building.destroyed.description": "A tornado is raging through your farm - this building is not safe! Please wait for the tornado to pass.",
+  "tornado.protected.one": "You protected your farm from the tornado!",
+  "tornado.protected.two": "None of your crops were destroyed.",
+  "tornado.protected.three": "None of your buildings were damaged.",
+  "tornado.destroyed.one": "Oh no! A tornado is destroying your farm!",
+  "tornado.destroyed.two": "Some of your crops were destroyed.",
+  "tornado.destroyed.three": "Some of your buildings were damaged.",
+  "tornado.specialEvent": "Special Event - Tornado"
 }

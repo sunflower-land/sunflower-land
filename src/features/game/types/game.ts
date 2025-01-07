@@ -86,6 +86,7 @@ import {
 import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
 import { SeasonalCollectibleName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
+import { CalendarEvent, CalendarEventName } from "./calendar";
 
 export type Reward = {
   coins?: number;
@@ -1297,6 +1298,12 @@ export interface GameState {
 
   competitions: {
     progress: Partial<Record<CompetitionName, CompetitionProgress>>;
+  };
+
+  calendar: {
+    dates: { name: CalendarEventName; date: string }[];
+
+    tornado?: CalendarEvent;
   };
 
   shipments: {

@@ -42,6 +42,11 @@ import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  CalendarEventName,
+  getActiveCalenderEvent,
+} from "features/game/types/calendar";
+import { isCropDestroyed } from "./triggerTornado";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -115,6 +120,26 @@ export function isPlotFertile({
       .findIndex((plotId) => plotId === plotIndex) + 1;
 
   return cropPosition <= cropsWellCanWater;
+}
+
+export function getAffectedWeather({
+  id,
+  game,
+}: {
+  id: string;
+  game: GameState;
+}): CalendarEventName | undefined {
+  const weather = getActiveCalenderEvent({ game });
+
+  if (
+    weather === "tornado" &&
+    !game.calendar.tornado?.protected &&
+    !isCropDestroyed({ id, game })
+  ) {
+    return "tornado";
+  }
+
+  return undefined;
 }
 
 /**

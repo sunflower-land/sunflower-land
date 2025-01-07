@@ -439,6 +439,10 @@ export const INITIAL_FARM: GameState = {
   previousWardrobe: {},
   bank: { taxFreeSFL: 0 },
 
+  calendar: {
+    dates: [],
+  },
+
   choreBoard: INITIAL_CHORE_BOARD,
 
   competitions: {
@@ -730,6 +734,9 @@ export const TEST_FARM: GameState = {
     "Boiled Eggs": new Decimal(3),
     "Sunflower Cake": new Decimal(1),
     "Basic Land": new Decimal(3),
+  },
+  calendar: {
+    dates: [],
   },
   previousInventory: {},
   bounties: {
@@ -1052,6 +1059,9 @@ export const EMPTY: GameState = {
   bounties: {
     completed: [],
     requests: [],
+  },
+  calendar: {
+    dates: [],
   },
   rewards: INITIAL_REWARDS,
   bank: { taxFreeSFL: 0 },

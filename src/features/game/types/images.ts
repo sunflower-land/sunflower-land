@@ -28,7 +28,7 @@ import marty from "assets/sfts/morchi_marty.webp";
 import miffy from "assets/sfts/morchi_miffy.webp";
 import mog from "assets/sfts/morchi_mog.webp";
 import morty from "assets/sfts/morchi_morty.webp";
-
+import tornadoPinwheel from "assets/sfts/tornado_pinwheel.webp";
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
@@ -4496,5 +4496,9 @@ export const ITEM_DETAILS: Items = {
   "Golden Cow": {
     image: goldenCow,
     description: translate("description.golden.cow.boost"),
+  },
+  "Tornado Pinwheel": {
+    image: tornadoPinwheel,
+    description: translate("description.tornadoPinwheel"),
   },
 };
