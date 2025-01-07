@@ -3,20 +3,28 @@ import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
 
-type SubscriptionName = "seasonal-events";
+export type SubscriptionName = "seasonal-events";
+
+export type Subscriptions = {
+  [key in SubscriptionName]: boolean;
+};
+
+export const DEFAULT_SUBSCRIPTIONS: Subscriptions = {
+  "seasonal-events": false,
+};
 
 type SubscribeToNotificationsProps = {
   authToken: string;
   fcmToken: string;
   farmId: number;
-  subscriptionName: SubscriptionName;
+  subscriptions: Subscriptions;
 };
 
 export async function subscribeToNotifications({
   authToken,
   fcmToken,
   farmId,
-  subscriptionName,
+  subscriptions,
 }: SubscribeToNotificationsProps): Promise<{
   success: boolean;
   message: string;
@@ -33,7 +41,7 @@ export async function subscribeToNotifications({
     body: JSON.stringify({
       token: fcmToken,
       farmId,
-      subscriptionName,
+      subscriptions,
     }),
   });
 
@@ -47,3 +55,25 @@ export async function subscribeToNotifications({
 
   return await response.json();
 }
+
+export const getSubscriptionsForFarmId = async (
+  farmId: number,
+  token: string,
+) => {
+  const url = new URL(`${API_URL}/notifications/subscriptions/${farmId}`);
+  const response = await window.fetch(url.toString(), {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.FAILED_REQUEST);
+  }
+
+  return await response.json();
+};

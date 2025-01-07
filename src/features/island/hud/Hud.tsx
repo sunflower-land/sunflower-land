@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -30,7 +30,10 @@ import {
   BumpkinRevampSkillName,
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
-
+import { Button } from "components/ui/Button";
+import { requestForToken } from "lib/messaging";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { subscribeToNotifications } from "features/game/actions/subscriptions";
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 
 /**
@@ -165,6 +168,7 @@ const HudComponent: React.FC<{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         >
+          <NotificationButton farmId={gameState.context.farmId} />
           {hasPowerSkills && <PowerSkillsButton />}
           <MarketplaceButton />
           <CodexButton />
@@ -210,6 +214,48 @@ const HudComponent: React.FC<{
       </HudContainer>
     </>
   );
+};
+
+const NotificationButton = ({ farmId }: { farmId: number }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
+  const [token, setToken] = useState<string | null>(null);
+  const [subscribed, setSubscribed] = useState(false);
+  const handleGetToken = async () => {
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      const token = await requestForToken();
+      setToken(token);
+    }
+  };
+
+  const handleSubscribe = async () => {
+    try {
+      const result = await subscribeToNotifications({
+        authToken: authState.context.user.rawToken as string,
+        fcmToken: token as string,
+        farmId,
+        subscriptions: {
+          "seasonal-events": true,
+        },
+      });
+
+      if (result.success) {
+        setSubscribed(true);
+        alert("Subscribed to seasonal events");
+      }
+    } catch (error) {
+      alert(`Error subscribing to notifications: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    if (token && !subscribed) {
+      handleSubscribe();
+    }
+  }, [token, subscribed]);
+
+  return <Button onClick={handleGetToken}>{`blah`}</Button>;
 };
 
 export const Hud = React.memo(HudComponent);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
@@ -49,11 +49,28 @@ import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { AdminSettings } from "./general-settings/AdminSettings";
 import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
+import { Notifications } from "./general-settings/Notifications";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  getSubscriptionsForFarmId,
+  Subscriptions,
+} from "features/game/actions/subscriptions";
+import { preload } from "swr";
+import { useSelector } from "@xstate/react";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
   onClose: () => void;
 }
+
+export const subscriptionsFetcher = ([, token, farmId]: [
+  string,
+  string,
+  number,
+]): Promise<Subscriptions> => {
+  return getSubscriptionsForFarmId(farmId, token);
+};
 
 const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -164,6 +181,20 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
+      {hasFeatureAccess(gameService.state.context.state, "SEASONAL_EVENTS") && (
+        <Button
+          onClick={() => onSubMenuClick("notifications")}
+          className="mb-1 relative"
+        >
+          {t("gameOptions.notifications")}
+          {!!gameService.state.context.fslId && (
+            <img
+              src={SUNNYSIDE.icons.confirm}
+              className="absolute right-1 top-0.5 h-7"
+            />
+          )}
+        </Button>
+      )}
       <Button
         disabled={!canRefresh}
         className="p-1 mb-1 relative"
@@ -221,11 +252,30 @@ interface GameOptionsModalProps {
   onClose: () => void;
 }
 
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+
+const preloadSubscriptions = (token: string, farmId: number) => {
+  preload(
+    ["/notifications/subscriptions", token, farmId],
+    subscriptionsFetcher,
+  );
+};
+
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
 }) => {
+  const { authService } = useContext(Auth.Context);
+
+  const token = useSelector(authService, _token);
+  const { gameService } = useContext(GameContext);
   const [selected, setSelected] = useState<SettingMenuId>("main");
+
+  useEffect(() => {
+    preloadSubscriptions(token, gameService.state.context.farmId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onHide = () => {
     onClose();
@@ -273,9 +323,10 @@ export type SettingMenuId =
   | "share"
   | "appearance&behaviour"
 
+  // Push Notifications
+  | "notifications"
   // Amoy Testnet Actions
   | "hoardingCheck"
-
   // Plaza Settings
   | "pickServer"
   | "shader";
@@ -317,6 +368,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.plazaSettings"),
     parent: "main",
     content: PlazaSettings,
+  },
+  notifications: {
+    title: translate("gameOptions.notifications"),
+    parent: "main",
+    content: (props) => <Notifications {...props} />,
   },
 
   // Blockchain Settings

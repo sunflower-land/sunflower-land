@@ -9,8 +9,9 @@ import { StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
 import { getMessaging } from "firebase/messaging/sw";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+// import { onBackgroundMessage } from "firebase/messaging/sw";
 import { app } from "./lib/firebase";
+
 declare let self: ServiceWorkerGlobalScope;
 
 const isTestnet = CONFIG.NETWORK === "amoy";
@@ -54,23 +55,24 @@ if (import.meta.env.PROD) {
 }
 
 // Firebase Messaging
-const messaging = getMessaging(app);
+getMessaging(app);
 
-onBackgroundMessage(messaging, (payload) => {
-  // eslint-disable-next-line no-console
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload,
-  );
-  // Customize notification here
-  const notificationTitle = payload.notification?.title as string;
-  const notificationOptions = {
-    body: payload.notification?.body,
-    icon: "../public/icons/favicon.ico",
-  };
+// onBackgroundMessage(messaging, (payload) => {
+//   // eslint-disable-next-line no-console
+//   console.log(
+//     "[firebase-messaging-sw.js] Received background message ",
+//     payload,
+//   );
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+//   // Customize notification here
+//   const notificationTitle = payload.data?.title as string;
+//   const notificationOptions = {
+//     body: payload.data?.body,
+//     icon: "./assets/brand/icon.png",
+//   };
+
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
 
 // Offline fallback html page
 offlineFallback();
