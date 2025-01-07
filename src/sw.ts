@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /// <reference lib="webworker" />
 /// <reference no-default-lib="true"/>
 
@@ -55,24 +56,12 @@ if (import.meta.env.PROD) {
 }
 
 // Firebase Messaging
-getMessaging(app);
-
-// onBackgroundMessage(messaging, (payload) => {
-//   // eslint-disable-next-line no-console
-//   console.log(
-//     "[firebase-messaging-sw.js] Received background message ",
-//     payload,
-//   );
-
-//   // Customize notification here
-//   const notificationTitle = payload.data?.title as string;
-//   const notificationOptions = {
-//     body: payload.data?.body,
-//     icon: "./assets/brand/icon.png",
-//   };
-
-//   self.registration.showNotification(notificationTitle, notificationOptions);
-// });
+try {
+  getMessaging(app);
+  console.log("Firebase Messaging initialized");
+} catch (err) {
+  console.error("Failed to initialize Firebase Messaging", err);
+}
 
 // Offline fallback html page
 offlineFallback();

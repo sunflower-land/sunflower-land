@@ -7,8 +7,9 @@ export const FIREBASE_VAPID_PUBLIC_KEY = import.meta.env
 const messaging = getMessaging(app);
 
 export const requestForToken = async () => {
-  const registration = await navigator.serviceWorker.ready;
   try {
+    const registration = await navigator.serviceWorker.ready;
+
     const currentToken = await getToken(messaging, {
       vapidKey: FIREBASE_VAPID_PUBLIC_KEY,
       serviceWorkerRegistration: registration,

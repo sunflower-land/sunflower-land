@@ -62,7 +62,9 @@ export const getSubscriptionsForFarmId = async (
 ) => {
   const url = new URL(`${API_URL}/notifications/subscriptions/${farmId}`);
   const response = await window.fetch(url.toString(), {
+    method: "GET",
     headers: {
+      "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${token}`,
     },
   });

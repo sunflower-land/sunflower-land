@@ -1699,6 +1699,7 @@
   "gameOptions.confirmLogout": "Are you sure you want to Logout?",
   "gameOptions.notifications.updating": "Updating settings",
   "gameOptions.notifications.update": "Update settings",
+  "gameOptions.notifications.updated": "Settings updated",
   "gameOptions.developerOptions": "Developer Options",
   "gameOptions.developerOptions.timeMachine": "Time Machine",
   "gameOptions.blockchainSettings": "Blockchain Settings",

@@ -19,6 +19,7 @@ export function useServiceWorkerUpdate() {
   } = useRegisterSW({
     onRegisteredSW(swUrl, registration) {
       if (registration) {
+        console.log("SW registered", registration);
         setInterval(async () => {
           if (!(!registration.installing && navigator)) return;
 

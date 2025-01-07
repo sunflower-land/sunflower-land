@@ -32,6 +32,7 @@ export const Notifications: React.FC<{
   const { authService } = useContext(AuthProvider.Context);
 
   const token = useSelector(authService, _token);
+  const [saving, setSaving] = useState(false);
 
   const {
     data: subscriptions,
@@ -43,7 +44,7 @@ export const Notifications: React.FC<{
       token as string,
       gameService.state.context.farmId,
     ],
-    subscriptionsFetcher,
+    saving ? null : subscriptionsFetcher,
   );
 
   if (error) {
@@ -51,7 +52,7 @@ export const Notifications: React.FC<{
     console.error("Error when fetching notification subscriptions", error);
   }
 
-  const [saving, setSaving] = useState(false);
+  const [errorWhileSave, setErrorWhileSave] = useState<string | null>(null);
   // Local state to keep track of the selections
   const [options, setOptions] = useState<Subscriptions>(
     subscriptions ?? DEFAULT_SUBSCRIPTIONS,
@@ -67,8 +68,12 @@ export const Notifications: React.FC<{
 
   const handleGetToken = async () => {
     const permission = await Notification.requestPermission();
+
     if (permission === "granted") {
       const token = await requestForToken();
+
+      // eslint-disable-next-line no-console
+      console.log("token", token);
 
       if (token) {
         await handleSubscribe(token);
@@ -88,13 +93,15 @@ export const Notifications: React.FC<{
 
       if (result.success) {
         mutate();
+        setSaving(false);
+        onSubMenuClick("main");
       }
     } catch (error) {
+      setErrorWhileSave(error as string);
       // eslint-disable-next-line no-console
       console.log(`Error subscribing to notifications: ${error}`);
     } finally {
       setSaving(false);
-      onSubMenuClick("main");
     }
   };
 
@@ -114,7 +121,13 @@ export const Notifications: React.FC<{
             />
           </div>
         ))}
+        {errorWhileSave && (
+          <div className="text-red-500 my-0.5 text-xs">
+            {t("error.wentWrong")}
+          </div>
+        )}
       </div>
+
       <Button disabled={!isDirty || saving} onClick={handleGetToken}>
         <p className={`${saving ? "loading" : ""}`}>
           {saving
