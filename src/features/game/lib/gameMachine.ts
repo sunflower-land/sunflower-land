@@ -919,6 +919,9 @@ export function startGame(authContext: AuthContext) {
             {
               target: "calendarEvent",
               cond: (context) => {
+                if (!hasFeatureAccess(context.state, "WEATHER_SHOP")) {
+                  return false;
+                }
                 const event = getPendingCalendarEvent({ game: context.state });
 
                 return !!event;
