@@ -31,7 +31,6 @@ export async function subscribeToNotifications({
   success: boolean;
   message: string;
 }> {
-  // Append the `type` query parameter to the URL
   const url = new URL(`${API_URL}/notifications/subscribe`);
 
   const response = await window.fetch(url.toString(), {

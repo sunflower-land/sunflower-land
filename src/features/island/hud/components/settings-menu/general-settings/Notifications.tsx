@@ -17,6 +17,7 @@ import { getKeys } from "features/game/types/decorations";
 import Switch from "components/ui/Switch";
 import { Button } from "components/ui/Button";
 import { useGetDeviceType } from "lib/utils/hooks/useGetDeviceType";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export const convertToTitleCase = (str: string) => {
   return str.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
@@ -24,6 +25,7 @@ export const convertToTitleCase = (str: string) => {
 
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
+const _farmId = (state: MachineState) => state.context.farmId as number;
 
 export const Notifications: React.FC<{
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -34,9 +36,8 @@ export const Notifications: React.FC<{
   const deviceType = useGetDeviceType();
 
   const token = useSelector(authService, _token);
+  const farmId = useSelector(gameService, _farmId);
   const [saving, setSaving] = useState(false);
-
-  const farmId = gameService.state.context.farmId;
 
   const {
     data: subscriptions,
@@ -88,7 +89,7 @@ export const Notifications: React.FC<{
       const result = await subscribeToNotifications({
         authToken: token as string,
         fcmToken: fcmToken as string,
-        farmId: gameService.state.context.farmId,
+        farmId,
         subscriptions: options,
         deviceType,
       });

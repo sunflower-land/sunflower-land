@@ -1,8 +1,6 @@
 import { app } from "./firebase";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-
-export const FIREBASE_VAPID_PUBLIC_KEY = import.meta.env
-  .VITE_FIREBASE_PUBLIC_VAPID_KEY;
+import { CONFIG } from "lib/config";
 
 const messaging = getMessaging(app);
 
@@ -10,7 +8,7 @@ export const requestForToken = async () => {
   try {
     const registration = await navigator.serviceWorker.ready;
     const currentToken = await getToken(messaging, {
-      vapidKey: FIREBASE_VAPID_PUBLIC_KEY,
+      vapidKey: CONFIG.FIREBASE_VAPID_KEY,
       serviceWorkerRegistration: registration,
     });
 
@@ -27,8 +25,8 @@ export const requestForToken = async () => {
   }
 };
 
-// In game notifications are currently handled by the game
-// So this is not currently implemented but required for firebase
+// In game notifications are currently handled by the game using the game machine and modals
+// so this is not currently implemented but required for firebase
 onMessage(messaging, (payload) => {
   return void payload;
 });

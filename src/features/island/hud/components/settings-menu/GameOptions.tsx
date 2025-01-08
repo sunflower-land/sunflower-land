@@ -188,6 +188,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         <Button
           onClick={() => onSubMenuClick("notifications")}
           className="mb-1 relative"
+          // Not available in players browser
           disabled={!("serviceWorker" in navigator && "PushManager" in window)}
         >
           {t("gameOptions.notifications")}
