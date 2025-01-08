@@ -67,6 +67,7 @@ self.addEventListener("push", (event) => {
   if (event.data) {
     const { data } = event.data.json();
 
+    console.log("PUSH NOTIFICATION", { data });
     self.registration.showNotification(data.title, {
       body: data.body,
       icon: data.icon,
