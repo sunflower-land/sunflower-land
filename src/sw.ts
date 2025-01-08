@@ -57,8 +57,10 @@ if (import.meta.env.PROD) {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
-  // Get the link from fcmOptions if it exists, otherwise fallback to "/"
-  const link = event.notification?.data?.fcmOptions?.link || "/play";
+  console.log("Notification clicked", event);
+
+  // Get the link from fcmOptions if it exists, otherwise fallback to "/play"
+  const link = event.notification?.data?.link || "/play";
   event.waitUntil(self.clients.openWindow(link));
 });
 
@@ -67,9 +69,10 @@ async function initializeFirebaseMessaging() {
   const messaging = getMessaging();
   const supported = await isSupported();
 
-  console.log("[firebase-messaging-sw.js] Firebase Messaging supported", {
+  console.log(
+    "[firebase-messaging-sw.js] Firebase Messaging supported",
     supported,
-  });
+  );
 
   if (supported) {
     onBackgroundMessage(messaging, (payload) => {
@@ -80,11 +83,13 @@ async function initializeFirebaseMessaging() {
 
       if (!payload.data) return;
 
-      // Customize notification here
       const notificationTitle = payload.data.title;
       const notificationOptions = {
         body: payload.data.body,
         icon: payload.data.icon,
+        data: {
+          link: payload.data.link,
+        },
       };
 
       self.registration.showNotification(
