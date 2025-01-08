@@ -9,7 +9,7 @@ import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
-import { getMessaging } from "firebase/messaging/sw";
+import { getMessaging, isSupported } from "firebase/messaging/sw";
 import { onBackgroundMessage } from "firebase/messaging/sw";
 import "./lib/firebase";
 declare let self: ServiceWorkerGlobalScope;
@@ -62,26 +62,42 @@ self.addEventListener("notificationclick", (event) => {
   event.waitUntil(self.clients.openWindow(link));
 });
 
-// Firebase Messaging
-const messaging = getMessaging();
+async function initializeFirebaseMessaging() {
+  // Firebase Messaging
+  const messaging = getMessaging();
+  const supported = await isSupported();
 
-onBackgroundMessage(messaging, (payload) => {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload,
-  );
+  console.log("[firebase-messaging-sw.js] Firebase Messaging supported", {
+    supported,
+  });
 
-  if (!payload.data) return;
+  if (supported) {
+    onBackgroundMessage(messaging, (payload) => {
+      console.log(
+        "[firebase-messaging-sw.js] Received background message ",
+        payload,
+      );
 
-  // Customize notification here
-  const notificationTitle = payload.data.title;
-  const notificationOptions = {
-    body: payload.data.body,
-    icon: payload.data.icon,
-  };
+      if (!payload.data) return;
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+      // Customize notification here
+      const notificationTitle = payload.data.title;
+      const notificationOptions = {
+        body: payload.data.body,
+        icon: payload.data.icon,
+      };
+
+      self.registration.showNotification(
+        notificationTitle,
+        notificationOptions,
+      );
+    });
+  }
+}
+
+initializeFirebaseMessaging().catch((error) =>
+  console.error("[ERROR] Failed to initialize firebase messaging", error),
+);
 
 // Offline fallback html page
 offlineFallback();
