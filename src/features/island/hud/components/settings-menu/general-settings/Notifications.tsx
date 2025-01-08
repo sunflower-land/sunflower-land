@@ -16,6 +16,7 @@ import { SettingMenuId, subscriptionsFetcher } from "../GameOptions";
 import { getKeys } from "features/game/types/decorations";
 import Switch from "components/ui/Switch";
 import { Button } from "components/ui/Button";
+import { useGetDeviceType } from "lib/utils/hooks/useGetDeviceType";
 
 export const convertToTitleCase = (str: string) => {
   return str.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
@@ -30,6 +31,7 @@ export const Notifications: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthProvider.Context);
+  const deviceType = useGetDeviceType();
 
   const token = useSelector(authService, _token);
   const [saving, setSaving] = useState(false);
@@ -88,10 +90,12 @@ export const Notifications: React.FC<{
         fcmToken: fcmToken as string,
         farmId: gameService.state.context.farmId,
         subscriptions: options,
+        deviceType,
       });
 
       if (result.success) {
-        mutate(options, { revalidate: true });
+        await mutate(options, { revalidate: true });
+        onSubMenuClick("main");
       }
     } catch (error) {
       setErrorWhileSave(error as string);
@@ -99,7 +103,6 @@ export const Notifications: React.FC<{
       console.log(`Error subscribing to notifications: ${error}`);
     } finally {
       setSaving(false);
-      onSubMenuClick("main");
     }
   };
 

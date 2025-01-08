@@ -18,6 +18,7 @@ type SubscribeToNotificationsProps = {
   fcmToken: string;
   farmId: number;
   subscriptions: Subscriptions;
+  deviceType: "ios" | "android" | "browser" | "unknown";
 };
 
 export async function subscribeToNotifications({
@@ -25,6 +26,7 @@ export async function subscribeToNotifications({
   fcmToken,
   farmId,
   subscriptions,
+  deviceType,
 }: SubscribeToNotificationsProps): Promise<{
   success: boolean;
   message: string;
@@ -42,6 +44,7 @@ export async function subscribeToNotifications({
       token: fcmToken,
       farmId,
       subscriptions,
+      deviceType,
     }),
   });
 
