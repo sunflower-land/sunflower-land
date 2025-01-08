@@ -37,6 +37,13 @@ const getSecondaryImage = (activity: BumpkinActivityName) => {
 
   return undefined;
 };
+
+const getChoreImage = (kingdomChore: KingdomChore) => {
+  if (kingdomChore.activity.endsWith("Casted")) return SUNNYSIDE.icons.fish;
+
+  return ITEM_DETAILS[kingdomChore.image].image;
+};
+
 interface Props {
   kingdomChores: KingdomChores;
   onClose: () => void;
@@ -179,7 +186,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                         key={choreId}
                         onClick={() => setSelected(Number(choreId))}
                         isSelected={selected === Number(choreId)}
-                        image={ITEM_DETAILS[chore.image].image}
+                        image={getChoreImage(chore)}
                         secondaryImage={getSecondaryImage(chore.activity)}
                         progress={{
                           label: `${Math.min(progress, chore.requirement)}/${
@@ -221,7 +228,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                         key={choreId}
                         onClick={() => setSelected(Number(choreId))}
                         isSelected={selected === Number(choreId)}
-                        image={ITEM_DETAILS[chore.image].image}
+                        image={getChoreImage(chore)}
                         secondaryImage={getSecondaryImage(chore.activity)}
                         progress={{
                           label: `${Math.min(progress, chore.requirement)}/${
@@ -295,11 +302,9 @@ const Panel: React.FC<PanelProps> = ({
   return (
     <div className="flex flex-col justify-center">
       <div className="flex space-y-1 space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
-        {ITEM_DETAILS[chore.image].image && (
-          <div className="sm:mt-2">
-            <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
-          </div>
-        )}
+        <div className="sm:mt-2">
+          <SquareIcon icon={getChoreImage(chore)} width={14} />
+        </div>
         <span className="sm:text-center">{chore.description}</span>
         <div className="flex-1 flex justify-end pb-1 sm:justify-center relative">
           <BoostInfoPanel
@@ -433,11 +438,9 @@ const ConfirmSkip: React.FC<{
           {t("kingdomChores.skipWarning")}
         </Label>
         <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
-          {ITEM_DETAILS[chore.image].image && (
-            <div className="sm:mt-2">
-              <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
-            </div>
-          )}
+          <div className="sm:mt-2">
+            <SquareIcon icon={getChoreImage(chore)} width={14} />
+          </div>
           <span>
             {t("skip")} {chore.description}
           </span>
