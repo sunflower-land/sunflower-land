@@ -123,7 +123,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   buyingSFL: true,
   depositing: true,
   introduction: false,
-  specialOffer: true,
+  vip: true,
   transacting: true,
   auctionResults: false,
   claimAuction: false,
@@ -201,7 +201,7 @@ const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
-const hasSpecialOffer = (state: MachineState) => state.matches("specialOffer");
+const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
 const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
@@ -376,7 +376,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const blacklisted = useSelector(gameService, isBlacklisted);
   const airdrop = useSelector(gameService, hasAirdrop);
   const showOffers = useSelector(gameService, hasFulfilledOffers);
-  const specialOffer = useSelector(gameService, hasSpecialOffer);
+  const vip = useSelector(gameService, hasVipNotification);
   const playing = useSelector(gameService, isPlaying);
   const hasSomethingArrived = useSelector(gameService, somethingArrived);
   const hasBBs = useSelector(gameService, showGems);
@@ -591,7 +591,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {airdrop && <AirdropPopup />}
             {showOffers && <OffersAcceptedPopup />}
             {showSales && <MarketplaceSalesPopup />}
-            {specialOffer && <VIPOffer />}
+            {vip && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}
           </Panel>

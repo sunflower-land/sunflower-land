@@ -12,7 +12,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
+import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { SEASONS, getSeasonalBanner } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -35,7 +35,7 @@ export const SpecialOffer: React.FC = () => {
       hasDiscount={hasPreviousSeasonBanner}
       hasPurchased={!!inventory["Spring Blossom Banner"]}
       onClose={() => {
-        acknowledgeSeasonPass();
+        acknowledgeVIP();
         gameService.send("ACKNOWLEDGE");
       }}
     />

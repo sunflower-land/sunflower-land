@@ -23,9 +23,10 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { secondsToString } from "lib/utils/time";
-import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
+import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  hasVipAccess,
   VIP_DURATIONS,
   VIP_PRICES,
   VipBundle,
@@ -108,9 +109,14 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
     confetti();
   };
 
-  const hasVip = vip && vip.expiresAt > Date.now();
+  const hasVip = hasVipAccess({
+    game: gameService.getSnapshot().context.state,
+  });
+
   const expiresSoon =
-    hasVip && vip.expiresAt < Date.now() + 1000 * 60 * 60 * 24 * 7;
+    vip && vip.expiresAt < Date.now() + 1000 * 60 * 60 * 24 * 7;
+
+  const hasExpired = vip && vip.expiresAt < Date.now();
 
   const hasOneYear =
     vip && vip.expiresAt > Date.now() + 1000 * 60 * 60 * 24 * 365;
@@ -146,12 +152,12 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 icon={SUNNYSIDE.icons.cancel}
                 className="mb-2"
                 type="transparent"
-              >{`Expires ${new Date(vip.expiresAt).toLocaleDateString()}`}</Label>
+              >{`Expires ${new Date(vip?.expiresAt ?? 0).toLocaleDateString()}`}</Label>
               <Label
                 icon={SUNNYSIDE.icons.confirm}
                 type="transparent"
                 className="mb-2"
-              >{`Expires ${new Date(vip.expiresAt + VIP_DURATIONS[selected as VipBundle]).toLocaleDateString()}`}</Label>
+              >{`Expires ${new Date(vip?.expiresAt ?? 0 + VIP_DURATIONS[selected as VipBundle]).toLocaleDateString()}`}</Label>
             </div>
           )}
           {hasOneYear && (
@@ -204,10 +210,19 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 type={expiresSoon ? "danger" : "transparent"}
                 icon={SUNNYSIDE.icons.stopwatch}
               >
-                {`Expires ${new Date(vip.expiresAt).toLocaleDateString()}`}
+                {`Expires: ${new Date(vip?.expiresAt ?? 0).toLocaleDateString()}`}
               </Label>
             </div>
           </>
+        )}
+        {hasExpired && (
+          <Label
+            icon={SUNNYSIDE.icons.stopwatch}
+            type="danger"
+            className="ml-2"
+          >
+            {t("expired")}
+          </Label>
         )}
 
         <div className="flex">
@@ -247,9 +262,9 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             </div>
           ))}
         </div>
-        <Label type="default" icon={vipIcon} className="mb-2 ml-2">
+        {/* <Label type="default" icon={vipIcon} className="mb-2 ml-2">
           {t("vip.benefits")}
-        </Label>
+        </Label> */}
         <div className="flex flex-col ml-2">
           {[
             {
@@ -299,15 +314,23 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
 
 export const VIPOffer: React.FC = () => {
   const { gameService } = useContext(Context);
-
+  const { t } = useAppTranslation();
   const onClose = () => {
-    acknowledgeSeasonPass();
+    acknowledgeVIP();
     gameService.send("ACKNOWLEDGE");
   };
 
   return (
     <>
       <VIPItems onClose={onClose} onSkip={onClose} />
+      <img
+        src={SUNNYSIDE.icons.close}
+        className="w-10 absolute -top-12 right-2 cursor-pointer"
+        onClick={onClose}
+      />
+      <Button className="mt-2" onClick={onClose}>
+        {t("continue")}
+      </Button>
     </>
   );
 };

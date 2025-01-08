@@ -490,6 +490,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       ],
     },
   },
+
   inventory: {
     "Orange Seed": new Decimal(10),
     "Lemon Seed": new Decimal(10),
@@ -516,7 +517,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Kernel Blend": new Decimal(100),
     "Rich Chicken": new Decimal(1),
     Wrangler: new Decimal(1),
-    "Bull Run Banner": new Decimal(1),
+    // "Bull Run Banner": new Decimal(1),
     "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
     "Longhorn Cowfish": new Decimal(1),
