@@ -9,7 +9,6 @@ const messaging = getMessaging(app);
 export const requestForToken = async () => {
   try {
     const registration = await navigator.serviceWorker.ready;
-
     const currentToken = await getToken(messaging, {
       vapidKey: FIREBASE_VAPID_PUBLIC_KEY,
       serviceWorkerRegistration: registration,

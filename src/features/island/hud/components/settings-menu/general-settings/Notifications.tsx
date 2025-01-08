@@ -34,18 +34,21 @@ export const Notifications: React.FC<{
   const token = useSelector(authService, _token);
   const [saving, setSaving] = useState(false);
 
+  const farmId = gameService.state.context.farmId;
+
   const {
     data: subscriptions,
     error,
     mutate,
   } = useSWR(
-    [
-      "/notifications/subscriptions",
-      token as string,
-      gameService.state.context.farmId,
-    ],
-    saving ? null : subscriptionsFetcher,
+    ["/notifications/subscriptions", token, farmId],
+    subscriptionsFetcher,
   );
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log("subscriptions have changed", subscriptions);
+  }, [subscriptions]);
 
   if (error) {
     // eslint-disable-next-line no-console
@@ -67,6 +70,7 @@ export const Notifications: React.FC<{
   }, [subscriptions]);
 
   const handleGetToken = async () => {
+    setSaving(true);
     const permission = await Notification.requestPermission();
 
     if (permission === "granted") {
@@ -77,6 +81,9 @@ export const Notifications: React.FC<{
 
       if (token) {
         await handleSubscribe(token);
+      } else {
+        setErrorWhileSave("Error requesting for token");
+        setSaving(false);
       }
     }
   };
@@ -92,9 +99,15 @@ export const Notifications: React.FC<{
       });
 
       if (result.success) {
-        mutate();
-        setSaving(false);
-        onSubMenuClick("main");
+        // Update the cache with new data and trigger revalidation
+        mutate(
+          // Update the cache immediately
+          options,
+          {
+            // Revalidate to ensure cache is in sync
+            revalidate: true,
+          },
+        );
       }
     } catch (error) {
       setErrorWhileSave(error as string);
@@ -102,6 +115,7 @@ export const Notifications: React.FC<{
       console.log(`Error subscribing to notifications: ${error}`);
     } finally {
       setSaving(false);
+      onSubMenuClick("main");
     }
   };
 
@@ -122,7 +136,7 @@ export const Notifications: React.FC<{
           </div>
         ))}
         {errorWhileSave && (
-          <div className="text-red-500 my-0.5 text-xs">
+          <div className="text-red-500 my-0.5 text-xxs">
             {t("error.wentWrong")}
           </div>
         )}
