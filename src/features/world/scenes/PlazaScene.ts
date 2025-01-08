@@ -679,8 +679,8 @@ export class PlazaScene extends BaseScene {
     });
   }
 
-  public addDog(id: 1 | 2, x: number, y: number) {
-    const dogContainer = new DogContainer(this, x, y, id);
+  public addDog(id: 1 | 2, x: number, y: number, onPatted: () => void) {
+    const dogContainer = new DogContainer(this, x, y, id, onPatted);
     this.dogs[id] = dogContainer;
   }
 
@@ -691,7 +691,12 @@ export class PlazaScene extends BaseScene {
     server.state.dogs.forEach((dog) => {
       const dogContainer = this.dogs[dog.id];
       if (!dogContainer) {
-        this.addDog(dog.id, dog.x, dog.y);
+        this.addDog(dog.id, dog.x, dog.y, () => {
+          server.send(0, {
+            action: "pat_dog",
+            id: dog.id,
+          });
+        });
         return;
       }
 
