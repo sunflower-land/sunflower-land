@@ -12,7 +12,6 @@ import { CONFIG } from "./lib/config";
 import { getMessaging } from "firebase/messaging/sw";
 // import { onBackgroundMessage } from "firebase/messaging/sw";
 import { app } from "./lib/firebase";
-
 declare let self: ServiceWorkerGlobalScope;
 
 const isTestnet = CONFIG.NETWORK === "amoy";
@@ -63,13 +62,14 @@ try {
   console.error("Failed to initialize Firebase Messaging", err);
 }
 
+// Handle push notifications
 self.addEventListener("push", (event) => {
   if (event.data) {
-    const notificationData = event.data.json();
+    const { data } = event.data.json();
 
-    self.registration.showNotification(notificationData.title, {
-      body: notificationData.body,
-      icon: notificationData.icon,
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      icon: data.icon,
     });
   }
 });

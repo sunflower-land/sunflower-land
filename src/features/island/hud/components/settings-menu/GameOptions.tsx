@@ -281,8 +281,9 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onHide = () => {
+  const onHide = async () => {
     onClose();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setSelected("main");
   };
 
