@@ -27,10 +27,8 @@ export const requestForToken = async () => {
   }
 };
 
+// In game notifications are currently handled by the game
+// So this is not currently implemented but required for firebase
 onMessage(messaging, (payload) => {
-  // eslint-disable-next-line no-console
-  console.log(
-    "[firebase-messaging-sw.js] Received foreground message ",
-    payload,
-  );
+  return void payload;
 });

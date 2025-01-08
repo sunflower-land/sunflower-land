@@ -10,8 +10,8 @@ import { StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
 import { getMessaging } from "firebase/messaging/sw";
-// import { onBackgroundMessage } from "firebase/messaging/sw";
-import { app } from "./lib/firebase";
+import { onBackgroundMessage } from "firebase/messaging/sw";
+import "./lib/firebase";
 declare let self: ServiceWorkerGlobalScope;
 
 const isTestnet = CONFIG.NETWORK === "amoy";
@@ -54,25 +54,33 @@ if (import.meta.env.PROD) {
   googleFontsCache();
 }
 
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  // Get the link from fcmOptions if it exists, otherwise fallback to "/"
+  const link = event.notification?.data?.fcmOptions?.link || "/play";
+  event.waitUntil(self.clients.openWindow(link));
+});
+
 // Firebase Messaging
-try {
-  getMessaging(app);
-  console.log("Firebase Messaging initialized");
-} catch (err) {
-  console.error("Failed to initialize Firebase Messaging", err);
-}
+const messaging = getMessaging();
 
-// Handle push notifications
-self.addEventListener("push", (event) => {
-  if (event.data) {
-    const { data } = event.data.json();
+onBackgroundMessage(messaging, (payload) => {
+  console.log(
+    "[firebase-messaging-sw.js] Received background message ",
+    payload,
+  );
 
-    console.log("PUSH NOTIFICATION", { data });
-    self.registration.showNotification(data.title, {
-      body: data.body,
-      icon: data.icon,
-    });
-  }
+  if (!payload.data) return;
+
+  // Customize notification here
+  const notificationTitle = payload.data.title;
+  const notificationOptions = {
+    body: payload.data.body,
+    icon: payload.data.icon,
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 // Offline fallback html page
