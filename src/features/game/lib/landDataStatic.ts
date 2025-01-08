@@ -691,7 +691,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Beehive: new Decimal(1),
     Banana: new Decimal(12),
     Crimstone: new Decimal(70),
-    Gem: new Decimal(200),
+    Gem: new Decimal(20000),
     Gold: new Decimal("400"),
     Iron: new Decimal("800"),
     Stone: new Decimal("1600"),

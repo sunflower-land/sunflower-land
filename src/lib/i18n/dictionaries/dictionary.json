@@ -4819,5 +4819,19 @@
   "tsunami.destroyed.two": "Some of your crops were destroyed.",
   "tsunami.destroyed.three": "Some of your buildings were damaged.",
   "tsunami.specialEvent": "Special Event - Tsunami",
-  "searchHere": "Search here..."
+  "searchHere": "Search here...",
+  "vip.1Month": "1 Month",
+  "vip.3Months": "3 Months",
+  "vip.1Year": "1 Year",
+  "vip.purchase.title": "Confirm Purchase",
+  "vip.purchase.confirm": "Are you sure you want to purchase {{name}} of VIP access?",
+  "vip.benefits": "Benefits",
+  "vip.oneYear.warning": "You already have 1 year VIP access.",
+  "vip.access": "VIP Access",
+  "vip.benefit.airdrop": "Monthly airdrop",
+  "vip.benefit.expBoost": "10% EXP Boost",
+  "vip.benefit.stellaDiscounts": "Stella SFL discounts",
+  "vip.benefit.bonusDelivery": "Bonus Delivery & Chore Rewards",
+  "vip.benefit.reputation": "500 Reputation Points",
+  "vip.benefit.competition": "Bonus competition points + more!"
 }

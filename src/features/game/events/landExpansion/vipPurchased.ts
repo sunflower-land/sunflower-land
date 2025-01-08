@@ -1,132 +1,58 @@
 import Decimal from "decimal.js-light";
-import { BB_TO_GEM_RATIO, GameState } from "../../types/game";
-import {
-  SEASONAL_BANNERS,
-  SEASONS,
-  SeasonalBanner,
-  getPreviousSeasonalBanner,
-  getSeasonByBanner,
-  getSeasonalBanner,
-} from "features/game/types/seasons";
+import { GameState } from "../../types/game";
+
 import { produce } from "immer";
+import {
+  VIP_DURATIONS,
+  VIP_PRICES,
+  VipBundle,
+} from "features/game/lib/vipAccess";
 
 export type PurchaseVIPAction = {
   type: "vip.purchased";
+  name: VipBundle;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: PurchaseBannerAction;
+  action: PurchaseVIPAction;
   createdAt?: number;
   farmId?: number;
 };
 
-export function getBannerPrice(
-  banner: SeasonalBanner | "Lifetime Farmer Banner",
-  hasPreviousBanner: boolean,
-  hasLifetimeBanner: boolean,
-  createdAt: number,
-  farmId?: number,
-): Decimal {
-  const lifeTimePrice = 740 * BB_TO_GEM_RATIO;
-
-  if (banner === "Lifetime Farmer Banner") {
-    return new Decimal(lifeTimePrice);
-  }
-
-  if (hasLifetimeBanner) return new Decimal(0);
-
-  const season = getSeasonByBanner(banner);
-  const seasonStartDate = SEASONS[season].startDate;
-
-  const WEEK = 1000 * 60 * 60 * 24 * 7;
-
-  const weeksElapsed = Math.floor(
-    (createdAt - seasonStartDate.getTime()) / WEEK,
-  );
-
-  if (weeksElapsed < 1) {
-    const previousBannerDiscount = hasPreviousBanner ? 15 * BB_TO_GEM_RATIO : 0;
-    return new Decimal(75 * BB_TO_GEM_RATIO).sub(previousBannerDiscount);
-  }
-  if (weeksElapsed < 4) {
-    return new Decimal(100 * BB_TO_GEM_RATIO);
-  }
-  if (weeksElapsed < 8) {
-    return new Decimal(80 * BB_TO_GEM_RATIO);
-  }
-  return new Decimal(60 * BB_TO_GEM_RATIO);
-}
-
-export function purchaseBanner({
+export function purchaseVIP({
   state,
   action,
   createdAt = Date.now(),
   farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { bumpkin, inventory } = stateCopy;
+    const bundlePrice = VIP_PRICES[action.name];
 
-    if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin!");
+    if (!bundlePrice) {
+      throw new Error("Invalid VIP bundle");
     }
 
-    const currentBlockBucks = inventory["Gem"] ?? new Decimal(0);
+    const gems = stateCopy.inventory.Gem ?? new Decimal(0);
 
-    if (action.name === "Lifetime Farmer Banner") {
-      if (inventory["Lifetime Farmer Banner"] !== undefined) {
-        throw new Error("You already have this banner");
-      }
-
-      const lifeTimePrice = 740 * BB_TO_GEM_RATIO;
-
-      if (currentBlockBucks.lessThan(lifeTimePrice)) {
-        throw new Error("Insufficient Gems");
-      }
-
-      stateCopy.inventory["Gem"] = currentBlockBucks.sub(lifeTimePrice);
-      stateCopy.inventory[action.name] = new Decimal(1);
-
-      return stateCopy;
+    if (gems.lt(bundlePrice)) {
+      throw new Error("Missing gems");
     }
 
-    if (!(action.name in SEASONAL_BANNERS)) {
-      throw new Error("Invalid banner");
-    }
+    stateCopy.inventory.Gem = gems.sub(bundlePrice);
 
-    if (inventory[action.name]) {
-      throw new Error("You already have this banner");
-    }
+    const duration = VIP_DURATIONS[action.name];
 
-    const seasonBanner = getSeasonalBanner(new Date(createdAt));
-    if (action.name !== seasonBanner) {
-      throw new Error(
-        `Attempt to purchase ${action.name} in ${seasonBanner} Season`,
-      );
-    }
+    // Either add onto the current VIP expiration or the purchase time
+    const from = Math.max(stateCopy.vip?.expiresAt ?? 0, createdAt);
 
-    const previousBanner = getPreviousSeasonalBanner(new Date(createdAt));
-    const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(
-      0,
-    );
-    const hasLifetimeBanner = (
-      inventory["Lifetime Farmer Banner"] ?? new Decimal(0)
-    ).gt(0);
-
-    const price = getBannerPrice(
-      action.name,
-      hasPreviousBanner,
-      hasLifetimeBanner,
-      createdAt,
-      farmId,
-    );
-
-    if (currentBlockBucks.lessThan(price)) {
-      throw new Error("Insufficient Gems");
-    }
-
-    stateCopy.inventory["Gem"] = currentBlockBucks.sub(price);
-    stateCopy.inventory[action.name] = new Decimal(1);
+    stateCopy.vip = {
+      expiresAt: from + duration,
+      bundles: [
+        ...(stateCopy.vip?.bundles ?? []),
+        { name: action.name, boughtAt: createdAt },
+      ],
+    };
 
     return stateCopy;
   });
