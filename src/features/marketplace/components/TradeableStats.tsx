@@ -9,6 +9,7 @@ import {
   SaleHistory,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   marketPrice: number;
@@ -60,15 +61,15 @@ export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
                 className="whitespace-nowrap"
                 icon={prices.oneDayChange > 0 ? increaseArrow : decreaseArrow}
               >
-                <span className="text-xxs sm:text-xs">{`${prices.oneDayChange.toFixed(2)}%`}</span>
+                <span className="text-xxs sm:text-xs">{`${formatNumber(prices.oneDayChange)}%`}</span>
               </Label>
             )}
           </div>
           <p className="text-xxs pl-0.5 sm:text-xs sm:p-1">
             {loading ? (
-              <span className="loading-fade-pulse">{`0.00 SFL`}</span>
+              <span className="loading-fade-pulse">{`${formatNumber(0, { decimalPlaces: 4 })} SFL`}</span>
             ) : (
-              `${prices.oneDayPrice.toFixed(2)} SFL > ${marketPrice.toFixed(2)} SFL`
+              `${formatNumber(prices.oneDayPrice, { decimalPlaces: 4 })} SFL > ${formatNumber(marketPrice, { decimalPlaces: 4 })} SFL`
             )}
           </p>
         </InnerPanel>
@@ -87,15 +88,15 @@ export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
                 className="whitespace-nowrap"
                 icon={prices.sevenDayChange > 0 ? increaseArrow : decreaseArrow}
               >
-                <span className="text-xxs sm:text-xs">{`${prices.sevenDayChange.toFixed(2)}%`}</span>
+                <span className="text-xxs sm:text-xs">{`${formatNumber(prices.sevenDayChange)}%`}</span>
               </Label>
             )}
           </div>
           <p className="text-xxs pl-0.5 sm:text-xs sm:p-1">
             {loading ? (
-              <span className="loading-fade-pulse">{`0.00 SFL`}</span>
+              <span className="loading-fade-pulse">{`${formatNumber(0, { decimalPlaces: 4 })} SFL`}</span>
             ) : (
-              `${prices.sevenDayPrice.toFixed(2)} SFL > ${marketPrice.toFixed(2)} SFL`
+              `${formatNumber(prices.sevenDayPrice, { decimalPlaces: 4 })} SFL > ${formatNumber(marketPrice, { decimalPlaces: 4 })} SFL`
             )}
           </p>
         </InnerPanel>

@@ -23,6 +23,7 @@ export const formatNumber = (
   },
 ) => {
   if (_number === undefined) return "";
+  if (!Number.isFinite(Number(_number))) return _number.toString();
 
   const number = new Decimal(_number);
   const roundedNumber = number.toDecimalPlaces(
