@@ -41,7 +41,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 const _isVIP = (state: MachineState) =>
-  hasVipAccess(state.context.state.inventory);
+  hasVipAccess({ game: state.context.state });
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");

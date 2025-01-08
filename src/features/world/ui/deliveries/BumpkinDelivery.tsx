@@ -714,7 +714,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = noOrder;
   }
 
-  const hasVIP = hasVipAccess(game.inventory);
+  const hasVIP = hasVipAccess({ game: gameState.context.state });
 
   if (requiresSeasonPass && !hasVIP) {
     message = t("goblinTrade.vipDelivery");

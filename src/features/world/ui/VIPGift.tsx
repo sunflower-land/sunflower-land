@@ -45,7 +45,7 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
     setIsPicking(false);
   };
 
-  const hasVip = hasVipAccess(inventory);
+  const hasVip = hasVipAccess({ game: gameState.context.state });
 
   const openedAt = pumpkinPlaza.vipChest?.openedAt ?? 0;
 
@@ -82,7 +82,7 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
       <div className="p-2">
         <div className="flex justify-between items-center pr-8">
           <VIPAccess
-            isVIP={hasVipAccess(inventory)}
+            isVIP={hasVipAccess({ game: gameState.context.state })}
             onUpgrade={() => {
               onClose();
               openModal("BUY_BANNER");

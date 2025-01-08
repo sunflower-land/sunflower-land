@@ -116,7 +116,7 @@ export const AuctioneerModal: React.FC<Props> = ({
           <div className="flex flex-col">
             <div className="pt-2 pl-2">
               <VIPAccess
-                isVIP={hasVipAccess(gameState.inventory)}
+                isVIP={hasVipAccess({ game: gameState })}
                 onUpgrade={() => {
                   onClose();
                   openModal("BUY_BANNER");

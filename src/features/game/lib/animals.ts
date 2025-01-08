@@ -377,7 +377,7 @@ export function getBoostedFoodQuantity({
     foodQuantity *= 0.5;
   }
 
-  if (hasVipAccess(game.inventory) && getCurrentSeason() === "Bull Run") {
+  if (hasVipAccess({ game }) && getCurrentSeason() === "Bull Run") {
     foodQuantity *= 0.9;
   }
 

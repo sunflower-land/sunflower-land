@@ -34,7 +34,7 @@ const _balance = (state: MachineState) => state.context.state.balance;
 const _previousBalance = (state: MachineState) =>
   state.context.state.previousBalance;
 const _isVIP = (state: MachineState) =>
-  hasVipAccess(state.context.state.inventory);
+  hasVipAccess({ game: state.context.state });
 const _usd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0.0;
 
 export const MakeOffer: React.FC<{

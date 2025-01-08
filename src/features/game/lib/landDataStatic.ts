@@ -409,14 +409,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  competitions: {
-    progress: {
-      ANIMALS: {
-        initialProgress: {},
-        startedAt: 100000,
-      },
-    },
-  },
+
   chores: {
     choresCompleted: 0,
     choresSkipped: 0,

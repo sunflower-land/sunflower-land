@@ -58,7 +58,7 @@ export function generateDeliveryTickets({
     return 0;
   }
 
-  if (hasVipAccess(game.inventory, now)) {
+  if (hasVipAccess({ game, now: now.getTime() })) {
     amount += 2;
   }
 
