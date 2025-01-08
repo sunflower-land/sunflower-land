@@ -108,7 +108,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
   useEffect(() => {
-    if (cow.state === "ready" && cowMachineState !== "ready") {
+    if (
+      cow.state === "ready" &&
+      cow.awakeAt < Date.now() &&
+      cowMachineState !== "ready"
+    ) {
       cowService.send({
         type: "INSTANT_LEVEL_UP",
         animal: cow,

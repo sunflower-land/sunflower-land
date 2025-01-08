@@ -116,7 +116,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const chickenMachineState = useSelector(chickenService, _animalState);
 
   useEffect(() => {
-    if (chicken.state === "ready" && chickenMachineState !== "ready") {
+    if (
+      chicken.state === "ready" &&
+      chicken.awakeAt < Date.now() &&
+      chickenMachineState !== "ready"
+    ) {
       chickenService.send({
         type: "INSTANT_LEVEL_UP",
         animal: chicken,
