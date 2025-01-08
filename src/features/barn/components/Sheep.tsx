@@ -101,7 +101,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const { name: mutantName } = sheep.reward?.items?.[0] ?? {};
 
   useEffect(() => {
-    if (sheep.state === "ready" && sheepState !== "ready") {
+    if (
+      sheep.state === "ready" &&
+      sheep.awakeAt < Date.now() &&
+      sheepState !== "ready"
+    ) {
       sheepService.send({
         type: "INSTANT_LEVEL_UP",
         animal: sheep,
