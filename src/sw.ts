@@ -63,5 +63,16 @@ try {
   console.error("Failed to initialize Firebase Messaging", err);
 }
 
+self.addEventListener("push", (event) => {
+  if (event.data) {
+    const notificationData = event.data.json();
+
+    self.registration.showNotification(notificationData.title, {
+      body: notificationData.body,
+      icon: notificationData.icon,
+    });
+  }
+});
+
 // Offline fallback html page
 offlineFallback();

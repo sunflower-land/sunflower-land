@@ -45,11 +45,6 @@ export const Notifications: React.FC<{
     subscriptionsFetcher,
   );
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("subscriptions have changed", subscriptions);
-  }, [subscriptions]);
-
   if (error) {
     // eslint-disable-next-line no-console
     console.error("Error when fetching notification subscriptions", error);
@@ -76,9 +71,6 @@ export const Notifications: React.FC<{
     if (permission === "granted") {
       const token = await requestForToken();
 
-      // eslint-disable-next-line no-console
-      console.log("token", token);
-
       if (token) {
         await handleSubscribe(token);
       } else {
@@ -99,15 +91,7 @@ export const Notifications: React.FC<{
       });
 
       if (result.success) {
-        // Update the cache with new data and trigger revalidation
-        mutate(
-          // Update the cache immediately
-          options,
-          {
-            // Revalidate to ensure cache is in sync
-            revalidate: true,
-          },
-        );
+        mutate(options, { revalidate: true });
       }
     } catch (error) {
       setErrorWhileSave(error as string);

@@ -85,23 +85,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
   const [showNftId, setShowNftId] = useState(false);
-  const [hasActiveSW, setHasActiveSW] = useState(false);
 
   const copypaste = useSound("copypaste");
-
-  useEffect(() => {
-    const getActiveSW = async () => {
-      try {
-        const registration = await navigator.serviceWorker.ready;
-        setHasActiveSW(!!registration);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log("[GameOptions] Error getting active SW", error);
-      }
-    };
-
-    getActiveSW();
-  }, []);
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
@@ -203,7 +188,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         <Button
           onClick={() => onSubMenuClick("notifications")}
           className="mb-1 relative"
-          disabled={!hasActiveSW}
+          disabled={!("serviceWorker" in navigator && "PushManager" in window)}
         >
           {t("gameOptions.notifications")}
           {!!gameService.state.context.fslId && (
@@ -275,8 +260,6 @@ const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
 const preloadSubscriptions = async (token: string, farmId: number) => {
-  // eslint-disable-next-line no-console
-  console.log("preloading subscriptions");
   preload(
     ["/notifications/subscriptions", token, farmId],
     subscriptionsFetcher,
@@ -294,8 +277,6 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const [selected, setSelected] = useState<SettingMenuId>("main");
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("preloading subscriptions");
     preloadSubscriptions(token, gameService.state.context.farmId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
