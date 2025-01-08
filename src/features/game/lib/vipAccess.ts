@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
+import { getSeasonalBanner } from "../types/seasons";
 
 export const hasVipAccess = ({
   game,
@@ -10,7 +11,7 @@ export const hasVipAccess = ({
 }): boolean => {
   // Legacy Code - remove once DB is updated with expiresAt
   const seasonBannerQuantity =
-    game.inventory["Bull Run Banner"] ?? new Decimal(0);
+    game.inventory[getSeasonalBanner(new Date(now))] ?? new Decimal(0);
   const hasSeasonPass = seasonBannerQuantity.gt(0);
 
   const lifetimeBannerQuantity =
