@@ -42,6 +42,11 @@ const INVENTORY_CONTRACT = process.env.VITE_INVENTORY_CONTRACT;
 const PAIR_CONTRACT = process.env.VITE_PAIR_CONTRACT;
 const SESSION_CONTRACT = process.env.VITE_SESSION_CONTRACT;
 const TOKEN_CONTRACT = process.env.VITE_TOKEN_CONTRACT;
+const FIREBASE_VAPID_KEY = process.env.VITE_FIREBASE_VAPID_KEY;
+const FIREBASE_API_KEY = process.env.VITE_FIREBASE_API_KEY;
+const FIREBASE_MESSAGING_SENDER_ID =
+  process.env.VITE_FIREBASE_MESSAGING_SENDER_ID;
+const FIREBASE_APP_ID = process.env.VITE_FIREBASE_APP_ID;
 
 export const configMock = jest.fn(() => ({
   CONFIG: {
@@ -55,6 +60,10 @@ export const configMock = jest.fn(() => ({
     PAIR_CONTRACT,
     SESSION_CONTRACT,
     TOKEN_CONTRACT,
+    FIREBASE_VAPID_KEY,
+    FIREBASE_API_KEY,
+    FIREBASE_MESSAGING_SENDER_ID,
+    FIREBASE_APP_ID,
   },
 }));
 
@@ -71,6 +80,10 @@ jest.mock("lib/config", () => ({
       PAIR_CONTRACT,
       SESSION_CONTRACT,
       TOKEN_CONTRACT,
+      FIREBASE_VAPID_KEY,
+      FIREBASE_API_KEY,
+      FIREBASE_MESSAGING_SENDER_ID,
+      FIREBASE_APP_ID,
     }; // set some default value
   },
 }));
