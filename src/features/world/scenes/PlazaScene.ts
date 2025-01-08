@@ -680,7 +680,7 @@ export class PlazaScene extends BaseScene {
       const dogContainer = this.dogs[dog.id];
       if (!dogContainer) {
         this.addDog(dog.id, dog.x, dog.y, () => {
-          server.send(0, {
+          server.send("pat_dog", {
             action: "pat_dog",
             id: dog.id,
           });
