@@ -293,7 +293,10 @@ export const SkillPathDetails: React.FC<Props> = ({
                           className="mb-1"
                           image={getSkillImage(image, boostedItemIcon, tree)}
                           isSelected={selectedSkill === skill}
-                          onClick={() => setSelectedSkill(skill)}
+                          onClick={() => {
+                            setSelectedSkill(skill);
+                            setShowConfirmation(false);
+                          }}
                           showOverlay={hasSkill}
                           overlayIcon={
                             <img
