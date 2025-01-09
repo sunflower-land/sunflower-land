@@ -30,7 +30,7 @@ export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
   Cooking: SUNNYSIDE.skills.cooking,
-  Animals: SUNNYSIDE.skills.animals,
+  Animals: SUNNYSIDE.animals.chickenIdle,
   "Fruit Patch": ITEM_DETAILS.Apple.image,
   Fishing: SUNNYSIDE.icons.fish,
   Greenhouse: ITEM_DETAILS.Greenhouse.image,

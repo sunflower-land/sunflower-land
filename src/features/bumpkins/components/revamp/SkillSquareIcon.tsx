@@ -26,7 +26,7 @@ const getImage = (iconWidth: number, icon?: string) => {
   if (!icon) {
     return;
   }
-  const scaledWidth = iconWidth * 0.6;
+  const scaledWidth = iconWidth * 0.5;
   return (
     <img
       src={icon}

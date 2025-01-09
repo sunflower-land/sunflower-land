@@ -1416,6 +1416,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
+    image: SUNNYSIDE.animals.chickenSick,
   },
   // Animals - Tier 3
   "Clucky Grazing": {
@@ -1564,7 +1565,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       buff: {
         shortDescription: translate("skill.seedyBusiness"),
         labelType: "success",
-        boostTypeIcon: powerup,
+        boostTypeIcon: SUNNYSIDE.ui.coins,
       },
     },
   },
@@ -2314,7 +2315,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       buff: {
         shortDescription: translate("skill.flowerSale"),
         labelType: "success",
-        boostTypeIcon: powerup,
+        boostTypeIcon: SUNNYSIDE.ui.coins,
         boostedItemIcon: ITEM_DETAILS["Sunpetal Seed"].image,
       },
     },
