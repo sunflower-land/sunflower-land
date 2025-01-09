@@ -2079,7 +2079,7 @@
   "guide.compost.addEggs.confirmation": "Are you sure you want to add {{noEggs}} Eggs to reduce compost production time by {{time}}?",
   "guide.compost.addFeathers.confirmation": "Are you sure you want to add {{noFeathers}} Feathers to reduce compost production time by {{time}}?",
   "guide.factionPet.one": "Each week the pet will request 3 foods. When fed, the XP from the food will go to the total XP tally for the faction.",
-  "guide.factionPet.two": "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 25% more than the previous week's goal! If the goal isn't reached, it will be reset back to 1000 x faction members.",
+  "guide.factionPet.two": "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week's goal will be 25% more than the previous week's goal! If the goal isn't reached, it will be reset back to 1000 x faction members.",
   "guide.factionPet.three": "If the faction doesn't reach the goal then the pet will go to sleep for 1 week.",
   "guide.factionPet.four": "Once the faction reaches a streak of 2 or more weeks, an XP bonus will be given to each contributing faction member when their bumpkin eats!",
   "guide.factionPet.five": "Contributing member: To be eligible for potential streak boosts in the following week, a player needs to fulfill one of each pet's requests.",
