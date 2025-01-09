@@ -157,7 +157,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 icon={SUNNYSIDE.icons.confirm}
                 type="transparent"
                 className="mb-2"
-              >{`Expires ${new Date(vip?.expiresAt ?? 0 + VIP_DURATIONS[selected as VipBundle]).toLocaleDateString()}`}</Label>
+              >{`Expires ${new Date((vip?.expiresAt ?? 0) + VIP_DURATIONS[selected as VipBundle]).toLocaleDateString()}`}</Label>
             </div>
           )}
           {hasOneYear && (
