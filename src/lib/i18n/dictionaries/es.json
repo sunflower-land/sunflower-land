@@ -4405,7 +4405,7 @@
   "marketplace.quickswap": "Intercambio rápido",
   "marketplace.quickswap.description": "Estás a punto de ser redirigido a Quickswap, un intercambio descentralizado e impulsado por la comunidad para comprar $SFL.",
   "marketplace.quickswap.warning": "Los precios que se muestran en el juego se estiman en función de los precios de la comunidad y es posible que no reflejen el mercado actual. Procede bajo tu propia responsabilidad.",
-  "marketplace.estimated.price": "*Precio estimado de SFL/USD",
+  "marketplace.estimated.price": "*Precio estimado de USD/SFL",
   "marketplace.quickswap.continue": "Continuar",
   "marketplace.about": "Acerca de",
   "marketplace.wantToUnlock": "¿Quieres desbloquear operaciones ilimitadas?",

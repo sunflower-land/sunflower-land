@@ -4405,7 +4405,7 @@
   "marketplace.quickswap": "퀵스왑",
   "marketplace.quickswap.description": "여러분은 곧 커뮤니티 중심의 탈중앙화 거래소인 퀵스왑 (Quickswap) 으로 리디렉션되어 $SFL을 구매할 수 있습니다.",
   "marketplace.quickswap.warning": "게임 내 가격은 커뮤니티 가격을 기준으로 추산되며 현재 시장을 반영하지 않을 수 있습니다.진행에 따른 위험은 각자 감수해야 합니다.",
-  "marketplace.estimated.price": "*SFL/USD 예상 가격",
+  "marketplace.estimated.price": "*USD/SFL 예상 가격",
   "marketplace.quickswap.continue": "계속",
   "marketplace.about": "에 대해",
   "marketplace.wantToUnlock": "무제한 거래를 잠금 해제하고 싶으신가요?",
