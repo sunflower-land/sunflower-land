@@ -9,6 +9,7 @@ import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
 import bee from "assets/icons/bee.webp";
 import Decimal from "decimal.js-light";
+import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -80,7 +81,8 @@ export type BumpkinSkillRevamp = {
     buff: BuffLabel;
     debuff?: BuffLabel;
   };
-  image: string;
+  image?: string;
+  npc?: NPCName;
   disabled: boolean;
   power?: boolean;
 };
@@ -340,7 +342,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    image: ITEM_DETAILS.Sunflower.image,
     disabled: false,
   },
   "Experienced Farmer": {
@@ -358,7 +360,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    image: ITEM_DETAILS.Cauliflower.image,
     disabled: false,
   },
   "Betty's Friend": {
@@ -377,7 +379,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    npc: "betty",
     disabled: false,
   },
   "Old Farmer": {
@@ -395,8 +397,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    image: ITEM_DETAILS.Kale.image,
   },
 
   // Crops - Tier 2
@@ -415,7 +417,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Coin Swindler": {
@@ -434,7 +435,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Golden Sunflower": {
@@ -472,8 +472,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Basic Scarecrow"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    image: ITEM_DETAILS["Basic Scarecrow"].image,
   },
   "Horror Mike": {
     name: "Horror Mike",
@@ -491,8 +491,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Scary Mike"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    image: ITEM_DETAILS["Scary Mike"].image,
   },
   // Crops - Tier 3
   "Instant Growth": {
@@ -510,7 +510,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
     power: true,
   },
@@ -534,7 +533,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Hectare Farm": {
@@ -557,7 +555,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Laurie's Gains": {
@@ -576,8 +573,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    image: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
   },
 
   // Fruit - Tier 1
@@ -596,7 +593,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fruity Heaven": {
@@ -614,7 +610,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fruity Profit": {
@@ -633,8 +628,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    npc: "tango",
   },
   "Loyal Macaw": {
     name: "Loyal Macaw",
@@ -653,7 +648,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Macaw"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 2
   Catchup: {
@@ -671,7 +665,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "No Axe No Worries": {
@@ -696,7 +689,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.resource.wood,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    image: ITEM_DETAILS.Axe.image,
   },
   "Fruity Woody": {
     name: "Fruity Woody",
@@ -714,7 +707,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.resource.wood,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Pear Turbocharge": {
@@ -734,7 +726,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Immortal Pear"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Crime Fruit": {
     name: "Crime Fruit",
@@ -753,7 +744,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Tomato"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 3
   "Generous Orchard": {
@@ -772,7 +762,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Long Pickings": {
     name: "Long Pickings",
@@ -797,7 +786,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    image: ITEM_DETAILS.Banana.image,
   },
   "Short Pickings": {
     name: "Short Pickings",
@@ -822,7 +811,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    image: ITEM_DETAILS.Blueberry.image,
   },
   "Zesty Vibes": {
     name: "Zesty Vibes",
@@ -845,7 +834,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    image: ITEM_DETAILS.Tomato.image,
   },
 
   // Trees - Tier 1
@@ -884,7 +873,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.resource.tree,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "More Axes": {
@@ -903,8 +891,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.tools.axe,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    image: ITEM_DETAILS.Axe.image,
   },
   "Insta-Chop": {
     name: "Insta-Chop",
@@ -921,7 +909,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   // Trees - Tier 2
@@ -960,7 +947,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.tools.axe,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Money Tree": {
@@ -997,7 +983,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Tree Blitz": {
@@ -1015,8 +1000,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    image: ITEM_DETAILS.Tree.image,
     power: true,
   },
 
@@ -1037,7 +1022,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Rod"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fishy Chance": {
@@ -1056,7 +1040,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fishy Roll": {
@@ -1076,7 +1059,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Reel Deal": {
     name: "Reel Deal",
@@ -1095,7 +1077,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Rod"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
   "Fisherman's 10 Fold": {
@@ -1114,7 +1095,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Rod"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fishy Fortune": {
@@ -1133,8 +1113,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    npc: "corale",
   },
   "Big Catch": {
     name: "Big Catch",
@@ -1151,7 +1131,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: true,
   },
   "Fishy Gamble": {
@@ -1171,7 +1150,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 3
   "Frenzied Fish": {
@@ -1190,7 +1168,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "More With Less": {
@@ -1215,7 +1192,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Earthworm.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fishy Feast": {
@@ -1235,7 +1211,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Animals - Tier 1
@@ -1256,7 +1231,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Hay.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Restless Animals": {
     name: "Restless Animals",
@@ -1274,7 +1248,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Fine Fibers": {
     name: "Fine Fibers",
@@ -1293,7 +1266,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Feather.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Bountiful Bounties": {
     name: "Bountiful Bounties",
@@ -1312,7 +1284,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Double Bale": {
     name: "Double Bale",
@@ -1331,7 +1302,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Bale.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Bale Economy": {
     name: "Bale Economy",
@@ -1350,7 +1320,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Bale.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Animals - Tier 2
   "Abundant Harvest": {
@@ -1370,7 +1339,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.resource.egg,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Heartwarming Instruments": {
     name: "Heartwarming Instruments",
@@ -1389,7 +1357,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Brush.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Kale Mix": {
     name: "Kale Mix",
@@ -1408,7 +1375,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Mixed Grain"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Alternate Medicine": {
     tree: "Animals",
@@ -1427,7 +1393,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Barn Delight"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Healthy Livestock": {
     name: "Healthy Livestock",
@@ -1445,7 +1410,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Animals - Tier 3
   "Clucky Grazing": {
@@ -1470,7 +1434,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Sheepwise Diet": {
     name: "Sheepwise Diet",
@@ -1494,7 +1457,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Cow-Smart Nutrition": {
     name: "Cow-Smart Nutrition",
@@ -1518,7 +1480,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Chonky Feed": {
     name: "Chonky Feed",
@@ -1542,7 +1503,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   "Apple-Tastic": {
@@ -1565,7 +1525,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Greenhouse - Tier 1
@@ -1585,7 +1544,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Seedy Business": {
     name: "Seedy Business",
@@ -1603,7 +1561,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Rice and Shine": {
     name: "Rice and Shine",
@@ -1617,11 +1574,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.riceAndShine"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Victoria's Secretary": {
     name: "Victoria's Secretary",
@@ -1640,7 +1596,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    npc: "victoria",
   },
   // Greenhouse - Tier 2
   "Olive Express": {
@@ -1659,7 +1615,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Olive.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Rice Rocket": {
@@ -1678,7 +1633,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Rice.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Vine Velocity": {
@@ -1697,7 +1651,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Grape.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Seeded Bounty": {
@@ -1721,7 +1674,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Greenhouse - Tier 3
   "Greenhouse Guru": {
@@ -1739,7 +1691,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
     power: true,
   },
@@ -1758,7 +1709,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Slick Saver": {
@@ -1777,7 +1727,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Greasy Plants": {
@@ -1802,7 +1751,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Mining - Tier 1
@@ -1822,7 +1770,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Iron Bumpkin": {
@@ -1841,7 +1788,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Iron.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Speed Miner": {
@@ -1860,7 +1806,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Tap Prospector": {
@@ -1878,7 +1823,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Forge-Ward Profits": {
@@ -1897,8 +1841,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
+    npc: "blacksmith",
   },
   // Mining - Tier 2
   "Iron Hustle": {
@@ -1917,7 +1861,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Iron.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Frugal Miner": {
@@ -1936,7 +1879,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Pickaxe.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Rocky Favor": {
@@ -1957,7 +1899,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Iron.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Midas Sprint": {
@@ -1976,7 +1917,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Gold.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fire Kissed": {
@@ -1995,7 +1935,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Crimstone.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   // Mining - Tier 3
@@ -2021,7 +1960,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Golden Touch": {
@@ -2040,7 +1978,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Gold.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "More Picks": {
@@ -2059,7 +1996,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Pickaxe.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fireside Alchemist": {
@@ -2078,7 +2014,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Crimstone.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
 
@@ -2099,7 +2034,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Chef Hat"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Nom Nom": {
@@ -2118,7 +2052,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Munching Mastery": {
@@ -2136,7 +2069,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Swift Sizzle": {
@@ -2155,7 +2087,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   // Cooking - Tier 2
@@ -2175,7 +2106,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Radish Cake"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Juicy Boost": {
@@ -2194,7 +2124,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Bumpkin Detox"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Turbo Fry": {
@@ -2213,7 +2142,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Drive-Through Deli": {
@@ -2232,7 +2160,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Cheese.image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   // Cooking - Tier 3
@@ -2251,7 +2178,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
     power: true,
   },
@@ -2275,7 +2201,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fiery Jackpot": {
@@ -2294,7 +2219,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Chef Hat"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fry Frenzy": {
@@ -2313,7 +2237,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
 
@@ -2334,7 +2257,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Honey"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Hyper Bees": {
@@ -2353,7 +2275,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Honey"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Blooming Boost": {
@@ -2372,7 +2293,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Flower Sale": {
@@ -2392,7 +2312,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Sunpetal Seed"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Bees & Flowers - Tier 2
   "Buzzworthy Treats": {
@@ -2411,7 +2330,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Honey"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Blossom Bonding": {
@@ -2429,7 +2347,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Pollen Power Up": {
@@ -2447,7 +2364,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Petalled Perk": {
@@ -2465,7 +2381,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   // Bees & Flowers - Tier 3
@@ -2485,7 +2400,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: bee,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Flower Power": {
@@ -2504,7 +2418,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Flowery Abode": {
@@ -2529,7 +2442,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Petal Blessed": {
@@ -2549,7 +2461,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Machinery - Tier 1
@@ -2575,7 +2486,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Oil Gadget": {
@@ -2594,7 +2504,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Oil Extraction": {
@@ -2613,7 +2522,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Leak-Proof Tank": {
@@ -2632,7 +2540,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   // Machinery - Tier 2
@@ -2652,7 +2559,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Cabbage"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Rapid Rig": {
@@ -2677,7 +2583,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Oil Be Back": {
@@ -2696,7 +2601,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   // Machinery - Tier 3
@@ -2715,7 +2619,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Field Extension Module": {
@@ -2733,7 +2636,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Efficiency Extension Module": {
@@ -2752,7 +2654,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Grease Lightning": {
@@ -2770,9 +2671,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
     power: true,
+    image: ITEM_DETAILS["Oil Reserve"].image,
   },
 
   // Compost - Tier 1
@@ -2792,7 +2693,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Turbo Charged": {
@@ -2811,7 +2711,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Fruitful Blend"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Wormy Treat": {
@@ -2830,7 +2729,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Feathery Business": {
@@ -2855,7 +2753,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Feather"].image,
       },
     },
-    image: SUNNYSIDE.skills.green_thumb_LE,
     disabled: false,
   },
   "Sprout Surge": {
@@ -2874,7 +2771,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE.skills.green_thumb_LE,
   },
   // Compost - Tier 2
   "Premium Worms": {
@@ -2893,7 +2789,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Rapid Root"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Fruitful Bounty": {
@@ -2913,7 +2808,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Fruitful Blend"].image,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Swift Decomposer": {
     name: "Swift Decomposer",
@@ -2930,7 +2824,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Composting Bonanza": {
@@ -2954,7 +2847,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Root Rocket": {
@@ -2973,7 +2865,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
-    image: SUNNYSIDE.skills.green_thumb_LE,
   },
   // Compost - Tier 3
   "Composting Overhaul": {
@@ -2996,7 +2887,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
   "Composting Revamp": {
@@ -3019,7 +2909,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
     disabled: false,
   },
 } satisfies Record<string, BumpkinSkillRevamp>;
