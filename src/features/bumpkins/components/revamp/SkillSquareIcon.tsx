@@ -22,7 +22,10 @@ const TIER_BOOKS: Record<number, string> = {
   3: tier3Book,
 };
 
-const getImage = (icon: string, iconWidth: number) => {
+const getImage = (iconWidth: number, icon?: string) => {
+  if (!icon) {
+    return;
+  }
   const scaledWidth = iconWidth / 2;
   return (
     <img
@@ -73,7 +76,7 @@ const getImage = (icon: string, iconWidth: number) => {
 };
 
 export const SkillSquareIcon: React.FC<Props> = ({
-  icon = "",
+  icon,
   width = 14,
   className,
   style,
@@ -81,7 +84,7 @@ export const SkillSquareIcon: React.FC<Props> = ({
   npc,
 }) => {
   const [item, setItem] = useState<JSX.Element | undefined>(
-    getImage(icon, width),
+    getImage(width, icon),
   );
 
   // refreshes image when icon is changed to avoid flickering when resizing image
@@ -95,7 +98,7 @@ export const SkillSquareIcon: React.FC<Props> = ({
     if (item) {
       return;
     }
-    setItem(getImage(icon, width));
+    setItem(getImage(width, icon));
   }, [item]);
 
   return (
