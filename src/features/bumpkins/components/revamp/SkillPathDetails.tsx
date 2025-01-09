@@ -106,6 +106,8 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   return (
     <SplitScreenView
+      tallDesktopContent
+      tallMobileContent
       wideModal
       panel={
         <div className="flex flex-col h-full justify-between">
