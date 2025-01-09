@@ -681,7 +681,7 @@ const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
             <span className="text-xs my-2">
               {t("fishing.lookingMoreReels")}
             </span>
-            <div className="flex flex-col my-2 space-y-1">
+            <div className="flex flex-col">
               {Object.entries(BoostReelItems)
                 .filter(
                   ([name]) =>

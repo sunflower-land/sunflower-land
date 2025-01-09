@@ -1254,6 +1254,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
+    image: SUNNYSIDE.animals.chickenAsleep,
   },
   "Fine Fibers": {
     name: "Fine Fibers",
