@@ -42,6 +42,18 @@ interface Props {
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
+const getSkillImage = (
+  image: string | undefined,
+  boostedItemIcon: string | undefined,
+  tree: BumpkinRevampSkillTree,
+) => {
+  return image
+    ? image
+    : boostedItemIcon
+      ? boostedItemIcon
+      : SKILL_TREE_ICONS[tree];
+};
+
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
   skillsInPath,
@@ -114,13 +126,7 @@ export const SkillPathDetails: React.FC<Props> = ({
               )}
               <div className="sm:mt-2">
                 <SkillSquareIcon
-                  icon={
-                    image
-                      ? image
-                      : buff.boostedItemIcon
-                        ? buff.boostedItemIcon
-                        : SKILL_TREE_ICONS[tree]
-                  }
+                  icon={getSkillImage(image, buff.boostedItemIcon, tree)}
                   width={INNER_CANVAS_WIDTH}
                   tier={tier}
                   npc={npc}
@@ -283,13 +289,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                         <SkillBox
                           key={name}
                           className="mb-1"
-                          image={
-                            image
-                              ? image
-                              : boostedItemIcon
-                                ? boostedItemIcon
-                                : SKILL_TREE_ICONS[tree]
-                          }
+                          image={getSkillImage(image, boostedItemIcon, tree)}
                           isSelected={selectedSkill === skill}
                           onClick={() => setSelectedSkill(skill)}
                           showOverlay={hasSkill}

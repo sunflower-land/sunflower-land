@@ -534,6 +534,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS.Kale.image,
   },
   "Hectare Farm": {
     name: "Hectare Farm",
@@ -556,6 +557,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS.Carrot.image,
   },
   "Laurie's Gains": {
     name: "Laurie's Gains",
@@ -607,7 +609,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       buff: {
         shortDescription: translate("skill.fruityHeaven"),
         labelType: "success",
-        boostTypeIcon: powerup,
+        boostTypeIcon: SUNNYSIDE.ui.coins,
       },
     },
     disabled: false,
@@ -943,7 +945,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       buff: {
         shortDescription: translate("skill.fellersDiscount"),
         labelType: "success",
-        boostTypeIcon: powerup,
+        boostTypeIcon: SUNNYSIDE.ui.coins,
         boostedItemIcon: SUNNYSIDE.tools.axe,
       },
     },
@@ -1041,6 +1043,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS.Anchovy.image,
   },
   "Fishy Roll": {
     name: "Fishy Roll",
@@ -1059,6 +1062,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
+    image: ITEM_DETAILS["Red Snapper"].image,
   },
   "Reel Deal": {
     name: "Reel Deal",
@@ -1073,7 +1077,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       buff: {
         shortDescription: translate("skill.reelDeal"),
         labelType: "success",
-        boostTypeIcon: powerup,
+        boostTypeIcon: SUNNYSIDE.ui.coins,
         boostedItemIcon: ITEM_DETAILS["Rod"].image,
       },
     },
@@ -1150,6 +1154,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
+    image: ITEM_DETAILS.Tuna.image,
   },
   // Fishing - Tier 3
   "Frenzied Fish": {
@@ -1875,7 +1880,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       buff: {
         shortDescription: translate("skill.frugalMiner"),
         labelType: "success",
-        boostTypeIcon: powerup,
+        boostTypeIcon: SUNNYSIDE.ui.coins,
         boostedItemIcon: ITEM_DETAILS.Pickaxe.image,
       },
     },
