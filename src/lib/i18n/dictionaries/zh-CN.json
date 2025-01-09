@@ -4405,7 +4405,7 @@
   "marketplace.quickswap": "QuickSwap",
   "marketplace.quickswap.description": "您将被重定向到Quickswap，这是一家由社区驱动的去中心化交易所，用于购买$SFL。",
   "marketplace.quickswap.warning": "游戏内显示的价格是根据社区价格估算的，可能无法反映当前的市场。风险自负。",
-  "marketplace.estimated.price": "*估算 SFL/USD 价格",
+  "marketplace.estimated.price": "*估算 USD/SFL 价格",
   "marketplace.quickswap.continue": "继续",
   "marketplace.about": "关于",
   "marketplace.wantToUnlock": "想解锁无限交易吗？",
