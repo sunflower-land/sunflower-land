@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "Öğe güvence altına alındı",
   "marketplace.youDontOwn": "Bu öğeye sahip değilsin!",
   "marketplace.itemInUseWarning": "Bu ürün şu anda çiftliğinizde kullanılıyor. Önce göğsünüze çıkarmalısınız.",
-  "guide.factionPet.two": "Grubunuzun her hafta ulaşmaları gereken bir hedef xp'ye sahip olacak. Eğer grup hedefe ulaşırsa, gelecek haftanın hedefi önceki haftanın hedefin% 25 daha fazla olacaktır! Hedefe ulaşılmazsa, 1000 x fraksiyon üyesine geri sıfırlanır.",
   "description.factionShop.paella.one": "Lezzetle dolu klasik bir İspanyol yemeği.",
   "description.factionShop.paella.two": "Geleneksel bir İspanyol yemeği",
   "description.factionShop.caponata.one": "Lezzetli bir patlıcan yemeği, paylaşmak için mükemmel.",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "Oh hayır! Bir kasırga çiftliğinizi yok ediyor!",
   "tornado.destroyed.two": "Ekinlerinizin bir kısmı yok edildi.",
   "tornado.destroyed.three": "Bazı binalarınız hasar gördü.",
-  "tornado.specialEvent": "Özel Etkinlik - Tornado"
+  "tornado.specialEvent": "Özel Etkinlik - Tornado",
+  "guide.factionPet.two": "Grubunuzun her hafta ulaşmaları gereken bir hedef xp'ye sahip olacak. Eğer grup hedefe ulaşırsa, gelecek haftanın hedefi önceki haftanın hedefin% 25 daha fazla olacak! Hedefe ulaşılmazsa, 1000 x fraksiyon üyesine geri sıfırlanır."
 }

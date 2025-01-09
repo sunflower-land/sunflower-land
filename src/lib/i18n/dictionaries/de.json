@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "Artikel gesichert",
   "marketplace.youDontOwn": "Sie besitzen diesen Artikel nicht!",
   "marketplace.itemInUseWarning": "Dieser Gegenstand wird derzeit auf deiner Farm verwendet. Du musst ihn zuerst in deine Brust nehmen.",
-  "guide.factionPet.two": "Deine Fraktion hat ein Ziel an Erfahrungspunkten, das sie jede Woche erreichen muss. Wenn die Fraktion das Ziel erreicht, liegt das Ziel der nächsten Woche um 25% über dem Ziel der Vorwoche! Wenn das Ziel nicht erreicht wird, wird es auf 1000 x Fraktionsmitglieder zurückgesetzt.",
   "description.factionShop.paella.one": "Ein klassisches spanisches Gericht voller Geschmack.",
   "description.factionShop.paella.two": "Ein traditionelles spanisches Gericht",
   "description.factionShop.caponata.one": "Ein würziges Auberginengericht, perfekt zum Teilen.",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "Oh nein! Ein Tornado zerstört deine Farm!",
   "tornado.destroyed.two": "Einige deiner Ernten wurden vernichtet.",
   "tornado.destroyed.three": "Einige Ihrer Gebäude wurden beschädigt.",
-  "tornado.specialEvent": "Sonderveranstaltung - Tornado"
+  "tornado.specialEvent": "Sonderveranstaltung - Tornado",
+  "guide.factionPet.two": "Deine Fraktion hat ein Ziel an Erfahrungspunkten, das sie jede Woche erreichen muss. Wenn die Fraktion das Ziel erreicht, liegt das Ziel der nächsten Woche um 25% über dem Ziel der Vorwoche! Wenn das Ziel nicht erreicht wird, wird es auf 1000 x Fraktionsmitglieder zurückgesetzt."
 }

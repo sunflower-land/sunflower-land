@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "アイテムは保護されました",
   "marketplace.youDontOwn": "あなたはこのアイテムを所有していません！",
   "marketplace.itemInUseWarning": "このアイテムは現在あなたの農場で使用されています。まずそれを胸の中に取り出さなければなりません。",
-  "guide.factionPet.two": "あなたの陣営には、毎週達成する必要のある目標XPがあります。陣営が目標を達成した場合、来週の目標は前週の目標より 25% 多くなります！目標が達成されない場合、ファクションメンバー1000人にリセットされます。",
   "description.factionShop.paella.one": "風味豊かなクラシックなスペイン料理。",
   "description.factionShop.paella.two": "伝統的なスペイン料理",
   "description.factionShop.caponata.one": "シェアするのに最適な、風味豊かなナス料理。",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "ああ、いや！竜巻がお前の農場を破壊している！",
   "tornado.destroyed.two": "あなたの作物のいくつかは破壊されました。",
   "tornado.destroyed.three": "あなたの建物のいくつかは損傷を受けました。",
-  "tornado.specialEvent": "スペシャルイベント-トルネード"
+  "tornado.specialEvent": "スペシャルイベント-トルネード",
+  "guide.factionPet.two": "あなたの陣営には、毎週達成する必要のある目標XPがあります。陣営が目標を達成した場合、来週の目標は前週の目標より 25% 多くなります！目標に達しなかった場合は、ファクションメンバー1000人にリセットされます。"
 }

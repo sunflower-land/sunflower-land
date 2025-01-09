@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "物品已妥当",
   "marketplace.youDontOwn": "您未拥有这件物品！",
   "marketplace.itemInUseWarning": "此物品目前正在被您的农场使用。您必须先把它移到您的库存。",
-  "guide.factionPet.two": "您的帮派将列出每周需要达成的目标经验值。如果帮派达成目标，下周的目标将比该周的目标高出 25%！如果未达成目标，其数值将于醒来后重置回 1000 x 帮派成员。",
   "description.factionShop.paella.one": "一道经典的西班牙菜，味道浓郁。",
   "description.factionShop.paella.two": "一道传统的西班牙菜",
   "description.factionShop.caponata.one": "一道美味的茄子菜，非常适合分享。",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "哦不！龙卷风正在摧毁你的农场！",
   "tornado.destroyed.two": "你的一些农作物被摧毁了。",
   "tornado.destroyed.three": "你的一些建筑物遭到破坏。",
-  "tornado.specialEvent": "特别活动-龙卷风"
+  "tornado.specialEvent": "特别活动-龙卷风",
+  "guide.factionPet.two": "你的阵营将有每周需要达到的目标经验值。如果派系达到目标，下周的目标将比前一周的目标高出 25%！如果未达到目标，它将重置回 1000 x 阵营成员。"
 }

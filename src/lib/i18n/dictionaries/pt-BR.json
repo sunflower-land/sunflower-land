@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "Item protegido",
   "marketplace.youDontOwn": "Você não possui este item!",
   "marketplace.itemInUseWarning": "Este item está sendo usado atualmente em sua fazenda. Você deve primeiro removê-lo em seu peito.",
-  "guide.factionPet.two": "Sua facção terá uma meta de XP que eles precisam atingir a cada semana. Se a facção atingir a meta, a meta da próxima semana será 25% maior do que a meta da semana anterior! Se a meta não for alcançada, ela será redefinida para 1000 x membros da facção.",
   "description.factionShop.paella.one": "Um prato clássico espanhol, repleto de sabor.",
   "description.factionShop.paella.two": "Um prato tradicional espanhol",
   "description.factionShop.caponata.one": "Um saboroso prato de berinjela, perfeito para compartilhar.",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "Ah, não! Um tornado está destruindo sua fazenda!",
   "tornado.destroyed.two": "Algumas de suas plantações foram destruídas.",
   "tornado.destroyed.three": "Alguns de seus edifícios foram danificados.",
-  "tornado.specialEvent": "Evento especial - Tornado"
+  "tornado.specialEvent": "Evento especial - Tornado",
+  "guide.factionPet.two": "Sua facção terá uma meta de XP que eles precisam atingir a cada semana. Se a facção atingir a meta, a meta da próxima semana será 25% maior do que a meta da semana anterior! Se a meta não for alcançada, ela será redefinida para 1000 x membros da facção."
 }

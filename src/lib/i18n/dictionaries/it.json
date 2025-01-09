@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "Articolo protetto",
   "marketplace.youDontOwn": "Questo articolo non è tuo!",
   "marketplace.itemInUseWarning": "Questo oggetto è attualmente in uso nella tua fattoria. Devi prima rimuoverlo dal petto.",
-  "guide.factionPet.two": "La tua fazione avrà un obiettivo di XP da raggiungere ogni settimana. Se la fazione raggiunge l'obiettivo, l'obiettivo della settimana successiva sarà del 25% in più rispetto all'obiettivo della settimana precedente! Se l'obiettivo non viene raggiunto, verrà ripristinato a 1000 x membri della fazione.",
   "description.factionShop.paella.one": "Un classico piatto spagnolo, pieno di sapore.",
   "description.factionShop.paella.two": "Un piatto tradizionale spagnolo",
   "description.factionShop.caponata.one": "Un gustoso piatto di melanzane, perfetto da condividere.",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "Oh no! Un tornado sta distruggendo la tua fattoria!",
   "tornado.destroyed.two": "Alcuni dei tuoi raccolti sono stati distrutti.",
   "tornado.destroyed.three": "Alcuni dei tuoi edifici sono stati danneggiati.",
-  "tornado.specialEvent": "Evento speciale - Tornado"
+  "tornado.specialEvent": "Evento speciale - Tornado",
+  "guide.factionPet.two": "La tua fazione avrà un obiettivo di XP da raggiungere ogni settimana. Se la fazione raggiunge l'obiettivo, l'obiettivo della settimana successiva sarà del 25% in più rispetto all'obiettivo della settimana precedente! Se l'obiettivo non viene raggiunto, verrà ripristinato a 1000 x membri della fazione."
 }

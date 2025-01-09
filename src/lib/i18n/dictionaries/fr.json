@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "Article sécurisé",
   "marketplace.youDontOwn": "Vous n'êtes pas propriétaire de cet article !",
   "marketplace.itemInUseWarning": "Cet article est actuellement utilisé dans votre ferme. Vous devez d'abord le retirer dans votre poitrine.",
-  "guide.factionPet.two": "Votre faction aura un objectif d'expérience à atteindre chaque semaine. Si la faction atteint l'objectif, l'objectif de la semaine prochaine sera supérieur de 25 % à l'objectif de la semaine précédente ! Si l'objectif n'est pas atteint, il sera remis à 1 000 membres de faction.",
   "description.factionShop.paella.one": "Un plat espagnol classique, plein de saveurs.",
   "description.factionShop.paella.two": "Un plat espagnol traditionnel",
   "description.factionShop.caponata.one": "Un plat d'aubergines savoureux, parfait pour partager.",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "Oh non ! Une tornade est en train de détruire votre ferme !",
   "tornado.destroyed.two": "Certaines de vos récoltes ont été détruites.",
   "tornado.destroyed.three": "Certains de vos bâtiments ont été endommagés.",
-  "tornado.specialEvent": "Événement spécial - Tornado"
+  "tornado.specialEvent": "Événement spécial - Tornado",
+  "guide.factionPet.two": "Votre faction aura un objectif d'expérience à atteindre chaque semaine. Si la faction atteint l'objectif, l'objectif de la semaine prochaine sera supérieur de 25 % à l'objectif de la semaine précédente ! Si l'objectif n'est pas atteint, il sera remis à 1 000 membres de faction."
 }

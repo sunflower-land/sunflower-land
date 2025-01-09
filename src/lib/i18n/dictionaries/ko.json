@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "아이템 확보",
   "marketplace.youDontOwn": "이 아이템을 소유하고 있지 않습니다!",
   "marketplace.itemInUseWarning": "이 품목은 현재 농장에서 사용 중입니다.먼저 가슴에 넣어야 합니다.",
-  "guide.factionPet.two": "여러분의 진영은 매주 달성해야 하는 목표 경험치를 갖게 됩니다.진영이 목표를 달성하면 다음 주 목표가 전주 목표보다 25% 더 많아집니다!목표에 도달하지 못하면 1000 x 팩션 멤버로 다시 초기화됩니다.",
   "description.factionShop.paella.one": "풍미가 넘치는 정통 스페인 요리.",
   "description.factionShop.paella.two": "스페인 전통 요리",
   "description.factionShop.caponata.one": "나눠 먹기에 안성맞춤인 풍미 가득한 가지 요리입니다.",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "오, 안돼!토네이도가 농장을 파괴하고 있어요!",
   "tornado.destroyed.two": "일부 농작물이 파괴되었습니다.",
   "tornado.destroyed.three": "건물 중 일부가 손상되었습니다.",
-  "tornado.specialEvent": "특별 이벤트 - 토네이도"
+  "tornado.specialEvent": "특별 이벤트 - 토네이도",
+  "guide.factionPet.two": "여러분의 진영은 매주 달성해야 하는 목표 경험치를 갖게 됩니다.진영이 목표를 달성하면 다음 주 목표가 이전 주 목표보다 25% 더 많아집니다!목표에 도달하지 못하면 1000 x 팩션 멤버로 다시 초기화됩니다."
 }

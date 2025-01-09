@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "Barang diamankan",
   "marketplace.youDontOwn": "Anda tidak memiliki item ini!",
   "marketplace.itemInUseWarning": "Item ini saat ini sedang digunakan di pertanian Anda. Anda harus terlebih dahulu mengeluarkannya ke dada Anda.",
-  "guide.factionPet.two": "Fraksi Anda akan memiliki target xp yang perlu mereka capai setiap minggu. Jika faksi mencapai tujuan, gol minggu depan akan menjadi 25% lebih banyak dari tujuan minggu sebelumnya! Jika tujuan tidak tercapai, itu akan diatur ulang kembali ke 1000 x anggota faksi.",
   "description.factionShop.paella.one": "Hidangan Spanyol klasik, penuh dengan rasa.",
   "description.factionShop.paella.two": "Hidangan tradisional Spanyol",
   "description.factionShop.caponata.one": "Hidangan terong yang beraroma, cocok untuk dibagikan.",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "Oh tidak! Tornado menghancurkan pertanian Anda!",
   "tornado.destroyed.two": "Beberapa tanaman Anda hancur.",
   "tornado.destroyed.three": "Beberapa bangunan Anda rusak.",
-  "tornado.specialEvent": "Acara Khusus - Tornado"
+  "tornado.specialEvent": "Acara Khusus - Tornado",
+  "guide.factionPet.two": "Fraksi Anda akan memiliki target xp yang perlu mereka capai setiap minggu. Jika faksi mencapai tujuan, tujuan minggu depan akan menjadi 25% lebih banyak dari tujuan minggu sebelumnya! Jika tujuan tidak tercapai, itu akan diatur ulang kembali ke 1000 x anggota faksi."
 }

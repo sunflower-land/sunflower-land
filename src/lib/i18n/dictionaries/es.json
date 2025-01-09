@@ -3484,7 +3484,6 @@
   "marketplace.itemSecured": "Artículo asegurado",
   "marketplace.youDontOwn": "¡No eres dueño de este artículo!",
   "marketplace.itemInUseWarning": "Este artículo se está utilizando actualmente en tu granja. Primero debes retirarlo y colocarlo en tu pecho.",
-  "guide.factionPet.two": "Tu facción tendrá un objetivo de XP que deberá alcanzar cada semana. Si la facción alcanza la meta, ¡la meta de la semana siguiente será un 25% más alta que la de la semana anterior! Si no se alcanza el objetivo, se restablecerá a 1000 miembros de la facción.",
   "description.factionShop.paella.one": "Un plato español clásico, rebosante de sabor.",
   "description.factionShop.paella.two": "Un plato tradicional español",
   "description.factionShop.caponata.one": "Un sabroso plato de berenjenas, perfecto para compartir.",
@@ -4768,5 +4767,6 @@
   "tornado.destroyed.one": "¡Oh, no! ¡Un tornado está destruyendo tu granja!",
   "tornado.destroyed.two": "Algunas de sus cosechas fueron destruidas.",
   "tornado.destroyed.three": "Algunos de sus edificios resultaron dañados.",
-  "tornado.specialEvent": "Evento especial: Tornado"
+  "tornado.specialEvent": "Evento especial: Tornado",
+  "guide.factionPet.two": "Tu facción tendrá un objetivo de XP que deberá alcanzar cada semana. Si la facción alcanza el objetivo, ¡el objetivo de la semana siguiente será un 25% más alto que el objetivo de la semana anterior! Si no se alcanza el objetivo, se restablecerá a 1000 miembros de la facción."
 }
