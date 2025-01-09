@@ -270,16 +270,6 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                   image={getSkillImage(image, boostedItemIcon, tree)}
                   isSelected={selectedSkill === skill}
                   onClick={() => setSelectedSkill(skill)}
-                  overlayIcon={
-                    <img
-                      src={SUNNYSIDE.icons.confirm}
-                      alt="claimed"
-                      className="relative object-contain"
-                      style={{
-                        width: `${PIXEL_SCALE * 12}px`,
-                      }}
-                    />
-                  }
                   tier={requirements.tier}
                   npc={npc}
                   secondaryImage={
