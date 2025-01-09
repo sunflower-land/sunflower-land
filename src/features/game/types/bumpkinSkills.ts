@@ -435,6 +435,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.ui.coins,
       },
     },
+    image: ITEM_DETAILS.Market.image,
     disabled: false,
   },
   "Golden Sunflower": {
