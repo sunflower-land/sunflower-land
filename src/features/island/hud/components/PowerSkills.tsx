@@ -260,8 +260,6 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
           </div>
           <div className="flex flex-wrap mb-2">
             {powerSkillsUnlocked.map((skill: BumpkinSkillRevamp) => {
-              const hasSkill =
-                !!bumpkin.skills[skill.name as BumpkinRevampSkillName];
               const { name, image, tree, npc, power, boosts, requirements } =
                 skill;
               const { boostTypeIcon, boostedItemIcon } = boosts.buff;
@@ -272,7 +270,6 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                   image={getSkillImage(image, boostedItemIcon, tree)}
                   isSelected={selectedSkill === skill}
                   onClick={() => setSelectedSkill(skill)}
-                  showOverlay={hasSkill}
                   overlayIcon={
                     <img
                       src={SUNNYSIDE.icons.confirm}
