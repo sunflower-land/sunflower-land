@@ -4753,5 +4753,20 @@
   "bumpkinItemBuff.sunflorian.crown.boost.two": "+10% マークス",
   "description.superTotem.boost.effectTime": "7日間続く",
   "budBuff.stem.fishHat.boost": "10% クリティカルチャンス+1魚",
-  "budBuff.type.saphiro.boost": "-10% の作物生育時間"
+  "budBuff.type.saphiro.boost": "-10% の作物生育時間",
+  "description.tornadoPinwheel": "竜巻からあなたを守る魔法の風車！1回限りの使用です。",
+  "temperateSeason.weatherShop.weather": "天気",
+  "temperateSeason.weatherShop.buy.description": "農園を天候から守るためにアイテムを購入しましょう",
+  "temperateSeason.weatherShop.buy.comingSoon": "近日公開-2月1日",
+  "tornado": "竜巻",
+  "tornado.crops.destroyed": "トルネード破壊",
+  "tornado.crops.destroyed.description": "竜巻があなたの作物の半分を破壊しました。竜巻が通り過ぎるのを待ってください。",
+  "tornado.building.destroyed.description": "竜巻が農場を襲っています。この建物は安全ではありません！竜巻が通り過ぎるのを待ってください。",
+  "tornado.protected.one": "竜巻から農場を守ったね！",
+  "tornado.protected.two": "あなたの作物はどれも破壊されませんでした。",
+  "tornado.protected.three": "あなたの建物はどれも損傷を受けていません。",
+  "tornado.destroyed.one": "ああ、いや！竜巻がお前の農場を破壊している！",
+  "tornado.destroyed.two": "あなたの作物のいくつかは破壊されました。",
+  "tornado.destroyed.three": "あなたの建物のいくつかは損傷を受けました。",
+  "tornado.specialEvent": "スペシャルイベント-トルネード"
 }

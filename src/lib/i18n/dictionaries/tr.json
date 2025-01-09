@@ -4753,5 +4753,20 @@
   "bumpkinItemBuff.sunflorian.crown.boost.two": "+10% Markalar",
   "description.superTotem.boost.effectTime": "7 gün sürer",
   "budBuff.stem.fishHat.boost": "%10 Kritik Şans +1 Balık",
-  "budBuff.type.saphiro.boost": "-10% Mahsul Büyüme süresi"
+  "budBuff.type.saphiro.boost": "-10% Mahsul Büyüme süresi",
+  "description.tornadoPinwheel": "Sizi kasırgadan koruyan büyülü bir fırıldak! Sadece tek kullanımlık.",
+  "temperateSeason.weatherShop.weather": "Hava Durumu",
+  "temperateSeason.weatherShop.buy.description": "Çiftliğinizi hava koşullarından korumak için eşyalar satın alın",
+  "temperateSeason.weatherShop.buy.comingSoon": "Çok yakında - 1 Şubat",
+  "tornado": "Kasırga",
+  "tornado.crops.destroyed": "Kasırga yıkımı",
+  "tornado.crops.destroyed.description": "Bir kasırga mahsullerinin yarısını yok etti. Lütfen kasırganın geçmesini bekleyin.",
+  "tornado.building.destroyed.description": "Çiftliğinizde bir kasırga sürüyor - bu bina güvenli değil! Lütfen kasırganın geçmesini bekleyin.",
+  "tornado.protected.one": "Çiftliğini kasırgadan korudun!",
+  "tornado.protected.two": "Ekinlerinizin hiçbiri yok edilmedi.",
+  "tornado.protected.three": "Binalarınızın hiçbiri hasar görmedi.",
+  "tornado.destroyed.one": "Oh hayır! Bir kasırga çiftliğinizi yok ediyor!",
+  "tornado.destroyed.two": "Ekinlerinizin bir kısmı yok edildi.",
+  "tornado.destroyed.three": "Bazı binalarınız hasar gördü.",
+  "tornado.specialEvent": "Özel Etkinlik - Tornado"
 }

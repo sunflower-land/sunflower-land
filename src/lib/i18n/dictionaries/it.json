@@ -4753,5 +4753,20 @@
   "bumpkinItemBuff.sunflorian.crown.boost.two": "+10% di voti",
   "description.superTotem.boost.effectTime": "Dura 7 giorni",
   "budBuff.stem.fishHat.boost": "10% di probabilità critica +1 pesce",
-  "budBuff.type.saphiro.boost": "-10% Tempo di crescita delle colture"
+  "budBuff.type.saphiro.boost": "-10% Tempo di crescita delle colture",
+  "description.tornadoPinwheel": "Una girandola magica che ti protegge dal tornado! Solo usa e getta.",
+  "temperateSeason.weatherShop.weather": "Meteo",
+  "temperateSeason.weatherShop.buy.description": "Acquista oggetti per proteggere la tua fattoria dalle intemperie",
+  "temperateSeason.weatherShop.buy.comingSoon": "Prossimamente - 1 febbraio",
+  "tornado": "Tornado",
+  "tornado.crops.destroyed": "Distruzione del tornado",
+  "tornado.crops.destroyed.description": "Un tornado ha distrutto metà dei tuoi raccolti. Attendi che il tornado passi.",
+  "tornado.building.destroyed.description": "Un tornado sta imperversando nella tua fattoria: questo edificio non è sicuro! Attendi che il tornado passi.",
+  "tornado.protected.one": "Hai protetto la tua fattoria dal tornado!",
+  "tornado.protected.two": "Nessuno dei tuoi raccolti è stato distrutto.",
+  "tornado.protected.three": "Nessuno dei tuoi edifici è stato danneggiato.",
+  "tornado.destroyed.one": "Oh no! Un tornado sta distruggendo la tua fattoria!",
+  "tornado.destroyed.two": "Alcuni dei tuoi raccolti sono stati distrutti.",
+  "tornado.destroyed.three": "Alcuni dei tuoi edifici sono stati danneggiati.",
+  "tornado.specialEvent": "Evento speciale - Tornado"
 }

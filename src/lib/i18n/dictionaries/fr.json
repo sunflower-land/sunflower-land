@@ -4753,5 +4753,20 @@
   "bumpkinItemBuff.sunflorian.crown.boost.two": "+10 % de points",
   "description.superTotem.boost.effectTime": "Dure 7 jours",
   "budBuff.stem.fishHat.boost": "10 % de chance critique +1 poisson",
-  "budBuff.type.saphiro.boost": "-10 % Temps de croissance des cultures"
+  "budBuff.type.saphiro.boost": "-10 % Temps de croissance des cultures",
+  "description.tornadoPinwheel": "Un moulinet magique qui te protège de la tornade ! À usage unique.",
+  "temperateSeason.weatherShop.weather": "Météo",
+  "temperateSeason.weatherShop.buy.description": "Achetez des articles pour protéger votre ferme des intempéries",
+  "temperateSeason.weatherShop.buy.comingSoon": "Prochainement - 1er février",
+  "tornado": "Tornade",
+  "tornado.crops.destroyed": "Destruction par tornade",
+  "tornado.crops.destroyed.description": "Une tornade a détruit la moitié de vos récoltes. Veuillez attendre que la tornade passe.",
+  "tornado.building.destroyed.description": "Une tornade fait rage dans votre ferme. Ce bâtiment n'est pas sûr ! Veuillez attendre que la tornade passe.",
+  "tornado.protected.one": "Vous avez protégé votre ferme de la tornade !",
+  "tornado.protected.two": "Aucune de vos récoltes n'a été détruite.",
+  "tornado.protected.three": "Aucun de vos bâtiments n'a été endommagé.",
+  "tornado.destroyed.one": "Oh non ! Une tornade est en train de détruire votre ferme !",
+  "tornado.destroyed.two": "Certaines de vos récoltes ont été détruites.",
+  "tornado.destroyed.three": "Certains de vos bâtiments ont été endommagés.",
+  "tornado.specialEvent": "Événement spécial - Tornado"
 }

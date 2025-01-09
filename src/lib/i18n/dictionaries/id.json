@@ -4753,5 +4753,20 @@
   "bumpkinItemBuff.sunflorian.crown.boost.two": "+10% Tanda",
   "description.superTotem.boost.effectTime": "Berlangsung selama 7 hari",
   "budBuff.stem.fishHat.boost": "10% Peluang Kritis +1 ikan",
-  "budBuff.type.saphiro.boost": "-10% Waktu Pertumbuhan Tanaman"
+  "budBuff.type.saphiro.boost": "-10% Waktu Pertumbuhan Tanaman",
+  "description.tornadoPinwheel": "Kincir ajaib yang melindungi Anda dari tornado! Sekali pakai saja.",
+  "temperateSeason.weatherShop.weather": "Cuaca",
+  "temperateSeason.weatherShop.buy.description": "Beli barang untuk melindungi pertanian Anda dari cuaca",
+  "temperateSeason.weatherShop.buy.comingSoon": "Segera hadir - 1 Februari",
+  "tornado": "Tornado",
+  "tornado.crops.destroyed": "Penghancuran tornado",
+  "tornado.crops.destroyed.description": "Tornado telah menghancurkan setengah dari hasil panen Anda. Tolong tunggu sampai tornado lewat.",
+  "tornado.building.destroyed.description": "Tornado mengamuk di pertanian Anda - bangunan ini tidak aman! Tolong tunggu sampai tornado lewat.",
+  "tornado.protected.one": "Kau melindungi peternakanmu dari tornado!",
+  "tornado.protected.two": "Tak satu pun dari hasil panen Anda hancur.",
+  "tornado.protected.three": "Tak satu pun dari bangunanmu rusak.",
+  "tornado.destroyed.one": "Oh tidak! Tornado menghancurkan pertanian Anda!",
+  "tornado.destroyed.two": "Beberapa tanaman Anda hancur.",
+  "tornado.destroyed.three": "Beberapa bangunan Anda rusak.",
+  "tornado.specialEvent": "Acara Khusus - Tornado"
 }

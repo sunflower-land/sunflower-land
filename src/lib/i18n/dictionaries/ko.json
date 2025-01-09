@@ -4753,5 +4753,20 @@
   "bumpkinItemBuff.sunflorian.crown.boost.two": "+10% 마크",
   "description.superTotem.boost.effectTime": "7일 동안 지속됩니다.",
   "budBuff.stem.fishHat.boost": "10% 크리티컬 찬스 +1 물고기",
-  "budBuff.type.saphiro.boost": "-10% 작물 성장 시간"
+  "budBuff.type.saphiro.boost": "-10% 작물 성장 시간",
+  "description.tornadoPinwheel": "토네이도로부터 당신을 지켜주는 마법의 바람개비!한 번만 사용할 수 있습니다.",
+  "temperateSeason.weatherShop.weather": "날씨",
+  "temperateSeason.weatherShop.buy.description": "날씨로부터 농장을 보호할 아이템을 구매하세요",
+  "temperateSeason.weatherShop.buy.comingSoon": "곧 출시됩니다 - 2월 1일",
+  "tornado": "토네이도",
+  "tornado.crops.destroyed": "토네이도 파괴",
+  "tornado.crops.destroyed.description": "토네이도가 농작물의 절반을 파괴했습니다.토네이도가 지나갈 때까지 기다려 주세요.",
+  "tornado.building.destroyed.description": "농장에 토네이도가 몰아치고 있습니다. 이 건물은 안전하지 않습니다!토네이도가 지나갈 때까지 기다려 주세요.",
+  "tornado.protected.one": "토네이도로부터 농장을 지켰어요!",
+  "tornado.protected.two": "당신의 농작물은 하나도 파괴되지 않았습니다.",
+  "tornado.protected.three": "건물이 하나도 손상되지 않았어요",
+  "tornado.destroyed.one": "오, 안돼!토네이도가 농장을 파괴하고 있어요!",
+  "tornado.destroyed.two": "일부 농작물이 파괴되었습니다.",
+  "tornado.destroyed.three": "건물 중 일부가 손상되었습니다.",
+  "tornado.specialEvent": "특별 이벤트 - 토네이도"
 }

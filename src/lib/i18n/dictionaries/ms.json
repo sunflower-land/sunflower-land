@@ -4753,5 +4753,20 @@
   "bumpkinItemBuff.sunflorian.crown.boost.two": "+10% Markah",
   "description.superTotem.boost.effectTime": "Bertahan selama 7 hari",
   "budBuff.stem.fishHat.boost": "10% Peluang Kritikal +1 ikan",
-  "budBuff.type.saphiro.boost": "-10% Masa Pertumbuhan Tanaman"
+  "budBuff.type.saphiro.boost": "-10% Masa Pertumbuhan Tanaman",
+  "description.tornadoPinwheel": "Roda pinwheel ajaib yang melindungi anda dari puting beliung! Satu penggunaan sahaja.",
+  "temperateSeason.weatherShop.weather": "Cuaca",
+  "temperateSeason.weatherShop.buy.description": "Beli barang untuk melindungi ladang anda dari cuaca",
+  "temperateSeason.weatherShop.buy.comingSoon": "Tidak lama lagi - 1 Februari",
+  "tornado": "Tornado",
+  "tornado.crops.destroyed": "Kemusnahan puting beliung",
+  "tornado.crops.destroyed.description": "Putung beliung telah memusnahkan separuh tanaman anda. Sila tunggu puting beliung berlalu.",
+  "tornado.building.destroyed.description": "Putung beliung sedang melanda ladang anda - bangunan ini tidak selamat! Sila tunggu puting beliung berlalu.",
+  "tornado.protected.one": "Anda melindungi ladang anda dari puting beliung!",
+  "tornado.protected.two": "Tiada tanaman anda yang musnah.",
+  "tornado.protected.three": "Tiada bangunan anda yang rosak.",
+  "tornado.destroyed.one": "Oh tidak! Putung beliung memusnahkan ladang anda!",
+  "tornado.destroyed.two": "Sebahagian daripada tanaman anda telah musnah.",
+  "tornado.destroyed.three": "Sebilangan bangunan anda rosak.",
+  "tornado.specialEvent": "Acara Khas - Tornado"
 }
