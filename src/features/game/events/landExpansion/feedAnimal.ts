@@ -83,27 +83,34 @@ const handleAnimalExperience = (
   return currentCycleProgress + foodXp >= cycleXP;
 };
 
-const handleFreeFeeding = (
-  animal: Animal,
-  animalType: AnimalType,
-  level: number,
-  favouriteFood: AnimalFoodName,
-  copy: GameState,
-) => {
-  const { foodXp } = handleFoodXP({
-    state: copy,
-    animal: animalType,
-    level: level as AnimalLevel,
-    food: favouriteFood,
-  });
+const handleFreeFeeding = ({
+  animal,
+  animalType,
+  level,
+  copy,
+}: {
+  animal: Animal;
+  animalType: AnimalType;
+  level: number;
+  copy: GameState;
+}) => {
   const beforeFeedXp = animal.experience;
+  const nextLevel = (level + 1) as AnimalLevel;
+  let isReady = false;
 
-  const isReady = handleAnimalExperience(
-    animal,
-    animalType,
-    beforeFeedXp,
-    foodXp,
-  );
+  // Is max level
+  if (nextLevel > 15) {
+    const maxLevelXp = ANIMAL_LEVELS[animalType][15];
+    const currentCycleProgress = beforeFeedXp % maxLevelXp;
+    const xpDiff = maxLevelXp - currentCycleProgress;
+
+    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
+  } else {
+    const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
+    const xpDiff = nextLevelXp - beforeFeedXp;
+
+    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
+  }
 
   animal.state = isReady ? "ready" : "happy";
 
@@ -203,24 +210,22 @@ export function feedAnimal({
 
     // Handle Golden Egg Free Food
     if (action.animal === "Chicken" && hasGoldenEggPlaced) {
-      return handleFreeFeeding(
+      return handleFreeFeeding({
         animal,
-        action.animal,
+        animalType: action.animal,
         level,
-        favouriteFood,
         copy,
-      );
+      });
     }
 
     // Handle Golden Cow Free Food
     if (action.animal === "Cow" && hasGoldenCowPlaced) {
-      return handleFreeFeeding(
+      return handleFreeFeeding({
         animal,
-        action.animal,
+        animalType: action.animal,
         level,
-        favouriteFood,
         copy,
-      );
+      });
     }
 
     // Regular feeding logic

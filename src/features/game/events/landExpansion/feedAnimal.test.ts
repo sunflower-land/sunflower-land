@@ -1297,4 +1297,191 @@ describe("feedAnimal", () => {
 
     expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(2));
   });
+
+  it("feeds a cow to the next level if the player has a Golden Cow", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Golden Cow": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+      },
+    });
+
+    expect(state.barn.animals["0"].experience).toEqual(180);
+  });
+
+  it("feeds a max level chicken the max level xp if the player has a Gold Egg", () => {
+    const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Gold Egg": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              experience: maxLevelXP,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+
+    expect(state.henHouse.animals["0"].experience).toEqual(
+      maxLevelXP + maxLevelXP,
+    );
+  });
+
+  it("feeds a chicken that is over max level the max level xp if the player has a Gold Egg", () => {
+    const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Gold Egg": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              experience: maxLevelXP + 100,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+
+    expect(state.henHouse.animals["0"].experience).toEqual(
+      maxLevelXP + maxLevelXP,
+    );
+  });
+
+  it("feeds a max level cow the max level xp if the player has a Golden Cow", () => {
+    const maxLevelXP = ANIMAL_LEVELS["Cow"][15];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Golden Cow": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              experience: maxLevelXP,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+      },
+    });
+
+    expect(state.barn.animals["0"].experience).toEqual(maxLevelXP + maxLevelXP);
+  });
+
+  it("feeds a cow that is over max level the max level xp if the player has a Golden Cow", () => {
+    const maxLevelXP = ANIMAL_LEVELS["Cow"][15];
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Golden Cow": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              experience: maxLevelXP + 100,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+      },
+    });
+
+    expect(state.barn.animals["0"].experience).toEqual(maxLevelXP + maxLevelXP);
+  });
 });
