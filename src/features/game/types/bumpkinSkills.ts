@@ -2771,6 +2771,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
+    image: ITEM_DETAILS["Sprout Mix"].image,
   },
   // Compost - Tier 2
   "Premium Worms": {
@@ -2865,6 +2866,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
+    image: ITEM_DETAILS["Rapid Root"].image,
   },
   // Compost - Tier 3
   "Composting Overhaul": {
@@ -2880,11 +2882,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.compostingOverhaul.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
       },
       debuff: {
         shortDescription: translate("skill.compostingOverhaul.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
       },
     },
     disabled: false,
@@ -2902,11 +2906,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.compostingRevamp.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
       },
       debuff: {
         shortDescription: translate("skill.compostingRevamp.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
       },
     },
     disabled: false,

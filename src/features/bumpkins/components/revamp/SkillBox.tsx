@@ -11,7 +11,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CountLabel } from "components/ui/CountLabel";
 import { LabelType } from "components/ui/Label";
 import { ProgressType, ResizableBar } from "components/ui/ProgressBar";
-import { SquareIcon } from "./SquareIcon";
+import { SkillSquareIcon } from "./SkillSquareIcon";
 import { NPCName } from "lib/npcs";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
@@ -64,7 +64,7 @@ export interface BoxProps {
   npc?: NPCName;
 }
 
-export const Box: React.FC<BoxProps> = ({
+export const SkillBox: React.FC<BoxProps> = ({
   hideCount = false,
   image,
   secondaryImage,
@@ -141,7 +141,7 @@ export const Box: React.FC<BoxProps> = ({
             },
           )}
         >
-          <SquareIcon
+          <SkillSquareIcon
             tier={tier}
             icon={image}
             width={INNER_CANVAS_WIDTH}

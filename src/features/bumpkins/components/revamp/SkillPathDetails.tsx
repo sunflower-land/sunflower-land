@@ -12,9 +12,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 // Component imports
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Label } from "components/ui/Label";
-import { Box, INNER_CANVAS_WIDTH } from "./Box";
+import { SkillBox, INNER_CANVAS_WIDTH } from "./SkillBox";
 import { Button } from "components/ui/Button";
-import { SquareIcon } from "./SquareIcon";
+import { SkillSquareIcon } from "./SkillSquareIcon";
 
 // Function imports
 import {
@@ -31,6 +31,7 @@ import { millisecondsToString } from "lib/utils/time";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SKILL_TREE_ICONS } from "./SkillCategoryList";
+import tradeOffs from "src/assets/icons/tradeOffs.png";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -112,7 +113,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                 />
               )}
               <div className="sm:mt-2">
-                <SquareIcon
+                <SkillSquareIcon
                   icon={
                     image
                       ? image
@@ -279,7 +280,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                       const { boostTypeIcon, boostedItemIcon } = boosts.buff;
 
                       return (
-                        <Box
+                        <SkillBox
                           key={name}
                           className="mb-1"
                           image={
@@ -305,11 +306,13 @@ export const SkillPathDetails: React.FC<Props> = ({
                           tier={tierRequirement}
                           npc={npc}
                           secondaryImage={
-                            power ? SUNNYSIDE.icons.lightning : boostTypeIcon
+                            boosts.debuff
+                              ? tradeOffs
+                              : power
+                                ? SUNNYSIDE.icons.lightning
+                                : boostTypeIcon
                           }
-                        >
-                          {name}
-                        </Box>
+                        />
                       );
                     })}
                   </div>

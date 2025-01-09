@@ -70,7 +70,7 @@ const getImage = (icon: string, iconWidth: number) => {
   );
 };
 
-export const SquareIcon: React.FC<Props> = ({
+export const SkillSquareIcon: React.FC<Props> = ({
   icon = "",
   width = 14,
   className,
