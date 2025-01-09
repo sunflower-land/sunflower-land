@@ -42,7 +42,7 @@ interface Props {
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
-const getSkillImage = (
+export const getSkillImage = (
   image: string | undefined,
   boostedItemIcon: string | undefined,
   tree: BumpkinRevampSkillTree,
