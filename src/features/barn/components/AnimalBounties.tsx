@@ -310,7 +310,9 @@ export const ExchangeHud: React.FC<{
       <div className="absolute items-start flex top-3 px-2 cursor-pointer z-10 w-full justify-between">
         <InnerPanel>
           <div className="flex flex-wrap">
-            <Label type="default" className="mr-2">{`Lvl ${deal.level}`}</Label>
+            <Label type="default" className="mr-2">
+              {`Lvl ${deal.level}+`}
+            </Label>
 
             {!!deal.coins && (
               <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
