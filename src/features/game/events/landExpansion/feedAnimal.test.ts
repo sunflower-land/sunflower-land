@@ -638,6 +638,47 @@ describe("feedAnimal", () => {
     expect(state.henHouse.animals[chickenId].experience).toBe(0);
   });
 
+  it("cures a sick animal while its sleeping", () => {
+    const chickenId = "xyz";
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Barn Delight": new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "sick",
+              experience: 0,
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: chickenId,
+        item: "Barn Delight",
+      },
+    });
+
+    expect(state.henHouse.animals[chickenId].state).toBe("idle");
+    expect(state.inventory["Barn Delight"]).toStrictEqual(new Decimal(0));
+    expect(state.henHouse.animals[chickenId].experience).toBe(0);
+  });
+
   it("throws an error when trying to cure a healthy animal", () => {
     const chickenId = "xyz";
 

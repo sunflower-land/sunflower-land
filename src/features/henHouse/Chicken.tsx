@@ -16,6 +16,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
+  isAnimalMedicine,
 } from "features/game/lib/animals";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
@@ -155,6 +156,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = chickenMachineState === "ready";
   const idle = chickenMachineState === "idle";
   const sick = chickenMachineState === "sick";
+  const sleepingAndSick =
+    chickenMachineState === "sleeping" && chicken.state === "sick";
+  const needsLoveAndSick =
+    chickenMachineState === "needsLove" && chicken.state === "sick";
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
@@ -303,8 +308,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return onLoveClick();
 
-    if (sick) return onSickClick();
+    const medicineSelected = selectedItem && isAnimalMedicine(selectedItem);
 
+    if (sick || (sleepingAndSick && medicineSelected)) {
+      return onSickClick();
+    }
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
       return;
@@ -481,6 +489,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             />
           )}
           {sick && (
+            <RequestBubble
+              top={PIXEL_SCALE * -3.5}
+              left={PIXEL_SCALE * 20}
+              request="Barn Delight"
+            />
+          )}
+          {sleepingAndSick && (
             <RequestBubble
               top={PIXEL_SCALE * -3.5}
               left={PIXEL_SCALE * 20}
