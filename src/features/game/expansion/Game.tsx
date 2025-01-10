@@ -77,6 +77,7 @@ import { Marketplace } from "features/marketplace/Marketplace";
 import { CompetitionModal } from "features/competition/CompetitionBoard";
 import { SeasonChanged } from "./components/temperateSeason/SeasonChanged";
 import { CalendarEvent } from "./components/temperateSeason/CalendarEvent";
+import { DailyReset } from "../components/DailyReset";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -626,6 +627,8 @@ export const GameWrapper: React.FC = ({ children }) => {
 
         {children}
       </ToastProvider>
+      {/* Handles daily reset */}
+      <DailyReset />
     </>
   );
 };
