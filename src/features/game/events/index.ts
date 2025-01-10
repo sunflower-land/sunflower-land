@@ -426,6 +426,11 @@ import {
   triggerTornado,
   TriggerTornadoAction,
 } from "./landExpansion/triggerTornado";
+import { dailyReset, DailyResetAction } from "./landExpansion/dailyReset";
+import {
+  acknowledgeCalendarEvent,
+  AcknowledgeCalendarEventAction,
+} from "./landExpansion/acknowledgeCalendarEvent";
 
 export type PlayingEvent =
   | TriggerTornadoAction
@@ -557,6 +562,8 @@ export type PlayingEvent =
   | UnlockFarmhandAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
+  | DailyResetAction
+  | AcknowledgeCalendarEventAction
   // To remove once December is finished
   | CollectCandyAction;
 
@@ -755,6 +762,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
   "candy.collected": collectCandy,
+  "daily.reset": dailyReset,
+  "calendarEvent.acknowledged": acknowledgeCalendarEvent,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
