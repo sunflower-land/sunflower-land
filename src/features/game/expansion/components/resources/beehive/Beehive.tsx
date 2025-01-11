@@ -318,7 +318,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       >
         <Panel bumpkinParts={NPC_WEARABLES.stevie}>
           <>
-            <div className="flex relative items-center justify-center py-1">
+            <div className="flex relative items-center justify-center py-1 overflow-hidden">
               <div
                 className="flex w-full"
                 style={{ ...progressBarBorderStyle }}
