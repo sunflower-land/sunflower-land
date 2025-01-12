@@ -6,6 +6,7 @@ export type CalendarEventName = "tornado";
 export type CalendarEvent = {
   triggeredAt: number;
   protected?: boolean;
+  acknowledgedAt?: number;
 };
 
 export function getPendingCalendarEvent({
@@ -41,6 +42,8 @@ export function getActiveCalenderEvent({
 }: {
   game: GameState;
 }): CalendarEventName | undefined {
+  if (!game.calendar) return undefined;
+
   // If trigger in last 24 hours
   if (
     game.calendar.tornado?.triggeredAt &&

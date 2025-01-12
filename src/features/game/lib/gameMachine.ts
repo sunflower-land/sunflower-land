@@ -101,7 +101,7 @@ import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow
 import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
-import { getPendingCalendarEvent } from "../types/calendar";
+import { getActiveCalenderEvent } from "../types/calendar";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -922,9 +922,19 @@ export function startGame(authContext: AuthContext) {
                 if (!hasFeatureAccess(context.state, "WEATHER_SHOP")) {
                   return false;
                 }
-                const event = getPendingCalendarEvent({ game: context.state });
 
-                return !!event;
+                const game = context.state;
+
+                const activeEvent = getActiveCalenderEvent({
+                  game,
+                });
+
+                if (!activeEvent) return false;
+
+                const isAcknowledged =
+                  game?.calendar[activeEvent]?.acknowledgedAt;
+
+                return !isAcknowledged;
               },
             },
 
@@ -1008,7 +1018,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
-              actions: assign((context: Context) => ({
+              actions: assign((_) => ({
                 revealed: undefined,
               })),
             },
@@ -1023,10 +1033,9 @@ export function startGame(authContext: AuthContext) {
         },
         calendarEvent: {
           on: {
-            "tornado.triggered": (GAME_EVENT_HANDLERS as any)[
-              "tornado.triggered"
+            "calendarEvent.acknowledged": (GAME_EVENT_HANDLERS as any)[
+              "calendarEvent.acknowledged"
             ],
-
             ACKNOWLEDGE: {
               target: "notifying",
             },
@@ -1323,6 +1332,46 @@ export function startGame(authContext: AuthContext) {
                 target: "autosaving",
                 // If a SAVE was queued up, go back into saving
                 cond: (c) => c.saveQueued,
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "seasonChanged",
+                cond: (context, event) => {
+                  if (!hasFeatureAccess(context.state, "TEMPERATE_SEASON")) {
+                    return false;
+                  }
+
+                  return (
+                    event.data.farm.season.startedAt !==
+                    getLastTemperateSeasonStartedAt()
+                  );
+                },
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "calendarEvent",
+                cond: (_, event) => {
+                  if (!hasFeatureAccess(event.data.farm, "WEATHER_SHOP")) {
+                    return false;
+                  }
+
+                  const game = event.data.farm;
+
+                  const activeEvent = getActiveCalenderEvent({
+                    game,
+                  });
+
+                  if (!activeEvent) return false;
+
+                  const isAcknowledged =
+                    game.calendar[activeEvent].acknowledgedAt;
+
+                  return !isAcknowledged;
+                },
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
                 ),
