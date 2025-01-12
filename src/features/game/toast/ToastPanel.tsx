@@ -201,7 +201,12 @@ export const ToastPanel: React.FC = () => {
                       className="h-6"
                       src={getToastIcon(item, faction?.name)}
                     />
-                    <span className="text-sm mx-1 mb-0.5 font-secondary">{`${difference.greaterThan(0) ? "+" : ""}${formatNumber(difference)}`}</span>
+                    <span className="text-sm mx-1 mb-0.5 font-secondary">{`${difference.greaterThan(0) ? "+" : ""}${formatNumber(
+                      difference,
+                      {
+                        decimalPlaces: item === "SFL" ? 4 : 2,
+                      },
+                    )}`}</span>
                   </div>
                 );
               })}
