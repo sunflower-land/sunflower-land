@@ -52,6 +52,17 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
   ] = useActor(gameService);
 
+  const {
+    username,
+    bertObsession,
+    npcs,
+    bounties,
+    delivery,
+    choreBoard,
+    kingdomChores,
+    faction,
+  } = state;
+
   const [currentTab, setCurrentTab] = useState<CodexCategoryName>("Deliveries");
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
@@ -98,12 +109,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setMilestoneName(undefined);
   };
 
-  const id =
-    gameService.state?.context?.state?.username ??
-    String(gameService?.state?.context?.farmId);
+  const id = username ?? String(farmId);
 
-  const currentObsession = state.bertObsession;
-  const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
+  const currentObsession = bertObsession;
+  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
 
   const incompleteObsession =
     !currentObsession ||
@@ -113,12 +122,12 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       ? 0
       : 1;
 
-  const incompleteFlowerBounties = state.bounties.requests.filter(
+  const incompleteFlowerBounties = bounties.requests.filter(
     (deal) => deal.name in FLOWERS,
   );
   const incompleteFlowerBountiesCount = incompleteFlowerBounties.reduce(
     (count, deal) => {
-      const isSold = !!state.bounties.completed.find(
+      const isSold = !!bounties.completed.find(
         (request) => request.id === deal.id,
       );
       return isSold ? count - 1 : count;
@@ -126,16 +135,16 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     incompleteFlowerBounties.length,
   );
 
-  const incompleteDeliveries = state.delivery.orders.filter(
+  const incompleteDeliveries = delivery.orders.filter(
     (order) => !order.completedAt,
   ).length;
 
-  const incompleteChores = Object.values(state.choreBoard?.chores ?? {}).filter(
+  const incompleteChores = Object.values(choreBoard?.chores ?? {}).filter(
     (chore) => !chore.completedAt,
   ).length;
 
   const inCompleteKingdomChores =
-    state.kingdomChores?.chores.filter(
+    kingdomChores?.chores.filter(
       (chore) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
     ).length ?? 0;
 
@@ -167,7 +176,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: 0,
     },
 
-    ...(state.faction
+    ...(faction
       ? [
           {
             name: "Marks" as const,
@@ -254,7 +263,13 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 "overflow-y-auto scrollable": currentTab !== 5,
               })}
             > */}
-            {currentTab === "Deliveries" && <Deliveries onClose={onHide} />}
+            {currentTab === "Deliveries" && (
+              <Deliveries
+                onClose={onHide}
+                state={state}
+                gameService={gameService}
+              />
+            )}
             {currentTab === "Chore Board" && (
               <>
                 {hasFeatureAccess(state, "CHORE_BOARD") ? (
@@ -279,12 +294,12 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
 
-            {currentTab === "Marks" && state.faction && (
+            {currentTab === "Marks" && faction && (
               <FactionLeaderboard
                 leaderboard={data?.kingdom ?? null}
                 isLoading={data?.kingdom === undefined}
                 playerId={id}
-                faction={state.faction.name}
+                faction={faction.name}
               />
             )}
 

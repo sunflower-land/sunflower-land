@@ -1,6 +1,5 @@
-import { useActor, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -11,7 +10,6 @@ import lock from "assets/icons/lock.png";
 import lightning from "assets/icons/lightning.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
-import { Context } from "features/game/GameProvider";
 import {
   QuestNPCName,
   TICKET_REWARDS,
@@ -39,7 +37,6 @@ import {
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
-import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { Revealing } from "features/game/components/Revealing";
@@ -56,6 +53,7 @@ import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -81,12 +79,9 @@ interface Props {
   selectedId?: string;
   onSelect: (id?: string) => void;
   onClose: () => void;
+  state: GameState;
+  gameService: MachineInterpreter;
 }
-
-const _delivery = (state: MachineState) => state.context.state.delivery;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _sfl = (state: MachineState) => state.context.state.balance;
-const _coins = (state: MachineState) => state.context.state.coins;
 
 export function hasOrderRequirements({
   order,
@@ -141,8 +136,6 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   onClick,
   state,
 }) => {
-  const { coins, balance: sfl, inventory } = state;
-
   const tickets = generateDeliveryTickets({ game: state, npc: order.from });
 
   return (
@@ -323,24 +316,15 @@ export const DeliveryOrders: React.FC<Props> = ({
   selectedId,
   onSelect,
   onClose,
+  state,
+  gameService,
 }) => {
-  const { gameService } = useContext(Context);
+  const { delivery, balance: sfl, coins, npcs, bumpkin } = state;
 
   const navigate = useNavigate();
 
-  const delivery = useSelector(gameService, _delivery);
-  const inventory = useSelector(gameService, _inventory);
-  const sfl = useSelector(gameService, _sfl);
-  const coins = useSelector(gameService, _coins);
-
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
@@ -355,7 +339,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   if (!previewOrder) {
     previewOrder = orders[0];
   }
-  const completedAt = state.npcs?.[previewOrder.from]?.deliveryCompletedAt;
+  const completedAt = npcs?.[previewOrder.from]?.deliveryCompletedAt;
 
   const dateKey = new Date().toISOString().substring(0, 10);
 
@@ -415,7 +399,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   const nextHolidayInSecs =
     (new Date(holiday ?? 0).getTime() - Date.now()) / 1000;
 
-  const level = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+  const level = getBumpkinLevel(bumpkin?.experience ?? 0);
 
   const coinOrders = orders.filter((order) => order.reward.coins);
   const sflOrders = orders.filter((order) => order.reward.sfl);
@@ -451,7 +435,7 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between gap-1 flex-row w-full">
             <Label type="default">{t("deliveries")}</Label>
-            {state.delivery.doubleDelivery === dateKey && (
+            {delivery.doubleDelivery === dateKey && (
               <Label type="vibrant" icon={lightning}>
                 {t("double.rewards.deliveries")}
               </Label>
@@ -793,12 +777,11 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </Label>
               </div>
               <div className="mb-1">
-                {state.delivery.doubleDelivery === dateKey &&
-                  !hasClaimedBonus && (
-                    <Label type="vibrant" icon={lightning}>
-                      {t("2x.rewards")}
-                    </Label>
-                  )}
+                {delivery.doubleDelivery === dateKey && !hasClaimedBonus && (
+                  <Label type="vibrant" icon={lightning}>
+                    {t("2x.rewards")}
+                  </Label>
+                )}
               </div>
               <div>
                 {!previewOrder.completedAt &&

@@ -1,14 +1,15 @@
 import { DeliveryOrders } from "features/island/delivery/components/Orders";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
-import { Context } from "features/game/GameProvider";
+import { GameState } from "features/game/types/game";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 
-export const Deliveries: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
+export const Deliveries: React.FC<{
+  onClose: () => void;
+  state: GameState;
+  gameService: MachineInterpreter;
+}> = ({ onClose, state, gameService }) => {
   const [selected, setSelected] = useState<string>();
-
-  const { t } = useAppTranslation();
 
   return (
     <div className="flex flex-col h-full">
@@ -16,6 +17,8 @@ export const Deliveries: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         onSelect={(id) => setSelected(id)}
         selectedId={selected}
         onClose={() => onClose()}
+        state={state}
+        gameService={gameService}
       />
     </div>
   );
