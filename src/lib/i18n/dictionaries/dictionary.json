@@ -4802,5 +4802,6 @@
   "tornado.destroyed.one": "Oh no! A tornado is destroying your farm!",
   "tornado.destroyed.two": "Some of your crops were destroyed.",
   "tornado.destroyed.three": "Some of your buildings were damaged.",
-  "tornado.specialEvent": "Special Event - Tornado"
+  "tornado.specialEvent": "Special Event - Tornado",
+  "searchHere": "Search here..."
 }
