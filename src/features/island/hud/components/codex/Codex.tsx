@@ -278,6 +278,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
                 season={getCurrentSeason()}
+                state={state}
+                farmId={farmId}
+                gameService={gameService}
               />
             )}
             {currentTab === "Fish" && (
