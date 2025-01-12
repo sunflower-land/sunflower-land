@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import {
-  MachineInterpreter,
-  MachineState,
-} from "features/game/lib/gameMachine";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   FLOWER_MILESTONES,
@@ -20,11 +17,6 @@ import { Detail } from "../components/Detail";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
-const _milestones = (state: MachineState) => state.context.state.milestones;
-const _discovered = (state: MachineState) =>
-  state.context.state.flowers.discovered;
 
 const FLOWERS_BY_SEED = getFlowerBySeed();
 
@@ -121,7 +113,7 @@ export const Flowers: React.FC<Props> = ({
           </>
         }
         state={state}
-      ></Detail>
+      />
     );
   }
 
