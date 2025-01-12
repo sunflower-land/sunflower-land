@@ -1,10 +1,8 @@
-import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
-import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { ITEM_IDS } from "features/game/types/bumpkin";
@@ -15,7 +13,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -36,27 +34,25 @@ import { CHORE_DETAILS } from "../lib/choreDetails";
 import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
 import { CHORE_DIALOGUES } from "features/game/types/stories";
 import { isMobile } from "mobile-device-detect";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 const formatNumber = (num: number, decimals = 2) => {
   // Check if the number has a fractional part
   return num % 1 === 0 ? num : num.toFixed(decimals);
 };
 
-export const ChoreBoard: React.FC = () => {
-  const { gameService } = useContext(Context);
+interface Props {
+  gameService: MachineInterpreter;
+  state: GameState;
+}
 
+export const ChoreBoard: React.FC<Props> = ({ gameService, state }) => {
   const { t } = useAppTranslation();
 
   const [selectedId, setSelectedId] = useState<NPCName>();
 
-  const chores = useSelector(
-    gameService,
-    (state) => state.context.state.choreBoard.chores,
-  );
-  const inventory = useSelector(
-    gameService,
-    (state) => state.context.state.inventory,
-  );
+  const { choreBoard, bumpkin } = state;
+  const { chores } = choreBoard;
 
   const end = useCountdown(weekResetsAt());
 
@@ -69,9 +65,7 @@ export const ChoreBoard: React.FC = () => {
   const dayOfWeek = new Date().getDate();
   const dialogue = messages?.[dayOfWeek % messages.length];
 
-  const level = getBumpkinLevel(
-    gameService.state.context.state.bumpkin.experience ?? 0,
-  );
+  const level = getBumpkinLevel(bumpkin.experience ?? 0);
 
   const nextUnlock = getKeys(NPC_CHORE_UNLOCKS)
     .filter((name) => name in chores)
@@ -123,15 +117,10 @@ export const ChoreBoard: React.FC = () => {
                 npc={chore}
                 selected={selectedId}
                 onClick={setSelectedId}
-                game={gameService.state.context.state}
+                game={state}
               />
             ))}
-          {nextUnlock && (
-            <LockedChoreCard
-              chore={chores[nextUnlock] as NpcChore}
-              npc={nextUnlock}
-            />
-          )}
+          {nextUnlock && <LockedChoreCard npc={nextUnlock} />}
         </div>
       </InnerPanel>
       {previewChore && (
@@ -210,7 +199,7 @@ export const ChoreBoard: React.FC = () => {
                 Math.min(
                   getChoreProgress({
                     chore: previewChore,
-                    game: gameService.state.context.state,
+                    game: state,
                   }),
                   NPC_CHORES[previewChore.name].requirement,
                 ),
@@ -224,7 +213,7 @@ export const ChoreBoard: React.FC = () => {
                   !!previewChore.completedAt ||
                   getChoreProgress({
                     chore: previewChore,
-                    game: gameService.state.context.state,
+                    game: state,
                   }) < NPC_CHORES[previewChore.name].requirement
                 }
                 onClick={() => {
@@ -236,7 +225,7 @@ export const ChoreBoard: React.FC = () => {
               >
                 {t("chores.complete")}
                 <div className="flex absolute right-0 -top-5">
-                  <ChoreRewardLabel chore={previewChore} />
+                  <ChoreRewardLabel chore={previewChore} state={state} />
                 </div>
               </Button>
             )}
@@ -260,13 +249,7 @@ export const ChoreCard: React.FC<{
   selected?: NPCName;
   onClick: (npc: NPCName) => void;
   game: GameState;
-}> = ({ npc, chore, selected, onClick, game }) => {
-  const rewards = generateChoreRewards({
-    game,
-    chore,
-    now: new Date(),
-  });
-
+}> = ({ npc, chore, onClick, game }) => {
   return (
     <div className="py-1 px-1" key={npc}>
       <ButtonPanel
@@ -278,7 +261,7 @@ export const ChoreCard: React.FC<{
         style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
         <div className="flex absolute -right-2 -top-4">
-          <ChoreRewardLabel chore={chore} />
+          <ChoreRewardLabel chore={chore} state={game} />
         </div>
 
         {!chore.completedAt &&
@@ -336,9 +319,8 @@ export const ChoreCard: React.FC<{
 };
 
 export const LockedChoreCard: React.FC<{
-  chore: NpcChore;
   npc: NPCName;
-}> = ({ npc, chore }) => {
+}> = ({ npc }) => {
   const { t } = useAppTranslation();
 
   return (
@@ -382,14 +364,13 @@ export const LockedChoreCard: React.FC<{
 
 export const ChoreRewardLabel: React.FC<{
   chore: NpcChore;
-}> = ({ chore }) => {
-  const { gameService } = useContext(Context);
-
+  state: GameState;
+}> = ({ chore, state }) => {
   if (chore.reward.items[getSeasonalTicket()]) {
     return (
       <Label type={"warning"} icon={ITEM_DETAILS[getSeasonalTicket()].image}>
         {generateChoreRewards({
-          game: gameService.state.context.state,
+          game: state,
           chore,
           now: new Date(),
         })[getSeasonalTicket()] ?? 0}

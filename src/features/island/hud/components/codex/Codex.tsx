@@ -17,7 +17,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Deliveries } from "./pages/Deliveries";
-import { Chores } from "./pages/Chores";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -271,13 +270,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               />
             )}
             {currentTab === "Chore Board" && (
-              <>
-                {hasFeatureAccess(state, "CHORE_BOARD") ? (
-                  <ChoreBoard />
-                ) : (
-                  <Chores farmId={farmId} />
-                )}
-              </>
+              <ChoreBoard gameService={gameService} state={state} />
             )}
             {currentTab === "Leaderboard" && (
               <Season
