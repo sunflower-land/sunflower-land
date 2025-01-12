@@ -160,7 +160,7 @@ export function feedAnimal({
 
     const beforeFeedXp = animal.experience;
 
-    if (createdAt < animal.awakeAt) {
+    if (createdAt < animal.awakeAt && animal.state !== "sick") {
       throw new Error("Animal is asleep");
     }
 

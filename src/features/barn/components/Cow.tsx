@@ -15,6 +15,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
+  isAnimalMedicine,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
@@ -152,6 +153,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = cowMachineState === "ready";
   const idle = cowMachineState === "idle";
   const sick = cowMachineState === "sick";
+  const sickAndSleeping = sleeping && cow.state === "sick";
 
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Cow",
@@ -293,7 +295,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return onLoveClick();
 
-    if (sick) return onSickClick();
+    const medicineSelected = selectedItem && isAnimalMedicine(selectedItem);
+
+    if (sick || (sickAndSleeping && medicineSelected)) return onSickClick();
 
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
@@ -452,6 +456,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               left={PIXEL_SCALE * 23}
               request={favFood}
               quantity={!hasGoldenCow ? requiredFoodQty : undefined}
+            />
+          )}
+          {sickAndSleeping && (
+            <RequestBubble
+              top={PIXEL_SCALE * 2}
+              left={PIXEL_SCALE * 23}
+              request="Barn Delight"
             />
           )}
           {sick && (
