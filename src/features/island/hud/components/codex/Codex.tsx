@@ -291,7 +291,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               />
             )}
             {currentTab === "Flowers" && (
-              <Flowers onMilestoneReached={handleMilestoneReached} />
+              <Flowers
+                onMilestoneReached={handleMilestoneReached}
+                state={state}
+                gameService={gameService}
+              />
             )}
 
             {currentTab === "Marks" && faction && (

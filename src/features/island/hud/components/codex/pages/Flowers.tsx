@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import {
+  MachineInterpreter,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   FLOWER_MILESTONES,
@@ -29,6 +30,8 @@ const FLOWERS_BY_SEED = getFlowerBySeed();
 
 type Props = {
   onMilestoneReached: (milestoneName: MilestoneName) => void;
+  gameService: MachineInterpreter;
+  state: GameState;
 };
 
 function getTotalFlowersFound(farmActivity: GameState["farmActivity"]) {
@@ -37,15 +40,17 @@ function getTotalFlowersFound(farmActivity: GameState["farmActivity"]) {
   }, 0);
 }
 
-export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
-  const { gameService } = useContext(Context);
+export const Flowers: React.FC<Props> = ({
+  onMilestoneReached,
+  state,
+  gameService,
+}) => {
   const [expandedIndex, setExpandedIndex] = useState<number>();
   const [selectedFlower, setSelectedFlower] = useState<FlowerName>();
   const { t } = useAppTranslation();
 
-  const farmActivity = useSelector(gameService, _farmActivity);
-  const milestones = useSelector(gameService, _milestones);
-  const discovered = useSelector(gameService, _discovered);
+  const { farmActivity, milestones, flowers } = state;
+  const { discovered } = flowers;
 
   const crossBreeds = (selectedFlower && discovered[selectedFlower]) ?? [];
 
@@ -115,6 +120,7 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
             ))}
           </>
         }
+        state={state}
       ></Detail>
     );
   }
