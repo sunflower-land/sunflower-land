@@ -193,7 +193,7 @@ export const BertObsession: React.FC<{
             <div className="absolute inset-0">
               <img
                 src={image}
-                className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                className={`absolute ${isObsessionCollectible ? "w-1/2" : "w-full"} z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
               />
             </div>
           </div>
@@ -323,7 +323,7 @@ const BertObsessionReadonly: React.FC<{
           >
             <img
               src={image}
-              className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className={`absolute ${isObsessionCollectible ? "w-1/2" : "w-full"} z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
             />
           </div>
           <div className="flex flex-col space-y-2 justify-between">
