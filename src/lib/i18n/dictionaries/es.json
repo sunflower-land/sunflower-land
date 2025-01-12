@@ -1329,7 +1329,6 @@
   "quest.sunpetal.savant": "Descubre 12 variantes de Sunpetal",
   "quest.bloom.bigshot": "Descubre 12 variantes de Bloom",
   "quest.lily.luminary": "Descubre 12 variantes de lirios",
-  "flowerBedGuide.buySeeds": "Compra semillas en la tienda de semillas.",
   "flowerBedGuide.crossbreedWithCrops": "Cruza con cultivos y otras flores para descubrir nuevas especies de flores.",
   "flowerBedGuide.collectAllSpecies": "Colecciona todas las especies de flores del Codex!",
   "flowerBedGuide.beesProduceHoney": "Las abejas producen miel mientras crecen las flores.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0.1 Rendimiento básico del cultivo",
   "skill.experiencedFarmer": "+0,1 Rendimiento de cultivo medio",
   "skill.bettysFriend": "Los ingresos por entrega de Betty Coin aumentaron un 30%",
-  "skill.coinSwindler": "+10% de monedas al vender cosechas (Seed Shop)",
   "skill.chonkyScarecrow": "Aumenta el área de efecto (AOE) del Espantapájaros básico a un área de 7x7",
   "skill.horrorMike": "Aumenta el área de efecto (AOE) de Scary Mike a un área de 7x7",
   "skill.lauriesGains": "Aumenta el área de efecto (AOE) de Laurie the Chuckle Crow a un área de 7x7",
@@ -4768,5 +4766,7 @@
   "tornado.destroyed.two": "Algunas de sus cosechas fueron destruidas.",
   "tornado.destroyed.three": "Algunos de sus edificios resultaron dañados.",
   "tornado.specialEvent": "Evento especial: Tornado",
-  "guide.factionPet.two": "Tu facción tendrá un objetivo de XP que deberá alcanzar cada semana. Si la facción alcanza el objetivo, ¡el objetivo de la semana siguiente será un 25% más alto que el objetivo de la semana anterior! Si no se alcanza el objetivo, se restablecerá a 1000 miembros de la facción."
+  "guide.factionPet.two": "Tu facción tendrá un objetivo de XP que deberá alcanzar cada semana. Si la facción alcanza el objetivo, ¡el objetivo de la semana siguiente será un 25% más alto que el objetivo de la semana anterior! Si no se alcanza el objetivo, se restablecerá a 1000 miembros de la facción.",
+  "flowerBedGuide.buySeeds": "Compra semillas en el mercado.",
+  "skill.coinSwindler": "+10% de monedas al vender cosechas en el mercado"
 }

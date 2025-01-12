@@ -855,7 +855,6 @@
   "quest.sunpetal.savant": "Descubra 12 variantes de Sunpetal",
   "quest.bloom.bigshot": "Descubra 12 variantes de Bloom",
   "quest.lily.luminary": "Descubra 12 variantes de Lily",
-  "flowerBedGuide.buySeeds": "Compre sementes de Flor na Loja de Sementes.",
   "flowerBedGuide.crossbreedWithCrops": "Cruze com plantações e outras flores para descobrir novas espécies de flores.",
   "flowerBedGuide.collectAllSpecies": "Colete todas as espécies de flores no Codex!",
   "flowerBedGuide.beesProduceHoney": "As abelhas produzem mel enquanto as flores estão crescendo.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0,1 Rendimento básico da safra",
   "skill.experiencedFarmer": "+0,1 Rendimento médio da safra",
   "skill.bettysFriend": "A receita de entrega da Betty Coin aumentou em 30%",
-  "skill.coinSwindler": "+10% de moedas ao vender safras (Seed Shop)",
   "skill.chonkyScarecrow": "Aumenta a área de efeito (AOE) do Espantalho Básico para uma área de 7x7",
   "skill.horrorMike": "Aumenta a área de efeito (AOE) de Scary Mike para uma área de 7x7",
   "skill.lauriesGains": "Aumenta a área de efeito (AOE) de Laurie the Chuckle Crow para uma área de 7x7",
@@ -4768,5 +4766,7 @@
   "tornado.destroyed.two": "Algumas de suas plantações foram destruídas.",
   "tornado.destroyed.three": "Alguns de seus edifícios foram danificados.",
   "tornado.specialEvent": "Evento especial - Tornado",
-  "guide.factionPet.two": "Sua facção terá uma meta de XP que eles precisam atingir a cada semana. Se a facção atingir a meta, a meta da próxima semana será 25% maior do que a meta da semana anterior! Se a meta não for alcançada, ela será redefinida para 1000 x membros da facção."
+  "guide.factionPet.two": "Sua facção terá uma meta de XP que eles precisam atingir a cada semana. Se a facção atingir a meta, a meta da próxima semana será 25% maior do que a meta da semana anterior! Se a meta não for alcançada, ela será redefinida para 1000 x membros da facção.",
+  "flowerBedGuide.buySeeds": "Compre sementes no mercado.",
+  "skill.coinSwindler": "+10% de moedas ao vender safras no mercado"
 }

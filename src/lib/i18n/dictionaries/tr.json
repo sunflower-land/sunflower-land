@@ -886,7 +886,6 @@
   "quest.sunpetal.savant": "12 Sunpetal çeşidini keşfedin",
   "quest.bloom.bigshot": "12 Bloom çeşidini keşfedin",
   "quest.lily.luminary": "12 Lily çeşidini keşfedin",
-  "flowerBedGuide.buySeeds": "Tohum Dükkanından tohum satın alın.",
   "flowerBedGuide.crossbreedWithCrops": "Yeni çiçek türlerini keşfetmek için mahsullerle ve diğer çiçeklerle melezleyin.",
   "flowerBedGuide.collectAllSpecies": "Kodeks'teki tüm çiçek türlerini toplayın!",
   "flowerBedGuide.beesProduceHoney": "Arılar çiçekler büyürken bal üretirler.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0.1 Temel Mahsul verimi",
   "skill.experiencedFarmer": "+0.1 Orta Mahsul verimi",
   "skill.bettysFriend": "Betty Coin teslimat geliri %30 arttı",
-  "skill.coinSwindler": "Mahsul satarken +10% jeton (Tohum Dükkanı)",
   "skill.chonkyScarecrow": "Temel Korkuluk etki alanını (AOE) 7x7 alana yükseltir",
   "skill.horrorMike": "Scary Mike'ın etki alanını (AOE) 7x7 alana yükseltir",
   "skill.lauriesGains": "Laurie the Chuckle Crow'un etki alanını (AOE) 7x7 alana çıkarır",
@@ -4768,5 +4766,7 @@
   "tornado.destroyed.two": "Ekinlerinizin bir kısmı yok edildi.",
   "tornado.destroyed.three": "Bazı binalarınız hasar gördü.",
   "tornado.specialEvent": "Özel Etkinlik - Tornado",
-  "guide.factionPet.two": "Grubunuzun her hafta ulaşmaları gereken bir hedef xp'ye sahip olacak. Eğer grup hedefe ulaşırsa, gelecek haftanın hedefi önceki haftanın hedefin% 25 daha fazla olacak! Hedefe ulaşılmazsa, 1000 x fraksiyon üyesine geri sıfırlanır."
+  "guide.factionPet.two": "Grubunuzun her hafta ulaşmaları gereken bir hedef xp'ye sahip olacak. Eğer grup hedefe ulaşırsa, gelecek haftanın hedefi önceki haftanın hedefin% 25 daha fazla olacak! Hedefe ulaşılmazsa, 1000 x fraksiyon üyesine geri sıfırlanır.",
+  "flowerBedGuide.buySeeds": "Marketten tohum satın alın.",
+  "skill.coinSwindler": "Market'te mahsul satarken +10% jeton"
 }

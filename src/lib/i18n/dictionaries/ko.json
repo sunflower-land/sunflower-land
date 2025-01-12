@@ -1345,7 +1345,6 @@
   "quest.sunpetal.savant": "12가지 선페탈 변종을 발견하세요",
   "quest.bloom.bigshot": "12가지 블룸 변종을 발견하세요",
   "quest.lily.luminary": "릴리 변종 12종을 발견하세요",
-  "flowerBedGuide.buySeeds": "종자 상점에서 씨앗을 구입하세요.",
   "flowerBedGuide.crossbreedWithCrops": "작물과 다른 꽃과 교배하여 새로운 꽃 종을 발견하세요.",
   "flowerBedGuide.collectAllSpecies": "코덱스에서 모든 종류의 꽃을 수집하세요!",
   "flowerBedGuide.beesProduceHoney": "벌은 꽃이 자라는 동안 꿀을 생산합니다.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0.1 기본 작물 수확량",
   "skill.experiencedFarmer": "+0.1 중간 작물 수확량",
   "skill.bettysFriend": "베티 코인 배송 수익 30% 증가",
-  "skill.coinSwindler": "농작물 판매 시 +10% 코인 (시드 샵)",
   "skill.chonkyScarecrow": "기본 허수아비의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다.",
   "skill.horrorMike": "무서운 마이크의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다.",
   "skill.lauriesGains": "웃는 크로우 로리의 효과 범위 (AOE) 를 7x7 영역으로 증가시킵니다.",
@@ -4768,5 +4766,7 @@
   "tornado.destroyed.two": "일부 농작물이 파괴되었습니다.",
   "tornado.destroyed.three": "건물 중 일부가 손상되었습니다.",
   "tornado.specialEvent": "특별 이벤트 - 토네이도",
-  "guide.factionPet.two": "여러분의 진영은 매주 달성해야 하는 목표 경험치를 갖게 됩니다.진영이 목표를 달성하면 다음 주 목표가 이전 주 목표보다 25% 더 많아집니다!목표에 도달하지 못하면 1000 x 팩션 멤버로 다시 초기화됩니다."
+  "guide.factionPet.two": "여러분의 진영은 매주 달성해야 하는 목표 경험치를 갖게 됩니다.진영이 목표를 달성하면 다음 주 목표가 이전 주 목표보다 25% 더 많아집니다!목표에 도달하지 못하면 1000 x 팩션 멤버로 다시 초기화됩니다.",
+  "flowerBedGuide.buySeeds": "시장에서 씨앗을 구입하세요.",
+  "skill.coinSwindler": "시장에서 농작물을 판매할 때 +10% 코인"
 }
