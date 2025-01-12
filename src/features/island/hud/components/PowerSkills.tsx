@@ -1,6 +1,5 @@
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { Label } from "components/ui/Label";
@@ -8,7 +7,6 @@ import { Modal } from "components/ui/Modal";
 import { OuterPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { SquareIcon } from "components/ui/SquareIcon";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
@@ -28,6 +26,13 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { millisecondsToString } from "lib/utils/time";
 import React, { useContext, useState } from "react";
+import {
+  INNER_CANVAS_WIDTH,
+  SkillBox,
+} from "features/bumpkins/components/revamp/SkillBox";
+import { SkillSquareIcon } from "features/bumpkins/components/revamp/SkillSquareIcon";
+import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
+import tradeOffs from "src/assets/icons/tradeOffs.png";
 
 interface PowerSkillsProps {
   show: boolean;
@@ -119,8 +124,8 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
     }
   };
 
-  const { boosts, image, name, power, requirements } = selectedSkill;
-  const { cooldown, items } = requirements;
+  const { boosts, image, name, power, requirements, npc, tree } = selectedSkill;
+  const { cooldown, items, tier } = requirements;
   const { buff, debuff } = boosts;
 
   const nextSkillUse =
@@ -143,7 +148,12 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
           <div className="flex flex-col h-full px-1 py-0">
             <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 sm:py-0 py-2">
               <div className="sm:mt-2">
-                <SquareIcon icon={image} width={14} />
+                <SkillSquareIcon
+                  icon={getSkillImage(image, buff.boostedItemIcon, tree)}
+                  width={INNER_CANVAS_WIDTH}
+                  tier={tier}
+                  npc={npc}
+                />
               </div>
               <span className="sm:text-center">{name}</span>
             </div>
@@ -249,17 +259,29 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
             <Label type="default">{t("powerSkills.unlockedSkills")}</Label>
           </div>
           <div className="flex flex-wrap mb-2">
-            {powerSkillsUnlocked.map((skill) => (
-              <Box
-                key={skill.name}
-                className="mb-1"
-                image={skill.image}
-                isSelected={selectedSkill === skill}
-                onClick={() => setSelectedSkill(skill)}
-              >
-                {skill.name}
-              </Box>
-            ))}
+            {powerSkillsUnlocked.map((skill: BumpkinSkillRevamp) => {
+              const { name, image, tree, npc, power, boosts, requirements } =
+                skill;
+              const { boostTypeIcon, boostedItemIcon } = boosts.buff;
+              return (
+                <SkillBox
+                  key={name}
+                  className="mb-1"
+                  image={getSkillImage(image, boostedItemIcon, tree)}
+                  isSelected={selectedSkill === skill}
+                  onClick={() => setSelectedSkill(skill)}
+                  tier={requirements.tier}
+                  npc={npc}
+                  secondaryImage={
+                    boosts.debuff
+                      ? tradeOffs
+                      : power
+                        ? SUNNYSIDE.icons.lightning
+                        : boostTypeIcon
+                  }
+                />
+              );
+            })}
           </div>
         </div>
       }
