@@ -40,6 +40,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CompetitionPrizes } from "./CompetitionPrizes";
+import { GameState } from "features/game/types/game";
 
 export const CompetitionModal: React.FC<{
   competitionName: CompetitionName;
@@ -125,21 +126,19 @@ export const CompetitionModal: React.FC<{
         onClick={onClose}
         className="absolute right-2 -top-12 w-10 cursor-pointer"
       />
-      <CompetitionDetails competitionName={competitionName} />
+      <CompetitionDetails
+        competitionName={competitionName}
+        state={gameState.context.state}
+      />
     </OuterPanel>
   );
 };
 
 export const CompetitionDetails: React.FC<{
   competitionName: CompetitionName;
-  onClose?: () => void;
-}> = ({ onClose, competitionName }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
+  state: GameState;
+}> = ({ competitionName, state }) => {
   const { t } = useAppTranslation();
-
-  const { competitions } = gameState.context.state;
 
   const [task, setTask] = useState<CompetitionTaskName>();
 
@@ -183,7 +182,7 @@ export const CompetitionDetails: React.FC<{
               <Label type="default" className="">
                 {t("competition.earnPoints")}
               </Label>
-              <Label type="vibrant">{`${getCompetitionPoints({ game: gameState.context.state, name: competitionName })} points`}</Label>
+              <Label type="vibrant">{`${getCompetitionPoints({ game: state, name: competitionName })} points`}</Label>
             </div>
             <p className="text-xs mb-3">{t("competition.earnPoints.how")}</p>
             <div className="flex flex-wrap -mx-1 items-center">
@@ -263,9 +262,9 @@ export const CompetitionDetails: React.FC<{
                 </p>
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-xs">
-                    {`Completed: ${getTaskCompleted({ task, name: competitionName, game: gameState.context.state })}`}
+                    {`Completed: ${getTaskCompleted({ task, name: competitionName, game: state })}`}
                   </p>
-                  <Label type="vibrant">{`${getTaskCompleted({ task, name: competitionName, game: gameState.context.state }) * (COMPETITION_POINTS[competitionName]?.points[task] ?? 0)} Points`}</Label>
+                  <Label type="vibrant">{`${getTaskCompleted({ task, name: competitionName, game: state }) * (COMPETITION_POINTS[competitionName]?.points[task] ?? 0)} Points`}</Label>
                 </div>
               </div>
             </>

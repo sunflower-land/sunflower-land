@@ -313,7 +313,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
                 )}
               >
-                <CompetitionDetails competitionName="ANIMALS" />
+                <CompetitionDetails competitionName="ANIMALS" state={state} />
               </div>
             )}
           </div>
