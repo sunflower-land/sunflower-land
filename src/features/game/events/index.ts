@@ -422,10 +422,6 @@ import {
 } from "./landExpansion/redeemTradeReward";
 import { collectCandy, CollectCandyAction } from "./landExpansion/collectCandy";
 import { skillUse, SkillUseAction } from "./landExpansion/skillUsed";
-import {
-  triggerTornado,
-  TriggerTornadoAction,
-} from "./landExpansion/triggerTornado";
 import { dailyReset, DailyResetAction } from "./landExpansion/dailyReset";
 import {
   acknowledgeCalendarEvent,
@@ -433,7 +429,6 @@ import {
 } from "./landExpansion/acknowledgeCalendarEvent";
 
 export type PlayingEvent =
-  | TriggerTornadoAction
   | SellAnimalAction
   | SpeedUpBuilding
   | SacrificeBearAction
@@ -631,7 +626,6 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
-  "tornado.triggered": triggerTornado,
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
   "bear.sacrificed": sacrificeBear,

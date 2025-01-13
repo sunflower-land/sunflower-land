@@ -143,6 +143,13 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  Mangrove: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
   "King of Bears": {
     dimensions: {
       width: 3,

@@ -24,8 +24,12 @@ import confetti from "canvas-confetti";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 import tornadoIcon from "assets/icons/tornado.webp";
+import tsunamiIcon from "assets/icons/tsunami.webp";
 import { secondsToString } from "lib/utils/time";
-import { isBuildingDestroyed } from "features/game/events/landExpansion/triggerTornado";
+import {
+  CalendarEventName,
+  getActiveCalenderEvent,
+} from "features/game/types/calendar";
 
 interface Prop {
   name: BuildingName;
@@ -137,7 +141,14 @@ const InProgressBuilding: React.FC<Prop> = ({
   );
 };
 
-const DestroyedBuilding: React.FC<Prop> = ({
+const DESTROYED_BUILDING_ICONS: Record<CalendarEventName, string> = {
+  tornado: tornadoIcon,
+  tsunami: tsunamiIcon,
+};
+
+const DestroyedBuilding: React.FC<
+  Prop & { calendarEvent: CalendarEventName }
+> = ({
   name,
   id,
   index,
@@ -145,6 +156,7 @@ const DestroyedBuilding: React.FC<Prop> = ({
   createdAt,
   showTimers,
   island,
+  calendarEvent,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
 
@@ -164,11 +176,15 @@ const DestroyedBuilding: React.FC<Prop> = ({
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="p-2">
-            <Label icon={tornadoIcon} type="danger" className="mb-1 -ml-1">
-              {t("tornado")}
+            <Label
+              icon={DESTROYED_BUILDING_ICONS[calendarEvent]}
+              type="danger"
+              className="mb-1 -ml-1"
+            >
+              {t(calendarEvent)}
             </Label>
             <p className="text-sm">
-              {t("tornado.building.destroyed.description")}
+              {t(`${calendarEvent}.building.destroyed.description`)}
             </p>
             <Label
               icon={SUNNYSIDE.icons.stopwatch}
@@ -176,8 +192,7 @@ const DestroyedBuilding: React.FC<Prop> = ({
               className="mt-2 ml-1"
             >
               {`Ready in: ${secondsToString(
-                24 * 60 * 60 -
-                  (Date.now() - game.calendar.tornado!.triggeredAt) / 1000,
+                (Date.now() - game.calendar[calendarEvent]!.triggeredAt) / 1000,
                 {
                   length: "medium",
                 },
@@ -199,8 +214,8 @@ const DestroyedBuilding: React.FC<Prop> = ({
           />
         </div>
         <img
-          src={tornadoIcon}
-          alt="tornado"
+          src={DESTROYED_BUILDING_ICONS[calendarEvent]}
+          alt={calendarEvent}
           className="absolute  right-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 12}px`,
@@ -211,6 +226,46 @@ const DestroyedBuilding: React.FC<Prop> = ({
     </>
   );
 };
+
+const DESTROYED_BUILDINGS: BuildingName[] = [
+  "Kitchen",
+  "Barn",
+  "Greenhouse",
+  "Crop Machine",
+  "Deli",
+];
+
+function isBuildingDestroyed({
+  name,
+  game,
+}: {
+  name: BuildingName;
+  game: GameState;
+}): CalendarEventName | false {
+  const calendarEvent = getActiveCalenderEvent({ game });
+
+  if (!calendarEvent) {
+    return false;
+  }
+
+  if (calendarEvent === "tornado") {
+    if (game.calendar.tornado?.protected) {
+      return false;
+    }
+  }
+
+  if (calendarEvent === "tsunami") {
+    if (game.calendar.tsunami?.protected) {
+      return false;
+    }
+  }
+
+  if (DESTROYED_BUILDINGS.includes(name)) {
+    return calendarEvent;
+  }
+
+  return false;
+}
 
 const BuildingComponent: React.FC<Prop> = ({
   name,
@@ -230,14 +285,14 @@ const BuildingComponent: React.FC<Prop> = ({
 
   const inProgress = readyAt > Date.now();
 
-  const isTornadoed = useMemo(
+  const destroyedBy = useMemo(
     () => isBuildingDestroyed({ name, game: gameState.context.state }),
-    [gameState.context.state.calendar.tornado],
+    [gameState.context.state.calendar],
   );
 
   useUiRefresher({ active: inProgress });
 
-  if (isTornadoed) {
+  if (destroyedBy) {
     return (
       <DestroyedBuilding
         key={id}
@@ -250,6 +305,7 @@ const BuildingComponent: React.FC<Prop> = ({
         x={x}
         y={y}
         island={island}
+        calendarEvent={destroyedBy}
       />
     );
   }

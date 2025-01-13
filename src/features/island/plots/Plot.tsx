@@ -40,6 +40,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TornadoPlot } from "./components/TornadoPlot";
+import { TsunamiPlot } from "./components/TsunamiPlot";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -160,6 +161,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const weather = getAffectedWeather({ id, game: state });
 
   if (weather === "tornado") return <TornadoPlot game={state} />;
+  if (weather === "tsunami") return <TsunamiPlot game={state} />;
 
   const harvestCrop = async (crop: PlantedCrop) => {
     const newState = gameService.send("crop.harvested", {

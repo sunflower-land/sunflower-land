@@ -11,6 +11,7 @@ export const ITEM_TRADE_TYPES: {
 } = {
   collectibles: {
     "Tornado Pinwheel": "instant",
+    Mangrove: "instant",
     "Sunflower Seed": "instant",
     "Potato Seed": "instant",
     "Pumpkin Seed": "instant",
