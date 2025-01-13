@@ -14,7 +14,7 @@ import { MilestoneName } from "features/game/types/milestones";
 import { Flowers } from "./pages/Flowers";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Deliveries } from "./pages/Deliveries";
 import { Label } from "components/ui/Label";
@@ -36,31 +36,39 @@ import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FLOWERS } from "features/game/types/flowers";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   show: boolean;
   onHide: () => void;
 }
 
+const _farmId = (state: MachineState) => state.context.farmId;
+const _state = (state: MachineState) => state.context.state;
+const _username = (state: MachineState) => state.context.state.username;
+const _bertObsession = (state: MachineState) =>
+  state.context.state.bertObsession;
+const _npcs = (state: MachineState) => state.context.state.npcs;
+const _bounties = (state: MachineState) => state.context.state.bounties;
+const _delivery = (state: MachineState) => state.context.state.delivery;
+const _choreBoard = (state: MachineState) => state.context.state.choreBoard;
+const _kingdomChores = (state: MachineState) =>
+  state.context.state.kingdomChores;
+const _faction = (state: MachineState) => state.context.state.faction;
+
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state, farmId },
-    },
-  ] = useActor(gameService);
-
-  const {
-    username,
-    bertObsession,
-    npcs,
-    bounties,
-    delivery,
-    choreBoard,
-    kingdomChores,
-    faction,
-  } = state;
+  const farmId = useSelector(gameService, _farmId);
+  const state = useSelector(gameService, _state);
+  const username = useSelector(gameService, _username);
+  const bertObsession = useSelector(gameService, _bertObsession);
+  const npcs = useSelector(gameService, _npcs);
+  const bounties = useSelector(gameService, _bounties);
+  const delivery = useSelector(gameService, _delivery);
+  const choreBoard = useSelector(gameService, _choreBoard);
+  const kingdomChores = useSelector(gameService, _kingdomChores);
+  const faction = useSelector(gameService, _faction);
 
   const [currentTab, setCurrentTab] = useState<CodexCategoryName>("Deliveries");
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
