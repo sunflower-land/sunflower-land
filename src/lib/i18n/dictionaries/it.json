@@ -1328,7 +1328,6 @@
   "quest.sunpetal.savant": "Scopri 12 varianti Sunpetal",
   "quest.bloom.bigshot": "Scopri 12 varianti di Bloom",
   "quest.lily.luminary": "Scopri 12 varianti di Lily",
-  "flowerBedGuide.buySeeds": "Acquista i semi dal Seed Shop.",
   "flowerBedGuide.crossbreedWithCrops": "Incrocia con colture e altri fiori per scoprire nuove specie di fiori.",
   "flowerBedGuide.collectAllSpecies": "Raccogli tutte le specie di fiori del Codex!",
   "flowerBedGuide.beesProduceHoney": "Le api producono miele mentre i fiori crescono.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0,1 Rendimento del raccolto di base",
   "skill.experiencedFarmer": "+0,1 Rendimento medio del raccolto",
   "skill.bettysFriend": "I ricavi delle consegne di Betty Coin sono aumentati del 30%",
-  "skill.coinSwindler": "+10% di monete quando si vendono colture (Seed Shop)",
   "skill.chonkyScarecrow": "Aumenta l'area d'effetto (AOE) dello Spaventapasseri base a un'area di 7x7",
   "skill.horrorMike": "Aumenta l'area d'effetto (AOE) di Scary Mike a un'area di 7x7",
   "skill.lauriesGains": "Aumenta l'area d'effetto (AOE) di Laurie the Chuckle Crow a un'area di 7x7",
@@ -4768,5 +4766,12 @@
   "tornado.destroyed.two": "Alcuni dei tuoi raccolti sono stati distrutti.",
   "tornado.destroyed.three": "Alcuni dei tuoi edifici sono stati danneggiati.",
   "tornado.specialEvent": "Evento speciale - Tornado",
-  "guide.factionPet.two": "La tua fazione avrà un obiettivo di XP da raggiungere ogni settimana. Se la fazione raggiunge l'obiettivo, l'obiettivo della settimana successiva sarà del 25% in più rispetto all'obiettivo della settimana precedente! Se l'obiettivo non viene raggiunto, verrà ripristinato a 1000 x membri della fazione."
+  "guide.factionPet.two": "La tua fazione avrà un obiettivo di XP da raggiungere ogni settimana. Se la fazione raggiunge l'obiettivo, l'obiettivo della settimana successiva sarà del 25% in più rispetto all'obiettivo della settimana precedente! Se l'obiettivo non viene raggiunto, verrà ripristinato a 1000 x membri della fazione.",
+  "flowerBedGuide.buySeeds": "Acquista semi dal mercato.",
+  "skill.coinSwindler": "+10% di monete vendendo prodotti agricoli al mercato",
+  "gameOptions.notifications": "Notifiche",
+  "gameOptions.notifications.updating": "Aggiornamento delle impostazioni",
+  "gameOptions.notifications.update": "Impostazioni di aggiornamento",
+  "gameOptions.notifications.updated": "Impostazioni aggiornate",
+  "searchHere": "Cerca qui..."
 }

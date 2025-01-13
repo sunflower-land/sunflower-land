@@ -1501,7 +1501,7 @@
   "quest.sunpetal.savant": "Discover 12 Sunpetal variants",
   "quest.bloom.bigshot": "Discover 12 Bloom variants",
   "quest.lily.luminary": "Discover 12 Lily variants",
-  "flowerBedGuide.buySeeds": "Buy seeds from the Seed Shop.",
+  "flowerBedGuide.buySeeds": "Buy seeds from the Market.",
   "flowerBedGuide.crossbreedWithCrops": "Crossbreed with crops and other flowers to discover new flowers species.",
   "flowerBedGuide.collectAllSpecies": "Collect all species of flowers in the Codex!",
   "flowerBedGuide.beesProduceHoney": "Bees produce honey while flowers are growing.",
@@ -1695,7 +1695,11 @@
   "gameOptions.title": "Game Options",
   "gameOptions.farmId": "Farm ID #{{farmId}}",
   "gameOptions.logout": "Logout",
+  "gameOptions.notifications": "Notifications",
   "gameOptions.confirmLogout": "Are you sure you want to Logout?",
+  "gameOptions.notifications.updating": "Updating settings",
+  "gameOptions.notifications.update": "Update settings",
+  "gameOptions.notifications.updated": "Settings updated",
   "gameOptions.developerOptions": "Developer Options",
   "gameOptions.developerOptions.timeMachine": "Time Machine",
   "gameOptions.blockchainSettings": "Blockchain Settings",
@@ -3891,7 +3895,7 @@
   "skill.bettysFriend": "Betty Coin delivery revenue increased by 30%",
   "skill.oldFarmer": "+0.1 Advanced Crop yield",
   "skill.strongRoots": "-10% Advanced crop growth time",
-  "skill.coinSwindler": "+10% coins when selling crops (Seed Shop)",
+  "skill.coinSwindler": "+10% coins when selling crops at the Market",
   "skill.goldenSunflower": "1/700 chance for +0.35 gold when harvesting sunflowers (plots only)",
   "skill.chonkyScarecrow": "Increases Basic Scarecrow's area of effect (AOE) to a 7x7 area",
   "skill.horrorMike": "Increases Scary Mike's area of effect (AOE) to a 7x7 area",
@@ -4802,5 +4806,6 @@
   "tornado.destroyed.one": "Oh no! A tornado is destroying your farm!",
   "tornado.destroyed.two": "Some of your crops were destroyed.",
   "tornado.destroyed.three": "Some of your buildings were damaged.",
-  "tornado.specialEvent": "Special Event - Tornado"
+  "tornado.specialEvent": "Special Event - Tornado",
+  "searchHere": "Search here..."
 }

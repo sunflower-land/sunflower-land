@@ -9,8 +9,10 @@ import tornado from "assets/icons/tornado.webp";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-export const Tornado: React.FC = () => {
-  const { gameState, gameService } = useGame();
+export const Tornado: React.FC<{
+  acknowledge: () => void;
+}> = ({ acknowledge }) => {
+  const { gameState } = useGame();
   const { t } = useAppTranslation();
 
   const tornadoPositions = useRef<
@@ -26,11 +28,6 @@ export const Tornado: React.FC = () => {
       delay: Math.random() * 2,
     })),
   );
-
-  const acknowledge = () => {
-    gameService.send("tornado.triggered");
-    gameService.send("ACKNOWLEDGE");
-  };
 
   const hasPinwheel =
     !!gameState.context.state.collectibles["Tornado Pinwheel"];

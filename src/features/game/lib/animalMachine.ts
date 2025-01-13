@@ -291,6 +291,11 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         },
       },
       on: {
+        CURE: {
+          actions: assign({
+            animal: (_, event) => (event as AnimalCureEvent).animal,
+          }),
+        },
         TICK: [
           {
             target: "sick",

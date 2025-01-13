@@ -1345,7 +1345,6 @@
   "quest.sunpetal.savant": "サンペタルのバリエーションを12種類発見しよう",
   "quest.bloom.bigshot": "ブルームのバリエーションを12種類発見しよう",
   "quest.lily.luminary": "リリーのバリエーションを12種類発見しよう",
-  "flowerBedGuide.buySeeds": "シードショップでシードを購入してください。",
   "flowerBedGuide.crossbreedWithCrops": "作物や他の花と交配して、新しい花種を発見してください。",
   "flowerBedGuide.collectAllSpecies": "コーデックスの全種類の花を集めよう！",
   "flowerBedGuide.beesProduceHoney": "ミツバチは花が成長している間に蜂蜜を作ります。",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0.1 基本作物収量",
   "skill.experiencedFarmer": "+0.1 中程度の収穫量",
   "skill.bettysFriend": "ベティコインの配送収益が30％増加しました",
-  "skill.coinSwindler": "作物を売ると+10％のコイン（シードショップ）",
   "skill.chonkyScarecrow": "ベーシックスケアクロウの効果範囲 (AOE) を7x7の範囲に拡大します",
   "skill.horrorMike": "スカリー・マイクの効果範囲 (AOE) を7x7の範囲に増やします",
   "skill.lauriesGains": "ローリー・ザ・チャックル・クロウの効果範囲 (AOE) を7x7の範囲に増やします",
@@ -4768,5 +4766,12 @@
   "tornado.destroyed.two": "あなたの作物のいくつかは破壊されました。",
   "tornado.destroyed.three": "あなたの建物のいくつかは損傷を受けました。",
   "tornado.specialEvent": "スペシャルイベント-トルネード",
-  "guide.factionPet.two": "あなたの陣営には、毎週達成する必要のある目標XPがあります。陣営が目標を達成した場合、来週の目標は前週の目標より 25% 多くなります！目標に達しなかった場合は、ファクションメンバー1000人にリセットされます。"
+  "guide.factionPet.two": "あなたの陣営には、毎週達成する必要のある目標XPがあります。陣営が目標を達成した場合、来週の目標は前週の目標より 25% 多くなります！目標に達しなかった場合は、ファクションメンバー1000人にリセットされます。",
+  "flowerBedGuide.buySeeds": "市場から種を買う。",
+  "skill.coinSwindler": "マーケットで作物を売ると+10％のコイン",
+  "gameOptions.notifications": "通知",
+  "gameOptions.notifications.updating": "設定を更新中",
+  "gameOptions.notifications.update": "更新設定",
+  "gameOptions.notifications.updated": "設定が更新されました",
+  "searchHere": "ここで検索..."
 }

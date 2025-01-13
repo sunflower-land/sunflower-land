@@ -16,6 +16,7 @@ import classNames from "classnames";
 interface Props {
   divRef?: React.RefObject<HTMLDivElement>;
   tallMobileContent?: boolean;
+  tallDesktopContent?: boolean;
   wideModal?: boolean;
   showPanel?: boolean;
   contentScrollable?: boolean;
@@ -37,6 +38,7 @@ export const SplitScreenView: React.FC<Props> = ({
   mobileReversePanelOrder = false,
   panel: header,
   content,
+  tallDesktopContent = false,
 }: Props) => {
   return (
     <div
@@ -46,7 +48,9 @@ export const SplitScreenView: React.FC<Props> = ({
       })}
     >
       <InnerPanel
-        className={classNames("w-full sm:w-3/5 h-fit sm:max-h-96 p-1 flex", {
+        className={classNames("w-full sm:w-3/5 h-fit p-1 flex", {
+          "sm:max-h-96": !tallDesktopContent,
+          "sm:max-h-[30rem]": tallDesktopContent,
           "max-h-80": tallMobileContent,
           "max-h-56": !tallMobileContent,
           "lg:w-3/4": wideModal,

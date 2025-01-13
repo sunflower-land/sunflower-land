@@ -12,9 +12,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 // Component imports
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Label } from "components/ui/Label";
-import { Box } from "components/ui/Box";
+import { SkillBox, INNER_CANVAS_WIDTH } from "./SkillBox";
 import { Button } from "components/ui/Button";
-import { SquareIcon } from "components/ui/SquareIcon";
+import { SkillSquareIcon } from "./SkillSquareIcon";
 
 // Function imports
 import {
@@ -30,6 +30,8 @@ import { isMobile } from "mobile-device-detect";
 import { millisecondsToString } from "lib/utils/time";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { MachineState } from "features/game/lib/gameMachine";
+import { SKILL_TREE_ICONS } from "./SkillCategoryList";
+import tradeOffs from "src/assets/icons/tradeOffs.png";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -39,6 +41,18 @@ interface Props {
 }
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+
+export const getSkillImage = (
+  image: string | undefined,
+  boostedItemIcon: string | undefined,
+  tree: BumpkinRevampSkillTree,
+) => {
+  return image
+    ? image
+    : boostedItemIcon
+      ? boostedItemIcon
+      : SKILL_TREE_ICONS[tree];
+};
 
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
@@ -55,7 +69,7 @@ export const SkillPathDetails: React.FC<Props> = ({
     skillsInPath[0],
   );
 
-  const { tree, requirements, name, image, boosts, disabled, power } =
+  const { tree, requirements, name, image, boosts, disabled, power, npc } =
     selectedSkill;
   const { cooldown, points, tier } = requirements;
   const { buff, debuff } = boosts;
@@ -92,6 +106,8 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   return (
     <SplitScreenView
+      tallDesktopContent
+      tallMobileContent
       wideModal
       panel={
         <div className="flex flex-col h-full justify-between">
@@ -111,7 +127,12 @@ export const SkillPathDetails: React.FC<Props> = ({
                 />
               )}
               <div className="sm:mt-2">
-                <SquareIcon icon={image} width={14} />
+                <SkillSquareIcon
+                  icon={getSkillImage(image, buff.boostedItemIcon, tree)}
+                  width={INNER_CANVAS_WIDTH}
+                  tier={tier}
+                  npc={npc}
+                />
               </div>
               <span className="sm:text-center">{name}</span>
             </div>
@@ -263,14 +284,19 @@ export const SkillPathDetails: React.FC<Props> = ({
                     {availableSkills.map((skill) => {
                       const hasSkill =
                         !!bumpkin.skills[skill.name as BumpkinRevampSkillName];
+                      const { name, image, tree, npc, power, boosts } = skill;
+                      const { boostTypeIcon, boostedItemIcon } = boosts.buff;
 
                       return (
-                        <Box
-                          key={skill.name}
+                        <SkillBox
+                          key={name}
                           className="mb-1"
-                          image={skill.image}
+                          image={getSkillImage(image, boostedItemIcon, tree)}
                           isSelected={selectedSkill === skill}
-                          onClick={() => setSelectedSkill(skill)}
+                          onClick={() => {
+                            setSelectedSkill(skill);
+                            setShowConfirmation(false);
+                          }}
                           showOverlay={hasSkill}
                           overlayIcon={
                             <img
@@ -282,9 +308,16 @@ export const SkillPathDetails: React.FC<Props> = ({
                               }}
                             />
                           }
-                        >
-                          {skill.name}
-                        </Box>
+                          tier={tierRequirement}
+                          npc={npc}
+                          secondaryImage={
+                            boosts.debuff
+                              ? tradeOffs
+                              : power
+                                ? SUNNYSIDE.icons.lightning
+                                : boostTypeIcon
+                          }
+                        />
                       );
                     })}
                   </div>

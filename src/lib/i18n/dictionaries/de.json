@@ -1345,7 +1345,6 @@
   "quest.sunpetal.savant": "Entdecke 12 Sunpetal-Varianten",
   "quest.bloom.bigshot": "Entdecke 12 Bloom-Varianten",
   "quest.lily.luminary": "Entdecke 12 Lily-Varianten",
-  "flowerBedGuide.buySeeds": "Kaufe Samen im Seed Shop.",
   "flowerBedGuide.crossbreedWithCrops": "Kreuzen Sie sich mit Nutzpflanzen und anderen Blumen, um neue Blumenarten zu entdecken.",
   "flowerBedGuide.collectAllSpecies": "Sammle alle Blumenarten im Codex!",
   "flowerBedGuide.beesProduceHoney": "Bienen produzieren Honig, während die Blumen wachsen.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0.1 Grundernteertrag",
   "skill.experiencedFarmer": "+0.1 Mittlerer Ernteertrag",
   "skill.bettysFriend": "Der Umsatz mit Betty Coin-Lieferungen stieg um 30%",
-  "skill.coinSwindler": "+10% Münzen beim Verkauf von Pflanzen (Seed Shop)",
   "skill.chonkyScarecrow": "Erhöht den Wirkungsbereich (AOE) von Basic Scarecrow auf eine Fläche von 7x7",
   "skill.horrorMike": "Erhöht den Wirkungsbereich (AOE) von Scary Mike auf eine Fläche von 7x7",
   "skill.lauriesGains": "Erhöht den Wirkungsbereich (AOE) von Laurie the Chuckle Crow auf eine Fläche von 7x7",
@@ -4768,5 +4766,12 @@
   "tornado.destroyed.two": "Einige deiner Ernten wurden vernichtet.",
   "tornado.destroyed.three": "Einige Ihrer Gebäude wurden beschädigt.",
   "tornado.specialEvent": "Sonderveranstaltung - Tornado",
-  "guide.factionPet.two": "Deine Fraktion hat ein Ziel an Erfahrungspunkten, das sie jede Woche erreichen muss. Wenn die Fraktion das Ziel erreicht, liegt das Ziel der nächsten Woche um 25% über dem Ziel der Vorwoche! Wenn das Ziel nicht erreicht wird, wird es auf 1000 x Fraktionsmitglieder zurückgesetzt."
+  "guide.factionPet.two": "Deine Fraktion hat ein Ziel an Erfahrungspunkten, das sie jede Woche erreichen muss. Wenn die Fraktion das Ziel erreicht, liegt das Ziel der nächsten Woche um 25% über dem Ziel der Vorwoche! Wenn das Ziel nicht erreicht wird, wird es auf 1000 x Fraktionsmitglieder zurückgesetzt.",
+  "flowerBedGuide.buySeeds": "Kaufe Samen auf dem Markt.",
+  "skill.coinSwindler": "+10% Münzen beim Verkauf von Feldfrüchten auf dem Markt",
+  "gameOptions.notifications": "Benachrichtigungen",
+  "gameOptions.notifications.updating": "Einstellungen aktualisieren",
+  "gameOptions.notifications.update": "Einstellungen aktualisieren",
+  "gameOptions.notifications.updated": "Einstellungen aktualisiert",
+  "searchHere": "Suche hier..."
 }

@@ -2364,7 +2364,6 @@
   "flowerBedContent.select.seed": "Выбери семя",
   "flowerBedGuide.beeSwarmsBoost": "Пчелиные рои дают +0.2 урожая любым посевам.",
   "flowerBedGuide.beesProduceHoney": "Пчелы производят мед во время роста цветов.",
-  "flowerBedGuide.buySeeds": "Покупай семена в магазине семян.",
   "flowerBedGuide.collectAllSpecies": "Собери все виды цветов в кодексе!",
   "flowerBedGuide.crossbreedWithCrops": "Скрещивай с урожаем и другими цветами, чтобы открыть новые виды цветов.",
   "flowerBedGuide.fillUpBeehive": "Если собрать мед с заполненного улья, то появится шанс на пчелиный рой.",
@@ -4166,7 +4165,6 @@
   "skill.claimed": "Заявлено",
   "skill.cluckyGrazing.buff": "-25% корма для кормления цыплят",
   "skill.cluckyGrazing.debuff": "+50% корма для других животных",
-  "skill.coinSwindler": "+10% монет при продаже урожая (Seed Shop)",
   "skill.compostingBonanza.buff": "Ускорьте компостеры еще на час при прокачке",
   "skill.compostingBonanza.debuff": "В 2 раза больше ресурсов для улучшения компостеров",
   "skill.compostingOverhaul.buff": "+2 Вормс",
@@ -4768,5 +4766,12 @@
   "tornado.destroyed.two": "Некоторые из ваших посевов были уничтожены.",
   "tornado.destroyed.three": "Некоторые из ваших зданий были повреждены.",
   "tornado.specialEvent": "Специальное событие - Tornado",
-  "guide.factionPet.two": "Каждую неделю ваша фракция будет получать очки опыта, которые они должны достичь. Если фракция достигнет цели, цель на следующей неделе будет на 25% больше, чем цель предыдущей недели! Если цель не будет достигнута, количество членов фракции будет увеличено до 1000 раз."
+  "guide.factionPet.two": "Каждую неделю ваша фракция будет получать очки опыта, которые они должны достичь. Если фракция достигнет цели, цель на следующей неделе будет на 25% больше, чем цель предыдущей недели! Если цель не будет достигнута, количество членов фракции будет увеличено до 1000 раз.",
+  "flowerBedGuide.buySeeds": "Покупайте семена на рынке.",
+  "skill.coinSwindler": "+10% монет при продаже урожая на рынке",
+  "gameOptions.notifications": "Уведомления",
+  "gameOptions.notifications.updating": "Обновление настроек",
+  "gameOptions.notifications.update": "Обновить настройки",
+  "gameOptions.notifications.updated": "Настройки обновлены",
+  "searchHere": "Ищите здесь..."
 }

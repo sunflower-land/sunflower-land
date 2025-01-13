@@ -58,6 +58,7 @@ export const SOUNDS = {
     produce_drop: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_1_Click_Pop_Fun_Cartoon.mp3`,
     feed_animal: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Eat/Farm_Game_Farming_Eat_Organic_Food_Chew_Consume_Player_Chomp_Bite_Fruit_Veg_4_Short.mp3`,
     cure_animal: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Organic/Farm_Game_User_Interface_Organic_Generic_Select_2_Click_Pop_Short_Option.mp3`,
+    morning_rooster: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Rooster_Cock_A_Doodle_Doo_1.mp3`,
   },
   buildings: {
     bank: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Buildings/bank.mp3`,

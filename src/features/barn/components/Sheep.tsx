@@ -15,6 +15,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
+  isAnimalMedicine,
 } from "features/game/lib/animals";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -91,6 +92,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = sheepState === "ready";
   const sick = sheepState === "sick";
   const idle = sheepState === "idle";
+  const sickAndSleeping = sleeping && sheep.state === "sick";
 
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Sheep",
@@ -241,7 +243,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return onLoveClick();
 
-    if (sick) return onSickClick();
+    const medicineSelected = selectedItem && isAnimalMedicine(selectedItem);
+
+    if (sick || (sickAndSleeping && medicineSelected)) return onSickClick();
 
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
@@ -387,6 +391,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               left={PIXEL_SCALE * 23}
               request={favFood}
               quantity={requiredFoodQty}
+            />
+          )}
+          {sickAndSleeping && (
+            <RequestBubble
+              top={PIXEL_SCALE * 2}
+              left={PIXEL_SCALE * 23}
+              request="Barn Delight"
             />
           )}
           {sick && (

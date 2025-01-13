@@ -1345,7 +1345,6 @@
   "quest.sunpetal.savant": "Temukan 12 varian Sunpetal",
   "quest.bloom.bigshot": "Temukan 12 varian Bloom",
   "quest.lily.luminary": "Temukan 12 varian Lily",
-  "flowerBedGuide.buySeeds": "Beli benih dari Toko Benih.",
   "flowerBedGuide.crossbreedWithCrops": "Kawin silang dengan tanaman dan bunga lain untuk menemukan spesies bunga baru.",
   "flowerBedGuide.collectAllSpecies": "Kumpulkan semua spesies bunga di Codex!",
   "flowerBedGuide.beesProduceHoney": "Lebah menghasilkan madu sementara bunga tumbuh.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0.1 Hasil tanaman dasar",
   "skill.experiencedFarmer": "+0.1 Hasil panen sedang",
   "skill.bettysFriend": "Pendapatan pengiriman Betty Coin meningkat 30%",
-  "skill.coinSwindler": "Koin +10% saat menjual tanaman (Toko Benih)",
   "skill.chonkyScarecrow": "Meningkatkan area efek Dasar Scarecrow (AOE) menjadi area 7x7",
   "skill.horrorMike": "Meningkatkan area efek Scary Mike (AOE) menjadi area 7x7",
   "skill.lauriesGains": "Meningkatkan area efek Laurie the Chuckle Crow (AOE) menjadi area 7x7",
@@ -4768,5 +4766,12 @@
   "tornado.destroyed.two": "Beberapa tanaman Anda hancur.",
   "tornado.destroyed.three": "Beberapa bangunan Anda rusak.",
   "tornado.specialEvent": "Acara Khusus - Tornado",
-  "guide.factionPet.two": "Fraksi Anda akan memiliki target xp yang perlu mereka capai setiap minggu. Jika faksi mencapai tujuan, tujuan minggu depan akan menjadi 25% lebih banyak dari tujuan minggu sebelumnya! Jika tujuan tidak tercapai, itu akan diatur ulang kembali ke 1000 x anggota faksi."
+  "guide.factionPet.two": "Fraksi Anda akan memiliki target xp yang perlu mereka capai setiap minggu. Jika faksi mencapai tujuan, tujuan minggu depan akan menjadi 25% lebih banyak dari tujuan minggu sebelumnya! Jika tujuan tidak tercapai, itu akan diatur ulang kembali ke 1000 x anggota faksi.",
+  "flowerBedGuide.buySeeds": "Beli benih dari Pasar.",
+  "skill.coinSwindler": "Koin +10% saat menjual tanaman di Pasar",
+  "gameOptions.notifications": "Pemberitahuan",
+  "gameOptions.notifications.updating": "Memperbarui pengaturan",
+  "gameOptions.notifications.update": "Perbarui pengaturan",
+  "gameOptions.notifications.updated": "Pengaturan diperbarui",
+  "searchHere": "Cari di sini..."
 }

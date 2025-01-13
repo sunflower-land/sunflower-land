@@ -227,6 +227,11 @@ const HOWLERS = {
     preload: false,
     volume: 0.05,
   }),
+  morning_rooster: new Howl({
+    src: [SOUNDS.animals.morning_rooster],
+    preload: false,
+    volume: 0.05,
+  }),
 };
 
 let lastSoundPlayedAt = 0;

@@ -1345,7 +1345,6 @@
   "quest.sunpetal.savant": "Temui 12 varian Sunpetal",
   "quest.bloom.bigshot": "Temui 12 varian Bloom",
   "quest.lily.luminary": "Temui 12 varian Lily",
-  "flowerBedGuide.buySeeds": "Beli benih dari Kedai Benih.",
   "flowerBedGuide.crossbreedWithCrops": "Bersilang dengan tanaman dan bunga lain untuk menemui spesies bunga baharu.",
   "flowerBedGuide.collectAllSpecies": "Kumpulkan semua spesies bunga dalam Codex!",
   "flowerBedGuide.beesProduceHoney": "Lebah menghasilkan madu semasa bunga tumbuh.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0.1 Hasil Tanaman Asas",
   "skill.experiencedFarmer": "+0.1 Hasil Tanaman Sederhana",
   "skill.bettysFriend": "Pendapatan penghantaran Betty Coin meningkat sebanyak 30%",
-  "skill.coinSwindler": "+10% syiling apabila menjual tanaman (Kedai Benih)",
   "skill.chonkyScarecrow": "Meningkatkan kawasan kesan Basic Scarecrow (AOE) ke kawasan 7x7",
   "skill.horrorMike": "Meningkatkan kawasan kesan Scary Mike (AOE) ke kawasan 7x7",
   "skill.lauriesGains": "Meningkatkan kawasan kesan Laurie the Chuckle Crow (AOE) ke kawasan 7x7",
@@ -4768,5 +4766,12 @@
   "tornado.destroyed.two": "Sebahagian daripada tanaman anda telah musnah.",
   "tornado.destroyed.three": "Sebilangan bangunan anda rosak.",
   "tornado.specialEvent": "Acara Khas - Tornado",
-  "guide.factionPet.two": "Puak anda akan mempunyai matlamat xp yang perlu mereka capai setiap minggu. Sekiranya puak mencapai matlamat, matlamat minggu depan akan menjadi 25% lebih banyak daripada matlamat minggu sebelumnya! Jika matlamat tidak dicapai, ia akan ditetapkan semula kepada 1000 x ahli puak."
+  "guide.factionPet.two": "Puak anda akan mempunyai matlamat xp yang perlu mereka capai setiap minggu. Sekiranya puak mencapai matlamat, matlamat minggu depan akan menjadi 25% lebih banyak daripada matlamat minggu sebelumnya! Jika matlamat tidak dicapai, ia akan ditetapkan semula kepada 1000 x ahli puak.",
+  "flowerBedGuide.buySeeds": "Beli biji dari Pasar.",
+  "skill.coinSwindler": "+10% syiling apabila menjual tanaman di Pasar",
+  "gameOptions.notifications": "Pemberitahuan",
+  "gameOptions.notifications.updating": "Mengemas kini tetapan",
+  "gameOptions.notifications.update": "Kemas kini tetapan",
+  "gameOptions.notifications.updated": "Tetapan dikemas kini",
+  "searchHere": "Cari di sini..."
 }

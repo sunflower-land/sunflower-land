@@ -881,7 +881,6 @@
   "quest.sunpetal.savant": "Découvrez 12 variantes de Sunpetal",
   "quest.bloom.bigshot": "Découvrez 12 variantes de Bloom",
   "quest.lily.luminary": "Découvrez 12 variantes de Lily",
-  "flowerBedGuide.buySeeds": "Achetez des graines à la boutique de graines.",
   "flowerBedGuide.crossbreedWithCrops": "Croisez-les avec des cultures et d'autres fleurs pour découvrir de nouvelles espèces de fleurs.",
   "flowerBedGuide.collectAllSpecies": "Collectionnez toutes les espèces de fleurs dans le Codex!",
   "flowerBedGuide.beesProduceHoney": "Les abeilles produisent du Honey pendant que les fleurs poussent.",
@@ -4303,7 +4302,6 @@
   "skill.youngFarmer": "+0,1 Rendement des cultures de base",
   "skill.experiencedFarmer": "+0,1 Rendement moyen des cultures",
   "skill.bettysFriend": "Le chiffre d'affaires de livraison de Betty Coin a augmenté de 30 %",
-  "skill.coinSwindler": "+10 % de pièces lors de la vente de récoltes (Seed Shop)",
   "skill.chonkyScarecrow": "Augmente la zone d'effet (AOE) de l'Épouvantail de base à une zone 7x7",
   "skill.horrorMike": "Augmente la zone d'effet (AOE) de Scary Mike à une zone 7x7",
   "skill.lauriesGains": "Augmente la zone d'effet (AOE) de Laurie the Guckle Crow à une zone 7x7",
@@ -4768,5 +4766,12 @@
   "tornado.destroyed.two": "Certaines de vos récoltes ont été détruites.",
   "tornado.destroyed.three": "Certains de vos bâtiments ont été endommagés.",
   "tornado.specialEvent": "Événement spécial - Tornado",
-  "guide.factionPet.two": "Votre faction aura un objectif d'expérience à atteindre chaque semaine. Si la faction atteint l'objectif, l'objectif de la semaine prochaine sera supérieur de 25 % à l'objectif de la semaine précédente ! Si l'objectif n'est pas atteint, il sera remis à 1 000 membres de faction."
+  "guide.factionPet.two": "Votre faction aura un objectif d'expérience à atteindre chaque semaine. Si la faction atteint l'objectif, l'objectif de la semaine prochaine sera supérieur de 25 % à l'objectif de la semaine précédente ! Si l'objectif n'est pas atteint, il sera remis à 1 000 membres de faction.",
+  "flowerBedGuide.buySeeds": "Achetez des graines au marché.",
+  "skill.coinSwindler": "+10 % de pièces lors de la vente de récoltes au marché",
+  "gameOptions.notifications": "Notifications",
+  "gameOptions.notifications.updating": "Mettre à jour les paramètres",
+  "gameOptions.notifications.update": "Mettre à jour les paramètres",
+  "gameOptions.notifications.updated": "Paramètres mis à jour",
+  "searchHere": "Recherchez ici..."
 }
