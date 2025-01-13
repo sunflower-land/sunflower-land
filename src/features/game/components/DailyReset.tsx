@@ -28,11 +28,11 @@ export const DailyReset: React.FC = () => {
       const now = new Date();
 
       // In development: check at the start of each minute
-      const nextMinute = new Date(now);
-      nextMinute.setSeconds(0);
-      nextMinute.setMilliseconds(0);
-      nextMinute.setMinutes(nextMinute.getMinutes() + 1);
-      return nextMinute.getTime() - now.getTime();
+      // const nextMinute = new Date(now);
+      // nextMinute.setSeconds(0);
+      // nextMinute.setMilliseconds(0);
+      // nextMinute.setMinutes(nextMinute.getMinutes() + 1);
+      // return nextMinute.getTime() - now.getTime();
 
       // In production: check at UTC midnight
       const tomorrow = new Date(now);
