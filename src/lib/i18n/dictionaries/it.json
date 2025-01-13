@@ -4768,5 +4768,10 @@
   "tornado.specialEvent": "Evento speciale - Tornado",
   "guide.factionPet.two": "La tua fazione avrà un obiettivo di XP da raggiungere ogni settimana. Se la fazione raggiunge l'obiettivo, l'obiettivo della settimana successiva sarà del 25% in più rispetto all'obiettivo della settimana precedente! Se l'obiettivo non viene raggiunto, verrà ripristinato a 1000 x membri della fazione.",
   "flowerBedGuide.buySeeds": "Acquista semi dal mercato.",
-  "skill.coinSwindler": "+10% di monete vendendo prodotti agricoli al mercato"
+  "skill.coinSwindler": "+10% di monete vendendo prodotti agricoli al mercato",
+  "gameOptions.notifications": "Notifiche",
+  "gameOptions.notifications.updating": "Aggiornamento delle impostazioni",
+  "gameOptions.notifications.update": "Impostazioni di aggiornamento",
+  "gameOptions.notifications.updated": "Impostazioni aggiornate",
+  "searchHere": "Cerca qui..."
 }

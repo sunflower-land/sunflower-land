@@ -4768,5 +4768,10 @@
   "tornado.specialEvent": "Acara Khusus - Tornado",
   "guide.factionPet.two": "Fraksi Anda akan memiliki target xp yang perlu mereka capai setiap minggu. Jika faksi mencapai tujuan, tujuan minggu depan akan menjadi 25% lebih banyak dari tujuan minggu sebelumnya! Jika tujuan tidak tercapai, itu akan diatur ulang kembali ke 1000 x anggota faksi.",
   "flowerBedGuide.buySeeds": "Beli benih dari Pasar.",
-  "skill.coinSwindler": "Koin +10% saat menjual tanaman di Pasar"
+  "skill.coinSwindler": "Koin +10% saat menjual tanaman di Pasar",
+  "gameOptions.notifications": "Pemberitahuan",
+  "gameOptions.notifications.updating": "Memperbarui pengaturan",
+  "gameOptions.notifications.update": "Perbarui pengaturan",
+  "gameOptions.notifications.updated": "Pengaturan diperbarui",
+  "searchHere": "Cari di sini..."
 }

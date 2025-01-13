@@ -4768,5 +4768,10 @@
   "tornado.specialEvent": "Sonderveranstaltung - Tornado",
   "guide.factionPet.two": "Deine Fraktion hat ein Ziel an Erfahrungspunkten, das sie jede Woche erreichen muss. Wenn die Fraktion das Ziel erreicht, liegt das Ziel der nächsten Woche um 25% über dem Ziel der Vorwoche! Wenn das Ziel nicht erreicht wird, wird es auf 1000 x Fraktionsmitglieder zurückgesetzt.",
   "flowerBedGuide.buySeeds": "Kaufe Samen auf dem Markt.",
-  "skill.coinSwindler": "+10% Münzen beim Verkauf von Feldfrüchten auf dem Markt"
+  "skill.coinSwindler": "+10% Münzen beim Verkauf von Feldfrüchten auf dem Markt",
+  "gameOptions.notifications": "Benachrichtigungen",
+  "gameOptions.notifications.updating": "Einstellungen aktualisieren",
+  "gameOptions.notifications.update": "Einstellungen aktualisieren",
+  "gameOptions.notifications.updated": "Einstellungen aktualisiert",
+  "searchHere": "Suche hier..."
 }

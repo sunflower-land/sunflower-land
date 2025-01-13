@@ -4768,5 +4768,10 @@
   "tornado.specialEvent": "Acara Khas - Tornado",
   "guide.factionPet.two": "Puak anda akan mempunyai matlamat xp yang perlu mereka capai setiap minggu. Sekiranya puak mencapai matlamat, matlamat minggu depan akan menjadi 25% lebih banyak daripada matlamat minggu sebelumnya! Jika matlamat tidak dicapai, ia akan ditetapkan semula kepada 1000 x ahli puak.",
   "flowerBedGuide.buySeeds": "Beli biji dari Pasar.",
-  "skill.coinSwindler": "+10% syiling apabila menjual tanaman di Pasar"
+  "skill.coinSwindler": "+10% syiling apabila menjual tanaman di Pasar",
+  "gameOptions.notifications": "Pemberitahuan",
+  "gameOptions.notifications.updating": "Mengemas kini tetapan",
+  "gameOptions.notifications.update": "Kemas kini tetapan",
+  "gameOptions.notifications.updated": "Tetapan dikemas kini",
+  "searchHere": "Cari di sini..."
 }
