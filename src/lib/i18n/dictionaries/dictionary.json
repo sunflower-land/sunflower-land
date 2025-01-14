@@ -4883,5 +4883,13 @@
   "season.spring": "Spring",
   "season.summer": "Summer",
   "season.autumn": "Autumn",
-  "season.winter": "Winter"
+  "season.winter": "Winter",
+  "description.rhubarb": "A tart and tangy vegetable!",
+  "description.zuchinni": "Great for salads and stir-fries.",
+  "description.yam": "A starchy root vegetable ",
+  "description.brocolli": "A cruciferous veggie.",
+  "description.pepper": "Hmm, looks spicy!",
+  "description.onion": "A pungent veggie.",
+  "description.turnip": "A cool-season veggie.",
+  "description.artichoke": "A hearty veggie."
 }
