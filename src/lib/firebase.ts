@@ -1,13 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { CONFIG } from "lib/config";
 
 const firebaseConfig = {
-  apiKey: CONFIG.FIREBASE_API_KEY,
+  apiKey: "AIzaSyCozYr5S8ahU0WSoTS13ctjtFrleD5rZB8",
   authDomain: "sunflower-land.firebaseapp.com",
   projectId: "sunflower-land",
   storageBucket: "sunflower-land.appspot.com",
-  messagingSenderId: CONFIG.FIREBASE_MESSAGING_SENDER_ID,
-  appId: CONFIG.FIREBASE_APP_ID,
+  messagingSenderId: "1061537811936",
+  appId: "1:1061537811936:web:4357cbb765c9c990f66f85",
   measurementId: "G-EM6CNBH1F8",
 };
 
