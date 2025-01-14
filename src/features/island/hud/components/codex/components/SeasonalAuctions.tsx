@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { useActor, useInterpret } from "@xstate/react";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   Auction,
@@ -30,6 +30,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { isMobile } from "mobile-device-detect";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 type AuctionDetail = {
   supply: number;
@@ -347,6 +348,8 @@ interface Props {
   season: SeasonName;
 }
 
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+
 export const SeasonalAuctions: React.FC<Props> = ({
   farmId,
   gameState,
@@ -354,7 +357,7 @@ export const SeasonalAuctions: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
 
   const [selected, setSelected] = useState<InventoryItemName | BumpkinItem>();
 
@@ -367,7 +370,7 @@ export const SeasonalAuctions: React.FC<Props> = ({
     {
       context: {
         farmId: farmId,
-        token: authState.context.user.rawToken,
+        token: rawToken,
         bid: gameState.auctioneer.bid,
         deviceTrackerId: "0x",
         canAccess: true,

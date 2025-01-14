@@ -45,30 +45,22 @@ interface Props {
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _state = (state: MachineState) => state.context.state;
-const _username = (state: MachineState) => state.context.state.username;
-const _bertObsession = (state: MachineState) =>
-  state.context.state.bertObsession;
-const _npcs = (state: MachineState) => state.context.state.npcs;
-const _bounties = (state: MachineState) => state.context.state.bounties;
-const _delivery = (state: MachineState) => state.context.state.delivery;
-const _choreBoard = (state: MachineState) => state.context.state.choreBoard;
-const _kingdomChores = (state: MachineState) =>
-  state.context.state.kingdomChores;
-const _faction = (state: MachineState) => state.context.state.faction;
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
-  const username = useSelector(gameService, _username);
-  const bertObsession = useSelector(gameService, _bertObsession);
-  const npcs = useSelector(gameService, _npcs);
-  const bounties = useSelector(gameService, _bounties);
-  const delivery = useSelector(gameService, _delivery);
-  const choreBoard = useSelector(gameService, _choreBoard);
-  const kingdomChores = useSelector(gameService, _kingdomChores);
-  const faction = useSelector(gameService, _faction);
+  const {
+    username,
+    bertObsession,
+    npcs,
+    bounties,
+    delivery,
+    choreBoard,
+    kingdomChores,
+    faction,
+  } = state;
 
   const [currentTab, setCurrentTab] = useState<CodexCategoryName>("Deliveries");
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
@@ -162,13 +154,13 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: incompleteDeliveries,
     },
     {
-      name: "Chore Board" as const,
+      name: "Chore Board",
       icon: chores,
       count: incompleteChores,
     },
 
     {
-      name: "Leaderboard" as const,
+      name: "Leaderboard",
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
       count: incompleteObsession + incompleteFlowerBountiesCount,
     },

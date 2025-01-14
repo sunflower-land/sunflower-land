@@ -117,7 +117,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
                 npc={chore}
                 selected={selectedId}
                 onClick={setSelectedId}
-                game={state}
+                state={state}
               />
             ))}
           {nextUnlock && <LockedChoreCard npc={nextUnlock} />}
@@ -248,8 +248,8 @@ export const ChoreCard: React.FC<{
   npc: NPCName;
   selected?: NPCName;
   onClick: (npc: NPCName) => void;
-  game: GameState;
-}> = ({ npc, chore, onClick, game }) => {
+  state: GameState;
+}> = ({ npc, chore, onClick, state }) => {
   return (
     <div className="py-1 px-1" key={npc}>
       <ButtonPanel
@@ -261,13 +261,13 @@ export const ChoreCard: React.FC<{
         style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
         <div className="flex absolute -right-2 -top-4">
-          <ChoreRewardLabel chore={chore} state={game} />
+          <ChoreRewardLabel chore={chore} state={state} />
         </div>
 
         {!chore.completedAt &&
           getChoreProgress({
             chore,
-            game,
+            game: state,
           }) >= NPC_CHORES[chore.name].requirement && (
             <img
               src={SUNNYSIDE.icons.heart}
@@ -303,7 +303,7 @@ export const ChoreCard: React.FC<{
               percentage={
                 (getChoreProgress({
                   chore,
-                  game,
+                  game: state,
                 }) /
                   NPC_CHORES[chore.name].requirement) *
                 100

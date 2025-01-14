@@ -83,7 +83,7 @@ export const FlowerBountiesModal: React.FC<{
   const { t } = useAppTranslation();
   const expiresAt = useCountdown(weekResetsAt());
   const [deal, setDeal] = useState<BountyRequest>();
-  const { bounties: exchange } = state;
+  const { bounties: exchange, inventory } = state;
 
   const deals = exchange.requests.filter((deal) => deal.name in FLOWERS);
 
@@ -117,11 +117,11 @@ export const FlowerBountiesModal: React.FC<{
           <p className="text-sm">{t("bounties.board.empty")}</p>
         )}
         {deals.map((deal) => {
-          const isSold = !!state.bounties.completed.find(
+          const isSold = !!exchange.completed.find(
             (request) => request.id === deal.id,
           );
 
-          const isDisabled = !state.inventory[deal.name]?.gt(0);
+          const isDisabled = !inventory[deal.name]?.gt(0);
           const { coins } = generateBountyCoins({
             game: state,
             bounty: deal,

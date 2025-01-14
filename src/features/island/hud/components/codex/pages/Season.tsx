@@ -54,7 +54,7 @@ export const Season: React.FC<Props> = ({
   farmId,
 }) => {
   const { t } = useAppTranslation();
-
+  const { bertObsession: currentObsession, npcs, inventory, wardrobe } = state;
   return (
     <div
       className={classNames(
@@ -137,7 +137,13 @@ export const Season: React.FC<Props> = ({
         <FlowerBountiesModal readonly state={state} />
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <BertObsession readonly state={state} />
+        <BertObsession
+          readonly
+          currentObsession={currentObsession}
+          npcs={npcs}
+          inventory={inventory}
+          wardrobe={wardrobe}
+        />
       </InnerPanel>
       <InnerPanel className="mb-1">
         <SeasonalStore readonly state={state} />
