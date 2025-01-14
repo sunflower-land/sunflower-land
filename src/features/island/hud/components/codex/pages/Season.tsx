@@ -24,7 +24,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
 import { BertObsession } from "features/world/ui/npcs/Bert";
 import { GameState } from "features/game/types/game";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 const SEASON_GRAPHICS: Record<SeasonName, string> = {
   "Solar Flare": "?",
@@ -44,7 +43,6 @@ interface Props {
   season: SeasonName;
   state: GameState;
   farmId: number;
-  gameService: MachineInterpreter;
 }
 
 export const Season: React.FC<Props> = ({
@@ -54,7 +52,6 @@ export const Season: React.FC<Props> = ({
   season,
   state,
   farmId,
-  gameService,
 }) => {
   const { t } = useAppTranslation();
 
@@ -137,10 +134,10 @@ export const Season: React.FC<Props> = ({
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <FlowerBountiesModal readonly gameService={gameService} state={state} />
+        <FlowerBountiesModal readonly state={state} />
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <BertObsession readonly gameService={gameService} state={state} />
+        <BertObsession readonly state={state} />
       </InnerPanel>
       <InnerPanel className="mb-1">
         <SeasonalStore readonly state={state} />

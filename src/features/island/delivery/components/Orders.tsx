@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -53,7 +53,7 @@ import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -80,7 +80,6 @@ interface Props {
   onSelect: (id?: string) => void;
   onClose: () => void;
   state: GameState;
-  gameService: MachineInterpreter;
 }
 
 export function hasOrderRequirements({
@@ -317,8 +316,8 @@ export const DeliveryOrders: React.FC<Props> = ({
   onSelect,
   onClose,
   state,
-  gameService,
 }) => {
+  const { gameService } = useContext(Context);
   const { delivery, balance: sfl, coins, npcs, bumpkin } = state;
 
   const navigate = useNavigate();

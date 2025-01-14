@@ -12,10 +12,7 @@ import {
 } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import { weekResetsAt } from "features/game/lib/factions";
-import {
-  MachineInterpreter,
-  MachineState,
-} from "features/game/lib/gameMachine";
+import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/types/decorations";
 import { FLOWERS } from "features/game/types/flowers";
 import { BountyRequest, GameState } from "features/game/types/game";
@@ -74,24 +71,18 @@ export const FlowerBounties: React.FC<Props> = ({ readonly, onClose }) => {
 
   return (
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.poppy} onClose={onClose}>
-      <FlowerBountiesModal
-        readonly={readonly}
-        gameService={gameService}
-        state={state}
-      />
+      <FlowerBountiesModal readonly={readonly} state={state} />
     </CloseButtonPanel>
   );
 };
 
 export const FlowerBountiesModal: React.FC<{
   readonly?: boolean;
-  gameService: MachineInterpreter;
   state: GameState;
-}> = ({ readonly, state, gameService }) => {
+}> = ({ readonly, state }) => {
   const { t } = useAppTranslation();
   const expiresAt = useCountdown(weekResetsAt());
   const [deal, setDeal] = useState<BountyRequest>();
-
   const { bounties: exchange } = state;
 
   const deals = exchange.requests.filter((deal) => deal.name in FLOWERS);
@@ -102,7 +93,6 @@ export const FlowerBountiesModal: React.FC<{
         deal={deal}
         onClose={() => setDeal(undefined)}
         onSold={() => setDeal(undefined)}
-        gameService={gameService}
         state={state}
       />
     );
@@ -208,9 +198,9 @@ const Deal: React.FC<{
   deal: BountyRequest;
   onClose: () => void;
   onSold: () => void;
-  gameService: MachineInterpreter;
   state: GameState;
-}> = ({ deal, onClose, onSold, gameService, state }) => {
+}> = ({ deal, onClose, onSold, state }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const sell = () => {
     gameService.send("bounty.sold", {

@@ -22,10 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { OuterPanel } from "components/ui/Panel";
-import {
-  MachineInterpreter,
-  MachineState,
-} from "features/game/lib/gameMachine";
+import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
@@ -121,16 +118,15 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       currentTab={tab}
     >
       {tab === 0 && <DeliveryPanelContent npc="bert" />}
-      {tab === 1 && <BertObsession gameService={gameService} state={state} />}
+      {tab === 1 && <BertObsession state={state} />}
     </CloseButtonPanel>
   );
 };
 
 export const BertObsession: React.FC<{
   readonly?: boolean;
-  gameService: MachineInterpreter;
   state: GameState;
-}> = ({ readonly, gameService, state }) => {
+}> = ({ readonly, state }) => {
   const { t } = useAppTranslation();
   const currentObsession = state.bertObsession;
   const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
@@ -209,7 +205,6 @@ export const BertObsession: React.FC<{
         isObsessionCollectible={isObsessionCollectible}
         obsessionName={obsessionName}
         currentObsession={currentObsession}
-        gameService={gameService}
         state={state}
       />
     </div>
@@ -220,16 +215,10 @@ const CompleteObsession: React.FC<{
   isObsessionCollectible: boolean;
   obsessionName?: string;
   currentObsession?: CurrentObsession;
-  gameService: MachineInterpreter;
   state: GameState;
-}> = ({
-  isObsessionCollectible,
-  obsessionName,
-  currentObsession,
-  gameService,
-  state,
-}) => {
+}> = ({ isObsessionCollectible, obsessionName, currentObsession, state }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
   const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
   const reward = state.bertObsession?.reward ?? 0;
 

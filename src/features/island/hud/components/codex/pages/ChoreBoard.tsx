@@ -13,7 +13,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -34,7 +34,7 @@ import { CHORE_DETAILS } from "../lib/choreDetails";
 import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
 import { CHORE_DIALOGUES } from "features/game/types/stories";
 import { isMobile } from "mobile-device-detect";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
 
 const formatNumber = (num: number, decimals = 2) => {
   // Check if the number has a fractional part
@@ -42,11 +42,11 @@ const formatNumber = (num: number, decimals = 2) => {
 };
 
 interface Props {
-  gameService: MachineInterpreter;
   state: GameState;
 }
 
-export const ChoreBoard: React.FC<Props> = ({ gameService, state }) => {
+export const ChoreBoard: React.FC<Props> = ({ state }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
   const [selectedId, setSelectedId] = useState<NPCName>();

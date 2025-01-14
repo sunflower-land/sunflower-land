@@ -271,15 +271,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               })}
             > */}
             {currentTab === "Deliveries" && (
-              <Deliveries
-                onClose={onHide}
-                state={state}
-                gameService={gameService}
-              />
+              <Deliveries onClose={onHide} state={state} />
             )}
-            {currentTab === "Chore Board" && (
-              <ChoreBoard gameService={gameService} state={state} />
-            )}
+            {currentTab === "Chore Board" && <ChoreBoard state={state} />}
             {currentTab === "Leaderboard" && (
               <Season
                 id={id}
@@ -288,21 +282,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 season={getCurrentSeason()}
                 state={state}
                 farmId={farmId}
-                gameService={gameService}
               />
             )}
             {currentTab === "Fish" && (
-              <Fish
-                onMilestoneReached={handleMilestoneReached}
-                state={state}
-                gameService={gameService}
-              />
+              <Fish onMilestoneReached={handleMilestoneReached} state={state} />
             )}
             {currentTab === "Flowers" && (
               <Flowers
                 onMilestoneReached={handleMilestoneReached}
                 state={state}
-                gameService={gameService}
               />
             )}
 

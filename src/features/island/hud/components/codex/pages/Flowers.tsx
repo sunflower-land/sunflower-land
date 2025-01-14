@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   FLOWER_MILESTONES,
@@ -17,12 +16,12 @@ import { Detail } from "../components/Detail";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
+import { Context } from "features/game/GameProvider";
 
 const FLOWERS_BY_SEED = getFlowerBySeed();
 
 type Props = {
   onMilestoneReached: (milestoneName: MilestoneName) => void;
-  gameService: MachineInterpreter;
   state: GameState;
 };
 
@@ -32,11 +31,8 @@ function getTotalFlowersFound(farmActivity: GameState["farmActivity"]) {
   }, 0);
 }
 
-export const Flowers: React.FC<Props> = ({
-  onMilestoneReached,
-  state,
-  gameService,
-}) => {
+export const Flowers: React.FC<Props> = ({ onMilestoneReached, state }) => {
+  const { gameService } = useContext(Context);
   const [expandedIndex, setExpandedIndex] = useState<number>();
   const [selectedFlower, setSelectedFlower] = useState<FlowerName>();
   const { t } = useAppTranslation();

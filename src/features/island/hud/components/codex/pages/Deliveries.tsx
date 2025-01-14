@@ -2,13 +2,11 @@ import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import React, { useState } from "react";
 
 import { GameState } from "features/game/types/game";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 export const Deliveries: React.FC<{
   onClose: () => void;
   state: GameState;
-  gameService: MachineInterpreter;
-}> = ({ onClose, state, gameService }) => {
+}> = ({ onClose, state }) => {
   const [selected, setSelected] = useState<string>();
 
   return (
@@ -18,7 +16,6 @@ export const Deliveries: React.FC<{
         selectedId={selected}
         onClose={() => onClose()}
         state={state}
-        gameService={gameService}
       />
     </div>
   );

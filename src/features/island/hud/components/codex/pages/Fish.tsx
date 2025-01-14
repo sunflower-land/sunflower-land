@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { MilestonePanel } from "../components/Milestone";
 import { MilestoneTracker } from "../components/MilestoneTracker";
@@ -17,18 +16,17 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FISH, FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
 import giftIcon from "assets/icons/gift.png";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { Context } from "features/game/GameProvider";
 
 const FISH_BY_TYPE = getFishByType();
 
 type Props = {
   onMilestoneReached: (milestoneName: MilestoneName) => void;
-  gameService: MachineInterpreter;
   state: GameState;
 };
 
@@ -38,12 +36,8 @@ function getTotalFishCaught(farmActivity: GameState["farmActivity"]) {
   }, 0);
 }
 
-export const Fish: React.FC<Props> = ({
-  onMilestoneReached,
-  state,
-  gameService,
-}) => {
-  const { t } = useAppTranslation();
+export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
+  const { gameService } = useContext(Context);
   const [expandedIndex, setExpandedIndex] = useState<number>();
   const [selectedFish, setSelectedFish] = useState<
     FishName | MarineMarvelName
@@ -143,7 +137,7 @@ export const Fish: React.FC<Props> = ({
             >{`Fishing`}</Label>
             <MilestoneTracker
               milestones={milestoneNames}
-              claimedMilestones={state.milestones}
+              claimedMilestones={milestones}
             />
           </div>
 

@@ -1,7 +1,7 @@
 import * as AuthProvider from "features/auth/lib/Provider";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
@@ -41,17 +41,20 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CompetitionPrizes } from "./CompetitionPrizes";
 import { GameState } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _state = (state: MachineState) => state.context.state;
 
 export const CompetitionModal: React.FC<{
   competitionName: CompetitionName;
   onClose?: () => void;
 }> = ({ onClose, competitionName }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   const { t } = useAppTranslation();
 
-  const { competitions } = gameState.context.state;
+  const { competitions } = state;
 
   const [showIntro, setShowIntro] = useState(!competitions.progress.TESTING);
   const [task, setTask] = useState<CompetitionTaskName>();
@@ -126,10 +129,7 @@ export const CompetitionModal: React.FC<{
         onClick={onClose}
         className="absolute right-2 -top-12 w-10 cursor-pointer"
       />
-      <CompetitionDetails
-        competitionName={competitionName}
-        state={gameState.context.state}
-      />
+      <CompetitionDetails competitionName={competitionName} state={state} />
     </OuterPanel>
   );
 };
