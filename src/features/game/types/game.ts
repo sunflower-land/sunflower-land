@@ -1289,6 +1289,17 @@ export type Season = {
   season: TemperateSeasonName;
 };
 
+export type Calendar = {
+  dates: { name: CalendarEventName; date: string }[];
+  tornado?: CalendarEvent;
+  tsunami?: CalendarEvent;
+  fullMoon?: CalendarEvent;
+  vip?: {
+    bundles: { name: VipBundle; boughtAt: number }[];
+    expiresAt: number;
+  };
+};
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1301,16 +1312,7 @@ export interface GameState {
     progress: Partial<Record<CompetitionName, CompetitionProgress>>;
   };
 
-  calendar: {
-    dates: { name: CalendarEventName; date: string }[];
-
-    tornado?: CalendarEvent;
-    tsunami?: CalendarEvent;
-  };
-  vip?: {
-    bundles: { name: VipBundle; boughtAt: number }[];
-    expiresAt: number;
-  };
+  calendar: Calendar;
 
   shipments: {
     restockedAt?: number;

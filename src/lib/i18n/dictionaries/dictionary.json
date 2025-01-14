@@ -4820,7 +4820,6 @@
   "tsunami.destroyed.two": "Some of your crops were destroyed.",
   "tsunami.destroyed.three": "Some of your buildings were damaged.",
   "tsunami.specialEvent": "Special Event - Tsunami",
-  "searchHere": "Search here...",
   "vip.1Month": "1 Month",
   "vip.3Months": "3 Months",
   "vip.2Years": "2 Years",
@@ -4835,5 +4834,14 @@
   "vip.benefit.stellaDiscounts": "Stella SFL discounts",
   "vip.benefit.bonusDelivery": "Bonus Delivery & Chore Rewards",
   "vip.benefit.reputation": "500 Reputation Points",
-  "vip.benefit.competition": "Bonus competition points + more!"
+  "vip.benefit.competition": "Bonus competition points + more!",
+  "searchHere": "Search here...",
+  "sunflowerClock": "Sunflower Clock",
+  "days.mon": "Mon.",
+  "days.tue": "Tue.",
+  "days.wed": "Wed.",
+  "days.thu": "Thu.",
+  "days.fri": "Fri.",
+  "days.sat": "Sat.",
+  "days.sun": "Sun."
 }
