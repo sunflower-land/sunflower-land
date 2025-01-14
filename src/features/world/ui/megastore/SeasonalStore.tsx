@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import {
   MEGASTORE,
@@ -25,9 +25,6 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_COLLECTIBLES, OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { GameState } from "features/game/types/game";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
@@ -73,16 +70,15 @@ export const getItemDescription = (item: SeasonalStoreItem | null): string => {
 
   return OPEN_SEA_COLLECTIBLES[item.collectible].description;
 };
-const _state = (state: MachineState) => state.context.state;
+
 export const SeasonalStore: React.FC<{
   readonly?: boolean;
-}> = ({ readonly }) => {
+  state: GameState;
+}> = ({ readonly, state }) => {
   const [selectedItem, setSelectedItem] = useState<SeasonalStoreItem | null>(
     null,
   );
   const [selectedTier, setSelectedTier] = useState<SeasonalStoreTier>();
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
   const [isVisible, setIsVisible] = useState(false);
   const createdAt = Date.now();
 

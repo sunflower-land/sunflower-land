@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { TicketsLeaderboard } from "./TicketsLeaderboard";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { InnerPanel } from "components/ui/Panel";
@@ -16,8 +16,6 @@ import chores from "assets/icons/chores.webp";
 import lock from "assets/icons/lock.png";
 
 import { SeasonalAuctions } from "../components/SeasonalAuctions";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -25,6 +23,7 @@ import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
 import { BertObsession } from "features/world/ui/npcs/Bert";
+import { GameState } from "features/game/types/game";
 
 const SEASON_GRAPHICS: Record<SeasonName, string> = {
   "Solar Flare": "?",
@@ -42,15 +41,20 @@ interface Props {
   isLoading: boolean;
   data: TicketLeaderboard | null;
   season: SeasonName;
+  state: GameState;
+  farmId: number;
 }
 
-export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
+export const Season: React.FC<Props> = ({
+  id,
+  isLoading,
+  data,
+  season,
+  state,
+  farmId,
+}) => {
   const { t } = useAppTranslation();
-
-  const { state, farmId } = gameState.context;
+  const { bertObsession: currentObsession, npcs, inventory, wardrobe } = state;
   return (
     <div
       className={classNames(
@@ -130,13 +134,19 @@ export const Season: React.FC<Props> = ({ id, isLoading, data, season }) => {
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <FlowerBountiesModal readonly />
+        <FlowerBountiesModal readonly state={state} />
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <BertObsession readonly />
+        <BertObsession
+          readonly
+          currentObsession={currentObsession}
+          npcs={npcs}
+          inventory={inventory}
+          wardrobe={wardrobe}
+        />
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <SeasonalStore readonly />
+        <SeasonalStore readonly state={state} />
       </InnerPanel>
       <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
       <SeasonalMutants season={season} />

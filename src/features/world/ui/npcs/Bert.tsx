@@ -1,16 +1,20 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import React, { useContext, useState } from "react";
 import { DeliveryPanelContent } from "../deliveries/DeliveryPanelContent";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { defaultDialogue, npcDialogues } from "../deliveries/dialogues";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { CurrentObsession, InventoryItemName } from "features/game/types/game";
+import {
+  CurrentObsession,
+  Inventory,
+  InventoryItemName,
+  NPCData,
+  Wardrobe,
+} from "features/game/types/game";
 
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
@@ -20,6 +24,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { OuterPanel } from "components/ui/Panel";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `bert-read.${host}-${window.location.pathname}`;
@@ -59,12 +66,23 @@ const obsessionDialogues = (itemName: string) => [
   })}`,
 ];
 
+const _currentObsession = (state: MachineState) =>
+  state.context.state.bertObsession;
+const _npcs = (state: MachineState) => state.context.state.npcs;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+
 export const Bert: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   const dialogue = npcDialogues.bert || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
+  const { gameService } = useContext(Context);
+  const currentObsession = useSelector(gameService, _currentObsession);
+  const npcs = useSelector(gameService, _npcs);
+  const inventory = useSelector(gameService, _inventory);
+  const wardrobe = useSelector(gameService, _wardrobe);
 
   const handleIntro = (tab: number) => {
     setShowIntro(false);
@@ -109,31 +127,35 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       currentTab={tab}
     >
       {tab === 0 && <DeliveryPanelContent npc="bert" />}
-      {tab === 1 && <BertObsession />}
+      {tab === 1 && (
+        <BertObsession
+          currentObsession={currentObsession}
+          npcs={npcs}
+          inventory={inventory}
+          wardrobe={wardrobe}
+        />
+      )}
     </CloseButtonPanel>
   );
 };
 
-export const BertObsession: React.FC<{ readonly?: boolean }> = ({
-  readonly,
-}) => {
+export const BertObsession: React.FC<{
+  readonly?: boolean;
+  currentObsession?: CurrentObsession;
+  npcs?: Partial<Record<NPCName, NPCData>>;
+  inventory: Inventory;
+  wardrobe: Wardrobe;
+}> = ({ readonly, currentObsession, npcs, inventory, wardrobe }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const currentObsession = state.bertObsession;
-  const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
+  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
 
   const obsessionDialogue = useRandomItem(
     obsessionDialogues(currentObsession?.name as string),
   );
 
-  const obsessionName = state.bertObsession?.name;
+  const obsessionName = currentObsession?.name;
 
-  let isObsessionCollectible = state.bertObsession?.type === "collectible";
+  let isObsessionCollectible = currentObsession?.type === "collectible";
   if (ITEM_DETAILS[obsessionName as InventoryItemName] === undefined) {
     isObsessionCollectible = false;
   }
@@ -144,7 +166,7 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
 
   const endDate = !currentObsession ? 0 : currentObsession.endDate;
   const resetSeconds = (endDate - new Date().getTime()) / 1000;
-  const reward = state.bertObsession?.reward ?? 0;
+  const reward = currentObsession?.reward ?? 0;
 
   if (!currentObsession) {
     return (
@@ -185,7 +207,7 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
             <div className="absolute inset-0">
               <img
                 src={image}
-                className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                className={`absolute ${isObsessionCollectible ? "w-1/2" : "w-full"} z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
               />
             </div>
           </div>
@@ -201,6 +223,9 @@ export const BertObsession: React.FC<{ readonly?: boolean }> = ({
         isObsessionCollectible={isObsessionCollectible}
         obsessionName={obsessionName}
         currentObsession={currentObsession}
+        npcs={npcs}
+        inventory={inventory}
+        wardrobe={wardrobe}
       />
     </div>
   );
@@ -210,20 +235,25 @@ const CompleteObsession: React.FC<{
   isObsessionCollectible: boolean;
   obsessionName?: string;
   currentObsession?: CurrentObsession;
-}> = ({ isObsessionCollectible, obsessionName, currentObsession }) => {
+  npcs?: Partial<Record<NPCName, NPCData>>;
+  inventory: Inventory;
+  wardrobe: Wardrobe;
+}> = ({
+  isObsessionCollectible,
+  obsessionName,
+  currentObsession,
+  npcs,
+  inventory,
+  wardrobe,
+}) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
-  const reward = state.bertObsession?.reward ?? 0;
+  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
+  const reward = currentObsession?.reward ?? 0;
 
   const hasItem = isObsessionCollectible
-    ? state.inventory[obsessionName as InventoryItemName]?.greaterThan(0)
-    : state.wardrobe[obsessionName as BumpkinItem];
+    ? inventory[obsessionName as InventoryItemName]?.greaterThan(0)
+    : wardrobe[obsessionName as BumpkinItem];
   const canCompleteObsession = () => {
     if (!hasItem) return false;
     if (!currentObsession) return false;
@@ -311,7 +341,7 @@ const BertObsessionReadonly: React.FC<{
           >
             <img
               src={image}
-              className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className={`absolute ${isObsessionCollectible ? "w-1/2" : "w-full"} z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
             />
           </div>
           <div className="flex flex-col space-y-2 justify-between">
