@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "Einstellungen aktualisieren",
   "gameOptions.notifications.update": "Einstellungen aktualisieren",
   "gameOptions.notifications.updated": "Einstellungen aktualisiert",
-  "searchHere": "Suche hier..."
+  "searchHere": "Suche hier...",
+  "description.mangrove": "Eine Mangrove, die dich vor dem Tsunami schützt! Nur zum einmaligen Gebrauch.",
+  "tsunami": "Tsunami",
+  "tsunami.crops.destroyed": "Zerstörung durch den Tsunami",
+  "tsunami.crops.destroyed.description": "Ein Tsunami hat die Hälfte Ihrer Ernte zerstört. Bitte warten Sie, bis der Tsunami vorüber ist.",
+  "tsunami.building.destroyed.description": "Ein Tsunami wütet auf deiner Farm - dieses Gebäude ist nicht sicher! Bitte warten Sie, bis der Tsunami vorüber ist.",
+  "tsunami.protected.one": "Du hast deine Farm vor dem Tsunami geschützt!",
+  "tsunami.protected.two": "Keine deiner Ernten wurde vernichtet.",
+  "tsunami.protected.three": "Keines Ihrer Gebäude wurde beschädigt.",
+  "tsunami.destroyed.one": "Oh nein! Ein Tsunami zerstört deine Farm!",
+  "tsunami.destroyed.two": "Einige deiner Ernten wurden vernichtet.",
+  "tsunami.destroyed.three": "Einige Ihrer Gebäude wurden beschädigt.",
+  "tsunami.specialEvent": "Sonderveranstaltung - Tsunami"
 }

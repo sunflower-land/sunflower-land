@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "Mettre à jour les paramètres",
   "gameOptions.notifications.update": "Mettre à jour les paramètres",
   "gameOptions.notifications.updated": "Paramètres mis à jour",
-  "searchHere": "Recherchez ici..."
+  "searchHere": "Recherchez ici...",
+  "description.mangrove": "Une mangrove qui vous protège du tsunami ! À usage unique.",
+  "tsunami": "Tsunami",
+  "tsunami.crops.destroyed": "Destruction causée par",
+  "tsunami.crops.destroyed.description": "Un tsunami a détruit la moitié de vos récoltes. Veuillez attendre que le tsunami passe.",
+  "tsunami.building.destroyed.description": "Un tsunami fait rage dans votre ferme. Ce bâtiment n'est pas sûr ! Veuillez attendre que le tsunami passe.",
+  "tsunami.protected.one": "Vous avez protégé votre ferme du tsunami !",
+  "tsunami.protected.two": "Aucune de vos récoltes n'a été détruite.",
+  "tsunami.protected.three": "Aucun de vos bâtiments n'a été endommagé.",
+  "tsunami.destroyed.one": "Oh non ! Un tsunami est en train de détruire votre ferme !",
+  "tsunami.destroyed.two": "Certaines de vos récoltes ont été détruites.",
+  "tsunami.destroyed.three": "Certains de vos bâtiments ont été endommagés.",
+  "tsunami.specialEvent": "Événement spécial - Tsunami"
 }

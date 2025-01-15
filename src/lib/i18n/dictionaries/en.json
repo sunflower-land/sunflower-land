@@ -4774,5 +4774,16 @@
   "tornado.destroyed.two": "Some of your crops were destroyed.",
   "tornado.destroyed.three": "Some of your buildings were damaged.",
   "tornado.specialEvent": "Special Event - Tornado",
+  "tsunami": "Tsunami",
+  "tsunami.crops.destroyed": "Tsunami destruction",
+  "tsunami.crops.destroyed.description": "A tsunami has destroyed half of your crops. Please wait for the tsunami to pass.",
+  "tsunami.building.destroyed.description": "A tsunami is raging through your farm - this building is not safe! Please wait for the tsunami to pass.",
+  "tsunami.protected.one": "You protected your farm from the tsunami!",
+  "tsunami.protected.two": "None of your crops were destroyed.",
+  "tsunami.protected.three": "None of your buildings were damaged.",
+  "tsunami.destroyed.one": "Oh no! A tsunami is destroying your farm!",
+  "tsunami.destroyed.two": "Some of your crops were destroyed.",
+  "tsunami.destroyed.three": "Some of your buildings were damaged.",
+  "tsunami.specialEvent": "Special Event - Tsunami",
   "searchHere": "Search here..."
 }

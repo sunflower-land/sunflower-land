@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "Mengemas kini tetapan",
   "gameOptions.notifications.update": "Kemas kini tetapan",
   "gameOptions.notifications.updated": "Tetapan dikemas kini",
-  "searchHere": "Cari di sini..."
+  "searchHere": "Cari di sini...",
+  "description.mangrove": "Bakau yang melindungi anda dari tsunami! Satu penggunaan sahaja.",
+  "tsunami": "Tsunami",
+  "tsunami.crops.destroyed": "Kemusnahan tsunami",
+  "tsunami.crops.destroyed.description": "Tsunami telah memusnahkan separuh daripada tanaman anda. Sila tunggu tsunami berlalu.",
+  "tsunami.building.destroyed.description": "Tsunami sedang melanda ladang anda - bangunan ini tidak selamat! Sila tunggu tsunami berlalu.",
+  "tsunami.protected.one": "Anda melindungi ladang anda dari tsunami!",
+  "tsunami.protected.two": "Tiada tanaman anda yang musnah.",
+  "tsunami.protected.three": "Tiada bangunan anda yang rosak.",
+  "tsunami.destroyed.one": "Oh tidak! Tsunami memusnahkan ladang anda!",
+  "tsunami.destroyed.two": "Sebahagian daripada tanaman anda telah musnah.",
+  "tsunami.destroyed.three": "Sebilangan bangunan anda rosak.",
+  "tsunami.specialEvent": "Acara Khas - Tsunami"
 }

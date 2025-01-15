@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "Обновление настроек",
   "gameOptions.notifications.update": "Обновить настройки",
   "gameOptions.notifications.updated": "Настройки обновлены",
-  "searchHere": "Ищите здесь..."
+  "searchHere": "Ищите здесь...",
+  "description.mangrove": "Мангровые заросли, защищающие вас от цунами! Только для одноразового использования.",
+  "tsunami": "Цунами",
+  "tsunami.crops.destroyed": "Разрушение цунами",
+  "tsunami.crops.destroyed.description": "Цунами уничтожило половину урожая. Пожалуйста, дождитесь окончания цунами.",
+  "tsunami.building.destroyed.description": "На вашей ферме бушует цунами — это здание небезопасно! Пожалуйста, подождите, пока цунами не пройдет.",
+  "tsunami.protected.one": "Вы защитили свою ферму от цунами!",
+  "tsunami.protected.two": "Ни один из ваших посевов не был уничтожен.",
+  "tsunami.protected.three": "Ни одно из ваших зданий не пострадало.",
+  "tsunami.destroyed.one": "О нет! Цунами разрушает вашу ферму!",
+  "tsunami.destroyed.two": "Некоторые из ваших посевов были уничтожены.",
+  "tsunami.destroyed.three": "Некоторые из ваших зданий были повреждены.",
+  "tsunami.specialEvent": "Специальное событие «Цунами»"
 }

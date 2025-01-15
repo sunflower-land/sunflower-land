@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "設定を更新中",
   "gameOptions.notifications.update": "更新設定",
   "gameOptions.notifications.updated": "設定が更新されました",
-  "searchHere": "ここで検索..."
+  "searchHere": "ここで検索...",
+  "description.mangrove": "津波から身を守るマングローブ！1回限りの使用です。",
+  "tsunami": "津波",
+  "tsunami.crops.destroyed": "津波による破壊",
+  "tsunami.crops.destroyed.description": "津波はあなたの作物の半分を破壊しました。津波が通り過ぎるのを待ってください。",
+  "tsunami.building.destroyed.description": "津波が農場を襲っています。この建物は安全ではありません！津波が通り過ぎるのを待ってください。",
+  "tsunami.protected.one": "あなたは農場を津波から守りました！",
+  "tsunami.protected.two": "あなたの作物はどれも破壊されませんでした。",
+  "tsunami.protected.three": "あなたの建物はどれも損傷を受けていません。",
+  "tsunami.destroyed.one": "ああ、いや！津波がお前の農場を破壊している！",
+  "tsunami.destroyed.two": "あなたの作物のいくつかは破壊されました。",
+  "tsunami.destroyed.three": "あなたの建物のいくつかは損傷を受けました。",
+  "tsunami.specialEvent": "特別イベント-津波"
 }
