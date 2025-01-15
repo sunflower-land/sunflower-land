@@ -57,7 +57,7 @@ export const BuyPanel: React.FC<{
     },
   ] = useActor(gameService);
 
-  const isVIP = hasVipAccess(state.inventory);
+  const isVIP = hasVipAccess({ game: state });
   const dailyPurchases = state.trades.dailyPurchases ?? { count: 0, date: 0 };
   const remainingFreePurchases = getRemainingFreePurchases(dailyPurchases);
   const hasPurchasesRemaining = isVIP || remainingFreePurchases > 0;

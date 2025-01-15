@@ -64,7 +64,7 @@ const isSeasonedPlayer = (state: MachineState) =>
   // - verified (personhood verification)
   state.context.verified &&
   // - has active seasonal banner
-  hasVipAccess(state.context.state.inventory);
+  hasVipAccess({ game: state.context.state });
 
 interface Props {
   id: string;

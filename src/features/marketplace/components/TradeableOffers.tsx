@@ -47,7 +47,7 @@ const _authToken = (state: AuthMachineState) =>
 const _balance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _isVIP = (state: MachineState) =>
-  hasVipAccess(state.context.state.inventory);
+  hasVipAccess({ game: state.context.state });
 const _bertObsession = (state: MachineState) =>
   state.context.state.bertObsession;
 const _npcs = (state: MachineState) => state.context.state.npcs;

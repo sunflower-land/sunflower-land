@@ -151,7 +151,7 @@ export const SalesPanel: React.FC<{
     return progress.gt(MAX_SESSION_SFL);
   };
 
-  const hasVIP = hasVipAccess(state.inventory);
+  const hasVIP = hasVipAccess({ game: state });
 
   const unitPrice = marketPrices?.prices?.currentPrices?.[selected] ?? 0;
   const bundlePrice = MARKET_BUNDLES[selected] * unitPrice;

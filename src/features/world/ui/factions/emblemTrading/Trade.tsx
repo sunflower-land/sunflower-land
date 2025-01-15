@@ -383,7 +383,7 @@ export const Trade: React.FC<{
 
   const [showListing, setShowListing] = useState(false);
 
-  const isVIP = hasVipAccess(gameState.context.state.inventory);
+  const isVIP = hasVipAccess({ game: gameState.context.state });
   const remainingListings = getRemainingListings({
     game: gameState.context.state,
   });

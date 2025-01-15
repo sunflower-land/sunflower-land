@@ -1072,6 +1072,7 @@ export const EMPTY: GameState = {
   },
   shipments: {},
   gems: {},
+
   previousInventory: {},
   chickens: {},
   choreBoard: INITIAL_CHORE_BOARD,

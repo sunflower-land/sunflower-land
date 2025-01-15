@@ -101,7 +101,7 @@ export function generateChoreRewards({
 
   if (!items[getSeasonalTicket(now)]) return items;
 
-  if (hasVipAccess(game.inventory, now)) {
+  if (hasVipAccess({ game, now: now.getTime() })) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 2;
   }
 

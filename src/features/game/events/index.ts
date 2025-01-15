@@ -428,7 +428,10 @@ import {
   AcknowledgeCalendarEventAction,
 } from "./landExpansion/acknowledgeCalendarEvent";
 
+import { purchaseVIP, PurchaseVIPAction } from "./landExpansion/vipPurchased";
+
 export type PlayingEvent =
+  | PurchaseVIPAction
   | SellAnimalAction
   | SpeedUpBuilding
   | SacrificeBearAction
@@ -626,6 +629,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "vip.purchased": purchaseVIP,
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
   "bear.sacrificed": sacrificeBear,

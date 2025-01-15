@@ -48,7 +48,7 @@ const ISLAND_LIMITS: Record<IslandType, number> = {
 export function getRemainingListings({ game }: { game: GameState }) {
   let remaining = ISLAND_LIMITS[game.island?.type] ?? 0;
 
-  if (!hasVipAccess(game.inventory)) {
+  if (!hasVipAccess({ game })) {
     remaining = 1;
   }
 
@@ -463,7 +463,7 @@ export const Trade: React.FC<{
 
   const [showListing, setShowListing] = useState(false);
 
-  const isVIP = hasVipAccess(gameState.context.state.inventory);
+  const isVIP = hasVipAccess({ game: gameState.context.state });
   const remainingListings = getRemainingListings({
     game: gameState.context.state,
   });

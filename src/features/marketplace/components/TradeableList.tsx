@@ -51,7 +51,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { StoreOnChain } from "./StoreOnChain";
 
 const _isVIP = (state: MachineState) =>
-  hasVipAccess(state.context.state.inventory);
+  hasVipAccess({ game: state.context.state });
 
 type TradeableListItemProps = {
   authToken: string;

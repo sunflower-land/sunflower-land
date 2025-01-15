@@ -55,7 +55,7 @@ import { PlaceableLocation } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
-  getSeasonPassRead,
+  getVipRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -102,6 +102,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { getActiveCalenderEvent } from "../types/calendar";
+import { hasVipAccess } from "./vipAccess";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -543,7 +544,7 @@ export type BlockchainState = {
     | "transacting"
     | "depositing"
     | "landscaping"
-    | "specialOffer"
+    | "vip"
     | "promo"
     | "trading"
     | "listing"
@@ -894,11 +895,48 @@ export function startGame(authContext: AuthContext) {
               cond: () => isSwarming(),
             },
             {
-              target: "specialOffer",
-              cond: (context) =>
-                (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Bull Run Banner"] &&
-                !getSeasonPassRead(),
+              target: "vip",
+              cond: (context) => {
+                const isNew = context.state.bumpkin.experience < 100;
+
+                // Don't show for new players
+                if (isNew) return false;
+
+                // Wow, they haven't seen the VIP promo in 1 month
+                const readAt = getVipRead();
+                if (
+                  !hasVipAccess({ game: context.state }) &&
+                  (!readAt ||
+                    readAt.getTime() <
+                      Date.now() - 1 * 31 * 24 * 60 * 60 * 1000)
+                ) {
+                  return true;
+                }
+
+                const vip = context.state.vip;
+
+                // Show them a reminder if it is expiring in 3 days
+                const isExpiring =
+                  vip &&
+                  vip.expiresAt &&
+                  vip.expiresAt < Date.now() + 3 * 24 * 60 * 60 * 1000 &&
+                  // Haven't read since expiry approached
+                  (readAt?.getTime() ?? 0) <
+                    vip.expiresAt - 3 * 24 * 60 * 60 * 1000;
+
+                if (isExpiring) return true;
+
+                const hasExpired =
+                  vip &&
+                  vip.expiresAt &&
+                  vip.expiresAt < Date.now() &&
+                  // Hasn't read since expired
+                  (readAt?.getTime() ?? 0) < vip.expiresAt;
+
+                if (hasExpired) return true;
+
+                return false;
+              },
             },
             {
               target: "somethingArrived",
@@ -1004,11 +1042,9 @@ export function startGame(authContext: AuthContext) {
             },
           ],
         },
-        specialOffer: {
+        vip: {
           on: {
-            "banner.purchased": (GAME_EVENT_HANDLERS as any)[
-              "banner.purchased"
-            ],
+            "vip.purchased": (GAME_EVENT_HANDLERS as any)["vip.purchased"],
             ACKNOWLEDGE: {
               target: "notifying",
             },
