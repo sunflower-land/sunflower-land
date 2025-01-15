@@ -51,13 +51,13 @@ type Props = {
 const VIP_NAME: Record<VipBundle, TranslationKeys> = {
   "1_MONTH": "vip.1Month",
   "3_MONTHS": "vip.3Months",
-  "1_YEAR": "vip.1Year",
+  "2_YEARS": "vip.2Years",
 };
 
 const VIP_ICONS: Record<VipBundle, string> = {
   "1_MONTH": vipIcon,
   "3_MONTHS": blueVipIcon,
-  "1_YEAR": purpleVipIcon,
+  "2_YEARS": purpleVipIcon,
 };
 
 const SeasonVIPDiscountTime: React.FC = () => {
@@ -181,7 +181,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
           </div>
         </Panel>
       </ModalOverlay>
-      <div className="flex flex-col space-y-2 pt-2">
+      <div className="flex flex-col pt-2">
         <div className="flex justify-between px-1">
           <Label icon={vipIcon} type="default" className="ml-1">
             {t("season.vip.purchase")}
@@ -195,10 +195,10 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             {t("read.more")}
           </a>
         </div>
-        <p className="text-xs px-1">{t("season.vip.description")}</p>
+        <p className="text-xs px-1 mt-2">{t("season.vip.description")}</p>
         {hasVip && (
           <>
-            <div className="flex justify-between">
+            <div className="flex justify-between my-2">
               <Label
                 type="success"
                 className="ml-2"
@@ -225,7 +225,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
           </Label>
         )}
 
-        <div className="flex">
+        <div className="flex mt-3 mb-2">
           {getKeys(VIP_PRICES).map((name) => (
             <div className="w-1/3 pr-1" key={name}>
               <ButtonPanel
@@ -233,6 +233,16 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
                 onClick={() => setSelected(name)}
               >
+                {name === "3_MONTHS" && (
+                  <>
+                    <Label type="info" className="absolute -top-5 -right-2">
+                      {t("vip.3Months.discount")}
+                    </Label>
+                    <p className="text-xs absolute bottom-5 line-through right-0">
+                      {`1500`}
+                    </p>
+                  </>
+                )}
                 <span className="whitespace-nowrap mb-2 mt-0.5">
                   {t(VIP_NAME[name])}
                 </span>
