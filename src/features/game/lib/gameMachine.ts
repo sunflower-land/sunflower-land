@@ -102,7 +102,6 @@ import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { getActiveCalenderEvent } from "../types/calendar";
-import { getPendingCalendarEvent } from "../types/calendar";
 import { hasVipAccess } from "./vipAccess";
 
 // Run at startup in case removed from query params
