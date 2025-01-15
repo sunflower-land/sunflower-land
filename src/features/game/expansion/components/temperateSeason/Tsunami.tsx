@@ -5,17 +5,17 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import tornado from "assets/icons/tornado.webp";
+import tsunami from "assets/icons/tsunami.webp";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-export const Tornado: React.FC<{
+export const Tsunami: React.FC<{
   acknowledge: () => void;
 }> = ({ acknowledge }) => {
   const { gameState } = useGame();
   const { t } = useAppTranslation();
 
-  const tornadoPositions = useRef<
+  const tsunamiPositions = useRef<
     {
       top: number;
       left: number;
@@ -29,44 +29,44 @@ export const Tornado: React.FC<{
     })),
   );
 
-  const hasPinwheel = !!gameState.context.state.calendar.tornado?.protected;
+  const hasMangrove = !!gameState.context.state.calendar.tsunami?.protected;
 
   return (
     <>
       <Panel className="relative z-10">
         <div className="p-1">
-          <Label type="vibrant" icon={tornado} className="mb-2">
-            {t("tornado.specialEvent")}
+          <Label type="vibrant" icon={tsunami} className="mb-2">
+            {t("tsunami.specialEvent")}
           </Label>
 
           <NoticeboardItems
             items={
-              hasPinwheel
+              hasMangrove
                 ? [
                     {
-                      text: t("tornado.protected.one"),
-                      icon: ITEM_DETAILS["Tornado Pinwheel"].image,
+                      text: t("tsunami.protected.one"),
+                      icon: ITEM_DETAILS["Mangrove"].image,
                     },
                     {
-                      text: t("tornado.protected.two"),
+                      text: t("tsunami.protected.two"),
                       icon: SUNNYSIDE.icons.plant,
                     },
                     {
-                      text: t("tornado.protected.three"),
+                      text: t("tsunami.protected.three"),
                       icon: SUNNYSIDE.icons.hammer,
                     },
                   ]
                 : [
                     {
-                      text: t("tornado.destroyed.one"),
+                      text: t("tsunami.destroyed.one"),
                       icon: SUNNYSIDE.icons.cancel,
                     },
                     {
-                      text: t("tornado.destroyed.two"),
+                      text: t("tsunami.destroyed.two"),
                       icon: SUNNYSIDE.icons.plant,
                     },
                     {
-                      text: t("tornado.destroyed.three"),
+                      text: t("tsunami.destroyed.three"),
                       icon: SUNNYSIDE.icons.hammer,
                     },
                   ]
@@ -76,10 +76,10 @@ export const Tornado: React.FC<{
         <Button onClick={acknowledge}>{t("continue")}</Button>
       </Panel>
       <div className="fixed inset-0  overflow-hidden">
-        {tornadoPositions.current.map(({ top, left, delay }, i) => (
+        {tsunamiPositions.current.map(({ top, left, delay }, i) => (
           <img
             key={i}
-            src={tornado}
+            src={tsunami}
             className="w-12 absolute animate-pulse"
             style={{
               left: `${left}%`,

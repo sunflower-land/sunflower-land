@@ -913,6 +913,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Festive Toy Train": 2177,
   "Golden Cow": 2178,
   "Tornado Pinwheel": 2179,
+  Mangrove: 2180,
 };
 
 // The reverse of above
