@@ -427,10 +427,7 @@ import {
   acknowledgeCalendarEvent,
   AcknowledgeCalendarEventAction,
 } from "./landExpansion/acknowledgeCalendarEvent";
-import {
-  triggerTornado,
-  TriggerTornadoAction,
-} from "./calendar/triggerTornado";
+
 import { purchaseVIP, PurchaseVIPAction } from "./landExpansion/vipPurchased";
 
 export type PlayingEvent =
