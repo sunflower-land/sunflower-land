@@ -104,11 +104,13 @@ export const SEASON_DETAILS: Record<
   TemperateSeasonName,
   {
     icon: string;
+    description: string;
     inSeason: InventoryItemName[];
   }
 > = {
   spring: {
     icon: spring,
+    description: "A time of new beginnings as plants sprout and flowers bloom.",
     inSeason: [
       "Sunflower",
       // "Rhubarb",
@@ -124,6 +126,7 @@ export const SEASON_DETAILS: Record<
   },
   summer: {
     icon: summer,
+    description: "Long sunny days perfect for growing heat-loving crops.",
     inSeason: [
       "Sunflower",
       "Potato",
@@ -139,6 +142,7 @@ export const SEASON_DETAILS: Record<
   },
   autumn: {
     icon: autumn,
+    description: "Harvest season when crops ripen and leaves turn golden.",
     inSeason: [
       "Sunflower",
       "Potato",
@@ -154,6 +158,7 @@ export const SEASON_DETAILS: Record<
   },
   winter: {
     icon: winter,
+    description: "Cold days when hardy vegetables and root crops prevail.",
     inSeason: [
       "Sunflower",
       "Potato",
