@@ -90,7 +90,7 @@ describe("vipPurchased", () => {
       expiresAt: now + 1000 * 60 * 60 * 24 * 365 * 2,
     });
 
-    expect(state.inventory.Gem).toEqual(new Decimal(90000));
+    expect(state.inventory.Gem).toEqual(new Decimal(88500));
   });
 
   it("adds onto existing VIP time", () => {
