@@ -38,6 +38,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import confetti from "canvas-confetti";
 import { hasFeatureAccess } from "lib/flags";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -104,6 +105,12 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const handlePurchase = () => {
     const state = gameService.send("vip.purchased", {
       name: selected,
+    });
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: VIP_PRICES[selected as VipBundle],
+      item: selected!,
+      type: "Web3",
     });
     setSelected(undefined);
     confetti();

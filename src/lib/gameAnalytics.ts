@@ -4,6 +4,7 @@ import { Currency, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { DigAnalytics } from "features/world/scenes/BeachScene";
 import { ExperimentName } from "./flags";
+import { VipBundle } from "features/game/lib/vipAccess";
 
 // Their type definition has some issues, extract to here
 enum EGAResourceFlowType {
@@ -131,6 +132,7 @@ class GameAnalyticTracker {
     item:
       | InventoryItemName
       | BumpkinItem
+      | VipBundle
       | "Stock"
       | "Trade"
       | "DesertDigs"
