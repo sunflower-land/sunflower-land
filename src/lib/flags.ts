@@ -81,6 +81,7 @@ const featureFlags = {
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
   SEASONAL_EVENTS_NOTIFICATIONS: testnetFeatureFlag,
   REPUTATION_SYSTEM: testnetFeatureFlag,
+  SEASONAL_SEEDS: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
