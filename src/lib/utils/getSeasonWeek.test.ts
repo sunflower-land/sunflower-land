@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import { getSeasonChangeover } from "./getSeasonWeek";
 
 describe("getSeasonChangeover", () => {

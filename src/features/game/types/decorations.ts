@@ -111,7 +111,20 @@ export type EventDecorationName =
   | "Bumpkin Nutcracker"
   | "White Festive Fox"
   | "Grinx's Hammer"
-  | "Earn Alliance Banner";
+  | "Earn Alliance Banner"
+  | "Halloween Scarecrow"
+  | "Vampire Bear"
+  | "Super Totem"
+  | "Christmas Stocking"
+  | "Golden Christmas Stocking"
+  | "Cozy Fireplace"
+  | "Christmas Rug"
+  | "Christmas Candle"
+  | "Santa Penguin"
+  | "Penguin Pool"
+  | "Snowman"
+  | "Festive Toy Train"
+  | "Golden Cow";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -120,7 +133,30 @@ export type PotionHouseDecorationName =
 
 export type InteriorDecorationName = "Rug" | "Wardrobe";
 
+export type AnimalDecorationName = "Wagon";
+
 export const DECORATION_TEMPLATES = {
+  "Tornado Pinwheel": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  Mangrove: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "King of Bears": {
+    dimensions: {
+      width: 3,
+      height: 2,
+    },
+    isWithdrawable: () => true,
+  },
   "Goblin Gold Champion": {
     dimensions: {
       width: 2,
@@ -246,7 +282,8 @@ export type DecorationName =
   | SeasonalDecorationName
   | PotionHouseDecorationName
   | InteriorDecorationName
-  | TemplateDecorationName;
+  | TemplateDecorationName
+  | AnimalDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Jelly Lamp": {
@@ -693,6 +730,62 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Paper Reed": {
     height: 2,
     width: 1,
+  },
+  Wagon: {
+    height: 1,
+    width: 1,
+  },
+  "Halloween Scarecrow": {
+    width: 1,
+    height: 1,
+  },
+  "Vampire Bear": {
+    width: 1,
+    height: 1,
+  },
+  "Super Totem": {
+    width: 1,
+    height: 1,
+  },
+  "Christmas Stocking": {
+    width: 1,
+    height: 1,
+  },
+  "Golden Christmas Stocking": {
+    width: 1,
+    height: 1,
+  },
+  "Cozy Fireplace": {
+    width: 2,
+    height: 1,
+  },
+  "Christmas Rug": {
+    width: 3,
+    height: 2,
+  },
+  "Christmas Candle": {
+    width: 1,
+    height: 1,
+  },
+  "Santa Penguin": {
+    width: 1,
+    height: 1,
+  },
+  "Penguin Pool": {
+    width: 2,
+    height: 2,
+  },
+  Snowman: {
+    width: 1,
+    height: 1,
+  },
+  "Festive Toy Train": {
+    width: 2,
+    height: 2,
+  },
+  "Golden Cow": {
+    width: 2,
+    height: 2,
   },
 };
 

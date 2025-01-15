@@ -31,6 +31,11 @@ type CraftEvent = {
   buildingId: string;
 };
 
+type InstantReady = {
+  type: "INSTANT_READY";
+  readyAt: number;
+};
+
 type CollectEvent = {
   type: "COLLECT";
   item: CookableName;
@@ -41,7 +46,8 @@ type CraftingEvent =
   | CraftEvent
   | CollectEvent
   | { type: "TICK" }
-  | { type: "INSTANT" };
+  | { type: "INSTANT" }
+  | InstantReady;
 
 export type MachineState = State<CraftingContext, CraftingEvent, CraftingState>;
 
@@ -109,6 +115,13 @@ export const craftingMachine = createMachine<
           },
           INSTANT: {
             target: "idle",
+            actions: ["clearCraftingDetails"],
+          },
+          INSTANT_READY: {
+            target: "ready",
+            actions: assign({
+              readyAt: ({ readyAt }) => readyAt,
+            }),
           },
         },
       },
@@ -166,6 +179,7 @@ export const craftingMachine = createMachine<
             context.gameService.state.context.state,
             context.buildingId,
           ).timeToCook,
+          (event as CraftEvent).item,
           bumpkin,
           context.gameService.state.context.state,
         );

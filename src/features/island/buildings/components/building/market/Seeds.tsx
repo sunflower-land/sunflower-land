@@ -19,14 +19,12 @@ import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
-import { Bumpkin } from "features/game/types/game";
 import {
   GREENHOUSE_FRUIT_SEEDS,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
   PatchFruitSeedName,
 } from "features/game/types/fruits";
-import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
@@ -46,12 +44,14 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+} from "features/game/events/landExpansion/harvest";
+import { Restock } from "./restock/Restock";
 
-interface Props {
-  onClose: () => void;
-}
-
-export const Seeds: React.FC<Props> = ({ onClose }) => {
+export const Seeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
@@ -66,7 +66,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const { inventory } = state;
 
-  const price = getBuyPrice(selectedName, selected, inventory, state);
+  const price = getBuyPrice(selectedName, selected, state);
 
   const onSeedClick = (seedName: SeedName) => {
     setSelectedName(seedName);
@@ -129,7 +129,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     // return delayed sync when no stock
     if (stock.lessThanOrEqualTo(0)) {
-      return <Restock onClose={onClose} />;
+      return <Restock npc={"betty"} />;
     }
 
     // return message if inventory is full
@@ -218,11 +218,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     if (yields && yields in PATCH_FRUIT())
-      return getFruitPatchTime(
-        selectedName as PatchFruitSeedName,
-        state,
-        (state.bumpkin as Bumpkin)?.equipped ?? {},
-      );
+      return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
 
     if (
       selectedName in GREENHOUSE_SEEDS ||
@@ -289,11 +285,66 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             type="default"
             className="ml-2 mb-1"
           >
-            {t("crops")}
+            {`Basic Crops`}
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in CROP_SEEDS)
+              .filter((name) => isBasicCrop(name.split(" ")[0] as CropName))
+              .filter(
+                (name) =>
+                  name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
+              )
+              .map((name: SeedName) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[name].image}
+                  showOverlay={isSeedLocked(name)}
+                  secondaryImage={
+                    isSeedLocked(name) ? SUNNYSIDE.icons.lock : undefined
+                  }
+                  count={inventory[name]}
+                />
+              ))}
+          </div>
+          <Label
+            icon={CROP_LIFECYCLE.Carrot.crop}
+            type="default"
+            className="ml-2 mb-1"
+          >
+            {`Medium Crops`}
+          </Label>
+          <div className="flex flex-wrap mb-2">
+            {seeds
+              .filter((name) => name in CROP_SEEDS)
+              .filter((name) => isMediumCrop(name.split(" ")[0] as CropName))
+              .map((name: SeedName) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[name].image}
+                  showOverlay={isSeedLocked(name)}
+                  secondaryImage={
+                    isSeedLocked(name) ? SUNNYSIDE.icons.lock : undefined
+                  }
+                  count={inventory[name]}
+                />
+              ))}
+          </div>
+          <Label
+            icon={CROP_LIFECYCLE.Kale.crop}
+            type="default"
+            className="ml-2 mb-1"
+          >
+            {`Advanced Crops`}
+          </Label>
+          <div className="flex flex-wrap mb-2">
+            {seeds
+              .filter((name) => name in CROP_SEEDS)
+              .filter((name) => isAdvancedCrop(name.split(" ")[0] as CropName))
               .filter(
                 (name) =>
                   name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),

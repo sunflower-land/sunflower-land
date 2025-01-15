@@ -20,6 +20,22 @@ type Options = {
   createdAt?: number;
 };
 
+export const calculateRelationshipPoints = (
+  points: number,
+  game: GameState,
+) => {
+  const { bumpkin } = game;
+
+  let total = points;
+
+  // Blossom Bonding skill gives +2 points
+  if (bumpkin.skills["Blossom Bonding"]) {
+    total += 2;
+  }
+
+  return total;
+};
+
 export function giftFlowers({
   state,
   action,
@@ -41,7 +57,10 @@ export function giftFlowers({
 
     game.inventory[action.flower] = flowerAmount.sub(1);
 
-    let points = DEFAULT_FLOWER_POINTS[action.flower];
+    let points = calculateRelationshipPoints(
+      DEFAULT_FLOWER_POINTS[action.flower],
+      game,
+    );
     const bonus = BUMPKIN_FLOWER_BONUSES[action.bumpkin]?.[action.flower] ?? 0;
     if (bonus > 0) {
       points += bonus;

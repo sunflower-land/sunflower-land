@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
@@ -35,7 +35,7 @@ import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { Label } from "components/ui/Label";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
@@ -106,6 +106,12 @@ export const PhaserComponent: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
 
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
   const { toastsList } = useContext(ToastContext);
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -132,7 +138,7 @@ export const PhaserComponent: React.FC<Props> = ({
     Preloader,
     new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
-    PlazaScene,
+    new PlazaScene({ gameState: gameService.state.context.state }),
     RetreatScene,
     KingdomScene,
     GoblinHouseScene,
@@ -152,30 +158,13 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     // Set up moderator by looking if bumpkin has Halo hat equipped and Beta Pass in inventory
-    const bumpkin = gameService.state.context.state.bumpkin;
-    const hasBetaPass = !!inventory["Beta Pass"];
+    const { wardrobe } = state;
+    const isModerator = !!inventory["Beta Pass"] && !!wardrobe.Halo;
 
-    bumpkin?.equipped?.hat === "Halo" && hasBetaPass
-      ? setIsModerator(true)
-      : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
+    isModerator ? setIsModerator(true) : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
 
     // Check if user is muted and if so, apply mute details to isMuted state
-    const userModLogs = gameService.state.context.moderation;
-
-    if (userModLogs.muted.length > 0) {
-      const latestMute = userModLogs.muted.sort(
-        (a, b) => b.mutedUntil - a.mutedUntil,
-      )[0];
-
-      if (latestMute.mutedUntil > new Date().getTime()) {
-        setIsMuted({
-          type: "mute",
-          farmId: gameService.state.context.farmId as number,
-          arg: latestMute.reason,
-          mutedUntil: latestMute.mutedUntil,
-        });
-      }
-    }
+    // Removed for now, will be added back later in a next PR
   }, []);
 
   useEffect(() => {
@@ -276,14 +265,14 @@ export const PhaserComponent: React.FC<Props> = ({
 
   // When route changes, switch scene
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || !route) return;
 
     const activeScene = game.current?.scene
       .getScenes(false)
       // Corn maze pauses when game is over so we need to filter for active and paused scenes.
       .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
-    if (activeScene) {
+    if (activeScene && activeScene.scene.key !== route) {
       activeScene.scene.start(route);
       mmoService.send("SWITCH_SCENE", { sceneId: route });
       mmoService.send("UPDATE_PREVIOUS_SCENE", {
@@ -506,7 +495,7 @@ export const PhaserComponent: React.FC<Props> = ({
           <Label
             type="chill"
             icon={worldIcon}
-            className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center"
+            className="fixed z-10 top-2 left-1/2 -translate-x-1/2 flex items-center"
           >
             {t("mmo.connecting")}
           </Label>
@@ -515,7 +504,7 @@ export const PhaserComponent: React.FC<Props> = ({
           <Label
             type="danger"
             icon={SUNNYSIDE.icons.cancel}
-            className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
+            className="fixed z-10 top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
             onClick={() => mmoService.send("RETRY")}
           >
             {t("mmo.connectionFailed")}

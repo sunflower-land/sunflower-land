@@ -22,6 +22,7 @@ export function makeGame(farm: any): GameState {
       {} as Record<InventoryItemName, Decimal>,
     ),
     wardrobe: farm.wardrobe,
+    calendar: farm.calendar,
     previousWardrobe: farm.previousWardrobe,
     competitions: farm.competitions,
     stock: Object.keys(farm.stock).reduce(
@@ -31,7 +32,9 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<InventoryItemName, Decimal>,
     ),
+    bounties: farm.bounties,
     island: farm.island,
+    bank: farm.bank,
     home: farm.home,
     createdAt: farm.createdAt,
     chickens: farm.chickens || {},
@@ -48,8 +51,10 @@ export function makeGame(farm: any): GameState {
     expansionConstruction: farm.expansionConstruction,
     expandedAt: farm.expandedAt,
     greenhouse: farm.greenhouse,
+    choreBoard: farm.choreBoard,
 
     shipments: farm.shipments,
+    gems: farm.gems,
 
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
@@ -89,7 +94,7 @@ export function makeGame(farm: any): GameState {
     potionHouse: farm.potionHouse,
     npcs: farm.npcs,
     buds: farm.buds,
-    christmas: farm.christmas,
+    christmas2024: farm.christmas2024,
     flowerShop: farm.flowerShop,
     specialEvents: farm.specialEvents,
     experiments: farm.experiments,
@@ -117,5 +122,7 @@ export function makeGame(farm: any): GameState {
     transaction: farm.transaction,
     henHouse: farm.henHouse,
     barn: farm.barn,
+    craftingBox: farm.craftingBox,
+    season: farm.season,
   };
 }

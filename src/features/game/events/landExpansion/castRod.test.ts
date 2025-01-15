@@ -1,8 +1,12 @@
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import { castRod } from "./castRod";
 import Decimal from "decimal.js-light";
 import { Bumpkin } from "features/game/types/game";
-import { Chum } from "features/game/types/fishing";
+import { Chum, getDailyFishingLimit } from "features/game/types/fishing";
 
 const farm = { ...TEST_FARM };
 
@@ -316,5 +320,100 @@ describe("castRod", () => {
     });
 
     expect(state.inventory.Rod).toEqual(new Decimal(3));
+  });
+  it("subtracts extra reels", () => {
+    const now = Date.now();
+    const date = new Date(now).toISOString().split("T")[0];
+    const state = castRod({
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
+      state: {
+        ...farm,
+        inventory: {
+          Rod: new Decimal(20),
+          Earthworm: new Decimal(20),
+        },
+        fishing: {
+          weather: "Windy",
+          wharf: {},
+          beach: {},
+          dailyAttempts: {
+            [date]: 20,
+          },
+          extraReels: {
+            count: 5,
+          },
+        },
+      },
+    });
+    expect(state.fishing.extraReels?.count).toEqual(4);
+  });
+
+  it("does not subtract extra reels when daily limit not hit yet", () => {
+    const now = Date.now();
+    const date = new Date(now).toISOString().split("T")[0];
+    const state = castRod({
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
+      state: {
+        ...farm,
+        inventory: {
+          Rod: new Decimal(20),
+          Earthworm: new Decimal(20),
+        },
+        fishing: {
+          weather: "Windy",
+          wharf: {},
+          beach: {},
+          dailyAttempts: {
+            [date]: 1,
+          },
+          extraReels: {
+            count: 5,
+          },
+        },
+      },
+    });
+    expect(state.fishing.extraReels?.count).toEqual(5);
+  });
+
+  describe("getDailyFishingLimit", () => {
+    it("increases fishing limit by 10 when Angler Waders is equipped", () => {
+      const limit = getDailyFishingLimit({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            pants: "Angler Waders",
+          },
+        },
+      });
+      expect(limit).toEqual(30);
+    });
+
+    it("increases fishing limit by 10 with Fisherman's 10 Fold skill", () => {
+      const limit = getDailyFishingLimit({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 10 Fold": 1,
+          },
+        },
+      });
+      expect(limit).toEqual(30);
+    });
+
+    it("increases fishing limit by 5 with Fisherman's 5 Fold skill", () => {
+      const limit = getDailyFishingLimit({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 5 Fold": 1,
+          },
+        },
+      });
+      expect(limit).toEqual(25);
+    });
   });
 });

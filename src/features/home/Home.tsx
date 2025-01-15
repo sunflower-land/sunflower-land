@@ -16,18 +16,22 @@ import classNames from "classnames";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Placeable } from "features/game/expansion/placeable/Placeable";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { BumpkinPainting } from "./components/BumpkinPainting";
 import { Bumpkin, IslandType } from "features/game/types/game";
-import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
+import {
+  HOME_BOUNDS,
+  NON_COLLIDING_OBJECTS,
+} from "features/game/expansion/placeable/lib/collisionDetection";
 import { Bud } from "features/island/buds/Bud";
 import { InteriorBumpkins } from "./components/InteriorBumpkins";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -105,7 +109,7 @@ export const Home: React.FC = () => {
               y={y}
               height={height}
               width={width}
-              z={name.includes("Rug") ? 0 : 1}
+              z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
             >
               <Collectible
                 location="home"
@@ -173,6 +177,10 @@ export const Home: React.FC = () => {
             width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
             height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
+            backgroundImage: `url(${EXTERIOR_ISLAND_BG[state.island.type]})`,
+            backgroundRepeat: "repeat",
+            backgroundPosition: "center",
+            backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,
           }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

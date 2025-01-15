@@ -21,6 +21,7 @@ import token from "assets/icons/sfl.webp";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
 import { CannotTrade } from "./CannotTrade";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
@@ -29,6 +30,9 @@ const _experience = (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
   state.context.state.previousInventory;
+const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+const _previousWardrobe = (state: MachineState) =>
+  state.context.state.previousWardrobe;
 const _balance = (state: MachineState) => state.context.state.balance;
 
 interface Props {
@@ -41,6 +45,8 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const experience = useSelector(gameService, _experience);
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
+  const wardrobe = useSelector(gameService, _wardrobe);
+  const previousWardrobe = useSelector(gameService, _previousWardrobe);
   const balance = useSelector(gameService, _balance);
 
   const { authService } = useContext(AuthProvider.Context);
@@ -66,7 +72,20 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       const farm = await loadGameStateForVisit(farmId, rawToken);
 
       const listings = farm.state.trades?.listings;
-      setListings(listings);
+
+      // Filter out listings related to the marketplace
+      const filteredListings = Object.entries(listings ?? {}).filter(
+        ([_, listing]) => {
+          const item = getKeys(listing.items)[0];
+
+          return (
+            listing.collection === "collectibles" &&
+            getKeys(TRADE_LIMITS).includes(item as InventoryItemName)
+          );
+        },
+      );
+
+      setListings(Object.fromEntries(filteredListings));
 
       setIsLoading(false);
     };
@@ -113,8 +132,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     );
 
     const hasMaxedOut = hasMaxItems({
-      current: updatedInventory,
-      old: previousInventory,
+      currentInventory: updatedInventory,
+      oldInventory: previousInventory,
+      currentWardrobe: wardrobe,
+      oldWardrobe: previousWardrobe,
     });
 
     if (hasMaxedOut) {

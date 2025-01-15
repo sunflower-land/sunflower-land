@@ -5,12 +5,14 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
 import lightning from "assets/icons/lightning.png";
 import fullMoon from "assets/icons/full_moon.png";
+import powerup from "assets/icons/level_up.png";
+import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { getKeys } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
@@ -18,25 +20,42 @@ import {
   CHUM_AMOUNTS,
   CHUM_DETAILS,
   Chum,
-  FISH,
   FishingBait,
   getTide,
 } from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
-import {
-  getDailyFishingCount,
-  getDailyFishingLimit,
-} from "features/game/types/fishing";
+import { getDailyFishingCount } from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
-import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getBasketItems,
   getChestItems,
 } from "../hud/components/inventory/utils/inventory";
+import Decimal from "decimal.js-light";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { pixelDarkBorderStyle } from "features/game/lib/style";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { getRemainingReels } from "features/game/events/landExpansion/castRod";
+import { BuffLabel } from "features/game/types";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { getReelGemPrice } from "features/game/events/landExpansion/buyMoreReels";
+import {
+  BUMPKIN_REVAMP_SKILL_TREE,
+  BumpkinRevampSkillName,
+  BumpkinSkillRevamp,
+} from "features/game/types/bumpkinSkills";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  INNER_CANVAS_WIDTH,
+  SkillBox,
+} from "features/bumpkins/components/revamp/SkillBox";
+import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -146,7 +165,8 @@ const BAIT: FishingBait[] = [
 
 const BaitSelection: React.FC<{
   onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
-}> = ({ onCast }) => {
+  onClickBuy: () => void;
+}> = ({ onCast, onClickBuy }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -175,6 +195,7 @@ const BaitSelection: React.FC<{
     if (hasRequirements) {
       setChum(lastSelectedChum as Chum);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [showChum, setShowChum] = useState(false);
@@ -201,19 +222,15 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const dailyFishingMax = getDailyFishingLimit(state);
-  const dailyFishingCount = getDailyFishingCount(state);
-  const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
+  const reelsLeft = getRemainingReels(state);
+
+  const fishingLimitReached = reelsLeft <= 0;
   const missingRod =
     !isWearableActive({ name: "Ancient Rod", game: state }) &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
-  const catches = getKeys(FISH).filter((name) =>
-    FISH[name].baits.includes(bait),
-  );
-
   const tide = getTide();
-  const weather = state.fishing.weather;
+  const { weather } = state.fishing;
 
   return (
     <>
@@ -227,7 +244,7 @@ const BaitSelection: React.FC<{
                   type="formula"
                   className="mr-2"
                 >
-                  {"Dusktide"}
+                  {t("fishing.dusktide")}
                 </Label>
               ) : (
                 <Label
@@ -235,7 +252,7 @@ const BaitSelection: React.FC<{
                   type="default"
                   className="mr-2"
                 >
-                  {"Dawnlight"}
+                  {t("fishing.dawnlight")}
                 </Label>
               )}
 
@@ -251,11 +268,13 @@ const BaitSelection: React.FC<{
               )}
             </div>
 
-            <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-              {t("statements.daily.limit")}
-              {dailyFishingCount}
-              {"/"}
-              {dailyFishingMax}
+            <Label
+              icon={SUNNYSIDE.tools.fishing_rod}
+              type={reelsLeft <= 0 ? "danger" : "default"}
+            >
+              {reelsLeft === 1
+                ? t("fishing.oneReelLeft")
+                : t("fishing.reelsLeft", { reelsLeft })}
             </Label>
           </div>
         </div>
@@ -278,7 +297,9 @@ const BaitSelection: React.FC<{
       <div>
         <InnerPanel className="my-1 relative">
           <div className="flex p-1">
-            <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
+            <div className="flex-shrink-0 h-10 w-10 mr-2 justify-items-center">
+              <img src={ITEM_DETAILS[bait].image} className="h-10" />
+            </div>
             <div>
               <p className="text-sm mb-1">{bait}</p>
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
@@ -341,29 +362,38 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          {t("fishermanModal.dailyLimitReached", { limit: dailyFishingMax })}
+          {t("fishermanModal.fishingLimitReached")}
         </Label>
       )}
 
       {!fishingLimitReached && missingRod && (
-        <Label className="mb-1" type="danger">
+        <Label className="mb-1 ml-1" type="danger">
           {t("fishermanModal.needCraftRod")}
         </Label>
       )}
 
-      <Button
-        onClick={() => onCast(bait, chum)}
-        disabled={
-          fishingLimitReached ||
-          missingRod ||
-          !items[bait as InventoryItemName]?.gte(1)
-        }
-      >
-        <div className="flex items-center">
-          <span className="text-sm mr-1">{"Cast"}</span>
-          <img src={SUNNYSIDE.tools.fishing_rod} className="h-5" />
-        </div>
-      </Button>
+      {fishingLimitReached ? (
+        <Button disabled={!fishingLimitReached} onClick={onClickBuy}>
+          <div className="flex items-center">
+            {t("fishing.buyMoreReels")}
+            <img src={ITEM_DETAILS.Gem.image} className="h-5" />
+          </div>
+        </Button>
+      ) : (
+        <Button
+          onClick={() => onCast(bait, chum)}
+          disabled={
+            fishingLimitReached ||
+            missingRod ||
+            !items[bait as InventoryItemName]?.gte(1)
+          }
+        >
+          <div className="flex items-center">
+            <span className="text-sm mr-1">{t("fishing.cast")}</span>
+            <img src={SUNNYSIDE.tools.fishing_rod} className="h-5" />
+          </div>
+        </Button>
+      )}
     </>
   );
 };
@@ -418,10 +448,10 @@ export const FishermanModal: React.FC<Props> = ({
               }),
             },
             {
-              text: translate("fishermanModal.fishBenefits"),
+              text: t("fishermanModal.fishBenefits"),
             },
             {
-              text: translate("fishermanModal.baitAndResources"),
+              text: t("fishermanModal.baitAndResources"),
             },
           ]}
           onClose={() => {
@@ -439,10 +469,10 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: translate("fishermanModal.crazyHappening"),
+              text: t("fishermanModal.crazyHappening"),
             },
             {
-              text: translate("fishermanModal.bonusFish"),
+              text: t("fishermanModal.bonusFish"),
             },
           ]}
           onClose={() => {
@@ -459,7 +489,7 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: translate("fishermanModal.fullMoon"),
+              text: t("fishermanModal.fullMoon"),
             },
           ]}
           onClose={() => {
@@ -475,23 +505,256 @@ export const FishermanModal: React.FC<Props> = ({
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES[npc]}
       tabs={[
-        { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
+        { icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
         {
           icon: SUNNYSIDE.icons.expression_confused,
           name: t("guide"),
+        },
+        {
+          icon: powerup,
+          name: t("fishing.extras"),
         },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && <BaitSelection onCast={onCast} />}
+      {tab === 0 && (
+        <BaitSelection onCast={onCast} onClickBuy={() => setTab(2)} />
+      )}
 
       {tab === 1 && (
         <InnerPanel>
           <FishingGuide onClose={() => setTab(0)} />
         </InnerPanel>
       )}
+      {tab === 2 && (
+        <InnerPanel>
+          <FishermanExtras onBuy={() => setTab(0)} />
+        </InnerPanel>
+      )}
     </CloseButtonPanel>
+  );
+};
+
+interface BoostReelItem {
+  location: string;
+  buff: BuffLabel[];
+}
+
+const BoostReelItems: Partial<
+  Record<BumpkinItem | CollectibleName | BumpkinRevampSkillName, BoostReelItem>
+> = {
+  "Angler Waders": {
+    buff: BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"] as BuffLabel[],
+    location: "Expert Angler Achievement",
+  },
+  "Fisherman's 5 Fold": {
+    buff: [BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].boosts.buff],
+    location: "Fishing Skill Tree",
+  },
+  "Fisherman's 10 Fold": {
+    buff: [BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 10 Fold"].boosts.buff],
+    location: "Fishing Skill Tree",
+  },
+  "More With Less": {
+    buff: Object.values(BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts),
+    location: "Fishing Skill Tree",
+  },
+};
+
+const isWearable = (
+  item: BumpkinItem | CollectibleName | BumpkinRevampSkillName,
+): item is BumpkinItem => {
+  return getKeys(ITEM_IDS).includes(item as BumpkinItem);
+};
+
+const isSkill = (
+  item: BumpkinItem | CollectibleName | BumpkinRevampSkillName,
+): item is BumpkinRevampSkillName =>
+  getKeys(BUMPKIN_REVAMP_SKILL_TREE).includes(item as BumpkinRevampSkillName);
+
+const getItemImage = (item: BumpkinItem | CollectibleName): string => {
+  if (!item) return "";
+
+  if (isWearable(item)) {
+    return getImageUrl(ITEM_IDS[item]);
+  }
+
+  return ITEM_DETAILS[item].image;
+};
+
+const getItemIcon = (
+  item: BumpkinItem | CollectibleName | BumpkinRevampSkillName,
+): JSX.Element => {
+  if (isSkill(item)) {
+    const { tree, image, boosts, requirements, npc, power } =
+      BUMPKIN_REVAMP_SKILL_TREE[item] as BumpkinSkillRevamp;
+    const { tier } = requirements;
+    const { boostedItemIcon, boostTypeIcon } = boosts.buff;
+    return (
+      <SkillBox
+        className="mb-1"
+        image={getSkillImage(image, boostedItemIcon, tree)}
+        overlayIcon={
+          <img
+            src={SUNNYSIDE.icons.confirm}
+            alt="claimed"
+            className="relative object-contain"
+            style={{
+              width: `${PIXEL_SCALE * 12}px`,
+            }}
+          />
+        }
+        tier={tier}
+        npc={npc}
+        secondaryImage={
+          boosts.debuff
+            ? tradeOffs
+            : power
+              ? SUNNYSIDE.icons.lightning
+              : boostTypeIcon
+        }
+      />
+    );
+  } else {
+    return (
+      <div
+        className={"bg-brown-600 relative"}
+        style={{
+          width: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
+          height: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
+          marginTop: `${PIXEL_SCALE * 3}px`,
+          marginBottom: `${PIXEL_SCALE * 2}px`,
+          marginLeft: `${PIXEL_SCALE * 2}px`,
+          marginRight: `${PIXEL_SCALE * 3}px`,
+          ...pixelDarkBorderStyle,
+        }}
+      >
+        <SquareIcon icon={getItemImage(item)} width={INNER_CANVAS_WIDTH} />
+      </div>
+    );
+  }
+};
+
+const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const { t } = useAppTranslation();
+  const [showConfirm, setShowConfirm] = useState(false);
+  const { inventory } = state;
+  const gemPrice = getReelGemPrice({ state });
+  const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(gemPrice);
+  const confirmBuyMoreReels = () => {
+    onBuy();
+    gameService.send("fishing.reelsBought");
+
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gemPrice,
+      item: "FishingReels",
+      type: "Fee",
+    });
+  };
+
+  const reelsLeft = getRemainingReels(state);
+  return (
+    <>
+      {!showConfirm && (
+        <>
+          <div className="p-1">
+            <div className="flex items-center justify-between space-x-1 mb-1">
+              <Label type="default">{t("fishing.extraReels")}</Label>
+              <Label
+                type={reelsLeft <= 0 ? "danger" : "default"}
+                icon={SUNNYSIDE.tools.fishing_rod}
+              >
+                {reelsLeft === 1
+                  ? t("fishing.oneReelLeft")
+                  : t("fishing.reelsLeft", { reelsLeft })}
+              </Label>
+            </div>
+            <span className="text-xs my-2">
+              {t("fishing.lookingMoreReels")}
+            </span>
+            <div className="flex flex-col">
+              {Object.entries(BoostReelItems)
+                .filter(
+                  ([name]) =>
+                    !isSkill(
+                      name as
+                        | BumpkinItem
+                        | CollectibleName
+                        | BumpkinRevampSkillName,
+                    ) || hasFeatureAccess(state, "SKILLS_REVAMP"),
+                )
+                .map(([name, item]) => (
+                  <div key={name} className="flex space-x-2">
+                    {getItemIcon(
+                      name as
+                        | BumpkinItem
+                        | CollectibleName
+                        | BumpkinRevampSkillName,
+                    )}
+                    <div className="flex flex-col justify-center space-y-1">
+                      <div className="flex flex-col space-y-0.5">
+                        <span className="text-xs">{name}</span>
+                        <span className="text-xxs italic">{item.location}</span>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        {item.buff.map((buff, index) => (
+                          <Label
+                            key={index}
+                            type={buff.labelType}
+                            icon={buff.boostTypeIcon}
+                            secondaryIcon={buff.boostedItemIcon}
+                          >
+                            {buff.shortDescription}
+                          </Label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+          {reelsLeft > 0 && (
+            <Label type="danger" className="m-1">
+              {t("fishing.finishReels")}
+            </Label>
+          )}
+          <Button
+            disabled={!canAfford || reelsLeft > 0}
+            onClick={
+              canAfford || reelsLeft <= 0
+                ? () => setShowConfirm(true)
+                : undefined
+            }
+          >
+            <div className="flex items-center space-x-1">
+              <p>{t("fishing.buyReels", { gemPrice })}</p>
+              <img src={ITEM_DETAILS.Gem.image} className="w-4" />
+            </div>
+          </Button>
+        </>
+      )}
+      {showConfirm && (
+        <>
+          <div className="flex flex-col p-2 pb-0 items-center">
+            <span className="text-sm text-start w-full mb-1">
+              {t("fishing.buyReels.confirmation", { gemPrice })}
+            </span>
+          </div>
+          <div className="flex justify-content-around mt-2 space-x-1">
+            <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
+            <Button onClick={confirmBuyMoreReels}>{t("confirm")}</Button>
+          </div>
+        </>
+      )}
+    </>
   );
 };

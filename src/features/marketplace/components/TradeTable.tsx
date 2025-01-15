@@ -1,66 +1,83 @@
-import classNames from "classnames";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React from "react";
+import { Listing, Offer } from "features/game/types/marketplace";
+import React, { useContext } from "react";
+import { TradeableDisplay } from "../lib/tradeables";
+import Decimal from "decimal.js-light";
+import { Context } from "features/game/GameProvider";
+import { TableRow } from "./TableRow";
 
-type TradeTableItem = {
-  price: number;
-  expiresAt: string;
-  createdById: number;
-  icon?: string;
+export const OfferTable: React.FC<{
+  offers: Offer[];
+  id: number;
+  details: TradeableDisplay;
+  isResource: boolean;
+}> = ({ offers, id, details, isResource }) => {
+  const { gameService } = useContext(Context);
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
+  if (offers.length === 0) return null;
+
+  return (
+    <div className="w-full relative border-collapse mb-2 max-h-[200px] scrollable overflow-y-auto overflow-x-hidden">
+      <div>
+        {offers.map((offer, index) => {
+          return (
+            <TableRow
+              farmId={id}
+              balance={new Decimal(0)}
+              tableType="offers"
+              inventoryCount={0}
+              key={index}
+              details={details}
+              item={{
+                id: offer.tradeId,
+                price: offer.sfl,
+                usd,
+                quantity: offer.quantity,
+                createdBy: offer.offeredBy,
+              }}
+              isResource={isResource}
+              index={index}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
-export const TradeTable: React.FC<{ items: TradeTableItem[]; id: number }> = ({
-  items,
-  id,
-}) => {
-  const { t } = useAppTranslation();
+export const ListingTable: React.FC<{
+  listings: Listing[];
+  details: TradeableDisplay;
+  isResource: boolean;
+}> = ({ listings, details, isResource }) => {
+  const { gameService } = useContext(Context);
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
   return (
-    <table className="w-full text-xs table-fixed border-collapse">
-      <thead>
-        <tr>
-          <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
-            <p>{t("marketplace.sfl")}</p>
-          </th>
-          <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-            <p>{t("marketplace.expiry")}</p>
-          </th>
-          <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-            <p>{t("marketplace.from")}</p>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {items.map(({ createdById, price, expiresAt, icon }, index) => (
-          <tr
-            key={index}
-            className={classNames("relative", {
-              "bg-[#ead4aa]": id === createdById,
-            })}
-          >
-            <td
-              style={{ border: "1px solid #b96f50" }}
-              className="p-1.5 text-center"
-            >
-              {price}
-            </td>
-            <td
-              style={{ border: "1px solid #b96f50" }}
-              className="p-1.5 truncate text-center"
-            >
-              {expiresAt}
-            </td>
-            <td
-              style={{ border: "1px solid #b96f50" }}
-              className="p-1.5 truncate text-center relative"
-            >
-              {createdById}
-              {icon && (
-                <img src={icon} className="absolute right-2 top-1 h-4" />
-              )}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="w-full relative border-collapse mb-2 max-h-[200px] scrollable overflow-y-auto overflow-x-hidden">
+      <div>
+        {listings.map((listing, index) => {
+          return (
+            <TableRow
+              key={index}
+              farmId={142}
+              balance={new Decimal(0)}
+              tableType="listings"
+              inventoryCount={0}
+              details={details}
+              item={{
+                id: listing.id,
+                price: listing.sfl,
+                usd,
+                quantity: 1,
+                createdBy: listing.listedBy,
+              }}
+              isResource={isResource}
+              index={index}
+            />
+          );
+        })}
+      </div>
+    </div>
   );
 };

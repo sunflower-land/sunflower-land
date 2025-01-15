@@ -41,7 +41,11 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
-import { randomInt } from "lib/utils/random";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  CalendarEventName,
+  getActiveCalenderEvent,
+} from "features/game/types/calendar";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -94,6 +98,16 @@ export const getEnabledWellCount = (
   return enabledWells;
 };
 
+function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
+  // Sort oldest to newest
+  const crops = getKeys(game.crops).sort((a, b) =>
+    game.crops[b].createdAt > game.crops[a].createdAt ? -1 : 1,
+  );
+  const cropsToRemove = crops.slice(0, Math.floor(crops.length / 2));
+
+  return cropsToRemove.includes(id);
+}
+
 export function isPlotFertile({
   plotIndex,
   crops,
@@ -115,6 +129,34 @@ export function isPlotFertile({
       .findIndex((plotId) => plotId === plotIndex) + 1;
 
   return cropPosition <= cropsWellCanWater;
+}
+
+export function getAffectedWeather({
+  id,
+  game,
+}: {
+  id: string;
+  game: GameState;
+}): CalendarEventName | undefined {
+  const weather = getActiveCalenderEvent({ game });
+
+  if (
+    weather === "tornado" &&
+    !game.calendar.tornado?.protected &&
+    isCropDestroyed({ id, game })
+  ) {
+    return "tornado";
+  }
+
+  if (
+    game.calendar.tsunami?.triggeredAt &&
+    !game.calendar.tsunami?.protected &&
+    isCropDestroyed({ id, game })
+  ) {
+    return "tsunami";
+  }
+
+  return undefined;
 }
 
 /**
@@ -158,28 +200,33 @@ export function getCropTime({
 
   seconds = seconds * getBudSpeedBoosts(buds ?? {}, crop);
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     seconds = seconds * 0.5;
   }
 
-  if (skills["Green Thumb 2"]) {
+  if (skills["Green Thumb"] && hasFeatureAccess(game, "SKILLS_REVAMP")) {
     seconds = seconds * 0.95;
   }
 
-  if (skills["Strong Roots"]) {
-    if (crop === "Radish" || crop === "Wheat" || crop === "Kale") {
-      seconds = seconds * 0.9;
-    }
+  if (skills["Strong Roots"] && isAdvancedCrop(crop)) {
+    seconds = seconds * 0.9;
   }
 
-  // Olive Express: 20% reduction
+  if (isGreenhouseCrop(crop) && skills["Rice and Shine"]) {
+    seconds = seconds * 0.95;
+  }
+
+  // Olive Express: 10% reduction
   if (crop === "Olive" && skills["Olive Express"]) {
-    seconds = seconds * 0.8;
+    seconds = seconds * 0.9;
   }
 
-  // Rice Rocket: 20% reduction
+  // Rice Rocket: 10% reduction
   if (crop === "Rice" && skills["Rice Rocket"]) {
-    seconds = seconds * 0.8;
+    seconds = seconds * 0.9;
   }
 
   return seconds;
@@ -366,7 +413,7 @@ export function getCropYieldAmount({
   }
 
   //Bumpkin Skill boost Green Thumb Skill
-  if (skills["Green Thumb"]) {
+  if (skills["Green Thumb"] && !hasFeatureAccess(game, "SKILLS_REVAMP")) {
     amount *= 1.05;
   }
 
@@ -455,6 +502,13 @@ export function getCropYieldAmount({
 
   if (crop === "Corn" && isWearableActive({ name: "Corn Onesie", game })) {
     amount += 0.1;
+  }
+
+  if (
+    crop === "Barley" &&
+    isCollectibleBuilt({ name: "Sheaf of Plenty", game })
+  ) {
+    amount += 2;
   }
 
   const collectibles = game.collectibles;
@@ -629,23 +683,6 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
-  // Olive Garden +0.2 yield
-  if (crop === "Olive" && skills["Olive Garden"]) {
-    amount += 0.2;
-  }
-
-  // Rice and Shine +0.2 yield
-  if (crop === "Rice" && skills["Rice and Shine"]) {
-    amount += 0.2;
-  }
-
-  // Greenhouse Gamble 5% chance of +1 yield
-  if (isGreenhouseCrop(crop) && bumpkin.skills["Greenhouse Gamble"]) {
-    if (randomInt(0, 20) === 1) {
-      amount += 1;
-    }
-  }
-
   if (
     crop === "Olive" &&
     isWearableActive({ game, name: "Olive Royalty Shirt" })
@@ -658,6 +695,18 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Pharaoh Gnome", game })
   ) {
     amount += 2;
+  }
+
+  if (isGreenhouseCrop(crop) && skills["Glass Room"]) {
+    amount += 0.1;
+  }
+
+  if (isGreenhouseCrop(crop) && skills["Seeded Bounty"]) {
+    amount += 0.5;
+  }
+
+  if (isGreenhouseCrop(crop) && skills["Greasy Plants"]) {
+    amount += 1;
   }
 
   if (skills["Young Farmer"] && isBasicCrop(crop)) {

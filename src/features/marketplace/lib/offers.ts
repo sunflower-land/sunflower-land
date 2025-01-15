@@ -1,17 +1,35 @@
-import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
-import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "features/game/types/bumpkin";
+import { KNOWN_IDS } from "features/game/types";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import { InventoryItemName, TradeOffer } from "features/game/types/game";
-import { CollectionName } from "features/game/types/marketplace";
+import { InventoryItemName } from "features/game/types/game";
 import {
-  BUMPKIN_WITHDRAWABLES,
-  WITHDRAWABLES,
-} from "features/game/types/withdrawables";
+  CollectionName,
+  MarketplaceTradeableName,
+} from "features/game/types/marketplace";
 
-export function getOfferItem({ offer }: { offer: TradeOffer }): number {
-  const { collection, items } = offer;
+interface MarketplaceItemDetails {
+  collection: CollectionName;
+  items: Partial<Record<MarketplaceTradeableName, number>>;
+}
+
+export function tradeToId({
+  details,
+}: {
+  details: MarketplaceItemDetails;
+}): number {
+  const { collection, items } = details;
   const name = getKeys(items ?? {})[0]; // Currently only one item supported
 
+  return getItemId({ name, collection });
+}
+
+export function getItemId({
+  name,
+  collection,
+}: {
+  name: string;
+  collection: CollectionName;
+}): number {
   if (collection === "buds") {
     const [_, id] = name.split("#");
     return Number(id);
@@ -22,30 +40,4 @@ export function getOfferItem({ offer }: { offer: TradeOffer }): number {
   }
 
   return KNOWN_IDS[name as InventoryItemName];
-}
-
-export type TradeType = "instant" | "onchain";
-
-export function getTradeType({
-  collection,
-  id,
-}: {
-  collection: CollectionName;
-  id: number;
-}) {
-  let tradeType: TradeType = "instant";
-
-  if (collection === "buds") {
-    tradeType = "onchain";
-  }
-
-  if (collection === "collectibles" && WITHDRAWABLES[KNOWN_ITEMS[id]]()) {
-    tradeType = "onchain";
-  }
-
-  if (collection === "wearables" && BUMPKIN_WITHDRAWABLES[ITEM_NAMES[id]]()) {
-    tradeType = "onchain";
-  }
-
-  return tradeType;
 }

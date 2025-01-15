@@ -10,13 +10,8 @@ import { connectToFSL } from "features/auth/actions/oauth";
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-
-  const { gameService, showAnimations, toggleAnimations } = useContext(Context);
-
-  const onToggleAnimations = () => {
-    toggleAnimations();
-  };
 
   return (
     <>
@@ -37,23 +32,17 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
           )}
         </Button>
       )}
-
       <Button onClick={() => onSubMenuClick("discord")} className="mb-1">
         <span>{`Discord`}</span>
       </Button>
       <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-1">
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
-
-      <Button className="mb-1" onClick={() => onSubMenuClick("appearance")}>
-        <span>{t("gameOptions.generalSettings.appearance")}</span>
-      </Button>
-      <Button className="mb-1" onClick={onToggleAnimations}>
-        <span>
-          {showAnimations
-            ? t("gameOptions.generalSettings.disableAnimations")
-            : t("gameOptions.generalSettings.enableAnimations")}
-        </span>
+      <Button
+        className="mb-1"
+        onClick={() => onSubMenuClick("appearance&behaviour")}
+      >
+        <span>{t("gameOptions.generalSettings.appearance&behaviour")}</span>
       </Button>
       <Button onClick={() => onSubMenuClick("share")} className="mb-1">
         <span>{t("gameOptions.generalSettings.share")}</span>

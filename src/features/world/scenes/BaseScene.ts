@@ -49,6 +49,7 @@ export type NPCBumpkin = {
   direction?: "left" | "right";
   clothing?: BumpkinParts;
   onClick?: () => void;
+  hideLabel?: boolean;
 };
 
 // 3 Times per second send position to server
@@ -359,9 +360,12 @@ export abstract class BaseScene extends Phaser.Scene {
       key: this.options.name,
     });
 
+    const tilesetKey = this.options.map?.tilesetUrl ?? "Sunnyside V3";
+    const imageKey = this.options.map?.imageKey ?? "tileset";
+
     const tileset = this.map.addTilesetImage(
-      "Sunnyside V3",
-      this.options.map.imageKey ?? "tileset",
+      tilesetKey,
+      imageKey,
       16,
       16,
       1,
@@ -722,7 +726,7 @@ export abstract class BaseScene extends Phaser.Scene {
       const nameTag = this.createPlayerText({
         x: 0,
         y: 0,
-        text: username ? username : `#${farmId}`,
+        text: username ?? "",
         color,
       });
       nameTag.setShadow(1, 1, "#161424", 0, false, true);
@@ -1207,7 +1211,7 @@ export abstract class BaseScene extends Phaser.Scene {
           updatedAt: 0,
         },
         onClick: bumpkin.onClick ?? defaultClick,
-        name: bumpkin.npc,
+        name: bumpkin.hideLabel ? undefined : bumpkin.npc,
         direction: bumpkin.direction ?? "right",
       });
 

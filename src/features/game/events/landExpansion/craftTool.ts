@@ -6,6 +6,7 @@ import {
   Tool,
   WorkbenchToolName,
   WORKBENCH_TOOLS,
+  LOVE_ANIMAL_TOOLS,
 } from "features/game/types/tools";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
@@ -16,6 +17,7 @@ import {
   PurchaseableBait,
 } from "features/game/types/fishing";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { WEATHER_SHOP } from "features/game/types/calendar";
 
 type CraftableToolName =
   | WorkbenchToolName
@@ -32,6 +34,8 @@ export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
   ...WORKBENCH_TOOLS,
   ...TREASURE_TOOLS,
   ...PURCHASEABLE_BAIT,
+  ...LOVE_ANIMAL_TOOLS,
+  ...WEATHER_SHOP,
 };
 
 type Options = {
@@ -64,6 +68,11 @@ export function getToolPrice(
   // Feller's Discount Skill: 20% off on Axes
   if (bumpkin.skills["Feller's Discount"] && name === "Axe") {
     price = price * 0.8;
+  }
+
+  // Reel Deal: 50% off fishing rods
+  if (bumpkin.skills["Reel Deal"] && name === "Rod") {
+    price *= 0.5;
   }
 
   // Artist's Discount Skill: 10% off

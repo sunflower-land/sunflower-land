@@ -77,6 +77,16 @@ import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
+import { ChoreBoard } from "./choreBoard";
+import {
+  RecipeCollectibleName,
+  Recipes,
+  RecipeWearableName,
+} from "../lib/crafting";
+import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
+import { SeasonalCollectibleName } from "./megastore";
+import { TradeFood } from "../events/landExpansion/redeemTradeReward";
+import { CalendarEvent, CalendarEventName } from "./calendar";
 
 export type Reward = {
   coins?: number;
@@ -181,7 +191,14 @@ export type MutantChicken =
   | "Banana Chicken"
   | "Crim Peckster"
   | "Knight Chicken"
-  | "Pharaoh Chicken";
+  | "Pharaoh Chicken"
+  | "Alien Chicken";
+
+export type MutantCow = "Mootant";
+
+export type MutantSheep = "Toxic Tuft";
+
+export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
 export const BB_TO_GEM_RATIO = 20;
 
@@ -206,6 +223,7 @@ export type Coupons =
   | "Farmhand"
   | "Prize Ticket"
   | "Mark"
+  | "Trade Point"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -315,6 +333,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Mark: {
     description: translate("description.faction.mark"),
   },
+  Horseshoe: {
+    description: translate("description.horseshoe"),
+  },
+  "Trade Point": {
+    description: translate("description.trade.points"),
+  },
 };
 
 export type Purchase = {
@@ -349,6 +373,7 @@ export type Bumpkin = {
   achievements?: Partial<Record<AchievementName, number>>;
   activity: Partial<Record<BumpkinActivityName, number>>;
   previousSkillsResetAt?: number;
+  previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
@@ -359,6 +384,31 @@ export type WarItems =
   | "Green Amulet"
   | "Warrior Helmet"
   | "Warrior Pants";
+
+export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
+
+type Bounty = {
+  id: string;
+  name: InventoryItemName;
+  coins?: number;
+  items?: Partial<Record<InventoryItemName, number>>;
+};
+
+export type AnimalBounty = Bounty & {
+  name: AnimalType;
+  level: number;
+};
+
+export type FlowerBounty = Bounty & {
+  name: FlowerName;
+};
+
+export type BountyRequest = AnimalBounty | FlowerBounty;
+
+export type Bounties = {
+  requests: BountyRequest[];
+  completed: { id: string; soldAt: number }[];
+};
 
 export type InventoryItemName =
   | AnimalResource
@@ -381,7 +431,7 @@ export type InventoryItemName =
   | EasterEventItemName
   | Food
   | MOMEventItem
-  | MutantChicken
+  | MutantAnimal
   | Coupons
   | Points
   | WarItems
@@ -416,7 +466,13 @@ export type InventoryItemName =
   | FactionShopCollectibleName
   | FactionShopFoodName
   | MutantFlowerName
-  | AnimalFoodName;
+  | AnimalFoodName
+  | AnimalMedicineName
+  | LoveAnimalItem
+  | BedName
+  | RecipeCraftableName
+  | SeasonalCollectibleName
+  | TradeFood;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -541,6 +597,7 @@ export type Mine = Position;
 export type BuildingProduct = {
   name: CookableName;
   readyAt: number;
+  amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
 };
 
@@ -729,7 +786,37 @@ export type LanternName =
   | "Betty Lantern"
   | "Bumpkin Lantern";
 
-export type AnimalFoodName = "Hay" | "Kernel Blend";
+export type AnimalFoodName =
+  | "Hay"
+  | "Kernel Blend"
+  | "NutriBarley"
+  | "Mixed Grain"
+  | "Omnifeed";
+
+export type AnimalMedicineName = "Barn Delight";
+
+export type BedName =
+  | "Basic Bed"
+  | "Fisher Bed"
+  | "Floral Bed"
+  | "Sturdy Bed"
+  | "Desert Bed"
+  | "Cow Bed"
+  | "Pirate Bed"
+  | "Royal Bed";
+
+export type RecipeCraftableName =
+  | "Cushion"
+  | "Timber"
+  | "Bee Box"
+  | "Crimsteel"
+  | "Merino Cushion"
+  | "Kelp Fibre"
+  | "Hardened Leather"
+  | "Synthetic Fabric"
+  | "Ocean's Treasure"
+  | "Royal Bedding"
+  | "Royal Ornament";
 
 export type Party = {
   fulfilledAt?: number;
@@ -740,7 +827,9 @@ export type Party = {
 export type Order = {
   id: string;
   from: NPCName;
-  items: Partial<Record<InventoryItemName | "coins" | "sfl", number>>;
+  items: Partial<
+    Record<InventoryItemName | BumpkinItem | "coins" | "sfl", number>
+  >;
   reward: {
     sfl?: number;
     coins?: number;
@@ -774,6 +863,7 @@ export type Delivery = {
     total: number;
     claimedAt?: number;
   };
+  doubleDelivery?: string;
 };
 
 export type DailyRewards = {
@@ -819,6 +909,7 @@ export type NPCS = Partial<Record<NPCName, NPCData>>;
 
 export type NPCData = {
   deliveryCount: number;
+  deliveryCompletedAt?: number;
   questCompletedAt?: number;
   friendship?: {
     updatedAt: number;
@@ -939,8 +1030,13 @@ export type TradeListing = {
   items: Partial<Record<MarketplaceTradeableName, number>>;
   sfl: number;
   createdAt: number;
+  collection: CollectionName;
   boughtAt?: number;
   buyerId?: number;
+  signature?: string;
+  fulfilledAt?: number;
+  fulfilledById?: number;
+  initiatedAt?: number;
 };
 
 export type TradeOffer = {
@@ -951,6 +1047,7 @@ export type TradeOffer = {
   fulfilledAt?: number;
   fulfilledById?: number;
   signature?: string;
+  initiatedAt?: number;
 };
 
 type FishingSpot = {
@@ -967,6 +1064,14 @@ export type Fishing = {
   dailyAttempts?: {
     [date: string]: number;
   };
+  extraReels?: ExtraReels;
+};
+
+export type ExtraReels = {
+  timesBought?: {
+    [date: string]: number;
+  };
+  count: number;
 };
 
 export type Christmas = {
@@ -1156,34 +1261,63 @@ export type AnimalResource =
   | "Merino Wool"
   | "Feather"
   | "Milk";
-export type AnimalState = "idle" | "happy" | "sad";
+export type AnimalState = "idle" | "happy" | "sad" | "ready" | "sick";
 
 export type Animal = {
   id: string;
   type: AnimalType;
   state: AnimalState;
   createdAt: number;
-  coordinates: Coordinates;
   experience: number;
   asleepAt: number;
+  awakeAt: number;
+  lovedAt: number;
+  item: LoveAnimalItem;
+  multiplier?: number;
+  reward?: Reward;
 };
 
 export type AnimalBuilding = {
-  level: number;
+  level: AnimalBuildingLevel;
   animals: Record<string, Animal>;
+};
+
+export type Bank = {
+  taxFreeSFL: number;
+};
+
+export type TemperateSeasonName = "spring" | "summer" | "autumn" | "winter";
+
+export type Season = {
+  startedAt: number;
+  season: TemperateSeasonName;
 };
 
 export interface GameState {
   home: Home;
+  bank: Bank;
 
   rewards: Rewards;
+
+  choreBoard: ChoreBoard;
 
   competitions: {
     progress: Partial<Record<CompetitionName, CompetitionProgress>>;
   };
 
+  calendar: {
+    dates: { name: CalendarEventName; date: string }[];
+
+    tornado?: CalendarEvent;
+    tsunami?: CalendarEvent;
+  };
+
   shipments: {
     restockedAt?: number;
+  };
+
+  gems: {
+    history?: Record<string, { spent: number }>;
   };
 
   // There are more fields but unused
@@ -1311,15 +1445,18 @@ export interface GameState {
   mushrooms: Mushrooms;
   potionHouse?: PotionHouse;
 
+  bounties: Bounties;
+
   trades: {
     listings?: Record<string, TradeListing>;
     offers?: Record<string, TradeOffer>;
+    tradePoints?: number;
     dailyListings?: { date: number; count: number };
     dailyPurchases?: { date: number; count: number };
   };
   buds?: Record<number, Bud>;
 
-  christmas?: Christmas;
+  christmas2024?: Christmas;
   flowerShop?: FlowerShop;
   megastore: MegaStore;
   specialEvents: SpecialEvents;
@@ -1344,6 +1481,23 @@ export interface GameState {
   experiments: ExperimentName[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
+
+  craftingBox: {
+    status: "pending" | "idle" | "crafting";
+    item?:
+      | {
+          collectible: RecipeCollectibleName;
+          wearable?: never;
+        }
+      | {
+          collectible?: never;
+          wearable: RecipeWearableName;
+        };
+    startedAt: number;
+    readyAt: number;
+    recipes: Partial<Recipes>;
+  };
+  season: Season;
 }
 
 export interface Context {

@@ -1,5 +1,3 @@
-import "lib/__mocks__/configMock";
-
 import {
   INITIAL_BUMPKIN,
   INITIAL_STOCK,
@@ -65,7 +63,7 @@ describe("restock", () => {
     expect(state.stock.Rod).toEqual(new Decimal(75));
   });
 
-  it("restocks 20% more Axes if player has More Axes skill", () => {
+  it("restocks +50 Axes if player has More Axes skill", () => {
     const state = restock({
       state: {
         ...GAME_STATE,
@@ -80,10 +78,10 @@ describe("restock", () => {
       action: { type: "shops.restocked" },
     });
 
-    expect(state.stock.Axe).toEqual(new Decimal(240));
+    expect(state.stock.Axe).toEqual(new Decimal(250));
   });
 
-  it("restocks 50% more tools and adds 20% more Axes if player has More Axes skill and Toolshed building", () => {
+  it("restocks 50% more tools and adds 50 more Axes if player has More Axes skill and Toolshed building", () => {
     const toolshed: PlacedItem = {
       id: "123",
       coordinates: { x: 1, y: 1 },
@@ -116,7 +114,7 @@ describe("restock", () => {
       action: { type: "shops.restocked" },
     });
 
-    expect(state.stock.Axe).toEqual(new Decimal(360));
+    expect(state.stock.Axe).toEqual(new Decimal(350));
     expect(state.stock.Pickaxe).toEqual(new Decimal(90));
     expect(state.stock["Stone Pickaxe"]).toEqual(new Decimal(30));
     expect(state.stock["Iron Pickaxe"]).toEqual(new Decimal(8));

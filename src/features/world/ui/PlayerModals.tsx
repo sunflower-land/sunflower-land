@@ -9,7 +9,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PlayerTrade } from "./PlayerTrade";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -77,7 +76,7 @@ const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
   );
 };
 
-const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
+export const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -191,10 +190,6 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
               icon: SUNNYSIDE.icons.player,
               name: "Player",
             },
-            {
-              icon: SUNNYSIDE.icons.heart,
-              name: "Trades",
-            },
             ...(!!gameService.getSnapshot().context.state.wardrobe[
               "Gift Giver"
             ] || CONFIG.NETWORK === "amoy"
@@ -214,9 +209,6 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
               <PlayerDetails player={player as Player} />
             ))}
           {tab === 1 && (
-            <PlayerTrade onClose={closeModal} farmId={player?.id as number} />
-          )}
-          {tab === 2 && (
             <AdminSettings
               id={player?.id as number}
               // Noops

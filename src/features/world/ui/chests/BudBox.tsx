@@ -39,17 +39,16 @@ const BUD_ORDER: TypeTrait[] = [
 /**
  * Based on day of year + year to get a consistent order of buds
  */
-export function getDailyBudBoxType(date: Date): TypeTrait {
-  const dayOfYear = getDayOfYear(date);
-
-  const index = dayOfYear % BUD_ORDER.length;
+export function getDailyBudBoxType(ms: number): TypeTrait {
+  const daysSinceEpoch = Math.floor(ms / (1000 * 60 * 60 * 24)) + 2; // +2 to match with current order
+  const index = daysSinceEpoch % BUD_ORDER.length;
   return BUD_ORDER[index];
 }
 
 export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { t, i18n } = useAppTranslation();
+  const { t } = useAppTranslation();
 
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
@@ -71,29 +70,6 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
     setIsRevealing(true);
     setIsPicking(false);
     setIsLoading && setIsLoading(false);
-  };
-
-  const getDayOfWeek = (date: Date): string => {
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "long",
-    };
-
-    switch (i18n.language) {
-      case "fr":
-        return date.toLocaleDateString("fr-FR", options);
-      case "pt":
-        return date.toLocaleDateString("pt-PT", options);
-      case "tk":
-        return date.toLocaleDateString("tr-TR", options);
-      case "zh-CN":
-        return date.toLocaleDateString("zh-CN", options);
-      case "ko":
-        return date.toLocaleDateString("ko-KR", options);
-      case "ru":
-        return date.toLocaleDateString("ru-RU", options);
-      default:
-        return date.toLocaleDateString("en-US", options);
-    }
   };
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
@@ -118,7 +94,6 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
 
   const buds = getKeys(gameState.context.state.buds ?? {});
 
-  const days = new Array<number>(7).fill(0);
   const now = Date.now();
 
   const playerBudTypes = buds.map((id) => {
@@ -148,10 +123,12 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
           </Label>
         </div>
         <p className="text-xs mb-2">{t("budBox.description")}</p>
-        {days.map((_, index) => {
-          const date = new Date(now + 24 * 60 * 60 * 1000 * index);
-          const dailyBud = getDailyBudBoxType(date);
+        {BUD_ORDER.map((_, index) => {
+          const budTypeTimestamp = now + 24 * 60 * 60 * 1000 * index;
+          const date = new Date(budTypeTimestamp);
+          const dailyBud = getDailyBudBoxType(budTypeTimestamp);
           const hasBud = playerBudTypes.includes(dailyBud);
+          const ISOdate = new Date(date).toISOString().split("T")[0];
 
           return (
             <OuterPanel
@@ -206,7 +183,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
                   type="default"
                   className="absolute -top-2 -right-2 capitalize"
                 >
-                  {getDayOfWeek(date)}
+                  {ISOdate}
                 </Label>
               )}
             </OuterPanel>

@@ -36,6 +36,7 @@ export function burnCollectible({
   return produce(state, (stateCopy) => {
     if (
       action.name !== "Time Warp Totem" &&
+      action.name !== "Super Totem" &&
       !hourglassTypes.includes(action.name as HourglassType)
     ) {
       throw new Error(`Cannot burn ${action.name}`);

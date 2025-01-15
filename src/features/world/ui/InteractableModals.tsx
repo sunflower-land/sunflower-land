@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -12,7 +12,6 @@ import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 import { SceneId } from "../mmoMachine";
-import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";
@@ -35,6 +34,14 @@ import { FruitDash } from "./portals/FruitDash";
 import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
+import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
+import { Halloween } from "./portals/Halloween";
+import { ChristmasPortal } from "./portals/ChristmasPortal";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { ChristmasReward } from "./npcs/Santa";
+import { MachineState } from "features/game/lib/gameMachine";
+import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -90,7 +97,7 @@ type InteractableName =
   | "crop_boom_finish"
   | "christmas_reward"
   | "goblin_hammer"
-  | "trading_board"
+  | "weather_shop"
   | "wishingWell"
   | "goblin_market"
   | "pledge_bumpkin"
@@ -120,7 +127,11 @@ type InteractableName =
   | "desert_book_1"
   | "desert_book_2"
   | "desert_book_3"
-  | "desert_book_4";
+  | "desert_book_4"
+  | "world_map"
+  | "halloween"
+  | "christmas_portal"
+  | "festive_tree";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -156,11 +167,16 @@ interface Props {
   scene: SceneId;
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
   const [interactable, setInteractable] = useState<
     InteractableName | undefined
   >(getInitialModal(scene));
   const [isLoading, setIsLoading] = useState(false);
+
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -193,6 +209,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       )}
       <Modal show={interactable === "faction_intro"} onHide={closeModal}>
         <FactionWelcome onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "weather_shop"} onHide={closeModal}>
+        <WeatherShop onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
         <DesertNoticeboard onClose={closeModal} />
@@ -425,6 +444,20 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
+      <Modal show={interactable === "festive_tree"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: t("interactableModals.festiveTree.message1"),
+            },
+            {
+              text: t("interactableModals.festiveTree.message2"),
+            },
+          ]}
+        />
+      </Modal>
+
       <Modal show={interactable === "dawn_book_1"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -476,6 +509,21 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES.billy}
         >
           <FestivalOfColors onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "halloween"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.luna}
+        >
+          <Halloween onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "christmas_portal"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal} bumpkinParts={NPC_WEARABLES.elf}>
+          <ChristmasPortal onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
 
@@ -791,11 +839,11 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
 
       <Modal
-        show={interactable === "trading_board"}
+        show={interactable === "world_map"}
         dialogClassName="md:max-w-3xl"
         onHide={closeModal}
       >
-        <TradingBoard onClose={closeModal} />
+        <WorldMap onClose={closeModal} />
       </Modal>
       <Modal
         show={interactable === "goblin_market"}
@@ -804,12 +852,14 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       >
         <GoblinMarket onClose={closeModal} />
       </Modal>
+      <Modal show={interactable === "christmas_reward"}>
+        <ChristmasReward onClose={closeModal} />
+      </Modal>
     </>
   );
 
   {
     /* 
-
       {/* <Modal
         
         show={!!interactable}

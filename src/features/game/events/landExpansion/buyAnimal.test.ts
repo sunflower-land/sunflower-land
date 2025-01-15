@@ -1,6 +1,29 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { buyAnimal } from "./buyAnimal";
-import { makeAnimals } from "features/game/lib/animals";
+import { buyAnimal, getBoostedAnimalCapacity } from "./buyAnimal";
+import { Animal } from "features/game/types/game";
+import { AnimalType } from "features/game/types/animals";
+
+export function makeAnimals(count: number, type: AnimalType) {
+  return new Array(count)
+    .fill(0)
+    .reduce<Record<string, Animal>>((animals, _, index) => {
+      return {
+        ...animals,
+        [String(index)]: {
+          id: index.toString(),
+          type,
+          state: "idle",
+          coordinates: { x: index, y: index },
+          experience: 0,
+          asleepAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
+          createdAt: 0,
+          awakeAt: 0,
+        },
+      };
+    }, {});
+}
 
 describe("buyAnimal", () => {
   const leveledUpBumpkin = { ...INITIAL_BUMPKIN, experience: 300000 };
@@ -26,10 +49,6 @@ describe("buyAnimal", () => {
         action: {
           id: "0",
           animal: "Chicken",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
           type: "animal.bought",
         },
       }),
@@ -48,10 +67,6 @@ describe("buyAnimal", () => {
         action: {
           id: "0",
           animal: "Chicken",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
           type: "animal.bought",
         },
       });
@@ -70,10 +85,6 @@ describe("buyAnimal", () => {
         action: {
           id: "0",
           animal: "Chicken",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
           type: "animal.bought",
         },
       });
@@ -97,57 +108,19 @@ describe("buyAnimal", () => {
               },
             ],
           },
+          collectibles: {},
           henHouse: {
-            level: 0,
+            level: 1,
             animals: makeAnimals(10, "Chicken"),
           },
         },
         action: {
           id: "0",
           animal: "Chicken",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
           type: "animal.bought",
         },
       });
     }).toThrow("You do not have the capacity for this animal");
-  });
-
-  it("throws and error if the coordinates collide with another animal", () => {
-    expect(() => {
-      buyAnimal({
-        state: {
-          ...TEST_FARM,
-          coins: 1000,
-          bumpkin: leveledUpBumpkin,
-          buildings: {
-            "Hen House": [
-              {
-                coordinates: { x: 0, y: 0 },
-                createdAt: 0,
-                id: "123",
-                readyAt: 0,
-              },
-            ],
-          },
-          henHouse: {
-            level: 0,
-            animals: makeAnimals(3, "Chicken"),
-          },
-        },
-        action: {
-          id: "0",
-          animal: "Chicken",
-          coordinates: {
-            x: 0,
-            y: 0,
-          },
-          type: "animal.bought",
-        },
-      });
-    }).toThrow("Animal collides");
   });
 
   it("subtracts the price of the animal (cow) from the farm's coins", () => {
@@ -167,17 +140,13 @@ describe("buyAnimal", () => {
           ],
         },
         barn: {
-          level: 0,
+          level: 1,
           animals: makeAnimals(3, "Cow"),
         },
       },
       action: {
         id: "0",
         animal: "Cow",
-        coordinates: {
-          x: 2,
-          y: 2,
-        },
         type: "animal.bought",
       },
     });
@@ -202,17 +171,13 @@ describe("buyAnimal", () => {
           ],
         },
         barn: {
-          level: 0,
+          level: 1,
           animals: makeAnimals(3, "Cow"),
         },
       },
       action: {
         id: "0",
         animal: "Cow",
-        coordinates: {
-          x: 2,
-          y: 2,
-        },
         type: "animal.bought",
       },
     });
@@ -223,7 +188,6 @@ describe("buyAnimal", () => {
         type: "Cow",
         state: "idle",
         createdAt: expect.any(Number),
-        coordinates: { x: 2, y: 2 },
       },
     });
   });
@@ -245,22 +209,100 @@ describe("buyAnimal", () => {
           ],
         },
         barn: {
-          level: 0,
+          level: 1,
           animals: makeAnimals(3, "Cow"),
         },
       },
       action: {
         id: "0",
         animal: "Cow",
-        coordinates: {
-          x: 2,
-          y: 2,
-        },
         type: "animal.bought",
       },
     });
 
     expect(state.bumpkin.activity["Cow Bought"]).toBe(1);
     expect(state.bumpkin.activity["Coins Spent"]).toBe(100);
+  });
+});
+
+describe("getAnimalCapacity", () => {
+  it("returns 10 for level 1 with no coop", () => {
+    expect(
+      getBoostedAnimalCapacity("henHouse", { ...TEST_FARM, collectibles: {} }),
+    ).toBe(10);
+  });
+
+  it("returns 15 from level 1 with coop", () => {
+    expect(
+      getBoostedAnimalCapacity("henHouse", {
+        ...TEST_FARM,
+        collectibles: {
+          "Chicken Coop": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      }),
+    ).toBe(15);
+  });
+
+  it("returns 25 from level 2 with coop", () => {
+    expect(
+      getBoostedAnimalCapacity("henHouse", {
+        ...TEST_FARM,
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          level: 2,
+        },
+        collectibles: {
+          "Chicken Coop": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      }),
+    ).toBe(25);
+  });
+
+  it("returns 20 from level 3 with no coop", () => {
+    expect(
+      getBoostedAnimalCapacity("henHouse", {
+        ...TEST_FARM,
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          level: 3,
+        },
+      }),
+    ).toBe(20);
+  });
+
+  it("returns 35 from level 3 with coop", () => {
+    expect(
+      getBoostedAnimalCapacity("henHouse", {
+        ...TEST_FARM,
+        henHouse: {
+          ...TEST_FARM.henHouse,
+          level: 3,
+        },
+        collectibles: {
+          "Chicken Coop": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      }),
+    ).toBe(35);
   });
 });

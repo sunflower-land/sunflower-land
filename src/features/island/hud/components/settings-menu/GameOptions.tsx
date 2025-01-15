@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
@@ -40,8 +40,6 @@ import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
-import { AppearanceSettings } from "./general-settings/AppearanceSettings";
-import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
@@ -50,11 +48,29 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { AdminSettings } from "./general-settings/AdminSettings";
+import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
+import { Notifications } from "./general-settings/Notifications";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  getSubscriptionsForFarmId,
+  Subscriptions,
+} from "features/game/actions/subscriptions";
+import { preload } from "swr";
+import { useSelector } from "@xstate/react";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
   onClose: () => void;
 }
+
+export const subscriptionsFetcher = ([, token, farmId]: [
+  string,
+  string,
+  number,
+]): Promise<Subscriptions> => {
+  return getSubscriptionsForFarmId(farmId, token);
+};
 
 const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -71,7 +87,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const [showNftId, setShowNftId] = useState(false);
 
   const copypaste = useSound("copypaste");
-  const button = useSound("button");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
@@ -166,6 +181,25 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
+      {hasFeatureAccess(
+        gameService.state.context.state,
+        "SEASONAL_EVENTS_NOTIFICATIONS",
+      ) && (
+        <Button
+          onClick={() => onSubMenuClick("notifications")}
+          className="mb-1 relative"
+          // Not available in players browser
+          disabled={!("serviceWorker" in navigator && "PushManager" in window)}
+        >
+          {t("gameOptions.notifications")}
+          {!!gameService.state.context.fslId && (
+            <img
+              src={SUNNYSIDE.icons.confirm}
+              className="absolute right-1 top-0.5 h-7"
+            />
+          )}
+        </Button>
+      )}
       <Button
         disabled={!canRefresh}
         className="p-1 mb-1 relative"
@@ -223,14 +257,34 @@ interface GameOptionsModalProps {
   onClose: () => void;
 }
 
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+
+const preloadSubscriptions = async (token: string, farmId: number) => {
+  preload(
+    ["/notifications/subscriptions", token, farmId],
+    subscriptionsFetcher,
+  );
+};
+
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
 }) => {
+  const { authService } = useContext(Auth.Context);
+
+  const token = useSelector(authService, _token);
+  const { gameService } = useContext(GameContext);
   const [selected, setSelected] = useState<SettingMenuId>("main");
 
-  const onHide = () => {
+  useEffect(() => {
+    preloadSubscriptions(token, gameService.state.context.farmId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onHide = async () => {
     onClose();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setSelected("main");
   };
 
@@ -273,13 +327,12 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "share"
-  | "appearance"
-  | "font"
+  | "appearance&behaviour"
 
+  // Push Notifications
+  | "notifications"
   // Amoy Testnet Actions
-  | "mainnetHoardingCheck"
-  | "amoyHoardingCheck"
-
+  | "hoardingCheck"
   // Plaza Settings
   | "pickServer"
   | "shader";
@@ -322,6 +375,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: PlazaSettings,
   },
+  notifications: {
+    title: translate("gameOptions.notifications"),
+    parent: "main",
+    content: (props) => <Notifications {...props} />,
+  },
 
   // Blockchain Settings
   deposit: {
@@ -361,15 +419,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: Share,
   },
-  appearance: {
-    title: translate("gameOptions.generalSettings.appearance"),
+  "appearance&behaviour": {
+    title: translate("gameOptions.generalSettings.appearance&behaviour"),
     parent: "general",
-    content: AppearanceSettings,
-  },
-  font: {
-    title: translate("gameOptions.generalSettings.font"),
-    parent: "appearance",
-    content: FontSettings,
+    content: AppearanceAndBehaviour,
   },
 
   // Developer Options
@@ -378,20 +431,15 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "amoy",
     content: AdminSettings,
   },
-  mainnetHoardingCheck: {
-    title: "Hoarding Check (Mainnet)",
+  hoardingCheck: {
+    title: "Hoarding Check (DEV)",
     parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} network="mainnet" />,
-  },
-  amoyHoardingCheck: {
-    title: "Hoarding Check (Amoy)",
-    parent: "amoy",
-    content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
+    content: (props) => <DEV_HoarderCheck {...props} />,
   },
 
   // Plaza Settings
   pickServer: {
-    title: "Pick Server",
+    title: translate("gameOptions.plazaSettings.pickServer"),
     parent: "plaza",
     content: PickServer,
   },

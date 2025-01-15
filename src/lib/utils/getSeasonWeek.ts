@@ -57,6 +57,34 @@ export function getSeasonChangeover({
 }
 
 /**
+ * The days that Bumpkins are on holiday (no deliveries)
+ */
+const HOLIDAYS: string[] = [
+  "2024-11-01",
+  "2024-11-02",
+  "2024-11-03",
+  "2024-11-04",
+  "2024-11-05",
+
+  // TODO Auction week
+];
+
+export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
+  // Get upcoming holiday, return today if there is one today.
+  const todayKey = new Date(now).toISOString().split("T")[0];
+
+  if (HOLIDAYS.includes(todayKey)) {
+    return { holiday: todayKey };
+  }
+
+  const nextHoliday = HOLIDAYS.find(
+    (holiday) => new Date(holiday) > new Date(now),
+  );
+
+  return { holiday: nextHoliday };
+}
+
+/**
  * Helper function to get the week number of the season
  * @returns week number of the season 1-12
  */

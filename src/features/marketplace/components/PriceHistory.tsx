@@ -1,137 +1,171 @@
 import React from "react";
-import tradeIcon from "assets/icons/trade.png";
+import sflIcon from "assets/icons/sfl.webp";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { PriceHistory as IPriceHistory } from "features/game/types/marketplace";
+import { SaleHistory as ISaleHistory } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
+import classNames from "classnames";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
+import { getRelativeTime } from "lib/utils/time";
+import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
+import decreaseLeftArrow from "assets/icons/decrease_left_arrow.webp";
+import { useNavigate } from "react-router";
+import { getTradeableDisplay } from "../lib/tradeables";
+import { INITIAL_FARM } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-interface Props {
-  history?: IPriceHistory[];
-}
-
-export const PriceHistory: React.FC<Props> = ({ history }) => {
+export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
+  history,
+}) => {
   const { t } = useAppTranslation();
-
-  const lastSold = history?.reverse().find((p) => !!p.price);
-
   return (
-    <InnerPanel className="mb-1">
+    <InnerPanel>
+      <Label type="default" className="m-1">
+        {t("marketplace.saleHistory")}
+      </Label>
       <div className="p-2">
-        <div className="flex items-center justify-between mb-2">
-          <Label icon={tradeIcon} type="default" className="mb-1">
-            {t("marketplace.priceHistory")}
-          </Label>
-          {!!lastSold && (
-            <p className="text-xs">
-              {t("marketplace.lastSold", { sfl: lastSold.price })}
-            </p>
-          )}
-        </div>
-        <div className="h-[130px] w-full pb-4">
-          {/* Full width */}
-          <PriceChart history={history} />
-        </div>
+        {history ? <Sales sales={history.sales ?? []} /> : <Loading />}
       </div>
     </InnerPanel>
   );
 };
 
-function formatDate(date: string) {
-  const dateObj = new Date(date);
-  return dateObj.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-  });
-}
-
-export const PriceChart: React.FC<Props> = ({ history }) => {
+export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
+  sales,
+}) => {
   const { t } = useAppTranslation();
 
-  if (!history) {
-    return <Loading />;
-  }
+  const navigate = useNavigate();
 
-  const hasSale = history.some((day) => !!day.price);
-
-  if (!hasSale) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        {t("marketplace.noSales")}
-      </div>
-    );
+  if (sales.length === 0) {
+    return <p className="mb-2 ml-1">{t("marketplace.noSales")}</p>;
   }
-  const max = Math.max(1, ...history.map((h) => h.price)) * 1.25;
 
   return (
-    <div className="h-full w-full flex">
-      <div className="w-8 text-xs h-full  flex flex-col justify-between items-end">
-        <span>
-          {Math.floor(max)}
-          {`-`}
-        </span>
-        <span>
-          {Math.floor(max / 2)}
-          {`-`}
-        </span>
-        <span>{`0-`}</span>
-      </div>
-      <div className="flex-1 h-full">
-        <div
-          className="h-full flex-1 flex"
-          style={{
-            borderLeft: "1px solid #3e2731",
-            borderBottom: "1px solid #3e2731",
-          }}
-        >
-          {/* Ensure full width and height */}
-          {history.map((day) => (
-            <div
-              key={day.date}
-              className="h-full relative group"
-              style={{
-                width: `${100 / history.length}%`,
-                paddingLeft: 1,
-                paddingRight: 1,
-              }}
-            >
-              <div
-                className="w-full bg-[#714431] absolute bottom-0"
-                style={{
-                  height: `${(day.price / max) * 100}%`,
-                  borderTopLeftRadius: 3,
-                  borderTopRightRadius: 3,
-                }}
-              />
-              <InnerPanel className="absolute text-xs -top-8 -right-16 w-32 shadow-lg opacity-0 group-hover:opacity-100 z-10">
-                <p>{`Avg. price: ${day.price}`}</p>
-                <p>{`Num. sales: ${day.sales}`}</p>
-                <p>{formatDate(day.date)}</p>
-              </InnerPanel>
-              <img
-                src={SUNNYSIDE.icons.chevron_right}
-                className="h-5 absolute left-0 -bottom-2 -rotate-90 opacity-0 group-hover:opacity-100 z-10"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                }}
-              />
-            </div>
-          ))}
-        </div>
-        {history.length && (
-          <div className="text-xs w-full  flex justify-between items-center">
-            <span className="italic">{formatDate(history[0].date)}</span>
-            <span className="italic">
-              {formatDate(history[Math.floor(history.length / 2)].date)}
-            </span>
-            <span className="italic">
-              {formatDate(history[history.length - 1].date)}
-            </span>
-          </div>
-        )}
-      </div>
-    </div>
+    <>
+      <table className="table-auto w-full text-xs border-collapse">
+        <tbody>
+          {sales.map(
+            (
+              {
+                sfl,
+                quantity,
+                collection,
+                itemId,
+                fulfilledAt,
+                fulfilledBy,
+                initiatedBy,
+                source,
+              },
+              index,
+            ) => {
+              const details = getTradeableDisplay({
+                id: itemId,
+                type: collection,
+                state: INITIAL_FARM,
+              });
+
+              const [seller, buyer] =
+                source === "listing"
+                  ? [initiatedBy, fulfilledBy]
+                  : [fulfilledBy, initiatedBy];
+
+              return (
+                <tr
+                  key={index}
+                  className={classNames("relative cursor-pointer", {
+                    "bg-[#ead4aa]": index % 2 === 0,
+                  })}
+                  onClick={() => {
+                    navigate(`/marketplace/profile/${buyer.id}`);
+                  }}
+                >
+                  <td className="p-1.5 sm:w-1/3 truncate text-center relative">
+                    <div className="flex items-center">
+                      <div className="relative w-10 h-6">
+                        <div className="absolute -top-1">
+                          <NPCIcon
+                            width={24}
+                            parts={
+                              interpretTokenUri(seller.bumpkinUri).equipped
+                            }
+                          />
+                        </div>
+
+                        <div className="absolute left-3.5">
+                          <NPCIcon
+                            width={24}
+                            parts={interpretTokenUri(buyer.bumpkinUri).equipped}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1">
+                          <img src={increaseRightArrow} className="h-3" />
+                          <p className="text-xxs">{buyer.username}</p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <img src={decreaseLeftArrow} className="h-3" />
+                          <p className="text-xxs">{seller.username}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td className="p-1.5 hidden sm:table-cell">
+                    <div className="flex items-center mb-1">
+                      <img src={details.image} className="w-4 mr-1" />
+                      {quantity > 1 && (
+                        <p className="text-xs sm:text-sm mr-1.5">{`${quantity} x `}</p>
+                      )}
+                      <p className="text-xs sm:text-sm truncate">
+                        {details.name}
+                      </p>
+                    </div>
+                  </td>
+                  <td className="p-1.5 hidden sm:table-cell">
+                    <div className="flex items-center">
+                      <img src={sflIcon} className="w-4 mr-1" />
+                      <p className="text-xs sm:text-sm">{`${sfl}`}</p>
+                    </div>
+                  </td>
+                  <td className="p-1.5 text-xs   hidden sm:table-cell">
+                    <div className="flex items-center justify-end">
+                      <p className="text-xs truncate">
+                        {getRelativeTime(fulfilledAt)}
+                      </p>
+                    </div>
+                  </td>
+                  <td className="p-1.5 table-cell sm:hidden">
+                    <div className="flex items-center mb-1">
+                      <img src={details.image} className="w-4 mr-1" />
+                      {quantity > 1 && (
+                        <p className="text-xs sm:text-sm mr-1.5">{`${quantity} x `}</p>
+                      )}
+                      <p className="text-xs sm:text-sm">{details.name}</p>
+                    </div>
+                    <div className="flex items-center mb-1">
+                      <img src={sflIcon} className="w-4 mr-1" />
+                      <p className="text-xs sm:text-sm">{`${sfl} SFL`}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <img
+                        src={SUNNYSIDE.icons.stopwatch}
+                        className="w-4 mr-1"
+                      />
+                      <p className="text-xs sm:text-sm">
+                        {getRelativeTime(fulfilledAt)}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              );
+            },
+          )}
+        </tbody>
+      </table>
+    </>
   );
 };

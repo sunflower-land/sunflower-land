@@ -12,6 +12,7 @@ import {
   FLOWER_LIFECYCLE,
   FLOWER_SEEDS,
   FlowerName,
+  FlowerGrowthStage,
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -62,6 +63,23 @@ const FlowerCongratulations: React.FC<{ flowerName: FlowerName }> = ({
     ))}
   </div>
 );
+
+const getGrowthStage = (
+  growPercentage: number,
+  dirty: boolean,
+): FlowerGrowthStage => {
+  // It's possible with boosts that the initial growth stage is not sprout.
+  // Always render a sprout if the flower is dirt (i.e. data not from backend).
+  if (dirty) return "sprout";
+
+  return growPercentage >= 100
+    ? "ready"
+    : growPercentage >= 66
+      ? "almost"
+      : growPercentage >= 44
+        ? "halfway"
+        : "sprout";
+};
 
 export const FlowerBed: React.FC<Props> = ({ id }) => {
   const { t } = useAppTranslation();
@@ -117,16 +135,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
 
   const isGrowing = timeLeft > 0;
 
-  const stage =
-    growPercentage >= 100
-      ? "ready"
-      : growPercentage >= 66
-        ? "almost"
-        : growPercentage >= 44
-          ? "halfway"
-          : growPercentage >= 22
-            ? "sprout"
-            : "seedling";
+  const stage = getGrowthStage(growPercentage, !!flower.dirty);
 
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
   const reward = flower.reward;
@@ -252,7 +261,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                     {t("reward")}
                   </Label>
                   {(reward.items ?? []).map((item) => {
-                    const boost = COLLECTIBLE_BUFF_LABELS[item.name];
+                    const boost = COLLECTIBLE_BUFF_LABELS(state)[item.name];
 
                     return (
                       <>
@@ -265,14 +274,29 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                           {ITEM_DETAILS[item.name].description}
                         </span>
                         {boost && (
-                          <Label
-                            type={boost.labelType}
-                            icon={boost.boostTypeIcon}
-                            secondaryIcon={boost.boostedItemIcon}
-                            className="my-1"
-                          >
-                            {boost.shortDescription}
-                          </Label>
+                          <div className="flex flex-col gap-1">
+                            {boost.map(
+                              (
+                                {
+                                  labelType,
+                                  boostTypeIcon,
+                                  boostedItemIcon,
+                                  shortDescription,
+                                },
+                                index,
+                              ) => (
+                                <Label
+                                  key={index}
+                                  type={labelType}
+                                  icon={boostTypeIcon}
+                                  secondaryIcon={boostedItemIcon}
+                                  className="mb-1"
+                                >
+                                  {shortDescription}
+                                </Label>
+                              ),
+                            )}
+                          </div>
                         )}
                       </>
                     );

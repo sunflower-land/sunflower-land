@@ -97,6 +97,11 @@ import {
 } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
+import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
+import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "./level";
+import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
+import { getActiveCalenderEvent } from "../types/calendar";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -117,6 +122,8 @@ export type PastAction = GameEvent & {
   createdAt: Date;
 };
 
+export type MaxedItem = InventoryItemName | BumpkinItem | "SFL";
+
 export interface Context {
   farmId: number;
   state: GameState;
@@ -126,7 +133,7 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   fingerprint?: string;
-  maxedItem?: InventoryItemName | "SFL";
+  maxedItem?: MaxedItem;
   goblinSwarm?: Date;
   deviceTrackerId?: string;
   revealed?: {
@@ -136,6 +143,12 @@ export interface Context {
     wardrobe: Record<BumpkinItem, number>;
   };
   announcements: Announcements;
+  prices: {
+    sfl: {
+      usd: number;
+      timestamp: number;
+    } | null;
+  };
   auctionResults?: AuctionResults;
   promoCode?: string;
   moderation: Moderation;
@@ -437,6 +450,7 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
     [`${stateName}Failure`]: {
       on: {
         CONTINUE: { target: "playing" },
+        REFRESH: { target: "playing" },
       },
     },
     [stateName]: {
@@ -469,6 +483,19 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
         onDone: [
           {
             target: `${stateName}Success`,
+            cond: (_: Context, event: DoneInvokeEvent<any>) =>
+              !event.data.state.transaction,
+            actions: [
+              assign((_, event: DoneInvokeEvent<any>) => ({
+                actions: [],
+                state: event.data.state,
+              })),
+            ],
+          },
+          // If there is a transaction on the gameState move into playing so that
+          // the transaction flow can handle the rest of the flow
+          {
+            target: `playing`,
             actions: [
               assign((_, event: DoneInvokeEvent<any>) => ({
                 actions: [],
@@ -500,6 +527,7 @@ export type BlockchainState = {
     | "playing"
     | "autosaving"
     | "buyingSFL"
+    | "calendarEvent"
     | "revealing"
     | "revealed"
     | "genieRevealed"
@@ -530,6 +558,7 @@ export type BlockchainState = {
     | "buds"
     | "airdrop"
     | "offers"
+    | "marketplaceSale"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -538,7 +567,9 @@ export type BlockchainState = {
     | "blacklisted"
     | "provingPersonhood"
     | "somethingArrived"
+    | "seasonChanged"
     | "randomising"
+    | "competition"
     | StateName
     | StateNameWithStatus; // TEST ONLY
   context: Context;
@@ -629,11 +660,18 @@ export function startGame(authContext: AuthContext) {
       initial: "loading",
       context: {
         fslId: "123",
-        farmId: Math.floor(Math.random() * 1000),
+        farmId:
+          CONFIG.NETWORK === "mainnet" ? 0 : Math.floor(Math.random() * 1000),
         actions: [],
         state: EMPTY,
         sessionId: INITIAL_SESSION,
         announcements: {},
+        prices: {
+          sfl: {
+            timestamp: Date.now(),
+            usd: 1.23,
+          },
+        },
         moderation: {
           muted: [],
           kicked: [],
@@ -667,6 +705,10 @@ export function startGame(authContext: AuthContext) {
               }),
             },
           ],
+          entry: () => {
+            if (CONFIG.API_URL)
+              preloadHotNow(authContext.user.rawToken as string);
+          },
           invoke: {
             src: async (context) => {
               const fingerprint = "X";
@@ -700,6 +742,7 @@ export function startGame(authContext: AuthContext) {
                 discordId: response.discordId,
                 fslId: response.fslId,
                 oauthNonce: response.oauthNonce,
+                prices: response.prices,
               };
             },
             onDone: [
@@ -854,13 +897,47 @@ export function startGame(authContext: AuthContext) {
               target: "specialOffer",
               cond: (context) =>
                 (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Clash of Factions Banner"] &&
+                !context.state.collectibles["Bull Run Banner"] &&
                 !getSeasonPassRead(),
             },
             {
               target: "somethingArrived",
               cond: (context) => !!context.revealed,
             },
+
+            {
+              target: "seasonChanged",
+              cond: (context) => {
+                return (
+                  hasFeatureAccess(context.state, "TEMPERATE_SEASON") &&
+                  context.state.season.startedAt !==
+                    getLastTemperateSeasonStartedAt()
+                );
+              },
+            },
+
+            {
+              target: "calendarEvent",
+              cond: (context) => {
+                if (!hasFeatureAccess(context.state, "WEATHER_SHOP")) {
+                  return false;
+                }
+
+                const game = context.state;
+
+                const activeEvent = getActiveCalenderEvent({
+                  game,
+                });
+
+                if (!activeEvent) return false;
+
+                const isAcknowledged =
+                  game?.calendar[activeEvent]?.acknowledgedAt;
+
+                return !isAcknowledged;
+              },
+            },
+
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
             // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
@@ -898,6 +975,31 @@ export function startGame(authContext: AuthContext) {
                 ),
             },
             {
+              target: "marketplaceSale",
+              cond: (context: Context) =>
+                getKeys(context.state.trades.listings ?? {}).some(
+                  (id) => !!context.state.trades.listings![id].fulfilledAt,
+                ),
+            },
+            {
+              target: "competition",
+              cond: (context: Context) => {
+                if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
+                  return false;
+
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
+
+                if (level <= 5) return false;
+
+                const competition = context.state.competitions.progress.ANIMALS;
+
+                // Show the competition introduction if they have not started it yet
+                return !competition;
+              },
+            },
+            {
               target: "playing",
             },
           ],
@@ -916,9 +1018,26 @@ export function startGame(authContext: AuthContext) {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
-              actions: assign((context: Context) => ({
+              actions: assign((_) => ({
                 revealed: undefined,
               })),
+            },
+          },
+        },
+        seasonChanged: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        calendarEvent: {
+          on: {
+            "calendarEvent.acknowledged": (GAME_EVENT_HANDLERS as any)[
+              "calendarEvent.acknowledged"
+            ],
+            ACKNOWLEDGE: {
+              target: "notifying",
             },
           },
         },
@@ -963,6 +1082,19 @@ export function startGame(authContext: AuthContext) {
         offers: {
           on: {
             "offer.claimed": (GAME_EVENT_HANDLERS as any)["offer.claimed"],
+            RESET: {
+              target: "refreshing",
+            },
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
+        marketplaceSale: {
+          on: {
+            "purchase.claimed": (GAME_EVENT_HANDLERS as any)[
+              "purchase.claimed"
+            ],
             RESET: {
               target: "refreshing",
             },
@@ -1200,6 +1332,46 @@ export function startGame(authContext: AuthContext) {
                 target: "autosaving",
                 // If a SAVE was queued up, go back into saving
                 cond: (c) => c.saveQueued,
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "seasonChanged",
+                cond: (context, event) => {
+                  if (!hasFeatureAccess(context.state, "TEMPERATE_SEASON")) {
+                    return false;
+                  }
+
+                  return (
+                    event.data.farm.season.startedAt !==
+                    getLastTemperateSeasonStartedAt()
+                  );
+                },
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "calendarEvent",
+                cond: (_, event) => {
+                  if (!hasFeatureAccess(event.data.farm, "WEATHER_SHOP")) {
+                    return false;
+                  }
+
+                  const game = event.data.farm;
+
+                  const activeEvent = getActiveCalenderEvent({
+                    game,
+                  });
+
+                  if (!activeEvent) return false;
+
+                  const isAcknowledged =
+                    game.calendar[activeEvent].acknowledgedAt;
+
+                  return !isAcknowledged;
+                },
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
                 ),
@@ -1904,9 +2076,17 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+          },
+        },
+
+        competition: {
+          on: {
             "competition.started": (GAME_EVENT_HANDLERS as any)[
               "competition.started"
             ],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
           },
         },
 
@@ -2095,6 +2275,7 @@ export function startGame(authContext: AuthContext) {
           discordId: (_, event) => event.data.discordId,
           fslId: (_, event) => event.data.fslId,
           oauthNonce: (_, event) => event.data.oauthNonce,
+          prices: (_, event) => event.data.prices,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

@@ -9,6 +9,7 @@ import {
   CompostBuilding,
   GameState,
   InventoryItemName,
+  Skills,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { produce } from "immer";
@@ -24,21 +25,59 @@ type Options = {
   createdAt?: number;
 };
 
-const getReadyAt = (gameState: GameState, composter: ComposterName) => {
-  const timeToFinish = composterDetails[composter].timeToFinishMilliseconds;
+export function getReadyAt({
+  gameState,
+  composter,
+}: {
+  gameState: GameState;
+  composter: ComposterName;
+}) {
+  let { timeToFinishMilliseconds } = composterDetails[composter];
 
   // gives +10% speed boost if the player has the Soil Krabby
   if (isCollectibleBuilt({ name: "Soil Krabby", game: gameState })) {
-    return timeToFinish * 0.9;
+    timeToFinishMilliseconds = timeToFinishMilliseconds * 0.9;
   }
 
   // gives +10% speed boost if the player has Swift Decomposer skill
   if (gameState.bumpkin?.skills["Swift Decomposer"]) {
-    return timeToFinish * 0.9;
+    timeToFinishMilliseconds = timeToFinishMilliseconds * 0.9;
   }
 
-  return timeToFinish;
-};
+  return { timeToFinishMilliseconds };
+}
+
+export function getCompostAmount({
+  skills,
+  building,
+}: {
+  skills: Skills;
+  building: ComposterName;
+}) {
+  let { produceAmount } = composterDetails[building];
+
+  if (skills["Efficient Bin"] && building === "Compost Bin") {
+    produceAmount += 5;
+  }
+
+  if (skills["Turbo Charged"] && building === "Turbo Composter") {
+    produceAmount += 5;
+  }
+
+  if (skills["Premium Worms"] && building === "Premium Composter") {
+    produceAmount += 10;
+  }
+
+  if (skills["Composting Overhaul"]) {
+    produceAmount -= 5;
+  }
+
+  if (skills["Composting Revamp"]) {
+    produceAmount += 5;
+  }
+
+  return { produceAmount };
+}
 
 export function startComposter({
   state,
@@ -46,66 +85,58 @@ export function startComposter({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
+    const { building } = action;
+    const buildings = stateCopy.buildings[building] as CompostBuilding[];
     if (!buildings) {
       throw new Error(translate("error.composterNotExist"));
     }
 
-    const { skills } = stateCopy.bumpkin;
+    const { bumpkin, inventory } = stateCopy;
+    const { skills } = bumpkin;
     const composter = buildings[0];
-    const isProducing = composter.producing;
+    const { producing, requires } = composter;
 
-    if (isProducing && isProducing.readyAt > createdAt) {
+    if (producing && producing.readyAt > createdAt) {
       throw new Error(translate("error.alr.composter"));
     }
 
-    if (!composter.requires) {
+    if (!requires) {
       throw new Error(translate("error.alr.composter"));
     }
 
     // remove the requirements from the player's inventory
-    getKeys(composter.requires ?? {}).forEach((name) => {
-      const previous =
-        stateCopy.inventory[name as InventoryItemName] || new Decimal(0);
+    getKeys(requires ?? {}).forEach((name) => {
+      const previous = inventory[name as InventoryItemName] || new Decimal(0);
 
-      if (previous.lt(composter.requires?.[name] ?? 0)) {
+      if (previous.lt(requires?.[name] ?? 0)) {
         throw new Error(translate("error.missing"));
-        ("Missing requirements");
       }
 
-      stateCopy.inventory[name as InventoryItemName] = previous.minus(
-        composter.requires?.[name] ?? 0,
+      inventory[name as InventoryItemName] = previous.minus(
+        requires?.[name] ?? 0,
       );
     });
 
-    const produce = composterDetails[action.building].produce;
-    let produceAmount = composterDetails[action.building].produceAmount;
+    const { produce, worm } = composterDetails[building];
 
-    if (skills["Efficient Bin"] && action.building === "Compost Bin") {
-      produceAmount += 3;
-    }
-
-    if (skills["Turbo Charged"] && action.building === "Turbo Composter") {
-      produceAmount += 5;
-    }
-
-    if (skills["Premium Worms"] && action.building === "Premium Composter") {
-      produceAmount += 10;
-    }
-
-    if (skills["Composting Overhaul"] && produce === "Sprout Mix") {
-      produceAmount -= 5;
-    }
+    const { produceAmount } = getCompostAmount({
+      skills,
+      building,
+    });
+    const { timeToFinishMilliseconds } = getReadyAt({
+      gameState: stateCopy,
+      composter: building,
+    });
 
     // start the production
     buildings[0].producing = {
       items: {
-        [composterDetails[action.building].produce]: produceAmount,
+        [produce]: produceAmount,
         // Set on backend
-        [composterDetails[action.building].worm]: 1,
+        [worm]: 1,
       },
       startedAt: createdAt,
-      readyAt: createdAt + getReadyAt(stateCopy, action.building),
+      readyAt: createdAt + timeToFinishMilliseconds,
     };
 
     return stateCopy;

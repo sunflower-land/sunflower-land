@@ -13,9 +13,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
+import { millisecondsToString, secondsToString } from "lib/utils/time";
 import {
   AddSeedsInput,
+  CROP_MACHINE_PLOTS,
   MAX_OIL_CAPACITY_IN_MILLIS,
   MAX_QUEUE_SIZE,
   OIL_PER_HOUR_CONSUMPTION,
@@ -64,8 +65,6 @@ const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
         (crop === "Carrot" || crop === "Cabbage"))
     );
   });
-
-const SEED_INCREMENT_AMOUNT = 10;
 
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
@@ -130,7 +129,7 @@ export const CropMachineModal: React.FC<Props> = ({
     const projectedTotalOilTime = getProjectedOilTimeMillis();
     const newProjectedTotalOilTime = projectedTotalOilTime + ONE_HOUR_IN_MILLIS;
 
-    return newProjectedTotalOilTime <= MAX_OIL_CAPACITY_IN_MILLIS;
+    return newProjectedTotalOilTime <= MAX_OIL_CAPACITY_IN_MILLIS(state);
   };
 
   const incrementSeeds = (amount = 1) => {
@@ -147,6 +146,19 @@ export const CropMachineModal: React.FC<Props> = ({
 
   const decrementOil = () => {
     setTotalOil((prev) => Math.max(prev - OIL_PER_HOUR_CONSUMPTION(state), 0));
+  };
+
+  const calculateMaxOil = () => {
+    const projectedOilTime = getProjectedOilTimeMillis();
+    const getRemainingOilTime =
+      MAX_OIL_CAPACITY_IN_MILLIS(state) - projectedOilTime;
+    const getMaxHours = getRemainingOilTime / (60 * 60 * 1000);
+    const getMaxOil = getMaxHours * OIL_PER_HOUR_CONSUMPTION(state);
+    return getMaxOil;
+  };
+
+  const incrementMaxOil = () => {
+    setTotalOil((prev) => prev + calculateMaxOil());
   };
 
   const getMachineStatusLabel = () => {
@@ -181,7 +193,7 @@ export const CropMachineModal: React.FC<Props> = ({
 
     const seedBalance = inventory[selectedSeed] ?? new Decimal(0);
 
-    return totalSeeds + SEED_INCREMENT_AMOUNT <= seedBalance.toNumber();
+    return totalSeeds + CROP_MACHINE_PLOTS(state) <= seedBalance.toNumber();
   };
 
   const canIncrementOil = () => {
@@ -397,23 +409,23 @@ export const CropMachineModal: React.FC<Props> = ({
                           <Button
                             disabled={totalSeeds === 0}
                             onClick={() =>
-                              decrementSeeds(SEED_INCREMENT_AMOUNT)
+                              decrementSeeds(CROP_MACHINE_PLOTS(state))
                             }
                             className={isMobile ? "" : "px-2"}
                           >
                             <span className={isMobile ? "text-xs" : "text-sm"}>
-                              {`-${SEED_INCREMENT_AMOUNT}`}
+                              {`-${CROP_MACHINE_PLOTS(state)}`}
                             </span>
                           </Button>
                           <Button
                             onClick={() =>
-                              incrementSeeds(SEED_INCREMENT_AMOUNT)
+                              incrementSeeds(CROP_MACHINE_PLOTS(state))
                             }
                             disabled={!canIncrementSeeds()}
                             className={isMobile ? "" : "px-2"}
                           >
                             <span className={isMobile ? "text-xs" : "text-sm"}>
-                              {`+${SEED_INCREMENT_AMOUNT}`}
+                              {`+${CROP_MACHINE_PLOTS(state)}`}
                             </span>
                           </Button>
                           <Button
@@ -542,6 +554,7 @@ export const CropMachineModal: React.FC<Props> = ({
             </div>
             {show && (
               <OilTank
+                state={state}
                 stopped={paused || idle}
                 queue={queue}
                 unallocatedOilTime={unallocatedOilTime}
@@ -601,7 +614,16 @@ export const CropMachineModal: React.FC<Props> = ({
                   type={!canAddOneHourOfOil() ? "danger" : "info"}
                   className="mx-1.5 mt-2"
                 >
-                  {t("cropMachine.maxRuntime", { time: `48hrs` })}
+                  {t("cropMachine.maxRuntime", {
+                    time: millisecondsToString(
+                      MAX_OIL_CAPACITY_IN_MILLIS(state),
+                      {
+                        length: "short",
+                        isShortFormat: true,
+                        removeTrailingZeros: true,
+                      },
+                    ),
+                  })}
                 </Label>
               </div>
               <div className="flex ml-1">
@@ -610,7 +632,7 @@ export const CropMachineModal: React.FC<Props> = ({
                   <div className="flex flex-col justify-center text-xs space-y-1">
                     <span>
                       {t("cropMachine.oilToAdd", {
-                        amount: setPrecision(totalOil),
+                        amount: formatNumber(totalOil),
                       })}
                     </span>
                     <span>
@@ -631,12 +653,23 @@ export const CropMachineModal: React.FC<Props> = ({
                       className="w-auto"
                       disabled={totalOil === 0}
                       onClick={decrementOil}
-                    >{`-${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}</Button>
+                    >
+                      {`-${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}
+                    </Button>
                     <Button
                       className="w-auto ml-1"
                       onClick={incrementOil}
                       disabled={!canIncrementOil()}
-                    >{`+${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}</Button>
+                    >
+                      {`+${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}
+                    </Button>
+                    <Button
+                      className="w-auto ml-1"
+                      onClick={incrementMaxOil}
+                      disabled={!canIncrementOil()}
+                    >
+                      {t("max")}
+                    </Button>
                   </div>
                 </div>
               </div>

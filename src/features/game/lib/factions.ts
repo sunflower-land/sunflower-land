@@ -10,7 +10,6 @@ import {
   InventoryItemName,
   Wardrobe,
 } from "../types/game";
-import { SeasonalTicket } from "../types/seasons";
 import { isWearableActive } from "./wearables";
 
 export const START_DATE = new Date("2024-06-24T00:00:00Z");
@@ -20,7 +19,7 @@ export const START_DATE = new Date("2024-06-24T00:00:00Z");
  * Begins on Monday 24th June
  * E.g returns start of the week - "2024-06-24"
  */
-export function getFactionWeek({
+export function getWeekKey({
   date = new Date(),
 }: { date?: Date } = {}): string {
   const proposedDate = new Date(date);
@@ -48,9 +47,9 @@ export function getFactionWeek({
 }
 
 export function getPreviousWeek() {
-  const current = getFactionWeek();
+  const current = getWeekKey();
 
-  return getFactionWeek({
+  return getWeekKey({
     date: new Date(new Date(current).getTime() - 7 * 24 * 60 * 60 * 1000),
   });
 }
@@ -77,16 +76,22 @@ export function getWeekNumber({
   return Math.floor(dayDifference / 7) + 1;
 }
 
-export function secondsTillWeekReset(): number {
-  const weekStart = getFactionWeek();
+export function weekResetsAt(): number {
+  const weekStart = getWeekKey();
   const weekEnd = new Date(
     new Date(weekStart).getTime() + 7 * 24 * 60 * 60 * 1000,
   );
 
+  return weekEnd.getTime();
+}
+
+export function secondsTillWeekReset(): number {
+  const weekEnd = weekResetsAt();
+
   const currentTime = Date.now();
 
   // Calculate the time until the next faction week start in milliseconds
-  const timeUntilNextFactionWeek = weekEnd.getTime() - currentTime;
+  const timeUntilNextFactionWeek = weekEnd - currentTime;
 
   // Convert milliseconds to seconds
   const secondsUntilNextFactionWeek = timeUntilNextFactionWeek / 1000;
@@ -101,7 +106,7 @@ export function secondsTillWeekReset(): number {
 export function getFactionWeekEndTime({
   date = new Date(),
 }: { date?: Date } = {}): number {
-  const start = new Date(getFactionWeek({ date }));
+  const start = new Date(getWeekKey({ date }));
   start.setUTCDate(start.getUTCDate() + 7);
 
   return start.getTime();
@@ -254,330 +259,285 @@ type MonthlyFactionPrize = {
   items?: Partial<Record<InventoryItemName, number>>;
 };
 
-export const BONUS_FACTION_PRIZES: Record<
-  string,
-  Record<number, MonthlyFactionPrize>
-> = {
-  "2024-07-22": {
-    1: {
-      wearables: {
-        "Crimstone Hammer": 1,
-      },
-    },
-    2: {
-      items: {
-        "Turbo Sprout": 1,
-      },
-    },
-    3: {
-      wearables: {
-        "Oil Can": 1,
-      },
-    },
-    4: {
-      items: {
-        Soybliss: 1,
-      },
-    },
-    5: {
-      wearables: {
-        "Olive Shield": 1,
-      },
-    },
-    // 6th - 10th
-    ...new Array(5)
-      .fill({
-        items: {
-          "Luxury Key": 2,
-        },
-      })
-      .reduce(
-        (acc, item, i) => ({
-          ...acc,
-          [i + 6]: item,
-        }),
-        {},
-      ),
-    // 11th - 50th
-    ...new Array(40)
-      .fill({
-        items: {
-          "Rare Key": 2,
-        },
-      })
-      .reduce(
-        (acc, item, i) => ({
-          ...acc,
-          [i + 11]: item,
-        }),
-        {},
-      ),
-  },
-  "2024-08-26": {
-    1: {
-      items: {
-        "Luxury Key": 15,
-      },
-    },
-    2: {
-      items: {
-        "Luxury Key": 10,
-      },
-    },
-    3: {
-      items: {
-        "Luxury Key": 5,
-      },
-    },
-    4: {
-      items: {
-        "Luxury Key": 3,
-      },
-    },
-    5: {
-      items: {
-        "Luxury Key": 3,
-      },
-    },
-    // 6th - 10th
-    ...new Array(5)
-      .fill({
-        items: {
-          "Luxury Key": 2,
-        },
-      })
-      .reduce(
-        (acc, item, i) => ({
-          ...acc,
-          [i + 6]: item,
-        }),
-        {},
-      ),
-    // 11th - 50th
-    ...new Array(40)
-      .fill({
-        items: {
-          "Rare Key": 2,
-        },
-      })
-      .reduce(
-        (acc, item, i) => ({
-          ...acc,
-          [i + 11]: item,
-        }),
-        {},
-      ),
-  },
-  "2024-09-23": {
-    1: {
-      items: {
-        Mark: 30000,
-      },
-    },
-    2: {
-      items: {
-        Mark: 25000,
-      },
-    },
-    3: {
-      items: {
-        Mark: 20000,
-      },
-    },
-    // 4th to 6th
-    ...new Array(3)
-      .fill({
-        items: {
-          Mark: 15000,
-        },
-      })
-      .reduce(
-        (acc, item, i) => ({
-          ...acc,
-          [i + 4]: item,
-        }),
-        {},
-      ),
-    // 7th to 10th
-    ...new Array(4)
-      .fill({
+export const FACTION_BONUS_WEEKS = [
+  "2024-10-28",
+  "2024-12-02",
+  "2024-12-30",
+  "2025-01-27",
+  "2025-02-24",
+  "2025-03-24",
+  "2025-04-28",
+  "2025-05-26",
+  "2025-06-30",
+  "2025-07-28",
+  "2025-08-25",
+  "2025-09-29",
+  "2025-10-27",
+  "2025-11-24",
+  "2025-12-29",
+];
+
+export const FACTION_PRIZES: (week: string) => Record<number, FactionPrize> = (
+  week,
+) => {
+  const isBonusWeek = FACTION_BONUS_WEEKS.includes(week);
+
+  if (isBonusWeek) {
+    return {
+      1: {
+        coins: 64000,
+        sfl: 200,
         items: {
           Mark: 10000,
+          "Luxury Key": 20,
         },
-      })
-      .reduce(
-        (acc, item, i) => ({
-          ...acc,
-          [i + 7]: item,
-        }),
-        {},
-      ),
-    // 11th to 25th
-    ...new Array(15)
-      .fill({
+      },
+      2: {
+        coins: 50000,
+        sfl: 175,
+        items: {
+          Mark: 8000,
+          "Luxury Key": 15,
+        },
+      },
+      3: {
+        coins: 44000,
+        sfl: 150,
+        items: {
+          Mark: 7000,
+          "Luxury Key": 10,
+        },
+      },
+      4: {
+        coins: 36000,
+        sfl: 150,
+        items: {
+          Mark: 6000,
+          "Luxury Key": 5,
+        },
+      },
+      5: {
+        coins: 32000,
+        sfl: 125,
         items: {
           Mark: 5000,
+          "Luxury Key": 5,
         },
-      })
-      .reduce(
-        (acc, item, i) => ({
-          ...acc,
-          [i + 11]: item,
-        }),
-        {},
-      ),
-    // 26th to 50th
-    ...new Array(25)
+      },
+      6: {
+        coins: 25000,
+        sfl: 100,
+        items: {
+          Mark: 5000,
+          "Luxury Key": 3,
+        },
+      },
+      7: {
+        coins: 25000,
+        sfl: 100,
+        items: {
+          Mark: 5000,
+          "Luxury Key": 3,
+        },
+      },
+      8: {
+        coins: 25000,
+        sfl: 100,
+        items: {
+          Mark: 5000,
+          "Luxury Key": 3,
+        },
+      },
+      9: {
+        coins: 25000,
+        sfl: 100,
+        items: {
+          Mark: 5000,
+          "Luxury Key": 3,
+        },
+      },
+      10: {
+        coins: 25000,
+        sfl: 100,
+        items: {
+          Mark: 5000,
+          "Luxury Key": 3,
+        },
+      },
+      // 11th - 25th all get marks
+      ...new Array(15)
+        .fill({
+          coins: 15000,
+          sfl: 50,
+          items: {
+            Mark: 2500,
+            "Rare Key": 3,
+          },
+        })
+        .reduce(
+          (acc, item, index) => ({
+            ...acc,
+            [index + 11]: item,
+          }),
+          {},
+        ),
+      // 26th - 50th
+      ...new Array(25)
+        .fill({
+          coins: 10000,
+          sfl: 0,
+          items: {
+            Mark: 1500,
+            "Treasure Key": 5,
+          },
+        })
+        .reduce(
+          (acc, item, index) => ({
+            ...acc,
+            [index + 26]: item,
+          }),
+          {},
+        ),
+      // 51st - 100th get coins and marks
+      ...new Array(50)
+        .fill({
+          coins: 5000,
+          sfl: 0,
+          items: {
+            Mark: 500,
+          },
+        })
+        .reduce(
+          (acc, item, index) => ({
+            ...acc,
+            [index + 51]: item,
+          }),
+          {},
+        ),
+    };
+  }
+
+  return {
+    1: {
+      coins: 64000,
+      sfl: 200,
+      items: {
+        Mark: 10000,
+      },
+    },
+    2: {
+      coins: 50000,
+      sfl: 175,
+      items: {
+        Mark: 8000,
+      },
+    },
+    3: {
+      coins: 44000,
+      sfl: 150,
+      items: {
+        Mark: 7000,
+      },
+    },
+    4: {
+      coins: 36000,
+      sfl: 150,
+      items: {
+        Mark: 6000,
+      },
+    },
+    5: {
+      coins: 32000,
+      sfl: 125,
+      items: {
+        Mark: 5000,
+      },
+    },
+    6: {
+      coins: 25000,
+      sfl: 100,
+      items: {
+        Mark: 5000,
+      },
+    },
+    7: {
+      coins: 25000,
+      sfl: 100,
+      items: {
+        Mark: 5000,
+      },
+    },
+    8: {
+      coins: 25000,
+      sfl: 100,
+      items: {
+        Mark: 5000,
+      },
+    },
+    9: {
+      coins: 25000,
+      sfl: 100,
+      items: {
+        Mark: 5000,
+      },
+    },
+    10: {
+      coins: 25000,
+      sfl: 100,
+      items: {
+        Mark: 5000,
+      },
+    },
+    // 11th - 25th all get marks
+    ...new Array(15)
       .fill({
+        coins: 15000,
+        sfl: 50,
         items: {
           Mark: 2500,
         },
       })
       .reduce(
-        (acc, item, i) => ({
+        (acc, item, index) => ({
           ...acc,
-          [i + 26]: item,
+          [index + 11]: item,
         }),
         {},
       ),
-  },
+    // 26th - 50th
+    ...new Array(25)
+      .fill({
+        coins: 10000,
+        sfl: 0,
+        items: {
+          Mark: 1500,
+        },
+      })
+      .reduce(
+        (acc, item, index) => ({
+          ...acc,
+          [index + 26]: item,
+        }),
+        {},
+      ),
+    // 51st - 100th get coins and marks
+    ...new Array(50)
+      .fill({
+        coins: 5000,
+        sfl: 0,
+        items: {
+          Mark: 500,
+        },
+      })
+      .reduce(
+        (acc, item, index) => ({
+          ...acc,
+          [index + 51]: item,
+        }),
+        {},
+      ),
+  };
 };
-
-export const FACTION_PRIZES: (
-  ticket: SeasonalTicket,
-  ticketsEnabled: boolean,
-) => Record<number, FactionPrize> = (ticket, ticketsEnabled) => ({
-  1: {
-    coins: 64000,
-    sfl: 200,
-    items: {
-      Mark: 10000,
-      [ticket]: ticketsEnabled ? 10 : 0,
-    },
-  },
-  2: {
-    coins: 50000,
-    sfl: 175,
-    items: {
-      Mark: 8000,
-      [ticket]: ticketsEnabled ? 10 : 0,
-    },
-  },
-  3: {
-    coins: 44000,
-    sfl: 150,
-    items: {
-      Mark: 7000,
-      [ticket]: ticketsEnabled ? 10 : 0,
-    },
-  },
-  4: {
-    coins: 36000,
-    sfl: 150,
-    items: {
-      Mark: 6000,
-      [ticket]: ticketsEnabled ? 8 : 0,
-    },
-  },
-  5: {
-    coins: 32000,
-    sfl: 125,
-    items: {
-      Mark: 5000,
-      [ticket]: ticketsEnabled ? 8 : 0,
-    },
-  },
-  6: {
-    coins: 25000,
-    sfl: 100,
-    items: {
-      Mark: 5000,
-      [ticket]: ticketsEnabled ? 8 : 0,
-    },
-  },
-  7: {
-    coins: 25000,
-    sfl: 100,
-    items: {
-      Mark: 5000,
-      [ticket]: ticketsEnabled ? 6 : 0,
-    },
-  },
-  8: {
-    coins: 25000,
-    sfl: 100,
-    items: {
-      Mark: 5000,
-      [ticket]: ticketsEnabled ? 6 : 0,
-    },
-  },
-  9: {
-    coins: 25000,
-    sfl: 100,
-    items: {
-      Mark: 5000,
-      [ticket]: ticketsEnabled ? 6 : 0,
-    },
-  },
-  10: {
-    coins: 25000,
-    sfl: 100,
-    items: {
-      Mark: 5000,
-      [ticket]: ticketsEnabled ? 6 : 0,
-    },
-  },
-  // 11th - 25th all get marks + 5 seasonal tickets
-  ...new Array(15)
-    .fill({
-      coins: 15000,
-      sfl: 50,
-      items: {
-        Mark: 2500,
-        [ticket]: ticketsEnabled ? 5 : 0,
-      },
-    })
-    .reduce(
-      (acc, item, index) => ({
-        ...acc,
-        [index + 11]: item,
-      }),
-      {},
-    ),
-  // 26th - 50th all get 4 seasonal tickets
-  ...new Array(25)
-    .fill({
-      coins: 10000,
-      sfl: 0,
-      items: {
-        Mark: 1500,
-        [ticket]: ticketsEnabled ? 4 : 0,
-      },
-    })
-    .reduce(
-      (acc, item, index) => ({
-        ...acc,
-        [index + 26]: item,
-      }),
-      {},
-    ),
-  // 51st - 100th get coins and marks
-  ...new Array(50)
-    .fill({
-      coins: 5000,
-      sfl: 0,
-      items: {
-        Mark: 500,
-      },
-    })
-    .reduce(
-      (acc, item, index) => ({
-        ...acc,
-        [index + 51]: item,
-      }),
-      {},
-    ),
-});
 
 export const FACTION_BANNERS: Record<FactionName, FactionBanner> = {
   bumpkins: "Bumpkin Faction Banner",
@@ -603,8 +563,8 @@ export function getFactionPetBoostMultiplier(game: GameState) {
 
   if (!faction) return 1;
 
-  const week = getFactionWeek({ date: new Date() });
-  const lastWeek = getFactionWeek({
+  const week = getWeekKey({ date: new Date() });
+  const lastWeek = getWeekKey({
     date: new Date(new Date(week).getTime() - 7 * 24 * 60 * 60 * 1000),
   });
 

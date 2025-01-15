@@ -4,7 +4,6 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { loadAudio, treeFallAudio } from "lib/utils/sfx";
 import {
   GameState,
   InventoryItemName,
@@ -25,6 +24,9 @@ import { DepletedTree } from "./components/DepletedTree";
 import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const HITS = 3;
 const tool = "Axe";
@@ -55,6 +57,15 @@ const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
   isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
+// A player that has been vetted and is engaged in the season.
+const isSeasonedPlayer = (state: MachineState) =>
+  // - level 60+
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
+  // - verified (personhood verification)
+  state.context.verified &&
+  // - has active seasonal banner
+  hasVipAccess(state.context.state.inventory);
+
 interface Props {
   id: string;
   index: number;
@@ -70,11 +81,11 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const [collecting, setCollecting] = useState(false);
   const [collectedAmount, setCollectedAmount] = useState<number>();
 
+  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
+
   const divRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    loadAudio([treeFallAudio]);
-  }, []);
+  const { play: treeFallAudio } = useSound("tree_fall");
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -112,6 +123,14 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   useUiRefresher({ active: chopped });
 
+  const claimAnyReward = () => {
+    if (resource.wood.reward) {
+      gameService.send("treeReward.collected", {
+        treeIndex: id,
+      });
+    }
+  };
+
   const shake = () => {
     if (!hasTool) return;
 
@@ -121,17 +140,21 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
     if (game.bumpkin.skills["Insta-Chop"]) {
       // insta-chop the tree
+      claimAnyReward();
       chop();
     }
 
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
 
-    // increase touch count if there is a reward
     if (resource.wood.reward) {
       // they have touched enough!
-      setReward(resource.wood.reward);
-      return;
+      if (isSeasoned) {
+        claimAnyReward();
+      } else {
+        setReward(resource.wood.reward);
+        return;
+      }
     }
 
     // can collect resources otherwise
@@ -158,7 +181,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         setCollectedAmount(resource.wood.amount);
       }
 
-      treeFallAudio.play();
+      treeFallAudio();
 
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
@@ -193,16 +216,14 @@ export const Tree: React.FC<Props> = ({ id }) => {
       {chopped && <DepletedTree timeLeft={timeLeft} island={island} />}
 
       {/* Chest reward */}
-      <ChestReward
-        collectedItem={"Wood"}
-        reward={reward}
-        onCollected={onCollectChest}
-        onOpen={() =>
-          gameService.send("treeReward.collected", {
-            treeIndex: id,
-          })
-        }
-      />
+      {reward && (
+        <ChestReward
+          collectedItem={"Wood"}
+          reward={reward}
+          onCollected={onCollectChest}
+          onOpen={claimAnyReward}
+        />
+      )}
     </div>
   );
 };

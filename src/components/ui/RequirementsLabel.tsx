@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
-import React, { useContext } from "react";
+import React from "react";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -13,9 +13,9 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem } from "features/game/types/bumpkin";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { KNOWN_IDS } from "features/game/types";
 
 /**
  * The props for SFL requirement label. Use this when the item costs SFL.
@@ -93,7 +93,7 @@ interface SellItemProps {
  */
 interface ItemProps {
   type: "item";
-  item: InventoryItemName;
+  item: InventoryItemName | BumpkinItem;
   balance: Decimal;
   requirement: Decimal;
   showLabel?: boolean;
@@ -152,6 +152,18 @@ interface HarvestsProps {
 }
 
 /**
+ * The props for skill points requirement label.
+ * @param type The type is skill points.
+ * @param points The skill points balance of the player.
+ * @param requirement The skill points requirement.
+ */
+interface SkillPointsProps {
+  type: "skillPoints";
+  points: number;
+  requirement: number;
+}
+
+/**
  * The default props.
  * @param className The class name for the label.
  */
@@ -174,6 +186,7 @@ type Props = (
   | XPProps
   | LevelProps
   | HarvestsProps
+  | SkillPointsProps
 ) &
   defaultProps;
 
@@ -184,13 +197,6 @@ type Props = (
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const getIcon = () => {
     switch (props.type) {
@@ -205,7 +211,14 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "sellForSfl":
         return token;
       case "item":
-        return ITEM_DETAILS[props.item].image;
+        if (props.item in KNOWN_IDS) {
+          return ITEM_DETAILS[props.item as InventoryItemName]?.image;
+        } else {
+          return (
+            getImageUrl(ITEM_IDS[props.item as BumpkinItem]) ??
+            SUNNYSIDE.icons.expression_confused
+          );
+        }
       case "time":
         return SUNNYSIDE.icons.stopwatch;
       case "xp":
@@ -254,6 +267,11 @@ export const RequirementLabel: React.FC<Props> = (props) => {
           maxHarvest: props.maxHarvest,
         })}`;
       }
+      case "skillPoints": {
+        const roundedDownPoints = formatNumber(props.points);
+        const roundedDownRequirement = formatNumber(props.requirement);
+        return `${t("skillPts")} ${roundedDownPoints}/${roundedDownRequirement}`;
+      }
     }
   };
 
@@ -269,6 +287,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return props.balance > 0;
       case "level":
         return props.currentLevel >= props.requirement;
+      case "skillPoints":
+        return props.points >= props.requirement;
       case "sellForSfl":
       case "sellForCoins":
       case "sellForGems":
@@ -282,14 +302,14 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const requirementMet = isRequirementMet();
 
   const labelType = () => {
-    if (props.type === "wearable") {
-      if (requirementMet) {
-        return "success";
-      }
-      return "danger";
+    switch (props.type) {
+      case "wearable":
+        return requirementMet ? "success" : "danger";
+      case "skillPoints":
+        return requirementMet ? "default" : "danger";
+      default:
+        return requirementMet ? "transparent" : "danger";
     }
-
-    return requirementMet ? "transparent" : "danger";
   };
 
   return (

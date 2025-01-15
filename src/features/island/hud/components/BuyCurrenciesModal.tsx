@@ -17,7 +17,7 @@ import { XsollaIFrame } from "features/game/components/modal/components/XsollaIF
 import { Context } from "features/game/GameProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { randomID } from "lib/utils/random";
 import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyGems";
@@ -32,6 +32,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { VIPItems } from "../../../game/components/modal/components/VIPItems";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { isMobile } from "mobile-device-detect";
 
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
@@ -54,12 +55,6 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [tab, setTab] = useState(initialTab);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const { t } = useAppTranslation();
 
@@ -201,7 +196,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
               </Label>
               {/* Exchange packages */}
               {!exchangePackageId && (
-                <div className="flex px-1 pb-2 justify-between gap-1  sm:text-sm sm:gap-2 overflow-x-scroll overflow-y-hidden scrollable">
+                <div className="flex px-1 pb-1 justify-between gap-1  sm:text-sm sm:gap-2">
                   {Object.keys(SFL_TO_COIN_PACKAGES).map((packageId, index) => {
                     const option = SFL_TO_COIN_PACKAGES[Number(packageId)];
 
@@ -211,14 +206,17 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                         className="flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300"
                         onClick={() => setExchangePackageId(Number(packageId))}
                       >
-                        <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
+                        <span className="whitespace-nowrap mb-2">{`${option.coins} x`}</span>
                         <div className="flex flex-1 justify-center items-center mb-6 w-full relative">
-                          <SquareIcon width={24} icon={COIN_IMAGES[index]} />
+                          <SquareIcon
+                            width={isMobile ? 18 : 22}
+                            icon={COIN_IMAGES[index]}
+                          />
                         </div>
                         <Label
                           icon={sflIcon}
                           type="warning"
-                          iconWidth={11}
+                          iconWidth={13}
                           className="absolute h-7  -bottom-2"
                           style={{
                             left: `${PIXEL_SCALE * -3}px`,
@@ -226,7 +224,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                             width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                           }}
                         >
-                          {`${option.sfl} SFL`}
+                          <span className="pl-1 sm:pl-0">{`${option.sfl} SFL`}</span>
                         </Label>
                       </ButtonPanel>
                     );

@@ -26,6 +26,23 @@ type Options = {
   createdAt?: number;
 };
 
+export const getRemainingReels = (state: GameState, now = new Date()) => {
+  const date = now.toISOString().split("T")[0];
+  const { fishing } = state;
+  const reelCount = fishing.dailyAttempts?.[date] ?? 0;
+  const { extraReels = { count: 0 } } = fishing;
+  const regularMaxReels = getDailyFishingLimit(state);
+  let reelsLeft = regularMaxReels - reelCount;
+
+  if (reelsLeft < 0) {
+    reelsLeft = 0;
+  }
+
+  reelsLeft += extraReels.count;
+
+  return reelsLeft;
+};
+
 export function castRod({
   state,
   action,
@@ -40,9 +57,10 @@ export function castRod({
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
     }
-
-    if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
-      throw new Error(translate("error.dailyAttemptsExhausted"));
+    const { extraReels = { count: 0 } } = game.fishing;
+    const fishingLimit = getDailyFishingLimit(game);
+    if (getDailyFishingCount(game) >= fishingLimit && extraReels.count === 0) {
+      throw new Error(`Daily attempts exhausted`);
     }
 
     const rodCount = game.inventory.Rod ?? new Decimal(0);
@@ -96,6 +114,10 @@ export function castRod({
         chum: action.chum,
       },
     };
+
+    if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
+      extraReels.count -= 1;
+    }
 
     // Track daily attempts
     if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {

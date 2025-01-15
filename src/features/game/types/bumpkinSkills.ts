@@ -2,6 +2,14 @@ import { getKeys } from "./craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
+import { Inventory, IslandType } from "./game";
+import { BuffLabel } from ".";
+import { ITEM_DETAILS } from "./images";
+import powerup from "assets/icons/level_up.png";
+import redArrowDown from "assets/icons/decrease_arrow.png";
+import bee from "assets/icons/bee.webp";
+import Decimal from "decimal.js-light";
+import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -27,122 +35,6 @@ export type BumpkinSkillName =
   | "Horse Whisperer"
   | "Buckaroo";
 
-export type BumpkinRevampSkillName =
-  // Crops
-  | "Green Thumb 2"
-  | "Young Farmer"
-  | "Experienced Farmer"
-  | "Efficient Bin"
-  | "Turbo Charged"
-  | "Old Farmer"
-  | "Strong Roots"
-  | "Coin Swindler"
-  | "Golden Sunflower"
-  | "Betty's Friend"
-  | "Chonky Scarecrow"
-  | "Horror Mike"
-  | "Instant Growth"
-  | "Acre Farm"
-  | "Hectare Farm"
-  | "Premium Worms"
-  | "Laurie's Gains"
-  // Fruit
-  | "Red Sour"
-  | "Fruitful Fumble"
-  | "Tropical Orchard"
-  | "Catchup"
-  | "Fruit Turbocharge"
-  | "Prime Produce"
-  | "Fruity Profit"
-  | "Fruity Rush Hour"
-  // Trees
-  | "Lumberjack's Extra"
-  | "Tree Charge"
-  | "More Axes"
-  | "Insta-Chop"
-  | "Fruity Woody"
-  | "Tough Tree"
-  | "Feller's Discount"
-  | "Tree Turnaround"
-  | "Tree Blitz"
-  // Fishing
-  | "Swift Decomposer"
-  | "Fisherman's 5 Fold"
-  | "Wormy Treat"
-  | "Grubby Treat"
-  | "Wriggly Treat"
-  | "Fishy Fortune"
-  | "Big Catch"
-  | "Composting Bonanza"
-  | "Frenzied Fish"
-  | "Composting Overhaul"
-  // Animals
-  | "Eggcellent Production"
-  | "Fowl Acceleration"
-  | "Bountiful Bales"
-  | "Hay Tree"
-  | "Cozy Coop"
-  | "Egg Rush"
-  // Greenhouse
-  | "Olive Garden"
-  | "Rice and Shine"
-  | "Grape Escape"
-  | "Olive Express"
-  | "Rice Rocket"
-  | "Vine Velocity"
-  | "Greenhouse Guru"
-  | "Greenhouse Gamble"
-  | "Slick Saver"
-  // Mining
-  | "Rock'N'Roll"
-  | "Iron Bumpkin"
-  | "Speed Miner"
-  | "Iron Hustle"
-  | "Tap Prospector"
-  | "Forge-Ward Profits"
-  | "Frugal Miner"
-  | "Fireside Alchemist"
-  | "Ferrous Favor"
-  | "Golden Touch"
-  | "Midas Sprint"
-  | "More Picks"
-  | "Fire Kissed"
-  // Cooking
-  | "Fast Feasts"
-  | "Nom Nom"
-  | "Munching Mastery"
-  | "Frosted Cakes"
-  | "Juicy Boost"
-  | "Double Nom"
-  | "Instant Gratification"
-  | "Rapid Deli Dash"
-  | "Firey Jackpot"
-  // Bees & Flowers
-  | "Sweet Bonus"
-  | "Hyper Bees"
-  | "Blooming Boost"
-  | "Buzzworthy Treats"
-  | "Blossom Bonding"
-  | "Pollen Power Up"
-  | "Bee Collective"
-  | "Flower Power"
-  | "Petalled Perk"
-  | "Flowery Abode"
-  // Oil
-  | "Swift Sizzle"
-  | "Turbo Fry"
-  | "Fry Frenzy"
-  // Machinery
-  | "Crop Processor Unit"
-  | "Oil Gadget"
-  | "Oil Extraction"
-  | "Crop Extension Module"
-  | "Rapid Rig"
-  | "Oil Be Back"
-  | "Field Extension Module"
-  | "Efficiency Extension Module"
-  | "Grease Lightning";
-
 export type BumpkinSkillTree =
   | "Crops"
   | "Trees"
@@ -152,7 +44,7 @@ export type BumpkinSkillTree =
 
 export type BumpkinRevampSkillTree =
   | "Crops"
-  | "Fruit"
+  | "Fruit Patch"
   | "Trees"
   | "Fishing"
   | "Animals"
@@ -160,8 +52,8 @@ export type BumpkinRevampSkillTree =
   | "Mining"
   | "Cooking"
   | "Bees & Flowers"
-  | "Oil"
-  | "Machinery";
+  | "Machinery"
+  | "Compost";
 
 export type BumpkinSkill = {
   name: BumpkinSkillName;
@@ -176,15 +68,22 @@ export type BumpkinSkill = {
 };
 
 export type BumpkinSkillRevamp = {
-  name: BumpkinRevampSkillName;
+  name: string;
   tree: BumpkinRevampSkillTree;
   requirements: {
     points: number;
-    skill: number; // Number of skills required to unlock this skill (0 means it's a tier 1 skill)
+    tier: 1 | 2 | 3;
+    island: IslandType;
+    cooldown?: number;
+    items?: Inventory;
   };
-  boosts: string;
-  image: string;
-  disabled?: boolean;
+  boosts: {
+    buff: BuffLabel;
+    debuff?: BuffLabel;
+  };
+  image?: string;
+  npc?: NPCName;
+  disabled: boolean;
   power?: boolean;
 };
 
@@ -408,133 +307,193 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
   },
 };
 
-export const BUMPKIN_REVAMP_SKILL_TREE: Record<
-  BumpkinRevampSkillName,
-  BumpkinSkillRevamp
-> = {
+export const BUMPKIN_REVAMP_SKILL_TREE = {
   // Crops - Tier 1
-  "Green Thumb 2": {
-    name: "Green Thumb 2",
+  "Green Thumb": {
+    name: "Green Thumb",
     tree: "Crops",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "5% reduced crop growth duration",
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.greenThumb"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
   },
   "Young Farmer": {
     name: "Young Farmer",
     tree: "Crops",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+0.1 Basic Crop Yield (Sunflowers, Potatoes, Pumpkins)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.youngFarmer"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    image: ITEM_DETAILS.Sunflower.image,
+    disabled: false,
   },
   "Experienced Farmer": {
     name: "Experienced Farmer",
     tree: "Crops",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts:
-      "+0.1 Medium Crop Yield (Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers, Parsnips)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.experiencedFarmer"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    image: ITEM_DETAILS.Cauliflower.image,
+    disabled: false,
   },
-  "Efficient Bin": {
-    name: "Efficient Bin",
+  "Betty's Friend": {
+    name: "Betty's Friend",
     tree: "Crops",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+3 Sprout Mix when collecting from Compost Bin",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Turbo Charged": {
-    name: "Turbo Charged",
-    tree: "Crops",
-    requirements: {
-      points: 1,
-      skill: 0,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.bettysFriend"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
     },
-    boosts: "+5 Fruitful Blend when collecting from Turbo Composter",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    npc: "betty",
+    disabled: false,
   },
   "Old Farmer": {
     name: "Old Farmer",
     tree: "Crops",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+0.1 Advanded Crop Yield (Eggplants, Corn, Radish, Wheat, Kale)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oldFarmer"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS.Kale.image,
   },
+
   // Crops - Tier 2
   "Strong Roots": {
     name: "Strong Roots",
     tree: "Crops",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "Radish, Wheat, Kale grow 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.strongRoots"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
+    disabled: false,
   },
   "Coin Swindler": {
     name: "Coin Swindler",
     tree: "Crops",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "+10% coins to base value of plot crops in Betty's Market",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.coinSwindler"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+    image: ITEM_DETAILS.Market.image,
+    disabled: false,
   },
   "Golden Sunflower": {
     name: "Golden Sunflower",
     tree: "Crops",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts:
-      "Chance of getting +0.35 gold when manually harvesting sunflowers (0.15%)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Betty's Friend": {
-    name: "Betty's Friend",
-    tree: "Crops",
-    requirements: {
-      points: 2,
-      skill: 2,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.goldenSunflower"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: SUNNYSIDE.skills.golden_flowers,
+      },
     },
-    boosts: "Betty Coin delivery revenue increased by 20%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    image: SUNNYSIDE?.skills?.golden_flowers,
+    disabled: false,
   },
   "Chonky Scarecrow": {
     name: "Chonky Scarecrow",
     tree: "Crops",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "Basic Scarecrow AOE increase size to 7x7",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.chonkyScarecrow"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Basic Scarecrow"].image,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS["Basic Scarecrow"].image,
   },
   "Horror Mike": {
     name: "Horror Mike",
     tree: "Crops",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "Scary Mike AOE increase size to 7x7",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.horrorMike"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Scary Mike"].image,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS["Scary Mike"].image,
   },
   // Crops - Tier 3
   "Instant Growth": {
@@ -542,11 +501,17 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Crops",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
+      cooldown: 1000 * 60 * 60 * 72,
     },
-    boosts:
-      "Ability to make all crops currently growing ready to be harvested (1/72h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.instantGrowth"),
+        labelType: "transparent",
+      },
+    },
+    disabled: false,
     power: true,
   },
   "Acre Farm": {
@@ -554,126 +519,325 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Crops",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts: "+1 Advanced crop yeild, -0.5 Basic and Medium crop yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.acreFarm.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.acreFarm.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS.Kale.image,
   },
   "Hectare Farm": {
     name: "Hectare Farm",
     tree: "Crops",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts: "+1 Basic and Medium crop yield, -0.5 Advanced crop yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Premium Worms": {
-    name: "Premium Worms",
-    tree: "Crops",
-    requirements: {
-      points: 3,
-      skill: 5,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.hectareFarm.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.hectareFarm.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
     },
-    boosts: "+10 Rapid Root when collecting from Premium Composter",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+    image: ITEM_DETAILS.Carrot.image,
   },
   "Laurie's Gains": {
     name: "Laurie's Gains",
     tree: "Crops",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts: "Laurie Crow AOE increase size to 7x7",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.lauriesGains"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
   },
 
   // Fruit - Tier 1
-  "Red Sour": {
-    name: "Red Sour",
-    tree: "Fruit",
-    requirements: {
-      points: 1,
-      skill: 0,
-    },
-    boosts: "+0.1 Fruit Yield (Tomatoes, Lemons)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   "Fruitful Fumble": {
     name: "Fruitful Fumble",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "spring",
     },
-    boosts: "+0.1 Basic Fruit Yield (Blueberries, Oranges)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fruitfulFumble"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
   },
-  "Tropical Orchard": {
-    name: "Tropical Orchard",
-    tree: "Fruit",
+  "Fruity Heaven": {
+    name: "Fruity Heaven",
+    tree: "Fruit Patch",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "spring",
     },
-    boosts: "+0.1 Advanced Fruit Yield (Apples, Bananas)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fruityHeaven"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+    disabled: false,
+  },
+  "Fruity Profit": {
+    name: "Fruity Profit",
+    tree: "Fruit Patch",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fruityProfit"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+    disabled: false,
+    npc: "tango",
+  },
+  "Loyal Macaw": {
+    name: "Loyal Macaw",
+    tree: "Fruit Patch",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.loyalMacaw"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Macaw"].image,
+      },
+    },
   },
   // Fruit - Tier 2
   Catchup: {
     name: "Catchup",
-    tree: "Fruit",
+    tree: "Fruit Patch",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "spring",
     },
-    boosts: "Tomatoes & Lemons grows 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.catchup"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
+    disabled: false,
   },
-  "Fruit Turbocharge": {
-    name: "Fruit Turbocharge",
-    tree: "Fruit",
+  "No Axe No Worries": {
+    name: "No Axe No Worries",
+    tree: "Fruit Patch",
+    disabled: false,
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "spring",
     },
-    boosts: "Basic Fruit grows 10% faster (Blueberries, Oranges)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.noAxeNoWorries.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.noAxeNoWorries.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: SUNNYSIDE.resource.wood,
+      },
+    },
+    image: ITEM_DETAILS.Axe.image,
   },
-  "Prime Produce": {
-    name: "Prime Produce",
-    tree: "Fruit",
+  "Fruity Woody": {
+    name: "Fruity Woody",
+    tree: "Fruit Patch",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "spring",
     },
-    boosts: "Advanced Fruit grows 10% faster (Apples, Bananas)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fruityWoody"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.resource.wood,
+      },
+    },
+    disabled: false,
+  },
+  "Pear Turbocharge": {
+    name: "Pear Turbocharge",
+    tree: "Fruit Patch",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.pearTurbocharge"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Immortal Pear"].image,
+      },
+    },
+  },
+  "Crime Fruit": {
+    name: "Crime Fruit",
+    tree: "Fruit Patch",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.crimeFruit"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Tomato"].image,
+      },
+    },
   },
   // Fruit - Tier 3
-  "Fruity Profit": {
-    name: "Fruity Profit",
-    tree: "Fruit",
+  "Generous Orchard": {
+    name: "Generous Orchard",
+    tree: "Fruit Patch",
+    disabled: false,
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "spring",
     },
-    boosts: "Tango Coin delivery revenue +50%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.generousOrchard"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
   },
-  "Fruity Rush Hour": {
-    name: "Fruity Rush Hour",
-    tree: "Fruit",
+  "Long Pickings": {
+    name: "Long Pickings",
+    tree: "Fruit Patch",
+    disabled: false,
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "spring",
     },
-    boosts:
-      "Ability to make all fruit currently growing ready to be harvested (1/72h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    power: true,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.longPickings.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      },
+      debuff: {
+        shortDescription: translate("skill.longPickings.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
+    image: ITEM_DETAILS.Banana.image,
+  },
+  "Short Pickings": {
+    name: "Short Pickings",
+    tree: "Fruit Patch",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.shortPickings.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      },
+      debuff: {
+        shortDescription: translate("skill.shortPickings.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
+    image: ITEM_DETAILS.Blueberry.image,
+  },
+  "Zesty Vibes": {
+    name: "Zesty Vibes",
+    tree: "Fruit Patch",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.zestyVibes.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.zestyVibes.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+    image: ITEM_DETAILS.Tomato.image,
   },
 
   // Trees - Tier 1
@@ -682,71 +846,129 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Trees",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "Trees drop +0.1 wood",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.lumberjacksExtra"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.resource.wood,
+      },
+    },
+    image: SUNNYSIDE.skills.lumberjack_LE,
+    disabled: false,
   },
   "Tree Charge": {
     name: "Tree Charge",
     tree: "Trees",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "Trees grow 10% quicker",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.treeCharge"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.resource.tree,
+      },
+    },
+    disabled: false,
   },
   "More Axes": {
     name: "More Axes",
     tree: "Trees",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "Increased axe quantites per BB (?%)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.moreAxes"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.tools.axe,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS.Axe.image,
   },
   "Insta-Chop": {
     name: "Insta-Chop",
     tree: "Trees",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "1 Tap Tree Chop",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.instaChop"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+    disabled: false,
   },
   // Trees - Tier 2
-  "Fruity Woody": {
-    name: "Fruity Woody",
-    tree: "Trees",
-    requirements: {
-      points: 2,
-      skill: 2,
-    },
-    boosts: "Fruit Trees and Bushes drop +1 wood when chopped",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   "Tough Tree": {
     name: "Tough Tree",
     tree: "Trees",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "1/10 chance of +3 wood yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.toughTree"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: SUNNYSIDE.tools.axe,
+      },
+    },
+    image: SUNNYSIDE?.skills?.tough_tree,
+    disabled: false,
   },
   "Feller's Discount": {
     name: "Feller's Discount",
     tree: "Trees",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "Axes cost 10% less coins",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fellersDiscount"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.ui.coins,
+        boostedItemIcon: SUNNYSIDE.tools.axe,
+      },
+    },
+    disabled: false,
+  },
+  "Money Tree": {
+    name: "Money Tree",
+    tree: "Trees",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.moneyTree"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+    image: SUNNYSIDE?.skills?.money_tree,
+    disabled: false,
   },
   // Trees - Tier 3
   "Tree Turnaround": {
@@ -754,224 +976,635 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Trees",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts: "Insta Grow Chance (10%)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.treeTurnaround"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+    disabled: false,
   },
   "Tree Blitz": {
     name: "Tree Blitz",
     tree: "Trees",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
+      cooldown: 1000 * 60 * 60 * 24,
     },
-    boosts: "Ability to make all trees instantly grow (1/24h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.treeBlitz"),
+        labelType: "transparent",
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS.Tree.image,
     power: true,
   },
 
   // Fishing - Tier 1
-  "Swift Decomposer": {
-    name: "Swift Decomposer",
-    tree: "Fishing",
-    requirements: {
-      points: 1,
-      skill: 0,
-    },
-    boosts: "Composter speed 10% quicker",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   "Fisherman's 5 Fold": {
     name: "Fisherman's 5 Fold",
     tree: "Fishing",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+5 Fishing daily limit",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fishermansFiveFold"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Rod"].image,
+      },
+    },
+    disabled: false,
   },
-  "Wormy Treat": {
-    name: "Wormy Treat",
+  "Fishy Chance": {
+    name: "Fishy Chance",
     tree: "Fishing",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+1 EarthWorm bait from composting",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fishyChance"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS.Anchovy.image,
+  },
+  "Fishy Roll": {
+    name: "Fishy Roll",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fishyRoll"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
+      },
+    },
+    image: ITEM_DETAILS["Red Snapper"].image,
+  },
+  "Reel Deal": {
+    name: "Reel Deal",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.reelDeal"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.ui.coins,
+        boostedItemIcon: ITEM_DETAILS["Rod"].image,
+      },
+    },
   },
   // Fishing - Tier 2
-  "Grubby Treat": {
-    name: "Grubby Treat",
+  "Fisherman's 10 Fold": {
+    name: "Fisherman's 10 Fold",
     tree: "Fishing",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "+1 Grub bait from composting",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Wriggly Treat": {
-    name: "Wriggly Treat",
-    tree: "Fishing",
-    requirements: {
-      points: 2,
-      skill: 2,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fishermansTenFold"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Rod"].image,
+      },
     },
-    boosts: "+1 Red Wriggler bait from composting",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
   },
   "Fishy Fortune": {
     name: "Fishy Fortune",
     tree: "Fishing",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "+50% Fish deliveries SFL profit",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fishyFortune"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+    disabled: false,
+    npc: "corale",
   },
   "Big Catch": {
     name: "Big Catch",
     tree: "Fishing",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "Increase bar for catching game",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.bigCatch"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+    disabled: true,
+  },
+  "Fishy Gamble": {
+    name: "Fishy Gamble",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fishyGamble"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
+      },
+    },
+    image: ITEM_DETAILS.Tuna.image,
   },
   // Fishing - Tier 3
-  "Composting Bonanza": {
-    name: "Composting Bonanza",
-    tree: "Fishing",
-    requirements: {
-      points: 3,
-      skill: 5,
-    },
-    boosts: "+1 Bait from all composters",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   "Frenzied Fish": {
     name: "Frenzied Fish",
     tree: "Fishing",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts: "+1 Yield furing fish frenzy",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.frenziedFish"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
+      },
+    },
+    disabled: false,
   },
-  "Composting Overhaul": {
-    name: "Composting Overhaul",
+  "More With Less": {
+    name: "More With Less",
     tree: "Fishing",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts:
-      "+2 Baits from all composters but reduced fertiliser drop (-5 Sprout Mixes, -5 Rapid Growth, -1 Fruit Blend)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.moreWithLess.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Rod.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.moreWithLess.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
+      },
+    },
+    disabled: false,
+  },
+  "Fishy Feast": {
+    name: "Fishy Feast",
+    tree: "Fishing",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fishyFeast"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
+      },
+    },
   },
 
   // Animals - Tier 1
-  "Eggcellent Production": {
-    name: "Eggcellent Production",
+  "Efficient Feeding": {
+    name: "Efficient Feeding",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "spring",
     },
-    boosts: "+0.1 Egg Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.efficientFeeding"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Hay.image,
+      },
+    },
   },
-  "Fowl Acceleration": {
-    name: "Fowl Acceleration",
+  "Restless Animals": {
+    name: "Restless Animals",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "spring",
     },
-    boosts: "Chickens lay eggs 10% quicker",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.restlessAnimals"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
+    image: SUNNYSIDE.animals.chickenAsleep,
+  },
+  "Fine Fibers": {
+    name: "Fine Fibers",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fineFibers"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Feather.image,
+      },
+    },
+  },
+  "Bountiful Bounties": {
+    name: "Bountiful Bounties",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.bountifulBounties"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+  },
+  "Double Bale": {
+    name: "Double Bale",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.doubleBale"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Bale.image,
+      },
+    },
+  },
+  "Bale Economy": {
+    name: "Bale Economy",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.baleEconomy"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS.Bale.image,
+      },
+    },
   },
   // Animals - Tier 2
-  "Bountiful Bales": {
-    name: "Bountiful Bales",
+  "Abundant Harvest": {
+    name: "Abundant Harvest",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "spring",
     },
-    boosts: "Hay Bale effect increased to +0.4",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.abundantHarvest"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.resource.egg,
+      },
+    },
   },
-  "Hay Tree": {
-    name: "Hay Tree",
+  "Heartwarming Instruments": {
+    name: "Heartwarming Instruments",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "spring",
     },
-    boosts: "Unlock 2nd Hay Bale",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.heartwarmingInstruments"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Brush.image,
+      },
+    },
+  },
+  "Kale Mix": {
+    name: "Kale Mix",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.kaleMix"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Mixed Grain"].image,
+      },
+    },
+  },
+  "Alternate Medicine": {
+    tree: "Animals",
+    name: "Alternate Medicine",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.alternateMedicine"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Barn Delight"].image,
+      },
+    },
+  },
+  "Healthy Livestock": {
+    name: "Healthy Livestock",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.healthyLivestock"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+    image: SUNNYSIDE.animals.chickenSick,
   },
   // Animals - Tier 3
-  "Cozy Coop": {
-    name: "Cozy Coop",
+  "Clucky Grazing": {
+    name: "Clucky Grazing",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "spring",
     },
-    boosts: "+5 Hen capacity per House",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cluckyGrazing.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.chickenReady,
+      },
+      debuff: {
+        shortDescription: translate("skill.cluckyGrazing.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
   },
-  "Egg Rush": {
-    name: "Egg Rush",
+  "Sheepwise Diet": {
+    name: "Sheepwise Diet",
     tree: "Animals",
+    disabled: false,
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "spring",
     },
-    boosts:
-      "Ability to instantly reduce egg laying time by 10hours to chickens currently laying eggs (1/96h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.sheepwiseDiet.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.sheepReady,
+      },
+      debuff: {
+        shortDescription: translate("skill.sheepwiseDiet.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+  },
+  "Cow-Smart Nutrition": {
+    name: "Cow-Smart Nutrition",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cowSmartNutrition.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.cowReady,
+      },
+      debuff: {
+        shortDescription: translate("skill.cowSmartNutrition.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+  },
+  "Chonky Feed": {
+    name: "Chonky Feed",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.chonkyFeed.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Hay.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.chonkyFeed.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+  },
+
+  "Apple-Tastic": {
+    name: "Apple-Tastic",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+      cooldown: 1000 * 60 * 60 * 24 * 7,
+      items: {
+        Apple: new Decimal(600),
+      },
+    },
     power: true,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.appleTastic"),
+        labelType: "transparent",
+      },
+    },
   },
 
   // Greenhouse - Tier 1
-  "Olive Garden": {
-    name: "Olive Garden",
+  "Glass Room": {
+    name: "Glass Room",
     tree: "Greenhouse",
+    disabled: false,
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "desert",
     },
-    boosts: "+0.2 Olive Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.glassRoom"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+  },
+  "Seedy Business": {
+    name: "Seedy Business",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.seedyBusiness"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.ui.coins,
+      },
+    },
   },
   "Rice and Shine": {
     name: "Rice and Shine",
     tree: "Greenhouse",
+    disabled: false,
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "desert",
     },
-    boosts: "+0.2 Rice Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.riceAndShine"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
   },
-  "Grape Escape": {
-    name: "Grape Escape",
+  "Victoria's Secretary": {
+    name: "Victoria's Secretary",
     tree: "Greenhouse",
+    disabled: false,
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "desert",
     },
-    boosts: "+0.2 Grape Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.victoriasSecretary"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+    npc: "victoria",
   },
   // Greenhouse - Tier 2
   "Olive Express": {
@@ -979,30 +1612,76 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Greenhouse",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "desert",
     },
-    boosts: "20% faster Olive growth",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oliveExpress"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Olive.image,
+      },
+    },
+    disabled: false,
   },
   "Rice Rocket": {
     name: "Rice Rocket",
     tree: "Greenhouse",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "desert",
     },
-    boosts: "20% faster Rice growth",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.riceRocket"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Rice.image,
+      },
+    },
+    disabled: false,
   },
   "Vine Velocity": {
     name: "Vine Velocity",
     tree: "Greenhouse",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "desert",
     },
-    boosts: "20% faster Grape growth",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.vineVelocity"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Grape.image,
+      },
+    },
+    disabled: false,
+  },
+  "Seeded Bounty": {
+    name: "Seeded Bounty",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.seededBounty.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.seededBounty.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
   },
   // Greenhouse - Tier 3
   "Greenhouse Guru": {
@@ -1010,11 +1689,17 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Greenhouse",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "desert",
+      cooldown: 96 * 60 * 60 * 1000,
     },
-    boosts:
-      "Ability to make all Greenhouse crops currently growing ready to be harvested (1/96h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.greenhouseGuru"),
+        labelType: "transparent",
+      },
+    },
+    disabled: false,
     power: true,
   },
   "Greenhouse Gamble": {
@@ -1022,20 +1707,58 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Greenhouse",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "desert",
     },
-    boosts: "5% Chances of +1 yield for Greenhouse crops/fruits",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.greenhouseGamble"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+    disabled: false,
   },
   "Slick Saver": {
     name: "Slick Saver",
     tree: "Greenhouse",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "desert",
     },
-    boosts: "Greenhouse plants need 1 less oil",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.slickSaver"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Oil.image,
+      },
+    },
+    disabled: false,
+  },
+  "Greasy Plants": {
+    name: "Greasy Plants",
+    tree: "Greenhouse",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.greasyPlants.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.greasyPlants.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS.Oil.image,
+      },
+    },
   },
 
   // Mining - Tier 1
@@ -1044,133 +1767,262 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Mining",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+0.1 Stone Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.rockAndRoll"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+    },
+    disabled: false,
   },
   "Iron Bumpkin": {
     name: "Iron Bumpkin",
     tree: "Mining",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+0.1 Iron Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.ironBumpkin"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+    },
+    disabled: false,
   },
   "Speed Miner": {
     name: "Speed Miner",
     tree: "Mining",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "Stone recovers 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Iron Hustle": {
-    name: "Iron Hustle",
-    tree: "Mining",
-    requirements: {
-      points: 1,
-      skill: 0,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.speedMiner"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
     },
-    boosts: "Iron recovers 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
   },
   "Tap Prospector": {
     name: "Tap Prospector",
     tree: "Mining",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "1 tap small mineral nodes",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.tapProspector"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+    disabled: false,
   },
-  // Mining - Tier 2
   "Forge-Ward Profits": {
     name: "Forge-Ward Profits",
     tree: "Mining",
     requirements: {
-      points: 2,
-      skill: 2,
+      points: 1,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+20% Blacksmith deliveries revenue",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.forgeWardProfits"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+    disabled: false,
+    npc: "blacksmith",
+  },
+  // Mining - Tier 2
+  "Iron Hustle": {
+    name: "Iron Hustle",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.ironHustle"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+    },
+    disabled: false,
   },
   "Frugal Miner": {
     name: "Frugal Miner",
     tree: "Mining",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "Pickaxes cost 20% less Coins",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.frugalMiner"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.ui.coins,
+        boostedItemIcon: ITEM_DETAILS.Pickaxe.image,
+      },
+    },
+    disabled: false,
   },
-  "Fireside Alchemist": {
-    name: "Fireside Alchemist",
+  "Rocky Favor": {
+    name: "Rocky Favor",
     tree: "Mining",
-    requirements: {
-      points: 2,
-      skill: 2,
+    requirements: { points: 2, tier: 2, island: "basic" },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.rockyFavor.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.rockyFavor.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
     },
-    boosts: "Crimstone recovers 5% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Ferrous Favor": {
-    name: "Ferrous Favor",
-    tree: "Mining",
-    requirements: {
-      points: 2,
-      skill: 2,
-    },
-    boosts: "+1 Iron yield, -0.5 Stone yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  // Mining - Tier 3
-  "Golden Touch": {
-    name: "Golden Touch",
-    tree: "Mining",
-    requirements: {
-      points: 3,
-      skill: 5,
-    },
-    boosts: "+0.5 Gold Yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
   },
   "Midas Sprint": {
     name: "Midas Sprint",
     tree: "Mining",
     requirements: {
-      points: 3,
-      skill: 5,
+      points: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "Gold Recovers 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.midasSprint"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    },
+    disabled: false,
+  },
+  "Fire Kissed": {
+    name: "Fire Kissed",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fireKissed"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+      },
+    },
+    disabled: false,
+  },
+  // Mining - Tier 3
+  "Ferrous Favor": {
+    name: "Ferrous Favor",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.ferrousFavor.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.ferrousFavor.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+    },
+    disabled: false,
+  },
+  "Golden Touch": {
+    name: "Golden Touch",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.goldenTouch"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    },
+    disabled: false,
   },
   "More Picks": {
     name: "More Picks",
     tree: "Mining",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts:
-      "Increase stock of pickaxe by 70, stone pickaxe by 20, iron pickaxe by 7",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.morePicks"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS.Pickaxe.image,
+      },
+    },
+    disabled: false,
   },
-  "Fire Kissed": {
-    name: "Fire Kissed",
+  "Fireside Alchemist": {
+    name: "Fireside Alchemist",
     tree: "Mining",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts: "+1 Crimstone yield on 5th consecutive day",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.firesideAlchemist"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+      },
+    },
+    disabled: false,
   },
 
   // Cooking - Tier 1
@@ -1179,30 +2031,71 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Cooking",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "Meals from Firepit, Kitchen cook 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fastFeasts"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Chef Hat"].image,
+      },
+    },
+    disabled: false,
   },
   "Nom Nom": {
     name: "Nom Nom",
     tree: "Cooking",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+5% Food deliveries revenue",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.nomNom"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.ui.coins,
+      },
+    },
+    disabled: false,
   },
   "Munching Mastery": {
     name: "Munching Mastery",
     tree: "Cooking",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "basic",
     },
-    boosts: "+5% Experience from eating meals",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.munchingMastery"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
+  },
+  "Swift Sizzle": {
+    name: "Swift Sizzle",
+    tree: "Cooking",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.swiftSizzle"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
   },
   // Cooking - Tier 2
   "Frosted Cakes": {
@@ -1210,31 +2103,72 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Cooking",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "Cakes cook 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.frostedCakes"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Radish Cake"].image,
+      },
+    },
+    disabled: false,
   },
   "Juicy Boost": {
     name: "Juicy Boost",
     tree: "Cooking",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts: "+10% experience from drinking juices",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.juicyBoost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Bumpkin Detox"].image,
+      },
+    },
+    disabled: false,
   },
-  "Double Nom": {
-    name: "Double Nom",
+  "Turbo Fry": {
+    name: "Turbo Fry",
     tree: "Cooking",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "basic",
     },
-    boosts:
-      "x1.5% more experience from eating food but requires 2x the ingredients",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.turboFry"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Drive-Through Deli": {
+    name: "Drive-Through Deli",
+    tree: "Cooking",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.driveThroughDeli"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Cheese.image,
+      },
+    },
+    disabled: false,
   },
   // Cooking - Tier 3
   "Instant Gratification": {
@@ -1242,32 +2176,76 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Cooking",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
+      cooldown: 1000 * 60 * 60 * 96, // 96 hours
     },
-    boosts:
-      "Ability make all meals currently cooking ready to be eaten (1/72h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.instantGratification"),
+        labelType: "transparent",
+      },
+    },
+    disabled: false,
     power: true,
   },
-  "Rapid Deli Dash": {
-    name: "Rapid Deli Dash",
+  "Double Nom": {
+    name: "Double Nom",
     tree: "Cooking",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts: "Meals from Deli cook 15% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.doubleNom.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.doubleNom.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+    disabled: false,
   },
-  "Firey Jackpot": {
-    name: "Firey Jackpot",
+  "Fiery Jackpot": {
+    name: "Fiery Jackpot",
     tree: "Cooking",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "basic",
     },
-    boosts: "+20% Chance of +1 food from Firepit",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fieryJackpot"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Chef Hat"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Fry Frenzy": {
+    name: "Fry Frenzy",
+    tree: "Cooking",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fryFrenzy"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
   },
 
   // Bees & Flowers - Tier 1
@@ -1276,30 +2254,72 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Bees & Flowers",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "spring",
     },
-    boosts: "+10% Honey on claim",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.sweetBonus"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Honey"].image,
+      },
+    },
+    disabled: false,
   },
   "Hyper Bees": {
     name: "Hyper Bees",
     tree: "Bees & Flowers",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "spring",
     },
-    boosts: "+0.1 Honey production speed",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.hyperBees"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Honey"].image,
+      },
+    },
+    disabled: false,
   },
   "Blooming Boost": {
     name: "Blooming Boost",
     tree: "Bees & Flowers",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "spring",
     },
-    boosts: "Flowers grow 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.bloomingBoost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Flower Sale": {
+    name: "Flower Sale",
+    tree: "Bees & Flowers",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.flowerSale"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.ui.coins,
+        boostedItemIcon: ITEM_DETAILS["Sunpetal Seed"].image,
+      },
+    },
   },
   // Bees & Flowers - Tier 2
   "Buzzworthy Treats": {
@@ -1307,30 +2327,69 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Bees & Flowers",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "spring",
     },
-    boosts: "+10% Experience on food made with Honey",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.buzzworthyTreats"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Honey"].image,
+      },
+    },
+    disabled: false,
   },
   "Blossom Bonding": {
     name: "Blossom Bonding",
     tree: "Bees & Flowers",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "spring",
     },
-    boosts: "Increased gifting effect of flowers, +2 relationship",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.blossomBonding"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
   },
   "Pollen Power Up": {
     name: "Pollen Power Up",
     tree: "Bees & Flowers",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "spring",
     },
-    boosts: "Pollination effect increases to +0.3 yield",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.pollenPowerUp"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
+  },
+  "Petalled Perk": {
+    name: "Petalled Perk",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.petalledPerk"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    },
+    disabled: false,
   },
   // Bees & Flowers - Tier 3
   "Bee Collective": {
@@ -1338,74 +2397,78 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Bees & Flowers",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "spring",
     },
-    boosts: "Guaranteed Bee Swarms but requires 6 more hours to produce",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.beeCollective"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: bee,
+      },
+    },
+    disabled: false,
   },
   "Flower Power": {
     name: "Flower Power",
     tree: "Bees & Flowers",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "spring",
     },
-    boosts: "Flowers grow 20% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  "Petalled Perk": {
-    name: "Petalled Perk",
-    tree: "Bees & Flowers",
-    requirements: {
-      points: 3,
-      skill: 5,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.flowerPower"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+      },
     },
-    boosts: "10% chance of +1 Flower",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
   },
   "Flowery Abode": {
     name: "Flowery Abode",
     tree: "Bees & Flowers",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "spring",
     },
-    boosts: "Flower House (+1 Flower bed & Hive)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-
-  // Oil - Tier 1
-  "Swift Sizzle": {
-    name: "Swift Sizzle",
-    tree: "Oil",
-    requirements: {
-      points: 1,
-      skill: 0,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.floweryAbode.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Honey"].image,
+      },
+      debuff: {
+        shortDescription: translate("skill.floweryAbode.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+      },
     },
-    boosts: "Firepit cooking speed with oil increased by 40%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
   },
-  // Oil - Tier 2
-  "Turbo Fry": {
-    name: "Turbo Fry",
-    tree: "Oil",
-    requirements: {
-      points: 2,
-      skill: 2,
-    },
-    boosts: "Kitchen cooking speed with oil increased by 50%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
-  // Oil - Tier 3
-  "Fry Frenzy": {
-    name: "Fry Frenzy",
-    tree: "Oil",
+  "Petal Blessed": {
+    name: "Petal Blessed",
+    tree: "Bees & Flowers",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "spring",
+      cooldown: 1000 * 60 * 60 * 96, // 96 hours
     },
-    boosts: "Deli cooking speed with oil increased by 60%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    disabled: false,
+    power: true,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.petalBlessed"),
+        labelType: "transparent",
+      },
+    },
   },
 
   // Machinery - Tier 1
@@ -1414,30 +2477,78 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Machinery",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "desert",
     },
-    boosts: "Crop grow 10% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cropProcessorUnit.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      },
+      debuff: {
+        shortDescription: translate("skill.cropProcessorUnit.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
   },
   "Oil Gadget": {
     name: "Oil Gadget",
     tree: "Machinery",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "desert",
     },
-    boosts: "Machine uses 10% less oil",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oilGadget"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
   },
   "Oil Extraction": {
     name: "Oil Extraction",
     tree: "Machinery",
     requirements: {
       points: 1,
-      skill: 0,
+      tier: 1,
+      island: "desert",
     },
-    boosts: "+1 Oil",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oilExtraction"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Leak-Proof Tank": {
+    name: "Leak-Proof Tank",
+    tree: "Machinery",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.leakProofTank"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
   },
   // Machinery - Tier 2
   "Crop Extension Module": {
@@ -1445,64 +2556,378 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     tree: "Machinery",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "desert",
     },
-    boosts: "Add Carrot and Cabbage seeds to machine",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cropExtensionModule"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Cabbage"].image,
+      },
+    },
+    disabled: false,
   },
   "Rapid Rig": {
     name: "Rapid Rig",
     tree: "Machinery",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "desert",
     },
-    boosts: "Crops grow 20% faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.rapidRig.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      },
+      debuff: {
+        shortDescription: translate("skill.rapidRig.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
   },
   "Oil Be Back": {
     name: "Oil Be Back",
     tree: "Machinery",
     requirements: {
       points: 2,
-      skill: 2,
+      tier: 2,
+      island: "desert",
     },
-    boosts: "Oil refill time reduced by 20%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oilBeBack"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
   },
   // Machinery - Tier 3
+  "Field Expansion Module": {
+    name: "Field Expansion Module",
+    tree: "Machinery",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fieldExpansionModule"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
+  },
   "Field Extension Module": {
     name: "Field Extension Module",
     tree: "Machinery",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "desert",
     },
-    boosts: "+5 plots added to machine",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fieldExtensionModule"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
   },
   "Efficiency Extension Module": {
     name: "Efficiency Extension Module",
     tree: "Machinery",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "desert",
     },
-    boosts: "Machine uses 15% less oil",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.efficiencyExtensionModule"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+      },
+    },
+    disabled: false,
   },
   "Grease Lightning": {
     name: "Grease Lightning",
     tree: "Machinery",
     requirements: {
       points: 3,
-      skill: 5,
+      tier: 3,
+      island: "desert",
+      cooldown: 1000 * 60 * 60 * 96, // 96 hours
     },
-    boosts: "Ability to make empty oil wells instantly refill (1/96h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.greaseLightning"),
+        labelType: "transparent",
+      },
+    },
+    disabled: false,
     power: true,
+    image: ITEM_DETAILS["Oil Reserve"].image,
   },
-};
+
+  // Compost - Tier 1
+  "Efficient Bin": {
+    name: "Efficient Bin",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.efficientBin"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Turbo Charged": {
+    name: "Turbo Charged",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.turboCharged"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Fruitful Blend"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Wormy Treat": {
+    name: "Wormy Treat",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.wormyTreat"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Feathery Business": {
+    name: "Feathery Business",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.featheryBusiness.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Feather"].image,
+      },
+      debuff: {
+        shortDescription: translate("skill.featheryBusiness.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Feather"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Sprout Surge": {
+    name: "Sprout Surge",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    disabled: false,
+    power: true,
+    boosts: {
+      buff: {
+        shortDescription: "Put Sprout Mix on all plots",
+        labelType: "transparent",
+      },
+    },
+    image: ITEM_DETAILS["Sprout Mix"].image,
+  },
+  // Compost - Tier 2
+  "Premium Worms": {
+    name: "Premium Worms",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.premiumWorms"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Rapid Root"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Fruitful Bounty": {
+    name: "Fruitful Bounty",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    disabled: false,
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fruitfulBounty"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Fruitful Blend"].image,
+      },
+    },
+  },
+  "Swift Decomposer": {
+    name: "Swift Decomposer",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.swiftDecomposer"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    },
+    disabled: false,
+  },
+  "Composting Bonanza": {
+    name: "Composting Bonanza",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.compostingBonanza.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      },
+      debuff: {
+        shortDescription: translate("skill.compostingBonanza.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+    disabled: false,
+  },
+  "Root Rocket": {
+    name: "Root Rocket",
+    tree: "Compost",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    disabled: false,
+    power: true,
+    boosts: {
+      buff: {
+        shortDescription: "Put Rapid Root on all plots",
+        labelType: "transparent",
+      },
+    },
+    image: ITEM_DETAILS["Rapid Root"].image,
+  },
+  // Compost - Tier 3
+  "Composting Overhaul": {
+    name: "Composting Overhaul",
+    tree: "Compost",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.compostingOverhaul.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.compostingOverhaul.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+      },
+    },
+    disabled: false,
+  },
+  "Composting Revamp": {
+    name: "Composting Revamp",
+    tree: "Compost",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.compostingRevamp.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+      },
+      debuff: {
+        shortDescription: translate("skill.compostingRevamp.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
+      },
+    },
+    disabled: false,
+  },
+} satisfies Record<string, BumpkinSkillRevamp>;
+
+export type BumpkinRevampSkillName = keyof typeof BUMPKIN_REVAMP_SKILL_TREE;
 
 export const SKILL_TREE_CATEGORIES = Array.from(
   new Set(
@@ -1510,13 +2935,21 @@ export const SKILL_TREE_CATEGORIES = Array.from(
   ),
 );
 
-export const REVAMP_SKILL_TREE_CATEGORIES = Array.from(
-  new Set(
-    getKeys(BUMPKIN_REVAMP_SKILL_TREE).map(
-      (skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree,
+export const getRevampSkillTreeCategoriesByIsland = (
+  islandType: IslandType,
+) => {
+  const skillTreeCategoriesByIsland = Array.from(
+    new Set(
+      getKeys(BUMPKIN_REVAMP_SKILL_TREE)
+        .filter(
+          (skill) =>
+            BUMPKIN_REVAMP_SKILL_TREE[skill].requirements.island === islandType,
+        )
+        .map((skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree),
     ),
-  ),
-);
+  );
+  return skillTreeCategoriesByIsland;
+};
 
 export const getSkills = (treeName: BumpkinSkillTree) => {
   return Object.values(BUMPKIN_SKILL_TREE).filter(
@@ -1556,12 +2989,17 @@ export const createRevampSkillPath = (skills: BumpkinSkillRevamp[]) => {
 
   skills.forEach((skill) => {
     const { requirements } = skill;
-    if (!skillsByTier[requirements.skill]) {
-      skillsByTier[requirements.skill] = [];
+    if (!skillsByTier[requirements.tier]) {
+      skillsByTier[requirements.tier] = [];
     }
 
-    skillsByTier[requirements.skill].push(skill);
+    skillsByTier[requirements.tier].push(skill);
   });
 
   return skillsByTier;
 };
+
+export const getPowerSkills = () =>
+  Object.values(BUMPKIN_REVAMP_SKILL_TREE).filter(
+    (skill: BumpkinSkillRevamp) => skill.power,
+  );

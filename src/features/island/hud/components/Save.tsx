@@ -57,7 +57,7 @@ export const Save: React.FC = () => {
     <div
       onClick={enableButton ? save : undefined}
       className={classNames({
-        "cursor-pointer hover:img-highlight":
+        "cursor-pointer hover:img-highlight group":
           enableButton && buttonState === "unsaved",
       })}
       style={{
@@ -67,8 +67,15 @@ export const Save: React.FC = () => {
       }}
     >
       <img
-        src={SUNNYSIDE.ui.round_button}
+        src={SUNNYSIDE.ui.round_button_pressed}
         className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+        }}
+      />
+      <img
+        src={SUNNYSIDE.ui.round_button}
+        className="absolute group-active:hidden"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
         }}
@@ -77,7 +84,7 @@ export const Save: React.FC = () => {
       {buttonState === "unsaved" && (
         <img
           src={saveIcon}
-          className="absolute"
+          className="absolute group-active:translate-y-[2px]"
           style={{
             top: `${PIXEL_SCALE * 4}px`,
             left: `${PIXEL_SCALE * 5}px`,
@@ -88,7 +95,7 @@ export const Save: React.FC = () => {
       {buttonState === "inProgress" && (
         <img
           src={loadingIcon}
-          className="absolute"
+          className="absolute group-active:translate-y-[2px]"
           style={{
             top: `${PIXEL_SCALE * 5}px`,
             left: `${PIXEL_SCALE * 7}px`,
@@ -99,7 +106,7 @@ export const Save: React.FC = () => {
       {buttonState === "saved" && (
         <img
           src={SUNNYSIDE.icons.confirm}
-          className="absolute"
+          className="absolute group-active:translate-y-[2px]"
           style={{
             top: `${PIXEL_SCALE * 5}px`,
             left: `${PIXEL_SCALE * 5}px`,

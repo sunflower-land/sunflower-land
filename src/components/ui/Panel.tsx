@@ -6,6 +6,10 @@ import {
   pixelDarkBorderStyle,
   pixelLightBorderStyle,
 } from "features/game/lib/style";
+
+import usedButton from "assets/ui/used_button.png";
+import cardButton from "assets/ui/card_button.png";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 
@@ -105,6 +109,8 @@ export const OuterPanel: React.FC<PanelProps> = ({
         </div>
       )}
       <div
+        // Fix for dark mode
+
         className={classNames(className, "bg-[#c28569]")}
         style={{
           ...pixelDarkBorderStyle,
@@ -132,26 +138,46 @@ type ButtonPanelProps = React.HTMLAttributes<HTMLDivElement>;
  * A panel with a single layered pixel effect
  */
 export const ButtonPanel: React.FC<
-  ButtonPanelProps & { disabled?: boolean; selected?: boolean }
-> = ({ children, disabled, ...divProps }) => {
+  ButtonPanelProps & {
+    disabled?: boolean;
+    selected?: boolean;
+    variant?: "primary" | "secondary" | "card";
+  }
+> = ({ children, disabled, variant, ...divProps }) => {
   const { className, style, selected, ...otherDivProps } = divProps;
+
+  let borderImage = SUNNYSIDE.ui.primaryButton;
+  let borderImagePressed = SUNNYSIDE.ui.primaryButtonPressed;
+  if (variant === "secondary") {
+    borderImage = usedButton;
+    borderImagePressed = usedButton;
+  } else if (variant === "card") {
+    borderImage = cardButton;
+    borderImagePressed = usedButton;
+  }
+
+  const buttonVariables = {
+    "--button-image": `url(${borderImage})`,
+    "--button-pressed-image": `url(${borderImagePressed})`,
+  };
 
   return (
     <div
       className={classNames(
-        className,
-        "hover:brightness-90 cursor-pointer relative",
+        `![border-image:var(--button-image)_3_3_4_3_fill] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill] ${className}`,
+        "relative",
         {
           "opacity-50": !!disabled,
+          "cursor-pointer": !disabled,
+          "hover:brightness-90": !disabled,
         },
       )}
       style={{
+        ...buttonVariables,
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${SUNNYSIDE.ui.primaryButton})`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
-        borderImageSlice: "3 3 4 3 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
         color: "#674544",

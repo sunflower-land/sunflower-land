@@ -23,15 +23,15 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
-import marketplaceIcon from "assets/icons/shop_disc.png";
-import { hasFeatureAccess } from "lib/flags";
-import { useNavigate } from "react-router-dom";
 import { TransactionCountdown } from "./Transaction";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { MarketplaceButton } from "./components/MarketplaceButton";
+import { PowerSkillsButton } from "./components/PowerSkillsButton";
+import {
+  BumpkinRevampSkillName,
+  getPowerSkills,
+} from "features/game/types/bumpkinSkills";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
-const _showMarketplace = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "MARKETPLACE");
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -42,15 +42,11 @@ const HudComponent: React.FC<{
   moveButtonsUp?: boolean;
   location: PlaceableLocation;
 }> = ({ isFarming, location }) => {
-  const { authService } = useContext(AuthProvider.Context);
-
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const farmAddress = useSelector(gameService, _farmAddress);
-  const hasMarketplaceAccess = useSelector(gameService, _showMarketplace);
 
-  const [showMarketplace, setShowMarketplace] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
@@ -58,8 +54,6 @@ const HudComponent: React.FC<{
   const button = useSound("button");
 
   const autosaving = gameState.matches("autosaving");
-
-  const navigate = useNavigate();
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -73,6 +67,11 @@ const HudComponent: React.FC<{
   };
 
   const isFullUser = farmAddress !== undefined;
+  const powerSkills = getPowerSkills();
+  const { skills } = gameState.context.state.bumpkin;
+  const hasPowerSkills = powerSkills.some(
+    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
+  );
 
   return (
     <>
@@ -87,7 +86,7 @@ const HudComponent: React.FC<{
                 }
               }}
               className={classNames(
-                "absolute flex z-50 cursor-pointer hover:img-highlight",
+                "absolute flex z-50 cursor-pointer hover:img-highlight group",
                 {
                   "opacity-50 cursor-not-allowed": !isFarming,
                 },
@@ -101,15 +100,22 @@ const HudComponent: React.FC<{
               }}
             >
               <img
-                src={SUNNYSIDE.ui.round_button}
+                src={SUNNYSIDE.ui.round_button_pressed}
                 className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * 22}px`,
                 }}
               />
               <img
+                src={SUNNYSIDE.ui.round_button}
+                className="absolute group-active:hidden"
+                style={{
+                  width: `${PIXEL_SCALE * 22}px`,
+                }}
+              />
+              <img
                 src={SUNNYSIDE.icons.drag}
-                className={"absolute"}
+                className={"absolute group-active:translate-y-[2px]"}
                 style={{
                   top: `${PIXEL_SCALE * 4}px`,
                   left: `${PIXEL_SCALE * 4}px`,
@@ -152,14 +158,15 @@ const HudComponent: React.FC<{
         />
 
         <div
-          className="absolute z-50 flex flex-col justify-between"
+          className="absolute z-50 flex flex-col space-y-2.5 justify-between"
           style={{
             left: `${PIXEL_SCALE * 3}px`,
             bottom: `${PIXEL_SCALE * 3}px`,
             width: `${PIXEL_SCALE * 22}px`,
-            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
           }}
         >
+          {hasPowerSkills && <PowerSkillsButton />}
+          <MarketplaceButton />
           <CodexButton />
           <TravelButton />
         </div>
@@ -200,24 +207,6 @@ const HudComponent: React.FC<{
           show={showBuyCurrencies}
           onClose={handleBuyCurrenciesModal}
         />
-
-        {hasMarketplaceAccess && (
-          <>
-            <img
-              src={marketplaceIcon}
-              className="cursor-pointer absolute"
-              onClick={() => {
-                navigate("/marketplace");
-              }}
-              style={{
-                width: `${PIXEL_SCALE * 22}px`,
-
-                left: `${PIXEL_SCALE * 3}px`,
-                bottom: `${PIXEL_SCALE * 55}px`,
-              }}
-            />
-          </>
-        )}
       </HudContainer>
     </>
   );

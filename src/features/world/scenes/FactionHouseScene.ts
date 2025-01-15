@@ -3,7 +3,7 @@ import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { getFactionWeek } from "features/game/lib/factions";
+import { getWeekKey } from "features/game/lib/factions";
 import { CollectivePet, Faction, FactionName } from "features/game/types/game";
 import { FACTION_PET_REFRESH_INTERVAL } from "../ui/factions/FactionPetPanel";
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
@@ -115,7 +115,7 @@ export abstract class FactionHouseScene extends BaseScene {
     this.load.image("empty_progress_bar", "world/empty_bar.png");
     this.load.image("boost_icon", "world/lightning.png");
 
-    const week = getFactionWeek({ date: new Date() });
+    const week = getWeekKey({ date: new Date() });
     const faction = this.gameService.state.context.state.faction;
     this.factionName = faction?.name;
 
@@ -178,8 +178,8 @@ export abstract class FactionHouseScene extends BaseScene {
       4,
     );
 
-    const thisWeek = getFactionWeek({ date: new Date() });
-    const lastWeek = getFactionWeek({
+    const thisWeek = getWeekKey({ date: new Date() });
+    const lastWeek = getWeekKey({
       date: new Date(new Date(thisWeek).getTime() - 7 * 24 * 60 * 60 * 1000),
     });
     const faction = this.gameService.state.context.state.faction as Faction;

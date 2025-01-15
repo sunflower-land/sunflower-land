@@ -1,29 +1,16 @@
-import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LabelType } from "components/ui/Label";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import { MilestoneName } from "features/game/types/milestones";
-import React, { useContext } from "react";
+import React from "react";
 
 interface Props {
   milestones: MilestoneName[];
-  experienceLabelText: string;
-  labelIcon?: string;
-  labelType: LabelType;
+  claimedMilestones: Partial<Record<MilestoneName, number>>;
 }
-
-const _milestones = (state: MachineState) => state.context.state.milestones;
 
 export const MilestoneTracker: React.FC<Props> = ({
   milestones,
-  experienceLabelText,
-  labelIcon,
-  labelType,
+  claimedMilestones,
 }) => {
-  const { gameService } = useContext(Context);
-  const claimedMilestones = useSelector(gameService, _milestones);
-
   return (
     <div className="flex items-center">
       {milestones.map((name) => {

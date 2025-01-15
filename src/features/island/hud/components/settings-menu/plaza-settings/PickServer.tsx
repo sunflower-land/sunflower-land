@@ -109,11 +109,13 @@ export const PickServer: React.FC<Props> = ({ onClose }) => {
       {tab === 0 && (
         <div className="p-2">
           <p className="text-xs mb-2">
-            {isLoading && "Loading servers..."}
-            {!isLoading && availableServers.length === 0 && "No servers found"}
+            {isLoading && t("gameOptions.plazaSettings.pickServer.loading")}
+            {!isLoading &&
+              availableServers.length === 0 &&
+              t("gameOptions.plazaSettings.pickServer.noServer")}
             {!isLoading &&
               availableServers.length > 0 &&
-              "Select the server you want as your default."}
+              t("gameOptions.plazaSettings.pickServer.select")}
           </p>
           <div className="flex flex-col gap-1">
             {availableServers.map((server, index) => {
@@ -158,7 +160,11 @@ export const PickServer: React.FC<Props> = ({ onClose }) => {
                     )}
 
                     <img
-                      src={SUNNYSIDE.icons.chevron_right}
+                      src={
+                        selectedServer === server.id
+                          ? SUNNYSIDE.icons.confirm
+                          : SUNNYSIDE.icons.chevron_right
+                      }
                       className="h-5 ml-2"
                     />
                   </div>

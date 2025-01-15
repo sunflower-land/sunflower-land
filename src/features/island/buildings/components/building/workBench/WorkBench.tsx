@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { Modal } from "components/ui/Modal";
-import { loadAudio, shopAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
+import { useSound } from "lib/utils/hooks/useSound";
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
     !state.context.state.inventory["Basic Scarecrow"] &&
@@ -31,12 +31,11 @@ export const WorkBench: React.FC<BuildingProps> = ({
   island,
 }) => {
   const { gameService } = useContext(Context);
+  // TODO: feat/crafting-box - remove this
   const [isOpen, setIsOpen] = useState(false);
   const showHelper = useSelector(gameService, needsHelp);
 
-  useEffect(() => {
-    loadAudio([shopAudio]);
-  }, []);
+  const { play: shopAudio } = useSound("shop");
 
   const handleClick = () => {
     if (onRemove) {
@@ -46,7 +45,7 @@ export const WorkBench: React.FC<BuildingProps> = ({
 
     if (isBuilt) {
       // Add future on click actions here
-      shopAudio.play();
+      shopAudio();
       setIsOpen(true);
       return;
     }

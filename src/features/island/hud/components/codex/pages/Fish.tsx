@@ -2,9 +2,6 @@ import React, { useContext, useState } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { MilestonePanel } from "../components/Milestone";
 import { MilestoneTracker } from "../components/MilestoneTracker";
@@ -19,20 +16,18 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FISH, FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
 import giftIcon from "assets/icons/gift.png";
 import { ResizableBar } from "components/ui/ProgressBar";
-
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
-const _milestones = (state: MachineState) => state.context.state.milestones;
+import { Context } from "features/game/GameProvider";
 
 const FISH_BY_TYPE = getFishByType();
 
 type Props = {
   onMilestoneReached: (milestoneName: MilestoneName) => void;
+  state: GameState;
 };
 
 function getTotalFishCaught(farmActivity: GameState["farmActivity"]) {
@@ -41,8 +36,7 @@ function getTotalFishCaught(farmActivity: GameState["farmActivity"]) {
   }, 0);
 }
 
-export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
-  const { t } = useAppTranslation();
+export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const { gameService } = useContext(Context);
   const [expandedIndex, setExpandedIndex] = useState<number>();
   const [selectedFish, setSelectedFish] = useState<
@@ -51,8 +45,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
 
   const [selectedMilestone, setSelectedMilestone] = useState<MilestoneName>();
 
-  const farmActivity = useSelector(gameService, _farmActivity);
-  const milestones = useSelector(gameService, _milestones);
+  const { farmActivity, milestones } = state;
 
   const [caughtFishCount] = useState<number>(() =>
     getTotalFishCaught(farmActivity),
@@ -111,6 +104,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
             ))}
           </>
         }
+        state={state}
       />
     );
   }
@@ -143,9 +137,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
             >{`Fishing`}</Label>
             <MilestoneTracker
               milestones={milestoneNames}
-              experienceLabelText={`${experienceLevel} Angler`}
-              labelType="default"
-              labelIcon={SUNNYSIDE.tools.fishing_rod}
+              claimedMilestones={milestones}
             />
           </div>
 

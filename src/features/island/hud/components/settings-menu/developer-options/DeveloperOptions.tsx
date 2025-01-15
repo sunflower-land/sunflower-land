@@ -23,19 +23,13 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
         </Button>
       )}
       <Button
-        onClick={() => onSubMenuClick("mainnetHoardingCheck")}
+        onClick={() => onSubMenuClick("hoardingCheck")}
         className="p-1 mb-1"
       >
-        {`Hoarding Check (Mainnet)`}
+        {`Hoarding Check`}
       </Button>
       {CONFIG.NETWORK === "amoy" && (
         <>
-          <Button
-            onClick={() => onSubMenuClick("amoyHoardingCheck")}
-            className="p-1 mb-1"
-          >
-            {`Hoarding Check (Amoy)`}
-          </Button>
           <Button
             onClick={() => setShowTimeMachine(!showTimeMachine)}
             className="p-1 mb-1"

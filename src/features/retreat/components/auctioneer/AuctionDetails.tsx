@@ -38,7 +38,12 @@ type TimeObject = {
 };
 
 export const TimerDisplay = ({ time, fontSize, color }: TimeObject) => {
-  const timeKeys = getKeys(time);
+  let timeKeys = getKeys(time);
+
+  // remove day keys if days is 0
+  if (time.days === 0) {
+    timeKeys = timeKeys.filter((key) => key !== "days");
+  }
 
   const times = timeKeys.map((key) => {
     const value = time[key as keyof TimeObject["time"]]
@@ -47,6 +52,7 @@ export const TimerDisplay = ({ time, fontSize, color }: TimeObject) => {
 
     return value;
   });
+
   return (
     <span
       className="font-secondary"
@@ -108,7 +114,7 @@ export const AuctionDetails: React.FC<Props> = ({
     : getImageUrl(ITEM_IDS[item.wearable]);
 
   const buffLabel = isCollectible
-    ? COLLECTIBLE_BUFF_LABELS[item.collectible]
+    ? COLLECTIBLE_BUFF_LABELS(game)[item.collectible]
     : BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   return (
     <div className="w-full flex flex-col items-center">
@@ -128,13 +134,23 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
 
         {buffLabel && (
-          <Label
-            type={buffLabel.labelType}
-            icon={buffLabel.boostTypeIcon}
-            secondaryIcon={buffLabel.boostedItemIcon}
-          >
-            {buffLabel.shortDescription}
-          </Label>
+          <div className="flex flex-col gap-1">
+            {buffLabel.map(
+              (
+                { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+                index,
+              ) => (
+                <Label
+                  key={index}
+                  type={labelType}
+                  icon={boostTypeIcon}
+                  secondaryIcon={boostedItemIcon}
+                >
+                  {shortDescription}
+                </Label>
+              ),
+            )}
+          </div>
         )}
 
         <p className="text-center text-xs mb-3">

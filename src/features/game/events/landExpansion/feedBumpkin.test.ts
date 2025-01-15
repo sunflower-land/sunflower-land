@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
@@ -430,7 +429,7 @@ describe("feedBumpkin", () => {
       CONSUMABLES["Fermented Carrots"].experience * 2,
     );
   });
-  it("provides 10% more experience when Seasonal Banner is placed", () => {
+  it("provides 10% more experience when Seasonal Banner is in inventory", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -439,16 +438,7 @@ describe("feedBumpkin", () => {
         },
         inventory: {
           "Boiled Eggs": new Decimal(2),
-        },
-        collectibles: {
-          [getSeasonalBanner()]: [
-            {
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
+          [getSeasonalBanner()]: new Decimal(1),
         },
       },
       action: {
@@ -463,7 +453,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it("provides 10% more experience when Lifetime Farmer Banner is placed", () => {
+  it("provides 10% more experience when Lifetime Farmer Banner is in inventory", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -472,16 +462,7 @@ describe("feedBumpkin", () => {
         },
         inventory: {
           "Boiled Eggs": new Decimal(2),
-        },
-        collectibles: {
-          "Lifetime Farmer Banner": [
-            {
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
+          "Lifetime Farmer Banner": new Decimal(1),
         },
       },
       action: {
@@ -656,5 +637,193 @@ describe("feedBumpkin", () => {
     );
 
     jest.useRealTimers();
+  });
+
+  it("gives 5% more experience with Munching Mastery skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Munching Mastery": 1 },
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.05).toNumber(),
+    );
+  });
+
+  it("give 10% more experience when drinking juices with Juicy Boost skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Juicy Boost": 1 },
+        },
+        inventory: {
+          "Apple Juice": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Apple Juice",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Apple Juice"].experience).mul(1.1).toNumber(),
+    );
+  });
+
+  it("gives 15% more experience when eating Deli foods with Drive-Through Deli skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Drive-Through Deli": 1 },
+        },
+        inventory: {
+          "Shroom Syrup": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Shroom Syrup",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Shroom Syrup"].experience).mul(1.15).toNumber(),
+    );
+  });
+
+  it("gives 10% more experience when eating food made with Honey with Buzzworthy Treats skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Buzzworthy Treats": 1 },
+        },
+        inventory: {
+          "Honey Cake": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Honey Cake",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Honey Cake"].experience).mul(1.1).toNumber(),
+    );
+  });
+
+  it("does not apply Buzzworthy Treats on food made without Honey", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Buzzworthy Treats": 1 },
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
+    );
+  });
+
+  it("gives +500 more experience when eating food made with Cheese when Swiss Whiskers is placed", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Pizza Margherita": new Decimal(2),
+        },
+        collectibles: {
+          "Swiss Whiskers": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Pizza Margherita",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Pizza Margherita"].experience)
+        .plus(500)
+        .toNumber(),
+    );
+  });
+
+  it("does not apply Swiss Whiskers boost on food made without Cheese", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+        collectibles: {
+          "Swiss Whiskers": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
+    );
   });
 });

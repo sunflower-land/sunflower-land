@@ -1,7 +1,7 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
@@ -26,15 +26,16 @@ import { KingdomChoresPanel } from "./factions/chores/KingdomChoresPanel";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
-import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
 import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
-import { Context } from "features/game/GameProvider";
 import { Digby } from "./beach/Digby";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
+import { HalloweenNPC } from "./npcs/HalloweenNPC";
+import { FlowerBounties } from "./flowerShop/FlowerBounties";
+import { Santa } from "./npcs/Santa";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -66,8 +67,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
 
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
-  const { gameService } = useContext(Context);
-
   useEffect(() => {
     npcModalManager.listen((npc) => {
       setNpc(npc);
@@ -90,6 +89,20 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         show={!!npc && !isSeparateModal}
         onHide={closeModal}
       >
+        {npc === "chase" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["chase"]}
+            message={[
+              {
+                text: t("npcDialogues.chase.intro1"),
+              },
+              {
+                text: t("npcDialogues.chase.intro2"),
+              },
+            ]}
+          />
+        )}
         {npc === "flopsy" && (
           <CloseButtonPanel
             title="Enjoying Easter?"
@@ -99,8 +112,35 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <ExampleDonations onClose={closeModal} />
           </CloseButtonPanel>
         )}
+        {npc === "santa" && <Santa onClose={closeModal} />}
+        {npc === "ginger" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["ginger"]}
+            message={[
+              {
+                text: t("npcDialogues.ginger.dialogue1"),
+              },
+              {
+                text: t("npcDialogues.ginger.dialogue2"),
+              },
+            ]}
+          />
+        )}
+        {npc === "elf" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["elf"]}
+            message={[
+              {
+                text: t("npcDialogues.elf.dialogue1"),
+              },
+            ]}
+          />
+        )}
+        {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
-        {npc === "poppy" && <FlowerShop onClose={closeModal} />}
+        {npc === "poppy" && <FlowerBounties onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}

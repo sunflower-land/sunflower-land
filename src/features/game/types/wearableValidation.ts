@@ -1,6 +1,6 @@
 import { BumpkinItem } from "./bumpkin";
 import {
-  areAnyChickensFed,
+  areAnyChickensSleeping,
   areAnyCrimstonesMined,
   areAnyFruitsGrowing,
   areAnyOilReservesDrilled,
@@ -13,9 +13,12 @@ import {
   isCrimstoneHammerActive,
   areAnyOGFruitsGrowing,
   hasFishedToday,
-  areBonusTreasureHolesDug,
   areAnyCropsOrGreenhouseCropsGrowing,
   hasOpenedPirateChest,
+  areAnySheepSleeping,
+  areAnyCowsSleeping,
+  areTreasureHolesDug,
+  areAnyCookingBuildingWorking,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -53,15 +56,9 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Grape Pants": (state) =>
     !greenhouseCropIsGrowing({ crop: "Grape", game: state })[0],
   "Lemon Shield": (state) => !areFruitsGrowing(state, "Lemon")[0],
-  Cattlegrim: (state) => !areAnyChickensFed(state)[0],
-  "Luna's Hat": (state) =>
-    !(
-      state.buildings["Fire Pit"]?.[0].crafting ||
-      state.buildings["Kitchen"]?.[0].crafting ||
-      state.buildings["Bakery"]?.[0].crafting ||
-      state.buildings["Deli"]?.[0].crafting ||
-      state.buildings["Smoothie Shack"]?.[0].crafting
-    ),
+  Cattlegrim: (state) => !areAnyChickensSleeping(state)[0],
+
+  "Luna's Hat": (state) => !areAnyCookingBuildingWorking(state)[0],
   "Ancient Rod": (state) => !hasFishedToday(state)[0],
   "Flower Crown": (state) => !areFlowersGrowing(state)[0],
   "Beekeeper Hat": (state) => !isProducingHoney(state)[0],
@@ -75,8 +72,17 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Dev Wrench": (state) => !areAnyOilReservesDrilled(state)[0],
   "Oil Overalls": (state) => !areAnyOilReservesDrilled(state)[0],
   "Hornet Mask": (state) => isBeehivesFull(state)[0],
-  "Ancient Shovel": (state) => areBonusTreasureHolesDug(state)[0],
+  "Ancient Shovel": (state) =>
+    !areTreasureHolesDug({ game: state, minHoles: 0 })[0],
   "Pirate Potion": (state) => !hasOpenedPirateChest(state)[0],
+  "Dream Scarf": (state) => !areAnySheepSleeping(state)[0],
+  "Milk Apron": (state) => !areAnyCowsSleeping(state)[0],
+  "Infernal Bullwhip": (state) =>
+    !areAnySheepSleeping(state)[0] || !areAnyCowsSleeping(state)[0],
+  "Black Sheep Onesie": (state) => !areAnySheepSleeping(state)[0],
+  "Chicken Suit": (state) => !areAnyChickensSleeping(state)[0],
+  "Merino Jumper": (state) => !areAnySheepSleeping(state)[0],
+  "Cowbell Necklace": (state) => !areAnyCowsSleeping(state)[0],
 };
 
 export const canWithdrawBoostedWearable = (
@@ -86,6 +92,8 @@ export const canWithdrawBoostedWearable = (
   if (!state) return false;
 
   if ((state.wardrobe?.[name] ?? 0) > 1) return true;
+
+  if (!withdrawConditions[name]) return true;
 
   return withdrawConditions[name]?.(state) ?? false;
 };

@@ -16,6 +16,26 @@ export async function loadTradeable({
   id: number;
   token: string;
 }): Promise<TradeableDetails> {
+  if (!CONFIG.API_URL)
+    return {
+      id,
+      floor: 0,
+      supply: 0,
+      collection: type,
+      isActive: false,
+      lastSalePrice: 0,
+      offers: [],
+      listings: [],
+      history: {
+        sales: [],
+        history: {
+          totalSales: 0,
+          totalVolume: 0,
+          dates: {},
+        },
+      },
+    };
+
   const url = new URL(`${API_URL}/collection/${type}/${id}`);
   url.searchParams.append("type", type);
 

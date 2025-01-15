@@ -9,6 +9,18 @@ import { npcDialogues, defaultDialogue } from "../deliveries/dialogues";
 import { BeachBaitShop } from "../beach/BeachBaitShop";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
+import fishingLure from "assets/composters/fishing_lure.png";
+
+const host = window.location.host.replace(/^www\./, "");
+const LOCAL_STORAGE_KEY = `finn-read.${host}-${window.location.pathname}`;
+
+function acknowledgeIntroRead() {
+  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
+}
+
+function hasReadIntro() {
+  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
+}
 
 interface Props {
   onClose: () => void;
@@ -16,17 +28,18 @@ interface Props {
 
 export const Finn: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState(0);
-  const [confirmAction, setConfirmAction] = useState(false);
+  const [showIntro, setShowIntro] = useState(!hasReadIntro());
   const dialogue = npcDialogues.finn || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
   const { t } = useAppTranslation();
 
-  const handleConfirm = (tab: number) => {
-    setConfirmAction(true);
+  const handleIntro = (tab: number) => {
+    setShowIntro(false);
+    acknowledgeIntroRead();
     setTab(tab);
   };
 
-  if (!confirmAction) {
+  if (showIntro) {
     return (
       <SpeakingModal
         onClose={onClose}
@@ -37,11 +50,11 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
             actions: [
               {
                 text: t("buy"),
-                cb: () => handleConfirm(0),
+                cb: () => handleIntro(1),
               },
               {
                 text: t("delivery"),
-                cb: () => handleConfirm(1),
+                cb: () => handleIntro(0),
               },
             ],
           },
@@ -56,14 +69,14 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.finn}
       container={OuterPanel}
       tabs={[
-        { icon: SUNNYSIDE.icons.heart, name: t("buy") },
         { icon: SUNNYSIDE.icons.expression_chat, name: t("delivery") },
+        { icon: fishingLure, name: t("buy") },
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <BeachBaitShop />}
-      {tab === 1 && <DeliveryPanelContent npc="finn" />}
+      {tab === 0 && <DeliveryPanelContent npc="finn" />}
+      {tab === 1 && <BeachBaitShop />}
     </CloseButtonPanel>
   );
 };

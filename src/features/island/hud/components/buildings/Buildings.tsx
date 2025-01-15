@@ -38,6 +38,7 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     "Premium Composter",
     "Greenhouse",
     "Crop Machine",
+    ...(hasFeatureAccess(state, "CRAFTING_BOX") ? ["Crafting Box"] : []),
   ];
 
   const CONDITIONAL_BUILDINGS = hasFeatureAccess(state, "ANIMAL_BUILDINGS")

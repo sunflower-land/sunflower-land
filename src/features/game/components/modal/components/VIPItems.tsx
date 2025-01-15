@@ -21,6 +21,7 @@ import lifeTimeFarmerBannerIcon from "assets/decorations/banners/lifetime_farmer
 import giftIcon from "assets/icons/gift.png";
 import xpIcon from "assets/icons/xp.png";
 import vipIcon from "assets/icons/vip.webp";
+import shopIcon from "assets/icons/shop.png";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
@@ -260,11 +261,16 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 {t("season.lifetime.farmer")}
               </Label>
             </div>
-            <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
+            <div className="flex mb-5 flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
               <div className="flex items-center space-x-2">
                 <SquareIcon icon={giftIcon} width={7} />
                 <span>{t("season.free.season.passes")}</span>
               </div>
+              <div className="flex items-center space-x-2">
+                <SquareIcon icon={shopIcon} width={7} />
+                <span>{t("marketplace.vip.access")}</span>
+              </div>
+              <div className="mb-4" />
               {!hasLifeTimeBanner ? (
                 <>
                   <Label
@@ -303,7 +309,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               {!hasSeasonBanner && <SeasonVIPDiscountTime />}
             </div>
 
-            <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
+            <div className="flex flex-col mb-7 space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
               {/* Weeks 9-12 will not include the mystery airdrop item */}
               {getSeasonWeek() < 9 && (
                 <div className="flex items-center space-x-2">
@@ -328,15 +334,16 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 <SquareIcon icon={xpIcon} width={7} />
                 <span>{t("season.xp.boost")}</span>
               </div>
-              {getCurrentSeason() === "Pharaoh's Treasure" && (
-                <div className="flex items-center space-x-2">
-                  <SquareIcon
-                    icon={ITEM_DETAILS["Sand Shovel"].image}
-                    width={7}
-                  />
-                  <span>{t("season.pharaohs.gift")}</span>
+              {getCurrentSeason() === "Bull Run" && (
+                <div className="flex items-center space-x-2 mb-3">
+                  <SquareIcon icon={SUNNYSIDE.animals.cowIdle} width={7} />
+                  <span>{t("season.bullRun.bonus")}</span>
                 </div>
               )}
+              <div className="flex items-center space-x-2">
+                <SquareIcon icon={shopIcon} width={7} />
+                <span>{t("marketplace.vip.season.access")}</span>
+              </div>
               {hasDiscount && !hasSeasonBanner && (
                 <span
                   className="absolute right-2 bottom-8 text-xs discounted"

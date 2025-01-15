@@ -1,223 +1,192 @@
-import React, { useEffect, useState } from "react";
-import { Label } from "components/ui/Label";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ButtonPanel } from "components/ui/Panel";
-import classNames from "classnames";
-import { CollectionName } from "features/game/types/marketplace";
-import { CONFIG } from "lib/config";
-
-import buds from "lib/buds/buds";
-import testnetBuds from "lib/buds/testnet-buds";
-
-import grass from "assets/brand/grass_background_2.png";
-import smallBoost from "assets/icons/small_boost.png";
-import brownBackground from "assets/brand/brown_background.png";
-
-// bud backgrounds
-import beachBackground from "assets/buds-backgrounds/beach_shadow.png";
-import castleBackground from "assets/buds-backgrounds/castle_shadow.png";
-import plazaBackground from "assets/buds-backgrounds/plaza_shadow.png";
-import portBackground from "assets/buds-backgrounds/port_shadow.png";
-import retreatBackground from "assets/buds-backgrounds/retreat_shadow.png";
-import saphiroBackground from "assets/buds-backgrounds/saphiro_shadow.png";
-import snowBackground from "assets/buds-backgrounds/snow_shadow.png";
-import woodlandsBackground from "assets/buds-backgrounds/woodlands_shadow.png";
-import caveBackground from "assets/buds-backgrounds/cave_shadow.png";
-import seaBackground from "assets/buds-backgrounds/sea_shadow.png";
-import { Bud, TypeTrait } from "lib/buds/types";
+import sfl from "assets/icons/sfl.webp";
+import lightning from "assets/icons/lightning.png";
+import wallet from "assets/icons/wallet.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { formatNumber } from "lib/utils/formatNumber";
+import { getTradeType } from "../lib/getTradeType";
+import { getItemId } from "../lib/offers";
+import { TradeableDisplay } from "../lib/tradeables";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { getKeys } from "features/game/types/craftables";
+import { InventoryItemName } from "features/game/types/game";
+import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { BumpkinItem } from "features/game/types/bumpkin";
+import { CountLabel } from "components/ui/CountLabel";
+import classNames from "classnames";
+import { ListViewImage } from "./ListViewImage";
 
 type Props = {
-  name: string;
-  image: string;
-  type: CollectionName;
-  id: number;
-  hasBoost: boolean;
-  supply: number;
+  details: TradeableDisplay;
   price?: Decimal;
+  lastSalePrice?: Decimal;
   onClick?: () => void;
-  onRemove?: () => void;
-  isSold?: boolean;
+  expiresAt?: number;
 };
 
-const data = CONFIG.NETWORK === "mainnet" ? buds : testnetBuds;
+const _state = (state: MachineState) => state.context.state;
 
 export const ListViewCard: React.FC<Props> = ({
-  name,
-  id,
-  image,
-  supply,
-  type,
-  hasBoost,
+  details,
   price,
+  lastSalePrice,
   onClick,
-  onRemove,
-  isSold,
+  expiresAt,
 }) => {
-  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [isHover, setIsHover] = useState(false);
+  const { gameService } = useContext(Context);
+  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = image;
-    img.onload = () => {
-      setSize({ width: img.width, height: img.height });
-    };
-  }, []);
+  const { type, name, image, buffs } = details;
+  const { t } = useAppTranslation();
 
-  const getBackground = () => {
-    if (type === "wearables" || type === "resources") {
-      return `url(${brownBackground})`;
+  const state = useSelector(gameService, _state);
+
+  const itemId = getItemId({ name, collection: type });
+  const tradeType = getTradeType({
+    collection: type,
+    id: itemId,
+    trade: { sfl: price?.toNumber() ?? 0 },
+  });
+
+  const isResources =
+    getKeys(TRADE_LIMITS).includes(name as InventoryItemName) &&
+    type === "collectibles";
+
+  // Check inventory count
+  const getTotalCount = () => {
+    switch (details.type) {
+      case "collectibles":
+        return (
+          state.inventory[details.name as InventoryItemName]?.toNumber() || 0
+        );
+      case "buds":
+        return state.buds?.[itemId] ? 1 : 0;
+      case "wearables":
+        return state.wardrobe[name as BumpkinItem] || 0;
+
+      default:
+        return 0;
     }
-
-    return `url(${grass})`;
   };
 
+  const count = getTotalCount();
+
   return (
-    <div className="relative cursor-pointer">
-      {onRemove && (
-        <img
-          src={SUNNYSIDE.ui.disc_cancel}
-          className="w-12 absolute -top-2 -right-2 cursor-pointer z-10 hover:scale-110"
-          onClick={(e) => {
-            e.preventDefault();
+    <div
+      className="relative cursor-pointer h-full"
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+      style={{ paddingTop: "1px" }}
+    >
+      <ButtonPanel
+        onClick={onClick}
+        variant="card"
+        className="h-full flex flex-col"
+      >
+        <div
+          className={classNames("flex flex-col items-center relative", {
+            "h-20 p-2 pt-4": details.type !== "buds",
+            "h-32": details.type === "buds",
+          })}
+        >
+          <ListViewImage
+            name={name}
+            image={image}
+            type={type}
+            isResources={isResources}
+          />
+          {tradeType === "onchain" && (
+            <img
+              src={wallet}
+              className="h-5 mr-1 absolute bottom-1 -right-1.5"
+            />
+          )}
+        </div>
 
-            onRemove();
+        <div
+          className="bg-white px-2 py-2 flex-1 z-10"
+          style={{
+            background: "#fff0d4",
+            borderTop: "1px solid #e4a672",
+            margin: "0 -8px",
+            marginBottom: "-2.6px",
+            height: "100px",
           }}
-        />
-      )}
-      <ButtonPanel onClick={onClick}>
-        <div className="w-full flex flex-col">
-          <div className="relative">
-            <p className="text-white absolute top-1 left-1 text-xs">{`x${supply}`}</p>
-            {type === "buds" ? (
-              <BudImage image={image} id={id} />
-            ) : (
-              <div
-                style={{
-                  backgroundImage: getBackground(),
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                }}
-                className="w-full h-40 rounded-md flex justify-center items-center"
-              >
-                <img
-                  src={image}
-                  className={classNames("object-contain", {
-                    "max-h-[80%]": size.height > size.width,
-                    "max-w-[80%]": size.width > size.height,
-                  })}
-                  style={{
-                    height: `${size.height * PIXEL_SCALE}px`,
-                    width: `${size.width * PIXEL_SCALE}px`,
-                  }}
-                />
-                {hasBoost && (
-                  <img src={smallBoost} className="absolute top-1 right-1" />
-                )}
+        >
+          {price?.gt(0) && (
+            <div className="absolute top-0 left-0">
+              <div className="flex items-center ">
+                <img src={sfl} className="h-4 sm:h-5 mr-1" />
+                <p className="text-xs whitespace-nowrap">
+                  {isResources
+                    ? t("marketplace.pricePerUnit", {
+                        price: formatNumber(price, {
+                          decimalPlaces: 4,
+                        }),
+                      })
+                    : `${formatNumber(price, {
+                        decimalPlaces: 4,
+                      })}`}
+                </p>
               </div>
-            )}
-          </div>
+              {!isResources && (
+                <p className="text-xxs">
+                  {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+                </p>
+              )}
+            </div>
+          )}
 
-          <div className="my-1 pb-5 min-h-[60px]">
-            <p>{name}</p>
-          </div>
+          {count > 0 ? (
+            <CountLabel
+              isHover={isHover}
+              count={new Decimal(count)}
+              labelType="default"
+              rightShiftPx={-11}
+              topShiftPx={-12}
+            />
+          ) : null}
+
+          <p className="text-xs mb-1 py-0.5 truncate text-[#181425]">{name}</p>
+
+          {buffs.map((buff) => (
+            <div key={buff.shortDescription} className="flex items-center">
+              <img
+                src={buff.boostedItemIcon ?? lightning}
+                className="h-4 mr-1"
+              />
+              <p className="text-xs truncate pb-0.5">{buff.shortDescription}</p>
+            </div>
+          ))}
+
+          {expiresAt && (
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
+              <p className="text-xs truncate pb-0.5">
+                {" "}
+                {`${secondsToString((expiresAt - Date.now()) / 1000, {
+                  length: "short",
+                })} left`}
+              </p>
+            </div>
+          )}
+
+          {lastSalePrice?.gt(0) && (
+            <p className="text-xxs truncate pb-0.5">
+              {`Last sale: ${formatNumber(lastSalePrice, {
+                decimalPlaces: 2,
+              })} SFL`}
+            </p>
+          )}
         </div>
       </ButtonPanel>
-
-      {price && (
-        <Label
-          className="absolute bottom-0 left-0 !w-full"
-          type="warning"
-        >{`${price} SFL`}</Label>
-      )}
-
-      {isSold && (
-        <Label
-          className="absolute left-0 !w-full mt-20"
-          type="danger"
-          style={{
-            bottom: "50%",
-            transform: "translateY(calc(-50% + 10px))",
-          }}
-        >{`Sold`}</Label>
-      )}
-    </div>
-  );
-};
-
-const BUD_BACKGROUNDS: Record<TypeTrait, string> = {
-  Plaza: plazaBackground,
-  Woodlands: woodlandsBackground,
-  Cave: caveBackground,
-  Sea: seaBackground,
-  Castle: castleBackground,
-  Port: portBackground,
-  Retreat: retreatBackground,
-  Saphiro: saphiroBackground,
-  Snow: snowBackground,
-  Beach: beachBackground,
-};
-
-const BudImage = ({ id, image }: { id: number; image: string }) => {
-  const [bud] = useState<Bud>(data[id]);
-  const [size, setSize] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = image;
-    img.onload = () => {
-      setSize({ width: img.width, height: img.height });
-    };
-  }, []);
-
-  const background = `url(${BUD_BACKGROUNDS[bud.type]})`;
-  const offsets: Record<TypeTrait, { left: number; top: number }> = {
-    Beach: { left: 40, top: 30 },
-    Castle: { left: 37, top: 24 },
-    Plaza: { left: 39, top: 20 },
-    Woodlands: { left: 36, top: 33 },
-    Cave: { left: 36, top: 28 },
-    Sea: { left: 41, top: 30 },
-    Port: { left: 39, top: 22 },
-    Retreat: { left: 37, top: 28 },
-    Saphiro: { left: 36, top: 32 },
-    Snow: { left: 38, top: 25 },
-  };
-
-  return (
-    <div className="relative">
-      <p
-        className={classNames("text-white absolute top-1 left-1 text-xs", {
-          "text-black": bud.type === "Snow",
-        })}
-      >{`x1`}</p>
-      <div
-        style={{
-          backgroundImage: background,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}
-        className="w-full h-40 rounded-md flex justify-center items-center"
-      >
-        <img
-          src={image}
-          className={classNames("object-contain absolute", {
-            "max-h-[80%]": size.height > size.width,
-            "max-w-[80%]": size.width > size.height,
-          })}
-          style={{
-            height: `${size.height * PIXEL_SCALE}px`,
-            width: `${size.width * PIXEL_SCALE}px`,
-            ...(offsets[bud?.type as TypeTrait] && {
-              left: `${offsets[bud?.type as TypeTrait].left}px`,
-              top: `${offsets[bud?.type as TypeTrait].top}px`,
-            }),
-          }}
-        />
-      </div>
     </div>
   );
 };

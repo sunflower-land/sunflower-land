@@ -16,6 +16,12 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResizableBar } from "components/ui/ProgressBar";
 
+import TwilightAnglerfish from "assets/fish/twilight_anglerfish_trophy.png";
+import StarlightTuna from "assets/fish/starlight_tuna_trophy.png";
+import RadiantRay from "assets/fish/radiant_ray_trophy.png";
+import PhantomBarracuda from "assets/fish/phantom_barracuda_trophy.png";
+import GildedSwordfish from "assets/fish/gilded_swordfish_trophy.png";
+
 export const MilestonePanel: React.FC<{
   milestone: MilestoneDetail;
   farmActivity: GameState["farmActivity"];
@@ -33,10 +39,18 @@ export const MilestonePanel: React.FC<{
   // TODO: Support inventory items as rewards as well
   const buffLabel = BUMPKIN_ITEM_BUFF_LABELS[reward as BumpkinItem];
 
+  const nonSeasonalMarvels = [
+    TwilightAnglerfish,
+    StarlightTuna,
+    RadiantRay,
+    PhantomBarracuda,
+    GildedSwordfish,
+  ];
+
   return (
     <InnerPanel>
       <div
-        className="flex items-center"
+        className="flex items-center mt-1"
         style={{
           height: `${PIXEL_SCALE * 11}px`,
         }}
@@ -51,32 +65,58 @@ export const MilestonePanel: React.FC<{
         />
         <p className="ml-2">{reward}</p>
       </div>
-      <div className="flex pt-1">
+      <div className="flex pt-1 mb-1 mt-2">
         <img
           src={getImageUrl(ITEM_IDS[reward as BumpkinItem])}
-          className="w-1/3 rounded-md mr-2"
+          className="w-1/3 h-1/3 rounded-md mr-2 ml-0.5"
         />
-        <div className="space-y-2">
+        <div className="space-y-2 mr-1">
           <div className="flex flex-col space-y-1">
             {buffLabel && (
-              <Label
-                type={buffLabel.labelType}
-                icon={buffLabel.boostTypeIcon}
-                secondaryIcon={buffLabel.boostedItemIcon}
-              >
-                {buffLabel.shortDescription}
-              </Label>
+              <div className="flex flex-col gap-1">
+                {buffLabel.map(
+                  (
+                    {
+                      labelType,
+                      boostTypeIcon,
+                      boostedItemIcon,
+                      shortDescription,
+                    },
+                    index,
+                  ) => (
+                    <Label
+                      key={index}
+                      type={labelType}
+                      icon={boostTypeIcon}
+                      secondaryIcon={boostedItemIcon}
+                    >
+                      {shortDescription}
+                    </Label>
+                  ),
+                )}
+              </div>
             )}
-            <Label type="default">{t("wearables")}</Label>
+            <Label type="default">{t("wearable")}</Label>
           </div>
 
-          <div className="space-y-1">
+          <div>
             <p className="text-xxs mb-1">{milestone.task}</p>
-            <div className="relative inline-block">
+            {reward === "Luminous Anglerfish Topper" && (
+              <div className="flex items-center flex-wrap mb-2">
+                {nonSeasonalMarvels.map((name) => (
+                  <img
+                    key={name}
+                    src={name}
+                    className="h-7 sm:h-8 mr-1 sm:mr-1.5 mt-0.5"
+                  />
+                ))}
+              </div>
+            )}
+            <div className="relative inline-block mt-1">
               <ResizableBar
                 type="progress"
                 outerDimensions={{
-                  width: 60,
+                  width: 57,
                   height: 7,
                 }}
                 percentage={percentageComplete}
@@ -90,7 +130,7 @@ export const MilestonePanel: React.FC<{
                   right: "-14px",
                 }}
                 className={classNames("absolute", {
-                  ready: percentageComplete === 100,
+                  ready: percentageComplete === 100 && !isClaimed,
                 })}
               />
             </div>

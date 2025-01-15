@@ -22,7 +22,6 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 import { Button } from "../Button";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
@@ -67,7 +66,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
   onClose,
 }: Props) => {
   const { t } = useAppTranslation();
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
@@ -182,14 +181,14 @@ export const Expanding: React.FC<{
   const totalSeconds = requirements?.seconds ?? 0;
   const secondsTillReady = (readyAt - Date.now()) / 1000;
 
-  const { days, ...ready } = useCountdown(readyAt ?? 0);
+  const ready = useCountdown(readyAt ?? 0);
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
+    game: state,
   });
 
-  const hasAccess =
-    hasFeatureAccess(state, "GEM_BOOSTS") && state.island.type !== "desert";
+  const hasAccess = state.island.type !== "desert";
 
   useEffect(() => {
     const interval = setInterval(() => {

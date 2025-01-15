@@ -18,6 +18,10 @@ import {
   getShowAnimationsSetting,
 } from "features/farming/hud/lib/animations";
 import {
+  cacheEnableQuickSelectSetting,
+  getEnableQuickSelectSetting,
+} from "features/farming/hud/lib/quickSelect";
+import {
   cacheShowTimersSetting,
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
@@ -28,8 +32,12 @@ interface GameContext {
   gameService: MachineInterpreter;
   showAnimations: boolean;
   toggleAnimations: () => void;
+  enableQuickSelect: boolean;
+  toggleQuickSelect: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
+  fromRoute: string;
+  setFromRoute: (route: string) => void;
 }
 
 export const Context = React.createContext<GameContext>({} as GameContext);
@@ -47,7 +55,11 @@ export const GameProvider: React.FC = ({ children }) => {
   const [showAnimations, setShowAnimations] = useState<boolean>(
     getShowAnimationsSetting(),
   );
+  const [enableQuickSelect, setEnableQuickSelect] = useState<boolean>(
+    getEnableQuickSelectSetting(),
+  );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
+  const [fromRoute, setFromRoute] = useState<string>("");
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const originalShortcuts = getShortcuts();
@@ -70,6 +82,13 @@ export const GameProvider: React.FC = ({ children }) => {
     cacheShowAnimationsSetting(newValue);
   };
 
+  const toggleQuickSelect = () => {
+    const newValue = !enableQuickSelect;
+
+    setEnableQuickSelect(newValue);
+    cacheEnableQuickSelectSetting(newValue);
+  };
+
   const toggleTimers = () => {
     const newValue = !showTimers;
 
@@ -87,11 +106,26 @@ export const GameProvider: React.FC = ({ children }) => {
         gameService,
         showAnimations,
         toggleAnimations,
+        enableQuickSelect,
+        toggleQuickSelect,
         showTimers,
         toggleTimers,
+        fromRoute,
+        setFromRoute,
       }}
     >
       {children}
     </Context.Provider>
   );
+};
+
+export const useGame = () => {
+  const context = React.useContext(Context);
+  const [gameState] = useActor(context.gameService);
+
+  if (!context) {
+    throw new Error("useAuth must be used within an GameProvider");
+  }
+
+  return { gameState, gameService: context.gameService };
 };

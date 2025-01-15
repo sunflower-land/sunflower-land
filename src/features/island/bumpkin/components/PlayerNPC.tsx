@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import { NPC, NPCProps } from "./NPC";
+import { NPCPlaceable, NPCProps } from "./NPC";
 import { NPCModal } from "./NPCModal";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -25,7 +25,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
 
   return (
     <>
-      <NPC
+      <NPCPlaceable
         key={JSON.stringify(bumpkinParts)}
         parts={bumpkinParts}
         onClick={() => setOpen(true)}

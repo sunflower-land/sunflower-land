@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Modal } from "components/ui/Modal";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -24,7 +24,7 @@ import { Panel } from "components/ui/Panel";
 import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import { Land } from "./Land";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
@@ -41,8 +41,8 @@ import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
-import { OffersPopup } from "./components/Offers";
-import { PIXEL_SCALE, TEST_FARM } from "../lib/constants";
+import { MarketplaceSalesPopup } from "./components/MarketplaceSalesPopup";
+import { isBuildingReady, PIXEL_SCALE, TEST_FARM } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
@@ -70,6 +70,14 @@ import { BarnInside } from "features/barn/BarnInside";
 import { EFFECT_EVENTS } from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Button } from "components/ui/Button";
+import { GameState } from "../types/game";
+import { Ocean } from "features/world/ui/Ocean";
+import { OffersAcceptedPopup } from "./components/OffersAcceptedPopup";
+import { Marketplace } from "features/marketplace/Marketplace";
+import { CompetitionModal } from "features/competition/CompetitionBoard";
+import { SeasonChanged } from "./components/temperateSeason/SeasonChanged";
+import { CalendarEvent } from "./components/temperateSeason/CalendarEvent";
+import { DailyReset } from "../components/DailyReset";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -135,10 +143,12 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   blacklisted: true,
   airdrop: true,
   offers: true,
+  marketplaceSale: true,
   portalling: true,
   provingPersonhood: false,
   sellMarketResource: false,
   somethingArrived: true,
+  seasonChanged: false,
 };
 
 // State change selectors
@@ -207,15 +217,37 @@ const isEffectFailure = (state: MachineState) =>
   Object.values(EFFECT_EVENTS).some((stateName) =>
     state.matches(`${stateName}Failure`),
   );
+const hasMarketplaceSales = (state: MachineState) =>
+  state.matches("marketplaceSale");
+const isCompetition = (state: MachineState) => state.matches("competition");
+const isSeasonChanged = (state: MachineState) => state.matches("seasonChanged");
+const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
-
   useSound("desert", true);
 
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
+  const [gameState] = useActor(gameService);
+
+  const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
+    GreenHouse: (game) =>
+      !!game.buildings.Greenhouse && isBuildingReady(game.buildings.Greenhouse),
+    Barn: (game) =>
+      !!game.buildings.Barn && isBuildingReady(game.buildings.Barn),
+    HenHouse: (game) =>
+      !!game.buildings["Hen House"] &&
+      isBuildingReady(game.buildings["Hen House"]),
+  };
+
+  const hasAccess = (pathName: string) => {
+    return (
+      PATH_ACCESS[pathName] && PATH_ACCESS[pathName](gameState.context.state)
+    );
+  };
+
   if (landToVisitNotFound) {
     return (
       <>
@@ -265,15 +297,27 @@ const GameContent: React.FC = () => {
     <>
       <div className="absolute w-full h-full z-10">
         <Routes>
-          <Route path="/" element={<Land />} />
-          <Route path="/marketplace/*" element={<Land />} />
+          <Route path="/" element={<Land />}>
+            <Route path="marketplace/*" element={<Marketplace />} />
+          </Route>
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/greenhouse" element={<GreenhouseInside />} />
-          <Route path="/barn" element={<BarnInside />} />
-          <Route path="/hen-house" element={<HenHouseInside />} />
-          <Route path="*" element={<IslandNotFound />} />
+          {hasAccess("GreenHouse") && (
+            <Route path="/greenhouse" element={<GreenhouseInside />} />
+          )}
+          {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
+          {hasAccess("HenHouse") && (
+            <Route path="/hen-house" element={<HenHouseInside />} />
+          )}
+          <Route
+            path="*"
+            element={
+              <Ocean>
+                <IslandNotFound />
+              </Ocean>
+            }
+          />
         </Routes>
       </div>
     </>
@@ -339,6 +383,10 @@ export const GameWrapper: React.FC = ({ children }) => {
   const effectPending = useSelector(gameService, isEffectPending);
   const effectSuccess = useSelector(gameService, isEffectSuccess);
   const effectFailure = useSelector(gameService, isEffectFailure);
+  const showSales = useSelector(gameService, hasMarketplaceSales);
+  const competition = useSelector(gameService, isCompetition);
+  const seasonChanged = useSelector(gameService, isSeasonChanged);
+  const calendarEvent = useSelector(gameService, isCalendarEvent);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
@@ -516,21 +564,7 @@ export const GameWrapper: React.FC = ({ children }) => {
               </>
             )}
             {effectFailure && (
-              <>
-                <div className="p-1.5">
-                  <Label type="danger" className="mb-2">
-                    {t("error")}
-                  </Label>
-                  <p className="text-sm mb-2">{t(effectTranslationKey)}</p>
-                </div>
-                <Button
-                  onClick={() => {
-                    gameService.send("CONTINUE");
-                  }}
-                >
-                  {t("close")}
-                </Button>
-              </>
+              <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}
 
             {loading && <Loading />}
@@ -555,7 +589,8 @@ export const GameWrapper: React.FC = ({ children }) => {
             {marketPriceChanged && <PriceChange />}
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}
-            {showOffers && <OffersPopup />}
+            {showOffers && <OffersAcceptedPopup />}
+            {showSales && <MarketplaceSalesPopup />}
             {specialOffer && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}
@@ -564,6 +599,17 @@ export const GameWrapper: React.FC = ({ children }) => {
 
         {claimingAuction && <ClaimAuction />}
         {refundAuction && <RefundAuction />}
+        {seasonChanged && <SeasonChanged />}
+        {calendarEvent && <CalendarEvent />}
+
+        {competition && (
+          <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>
+            <CompetitionModal
+              competitionName="ANIMALS"
+              onClose={() => gameService.send("ACKNOWLEDGE")}
+            />
+          </Modal>
+        )}
 
         <Introduction />
         <NewMail />
@@ -581,6 +627,8 @@ export const GameWrapper: React.FC = ({ children }) => {
 
         {children}
       </ToastProvider>
+      {/* Handles daily reset */}
+      <DailyReset />
     </>
   );
 };

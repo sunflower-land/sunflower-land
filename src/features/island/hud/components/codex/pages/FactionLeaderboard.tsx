@@ -23,11 +23,12 @@ import {
 } from "features/game/lib/factions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { NPC, NPCIcon } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { formatNumber, shortenCount } from "lib/utils/formatNumber";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { ChampionsPrizes } from "features/world/ui/factions/Champions";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
+import { KingdomChores } from "features/world/ui/factions/chores/KingdomChoresCodex";
 
 const npcs: Record<FactionName, NPCName> = {
   nightshades: "nyx",
@@ -165,6 +166,7 @@ export const FactionLeaderboard: React.FC<Props> = ({
           </div>
         </div>
         <ChampionsPrizes />
+        <KingdomChores />
       </div>
     </InnerPanel>
   );
@@ -245,8 +247,8 @@ export const FactionDetails: React.FC<{
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 text-left pl-8 relative truncate"
               >
-                <div className="absolute" style={{ left: "4px", top: "-7px" }}>
-                  <NPC width={20} parts={bumpkin} />
+                <div className="absolute" style={{ left: "4px", top: "1px" }}>
+                  <NPCIcon width={24} parts={bumpkin} />
                 </div>
                 {id}
               </td>
@@ -282,8 +284,8 @@ export const FactionDetails: React.FC<{
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 text-left pl-8 relative truncate"
               >
-                <div className="absolute" style={{ left: "4px", top: "-7px" }}>
-                  <NPC width={20} parts={bumpkin} />
+                <div className="absolute" style={{ left: "4px", top: "1px" }}>
+                  <NPCIcon width={24} parts={bumpkin} />
                 </div>
                 {id}
               </td>

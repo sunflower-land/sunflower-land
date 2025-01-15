@@ -3,7 +3,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/types/craftables";
 import {
   BeachBountyTreasure,
-  SEASONAL_ARTEFACT,
   SELLABLE_TREASURE,
 } from "features/game/types/treasure";
 import { Context } from "features/game/GameProvider";
@@ -18,6 +17,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
+import { SEASONAL_ARTEFACT } from "features/game/types/desert";
+import { getCurrentSeason } from "features/game/types/seasons";
 
 export const TreasureShopSell: React.FC = () => {
   const { t } = useAppTranslation();
@@ -54,7 +55,8 @@ export const TreasureShopSell: React.FC = () => {
       amount,
     });
   };
-  const isValuable = selectedName in SEASONAL_ARTEFACT || price > 1000;
+  const isValuable =
+    selectedName === SEASONAL_ARTEFACT[getCurrentSeason()] || price > 1000;
   const handleSellOne = () => {
     if (isValuable) {
       showConfirmationModal(true);
@@ -138,7 +140,7 @@ export const TreasureShopSell: React.FC = () => {
         show={confirmationModal}
         onHide={() => showConfirmationModal(false)}
         messages={[
-          selectedName in SEASONAL_ARTEFACT
+          selectedName === SEASONAL_ARTEFACT[getCurrentSeason()]
             ? t("confirmation.sellSeasonalArtefact")
             : price > 1000
               ? t("confirmation.valuableTreasure")

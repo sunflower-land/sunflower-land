@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { isWearableActive } from "features/game/lib/wearables";
 import { ChoreV2Name, GameState } from "features/game/types/game";
 import {
-  getSeasonalBanner,
+  getCurrentSeason,
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { produce } from "immer";
@@ -29,11 +31,29 @@ export function generateChoreTickets({
     return 0;
   }
 
-  if (
-    !!game.inventory[getSeasonalBanner(now)] ||
-    !!game.inventory["Lifetime Farmer Banner"]
-  ) {
+  if (hasVipAccess(game.inventory, now)) {
     amount += 2;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Hat" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Shirt" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Bull Run" &&
+    isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
   }
 
   return amount;

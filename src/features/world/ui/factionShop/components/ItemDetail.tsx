@@ -31,7 +31,7 @@ interface ItemOverlayProps {
   item: FactionShopItem | null;
   image: string;
   isWearable: boolean;
-  buff?: BuffLabel;
+  buff?: BuffLabel[];
   isVisible: boolean;
   onClose: () => void;
 }
@@ -288,7 +288,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         item.faction !== pledgedFaction &&
                         getFactionOnlyLabel(item.faction)}
                       {!faction && !item?.faction && (
-                        <Label type="warning" className="whitespace-nowrap">
+                        <Label type="warning" className="sm:whitespace-nowrap">
                           {t("faction.shop.membersOnly")}
                         </Label>
                       )}
@@ -300,13 +300,28 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         </Label>
                       )}
                       {!!buff && (
-                        <Label
-                          type={buff.labelType}
-                          icon={buff.boostTypeIcon}
-                          secondaryIcon={buff.boostedItemIcon}
-                        >
-                          {buff.shortDescription}
-                        </Label>
+                        <div className="flex flex-col gap-1">
+                          {buff.map(
+                            (
+                              {
+                                labelType,
+                                boostTypeIcon,
+                                boostedItemIcon,
+                                shortDescription,
+                              },
+                              index,
+                            ) => (
+                              <Label
+                                key={index}
+                                type={labelType}
+                                icon={boostTypeIcon}
+                                secondaryIcon={boostedItemIcon}
+                              >
+                                {shortDescription}
+                              </Label>
+                            ),
+                          )}
+                        </div>
                       )}
                     </div>
 

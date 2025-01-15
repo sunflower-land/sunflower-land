@@ -12,6 +12,7 @@ import token from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import {
   generateDeliveryTickets,
+  getCountAndTypeForDelivery,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
 import { getSeasonalTicket } from "features/game/types/seasons";
@@ -115,7 +116,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                     key={itemName}
                     type="item"
                     item={itemName}
-                    balance={inventory[itemName] ?? new Decimal(0)}
+                    balance={getCountAndTypeForDelivery(game, itemName).count}
                     showLabel
                     requirement={new Decimal(order?.items[itemName] ?? 0)}
                   />
@@ -155,7 +156,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 <>
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxBL}
+                    src={SUNNYSIDE.ui.selectBoxTL}
                     style={{
                       bottom: `${PIXEL_SCALE * -3}px`,
                       left: `${PIXEL_SCALE * -3}px`,
@@ -164,7 +165,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxBR}
+                    src={SUNNYSIDE.ui.selectBoxTR}
                     style={{
                       bottom: `${PIXEL_SCALE * -3}px`,
                       right: `${PIXEL_SCALE * -3}px`,
@@ -173,7 +174,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxTL}
+                    src={SUNNYSIDE.ui.selectBoxBL}
                     style={{
                       top: `${PIXEL_SCALE * -5}px`,
                       left: `${PIXEL_SCALE * -3}px`,
@@ -182,7 +183,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={SUNNYSIDE.ui.selectBoxTR}
+                    src={SUNNYSIDE.ui.selectBoxBR}
                     style={{
                       top: `${PIXEL_SCALE * -5}px`,
                       right: `${PIXEL_SCALE * -3}px`,

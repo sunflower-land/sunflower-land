@@ -4,7 +4,7 @@ import {
   MAX_OIL_CAPACITY_IN_MILLIS,
   getTotalOilMillisInMachine,
 } from "features/game/events/landExpansion/supplyCropMachine";
-import { CropMachineQueueItem } from "features/game/types/game";
+import { CropMachineQueueItem, GameState } from "features/game/types/game";
 import { useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
@@ -19,14 +19,16 @@ interface OilTankProps {
   queue: CropMachineQueueItem[];
   unallocatedOilTime: number;
   onAddOil: () => void;
+  state: GameState;
 }
 
-export const OilTank = ({
+export const OilTank: React.FC<OilTankProps> = ({
   stopped,
   queue,
   unallocatedOilTime,
   onAddOil,
-}: OilTankProps) => {
+  state,
+}) => {
   const { t } = useAppTranslation();
 
   const calculatePercentageFull = (
@@ -38,7 +40,7 @@ export const OilTank = ({
       unallocatedOilTime,
     );
 
-    return (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS) * 100;
+    return (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS(state)) * 100;
   };
 
   const calculateOilTimeRemaining = (

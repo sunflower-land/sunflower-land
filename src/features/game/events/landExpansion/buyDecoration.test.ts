@@ -23,7 +23,7 @@ describe("buyDecoration", () => {
     ).toThrow("This item is not a decoration");
   });
 
-  it.only("does not craft a decoration if there is not enough coins", () => {
+  it("does not craft a decoration if there is not enough coins", () => {
     expect(() =>
       buyDecoration({
         state: {

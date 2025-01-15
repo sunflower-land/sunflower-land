@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
@@ -21,6 +22,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PortalLeaderboard } from "./PortalLeaderboard";
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -87,6 +89,7 @@ interface Props {
 }
 
 export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -94,6 +97,8 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
 
   const [showIntro, setShowIntro] = useState(!minigame?.history);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  const [page, setPage] = useState<"play" | "leaderboard">("play");
 
   const { t } = useAppTranslation();
 
@@ -167,6 +172,17 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
     );
   }
 
+  if (page === "leaderboard") {
+    return (
+      <PortalLeaderboard
+        farmId={gameService.state.context.farmId}
+        jwt={authService.state.context.user.rawToken as string}
+        onBack={() => setPage("play")}
+        name={"chicken-rescue"}
+      />
+    );
+  }
+
   return (
     <>
       <div className="mb-1">
@@ -183,7 +199,12 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           mission={`Mission: Rescue ${prize?.score} chickens`}
         />
       </div>
-      <Button onClick={playNow}>{t("minigame.playNow")}</Button>
+      <div className="flex">
+        <Button className="mr-1" onClick={() => setPage("leaderboard")}>
+          {t("competition.leaderboard")}
+        </Button>
+        <Button onClick={playNow}>{t("minigame.playNow")}</Button>
+      </div>
     </>
   );
 };

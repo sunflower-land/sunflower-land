@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import {
   ComposterName,
   composterDetails,
@@ -17,6 +18,36 @@ type Options = {
   createdAt?: number;
 };
 
+export function getSpeedUpCost(gameState: GameState, composter: ComposterName) {
+  let { resourceBoostRequirements } = composterDetails[composter];
+
+  if (gameState.bumpkin.skills["Composting Bonanza"]) {
+    resourceBoostRequirements *= 2;
+  }
+
+  if (gameState.bumpkin.skills["Feathery Business"]) {
+    resourceBoostRequirements *= 2;
+  }
+
+  return { resourceBoostRequirements };
+}
+
+export function getSpeedUpTime({
+  state,
+  composter,
+}: {
+  state: GameState;
+  composter: ComposterName;
+}) {
+  let { resourceBoostMilliseconds } = composterDetails[composter];
+
+  if (state.bumpkin.skills["Composting Bonanza"]) {
+    resourceBoostMilliseconds += 60 * 60 * 1000;
+  }
+
+  return { resourceBoostMilliseconds };
+}
+
 export function accelerateComposter({
   state,
   action,
@@ -29,7 +60,7 @@ export function accelerateComposter({
     }
 
     const composter = buildings[0];
-    const producing = composter.producing;
+    const { producing } = composter;
 
     if (!producing) {
       throw new Error(translate("error.composterNotProducing"));
@@ -43,20 +74,38 @@ export function accelerateComposter({
       throw new Error(translate("error.composterAlreadyBoosted"));
     }
 
-    const details = composterDetails[action.building];
-    if (!stateCopy.inventory.Egg?.gte(details.eggBoostRequirements)) {
-      throw new Error(translate("error.missingEggs"));
-    }
-
-    // Subtract eggs
-    stateCopy.inventory.Egg = stateCopy.inventory.Egg.sub(
-      details.eggBoostRequirements,
+    const { resourceBoostMilliseconds } = getSpeedUpTime({
+      state: stateCopy,
+      composter: action.building,
+    });
+    const { resourceBoostRequirements } = getSpeedUpCost(
+      stateCopy,
+      action.building,
     );
 
-    // Subtract time
-    producing.readyAt -= details.eggBoostMilliseconds;
+    const boostResource = stateCopy.bumpkin.skills["Feathery Business"]
+      ? "Feather"
+      : "Egg";
 
-    composter.boost = { Egg: details.eggBoostRequirements };
+    if (
+      !(stateCopy.inventory[boostResource] ?? new Decimal(0)).gte(
+        resourceBoostRequirements,
+      )
+    ) {
+      throw new Error(`Missing ${boostResource}s`);
+    }
+
+    // Subtract resources
+    stateCopy.inventory[boostResource] = (
+      stateCopy.inventory[boostResource] ?? new Decimal(0)
+    ).sub(resourceBoostRequirements);
+
+    // Subtract time
+    producing.readyAt -= resourceBoostMilliseconds;
+
+    composter.boost = {
+      [boostResource]: resourceBoostRequirements,
+    };
 
     return stateCopy;
   });

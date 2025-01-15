@@ -1,4 +1,3 @@
-import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
@@ -8,18 +7,19 @@ import worldIcon from "assets/icons/world_small.png";
 import token from "assets/icons/sfl.webp";
 import chest from "assets/icons/chest.png";
 import lock from "assets/icons/lock.png";
+import lightning from "assets/icons/lightning.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
-import { Context } from "features/game/GameProvider";
 import {
   QuestNPCName,
   TICKET_REWARDS,
   generateDeliveryTickets,
+  getCountAndTypeForDelivery,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, Inventory, Order } from "features/game/types/game";
+import { GameState, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
@@ -37,22 +37,23 @@ import {
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
-import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
+import { Context } from "features/game/GameProvider";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -78,32 +79,27 @@ interface Props {
   selectedId?: string;
   onSelect: (id?: string) => void;
   onClose: () => void;
+  state: GameState;
 }
-
-const _delivery = (state: MachineState) => state.context.state.delivery;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _sfl = (state: MachineState) => state.context.state.balance;
-const _coins = (state: MachineState) => state.context.state.coins;
 
 export function hasOrderRequirements({
   order,
-  sfl,
-  coins,
-  inventory,
+  state,
 }: {
-  sfl: Decimal;
-  coins: number;
-  inventory: Inventory;
+  state: GameState;
   order?: Order;
 }) {
   if (!order) return false;
 
+  const { balance, coins } = state;
+
   return getKeys(order.items).every((name) => {
     if (name === "coins") return coins >= (order.items[name] ?? 0);
-    if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
+    if (name === "sfl") return balance.gte(order.items[name] ?? 0);
 
     const amount = order.items[name] || new Decimal(0);
-    const count = inventory[name] || new Decimal(0);
+
+    const { count } = getCountAndTypeForDelivery(state, name);
 
     return count.gte(amount);
   });
@@ -111,18 +107,18 @@ export function hasOrderRequirements({
 
 const makeRewardAmountForLabel = ({
   order,
-  gameState,
+  state,
 }: {
   order: Order;
-  gameState: GameState;
+  state: GameState;
 }) => {
   if (order.reward.sfl !== undefined) {
-    const sfl = getOrderSellPrice<Decimal>(gameState, order);
+    const sfl = getOrderSellPrice<Decimal>(state, order);
 
     return formatNumber(sfl, { decimalPlaces: 4 });
   }
 
-  const coins = getOrderSellPrice<number>(gameState, order);
+  const coins = getOrderSellPrice<number>(state, order);
 
   return formatNumber(coins);
 };
@@ -131,20 +127,15 @@ export type OrderCardProps = {
   order: Order;
   selected: Order;
   onClick: (id: string) => void;
-  gameState: GameState;
+  state: GameState;
 };
 export const OrderCard: React.FC<OrderCardProps> = ({
   order,
   selected,
   onClick,
-  gameState,
+  state,
 }) => {
-  const { coins, balance: sfl, inventory } = gameState;
-
-  const tickets = generateDeliveryTickets({
-    game: gameState,
-    npc: order.from,
-  });
+  const tickets = generateDeliveryTickets({ game: state, npc: order.from });
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -155,13 +146,12 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         })}
         style={{ paddingBottom: "20px" }}
       >
-        {hasOrderRequirements({ order, coins, sfl, inventory }) &&
-          !order.completedAt && (
-            <img
-              src={SUNNYSIDE.icons.heart}
-              className="absolute top-0.5 right-0.5 w-3 sm:w-4"
-            />
-          )}
+        {hasOrderRequirements({ order, state }) && !order.completedAt && (
+          <img
+            src={SUNNYSIDE.icons.heart}
+            className="absolute top-0.5 right-0.5 w-3 sm:w-4"
+          />
+        )}
 
         <div className="flex flex-col pb-2">
           <div className="flex items-center my-1">
@@ -177,7 +167,15 @@ export const OrderCard: React.FC<OrderCardProps> = ({
                 } else if (name === "sfl") {
                   img = token;
                 } else {
-                  img = ITEM_DETAILS[name].image;
+                  if (isCollectible(name)) {
+                    img = ITEM_DETAILS[name].image;
+                  } else {
+                    img =
+                      new URL(
+                        `/src/assets/wearables/${ITEM_IDS[name]}.webp`,
+                        import.meta.url,
+                      ).href ?? SUNNYSIDE.icons.expression_confused;
+                  }
                 }
 
                 return (
@@ -210,7 +208,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
               height: "25px",
             }}
           >
-            {`${`${makeRewardAmountForLabel({ order, gameState })}`}`}
+            {`${`${makeRewardAmountForLabel({ order, state })}`}`}
           </Label>
         )}
         {!order.completedAt && order.reward.coins !== undefined && (
@@ -225,7 +223,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
               height: "25px",
             }}
           >
-            {`${makeRewardAmountForLabel({ order, gameState })}`}
+            {`${makeRewardAmountForLabel({ order, state })}`}
           </Label>
         )}
         {!order.completedAt && !!tickets && (
@@ -317,20 +315,15 @@ export const DeliveryOrders: React.FC<Props> = ({
   selectedId,
   onSelect,
   onClose,
+  state,
 }) => {
   const { gameService } = useContext(Context);
+  const { delivery, balance: sfl, coins, npcs, bumpkin } = state;
 
   const navigate = useNavigate();
 
-  const delivery = useSelector(gameService, _delivery);
-  const inventory = useSelector(gameService, _inventory);
-  const sfl = useSelector(gameService, _sfl);
-  const coins = useSelector(gameService, _coins);
-
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
-
-  const gameState = gameService.state.context.state;
 
   const orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
@@ -345,7 +338,13 @@ export const DeliveryOrders: React.FC<Props> = ({
   if (!previewOrder) {
     previewOrder = orders[0];
   }
+  const completedAt = npcs?.[previewOrder.from]?.deliveryCompletedAt;
 
+  const dateKey = new Date().toISOString().substring(0, 10);
+
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) === dateKey;
   const canSkip =
     getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
 
@@ -366,12 +365,12 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
-      const sfl = getOrderSellPrice<Decimal>(gameState, order);
+      const sfl = getOrderSellPrice<Decimal>(state, order);
 
       return formatNumber(sfl, { decimalPlaces: 4 });
     }
 
-    const coins = getOrderSellPrice<number>(gameState, order);
+    const coins = getOrderSellPrice<number>(state, order);
 
     return formatNumber(coins);
   };
@@ -391,14 +390,15 @@ export const DeliveryOrders: React.FC<Props> = ({
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
-  const {
-    tasksStartAt,
-    tasksCloseAt,
-    ticketTasksAreFrozen,
-    ticketTasksAreClosing,
-  } = getSeasonChangeover({ id: gameService.state.context.farmId });
+  const { holiday } = getBumpkinHoliday({});
 
-  const level = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
+  // Check if matches UTC date
+  const isHoliday = holiday === new Date().toISOString().split("T")[0];
+
+  const nextHolidayInSecs =
+    (new Date(holiday ?? 0).getTime() - Date.now()) / 1000;
+
+  const level = getBumpkinLevel(bumpkin?.experience ?? 0);
 
   const coinOrders = orders.filter((order) => order.reward.coins);
   const sflOrders = orders.filter((order) => order.reward.sfl);
@@ -432,8 +432,13 @@ export const DeliveryOrders: React.FC<Props> = ({
         )}
       >
         <div className="p-1">
-          <div className="flex justify-between gap-1">
+          <div className="flex justify-between gap-1 flex-row w-full">
             <Label type="default">{t("deliveries")}</Label>
+            {delivery.doubleDelivery === dateKey && (
+              <Label type="vibrant" icon={lightning}>
+                {t("double.rewards.deliveries")}
+              </Label>
+            )}
           </div>
           <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>
         </div>
@@ -449,7 +454,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {coinOrders.map((order) => {
             return (
               <OrderCard
-                gameState={gameState}
+                state={state}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -468,16 +473,14 @@ export const DeliveryOrders: React.FC<Props> = ({
             >
               {getSeasonalTicket()}
             </Label>
-            {ticketTasksAreFrozen && (
+            {isHoliday && (
               <Label type="formula" icon={lock} className="mt-1">
-                {secondsToString((tasksStartAt - Date.now()) / 1000, {
-                  length: "medium",
-                })}
+                {t("delivery.holiday")}
               </Label>
             )}
-            {ticketTasksAreClosing && (
+            {nextHolidayInSecs > 0 && nextHolidayInSecs < 24 * 60 * 60 && (
               <Label type="danger" icon={lock} className="mt-1">
-                {`${secondsToString((tasksCloseAt - Date.now()) / 1000, {
+                {`${secondsToString(nextHolidayInSecs, {
                   length: "medium",
                 })} left`}
               </Label>
@@ -490,17 +493,20 @@ export const DeliveryOrders: React.FC<Props> = ({
               })}
             </span>
           )}
-          {ticketTasksAreFrozen && (
+          {nextHolidayInSecs > 0 && nextHolidayInSecs < 24 * 60 * 60 && (
             <span className="text-xs mb-2">
-              {t("orderhelp.New.Season.arrival")}
+              {t("delivery.holiday.closingSoon")}
             </span>
+          )}
+          {isHoliday && (
+            <span className="text-xs mb-2">{t("delivery.holiday.closed")}</span>
           )}
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
           {ticketOrders.map((order) => {
             return (
               <OrderCard
-                gameState={gameState}
+                state={state}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -528,7 +534,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {sflOrders.map((order) => {
             return (
               <OrderCard
-                gameState={gameState}
+                state={state}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -720,7 +726,9 @@ export const DeliveryOrders: React.FC<Props> = ({
                       key={`${itemName}-${index}-items`}
                       type="item"
                       item={itemName}
-                      balance={inventory[itemName] ?? new Decimal(0)}
+                      balance={
+                        getCountAndTypeForDelivery(state, itemName).count
+                      }
                       showLabel
                       requirement={
                         new Decimal(previewOrder?.items[itemName] ?? 0)
@@ -754,7 +762,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                   <span className={!isMobile ? "text-xxs" : ""}>
                     {`${
                       generateDeliveryTickets({
-                        game: gameState,
+                        game: state,
                         npc: previewOrder.from,
                       }) || makeRewardAmountForLabel(previewOrder)
                     } ${
@@ -767,56 +775,67 @@ export const DeliveryOrders: React.FC<Props> = ({
                   </span>
                 </Label>
               </div>
-              {!previewOrder.completedAt &&
-                hasOrderRequirements({
-                  order: previewOrder,
-                  sfl,
-                  coins,
-                  inventory,
-                }) && (
-                  <Button
-                    className="!text-xs !mt-0 !-mb-1"
-                    onClick={() => {
-                      gameService.send("SAVE");
-                      onClose();
-                      {
-                        if (
-                          RETREAT_BUMPKINS.includes(
-                            previewOrder?.from as NPCName,
-                          )
-                        ) {
-                          navigate("/world/retreat");
-                        } else if (
-                          BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
-                        ) {
-                          navigate("/world/beach");
-                        } else if (
-                          KINGDOM_BUMPKINS.includes(
-                            previewOrder?.from as NPCName,
-                          )
-                        ) {
-                          navigate("/world/kingdom");
-                        } else {
-                          navigate("/world/plaza");
+              <div className="mb-1">
+                {delivery.doubleDelivery === dateKey && !hasClaimedBonus && (
+                  <Label type="vibrant" icon={lightning}>
+                    {t("2x.rewards")}
+                  </Label>
+                )}
+              </div>
+              <div>
+                {!previewOrder.completedAt &&
+                  hasOrderRequirements({
+                    order: previewOrder,
+                    state,
+                  }) && (
+                    <Button
+                      className="!text-xs !mt-0 !-mb-1"
+                      onClick={() => {
+                        gameService.send("SAVE");
+                        onClose();
+                        {
+                          if (
+                            RETREAT_BUMPKINS.includes(
+                              previewOrder?.from as NPCName,
+                            )
+                          ) {
+                            navigate("/world/retreat");
+                          } else if (
+                            BEACH_BUMPKINS.includes(
+                              previewOrder?.from as NPCName,
+                            )
+                          ) {
+                            navigate("/world/beach");
+                          } else if (
+                            KINGDOM_BUMPKINS.includes(
+                              previewOrder?.from as NPCName,
+                            )
+                          ) {
+                            navigate("/world/kingdom");
+                          } else {
+                            navigate("/world/plaza");
+                          }
                         }
-                      }
-                    }}
-                  >
-                    {t("world.travelTo", {
-                      location: RETREAT_BUMPKINS.includes(
-                        previewOrder?.from as NPCName,
-                      )
-                        ? t("world.retreat")
-                        : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
-                          ? t("world.beach")
-                          : KINGDOM_BUMPKINS.includes(
+                      }}
+                    >
+                      {t("world.travelTo", {
+                        location: RETREAT_BUMPKINS.includes(
+                          previewOrder?.from as NPCName,
+                        )
+                          ? t("world.retreat")
+                          : BEACH_BUMPKINS.includes(
                                 previewOrder?.from as NPCName,
                               )
-                            ? t("world.kingdom")
-                            : t("world.plaza"),
-                    })}
-                  </Button>
-                )}
+                            ? t("world.beach")
+                            : KINGDOM_BUMPKINS.includes(
+                                  previewOrder?.from as NPCName,
+                                )
+                              ? t("world.kingdom")
+                              : t("world.plaza"),
+                      })}
+                    </Button>
+                  )}
+              </div>
               {previewOrder.completedAt ? (
                 <div className="flex">
                   <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />
@@ -833,9 +852,9 @@ export const DeliveryOrders: React.FC<Props> = ({
               )}
             </div>
           )}
-          {ticketTasksAreFrozen &&
+          {isHoliday &&
             !!generateDeliveryTickets({
-              game: gameState,
+              game: state,
               npc: previewOrder.from,
             }) && (
               <Label

@@ -37,7 +37,10 @@ type GetMinedAtArgs = {
 export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
   let totalSeconds = IRON_RECOVERY_TIME;
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     totalSeconds = totalSeconds * 0.5;
   }
 
@@ -46,7 +49,7 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
   }
 
   if (game.bumpkin.skills["Iron Hustle"]) {
-    totalSeconds = totalSeconds * 0.9;
+    totalSeconds = totalSeconds * 0.7;
   }
 
   const buff = IRON_RECOVERY_TIME - totalSeconds;

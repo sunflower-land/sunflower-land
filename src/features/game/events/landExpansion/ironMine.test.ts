@@ -254,7 +254,7 @@ describe("mineIron", () => {
           },
         },
       });
-      expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.1 * 1000);
+      expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.3 * 1000);
     });
 
     it("returns normal mined at", () => {
@@ -276,6 +276,60 @@ describe("mineIron", () => {
           ...TEST_FARM,
           collectibles: {
             "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
+    });
+
+    it("iron replenishes faster with Super Totem", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Super Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
+    });
+
+    it("doesn't stack Super Totem and Time Warp Totem", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+            "Super Totem": [
               {
                 id: "123",
                 createdAt: now,

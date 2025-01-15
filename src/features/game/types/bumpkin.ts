@@ -16,7 +16,6 @@ export type BumpkinBackground =
   | "Festival of Colors Background"
   | "Desert Background"
   | "Desert Camel Background"
-  | "Desert Camel Background"
   | "Pumpkin Plaza Background"
   | "Goblin Retreat Background"
   | "Kingdom Background";
@@ -127,13 +126,19 @@ export type BumpkinShirt =
   | "Bumpkin Armor"
   | "Sunflorian Armor"
   | "Explorer Shirt"
-  | "Ankh Shirt";
+  | "Ankh Shirt"
+  | "Cowboy Shirt"
+  | "Merino Jumper"
+  | "Fossil Armor"
+  | "Rice Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
   | "Fruit Picker Apron"
   | "Pirate General Coat"
-  | "Royal Robe";
+  | "Royal Robe"
+  | "Milk Apron"
+  | "Tomato Apron";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -179,7 +184,11 @@ export type BumpkinTool =
   | "Dev Wrench"
   | "Rock Hammer"
   | "Water Gourd"
-  | "Ancient Shovel";
+  | "Ancient Shovel"
+  | "Infernal Bullwhip"
+  | "Shepherd Staff"
+  | "Sickle"
+  | "Adventurer's Torch";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -200,7 +209,9 @@ export type BumpkinShoe =
   | "Nightshade Sabatons"
   | "Sunflorian Sabatons"
   | "Bumpkin Sabatons"
-  | "Desert Merchant Shoes";
+  | "Desert Merchant Shoes"
+  | "Cowboy Boots"
+  | "Speed Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -215,7 +226,9 @@ export type BumpkinNecklace =
   | "Bumpkin Medallion"
   | "Goblin Medallion"
   | "Nightshade Medallion"
-  | "Sunflorian Medallion";
+  | "Sunflorian Medallion"
+  | "Dream Scarf"
+  | "Cowbell Necklace";
 
 export type BumpkinHat =
   | "Painter's Cap"
@@ -275,6 +288,7 @@ export type BumpkinHat =
   | "Stormy Dumbo"
   | "Gloomy Dumbo"
   | "New Years Tiara"
+  | "New Years Crown"
   | "Beekeeper Hat"
   | "Propeller Hat"
   | "Hornet Mask"
@@ -299,7 +313,9 @@ export type BumpkinHat =
   | "Goblin Crown"
   | "Nightshade Crown"
   | "Sunflorian Crown"
-  | "Gam3s Cap";
+  | "Gam3s Cap"
+  | "Cowboy Hat"
+  | "Pumpkin Head";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -334,7 +350,10 @@ export type BumpkinPant =
   | "Sunflorian Pants"
   | "Explorer Shorts"
   | "Oil Overalls"
-  | "Grape Pants";
+  | "Grape Pants"
+  | "Cowboy Trouser"
+  | "Cowgirl Skirt"
+  | "Fossil Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -350,7 +369,8 @@ export type BumpkinDress =
   | "Blue Monarch Dress"
   | "Green Monarch Dress"
   | "Orange Monarch Dress"
-  | "Desert Merchant Suit";
+  | "Desert Merchant Suit"
+  | "Adventurer's Suit";
 
 export type BumpkinSecondaryTool =
   | "Sunflower Shield"
@@ -386,7 +406,10 @@ export type BumpkinOnesie =
   | "Banana Onesie"
   | "Soybean Onesie"
   | "Camel Onesie"
-  | "Rocket Onesie";
+  | "Rocket Onesie"
+  | "White Sheep Onesie"
+  | "Black Sheep Onesie"
+  | "Gingerbread Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -399,7 +422,8 @@ export type BumpkinSuit =
   | "Elf Suit"
   | "Bee Suit"
   | "Beekeeper Suit"
-  | "Lucky Red Suit";
+  | "Lucky Red Suit"
+  | "Chicken Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -415,7 +439,8 @@ export type BumpkinWings =
   | "Bumpkin Quiver"
   | "Goblin Quiver"
   | "Nightshade Quiver"
-  | "Sunflorian Quiver";
+  | "Sunflorian Quiver"
+  | "Sol & Luna";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
@@ -839,6 +864,34 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
 
   //GAM3S Wearable
   "Gam3s Cap": 395,
+
+  //Bull Run Season Wearables
+  "Cowboy Hat": 396,
+  "Cowboy Shirt": 397,
+  "Cowboy Trouser": 398,
+  "Cowboy Boots": 399,
+  "Infernal Bullwhip": 400,
+  "White Sheep Onesie": 401,
+  "Black Sheep Onesie": 402,
+  "Chicken Suit": 403,
+  "Cowgirl Skirt": 404,
+  "Merino Jumper": 405,
+  "Dream Scarf": 406,
+  "Cowbell Necklace": 407,
+  "Milk Apron": 408,
+  "Shepherd Staff": 409,
+  "Sol & Luna": 410,
+  "Fossil Armor": 411,
+  "Fossil Pants": 412,
+  "Rice Shirt": 413,
+  Sickle: 414,
+  "Speed Boots": 415,
+  "Tomato Apron": 416,
+  "Adventurer's Suit": 417,
+  "Adventurer's Torch": 418,
+  "Pumpkin Head": 419,
+  "Gingerbread Onesie": 420,
+  "New Years Crown": 421,
 };
 
 // The reverse of above
@@ -1295,4 +1348,96 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Goblin Retreat Background": "background",
   "Kingdom Background": "background",
   "Gam3s Cap": "hat",
+  "Cowboy Hat": "hat",
+  "Cowboy Shirt": "shirt",
+  "Cowboy Trouser": "pants",
+  "Cowboy Boots": "shoes",
+  "Infernal Bullwhip": "tool",
+  "White Sheep Onesie": "onesie",
+  "Black Sheep Onesie": "onesie",
+  "Chicken Suit": "suit",
+  "Cowgirl Skirt": "pants",
+  "Merino Jumper": "shirt",
+  "Dream Scarf": "necklace",
+  "Cowbell Necklace": "necklace",
+  "Milk Apron": "coat",
+  "Shepherd Staff": "tool",
+  "Sol & Luna": "wings",
+  "Fossil Armor": "shirt",
+  "Fossil Pants": "pants",
+  "Rice Shirt": "shirt",
+  Sickle: "tool",
+  "Speed Boots": "shoes",
+  "Tomato Apron": "coat",
+  "Adventurer's Suit": "dress",
+  "Adventurer's Torch": "tool",
+  "Pumpkin Head": "hat",
+  "Gingerbread Onesie": "onesie",
+  "New Years Crown": "hat",
 };
+
+/**Copied from BE just for hoarding checks */
+// Blonde and orange hair does not match all Bumpkin styles
+const DARK_SKIN_COMPATIBLE_BUMPKIN_HAIR: BumpkinHair[] = [
+  "Basic Hair",
+  "Explorer Hair",
+  "Buzz Cut",
+  "Parlour Hair",
+  "Sun Spots",
+  "Brown Long Hair",
+  "White Long Hair",
+];
+
+const ALLOWED_BUMPKIN_HAIR: BumpkinHair[] = [
+  "Rancher Hair",
+  "Blondie",
+  ...DARK_SKIN_COMPATIBLE_BUMPKIN_HAIR,
+];
+
+const ALLOWED_BUMPKIN_SHIRTS: BumpkinShirt[] = [
+  "Red Farmer Shirt",
+  "Blue Farmer Shirt",
+  "Yellow Farmer Shirt",
+];
+
+const ALLOWED_BUMPKIN_BODIES: BumpkinBody[] = [
+  "Beige Farmer Potion",
+  "Light Brown Farmer Potion",
+  "Dark Brown Farmer Potion",
+];
+
+const ALLOWED_BUMPKIN_PANTS: BumpkinPant[] = [
+  "Farmer Pants",
+  "Farmer Overalls",
+  "Lumberjack Overalls",
+  "Brown Suspenders",
+  "Blue Suspenders",
+];
+
+const ALLOWED_BUMPKIN_BOOTS: BumpkinShoe[] = [
+  "Black Farmer Boots",
+  "Brown Boots",
+  "Yellow Boots",
+];
+
+const ALLOWED_BUMPKIN_TOOLS: BumpkinTool[] = [
+  "Farmer Pitchfork",
+  "Axe",
+  "Sword",
+];
+
+const ALLOWED_BACKGROUNDS: BumpkinBackground[] = [
+  "Farm Background",
+  "Forest Background",
+  "Seashore Background",
+];
+
+export const ALLOWED_BUMPKIN_ITEMS: BumpkinItem[] = [
+  ...ALLOWED_BUMPKIN_HAIR,
+  ...ALLOWED_BUMPKIN_SHIRTS,
+  ...ALLOWED_BUMPKIN_BODIES,
+  ...ALLOWED_BUMPKIN_PANTS,
+  ...ALLOWED_BUMPKIN_BOOTS,
+  ...ALLOWED_BUMPKIN_TOOLS,
+  ...ALLOWED_BACKGROUNDS,
+];

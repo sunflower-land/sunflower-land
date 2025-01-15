@@ -44,7 +44,7 @@ interface Props {
 }
 
 export const CropMachine: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   const cropMachine = useSelector(
@@ -159,11 +159,19 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
                 <img
                   key={index}
                   src={ITEM_DETAILS[crop].image}
-                  className="img-highlight-heavy w-8 ready m-0.5"
+                  className={
+                    "img-highlight-heavy w-8 m-0.5" +
+                    (showAnimations ? " ready" : "")
+                  }
                 />
               ))}
             </div>
           )}
+          <img
+            src={SUNNYSIDE.building.shadowCropMachine}
+            className="absolute bottom-0 right-1"
+            style={{ width: `${PIXEL_SCALE * 80}px` }}
+          />
           <img
             src={SUNNYSIDE.building.idleMachine}
             className="w-full absolute"
@@ -174,11 +182,6 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
           />
           {(running || paused) && (
             <>
-              <img
-                src={SUNNYSIDE.building.shadowCropMachine}
-                className="absolute bottom-0 right-1"
-                style={{ width: `${PIXEL_SCALE * 80}px` }}
-              />
               <div id="cropMachine" className="border-1 border-black">
                 {growingCropPackStage === "planting" && (
                   <Planting paused={paused} />

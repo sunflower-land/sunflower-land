@@ -1,18 +1,17 @@
 import { useSelector } from "@xstate/react";
-import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
 import {
-  CollectionName,
+  Listing,
+  Tradeable,
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
-import { TradeableDisplay } from "../lib/tradeables";
+import React, { useContext, useState } from "react";
 import { TradeableListItem } from "./TradeableList";
-import { TradeTable } from "./TradeTable";
+import { ListingTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
 
 import tradeIcon from "assets/icons/trade.png";
@@ -23,24 +22,31 @@ import {
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
+import { ResourceTable } from "./ResourceTable";
+import { formatNumber } from "lib/utils/formatNumber";
+import { useParams } from "react-router";
+import { PurchaseModalContent } from "./PurchaseModalContent";
+import { TradeableDisplay } from "../lib/tradeables";
+import { KNOWN_ITEMS } from "features/game/types";
+import { getKeys } from "features/game/types/craftables";
+import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { KeyedMutator } from "swr";
 
 type TradeableListingsProps = {
   authToken: string;
   tradeable?: TradeableDetails;
   display: TradeableDisplay;
   farmId: number;
-  collection: CollectionName;
   id: number;
   showListItem: boolean;
   count: number;
   onListClick: () => void;
   onListClose: () => void;
-  onListing: () => void;
+  reload: KeyedMutator<TradeableDetails>;
 };
 
 const _isListing = (state: MachineState) => state.matches("marketplaceListing");
-
-// CONFETTI
+const _balance = (state: MachineState) => state.context.state.balance;
 
 export const TradeableListings: React.FC<TradeableListingsProps> = ({
   authToken,
@@ -50,85 +56,155 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   id,
   count,
   showListItem,
-  onListing,
-  onListClick,
+  reload,
   onListClose,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
+  const params = useParams();
 
   const isListing = useSelector(gameService, _isListing);
+  const balance = useSelector(gameService, _balance);
+  const [selectedListing, setSelectedListing] = useState<Listing>();
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
     "marketplaceListingSuccess",
     "playing",
-    () => {
-      onListing();
-    },
+    reload,
   );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
     "marketplaceListing",
     "marketplaceListingSuccess",
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplacePurchasing",
+    "marketplacePurchasingSuccess",
     () => {
+      reload();
       if (showAnimations) confetti();
     },
   );
 
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceListingCancellingSuccess",
+    "playing",
+    reload,
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "loading",
+    "playing",
+    () =>
+      reload(undefined, {
+        optimisticData: tradeable
+          ? {
+              ...tradeable,
+              listings:
+                tradeable?.listings?.filter(
+                  (listing) => selectedListing?.id !== listing.id,
+                ) ?? [],
+            }
+          : undefined,
+      }),
+  );
+
+  const handleSelectListing = (id: string) => {
+    const selectedListing = tradeable?.listings.find(
+      (listing) => listing.id === id,
+    ) as Listing;
+
+    setSelectedListing(selectedListing);
+    setShowPurchaseModal(true);
+  };
+
+  const isResource =
+    getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
+    params.collection === "collectibles";
+
+  const loading = !tradeable;
+
   return (
     <>
+      <Modal
+        show={showPurchaseModal}
+        onHide={() => setShowPurchaseModal(false)}
+      >
+        <Panel>
+          <PurchaseModalContent
+            authToken={authToken}
+            listingId={selectedListing?.id as string}
+            price={selectedListing?.sfl ?? 0}
+            tradeable={tradeable as Tradeable}
+            onClose={() => setShowPurchaseModal(false)}
+            listing={selectedListing as Listing}
+          />
+        </Panel>
+      </Modal>
       <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
         <Panel>
           <TradeableListItem
             authToken={authToken}
             display={display}
-            tradeable={tradeable}
-            farmId={farmId}
             id={id}
+            floorPrice={tradeable?.floor ?? 0}
             onClose={onListClose}
           />
         </Panel>
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <Label icon={tradeIcon} type="default" className="mb-2">
-            {t("marketplace.listings")}
-          </Label>
+          <div className="flex items-center justify-between mb-1">
+            <Label icon={tradeIcon} type="default" className="mb-2">
+              {t("marketplace.listings")}
+            </Label>
+          </div>
           <div className="mb-2">
-            {!tradeable && <Loading />}
-            {tradeable?.listings.length === 0 && (
+            {loading && <Loading />}
+            {!loading && tradeable?.listings.length === 0 && (
               <p className="text-sm">{t("marketplace.noListings")}</p>
             )}
-            {!!tradeable?.listings.length && (
-              <TradeTable
-                items={tradeable.listings.map((listing) => ({
-                  price: listing.sfl,
-                  expiresAt: "30 days", // TODO,
-                  createdById: listing.listedById,
-                }))}
-                id={farmId}
-              />
-            )}
-          </div>
-          <div className="w-full justify-end hidden sm:flex sm:visible">
-            <Button
-              className="w-full sm:w-fit"
-              disabled={!count}
-              onClick={onListClick}
-            >
-              {t("marketplace.listForSale")}
-            </Button>
+            {!!tradeable?.listings.length &&
+              (isResource ? (
+                <ResourceTable
+                  isResource={isResource}
+                  balance={balance}
+                  details={display}
+                  items={tradeable?.listings.map((listing) => ({
+                    id: listing.id,
+                    price: listing.sfl,
+                    quantity: listing.quantity,
+                    pricePerUnit: Number(
+                      formatNumber(listing.sfl / listing.quantity, {
+                        decimalPlaces: 4,
+                      }),
+                    ),
+                    createdBy: listing.listedBy,
+                  }))}
+                  inventoryCount={count}
+                  id={farmId}
+                  tableType="listings"
+                  onClick={(listingId) => {
+                    handleSelectListing(listingId);
+                    setShowPurchaseModal(true);
+                  }}
+                />
+              ) : (
+                <ListingTable
+                  listings={tradeable?.listings}
+                  details={display}
+                  isResource={isResource}
+                />
+              ))}
           </div>
         </div>
-        <Button
-          className="w-full sm:hidden"
-          disabled={!count}
-          onClick={onListClick}
-        >
-          {t("marketplace.listForSale")}
-        </Button>
       </InnerPanel>
     </>
   );

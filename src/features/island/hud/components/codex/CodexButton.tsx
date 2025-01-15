@@ -36,7 +36,7 @@ export const CodexButton: React.FC = () => {
   return (
     <div className="relative">
       <div
-        className="relative flex cursor-pointer hover:img-highlight"
+        className="relative flex cursor-pointer hover:img-highlight group"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           height: `${PIXEL_SCALE * 22}px`,
@@ -48,19 +48,33 @@ export const CodexButton: React.FC = () => {
         }}
       >
         <img
-          src={SUNNYSIDE.ui.round_button}
+          src={SUNNYSIDE.ui.round_button_pressed}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
-          src={codex}
+          src={SUNNYSIDE.ui.round_button}
+          className="absolute group-active:hidden"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        />
+        <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
             width: `${PIXEL_SCALE * 14.5}px`,
           }}
-        />
+        >
+          <img
+            src={codex}
+            className="group-active:translate-y-[2px]"
+            style={{
+              width: `${PIXEL_SCALE * 14.5}px`,
+            }}
+          />
+        </div>
 
         {hasDeliveries && (
           <>

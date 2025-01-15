@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 
 import { getOpenSeaLink } from "../lib/utils";
 import { KNOWN_IDS } from "features/game/types";
@@ -11,6 +11,7 @@ import classNames from "classnames";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import Crown from "assets/icons/vip.webp";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -25,14 +26,15 @@ type Props = {
   additionalLabels?: React.ReactNode;
   children?: React.ReactNode;
   onBack: () => void;
+  state: GameState;
 };
-
 export const Detail: React.FC<Props> = ({
   name,
   caught,
   onBack,
   additionalLabels,
   children,
+  state,
 }) => {
   const { t } = useAppTranslation();
   const {
@@ -40,6 +42,7 @@ export const Detail: React.FC<Props> = ({
     description,
     howToGetItem = [],
     itemType,
+    availability,
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
 
@@ -56,7 +59,7 @@ export const Detail: React.FC<Props> = ({
     image.src = ITEM_DETAILS[name].image;
   }, []);
 
-  const buff = COLLECTIBLE_BUFF_LABELS[name];
+  const buff = COLLECTIBLE_BUFF_LABELS(state)[name];
 
   return (
     <>
@@ -105,17 +108,45 @@ export const Detail: React.FC<Props> = ({
               {additionalLabels}
               {/* Boost labels to go below */}
               {!!buff && (
-                <Label
-                  type={buff.labelType}
-                  icon={buff.boostTypeIcon}
-                  secondaryIcon={buff.boostedItemIcon}
-                >
-                  {buff.shortDescription}
-                </Label>
+                <div className="flex flex-col gap-1">
+                  {buff.map(
+                    (
+                      {
+                        labelType,
+                        boostTypeIcon,
+                        boostedItemIcon,
+                        shortDescription,
+                      },
+                      index,
+                    ) => (
+                      <Label
+                        key={index}
+                        type={labelType}
+                        icon={boostTypeIcon}
+                        secondaryIcon={boostedItemIcon}
+                      >
+                        {shortDescription}
+                      </Label>
+                    ),
+                  )}
+                </div>
               )}
               {!!itemType && (
                 <Label type="default" className="capitalize">
                   {itemType}
+                </Label>
+              )}
+              {!!availability && (
+                <Label
+                  type={availability === "Seasonal" ? "info" : "vibrant"}
+                  icon={
+                    availability === "Seasonal"
+                      ? SUNNYSIDE.icons.stopwatch
+                      : Crown
+                  }
+                  className="capitalize"
+                >
+                  {availability}
                 </Label>
               )}
             </div>
@@ -147,7 +178,7 @@ export const Detail: React.FC<Props> = ({
               {t("detail.view.item")}{" "}
               <a
                 href={getOpenSeaLink(KNOWN_IDS[name], "collectible")}
-                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 !text-[18px]"
+                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >

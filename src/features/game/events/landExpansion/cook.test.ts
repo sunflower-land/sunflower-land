@@ -1,4 +1,3 @@
-import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
@@ -51,6 +50,7 @@ describe("cook", () => {
                 crafting: {
                   name: "Boiled Eggs",
                   readyAt: Date.now() + 60 * 1000,
+                  amount: 1,
                 },
               },
             ],
@@ -120,7 +120,7 @@ describe("cook", () => {
       },
     });
 
-    expect(state.inventory["Egg"]).toEqual(new Decimal(17));
+    expect(state.inventory["Egg"]).toEqual(new Decimal(12));
   });
 
   it("does not affect existing inventory", () => {
@@ -267,6 +267,42 @@ describe("cook", () => {
         readyAt: readyAt,
       }),
     );
+  });
+
+  it("requires two times the food cook requirement with Double Nom skill", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Egg: new Decimal(20),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Double Nom": 1 },
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: {
+                x: 2,
+                y: 3,
+              },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+              oil: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Boiled Eggs",
+        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+      },
+    });
+
+    expect(state.inventory["Egg"]).toEqual(new Decimal(0));
   });
 });
 
@@ -452,6 +488,76 @@ describe("getReadyAt", () => {
     expect(time).toEqual(readyAt);
   });
 
+  it("applies Super Totem", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.5;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("doesn't stack Super Totem and Time Warp Totem", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.5;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
   it("applies desert gnome boost", () => {
     const now = Date.now();
 
@@ -600,6 +706,189 @@ describe("getReadyAt", () => {
     const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     expect(time).toEqual(readyAt);
+  });
+
+  it("applies 10% speed boost on Firepit with Fast Feasts skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.1;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies 10% speed boost on Kitchen with Fast Feasts skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Sunflower Crunch",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Sunflower Crunch"].cookingSeconds * 0.1;
+
+    const readyAt =
+      now + (COOKABLES["Sunflower Crunch"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies a 40% speed boost on Fire Pit when using oil with Swift Sizzle skill", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "Swift Sizzle": 1 },
+      },
+      buildings: {
+        "Fire Pit": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 1,
+          },
+        ],
+      },
+    };
+
+    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
+
+    expect(time).toEqual(60 * 60 * 0.6);
+  });
+
+  it("does not apply Swift Sizzle boost on Kitchen", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Sunflower Crunch",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
+      },
+    });
+
+    const readyAt = now + COOKABLES["Sunflower Crunch"].cookingSeconds * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies a 10% speed boost on cakes with Frosted Cakes skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Parsnip Cake",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Frosted Cakes": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Frosted Cakes": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Parsnip Cake"].cookingSeconds * 0.1;
+
+    const readyAt =
+      now + (COOKABLES["Parsnip Cake"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies a 50% speed boost on Kitchen when using oil with Turbo Fry skill", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: {
+          "Turbo Fry": 1,
+        },
+      },
+      buildings: {
+        Kitchen: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 10,
+          },
+        ],
+      },
+    };
+
+    const time = getCookingOilBoost("Fruit Salad", game, "1").timeToCook;
+
+    expect(time).toEqual(COOKABLES["Fruit Salad"].cookingSeconds * 0.5);
+  });
+
+  it("does not apply Turbo Fry boost on Fire Pit", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
+      },
+    });
+
+    const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies a 60% speed boost on Deli meals when using Oil with Fry Frenzy skill", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: {
+          "Fry Frenzy": 1,
+        },
+      },
+      buildings: {
+        Deli: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 24,
+          },
+        ],
+      },
+    };
+
+    const time = getCookingOilBoost("Fermented Fish", game, "1").timeToCook;
+
+    expect(time).toEqual(COOKABLES["Fermented Fish"].cookingSeconds * 0.4);
   });
 });
 

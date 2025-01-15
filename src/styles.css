@@ -394,6 +394,13 @@ img {
   transition-timing-function: linear;
 }
 
+.tease_boat {
+  animation-duration: 50s;
+  animation-name: boating;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
 @keyframes boating {
   0% {
     transform: translateX(-850px);
@@ -732,12 +739,30 @@ img {
   animation: subtle-pulse 2s infinite;
 }
 
+@keyframes pulse-no-fade {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse-no-fade {
+  animation: pulse-no-fade 1s infinite;
+  transform-origin: center; /* Ensures scaling originates from center */
+  display: inline-block;
+}
+
 @keyframes subtle-pulse {
   0% {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
@@ -1375,5 +1400,61 @@ th {
   }
   100% {
     content: "";
+  }
+}
+
+@keyframes bounce-drop {
+  0% {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(-80%, 0, 0);
+    opacity: 1;
+  }
+  40%,
+  43% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(-140%, -20px, 0) scaleY(1.1);
+    opacity: 1;
+  }
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(-150%, -5px, 0) scaleY(1.05);
+    opacity: 1;
+  }
+  80% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(-160%, 0, 0) scaleY(0.95);
+    opacity: 0.5;
+  }
+  90% {
+    transform: translate3d(-170%, -4px, 0) scaleY(1.02);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(-170%, 0, 0) scaleY(1);
+    opacity: 0;
+  }
+}
+
+.bounce-drop {
+  animation-name: bounce-drop;
+  transform-origin: center bottom;
+  animation-duration: 0.9s;
+  animation-fill-mode: forwards;
+  animation-delay: var(--drop-delay, 0s);
+}
+
+.loading-fade-pulse {
+  animation: fade-in-out 1s infinite;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
   }
 }

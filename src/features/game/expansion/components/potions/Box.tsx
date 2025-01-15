@@ -63,24 +63,6 @@ const SelectBox = () => {
     <>
       <img
         className="absolute pointer-events-none"
-        src={SUNNYSIDE.ui.selectBoxBL}
-        style={{
-          top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
-          left: 0,
-          width: `${PIXEL_SCALE * 6}px`,
-        }}
-      />
-      <img
-        className="absolute pointer-events-none"
-        src={SUNNYSIDE.ui.selectBoxBR}
-        style={{
-          top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
-          left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
-          width: `${PIXEL_SCALE * 6}px`,
-        }}
-      />
-      <img
-        className="absolute pointer-events-none"
         src={SUNNYSIDE.ui.selectBoxTL}
         style={{
           top: 0,
@@ -93,6 +75,24 @@ const SelectBox = () => {
         src={SUNNYSIDE.ui.selectBoxTR}
         style={{
           top: 0,
+          left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
+          width: `${PIXEL_SCALE * 6}px`,
+        }}
+      />
+      <img
+        className="absolute pointer-events-none"
+        src={SUNNYSIDE.ui.selectBoxBL}
+        style={{
+          top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
+          left: 0,
+          width: `${PIXEL_SCALE * 6}px`,
+        }}
+      />
+      <img
+        className="absolute pointer-events-none"
+        src={SUNNYSIDE.ui.selectBoxBR}
+        style={{
+          top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           width: `${PIXEL_SCALE * 6}px`,
         }}

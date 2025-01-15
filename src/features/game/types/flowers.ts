@@ -372,6 +372,13 @@ export const FLOWERS: Record<FlowerName, Flower> = {
   ...LILY_FLOWERS,
 };
 
+export type FlowerGrowthStage =
+  | "seedling"
+  | "sprout"
+  | "halfway"
+  | "almost"
+  | "ready";
+
 type Lifecycle = {
   seedling: any;
   sprout: any;
@@ -448,4 +455,4 @@ export const DESERT_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
   {} as Record<FlowerName, Lifecycle>,
 );
 
-export type MutantFlowerName = "Desert Rose";
+export type MutantFlowerName = "Desert Rose" | "Chicory";

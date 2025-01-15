@@ -4,22 +4,22 @@ import { CONFIG } from "lib/config";
 import { Donations } from "./Donations";
 
 const CONTRIBUTORS = [
-  "JC",
-  "Kotob",
-  "whaitte",
-  "Ventin",
-  "shinon",
-  "PurpleDvrnk",
-  "SFWhat",
-  "Andand0",
-  "Telk",
-  "Neonlight",
-  "Vergel",
-  "Netherzapdos",
-  "LittleEins",
   "Poro",
-  "Mr Findlay",
-  "default",
+  "Telk",
+  "Grith",
+  "Maxam",
+  "iSPANKzombiez",
+  "Vergelsxtn",
+  "shinon",
+  "kohirabbit",
+  "deefault",
+  "Jc",
+  "Andando",
+  "whaitte",
+  "LittleEins",
+  "Netherzapdos",
+  "PurpleDrvnk",
+  "RadishPies",
 ];
 const CHRISTMAS_EVENT_DONATION_ADDRESS = CONFIG.CHRISTMAS_EVENT_DONATION;
 

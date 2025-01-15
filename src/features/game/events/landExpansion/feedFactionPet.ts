@@ -4,7 +4,7 @@ import {
   START_DATE,
   calculatePoints,
   getFactionWearableBoostAmount,
-  getFactionWeek,
+  getWeekKey,
   getFactionWeekday,
 } from "features/game/lib/factions";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -104,7 +104,7 @@ export function feedFactionPet({
 
     const request = requests[action.requestIndex];
     const foodBalance = stateCopy.inventory[request.food] ?? new Decimal(0);
-    const week = getFactionWeek({ date: new Date(createdAt) });
+    const week = getWeekKey({ date: new Date(createdAt) });
     const day = getFactionWeekday(createdAt);
 
     if (foodBalance.lt(request.quantity)) {

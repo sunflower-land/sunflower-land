@@ -26,6 +26,14 @@ export function cancelTrade({
       throw new Error(`Trade #${action.tradeId} does not exist`);
     }
 
+    // Some older trades still have the collection listed as "resources". They are still collectibles.
+    if (
+      trade.collection !== "collectibles" &&
+      trade.collection !== "resources"
+    ) {
+      throw new Error(`Trade #${action.tradeId} is not a collectible`);
+    }
+
     if (trade.boughtAt) {
       throw new Error(`Trade #${action.tradeId} already bought`);
     }

@@ -3,13 +3,14 @@ import Decimal from "decimal.js-light";
 import { Bumpkin, GameState, Inventory } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import {
+  COOKABLES,
   COOKABLE_CAKES,
   Consumable,
+  CookableName,
   FISH_CONSUMABLES,
   isCookable,
 } from "features/game/types/consumables";
 import {
-  hasActiveSeasonBanner,
   isCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
@@ -21,6 +22,7 @@ import {
   FACTION_ITEMS,
   getFactionPetBoostMultiplier,
 } from "features/game/lib/factions";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const crops = CROPS;
 
@@ -41,6 +43,16 @@ export function isCropShortage({ game }: { game: GameState }) {
   }
 
   return true;
+}
+
+export function isFoodMadeWithHoney(food: Consumable) {
+  const cookable = COOKABLES[food.name as CookableName];
+  return !!cookable?.ingredients.Honey;
+}
+
+export function isFoodMadeWithCheese(food: Consumable) {
+  const cookable = COOKABLES[food.name as CookableName];
+  return !!cookable?.ingredients.Cheese;
 }
 
 export const CROP_SHORTAGE_HOURS = 2;
@@ -117,14 +129,19 @@ export const hasSellBoost = (inventory: Inventory) => {
 /**
  * Get reduced cooking time from bumpkin skills.
  * @param seconds time to be decreased
+ * @param item to check for cooking boosts
  * @param bumpkin to check for skills
+ * @param game to check for wearables
  * @returns reduced cooking
  */
 export const getCookingTime = (
   seconds: number,
+  item: CookableName,
   bumpkin: Bumpkin | undefined,
   game: GameState,
 ): number => {
+  const buildingName = COOKABLES[item].building;
+
   let reducedSecs = new Decimal(seconds);
 
   // 10% reduction
@@ -149,7 +166,10 @@ export const getCookingTime = (
     reducedSecs = reducedSecs.mul(0.75);
   }
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+  if (
+    isCollectibleActive({ name: "Super Totem", game }) ||
+    isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 
@@ -158,6 +178,21 @@ export const getCookingTime = (
   }
 
   if (isCollectibleBuilt({ name: "Desert Gnome", game })) {
+    reducedSecs = reducedSecs.mul(0.9);
+  }
+
+  // 10% reduction on Fire Pit with Fast Feasts skill
+  if (buildingName === "Fire Pit" && bumpkin?.skills["Fast Feasts"]) {
+    reducedSecs = reducedSecs.mul(0.9);
+  }
+
+  // 10% reduction on Kitchen with Fast Feasts skill
+  if (buildingName === "Kitchen" && bumpkin?.skills["Fast Feasts"]) {
+    reducedSecs = reducedSecs.mul(0.9);
+  }
+
+  // 10% reduction on Cakes with Frosted Cakes skill
+  if (item in COOKABLE_CAKES && bumpkin?.skills["Frosted Cakes"]) {
     reducedSecs = reducedSecs.mul(0.9);
   }
 
@@ -233,7 +268,11 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
-  if (hasActiveSeasonBanner({ game })) {
+  if (food.name in FISH_CONSUMABLES && !!skills["Fishy Feast"]) {
+    boostedExp = boostedExp.mul(1.2);
+  }
+
+  if (hasVipAccess(game.inventory)) {
     boostedExp = boostedExp.mul(1.1);
   }
 
@@ -244,11 +283,39 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(2);
   }
 
+  // Munching Mastery - 5% exp boost
+  if (skills["Munching Mastery"]) {
+    boostedExp = boostedExp.mul(1.05);
+  }
+
+  // Juicy Boost - 10% exp boost on juice
   if (
-    isCollectibleBuilt({ name: "Miffy", game }) &&
-    createdAt < new Date("2024-11-01T00:00:00").getTime()
+    isCookable(food) &&
+    food.building === "Smoothie Shack" &&
+    skills["Juicy Boost"]
   ) {
-    boostedExp = boostedExp.mul(2);
+    boostedExp = boostedExp.mul(1.1);
+  }
+
+  // Drive-Through Deli - 15% exp boost on Deli
+  if (
+    isCookable(food) &&
+    food.building === "Deli" &&
+    skills["Drive-Through Deli"]
+  ) {
+    boostedExp = boostedExp.mul(1.15);
+  }
+
+  if (isFoodMadeWithHoney(food) && skills["Buzzworthy Treats"]) {
+    boostedExp = boostedExp.mul(1.1);
+  }
+
+  // Swiss Whiskers - +500 exp on cheese recipes
+  if (
+    isFoodMadeWithCheese(food) &&
+    isCollectibleBuilt({ name: "Swiss Whiskers", game })
+  ) {
+    boostedExp = boostedExp.plus(500);
   }
 
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));

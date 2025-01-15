@@ -28,7 +28,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
-import { hasFeatureAccess } from "lib/flags";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 
@@ -42,6 +41,7 @@ export type CollectibleProps = {
   grid: GameGrid;
   location: PlaceableLocation;
   game: GameState;
+  z?: number | string;
 };
 
 type Props = CollectibleProps & {
@@ -151,6 +151,7 @@ const CollectibleComponent: React.FC<Props> = ({
   grid,
   location,
   game,
+  z,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
@@ -159,7 +160,7 @@ const CollectibleComponent: React.FC<Props> = ({
   useUiRefresher({ active: inProgress });
 
   return (
-    <div className="h-full">
+    <div className="h-full" style={{ zIndex: z }}>
       {inProgress ? (
         <InProgressCollectible
           key={id}
@@ -228,14 +229,18 @@ const LandscapingCollectible: React.FC<Props> = (props) => {
             </InnerPanel>
           </div>
         )}
-        <CollectiblePlaced {...props} />
+        <div style={{ zIndex: props.z }}>
+          <CollectiblePlaced {...props} />
+        </div>
       </div>
     );
   }
 
   return (
     <MoveableComponent {...(props as any)}>
-      <CollectiblePlaced {...props} />
+      <div style={{ zIndex: props.z }}>
+        <CollectiblePlaced {...props} />
+      </div>
     </MoveableComponent>
   );
 };
@@ -271,6 +276,7 @@ export const Building: React.FC<{
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
+    game: state,
   });
 
   useEffect(() => {
@@ -282,8 +288,6 @@ export const Building: React.FC<{
 
     return () => clearInterval(interval);
   }, []);
-
-  const speedUpAccess = hasFeatureAccess(state, "GEM_BOOSTS");
 
   return (
     <>
@@ -312,22 +316,20 @@ export const Building: React.FC<{
         <Button className="mr-1" onClick={onClose}>
           {t("close")}
         </Button>
-        {speedUpAccess && (
-          <Button
-            disabled={!state.inventory.Gem?.gte(gems)}
-            className="relative ml-1"
-            onClick={() => onInstantBuilt(gems)}
+        <Button
+          disabled={!state.inventory.Gem?.gte(gems)}
+          className="relative ml-1"
+          onClick={() => onInstantBuilt(gems)}
+        >
+          {t("gems.speedUp")}
+          <Label
+            type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+            icon={ITEM_DETAILS.Gem.image}
+            className="flex absolute right-0 top-0.5"
           >
-            {t("gems.speedUp")}
-            <Label
-              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-              icon={ITEM_DETAILS.Gem.image}
-              className="flex absolute right-0 top-0.5"
-            >
-              {gems}
-            </Label>
-          </Button>
-        )}
+            {gems}
+          </Label>
+        </Button>
       </div>
     </>
   );

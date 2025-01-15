@@ -23,7 +23,7 @@ import { CookableName } from "features/game/types/consumables";
 import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
 import { Manor } from "./manor/Manor";
-import { IslandType } from "features/game/types/game";
+import { GameState, IslandType } from "features/game/types/game";
 import {
   BAKERY_VARIANTS,
   DELI_VARIANTS,
@@ -37,7 +37,8 @@ import {
 
 import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
-import { Barn } from "./barn/Barn";
+import { Barn, BARN_IMAGES } from "./barn/Barn";
+import { CraftingBox } from "./craftingBox/CraftingBox";
 
 export interface BuildingProps {
   buildingId: string;
@@ -62,6 +63,7 @@ export const BUILDING_COMPONENTS: Record<
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
+      buildingName="Fire Pit"
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
@@ -87,6 +89,7 @@ export const BUILDING_COMPONENTS: Record<
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
+      buildingName="Bakery"
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
@@ -122,6 +125,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      buildingName="Kitchen"
     >
       <Kitchen
         buildingId={buildingId}
@@ -145,6 +149,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      buildingName="Deli"
     >
       <Deli
         buildingId={buildingId}
@@ -168,6 +173,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      buildingName="Smoothie Shack"
     >
       <SmoothieShack
         buildingId={buildingId}
@@ -185,160 +191,198 @@ export const BUILDING_COMPONENTS: Record<
   "Crop Machine": ({ buildingId }: Pick<BuildingProps, "buildingId">) => (
     <CropMachine id={buildingId} />
   ),
+  "Crafting Box": CraftingBox,
 };
 
 export const READONLY_BUILDINGS: (
-  island: IslandType,
-) => Record<BuildingName, React.FC<any>> = (island) => ({
-  ...BUILDING_COMPONENTS,
-  "Fire Pit": () => (
-    <img
-      src={FIRE_PIT_VARIANTS[island]}
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 47}px` }}
-    />
-  ),
-  Kitchen: () => (
-    <img
-      src={KITCHEN_VARIANTS[island]}
-      className="absolute"
-      style={{ width: `${PIXEL_SCALE * 63}px`, bottom: 0 }}
-    />
-  ),
-  Workbench: () => (
-    <img
-      src={WORKBENCH_VARIANTS[island]}
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 47}px`,
-        bottom: `${PIXEL_SCALE * 4}px`,
-      }}
-    />
-  ),
-  Market: () => (
-    <img
-      src={MARKET_VARIANTS[island]}
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 48}px` }}
-    />
-  ),
-  "Hen House": () => (
-    <img
-      src={HEN_HOUSE_VARIANTS[island]}
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 61}px`,
-        left: `${PIXEL_SCALE * 1}px`,
-      }}
-    />
-  ),
-  "Town Center": () => (
-    <img
-      src={ITEM_DETAILS["Town Center"].image}
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 62}px`,
-        left: `${PIXEL_SCALE * 1}px`,
-      }}
-    />
-  ),
-  "Smoothie Shack": () => (
-    <img
-      src={SMOOTHIE_SHACK_VARIANTS[island]}
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 48}px` }}
-    />
-  ),
-  Bakery: () => (
-    <img
-      src={BAKERY_VARIANTS[island]}
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 62}px`, left: `${PIXEL_SCALE * 1}px` }}
-    />
-  ),
-  Deli: () => (
-    <img
-      src={DELI_VARIANTS[island]}
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 64}px` }}
-    />
-  ),
+  gameState: GameState,
+) => Record<BuildingName, React.FC<any>> = (gameState) => {
+  const island: IslandType = gameState.island.type;
+  const henHouseLevel = gameState.henHouse.level;
+  const barnLevel = gameState.barn.level;
 
-  "Compost Bin": () => (
-    <div
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 24}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 2}px`,
-      }}
-    >
+  return {
+    ...BUILDING_COMPONENTS,
+    "Fire Pit": () => (
       <img
-        src={ITEM_DETAILS["Compost Bin"].image}
-        className="w-full absolute"
+        src={FIRE_PIT_VARIANTS[island]}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 47}px` }}
+      />
+    ),
+    Kitchen: () => (
+      <img
+        src={KITCHEN_VARIANTS[island]}
+        className="absolute"
+        style={{ width: `${PIXEL_SCALE * 63}px`, bottom: 0 }}
+      />
+    ),
+    Workbench: () => (
+      <img
+        src={WORKBENCH_VARIANTS[island]}
+        className="relative"
+        style={{
+          width: `${PIXEL_SCALE * 47}px`,
+          bottom: `${PIXEL_SCALE * 4}px`,
+        }}
+      />
+    ),
+    Market: () => (
+      <img
+        src={MARKET_VARIANTS[island]}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 48}px` }}
+      />
+    ),
+    "Hen House": () => (
+      <img
+        src={HEN_HOUSE_VARIANTS[island][henHouseLevel] as string}
+        className="absolute bottom-0"
+        style={{
+          width: `${PIXEL_SCALE * 61}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    ),
+    "Town Center": () => (
+      <img
+        src={ITEM_DETAILS["Town Center"].image}
+        className="absolute bottom-0"
+        style={{
+          width: `${PIXEL_SCALE * 62}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    ),
+    "Smoothie Shack": () => (
+      <img
+        src={SMOOTHIE_SHACK_VARIANTS[island]}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 48}px` }}
+      />
+    ),
+    Bakery: () => (
+      <img
+        src={BAKERY_VARIANTS[island]}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 62}px`, left: `${PIXEL_SCALE * 1}px` }}
+      />
+    ),
+    Deli: () => (
+      <img
+        src={DELI_VARIANTS[island]}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 64}px` }}
+      />
+    ),
+
+    "Compost Bin": () => (
+      <div
+        className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 24}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 2}px`,
         }}
-      />
-    </div>
-  ),
-  "Turbo Composter": () => (
-    <div
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 27}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 3}px`,
-      }}
-    >
-      <img
-        src={ITEM_DETAILS["Turbo Composter"].image}
-        className="w-full absolute"
+      >
+        <img
+          src={ITEM_DETAILS["Compost Bin"].image}
+          className="w-full absolute"
+          style={{
+            width: `${PIXEL_SCALE * 24}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
+      </div>
+    ),
+    "Turbo Composter": () => (
+      <div
+        className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 27}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 3}px`,
         }}
-      />
-    </div>
-  ),
-  "Premium Composter": () => (
-    <div
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 34}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 2}px`,
-      }}
-    >
-      <img
-        src={ITEM_DETAILS["Premium Composter"].image}
-        className="w-full absolute"
+      >
+        <img
+          src={ITEM_DETAILS["Turbo Composter"].image}
+          className="w-full absolute"
+          style={{
+            width: `${PIXEL_SCALE * 27}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      </div>
+    ),
+    "Premium Composter": () => (
+      <div
+        className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 34}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * -3}px`,
+          left: `${PIXEL_SCALE * 2}px`,
         }}
-      />
-    </div>
-  ),
-  "Crop Machine": () => (
-    <div
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 80}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-      }}
-    >
-      <img
-        src={ITEM_DETAILS["Crop Machine"].image}
-        className="w-full absolute"
+      >
+        <img
+          src={ITEM_DETAILS["Premium Composter"].image}
+          className="w-full absolute"
+          style={{
+            width: `${PIXEL_SCALE * 34}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * -3}px`,
+          }}
+        />
+      </div>
+    ),
+    Barn: () => (
+      <div
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 64}px` }}
+      >
+        <img
+          src={BARN_IMAGES[barnLevel]}
+          className="absolute bottom-0"
+          style={{ width: `${PIXEL_SCALE * 64}px` }}
+        />
+      </div>
+    ),
+    "Crop Machine": () => (
+      <div
+        className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 80}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
-      />
-    </div>
-  ),
-});
+      >
+        <img
+          src={ITEM_DETAILS["Crop Machine"].image}
+          className="w-full absolute"
+          style={{
+            width: `${PIXEL_SCALE * 80}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      </div>
+    ),
+    "Crafting Box": () => (
+      <div
+        className="absolute bottom-0"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+      >
+        <img
+          src={ITEM_DETAILS["Crafting Box"].image}
+          className="w-full absolute"
+          style={{
+            left: `${PIXEL_SCALE * -1}px`,
+            width: `${PIXEL_SCALE * 46}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      </div>
+    ),
+  };
+};

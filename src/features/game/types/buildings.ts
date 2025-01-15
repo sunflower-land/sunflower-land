@@ -5,11 +5,15 @@ import { ResourceName } from "./resources";
 
 export type Home = "Tent" | "House" | "Manor";
 
-export type CookingBuildingName = "Fire Pit" | "Kitchen" | "Bakery" | "Deli";
+export type CookingBuildingName =
+  | "Fire Pit"
+  | "Kitchen"
+  | "Bakery"
+  | "Deli"
+  | "Smoothie Shack";
 
 export type BuildingName =
   | CookingBuildingName
-  | "Smoothie Shack"
   | "Market"
   | "Town Center"
   | "Workbench"
@@ -23,7 +27,8 @@ export type BuildingName =
   | "Greenhouse"
   | Home
   | "Crop Machine"
-  | "Barn";
+  | "Barn"
+  | "Crafting Box";
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -219,33 +224,10 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
         },
       ],
     },
-    {
-      unlocksAtLevel: 20,
-      coins: 800,
-      constructionSeconds: 60 * 60 * 3,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(200),
-        },
-        {
-          item: "Iron",
-          amount: new Decimal(15),
-        },
-        {
-          item: "Gold",
-          amount: new Decimal(15),
-        },
-        {
-          item: "Egg",
-          amount: new Decimal(300),
-        },
-      ],
-    },
   ],
   Barn: [
     {
-      unlocksAtLevel: 12,
+      unlocksAtLevel: 30,
       coins: 200,
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
@@ -485,6 +467,23 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
       requiredIsland: "desert",
     },
   ],
+  "Crafting Box": [
+    {
+      unlocksAtLevel: 6,
+      coins: 0,
+      constructionSeconds: 60 * 60,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(100),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(5),
+        },
+      ],
+    },
+  ],
 };
 
 export type Dimensions = { width: number; height: number };
@@ -511,4 +510,5 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Greenhouse: { width: 4, height: 4 },
   "Crop Machine": { width: 5, height: 4 },
   Barn: { width: 4, height: 4 },
+  "Crafting Box": { width: 3, height: 2 },
 };

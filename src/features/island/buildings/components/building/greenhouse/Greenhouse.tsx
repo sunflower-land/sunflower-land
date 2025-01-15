@@ -6,7 +6,7 @@ import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/types/craftables";
 import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
@@ -44,7 +44,7 @@ const selectReadyPlants = (state: MachineState) => {
 };
 
 export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
 
   const readyPlants = useSelector(gameService, selectReadyPlants);
 
@@ -87,7 +87,9 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
               <img
                 key={index}
                 src={ITEM_DETAILS[plant].image}
-                className="img-highlight-heavy w-8 ready"
+                className={
+                  "img-highlight-heavy w-8" + (showAnimations ? " ready" : "")
+                }
               />
             ))}
           </div>
