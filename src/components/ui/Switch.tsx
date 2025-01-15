@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-
 const Switch: React.FC<{
   checked: boolean;
   onChange: () => void;
@@ -11,17 +10,25 @@ const Switch: React.FC<{
   return (
     <div
       className={classNames(
-        "flex items-center justify-between w-full cursor-pointer h-8",
+        "flex items-center justify-between w-full mb-1 cursor-pointer",
         className,
       )}
       onClick={onChange}
     >
       <span className="text-sm">{label}</span>
       {checked && (
-        <img src={SUNNYSIDE.ui.turn_off} alt="selected" className="w-16" />
+        <img
+          src={SUNNYSIDE.ui.turn_off}
+          alt="show progress bars"
+          className="w-16"
+        />
       )}
       {!checked && (
-        <img src={SUNNYSIDE.ui.turn_on} alt="unselected" className="w-16" />
+        <img
+          src={SUNNYSIDE.ui.turn_on}
+          alt="hide progress bars"
+          className="w-16"
+        />
       )}
     </div>
   );
