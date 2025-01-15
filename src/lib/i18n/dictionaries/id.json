@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "Memperbarui pengaturan",
   "gameOptions.notifications.update": "Perbarui pengaturan",
   "gameOptions.notifications.updated": "Pengaturan diperbarui",
-  "searchHere": "Cari di sini..."
+  "searchHere": "Cari di sini...",
+  "description.mangrove": "Mangrove yang melindungi Anda dari tsunami! Hanya sekali pakai.",
+  "tsunami": "Tsunami",
+  "tsunami.crops.destroyed": "Penghancuran tsunami",
+  "tsunami.crops.destroyed.description": "Tsunami telah menghancurkan setengah dari hasil panen Anda. Tolong tunggu sampai tsunami berlalu.",
+  "tsunami.building.destroyed.description": "Tsunami mengamuk di pertanian Anda - bangunan ini tidak aman! Tunggu sampai tsunami berlalu.",
+  "tsunami.protected.one": "Anda melindungi pertanian Anda dari tsunami!",
+  "tsunami.protected.two": "Tak satu pun dari hasil panen Anda hancur.",
+  "tsunami.protected.three": "Tak satu pun dari bangunanmu rusak.",
+  "tsunami.destroyed.one": "Oh tidak! Tsunami menghancurkan pertanian Anda!",
+  "tsunami.destroyed.two": "Beberapa tanaman Anda hancur.",
+  "tsunami.destroyed.three": "Beberapa bangunan Anda rusak.",
+  "tsunami.specialEvent": "Acara Khusus - Tsunami"
 }

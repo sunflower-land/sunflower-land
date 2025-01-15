@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "설정 업데이트",
   "gameOptions.notifications.update": "설정 업데이트",
   "gameOptions.notifications.updated": "설정이 업데이트됨",
-  "searchHere": "여기에서 검색하세요..."
+  "searchHere": "여기에서 검색하세요...",
+  "description.mangrove": "쓰나미로부터 당신을 지켜주는 맹그로브!한 번만 사용할 수 있습니다.",
+  "tsunami": "쓰나미",
+  "tsunami.crops.destroyed": "쓰나미 파괴",
+  "tsunami.crops.destroyed.description": "쓰나미로 농작물의 절반이 파괴되었습니다.쓰나미가 지나갈 때까지 기다려 주세요.",
+  "tsunami.building.destroyed.description": "쓰나미가 농장을 휩쓸고 있습니다. 이 건물은 안전하지 않습니다!쓰나미가 지나갈 때까지 기다려 주세요.",
+  "tsunami.protected.one": "쓰나미로부터 농장을 지켰어요!",
+  "tsunami.protected.two": "당신의 농작물은 하나도 파괴되지 않았습니다.",
+  "tsunami.protected.three": "건물이 하나도 손상되지 않았어요",
+  "tsunami.destroyed.one": "오, 안돼!쓰나미가 농장을 파괴하고 있어요!",
+  "tsunami.destroyed.two": "일부 농작물이 파괴되었습니다.",
+  "tsunami.destroyed.three": "건물 중 일부가 손상되었습니다.",
+  "tsunami.specialEvent": "특별 이벤트 - 쓰나미"
 }

@@ -1,7 +1,7 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 
 import { getOpenSeaLink } from "../lib/utils";
 import { KNOWN_IDS } from "features/game/types";
@@ -12,9 +12,6 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import Crown from "assets/icons/vip.webp";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -29,14 +26,15 @@ type Props = {
   additionalLabels?: React.ReactNode;
   children?: React.ReactNode;
   onBack: () => void;
+  state: GameState;
 };
-const _state = (state: MachineState) => state.context.state;
 export const Detail: React.FC<Props> = ({
   name,
   caught,
   onBack,
   additionalLabels,
   children,
+  state,
 }) => {
   const { t } = useAppTranslation();
   const {
@@ -47,8 +45,6 @@ export const Detail: React.FC<Props> = ({
     availability,
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
 
   useLayoutEffect(() => {
     const image = new Image();

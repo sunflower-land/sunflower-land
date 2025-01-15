@@ -1,7 +1,7 @@
 import { GameState, InventoryItemName } from "./game";
 import { Tool } from "./tools";
 
-export type CalendarEventName = "tornado";
+export type CalendarEventName = "tornado" | "tsunami";
 
 export type CalendarEvent = {
   triggeredAt: number;
@@ -53,6 +53,14 @@ export function getActiveCalenderEvent({
     return "tornado";
   }
 
+  if (
+    game.calendar.tsunami?.triggeredAt &&
+    new Date(game.calendar.tsunami.triggeredAt).getTime() >
+      Date.now() - 1000 * 60 * 60 * 24
+  ) {
+    return "tsunami";
+  }
+
   // TODO more events
   return undefined;
 }
@@ -62,6 +70,12 @@ export const WEATHER_SHOP: Partial<Record<InventoryItemName, Tool>> = {
     name: "Tornado Pinwheel",
     description:
       "A magical pinwheel that protects you from the tornado! One-use only.",
+    ingredients: {},
+    price: 1000,
+  },
+  Mangrove: {
+    name: "Mangrove",
+    description: "A mangrove that protects you from the tsunami! One-use only.",
     ingredients: {},
     price: 1000,
   },

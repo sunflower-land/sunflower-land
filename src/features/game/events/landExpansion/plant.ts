@@ -46,7 +46,6 @@ import {
   CalendarEventName,
   getActiveCalenderEvent,
 } from "features/game/types/calendar";
-import { isCropDestroyed } from "./triggerTornado";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -99,6 +98,16 @@ export const getEnabledWellCount = (
   return enabledWells;
 };
 
+function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
+  // Sort oldest to newest
+  const crops = getKeys(game.crops).sort((a, b) =>
+    game.crops[b].createdAt > game.crops[a].createdAt ? -1 : 1,
+  );
+  const cropsToRemove = crops.slice(0, Math.floor(crops.length / 2));
+
+  return cropsToRemove.includes(id);
+}
+
 export function isPlotFertile({
   plotIndex,
   crops,
@@ -137,6 +146,14 @@ export function getAffectedWeather({
     isCropDestroyed({ id, game })
   ) {
     return "tornado";
+  }
+
+  if (
+    game.calendar.tsunami?.triggeredAt &&
+    !game.calendar.tsunami?.protected &&
+    isCropDestroyed({ id, game })
+  ) {
+    return "tsunami";
   }
 
   return undefined;

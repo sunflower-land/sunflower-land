@@ -29,6 +29,7 @@ import miffy from "assets/sfts/morchi_miffy.webp";
 import mog from "assets/sfts/morchi_mog.webp";
 import morty from "assets/sfts/morchi_morty.webp";
 import tornadoPinwheel from "assets/sfts/tornado_pinwheel.webp";
+import mangrove from "assets/sfts/mangrove.webp";
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
@@ -4500,5 +4501,9 @@ export const ITEM_DETAILS: Items = {
   "Tornado Pinwheel": {
     image: tornadoPinwheel,
     description: translate("description.tornadoPinwheel"),
+  },
+  Mangrove: {
+    image: mangrove,
+    description: translate("description.mangrove"),
   },
 };

@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "Atualizando configurações",
   "gameOptions.notifications.update": "Atualizar configurações",
   "gameOptions.notifications.updated": "Configurações atualizadas",
-  "searchHere": "Pesquise aqui..."
+  "searchHere": "Pesquise aqui...",
+  "description.mangrove": "Um mangue que protege você do tsunami! Somente para uso único.",
+  "tsunami": "Tsunami",
+  "tsunami.crops.destroyed": "Destruição do tsunami",
+  "tsunami.crops.destroyed.description": "Um tsunami destruiu metade de suas plantações. Por favor, espere o tsunami passar.",
+  "tsunami.building.destroyed.description": "Um tsunami está assolando sua fazenda - este prédio não é seguro! Por favor, espere o tsunami passar.",
+  "tsunami.protected.one": "Você protegeu sua fazenda do tsunami!",
+  "tsunami.protected.two": "Nenhuma de suas plantações foi destruída.",
+  "tsunami.protected.three": "Nenhum de seus edifícios foi danificado.",
+  "tsunami.destroyed.one": "Ah, não! Um tsunami está destruindo sua fazenda!",
+  "tsunami.destroyed.two": "Algumas de suas plantações foram destruídas.",
+  "tsunami.destroyed.three": "Alguns de seus edifícios foram danificados.",
+  "tsunami.specialEvent": "Evento especial - Tsunami"
 }

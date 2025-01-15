@@ -1304,6 +1304,7 @@ export interface GameState {
     dates: { name: CalendarEventName; date: string }[];
 
     tornado?: CalendarEvent;
+    tsunami?: CalendarEvent;
   };
 
   shipments: {

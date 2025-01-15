@@ -18,6 +18,7 @@ export const TemplateCollectible: React.FC<Props> = ({ name, dimensions }) => {
       className="absolute left-1/2 transform -translate-x-1/2"
       alt={name}
       style={{
+        maxWidth: "none",
         bottom: `${PIXEL_SCALE * 2}px`,
       }}
       onLoad={(e) => {

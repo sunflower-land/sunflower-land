@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "更新设置",
   "gameOptions.notifications.update": "更新设置",
   "gameOptions.notifications.updated": "设置已更新",
-  "searchHere": "在这里搜索..."
+  "searchHere": "在这里搜索...",
+  "description.mangrove": "保护你免受海啸侵害的红树林！仅限一次性使用。",
+  "tsunami": "海啸",
+  "tsunami.crops.destroyed": "海啸的破坏",
+  "tsunami.crops.destroyed.description": "海啸摧毁了你一半的农作物。请等待海啸过去。",
+  "tsunami.building.destroyed.description": "海啸正在席卷你的农场——这座建筑不安全！请等待海啸过去。",
+  "tsunami.protected.one": "你保护了你的农场免受海啸的侵害！",
+  "tsunami.protected.two": "你的农作物都没有被摧毁。",
+  "tsunami.protected.three": "你的建筑物都没有受到损坏。",
+  "tsunami.destroyed.one": "哦不！海啸正在摧毁你的农场！",
+  "tsunami.destroyed.two": "你的一些农作物被摧毁了。",
+  "tsunami.destroyed.three": "你的一些建筑物遭到破坏。",
+  "tsunami.specialEvent": "特别活动-海啸"
 }

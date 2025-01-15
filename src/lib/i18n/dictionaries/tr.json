@@ -4773,5 +4773,17 @@
   "gameOptions.notifications.updating": "Ayarları güncelleme",
   "gameOptions.notifications.update": "Ayarları güncelle",
   "gameOptions.notifications.updated": "Ayarlar güncellendi",
-  "searchHere": "Burada ara..."
+  "searchHere": "Burada ara...",
+  "description.mangrove": "Sizi tsunamiden koruyan bir mangrov! Sadece tek kullanımlık.",
+  "tsunami": "Tsunami",
+  "tsunami.crops.destroyed": "Tsunami yıkımı",
+  "tsunami.crops.destroyed.description": "Bir tsunami mahsulünüzün yarısını yok etti. Lütfen tsunaminin geçmesini bekleyin.",
+  "tsunami.building.destroyed.description": "Çiftliğinizde bir tsunami şiddetleniyor - bu bina güvenli değil! Lütfen tsunaminin geçmesini bekleyin.",
+  "tsunami.protected.one": "Çiftliğini tsunamiden korudun!",
+  "tsunami.protected.two": "Ekinlerinizin hiçbiri yok edilmedi.",
+  "tsunami.protected.three": "Binalarınızın hiçbiri hasar görmedi.",
+  "tsunami.destroyed.one": "Oh hayır! Bir tsunami çiftliğinizi yok ediyor!",
+  "tsunami.destroyed.two": "Ekinlerinizin bir kısmı yok edildi.",
+  "tsunami.destroyed.three": "Bazı binalarınız hasar gördü.",
+  "tsunami.specialEvent": "Özel Etkinlik - Tsunami"
 }
