@@ -36,7 +36,7 @@ describe("vipPurchased", () => {
       expiresAt: now + 1000 * 60 * 60 * 24 * 31,
     });
 
-    expect(state.inventory.Gem).toEqual(new Decimal(350));
+    expect(state.inventory.Gem).toEqual(new Decimal(200));
   });
 
   it("should buy 3 months", () => {
@@ -63,34 +63,34 @@ describe("vipPurchased", () => {
       expiresAt: now + 1000 * 60 * 60 * 24 * 93,
     });
 
-    expect(state.inventory.Gem).toEqual(new Decimal(8500));
+    expect(state.inventory.Gem).toEqual(new Decimal(8800));
   });
 
-  it("should buy 12 months", () => {
+  it("should buy 24 months", () => {
     const now = Date.now();
     const state = purchaseVIP({
       state: {
         ...TEST_FARM,
         inventory: {
           ...TEST_FARM.inventory,
-          Gem: new Decimal(10000),
+          Gem: new Decimal(100000),
         },
       },
-      action: { type: "vip.purchased", name: "1_YEAR" },
+      action: { type: "vip.purchased", name: "2_YEARS" },
       createdAt: now,
     });
 
     expect(state.vip).toEqual({
       bundles: [
         {
-          name: "1_YEAR",
+          name: "2_YEARS",
           boughtAt: now,
         },
       ],
-      expiresAt: now + 1000 * 60 * 60 * 24 * 365,
+      expiresAt: now + 1000 * 60 * 60 * 24 * 365 * 2,
     });
 
-    expect(state.inventory.Gem).toEqual(new Decimal(4000));
+    expect(state.inventory.Gem).toEqual(new Decimal(90000));
   });
 
   it("adds onto existing VIP time", () => {
