@@ -192,7 +192,9 @@ const DestroyedBuilding: React.FC<
               className="mt-2 ml-1"
             >
               {`Ready in: ${secondsToString(
-                (Date.now() - game.calendar[calendarEvent]!.triggeredAt) / 1000,
+                24 * 60 * 60 -
+                  (Date.now() - game.calendar[calendarEvent]!.triggeredAt) /
+                    1000,
                 {
                   length: "medium",
                 },

@@ -29,8 +29,7 @@ export const Tornado: React.FC<{
     })),
   );
 
-  const hasPinwheel =
-    !!gameState.context.state.collectibles["Tornado Pinwheel"];
+  const hasPinwheel = !!gameState.context.state.calendar.tornado?.protected;
 
   return (
     <>

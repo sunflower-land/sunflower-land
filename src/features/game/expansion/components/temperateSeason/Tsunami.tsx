@@ -29,7 +29,7 @@ export const Tsunami: React.FC<{
     })),
   );
 
-  const hasMangrove = !!gameState.context.state.collectibles["Mangrove"];
+  const hasMangrove = !!gameState.context.state.calendar.tsunami?.protected;
 
   return (
     <>
