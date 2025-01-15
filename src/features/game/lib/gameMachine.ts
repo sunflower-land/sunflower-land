@@ -101,8 +101,8 @@ import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow
 import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
-import { getActiveCalenderEvent } from "../types/calendar";
 import { hasVipAccess } from "./vipAccess";
+import { getActiveCalenderEvent, SeasonalEventName } from "../types/calendar";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -970,7 +970,8 @@ export function startGame(authContext: AuthContext) {
                 if (!activeEvent) return false;
 
                 const isAcknowledged =
-                  game?.calendar[activeEvent]?.acknowledgedAt;
+                  game?.calendar[activeEvent as SeasonalEventName]
+                    ?.acknowledgedAt;
 
                 return !isAcknowledged;
               },
