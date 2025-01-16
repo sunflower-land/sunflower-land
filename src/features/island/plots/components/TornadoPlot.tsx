@@ -75,7 +75,7 @@ const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
             <Label icon={tornadoIcon} type="danger" className="mb-1 -ml-1">
               {t("tornado")}
             </Label>
-            <p className="text-sm">
+            <p className="text-sm mb-3">
               {t("tornado.crops.destroyed.description")}
             </p>
             <Label
@@ -83,7 +83,7 @@ const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
               type="transparent"
               className="mt-2 ml-1"
             >
-              {`Ready in: ${secondsToString(
+              {`${t("ready.in")}: ${secondsToString(
                 24 * 60 * 60 -
                   (Date.now() - game.calendar.tornado!.triggeredAt) / 1000,
                 {

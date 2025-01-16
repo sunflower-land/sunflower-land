@@ -156,6 +156,14 @@ export function getAffectedWeather({
     return "tsunami";
   }
 
+  if (
+    game.calendar.greatFreeze?.triggeredAt &&
+    !game.calendar.greatFreeze?.protected &&
+    isCropDestroyed({ id, game })
+  ) {
+    return "greatFreeze";
+  }
+
   return undefined;
 }
 

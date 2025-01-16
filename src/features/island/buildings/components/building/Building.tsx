@@ -141,16 +141,17 @@ const InProgressBuilding: React.FC<Prop> = ({
   );
 };
 
-const DESTROYED_BUILDING_ICONS: Record<
-  Exclude<SeasonalEventName, "fullMoon">,
-  string
-> = {
+type DestructiveEvent = Exclude<SeasonalEventName, "fullMoon" | "greatFreeze">;
+
+const DESTROYED_BUILDING_ICONS: Record<DestructiveEvent, string> = {
   tornado: tornadoIcon,
   tsunami: tsunamiIcon,
 };
 
 const DestroyedBuilding: React.FC<
-  Prop & { calendarEvent: Exclude<SeasonalEventName, "fullMoon"> }
+  Prop & {
+    calendarEvent: Exclude<SeasonalEventName, "fullMoon" | "greatFreeze">;
+  }
 > = ({
   name,
   id,
@@ -246,7 +247,7 @@ function isBuildingDestroyed({
 }: {
   name: BuildingName;
   game: GameState;
-}): Exclude<SeasonalEventName, "fullMoon"> | false {
+}): DestructiveEvent | false {
   const calendarEvent = getActiveCalenderEvent({ game });
 
   if (!calendarEvent) {
@@ -263,10 +264,6 @@ function isBuildingDestroyed({
     if (game.calendar.tsunami?.protected) {
       return false;
     }
-  }
-
-  if (DESTROYED_BUILDINGS.includes(name)) {
-    return calendarEvent as Exclude<SeasonalEventName, "fullMoon">;
   }
 
   return false;
