@@ -214,7 +214,10 @@ export function powerSkillDisabledConditions({
   if (!powerSkillReady)
     return { disabled: true, reason: "Power Skill on Cooldown" };
   if (!itemsRequired) {
-    return { disabled: true, reason: "Insufficient Items" };
+    return {
+      disabled: true,
+      reason: translate("powerSkills.reason.insufficientItems"),
+    };
   }
 
   switch (skillName) {

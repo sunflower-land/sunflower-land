@@ -4773,6 +4773,7 @@
   "powerSkills.confirmationMessage": "Are you sure you want to use {{skillName}}?",
   "powerSkills.cooldownMessage": "You won't be able to use this skill again for {{cooldown}}",
   "powerSkills.useSkill": "Use Skill",
+  "powerSkills.reason.insufficientItems": "Insufficient items",
   "powerSkills.fertiliser": "Fertiliser Skills",
   "powerSkills.reason.insufficientFertiliser": "Insufficient {{fertiliser}}",
   "powerSkills.reason.allPlotsFertilised": "All plots are already fertilised",
