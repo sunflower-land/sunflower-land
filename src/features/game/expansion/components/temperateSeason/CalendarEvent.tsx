@@ -7,6 +7,7 @@ import { getActiveCalenderEvent } from "features/game/types/calendar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Tornado } from "./Tornado";
 import { Tsunami } from "./Tsunami";
+import { FullMoon } from "./FullMoon";
 
 export const CalendarEvent: React.FC = () => {
   const { gameState, gameService } = useGame();
@@ -22,6 +23,7 @@ export const CalendarEvent: React.FC = () => {
     <Modal show>
       {event === "tornado" && <Tornado acknowledge={handleAcknowledge} />}
       {event === "tsunami" && <Tsunami acknowledge={handleAcknowledge} />}
+      {event === "fullMoon" && <FullMoon acknowledge={handleAcknowledge} />}
       {!event && (
         <Panel>
           <Button
