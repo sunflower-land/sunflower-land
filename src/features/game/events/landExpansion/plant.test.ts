@@ -266,6 +266,10 @@ describe("plant", () => {
           "Cauliflower Seed": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
       },
       action: {
         type: "seed.planted",
@@ -296,6 +300,10 @@ describe("plant", () => {
           "Cauliflower Seed": new Decimal(1),
           "Golden Cauliflower": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         collectibles: {
           "Golden Cauliflower": [
@@ -337,6 +345,10 @@ describe("plant", () => {
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
       },
       action: {
@@ -380,6 +392,10 @@ describe("plant", () => {
             },
           ],
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
       },
       action: {
         type: "seed.planted",
@@ -414,6 +430,10 @@ describe("plant", () => {
     const state = plant({
       state: {
         ...PARSNIP_STATE,
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
         crops: {
           "0": {
             createdAt: Date.now(),
@@ -663,6 +683,10 @@ describe("plant", () => {
           "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -708,6 +732,7 @@ describe("plant", () => {
           "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+
         crops: {
           0: {
             createdAt: Date.now(),
@@ -762,6 +787,10 @@ describe("plant", () => {
             y: -2,
           },
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
         collectibles: {
           "Scary Mike": [
             {
@@ -797,6 +826,10 @@ describe("plant", () => {
           "Parsnip Seed": new Decimal(1),
           "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         crops: {
           0: {
@@ -888,6 +921,10 @@ describe("plant", () => {
           "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -933,6 +970,10 @@ describe("plant", () => {
           "Laurie the Chuckle Crow": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -977,6 +1018,10 @@ describe("plant", () => {
           "Radish Seed": new Decimal(1),
           "Laurie the Chuckle Crow": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
         },
         crops: {
           0: {
@@ -1067,6 +1112,10 @@ describe("plant", () => {
           "Kale Seed": new Decimal(1),
           "Laurie the Chuckle Crow": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         crops: {
           0: {
@@ -1203,6 +1252,10 @@ describe("plant", () => {
           "Laurie the Chuckle Crow": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -1247,6 +1300,10 @@ describe("plant", () => {
           "Corn Seed": new Decimal(1),
           "Queen Cornelia": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
         },
         crops: {
           0: {
@@ -1293,6 +1350,10 @@ describe("plant", () => {
           "Queen Cornelia": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -1338,6 +1399,10 @@ describe("plant", () => {
           "Queen Cornelia": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -1382,6 +1447,10 @@ describe("plant", () => {
           "Pumpkin Seed": new Decimal(1),
           "Freya Fox": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
         },
         collectibles: {
           "Freya Fox": [
@@ -1430,6 +1499,10 @@ describe("plant", () => {
             y: -2,
           },
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         collectibles: {
           Poppy: [
             {
@@ -1474,6 +1547,10 @@ describe("plant", () => {
           "Soybean Seed": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -1509,6 +1586,10 @@ describe("plant", () => {
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         crops: {
           0: {
@@ -1557,6 +1638,10 @@ describe("plant", () => {
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         crops: {
           0: {
@@ -1937,6 +2022,10 @@ describe("getCropTime", () => {
         island: {
           type: "desert",
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         inventory: {
           "Soybean Seed": new Decimal(1),
         },
@@ -1971,6 +2060,10 @@ describe("getCropTime", () => {
         },
         inventory: {
           "Soybean Seed": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
         },
         collectibles: {
           Soybliss: [
@@ -2513,6 +2606,7 @@ describe("getCropYield", () => {
           "Carrot Seed": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+
         crops: {
           0: {
             createdAt: Date.now(),
@@ -2594,6 +2688,10 @@ describe("getCropYield", () => {
           "Pumpkin Seed": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -2649,6 +2747,10 @@ describe("getCropYield", () => {
           },
         },
         collectibles: {},
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
       },
       action: {
         type: "seed.planted",
@@ -2675,6 +2777,10 @@ describe("getCropYield", () => {
           "Radish Seed": new Decimal(1),
           "Water Well": new Decimal(1),
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -2683,6 +2789,10 @@ describe("getCropYield", () => {
             x: 0,
             y: -2,
           },
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
         },
         collectibles: {
           "Lab Grown Radish": [
@@ -2730,6 +2840,10 @@ describe("getCropYield", () => {
           },
         },
         collectibles: {},
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
       },
       action: {
         type: "seed.planted",
@@ -2802,6 +2916,10 @@ describe("getCropYield", () => {
         inventory: {
           "Corn Seed": new Decimal(1),
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -2842,6 +2960,10 @@ describe("getCropYield", () => {
         },
         inventory: {
           "Soybean Seed": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
         },
         crops: {
           0: {
@@ -2925,6 +3047,10 @@ describe("getCropYield", () => {
         inventory: {
           "Eggplant Seed": new Decimal(1),
         },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -2965,6 +3091,10 @@ describe("getCropYield", () => {
         inventory: {
           "Soybean Seed": new Decimal(1),
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -3004,6 +3134,10 @@ describe("getCropYield", () => {
         },
         inventory: {
           "Eggplant Seed": new Decimal(1),
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
         },
         crops: {
           0: {
@@ -3081,6 +3215,10 @@ describe("getCropYield", () => {
           skills: {
             "Acre Farm": 1,
           },
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
         },
         inventory: {
           "Soybean Seed": new Decimal(1),
@@ -3165,6 +3303,10 @@ describe("getCropYield", () => {
         inventory: {
           "Soybean Seed": new Decimal(1),
         },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
         crops: {
           0: {
             createdAt: Date.now(),
@@ -3204,6 +3346,10 @@ describe("getCropYield", () => {
         },
         inventory: {
           "Eggplant Seed": new Decimal(1),
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
         },
         crops: {
           0: {

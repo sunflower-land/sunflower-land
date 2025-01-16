@@ -47,8 +47,7 @@ describe("seedBought", () => {
     ).toThrow("Inadequate level");
   });
 
-  // TODO - Enable this when we have seasonal seeds
-  it.skip("does not buy seed an out of season seed", () => {
+  it("does not buy seed an out of season seed", () => {
     expect(() =>
       seedBought({
         state: {

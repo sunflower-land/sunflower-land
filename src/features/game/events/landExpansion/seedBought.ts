@@ -5,7 +5,12 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { GameState } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
+import {
+  SEASONAL_SEEDS,
+  Seed,
+  SeedName,
+  SEEDS,
+} from "features/game/types/seeds";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FLOWER_SEEDS } from "features/game/types/flowers";
 import { produce } from "immer";
@@ -14,6 +19,7 @@ import {
   isPatchFruitSeed,
 } from "features/game/types/fruits";
 import { GREENHOUSE_SEEDS } from "features/game/types/crops";
+import { hasFeatureAccess } from "lib/flags";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -79,10 +85,12 @@ export function seedBought({ state, action }: Options) {
       throw new Error("This item is not a seed");
     }
 
-    // TODO - Enable this when we have seasonal seeds
-    // if (!SEASONAL_SEEDS[stateCopy.season.season].includes(item)) {
-    //   throw new Error("This seed is not available in this season");
-    // }
+    if (
+      hasFeatureAccess(stateCopy, "SEASONAL_SEEDS") &&
+      !SEASONAL_SEEDS[stateCopy.season.season].includes(item)
+    ) {
+      throw new Error("This seed is not available in this season");
+    }
 
     const { bumpkin } = stateCopy;
 
