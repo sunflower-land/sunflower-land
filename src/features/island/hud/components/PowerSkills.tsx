@@ -31,10 +31,7 @@ import {
 import { SkillSquareIcon } from "features/bumpkins/components/revamp/SkillSquareIcon";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
-import { canChop } from "features/game/events/landExpansion/chop";
-import { BUILDING_DAILY_OIL_CAPACITY } from "features/game/events/landExpansion/supplyCookingOil";
-import { getKeys } from "features/game/types/decorations";
-import { canDrillOilReserve } from "features/game/events/landExpansion/drillOilReserve";
+import { powerSkillDisabledConditions } from "features/game/events/landExpansion/skillUsed";
 
 interface PowerSkillsProps {
   show: boolean;
@@ -60,37 +57,15 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ show, onHide }) => {
   );
 };
 
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _crops = (state: MachineState) => state.context.state.crops;
-const _fruitPatches = (state: MachineState) => state.context.state.fruitPatches;
-const _trees = (state: MachineState) => state.context.state.trees;
-const _pots = (state: MachineState) => state.context.state.greenhouse.pots;
-const _buildings = (state: MachineState) => state.context.state.buildings;
-const _flowerBeds = (state: MachineState) =>
-  state.context.state.flowers.flowerBeds;
-const _oilReserves = (state: MachineState) => state.context.state.oilReserves;
-const _henHouseAnimals = (state: MachineState) =>
-  state.context.state.henHouse.animals;
-const _barnAnimals = (state: MachineState) => state.context.state.barn.animals;
-
+const _state = (state: MachineState) => state.context.state;
 interface PowerSkillsContentProps {
   onClose: () => void;
 }
 const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const bumpkin = useSelector(gameService, _bumpkin);
-  const inventory = useSelector(gameService, _inventory);
-  const crops = useSelector(gameService, _crops);
-  const fruitPatches = useSelector(gameService, _fruitPatches);
-  const trees = useSelector(gameService, _trees);
-  const pots = useSelector(gameService, _pots);
-  const buildings = useSelector(gameService, _buildings);
-  const flowerBeds = useSelector(gameService, _flowerBeds);
-  const oilReserves = useSelector(gameService, _oilReserves);
-  const henHouseAnimals = useSelector(gameService, _henHouseAnimals);
-  const barnAnimals = useSelector(gameService, _barnAnimals);
+  const state = useSelector(gameService, _state);
+  const { bumpkin, crops, fruitPatches, inventory } = state;
   const { skills, previousPowerUseAt } = bumpkin;
 
   const powerSkills = getPowerSkills();
@@ -181,167 +156,10 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
 
   const powerSkillReady = nextSkillUse < Date.now();
 
-  const itemsRequired =
-    !items ||
-    Object.entries(items).every(([item, quantity]) =>
-      (inventory[item as InventoryItemName] ?? new Decimal(0)).gte(quantity),
-    );
-
-  function disabledConditions(): {
-    disabled: boolean;
-    reason: string;
-  } {
-    // Base conditions for all skills
-    if (!powerSkillReady)
-      return { disabled: true, reason: "Power Skill on Cooldown" };
-    if (!itemsRequired) {
-      return { disabled: true, reason: "Insufficient Items" };
-    }
-
-    switch (skillName) {
-      // Crop fertiliser skills
-      case "Sprout Surge":
-      case "Root Rocket": {
-        const unfertilisedPlots = Object.values(crops).filter(
-          (plot) => !plot.fertiliser,
-        ).length;
-        const fertiliser =
-          skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root";
-        const fertiliserCount = inventory[fertiliser] ?? new Decimal(0);
-
-        if (fertiliserCount.lt(unfertilisedPlots)) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.insufficientFertiliser", {
-              fertiliser,
-            }),
-          };
-        }
-        if (unfertilisedPlots === 0) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.allPlotsFertilised"),
-          };
-        }
-        break;
-      }
-
-      // Fruit fertiliser skill
-      case "Blend-tastic": {
-        const unfertilisedPatches = Object.values(fruitPatches).filter(
-          (patch) => !patch.fertiliser,
-        ).length;
-        const fertiliserCount = inventory["Fruitful Blend"] ?? new Decimal(0);
-        if (fertiliserCount.lt(unfertilisedPatches)) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.insufficientFertiliser", {
-              fertiliser: "Fruitful Blend",
-            }),
-          };
-        }
-        if (unfertilisedPatches === 0) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.allFruitPatchesFertilised"),
-          };
-        }
-        break;
-      }
-
-      case "Instant Growth": {
-        // Checks if all plots are empty or ready to harvest.
-        const plotsStatus = Object.values(crops).map((plot) => {
-          if (!plot.crop) return "empty";
-          return isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])
-            ? "ready"
-            : "growing";
-        });
-        if (!plotsStatus.includes("growing")) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.noCropsGrowing"),
-          };
-        }
-        break;
-      }
-
-      case "Tree Blitz": {
-        if (Object.values(trees).every((tree) => canChop(tree))) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.noTreesRecovering"),
-          };
-        }
-        break;
-      }
-
-      case "Greenhouse Guru": {
-        if (Object.values(pots).every((pot) => !pot.plant)) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.noGreenhouseProduceGrowing"),
-          };
-        }
-        break;
-      }
-
-      case "Instant Gratification": {
-        if (
-          getKeys(BUILDING_DAILY_OIL_CAPACITY).every(
-            (building) => !buildings[building]?.[0].crafting,
-          )
-        ) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.noBuildingsAreCooking"),
-          };
-        }
-        break;
-      }
-
-      case "Petal Blessed": {
-        if (Object.values(flowerBeds).every((bed) => !bed.flower)) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.noFlowersGrowing"),
-          };
-        }
-        break;
-      }
-
-      case "Grease Lightning": {
-        if (
-          Object.values(oilReserves).every((reserve) =>
-            canDrillOilReserve(reserve),
-          )
-        ) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.noOilreservesRefilling"),
-          };
-        }
-        break;
-      }
-
-      case "Apple-Tastic": {
-        if (
-          Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
-            ({ state, awakeAt }) =>
-              state === "sick" || state === "ready" || awakeAt > Date.now(),
-          )
-        ) {
-          return {
-            disabled: true,
-            reason: t("powerSkills.reason.animalsSickReadyAsleep"),
-          };
-        }
-      }
-    }
-    return { disabled: false, reason: "" };
-  }
-
-  const { disabled, reason } = disabledConditions();
+  const { disabled, reason } = powerSkillDisabledConditions({
+    state,
+    skillTree: selectedSkill,
+  });
 
   return (
     <SplitScreenView
