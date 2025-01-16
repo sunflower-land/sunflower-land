@@ -20,6 +20,7 @@ import { SkillSquareIcon } from "./SkillSquareIcon";
 import {
   getAvailableBumpkinSkillPoints,
   getUnlockedTierForTree,
+  SKILL_POINTS_PER_TIER,
 } from "features/game/events/landExpansion/choseSkill";
 import { gameAnalytics } from "lib/gameAnalytics";
 
@@ -75,7 +76,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   const { buff, debuff } = boosts;
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-  const { availableTier, pointsToNextTier } = getUnlockedTierForTree(
+  const { availableTier, totalUsedSkillPoints } = getUnlockedTierForTree(
     tree,
     bumpkin,
   );
@@ -256,75 +257,81 @@ export const SkillPathDetails: React.FC<Props> = ({
           </div>
 
           {/* Skills */}
-          {Object.entries(createRevampSkillPath(skillsInPath)).map(
-            ([tier, skills]) => {
-              const { tier: tierRequirement } = skills[0].requirements;
-              const tierUnlocked = tierRequirement <= availableTier;
-              const availableSkills = skills.filter((skill) => !skill.disabled);
+          <div className="flex flex-col gap-1">
+            {Object.entries(createRevampSkillPath(skillsInPath)).map(
+              ([tier, skills]) => {
+                const { requirements, tree } = skills[0];
+                const { tier: tierRequirement } = requirements;
+                const tierUnlocked = tierRequirement <= availableTier;
+                const availableSkills = skills.filter(
+                  (skill) => !skill.disabled,
+                );
+                const pointsRequired =
+                  SKILL_POINTS_PER_TIER[tree][tierRequirement];
 
-              return (
-                <div key={tier} className="flex flex-col">
-                  <div className="flex flex-row items-center">
-                    <Label
-                      type={tierUnlocked ? "default" : "warning"}
-                      className={tierUnlocked ? "ml-1" : "ml-2"}
-                      icon={tierUnlocked ? undefined : SUNNYSIDE.icons.lock}
-                    >
-                      {t("skillTier.number", { number: tier })}
-                    </Label>
-                    {!tierUnlocked && Number(tier) === availableTier + 1 && (
-                      <Label type="default" className="ml-1">
-                        {t("skillTier.pointsToUnlock", {
-                          points: pointsToNextTier,
-                        })}
+                return (
+                  <div key={tier} className="flex flex-col">
+                    <div className="flex flex-row items-center gap-1">
+                      <Label
+                        type={tierUnlocked ? "default" : "warning"}
+                        className={tierUnlocked ? "ml-1" : "ml-2"}
+                        icon={tierUnlocked ? undefined : SUNNYSIDE.icons.lock}
+                      >
+                        {t("skillTier.number", { number: tier })}
                       </Label>
-                    )}
-                  </div>
-                  <div className="flex flex-wrap mb-2">
-                    {availableSkills.map((skill) => {
-                      const hasSkill =
-                        !!bumpkin.skills[skill.name as BumpkinRevampSkillName];
-                      const { name, image, tree, npc, power, boosts } = skill;
-                      const { boostTypeIcon, boostedItemIcon } = boosts.buff;
+                      {!tierUnlocked && (
+                        <Label type="default" className="ml-1">
+                          {`Points to unlock: ${totalUsedSkillPoints}/${pointsRequired}`}
+                        </Label>
+                      )}
+                    </div>
+                    <div className="flex flex-row flex-wrap gap-0">
+                      {availableSkills.map((skill) => {
+                        const hasSkill =
+                          !!bumpkin.skills[
+                            skill.name as BumpkinRevampSkillName
+                          ];
+                        const { name, image, tree, npc, power, boosts } = skill;
+                        const { boostTypeIcon, boostedItemIcon } = boosts.buff;
 
-                      return (
-                        <SkillBox
-                          key={name}
-                          className="mb-1"
-                          image={getSkillImage(image, boostedItemIcon, tree)}
-                          isSelected={selectedSkill === skill}
-                          onClick={() => {
-                            setSelectedSkill(skill);
-                            setShowConfirmation(false);
-                          }}
-                          showOverlay={hasSkill}
-                          overlayIcon={
-                            <img
-                              src={SUNNYSIDE.icons.confirm}
-                              alt="claimed"
-                              className="relative object-contain"
-                              style={{
-                                width: `${PIXEL_SCALE * 12}px`,
-                              }}
-                            />
-                          }
-                          tier={tierRequirement}
-                          npc={npc}
-                          secondaryImage={
-                            boosts.debuff
-                              ? tradeOffs
-                              : power
-                                ? SUNNYSIDE.icons.lightning
-                                : boostTypeIcon
-                          }
-                        />
-                      );
-                    })}
+                        return (
+                          <SkillBox
+                            key={name}
+                            image={getSkillImage(image, boostedItemIcon, tree)}
+                            isSelected={selectedSkill === skill}
+                            onClick={() => {
+                              setSelectedSkill(skill);
+                              setShowConfirmation(false);
+                            }}
+                            showOverlay={hasSkill}
+                            overlayIcon={
+                              <img
+                                src={SUNNYSIDE.icons.confirm}
+                                alt="claimed"
+                                className="relative object-contain"
+                                style={{
+                                  width: `${PIXEL_SCALE * 12}px`,
+                                }}
+                              />
+                            }
+                            tier={tierRequirement}
+                            npc={npc}
+                            secondaryImage={
+                              boosts.debuff
+                                ? tradeOffs
+                                : power
+                                  ? SUNNYSIDE.icons.lightning
+                                  : boostTypeIcon
+                            }
+                          />
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              );
-            },
-          )}
+                );
+              },
+            )}
+          </div>
         </div>
       }
     />

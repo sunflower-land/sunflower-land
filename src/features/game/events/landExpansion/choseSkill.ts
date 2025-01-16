@@ -38,7 +38,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   return bumpkinLevel - totalUsedSkillPoints;
 };
 
-const SKILL_POINTS_PER_TIER: Record<
+export const SKILL_POINTS_PER_TIER: Record<
   BumpkinRevampSkillTree,
   Record<BumpkinSkillTier, number>
 > = {
@@ -102,9 +102,7 @@ const SKILL_POINTS_PER_TIER: Record<
 export const getUnlockedTierForTree = (
   tree: BumpkinRevampSkillTree,
   bumpkin: Bumpkin,
-): { availableTier: BumpkinSkillTier; pointsToNextTier: number } => {
-  let availableTier: BumpkinSkillTier = 1;
-
+): { availableTier: BumpkinSkillTier; totalUsedSkillPoints: number } => {
   // Calculate the total points used in the tree
   const totalUsedSkillPoints = Object.keys(bumpkin.skills).reduce(
     (acc, skill) => {
@@ -119,20 +117,17 @@ export const getUnlockedTierForTree = (
     },
     0,
   );
-
+  let availableTier: BumpkinSkillTier;
   // Determine the tier and points needed for next tier
-  let pointsToNextTier = SKILL_POINTS_PER_TIER[tree][2]; // Points needed for tier 2
   if (totalUsedSkillPoints >= SKILL_POINTS_PER_TIER[tree][3]) {
     availableTier = 3;
-    pointsToNextTier = 0; // Already at max tier
   } else if (totalUsedSkillPoints >= SKILL_POINTS_PER_TIER[tree][2]) {
     availableTier = 2;
-    pointsToNextTier = SKILL_POINTS_PER_TIER[tree][3] - totalUsedSkillPoints; // Points needed for tier 3
   } else {
-    pointsToNextTier = SKILL_POINTS_PER_TIER[tree][2] - totalUsedSkillPoints; // Points needed for tier 2
+    availableTier = 1;
   }
 
-  return { availableTier, pointsToNextTier };
+  return { availableTier, totalUsedSkillPoints };
 };
 
 export function choseSkill({ state, action }: Options) {
