@@ -497,6 +497,25 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
     image: ITEM_DETAILS["Scary Mike"].image,
   },
+  "Laurie's Gains": {
+    name: "Laurie's Gains",
+    tree: "Crops",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.lauriesGains"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
+  },
   // Crops - Tier 3
   "Instant Growth": {
     name: "Instant Growth",
@@ -561,25 +580,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: ITEM_DETAILS.Carrot.image,
-  },
-  "Laurie's Gains": {
-    name: "Laurie's Gains",
-    tree: "Crops",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.lauriesGains"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
-      },
-    },
-    disabled: false,
-    image: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
   },
 
   // Fruit - Tier 1
