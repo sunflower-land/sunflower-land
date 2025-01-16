@@ -181,7 +181,7 @@ export const ListViewCard: React.FC<Props> = ({
           {lastSalePrice?.gt(0) && (
             <p className="text-xxs truncate pb-0.5">
               {`Last sale: ${formatNumber(lastSalePrice, {
-                decimalPlaces: 2,
+                decimalPlaces: 4,
               })} SFL`}
             </p>
           )}

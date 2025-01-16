@@ -100,7 +100,6 @@ export const MarketplaceSalesPopup: React.FC = () => {
                         <span className="text-xs">
                           {`${formatNumber(estTradePoints, {
                             decimalPlaces: 2,
-                            showTrailingZeros: false,
                           })} Trade Points`}
                         </span>
                         <img

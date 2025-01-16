@@ -35,11 +35,7 @@ import { generateChoreRewards } from "features/game/events/landExpansion/complet
 import { CHORE_DIALOGUES } from "features/game/types/stories";
 import { isMobile } from "mobile-device-detect";
 import { Context } from "features/game/GameProvider";
-
-const formatNumber = (num: number, decimals = 2) => {
-  // Check if the number has a fractional part
-  return num % 1 === 0 ? num : num.toFixed(decimals);
-};
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   state: GameState;
