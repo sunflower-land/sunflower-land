@@ -7,6 +7,7 @@ import { GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, LiveProgressBar } from "components/ui/ProgressBar";
 
 import powerup from "assets/icons/level_up.png";
+import locust from "assets/icons/locust.webp";
 
 import { TimerPopover } from "../../common/TimerPopover";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -21,12 +22,9 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
-
-import { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
-
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+import { getActiveCalenderEvent } from "features/game/types/calendar";
+import { InnerPanel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   cropName?: CropName;
@@ -57,6 +55,8 @@ const FertilePlotComponent: React.FC<Props> = ({
   pulsating,
 }) => {
   const [showTimerPopover, setShowTimerPopover] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const { t } = useAppTranslation();
 
   const [_, setRender] = useState<number>(0);
 
@@ -79,6 +79,10 @@ const FertilePlotComponent: React.FC<Props> = ({
   const timeLeft = readyAt > 0 ? (readyAt - Date.now()) / 1000 : 0;
   const isGrowing = timeLeft > 0;
 
+  const activeInsectPlague =
+    getActiveCalenderEvent({ game }) === "insectPlague";
+  const isProtected = game.calendar.insectPlague?.protected;
+
   // REVIEW: Is this still needed after changing to LiveProgressBar?
   useUiRefresher({ active: isGrowing });
 
@@ -99,11 +103,16 @@ const FertilePlotComponent: React.FC<Props> = ({
       // set state to show details
       setShowTimerPopover(true);
     }
+
+    if (activeInsectPlague && !isProtected) {
+      setShowTimerPopover(true);
+    }
   };
 
   const handleMouseLeave = () => {
     // set state to hide details
     setShowTimerPopover(false);
+    setShowTooltip(false);
   };
 
   return (
@@ -129,6 +138,18 @@ const FertilePlotComponent: React.FC<Props> = ({
           <Soil cropName={cropName} stage={stage} />
         </div>
       </div>
+
+      {activeInsectPlague && !isProtected && (
+        <img
+          src={locust}
+          alt="locust"
+          className="absolute top-0 right-0 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+            top: `${PIXEL_SCALE * -4}px`,
+          }}
+        />
+      )}
 
       {/* Fertiliser */}
       {fertiliser?.name === "Sprout Mix" && (
@@ -202,6 +223,22 @@ const FertilePlotComponent: React.FC<Props> = ({
             formatLength="short"
             onComplete={() => setRender((r) => r + 1)}
           />
+        </div>
+      )}
+
+      {/* Warning */}
+      {showTooltip && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -14}px`,
+          }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="text-xxs mx-1 p-1">
+              <span>{t("insectPlague.crops.affected")}</span>
+            </div>
+          </InnerPanel>
         </div>
       )}
 

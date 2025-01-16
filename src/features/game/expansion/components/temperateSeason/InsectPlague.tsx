@@ -30,7 +30,7 @@ export const InsectPlague: React.FC<{
   );
 
   const hasProtectivePesticide =
-    !!gameState.context.state.collectibles["Protective Pesticide"];
+    gameState.context.state.calendar.insectPlague?.protected;
 
   return (
     <>
