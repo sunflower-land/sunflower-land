@@ -4,6 +4,7 @@ import {
   BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
   BumpkinRevampSkillTree,
+  BumpkinSkillTier,
 } from "features/game/types/bumpkinSkills";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -37,12 +38,71 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   return bumpkinLevel - totalUsedSkillPoints;
 };
 
+export const SKILL_POINTS_PER_TIER: Record<
+  BumpkinRevampSkillTree,
+  Record<BumpkinSkillTier, number>
+> = {
+  Crops: {
+    1: 0,
+    2: 3,
+    3: 8,
+  },
+  Trees: {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Fishing: {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+  Mining: {
+    1: 0,
+    2: 3,
+    3: 8,
+  },
+  Cooking: {
+    1: 0,
+    2: 2,
+    3: 6,
+  },
+  Compost: {
+    1: 0,
+    2: 3,
+    3: 8,
+  },
+  "Fruit Patch": {
+    1: 0,
+    2: 2,
+    3: 7,
+  },
+  Animals: {
+    1: 0,
+    2: 3,
+    3: 8,
+  },
+  "Bees & Flowers": {
+    1: 0,
+    2: 2,
+    3: 6,
+  },
+  Greenhouse: {
+    1: 0,
+    2: 2,
+    3: 6,
+  },
+  Machinery: {
+    1: 0,
+    2: 2,
+    3: 5,
+  },
+};
+
 export const getUnlockedTierForTree = (
   tree: BumpkinRevampSkillTree,
   bumpkin: Bumpkin,
-): { availableTier: number; pointsToNextTier: number } => {
-  let availableTier = 1;
-
+): { availableTier: BumpkinSkillTier; totalUsedSkillPoints: number } => {
   // Calculate the total points used in the tree
   const totalUsedSkillPoints = Object.keys(bumpkin.skills).reduce(
     (acc, skill) => {
@@ -57,20 +117,17 @@ export const getUnlockedTierForTree = (
     },
     0,
   );
-
+  let availableTier: BumpkinSkillTier;
   // Determine the tier and points needed for next tier
-  let pointsToNextTier = 2; // Points needed for tier 2
-  if (totalUsedSkillPoints >= 5) {
+  if (totalUsedSkillPoints >= SKILL_POINTS_PER_TIER[tree][3]) {
     availableTier = 3;
-    pointsToNextTier = 0; // Already at max tier
-  } else if (totalUsedSkillPoints >= 2) {
+  } else if (totalUsedSkillPoints >= SKILL_POINTS_PER_TIER[tree][2]) {
     availableTier = 2;
-    pointsToNextTier = 5 - totalUsedSkillPoints; // Points needed for tier 3
   } else {
-    pointsToNextTier = 2 - totalUsedSkillPoints; // Points needed for tier 2
+    availableTier = 1;
   }
 
-  return { availableTier, pointsToNextTier };
+  return { availableTier, totalUsedSkillPoints };
 };
 
 export function choseSkill({ state, action }: Options) {

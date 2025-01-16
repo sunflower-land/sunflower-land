@@ -67,12 +67,14 @@ export type BumpkinSkill = {
   disabled?: boolean;
 };
 
+export type BumpkinSkillTier = 1 | 2 | 3;
+
 export type BumpkinSkillRevamp = {
   name: string;
   tree: BumpkinRevampSkillTree;
   requirements: {
     points: number;
-    tier: 1 | 2 | 3;
+    tier: BumpkinSkillTier;
     island: IslandType;
     cooldown?: number;
     items?: Inventory;
@@ -495,6 +497,25 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
     image: ITEM_DETAILS["Scary Mike"].image,
   },
+  "Laurie's Gains": {
+    name: "Laurie's Gains",
+    tree: "Crops",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.lauriesGains"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
+  },
   // Crops - Tier 3
   "Instant Growth": {
     name: "Instant Growth",
@@ -559,25 +580,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: ITEM_DETAILS.Carrot.image,
-  },
-  "Laurie's Gains": {
-    name: "Laurie's Gains",
-    tree: "Crops",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.lauriesGains"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
-      },
-    },
-    disabled: false,
-    image: ITEM_DETAILS["Laurie the Chuckle Crow"].image,
   },
 
   // Fruit - Tier 1
@@ -652,6 +654,30 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
   },
+  "No Axe No Worries": {
+    name: "No Axe No Worries",
+    tree: "Fruit Patch",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.noAxeNoWorries.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+      debuff: {
+        shortDescription: translate("skill.noAxeNoWorries.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+        boostedItemIcon: SUNNYSIDE.resource.wood,
+      },
+    },
+    image: ITEM_DETAILS.Axe.image,
+  },
   // Fruit - Tier 2
   Catchup: {
     name: "Catchup",
@@ -669,30 +695,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
-  },
-  "No Axe No Worries": {
-    name: "No Axe No Worries",
-    tree: "Fruit Patch",
-    disabled: false,
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "spring",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.noAxeNoWorries.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-      },
-      debuff: {
-        shortDescription: translate("skill.noAxeNoWorries.debuff"),
-        labelType: "danger",
-        boostTypeIcon: redArrowDown,
-        boostedItemIcon: SUNNYSIDE.resource.wood,
-      },
-    },
-    image: ITEM_DETAILS.Axe.image,
   },
   "Fruity Woody": {
     name: "Fruity Woody",
@@ -1909,24 +1911,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
   },
-  "Midas Sprint": {
-    name: "Midas Sprint",
-    tree: "Mining",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.midasSprint"),
-        labelType: "info",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-        boostedItemIcon: ITEM_DETAILS.Gold.image,
-      },
-    },
-    disabled: false,
-  },
   "Fire Kissed": {
     name: "Fire Kissed",
     tree: "Mining",
@@ -1983,6 +1967,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.goldenTouch"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    },
+    disabled: false,
+  },
+  "Midas Sprint": {
+    name: "Midas Sprint",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.midasSprint"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Gold.image,
       },
     },
@@ -2780,6 +2782,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: ITEM_DETAILS["Sprout Mix"].image,
+  },
+  "Blend-tastic": {
+    name: "Blend-tastic",
+    tree: "Compost",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    disabled: false,
+    power: true,
+    boosts: {
+      buff: {
+        shortDescription: "Put Fruitful Blend on all plots",
+        labelType: "transparent",
+      },
+    },
+    image: ITEM_DETAILS["Fruitful Blend"].image,
   },
   // Compost - Tier 2
   "Premium Worms": {
