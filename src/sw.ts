@@ -66,7 +66,6 @@ self.addEventListener("notificationclick", (event) => {
 
 async function initializeFirebaseMessaging() {
   // Firebase Messaging
-  const messaging = getMessaging();
   const supported = await isSupported();
 
   console.log(
@@ -75,6 +74,8 @@ async function initializeFirebaseMessaging() {
   );
 
   if (supported) {
+    const messaging = getMessaging();
+
     onBackgroundMessage(messaging, (payload) => {
       console.log(
         "[firebase-messaging-sw.js] Received background message ",

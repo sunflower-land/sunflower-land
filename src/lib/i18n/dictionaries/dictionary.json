@@ -1700,6 +1700,7 @@
   "gameOptions.notifications.updating": "Updating settings",
   "gameOptions.notifications.update": "Update settings",
   "gameOptions.notifications.updated": "Settings updated",
+  "gameOptions.notifications.notSupported": "Not supported",
   "gameOptions.developerOptions": "Developer Options",
   "gameOptions.developerOptions.timeMachine": "Time Machine",
   "gameOptions.blockchainSettings": "Blockchain Settings",
