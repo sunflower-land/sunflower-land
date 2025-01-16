@@ -142,7 +142,7 @@ export const SeasonDayDetails: React.FC<Props> = ({
           <Label type="default">{t("temperateSeason.possibleEvents")}</Label>
           <div className="flex flex-col gap-2">
             {Object.entries(DUMMY_EVENT_INFORMATION)
-              .filter(([name]) => name !== "unknown")
+              .filter(([name]) => name !== "unknown" && name !== "fullMoon")
               .map(([name, data]) => (
                 <div key={name} className="flex items-center gap-1">
                   <img
