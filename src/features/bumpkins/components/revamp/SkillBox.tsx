@@ -13,6 +13,7 @@ import { LabelType } from "components/ui/Label";
 import { ProgressType, ResizableBar } from "components/ui/ProgressBar";
 import { SkillSquareIcon } from "./SkillSquareIcon";
 import { NPCName } from "lib/npcs";
+import { BumpkinSkillTier } from "features/game/types/bumpkinSkills";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
@@ -60,7 +61,7 @@ export interface BoxProps {
   };
   onDragOver?: (e: React.DragEvent<HTMLDivElement>) => void;
   onDrop?: (e: React.DragEvent<HTMLDivElement>) => void;
-  tier: 1 | 2 | 3;
+  tier: BumpkinSkillTier;
   npc?: NPCName;
 }
 

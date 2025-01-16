@@ -67,12 +67,14 @@ export type BumpkinSkill = {
   disabled?: boolean;
 };
 
+export type BumpkinSkillTier = 1 | 2 | 3;
+
 export type BumpkinSkillRevamp = {
   name: string;
   tree: BumpkinRevampSkillTree;
   requirements: {
     points: number;
-    tier: 1 | 2 | 3;
+    tier: BumpkinSkillTier;
     island: IslandType;
     cooldown?: number;
     items?: Inventory;
