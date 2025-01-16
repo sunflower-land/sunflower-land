@@ -1,4 +1,4 @@
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { SEASON_ICONS } from "./SeasonalSeeds";
@@ -8,17 +8,15 @@ import seasonIcon from "assets/icons/season.webp";
 import lightningIcon from "assets/icons/lightning.png";
 import { getKeys } from "features/game/types/decorations";
 import {
-  ALL_PRODUCE,
   CROP_SEEDS,
   CropName,
   CROPS,
   getCropCategory,
-  GREENHOUSE_CROPS,
   GREENHOUSE_SEEDS,
   GreenHouseCropName,
   ProduceName,
 } from "features/game/types/crops";
-import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
+import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
 import { Label } from "components/ui/Label";
 import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
@@ -31,33 +29,36 @@ import { secondsToString } from "lib/utils/time";
 import { SELLABLE } from "features/game/events/landExpansion/sellCrop";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/events/landExpansion/harvestGreenHouse";
 import { useGame } from "features/game/GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const CropGuide = () => {
   const { gameState } = useGame();
   const inventory = gameState.context.state.inventory;
+  const { t } = useAppTranslation();
   return (
     <InnerPanel className="scrollable max-h-[300px] overflow-y-scroll">
       <div className="p-1">
         <NoticeboardItems
           items={[
             {
-              text: "To earn coins, you'll need to grow the right crops!",
+              text: t("cropGuide.earnCoins"),
               icon: SUNNYSIDE.ui.coins,
             },
 
             {
-              text: "Crops can only be planted during a specific season.",
+              text: t("cropGuide.payAttentionToSeason"),
               icon: seasonIcon,
             },
           ]}
         />
       </div>
       <Label type="default" className="mb-2">
-        Crops
+        {t("cropGuide.crops")}
       </Label>
       {getKeys({ ...CROP_SEEDS }).map((seed, index) => {
         const crop = CROP_SEEDS[seed].yield as CropName;
         return (
           <CropRow
+            key={seed}
             crop={crop}
             seed={seed}
             seconds={CROPS[crop].harvestSeconds}
@@ -68,21 +69,19 @@ export const CropGuide = () => {
       })}
       <div className="flex my-2 items-center">
         <Label type="default" className="mr-2">
-          Fruits
+          {t("cropGuide.fruits")}
         </Label>
         {!inventory["Fruit Patch"] && (
-          <Label type="danger">Fruit patch required</Label>
+          <Label type="danger">{t("cropGuide.fruitPatchRequired")}</Label>
         )}
       </div>
 
-      <p className="text-xs ml-2 mb-2">
-        Fruit can only be planted in fruit patches. Each plant, can be harvested
-        multiple times.
-      </p>
+      <p className="text-xs ml-2 mb-2">{t("cropGuide.fruit.description")}</p>
       {getKeys({ ...PATCH_FRUIT_SEEDS() }).map((seed, index) => {
         const crop = PATCH_FRUIT_SEEDS()[seed].yield;
         return (
           <CropRow
+            key={seed}
             seed={seed}
             crop={crop}
             seconds={PATCH_FRUIT_SEEDS()[seed].plantSeconds}
@@ -93,10 +92,10 @@ export const CropGuide = () => {
       })}
       <div className="flex my-2 items-center">
         <Label type="default" className="mr-2">
-          Greenhouse
+          {t("cropGuide.greenhouse")}
         </Label>
         {!inventory.Greenhouse && (
-          <Label type="danger">Greenhouse required</Label>
+          <Label type="danger">{t("cropGuide.greenhouseRequired")}</Label>
         )}
       </div>
       {getKeys({ ...GREENHOUSE_FRUIT_SEEDS(), ...GREENHOUSE_SEEDS }).map(
@@ -106,6 +105,7 @@ export const CropGuide = () => {
           ].yield as GreenHouseCropName;
           return (
             <CropRow
+              key={seed}
               crop={crop}
               seed={seed}
               seconds={GREENHOUSE_CROP_TIME_SECONDS[crop]}
@@ -118,15 +118,17 @@ export const CropGuide = () => {
 
       <div className="flex my-2 items-center">
         <Label type="default" className="mr-2">
-          Flowers
+          {t("cropGuide.flower")}
         </Label>
         {!inventory["Flower Bed"] && (
-          <Label type="danger">Flowerbed required</Label>
+          <Label type="danger">{t("cropGuide.flowerbedRequired")}</Label>
         )}
       </div>
+      <p className="text-xs ml-2 mb-2">{t("cropGuide.flower.description")}</p>
       {getKeys({ ...FLOWER_SEEDS() }).map((seed, index) => {
         return (
           <FlowerRow
+            key={seed}
             seed={seed}
             seconds={FLOWER_SEEDS()[seed].plantSeconds}
             alternateBg={index % 2 === 0}
@@ -135,14 +137,15 @@ export const CropGuide = () => {
       })}
 
       <Label type="default" className="my-2">
-        Exotics
+        {t("cropGuide.exotics")}
       </Label>
-      <p className="text-xs">
-        Discover exotics during special events & at the potion house.
+      <p className="text-xs ml-2 mb-2">
+        {t("cropGuide.discoverExoticsDuringSpecialEvents")}
       </p>
       {getKeys({ ...EXOTIC_CROPS }).map((crop, index) => {
         return (
           <ExtoicRow
+            key={crop}
             crop={crop}
             coins={EXOTIC_CROPS[crop].sellPrice}
             alternateBg={index % 2 === 0}
@@ -193,7 +196,7 @@ export const CropRow: React.FC<{
 
       <div className="flex items-center">
         {seasons.map((season) => (
-          <img src={SEASON_ICONS[season]} className="w-6 ml-1" />
+          <img key={season} src={SEASON_ICONS[season]} className="w-6 ml-1" />
         ))}
       </div>
     </div>
@@ -234,7 +237,7 @@ export const FlowerRow: React.FC<{
 
       <div className="flex items-center">
         {seasons.map((season) => (
-          <img src={SEASON_ICONS[season]} className="w-6 ml-1" />
+          <img key={season} src={SEASON_ICONS[season]} className="w-6 ml-1" />
         ))}
       </div>
     </div>

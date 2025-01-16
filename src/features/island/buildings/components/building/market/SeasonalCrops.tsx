@@ -6,46 +6,28 @@ import { Context } from "features/game/GameProvider";
 import {
   ALL_PRODUCE,
   Crop,
-  CropName,
   CROPS,
-  GREENHOUSE_CROPS,
   GreenHouseCrop,
+  ProduceName,
 } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
-import {
-  GREENHOUSE_FRUIT,
-  GreenHouseFruit,
-  PATCH_FRUIT,
-  PatchFruit,
-} from "features/game/types/fruits";
+import { GreenHouseFruit, PatchFruit } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
-import lightning from "assets/icons/lightning.png";
-import orange from "assets/resources/orange.png";
-import {
-  EXOTIC_CROPS,
-  ExoticCrop,
-  ExoticCropName,
-} from "features/game/types/beans";
+import { EXOTIC_CROPS, ExoticCrop } from "features/game/types/beans";
 import { getKeys } from "features/game/types/craftables";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { hasFeatureAccess } from "lib/flags";
-import {
-  isAdvancedCrop,
-  isBasicCrop,
-  isMediumCrop,
-} from "features/game/events/landExpansion/harvest";
-import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
+
+import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
 
 export const isExoticCrop = (
@@ -137,9 +119,8 @@ export const SeasonalCrops: React.FC = () => {
 
   const seasonal = SEASONAL_SEEDS[state.season.season]
     .map((name) => SEEDS()[name].yield)
-    .filter(Boolean);
+    .filter(Boolean) as ProduceName[];
 
-  console.log({ seasonal });
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
     SEASONAL_SEEDS[season].find(
       (seed) => SEEDS()[seed].yield === selected.name,
@@ -155,6 +136,7 @@ export const SeasonalCrops: React.FC = () => {
             <ShopSellDetails
               details={{
                 item: selected.name,
+                seasons: seasons,
               }}
               properties={{
                 coins: displaySellPrice(selected),
@@ -213,11 +195,6 @@ export const SeasonalCrops: React.FC = () => {
                 </>
               }
             />
-            <div className="flex items-center justify-center">
-              {seasons.map((season) => (
-                <img src={SEASON_ICONS[season]} className="w-5 ml-1" />
-              ))}
-            </div>
           </>
         }
         content={
@@ -251,7 +228,7 @@ export const SeasonalCrops: React.FC = () => {
                 icon={SUNNYSIDE.icons.seedling}
                 type="default"
               >
-                Other Crops & Fruits
+                {t("cropGuide.otherProduce")}
               </Label>
             </div>
             <div className="flex flex-wrap mb-2">

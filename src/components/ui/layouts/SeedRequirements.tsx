@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useState } from "react";
@@ -13,18 +12,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 import flowerBed from "assets/flowers/empty_flowerbed.webp";
 
-import {
-  BUMPKIN_ITEM_PART,
-  BumpkinItem,
-  ITEM_IDS,
-} from "features/game/types/bumpkin";
-import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import { IngredientsPopover } from "../IngredientsPopover";
 import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
-import { FLOWER_LIFECYCLE } from "features/game/types/flowers";
 import { getCropCategory, ProduceName } from "features/game/types/crops";
 
 /**
@@ -224,16 +214,14 @@ export const SeedRequirements: React.FC<Props> = ({
     if (!requirements) return <></>;
 
     return (
-      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
-        {/* Coin requirement */}
-        {requirements.coins !== undefined &&
-          (requirements.coins > 0 || requirements.showCoinsIfFree) && (
-            <RequirementLabel
-              type="coins"
-              balance={gameState.coins}
-              requirement={requirements.coins}
-            />
-          )}
+      <div className="w-full mb-2 flex justify-between gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
+        {/* Time requirement display */}
+        {!!requirements.timeSeconds && (
+          <RequirementLabel
+            type="time"
+            waitSeconds={requirements.timeSeconds}
+          />
+        )}
 
         {/* Level requirement */}
         {!!requirements.level && (
@@ -263,13 +251,15 @@ export const SeedRequirements: React.FC<Props> = ({
           />
         )}
 
-        {/* Time requirement display */}
-        {!!requirements.timeSeconds && (
-          <RequirementLabel
-            type="time"
-            waitSeconds={requirements.timeSeconds}
-          />
-        )}
+        {/* Coin requirement */}
+        {requirements.coins !== undefined &&
+          (requirements.coins > 0 || requirements.showCoinsIfFree) && (
+            <RequirementLabel
+              type="coins"
+              balance={gameState.coins}
+              requirement={requirements.coins}
+            />
+          )}
 
         {label}
       </div>
