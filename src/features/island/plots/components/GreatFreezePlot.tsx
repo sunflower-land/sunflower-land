@@ -73,9 +73,11 @@ const GreatFreezePlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="p-2">
             <Label icon={greatFreezeIcon} type="danger" className="mb-1 -ml-1">
-              {t("greatFreeze.title")}
+              {t("calendar.events.greatFreeze.title")}
             </Label>
-            <p className="text-sm mb-3">{t("greatFreeze.description")}</p>
+            <p className="text-sm mb-3">
+              {t("calendar.events.greatFreeze.description")}
+            </p>
             <Label
               icon={SUNNYSIDE.icons.stopwatch}
               type="transparent"
