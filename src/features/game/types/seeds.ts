@@ -17,7 +17,6 @@ import {
 import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
 import { ResourceName } from "./resources";
 import { TemperateSeasonName } from "./game";
-import { isBasicCrop } from "../events/landExpansion/harvest";
 
 export type SeedName =
   | CropSeedName
@@ -77,13 +76,13 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
   ],
   summer: [
     "Sunflower Seed",
+    "Potato Seed",
     "Zuchinni Seed",
     "Soybean Seed",
     "Pepper Seed",
     "Corn Seed",
     "Radish Seed",
     "Wheat Seed",
-    "Radish Seed",
     "Lemon Seed",
     "Orange Seed",
     "Banana Plant",
@@ -101,6 +100,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Potato Seed",
     "Pumpkin Seed",
     "Carrot Seed",
+    "Brocolli Seed",
     "Beetroot Seed",
     "Eggplant Seed",
     "Wheat Seed",
@@ -122,6 +122,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
   ],
   winter: [
     "Potato Seed",
+    "Yam Seed",
     "Cabbage Seed",
     "Cauliflower Seed",
     "Parsnip Seed",
