@@ -27,8 +27,8 @@ import tornadoIcon from "assets/icons/tornado.webp";
 import tsunamiIcon from "assets/icons/tsunami.webp";
 import { secondsToString } from "lib/utils/time";
 import {
-  CalendarEventName,
   getActiveCalenderEvent,
+  SeasonalEventName,
 } from "features/game/types/calendar";
 
 interface Prop {
@@ -141,13 +141,16 @@ const InProgressBuilding: React.FC<Prop> = ({
   );
 };
 
-const DESTROYED_BUILDING_ICONS: Record<CalendarEventName, string> = {
+const DESTROYED_BUILDING_ICONS: Record<
+  Exclude<SeasonalEventName, "fullMoon">,
+  string
+> = {
   tornado: tornadoIcon,
   tsunami: tsunamiIcon,
 };
 
 const DestroyedBuilding: React.FC<
-  Prop & { calendarEvent: CalendarEventName }
+  Prop & { calendarEvent: Exclude<SeasonalEventName, "fullMoon"> }
 > = ({
   name,
   id,
@@ -243,7 +246,7 @@ function isBuildingDestroyed({
 }: {
   name: BuildingName;
   game: GameState;
-}): CalendarEventName | false {
+}): Exclude<SeasonalEventName, "fullMoon"> | false {
   const calendarEvent = getActiveCalenderEvent({ game });
 
   if (!calendarEvent) {
@@ -263,7 +266,7 @@ function isBuildingDestroyed({
   }
 
   if (DESTROYED_BUILDINGS.includes(name)) {
-    return calendarEvent;
+    return calendarEvent as Exclude<SeasonalEventName, "fullMoon">;
   }
 
   return false;
