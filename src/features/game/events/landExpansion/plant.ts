@@ -797,6 +797,13 @@ export function plant({
       throw new Error("Not enough seeds");
     }
 
+    // TODO Enable this when we have seasonal seeds
+    // if (
+    //   !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
+    // ) {
+    //   throw new Error("This seed is not available in this season");
+    // }
+
     const cropName = action.item.split(" ")[0] as CropName;
 
     const activityName: BumpkinActivityName = `${cropName} Planted`;

@@ -79,6 +79,11 @@ export function seedBought({ state, action }: Options) {
       throw new Error("This item is not a seed");
     }
 
+    // TODO - Enable this when we have seasonal seeds
+    // if (!SEASONAL_SEEDS[stateCopy.season.season].includes(item)) {
+    //   throw new Error("This seed is not available in this season");
+    // }
+
     const { bumpkin } = stateCopy;
 
     if (!bumpkin) {

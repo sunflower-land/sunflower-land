@@ -74,11 +74,6 @@ interface RequirementsProps {
   xp?: Decimal;
   timeSeconds?: number;
   level?: number;
-  restriction?: {
-    icon: string;
-    text: string;
-    isLocked?: boolean;
-  };
 }
 
 /**
@@ -219,7 +214,6 @@ export const CraftingRequirements: React.FC<Props> = ({
               </div>
             </div>
           )}
-          <span className="sm:text-center text-xs">Basic crop</span>
           <span className="sm:text-center">{title}</span>
         </div>
         {!hideDescription && description !== "?" && (

@@ -232,6 +232,32 @@ describe("plant", () => {
     );
   });
 
+  // TODO - Enable this when we have seasonal seeds
+  it.skip("does not plant a non-seasonal seed", () => {
+    expect(() =>
+      plant({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Cauliflower Seed": new Decimal(1),
+            "Water Well": new Decimal(1),
+          },
+          season: {
+            season: "summer",
+            startedAt: 0,
+          },
+        },
+        action: {
+          type: "seed.planted",
+          cropId: "123",
+          index: "0",
+
+          item: "Cauliflower Seed",
+        },
+      }),
+    ).toThrow("This seed is not available in this season");
+  });
+
   it("plants a normal cauliflower", () => {
     const state = plant({
       state: {

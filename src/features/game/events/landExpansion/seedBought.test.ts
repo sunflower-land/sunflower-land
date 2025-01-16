@@ -33,6 +33,10 @@ describe("seedBought", () => {
             ...INITIAL_BUMPKIN,
             experience: 0,
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -41,6 +45,30 @@ describe("seedBought", () => {
         },
       }),
     ).toThrow("Inadequate level");
+  });
+
+  // TODO - Enable this when we have seasonal seeds
+  it.skip("does not buy seed an out of season seed", () => {
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: 1000000,
+          },
+          season: {
+            season: "summer",
+            startedAt: 0,
+          },
+        },
+        action: {
+          type: "seed.bought",
+          item: "Pumpkin Seed",
+          amount: 1,
+        },
+      }),
+    ).toThrow("This seed is not available in this season");
   });
 
   it("does not buy a seed with an unusual amount", () => {
@@ -146,6 +174,10 @@ describe("seedBought", () => {
           ...INITIAL_BUMPKIN,
           experience: 200,
         },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
       },
       action: {
         item,
@@ -171,6 +203,10 @@ describe("seedBought", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: 200,
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
         },
       },
       action: {
@@ -493,6 +529,10 @@ describe("seedBought", () => {
           inventory: {
             "Fruit Patch": new Decimal(0),
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -510,6 +550,10 @@ describe("seedBought", () => {
           coins: Infinity,
           inventory: {
             "Fruit Patch": new Decimal(1),
+          },
+          season: {
+            season: "autumn",
+            startedAt: 0,
           },
         },
         action: {
@@ -530,6 +574,10 @@ describe("seedBought", () => {
           inventory: {
             "Fruit Patch": new Decimal(0),
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -547,6 +595,10 @@ describe("seedBought", () => {
           coins: Infinity,
           inventory: {
             "Fruit Patch": new Decimal(1),
+          },
+          season: {
+            season: "autumn",
+            startedAt: 0,
           },
         },
         action: {
