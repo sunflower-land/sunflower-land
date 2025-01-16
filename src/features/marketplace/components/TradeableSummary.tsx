@@ -53,7 +53,6 @@ export const TradeableItemDetails: React.FC<{
             <span className="text-sm">
               {`${formatNumber(estTradePoints, {
                 decimalPlaces: 2,
-                showTrailingZeros: false,
               })} Trade Points`}
             </span>
             <img src={ITEM_DETAILS["Trade Point"].image} className="h-4 ml-1" />
@@ -86,7 +85,7 @@ export const TradeableSummary: React.FC<{
       >
         <span className="text-xs"> {t("marketplace.salePrice")}</span>
         <p className="text-xs font-secondary">{`${formatNumber(sfl, {
-          decimalPlaces: 2,
+          decimalPlaces: 4,
           showTrailingZeros: true,
         })} SFL`}</p>
       </div>
@@ -102,7 +101,7 @@ export const TradeableSummary: React.FC<{
         <p className="text-xs font-secondary">{`${formatNumber(
           new Decimal(sfl).mul(MARKETPLACE_TAX),
           {
-            decimalPlaces: 2,
+            decimalPlaces: 4,
             showTrailingZeros: true,
           },
         )} SFL`}</p>
@@ -119,7 +118,7 @@ export const TradeableSummary: React.FC<{
         <p className="text-xs font-secondary">{`${formatNumber(
           new Decimal(sfl).mul(1 - MARKETPLACE_TAX),
           {
-            decimalPlaces: 2,
+            decimalPlaces: 4,
             showTrailingZeros: true,
           },
         )} SFL`}</p>
@@ -137,7 +136,6 @@ export const TradeableSummary: React.FC<{
               new Decimal(estTradePoints),
               {
                 decimalPlaces: 2,
-                showTrailingZeros: false,
               },
             )}`}</p>
             <img src={ITEM_DETAILS["Trade Point"].image} />

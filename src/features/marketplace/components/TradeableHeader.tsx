@@ -209,10 +209,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   >
                     <p className={classNames("text-base")}>
                       {!tradeable
-                        ? "0.00 SFL"
+                        ? "0 SFL"
                         : `${formatNumber(cheapestListing?.sfl ?? 0, {
-                            decimalPlaces: 2,
-                            showTrailingZeros: true,
+                            decimalPlaces: 4,
                           })} SFL`}
                     </p>
                     <p className="text-xs">
@@ -236,7 +235,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                             price: tradeable.floor
                               ? formatNumber(tradeable.floor, {
                                   decimalPlaces: 4,
-                                  showTrailingZeros: true,
                                 })
                               : "?",
                           })}
@@ -245,7 +243,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                         <>
                           <span className="text-base loading-fade-pulse">
                             {t("marketplace.pricePerUnit", {
-                              price: "0.0000",
+                              price: "0",
                             })}
                           </span>
                         </>

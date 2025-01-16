@@ -10,6 +10,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { MarketplaceIntroduction } from "./components/MarketplaceIntroduction";
+import { formatNumber } from "lib/utils/formatNumber";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 
@@ -59,7 +60,9 @@ export const Marketplace: React.FC = () => {
 
             <div className="flex items-center z-10">
               <img src={sflIcon} className="w-8 mr-1" />
-              <p className="text-sm text-white">{balance.toFixed(2)}</p>
+              <p className="text-sm text-white">
+                {formatNumber(balance, { decimalPlaces: 4 })}
+              </p>
             </div>
             <img
               src={SUNNYSIDE.icons.close}

@@ -410,7 +410,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <NumberInput
                 value={price}
                 onValueChange={(decimal) => setPrice(decimal.toNumber())}
-                maxDecimalPlaces={tradeType === "onchain" ? 0 : 2}
+                maxDecimalPlaces={tradeType === "onchain" ? 0 : 4}
                 icon={sflIcon}
               />
               <p className="text-xxs ml-2">
@@ -425,7 +425,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               }}
             >
               <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
-              <p className="text-xs font-secondary">{`${price} SFL`}</p>
+              <p className="text-xs font-secondary">{`${formatNumber(price, {
+                decimalPlaces: 4,
+                showTrailingZeros: true,
+              })} SFL`}</p>
             </div>
             <div
               className="flex justify-between"
@@ -438,8 +441,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <p className="text-xs font-secondary">{`${formatNumber(
                 price * 0.1,
                 {
-                  decimalPlaces: 1,
-                  showTrailingZeros: false,
+                  decimalPlaces: 4,
+                  showTrailingZeros: true,
                 },
               )} SFL`}</p>
             </div>
@@ -456,8 +459,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <p className="text-xs font-secondary">{`${formatNumber(
                 new Decimal(price).mul(1 - MARKETPLACE_TAX),
                 {
-                  decimalPlaces: 1,
-                  showTrailingZeros: false,
+                  decimalPlaces: 4,
+                  showTrailingZeros: true,
                 },
               )} SFL`}</p>
             </div>
@@ -473,7 +476,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                   new Decimal(estTradePoints),
                   {
                     decimalPlaces: 2,
-                    showTrailingZeros: false,
                   },
                 )}`}</p>
                 <img src={ITEM_DETAILS["Trade Point"].image} />
