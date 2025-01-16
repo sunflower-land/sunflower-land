@@ -4796,5 +4796,10 @@
   "vip.benefit.stellaDiscounts": "Sconti Stella SFL",
   "vip.benefit.bonusDelivery": "Consegna bonus e premi per le faccende",
   "vip.benefit.reputation": "500 punti reputazione",
-  "vip.benefit.competition": "Punti bonus per la competizione e altro ancora!"
+  "vip.benefit.competition": "Punti bonus per la competizione e altro ancora!",
+  "gameOptions.notifications": "Notifiche",
+  "gameOptions.notifications.updating": "Aggiornamento delle impostazioni",
+  "gameOptions.notifications.update": "Impostazioni di aggiornamento",
+  "gameOptions.notifications.updated": "Impostazioni aggiornate",
+  "gameOptions.notifications.notSupported": "Non supportato"
 }

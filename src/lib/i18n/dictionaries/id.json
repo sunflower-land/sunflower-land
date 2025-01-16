@@ -4796,5 +4796,10 @@
   "vip.benefit.stellaDiscounts": "Stella SFL diskon",
   "vip.benefit.bonusDelivery": "Pengiriman Bonus & Hadiah Tugas Kerja",
   "vip.benefit.reputation": "500 Poin Reputasi",
-  "vip.benefit.competition": "Poin kompetisi bonus+lebih banyak lagi!"
+  "vip.benefit.competition": "Poin kompetisi bonus+lebih banyak lagi!",
+  "gameOptions.notifications": "Pemberitahuan",
+  "gameOptions.notifications.updating": "Memperbarui pengaturan",
+  "gameOptions.notifications.update": "Perbarui pengaturan",
+  "gameOptions.notifications.updated": "Pengaturan diperbarui",
+  "gameOptions.notifications.notSupported": "Tidak didukung"
 }

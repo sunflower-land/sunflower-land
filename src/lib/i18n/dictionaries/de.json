@@ -4796,5 +4796,10 @@
   "vip.benefit.stellaDiscounts": "Stella SFL Rabatte",
   "vip.benefit.bonusDelivery": "Bonuslieferung und Prämien für die lästige Arbeit",
   "vip.benefit.reputation": "500 Reputationspunkte",
-  "vip.benefit.competition": "Bonus-Wettbewerbspunkte + mehr!"
+  "vip.benefit.competition": "Bonus-Wettbewerbspunkte + mehr!",
+  "gameOptions.notifications": "Benachrichtigungen",
+  "gameOptions.notifications.updating": "Einstellungen aktualisieren",
+  "gameOptions.notifications.update": "Einstellungen aktualisieren",
+  "gameOptions.notifications.updated": "Einstellungen aktualisiert",
+  "gameOptions.notifications.notSupported": "Nicht unterstützt"
 }

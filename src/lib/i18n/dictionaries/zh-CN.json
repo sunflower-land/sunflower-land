@@ -4796,5 +4796,10 @@
   "vip.benefit.stellaDiscounts": "Stella SFL 折扣",
   "vip.benefit.bonusDelivery": "奖励配送和琐事奖励",
   "vip.benefit.reputation": "500 声誉积分",
-  "vip.benefit.competition": "奖励比赛积分 + 更多！"
+  "vip.benefit.competition": "奖励比赛积分 + 更多！",
+  "gameOptions.notifications": "通知",
+  "gameOptions.notifications.updating": "更新设置",
+  "gameOptions.notifications.update": "更新设置",
+  "gameOptions.notifications.updated": "设置已更新",
+  "gameOptions.notifications.notSupported": "不支持"
 }

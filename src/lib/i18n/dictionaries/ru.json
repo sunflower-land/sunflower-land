@@ -4796,5 +4796,10 @@
   "vip.benefit.stellaDiscounts": "Скидки на акции Stella SFL",
   "vip.benefit.bonusDelivery": "Доставка бонусов и вознаграждение за выполнение служебных заданий",
   "vip.benefit.reputation": "500 очков репутации",
-  "vip.benefit.competition": "Бонусные конкурсные баллы и многое другое!"
+  "vip.benefit.competition": "Бонусные конкурсные баллы и многое другое!",
+  "gameOptions.notifications": "Уведомления",
+  "gameOptions.notifications.updating": "Обновление настроек",
+  "gameOptions.notifications.update": "Обновить настройки",
+  "gameOptions.notifications.updated": "Настройки обновлены",
+  "gameOptions.notifications.notSupported": "Не поддерживается"
 }

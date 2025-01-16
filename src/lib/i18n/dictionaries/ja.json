@@ -4796,5 +4796,10 @@
   "vip.benefit.stellaDiscounts": "ステラSFL割引",
   "vip.benefit.bonusDelivery": "ボーナスデリバリー＆雑用報酬",
   "vip.benefit.reputation": "500 レピュテーションポイント",
-  "vip.benefit.competition": "ボーナスコンペティションポイント+その他！"
+  "vip.benefit.competition": "ボーナスコンペティションポイント+その他！",
+  "gameOptions.notifications": "通知",
+  "gameOptions.notifications.updating": "設定を更新中",
+  "gameOptions.notifications.update": "更新設定",
+  "gameOptions.notifications.updated": "設定が更新されました",
+  "gameOptions.notifications.notSupported": "サポートされていません"
 }
