@@ -7,10 +7,11 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
+import memoize from "lodash.memoize";
 
 export const COLLECTIBLE_BUFF_LABELS: (
   state: GameState,
-) => Partial<Record<InventoryItemName, BuffLabel[]>> = (state) => ({
+) => Partial<Record<InventoryItemName, BuffLabel[]>> = memoize((state) => ({
   // Crop Boosts
   "Basic Scarecrow": [
     {
@@ -1242,4 +1243,4 @@ export const COLLECTIBLE_BUFF_LABELS: (
       boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
     },
   ],
-});
+}));
