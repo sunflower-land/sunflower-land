@@ -10,7 +10,7 @@ import { INVENTORY_LIMIT, TEST_FARM } from "features/game/lib/constants";
 const state: GameState = { ...TEST_FARM };
 
 describe("makeBulkBuyTools", () => {
-  it("should return the the MAX if enough stock", () => {
+  it("should return the MAX if enough stock", () => {
     expect(makeBulkBuyTools(new Decimal(200))).toBe(10);
     expect(makeBulkBuyTools(new Decimal(11))).toBe(10);
   });
