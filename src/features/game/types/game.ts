@@ -1289,25 +1289,8 @@ export type Season = {
   season: TemperateSeasonName;
 };
 
-type BaseCalendarEventDetails = {
-  date: string;
-  weather?: boolean;
-};
-
-type CalendarScheduledEvent = BaseCalendarEventDetails & {
-  name: "calendar";
-  title: string;
-  description: string;
-};
-
-type OtherCalendarEvent = BaseCalendarEventDetails & {
-  name: Exclude<CalendarEventName, "calendar">;
-};
-
-export type CalendarEventDetails = CalendarScheduledEvent | OtherCalendarEvent;
-
 export type Calendar = {
-  dates: CalendarEventDetails[];
+  dates: { name: CalendarEventName; date: string }[];
   tornado?: CalendarEvent;
   tsunami?: CalendarEvent;
   fullMoon?: CalendarEvent;
@@ -1330,7 +1313,10 @@ export interface GameState {
   };
 
   calendar: Calendar;
-
+  vip?: {
+    bundles: { name: VipBundle; boughtAt: number }[];
+    expiresAt: number;
+  };
   shipments: {
     restockedAt?: number;
   };
