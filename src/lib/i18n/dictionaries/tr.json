@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "Hiçbir bina yemek pişirmiyor",
   "powerSkills.reason.noFlowersGrowing": "Çiçek tarhlarında çiçek yetişmiyor",
   "powerSkills.reason.noOilreservesRefilling": "Petrol rezervleri yeniden doldurulmuyor",
-  "powerSkills.reason.animalsSickReadyAsleep": "Hayvanlarınız hasta, hazır veya uykuda"
+  "powerSkills.reason.animalsSickReadyAsleep": "Hayvanlarınız hasta, hazır veya uykuda",
+  "description.thermalStone": "Sizi büyük donmadan koruyan bir termal taş!",
+  "greatFreeze.crops.frozen": "Büyük donma tarafından donduruldu",
+  "greatFreeze.description": "Büyük bir donma çiftliğinizi donduruyor!",
+  "greatFreeze.specialEvent": "Özel Etkinlik - Great Freeze",
+  "greatFreeze.protected.one": "Çiftliğini büyük donmadan korudun!",
+  "greatFreeze.protected.two": "Ekinlerinizin hiçbiri donmadı.",
+  "greatFreeze.destroyed.one": "Oh hayır! Büyük bir donma çiftliğinizi donduruyor!",
+  "greatFreeze.destroyed.two": "Ekinlerinizin bir kısmı donmuştu.",
+  "calendar.events.greatFreeze.title": "Büyük Dondurma",
+  "calendar.events.greatFreeze.description": "Ekinleri donduran yıkıcı bir soğuk hava."
 }

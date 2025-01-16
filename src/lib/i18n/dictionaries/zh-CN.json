@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "没有建筑物在做饭",
   "powerSkills.reason.noFlowersGrowing": "花坛里没有开花",
   "powerSkills.reason.noOilreservesRefilling": "没有石油储备正在补充",
-  "powerSkills.reason.animalsSickReadyAsleep": "你的动物生病了、准备好了或者睡着了"
+  "powerSkills.reason.animalsSickReadyAsleep": "你的动物生病了、准备好了或者睡着了",
+  "description.thermalStone": "一块能保护你免受极度冻结的热石！",
+  "greatFreeze.crops.frozen": "被大冻所冻结",
+  "greatFreeze.description": "很棒的冻结就是冻结你的农场！",
+  "greatFreeze.specialEvent": "特别活动-Great Freeze",
+  "greatFreeze.protected.one": "你保护了你的农场免受大冻伤害！",
+  "greatFreeze.protected.two": "你的农作物都没有被冻结。",
+  "greatFreeze.destroyed.one": "哦不！很棒的冻结就是冻结你的农场！",
+  "greatFreeze.destroyed.two": "你的一些农作物被冻结了。",
+  "calendar.events.greatFreeze.title": "大冻结",
+  "calendar.events.greatFreeze.description": "一场毁灭性的寒流使农作物冻结。"
 }

@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "Aucun bâtiment ne cuisine",
   "powerSkills.reason.noFlowersGrowing": "Aucune fleur ne pousse dans les parterres de fleurs",
   "powerSkills.reason.noOilreservesRefilling": "Aucune réserve de pétrole n'est en cours de remplissage",
-  "powerSkills.reason.animalsSickReadyAsleep": "Vos animaux sont malades, prêts ou endormis"
+  "powerSkills.reason.animalsSickReadyAsleep": "Vos animaux sont malades, prêts ou endormis",
+  "description.thermalStone": "Une pierre thermale qui vous protège du grand froid !",
+  "greatFreeze.crops.frozen": "Congelé par le grand froid",
+  "greatFreeze.description": "Un bon gel est en train de geler votre ferme !",
+  "greatFreeze.specialEvent": "Événement spécial - Great Freeze",
+  "greatFreeze.protected.one": "Vous avez protégé votre ferme du grand froid !",
+  "greatFreeze.protected.two": "Aucune de vos récoltes n'était gelée.",
+  "greatFreeze.destroyed.one": "Oh non ! Un bon gel est en train de geler votre ferme !",
+  "greatFreeze.destroyed.two": "Certaines de vos récoltes étaient gelées.",
+  "calendar.events.greatFreeze.title": "Super Freeze",
+  "calendar.events.greatFreeze.description": "Une vague de froid dévastatrice qui gèle les récoltes."
 }

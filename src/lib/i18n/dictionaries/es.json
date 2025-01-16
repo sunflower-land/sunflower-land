@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "No se está cocinando ningún edificio",
   "powerSkills.reason.noFlowersGrowing": "No crecen flores en los parterres",
   "powerSkills.reason.noOilreservesRefilling": "No se están rellenando las reservas de petróleo",
-  "powerSkills.reason.animalsSickReadyAsleep": "Sus animales están enfermos, preparados o dormidos"
+  "powerSkills.reason.animalsSickReadyAsleep": "Sus animales están enfermos, preparados o dormidos",
+  "description.thermalStone": "¡Una piedra térmica que te protege de las grandes heladas!",
+  "greatFreeze.crops.frozen": "Congelado por la gran helada",
+  "greatFreeze.description": "¡Una gran helada está congelando tu granja!",
+  "greatFreeze.specialEvent": "Evento especial: Great Freeze",
+  "greatFreeze.protected.one": "¡Has protegido tu granja de la gran helada!",
+  "greatFreeze.protected.two": "Ninguna de sus cosechas estaba congelada.",
+  "greatFreeze.destroyed.one": "¡Oh, no! ¡Una gran helada está congelando tu granja!",
+  "greatFreeze.destroyed.two": "Algunas de sus cosechas estaban congeladas.",
+  "calendar.events.greatFreeze.title": "Gran helada",
+  "calendar.events.greatFreeze.description": "Una ola de frío devastadora que congela las cosechas."
 }

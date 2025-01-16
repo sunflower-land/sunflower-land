@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "Ни в одном здании не готовят еду",
   "powerSkills.reason.noFlowersGrowing": "На клумбах цветы не растут",
   "powerSkills.reason.noOilreservesRefilling": "Запасы нефти не пополняются",
-  "powerSkills.reason.animalsSickReadyAsleep": "Ваши животные больны, готовы или спят"
+  "powerSkills.reason.animalsSickReadyAsleep": "Ваши животные больны, готовы или спят",
+  "description.thermalStone": "Термальный камень, защищающий вас от сильных морозов!",
+  "greatFreeze.crops.frozen": "Замороженный великой заморозкой",
+  "greatFreeze.description": "Отличная заморозка замораживает вашу ферму!",
+  "greatFreeze.specialEvent": "Специальное событие «Великая заморозка»",
+  "greatFreeze.protected.one": "Вы защитили свою ферму от сильных морозов!",
+  "greatFreeze.protected.two": "Ни один из ваших посевов не был заморожен.",
+  "greatFreeze.destroyed.one": "О нет! Отличная заморозка — это заморозка вашей фермы!",
+  "greatFreeze.destroyed.two": "Некоторые из ваших посевов были заморожены.",
+  "calendar.events.greatFreeze.title": "Отличная заморозка",
+  "calendar.events.greatFreeze.description": "Разрушительное резкое охлаждение, которое приводит к замораживанию посевов."
 }

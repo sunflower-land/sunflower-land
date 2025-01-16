@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "Keine Gebäude kochen",
   "powerSkills.reason.noFlowersGrowing": "In Blumenbeeten wachsen keine Blumen",
   "powerSkills.reason.noOilreservesRefilling": "Es werden keine Ölreserven aufgefüllt",
-  "powerSkills.reason.animalsSickReadyAsleep": "Ihre Tiere sind krank, bereit oder schlafen"
+  "powerSkills.reason.animalsSickReadyAsleep": "Ihre Tiere sind krank, bereit oder schlafen",
+  "description.thermalStone": "Ein Thermostein, der Sie vor dem großen Frost schützt!",
+  "greatFreeze.crops.frozen": "Vom großen Frost eingefroren",
+  "greatFreeze.description": "Ein großer Frost friert deine Farm ein!",
+  "greatFreeze.specialEvent": "Sonderveranstaltung - Great Freeze",
+  "greatFreeze.protected.one": "Du hast deine Farm vor dem großen Frost geschützt!",
+  "greatFreeze.protected.two": "Keine Ihrer Pflanzen war eingefroren.",
+  "greatFreeze.destroyed.one": "Oh nein! Ein großer Frost friert deine Farm ein!",
+  "greatFreeze.destroyed.two": "Einige Ihrer Ernten waren eingefroren.",
+  "calendar.events.greatFreeze.title": "Toller Frost",
+  "calendar.events.greatFreeze.description": "Ein verheerender Kälteeinbruch, der die Ernte einfriert."
 }

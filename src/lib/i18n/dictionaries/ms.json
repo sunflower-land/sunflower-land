@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "Tiada bangunan yang memasak",
   "powerSkills.reason.noFlowersGrowing": "Tiada bunga tumbuh di katil bunga",
   "powerSkills.reason.noOilreservesRefilling": "Tiada rizab minyak yang mengisi semula",
-  "powerSkills.reason.animalsSickReadyAsleep": "Haiwan anda sakit, bersedia atau tidur"
+  "powerSkills.reason.animalsSickReadyAsleep": "Haiwan anda sakit, bersedia atau tidur",
+  "description.thermalStone": "Batu haba yang melindungi anda dari pembekuan yang hebat!",
+  "greatFreeze.crops.frozen": "Dibekukan oleh pembekuan yang hebat",
+  "greatFreeze.description": "Pembekuan yang hebat membekukan ladang anda!",
+  "greatFreeze.specialEvent": "Acara Istimewa - Great Freeze",
+  "greatFreeze.protected.one": "Anda melindungi ladang anda dari pembekuan yang hebat!",
+  "greatFreeze.protected.two": "Tiada tanaman anda yang dibekukan.",
+  "greatFreeze.destroyed.one": "Oh tidak! Pembekuan yang hebat membekukan ladang anda!",
+  "greatFreeze.destroyed.two": "Beberapa tanaman anda telah dibekukan.",
+  "calendar.events.greatFreeze.title": "Pembekuan Hebat",
+  "calendar.events.greatFreeze.description": "Sejuk yang dahsyat yang membekukan tanaman."
 }

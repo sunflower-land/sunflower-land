@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "조리 중인 건물이 없습니다",
   "powerSkills.reason.noFlowersGrowing": "화단에는 꽃이 자라지 않습니다",
   "powerSkills.reason.noOilreservesRefilling": "석유 매장량 보충 없음",
-  "powerSkills.reason.animalsSickReadyAsleep": "동물이 아프거나, 준비가 되었거나, 잠들어 있습니다"
+  "powerSkills.reason.animalsSickReadyAsleep": "동물이 아프거나, 준비가 되었거나, 잠들어 있습니다",
+  "description.thermalStone": "극한의 추위로부터 몸을 보호해 주는 보온석!",
+  "greatFreeze.crops.frozen": "프로즌 바이 더 그레이트 프리즈",
+  "greatFreeze.description": "얼음이 심하면 농장이 얼어붙을 수 있습니다!",
+  "greatFreeze.specialEvent": "특별 이벤트 - 그레이트 프리즈",
+  "greatFreeze.protected.one": "극심한 추위로부터 농장을 지켰어요!",
+  "greatFreeze.protected.two": "당신의 농작물은 하나도 얼지 않았어요.",
+  "greatFreeze.destroyed.one": "오, 안돼!너무 많이 얼면 농장이 얼어붙을 거예요!",
+  "greatFreeze.destroyed.two": "자네 농작물 몇 개가 얼었어.",
+  "calendar.events.greatFreeze.title": "그레이트 프리즈",
+  "calendar.events.greatFreeze.description": "농작물을 얼려버리는 엄청난 한파."
 }

@@ -4838,5 +4838,15 @@
   "powerSkills.reason.noBuildingsAreCooking": "調理をしている建物はありません",
   "powerSkills.reason.noFlowersGrowing": "花壇には花が咲いていません",
   "powerSkills.reason.noOilreservesRefilling": "石油埋蔵量は補充されていません",
-  "powerSkills.reason.animalsSickReadyAsleep": "あなたの動物は病気で、準備ができている、または眠っている"
+  "powerSkills.reason.animalsSickReadyAsleep": "あなたの動物は病気で、準備ができている、または眠っている",
+  "description.thermalStone": "極寒から身を守るサーマルストーン！",
+  "greatFreeze.crops.frozen": "フリーズ・バイ・ザ・グレート・フリーズ",
+  "greatFreeze.description": "ひどい凍結で農場が凍りついてる！",
+  "greatFreeze.specialEvent": "スペシャルイベント-グレートフリーズ",
+  "greatFreeze.protected.one": "あなたは農場を大凍結から守りました！",
+  "greatFreeze.protected.two": "あなたの作物はどれも凍っていませんでした。",
+  "greatFreeze.destroyed.one": "ああ、いや！ひどい凍結で農場が凍りついてる！",
+  "greatFreeze.destroyed.two": "あなたの作物のいくつかは凍っていました。",
+  "calendar.events.greatFreeze.title": "グレート・フリーズ",
+  "calendar.events.greatFreeze.description": "農作物を凍らせる壊滅的な寒波。"
 }
