@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import orange from "assets/resources/orange.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -59,8 +58,9 @@ import springIcon from "assets/icons/spring.webp";
 import summerIcon from "assets/icons/summer.webp";
 import autumnIcon from "assets/icons/autumn.webp";
 import winterIcon from "assets/icons/winter.webp";
+import { SeedRequirements } from "components/ui/layouts/SeedRequirements";
 
-const SEASON_ICONS: Record<TemperateSeasonName, string> = {
+export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
   summer: summerIcon,
   autumn: autumnIcon,
@@ -129,13 +129,7 @@ export const SeasonalSeeds: React.FC = () => {
 
   const Action = () => {
     if (!inventory[plantingSpot]) {
-      return (
-        <div className="flex justify-center">
-          <Label className="mb-1" type="danger">
-            {t("seeds.plantingSpot.needed", { plantingSpot: plantingSpot })}
-          </Label>
-        </div>
-      );
+      return undefined;
     }
 
     if (isSeedLocked(selectedName)) {
@@ -265,21 +259,14 @@ export const SeasonalSeeds: React.FC = () => {
   };
 
   const currentSeason = state.season.season;
-  let seasons: TemperateSeasonName[] = ["spring", "summer", "autumn", "winter"];
-
-  // Reorder seasons to start with current season
-  const currentSeasonIndex = seasons.indexOf(currentSeason);
-  seasons = [
-    ...seasons.slice(currentSeasonIndex),
-    ...seasons.slice(0, currentSeasonIndex),
-  ];
+  const seeds = SEASONAL_SEEDS[currentSeason];
 
   const harvestCount = getHarvestCount();
 
   return (
     <SplitScreenView
       panel={
-        <CraftingRequirements
+        <SeedRequirements
           gameState={state}
           stock={stock}
           details={{
@@ -309,43 +296,39 @@ export const SeasonalSeeds: React.FC = () => {
       }
       content={
         <div className="pl-1">
-          {seasons.map((season, index) => (
-            <>
-              <div className="flex justify-between">
-                <Label
-                  icon={SEASON_ICONS[season]}
-                  type="default"
-                  className="ml-2 mb-1 capitalize"
-                >
-                  {`${season}`}
-                </Label>
-                {index === 0 && (
-                  <Label
-                    icon={SUNNYSIDE.icons.stopwatch}
-                    type="transparent"
-                    className="mb-1"
-                  >
-                    {`${secondsToString(secondsTillWeekReset(), {
-                      length: "short",
-                    })} left`}
-                  </Label>
-                )}
-              </div>
-              <div className="flex flex-wrap mb-2">
-                {SEASONAL_SEEDS[season].map((name: SeedName) => (
-                  <Box
-                    isSelected={selectedName === name}
-                    key={name}
-                    onClick={() => onSeedClick(name)}
-                    image={ITEM_DETAILS[SEEDS()[name].yield ?? name].image}
-                    showOverlay={isSeedLocked(name)}
-                    // secondaryImage={SUNNYSIDE.icons.seedling}
-                    count={inventory[name]}
-                  />
-                ))}
-              </div>
-            </>
-          ))}
+          <>
+            <div className="flex justify-between">
+              <Label
+                icon={SEASON_ICONS[currentSeason]}
+                type="default"
+                className="ml-2 mb-1 capitalize"
+              >
+                {`${currentSeason}`}
+              </Label>
+              <Label
+                icon={SUNNYSIDE.icons.stopwatch}
+                type="transparent"
+                className="mb-1"
+              >
+                {`${secondsToString(secondsTillWeekReset(), {
+                  length: "short",
+                })} left`}
+              </Label>
+            </div>
+            <div className="flex flex-wrap mb-2">
+              {seeds.map((name: SeedName) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[SEEDS()[name].yield ?? name].image}
+                  showOverlay={isSeedLocked(name)}
+                  // secondaryImage={SUNNYSIDE.icons.seedling}
+                  count={inventory[name]}
+                />
+              ))}
+            </div>
+          </>
         </div>
       }
     />

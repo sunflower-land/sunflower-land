@@ -1,5 +1,14 @@
 import { translate } from "lib/i18n/translate";
 import { Seed } from "./seeds";
+import { getKeys } from "./decorations";
+import { EXOTIC_CROPS, ExoticCrop, ExoticCropName } from "./beans";
+import { GREENHOUSE_FRUIT, PATCH_FRUIT, PatchFruitName } from "./fruits";
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+  isOvernightCrop,
+} from "../events/landExpansion/harvest";
 
 export type CropName =
   | "Sunflower"
@@ -412,3 +421,77 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     yield: "Artichoke",
   },
 };
+
+const exotics = getKeys(EXOTIC_CROPS)
+  // sort by sell price
+  .sort((a, b) => EXOTIC_CROPS[a].sellPrice - EXOTIC_CROPS[b].sellPrice)
+  .reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: EXOTIC_CROPS[key],
+    }),
+    {} as Record<ExoticCropName, ExoticCrop>,
+  );
+
+export const ALL_PRODUCE: Record<ProduceName, any> = {
+  ...CROPS,
+  ...PATCH_FRUIT(),
+  ...GREENHOUSE_FRUIT(),
+  ...GREENHOUSE_CROPS,
+  ...exotics,
+};
+
+export type ProduceCategory =
+  | "Basic Crop"
+  | "Medium Crop"
+  | "Advanced Crop"
+  | "Exotic Crop"
+  | "Overnight Crop"
+  | "Greenhouse"
+  | "Fruit"
+  | "Flower";
+
+export type ProduceName =
+  | CropName
+  | PatchFruitName
+  | GreenHouseCropName
+  | ExoticCropName;
+
+export function getCropCategory(crop: ProduceName): ProduceCategory {
+  if (!crop) {
+    return "Flower";
+  }
+
+  if (isBasicCrop(crop as CropName)) {
+    return "Basic Crop";
+  }
+
+  if (isMediumCrop(crop as CropName)) {
+    return "Medium Crop";
+  }
+
+  if (isAdvancedCrop(crop as CropName)) {
+    return "Advanced Crop";
+  }
+
+  if (EXOTIC_CROPS[crop as ExoticCropName]) {
+    return "Exotic Crop";
+  }
+
+  if (GREENHOUSE_CROPS[crop as GreenHouseCropName]) {
+    return "Greenhouse";
+  }
+
+  if (PATCH_FRUIT()[crop as PatchFruitName]) {
+    return "Fruit";
+  }
+
+  if (
+    ALL_PRODUCE[crop].harvestSeconds >= 24 * 60 * 60 &&
+    isOvernightCrop(crop as CropName)
+  ) {
+    return "Overnight Crop";
+  }
+
+  return "Flower";
+}

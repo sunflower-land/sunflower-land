@@ -17,6 +17,7 @@ import {
 import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
 import { ResourceName } from "./resources";
 import { TemperateSeasonName } from "./game";
+import { isBasicCrop } from "../events/landExpansion/harvest";
 
 export type SeedName =
   | CropSeedName

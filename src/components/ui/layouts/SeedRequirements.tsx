@@ -10,6 +10,9 @@ import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { formatDateRange } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
+import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
+import flowerBed from "assets/flowers/empty_flowerbed.webp";
+
 import {
   BUMPKIN_ITEM_PART,
   BumpkinItem,
@@ -20,6 +23,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IngredientsPopover } from "../IngredientsPopover";
+import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
+import { FLOWER_LIFECYCLE } from "features/game/types/flowers";
+import { getCropCategory, ProduceName } from "features/game/types/crops";
 
 /**
  * The props for the details for items.
@@ -32,15 +38,11 @@ type BaseProps = {
   from?: Date;
   to?: Date;
   item?: InventoryItemName;
-  wearable?: BumpkinItem;
 };
 type InventoryDetailsProps = BaseProps & {
-  item: InventoryItemName;
+  item: SeedName;
 };
-type WearableDetailsProps = BaseProps & {
-  wearable: BumpkinItem;
-};
-type ItemDetailsProps = InventoryDetailsProps | WearableDetailsProps;
+type ItemDetailsProps = InventoryDetailsProps;
 
 /**
  * The props for harvests requirement label.
@@ -65,13 +67,9 @@ interface HarvestsRequirementProps {
  * @param level The level requirements.
  */
 interface RequirementsProps {
-  resources?: Partial<Record<InventoryItemName, Decimal>>;
-  sfl?: Decimal;
   coins?: number;
   showCoinsIfFree?: boolean;
-  showSflIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
-  xp?: Decimal;
   timeSeconds?: number;
   level?: number;
   restriction?: {
@@ -97,7 +95,6 @@ interface Props {
   stock?: Decimal;
   isLimitedItem?: boolean;
   details: ItemDetailsProps;
-  boost?: string;
   requirements?: RequirementsProps;
   limit?: number;
   actionView?: JSX.Element;
@@ -115,43 +112,37 @@ function getDetails(
   name: string;
   description: string;
 } {
-  if (details.item) {
-    const inventoryCount = game.inventory[details.item] ?? new Decimal(0);
-    const limit = INVENTORY_LIMIT(game)[details.item];
-
-    return {
-      count: inventoryCount,
-      description: ITEM_DETAILS[details.item].description,
-      image:
-        ITEM_ICONS(game.island.type)[details.item] ??
-        ITEM_DETAILS[details.item].image,
-      name: details.item,
-      limit: limit as Decimal,
-    };
-  }
-
-  const wardrobeCount = game.wardrobe[details.wearable] ?? 0;
+  const inventoryCount = game.inventory[details.item] ?? new Decimal(0);
+  const limit = INVENTORY_LIMIT(game)[details.item];
 
   return {
-    count: new Decimal(wardrobeCount),
-    limit: new Decimal(1),
-    description: "?",
-    image: getImageUrl(ITEM_IDS[details.wearable]),
-    name: details.wearable,
+    count: inventoryCount,
+    description: ITEM_DETAILS[details.item].description,
+    image:
+      ITEM_ICONS(game.island.type)[details.item] ??
+      ITEM_DETAILS[details.item].image,
+    name: details.item,
+    limit: limit as Decimal,
   };
 }
+
+const PLANTING_SPOT_ICONS: Partial<Record<Seed["plantingSpot"], string>> = {
+  Greenhouse: emptyPot,
+  "Crop Plot": SUNNYSIDE.resource.plot,
+  "Fruit Patch": SUNNYSIDE.resource.fruitPatch,
+  "Flower Bed": flowerBed,
+};
 
 /**
  * The view for displaying item name, details, crafting requirements and action.
  * @props The component props.
  */
-export const CraftingRequirements: React.FC<Props> = ({
+export const SeedRequirements: React.FC<Props> = ({
   gameState,
   stock,
   isLimitedItem = false,
   limit,
   details,
-  boost,
   requirements,
   actionView,
   hideDescription,
@@ -200,48 +191,32 @@ export const CraftingRequirements: React.FC<Props> = ({
       <>
         <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 mb-1">
           {icon && !!details.item && (
-            <div className="sm:mt-2">
+            <div className="sm:mt-2 flex items-center">
               <SquareIcon icon={icon} width={14} />
+              <SquareIcon icon={SUNNYSIDE.icons.chevron_right} width={8} />
+              <SquareIcon
+                icon={
+                  PLANTING_SPOT_ICONS[SEEDS()[details.item].plantingSpot] ??
+                  SUNNYSIDE.icons.expression_confused
+                }
+                width={14}
+              />
+              <SquareIcon icon={SUNNYSIDE.icons.chevron_right} width={8} />
+              <SquareIcon
+                icon={
+                  ITEM_DETAILS[SEEDS()[details.item]?.yield]?.image ??
+                  SUNNYSIDE.icons.expression_confused
+                }
+                width={14}
+              />
             </div>
           )}
-          {details.wearable && (
-            <div className="relative sm:w-4/5 my-1 flex">
-              <img src={icon} className="sm:w-full w-14 my-2 rounded-lg" />
-              <div className="sm:absolute -ml-4 bottom-16 w-10 h-4 right-0">
-                <NPCIcon
-                  key={details.wearable}
-                  parts={{
-                    body: "Beige Farmer Potion",
-                    hair: "Sun Spots",
-                    [BUMPKIN_ITEM_PART[details.wearable]]: details.wearable,
-                  }}
-                />
-              </div>
-            </div>
-          )}
-          <span className="sm:text-center text-xs">Basic crop</span>
+          <span className="sm:text-center text-xs">
+            {getCropCategory(SEEDS()[details.item]?.yield as ProduceName)}
+          </span>
           <span className="sm:text-center">{title}</span>
         </div>
-        {!hideDescription && description !== "?" && (
-          <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
-            {description}
-          </span>
-        )}
       </>
-    );
-  };
-
-  const getBoost = () => {
-    if (!boost) return <></>;
-
-    return (
-      <div className="flex flex-col space-y-1 mb-2">
-        <div className="flex justify-start sm:justify-center">
-          <Label type="info" className="text-center">
-            {boost}
-          </Label>
-        </div>
-      </div>
     );
   };
 
@@ -250,43 +225,6 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     return (
       <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
-        {/* Item ingredients requirements */}
-        {!!requirements.resources && (
-          <div
-            className="relative cursor-pointer flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap"
-            onClick={() => setShowIngredients(!showIngredients)}
-          >
-            <IngredientsPopover
-              className="-top-1 left-1 sm:-left-[150%]"
-              show={showIngredients}
-              ingredients={getKeys(requirements.resources ?? {})}
-              onClick={() => setShowIngredients(false)}
-            />
-            {getKeys(requirements.resources).map((ingredientName, index) => (
-              <RequirementLabel
-                key={index}
-                type="item"
-                item={ingredientName}
-                balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
-                requirement={
-                  (requirements.resources ?? {})[ingredientName] ??
-                  new Decimal(0)
-                }
-              />
-            ))}
-          </div>
-        )}
-
-        {/* SFL requirement */}
-        {!!requirements.sfl &&
-          (requirements.sfl.greaterThan(0) || requirements.showSflIfFree) && (
-            <RequirementLabel
-              type="sfl"
-              balance={gameState.balance}
-              requirement={requirements.sfl}
-            />
-          )}
-
         {/* Coin requirement */}
         {requirements.coins !== undefined &&
           (requirements.coins > 0 || requirements.showCoinsIfFree) && (
@@ -297,6 +235,25 @@ export const CraftingRequirements: React.FC<Props> = ({
             />
           )}
 
+        {/* Level requirement */}
+        {!!requirements.level && (
+          <RequirementLabel
+            type="level"
+            currentLevel={getBumpkinLevel(gameState.bumpkin?.experience ?? 0)}
+            requirement={requirements.level}
+          />
+        )}
+
+        {!gameState.inventory[SEEDS()[details.item].plantingSpot] && (
+          <div className="flex justify-center">
+            <Label className="mb-1" type="danger">
+              {t("seeds.plantingSpot.needed", {
+                plantingSpot: SEEDS()[details.item].plantingSpot,
+              })}
+            </Label>
+          </div>
+        )}
+
         {/* Harvests display */}
         {!!requirements.harvests && (
           <RequirementLabel
@@ -306,25 +263,11 @@ export const CraftingRequirements: React.FC<Props> = ({
           />
         )}
 
-        {/* XP display */}
-        {!!requirements.xp && (
-          <RequirementLabel type="xp" xp={requirements.xp} />
-        )}
-
         {/* Time requirement display */}
         {!!requirements.timeSeconds && (
           <RequirementLabel
             type="time"
             waitSeconds={requirements.timeSeconds}
-          />
-        )}
-
-        {/* Level requirement */}
-        {!!requirements.level && (
-          <RequirementLabel
-            type="level"
-            currentLevel={getBumpkinLevel(gameState.bumpkin?.experience ?? 0)}
-            requirement={requirements.level}
           />
         )}
 
@@ -352,7 +295,6 @@ export const CraftingRequirements: React.FC<Props> = ({
             "max",
           )} ${limit} ${t("statements.perplayer")}`}</p>
         )}
-        {getBoost()}
         {getRequirements()}
       </div>
       {actionView}

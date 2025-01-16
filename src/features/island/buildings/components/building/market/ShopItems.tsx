@@ -13,7 +13,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { SeasonalSeeds } from "./SeasonalSeeds";
 import { Context } from "features/game/GameProvider";
-
+import { SeasonalCrops } from "./SeasonalCrops";
+import book from "assets/icons/tier1_book.webp";
+import { CropGuide } from "./CropGuide";
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `betty-read.${host}-${window.location.pathname}`;
 const INTRO_LOCAL_STORAGE_KEY = `betty-intro-read.${host}-${window.location.pathname}`;
@@ -98,6 +100,17 @@ export const ShopItems: React.FC<Props> = ({
           name: t("sell"),
           unread: !hasSoldBefore,
         },
+        ...(hasFeatureAccess(
+          gameService.getSnapshot().context.state,
+          "SEASONAL_SEEDS",
+        )
+          ? [
+              {
+                icon: book,
+                name: t("guide"),
+              },
+            ]
+          : []),
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
@@ -113,7 +126,16 @@ export const ShopItems: React.FC<Props> = ({
         ) : (
           <Seeds />
         ))}
-      {tab === 1 && <Crops />}
+      {tab === 1 &&
+        (hasFeatureAccess(
+          gameService.getSnapshot().context.state,
+          "SEASONAL_SEEDS",
+        ) ? (
+          <SeasonalCrops />
+        ) : (
+          <Crops />
+        ))}
+      {tab === 2 && <CropGuide />}
     </CloseButtonPanel>
   );
 };
