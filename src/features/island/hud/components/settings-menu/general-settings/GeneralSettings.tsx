@@ -10,9 +10,8 @@ import { connectToFSL } from "features/auth/actions/oauth";
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
-  const { t } = useAppTranslation();
-
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -39,7 +38,6 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
       <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-1">
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
-
       <Button
         className="mb-1"
         onClick={() => onSubMenuClick("appearance&behaviour")}
