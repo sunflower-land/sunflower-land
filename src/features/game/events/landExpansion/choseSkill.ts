@@ -109,7 +109,11 @@ export const getUnlockedTierForTree = (
       const skillData =
         BUMPKIN_REVAMP_SKILL_TREE[skill as BumpkinRevampSkillName];
 
-      if (skillData && skillData.tree === tree) {
+      if (
+        skillData &&
+        skillData.tree === tree &&
+        skillData.requirements.tier !== 3
+      ) {
         return acc + skillData.requirements.points;
       }
 
