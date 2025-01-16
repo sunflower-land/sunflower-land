@@ -10,6 +10,7 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Thermal Stone": "instant",
     "Tornado Pinwheel": "instant",
     Mangrove: "instant",
     "Sunflower Seed": "instant",

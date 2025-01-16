@@ -136,6 +136,13 @@ export type InteriorDecorationName = "Rug" | "Wardrobe";
 export type AnimalDecorationName = "Wagon";
 
 export const DECORATION_TEMPLATES = {
+  "Thermal Stone": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
   "Tornado Pinwheel": {
     dimensions: {
       width: 1,

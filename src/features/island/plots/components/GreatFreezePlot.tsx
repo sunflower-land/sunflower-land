@@ -8,11 +8,11 @@ import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState } from "features/game/types/game";
 
-import tsunamiIcon from "assets/icons/tsunami.webp";
+import greatFreezeIcon from "assets/icons/great-freeze.webp";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 
-const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
+const GreatFreezePlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
   const [showModal, setShowModal] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const { t } = useAppTranslation();
@@ -43,8 +43,8 @@ const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
         />
 
         <img
-          src={tsunamiIcon}
-          alt="tsunami"
+          src={greatFreezeIcon}
+          alt="great freeze"
           className="absolute top-0 right-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 12}px`,
@@ -63,7 +63,7 @@ const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>{t("tsunami.crops.destroyed")}</span>
+              <span>{t("greatFreeze.crops.frozen")}</span>
             </div>
           </InnerPanel>
         </div>
@@ -72,11 +72,11 @@ const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="p-2">
-            <Label icon={tsunamiIcon} type="danger" className="mb-1 -ml-1">
-              {t("tsunami")}
+            <Label icon={greatFreezeIcon} type="danger" className="mb-1 -ml-1">
+              {t("calendar.events.greatFreeze.title")}
             </Label>
             <p className="text-sm mb-3">
-              {t("tsunami.crops.destroyed.description")}
+              {t("calendar.events.greatFreeze.description")}
             </p>
             <Label
               icon={SUNNYSIDE.icons.stopwatch}
@@ -85,7 +85,7 @@ const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
             >
               {`${t("ready.in")}: ${secondsToString(
                 24 * 60 * 60 -
-                  (Date.now() - game.calendar.tsunami!.triggeredAt) / 1000,
+                  (Date.now() - game.calendar.greatFreeze!.triggeredAt) / 1000,
                 {
                   length: "medium",
                 },
@@ -99,4 +99,4 @@ const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
   );
 };
 
-export const TsunamiPlot = React.memo(TsunamiPlotComponent);
+export const GreatFreezePlot = React.memo(GreatFreezePlotComponent);

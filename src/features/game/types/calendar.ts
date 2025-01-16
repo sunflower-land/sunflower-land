@@ -7,12 +7,17 @@ import spring from "assets/icons/spring.webp";
 import tornado from "assets/icons/tornado.webp";
 import fullMoon from "assets/icons/full_moon.webp";
 import tsunami from "assets/icons/tsunami.webp";
+import greatFreeze from "assets/icons/great-freeze.webp";
 import calendar from "assets/icons/calendar.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { translate } from "lib/i18n/translate";
 
 export type CalendarEventName = "unknown" | "calendar" | SeasonalEventName;
-
-export type SeasonalEventName = "tornado" | "tsunami" | "fullMoon";
+export type SeasonalEventName =
+  | "tornado"
+  | "tsunami"
+  | "fullMoon"
+  | "greatFreeze";
 
 export type CalendarEvent = {
   triggeredAt: number;
@@ -32,11 +37,11 @@ export function getPendingCalendarEvent({
     .filter((event) => new Date(event.date) <= new Date())
     // Has not been triggered already
     .filter((event) => {
-      const isCalendarEvent = (name: string): name is SeasonalEventName => {
-        return ["tornado", "tsunami", "fullMoon"].includes(name);
+      const isSeasonalEvent = (name: string): name is SeasonalEventName => {
+        return ["tornado", "tsunami", "fullMoon", "greatFreeze"].includes(name);
       };
 
-      return isCalendarEvent(event.name)
+      return isSeasonalEvent(event.name)
         ? !game.calendar[event.name]?.triggeredAt
         : true;
     })
@@ -80,6 +85,14 @@ export function getActiveCalenderEvent({
     return "tsunami";
   }
 
+  if (
+    game.calendar.greatFreeze?.triggeredAt &&
+    new Date(game.calendar.greatFreeze.triggeredAt).getTime() >
+      Date.now() - 1000 * 60 * 60 * 24
+  ) {
+    return "greatFreeze";
+  }
+
   // TODO more events
   return undefined;
 }
@@ -87,14 +100,19 @@ export function getActiveCalenderEvent({
 export const WEATHER_SHOP: Partial<Record<InventoryItemName, Tool>> = {
   "Tornado Pinwheel": {
     name: "Tornado Pinwheel",
-    description:
-      "A magical pinwheel that protects you from the tornado! One-use only.",
+    description: translate("description.tornadoPinwheel"),
     ingredients: {},
     price: 1000,
   },
   Mangrove: {
     name: "Mangrove",
-    description: "A mangrove that protects you from the tsunami! One-use only.",
+    description: translate("description.mangrove"),
+    ingredients: {},
+    price: 1000,
+  },
+  "Thermal Stone": {
+    name: "Thermal Stone",
+    description: translate("description.thermalStone"),
     ingredients: {},
     price: 1000,
   },
@@ -181,4 +199,5 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   tsunami: tsunami,
   unknown: SUNNYSIDE.icons.lightning,
   calendar: calendar,
+  greatFreeze: greatFreeze,
 };

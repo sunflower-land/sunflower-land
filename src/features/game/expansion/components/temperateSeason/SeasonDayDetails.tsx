@@ -30,7 +30,7 @@ const DUMMY_EVENT_INFORMATION: Record<
   {
     title: string;
     description: string;
-    prevention?: InventoryItemName | "Mangrove";
+    prevention?: InventoryItemName;
   }
 > = {
   tornado: {
@@ -46,6 +46,11 @@ const DUMMY_EVENT_INFORMATION: Record<
     title: "calendar.events.tsunami.title",
     description: "calendar.events.tsunami.description",
     prevention: "Mangrove",
+  },
+  greatFreeze: {
+    title: "calendar.events.greatFreeze.title",
+    description: "calendar.events.greatFreeze.description",
+    prevention: "Thermal Stone",
   },
   unknown: {
     title: "calendar.events.unknown.title",

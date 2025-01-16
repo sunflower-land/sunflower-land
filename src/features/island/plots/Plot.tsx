@@ -41,6 +41,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TornadoPlot } from "./components/TornadoPlot";
 import { TsunamiPlot } from "./components/TsunamiPlot";
+import { GreatFreezePlot } from "./components/GreatFreezePlot";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -56,8 +57,6 @@ export function getYieldColour(yieldAmount: number) {
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
-const selectLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 const selectHarvests = (state: MachineState) => {
   return getKeys(CROPS).reduce(
@@ -84,9 +83,6 @@ const compareBuildings = (
 ) => {
   return getCompletedWellCount(prev) === getCompletedWellCount(next);
 };
-
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
@@ -162,6 +158,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
   if (weather === "tornado") return <TornadoPlot game={state} />;
   if (weather === "tsunami") return <TsunamiPlot game={state} />;
+  if (weather === "greatFreeze") return <GreatFreezePlot game={state} />;
 
   const harvestCrop = async (crop: PlantedCrop) => {
     const newState = gameService.send("crop.harvested", {
