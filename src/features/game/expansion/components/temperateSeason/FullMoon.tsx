@@ -29,7 +29,7 @@ export const FullMoon: React.FC<{
               },
               {
                 text: t("fullMoon.two"),
-                icon: ITEM_DETAILS["Duskberry Seed"].image,
+                icon: ITEM_DETAILS["Grimroot"].image,
               },
               {
                 text: t("fullMoon.three"),
