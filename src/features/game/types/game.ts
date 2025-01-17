@@ -1313,6 +1313,7 @@ export type Calendar = {
   fullMoon?: CalendarEvent;
   greatFreeze?: CalendarEvent;
   doubleDelivery?: CalendarEvent;
+  bountifulHarvest?: CalendarEvent;
 };
 
 export interface GameState {

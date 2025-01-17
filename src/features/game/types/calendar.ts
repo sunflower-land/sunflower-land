@@ -9,6 +9,7 @@ import fullMoon from "assets/icons/full_moon.webp";
 import tsunami from "assets/icons/tsunami.webp";
 import greatFreeze from "assets/icons/great-freeze.webp";
 import doubleDelivery from "assets/icons/double_delivery_icon.webp";
+import bountifulHarvest from "assets/icons/bountiful_harvest_icon.webp";
 import calendar from "assets/icons/calendar.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
@@ -19,7 +20,8 @@ export type SeasonalEventName =
   | "tsunami"
   | "fullMoon"
   | "greatFreeze"
-  | "doubleDelivery";
+  | "doubleDelivery"
+  | "bountifulHarvest";
 
 export type CalendarEvent = {
   triggeredAt: number;
@@ -108,6 +110,13 @@ export function getActiveCalenderEvent({
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "doubleDelivery";
+  }
+  if (
+    game.calendar.bountifulHarvest?.triggeredAt &&
+    new Date(game.calendar.bountifulHarvest.triggeredAt).getTime() >
+      Date.now() - 1000 * 60 * 60 * 24
+  ) {
+    return "bountifulHarvest";
   }
 
   // TODO more events
@@ -218,4 +227,5 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   calendar: calendar,
   greatFreeze: greatFreeze,
   doubleDelivery: doubleDelivery,
+  bountifulHarvest: bountifulHarvest,
 };
