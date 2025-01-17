@@ -45,7 +45,7 @@ export const SKILL_POINTS_PER_TIER: Record<
   Crops: {
     1: 0,
     2: 3,
-    3: 8,
+    3: 7,
   },
   Trees: {
     1: 0,
@@ -60,37 +60,37 @@ export const SKILL_POINTS_PER_TIER: Record<
   Mining: {
     1: 0,
     2: 3,
-    3: 8,
+    3: 7,
   },
   Cooking: {
     1: 0,
     2: 2,
-    3: 6,
+    3: 5,
   },
   Compost: {
     1: 0,
     2: 3,
-    3: 8,
+    3: 7,
   },
   "Fruit Patch": {
     1: 0,
     2: 2,
-    3: 7,
+    3: 5,
   },
   Animals: {
     1: 0,
     2: 3,
-    3: 8,
+    3: 7,
   },
   "Bees & Flowers": {
     1: 0,
     2: 2,
-    3: 6,
+    3: 5,
   },
   Greenhouse: {
     1: 0,
     2: 2,
-    3: 6,
+    3: 5,
   },
   Machinery: {
     1: 0,

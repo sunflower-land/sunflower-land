@@ -21,7 +21,9 @@ function getCollectibleBuffLabels(
     // Crop Boosts
     "Basic Scarecrow": [
       {
-        shortDescription: translate("description.basic.scarecrow.boost"),
+        shortDescription: state.bumpkin.skills["Chonky Scarecrow"]
+          ? translate("description.basic.scarecrow.boost.skill")
+          : translate("description.basic.scarecrow.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
@@ -35,7 +37,9 @@ function getCollectibleBuffLabels(
     ],
     "Scary Mike": [
       {
-        shortDescription: translate("description.scary.mike.boost"),
+        shortDescription: state.bumpkin.skills["Horror Mike"]
+          ? translate("description.scary.mike.boost.skill")
+          : translate("description.scary.mike.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
       },
@@ -49,7 +53,9 @@ function getCollectibleBuffLabels(
     ],
     "Laurie the Chuckle Crow": [
       {
-        shortDescription: translate("description.laurie.chuckle.crow.boost"),
+        shortDescription: state.bumpkin.skills["Laurie's Gains"]
+          ? translate("description.laurie.chuckle.crow.boost.skill")
+          : translate("description.laurie.chuckle.crow.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
       },

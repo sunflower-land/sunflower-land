@@ -1929,6 +1929,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
   },
+  "Midas Sprint": {
+    name: "Midas Sprint",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.midasSprint"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    },
+    disabled: false,
+  },
   // Mining - Tier 3
   "Ferrous Favor": {
     name: "Ferrous Favor",
@@ -1972,24 +1990,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
   },
-  "Midas Sprint": {
-    name: "Midas Sprint",
-    tree: "Mining",
-    requirements: {
-      points: 3,
-      tier: 3,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.midasSprint"),
-        labelType: "info",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-        boostedItemIcon: ITEM_DETAILS.Gold.image,
-      },
-    },
-    disabled: false,
-  },
   "More Picks": {
     name: "More Picks",
     tree: "Mining",
@@ -2022,6 +2022,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+      },
+    },
+    disabled: false,
+  },
+  "Midas Rush": {
+    name: "Midas Rush",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.midasRush"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
       },
     },
     disabled: false,
