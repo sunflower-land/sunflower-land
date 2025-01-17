@@ -56,6 +56,10 @@ const DUMMY_EVENT_INFORMATION: Record<
     title: "calendar.events.unknown.title",
     description: "calendar.events.unknown.description",
   },
+  doubleDelivery: {
+    title: "",
+    description: "",
+  },
 };
 
 export const SeasonDayDetails: React.FC<Props> = ({
