@@ -15,21 +15,25 @@ import React, { useState } from "react";
 
 import weatherIcon from "assets/icons/temperature.webp";
 import calendarIcon from "assets/icons/calendar.webp";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
+const _state = (state: MachineState) => state.context.state;
 interface Props {
   onClose: () => void;
 }
 export const WeatherShop: React.FC<Props> = ({ onClose }) => {
-  const { gameState, gameService } = useGame();
+  const { gameService } = useGame();
   const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
 
   const [selected, setSelected] =
     useState<InventoryItemName>("Tornado Pinwheel");
 
-  const game = gameState.context.state;
+  const state = useSelector(gameService, _state);
+  const { coins, inventory } = state;
 
-  const hasAccess = hasFeatureAccess(game, "WEATHER_SHOP");
+  const hasAccess = hasFeatureAccess(state, "WEATHER_SHOP");
 
   const craft = () => {
     gameService.send("tool.crafted", {
@@ -53,8 +57,8 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  const hasCoins = game.coins >= WEATHER_SHOP[selected]!.price;
-  const hasItem = !!game.inventory[selected];
+  const hasCoins = coins >= WEATHER_SHOP[selected]!.price;
+  const hasItem = !!inventory[selected];
   return (
     <CloseButtonPanel
       tabs={[
@@ -69,7 +73,7 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
       <SplitScreenView
         panel={
           <CraftingRequirements
-            gameState={game}
+            gameState={state}
             details={{
               item: selected,
             }}
@@ -95,7 +99,7 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
                   key={itemName}
                   onClick={() => setSelected(itemName)}
                   image={ITEM_DETAILS[itemName].image}
-                  count={game.inventory[itemName]}
+                  count={inventory[itemName]}
                 />
               );
             })}
