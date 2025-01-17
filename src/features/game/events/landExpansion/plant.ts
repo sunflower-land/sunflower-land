@@ -334,7 +334,11 @@ export const getCropPlotTime = ({
         game.bumpkin.skills,
       )
     ) {
-      seconds = seconds * 0.8;
+      if (game.bumpkin.skills["Chonky Scarecrow"]) {
+        seconds = seconds * 0.7;
+      } else {
+        seconds = seconds * 0.8;
+      }
     }
   }
 
@@ -548,7 +552,11 @@ export function getCropYieldAmount({
       isCollectibleBuilt({ name: "Scary Mike", game }) &&
       isWithinAOE("Scary Mike", scarecrowPosition, plotPosition, bumpkin.skills)
     ) {
-      amount = amount + 0.2;
+      if (game.bumpkin.skills["Horror Mike"]) {
+        amount = amount + 0.3;
+      } else {
+        amount = amount + 0.2;
+      }
     }
   }
 
@@ -607,7 +615,11 @@ export function getCropYieldAmount({
         bumpkin.skills,
       )
     ) {
-      amount = amount + 0.2;
+      if (game.bumpkin.skills["Laurie's Gains"]) {
+        amount = amount + 0.3;
+      } else {
+        amount = amount + 0.2;
+      }
     }
   }
 
