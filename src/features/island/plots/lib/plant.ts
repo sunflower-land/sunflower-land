@@ -33,6 +33,14 @@ const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Kale: kaleProc,
   Soybean: soybeanProc,
   Barley: potatoProc,
+  Rhubarb: radishProc,
+  Zuchinni: kaleProc,
+  Yam: cabbageProc,
+  Brocolli: kaleProc,
+  Pepper: radishProc,
+  Onion: parsnipProc,
+  Turnip: sunflowerProc,
+  Artichoke: cabbageProc,
 };
 
 export const HARVEST_PROC_ANIMATION = {

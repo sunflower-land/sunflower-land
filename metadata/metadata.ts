@@ -10383,6 +10383,183 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/wearables/images/2178.png",
     name: "Golden Cow",
   },
+
+  "Rhubarb Seed": {
+    description: "A seed that grows into a tart, pink vegetable stalk.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/seeds/rhubarb_seed.png",
+    name: "Rhubarb Seed",
+  },
+  "Zuchinni Seed": {
+    description: "A seed that grows into a versatile summer squash.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/seeds/zuchinni_seed.png",
+    name: "Zuchinni Seed",
+  },
+  "Yam Seed": {
+    description: "A seed that grows into a nutritious root vegetable.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/seeds/yam_seed.png",
+    name: "Yam Seed",
+  },
+  "Brocolli Seed": {
+    description: "A seed that grows into a healthy green vegetable.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/seeds/brocolli_seed.png",
+    name: "Brocolli Seed",
+  },
+  "Pepper Seed": {
+    description: "A seed that grows into a spicy capsicum.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/seeds/pepper_seed.png",
+    name: "Pepper Seed",
+  },
+  "Onion Seed": {
+    description: "A seed that grows into a flavorful bulb vegetable.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/seeds/onion_seed.png",
+    name: "Onion Seed",
+  },
+  "Turnip Seed": {
+    description: "A seed that grows into a hardy root vegetable.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/seeds/turnip_seed.png",
+    name: "Turnip Seed",
+  },
+  "Artichoke Seed": {
+    description: "A seed that grows into a unique edible flower bud.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/seeds/artichoke_seed.png",
+    name: "Artichoke Seed",
+  },
+  Rhubarb: {
+    description: "A tart, pink vegetable stalk perfect for pies and jams.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/rhubarb.png",
+    name: "Rhubarb",
+  },
+  Zuchinni: {
+    description: "A versatile summer squash that can be used in many dishes.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/zuchinni.png",
+    name: "Zuchinni",
+  },
+  Yam: {
+    description: "A nutritious root vegetable rich in vitamins and minerals.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/yam.png",
+    name: "Yam",
+  },
+  Brocolli: {
+    description: "A healthy green vegetable packed with nutrients.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/brocolli.png",
+    name: "Brocolli",
+  },
+  Pepper: {
+    description: "A spicy capsicum that adds flavor to any dish.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/pepper.png",
+    name: "Pepper",
+  },
+  Onion: {
+    description: "A flavorful bulb vegetable essential for cooking.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/onion.png",
+    name: "Onion",
+  },
+  Turnip: {
+    description: "A hardy root vegetable perfect for soups and stews.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/turnip.png",
+    name: "Turnip",
+  },
+  Artichoke: {
+    description: "A unique edible flower bud with a delicate flavor.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/crops/artichoke.png",
+    name: "Artichoke",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

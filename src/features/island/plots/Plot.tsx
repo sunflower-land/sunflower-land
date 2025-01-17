@@ -28,7 +28,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SeedName } from "features/game/types/seeds";
+import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "features/game/types/craftables";
@@ -42,6 +42,8 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { TornadoPlot } from "./components/TornadoPlot";
 import { TsunamiPlot } from "./components/TsunamiPlot";
 import { GreatFreezePlot } from "./components/GreatFreezePlot";
+import { SeasonalSeed } from "./components/SeasonalSeed";
+import { Modal } from "components/ui/Modal";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -112,6 +114,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
   const [reward, setReward] = useState<Omit<Reward, "sfl">>();
   const clickedAt = useRef<number>(0);
   const [pulsating, setPulsating] = useState(false);
@@ -276,6 +279,13 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         return;
       }
 
+      if (
+        hasFeatureAccess(state, "SEASONAL_SEEDS") &&
+        !SEASONAL_SEEDS[state.season.season].includes(seed)
+      ) {
+        setShowSeasonalSeed(true);
+      }
+
       const newState = gameService.send("seed.planted", {
         index: id,
         item: seed,
@@ -349,6 +359,14 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           type={t("quickSelect.cropSeeds")}
         />
       </Transition>
+
+      <Modal show={showSeasonalSeed} onHide={() => setShowSeasonalSeed(false)}>
+        <SeasonalSeed
+          seed={selectedItem as SeedName}
+          season={state.season.season}
+          onClose={() => setShowSeasonalSeed(false)}
+        />
+      </Modal>
 
       <div onClick={() => onClick()} className="w-full h-full relative">
         {harvestCount < 3 &&

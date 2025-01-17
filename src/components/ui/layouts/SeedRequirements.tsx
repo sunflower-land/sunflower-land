@@ -15,7 +15,11 @@ import flowerBed from "assets/flowers/empty_flowerbed.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
-import { getCropCategory, ProduceName } from "features/game/types/crops";
+import {
+  CropName,
+  getCropCategory,
+  ProduceName,
+} from "features/game/types/crops";
 
 /**
  * The props for the details for items.
@@ -194,8 +198,8 @@ export const SeedRequirements: React.FC<Props> = ({
               <SquareIcon icon={SUNNYSIDE.icons.chevron_right} width={8} />
               <SquareIcon
                 icon={
-                  ITEM_DETAILS[SEEDS()[details.item]?.yield]?.image ??
-                  SUNNYSIDE.icons.expression_confused
+                  ITEM_DETAILS[SEEDS()[details.item]?.yield as CropName]
+                    ?.image ?? SUNNYSIDE.icons.expression_confused
                 }
                 width={14}
               />

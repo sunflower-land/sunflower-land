@@ -10,6 +10,23 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Rhubarb Seed": "instant",
+    "Zuchinni Seed": "instant",
+    "Yam Seed": "instant",
+    "Brocolli Seed": "instant",
+    "Pepper Seed": "instant",
+    "Onion Seed": "instant",
+    "Turnip Seed": "instant",
+    "Artichoke Seed": "instant",
+    Rhubarb: "instant",
+    Zuchinni: "instant",
+    Yam: "instant",
+    Brocolli: "instant",
+    Pepper: "instant",
+    Onion: "instant",
+    Turnip: "instant",
+    Artichoke: "instant",
+
     "Thermal Stone": "instant",
     "Tornado Pinwheel": "instant",
     Mangrove: "instant",

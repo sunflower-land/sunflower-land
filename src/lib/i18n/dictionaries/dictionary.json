@@ -4905,5 +4905,11 @@
   "cropGuide.flower.description": "Plant flowers to discover over 50+ unique varieties.",
   "cropGuide.flower": "Flowers",
   "cropGuide.fruit.description": "Fruit can only be planted in fruit patches. Each plant, can be harvested multiple times.",
-  "cropGuide.otherProduce": "Other Produce"
+  "cropGuide.otherProduce": "Other Produce",
+  "spring.seeds": "Spring Seeds",
+  "summer.seeds": "Summer Seeds",
+  "autumn.seeds": "Autumn Seeds",
+  "winter.seeds": "Winter Seeds",
+  "seasonal.wrongSeed": "Wrong seed",
+  "seasonal.wrongSeedDescription": "{{seed}} cannot be planted in {{season}}. Please select a different seed."
 }

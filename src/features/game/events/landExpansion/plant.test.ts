@@ -232,8 +232,7 @@ describe("plant", () => {
     );
   });
 
-  // TODO - Enable this when we have seasonal seeds
-  it.skip("does not plant a non-seasonal seed", () => {
+  it("does not plant a non-seasonal seed", () => {
     expect(() =>
       plant({
         state: {
@@ -2790,10 +2789,7 @@ describe("getCropYield", () => {
             y: -2,
           },
         },
-        season: {
-          season: "summer",
-          startedAt: 0,
-        },
+
         collectibles: {
           "Lab Grown Radish": [
             {

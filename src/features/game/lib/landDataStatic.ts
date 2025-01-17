@@ -1041,7 +1041,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Greenhouse: [
+    "Crop Machine": [
       {
         coordinates: {
           x: -5,
