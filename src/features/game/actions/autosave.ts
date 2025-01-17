@@ -123,7 +123,7 @@ export async function autosave(request: Request, retries = 0) {
     if (data.message === "Temporary maintenance") {
       throw new Error(ERRORS.MAINTENANCE);
     } else {
-      // Exponential backoff with jitter
+      // Throttling. Do exponential backoff with jitter
       const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
       const jitter = Math.random() * 1000;
 

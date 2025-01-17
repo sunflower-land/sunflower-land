@@ -92,7 +92,7 @@ export async function loadSession(
         return await loadSession(request, retries + 1);
       }
 
-      throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
+      throw new Error(ERRORS.SESSION_SERVER_ERROR);
     }
   }
 
