@@ -12,6 +12,7 @@ import { GreatFreeze } from "./GreatFreeze";
 import { DoubleDelivery } from "./DoubleDelivery";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { BountifulHarvest } from "./BountifulHarvest";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -36,6 +37,9 @@ export const CalendarEvent: React.FC = () => {
       {event === "fullMoon" && <FullMoon acknowledge={handleAcknowledge} />}
       {event === "doubleDelivery" && (
         <DoubleDelivery acknowledge={handleAcknowledge} />
+      )}
+      {event === "bountifulHarvest" && (
+        <BountifulHarvest acknowledge={handleAcknowledge} />
       )}
       {!event && (
         <Panel>
