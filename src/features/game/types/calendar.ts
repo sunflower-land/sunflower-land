@@ -1,5 +1,8 @@
 import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
 import { Tool } from "./tools";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { translate } from "lib/i18n/translate";
+
 import summer from "assets/icons/summer.webp";
 import autumn from "assets/icons/autumn.webp";
 import winter from "assets/icons/winter.webp";
@@ -12,8 +15,7 @@ import doubleDelivery from "assets/icons/double_delivery_icon.webp";
 import bountifulHarvest from "assets/icons/bountiful_harvest_icon.webp";
 import locust from "assets/icons/locust.webp";
 import calendar from "assets/icons/calendar.webp";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { translate } from "lib/i18n/translate";
+import sunshower from "assets/icons/sunshower.webp";
 
 export type CalendarEventName = "unknown" | "calendar" | SeasonalEventName;
 
@@ -24,7 +26,8 @@ export type SeasonalEventName =
   | "greatFreeze"
   | "doubleDelivery"
   | "bountifulHarvest"
-  | "insectPlague";
+  | "insectPlague"
+  | "sunshower";
 
 export type CalendarEvent = {
   triggeredAt: number;
@@ -40,6 +43,7 @@ export const SEASONAL_EVENTS: Record<SeasonalEventName, null> = {
   doubleDelivery: null,
   bountifulHarvest: null,
   insectPlague: null,
+  sunshower: null,
 };
 
 export function getPendingCalendarEvent({
@@ -78,7 +82,7 @@ export function getPendingCalendarEvent({
   return upcoming[0].name;
 }
 
-export function getActiveCalenderEvent({
+export function getActiveCalendarEvent({
   game,
 }: {
   game: GameState;
@@ -130,6 +134,14 @@ export function getActiveCalenderEvent({
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "insectPlague";
+  }
+
+  if (
+    game.calendar.sunshower?.triggeredAt &&
+    new Date(game.calendar.sunshower.triggeredAt).getTime() >
+      Date.now() - 1000 * 60 * 60 * 24
+  ) {
+    return "sunshower";
   }
 
   // TODO more events
@@ -248,4 +260,5 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   doubleDelivery: doubleDelivery,
   bountifulHarvest: bountifulHarvest,
   insectPlague: locust,
+  sunshower: sunshower,
 };

@@ -44,7 +44,7 @@ import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 import {
   CalendarEventName,
-  getActiveCalenderEvent,
+  getActiveCalendarEvent,
 } from "features/game/types/calendar";
 
 export type LandExpansionPlantAction = {
@@ -138,7 +138,7 @@ export function getAffectedWeather({
   id: string;
   game: GameState;
 }): CalendarEventName | undefined {
-  const weather = getActiveCalenderEvent({ game });
+  const weather = getActiveCalendarEvent({ game });
 
   if (
     weather === "tornado" &&
@@ -343,6 +343,12 @@ export const getCropPlotTime = ({
   }
 
   if (fertiliser === "Rapid Root") {
+    seconds = seconds * 0.5;
+  }
+
+  const isSunshower = getActiveCalendarEvent({ game }) === "sunshower";
+
+  if (isSunshower) {
     seconds = seconds * 0.5;
   }
 

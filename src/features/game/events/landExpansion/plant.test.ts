@@ -2287,6 +2287,28 @@ describe("getCropTime", () => {
 
     expect(time).toEqual(baseHarvestSeconds);
   });
+
+  it("applies a 2x speed boost with Sunshower", () => {
+    const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+    const time = getCropPlotTime({
+      crop: "Sunflower",
+      inventory: {},
+      game: {
+        ...TEST_FARM,
+        collectibles: {},
+        calendar: {
+          dates: [],
+          sunshower: {
+            triggeredAt: dateNow,
+          },
+        },
+      },
+      buds: {},
+      plot: { ...plot, x: 0, y: -3 },
+    });
+
+    expect(time).toEqual(baseHarvestSeconds * 0.5);
+  });
 });
 
 describe("isPlotFertile", () => {

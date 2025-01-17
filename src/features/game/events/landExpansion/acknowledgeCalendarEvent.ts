@@ -1,5 +1,5 @@
 import {
-  getActiveCalenderEvent,
+  getActiveCalendarEvent,
   SeasonalEventName,
 } from "features/game/types/calendar";
 import { GameState } from "features/game/types/game";
@@ -21,7 +21,7 @@ export function acknowledgeCalendarEvent({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const event = getActiveCalenderEvent({ game: stateCopy });
+    const event = getActiveCalendarEvent({ game: stateCopy });
 
     if (!event) {
       throw new Error("Event not found");
