@@ -142,8 +142,11 @@ const InProgressBuilding: React.FC<Prop> = ({
 };
 
 type DestructiveEvent = Exclude<
+  
   SeasonalEventName,
+ 
   "fullMoon" | "greatFreeze" | "doubleDelivery"
+ | "bountifulHarvest"
 >;
 
 const DESTROYED_BUILDING_ICONS: Record<DestructiveEvent, string> = {

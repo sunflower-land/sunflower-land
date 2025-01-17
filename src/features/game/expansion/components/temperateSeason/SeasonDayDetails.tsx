@@ -53,6 +53,10 @@ const DUMMY_EVENT_INFORMATION: Record<
     description: "calendar.events.greatFreeze.description",
     prevention: "Thermal Stone",
   },
+  bountifulHarvest: {
+    title: "calendar.events.bountifulHarvest.title",
+    description: "calaendar.events.bountifulHarvest.description",
+  },
   unknown: {
     title: "calendar.events.unknown.title",
     description: "calendar.events.unknown.description",
