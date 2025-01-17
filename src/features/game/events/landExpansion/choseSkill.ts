@@ -38,7 +38,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   return bumpkinLevel - totalUsedSkillPoints;
 };
 
-const SKILL_POINTS_PER_TIER: Record<
+export const SKILL_POINTS_PER_TIER: Record<
   BumpkinRevampSkillTree,
   Record<BumpkinSkillTier, number>
 > = {
