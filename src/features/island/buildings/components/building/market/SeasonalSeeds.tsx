@@ -3,9 +3,7 @@ import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
 import {
-  CROP_SEEDS,
   CropName,
   GREENHOUSE_SEEDS,
   GreenHouseCropSeedName,
@@ -21,16 +19,13 @@ import { SEASONAL_SEEDS, SEEDS, SeedName } from "features/game/types/seeds";
 import {
   GREENHOUSE_FRUIT_SEEDS,
   PATCH_FRUIT,
-  PATCH_FRUIT_SEEDS,
   PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
@@ -42,16 +37,10 @@ import {
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
-import {
-  isAdvancedCrop,
-  isBasicCrop,
-  isMediumCrop,
-} from "features/game/events/landExpansion/harvest";
+
 import { Restock } from "./restock/Restock";
 import { TemperateSeasonName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
-import { secondsLeftInSeason } from "features/game/types/seasons";
 import { secondsTillWeekReset } from "features/game/lib/factions";
 
 import springIcon from "assets/icons/spring.webp";
