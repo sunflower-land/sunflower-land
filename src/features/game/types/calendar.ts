@@ -144,6 +144,14 @@ export function getActiveCalendarEvent({
     return "sunshower";
   }
 
+  if (
+    game.calendar.fullMoon?.triggeredAt &&
+    new Date(game.calendar.fullMoon.triggeredAt).getTime() >
+      Date.now() - 1000 * 60 * 60 * 24
+  ) {
+    return "fullMoon";
+  }
+
   // TODO more events
   return undefined;
 }

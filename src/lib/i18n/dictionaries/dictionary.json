@@ -4952,5 +4952,12 @@
   "crops.overnightCrop": "Overnight Crop",
   "crops.greenhouse": "Greenhouse",
   "crops.fruit": "Fruit",
-  "crops.flower": "Flower"
+  "crops.flower": "Flower",
+  "fullMoon.one": "All eggplants have grown overnight.",
+  "fullMoon.two": "Betty has a supply of Duskberry, Grimroot, and Lunacress seeds.",
+  "fullMoon.three": "The waters are filled with strange creatures.",
+
+  "description.duskberry": "A rare berry that grows in the dark.",
+  "description.grimroot": "A mysterious root that grows in the darkest of places.",
+  "description.lunacress": "A rare plant that grows in the darkest of places."
 }

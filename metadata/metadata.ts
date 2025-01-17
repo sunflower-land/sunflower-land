@@ -10380,7 +10380,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/2178.png",
+    image: "../public/erc1155/images/2178.png",
     name: "Golden Cow",
   },
 
@@ -10559,6 +10559,72 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/crops/artichoke.png",
     name: "Artichoke",
+  },
+  "Duskberry Seed": {
+    description: "A duskberry seed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/131.png",
+    name: "Duskberry Seed",
+  },
+  "Grimroot Seed": {
+    description: "A grimroot seed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/132.png",
+    name: "Grimroot Seed",
+  },
+  "Lunacress Seed": {
+    description: "A lunacress seed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2178.png",
+    name: "Lunacress Seed",
+  },
+  Duskberry: {
+    description: "A rare berry that grows in the dark.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/258.png",
+    name: "Duskberry",
+  },
+  Grimroot: {
+    description: "A mysterious root that grows in the darkest of places.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/259.png",
+    name: "Grimroot",
+  },
+  Lunacress: {
+    description: "A rare plant that grows in the darkest of places.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/260.png",
+    name: "Lunacress",
   },
 };
 
