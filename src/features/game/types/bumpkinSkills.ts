@@ -2026,6 +2026,24 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
   },
+  "Midas Rush": {
+    name: "Midas Rush",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.midasRush"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    },
+    disabled: false,
+  },
 
   // Cooking - Tier 1
   "Fast Feasts": {
