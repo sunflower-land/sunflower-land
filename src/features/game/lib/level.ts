@@ -98,7 +98,32 @@ export type BumpkinLevel =
   | 97
   | 98
   | 99
-  | 100;
+  | 100
+  | 101
+  | 102
+  | 103
+  | 104
+  | 105
+  | 106
+  | 107
+  | 108
+  | 109
+  | 110
+  | 111
+  | 112
+  | 113
+  | 114
+  | 115
+  | 116
+  | 117
+  | 118
+  | 119
+  | 120
+  | 121
+  | 122
+  | 123
+  | 124
+  | 125;
 
 export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   1: 0,
@@ -201,9 +226,34 @@ export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   98: 22513905,
   99: 23293905,
   100: 24083905,
+  101: 24913905,
+  102: 25743905,
+  103: 26593905,
+  104: 27463905,
+  105: 28353905,
+  106: 29263905,
+  107: 30193905,
+  108: 31143905,
+  109: 32113905,
+  110: 33103905,
+  111: 34113905,
+  112: 35143905,
+  113: 36193905,
+  114: 37263905,
+  115: 38353905,
+  116: 39463905,
+  117: 40593905,
+  118: 41743905,
+  119: 42913905,
+  120: 44103905,
+  121: 45313905,
+  122: 46543905,
+  123: 47793905,
+  124: 49063905,
+  125: 50363905,
 };
 
-const MAX_BUMPKIN_LEVEL: BumpkinLevel = 100;
+const MAX_BUMPKIN_LEVEL: BumpkinLevel = 125;
 
 export const isMaxLevel = (experience: number): boolean => {
   return experience >= LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL];
@@ -325,6 +375,31 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
   98: 56,
   99: 56,
   100: 57,
+  101: 57,
+  102: 58,
+  103: 58,
+  104: 59,
+  105: 59,
+  106: 60,
+  107: 60,
+  108: 61,
+  109: 61,
+  110: 62,
+  111: 62,
+  112: 63,
+  113: 63,
+  114: 64,
+  115: 64,
+  116: 65,
+  117: 65,
+  118: 66,
+  119: 66,
+  120: 67,
+  121: 67,
+  122: 68,
+  123: 68,
+  124: 69,
+  125: 69,
 };
 
 //currently is matched with the mainnet skill system (old bumpkin skills)
