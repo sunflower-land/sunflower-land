@@ -769,6 +769,14 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
+  const isInsectPlagueActive =
+    getActiveCalenderEvent({ game }) === "insectPlague";
+  const isProtected = game.calendar.insectPlague?.protected;
+
+  if (isInsectPlagueActive && !isProtected) {
+    amount = amount * 0.5;
+  }
+
   return Number(setPrecision(amount));
 }
 
