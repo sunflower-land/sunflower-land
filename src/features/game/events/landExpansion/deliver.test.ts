@@ -1396,7 +1396,7 @@ describe("deliver", () => {
       },
     });
 
-    expect(state.coins).toEqual(480);
+    expect(state.coins).toEqual(640);
   });
 
   it("gives 10% more revenue on completed food orders with Nom Nom skill", () => {

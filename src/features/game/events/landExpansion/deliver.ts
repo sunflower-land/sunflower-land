@@ -290,7 +290,7 @@ export function getOrderSellPrice<T>(
     order.reward.coins &&
     order.from === "corale"
   ) {
-    mul += 0.5;
+    mul += 1;
   }
 
   // Nom Nom - 10% bonus with food orders
