@@ -148,6 +148,7 @@ type DestructiveEvent = Exclude<
   | "doubleDelivery"
   | "bountifulHarvest"
   | "insectPlague"
+  | "sunshower"
 >;
 
 const DESTROYED_BUILDING_ICONS: Record<DestructiveEvent, string> = {

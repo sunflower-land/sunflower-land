@@ -14,6 +14,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { BountifulHarvest } from "./BountifulHarvest";
 import { InsectPlague } from "./InsectPlague";
+import { Sunshower } from "./Sunshower";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -45,6 +46,7 @@ export const CalendarEvent: React.FC = () => {
       {event === "insectPlague" && (
         <InsectPlague acknowledge={handleAcknowledge} />
       )}
+      {event === "sunshower" && <Sunshower acknowledge={handleAcknowledge} />}
       {!event && (
         <Panel>
           <Button

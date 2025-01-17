@@ -57,6 +57,10 @@ const DUMMY_EVENT_INFORMATION: Record<
     title: "calendar.events.bountifulHarvest.title",
     description: "calendar.events.bountifulHarvest.description",
   },
+  sunshower: {
+    title: "calendar.events.sunshower.title",
+    description: "calendar.events.sunshower.description",
+  },
   unknown: {
     title: "calendar.events.unknown.title",
     description: "calendar.events.unknown.description",
