@@ -60,14 +60,6 @@ export function getPendingCalendarEvent({
       const threeDaysAgo = new Date(today.getTime() - 1000 * 60 * 60 * 24 * 3);
       return eventDate >= threeDaysAgo;
     })
-
-    // For double delivery, only show the first upcoming one
-    .filter((event, index, array) => {
-      if (event.name === "doubleDelivery") {
-        return array.findIndex((e) => e.name === "doubleDelivery") === index;
-      }
-      return true;
-    })
     .sort((event) => new Date(event.date).getTime());
 
   if (upcoming.length === 0) {
