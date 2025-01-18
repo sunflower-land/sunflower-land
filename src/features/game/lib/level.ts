@@ -328,7 +328,7 @@ export const OLD_SKILL_POINTS: Record<BumpkinLevel, number> = {
 };
 
 //currently is matched with the mainnet skill system (old bumpkin skills)
-export const findLevelRequiredForNextSkillPoint = (
+export const findLevelRequiredForNextOldSkillPoint = (
   experience: number,
 ): BumpkinLevel | undefined => {
   const currentLevel = getBumpkinLevel(experience);

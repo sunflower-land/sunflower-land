@@ -13,7 +13,7 @@ import { SkillCategoryList } from "./SkillCategoryList";
 import { SkillPathDetails } from "./SkillPathDetails";
 import { Label } from "components/ui/Label";
 import {
-  findLevelRequiredForNextSkillPoint,
+  findLevelRequiredForNextOldSkillPoint,
   isMaxLevel,
 } from "features/game/lib/level";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -65,7 +65,7 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
   const nextLevelWithSkillPoint =
-    findLevelRequiredForNextSkillPoint(experience);
+    findLevelRequiredForNextOldSkillPoint(experience);
 
   return (
     <div
