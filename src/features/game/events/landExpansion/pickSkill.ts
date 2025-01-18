@@ -1,4 +1,4 @@
-import { getBumpkinLevel, SKILL_POINTS } from "features/game/lib/level";
+import { getBumpkinLevel, OLD_SKILL_POINTS } from "features/game/lib/level";
 import {
   BumpkinSkillName,
   BUMPKIN_SKILL_TREE,
@@ -22,7 +22,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return 0;
 
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
-  const totalSkillPoints = SKILL_POINTS[bumpkinLevel];
+  const totalSkillPoints = OLD_SKILL_POINTS[bumpkinLevel];
 
   const allocatedSkillPoints = getKeys({ ...bumpkin.skills } as Partial<
     Record<BumpkinSkillName, number>
