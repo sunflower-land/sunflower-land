@@ -350,20 +350,6 @@ export const findLevelRequiredForNextSkillPoint = (
   return nextLevelWithSkillPoint;
 };
 
-//Could be used later for skill revamp
-export const findLvlRequiredForNextSkillPoint = (
-  experience: number,
-): BumpkinLevel | undefined => {
-  const bumpkinLevel = getBumpkinLevel(experience);
-  const availableSkillPoints = bumpkinLevel;
-
-  if (availableSkillPoints < 1) {
-    return undefined;
-  }
-
-  return (bumpkinLevel + 1) as BumpkinLevel;
-};
-
 export const getExperienceToNextLevel = (experience: number) => {
   const level = getBumpkinLevel(experience);
 
