@@ -253,7 +253,7 @@ export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   125: 50333905,
 };
 
-const MAX_BUMPKIN_LEVEL: BumpkinLevel = 125;
+export const MAX_BUMPKIN_LEVEL: BumpkinLevel = 125;
 
 export const isMaxLevel = (experience: number): boolean => {
   return experience >= LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL];
