@@ -9,6 +9,7 @@ import { Tornado } from "./Tornado";
 import { Tsunami } from "./Tsunami";
 import { FullMoon } from "./FullMoon";
 import { GreatFreeze } from "./GreatFeeze";
+import { DoubleDelivery } from "./DoubleDelivery";
 
 export const CalendarEvent: React.FC = () => {
   const { gameState, gameService } = useGame();
@@ -28,6 +29,9 @@ export const CalendarEvent: React.FC = () => {
         <GreatFreeze acknowledge={handleAcknowledge} />
       )}
       {event === "fullMoon" && <FullMoon acknowledge={handleAcknowledge} />}
+      {event === "doubleDelivery" && (
+        <DoubleDelivery acknowledge={handleAcknowledge} />
+      )}
       {!event && (
         <Panel>
           <Button
