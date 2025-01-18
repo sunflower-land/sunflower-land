@@ -5,7 +5,7 @@ import {
   getSkills,
 } from "features/game/types/bumpkinSkills";
 
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { getAvailableBumpkinOldSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SkillCategoryList } from "./SkillCategoryList";
@@ -62,7 +62,7 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   const { bumpkin } = state;
   const experience = bumpkin?.experience || 0;
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinOldSkillPoints(bumpkin);
 
   const nextLevelWithSkillPoint =
     findLevelRequiredForNextOldSkillPoint(experience);
