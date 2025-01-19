@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "Ernte über Nacht",
   "crops.greenhouse": "Gewächshaus",
   "crops.fruit": "Obst",
-  "crops.flower": "Blume"
+  "crops.flower": "Blume",
+  "bountifulHarvest.specialEvent": "Sonderveranstaltung — Bountiful Harvest",
+  "bountifulHarvest.noticeboard.one": "Heute ist ein Tag der reichen Ernte!",
+  "bountifulHarvest.noticeboard.two": "Deine Pflanzen, Früchte und Gewächshausprodukte bringen heute einen zusätzlichen Ertrag von +1 ein.",
+  "bountifulHarvest.noticeboard.three": "Genießen Sie die zahlreichen Belohnungen und machen Sie das Beste aus dieser erfolgreichen Zeit.",
+  "calendar.events.bountifulHarvest.title": "Reichliche Ernte",
+  "calendar.events.bountifulHarvest.description": "Eine besondere Veranstaltung, bei der Pflanzen, Obst und Gewächshausprodukte einen zusätzlichen Ertrag von +1 mehr einbringen als üblich."
 }

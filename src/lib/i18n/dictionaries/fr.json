@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "Récolte nocturne",
   "crops.greenhouse": "Serre",
   "crops.fruit": "Fruit",
-  "crops.flower": "Fleur"
+  "crops.flower": "Fleur",
+  "bountifulHarvest.specialEvent": "Événement spécial - Bountiful Harvest",
+  "bountifulHarvest.noticeboard.one": "Aujourd'hui, c'est une journée de récolte abondante !",
+  "bountifulHarvest.noticeboard.two": "Vos récoltes, vos fruits et vos produits de serre rapporteront +1 de plus aujourd'hui.",
+  "bountifulHarvest.noticeboard.three": "Profitez des nombreuses récompenses et profitez au maximum de cette période de prospérité.",
+  "calendar.events.bountifulHarvest.title": "Récolte abondante",
+  "calendar.events.bountifulHarvest.description": "Un événement spécial au cours duquel les récoltes, les fruits et les produits de serre rapportent +1 de plus que d'habitude."
 }

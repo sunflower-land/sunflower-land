@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "Gecelik Mahsul",
   "crops.greenhouse": "Sera",
   "crops.fruit": "Meyve",
-  "crops.flower": "Çiçek"
+  "crops.flower": "Çiçek",
+  "bountifulHarvest.specialEvent": "Özel Etkinlik - Bountiful Harvest",
+  "bountifulHarvest.noticeboard.one": "Bugün Bol Hasat günü!",
+  "bountifulHarvest.noticeboard.two": "Mahsulleriniz, meyveleriniz ve sera ürünleriniz bugün fazladan +1 verecek.",
+  "bountifulHarvest.noticeboard.three": "Bol ödüllerin tadını çıkarın ve bu müreffeh zamandan en iyi şekilde yararlanın.",
+  "calendar.events.bountifulHarvest.title": "Bol Hasat",
+  "calendar.events.bountifulHarvest.description": "Mahsullerin, meyvelerin ve sera ürünlerinin normalden fazladan +1 daha fazla verdiği özel bir etkinlik."
 }

@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "Colheita noturna",
   "crops.greenhouse": "Estufa",
   "crops.fruit": "Fruta",
-  "crops.flower": "Flor"
+  "crops.flower": "Flor",
+  "bountifulHarvest.specialEvent": "Evento especial - Bountiful Harvest",
+  "bountifulHarvest.noticeboard.one": "Hoje é um dia de Colheita Abundante!",
+  "bountifulHarvest.noticeboard.two": "Suas colheitas, frutas e produtos de estufa renderão +1 a mais hoje.",
+  "bountifulHarvest.noticeboard.three": "Aproveite as recompensas abundantes e aproveite ao máximo esse período próspero.",
+  "calendar.events.bountifulHarvest.title": "Colheita abundante",
+  "calendar.events.bountifulHarvest.description": "Um evento especial em que safras, frutas e produtos em estufa rendem +1 a mais do que o normal."
 }

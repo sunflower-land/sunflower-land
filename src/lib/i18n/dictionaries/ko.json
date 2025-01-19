@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "오버나이트 크롭",
   "crops.greenhouse": "그린하우스",
   "crops.fruit": "과일",
-  "crops.flower": "플라워"
+  "crops.flower": "플라워",
+  "bountifulHarvest.specialEvent": "특별 이벤트 - 풍성한 수확",
+  "bountifulHarvest.noticeboard.one": "오늘은 풍성한 수확의 날입니다!",
+  "bountifulHarvest.noticeboard.two": "귀하의 농작물, 과일 및 온실 농산물은 오늘 추가로 +1을 얻을 수 있습니다.",
+  "bountifulHarvest.noticeboard.three": "풍성한 보상을 즐기고 이 풍요로운 시간을 최대한 활용하십시오.",
+  "calendar.events.bountifulHarvest.title": "풍성한 수확",
+  "calendar.events.bountifulHarvest.description": "농작물, 과일 및 온실 농산물이 평소보다 추가로 +1 더 많은 수익을 올리는 특별 행사입니다."
 }

@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "Panen Semalam",
   "crops.greenhouse": "Rumah Kaca",
   "crops.fruit": "Buah",
-  "crops.flower": "Bunga"
+  "crops.flower": "Bunga",
+  "bountifulHarvest.specialEvent": "Acara Khusus - Panen Melimpah",
+  "bountifulHarvest.noticeboard.one": "Hari ini adalah hari Panen yang Melimpah!",
+  "bountifulHarvest.noticeboard.two": "Tanaman, buah, dan produk rumah kaca Anda akan menghasilkan +1 ekstra hari ini.",
+  "bountifulHarvest.noticeboard.three": "Nikmati hadiah yang berlimpah dan manfaatkan waktu yang makmur ini sebaik-baiknya.",
+  "calendar.events.bountifulHarvest.title": "Panen yang Melimpah",
+  "calendar.events.bountifulHarvest.description": "Acara khusus di mana tanaman, buah, dan produksi rumah kaca menghasilkan +1 ekstra lebih dari biasanya."
 }

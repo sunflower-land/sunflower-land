@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "Tanaman Semalaman",
   "crops.greenhouse": "Rumah Hijau",
   "crops.fruit": "Buah",
-  "crops.flower": "Bunga"
+  "crops.flower": "Bunga",
+  "bountifulHarvest.specialEvent": "Acara Istimewa - Tuai Berlimpah",
+  "bountifulHarvest.noticeboard.one": "Hari ini adalah hari Tuaian Berlimpah!",
+  "bountifulHarvest.noticeboard.two": "Tanaman, buah-buahan dan hasil rumah hijau anda akan menghasilkan +1 tambahan hari ini.",
+  "bountifulHarvest.noticeboard.three": "Nikmati ganjaran yang banyak dan manfaatkan masa yang makmur ini.",
+  "calendar.events.bountifulHarvest.title": "Tuaian Berlimpah",
+  "calendar.events.bountifulHarvest.description": "Acara istimewa di mana hasil tanaman, buah-buahan dan rumah hijau menghasilkan tambahan +1 lebih daripada biasa."
 }

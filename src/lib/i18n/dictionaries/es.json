@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "Cosecha nocturna",
   "crops.greenhouse": "Invernadero",
   "crops.fruit": "Fruta",
-  "crops.flower": "Flor"
+  "crops.flower": "Flor",
+  "bountifulHarvest.specialEvent": "Evento especial: Bountiful Harvest",
+  "bountifulHarvest.noticeboard.one": "¡Hoy es un día de cosecha abundante!",
+  "bountifulHarvest.noticeboard.two": "Sus cultivos, frutas y productos de invernadero obtendrán un +1 adicional hoy.",
+  "bountifulHarvest.noticeboard.three": "Disfrute de las abundantes recompensas y aproveche al máximo esta época próspera.",
+  "calendar.events.bountifulHarvest.title": "Cosecha abundante",
+  "calendar.events.bountifulHarvest.description": "Un evento especial en el que los cultivos, las frutas y los productos de invernadero rinden un +1 más de lo habitual."
 }

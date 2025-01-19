@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "隔夜作物",
   "crops.greenhouse": "温室",
   "crops.fruit": "水果",
-  "crops.flower": "花"
+  "crops.flower": "花",
+  "bountifulHarvest.specialEvent": "特别活动-丰收",
+  "bountifulHarvest.noticeboard.one": "今天是丰收的一天！",
+  "bountifulHarvest.noticeboard.two": "您的农作物、水果和温室农产品今天将额外产生 +1。",
+  "bountifulHarvest.noticeboard.three": "享受丰厚的奖励，充分利用这段繁荣的时光。",
+  "calendar.events.bountifulHarvest.title": "丰收",
+  "calendar.events.bountifulHarvest.description": "这是一项特别活动，农作物、水果和温室农产品的产量比平时多 +1。"
 }

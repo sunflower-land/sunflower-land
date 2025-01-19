@@ -4893,5 +4893,11 @@
   "crops.overnightCrop": "Ночной урожай",
   "crops.greenhouse": "Теплица",
   "crops.fruit": "Фрукты",
-  "crops.flower": "Цветок"
+  "crops.flower": "Цветок",
+  "bountifulHarvest.specialEvent": "Специальное событие «Обильный урожай»",
+  "bountifulHarvest.noticeboard.one": "Сегодня день обильного урожая!",
+  "bountifulHarvest.noticeboard.two": "Сегодня ваши урожаи, фрукты и тепличные продукты принесут дополнительный доход в размере +1.",
+  "bountifulHarvest.noticeboard.three": "Наслаждайтесь обильными наградами и максимально используйте это процветающее время.",
+  "calendar.events.bountifulHarvest.title": "Обильный урожай",
+  "calendar.events.bountifulHarvest.description": "Специальное мероприятие, на котором урожай зерновых, фруктов и тепличных культур приносит на +1 больше, чем обычно."
 }
