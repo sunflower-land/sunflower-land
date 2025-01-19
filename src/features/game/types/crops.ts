@@ -241,19 +241,19 @@ export const CROPS: Record<CropName, Crop> = {
     description: translate("description.barley"),
   },
   Duskberry: {
-    sellPrice: 0,
+    sellPrice: 1,
     harvestSeconds: 24 * 60 * 60,
     name: "Duskberry",
     description: translate("description.duskberry"),
   },
   Grimroot: {
-    sellPrice: 0,
+    sellPrice: 1,
     harvestSeconds: 24 * 60 * 60,
     name: "Grimroot",
     description: translate("description.grimroot"),
   },
   Lunacress: {
-    sellPrice: 0,
+    sellPrice: 1,
     harvestSeconds: 24 * 60 * 60,
     name: "Lunacress",
     description: translate("description.lunacress"),

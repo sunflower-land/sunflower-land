@@ -362,6 +362,21 @@ export const Seeds: React.FC = () => {
                 (name) =>
                   name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
               )
+              .filter(
+                (name) =>
+                  name !== "Grimroot Seed" ||
+                  hasFeatureAccess(state, "WEATHER_SHOP"),
+              )
+              .filter(
+                (name) =>
+                  name !== "Lunacress Seed" ||
+                  hasFeatureAccess(state, "WEATHER_SHOP"),
+              )
+              .filter(
+                (name) =>
+                  name !== "Duskberry Seed" ||
+                  hasFeatureAccess(state, "WEATHER_SHOP"),
+              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}

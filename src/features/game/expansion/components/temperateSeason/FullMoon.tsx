@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import fullMoon from "assets/icons/full_moon.webp";
+import fullMoon from "assets/icons/full_moon.png";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";

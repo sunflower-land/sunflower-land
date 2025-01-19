@@ -49,6 +49,9 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   Olive: new Decimal(400),
   Grape: new Decimal(400),
   Rice: new Decimal(400),
+  Duskberry: new Decimal(400),
+  Grimroot: new Decimal(400),
+  Lunacress: new Decimal(400),
 
   Chicken: new Decimal(20),
   Egg: new Decimal(1700),
@@ -87,6 +90,9 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Wheat Seed": new Decimal(170),
   "Kale Seed": new Decimal(150),
   "Barley Seed": new Decimal(150),
+  "Duskberry Seed": new Decimal(150),
+  "Grimroot Seed": new Decimal(150),
+  "Lunacress Seed": new Decimal(150),
 
   "Tomato Seed": new Decimal(100),
   "Apple Seed": new Decimal(100),

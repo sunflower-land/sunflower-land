@@ -8,7 +8,7 @@ import autumn from "assets/icons/autumn.webp";
 import winter from "assets/icons/winter.webp";
 import spring from "assets/icons/spring.webp";
 import tornado from "assets/icons/tornado.webp";
-import fullMoon from "assets/icons/full_moon.webp";
+import fullMoon from "assets/icons/full_moon.png";
 import tsunami from "assets/icons/tsunami.webp";
 import greatFreeze from "assets/icons/great-freeze.webp";
 import doubleDelivery from "assets/icons/double_delivery_icon.webp";
