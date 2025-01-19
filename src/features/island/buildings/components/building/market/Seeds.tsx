@@ -250,9 +250,9 @@ export const Seeds: React.FC = () => {
 
   const NEW_SEEDS: SeedName[] = [
     "Rhubarb Seed",
-    "Zuchinni Seed",
+    "Zucchini Seed",
     "Yam Seed",
-    "Brocolli Seed",
+    "Broccoli Seed",
     "Pepper Seed",
     "Onion Seed",
     "Turnip Seed",

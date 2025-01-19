@@ -144,7 +144,7 @@ export const CropGuide = () => {
       </p>
       {getKeys({ ...EXOTIC_CROPS }).map((crop, index) => {
         return (
-          <ExtoicRow
+          <ExoticRow
             key={crop}
             crop={crop}
             coins={EXOTIC_CROPS[crop].sellPrice}
@@ -244,7 +244,7 @@ export const FlowerRow: React.FC<{
   );
 };
 
-export const ExtoicRow: React.FC<{
+export const ExoticRow: React.FC<{
   crop: ExoticCropName;
   coins: number;
   alternateBg?: boolean;

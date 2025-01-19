@@ -77,7 +77,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
   summer: [
     "Sunflower Seed",
     "Potato Seed",
-    "Zuchinni Seed",
+    "Zucchini Seed",
     "Soybean Seed",
     "Pepper Seed",
     "Corn Seed",
@@ -100,7 +100,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Potato Seed",
     "Pumpkin Seed",
     "Carrot Seed",
-    "Brocolli Seed",
+    "Broccoli Seed",
     "Beetroot Seed",
     "Eggplant Seed",
     "Wheat Seed",

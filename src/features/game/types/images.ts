@@ -878,17 +878,17 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Rhubarb.crop,
     description: translate("description.rhubarb"),
   },
-  Zuchinni: {
-    image: CROP_LIFECYCLE.Zuchinni.crop,
-    description: translate("description.zuchinni"),
+  Zucchini: {
+    image: CROP_LIFECYCLE.Zucchini.crop,
+    description: translate("description.Zucchini"),
   },
   Yam: {
     image: CROP_LIFECYCLE.Yam.crop,
     description: translate("description.yam"),
   },
-  Brocolli: {
-    image: CROP_LIFECYCLE.Brocolli.crop,
-    description: translate("description.brocolli"),
+  Broccoli: {
+    image: CROP_LIFECYCLE.Broccoli.crop,
+    description: translate("description.Broccoli"),
   },
   Pepper: {
     image: CROP_LIFECYCLE.Pepper.crop,
@@ -974,17 +974,17 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Rhubarb.seed,
     description: translate("description.rhubarb"),
   },
-  "Zuchinni Seed": {
-    image: CROP_LIFECYCLE.Zuchinni.seed,
-    description: translate("description.zuchinni"),
+  "Zucchini Seed": {
+    image: CROP_LIFECYCLE.Zucchini.seed,
+    description: translate("description.Zucchini"),
   },
   "Yam Seed": {
     image: CROP_LIFECYCLE.Yam.seed,
     description: translate("description.yam"),
   },
-  "Brocolli Seed": {
-    image: CROP_LIFECYCLE.Brocolli.seed,
-    description: translate("description.brocolli"),
+  "Broccoli Seed": {
+    image: CROP_LIFECYCLE.Broccoli.seed,
+    description: translate("description.Broccoli"),
   },
   "Pepper Seed": {
     image: CROP_LIFECYCLE.Pepper.seed,

@@ -90,9 +90,9 @@ export type StockableName = Extract<
   | "Orange Seed"
   | "Apple Seed"
   | "Rhubarb Seed"
-  | "Zuchinni Seed"
+  | "Zucchini Seed"
   | "Yam Seed"
-  | "Brocolli Seed"
+  | "Broccoli Seed"
   | "Pepper Seed"
   | "Banana Plant"
   | "Lemon Seed"
@@ -139,13 +139,13 @@ export const INITIAL_STOCK = (
     "Sunflower Seed": new Decimal(400),
     "Potato Seed": new Decimal(200),
     "Rhubarb Seed": new Decimal(200),
-    "Zuchinni Seed": new Decimal(200),
+    "Zucchini Seed": new Decimal(200),
     "Pumpkin Seed": new Decimal(150),
     "Carrot Seed": new Decimal(100),
     "Cabbage Seed": new Decimal(90),
     "Yam Seed": new Decimal(90),
     "Soybean Seed": new Decimal(90),
-    "Brocolli Seed": new Decimal(90),
+    "Broccoli Seed": new Decimal(90),
     "Beetroot Seed": new Decimal(80),
     "Pepper Seed": new Decimal(80),
     "Cauliflower Seed": new Decimal(80),
@@ -205,14 +205,14 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Rhubarb Seed": new Decimal(500),
     "Pumpkin Seed": new Decimal(400),
     "Carrot Seed": new Decimal(250),
-    "Zuchinni Seed": new Decimal(200),
+    "Zucchini Seed": new Decimal(200),
     "Cabbage Seed": new Decimal(240),
     "Soybean Seed": new Decimal(240),
     "Beetroot Seed": new Decimal(220),
     "Yam Seed": new Decimal(200),
     "Cauliflower Seed": new Decimal(200),
     "Parsnip Seed": new Decimal(150),
-    "Brocolli Seed": new Decimal(150),
+    "Broccoli Seed": new Decimal(150),
     "Pepper Seed": new Decimal(150),
     "Onion Seed": new Decimal(150),
     "Turnip Seed": new Decimal(150),

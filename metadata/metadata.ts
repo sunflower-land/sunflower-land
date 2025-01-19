@@ -10395,7 +10395,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/crops/seeds/rhubarb_seed.png",
     name: "Rhubarb Seed",
   },
-  "Zuchinni Seed": {
+  "Zucchini Seed": {
     description: "A seed that grows into a versatile summer squash.",
     decimals: 0,
     attributes: [
@@ -10403,8 +10403,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/crops/seeds/zuchinni_seed.png",
-    name: "Zuchinni Seed",
+    image: "../public/crops/seeds/Zucchini_seed.png",
+    name: "Zucchini Seed",
   },
   "Yam Seed": {
     description: "A seed that grows into a nutritious root vegetable.",
@@ -10417,7 +10417,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/crops/seeds/yam_seed.png",
     name: "Yam Seed",
   },
-  "Brocolli Seed": {
+  "Broccoli Seed": {
     description: "A seed that grows into a healthy green vegetable.",
     decimals: 0,
     attributes: [
@@ -10425,8 +10425,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/crops/seeds/brocolli_seed.png",
-    name: "Brocolli Seed",
+    image: "../public/crops/seeds/Broccoli_seed.png",
+    name: "Broccoli Seed",
   },
   "Pepper Seed": {
     description: "A seed that grows into a spicy capsicum.",
@@ -10483,7 +10483,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/crops/rhubarb.png",
     name: "Rhubarb",
   },
-  Zuchinni: {
+  Zucchini: {
     description: "A versatile summer squash that can be used in many dishes.",
     decimals: 0,
     attributes: [
@@ -10491,8 +10491,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/crops/zuchinni.png",
-    name: "Zuchinni",
+    image: "../public/crops/Zucchini.png",
+    name: "Zucchini",
   },
   Yam: {
     description: "A nutritious root vegetable rich in vitamins and minerals.",
@@ -10505,7 +10505,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/crops/yam.png",
     name: "Yam",
   },
-  Brocolli: {
+  Broccoli: {
     description: "A healthy green vegetable packed with nutrients.",
     decimals: 0,
     attributes: [
@@ -10513,8 +10513,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/crops/brocolli.png",
-    name: "Brocolli",
+    image: "../public/crops/Broccoli.png",
+    name: "Broccoli",
   },
   Pepper: {
     description: "A spicy capsicum that adds flavor to any dish.",

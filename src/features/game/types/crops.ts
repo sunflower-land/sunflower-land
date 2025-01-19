@@ -27,9 +27,9 @@ export type CropName =
   | "Kale"
   | "Barley"
   | "Rhubarb"
-  | "Zuchinni"
+  | "Zucchini"
   | "Yam"
-  | "Brocolli"
+  | "Broccoli"
   | "Pepper"
   | "Onion"
   | "Turnip"
@@ -118,11 +118,11 @@ export const CROPS: Record<CropName, Crop> = {
     harvestSeconds: 30 * 60,
   },
 
-  Zuchinni: {
+  Zucchini: {
     sellPrice: 0.4,
     harvestSeconds: 30 * 60,
-    name: "Zuchinni",
-    description: translate("description.zuchinni"),
+    name: "Zucchini",
+    description: translate("description.Zucchini"),
   },
   Carrot: {
     name: "Carrot",
@@ -143,11 +143,11 @@ export const CROPS: Record<CropName, Crop> = {
     harvestSeconds: 2 * 60 * 60,
   },
 
-  Brocolli: {
+  Broccoli: {
     sellPrice: 1.5,
     harvestSeconds: 2 * 60 * 60,
-    name: "Brocolli",
-    description: translate("description.brocolli"),
+    name: "Broccoli",
+    description: translate("description.Broccoli"),
   },
   Soybean: {
     name: "Soybean",
@@ -274,13 +274,13 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     plantingSpot: "Crop Plot",
   },
 
-  "Zuchinni Seed": {
+  "Zucchini Seed": {
     price: 0.2,
-    description: translate("description.zuchinni"),
+    description: translate("description.Zucchini"),
     plantSeconds: 30 * 60,
     bumpkinLevel: 2,
     plantingSpot: "Crop Plot",
-    yield: "Zuchinni",
+    yield: "Zucchini",
   },
   "Carrot Seed": {
     description: translate("description.carrot"),
@@ -307,13 +307,13 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     plantingSpot: "Crop Plot",
   },
 
-  "Brocolli Seed": {
+  "Broccoli Seed": {
     price: 1,
-    description: translate("description.brocolli"),
+    description: translate("description.Broccoli"),
     plantSeconds: 2 * 60 * 60,
     bumpkinLevel: 3,
     plantingSpot: "Crop Plot",
-    yield: "Brocolli",
+    yield: "Broccoli",
   },
   "Soybean Seed": {
     description: translate("description.soybean"),
