@@ -141,7 +141,10 @@ const InProgressBuilding: React.FC<Prop> = ({
   );
 };
 
-type DestructiveEvent = Exclude<SeasonalEventName, "fullMoon" | "greatFreeze">;
+type DestructiveEvent = Exclude<
+  SeasonalEventName,
+  "fullMoon" | "greatFreeze" | "doubleDelivery"
+>;
 
 const DESTROYED_BUILDING_ICONS: Record<DestructiveEvent, string> = {
   tornado: tornadoIcon,
@@ -150,7 +153,7 @@ const DESTROYED_BUILDING_ICONS: Record<DestructiveEvent, string> = {
 
 const DestroyedBuilding: React.FC<
   Prop & {
-    calendarEvent: Exclude<SeasonalEventName, "fullMoon" | "greatFreeze">;
+    calendarEvent: DestructiveEvent;
   }
 > = ({
   name,

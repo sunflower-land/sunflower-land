@@ -96,6 +96,14 @@ export function generateDeliveryTickets({
     amount *= 2;
   }
 
+  // TODO: replace the above with the following after feature release
+  // if (
+  //   getActiveCalenderEvent({ game }) === "doubleDelivery" &&
+  //   !hasClaimedBonus
+  // ) {
+  //   amount *= 2;
+  // }
+
   return amount;
 }
 
@@ -329,6 +337,14 @@ export function getOrderSellPrice<T>(
   if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
     mul *= 2;
   }
+
+  // TODO: replace the above with the following after feature release
+  // if (
+  //   getActiveCalenderEvent({ game }) === "doubleDelivery" &&
+  //   !hasClaimedBonus
+  // ) {
+  //   mul *= 2;
+  // }
 
   if (order.reward.sfl) {
     return new Decimal(order.reward.sfl ?? 0).mul(mul) as T;

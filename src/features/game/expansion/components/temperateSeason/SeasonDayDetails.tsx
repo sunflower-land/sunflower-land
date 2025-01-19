@@ -13,6 +13,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { getRelativeTime } from "lib/utils/time";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,8 +29,8 @@ type Props = {
 const DUMMY_EVENT_INFORMATION: Record<
   Exclude<CalendarEventName, "calendar">,
   {
-    title: string;
-    description: string;
+    title: TranslationKeys;
+    description: TranslationKeys;
     prevention?: InventoryItemName;
   }
 > = {
@@ -55,6 +56,10 @@ const DUMMY_EVENT_INFORMATION: Record<
   unknown: {
     title: "calendar.events.unknown.title",
     description: "calendar.events.unknown.description",
+  },
+  doubleDelivery: {
+    title: "calendar.events.doubleDelivery.title",
+    description: "calendar.events.doubleDelivery.description",
   },
 };
 
