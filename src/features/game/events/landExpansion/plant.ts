@@ -19,7 +19,7 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
-import { SEEDS } from "features/game/types/seeds";
+import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
@@ -807,6 +807,13 @@ export function plant({
 
     if (seedCount.lessThan(1)) {
       throw new Error("Not enough seeds");
+    }
+
+    if (
+      hasFeatureAccess(stateCopy, "SEASONAL_SEEDS") &&
+      !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
+    ) {
+      throw new Error("This seed is not available in this season");
     }
 
     const cropName = action.item.split(" ")[0] as CropName;

@@ -874,6 +874,38 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Barley.crop,
     description: translate("description.barley"),
   },
+  Rhubarb: {
+    image: CROP_LIFECYCLE.Rhubarb.crop,
+    description: translate("description.rhubarb"),
+  },
+  Zucchini: {
+    image: CROP_LIFECYCLE.Zucchini.crop,
+    description: translate("description.zucchini"),
+  },
+  Yam: {
+    image: CROP_LIFECYCLE.Yam.crop,
+    description: translate("description.yam"),
+  },
+  Broccoli: {
+    image: CROP_LIFECYCLE.Broccoli.crop,
+    description: translate("description.broccoli"),
+  },
+  Pepper: {
+    image: CROP_LIFECYCLE.Pepper.crop,
+    description: translate("description.pepper"),
+  },
+  Onion: {
+    image: CROP_LIFECYCLE.Onion.crop,
+    description: translate("description.onion"),
+  },
+  Turnip: {
+    image: CROP_LIFECYCLE.Turnip.crop,
+    description: translate("description.turnip"),
+  },
+  Artichoke: {
+    image: CROP_LIFECYCLE.Artichoke.crop,
+    description: translate("description.artichoke"),
+  },
   "Sunflower Seed": {
     image: CROP_LIFECYCLE.Sunflower.seed,
     secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
@@ -938,6 +970,39 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Barley.seed,
     description: translate("description.barley"),
   },
+  "Rhubarb Seed": {
+    image: CROP_LIFECYCLE.Rhubarb.seed,
+    description: translate("description.rhubarb"),
+  },
+  "Zucchini Seed": {
+    image: CROP_LIFECYCLE.Zucchini.seed,
+    description: translate("description.zucchini"),
+  },
+  "Yam Seed": {
+    image: CROP_LIFECYCLE.Yam.seed,
+    description: translate("description.yam"),
+  },
+  "Broccoli Seed": {
+    image: CROP_LIFECYCLE.Broccoli.seed,
+    description: translate("description.broccoli"),
+  },
+  "Pepper Seed": {
+    image: CROP_LIFECYCLE.Pepper.seed,
+    description: translate("description.pepper"),
+  },
+  "Onion Seed": {
+    image: CROP_LIFECYCLE.Onion.seed,
+    description: translate("description.onion"),
+  },
+  "Turnip Seed": {
+    image: CROP_LIFECYCLE.Turnip.seed,
+    description: translate("description.turnip"),
+  },
+  "Artichoke Seed": {
+    image: CROP_LIFECYCLE.Artichoke.seed,
+    description: translate("description.artichoke"),
+  },
+
   "Magic Bean": {
     image: SUNNYSIDE.crops.magicBean,
     description: BEANS()["Magic Bean"].description,

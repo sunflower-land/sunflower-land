@@ -33,6 +33,14 @@ const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Kale: kaleProc,
   Soybean: soybeanProc,
   Barley: potatoProc,
+  Rhubarb: radishProc,
+  Zucchini: kaleProc,
+  Yam: cabbageProc,
+  Broccoli: kaleProc,
+  Pepper: radishProc,
+  Onion: parsnipProc,
+  Turnip: sunflowerProc,
+  Artichoke: cabbageProc,
 };
 
 export const HARVEST_PROC_ANIMATION = {
@@ -69,6 +77,14 @@ export const IMAGES: Record<CropName, string> = {
   Kale: "kale",
   Soybean: "soybean",
   Barley: "barley",
+  Rhubarb: "rhubarb",
+  Zucchini: "Zucchini",
+  Yam: "yam",
+  Broccoli: "Broccoli",
+  Pepper: "pepper",
+  Onion: "onion",
+  Turnip: "turnip",
+  Artichoke: "artichoke",
 };
 
 export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(

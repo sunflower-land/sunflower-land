@@ -38,7 +38,7 @@ import {
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
-import { SeedName, SEEDS } from "features/game/types/seeds";
+import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
@@ -66,6 +66,8 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
+import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Prop {
   gameState: GameState;
@@ -245,6 +247,13 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             game={gameState}
             details={{
               item: selectedItem,
+              seasons:
+                selectedItem in SEEDS() &&
+                hasFeatureAccess(gameState, "SEASONAL_SEEDS")
+                  ? getKeys(SEASONAL_SEEDS).filter((season) =>
+                      SEASONAL_SEEDS[season].includes(selectedItem as SeedName),
+                    )
+                  : undefined,
             }}
             properties={{
               harvests: isPatchFruitSeed(selectedItem)
@@ -273,7 +282,28 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       }
       content={
         <>
-          {itemsSection(t("seeds"), allSeeds, SUNNYSIDE.icons.seeds)}
+          {hasFeatureAccess(gameState, "SEASONAL_SEEDS") ? (
+            <>
+              {itemsSection(
+                `${t(`${gameState.season.season}.seeds`)}`,
+                allSeeds.filter((seed) =>
+                  SEASONAL_SEEDS[gameState.season.season].includes(seed),
+                ),
+                SEASON_ICONS[gameState.season.season],
+              )}
+              {itemsSection(
+                t("seeds"),
+                allSeeds.filter(
+                  (seed) =>
+                    !SEASONAL_SEEDS[gameState.season.season].includes(seed),
+                ),
+                SUNNYSIDE.icons.seeds,
+              )}
+            </>
+          ) : (
+            <>{itemsSection(t("seeds"), allSeeds, SUNNYSIDE.icons.seeds)}</>
+          )}
+
           {itemsSection(
             t("fertilisers"),
             [...cropCompost, ...fruitCompost, ...fertilisers],

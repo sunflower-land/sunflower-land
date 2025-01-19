@@ -89,6 +89,11 @@ export type StockableName = Extract<
   | "Blueberry Seed"
   | "Orange Seed"
   | "Apple Seed"
+  | "Rhubarb Seed"
+  | "Zucchini Seed"
+  | "Yam Seed"
+  | "Broccoli Seed"
+  | "Pepper Seed"
   | "Banana Plant"
   | "Lemon Seed"
   | "Sunpetal Seed"
@@ -133,18 +138,26 @@ export const INITIAL_STOCK = (
   const seeds: Record<SeedName, Decimal> = {
     "Sunflower Seed": new Decimal(400),
     "Potato Seed": new Decimal(200),
+    "Rhubarb Seed": new Decimal(200),
+    "Zucchini Seed": new Decimal(200),
     "Pumpkin Seed": new Decimal(150),
     "Carrot Seed": new Decimal(100),
     "Cabbage Seed": new Decimal(90),
+    "Yam Seed": new Decimal(90),
     "Soybean Seed": new Decimal(90),
+    "Broccoli Seed": new Decimal(90),
     "Beetroot Seed": new Decimal(80),
+    "Pepper Seed": new Decimal(80),
     "Cauliflower Seed": new Decimal(80),
     "Parsnip Seed": new Decimal(60),
     "Eggplant Seed": new Decimal(50),
     "Corn Seed": new Decimal(50),
+    "Onion Seed": new Decimal(50),
+    "Turnip Seed": new Decimal(40),
     "Radish Seed": new Decimal(40),
     "Wheat Seed": new Decimal(40),
     "Kale Seed": new Decimal(30),
+    "Artichoke Seed": new Decimal(30),
     "Barley Seed": new Decimal(30),
 
     "Grape Seed": new Decimal(10),
@@ -189,13 +202,21 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
   const seeds: Record<SeedName, Decimal> = {
     "Sunflower Seed": new Decimal(1000),
     "Potato Seed": new Decimal(500),
+    "Rhubarb Seed": new Decimal(500),
     "Pumpkin Seed": new Decimal(400),
     "Carrot Seed": new Decimal(250),
+    "Zucchini Seed": new Decimal(200),
     "Cabbage Seed": new Decimal(240),
     "Soybean Seed": new Decimal(240),
     "Beetroot Seed": new Decimal(220),
+    "Yam Seed": new Decimal(200),
     "Cauliflower Seed": new Decimal(200),
     "Parsnip Seed": new Decimal(150),
+    "Broccoli Seed": new Decimal(150),
+    "Pepper Seed": new Decimal(150),
+    "Onion Seed": new Decimal(150),
+    "Turnip Seed": new Decimal(150),
+    "Artichoke Seed": new Decimal(120),
     "Eggplant Seed": new Decimal(120),
     "Corn Seed": new Decimal(120),
     "Radish Seed": new Decimal(100),

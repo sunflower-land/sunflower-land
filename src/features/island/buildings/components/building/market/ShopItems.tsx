@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Seeds } from "./Seeds";
 import { Crops } from "./Crops";
 import { Equipped } from "features/game/types/bumpkin";
@@ -10,7 +10,12 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
+import { hasFeatureAccess } from "lib/flags";
+import { SeasonalSeeds } from "./SeasonalSeeds";
+import { Context } from "features/game/GameProvider";
+import { SeasonalCrops } from "./SeasonalCrops";
+import book from "assets/icons/tier1_book.webp";
+import { CropGuide } from "./CropGuide";
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `betty-read.${host}-${window.location.pathname}`;
 const INTRO_LOCAL_STORAGE_KEY = `betty-intro-read.${host}-${window.location.pathname}`;
@@ -43,7 +48,7 @@ export const ShopItems: React.FC<Props> = ({
   const [tab, setTab] = useState(0);
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
   const { t } = useAppTranslation();
-
+  const { gameService } = useContext(Context);
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
 
   if (showIntro) {
@@ -95,14 +100,42 @@ export const ShopItems: React.FC<Props> = ({
           name: t("sell"),
           unread: !hasSoldBefore,
         },
+        ...(hasFeatureAccess(
+          gameService.getSnapshot().context.state,
+          "SEASONAL_SEEDS",
+        )
+          ? [
+              {
+                icon: book,
+                name: t("guide"),
+              },
+            ]
+          : []),
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
       container={OuterPanel}
     >
-      {tab === 0 && <Seeds />}
-      {tab === 1 && <Crops />}
+      {tab === 0 &&
+        (hasFeatureAccess(
+          gameService.getSnapshot().context.state,
+          "SEASONAL_SEEDS",
+        ) ? (
+          <SeasonalSeeds />
+        ) : (
+          <Seeds />
+        ))}
+      {tab === 1 &&
+        (hasFeatureAccess(
+          gameService.getSnapshot().context.state,
+          "SEASONAL_SEEDS",
+        ) ? (
+          <SeasonalCrops />
+        ) : (
+          <Crops />
+        ))}
+      {tab === 2 && <CropGuide />}
     </CloseButtonPanel>
   );
 };
