@@ -55,7 +55,7 @@ const DUMMY_EVENT_INFORMATION: Record<
   },
   bountifulHarvest: {
     title: "calendar.events.bountifulHarvest.title",
-    description: "calaendar.events.bountifulHarvest.description",
+    description: "calendar.events.bountifulHarvest.description",
   },
   unknown: {
     title: "calendar.events.unknown.title",
