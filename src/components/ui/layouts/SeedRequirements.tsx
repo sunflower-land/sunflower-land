@@ -121,10 +121,10 @@ function getDetails(
 }
 
 const PLANTING_SPOT_ICONS: Partial<Record<Seed["plantingSpot"], string>> = {
-  Greenhouse: emptyPot,
   "Crop Plot": SUNNYSIDE.resource.plot,
-  "Fruit Patch": SUNNYSIDE.resource.fruitPatch,
   "Flower Bed": flowerBed,
+  "Fruit Patch": SUNNYSIDE.resource.fruitPatch,
+  Greenhouse: emptyPot,
 };
 
 /**
