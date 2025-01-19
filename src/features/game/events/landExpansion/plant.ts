@@ -765,6 +765,10 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
+  if (getActiveCalenderEvent({ game }) === "bountifulHarvest") {
+    amount += 1;
+  }
+
   return Number(setPrecision(amount));
 }
 

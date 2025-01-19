@@ -8,11 +8,18 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import tornado from "assets/icons/tornado.webp";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+
+const _hasPinwheel = (state: MachineState) =>
+  state.context.state.calendar.tornado?.protected;
 
 export const Tornado: React.FC<{
   acknowledge: () => void;
 }> = ({ acknowledge }) => {
-  const { gameState } = useGame();
+  const { gameService } = useGame();
+  const hasPinwheel = useSelector(gameService, _hasPinwheel);
+
   const { t } = useAppTranslation();
 
   const tornadoPositions = useRef<
@@ -28,8 +35,6 @@ export const Tornado: React.FC<{
       delay: Math.random() * 2,
     })),
   );
-
-  const hasPinwheel = !!gameState.context.state.calendar.tornado?.protected;
 
   return (
     <>

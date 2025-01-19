@@ -8,11 +8,17 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import tsunami from "assets/icons/tsunami.webp";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _hasMangrove = (state: MachineState) =>
+  state.context.state.calendar.tsunami?.protected;
 
 export const Tsunami: React.FC<{
   acknowledge: () => void;
 }> = ({ acknowledge }) => {
-  const { gameState } = useGame();
+  const { gameService } = useGame();
+  const hasMangrove = useSelector(gameService, _hasMangrove);
   const { t } = useAppTranslation();
 
   const tsunamiPositions = useRef<
@@ -28,8 +34,6 @@ export const Tsunami: React.FC<{
       delay: Math.random() * 2,
     })),
   );
-
-  const hasMangrove = !!gameState.context.state.calendar.tsunami?.protected;
 
   return (
     <>
