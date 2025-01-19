@@ -183,9 +183,15 @@ export const SeedRequirements: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 mb-1">
+        <div className="flex flex-col space-x-2 justify-start items-center  md:space-x-0 mb-1">
+          <div>
+            <p className="text-center">{title}</p>
+            <p className="text-xs text-center">
+              {getCropCategory(SEEDS()[details.item]?.yield as ProduceName)}
+            </p>
+          </div>
           {icon && !!details.item && (
-            <div className="sm:mt-2 flex items-center">
+            <div className="mt-2 flex items-center">
               <SquareIcon icon={icon} width={14} />
               <SquareIcon icon={SUNNYSIDE.icons.chevron_right} width={8} />
               <SquareIcon
@@ -205,10 +211,6 @@ export const SeedRequirements: React.FC<Props> = ({
               />
             </div>
           )}
-          <span className="sm:text-center text-xs">
-            {getCropCategory(SEEDS()[details.item]?.yield as ProduceName)}
-          </span>
-          <span className="sm:text-center">{title}</span>
         </div>
       </>
     );
@@ -218,7 +220,7 @@ export const SeedRequirements: React.FC<Props> = ({
     if (!requirements) return <></>;
 
     return (
-      <div className="w-full mb-2 flex justify-between gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
+      <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Time requirement display */}
         {!!requirements.timeSeconds && (
           <RequirementLabel
