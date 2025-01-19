@@ -166,6 +166,7 @@ export const CropRow: React.FC<{
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
     SEASONAL_SEEDS[season].includes(seed as SeedName),
   );
+  const { t } = useAppTranslation();
   return (
     <div
       className={`flex justify-between items-center p-1 ${
@@ -177,7 +178,7 @@ export const CropRow: React.FC<{
           <img src={ITEM_DETAILS[crop].image} className="w-6 h-auto mr-2" />
           <div className="flex-1">
             <p className="text-xs">{crop}</p>
-            <p className="text-xxs">{getCropCategory(crop)}</p>
+            <p className="text-xxs">{t(getCropCategory(crop))}</p>
           </div>
         </div>
         <div className="flex flex-col">
@@ -249,6 +250,7 @@ export const ExoticRow: React.FC<{
   coins: number;
   alternateBg?: boolean;
 }> = ({ crop, coins, alternateBg }) => {
+  const { t } = useAppTranslation();
   return (
     <div
       className={`flex justify-between items-center p-1 ${
@@ -260,7 +262,7 @@ export const ExoticRow: React.FC<{
           <img src={ITEM_DETAILS[crop].image} className="w-6 h-auto mr-2" />
           <div className="flex-1">
             <p className="text-xs">{crop}</p>
-            <p className="text-xxs">{getCropCategory(crop)}</p>
+            <p className="text-xxs">{t(getCropCategory(crop))}</p>
           </div>
         </div>
         <div className="flex flex-col">

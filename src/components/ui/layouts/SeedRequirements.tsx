@@ -187,7 +187,7 @@ export const SeedRequirements: React.FC<Props> = ({
           <div>
             <p className="text-center">{title}</p>
             <p className="text-xs text-center">
-              {getCropCategory(SEEDS()[details.item]?.yield as ProduceName)}
+              {t(getCropCategory(SEEDS()[details.item]?.yield as ProduceName))}
             </p>
           </div>
           {icon && !!details.item && (

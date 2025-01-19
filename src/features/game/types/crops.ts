@@ -9,6 +9,7 @@ import {
   isMediumCrop,
   isOvernightCrop,
 } from "../events/landExpansion/harvest";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 export type CropName =
   | "Sunflower"
@@ -122,7 +123,7 @@ export const CROPS: Record<CropName, Crop> = {
     sellPrice: 0.4,
     harvestSeconds: 30 * 60,
     name: "Zucchini",
-    description: translate("description.Zucchini"),
+    description: translate("description.zucchini"),
   },
   Carrot: {
     name: "Carrot",
@@ -147,7 +148,7 @@ export const CROPS: Record<CropName, Crop> = {
     sellPrice: 1.5,
     harvestSeconds: 2 * 60 * 60,
     name: "Broccoli",
-    description: translate("description.Broccoli"),
+    description: translate("description.broccoli"),
   },
   Soybean: {
     name: "Soybean",
@@ -276,7 +277,7 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
 
   "Zucchini Seed": {
     price: 0.2,
-    description: translate("description.Zucchini"),
+    description: translate("description.zucchini"),
     plantSeconds: 30 * 60,
     bumpkinLevel: 2,
     plantingSpot: "Crop Plot",
@@ -309,7 +310,7 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
 
   "Broccoli Seed": {
     price: 1,
-    description: translate("description.Broccoli"),
+    description: translate("description.broccoli"),
     plantSeconds: 2 * 60 * 60,
     bumpkinLevel: 3,
     plantingSpot: "Crop Plot",
@@ -465,41 +466,41 @@ export type ProduceName =
   | GreenHouseCropName
   | ExoticCropName;
 
-export function getCropCategory(crop: ProduceName): ProduceCategory {
+export function getCropCategory(crop: ProduceName): TranslationKeys {
   if (!crop) {
-    return "Flower";
+    return "crops.flower";
   }
 
   if (isBasicCrop(crop as CropName)) {
-    return "Basic Crop";
+    return "crops.basicCrop";
   }
 
   if (isMediumCrop(crop as CropName)) {
-    return "Medium Crop";
+    return "crops.mediumCrop";
   }
 
   if (isAdvancedCrop(crop as CropName)) {
-    return "Advanced Crop";
+    return "crops.advancedCrop";
   }
 
   if (EXOTIC_CROPS[crop as ExoticCropName]) {
-    return "Exotic Crop";
+    return "crops.exoticCrop";
   }
 
   if (GREENHOUSE_CROPS[crop as GreenHouseCropName]) {
-    return "Greenhouse";
+    return "crops.greenhouse";
   }
 
   if (PATCH_FRUIT()[crop as PatchFruitName]) {
-    return "Fruit";
+    return "crops.fruit";
   }
 
   if (
     ALL_PRODUCE[crop].harvestSeconds >= 24 * 60 * 60 &&
     isOvernightCrop(crop as CropName)
   ) {
-    return "Overnight Crop";
+    return "crops.overnightCrop";
   }
 
-  return "Flower";
+  return "crops.flower";
 }

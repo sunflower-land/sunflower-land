@@ -4911,5 +4911,13 @@
   "autumn.seeds": "Autumn Seeds",
   "winter.seeds": "Winter Seeds",
   "seasonal.wrongSeed": "Wrong seed",
-  "seasonal.wrongSeedDescription": "{{seed}} cannot be planted in {{season}}. Please select a different seed."
+  "seasonal.wrongSeedDescription": "{{seed}} cannot be planted in {{season}}. Please select a different seed.",
+  "crops.basicCrop": "Basic Crop",
+  "crops.mediumCrop": "Medium Crop",
+  "crops.advancedCrop": "Advanced Crop",
+  "crops.exoticCrop": "Exotic Crop",
+  "crops.overnightCrop": "Overnight Crop",
+  "crops.greenhouse": "Greenhouse",
+  "crops.fruit": "Fruit",
+  "crops.flower": "Flower"
 }
