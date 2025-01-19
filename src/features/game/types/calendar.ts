@@ -35,6 +35,7 @@ export const SEASONAL_EVENTS: Record<SeasonalEventName, null> = {
   fullMoon: null,
   greatFreeze: null,
   doubleDelivery: null,
+  bountifulHarvest: null,
 };
 
 export function getPendingCalendarEvent({
