@@ -71,18 +71,18 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
           <div className="flex items-center mt-2">
             <NumberInput
               value={amount}
-              maxDecimalPlaces={4}
+              maxDecimalPlaces={0}
               isOutOfRange={disableWithdraw}
               onValueChange={setAmount}
             />
             <Button
-              onClick={() => setAmount(setPrecision(balance.mul(0.5)))}
+              onClick={() => setAmount(setPrecision(balance.mul(0.5), 0))}
               className="ml-2 px-1 py-1 w-auto"
             >
               {`50%`}
             </Button>
             <Button
-              onClick={() => setAmount(setPrecision(balance))}
+              onClick={() => setAmount(setPrecision(balance, 0))}
               className="ml-2 px-1 py-1 w-auto"
             >
               {t("max")}
