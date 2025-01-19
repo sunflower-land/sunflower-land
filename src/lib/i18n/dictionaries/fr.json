@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "Augmente la zone d'effet (AOE) de Laurie the Guckle Crow à une surface 7x7 ; rendement agricole avancé supplémentaire de +0,1",
   "skill.fishyFortune": "+100 % de pièces provenant des livraisons de Corale",
   "skill.midasSprint": "-10 % de temps de récupération de l'or",
-  "skill.midasRush": "-20% Temps de récupération de l'or"
+  "skill.midasRush": "-20% Temps de récupération de l'or",
+  "doubleDelivery.specialEvent": "Événement spécial - Double Delivery",
+  "doubleDelivery.one": "Aujourd'hui est un jour spécial ! Les livraisons sont doublées de récompenses.",
+  "doubleDelivery.two": "Seule la première livraison de la journée par un bumpkin ou un gobelin sera doublée.",
+  "calendar.events.doubleDelivery.title": "Livraison en double",
+  "calendar.events.doubleDelivery.description": "Un événement spécial au cours duquel vous pouvez gagner deux fois plus de récompenses lors de vos livraisons."
 }

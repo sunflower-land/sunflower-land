@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "将 Chuckle Crow Laurie 的效果区域 (AOE) 增加到 7x7 区域；额外增加 +0.1 高级作物产量",
   "skill.fishyFortune": "+100% 来自 Corale 配送的硬币",
   "skill.midasSprint": "-10% 金币回收时间",
-  "skill.midasRush": "-20% 金币回收时间"
+  "skill.midasRush": "-20% 金币回收时间",
+  "doubleDelivery.specialEvent": "特别活动-双重配送",
+  "doubleDelivery.one": "今天是一个特别的日子！送货值得双重奖励。",
+  "doubleDelivery.two": "只有每个 bumpkin 或 goblin 当天首次交付的商品才能获得双倍奖励。",
+  "calendar.events.doubleDelivery.title": "双重配送",
+  "calendar.events.doubleDelivery.description": "一项特殊活动，您可以通过交付获得双倍奖励。"
 }

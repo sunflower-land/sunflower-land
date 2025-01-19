@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "ローリー・ザ・チャックル・クロウの効果範囲 (AOE) が7x7の範囲に拡大し、上級作物収量がさらに+0.1増加します",
   "skill.fishyFortune": "コラールの配達による+100％のコイン",
   "skill.midasSprint": "-10% ゴールド回復時間",
-  "skill.midasRush": "-20% ゴールド回復時間"
+  "skill.midasRush": "-20% ゴールド回復時間",
+  "doubleDelivery.specialEvent": "スペシャルイベント-ダブルデリバリー",
+  "doubleDelivery.one": "今日は特別な日です！配達には2倍の報酬が贈られます。",
+  "doubleDelivery.two": "各バンプキンまたはゴブリンからその日の最初に配達された人だけが2倍の報酬を受け取ります。",
+  "calendar.events.doubleDelivery.title": "ダブルデリバリー",
+  "calendar.events.doubleDelivery.description": "配達で2倍の報酬を獲得できるスペシャルイベント。"
 }

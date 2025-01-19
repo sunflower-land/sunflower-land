@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "Laurie the Chuckle Crow'un etki alanını (AOE) 7x7 alana çıkarır; Ek +0.1 gelişmiş mahsul verimi",
   "skill.fishyFortune": "Corale'nin teslimatlarından +%100 madeni para",
   "skill.midasSprint": "-10% Altın kurtarma süresi",
-  "skill.midasRush": "-20% Altın kurtarma süresi"
+  "skill.midasRush": "-20% Altın kurtarma süresi",
+  "doubleDelivery.specialEvent": "Özel Etkinlik - Çifte Teslimat",
+  "doubleDelivery.one": "Bugün özel bir gün! Teslimatlar iki kat ödüle değer.",
+  "doubleDelivery.two": "Her bumpkin veya goblin'den yalnızca günün ilk teslimatı çifte ödül alacak.",
+  "calendar.events.doubleDelivery.title": "Çifte Teslimat",
+  "calendar.events.doubleDelivery.description": "Teslimatlardan çifte ödül kazanabileceğiniz özel bir etkinlik."
 }

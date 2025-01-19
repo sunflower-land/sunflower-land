@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "Aumenta el área de efecto (AOE) de Laurie the Chuckle Crow a un área de 7 x 7; el rendimiento avanzado de la cosecha aumenta un +0,1",
   "skill.fishyFortune": "+100% de monedas de las entregas de Corale",
   "skill.midasSprint": "-10% de tiempo de recuperación de oro",
-  "skill.midasRush": "-20% de tiempo de recuperación de oro"
+  "skill.midasRush": "-20% de tiempo de recuperación de oro",
+  "doubleDelivery.specialEvent": "Evento especial: entrega doble",
+  "doubleDelivery.one": "¡Hoy es un día especial! Las entregas valen el doble de recompensas.",
+  "doubleDelivery.two": "Solo la primera entrega del día de cada paleto o duende recibirá el doble de recompensas.",
+  "calendar.events.doubleDelivery.title": "Entrega doble",
+  "calendar.events.doubleDelivery.description": "Un evento especial en el que puedes conseguir el doble de recompensas con las entregas."
 }

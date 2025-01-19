@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "Erhöht den Wirkungsbereich (AOE) von Laurie the Chuckle Crow auf eine Fläche von 7x7; zusätzlich +0,1 erweiterter Ernteertrag",
   "skill.fishyFortune": "+100% Münzen aus Corales Lieferungen",
   "skill.midasSprint": "-10% Gold-Wiederherstellungszeit",
-  "skill.midasRush": "-20% Gold-Wiederherstellungszeit"
+  "skill.midasRush": "-20% Gold-Wiederherstellungszeit",
+  "doubleDelivery.specialEvent": "Sonderveranstaltung — Doppelte Lieferung",
+  "doubleDelivery.one": "Heute ist ein besonderer Tag! Lieferungen sind doppelte Belohnungen wert.",
+  "doubleDelivery.two": "Nur die erste Lieferung des Tages von jedem Bumpkin oder Goblin erhält doppelte Belohnungen.",
+  "calendar.events.doubleDelivery.title": "Doppelte Lieferung",
+  "calendar.events.doubleDelivery.description": "Ein besonderes Event, bei dem du doppelte Belohnungen für Lieferungen erhalten kannst."
 }

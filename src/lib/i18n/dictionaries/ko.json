@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "웃는 까마귀 로리의 효과 범위 (AOE) 를 7x7로 증가시킵니다. 고급 작물 수확량 +0.1 추가",
   "skill.fishyFortune": "코랄레 배송으로 획득한 +100% 코인",
   "skill.midasSprint": "골드 회복 시간 -10%",
-  "skill.midasRush": "골드 회복 시간 -20%"
+  "skill.midasRush": "골드 회복 시간 -20%",
+  "doubleDelivery.specialEvent": "특별 이벤트 - 더블 딜리버리",
+  "doubleDelivery.one": "오늘은 특별한 날입니다!배송은 두 배의 보상을 받을 수 있습니다.",
+  "doubleDelivery.two": "각 범프킨 또는 고블린으로부터 당일 첫 배송을 받은 사람만 두 배의 보상을 받을 수 있습니다.",
+  "calendar.events.doubleDelivery.title": "더블 딜리버리",
+  "calendar.events.doubleDelivery.description": "배송 보상을 두 배로 받을 수 있는 특별 이벤트입니다."
 }

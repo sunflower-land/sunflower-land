@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "Meningkatkan area efek Laurie the Chuckle Crow (AOE) ke area 7x7; Tambahan +0,1 hasil panen lanjutan",
   "skill.fishyFortune": "+100% koin dari pengiriman Corale",
   "skill.midasSprint": "-10% waktu pemulihan emas",
-  "skill.midasRush": "-20% waktu pemulihan emas"
+  "skill.midasRush": "-20% waktu pemulihan emas",
+  "doubleDelivery.specialEvent": "Acara Khusus - Pengiriman Ganda",
+  "doubleDelivery.one": "Hari ini adalah hari yang istimewa! Pengiriman bernilai hadiah ganda.",
+  "doubleDelivery.two": "Hanya pengiriman pertama hari itu dari setiap bumpkin atau goblin yang akan menerima hadiah ganda.",
+  "calendar.events.doubleDelivery.title": "Pengiriman Ganda",
+  "calendar.events.doubleDelivery.description": "Acara khusus di mana Anda bisa mendapatkan hadiah ganda dari pengiriman."
 }

@@ -4852,5 +4852,10 @@
   "skill.lauriesGains": "Meningkatkan kawasan kesan Laurie the Chuckle Crow (AOE) kepada kawasan 7x7; Tambahan hasil tanaman lanjutan +0.1",
   "skill.fishyFortune": "+100% syiling dari penghantaran Corale",
   "skill.midasSprint": "-10% Masa pemulihan emas",
-  "skill.midasRush": "-20% Masa pemulihan emas"
+  "skill.midasRush": "-20% Masa pemulihan emas",
+  "doubleDelivery.specialEvent": "Acara Khas - Penghantaran Berganda",
+  "doubleDelivery.one": "Hari ini adalah hari istimewa! Penghantaran bernilai ganjaran berganda.",
+  "doubleDelivery.two": "Hanya penghantaran pertama hari dari setiap bumpkin atau goblin akan menerima ganjaran berganda.",
+  "calendar.events.doubleDelivery.title": "Penghantaran Berganda",
+  "calendar.events.doubleDelivery.description": "Acara istimewa di mana anda boleh mendapatkan ganjaran berganda daripada penghantaran."
 }
