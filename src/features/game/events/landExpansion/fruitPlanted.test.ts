@@ -10,6 +10,10 @@ import { getFruitPatchTime, plantFruit } from "./fruitPlanted";
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
+  season: {
+    season: "autumn",
+    startedAt: 0,
+  },
   fruitPatches: {
     0: {
       fruit: {
@@ -329,6 +333,10 @@ describe("fruitPlanted", () => {
           "Blueberry Seed": seedAmount,
           "Lady Bug": new Decimal(1),
         },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
         collectibles: {
           "Lady Bug": [
             {
@@ -367,6 +375,10 @@ describe("fruitPlanted", () => {
         inventory: {
           "Orange Seed": seedAmount,
           "Squirrel Monkey": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
         },
         collectibles: {
           "Squirrel Monkey": [
@@ -412,6 +424,10 @@ describe("fruitPlanted", () => {
           "Lemon Seed": seedAmount,
           "Lemon Tea Bath": new Decimal(1),
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
         collectibles: {
           "Lemon Tea Bath": [
             {
@@ -455,6 +471,10 @@ describe("fruitPlanted", () => {
         inventory: {
           "Lemon Seed": seedAmount,
           "Lemon Frog": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         collectibles: {
           "Lemon Frog": [
@@ -500,6 +520,10 @@ describe("fruitPlanted", () => {
           "Lemon Seed": seedAmount,
           "Lemon Tea Bath": new Decimal(1),
           "Lemon Frog": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         collectibles: {
           "Lemon Tea Bath": [
@@ -694,6 +718,10 @@ describe("fruitPlanted", () => {
           "Blueberry Seed": seedAmount,
           "Black Bearry": new Decimal(1),
         },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
         collectibles: {
           "Black Bearry": [
             {
@@ -774,6 +802,10 @@ describe("fruitPlanted", () => {
           "Blueberry Seed": seedAmount,
           "Black Bearry": new Decimal(1),
         },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
         buds: {
           1: {
             aura: "No Aura",
@@ -816,6 +848,10 @@ describe("fruitPlanted", () => {
             onesie: "Camel Onesie",
             ...INITIAL_BUMPKIN.equipped,
           },
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         inventory: {
           "Lemon Seed": seedAmount,
@@ -1024,6 +1060,10 @@ describe("fruitPlanted", () => {
         inventory: {
           "Lemon Seed": seedAmount,
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
         collectibles: {
           "Lemon Shark": [
             {
@@ -1071,6 +1111,10 @@ describe("fruitPlanted", () => {
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
           "Lemon Seed": seedAmount,
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         collectibles: {
           "Reveling Lemon": [
@@ -1123,6 +1167,10 @@ describe("fruitPlanted", () => {
             secondaryTool: "Lemon Shield",
           },
         },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
         inventory: {
           "Lemon Seed": seedAmount,
         },
@@ -1166,6 +1214,10 @@ describe("fruitPlanted", () => {
             ...INITIAL_BUMPKIN.equipped,
             secondaryTool: "Lemon Shield",
           },
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
         },
         inventory: {
           "Lemon Seed": seedAmount,

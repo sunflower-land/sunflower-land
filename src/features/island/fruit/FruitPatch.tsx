@@ -32,6 +32,9 @@ import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
+import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
+import { SeasonalSeed } from "../plots/components/SeasonalSeed";
+import { Modal } from "components/ui/Modal";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -78,6 +81,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const [collectedFruitAmount, setCollectedFruitAmount] = useState<number>();
   const [collectedWoodAmount, setCollectedWoodAmount] = useState<number>();
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
   const fruitPatch = useSelector(
     gameService,
     (state) => state.context.state.fruitPatches[id],
@@ -101,6 +105,16 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const plantTree = async (item?: InventoryItemName) => {
     if (item === "Fruitful Blend" && !fertiliser) {
       fertilise();
+      return;
+    }
+
+    if (
+      hasFeatureAccess(game, "SEASONAL_SEEDS") &&
+      item &&
+      item in PATCH_FRUIT_SEEDS() &&
+      !SEASONAL_SEEDS[game.season.season].includes(item as PatchFruitSeedName)
+    ) {
+      setShowSeasonalSeed(true);
       return;
     }
 
@@ -259,6 +273,14 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           showExpanded
         />
       </Transition>
+
+      <Modal show={showSeasonalSeed} onHide={() => setShowSeasonalSeed(false)}>
+        <SeasonalSeed
+          seed={selectedItem as SeedName}
+          season={game.season.season}
+          onClose={() => setShowSeasonalSeed(false)}
+        />
+      </Modal>
     </>
   );
 };

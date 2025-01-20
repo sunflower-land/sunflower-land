@@ -43,8 +43,6 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
-import { hasFeatureAccess } from "lib/flags";
-import { SEASONAL_SEEDS } from "features/game/types/seeds";
 
 interface Props {
   show: boolean;
@@ -60,13 +58,6 @@ interface Props {
 
 const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
   getKeys(CROP_SEEDS).filter((seed) => {
-    if (
-      hasFeatureAccess(state, "SEASONAL_SEEDS") &&
-      !SEASONAL_SEEDS[state.season.season].includes(seed)
-    ) {
-      return false;
-    }
-
     const crop = seed.split(" ")[0] as CropName;
     return (
       isBasicCrop(crop) ||
