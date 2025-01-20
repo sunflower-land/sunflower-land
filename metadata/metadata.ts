@@ -10571,8 +10571,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/131.png",
     name: "Duskberry Seed",
   },
-  "Grimroot Seed": {
-    description: "A grimroot seed.",
+  "Lunara Seed": {
+    description: "A Lunara seed.",
     decimals: 18,
     attributes: [
       { trait_type: "Purpose", value: "Seed" },
@@ -10580,10 +10580,10 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/132.png",
-    name: "Grimroot Seed",
+    name: "Lunara Seed",
   },
-  "Lunacress Seed": {
-    description: "A lunacress seed.",
+  "Celestine Seed": {
+    description: "A Celestine seed.",
     decimals: 18,
     attributes: [
       { trait_type: "Purpose", value: "Seed" },
@@ -10591,7 +10591,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2178.png",
-    name: "Lunacress Seed",
+    name: "Celestine Seed",
   },
   Duskberry: {
     description: "A rare berry that grows in the dark.",
@@ -10604,7 +10604,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/258.png",
     name: "Duskberry",
   },
-  Grimroot: {
+  Lunara: {
     description: "A mysterious root that grows in the darkest of places.",
     decimals: 18,
     attributes: [
@@ -10613,9 +10613,9 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/259.png",
-    name: "Grimroot",
+    name: "Lunara",
   },
-  Lunacress: {
+  Celestine: {
     description: "A rare plant that grows in the darkest of places.",
     decimals: 18,
     attributes: [
@@ -10624,7 +10624,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/260.png",
-    name: "Lunacress",
+    name: "Celestine",
   },
 };
 
