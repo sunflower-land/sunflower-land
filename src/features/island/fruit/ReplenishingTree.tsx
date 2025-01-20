@@ -62,7 +62,7 @@ export const ReplenishingTree: React.FC<Props> = ({
     case "Lunara":
     case "Duskberry":
       bottom = 8;
-      left = 8;
+      left = 9;
       width = 15;
       break;
     default:
