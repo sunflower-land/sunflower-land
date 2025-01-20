@@ -771,12 +771,12 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
-  if (getActiveCalenderEvent({ game }) === "bountifulHarvest") {
+  if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
     amount += 1;
   }
 
   const isInsectPlagueActive =
-    getActiveCalenderEvent({ game }) === "insectPlague";
+    getActiveCalendarEvent({ game }) === "insectPlague";
   const isProtected = game.calendar.insectPlague?.protected;
 
   if (isInsectPlagueActive && !isProtected) {

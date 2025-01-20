@@ -98,7 +98,7 @@ export function generateDeliveryTickets({
 
   // TODO: replace the above with the following after feature release
   // if (
-  //   getActiveCalenderEvent({ game }) === "doubleDelivery" &&
+  //   getActiveCalendarEvent({ game }) === "doubleDelivery" &&
   //   !hasClaimedBonus
   // ) {
   //   amount *= 2;
@@ -340,7 +340,7 @@ export function getOrderSellPrice<T>(
 
   // TODO: replace the above with the following after feature release
   // if (
-  //   getActiveCalenderEvent({ game }) === "doubleDelivery" &&
+  //   getActiveCalendarEvent({ game }) === "doubleDelivery" &&
   //   !hasClaimedBonus
   // ) {
   //   mul *= 2;
