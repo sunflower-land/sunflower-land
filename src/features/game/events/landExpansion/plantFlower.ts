@@ -33,7 +33,7 @@ type Options = {
 export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
   const { bumpkin } = game;
 
-  let seconds = FLOWER_SEEDS()[seed].plantSeconds;
+  let seconds = FLOWER_SEEDS[seed].plantSeconds;
 
   // If wearing Flower Crown 2x speed
   if (isWearableActive({ name: "Flower Crown", game })) {
@@ -78,7 +78,7 @@ export function getPlantedAt({
   createdAt,
   boostedTime,
 }: GetPlantedAtArgs): number {
-  const flowerTime = FLOWER_SEEDS()[seed].plantSeconds;
+  const flowerTime = FLOWER_SEEDS[seed].plantSeconds;
 
   const offset = flowerTime - boostedTime;
 

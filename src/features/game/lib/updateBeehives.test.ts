@@ -15,7 +15,7 @@ import {
 describe("updateBeehives", () => {
   const now = Date.now();
 
-  const FLOWER_GROW_TIME = FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000;
+  const FLOWER_GROW_TIME = FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000;
 
   const DEFAULT_FLOWER_BED: FlowerBed = {
     createdAt: now,

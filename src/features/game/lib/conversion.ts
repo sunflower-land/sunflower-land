@@ -27,8 +27,8 @@ export function getItemUnit(name: InventoryItemName) {
     name in COMMODITIES ||
     name in ANIMAL_RESOURCES ||
     name in CROP_SEEDS ||
-    name in PATCH_FRUIT_SEEDS() ||
-    name in FLOWER_SEEDS() ||
+    name in PATCH_FRUIT_SEEDS ||
+    name in FLOWER_SEEDS ||
     name in TOOLS ||
     name in TREASURE_TOOLS ||
     name in SHOVELS ||

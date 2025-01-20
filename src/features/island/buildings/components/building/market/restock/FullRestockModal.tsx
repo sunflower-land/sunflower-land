@@ -66,7 +66,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
   );
 
   const restockSeeds = Object.entries(INITIAL_STOCK(state)).filter(
-    (item) => item[0] in SEEDS(),
+    (item) => item[0] in SEEDS,
   );
 
   return (

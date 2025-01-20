@@ -72,10 +72,10 @@ export type FlowerName = SunpetalFlowerName | BloomFlowerName | LilyFlowerName;
 export type FlowerSeedName = keyof FlowerSeeds;
 
 export function isFlowerSeed(seed: FlowerSeedName) {
-  return getKeys(FLOWER_SEEDS()).includes(seed);
+  return getKeys(FLOWER_SEEDS).includes(seed);
 }
 
-export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
+export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
   "Sunpetal Seed": {
     price: 16,
     bumpkinLevel: 13,
@@ -100,7 +100,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     disabled: false,
     plantingSpot: "Flower Bed",
   },
-});
+};
 
 // Some crops have been omitted to reserve cross breeds for future use
 export type FlowerCrossBreedName =

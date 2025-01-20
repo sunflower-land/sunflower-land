@@ -118,13 +118,11 @@ export const SeasonalCrops: React.FC = () => {
   const crops = ALL_PRODUCE;
 
   const seasonal = SEASONAL_SEEDS[state.season.season]
-    .map((name) => SEEDS()[name].yield)
+    .map((name) => SEEDS[name].yield)
     .filter(Boolean) as ProduceName[];
 
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
-    SEASONAL_SEEDS[season].find(
-      (seed) => SEEDS()[seed].yield === selected.name,
-    ),
+    SEASONAL_SEEDS[season].find((seed) => SEEDS[seed].yield === selected.name),
   );
 
   return (

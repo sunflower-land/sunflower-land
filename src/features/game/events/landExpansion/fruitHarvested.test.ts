@@ -42,7 +42,7 @@ describe("fruitHarvested", () => {
   const dateNow = Date.now();
 
   describe("isFruitReadyToHarvest", () => {
-    const appleSeed = PATCH_FRUIT_SEEDS()["Apple Seed"];
+    const appleSeed = PATCH_FRUIT_SEEDS["Apple Seed"];
 
     it("fruit is not ready to harvest if just planted fruit seed", () => {
       expect(
@@ -447,7 +447,7 @@ describe("fruitHarvested", () => {
 
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2,
+      dateNow - (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2,
     );
   });
 
@@ -497,7 +497,7 @@ describe("fruitHarvested", () => {
 
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2,
+      dateNow - (PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000) / 2,
     );
   });
 
@@ -547,7 +547,7 @@ describe("fruitHarvested", () => {
 
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.25,
+      dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.25,
     );
   });
 
@@ -606,7 +606,7 @@ describe("fruitHarvested", () => {
 
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.625,
+      dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.625,
     );
   });
 
@@ -656,7 +656,7 @@ describe("fruitHarvested", () => {
 
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000) / 2,
+      dateNow - (PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000) / 2,
     );
   });
 
@@ -706,7 +706,7 @@ describe("fruitHarvested", () => {
 
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.25,
+      dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.25,
     );
   });
 
@@ -765,7 +765,7 @@ describe("fruitHarvested", () => {
 
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.625,
+      dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.625,
     );
   });
 

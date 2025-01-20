@@ -35,7 +35,7 @@ type Restock = {
 
 export const RestockItems: Record<RestockNPC, Restock> = {
   betty: {
-    restockItem: SEEDS(),
+    restockItem: SEEDS,
     gemPrice: 15,
     shopName: translate("market"),
     categoryLabel: {

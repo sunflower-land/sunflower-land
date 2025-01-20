@@ -69,7 +69,7 @@ export function getPlantedAt(
 ) {
   if (!patchFruitSeedName) return createdAt;
 
-  const fruitTime = PATCH_FRUIT_SEEDS()[patchFruitSeedName].plantSeconds;
+  const fruitTime = PATCH_FRUIT_SEEDS[patchFruitSeedName].plantSeconds;
   const boostedTime = getFruitPatchTime(patchFruitSeedName, game);
 
   const offset = fruitTime - boostedTime;
@@ -127,7 +127,7 @@ export const getFruitPatchTime = (
   game: GameState,
 ) => {
   const { bumpkin } = game;
-  let seconds = PATCH_FRUIT_SEEDS()[patchFruitSeedName]?.plantSeconds ?? 0;
+  let seconds = PATCH_FRUIT_SEEDS[patchFruitSeedName]?.plantSeconds ?? 0;
 
   const baseMultiplier = getFruitTime({ game, name: patchFruitSeedName });
   seconds *= baseMultiplier;
@@ -277,7 +277,7 @@ export function plantFruit({
     stateCopy.inventory[action.seed] =
       stateCopy.inventory[action.seed]?.minus(1);
 
-    const fruitName = PATCH_FRUIT_SEEDS()[action.seed].yield;
+    const fruitName = PATCH_FRUIT_SEEDS[action.seed].yield;
 
     patch.fruit = {
       name: fruitName,

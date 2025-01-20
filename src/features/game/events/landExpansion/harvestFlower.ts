@@ -46,7 +46,7 @@ export function harvestFlower({
 
     const isReady =
       flower.plantedAt +
-        FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000 <
+        FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000 <
       createdAt;
 
     if (!isReady) throw new Error(translate("harvestflower.notReady"));

@@ -37,13 +37,10 @@ export type PatchFruitSeed = {
 };
 
 export function isPatchFruitSeed(seed: SeedName) {
-  return getKeys(PATCH_FRUIT_SEEDS()).includes(seed as PatchFruitSeedName);
+  return getKeys(PATCH_FRUIT_SEEDS).includes(seed as PatchFruitSeedName);
 }
 
-export const PATCH_FRUIT_SEEDS: () => Record<
-  PatchFruitSeedName,
-  PatchFruitSeed
-> = () => ({
+export const PATCH_FRUIT_SEEDS: Record<PatchFruitSeedName, PatchFruitSeed> = {
   "Tomato Seed": {
     price: 5,
     description: "Rich in Lycopene",
@@ -92,7 +89,7 @@ export const PATCH_FRUIT_SEEDS: () => Record<
     yield: "Banana",
     plantingSpot: "Fruit Patch",
   },
-});
+};
 
 export type PatchFruit = {
   description: string;
@@ -155,10 +152,10 @@ export type GreenhouseFruitSeed = {
   plantingSpot: ResourceName | "Greenhouse";
 };
 
-export const GREENHOUSE_FRUIT_SEEDS: () => Record<
+export const GREENHOUSE_FRUIT_SEEDS: Record<
   GreenHouseFruitSeedName,
   GreenhouseFruitSeed
-> = () => ({
+> = {
   "Grape Seed": {
     price: 160,
     description: "A bunch of grapes",
@@ -167,7 +164,7 @@ export const GREENHOUSE_FRUIT_SEEDS: () => Record<
     yield: "Grape",
     plantingSpot: "Greenhouse",
   },
-});
+};
 
 export type GreenHouseFruit = {
   description: string;

@@ -23,7 +23,7 @@ export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
     inventory[name]?.gte(1),
   );
 
-  const yields = seed && SEEDS()[seed].yield;
+  const yields = seed && SEEDS[seed].yield;
 
   return (
     <>

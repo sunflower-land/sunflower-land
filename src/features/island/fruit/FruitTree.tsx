@@ -29,7 +29,7 @@ const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
   if (!harvestsLeft) return { stage: "Dead" };
 
   const { seed } = PATCH_FRUIT()[name];
-  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
   if (harvestedAt) {
     const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);

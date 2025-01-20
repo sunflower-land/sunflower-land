@@ -39,7 +39,7 @@ export const FruitSeedling: React.FC<Props> = ({
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
   const { seed } = PATCH_FRUIT()[patchFruitName];
-  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
   const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
 
   const growPercentage = 100 - (timeLeft / plantSeconds) * 100;

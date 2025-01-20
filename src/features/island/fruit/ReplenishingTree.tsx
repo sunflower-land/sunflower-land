@@ -61,7 +61,7 @@ export const ReplenishingTree: React.FC<Props> = ({
       width = isBush ? 24 : 26;
   }
 
-  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
   const replenishPercentage = 100 - (timeLeft / plantSeconds) * 100;
 

@@ -187,7 +187,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
               {t("flowerBedContent.select.seed")}
             </Label>
             <div className="flex flex-wrap">
-              {getKeys(FLOWER_SEEDS()).map((name) => (
+              {getKeys(FLOWER_SEEDS).map((name) => (
                 <Box
                   image={ITEM_DETAILS[name].image}
                   count={inventory[name]}
@@ -216,7 +216,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                     <Label type={"danger"}>{`1 ${seed} required`}</Label>
                   )}
                 </div>
-                <p className="text-xs">{FLOWER_SEEDS()[seed].description}</p>
+                <p className="text-xs">{FLOWER_SEEDS[seed].description}</p>
               </div>
             )}
           </>

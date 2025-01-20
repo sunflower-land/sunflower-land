@@ -52,7 +52,7 @@ export const ShipmentRestockModal: React.FC<{
     });
 
   const restockSeeds = Object.entries(SHIPMENT_STOCK)
-    .filter((item) => item[0] in SEEDS())
+    .filter((item) => item[0] in SEEDS)
     .filter(([item, amount]) => {
       const shipmentAmount = getShipmentAmount(item as StockableName, amount);
       return shipmentAmount.gt(0);
