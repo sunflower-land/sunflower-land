@@ -350,7 +350,7 @@ export const SeasonalSeeds: React.FC = () => {
               type="default"
               className="ml-2 mb-1 capitalize"
             >
-              {`Crop Machine Seeds`}
+              {t("cropGuide.cropMachine.seeds")}
             </Label>
             <div className="flex flex-wrap mb-2">
               {cropMachineSeeds.map((name) => (

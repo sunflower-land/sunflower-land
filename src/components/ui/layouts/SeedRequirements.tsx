@@ -226,12 +226,10 @@ export const SeedRequirements: React.FC<Props> = ({
             </div>
           )}
           {!inSeasonSeeds && (
-            <p className="text-xxs mt-1">{"Seed can't be planted"}</p>
+            <p className="text-xxs mt-1">{t("cropGuide.cantPlantSeeds")}</p>
           )}
           {isCropMachineSeed && (
-            <p className="text-xxs mt-1">
-              {`Seed can only be planted in Crop Machine`}
-            </p>
+            <p className="text-xxs mt-1">{t("cropGuide.onlyInCropMachine")}</p>
           )}
         </div>
       </>
