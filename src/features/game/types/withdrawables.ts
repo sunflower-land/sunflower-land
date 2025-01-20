@@ -710,4 +710,32 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: new Date("2024-12-23"),
       withdrawAt: new Date("2025-01-01"),
     },
+    "Cow Scratcher": {
+      tradeAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: SEASONS["Bull Run"].endDate,
+    },
+    "Spinning Wheel": {
+      tradeAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: SEASONS["Bull Run"].endDate,
+    },
+    "Sleepy Rug": {
+      tradeAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: SEASONS["Bull Run"].endDate,
+    },
+    Meteorite: {
+      tradeAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: SEASONS["Bull Run"].endDate,
+    },
+    "Mechanical Bull": {
+      tradeAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: SEASONS["Bull Run"].endDate,
+    },
+    "Crop Circle": {
+      tradeAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: SEASONS["Bull Run"].endDate,
+    },
+    "Sheaf of Plenty": {
+      tradeAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: SEASONS["Bull Run"].endDate,
+    },
   };
