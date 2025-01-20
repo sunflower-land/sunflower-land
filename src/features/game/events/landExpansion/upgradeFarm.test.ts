@@ -1,4 +1,4 @@
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
 import { upgrade } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
@@ -300,26 +300,6 @@ describe("upgradeFarm", () => {
 
     expect(state.island.upgradedAt).toEqual(createdAt);
     expect(state.island.previousExpansions).toEqual(16);
-  });
-
-  it("does not allow a player to upgrade from desert island", () => {
-    expect(() =>
-      upgrade({
-        action: {
-          type: "farm.upgraded",
-        },
-        state: {
-          ...TEST_FARM,
-          island: {
-            type: "desert",
-          },
-          inventory: {
-            "Basic Land": new Decimal(16),
-            Gold: new Decimal(1000000000000),
-          },
-        },
-      }),
-    ).toThrow("Not implemented");
   });
 
   it("removes items which have expired on the land", () => {
@@ -629,5 +609,47 @@ describe("upgradeFarm", () => {
     });
 
     expect(state.island.sunstones).toEqual(100);
+  });
+
+  it("allows a player to upgrade from desert island", () => {
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(1000000000000),
+        },
+      },
+    });
+
+    expect(state.inventory.Mansion).toEqual(new Decimal(1));
+    expect(state.inventory.Manor).toBeUndefined();
+    expect(state.island.type).toEqual("volcano");
+  });
+
+  it("does not allow a player to upgrade from volcano island", () => {
+    expect(() =>
+      upgrade({
+        action: {
+          type: "farm.upgraded",
+        },
+        state: {
+          ...INITIAL_FARM,
+          island: {
+            type: "volcano",
+          },
+          inventory: {
+            "Basic Land": new Decimal(16),
+            Oil: new Decimal(1000000000000),
+          },
+        },
+      }),
+    ).toThrow("Not implemented");
   });
 });

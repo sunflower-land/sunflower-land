@@ -1123,7 +1123,7 @@ export type MegaStore = {
   collectibles: CollectiblesItem[];
 };
 
-export type IslandType = "basic" | "spring" | "desert";
+export type IslandType = "basic" | "spring" | "desert" | "volcano";
 
 /**
  * The order of the islands is important as it determines the levels of the islands.
