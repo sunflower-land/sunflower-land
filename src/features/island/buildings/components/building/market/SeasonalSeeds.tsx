@@ -50,6 +50,10 @@ import winterIcon from "assets/icons/winter.webp";
 import { SeedRequirements } from "components/ui/layouts/SeedRequirements";
 import { getKeys } from "features/game/types/decorations";
 import { MachineState } from "features/game/lib/gameMachine";
+import {
+  BASIC_CROP_MACHINE_SEEDS,
+  CROP_EXTENSION_MOD_SEEDS,
+} from "features/game/events/landExpansion/supplyCropMachine";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -254,16 +258,10 @@ export const SeasonalSeeds: React.FC = () => {
       return false;
     }
 
-    const basicSeeds: SeedName[] = [
-      "Sunflower Seed",
-      "Potato Seed",
-      "Pumpkin Seed",
-    ];
-    const extensionSeeds: SeedName[] = ["Cabbage Seed", "Carrot Seed"];
-
     return (
-      basicSeeds.includes(seed) ||
-      (bumpkin.skills["Crop Extension Module"] && extensionSeeds.includes(seed))
+      BASIC_CROP_MACHINE_SEEDS.includes(seed) ||
+      (bumpkin.skills["Crop Extension Module"] &&
+        CROP_EXTENSION_MOD_SEEDS.includes(seed))
     );
   });
 
@@ -313,7 +311,7 @@ export const SeasonalSeeds: React.FC = () => {
       }
       content={
         <div className="pl-1">
-          <div>
+          <div className="mt-1">
             <div className="flex justify-between">
               <Label
                 icon={SEASON_ICONS[currentSeason]}
