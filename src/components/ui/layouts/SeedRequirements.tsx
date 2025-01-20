@@ -187,7 +187,7 @@ export const SeedRequirements: React.FC<Props> = ({
           <div>
             <p className="text-center">{title}</p>
             <p className="text-xs text-center">
-              {t(getCropCategory(SEEDS()[details.item]?.yield as ProduceName))}
+              {t(getCropCategory(SEEDS[details.item]?.yield as ProduceName))}
             </p>
           </div>
           {icon && !!details.item && (
@@ -196,7 +196,7 @@ export const SeedRequirements: React.FC<Props> = ({
               <SquareIcon icon={SUNNYSIDE.icons.chevron_right} width={8} />
               <SquareIcon
                 icon={
-                  PLANTING_SPOT_ICONS[SEEDS()[details.item].plantingSpot] ??
+                  PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
                   SUNNYSIDE.icons.expression_confused
                 }
                 width={14}
@@ -204,8 +204,8 @@ export const SeedRequirements: React.FC<Props> = ({
               <SquareIcon icon={SUNNYSIDE.icons.chevron_right} width={8} />
               <SquareIcon
                 icon={
-                  ITEM_DETAILS[SEEDS()[details.item]?.yield as CropName]
-                    ?.image ?? SUNNYSIDE.icons.expression_confused
+                  ITEM_DETAILS[SEEDS[details.item]?.yield as CropName]?.image ??
+                  SUNNYSIDE.icons.expression_confused
                 }
                 width={14}
               />
@@ -238,11 +238,11 @@ export const SeedRequirements: React.FC<Props> = ({
           />
         )}
 
-        {!gameState.inventory[SEEDS()[details.item].plantingSpot] && (
+        {!gameState.inventory[SEEDS[details.item].plantingSpot] && (
           <div className="flex justify-center">
             <Label className="mb-1" type="danger">
               {t("seeds.plantingSpot.needed", {
-                plantingSpot: SEEDS()[details.item].plantingSpot,
+                plantingSpot: SEEDS[details.item].plantingSpot,
               })}
             </Label>
           </div>

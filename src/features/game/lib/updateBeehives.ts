@@ -108,7 +108,7 @@ const getFlowerReadyAt = (
   }
 
   const plantMilliseconds =
-    (FLOWER_SEEDS()[FLOWERS[plantedFlower.name].seed].plantSeconds * 1000) /
+    (FLOWER_SEEDS[FLOWERS[plantedFlower.name].seed].plantSeconds * 1000) /
     getHoneyProductionSpeed(state);
 
   return plantedFlower.plantedAt + plantMilliseconds;

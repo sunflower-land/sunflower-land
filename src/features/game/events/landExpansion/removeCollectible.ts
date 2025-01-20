@@ -112,7 +112,7 @@ export function removeCollectible({ state, action }: Options) {
     }
 
     if (action.name === "Kuebiko") {
-      getKeys(SEEDS()).forEach((seed) => {
+      getKeys(SEEDS).forEach((seed) => {
         if (stateCopy.inventory[seed]) {
           delete stateCopy.inventory[seed];
         }
@@ -120,7 +120,7 @@ export function removeCollectible({ state, action }: Options) {
     }
 
     if (action.name === "Hungry Caterpillar") {
-      getKeys(FLOWER_SEEDS()).forEach((seed) => {
+      getKeys(FLOWER_SEEDS).forEach((seed) => {
         if (stateCopy.inventory[seed]) {
           delete stateCopy.inventory[seed];
         }

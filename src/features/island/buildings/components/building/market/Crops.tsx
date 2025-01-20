@@ -143,9 +143,9 @@ export const Crops: React.FC = () => {
 
   const cropsAndFruits = Object.values({
     ...CROPS,
-    ...PATCH_FRUIT(),
+    ...PATCH_FRUIT,
     ...exotics,
-    ...GREENHOUSE_FRUIT(),
+    ...GREENHOUSE_FRUIT,
     ...GREENHOUSE_CROPS,
   });
 
@@ -304,7 +304,7 @@ export const Crops: React.FC = () => {
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
                 .filter(
-                  (fruit) => !!fruit.sellPrice && fruit.name in PATCH_FRUIT(),
+                  (fruit) => !!fruit.sellPrice && fruit.name in PATCH_FRUIT,
                 )
                 .map((item) => (
                   <Box
@@ -353,7 +353,7 @@ export const Crops: React.FC = () => {
                     (crop) =>
                       !!crop.sellPrice &&
                       (crop.name in GREENHOUSE_CROPS ||
-                        crop.name in GREENHOUSE_FRUIT()),
+                        crop.name in GREENHOUSE_FRUIT),
                   )
                   .map((item) => (
                     <Box

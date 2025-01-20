@@ -41,7 +41,7 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   pharaoh: 5,
 };
 
-const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT();
+const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT;
 
 export function generateDeliveryTickets({
   game,

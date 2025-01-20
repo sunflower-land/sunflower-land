@@ -37,7 +37,7 @@ export const ReplenishingTree: React.FC<Props> = ({
   const [showPopover, setShowPopover] = useState(false);
   const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
 
-  const { seed, isBush } = PATCH_FRUIT()[patchFruitName];
+  const { seed, isBush } = PATCH_FRUIT[patchFruitName];
   let bottom, left, width;
   switch (patchFruitName) {
     case "Banana":
@@ -61,7 +61,7 @@ export const ReplenishingTree: React.FC<Props> = ({
       width = isBush ? 24 : 26;
   }
 
-  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
   const replenishPercentage = 100 - (timeLeft / plantSeconds) * 100;
 

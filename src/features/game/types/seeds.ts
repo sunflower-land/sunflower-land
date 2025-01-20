@@ -40,13 +40,13 @@ export type Seed = {
   disabled?: boolean;
 };
 
-export const SEEDS: () => Record<SeedName, Seed> = () => ({
+export const SEEDS: Record<SeedName, Seed> = {
   ...CROP_SEEDS,
-  ...PATCH_FRUIT_SEEDS(),
-  ...FLOWER_SEEDS(),
-  ...GREENHOUSE_FRUIT_SEEDS(),
+  ...PATCH_FRUIT_SEEDS,
+  ...FLOWER_SEEDS,
+  ...GREENHOUSE_FRUIT_SEEDS,
   ...GREENHOUSE_SEEDS,
-});
+};
 
 export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
   spring: [

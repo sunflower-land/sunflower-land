@@ -77,15 +77,15 @@ export const CropGuide = () => {
       </div>
 
       <p className="text-xs ml-2 mb-2">{t("cropGuide.fruit.description")}</p>
-      {getKeys({ ...PATCH_FRUIT_SEEDS() }).map((seed, index) => {
-        const crop = PATCH_FRUIT_SEEDS()[seed].yield;
+      {getKeys({ ...PATCH_FRUIT_SEEDS }).map((seed, index) => {
+        const crop = PATCH_FRUIT_SEEDS[seed].yield;
         return (
           <CropRow
             key={seed}
             seed={seed}
             crop={crop}
-            seconds={PATCH_FRUIT_SEEDS()[seed].plantSeconds}
-            coins={PATCH_FRUIT()[crop].sellPrice}
+            seconds={PATCH_FRUIT_SEEDS[seed].plantSeconds}
+            coins={PATCH_FRUIT[crop].sellPrice}
             alternateBg={index % 2 === 0}
           />
         );
@@ -98,11 +98,10 @@ export const CropGuide = () => {
           <Label type="danger">{t("cropGuide.greenhouseRequired")}</Label>
         )}
       </div>
-      {getKeys({ ...GREENHOUSE_FRUIT_SEEDS(), ...GREENHOUSE_SEEDS }).map(
+      {getKeys({ ...GREENHOUSE_FRUIT_SEEDS, ...GREENHOUSE_SEEDS }).map(
         (seed, index) => {
-          const crop = { ...GREENHOUSE_FRUIT_SEEDS(), ...GREENHOUSE_SEEDS }[
-            seed
-          ].yield as GreenHouseCropName;
+          const crop = { ...GREENHOUSE_FRUIT_SEEDS, ...GREENHOUSE_SEEDS }[seed]
+            .yield as GreenHouseCropName;
           return (
             <CropRow
               key={seed}
@@ -125,12 +124,12 @@ export const CropGuide = () => {
         )}
       </div>
       <p className="text-xs ml-2 mb-2">{t("cropGuide.flower.description")}</p>
-      {getKeys({ ...FLOWER_SEEDS() }).map((seed, index) => {
+      {getKeys({ ...FLOWER_SEEDS }).map((seed, index) => {
         return (
           <FlowerRow
             key={seed}
             seed={seed}
-            seconds={FLOWER_SEEDS()[seed].plantSeconds}
+            seconds={FLOWER_SEEDS[seed].plantSeconds}
             alternateBg={index % 2 === 0}
           />
         );

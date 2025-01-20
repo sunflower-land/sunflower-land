@@ -48,7 +48,7 @@ const isMineral = (resource: Resource): boolean => {
 };
 
 const isFruit = (resource: Resource): boolean => {
-  return resource in PATCH_FRUIT() || resource in GREENHOUSE_FRUIT();
+  return resource in PATCH_FRUIT || resource in GREENHOUSE_FRUIT;
 };
 
 const getTypeBoost = (bud: Bud, resource: Resource): number => {
