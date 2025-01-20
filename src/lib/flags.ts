@@ -6,7 +6,8 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
 const seasonAdminFeatureFlag = ({ username }: GameState) =>
-  testnetFeatureFlag() || ["adam", "eliassfl", "dcol"].includes(username ?? "");
+  testnetFeatureFlag() ||
+  ["adam", "eliassfl", "dcol"].includes(username?.toLowerCase() ?? "");
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
