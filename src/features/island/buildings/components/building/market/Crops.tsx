@@ -285,21 +285,6 @@ export const Crops: React.FC = () => {
                   (crop) =>
                     crop.name !== "Barley" || hasFeatureAccess(state, "BARLEY"),
                 )
-                .filter(
-                  (crop) =>
-                    crop.name !== "Grimroot" ||
-                    hasFeatureAccess(state, "WEATHER_SHOP"),
-                )
-                .filter(
-                  (crop) =>
-                    crop.name !== "Lunacress" ||
-                    hasFeatureAccess(state, "WEATHER_SHOP"),
-                )
-                .filter(
-                  (crop) =>
-                    crop.name !== "Duskberry" ||
-                    hasFeatureAccess(state, "WEATHER_SHOP"),
-                )
                 .map((item) => (
                   <Box
                     isSelected={selected.name === item.name}
@@ -320,6 +305,21 @@ export const Crops: React.FC = () => {
               {cropsAndFruits
                 .filter(
                   (fruit) => !!fruit.sellPrice && fruit.name in PATCH_FRUIT(),
+                )
+                .filter(
+                  (crop) =>
+                    crop.name !== "Lunara" ||
+                    hasFeatureAccess(state, "WEATHER_SHOP"),
+                )
+                .filter(
+                  (crop) =>
+                    crop.name !== "Celestine" ||
+                    hasFeatureAccess(state, "WEATHER_SHOP"),
+                )
+                .filter(
+                  (crop) =>
+                    crop.name !== "Duskberry" ||
+                    hasFeatureAccess(state, "WEATHER_SHOP"),
                 )
                 .map((item) => (
                   <Box

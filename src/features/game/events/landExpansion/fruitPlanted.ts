@@ -17,6 +17,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { hasFeatureAccess } from "lib/flags";
+import { isFullMoonBerry } from "./seedBought";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -258,6 +259,10 @@ export function plantFruit({
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.seed)
     ) {
       throw new Error("This seed is not available in this season");
+    }
+
+    if (isFullMoonBerry(action.seed)) {
+      harvestsLeft = () => 4;
     }
 
     const { harvestCount } = getHarvestsLeft({

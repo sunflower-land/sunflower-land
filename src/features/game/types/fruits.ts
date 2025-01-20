@@ -13,7 +13,10 @@ export type PatchFruitName =
   | "Orange"
   | "Banana"
   | "Tomato"
-  | "Lemon";
+  | "Lemon"
+  | "Celestine"
+  | "Lunara"
+  | "Duskberry";
 
 export type GreenHouseFruitName = "Grape";
 export type GreenHouseFruitSeedName = "Grape Seed";
@@ -24,7 +27,10 @@ export type PatchFruitSeedName =
   | "Orange Seed"
   | "Banana Plant"
   | "Tomato Seed"
-  | "Lemon Seed";
+  | "Lemon Seed"
+  | "Celestine Seed"
+  | "Lunara Seed"
+  | "Duskberry Seed";
 
 export type PatchFruitSeed = {
   price: number;
@@ -92,6 +98,30 @@ export const PATCH_FRUIT_SEEDS: () => Record<
     yield: "Banana",
     plantingSpot: "Fruit Patch",
   },
+  "Celestine Seed": {
+    price: 80,
+    description: translate("description.celestine"),
+    plantSeconds: 6 * 60 * 60,
+    bumpkinLevel: 12,
+    yield: "Celestine",
+    plantingSpot: "Fruit Patch",
+  },
+  "Lunara Seed": {
+    price: 200,
+    description: translate("description.lunara"),
+    plantSeconds: 12 * 60 * 60,
+    bumpkinLevel: 12,
+    yield: "Lunara",
+    plantingSpot: "Fruit Patch",
+  },
+  "Duskberry Seed": {
+    price: 400,
+    description: translate("description.duskberry"),
+    plantSeconds: 24 * 60 * 60,
+    bumpkinLevel: 12,
+    yield: "Duskberry",
+    plantingSpot: "Fruit Patch",
+  },
 });
 
 export type PatchFruit = {
@@ -142,6 +172,24 @@ export const PATCH_FRUIT: () => Record<PatchFruitName, PatchFruit> = () => ({
     sellPrice: 25,
     isBush: true,
     seed: "Banana Plant",
+  },
+  Celestine: {
+    description: translate("description.celestine"),
+    name: "Celestine",
+    sellPrice: 200,
+    seed: "Celestine Seed",
+  },
+  Lunara: {
+    description: translate("description.lunara"),
+    name: "Lunara",
+    sellPrice: 500,
+    seed: "Lunara Seed",
+  },
+  Duskberry: {
+    description: translate("description.duskberry"),
+    name: "Duskberry",
+    sellPrice: 1000,
+    seed: "Duskberry Seed",
   },
 });
 

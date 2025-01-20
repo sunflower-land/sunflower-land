@@ -176,8 +176,8 @@ export const INITIAL_STOCK = (
     "Lily Seed": new Decimal(4),
 
     "Duskberry Seed": new Decimal(0),
-    "Grimroot Seed": new Decimal(0),
-    "Lunacress Seed": new Decimal(0),
+    "Lunara Seed": new Decimal(0),
+    "Celestine Seed": new Decimal(0),
   };
 
   if (
@@ -244,8 +244,8 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Lily Seed": new Decimal(10),
 
     "Duskberry Seed": new Decimal(10),
-    "Grimroot Seed": new Decimal(10),
-    "Lunacress Seed": new Decimal(10),
+    "Lunara Seed": new Decimal(10),
+    "Celestine Seed": new Decimal(10),
   };
 
   if (

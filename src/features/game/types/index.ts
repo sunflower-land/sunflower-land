@@ -61,8 +61,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Turnip Seed": 137,
   "Artichoke Seed": 138,
   "Duskberry Seed": 131,
-  "Grimroot Seed": 132,
-  "Lunacress Seed": 133,
+  "Lunara Seed": 132,
+  "Celestine Seed": 133,
 
   Sunflower: 201,
   Potato: 202,
@@ -121,7 +121,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Tomato: 255,
   Lemon: 256,
   Barley: 257,
-<<<<<<< HEAD
   Rhubarb: 258,
   Zucchini: 259,
   Yam: 260,
@@ -130,11 +129,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Onion: 263,
   Turnip: 264,
   Artichoke: 265,
-=======
-  Duskberry: 258,
-  Grimroot: 259,
-  Lunacress: 260,
->>>>>>> debeed1c9 ([FEAT] Full Moon)
+  Duskberry: 266,
+  Lunara: 267,
+  Celestine: 268,
 
   Axe: 301,
   Pickaxe: 302,

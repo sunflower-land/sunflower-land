@@ -20,6 +20,9 @@ const pluralisedNames: Record<PatchFruitName, string> = {
   Banana: "Bananas",
   Tomato: "Tomatoes",
   Lemon: "Lemons",
+  Celestine: "Celestines",
+  Lunara: "Lunara",
+  Duskberry: "Duskberries",
 };
 
 interface Props {

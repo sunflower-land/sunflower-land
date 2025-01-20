@@ -16,9 +16,6 @@ import radishProc from "assets/crops/radish/proc_sprite.png";
 import wheatProc from "assets/crops/wheat/proc_sprite.png";
 import kaleProc from "assets/crops/kale/proc_sprite.png";
 import soybeanProc from "assets/crops/soybean/proc_sprite.png";
-import duskberryProc from "assets/crops/soybean/proc_sprite.png";
-import grimrootProc from "assets/crops/soybean/proc_sprite.png";
-import lunacressProc from "assets/crops/soybean/proc_sprite.png";
 
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Sunflower: sunflowerProc,

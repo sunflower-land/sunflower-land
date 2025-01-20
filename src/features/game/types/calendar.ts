@@ -270,3 +270,11 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   insectPlague: locust,
   sunshower: sunshower,
 };
+
+export const isFullMoon = (state: GameState, createdAt: number) => {
+  return (
+    state.calendar.fullMoon?.triggeredAt &&
+    state.calendar.fullMoon?.triggeredAt > createdAt - 24 * 60 * 60 * 1000 &&
+    state.calendar.fullMoon?.triggeredAt < createdAt
+  );
+};

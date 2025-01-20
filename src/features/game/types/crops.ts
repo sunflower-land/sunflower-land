@@ -37,7 +37,8 @@ export type CropName =
   | "Artichoke"
   | "Duskberry"
   | "Grimroot"
-  | "Lunacress";
+  | "Lunacress"
+  | "Barley";
 
 export type Crop = {
   sellPrice: number;
@@ -240,24 +241,6 @@ export const CROPS: Record<CropName, Crop> = {
     name: "Barley",
     description: translate("description.barley"),
   },
-  Duskberry: {
-    sellPrice: 1,
-    harvestSeconds: 24 * 60 * 60,
-    name: "Duskberry",
-    description: translate("description.duskberry"),
-  },
-  Grimroot: {
-    sellPrice: 1,
-    harvestSeconds: 24 * 60 * 60,
-    name: "Grimroot",
-    description: translate("description.grimroot"),
-  },
-  Lunacress: {
-    sellPrice: 1,
-    harvestSeconds: 24 * 60 * 60,
-    name: "Lunacress",
-    description: translate("description.lunacress"),
-  },
 };
 
 export type CropSeedName = `${CropName} Seed`;
@@ -449,30 +432,6 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     bumpkinLevel: 14,
     plantingSpot: "Crop Plot",
     yield: "Barley",
-  },
-  "Duskberry Seed": {
-    price: 0,
-    description: translate("description.duskberry"),
-    plantSeconds: 24 * 60 * 60,
-    bumpkinLevel: 0,
-    plantingSpot: "Crop Plot",
-    yield: "Duskberry",
-  },
-  "Grimroot Seed": {
-    price: 0,
-    description: translate("description.grimroot"),
-    plantSeconds: 24 * 60 * 60,
-    bumpkinLevel: 0,
-    plantingSpot: "Crop Plot",
-    yield: "Grimroot",
-  },
-  "Lunacress Seed": {
-    price: 0,
-    description: translate("description.lunacress"),
-    plantSeconds: 24 * 60 * 60,
-    bumpkinLevel: 0,
-    plantingSpot: "Crop Plot",
-    yield: "Lunacress",
   },
 };
 
