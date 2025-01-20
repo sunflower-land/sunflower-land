@@ -102,7 +102,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
-import { getActiveCalenderEvent, SeasonalEventName } from "../types/calendar";
+import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -963,7 +963,7 @@ export function startGame(authContext: AuthContext) {
 
                 const game = context.state;
 
-                const activeEvent = getActiveCalenderEvent({
+                const activeEvent = getActiveCalendarEvent({
                   game,
                 });
 
@@ -1398,7 +1398,7 @@ export function startGame(authContext: AuthContext) {
 
                   const game = event.data.farm;
 
-                  const activeEvent = getActiveCalenderEvent({
+                  const activeEvent = getActiveCalendarEvent({
                     game,
                   });
 

@@ -8,6 +8,7 @@ import { Bar, LiveProgressBar } from "components/ui/ProgressBar";
 
 import powerup from "assets/icons/level_up.png";
 import locust from "assets/icons/locust.webp";
+import sunshower from "assets/icons/sunshower.webp";
 
 import { TimerPopover } from "../../common/TimerPopover";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -20,9 +21,8 @@ import {
   Inventory,
 } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
-
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
-import { getActiveCalenderEvent } from "features/game/types/calendar";
+import { getActiveCalendarEvent } from "features/game/types/calendar";
 
 interface Props {
   cropName?: CropName;
@@ -75,7 +75,7 @@ const FertilePlotComponent: React.FC<Props> = ({
   const isGrowing = timeLeft > 0;
 
   const activeInsectPlague =
-    getActiveCalenderEvent({ game }) === "insectPlague";
+    getActiveCalendarEvent({ game }) === "insectPlague";
   const isProtected = game.calendar.insectPlague?.protected;
 
   // REVIEW: Is this still needed after changing to LiveProgressBar?
@@ -91,6 +91,8 @@ const FertilePlotComponent: React.FC<Props> = ({
         : growPercentage >= 25
           ? "halfway"
           : "seedling";
+
+  const isSunshower = getActiveCalendarEvent({ game }) === "sunshower";
 
   const handleMouseEnter = () => {
     // show details if field is growing
@@ -128,7 +130,6 @@ const FertilePlotComponent: React.FC<Props> = ({
           <Soil cropName={cropName} stage={stage} />
         </div>
       </div>
-
       {activeInsectPlague && !isProtected && (
         <img
           src={locust}
@@ -141,6 +142,18 @@ const FertilePlotComponent: React.FC<Props> = ({
         />
       )}
 
+      {isSunshower && (
+        <img
+          src={sunshower}
+          alt="sunshower"
+          className="absolute top-0 right-0 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            top: `${PIXEL_SCALE * -4}px`,
+            right: `${PIXEL_SCALE * -2}px`,
+          }}
+        />
+      )}
       {/* Fertiliser */}
       {fertiliser?.name === "Sprout Mix" && (
         <img
@@ -197,7 +210,7 @@ const FertilePlotComponent: React.FC<Props> = ({
         </div>
       )}
 
-      {/* Progres bar for growing crops */}
+      {/* Progress bar for growing crops */}
       {showTimers && isGrowing && (
         <div
           className="absolute pointer-events-none"

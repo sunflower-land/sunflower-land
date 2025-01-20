@@ -1315,6 +1315,7 @@ export type Calendar = {
   doubleDelivery?: CalendarEvent;
   bountifulHarvest?: CalendarEvent;
   insectPlague?: CalendarEvent;
+  sunshower?: CalendarEvent;
 };
 
 export interface GameState {

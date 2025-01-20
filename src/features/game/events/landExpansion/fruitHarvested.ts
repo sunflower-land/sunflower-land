@@ -24,7 +24,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseFruit } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
-import { getActiveCalenderEvent } from "features/game/types/calendar";
+import { getActiveCalendarEvent } from "features/game/types/calendar";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -230,7 +230,7 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     }
   }
 
-  if (getActiveCalenderEvent({ game }) === "bountifulHarvest") {
+  if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
     amount += 1;
   }
 
