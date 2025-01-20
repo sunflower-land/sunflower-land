@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "您的农作物、水果和温室农产品今天将额外产生 +1。",
   "bountifulHarvest.noticeboard.three": "享受丰厚的奖励，充分利用这段繁荣的时光。",
   "calendar.events.bountifulHarvest.title": "丰收",
-  "calendar.events.bountifulHarvest.description": "这是一项特别活动，农作物、水果和温室农产品的产量比平时多 +1。"
+  "calendar.events.bountifulHarvest.description": "这是一项特别活动，农作物、水果和温室农产品的产量比平时多 +1。",
+  "description.protectivePesticide": "一种可以保护您的农作物免受昆虫瘟疫侵害的杀虫剂！",
+  "insectPlague.specialEvent": "特别活动-昆虫鼠疫",
+  "insectPlague.protected.one": "你保护了你的农作物免受昆虫瘟疫的侵害！",
+  "insectPlague.protected.two": "你的农作物都没有受到影响。",
+  "insectPlague.destroyed.one": "哦不！昆虫鼠疫正在侵扰你的农作物！",
+  "insectPlague.destroyed.two": "昆虫鼠疫摧毁了你的农作物，使所有收成减少了一半",
+  "insectPlague.crops.affected": "鼠疫受到影响，农作物减少了50％",
+  "calendar.events.insectPlague.title": "昆虫鼠疫",
+  "calendar.events.insectPlague.description": "一种昆虫瘟疫，可以摧毁农作物，使所有收成减少一半。",
+  "calendar.events.insectPlague.prevention": "保护性农药",
+  "calendar.events.tornado.prevention": "龙卷风车",
+  "calendar.events.tsunami.prevention": "红树林",
+  "calendar.events.greatFreeze.prevention": "热石"
 }

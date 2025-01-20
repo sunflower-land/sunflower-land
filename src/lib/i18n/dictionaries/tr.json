@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "Mahsulleriniz, meyveleriniz ve sera ürünleriniz bugün fazladan +1 verecek.",
   "bountifulHarvest.noticeboard.three": "Bol ödüllerin tadını çıkarın ve bu müreffeh zamandan en iyi şekilde yararlanın.",
   "calendar.events.bountifulHarvest.title": "Bol Hasat",
-  "calendar.events.bountifulHarvest.description": "Mahsullerin, meyvelerin ve sera ürünlerinin normalden fazladan +1 daha fazla verdiği özel bir etkinlik."
+  "calendar.events.bountifulHarvest.description": "Mahsullerin, meyvelerin ve sera ürünlerinin normalden fazladan +1 daha fazla verdiği özel bir etkinlik.",
+  "description.protectivePesticide": "Ekinlerinizi böcek vebasından koruyan bir böcek ilacı!",
+  "insectPlague.specialEvent": "Özel Etkinlik - Böcek Vebası",
+  "insectPlague.protected.one": "Ekinlerini böcek vebasından korudun!",
+  "insectPlague.protected.two": "Ekinlerinizin hiçbiri etkilenmedi.",
+  "insectPlague.destroyed.one": "Oh hayır! Böcek vebası mahsullerinizi istila ediyor!",
+  "insectPlague.destroyed.two": "Böcek vebası mahsullerinizi mahvetti ve tüm hasatları yarı yarıya azalttı",
+  "insectPlague.crops.affected": "Böcek vebası etkilendi, mahsuller% 50 azaldı",
+  "calendar.events.insectPlague.title": "Böcek Vebası",
+  "calendar.events.insectPlague.description": "Tüm hasatları yarı yarıya azaltarak mahsulleri mahvedebilen bir böcek vebası.",
+  "calendar.events.insectPlague.prevention": "Koruyucu Pestisit",
+  "calendar.events.tornado.prevention": "Kasırga Fırıldak",
+  "calendar.events.tsunami.prevention": "Mangrove",
+  "calendar.events.greatFreeze.prevention": "Termal Taş"
 }

@@ -4576,4 +4576,8 @@ export const ITEM_DETAILS: Items = {
     image: thermalStone,
     description: translate("description.thermalStone"),
   },
+  "Protective Pesticide": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.protectivePesticide"),
+  },
 };

@@ -13,6 +13,7 @@ import { DoubleDelivery } from "./DoubleDelivery";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { BountifulHarvest } from "./BountifulHarvest";
+import { InsectPlague } from "./InsectPlague";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -40,6 +41,9 @@ export const CalendarEvent: React.FC = () => {
       )}
       {event === "bountifulHarvest" && (
         <BountifulHarvest acknowledge={handleAcknowledge} />
+      )}
+      {event === "insectPlague" && (
+        <InsectPlague acknowledge={handleAcknowledge} />
       )}
       {!event && (
         <Panel>

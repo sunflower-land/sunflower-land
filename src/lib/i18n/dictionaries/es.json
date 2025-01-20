@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "Sus cultivos, frutas y productos de invernadero obtendrán un +1 adicional hoy.",
   "bountifulHarvest.noticeboard.three": "Disfrute de las abundantes recompensas y aproveche al máximo esta época próspera.",
   "calendar.events.bountifulHarvest.title": "Cosecha abundante",
-  "calendar.events.bountifulHarvest.description": "Un evento especial en el que los cultivos, las frutas y los productos de invernadero rinden un +1 más de lo habitual."
+  "calendar.events.bountifulHarvest.description": "Un evento especial en el que los cultivos, las frutas y los productos de invernadero rinden un +1 más de lo habitual.",
+  "description.protectivePesticide": "¡Un pesticida que protege sus cultivos de la plaga de insectos!",
+  "insectPlague.specialEvent": "Evento especial: Plaga de insectos",
+  "insectPlague.protected.one": "¡Has protegido tus cultivos de la plaga de insectos!",
+  "insectPlague.protected.two": "Ninguno de sus cultivos se ha visto afectado.",
+  "insectPlague.destroyed.one": "¡Oh, no! ¡La plaga de insectos está infestando sus cultivos!",
+  "insectPlague.destroyed.two": "La plaga de insectos ha devastado tus cultivos y ha reducido todas las cosechas a la mitad",
+  "insectPlague.crops.affected": "Afectada por la plaga de insectos, las cosechas se redujeron un 50%",
+  "calendar.events.insectPlague.title": "Plaga de insectos",
+  "calendar.events.insectPlague.description": "Una plaga de insectos que puede devastar los cultivos y reducir todas las cosechas a la mitad.",
+  "calendar.events.insectPlague.prevention": "Plaguicida protector",
+  "calendar.events.tornado.prevention": "Molinillo Tornado",
+  "calendar.events.tsunami.prevention": "Manglar",
+  "calendar.events.greatFreeze.prevention": "Piedra térmica"
 }

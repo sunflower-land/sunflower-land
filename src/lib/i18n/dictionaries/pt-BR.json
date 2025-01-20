@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "Suas colheitas, frutas e produtos de estufa renderão +1 a mais hoje.",
   "bountifulHarvest.noticeboard.three": "Aproveite as recompensas abundantes e aproveite ao máximo esse período próspero.",
   "calendar.events.bountifulHarvest.title": "Colheita abundante",
-  "calendar.events.bountifulHarvest.description": "Um evento especial em que safras, frutas e produtos em estufa rendem +1 a mais do que o normal."
+  "calendar.events.bountifulHarvest.description": "Um evento especial em que safras, frutas e produtos em estufa rendem +1 a mais do que o normal.",
+  "description.protectivePesticide": "Um pesticida que protege suas plantações da praga de insetos!",
+  "insectPlague.specialEvent": "Evento especial - Peste de insetos",
+  "insectPlague.protected.one": "Você protegeu suas plantações da praga de insetos!",
+  "insectPlague.protected.two": "Nenhuma de suas plantações foi afetada.",
+  "insectPlague.destroyed.one": "Ah, não! A praga de insetos está infestando suas plantações!",
+  "insectPlague.destroyed.two": "A praga de insetos devastou suas plantações, reduzindo todas as colheitas pela metade",
+  "insectPlague.crops.affected": "Peste de insetos afetada, colheitas reduzidas em 50%",
+  "calendar.events.insectPlague.title": "Peste de insetos",
+  "calendar.events.insectPlague.description": "Uma praga de insetos que pode devastar as plantações, reduzindo todas as colheitas pela metade.",
+  "calendar.events.insectPlague.prevention": "Pesticida protetor",
+  "calendar.events.tornado.prevention": "Catavento Tornado",
+  "calendar.events.tsunami.prevention": "Mangue",
+  "calendar.events.greatFreeze.prevention": "Pedra térmica"
 }

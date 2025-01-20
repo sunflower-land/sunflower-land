@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "Сегодня ваши урожаи, фрукты и тепличные продукты принесут дополнительный доход в размере +1.",
   "bountifulHarvest.noticeboard.three": "Наслаждайтесь обильными наградами и максимально используйте это процветающее время.",
   "calendar.events.bountifulHarvest.title": "Обильный урожай",
-  "calendar.events.bountifulHarvest.description": "Специальное мероприятие, на котором урожай зерновых, фруктов и тепличных культур приносит на +1 больше, чем обычно."
+  "calendar.events.bountifulHarvest.description": "Специальное мероприятие, на котором урожай зерновых, фруктов и тепличных культур приносит на +1 больше, чем обычно.",
+  "description.protectivePesticide": "Пестицид, защищающий ваши посевы от чумы насекомых!",
+  "insectPlague.specialEvent": "Специальное событие — чума насекомых",
+  "insectPlague.protected.one": "Вы защитили свои посевы от чумы насекомых!",
+  "insectPlague.protected.two": "Ни одна из ваших культур не пострадала.",
+  "insectPlague.destroyed.one": "О нет! Чума насекомых поражает ваши посевы!",
+  "insectPlague.destroyed.two": "Чума насекомых уничтожила ваши посевы, сократив все урожаи вдвое",
+  "insectPlague.crops.affected": "Пострадала чума насекомых, посевы сократились на 50%",
+  "calendar.events.insectPlague.title": "Чума насекомых",
+  "calendar.events.insectPlague.description": "Нашествие насекомых, которые могут уничтожить посевы, сократив все урожаи вдвое.",
+  "calendar.events.insectPlague.prevention": "Защитный пестицид",
+  "calendar.events.tornado.prevention": "Вертушка «Торнадо»",
+  "calendar.events.tsunami.prevention": "мангровое дерево",
+  "calendar.events.greatFreeze.prevention": "Термальный камень"
 }

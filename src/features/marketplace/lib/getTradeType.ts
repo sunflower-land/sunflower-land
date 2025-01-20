@@ -28,6 +28,7 @@ export const ITEM_TRADE_TYPES: {
     Artichoke: "instant",
 
     "Thermal Stone": "instant",
+    "Protective Pesticide": "instant",
     "Tornado Pinwheel": "instant",
     Mangrove: "instant",
     "Sunflower Seed": "instant",

@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "I tuoi raccolti, frutta e prodotti in serra produrranno un +1 in più oggi.",
   "bountifulHarvest.noticeboard.three": "Goditi le abbondanti ricompense e sfrutta al massimo questo periodo di prosperità.",
   "calendar.events.bountifulHarvest.title": "Raccolto abbondante",
-  "calendar.events.bountifulHarvest.description": "Un evento speciale in cui le colture, la frutta e i prodotti in serra producono un +1 in più rispetto al solito."
+  "calendar.events.bountifulHarvest.description": "Un evento speciale in cui le colture, la frutta e i prodotti in serra producono un +1 in più rispetto al solito.",
+  "description.protectivePesticide": "Un pesticida che protegge le tue colture dalla piaga degli insetti!",
+  "insectPlague.specialEvent": "Evento speciale - Insect Plague",
+  "insectPlague.protected.one": "Hai protetto i tuoi raccolti dalla piaga degli insetti!",
+  "insectPlague.protected.two": "Nessuna delle vostre colture è stata colpita.",
+  "insectPlague.destroyed.one": "Oh no! La peste degli insetti sta infestando i vostri raccolti!",
+  "insectPlague.destroyed.two": "La piaga degli insetti ha devastato i tuoi raccolti, dimezzando tutti i raccolti",
+  "insectPlague.crops.affected": "Piaga degli insetti colpita, raccolti ridotti del 50%",
+  "calendar.events.insectPlague.title": "Piaga degli insetti",
+  "calendar.events.insectPlague.description": "Una piaga di insetti che può devastare i raccolti, dimezzando tutti i raccolti.",
+  "calendar.events.insectPlague.prevention": "Pesticida protettivo",
+  "calendar.events.tornado.prevention": "Girandola Tornado",
+  "calendar.events.tsunami.prevention": "Mangrovie",
+  "calendar.events.greatFreeze.prevention": "Pietra termica"
 }

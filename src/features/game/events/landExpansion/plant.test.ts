@@ -1689,6 +1689,86 @@ describe("plant", () => {
       dateNow - 0.1 * CROPS.Parsnip.harvestSeconds * 1000,
     );
   });
+
+  it("should yield 50% less crops when insect plague is active and farm is not protected", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        calendar: {
+          dates: [
+            {
+              name: "insectPlague",
+              date: new Date().toISOString().split("T")[0],
+            },
+          ],
+          insectPlague: {
+            triggeredAt: Date.now(),
+            protected: false,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            ...plot,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        item: "Sunflower Seed",
+        cropId: "1",
+        index: "0",
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.crops[0].crop?.amount).toEqual(0.5);
+  });
+
+  it("should not yield 50% less crops when insect plague is active and farm is protected", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        calendar: {
+          dates: [
+            {
+              name: "insectPlague",
+              date: new Date().toISOString().split("T")[0],
+            },
+          ],
+          insectPlague: {
+            triggeredAt: Date.now(),
+            protected: true,
+          },
+        },
+        crops: {
+          0: {
+            ...plot,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+      },
+      action: {
+        type: "seed.planted",
+        item: "Sunflower Seed",
+        cropId: "1",
+        index: "0",
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.crops[0].crop?.amount).toEqual(1);
+  });
 });
 
 describe("getCropTime", () => {

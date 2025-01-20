@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "作物、果物、温室農産物は、今日はさらに+1を収穫します。",
   "bountifulHarvest.noticeboard.three": "豊富な報酬を享受し、この豊かな時間を最大限に活用してください。",
   "calendar.events.bountifulHarvest.title": "豊作な収穫",
-  "calendar.events.bountifulHarvest.description": "作物、果物、温室農産物が通常よりプラス+1多く収穫される特別なイベント。"
+  "calendar.events.bountifulHarvest.description": "作物、果物、温室農産物が通常よりプラス+1多く収穫される特別なイベント。",
+  "description.protectivePesticide": "作物を虫害から守る農薬！",
+  "insectPlague.specialEvent": "スペシャルイベント-昆虫ペスト",
+  "insectPlague.protected.one": "虫害から作物を守りましたね！",
+  "insectPlague.protected.two": "あなたの作物はどれも影響を受けていません。",
+  "insectPlague.destroyed.one": "ああ、いや！農作物に害虫が蔓延している！",
+  "insectPlague.destroyed.two": "疫病が農作物を壊滅させ、全収穫量が半分に減った",
+  "insectPlague.crops.affected": "害虫の疫病が影響を受け、作物が50％減少",
+  "calendar.events.insectPlague.title": "昆虫ペスト",
+  "calendar.events.insectPlague.description": "作物を荒廃させ、収穫量を半分に減らす可能性のある昆虫の疫病。",
+  "calendar.events.insectPlague.prevention": "保護農薬",
+  "calendar.events.tornado.prevention": "トルネード風車",
+  "calendar.events.tsunami.prevention": "マングローブ",
+  "calendar.events.greatFreeze.prevention": "サーマルストーン"
 }
