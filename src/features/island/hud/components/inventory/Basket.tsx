@@ -160,7 +160,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   ];
   const flowerSeeds = getItems(FLOWER_SEEDS);
   const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
-  const fruits = [...getItems(PATCH_FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
+  const fruits = [...getItems(PATCH_FRUIT), ...getItems(GREENHOUSE_FRUIT)];
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);

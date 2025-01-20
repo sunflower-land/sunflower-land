@@ -85,7 +85,7 @@ export const CropGuide = () => {
             seed={seed}
             crop={crop}
             seconds={PATCH_FRUIT_SEEDS[seed].plantSeconds}
-            coins={PATCH_FRUIT()[crop].sellPrice}
+            coins={PATCH_FRUIT[crop].sellPrice}
             alternateBg={index % 2 === 0}
           />
         );

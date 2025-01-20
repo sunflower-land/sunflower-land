@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const DeadTree = ({ patchFruitName, hasAxes }: Props) => {
-  const { isBush } = PATCH_FRUIT()[patchFruitName];
+  const { isBush } = PATCH_FRUIT[patchFruitName];
   const [showNoToolWarning, setShowNoToolWarning] = useState<boolean>(false);
 
   const handleHover = () => {

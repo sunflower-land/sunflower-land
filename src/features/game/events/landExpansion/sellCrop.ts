@@ -36,9 +36,9 @@ export type SellCropAction = {
 
 export const SELLABLE = {
   ...CROPS,
-  ...PATCH_FRUIT(),
+  ...PATCH_FRUIT,
   ...GREENHOUSE_CROPS,
-  ...GREENHOUSE_FRUIT(),
+  ...GREENHOUSE_FRUIT,
 };
 
 type Options = {

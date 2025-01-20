@@ -216,7 +216,7 @@ export const SeasonalSeeds: React.FC = () => {
       return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
-    if (yields && yields in PATCH_FRUIT())
+    if (yields && yields in PATCH_FRUIT)
       return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
 
     if (
@@ -242,7 +242,7 @@ export const SeasonalSeeds: React.FC = () => {
   const getHarvestCount = () => {
     if (!yields) return undefined;
 
-    if (!(yields in PATCH_FRUIT())) return undefined;
+    if (!(yields in PATCH_FRUIT)) return undefined;
 
     return getFruitHarvests(state);
   };

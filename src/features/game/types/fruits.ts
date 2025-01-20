@@ -100,7 +100,7 @@ export type PatchFruit = {
   disabled?: boolean;
 };
 
-export const PATCH_FRUIT: () => Record<PatchFruitName, PatchFruit> = () => ({
+export const PATCH_FRUIT: Record<PatchFruitName, PatchFruit> = {
   Tomato: {
     description: "Rich in Lycopene",
     name: "Tomato",
@@ -140,7 +140,7 @@ export const PATCH_FRUIT: () => Record<PatchFruitName, PatchFruit> = () => ({
     isBush: true,
     seed: "Banana Plant",
   },
-});
+};
 
 export type GreenhouseFruitSeed = {
   price: number;
@@ -175,10 +175,7 @@ export type GreenHouseFruit = {
   bumpkinLevel: number;
 };
 
-export const GREENHOUSE_FRUIT: () => Record<
-  GreenHouseFruitName,
-  GreenHouseFruit
-> = () => ({
+export const GREENHOUSE_FRUIT: Record<GreenHouseFruitName, GreenHouseFruit> = {
   Grape: {
     description: "A bunch of grapes",
     name: "Grape",
@@ -186,4 +183,4 @@ export const GREENHOUSE_FRUIT: () => Record<
     seed: "Grape Seed",
     bumpkinLevel: 40,
   },
-});
+};

@@ -55,7 +55,7 @@ describe("fruitHarvested", () => {
             harvestsLeft: 3,
             harvestedAt: 0,
           },
-          PATCH_FRUIT().Apple,
+          PATCH_FRUIT.Apple,
         ),
       ).toBeFalsy();
     });
@@ -71,7 +71,7 @@ describe("fruitHarvested", () => {
             harvestsLeft: 2,
             harvestedAt: appleSeed.plantSeconds,
           },
-          PATCH_FRUIT().Apple,
+          PATCH_FRUIT.Apple,
         ),
       ).toBeFalsy();
     });
@@ -87,7 +87,7 @@ describe("fruitHarvested", () => {
             harvestsLeft: 3,
             harvestedAt: 0,
           },
-          PATCH_FRUIT().Apple,
+          PATCH_FRUIT.Apple,
         ),
       ).toBeFalsy();
     });
@@ -103,7 +103,7 @@ describe("fruitHarvested", () => {
             harvestsLeft: 2,
             harvestedAt: appleSeed.plantSeconds,
           },
-          PATCH_FRUIT().Apple,
+          PATCH_FRUIT.Apple,
         ),
       ).toBeFalsy();
     });
