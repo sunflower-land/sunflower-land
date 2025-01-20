@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "Vos récoltes, vos fruits et vos produits de serre rapporteront +1 de plus aujourd'hui.",
   "bountifulHarvest.noticeboard.three": "Profitez des nombreuses récompenses et profitez au maximum de cette période de prospérité.",
   "calendar.events.bountifulHarvest.title": "Récolte abondante",
-  "calendar.events.bountifulHarvest.description": "Un événement spécial au cours duquel les récoltes, les fruits et les produits de serre rapportent +1 de plus que d'habitude."
+  "calendar.events.bountifulHarvest.description": "Un événement spécial au cours duquel les récoltes, les fruits et les produits de serre rapportent +1 de plus que d'habitude.",
+  "description.protectivePesticide": "Un pesticide qui protège vos cultures de la peste des insectes !",
+  "insectPlague.specialEvent": "Événement spécial - Insect Plague",
+  "insectPlague.protected.one": "Vous avez protégé vos cultures de la peste des insectes !",
+  "insectPlague.protected.two": "Aucune de vos cultures n'a été touchée.",
+  "insectPlague.destroyed.one": "Oh non ! La peste des insectes infeste vos cultures !",
+  "insectPlague.destroyed.two": "La peste des insectes a dévasté vos cultures, réduisant toutes les récoltes de moitié",
+  "insectPlague.crops.affected": "Peste d'insectes touché, récoltes réduites de 50 %",
+  "calendar.events.insectPlague.title": "Peste d'insectes",
+  "calendar.events.insectPlague.description": "Une invasion d'insectes qui peut dévaster les cultures et réduire toutes les récoltes de moitié.",
+  "calendar.events.insectPlague.prevention": "Pesticide protecteur",
+  "calendar.events.tornado.prevention": "Moulinet Tornado",
+  "calendar.events.tsunami.prevention": "Mangrove",
+  "calendar.events.greatFreeze.prevention": "Pierre thermique"
 }

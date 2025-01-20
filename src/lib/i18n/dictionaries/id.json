@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "Tanaman, buah, dan produk rumah kaca Anda akan menghasilkan +1 ekstra hari ini.",
   "bountifulHarvest.noticeboard.three": "Nikmati hadiah yang berlimpah dan manfaatkan waktu yang makmur ini sebaik-baiknya.",
   "calendar.events.bountifulHarvest.title": "Panen yang Melimpah",
-  "calendar.events.bountifulHarvest.description": "Acara khusus di mana tanaman, buah, dan produksi rumah kaca menghasilkan +1 ekstra lebih dari biasanya."
+  "calendar.events.bountifulHarvest.description": "Acara khusus di mana tanaman, buah, dan produksi rumah kaca menghasilkan +1 ekstra lebih dari biasanya.",
+  "description.protectivePesticide": "Pestisida yang melindungi tanaman Anda dari wabah serangga!",
+  "insectPlague.specialEvent": "Acara Khusus - Wabah Serangga",
+  "insectPlague.protected.one": "Anda melindungi tanaman Anda dari wabah serangga!",
+  "insectPlague.protected.two": "Tidak ada tanaman Anda yang terpengaruh.",
+  "insectPlague.destroyed.one": "Oh tidak! Wabah serangga menyerang tanaman Anda!",
+  "insectPlague.destroyed.two": "Wabah serangga telah menghancurkan tanaman Anda, mengurangi semua panen hingga setengahnya",
+  "insectPlague.crops.affected": "Wabah serangga terkena, tanaman berkurang 50%",
+  "calendar.events.insectPlague.title": "Wabah Serangga",
+  "calendar.events.insectPlague.description": "Wabah serangga yang dapat menghancurkan tanaman, mengurangi semua panen hingga setengahnya.",
+  "calendar.events.insectPlague.prevention": "Pestisida Pelindung",
+  "calendar.events.tornado.prevention": "Kincir Tornado",
+  "calendar.events.tsunami.prevention": "Mangrove",
+  "calendar.events.greatFreeze.prevention": "Batu Termal"
 }

@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "Deine Pflanzen, Früchte und Gewächshausprodukte bringen heute einen zusätzlichen Ertrag von +1 ein.",
   "bountifulHarvest.noticeboard.three": "Genießen Sie die zahlreichen Belohnungen und machen Sie das Beste aus dieser erfolgreichen Zeit.",
   "calendar.events.bountifulHarvest.title": "Reichliche Ernte",
-  "calendar.events.bountifulHarvest.description": "Eine besondere Veranstaltung, bei der Pflanzen, Obst und Gewächshausprodukte einen zusätzlichen Ertrag von +1 mehr einbringen als üblich."
+  "calendar.events.bountifulHarvest.description": "Eine besondere Veranstaltung, bei der Pflanzen, Obst und Gewächshausprodukte einen zusätzlichen Ertrag von +1 mehr einbringen als üblich.",
+  "description.protectivePesticide": "Ein Pestizid, das Ihre Pflanzen vor der Insektenplage schützt!",
+  "insectPlague.specialEvent": "Sonderveranstaltung — Insektenplage",
+  "insectPlague.protected.one": "Du hast deine Pflanzen vor der Insektenplage geschützt!",
+  "insectPlague.protected.two": "Keine Ihrer Pflanzen ist betroffen.",
+  "insectPlague.destroyed.one": "Oh nein! Die Insektenplage befällt Ihre Pflanzen!",
+  "insectPlague.destroyed.two": "Die Insektenplage hat Ihre Ernte verwüstet und alle Ernten um die Hälfte reduziert",
+  "insectPlague.crops.affected": "Insektenpest betroffen, Ernteerträge um 50% reduziert",
+  "calendar.events.insectPlague.title": "Insektenplage",
+  "calendar.events.insectPlague.description": "Eine Insektenplage, die Ernten verwüsten und alle Ernten um die Hälfte reduzieren kann.",
+  "calendar.events.insectPlague.prevention": "Schützendes Pestizid",
+  "calendar.events.tornado.prevention": "Tornado Windrad",
+  "calendar.events.tsunami.prevention": "Mangroven",
+  "calendar.events.greatFreeze.prevention": "Thermostein"
 }

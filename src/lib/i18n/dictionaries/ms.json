@@ -4899,5 +4899,18 @@
   "bountifulHarvest.noticeboard.two": "Tanaman, buah-buahan dan hasil rumah hijau anda akan menghasilkan +1 tambahan hari ini.",
   "bountifulHarvest.noticeboard.three": "Nikmati ganjaran yang banyak dan manfaatkan masa yang makmur ini.",
   "calendar.events.bountifulHarvest.title": "Tuaian Berlimpah",
-  "calendar.events.bountifulHarvest.description": "Acara istimewa di mana hasil tanaman, buah-buahan dan rumah hijau menghasilkan tambahan +1 lebih daripada biasa."
+  "calendar.events.bountifulHarvest.description": "Acara istimewa di mana hasil tanaman, buah-buahan dan rumah hijau menghasilkan tambahan +1 lebih daripada biasa.",
+  "description.protectivePesticide": "Racun perosak yang melindungi tanaman anda daripada wabak serangga!",
+  "insectPlague.specialEvent": "Acara Khas - Wabak Serangga",
+  "insectPlague.protected.one": "Anda melindungi tanaman anda dari wabak serangga!",
+  "insectPlague.protected.two": "Tiada tanaman anda yang terjejas.",
+  "insectPlague.destroyed.one": "Oh tidak! Wabak serangga menyerang tanaman anda!",
+  "insectPlague.destroyed.two": "Wabak serangga telah menghancurkan tanaman anda, mengurangkan semua hasil panen sebanyak separuh",
+  "insectPlague.crops.affected": "Wabak serangga terjejas, tanaman dikurangkan sebanyak 50%",
+  "calendar.events.insectPlague.title": "Wabak Serangga",
+  "calendar.events.insectPlague.description": "Wabak serangga yang boleh menghancurkan tanaman, mengurangkan semua hasil panen sebanyak separuh.",
+  "calendar.events.insectPlague.prevention": "Racun Perosak Pelindung",
+  "calendar.events.tornado.prevention": "Tornado Pinwheel",
+  "calendar.events.tsunami.prevention": "Bakau",
+  "calendar.events.greatFreeze.prevention": "Batu Termal"
 }
