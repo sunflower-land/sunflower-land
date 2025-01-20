@@ -10568,7 +10568,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/131.png",
+    image: "../public/erc1155/images/139.png",
     name: "Duskberry Seed",
   },
   "Lunara Seed": {
@@ -10579,7 +10579,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/132.png",
+    image: "../public/erc1155/images/140.png",
     name: "Lunara Seed",
   },
   "Celestine Seed": {
@@ -10590,7 +10590,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2178.png",
+    image: "../public/erc1155/images/141.png",
     name: "Celestine Seed",
   },
   Duskberry: {
@@ -10601,7 +10601,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/258.png",
+    image: "../public/erc1155/images/266.png",
     name: "Duskberry",
   },
   Lunara: {
@@ -10612,7 +10612,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/259.png",
+    image: "../public/erc1155/images/267.png",
     name: "Lunara",
   },
   Celestine: {
@@ -10623,7 +10623,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/260.png",
+    image: "../public/erc1155/images/268.png",
     name: "Celestine",
   },
 };
