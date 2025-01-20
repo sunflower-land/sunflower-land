@@ -99,7 +99,7 @@ export const PATCH_FRUIT_SEEDS: () => Record<
     plantingSpot: "Fruit Patch",
   },
   "Celestine Seed": {
-    price: 80,
+    price: 300,
     description: translate("description.celestine"),
     plantSeconds: 6 * 60 * 60,
     bumpkinLevel: 12,
@@ -107,7 +107,7 @@ export const PATCH_FRUIT_SEEDS: () => Record<
     plantingSpot: "Fruit Patch",
   },
   "Lunara Seed": {
-    price: 200,
+    price: 750,
     description: translate("description.lunara"),
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 12,
@@ -115,7 +115,7 @@ export const PATCH_FRUIT_SEEDS: () => Record<
     plantingSpot: "Fruit Patch",
   },
   "Duskberry Seed": {
-    price: 400,
+    price: 1250,
     description: translate("description.duskberry"),
     plantSeconds: 24 * 60 * 60,
     bumpkinLevel: 12,
