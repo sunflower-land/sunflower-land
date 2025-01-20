@@ -224,7 +224,7 @@ export const getBumpkinLevel = (experience: number): BumpkinLevel => {
   return bumpkinLevel;
 };
 
-export const SKILL_POINTS: Record<BumpkinLevel, number> = {
+export const OLD_SKILL_POINTS: Record<BumpkinLevel, number> = {
   1: 0,
   2: 1,
   3: 2,
@@ -328,7 +328,7 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
 };
 
 //currently is matched with the mainnet skill system (old bumpkin skills)
-export const findLevelRequiredForNextSkillPoint = (
+export const findLevelRequiredForNextOldSkillPoint = (
   experience: number,
 ): BumpkinLevel | undefined => {
   const currentLevel = getBumpkinLevel(experience);
@@ -338,30 +338,16 @@ export const findLevelRequiredForNextSkillPoint = (
   }
 
   let nextLevelWithSkillPoint: BumpkinLevel | undefined;
-  for (const key in SKILL_POINTS) {
+  for (const key in OLD_SKILL_POINTS) {
     const level = Number(key) as BumpkinLevel;
     // Save the first level with more skill points than current
-    if (SKILL_POINTS[level] > SKILL_POINTS[currentLevel]) {
+    if (OLD_SKILL_POINTS[level] > OLD_SKILL_POINTS[currentLevel]) {
       nextLevelWithSkillPoint = level;
       break;
     }
   }
 
   return nextLevelWithSkillPoint;
-};
-
-//Could be used later for skill revamp
-export const findLvlRequiredForNextSkillPoint = (
-  experience: number,
-): BumpkinLevel | undefined => {
-  const bumpkinLevel = getBumpkinLevel(experience);
-  const availableSkillPoints = bumpkinLevel;
-
-  if (availableSkillPoints < 1) {
-    return undefined;
-  }
-
-  return (bumpkinLevel + 1) as BumpkinLevel;
 };
 
 export const getExperienceToNextLevel = (experience: number) => {

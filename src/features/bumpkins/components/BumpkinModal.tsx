@@ -17,7 +17,7 @@ import { Skills } from "./revamp/Skills";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { getAvailableBumpkinOldSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -172,7 +172,7 @@ export const BumpkinModal: React.FC<Props> = ({
     );
   }
 
-  const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
+  const hasAvailableSP = getAvailableBumpkinOldSkillPoints(bumpkin) > 0;
 
   const renderTabs = () => {
     if (readonly) {
