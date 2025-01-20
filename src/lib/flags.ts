@@ -5,6 +5,9 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
+const seasonAdminFeatureFlag = ({ username }: GameState) =>
+  testnetFeatureFlag() || ["adam", "elias", "dcol"].includes(username ?? "");
+
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
@@ -81,7 +84,7 @@ const featureFlags = {
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
   SEASONAL_EVENTS_NOTIFICATIONS: testnetFeatureFlag,
   REPUTATION_SYSTEM: testnetFeatureFlag,
-  SEASONAL_SEEDS: testnetFeatureFlag,
+  SEASONAL_SEEDS: seasonAdminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
