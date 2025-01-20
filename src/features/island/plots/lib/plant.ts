@@ -41,9 +41,6 @@ const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Onion: parsnipProc,
   Turnip: sunflowerProc,
   Artichoke: cabbageProc,
-  Duskberry: duskberryProc,
-  Grimroot: grimrootProc,
-  Lunacress: lunacressProc,
 };
 
 export const HARVEST_PROC_ANIMATION = {
@@ -88,9 +85,6 @@ export const IMAGES: Record<CropName, string> = {
   Onion: "onion",
   Turnip: "turnip",
   Artichoke: "artichoke",
-  Duskberry: "duskberry",
-  Grimroot: "grimroot",
-  Lunacress: "lunacress",
 };
 
 export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(

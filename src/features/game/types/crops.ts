@@ -35,9 +35,6 @@ export type CropName =
   | "Onion"
   | "Turnip"
   | "Artichoke"
-  | "Duskberry"
-  | "Grimroot"
-  | "Lunacress"
   | "Barley";
 
 export type Crop = {

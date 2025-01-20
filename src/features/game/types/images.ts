@@ -912,18 +912,6 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Artichoke.crop,
     description: translate("description.artichoke"),
   },
-  Duskberry: {
-    image: CROP_LIFECYCLE.Duskberry.crop,
-    description: translate("description.duskberry"),
-  },
-  Grimroot: {
-    image: CROP_LIFECYCLE.Grimroot.crop,
-    description: translate("description.grimroot"),
-  },
-  Lunacress: {
-    image: CROP_LIFECYCLE.Lunacress.crop,
-    description: translate("description.lunacress"),
-  },
   "Sunflower Seed": {
     image: CROP_LIFECYCLE.Sunflower.seed,
     secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
