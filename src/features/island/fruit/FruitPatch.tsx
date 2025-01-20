@@ -259,11 +259,19 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         className="flex bottom-20 left-10 absolute z-40"
       >
         <QuickSelect
-          options={getKeys(PATCH_FRUIT_SEEDS()).map((seed) => ({
-            name: seed as InventoryItemName,
-            icon: PATCH_FRUIT_SEEDS()[seed].yield as InventoryItemName,
-            showSecondaryImage: true,
-          }))}
+          options={getKeys(PATCH_FRUIT_SEEDS())
+            .filter(
+              (seed) =>
+                !hasFeatureAccess(game, "SEASONAL_SEEDS") ||
+                SEASONAL_SEEDS[game.season.season].includes(
+                  seed as PatchFruitSeedName,
+                ),
+            )
+            .map((seed) => ({
+              name: seed as InventoryItemName,
+              icon: PATCH_FRUIT_SEEDS()[seed].yield as InventoryItemName,
+              showSecondaryImage: true,
+            }))}
           onClose={() => setShowQuickSelect(false)}
           onSelected={(seed) => {
             plantTree(seed as PatchFruitSeedName);
