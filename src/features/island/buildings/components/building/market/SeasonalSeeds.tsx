@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -48,6 +48,8 @@ import summerIcon from "assets/icons/summer.webp";
 import autumnIcon from "assets/icons/autumn.webp";
 import winterIcon from "assets/icons/winter.webp";
 import { SeedRequirements } from "components/ui/layouts/SeedRequirements";
+import { getKeys } from "features/game/types/decorations";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -56,20 +58,18 @@ export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   winter: winterIcon,
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const SeasonalSeeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
   const selected = SEEDS[selectedName];
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
 
-  const { inventory } = state;
+  const { inventory, coins, island, bumpkin, buds, season, buildings } = state;
 
   const price = getBuyPrice(selectedName, selected, state);
 
@@ -96,7 +96,7 @@ export const SeasonalSeeds: React.FC = () => {
   };
 
   const lessFunds = (amount = 1) => {
-    return state.coins < price * amount;
+    return coins < price * amount;
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
@@ -113,7 +113,7 @@ export const SeasonalSeeds: React.FC = () => {
 
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS[seedName];
-    return getBumpkinLevel(state.bumpkin?.experience ?? 0) < seed.bumpkinLevel;
+    return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
   };
 
   const Action = () => {
@@ -163,7 +163,7 @@ export const SeasonalSeeds: React.FC = () => {
           )}
         </div>
         <div>
-          {state.island.type !== "basic" && bulkSeedBuyAmount > 10 && (
+          {island.type !== "basic" && bulkSeedBuyAmount > 10 && (
             <Button
               className="mt-1"
               disabled={lessFunds(bulkSeedBuyAmount)}
@@ -235,7 +235,7 @@ export const SeasonalSeeds: React.FC = () => {
       crop: yields as CropName,
       inventory,
       game: state,
-      buds: state.buds ?? {},
+      buds: buds ?? {},
     });
   };
 
@@ -247,8 +247,35 @@ export const SeasonalSeeds: React.FC = () => {
     return getFruitHarvests(state);
   };
 
-  const currentSeason = state.season.season;
-  const seeds = SEASONAL_SEEDS[currentSeason];
+  const currentSeason = season.season;
+  const currentSeasonSeeds = SEASONAL_SEEDS[currentSeason];
+  const cropMachineSeeds = getKeys(SEEDS).filter((seed) => {
+    if (!buildings["Crop Machine"] || currentSeasonSeeds.includes(seed)) {
+      return false;
+    }
+
+    const basicSeeds: SeedName[] = [
+      "Sunflower Seed",
+      "Potato Seed",
+      "Pumpkin Seed",
+    ];
+    const extensionSeeds: SeedName[] = ["Cabbage Seed", "Carrot Seed"];
+
+    return (
+      basicSeeds.includes(seed) ||
+      (bumpkin.skills["Crop Extension Module"] && extensionSeeds.includes(seed))
+    );
+  });
+
+  const inSeasonSeeds = getKeys(SEEDS).filter((seed) =>
+    currentSeasonSeeds.includes(seed),
+  );
+
+  const validSeeds = [...cropMachineSeeds, ...inSeasonSeeds];
+
+  const offSeasonSeeds = getKeys(SEEDS).filter(
+    (seed) => !validSeeds.includes(seed),
+  );
 
   const harvestCount = getHarvestCount();
 
@@ -281,11 +308,12 @@ export const SeasonalSeeds: React.FC = () => {
             },
           }}
           actionView={Action()}
+          validSeeds={validSeeds}
         />
       }
       content={
         <div className="pl-1">
-          <>
+          <div>
             <div className="flex justify-between">
               <Label
                 icon={SEASON_ICONS[currentSeason]}
@@ -305,7 +333,7 @@ export const SeasonalSeeds: React.FC = () => {
               </Label>
             </div>
             <div className="flex flex-wrap mb-2">
-              {seeds.map((name: SeedName) => (
+              {inSeasonSeeds.map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
                   key={name}
@@ -317,7 +345,51 @@ export const SeasonalSeeds: React.FC = () => {
                 />
               ))}
             </div>
-          </>
+          </div>
+          <div>
+            <Label
+              icon={SUNNYSIDE.building.cropMachine}
+              type="default"
+              className="ml-2 mb-1 capitalize"
+            >
+              {`Crop Machine Seeds`}
+            </Label>
+            <div className="flex flex-wrap mb-2">
+              {cropMachineSeeds.map((name) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
+                  showOverlay={isSeedLocked(name)}
+                  // secondaryImage={SUNNYSIDE.icons.seedling}
+                  count={inventory[name]}
+                />
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label
+              icon={SUNNYSIDE.icons.seedling}
+              type="default"
+              className="ml-2 mb-1 capitalize"
+            >
+              {t("cropGuide.otherProduce")}
+            </Label>
+            <div className="flex flex-wrap mb-2">
+              {offSeasonSeeds.map((name) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
+                  showOverlay={isSeedLocked(name)}
+                  // secondaryImage={SUNNYSIDE.icons.seedling}
+                  count={inventory[name]}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       }
     />

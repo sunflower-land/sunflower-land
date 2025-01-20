@@ -14,7 +14,12 @@ import flowerBed from "assets/flowers/empty_flowerbed.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
+import {
+  SEASONAL_SEEDS,
+  Seed,
+  SeedName,
+  SEEDS,
+} from "features/game/types/seeds";
 import {
   CropName,
   getCropCategory,
@@ -94,6 +99,7 @@ interface Props {
   actionView?: JSX.Element;
   hideDescription?: boolean;
   label?: JSX.Element;
+  validSeeds: SeedName[];
 }
 
 function getDetails(
@@ -141,7 +147,8 @@ export const SeedRequirements: React.FC<Props> = ({
   actionView,
   hideDescription,
   label,
-}: Props) => {
+  validSeeds,
+}) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
   const getStock = () => {
@@ -171,6 +178,11 @@ export const SeedRequirements: React.FC<Props> = ({
     );
   };
 
+  const currentSeason = gameState.season.season;
+  const isValidSeed = SEASONAL_SEEDS[currentSeason].includes(details.item);
+  const inSeasonSeeds = validSeeds.includes(details.item);
+  const isCropMachineSeed = !isValidSeed && validSeeds.includes(details.item);
+
   const getItemDetail = ({
     hideDescription,
   }: {
@@ -183,7 +195,7 @@ export const SeedRequirements: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex flex-col space-x-2 justify-start items-center  md:space-x-0 mb-1">
+        <div className="flex flex-col space-x-2 justify-start items-center md:space-x-0 mb-1">
           <div>
             <p className="text-center">{title}</p>
             <p className="text-xs text-center">
@@ -196,8 +208,10 @@ export const SeedRequirements: React.FC<Props> = ({
               <SquareIcon icon={SUNNYSIDE.icons.chevron_right} width={8} />
               <SquareIcon
                 icon={
-                  PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
-                  SUNNYSIDE.icons.expression_confused
+                  isCropMachineSeed
+                    ? SUNNYSIDE.building.cropMachine
+                    : PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
+                      SUNNYSIDE.icons.expression_confused
                 }
                 width={14}
               />
@@ -210,6 +224,9 @@ export const SeedRequirements: React.FC<Props> = ({
                 width={14}
               />
             </div>
+          )}
+          {!inSeasonSeeds && (
+            <p className="text-xxs mt-1">{"Seed can't be planted"}</p>
           )}
         </div>
       </>
