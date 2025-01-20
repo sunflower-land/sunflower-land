@@ -65,6 +65,11 @@ const DUMMY_EVENT_INFORMATION: Record<
     title: "calendar.events.doubleDelivery.title",
     description: "calendar.events.doubleDelivery.description",
   },
+  insectPlague: {
+    title: "calendar.events.insectPlague.title",
+    description: "calendar.events.insectPlague.description",
+    prevention: "Protective Pesticide",
+  },
 };
 
 export const SeasonDayDetails: React.FC<Props> = ({

@@ -143,6 +143,13 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  "Protective Pesticide": {
+    dimensions: {
+      width: 2,
+      height: 2,
+    },
+    isWithdrawable: () => false,
+  },
   "Tornado Pinwheel": {
     dimensions: {
       width: 1,
