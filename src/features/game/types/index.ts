@@ -940,6 +940,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Mangrove: 2180,
   "Thermal Stone": 2181,
   "Protective Pesticide": 2182,
+  "Volcano Gnome": 2183,
 };
 
 // The reverse of above

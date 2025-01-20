@@ -120,6 +120,7 @@ import goblet from "assets/sfts/goblet.webp";
 import fancyRug from "assets/sfts/fancy_rug.webp";
 import vinny from "assets/sfts/vinny.webp";
 import clock from "assets/sfts/clock.webp";
+import volcanoGnome from "assets/sfts/volcano_gnome.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -4619,5 +4620,9 @@ export const ITEM_DETAILS: Items = {
   "Protective Pesticide": {
     image: SUNNYSIDE.icons.expression_confused,
     description: translate("description.protectivePesticide"),
+  },
+  "Volcano Gnome": {
+    image: volcanoGnome,
+    description: translate("description.volcanoGnome"),
   },
 };
