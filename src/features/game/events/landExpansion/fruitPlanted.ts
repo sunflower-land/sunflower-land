@@ -15,6 +15,8 @@ import { randomInt } from "lib/utils/random";
 import { getFruitYield } from "./fruitHarvested";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
+import { hasFeatureAccess } from "lib/flags";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -249,6 +251,13 @@ export function plantFruit({
 
     if (seedCount.lessThan(1)) {
       throw new Error("Not enough seeds");
+    }
+
+    if (
+      hasFeatureAccess(stateCopy, "SEASONAL_SEEDS") &&
+      !SEASONAL_SEEDS[stateCopy.season.season].includes(action.seed)
+    ) {
+      throw new Error("This seed is not available in this season");
     }
 
     const { harvestCount } = getHarvestsLeft({
