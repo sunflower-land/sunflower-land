@@ -5,7 +5,6 @@ import {
   CALENDAR_EVENT_ICONS,
   CalendarEventName,
   SEASON_DETAILS,
-  SeasonalEventName,
 } from "features/game/types/calendar";
 import {
   CalendarEventDetails,
@@ -165,7 +164,12 @@ export const SeasonDayDetails: React.FC<Props> = ({
           <Label type="default">{t("temperateSeason.possibleEvents")}</Label>
           <div className="flex flex-col gap-2">
             {Object.entries(DUMMY_EVENT_INFORMATION)
-              .filter(([name]) => name !== "unknown" && name !== "fullMoon")
+              .filter(
+                ([name]) =>
+                  name !== "unknown" &&
+                  name !== "fullMoon" &&
+                  name !== "doubleDelivery",
+              )
               .map(([name, data]) => (
                 <div key={name} className="flex items-center gap-1">
                   <img
@@ -174,12 +178,7 @@ export const SeasonDayDetails: React.FC<Props> = ({
                   />
 
                   <div className="flex flex-col">
-                    <span className="text-xs">
-                      {t(
-                        DUMMY_EVENT_INFORMATION[name as SeasonalEventName]
-                          .title,
-                      )}
-                    </span>
+                    <span className="text-xs">{t(data.title)}</span>
                     {data.prevention && (
                       <span className="text-xxs">{data.prevention}</span>
                     )}
