@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Plaguicida protector",
   "calendar.events.tornado.prevention": "Molinillo Tornado",
   "calendar.events.tsunami.prevention": "Manglar",
-  "calendar.events.greatFreeze.prevention": "Piedra térmica"
+  "calendar.events.greatFreeze.prevention": "Piedra térmica",
+  "calendar.events.sunshower.title": "Ducha solar",
+  "calendar.events.sunshower.description": "Un fenómeno meteorológico poco frecuente en el que el sol brilla mientras llueve, lo que trae buena suerte a tus cultivos.",
+  "sunshower.info.one": "¡Tus cultivos crecen 2 veces más rápido!",
+  "sunshower.tooltip": "Bendecido por la lluvia solar: 2 veces la velocidad de cultivo.",
+  "sunshower.specialEvent": "Evento especial - Sunshower"
 }

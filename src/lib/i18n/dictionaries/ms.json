@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Racun Perosak Pelindung",
   "calendar.events.tornado.prevention": "Tornado Pinwheel",
   "calendar.events.tsunami.prevention": "Bakau",
-  "calendar.events.greatFreeze.prevention": "Batu Termal"
+  "calendar.events.greatFreeze.prevention": "Batu Termal",
+  "calendar.events.sunshower.title": "Pancuran matahari",
+  "calendar.events.sunshower.description": "Fenomena cuaca yang jarang berlaku di mana matahari bersinar semasa hujan, membawa nasib baik kepada tanaman anda.",
+  "sunshower.info.one": "Tanaman anda tumbuh 2x lebih cepat!",
+  "sunshower.tooltip": "Sunshower diberkati - kelajuan tanaman 2x.",
+  "sunshower.specialEvent": "Acara Istimewa - Sunshower"
 }

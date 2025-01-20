@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Pesticida protetor",
   "calendar.events.tornado.prevention": "Catavento Tornado",
   "calendar.events.tsunami.prevention": "Mangue",
-  "calendar.events.greatFreeze.prevention": "Pedra térmica"
+  "calendar.events.greatFreeze.prevention": "Pedra térmica",
+  "calendar.events.sunshower.title": "Chuveiro de sol",
+  "calendar.events.sunshower.description": "Um fenômeno climático raro em que o sol brilha enquanto chove, trazendo boa sorte às suas plantações.",
+  "sunshower.info.one": "Suas colheitas crescem 2x mais rápido!",
+  "sunshower.tooltip": "Chuveiro de sol abençoado - 2x a velocidade de corte.",
+  "sunshower.specialEvent": "Evento especial - Sunshower"
 }

@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "保护性农药",
   "calendar.events.tornado.prevention": "龙卷风车",
   "calendar.events.tsunami.prevention": "红树林",
-  "calendar.events.greatFreeze.prevention": "热石"
+  "calendar.events.greatFreeze.prevention": "热石",
+  "calendar.events.sunshower.title": "日光浴",
+  "calendar.events.sunshower.description": "这是一种罕见的天气现象，下雨时阳光照耀，为农作物带来好运。",
+  "sunshower.info.one": "你的农作物生长速度快了 2 倍！",
+  "sunshower.tooltip": "阳光明媚-作物速度提高了 2 倍。",
+  "sunshower.specialEvent": "特别活动-Sunshower"
 }

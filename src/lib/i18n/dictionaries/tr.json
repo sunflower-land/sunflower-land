@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Koruyucu Pestisit",
   "calendar.events.tornado.prevention": "Kasırga Fırıldak",
   "calendar.events.tsunami.prevention": "Mangrove",
-  "calendar.events.greatFreeze.prevention": "Termal Taş"
+  "calendar.events.greatFreeze.prevention": "Termal Taş",
+  "calendar.events.sunshower.title": "Güneş duşu",
+  "calendar.events.sunshower.description": "Yağmur yağarken güneşin parladığı ve mahsullerinize iyi şans getirdiği nadir bir hava olgusu.",
+  "sunshower.info.one": "Ekinleriniz 2 kat daha hızlı büyür!",
+  "sunshower.tooltip": "Sunshower kutsanmış - 2x mahsul hızı.",
+  "sunshower.specialEvent": "Özel Etkinlik - Sunshower"
 }

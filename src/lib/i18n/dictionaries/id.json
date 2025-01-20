@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Pestisida Pelindung",
   "calendar.events.tornado.prevention": "Kincir Tornado",
   "calendar.events.tsunami.prevention": "Mangrove",
-  "calendar.events.greatFreeze.prevention": "Batu Termal"
+  "calendar.events.greatFreeze.prevention": "Batu Termal",
+  "calendar.events.sunshower.title": "Pancuran matahari",
+  "calendar.events.sunshower.description": "Fenomena cuaca langka di mana matahari bersinar saat hujan, membawa keberuntungan bagi tanaman Anda.",
+  "sunshower.info.one": "Tanaman Anda tumbuh 2x lebih cepat!",
+  "sunshower.tooltip": "Sunshower diberkati - kecepatan panen 2x.",
+  "sunshower.specialEvent": "Acara Khusus - Sunshower"
 }

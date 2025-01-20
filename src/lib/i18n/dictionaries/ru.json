@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Защитный пестицид",
   "calendar.events.tornado.prevention": "Вертушка «Торнадо»",
   "calendar.events.tsunami.prevention": "мангровое дерево",
-  "calendar.events.greatFreeze.prevention": "Термальный камень"
+  "calendar.events.greatFreeze.prevention": "Термальный камень",
+  "calendar.events.sunshower.title": "Солнечный душ",
+  "calendar.events.sunshower.description": "Редкое погодное явление, когда солнце светит во время дождя и приносит вашим урожаям удачу.",
+  "sunshower.info.one": "Ваши урожаи растут в 2 раза быстрее!",
+  "sunshower.tooltip": "Благословен солнечный душ — скорость сбора урожая в 2 раза выше.",
+  "sunshower.specialEvent": "Специальное мероприятие «Солнечный душ»"
 }

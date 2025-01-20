@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Schützendes Pestizid",
   "calendar.events.tornado.prevention": "Tornado Windrad",
   "calendar.events.tsunami.prevention": "Mangroven",
-  "calendar.events.greatFreeze.prevention": "Thermostein"
+  "calendar.events.greatFreeze.prevention": "Thermostein",
+  "calendar.events.sunshower.title": "Sonnendusche",
+  "calendar.events.sunshower.description": "Ein seltenes Wetterphänomen, bei dem die Sonne scheint, während es regnet, was Ihren Pflanzen Glück bringt.",
+  "sunshower.info.one": "Deine Pflanzen wachsen 2x schneller!",
+  "sunshower.tooltip": "Sunshower Blessed — 2x Erntegeschwindigkeit",
+  "sunshower.specialEvent": "Sonderveranstaltung - Sunshower"
 }

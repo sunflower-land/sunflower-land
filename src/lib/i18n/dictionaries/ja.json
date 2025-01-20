@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "保護農薬",
   "calendar.events.tornado.prevention": "トルネード風車",
   "calendar.events.tsunami.prevention": "マングローブ",
-  "calendar.events.greatFreeze.prevention": "サーマルストーン"
+  "calendar.events.greatFreeze.prevention": "サーマルストーン",
+  "calendar.events.sunshower.title": "サンシャワー",
+  "calendar.events.sunshower.description": "雨が降っている間に太陽が輝き、作物に幸運をもたらすというまれな気象現象。",
+  "sunshower.info.one": "あなたの作物は2倍速く成長します！",
+  "sunshower.tooltip": "サンシャワー祝福-2倍のクロップスピード。",
+  "sunshower.specialEvent": "スペシャルイベント-サンシャワー"
 }

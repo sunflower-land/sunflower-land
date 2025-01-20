@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Pesticide protecteur",
   "calendar.events.tornado.prevention": "Moulinet Tornado",
   "calendar.events.tsunami.prevention": "Mangrove",
-  "calendar.events.greatFreeze.prevention": "Pierre thermique"
+  "calendar.events.greatFreeze.prevention": "Pierre thermique",
+  "calendar.events.sunshower.title": "Douche solaire",
+  "calendar.events.sunshower.description": "Phénomène météorologique rare où le soleil brille pendant qu'il pleut, portant chance à vos récoltes.",
+  "sunshower.info.one": "Vos cultures poussent 2 fois plus vite !",
+  "sunshower.tooltip": "Sunshower Blessed : vitesse de récolte multipliée par 2.",
+  "sunshower.specialEvent": "Événement spécial - Sunshower"
 }

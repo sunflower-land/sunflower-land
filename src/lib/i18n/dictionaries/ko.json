@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "보호용 살충제",
   "calendar.events.tornado.prevention": "토네이도 바람개비",
   "calendar.events.tsunami.prevention": "맹그로브",
-  "calendar.events.greatFreeze.prevention": "써멀 스톤"
+  "calendar.events.greatFreeze.prevention": "써멀 스톤",
+  "calendar.events.sunshower.title": "선샤워",
+  "calendar.events.sunshower.description": "비가 오는 동안 햇살이 비쳐 농작물에 행운을 가져다주는 드문 기상 현상입니다.",
+  "sunshower.info.one": "작물이 2배 더 빨리 자랍니다!",
+  "sunshower.tooltip": "썬샤워 블레스 - 크롭 스피드 2배.",
+  "sunshower.specialEvent": "특별 이벤트 - 선샤워"
 }

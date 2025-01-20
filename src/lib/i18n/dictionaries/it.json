@@ -4912,5 +4912,10 @@
   "calendar.events.insectPlague.prevention": "Pesticida protettivo",
   "calendar.events.tornado.prevention": "Girandola Tornado",
   "calendar.events.tsunami.prevention": "Mangrovie",
-  "calendar.events.greatFreeze.prevention": "Pietra termica"
+  "calendar.events.greatFreeze.prevention": "Pietra termica",
+  "calendar.events.sunshower.title": "Doccia solare",
+  "calendar.events.sunshower.description": "Un raro fenomeno meteorologico in cui il sole splende mentre piove, portando fortuna ai raccolti.",
+  "sunshower.info.one": "Le tue colture crescono 2 volte più velocemente!",
+  "sunshower.tooltip": "Sunshower blessed: velocità di coltura doppia.",
+  "sunshower.specialEvent": "Evento speciale - Sunshower"
 }
