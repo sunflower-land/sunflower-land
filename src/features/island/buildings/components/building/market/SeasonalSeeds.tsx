@@ -274,13 +274,9 @@ export const SeasonalSeeds: React.FC = () => {
     );
   });
 
-  const inSeasonSeeds = getKeys(SEEDS).filter((seed) =>
-    currentSeasonSeeds.includes(seed),
-  );
-
   const validSeeds = [
     ...cropMachineSeeds,
-    ...inSeasonSeeds,
+    ...currentSeasonSeeds,
     ...FULL_MOON_SEEDS,
   ];
 
@@ -320,6 +316,7 @@ export const SeasonalSeeds: React.FC = () => {
           }}
           actionView={Action()}
           validSeeds={validSeeds}
+          cropMachineSeeds={cropMachineSeeds}
         />
       }
       content={
@@ -344,7 +341,7 @@ export const SeasonalSeeds: React.FC = () => {
               </Label>
             </div>
             <div className="flex flex-wrap mb-2">
-              {inSeasonSeeds.map((name: SeedName) => (
+              {currentSeasonSeeds.map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
                   key={name}

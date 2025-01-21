@@ -14,18 +14,12 @@ import flowerBed from "assets/flowers/empty_flowerbed.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import {
-  SEASONAL_SEEDS,
-  Seed,
-  SeedName,
-  SEEDS,
-} from "features/game/types/seeds";
+import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
 import {
   CropName,
   getCropCategory,
   ProduceName,
 } from "features/game/types/crops";
-import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 
 /**
  * The props for the details for items.
@@ -101,6 +95,7 @@ interface Props {
   hideDescription?: boolean;
   label?: JSX.Element;
   validSeeds: SeedName[];
+  cropMachineSeeds: SeedName[];
 }
 
 function getDetails(
@@ -149,6 +144,7 @@ export const SeedRequirements: React.FC<Props> = ({
   hideDescription,
   label,
   validSeeds,
+  cropMachineSeeds,
 }) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
@@ -179,13 +175,8 @@ export const SeedRequirements: React.FC<Props> = ({
     );
   };
 
-  const currentSeason = gameState.season.season;
-  const isValidSeed = SEASONAL_SEEDS[currentSeason].includes(details.item);
   const inSeasonSeeds = validSeeds.includes(details.item);
-  const isCropMachineSeed =
-    !isValidSeed &&
-    !isFullMoonBerry(details.item) &&
-    validSeeds.includes(details.item);
+  const isCropMachineSeed = cropMachineSeeds.includes(details.item);
 
   const getItemDetail = ({
     hideDescription,
