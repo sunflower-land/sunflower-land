@@ -35,6 +35,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
+import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -112,7 +113,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       hasFeatureAccess(game, "SEASONAL_SEEDS") &&
       item &&
       item in PATCH_FRUIT_SEEDS &&
-      !SEASONAL_SEEDS[game.season.season].includes(item as PatchFruitSeedName)
+      !SEASONAL_SEEDS[game.season.season].includes(
+        item as PatchFruitSeedName,
+      ) &&
+      !isFullMoonBerry(item as PatchFruitSeedName)
     ) {
       setShowSeasonalSeed(true);
       return;
