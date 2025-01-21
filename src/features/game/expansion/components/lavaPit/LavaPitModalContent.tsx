@@ -39,7 +39,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose }) => {
       ]}
     >
       <Label type="default" className="mt-2">
-        Requirements
+        {"Requirements"}
       </Label>
       <div className="flex flex-col gap-2">
         {getKeys(LAVA_PIT_REQUIREMENTS).map((itemName) => {
@@ -55,7 +55,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose }) => {
           );
         })}
       </div>
-      <Button>Start Lava Pit</Button>
+      <Button>{"Start Lava Pit"}</Button>
     </CloseButtonPanel>
   );
 };
