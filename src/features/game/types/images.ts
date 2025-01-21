@@ -1023,15 +1023,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Duskberry Seed": {
     image: duskberrySeed,
-    description: PATCH_FRUIT_SEEDS()["Duskberry Seed"].description,
+    description: PATCH_FRUIT_SEEDS["Duskberry Seed"].description,
   },
   "Lunara Seed": {
     image: lunaraSeed,
-    description: PATCH_FRUIT_SEEDS()["Lunara Seed"].description,
+    description: PATCH_FRUIT_SEEDS["Lunara Seed"].description,
   },
   "Celestine Seed": {
     image: celestineSeed,
-    description: PATCH_FRUIT_SEEDS()["Celestine Seed"].description,
+    description: PATCH_FRUIT_SEEDS["Celestine Seed"].description,
   },
   "Apple Seed": {
     image: appleSeed,
@@ -1139,15 +1139,15 @@ export const ITEM_DETAILS: Items = {
   },
   Celestine: {
     image: celestine,
-    description: PATCH_FRUIT().Celestine.description,
+    description: PATCH_FRUIT.Celestine.description,
   },
   Lunara: {
     image: lunara,
-    description: PATCH_FRUIT().Lunara.description,
+    description: PATCH_FRUIT.Lunara.description,
   },
   Duskberry: {
     image: duskberry,
-    description: PATCH_FRUIT().Duskberry.description,
+    description: PATCH_FRUIT.Duskberry.description,
   },
   Honey: {
     image: honey,
