@@ -249,7 +249,7 @@ export const Seeds: React.FC = () => {
 
     if (!(yields in PATCH_FRUIT)) return undefined;
 
-    return getFruitHarvests(state);
+    return getFruitHarvests(state, selectedName);
   };
 
   const NEW_SEEDS: SeedName[] = [

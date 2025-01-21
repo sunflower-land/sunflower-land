@@ -262,10 +262,16 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return `${t("level.number", { level: props.requirement })}`;
       }
       case "harvests": {
-        return `${t("harvest.number", {
-          minHarvest: props.minHarvest,
-          maxHarvest: props.maxHarvest,
-        })}`;
+        return `${
+          props.minHarvest === props.maxHarvest
+            ? t("harvest.number", {
+                noOfHarvests: props.minHarvest,
+              })
+            : t("harvest.numbers", {
+                minHarvest: props.minHarvest,
+                maxHarvest: props.maxHarvest,
+              })
+        }`;
       }
       case "skillPoints": {
         const roundedDownPoints = formatNumber(props.points);
