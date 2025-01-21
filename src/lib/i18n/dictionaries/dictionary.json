@@ -4952,5 +4952,11 @@
   "crops.overnightCrop": "Overnight Crop",
   "crops.greenhouse": "Greenhouse",
   "crops.fruit": "Fruit",
-  "crops.flower": "Flower"
+  "crops.flower": "Flower",
+  "fullMoon.one": "All eggplants have grown overnight.",
+  "fullMoon.two": "Betty has a supply of Duskberry, Lunara, and Celestine seeds.",
+  "fullMoon.three": "The waters are filled with strange creatures.",
+  "description.duskberry": "A rare berry that grows in the dark.",
+  "description.lunara": "A rare berry that grows in the dark.",
+  "description.celestine": "A rare berry that grows in the dark."
 }

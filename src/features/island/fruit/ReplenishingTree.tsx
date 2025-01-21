@@ -20,6 +20,9 @@ const pluralisedNames: Record<PatchFruitName, string> = {
   Banana: "Bananas",
   Tomato: "Tomatoes",
   Lemon: "Lemons",
+  Celestine: "Celestines",
+  Lunara: "Lunara",
+  Duskberry: "Duskberries",
 };
 
 interface Props {
@@ -54,6 +57,13 @@ export const ReplenishingTree: React.FC<Props> = ({
       bottom = 10;
       left = 8;
       width = 14;
+      break;
+    case "Celestine":
+    case "Lunara":
+    case "Duskberry":
+      bottom = 8;
+      left = 9;
+      width = 15;
       break;
     default:
       bottom = 5;

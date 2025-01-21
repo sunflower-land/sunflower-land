@@ -343,6 +343,9 @@ export const SUNNYSIDE = {
     harvestedBush: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/harvested_bush.png`,
     deadTree: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/dead_tree.webp`,
     bushShrub: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/bush_shrub.png`,
+    celestineTree: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/celestine/celestine_bush.webp`,
+    lunaraTree: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/lunara/lunara_bush.webp`,
+    duskberryTree: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/duskberry/duskberry_bush.webp`,
   },
   //Brand
   brand: {

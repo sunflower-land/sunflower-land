@@ -608,4 +608,17 @@ describe("seedBought", () => {
       }),
     ).not.toThrow();
   });
+
+  it("requires full moon to buy full moon berry seeds", () => {
+    expect(() =>
+      seedBought({
+        state: GAME_STATE,
+        action: {
+          type: "seed.bought",
+          item: "Duskberry Seed",
+          amount: 1,
+        },
+      }),
+    ).toThrow("Not a full moon");
+  });
 });

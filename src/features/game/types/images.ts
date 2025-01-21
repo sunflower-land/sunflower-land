@@ -3,6 +3,9 @@
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
+import duskberrySeed from "assets/fruit/duskberry/duskberry_seed.webp";
+import lunaraSeed from "assets/fruit/lunara/lunara_seed.webp";
+import celestineSeed from "assets/fruit/celestine/celestine_seed.webp";
 import bananaPlant from "assets/fruit/banana/banana_plant.png";
 import lemonSeed from "assets/fruit/lemon/lemonSeed.webp";
 import tomatoSeed from "assets/fruit/tomato/tomatoSeed.webp";
@@ -203,6 +206,9 @@ import banana from "assets/resources/banana.png";
 import lemon from "assets/resources/lemon.webp";
 import tomato from "assets/fruit/tomato/tomato.webp";
 import oil from "assets/resources/oil.webp";
+import duskberry from "assets/fruit/duskberry/duskberry.webp";
+import lunara from "assets/fruit/lunara/lunara.webp";
+import celestine from "assets/fruit/celestine/celestine.webp";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
@@ -1015,6 +1021,18 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Soybean.seed,
     description: CROP_SEEDS["Soybean Seed"].description,
   },
+  "Duskberry Seed": {
+    image: duskberrySeed,
+    description: PATCH_FRUIT_SEEDS["Duskberry Seed"].description,
+  },
+  "Lunara Seed": {
+    image: lunaraSeed,
+    description: PATCH_FRUIT_SEEDS["Lunara Seed"].description,
+  },
+  "Celestine Seed": {
+    image: celestineSeed,
+    description: PATCH_FRUIT_SEEDS["Celestine Seed"].description,
+  },
   "Apple Seed": {
     image: appleSeed,
     description: PATCH_FRUIT_SEEDS["Apple Seed"].description,
@@ -1118,6 +1136,18 @@ export const ITEM_DETAILS: Items = {
   Lemon: {
     image: lemon,
     description: PATCH_FRUIT.Lemon.description,
+  },
+  Celestine: {
+    image: celestine,
+    description: PATCH_FRUIT.Celestine.description,
+  },
+  Lunara: {
+    image: lunara,
+    description: PATCH_FRUIT.Lunara.description,
+  },
+  Duskberry: {
+    image: duskberry,
+    description: PATCH_FRUIT.Duskberry.description,
   },
   Honey: {
     image: honey,

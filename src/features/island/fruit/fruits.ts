@@ -4,6 +4,9 @@ import lemonTree from "assets/fruit/lemon/lemonTree.webp";
 import lemonTreeReady from "assets/fruit/lemon/lemonTreeReady.webp";
 import tomatoPlant from "assets/fruit/tomato/tomatoPlant.webp";
 import tomatoPlantReady from "assets/fruit/tomato/tomatoPlantReady.webp";
+import duskberryBush from "assets/fruit/duskberry/duskberry_bush.webp";
+import lunaraBush from "assets/fruit/lunara/lunara_bush.webp";
+import celestineBush from "assets/fruit/celestine/celestine_bush.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PatchFruitName } from "features/game/types/fruits";
@@ -73,5 +76,29 @@ export const PATCH_FRUIT_LIFECYCLE: Record<
     ready: lemonTreeReady,
     harvested: lemonTree,
     dead: SUNNYSIDE.fruit.deadTree,
+  },
+  Celestine: {
+    seedling: CROP_LIFECYCLE.Sunflower.seedling,
+    halfway: CROP_LIFECYCLE.Sunflower.halfway,
+    almost: CROP_LIFECYCLE.Sunflower.almost,
+    ready: celestineBush,
+    harvested: celestineBush,
+    dead: SUNNYSIDE.fruit.bushShrub,
+  },
+  Lunara: {
+    seedling: CROP_LIFECYCLE.Sunflower.seedling,
+    halfway: CROP_LIFECYCLE.Sunflower.halfway,
+    almost: CROP_LIFECYCLE.Sunflower.almost,
+    ready: lunaraBush,
+    harvested: lunaraBush,
+    dead: SUNNYSIDE.fruit.bushShrub,
+  },
+  Duskberry: {
+    seedling: CROP_LIFECYCLE.Sunflower.seedling,
+    halfway: CROP_LIFECYCLE.Sunflower.halfway,
+    almost: CROP_LIFECYCLE.Sunflower.almost,
+    ready: duskberryBush,
+    harvested: duskberryBush,
+    dead: SUNNYSIDE.fruit.bushShrub,
   },
 };

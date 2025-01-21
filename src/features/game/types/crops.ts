@@ -34,7 +34,8 @@ export type CropName =
   | "Pepper"
   | "Onion"
   | "Turnip"
-  | "Artichoke";
+  | "Artichoke"
+  | "Barley";
 
 export type Crop = {
   sellPrice: number;

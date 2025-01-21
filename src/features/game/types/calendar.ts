@@ -8,7 +8,7 @@ import autumn from "assets/icons/autumn.webp";
 import winter from "assets/icons/winter.webp";
 import spring from "assets/icons/spring.webp";
 import tornado from "assets/icons/tornado.webp";
-import fullMoon from "assets/icons/full_moon.webp";
+import fullMoon from "assets/icons/full_moon.png";
 import tsunami from "assets/icons/tsunami.webp";
 import greatFreeze from "assets/icons/great-freeze.webp";
 import doubleDelivery from "assets/icons/double_delivery_icon.webp";
@@ -144,6 +144,14 @@ export function getActiveCalendarEvent({
     return "sunshower";
   }
 
+  if (
+    game.calendar.fullMoon?.triggeredAt &&
+    new Date(game.calendar.fullMoon.triggeredAt).getTime() >
+      Date.now() - 1000 * 60 * 60 * 24
+  ) {
+    return "fullMoon";
+  }
+
   // TODO more events
   return undefined;
 }
@@ -261,4 +269,12 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   bountifulHarvest: bountifulHarvest,
   insectPlague: locust,
   sunshower: sunshower,
+};
+
+export const isFullMoon = (state: GameState, createdAt: number) => {
+  return (
+    state.calendar.fullMoon?.triggeredAt &&
+    state.calendar.fullMoon?.triggeredAt > createdAt - 24 * 60 * 60 * 1000 &&
+    state.calendar.fullMoon?.triggeredAt < createdAt
+  );
 };

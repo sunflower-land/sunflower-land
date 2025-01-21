@@ -31,6 +31,13 @@ export const ReplenishedTree: React.FC<Props> = ({ patchFruitName }) => {
       left = 7;
       width = 18;
       break;
+    case "Celestine":
+    case "Lunara":
+    case "Duskberry":
+      bottom = 8;
+      left = 9;
+      width = 15;
+      break;
     default:
       bottom = 5;
       left = isBush ? 4 : 3;

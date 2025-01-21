@@ -13,7 +13,10 @@ import {
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
-import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
+import {
+  getBuyPrice,
+  isFullMoonBerry,
+} from "features/game/events/landExpansion/seedBought";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
@@ -50,6 +53,7 @@ import {
   isMediumCrop,
 } from "features/game/events/landExpansion/harvest";
 import { Restock } from "./restock/Restock";
+import { isFullMoon } from "features/game/types/calendar";
 
 export const Seeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
@@ -128,7 +132,7 @@ export const Seeds: React.FC = () => {
     }
 
     // return delayed sync when no stock
-    if (stock.lessThanOrEqualTo(0)) {
+    if (stock.lessThanOrEqualTo(0) && !isFullMoonBerry(selectedName)) {
       return <Restock npc={"betty"} />;
     }
 
@@ -382,6 +386,24 @@ export const Seeds: React.FC = () => {
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in PATCH_FRUIT_SEEDS)
+              .filter(
+                (name) =>
+                  name !== "Lunara Seed" ||
+                  (hasFeatureAccess(state, "WEATHER_SHOP") &&
+                    isFullMoon(state, Date.now())),
+              )
+              .filter(
+                (name) =>
+                  name !== "Celestine Seed" ||
+                  (hasFeatureAccess(state, "WEATHER_SHOP") &&
+                    isFullMoon(state, Date.now())),
+              )
+              .filter(
+                (name) =>
+                  name !== "Duskberry Seed" ||
+                  (hasFeatureAccess(state, "WEATHER_SHOP") &&
+                    isFullMoon(state, Date.now())),
+              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}

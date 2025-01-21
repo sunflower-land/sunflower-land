@@ -10380,7 +10380,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/2178.png",
+    image: "../public/erc1155/images/2178.png",
     name: "Golden Cow",
   },
 
@@ -10559,6 +10559,72 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/crops/artichoke.png",
     name: "Artichoke",
+  },
+  "Duskberry Seed": {
+    description: "A duskberry seed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/139.png",
+    name: "Duskberry Seed",
+  },
+  "Lunara Seed": {
+    description: "A Lunara seed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/140.png",
+    name: "Lunara Seed",
+  },
+  "Celestine Seed": {
+    description: "A Celestine seed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/141.png",
+    name: "Celestine Seed",
+  },
+  Duskberry: {
+    description: "A rare berry that grows in the dark.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/266.png",
+    name: "Duskberry",
+  },
+  Lunara: {
+    description: "A mysterious root that grows in the darkest of places.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/267.png",
+    name: "Lunara",
+  },
+  Celestine: {
+    description: "A rare plant that grows in the darkest of places.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/268.png",
+    name: "Celestine",
   },
 };
 

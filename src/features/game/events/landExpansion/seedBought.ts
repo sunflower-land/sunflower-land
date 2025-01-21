@@ -20,6 +20,7 @@ import {
 } from "features/game/types/fruits";
 import { GREENHOUSE_SEEDS } from "features/game/types/crops";
 import { hasFeatureAccess } from "lib/flags";
+import { isFullMoon } from "features/game/types/calendar";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -72,14 +73,27 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
   return price;
 }
 
+export const isFullMoonBerry = (seedName: SeedName) => {
+  return (
+    seedName === "Duskberry Seed" ||
+    seedName === "Lunara Seed" ||
+    seedName === "Celestine Seed"
+  );
+};
+
 type Options = {
   state: Readonly<GameState>;
   action: SeedBoughtAction;
+  createdAt?: number;
 };
 
-export function seedBought({ state, action }: Options) {
+export function seedBought({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { item, amount } = action;
+
+    if (isFullMoonBerry(item) && !isFullMoon(state, createdAt)) {
+      throw new Error("Not a full moon");
+    }
 
     if (!(item in SEEDS)) {
       throw new Error("This item is not a seed");
