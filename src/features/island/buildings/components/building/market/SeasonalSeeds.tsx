@@ -79,7 +79,7 @@ export const SeasonalSeeds: React.FC = () => {
   const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
 
-  const { inventory, coins, island, bumpkin, buds, season, buildings } = state;
+  const { inventory, coins, island, bumpkin, buds, season } = state;
 
   const price = getBuyPrice(selectedName, selected, state);
 
