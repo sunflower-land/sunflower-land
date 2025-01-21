@@ -429,6 +429,13 @@ import {
 } from "./landExpansion/acknowledgeCalendarEvent";
 
 import { purchaseVIP, PurchaseVIPAction } from "./landExpansion/vipPurchased";
+import {
+  collectLavaPit,
+  CollectLavaPitAction,
+} from "./landExpansion/collectLavaPit";
+import { startLavaPit, StartLavaPitAction } from "./landExpansion/startLavaPit";
+import { placeLavaPit, PlaceLavaPitAction } from "./landExpansion/placeLavaPit";
+import { moveLavaPit, MoveLavaPitAction } from "./landExpansion/moveLavaPit";
 
 export type PlayingEvent =
   | PurchaseVIPAction
@@ -562,6 +569,8 @@ export type PlayingEvent =
   | RedeemTradeRewardsAction
   | DailyResetAction
   | AcknowledgeCalendarEventAction
+  | CollectLavaPitAction
+  | StartLavaPitAction
   // To remove once December is finished
   | CollectCandyAction;
 
@@ -603,7 +612,9 @@ export type PlacementEvent =
   | MoveFlowerBedAction
   | PlaceFlowerBedAction
   | MoveOilReserveAction
-  | PlaceOilReserveAction;
+  | PlaceOilReserveAction
+  | PlaceLavaPitAction
+  | MoveLavaPitAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -762,6 +773,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "candy.collected": collectCandy,
   "daily.reset": dailyReset,
   "calendarEvent.acknowledged": acknowledgeCalendarEvent,
+  "lavaPit.collected": collectLavaPit,
+  "lavaPit.started": startLavaPit,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -803,6 +816,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "sunstone.moved": moveSunstone,
   "oilReserve.moved": moveOilReserve,
   "oilReserve.placed": placeOilReserve,
+  "lavaPit.placed": placeLavaPit,
+  "lavaPit.moved": moveLavaPit,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

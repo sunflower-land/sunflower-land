@@ -361,6 +361,8 @@ export const ITEM_TRADE_TYPES: {
     Sunstone: "instant",
     Oil: "instant",
     "Oil Reserve": "instant",
+    Obsidian: "instant",
+    "Lava Pit": "instant",
     Leather: "instant",
     Wool: "instant",
     "Merino Wool": "instant",

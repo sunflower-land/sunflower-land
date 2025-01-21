@@ -738,6 +738,7 @@ export const INITIAL_FARM: GameState = {
     season: "spring",
     startedAt: 0,
   },
+  lavaPits: {},
 };
 
 export const TEST_FARM: GameState = {
@@ -1061,6 +1062,7 @@ export const TEST_FARM: GameState = {
     season: "spring",
     startedAt: 0,
   },
+  lavaPits: {},
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1203,4 +1205,5 @@ export const EMPTY: GameState = {
     season: "spring",
     startedAt: 0,
   },
+  lavaPits: {},
 };
