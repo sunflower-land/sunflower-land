@@ -207,10 +207,10 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     y: -8,
   },
   volcano: {
-    height: 16,
-    width: 16,
-    x: -8,
-    y: -8,
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
   },
 };
 

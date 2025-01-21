@@ -89,11 +89,10 @@ export const Mansion: React.FC<BuildingProps> = ({
       </div>
 
       <div
-        className="absolute w-full"
+        className="absolute w-fit"
         style={{
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 28}px`,
           left: `${PIXEL_SCALE * 0}px`,
-          height: `${PIXEL_SCALE * 32}px`,
         }}
       >
         {bumpkin && <HomeBumpkins game={state} />}
@@ -103,7 +102,7 @@ export const Mansion: React.FC<BuildingProps> = ({
         className="absolute"
         style={{
           bottom: `${PIXEL_SCALE * 20}px`,
-          right: `${PIXEL_SCALE * 14}px`,
+          right: `${PIXEL_SCALE * 28}px`,
         }}
       >
         <LetterBox />
