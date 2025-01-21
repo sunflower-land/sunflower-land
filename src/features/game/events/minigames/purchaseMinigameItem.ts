@@ -19,7 +19,7 @@ export const MINIGAME_CURRENCY_LIMITS: Record<MinigameCurrency, number> = {
     (acc, name) => ({ ...acc, [name]: 1000 }),
     {} as Record<PatchFruitName, number>,
   ),
-  ...getKeys(PATCH_FRUIT()).reduce(
+  ...getKeys(PATCH_FRUIT).reduce(
     (acc, name) => ({ ...acc, [name]: 1000 }),
     {} as Record<CommodityName, number>,
   ),

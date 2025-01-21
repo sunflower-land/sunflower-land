@@ -111,7 +111,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     if (
       hasFeatureAccess(game, "SEASONAL_SEEDS") &&
       item &&
-      item in PATCH_FRUIT_SEEDS() &&
+      item in PATCH_FRUIT_SEEDS &&
       !SEASONAL_SEEDS[game.season.season].includes(item as PatchFruitSeedName)
     ) {
       setShowSeasonalSeed(true);
@@ -121,7 +121,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     if (
       hasFeatureAccess(game, "FRUIT_PATCH_QUICK_SELECT") &&
       enableQuickSelect &&
-      (!item || !(item in PATCH_FRUIT_SEEDS()) || !inventory[item]?.gte(1))
+      (!item || !(item in PATCH_FRUIT_SEEDS) || !inventory[item]?.gte(1))
     ) {
       setShowQuickSelect(true);
       return;
@@ -259,7 +259,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         className="flex bottom-20 left-10 absolute z-40"
       >
         <QuickSelect
-          options={getKeys(PATCH_FRUIT_SEEDS())
+          options={getKeys(PATCH_FRUIT_SEEDS)
             .filter(
               (seed) =>
                 !hasFeatureAccess(game, "SEASONAL_SEEDS") ||
@@ -269,7 +269,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
             )
             .map((seed) => ({
               name: seed as InventoryItemName,
-              icon: PATCH_FRUIT_SEEDS()[seed].yield as InventoryItemName,
+              icon: PATCH_FRUIT_SEEDS[seed].yield as InventoryItemName,
               showSecondaryImage: true,
             }))}
           onClose={() => setShowQuickSelect(false)}

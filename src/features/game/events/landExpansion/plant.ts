@@ -817,7 +817,7 @@ export function plant({
       throw new Error("No seed selected");
     }
 
-    if (!(action.item in SEEDS())) {
+    if (!(action.item in SEEDS)) {
       throw new Error("Not a seed");
     }
 

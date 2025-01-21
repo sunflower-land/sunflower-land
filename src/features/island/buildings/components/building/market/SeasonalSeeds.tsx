@@ -60,7 +60,7 @@ export const SeasonalSeeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
-  const selected = SEEDS()[selectedName];
+  const selected = SEEDS[selectedName];
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -112,7 +112,7 @@ export const SeasonalSeeds: React.FC = () => {
   const plantingSpot = selected.plantingSpot;
 
   const isSeedLocked = (seedName: SeedName) => {
-    const seed = SEEDS()[seedName];
+    const seed = SEEDS[seedName];
     return getBumpkinLevel(state.bumpkin?.experience ?? 0) < seed.bumpkinLevel;
   };
 
@@ -209,19 +209,19 @@ export const SeasonalSeeds: React.FC = () => {
     );
   };
 
-  const yields = SEEDS()[selectedName].yield;
+  const yields = SEEDS[selectedName].yield;
 
   const getPlantSeconds = () => {
-    if (selectedName in FLOWER_SEEDS()) {
+    if (selectedName in FLOWER_SEEDS) {
       return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
-    if (yields && yields in PATCH_FRUIT())
+    if (yields && yields in PATCH_FRUIT)
       return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
 
     if (
       selectedName in GREENHOUSE_SEEDS ||
-      selectedName in GREENHOUSE_FRUIT_SEEDS()
+      selectedName in GREENHOUSE_FRUIT_SEEDS
     ) {
       const plant = SEED_TO_PLANT[selectedName as GreenHouseCropSeedName];
       const seconds = getGreenhouseCropTime({
@@ -242,7 +242,7 @@ export const SeasonalSeeds: React.FC = () => {
   const getHarvestCount = () => {
     if (!yields) return undefined;
 
-    if (!(yields in PATCH_FRUIT())) return undefined;
+    if (!(yields in PATCH_FRUIT)) return undefined;
 
     return getFruitHarvests(state);
   };
@@ -310,7 +310,7 @@ export const SeasonalSeeds: React.FC = () => {
                   isSelected={selectedName === name}
                   key={name}
                   onClick={() => onSeedClick(name)}
-                  image={ITEM_DETAILS[SEEDS()[name].yield ?? name].image}
+                  image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
                   showOverlay={isSeedLocked(name)}
                   // secondaryImage={SUNNYSIDE.icons.seedling}
                   count={inventory[name]}

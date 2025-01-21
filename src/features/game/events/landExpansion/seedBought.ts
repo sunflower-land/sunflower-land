@@ -31,7 +31,7 @@ export type SeedBoughtAction = {
 export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
   const { inventory, bumpkin } = game;
   if (
-    name in FLOWER_SEEDS() &&
+    name in FLOWER_SEEDS &&
     isCollectibleBuilt({ name: "Hungry Caterpillar", game })
   ) {
     return 0;
@@ -55,7 +55,7 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
     price = price * 0.9;
   }
 
-  if (name in FLOWER_SEEDS() && bumpkin.skills["Flower Sale"]) {
+  if (name in FLOWER_SEEDS && bumpkin.skills["Flower Sale"]) {
     price = price * 0.8;
   }
 
@@ -64,7 +64,7 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
   }
 
   if (
-    name in { ...GREENHOUSE_SEEDS, ...GREENHOUSE_FRUIT_SEEDS() } &&
+    name in { ...GREENHOUSE_SEEDS, ...GREENHOUSE_FRUIT_SEEDS } &&
     bumpkin.skills["Seedy Business"]
   ) {
     price = price * 0.85;
@@ -95,7 +95,7 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Not a full moon");
     }
 
-    if (!(item in SEEDS())) {
+    if (!(item in SEEDS)) {
       throw new Error("This item is not a seed");
     }
 
@@ -115,7 +115,7 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
     const userBumpkinLevel = getBumpkinLevel(
       stateCopy.bumpkin?.experience ?? 0,
     );
-    const seed = SEEDS()[item];
+    const seed = SEEDS[item];
     const requiredSeedLevel = seed.bumpkinLevel ?? 0;
 
     if (userBumpkinLevel < requiredSeedLevel) {

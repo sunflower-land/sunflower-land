@@ -69,7 +69,7 @@ export function isGreenhouseCrop(plant: Resource): plant is GreenHouseCropName {
 export function isGreenhouseFruit(
   fruit: Resource,
 ): fruit is GreenHouseFruitName {
-  return (fruit as GreenHouseFruitName) in GREENHOUSE_FRUIT();
+  return (fruit as GreenHouseFruitName) in GREENHOUSE_FRUIT;
 }
 
 export function getGreenhouseYieldAmount({

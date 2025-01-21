@@ -445,8 +445,8 @@ const exotics = getKeys(EXOTIC_CROPS)
 
 export const ALL_PRODUCE: Record<ProduceName, any> = {
   ...CROPS,
-  ...PATCH_FRUIT(),
-  ...GREENHOUSE_FRUIT(),
+  ...PATCH_FRUIT,
+  ...GREENHOUSE_FRUIT,
   ...GREENHOUSE_CROPS,
   ...exotics,
 };
@@ -492,7 +492,7 @@ export function getCropCategory(crop: ProduceName): TranslationKeys {
     return "crops.greenhouse";
   }
 
-  if (PATCH_FRUIT()[crop as PatchFruitName]) {
+  if (PATCH_FRUIT[crop as PatchFruitName]) {
     return "crops.fruit";
   }
 

@@ -21,14 +21,14 @@ import { RECIPE_CRAFTABLES } from "./crafting";
 export function getItemUnit(name: InventoryItemName) {
   if (
     name in CROPS ||
-    name in PATCH_FRUIT() ||
+    name in PATCH_FRUIT ||
     name in GREENHOUSE_CROPS ||
-    name in GREENHOUSE_FRUIT() ||
+    name in GREENHOUSE_FRUIT ||
     name in COMMODITIES ||
     name in ANIMAL_RESOURCES ||
     name in CROP_SEEDS ||
-    name in PATCH_FRUIT_SEEDS() ||
-    name in FLOWER_SEEDS() ||
+    name in PATCH_FRUIT_SEEDS ||
+    name in FLOWER_SEEDS ||
     name in TOOLS ||
     name in TREASURE_TOOLS ||
     name in SHOVELS ||

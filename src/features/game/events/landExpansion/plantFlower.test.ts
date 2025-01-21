@@ -258,7 +258,7 @@ describe("plantFlower", () => {
 
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
     expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - (FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000) / 2,
+      dateNow - (FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000) / 2,
     );
   });
 
@@ -296,7 +296,7 @@ describe("plantFlower", () => {
 
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
     expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.1,
+      dateNow - FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000 * 0.1,
     );
   });
 
@@ -338,7 +338,7 @@ describe("plantFlower", () => {
 
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
     expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.55,
+      dateNow - FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000 * 0.55,
     );
   });
 });
@@ -347,7 +347,7 @@ describe("getFlowerTime", () => {
   it("applies a Blossom Hourglass boost of -25% flower growth time for 4 hours", () => {
     const now = Date.now();
     const seed = "Bloom Seed";
-    const growSeconds = FLOWER_SEEDS()[seed].plantSeconds;
+    const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
 
     const time = getFlowerTime(seed, {
       ...GAME_STATE,
@@ -370,7 +370,7 @@ describe("getFlowerTime", () => {
     const now = Date.now();
     const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
     const seed = "Bloom Seed";
-    const growSeconds = FLOWER_SEEDS()[seed].plantSeconds;
+    const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
 
     const time = getFlowerTime(seed, {
       ...GAME_STATE,
@@ -391,7 +391,7 @@ describe("getFlowerTime", () => {
 
   it("applies a 10% speed boost with Blooming Boost skill", () => {
     const seed = "Bloom Seed";
-    const growSeconds = FLOWER_SEEDS()[seed].plantSeconds;
+    const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
 
     const time = getFlowerTime(seed, {
       ...GAME_STATE,
@@ -406,7 +406,7 @@ describe("getFlowerTime", () => {
 
   it("applies a 20% speed boost with Flower Power skill", () => {
     const seed = "Bloom Seed";
-    const growSeconds = FLOWER_SEEDS()[seed].plantSeconds;
+    const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
 
     const time = getFlowerTime(seed, {
       ...GAME_STATE,

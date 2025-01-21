@@ -13,7 +13,7 @@ interface Props {
 export const ReplenishedTree: React.FC<Props> = ({ patchFruitName }) => {
   const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
 
-  const { isBush } = PATCH_FRUIT()[patchFruitName];
+  const { isBush } = PATCH_FRUIT[patchFruitName];
   let bottom, left, width;
   switch (patchFruitName) {
     case "Banana":

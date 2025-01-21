@@ -59,7 +59,7 @@ export const Seeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
-  const selected = SEEDS()[selectedName];
+  const selected = SEEDS[selectedName];
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -111,7 +111,7 @@ export const Seeds: React.FC = () => {
   const plantingSpot = selected.plantingSpot;
 
   const isSeedLocked = (seedName: SeedName) => {
-    const seed = SEEDS()[seedName];
+    const seed = SEEDS[seedName];
     return getBumpkinLevel(state.bumpkin?.experience ?? 0) < seed.bumpkinLevel;
   };
 
@@ -214,19 +214,19 @@ export const Seeds: React.FC = () => {
     );
   };
 
-  const yields = SEEDS()[selectedName].yield;
+  const yields = SEEDS[selectedName].yield;
 
   const getPlantSeconds = () => {
-    if (selectedName in FLOWER_SEEDS()) {
+    if (selectedName in FLOWER_SEEDS) {
       return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
-    if (yields && yields in PATCH_FRUIT())
+    if (yields && yields in PATCH_FRUIT)
       return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
 
     if (
       selectedName in GREENHOUSE_SEEDS ||
-      selectedName in GREENHOUSE_FRUIT_SEEDS()
+      selectedName in GREENHOUSE_FRUIT_SEEDS
     ) {
       const plant = SEED_TO_PLANT[selectedName as GreenHouseCropSeedName];
       const seconds = getGreenhouseCropTime({
@@ -247,7 +247,7 @@ export const Seeds: React.FC = () => {
   const getHarvestCount = () => {
     if (!yields) return undefined;
 
-    if (!(yields in PATCH_FRUIT())) return undefined;
+    if (!(yields in PATCH_FRUIT)) return undefined;
 
     return getFruitHarvests(state);
   };
@@ -264,8 +264,8 @@ export const Seeds: React.FC = () => {
   ];
 
   const harvestCount = getHarvestCount();
-  const seeds = getKeys(SEEDS()).filter(
-    (seed) => !SEEDS()[seed].disabled && !NEW_SEEDS.includes(seed),
+  const seeds = getKeys(SEEDS).filter(
+    (seed) => !SEEDS[seed].disabled && !NEW_SEEDS.includes(seed),
   );
 
   return (
@@ -385,7 +385,7 @@ export const Seeds: React.FC = () => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => name in PATCH_FRUIT_SEEDS())
+              .filter((name) => name in PATCH_FRUIT_SEEDS)
               .filter(
                 (name) =>
                   name !== "Lunara Seed" ||
@@ -428,7 +428,7 @@ export const Seeds: React.FC = () => {
             </Label>
             <div className="flex flex-wrap mb-2">
               {seeds
-                .filter((name) => name in FLOWER_SEEDS())
+                .filter((name) => name in FLOWER_SEEDS)
                 .map((name: SeedName) => (
                   <Box
                     isSelected={selectedName === name}
@@ -457,7 +457,7 @@ export const Seeds: React.FC = () => {
                   .filter(
                     (name) =>
                       name in GREENHOUSE_SEEDS ||
-                      name in GREENHOUSE_FRUIT_SEEDS(),
+                      name in GREENHOUSE_FRUIT_SEEDS,
                   )
                   .map((name: SeedName) => (
                     <Box

@@ -42,8 +42,8 @@ export const isFruitReadyToHarvest = (
   plantedFruit: PlantedFruit,
   fruitDetails: PatchFruit,
 ) => {
-  const { seed } = PATCH_FRUIT()[fruitDetails.name];
-  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
+  const { seed } = PATCH_FRUIT[fruitDetails.name];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
   return (
     createdAt -
@@ -67,8 +67,8 @@ export function isFruitGrowing(patch: FruitPatch) {
   const { name, harvestsLeft, harvestedAt, plantedAt } = fruit;
   if (!harvestsLeft) return false;
 
-  const { seed } = PATCH_FRUIT()[name];
-  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
+  const { seed } = PATCH_FRUIT[name];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
   if (harvestedAt) {
     const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
@@ -80,7 +80,7 @@ export function isFruitGrowing(patch: FruitPatch) {
 }
 
 const isFruit = (resource: Resource): resource is PatchFruitName => {
-  return resource in PATCH_FRUIT();
+  return resource in PATCH_FRUIT;
 };
 
 // Basic = Blueberry & Orange - Skill
@@ -263,8 +263,8 @@ export function harvestFruit({
 
     const { name, plantedAt, harvestsLeft, harvestedAt, amount } = patch.fruit;
 
-    const { seed } = PATCH_FRUIT()[name];
-    const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
+    const { seed } = PATCH_FRUIT[name];
+    const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
     if (createdAt - plantedAt < plantSeconds * 1000) {
       throw new Error("Not ready");

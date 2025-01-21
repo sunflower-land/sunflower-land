@@ -407,7 +407,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2,
+      dateNow - (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2,
     );
   });
 
@@ -455,7 +455,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2,
+      dateNow - (PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000) / 2,
     );
   });
 
@@ -503,7 +503,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.25,
+      dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.25,
     );
   });
 
@@ -560,7 +560,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.625,
+      dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.625,
     );
   });
 
@@ -604,7 +604,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000) / 2,
+      dateNow - (PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000) / 2,
     );
   });
 
@@ -648,7 +648,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.25,
+      dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.25,
     );
   });
 
@@ -701,7 +701,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.625,
+      dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.625,
     );
   });
 
@@ -1317,7 +1317,7 @@ describe("fruitPlanted", () => {
 describe("getFruitTime", () => {
   it("applies a 50% speed boost with Squirrel Monkey placed for orange seeds", () => {
     const seed = "Orange Seed";
-    const orangePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
@@ -1335,7 +1335,7 @@ describe("getFruitTime", () => {
   });
   it("does not apply a 50% speed boost with Squirrel Monkey placed for other seeds", () => {
     const seed = "Apple Seed";
-    const applePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const applePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
@@ -1354,7 +1354,7 @@ describe("getFruitTime", () => {
 
   it("applies a 50% time reduction for Lemons when Lemon Tea Bath is placed", () => {
     const seed = "Lemon Seed";
-    const lemonPlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const lemonPlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
@@ -1373,7 +1373,7 @@ describe("getFruitTime", () => {
 
   it("gives a 50% growth time reduction for tomatoes when Tomato Clown is placed", () => {
     const seed = "Tomato Seed";
-    const tomatoPlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const tomatoPlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
@@ -1392,7 +1392,7 @@ describe("getFruitTime", () => {
 
   it("applies a 10% speed boost with Nana placed for Banana plant", () => {
     const seed = "Banana Plant";
-    const orangePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
@@ -1410,7 +1410,7 @@ describe("getFruitTime", () => {
   });
   it("does not apply a 10% speed boost with Nana placed for other seeds", () => {
     const seed = "Apple Seed";
-    const applePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const applePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
@@ -1429,7 +1429,7 @@ describe("getFruitTime", () => {
 
   it("applies a 20% speed boost with Banana Onesie", () => {
     const seed = "Banana Plant";
-    const orangePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       bumpkin: {
@@ -1447,7 +1447,7 @@ describe("getFruitTime", () => {
   it("applies a Orchard Hourglass boost of -25% fruit growth time for 6 hours", () => {
     const now = Date.now();
     const seed = "Banana Plant";
-    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
@@ -1468,7 +1468,7 @@ describe("getFruitTime", () => {
     const now = Date.now();
     const sevenHoursAgo = now - 1000 * 60 * 60 * 7;
     const seed = "Banana Plant";
-    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
@@ -1487,7 +1487,7 @@ describe("getFruitTime", () => {
 
   it("applies a 10% growth speed boost on Fruit seeds with Catchup skill", () => {
     const seed = "Tomato Seed";
-    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
     const time = getFruitPatchTime(seed, {
       ...TEST_FARM,
       bumpkin: {
@@ -1501,7 +1501,7 @@ describe("getFruitTime", () => {
     expect(time).toEqual(plantSeconds * 0.9);
   });
   it("takes 2x faster to grow Apples with Long Pickings skill, but Oranges take 2x longer to grow", () => {
-    const applePlantSeconds = PATCH_FRUIT_SEEDS()["Apple Seed"].plantSeconds;
+    const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
     const appleTime = getFruitPatchTime("Apple Seed", {
       ...TEST_FARM,
       bumpkin: {
@@ -1511,7 +1511,7 @@ describe("getFruitTime", () => {
         },
       },
     });
-    const orangePlantSeconds = PATCH_FRUIT_SEEDS()["Orange Seed"].plantSeconds;
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds;
     const orangeTime = getFruitPatchTime("Orange Seed", {
       ...TEST_FARM,
       bumpkin: {
@@ -1525,7 +1525,7 @@ describe("getFruitTime", () => {
     expect(orangeTime).toEqual(orangePlantSeconds * 2);
   });
   it("takes 2x faster to grow Orange with Short Pickings skill, but Apples take 2x longer to grow", () => {
-    const applePlantSeconds = PATCH_FRUIT_SEEDS()["Apple Seed"].plantSeconds;
+    const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
     const appleTime = getFruitPatchTime("Apple Seed", {
       ...TEST_FARM,
       bumpkin: {
@@ -1535,7 +1535,7 @@ describe("getFruitTime", () => {
         },
       },
     });
-    const orangePlantSeconds = PATCH_FRUIT_SEEDS()["Orange Seed"].plantSeconds;
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds;
     const orangeTime = getFruitPatchTime("Orange Seed", {
       ...TEST_FARM,
       bumpkin: {

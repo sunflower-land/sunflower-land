@@ -105,24 +105,24 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const isPatchFruitSeed = (
     selected: InventoryItemName,
-  ): selected is PatchFruitSeedName => selected in PATCH_FRUIT_SEEDS();
+  ): selected is PatchFruitSeedName => selected in PATCH_FRUIT_SEEDS;
   const isSeed = (selected: InventoryItemName): selected is SeedName =>
     isPatchFruitSeed(selected) ||
     selected in CROP_SEEDS ||
-    selected in FLOWER_SEEDS() ||
+    selected in FLOWER_SEEDS ||
     selected in GREENHOUSE_SEEDS ||
-    selected in GREENHOUSE_FRUIT_SEEDS();
+    selected in GREENHOUSE_FRUIT_SEEDS;
   const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
 
   const getHarvestTime = (seedName: SeedName) => {
-    if (seedName in FLOWER_SEEDS()) {
-      return SEEDS()[seedName].plantSeconds;
+    if (seedName in FLOWER_SEEDS) {
+      return SEEDS[seedName].plantSeconds;
     }
 
     if (isPatchFruitSeed(seedName)) {
       return getFruitPatchTime(seedName, gameState);
     }
-    if (seedName in GREENHOUSE_SEEDS || seedName in GREENHOUSE_FRUIT_SEEDS()) {
+    if (seedName in GREENHOUSE_SEEDS || seedName in GREENHOUSE_FRUIT_SEEDS) {
       const plant = SEED_TO_PLANT[seedName as GreenHouseCropSeedName];
       const seconds = getGreenhouseCropTime({
         crop: plant,
@@ -131,7 +131,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       return seconds;
     }
 
-    const crop = SEEDS()[seedName].yield as CropName;
+    const crop = SEEDS[seedName].yield as CropName;
     return getCropPlotTime({
       crop,
       inventory,
@@ -153,14 +153,14 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   };
 
   const seeds = getItems(CROP_SEEDS);
-  const fruitSeeds = getItems(PATCH_FRUIT_SEEDS());
+  const fruitSeeds = getItems(PATCH_FRUIT_SEEDS);
   const greenhouseSeeds = [
-    ...getItems(GREENHOUSE_FRUIT_SEEDS()),
+    ...getItems(GREENHOUSE_FRUIT_SEEDS),
     ...getItems(GREENHOUSE_SEEDS),
   ];
-  const flowerSeeds = getItems(FLOWER_SEEDS());
+  const flowerSeeds = getItems(FLOWER_SEEDS);
   const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
-  const fruits = [...getItems(PATCH_FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
+  const fruits = [...getItems(PATCH_FRUIT), ...getItems(GREENHOUSE_FRUIT)];
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);
@@ -248,7 +248,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             details={{
               item: selectedItem,
               seasons:
-                selectedItem in SEEDS() &&
+                selectedItem in SEEDS &&
                 hasFeatureAccess(gameState, "SEASONAL_SEEDS")
                   ? getKeys(SEASONAL_SEEDS).filter((season) =>
                       SEASONAL_SEEDS[season].includes(selectedItem as SeedName),

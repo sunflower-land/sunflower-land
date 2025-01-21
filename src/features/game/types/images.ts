@@ -1035,39 +1035,39 @@ export const ITEM_DETAILS: Items = {
   },
   "Apple Seed": {
     image: appleSeed,
-    description: PATCH_FRUIT_SEEDS()["Apple Seed"].description,
+    description: PATCH_FRUIT_SEEDS["Apple Seed"].description,
   },
   "Blueberry Seed": {
     image: blueberrySeed,
-    description: PATCH_FRUIT_SEEDS()["Blueberry Seed"].description,
+    description: PATCH_FRUIT_SEEDS["Blueberry Seed"].description,
   },
   "Orange Seed": {
     image: orangeSeed,
-    description: PATCH_FRUIT_SEEDS()["Orange Seed"].description,
+    description: PATCH_FRUIT_SEEDS["Orange Seed"].description,
   },
   "Banana Plant": {
     image: bananaPlant,
-    description: PATCH_FRUIT_SEEDS()["Banana Plant"].description,
+    description: PATCH_FRUIT_SEEDS["Banana Plant"].description,
   },
   "Tomato Seed": {
     image: tomatoSeed,
-    description: PATCH_FRUIT_SEEDS()["Tomato Seed"].description,
+    description: PATCH_FRUIT_SEEDS["Tomato Seed"].description,
   },
   "Lemon Seed": {
     image: lemonSeed,
-    description: PATCH_FRUIT_SEEDS()["Lemon Seed"].description,
+    description: PATCH_FRUIT_SEEDS["Lemon Seed"].description,
   },
   "Sunpetal Seed": {
     image: sunpetalSeed,
-    description: FLOWER_SEEDS()["Sunpetal Seed"].description,
+    description: FLOWER_SEEDS["Sunpetal Seed"].description,
   },
   "Bloom Seed": {
     image: bloomSeed,
-    description: FLOWER_SEEDS()["Bloom Seed"].description,
+    description: FLOWER_SEEDS["Bloom Seed"].description,
   },
   "Lily Seed": {
     image: lilySeed,
-    description: FLOWER_SEEDS()["Lily Seed"].description,
+    description: FLOWER_SEEDS["Lily Seed"].description,
   },
   "Apple Pie": {
     image: applePie,
@@ -1115,27 +1115,27 @@ export const ITEM_DETAILS: Items = {
   },
   Apple: {
     image: apple,
-    description: PATCH_FRUIT().Apple.description,
+    description: PATCH_FRUIT.Apple.description,
   },
   Blueberry: {
     image: blueberry,
-    description: PATCH_FRUIT().Blueberry.description,
+    description: PATCH_FRUIT.Blueberry.description,
   },
   Orange: {
     image: orange,
-    description: PATCH_FRUIT().Orange.description,
+    description: PATCH_FRUIT.Orange.description,
   },
   Banana: {
     image: banana,
-    description: PATCH_FRUIT().Banana.description,
+    description: PATCH_FRUIT.Banana.description,
   },
   Tomato: {
     image: tomato,
-    description: PATCH_FRUIT().Tomato.description,
+    description: PATCH_FRUIT.Tomato.description,
   },
   Lemon: {
     image: lemon,
-    description: PATCH_FRUIT().Lemon.description,
+    description: PATCH_FRUIT.Lemon.description,
   },
   Celestine: {
     image: celestine,
@@ -3762,7 +3762,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Grape Seed": {
     image: grapeSeed,
-    description: GREENHOUSE_FRUIT_SEEDS()["Grape Seed"].description,
+    description: GREENHOUSE_FRUIT_SEEDS["Grape Seed"].description,
   },
   "Olive Seed": {
     image: oliveSeed,
@@ -3774,7 +3774,7 @@ export const ITEM_DETAILS: Items = {
   },
   Grape: {
     image: grape,
-    description: GREENHOUSE_FRUIT().Grape.description,
+    description: GREENHOUSE_FRUIT.Grape.description,
   },
   Olive: {
     image: olive,
