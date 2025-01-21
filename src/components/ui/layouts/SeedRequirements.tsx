@@ -25,6 +25,7 @@ import {
   getCropCategory,
   ProduceName,
 } from "features/game/types/crops";
+import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 
 /**
  * The props for the details for items.
@@ -181,7 +182,10 @@ export const SeedRequirements: React.FC<Props> = ({
   const currentSeason = gameState.season.season;
   const isValidSeed = SEASONAL_SEEDS[currentSeason].includes(details.item);
   const inSeasonSeeds = validSeeds.includes(details.item);
-  const isCropMachineSeed = !isValidSeed && validSeeds.includes(details.item);
+  const isCropMachineSeed =
+    !isValidSeed &&
+    !isFullMoonBerry(details.item) &&
+    validSeeds.includes(details.item);
 
   const getItemDetail = ({
     hideDescription,

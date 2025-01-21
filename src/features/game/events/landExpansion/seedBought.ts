@@ -67,12 +67,14 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
   return price;
 }
 
+export const FULL_MOON_SEEDS: SeedName[] = [
+  "Celestine Seed",
+  "Lunara Seed",
+  "Duskberry Seed",
+];
+
 export const isFullMoonBerry = (seedName: SeedName) => {
-  return (
-    seedName === "Duskberry Seed" ||
-    seedName === "Lunara Seed" ||
-    seedName === "Celestine Seed"
-  );
+  return FULL_MOON_SEEDS.includes(seedName);
 };
 
 type Options = {

@@ -10,7 +10,10 @@ import {
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
-import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
+import {
+  FULL_MOON_SEEDS,
+  getBuyPrice,
+} from "features/game/events/landExpansion/seedBought";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
@@ -47,6 +50,7 @@ import springIcon from "assets/icons/spring.webp";
 import summerIcon from "assets/icons/summer.webp";
 import autumnIcon from "assets/icons/autumn.webp";
 import winterIcon from "assets/icons/winter.webp";
+import fullMoon from "assets/icons/full_moon.png";
 import { SeedRequirements } from "components/ui/layouts/SeedRequirements";
 import { getKeys } from "features/game/types/decorations";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -54,6 +58,8 @@ import {
   BASIC_CROP_MACHINE_SEEDS,
   CROP_EXTENSION_MOD_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { isFullMoon } from "features/game/types/calendar";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -254,7 +260,7 @@ export const SeasonalSeeds: React.FC = () => {
   const currentSeason = season.season;
   const currentSeasonSeeds = SEASONAL_SEEDS[currentSeason];
   const cropMachineSeeds = getKeys(SEEDS).filter((seed) => {
-    if (!buildings["Crop Machine"] || currentSeasonSeeds.includes(seed)) {
+    if (!inventory["Crop Machine"] || currentSeasonSeeds.includes(seed)) {
       return false;
     }
 
@@ -269,7 +275,11 @@ export const SeasonalSeeds: React.FC = () => {
     currentSeasonSeeds.includes(seed),
   );
 
-  const validSeeds = [...cropMachineSeeds, ...inSeasonSeeds];
+  const validSeeds = [
+    ...cropMachineSeeds,
+    ...inSeasonSeeds,
+    ...FULL_MOON_SEEDS,
+  ];
 
   const offSeasonSeeds = getKeys(SEEDS).filter(
     (seed) => !validSeeds.includes(seed),
@@ -311,7 +321,7 @@ export const SeasonalSeeds: React.FC = () => {
       }
       content={
         <div className="pl-1">
-          <div className="mt-1">
+          <div id="SeasonSeeds" className="mt-1">
             <div className="flex justify-between">
               <Label
                 icon={SEASON_ICONS[currentSeason]}
@@ -344,50 +354,78 @@ export const SeasonalSeeds: React.FC = () => {
               ))}
             </div>
           </div>
-          <div>
-            <Label
-              icon={SUNNYSIDE.building.cropMachine}
-              type="default"
-              className="ml-2 mb-1 capitalize"
-            >
-              {t("cropGuide.cropMachine.seeds")}
-            </Label>
-            <div className="flex flex-wrap mb-2">
-              {cropMachineSeeds.map((name) => (
-                <Box
-                  isSelected={selectedName === name}
-                  key={name}
-                  onClick={() => onSeedClick(name)}
-                  image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
-                  showOverlay={isSeedLocked(name)}
-                  // secondaryImage={SUNNYSIDE.icons.seedling}
-                  count={inventory[name]}
-                />
-              ))}
+          {cropMachineSeeds.length > 0 && (
+            <div id="CropMachineSeeds">
+              <Label
+                icon={SUNNYSIDE.building.cropMachine}
+                type="default"
+                className="ml-2 mb-1 capitalize"
+              >
+                {t("cropGuide.cropMachine.seeds")}
+              </Label>
+              <div className="flex flex-wrap mb-2">
+                {cropMachineSeeds.map((name) => (
+                  <Box
+                    isSelected={selectedName === name}
+                    key={name}
+                    onClick={() => onSeedClick(name)}
+                    image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
+                    showOverlay={isSeedLocked(name)}
+                    // secondaryImage={SUNNYSIDE.icons.seedling}
+                    count={inventory[name]}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-          <div>
-            <Label
-              icon={SUNNYSIDE.icons.seedling}
-              type="default"
-              className="ml-2 mb-1 capitalize"
-            >
-              {t("cropGuide.otherProduce")}
-            </Label>
-            <div className="flex flex-wrap mb-2">
-              {offSeasonSeeds.map((name) => (
-                <Box
-                  isSelected={selectedName === name}
-                  key={name}
-                  onClick={() => onSeedClick(name)}
-                  image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
-                  showOverlay={isSeedLocked(name)}
-                  // secondaryImage={SUNNYSIDE.icons.seedling}
-                  count={inventory[name]}
-                />
-              ))}
+          )}
+          {isFullMoon(state, Date.now()) && (
+            <div id="Full Moon Seeds">
+              <Label
+                icon={fullMoon}
+                type="default"
+                className="ml-2 mb-1 capitalize"
+              >
+                {`Full Moon Seeds`}
+              </Label>
+              <div className="flex flex-wrap mb-2">
+                {FULL_MOON_SEEDS.map((name) => (
+                  <Box
+                    isSelected={selectedName === name}
+                    key={name}
+                    onClick={() => onSeedClick(name)}
+                    image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
+                    showOverlay={isSeedLocked(name)}
+                    // secondaryImage={SUNNYSIDE.icons.seedling}
+                    count={inventory[name]}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+          {hasRequiredIslandExpansion(island.type, "spring") && (
+            <div id="Other Produce">
+              <Label
+                icon={SUNNYSIDE.icons.seedling}
+                type="default"
+                className="ml-2 mb-1 capitalize"
+              >
+                {t("cropGuide.otherProduce")}
+              </Label>
+              <div className="flex flex-wrap mb-2">
+                {offSeasonSeeds.map((name) => (
+                  <Box
+                    isSelected={selectedName === name}
+                    key={name}
+                    onClick={() => onSeedClick(name)}
+                    image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
+                    showOverlay={isSeedLocked(name)}
+                    // secondaryImage={SUNNYSIDE.icons.seedling}
+                    count={inventory[name]}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       }
     />
