@@ -1546,7 +1546,6 @@
   "farm.banned": "Esta granja está prohibida",
   "gobSwarm": "Enjambre de duendes!",
   "granting.wish": "Conceder tu deseo",
-  "harvest.number": "{{minHarvest}} - {{maxHarvest}} cosechas",
   "level.number": "Nivel {{level}}",
   "new.delivery.in": "Nuevos envíos: {{timeLeft}}",
   "new.delivery.levelup": "Sube de nivel para desbloquear más entregas.",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "Las aguas están llenas de criaturas extrañas.",
   "description.duskberry": "Una baya rara que crece en la oscuridad.",
   "description.lunara": "Una baya rara que crece en la oscuridad.",
-  "description.celestine": "Una baya rara que crece en la oscuridad."
+  "description.celestine": "Una baya rara que crece en la oscuridad.",
+  "description.lava.pit": "Una fuente de obsidiana",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} cosechas",
+  "harvest.number": "{{noOfHarvests}} cosechas",
+  "cropGuide.cropMachine.seeds": "Semillas para máquinas de cultivo",
+  "cropGuide.cantPlantSeeds": "Las semillas no se pueden plantar",
+  "cropGuide.onlyInCropMachine": "Las semillas solo se pueden plantar en Crop Machine"
 }

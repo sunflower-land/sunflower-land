@@ -1564,7 +1564,6 @@
   "farm.banned": "이 농장은 금지되었습니다",
   "gobSwarm": "고블린 스웜!",
   "granting.wish": "소원을 들어주다",
-  "harvest.number": "{{minHarvest}} - {{maxHarvest}} 수확",
   "level.number": "레벨 {{level}}",
   "new.delivery.in": "신규 배송: {{timeLeft}}",
   "new.delivery.levelup": "레벨을 올리면 더 많은 배송을 받을 수 있습니다.",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "물은 이상한 생물들로 가득 차 있습니다.",
   "description.duskberry": "어둠 속에서 자라는 희귀 베리.",
   "description.lunara": "어둠 속에서 자라는 희귀 베리.",
-  "description.celestine": "어둠 속에서 자라는 희귀 베리."
+  "description.celestine": "어둠 속에서 자라는 희귀 베리.",
+  "description.lava.pit": "흑요석의 원천",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} 수확",
+  "harvest.number": "{{noOfHarvests}} 수확",
+  "cropGuide.cropMachine.seeds": "크롭 머신 씨드",
+  "cropGuide.cantPlantSeeds": "씨앗을 심을 수 없습니다",
+  "cropGuide.onlyInCropMachine": "씨앗은 크롭 머신에서만 심을 수 있습니다."
 }

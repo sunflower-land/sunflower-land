@@ -2793,7 +2793,6 @@
   "gameOptions.generalSettings.lightMode": "Modo de luz",
   "gameOptions.generalSettings.font": "Fonte",
   "gameOptions.plazaSettings.changeServer": "Alterar servidor",
-  "harvest.number": "{{minHarvest}} - {{maxHarvest}} colheitas",
   "level.number": "Nível {{level}}",
   "new.delivery.in": "Novas entregas: {{timeLeft}}",
   "new.delivery.levelup": "Suba de nível para desbloquear mais entregas.",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "As águas estão cheias de criaturas estranhas.",
   "description.duskberry": "Uma fruta rara que cresce no escuro.",
   "description.lunara": "Uma fruta rara que cresce no escuro.",
-  "description.celestine": "Uma fruta rara que cresce no escuro."
+  "description.celestine": "Uma fruta rara que cresce no escuro.",
+  "description.lava.pit": "Uma fonte de obsidiana",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} colheitas",
+  "harvest.number": "{{noOfHarvests}} colheitas",
+  "cropGuide.cropMachine.seeds": "Sementes para máquinas de colheita",
+  "cropGuide.cantPlantSeeds": "As sementes não podem ser plantadas",
+  "cropGuide.onlyInCropMachine": "As sementes só podem ser plantadas na Crop Machine"
 }

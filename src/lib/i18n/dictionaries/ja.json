@@ -1564,7 +1564,6 @@
   "farm.banned": "この農場は禁止されています",
   "gobSwarm": "ゴブリンの群れ！",
   "granting.wish": "あなたの願いをかなえる",
-  "harvest.number": "{{minHarvest}}-{{maxHarvest}} ハーベスト",
   "level.number": "レベル {{level}}",
   "new.delivery.in": "新規配送:{{timeLeft}}",
   "new.delivery.levelup": "レベルアップすると、より多くの配達物がアンロックされます。",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "海には奇妙な生き物がたくさんいます。",
   "description.duskberry": "暗闇で育つ珍しいベリー。",
   "description.lunara": "暗闇で育つ珍しいベリー。",
-  "description.celestine": "暗闇で育つ珍しいベリー。"
+  "description.celestine": "暗闇で育つ珍しいベリー。",
+  "description.lava.pit": "黒曜石の産地",
+  "harvest.numbers": "{{minHarvest}}-{{maxHarvest}} ハーベスト",
+  "harvest.number": "{{noOfHarvests}} ハーベスト",
+  "cropGuide.cropMachine.seeds": "クロップマシンシード",
+  "cropGuide.cantPlantSeeds": "種を植えることはできません",
+  "cropGuide.onlyInCropMachine": "種はクロップマシンでのみ植えることができます"
 }

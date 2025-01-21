@@ -2152,7 +2152,6 @@
   "farm.banned": "该农场已被封禁",
   "gobSwarm": "Goblin 狂潮！",
   "granting.wish": "您的许愿正在实现",
-  "harvest.number": "{{minHarvest}}-{{maxHarvest}} 次收成",
   "level.number": "{{level}} 级",
   "new.delivery.in": "送货刷新：{{timeLeft}}",
   "new.delivery.levelup": "请升级以解锁更多送货。",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "水里到处都是奇怪的生物。",
   "description.duskberry": "一种在黑暗中生长的稀有浆果。",
   "description.lunara": "一种在黑暗中生长的稀有浆果。",
-  "description.celestine": "一种在黑暗中生长的稀有浆果。"
+  "description.celestine": "一种在黑暗中生长的稀有浆果。",
+  "description.lava.pit": "黑曜石的来源",
+  "harvest.numbers": "{{minHarvest}}-{{maxHarvest}} 收成",
+  "harvest.number": "{{noOfHarvests}} 收成",
+  "cropGuide.cropMachine.seeds": "作物机种子",
+  "cropGuide.cantPlantSeeds": "种子无法播种",
+  "cropGuide.onlyInCropMachine": "种子只能在 Crop Machine 中播种"
 }

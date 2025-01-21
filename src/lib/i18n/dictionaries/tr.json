@@ -2828,7 +2828,6 @@
   "gameOptions.generalSettings.darkMode": "Karanlık Mod",
   "gameOptions.generalSettings.lightMode": "Işık Modu",
   "gameOptions.generalSettings.font": "Yazı Tipi",
-  "harvest.number": "{{minHarvest}} - {{maxHarvest}} hasatlar",
   "level.number": "Seviye {{level}}",
   "new.delivery.in": "Yeni teslimatlar: {{timeLeft}}",
   "new.delivery.levelup": "Daha fazla teslimatın kilidini açmak için seviye atlayın.",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "Sular garip yaratıklarla doludur.",
   "description.duskberry": "Karanlıkta yetişen nadir bir meyve.",
   "description.lunara": "Karanlıkta yetişen nadir bir meyve.",
-  "description.celestine": "Karanlıkta yetişen nadir bir meyve."
+  "description.celestine": "Karanlıkta yetişen nadir bir meyve.",
+  "description.lava.pit": "Bir obsidiyen kaynağı",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} hasatlar",
+  "harvest.number": "{{noOfHarvests}} hasatlar",
+  "cropGuide.cropMachine.seeds": "Mahsul Makinesi Tohumları",
+  "cropGuide.cantPlantSeeds": "Tohumlar ekilemez",
+  "cropGuide.onlyInCropMachine": "Tohumlar sadece Mahsul Makinesi'ne ekilebilir"
 }

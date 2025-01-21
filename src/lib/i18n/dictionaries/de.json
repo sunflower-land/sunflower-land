@@ -1564,7 +1564,6 @@
   "farm.banned": "Diese Farm ist verboten",
   "gobSwarm": "Goblinschwarm!",
   "granting.wish": "Erfüllen Sie Ihren Wunsch",
-  "harvest.number": "{{minHarvest}} - {{maxHarvest}} Ernten",
   "level.number": "Stufe {{level}}",
   "new.delivery.in": "Neue Lieferungen: {{timeLeft}}",
   "new.delivery.levelup": "Steigen Sie auf, um mehr Lieferungen freizuschalten.",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "Die Gewässer sind voller seltsamer Kreaturen.",
   "description.duskberry": "Eine seltene Beere, die im Dunkeln wächst.",
   "description.lunara": "Eine seltene Beere, die im Dunkeln wächst.",
-  "description.celestine": "Eine seltene Beere, die im Dunkeln wächst."
+  "description.celestine": "Eine seltene Beere, die im Dunkeln wächst.",
+  "description.lava.pit": "Eine Obsidianquelle",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} Ernten",
+  "harvest.number": "{{noOfHarvests}} Ernten",
+  "cropGuide.cropMachine.seeds": "Saatgut für Erntemaschinen",
+  "cropGuide.cantPlantSeeds": "Samen können nicht gepflanzt werden",
+  "cropGuide.onlyInCropMachine": "Samen können nur in Crop Machine gepflanzt werden"
 }

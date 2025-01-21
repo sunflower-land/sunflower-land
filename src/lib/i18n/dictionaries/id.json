@@ -1564,7 +1564,6 @@
   "farm.banned": "Pertanian ini dilarang",
   "gobSwarm": "Kawanan Goblin!",
   "granting.wish": "Memberikan keinginan Anda",
-  "harvest.number": "{{minHarvest}} - {{maxHarvest}} panen",
   "level.number": "Tingkat {{level}}",
   "new.delivery.in": "Pengiriman baru: {{timeLeft}}",
   "new.delivery.levelup": "Naik level untuk membuka lebih banyak pengiriman.",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "Air dipenuhi dengan makhluk aneh.",
   "description.duskberry": "Berry langka yang tumbuh dalam gelap.",
   "description.lunara": "Berry langka yang tumbuh dalam gelap.",
-  "description.celestine": "Berry langka yang tumbuh dalam gelap."
+  "description.celestine": "Berry langka yang tumbuh dalam gelap.",
+  "description.lava.pit": "Sumber obsidian",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} panen",
+  "harvest.number": "{{noOfHarvests}} panen",
+  "cropGuide.cropMachine.seeds": "Benih Mesin Tanaman",
+  "cropGuide.cantPlantSeeds": "Benih tidak bisa ditanam",
+  "cropGuide.onlyInCropMachine": "Benih hanya bisa ditanam di Mesin Tanaman"
 }

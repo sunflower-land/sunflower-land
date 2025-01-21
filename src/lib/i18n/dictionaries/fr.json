@@ -2817,7 +2817,6 @@
   "gameOptions.generalSettings.darkMode": "Mode sombre",
   "gameOptions.generalSettings.lightMode": "Mode d'éclairage",
   "gameOptions.generalSettings.font": "Police d'écriture",
-  "harvest.number": "{{minHarvest}} - {{maxHarvest}} cultures",
   "level.number": "Niveau {{level}}",
   "new.delivery.in": "Nouvelles livraisons : {{timeLeft}}",
   "polygonscan": "Numérisation de polygones",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "Les eaux regorgent de créatures étranges.",
   "description.duskberry": "Une baie rare qui pousse dans le noir.",
   "description.lunara": "Une baie rare qui pousse dans le noir.",
-  "description.celestine": "Une baie rare qui pousse dans le noir."
+  "description.celestine": "Une baie rare qui pousse dans le noir.",
+  "description.lava.pit": "Une source d'obsidienne",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} récoltes",
+  "harvest.number": "{{noOfHarvests}} récoltes",
+  "cropGuide.cropMachine.seeds": "Semences pour machines à cultiver",
+  "cropGuide.cantPlantSeeds": "Les graines ne peuvent pas être plantées",
+  "cropGuide.onlyInCropMachine": "Les graines ne peuvent être plantées que dans Crop Machine"
 }

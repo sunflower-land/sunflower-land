@@ -1545,7 +1545,6 @@
   "farm.banned": "Questa fattoria è vietata",
   "gobSwarm": "Sciame di Goblin!",
   "granting.wish": "Esaudire il tuo desiderio",
-  "harvest.number": "{{minHarvest}} - {{maxHarvest}} raccolti",
   "level.number": "Livello {{level}}",
   "new.delivery.in": "Nuove consegne: {{timeLeft}}",
   "new.delivery.levelup": "Sali di livello per sbloccare più consegne.",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "Le acque sono piene di strane creature.",
   "description.duskberry": "Una bacca rara che cresce al buio.",
   "description.lunara": "Una bacca rara che cresce al buio.",
-  "description.celestine": "Una bacca rara che cresce al buio."
+  "description.celestine": "Una bacca rara che cresce al buio.",
+  "description.lava.pit": "Una fonte di ossidiana",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} raccolti",
+  "harvest.number": "{{noOfHarvests}} raccolti",
+  "cropGuide.cropMachine.seeds": "Sementi per macchine per colture",
+  "cropGuide.cantPlantSeeds": "I semi non possono essere piantati",
+  "cropGuide.onlyInCropMachine": "I semi possono essere piantati solo in Crop Machine"
 }

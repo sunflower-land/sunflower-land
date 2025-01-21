@@ -2603,7 +2603,6 @@
   "hank-intro.two": "Я работаю на этой земле уже пятьдесят лет, и мне бы точно пригодилась помощь.",
   "hank.choresFrozen": "Что ж, похоже, мы все на сегодня сделали. Отдохни немного и насладись остатком дня!",
   "hank.crafting.scarecrow": "Создать Scarecrow",
-  "harvest.number": "{{minHarvest}}-{{maxHarvest}} урожай",
   "harvestBeeHive.noHoney": "В этом улье нет мёда.",
   "harvestBeeHive.notPlaced": "Этот улей не установлен.",
   "harvestflower.alr.plant": "Цветок уже посажен",
@@ -4923,5 +4922,11 @@
   "fullMoon.three": "Воды заполнены странными существами.",
   "description.duskberry": "Редкая ягода, растущая в темноте.",
   "description.lunara": "Редкая ягода, растущая в темноте.",
-  "description.celestine": "Редкая ягода, растущая в темноте."
+  "description.celestine": "Редкая ягода, растущая в темноте.",
+  "description.lava.pit": "Источник обсидиана",
+  "harvest.numbers": "{{minHarvest}} - {{maxHarvest}} урожаи",
+  "harvest.number": "{{noOfHarvests}} урожаи",
+  "cropGuide.cropMachine.seeds": "Семена для сельскохозяйственных машин",
+  "cropGuide.cantPlantSeeds": "Семена нельзя сажать",
+  "cropGuide.onlyInCropMachine": "Семена можно сажать только в Crop Machine"
 }
