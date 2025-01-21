@@ -9,6 +9,7 @@ const BUSH_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.decorations.bush,
   spring: SUNNYSIDE.decorations.springBush,
   desert: SUNNYSIDE.decorations.bush,
+  volcano: SUNNYSIDE.decorations.bush,
 };
 export const Bush: React.FC<CollectibleProps> = ({ game }) => {
   return (

@@ -206,6 +206,12 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     x: -8,
     y: -8,
   },
+  volcano: {
+    height: 16,
+    width: 16,
+    x: -8,
+    y: -8,
+  },
 };
 
 export const ANIMAL_HOUSE_BOUNDS: Record<

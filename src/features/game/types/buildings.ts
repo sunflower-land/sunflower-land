@@ -3,7 +3,7 @@ import { CollectibleName } from "./craftables";
 import { InventoryItemName, IslandType } from "./game";
 import { ResourceName } from "./resources";
 
-export type Home = "Tent" | "House" | "Manor";
+export type Home = "Tent" | "House" | "Manor" | "Mansion";
 
 export type CookingBuildingName =
   | "Fire Pit"
@@ -70,6 +70,14 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
     },
   ],
   Manor: [
+    {
+      unlocksAtLevel: 99,
+      coins: 0,
+      constructionSeconds: 30,
+      ingredients: [],
+    },
+  ],
+  Mansion: [
     {
       unlocksAtLevel: 99,
       coins: 0,
@@ -494,6 +502,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Town Center": { width: 4, height: 3 },
   House: { width: 4, height: 4 },
   Manor: { width: 5, height: 4 },
+  Mansion: { width: 5, height: 4 },
   Workbench: { width: 3, height: 2 },
   Kitchen: { width: 4, height: 3 },
   Bakery: { width: 4, height: 3 },

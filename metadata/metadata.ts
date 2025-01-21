@@ -7037,6 +7037,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  Mansion: {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1017.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Crop Machine": {
     description:
       "Technology arrives at the farm! Crop Machine is here to help!",

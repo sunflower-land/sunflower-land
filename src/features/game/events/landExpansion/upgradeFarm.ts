@@ -853,7 +853,7 @@ const INITIAL_VOLCANO_LAND: Pick<
         choppedAt: 0,
       },
       x: 3,
-      y: 6,
+      y: 8,
       height: 2,
       width: 2,
       createdAt: Date.now(),
@@ -863,7 +863,7 @@ const INITIAL_VOLCANO_LAND: Pick<
         amount: 1,
         choppedAt: 0,
       },
-      x: 3,
+      x: 5,
       y: 4,
       height: 2,
       width: 2,
@@ -1107,7 +1107,7 @@ function volcanoUpgrade(state: GameState) {
 
   // Ensure they have the minimum resources to start the island with
   // Do not give bonus sunstones
-  const minimum = { ...TOTAL_EXPANSION_NODES.desert[4], "Sunstone Rock": 0 };
+  const minimum = { ...TOTAL_EXPANSION_NODES.volcano[4], "Sunstone Rock": 0 };
 
   Object.entries(minimum).forEach(([name, amount]) => {
     const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
