@@ -13,6 +13,7 @@ import { Decimal } from "decimal.js-light";
 import {
   FULL_MOON_SEEDS,
   getBuyPrice,
+  isFullMoonBerry,
 } from "features/game/events/landExpansion/seedBought";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
@@ -137,6 +138,9 @@ export const SeasonalSeeds: React.FC = () => {
 
     // return delayed sync when no stock
     if (stock.lessThanOrEqualTo(0)) {
+      if (isFullMoonBerry(selectedName)) {
+        return <></>;
+      }
       return <Restock npc={"betty"} />;
     }
 
