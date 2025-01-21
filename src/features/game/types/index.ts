@@ -400,6 +400,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Royal Bedding": 660,
   "Royal Ornament": 661,
   Omnifeed: 662,
+  Obsidian: 663,
+  "Lava Pit": 664,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

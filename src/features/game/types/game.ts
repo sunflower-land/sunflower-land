@@ -1318,6 +1318,16 @@ export type Calendar = {
   sunshower?: CalendarEvent;
 };
 
+export type LavaPit = {
+  createdAt: number;
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+  startedAt?: number;
+  collectedAt?: number;
+};
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1521,6 +1531,7 @@ export interface GameState {
     recipes: Partial<Recipes>;
   };
   season: Season;
+  lavaPits: Record<string, LavaPit>;
 }
 
 export interface Context {

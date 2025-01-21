@@ -209,6 +209,7 @@ import oil from "assets/resources/oil.webp";
 import duskberry from "assets/fruit/duskberry/duskberry.webp";
 import lunara from "assets/fruit/lunara/lunara.webp";
 import celestine from "assets/fruit/celestine/celestine.webp";
+import obsidian from "assets/resources/obsidian.webp";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
@@ -495,6 +496,7 @@ import grainGrinder from "assets/sfts/grain_grinder.png";
 import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 import sunstoneRock from "assets/resources/sunstone/sunstone_rock_1.webp";
 import oilReserve from "assets/resources/oil/oil_reserve_full.webp";
+import lavaPit from "assets/resources/lava/lava_pit.webp";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";
@@ -1224,6 +1226,10 @@ export const ITEM_DETAILS: Items = {
   Diamond: {
     image: SUNNYSIDE.resource.diamond,
     description: COMMODITIES.Diamond.description,
+  },
+  Obsidian: {
+    image: obsidian,
+    description: COMMODITIES.Obsidian.description,
   },
   Sunstone: {
     image: sunstone,
@@ -2728,6 +2734,10 @@ export const ITEM_DETAILS: Items = {
   "Oil Reserve": {
     image: oilReserve,
     description: translate("description.oil.reserve"),
+  },
+  "Lava Pit": {
+    image: lavaPit,
+    description: translate("description.lava.pit"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,

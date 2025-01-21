@@ -125,5 +125,6 @@ export function makeGame(farm: any): GameState {
     barn: farm.barn,
     craftingBox: farm.craftingBox,
     season: farm.season,
+    lavaPits: farm.lavaPits,
   };
 }

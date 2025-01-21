@@ -30,6 +30,7 @@ import { OilReserve } from "features/game/expansion/components/resources/oilRese
 import { IslandType } from "features/game/types/game";
 
 import cacti from "assets/resources/tree/cacti.webp";
+import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
 
 export const TREE_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree,
@@ -190,6 +191,12 @@ export const READONLY_RESOURCE_COMPONENTS: (
       }}
     />
   ),
+  "Lava Pit": () => (
+    <img
+      src={ITEM_DETAILS["Lava Pit"].image}
+      className="absolute h-auto w-full"
+    />
+  ),
 });
 
 export const RESOURCE_COMPONENTS: Record<
@@ -208,6 +215,7 @@ export const RESOURCE_COMPONENTS: Record<
   "Flower Bed": FlowerBed,
   "Sunstone Rock": Sunstone,
   "Oil Reserve": OilReserve,
+  "Lava Pit": LavaPit,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

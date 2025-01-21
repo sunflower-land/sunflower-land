@@ -55,6 +55,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Flower Bed": "flowerBed.moved",
   "Sunstone Rock": "sunstone.moved",
   "Oil Reserve": "oilReserve.moved",
+  "Lava Pit": "lavaPit.moved",
 };
 
 function getMoveAction(
