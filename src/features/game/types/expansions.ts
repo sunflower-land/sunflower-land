@@ -124,6 +124,10 @@ export function getLand({
     land = DESERT_LAYOUTS()[expansion];
   }
 
+  if (game.island.type === "volcano") {
+    land = VOLCANO_LAYOUTS()[expansion];
+  }
+
   if (!land) {
     return null;
   }
@@ -1938,6 +1942,30 @@ export const DESERT_LAND_25_LAYOUT: () => Layout = () => ({
 });
 
 export const DESERT_LAYOUTS: () => Record<number, Layout> = () => ({
+  5: DESERT_LAND_5_LAYOUT(),
+  6: DESERT_LAND_6_LAYOUT(),
+  7: DESERT_LAND_7_LAYOUT(),
+  8: DESERT_LAND_8_LAYOUT(),
+  9: DESERT_LAND_9_LAYOUT(),
+  10: DESERT_LAND_10_LAYOUT(),
+  11: DESERT_LAND_11_LAYOUT(),
+  12: DESERT_LAND_12_LAYOUT(),
+  13: DESERT_LAND_13_LAYOUT(),
+  14: DESERT_LAND_14_LAYOUT(),
+  15: DESERT_LAND_15_LAYOUT(),
+  16: DESERT_LAND_16_LAYOUT(),
+  17: DESERT_LAND_17_LAYOUT(),
+  18: DESERT_LAND_18_LAYOUT(),
+  19: DESERT_LAND_19_LAYOUT(),
+  20: DESERT_LAND_20_LAYOUT(),
+  21: DESERT_LAND_21_LAYOUT(),
+  22: DESERT_LAND_22_LAYOUT(),
+  23: DESERT_LAND_23_LAYOUT(),
+  24: DESERT_LAND_24_LAYOUT(),
+  25: DESERT_LAND_25_LAYOUT(),
+});
+
+export const VOLCANO_LAYOUTS: () => Record<number, Layout> = () => ({
   5: DESERT_LAND_5_LAYOUT(),
   6: DESERT_LAND_6_LAYOUT(),
   7: DESERT_LAND_7_LAYOUT(),
