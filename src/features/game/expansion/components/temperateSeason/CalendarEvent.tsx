@@ -29,10 +29,17 @@ export const CalendarEvent: React.FC = () => {
     gameService.send({ type: "ACKNOWLEDGE" });
   };
 
+  const handleAFK = () => {
+    gameService.send({ type: "daily.reset" });
+    gameService.send({ type: "CONTINUE" });
+  };
+
   return (
     <Modal show>
       {event === "tornado" && <Tornado acknowledge={handleAcknowledge} />}
-      {event === "tsunami" && <Tsunami acknowledge={handleAcknowledge} />}
+      {event === "tsunami" && (
+        <Tsunami acknowledge={handleAcknowledge} handleAFK={handleAFK} />
+      )}
       {event === "greatFreeze" && (
         <GreatFreeze acknowledge={handleAcknowledge} />
       )}

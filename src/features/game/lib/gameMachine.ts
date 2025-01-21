@@ -287,9 +287,7 @@ type TransactEvent = {
 };
 
 export type BlockchainEvent =
-  | {
-      type: "SAVE";
-    }
+  | { type: "SAVE" }
   | TransactEvent
   | WalletUpdatedEvent
   | CommunityEvent
@@ -297,48 +295,20 @@ export type BlockchainEvent =
   | DeleteTradeListingEvent
   | FulfillTradeListingEvent
   | SellMarketResourceEvent
-  | {
-      type: "REFRESH";
-    }
-  | {
-      type: "ACKNOWLEDGE";
-    }
-  | {
-      type: "EXPIRED";
-    }
-  | {
-      type: "CONTINUE";
-      id?: string;
-    }
-  | {
-      type: "RESET";
-    }
-  | {
-      type: "DEPOSIT";
-    }
-  | {
-      type: "PAUSE";
-    }
-  | {
-      type: "PLAY";
-    }
-  | {
-      type: "REVEAL";
-    }
-  | {
-      type: "SKIP_MIGRATION";
-    }
+  | { type: "REFRESH" }
+  | { type: "ACKNOWLEDGE" }
+  | { type: "EXPIRED" }
+  | { type: "CONTINUE"; id?: string }
+  | { type: "RESET" }
+  | { type: "DEPOSIT" }
+  | { type: "PAUSE" }
+  | { type: "PLAY" }
+  | { type: "REVEAL" }
+  | { type: "SKIP_MIGRATION" }
   | { type: "END_VISIT" }
-  | {
-      type: "PROVE_PERSONHOOD";
-    }
-  | {
-      type: "PERSONHOOD_FINISHED";
-      verified: boolean;
-    }
-  | {
-      type: "PERSONHOOD_CANCELLED";
-    }
+  | { type: "PROVE_PERSONHOOD" }
+  | { type: "PERSONHOOD_FINISHED"; verified: boolean }
+  | { type: "PERSONHOOD_CANCELLED" }
   | GameEvent
   | LandscapeEvent
   | VisitEvent
@@ -1070,11 +1040,15 @@ export function startGame(authContext: AuthContext) {
         },
         calendarEvent: {
           on: {
+            "daily.reset": (GAME_EVENT_HANDLERS as any)["daily.reset"],
             "calendarEvent.acknowledged": (GAME_EVENT_HANDLERS as any)[
               "calendarEvent.acknowledged"
             ],
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+            CONTINUE: {
+              target: "autosaving",
             },
           },
         },

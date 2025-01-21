@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -10,16 +10,23 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getActiveCalendarEvent } from "features/game/types/calendar";
 
 const _hasMangrove = (state: MachineState) =>
   state.context.state.calendar.tsunami?.protected;
 
+const _state = (state: MachineState) => state.context.state;
+
 export const Tsunami: React.FC<{
   acknowledge: () => void;
-}> = ({ acknowledge }) => {
+  handleAFK: () => void;
+}> = ({ acknowledge, handleAFK }) => {
   const { gameService } = useGame();
   const hasMangrove = useSelector(gameService, _hasMangrove);
+  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
+  const [eventOver, setEventOver] = useState(false);
+  const notTsunami = getActiveCalendarEvent({ game: state }) !== "tsunami";
 
   const tsunamiPositions = useRef<
     {
@@ -35,13 +42,26 @@ export const Tsunami: React.FC<{
     })),
   );
 
+  useEffect(() => {
+    if (notTsunami) {
+      setEventOver(true);
+    }
+  }, [notTsunami]);
+
   return (
     <>
       <Panel className="relative z-10">
         <div className="p-1">
-          <Label type="vibrant" icon={tsunami} className="mb-2">
-            {t("tsunami.specialEvent")}
-          </Label>
+          <div className="flex flex-row justify-between">
+            <Label type="vibrant" icon={tsunami} className="mb-2">
+              {t("tsunami.specialEvent")}
+            </Label>
+            {eventOver && (
+              <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+                {`Event Over`}
+              </Label>
+            )}
+          </div>
 
           <NoticeboardItems
             items={
@@ -77,7 +97,9 @@ export const Tsunami: React.FC<{
             }
           />
         </div>
-        <Button onClick={acknowledge}>{t("continue")}</Button>
+        <Button onClick={notTsunami ? handleAFK : acknowledge}>
+          {t("continue")}
+        </Button>
       </Panel>
       <div className="fixed inset-0  overflow-hidden">
         {tsunamiPositions.current.map(({ top, left, delay }, i) => (
