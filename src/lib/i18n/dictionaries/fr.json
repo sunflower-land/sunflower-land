@@ -4917,5 +4917,11 @@
   "calendar.events.sunshower.description": "Phénomène météorologique rare où le soleil brille pendant qu'il pleut, portant chance à vos récoltes.",
   "sunshower.info.one": "Vos cultures poussent 2 fois plus vite !",
   "sunshower.tooltip": "Sunshower Blessed : vitesse de récolte multipliée par 2.",
-  "sunshower.specialEvent": "Événement spécial - Sunshower"
+  "sunshower.specialEvent": "Événement spécial - Sunshower",
+  "fullMoon.one": "Toutes les aubergines ont poussé du jour au lendemain.",
+  "fullMoon.two": "Betty possède des graines de Duskberry, de Lunara et de Celestine.",
+  "fullMoon.three": "Les eaux regorgent de créatures étranges.",
+  "description.duskberry": "Une baie rare qui pousse dans le noir.",
+  "description.lunara": "Une baie rare qui pousse dans le noir.",
+  "description.celestine": "Une baie rare qui pousse dans le noir."
 }

@@ -4917,5 +4917,11 @@
   "calendar.events.sunshower.description": "비가 오는 동안 햇살이 비쳐 농작물에 행운을 가져다주는 드문 기상 현상입니다.",
   "sunshower.info.one": "작물이 2배 더 빨리 자랍니다!",
   "sunshower.tooltip": "썬샤워 블레스 - 크롭 스피드 2배.",
-  "sunshower.specialEvent": "특별 이벤트 - 선샤워"
+  "sunshower.specialEvent": "특별 이벤트 - 선샤워",
+  "fullMoon.one": "모든 가지가 하룻밤 사이에 자랐습니다.",
+  "fullMoon.two": "베티는 더스크베리, 루나라, 셀레스틴 씨앗을 공급받고 있습니다.",
+  "fullMoon.three": "물은 이상한 생물들로 가득 차 있습니다.",
+  "description.duskberry": "어둠 속에서 자라는 희귀 베리.",
+  "description.lunara": "어둠 속에서 자라는 희귀 베리.",
+  "description.celestine": "어둠 속에서 자라는 희귀 베리."
 }

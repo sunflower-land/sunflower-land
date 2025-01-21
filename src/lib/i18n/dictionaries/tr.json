@@ -4917,5 +4917,11 @@
   "calendar.events.sunshower.description": "Yağmur yağarken güneşin parladığı ve mahsullerinize iyi şans getirdiği nadir bir hava olgusu.",
   "sunshower.info.one": "Ekinleriniz 2 kat daha hızlı büyür!",
   "sunshower.tooltip": "Sunshower kutsanmış - 2x mahsul hızı.",
-  "sunshower.specialEvent": "Özel Etkinlik - Sunshower"
+  "sunshower.specialEvent": "Özel Etkinlik - Sunshower",
+  "fullMoon.one": "Tüm patlıcanlar bir gecede büyüdü.",
+  "fullMoon.two": "Betty'nin Duskberry, Lunara ve Celestine tohumları kaynağı var.",
+  "fullMoon.three": "Sular garip yaratıklarla doludur.",
+  "description.duskberry": "Karanlıkta yetişen nadir bir meyve.",
+  "description.lunara": "Karanlıkta yetişen nadir bir meyve.",
+  "description.celestine": "Karanlıkta yetişen nadir bir meyve."
 }

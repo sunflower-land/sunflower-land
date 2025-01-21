@@ -4917,5 +4917,11 @@
   "calendar.events.sunshower.description": "Un raro fenomeno meteorologico in cui il sole splende mentre piove, portando fortuna ai raccolti.",
   "sunshower.info.one": "Le tue colture crescono 2 volte più velocemente!",
   "sunshower.tooltip": "Sunshower blessed: velocità di coltura doppia.",
-  "sunshower.specialEvent": "Evento speciale - Sunshower"
+  "sunshower.specialEvent": "Evento speciale - Sunshower",
+  "fullMoon.one": "Tutte le melanzane sono cresciute durante la notte.",
+  "fullMoon.two": "Betty ha una scorta di semi di Duskberry, Lunara e Celestine.",
+  "fullMoon.three": "Le acque sono piene di strane creature.",
+  "description.duskberry": "Una bacca rara che cresce al buio.",
+  "description.lunara": "Una bacca rara che cresce al buio.",
+  "description.celestine": "Una bacca rara che cresce al buio."
 }

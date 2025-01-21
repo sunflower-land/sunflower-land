@@ -4917,5 +4917,11 @@
   "calendar.events.sunshower.description": "这是一种罕见的天气现象，下雨时阳光照耀，为农作物带来好运。",
   "sunshower.info.one": "你的农作物生长速度快了 2 倍！",
   "sunshower.tooltip": "阳光明媚-作物速度提高了 2 倍。",
-  "sunshower.specialEvent": "特别活动-Sunshower"
+  "sunshower.specialEvent": "特别活动-Sunshower",
+  "fullMoon.one": "所有的茄子都在一夜之间长出来了。",
+  "fullMoon.two": "Betty 有 Duskberry、Lunara 和 Celestine 种子供应。",
+  "fullMoon.three": "水里到处都是奇怪的生物。",
+  "description.duskberry": "一种在黑暗中生长的稀有浆果。",
+  "description.lunara": "一种在黑暗中生长的稀有浆果。",
+  "description.celestine": "一种在黑暗中生长的稀有浆果。"
 }
