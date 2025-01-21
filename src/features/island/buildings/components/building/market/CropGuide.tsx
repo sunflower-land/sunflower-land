@@ -165,6 +165,7 @@ export const CropRow: React.FC<{
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
     SEASONAL_SEEDS[season].includes(seed as SeedName),
   );
+  const showMediumTime = seconds > 24 * 60 * 60;
   const { t } = useAppTranslation();
   return (
     <div
@@ -184,7 +185,9 @@ export const CropRow: React.FC<{
           <div className="flex items-center mr-2">
             <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
             <p className="text-xxs">
-              {secondsToString(seconds, { length: "short" })}
+              {secondsToString(seconds, {
+                length: showMediumTime ? "medium" : "short",
+              })}
             </p>
           </div>
           <div className="flex items-center">

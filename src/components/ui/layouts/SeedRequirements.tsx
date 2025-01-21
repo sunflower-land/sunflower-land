@@ -94,6 +94,8 @@ interface Props {
   actionView?: JSX.Element;
   hideDescription?: boolean;
   label?: JSX.Element;
+  validSeeds: SeedName[];
+  cropMachineSeeds: SeedName[];
 }
 
 function getDetails(
@@ -141,7 +143,9 @@ export const SeedRequirements: React.FC<Props> = ({
   actionView,
   hideDescription,
   label,
-}: Props) => {
+  validSeeds,
+  cropMachineSeeds,
+}) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
   const getStock = () => {
@@ -171,6 +175,9 @@ export const SeedRequirements: React.FC<Props> = ({
     );
   };
 
+  const inSeasonSeeds = validSeeds.includes(details.item);
+  const isCropMachineSeed = cropMachineSeeds.includes(details.item);
+
   const getItemDetail = ({
     hideDescription,
   }: {
@@ -183,7 +190,7 @@ export const SeedRequirements: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex flex-col space-x-2 justify-start items-center  md:space-x-0 mb-1">
+        <div className="flex flex-col space-x-2 justify-start items-center md:space-x-0 mb-1">
           <div>
             <p className="text-center">{title}</p>
             <p className="text-xs text-center">
@@ -196,8 +203,10 @@ export const SeedRequirements: React.FC<Props> = ({
               <SquareIcon icon={SUNNYSIDE.icons.chevron_right} width={8} />
               <SquareIcon
                 icon={
-                  PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
-                  SUNNYSIDE.icons.expression_confused
+                  isCropMachineSeed
+                    ? SUNNYSIDE.building.cropMachine
+                    : PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
+                      SUNNYSIDE.icons.expression_confused
                 }
                 width={14}
               />
@@ -210,6 +219,12 @@ export const SeedRequirements: React.FC<Props> = ({
                 width={14}
               />
             </div>
+          )}
+          {!inSeasonSeeds && (
+            <p className="text-xxs mt-1">{t("cropGuide.cantPlantSeeds")}</p>
+          )}
+          {isCropMachineSeed && (
+            <p className="text-xxs mt-1">{t("cropGuide.onlyInCropMachine")}</p>
           )}
         </div>
       </>

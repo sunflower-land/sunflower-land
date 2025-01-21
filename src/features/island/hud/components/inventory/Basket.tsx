@@ -140,7 +140,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     });
   };
 
-  const harvestCounts = getFruitHarvests(gameState);
+  const harvestCounts = getFruitHarvests(gameState, selectedItem as SeedName);
 
   const handleItemClick = (item: InventoryItemName) => {
     onSelect(item);

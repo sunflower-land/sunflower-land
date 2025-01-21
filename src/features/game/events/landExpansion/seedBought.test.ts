@@ -47,29 +47,6 @@ describe("seedBought", () => {
     ).toThrow("Inadequate level");
   });
 
-  it("does not buy seed an out of season seed", () => {
-    expect(() =>
-      seedBought({
-        state: {
-          ...GAME_STATE,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            experience: 1000000,
-          },
-          season: {
-            season: "summer",
-            startedAt: 0,
-          },
-        },
-        action: {
-          type: "seed.bought",
-          item: "Pumpkin Seed",
-          amount: 1,
-        },
-      }),
-    ).toThrow("This seed is not available in this season");
-  });
-
   it("does not buy a seed with an unusual amount", () => {
     expect(() =>
       seedBought({
