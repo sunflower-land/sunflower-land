@@ -37,13 +37,13 @@ import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TornadoPlot } from "./components/TornadoPlot";
 import { TsunamiPlot } from "./components/TsunamiPlot";
 import { GreatFreezePlot } from "./components/GreatFreezePlot";
 import { SeasonalSeed } from "./components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -92,8 +92,8 @@ const isSeasonedPlayer = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
   // - verified (personhood verification)
   state.context.verified &&
-  // - has active seasonal banner
-  hasVipAccess({ game: state.context.state });
+  // - has grower reputation
+  hasReputation({ game: state.context.state, reputation: Reputation.Grower });
 
 interface Props {
   id: string;

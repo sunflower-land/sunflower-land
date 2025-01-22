@@ -87,6 +87,7 @@ const featureFlags = {
   REPUTATION_SYSTEM: testnetFeatureFlag,
   SEASONAL_SEEDS: seasonAdminFeatureFlag,
   VOLCANO_ISLAND: testnetFeatureFlag,
+  REPUTATION: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
