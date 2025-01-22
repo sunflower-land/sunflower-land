@@ -46,8 +46,8 @@ export const CalendarEvent: React.FC = () => {
   return (
     <Modal show>
       {event === "tornado" && (
-        // <Tornado acknowledge={handleAcknowledge} />
         <WeatherEvent
+          eventName={event}
           acknowledge={handleAcknowledge}
           handleAFK={handleAFK}
           eventIcon={tornado}
@@ -87,51 +87,49 @@ export const CalendarEvent: React.FC = () => {
         />
       )}
       {event === "tsunami" && (
-        <>
-          {/* <Tsunami acknowledge={handleAcknowledge} handleAFK={handleAFK} /> */}
-          <WeatherEvent
-            eventTitle={t("tsunami.specialEvent")}
-            acknowledge={handleAcknowledge}
-            handleAFK={handleAFK}
-            eventIcon={tsunami}
-            noticeboardItems={
-              hasMangrove
-                ? [
-                    {
-                      text: t("tsunami.protected.one"),
-                      icon: ITEM_DETAILS["Mangrove"].image,
-                    },
-                    {
-                      text: t("tsunami.protected.two"),
-                      icon: SUNNYSIDE.icons.plant,
-                    },
-                    {
-                      text: t("tsunami.protected.three"),
-                      icon: SUNNYSIDE.icons.hammer,
-                    },
-                  ]
-                : [
-                    {
-                      text: t("tsunami.destroyed.one"),
-                      icon: SUNNYSIDE.icons.cancel,
-                    },
-                    {
-                      text: t("tsunami.destroyed.two"),
-                      icon: SUNNYSIDE.icons.plant,
-                    },
-                    {
-                      text: t("tsunami.destroyed.three"),
-                      icon: SUNNYSIDE.icons.hammer,
-                    },
-                  ]
-            }
-            showEventIcons={!hasMangrove}
-          />
-        </>
+        <WeatherEvent
+          eventName={event}
+          eventTitle={t("tsunami.specialEvent")}
+          acknowledge={handleAcknowledge}
+          handleAFK={handleAFK}
+          eventIcon={tsunami}
+          noticeboardItems={
+            hasMangrove
+              ? [
+                  {
+                    text: t("tsunami.protected.one"),
+                    icon: ITEM_DETAILS["Mangrove"].image,
+                  },
+                  {
+                    text: t("tsunami.protected.two"),
+                    icon: SUNNYSIDE.icons.plant,
+                  },
+                  {
+                    text: t("tsunami.protected.three"),
+                    icon: SUNNYSIDE.icons.hammer,
+                  },
+                ]
+              : [
+                  {
+                    text: t("tsunami.destroyed.one"),
+                    icon: SUNNYSIDE.icons.cancel,
+                  },
+                  {
+                    text: t("tsunami.destroyed.two"),
+                    icon: SUNNYSIDE.icons.plant,
+                  },
+                  {
+                    text: t("tsunami.destroyed.three"),
+                    icon: SUNNYSIDE.icons.hammer,
+                  },
+                ]
+          }
+          showEventIcons={!hasMangrove}
+        />
       )}
       {event === "greatFreeze" && (
-        // <GreatFreeze acknowledge={handleAcknowledge} />
         <WeatherEvent
+          eventName={event}
           eventTitle={t("greatFreeze.specialEvent")}
           eventIcon={greatFreeze}
           noticeboardItems={
@@ -163,8 +161,8 @@ export const CalendarEvent: React.FC = () => {
         />
       )}
       {event === "fullMoon" && (
-        // <FullMoon acknowledge={handleAcknowledge} />
         <WeatherEvent
+          eventName={event}
           eventTitle={t("fullMoon.specialEvent")}
           eventIcon={fullMoon}
           noticeboardItems={[
@@ -187,8 +185,8 @@ export const CalendarEvent: React.FC = () => {
         />
       )}
       {event === "doubleDelivery" && (
-        // <DoubleDelivery acknowledge={handleAcknowledge} />
         <WeatherEvent
+          eventName={event}
           eventTitle={t("doubleDelivery.specialEvent")}
           eventIcon={doubleDelivery}
           noticeboardItems={[
@@ -207,8 +205,8 @@ export const CalendarEvent: React.FC = () => {
         />
       )}
       {event === "bountifulHarvest" && (
-        // <BountifulHarvest acknowledge={handleAcknowledge} />
         <WeatherEvent
+          eventName={event}
           eventTitle={t("bountifulHarvest.specialEvent")}
           eventIcon={bountifulHarvest}
           noticeboardItems={[
@@ -231,8 +229,8 @@ export const CalendarEvent: React.FC = () => {
         />
       )}
       {event === "insectPlague" && (
-        // <InsectPlague acknowledge={handleAcknowledge} />
         <WeatherEvent
+          eventName={event}
           eventTitle={t("insectPlague.specialEvent")}
           eventIcon={locust}
           noticeboardItems={
@@ -264,8 +262,8 @@ export const CalendarEvent: React.FC = () => {
         />
       )}
       {event === "sunshower" && (
-        // <Sunshower acknowledge={handleAcknowledge} />
         <WeatherEvent
+          eventName={event}
           eventTitle={t("sunshower.specialEvent")}
           eventIcon={sunshower}
           noticeboardItems={[

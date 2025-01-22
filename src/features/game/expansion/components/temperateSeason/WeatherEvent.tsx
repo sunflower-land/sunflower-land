@@ -9,9 +9,15 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useCallback, useRef, useState } from "react";
 import { useEventOver } from "./CalendarEvent";
+import { SeasonalEventName } from "features/game/types/calendar";
+import { useSelector } from "@xstate/react";
+import { useGame } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getRelativeTime } from "lib/utils/time";
 
 interface Props {
   eventTitle: string;
+  eventName: SeasonalEventName;
   eventIcon: string;
   noticeboardItems: NoticeboardItemsElements[];
   acknowledge: () => void;
@@ -26,9 +32,11 @@ export const WeatherEvent: React.FC<Props> = ({
   noticeboardItems,
   eventTitle,
   showEventIcons,
+  eventName,
 }) => {
   const { t } = useAppTranslation();
   const [eventOver, setEventOver] = useState(false);
+  const { gameService } = useGame();
 
   const eventOverCallback = useCallback(
     () => setEventOver(true),
@@ -49,6 +57,30 @@ export const WeatherEvent: React.FC<Props> = ({
       delay: Math.random() * 2,
     })),
   );
+
+  const getEventEndTime = (eventStartTime: number) => {
+    // In development: check at the start of each minute
+    // const now = new Date();
+    // const nextMinute = new Date(now);
+    // nextMinute.setSeconds(0);
+    // nextMinute.setMilliseconds(0);
+    // nextMinute.setMinutes(nextMinute.getMinutes() + 1);
+    // return nextMinute.getTime();
+
+    // In production: check at UTC midnight
+    const tomorrow = new Date(eventStartTime);
+    tomorrow.setUTCHours(24, 0, 0, 0);
+    return tomorrow.getTime();
+  };
+
+  const eventStartTime = useSelector(
+    gameService,
+    (state: MachineState) =>
+      state.context.state.calendar[eventName]?.triggeredAt,
+  );
+
+  const eventEndTime = getEventEndTime(eventStartTime ?? Date.now());
+
   return (
     <>
       <Panel className="relative z-10">
@@ -59,7 +91,7 @@ export const WeatherEvent: React.FC<Props> = ({
             </Label>
             {eventOver && (
               <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-                {`Event Over`}
+                {getRelativeTime(eventEndTime)}
               </Label>
             )}
           </div>
