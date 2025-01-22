@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} récoltes",
   "cropGuide.cropMachine.seeds": "Semences pour machines à cultiver",
   "cropGuide.cantPlantSeeds": "Les graines ne peuvent pas être plantées",
-  "cropGuide.onlyInCropMachine": "Les graines ne peuvent être plantées que dans Crop Machine"
+  "cropGuide.onlyInCropMachine": "Les graines ne peuvent être plantées que dans Crop Machine",
+  "islandupgrade.welcomeVolcanoIsland": "Bienvenue sur Volcano Island !",
+  "islandupgrade.volcanoResourcesDescription": "Un terrain volcanique dangereux avec des minéraux précieux et des ressources rares qui attendent d'être découverts. Agrandissez votre terrain pour en découvrir les secrets !",
+  "description.mansion": "Un endroit pour se reposer la tête",
+  "description.volcanoGnome": "Un nain obsédé par les minéraux qui peut survivre dans les conditions les plus rudes.",
+  "description.volcanoGnome.boost": "+0,1 minéraux"
 }

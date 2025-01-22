@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} урожаи",
   "cropGuide.cropMachine.seeds": "Семена для сельскохозяйственных машин",
   "cropGuide.cantPlantSeeds": "Семена нельзя сажать",
-  "cropGuide.onlyInCropMachine": "Семена можно сажать только в Crop Machine"
+  "cropGuide.onlyInCropMachine": "Семена можно сажать только в Crop Machine",
+  "islandupgrade.welcomeVolcanoIsland": "Добро пожаловать на остров Вулкан!",
+  "islandupgrade.volcanoResourcesDescription": "Опасная вулканическая местность с драгоценными минералами и редкими ресурсами, ожидающими своего открытия. Расширяйте свою землю, чтобы раскрыть ее секреты!",
+  "description.mansion": "Место для отдыха",
+  "description.volcanoGnome": "Гном, одержимый минералами, способный выжить в самых суровых условиях.",
+  "description.volcanoGnome.boost": "+0.1 Минералы"
 }

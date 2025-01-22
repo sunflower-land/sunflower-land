@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} 수확",
   "cropGuide.cropMachine.seeds": "크롭 머신 씨드",
   "cropGuide.cantPlantSeeds": "씨앗을 심을 수 없습니다",
-  "cropGuide.onlyInCropMachine": "씨앗은 크롭 머신에서만 심을 수 있습니다."
+  "cropGuide.onlyInCropMachine": "씨앗은 크롭 머신에서만 심을 수 있습니다.",
+  "islandupgrade.welcomeVolcanoIsland": "볼케이노 아일랜드에 오신 것을 환영합니다!",
+  "islandupgrade.volcanoResourcesDescription": "귀중한 광물과 희귀 자원이 발견되기를 기다리는 위험한 화산 지형.땅을 확장해 그 비밀을 밝혀내세요!",
+  "description.mansion": "머리를 쉴 수 있는 곳",
+  "description.volcanoGnome": "광물에 집착하는 요정벌레로 혹독한 환경에서도 살아남을 수 있습니다.",
+  "description.volcanoGnome.boost": "+0.1 미네랄"
 }

@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} hasatlar",
   "cropGuide.cropMachine.seeds": "Mahsul Makinesi Tohumları",
   "cropGuide.cantPlantSeeds": "Tohumlar ekilemez",
-  "cropGuide.onlyInCropMachine": "Tohumlar sadece Mahsul Makinesi'ne ekilebilir"
+  "cropGuide.onlyInCropMachine": "Tohumlar sadece Mahsul Makinesi'ne ekilebilir",
+  "islandupgrade.welcomeVolcanoIsland": "Volcano Island'a hoş geldiniz!",
+  "islandupgrade.volcanoResourcesDescription": "Değerli mineraller ve keşfedilmeyi bekleyen nadir kaynaklarla tehlikeli bir volkanik arazi. Sırlarını ortaya çıkarmak için toprağınızı genişletin!",
+  "description.mansion": "Kafanı dinlendirecek bir yer",
+  "description.volcanoGnome": "En zorlu koşullarda hayatta kalabilen mineral takıntılı bir cüce.",
+  "description.volcanoGnome.boost": "+0.1 Mineraller"
 }

@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} 收成",
   "cropGuide.cropMachine.seeds": "作物机种子",
   "cropGuide.cantPlantSeeds": "种子无法播种",
-  "cropGuide.onlyInCropMachine": "种子只能在 Crop Machine 中播种"
+  "cropGuide.onlyInCropMachine": "种子只能在 Crop Machine 中播种",
+  "islandupgrade.welcomeVolcanoIsland": "欢迎来到火山岛！",
+  "islandupgrade.volcanoResourcesDescription": "危险的火山地形，有珍贵的矿物和稀有资源有待发现。扩大你的土地，揭开它的秘密！",
+  "description.mansion": "一个可以休息的地方",
+  "description.volcanoGnome": "一个痴迷于矿物的侏儒，可以在最恶劣的条件下生存。",
+  "description.volcanoGnome.boost": "+0.1 矿物质"
 }

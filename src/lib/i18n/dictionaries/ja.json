@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} ハーベスト",
   "cropGuide.cropMachine.seeds": "クロップマシンシード",
   "cropGuide.cantPlantSeeds": "種を植えることはできません",
-  "cropGuide.onlyInCropMachine": "種はクロップマシンでのみ植えることができます"
+  "cropGuide.onlyInCropMachine": "種はクロップマシンでのみ植えることができます",
+  "islandupgrade.welcomeVolcanoIsland": "火山島へようこそ！",
+  "islandupgrade.volcanoResourcesDescription": "貴重な鉱物や希少資源が発見されるのを待っている危険な火山地帯。土地を広げて秘密を解き明かそう！",
+  "description.mansion": "頭を休める場所",
+  "description.volcanoGnome": "どんなに過酷な条件にも耐えられる、ミネラルにこだわるノーム。",
+  "description.volcanoGnome.boost": "+0.1 ミネラル"
 }

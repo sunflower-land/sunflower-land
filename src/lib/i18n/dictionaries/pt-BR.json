@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} colheitas",
   "cropGuide.cropMachine.seeds": "Sementes para máquinas de colheita",
   "cropGuide.cantPlantSeeds": "As sementes não podem ser plantadas",
-  "cropGuide.onlyInCropMachine": "As sementes só podem ser plantadas na Crop Machine"
+  "cropGuide.onlyInCropMachine": "As sementes só podem ser plantadas na Crop Machine",
+  "islandupgrade.welcomeVolcanoIsland": "Bem-vindo à Ilha do Vulcão!",
+  "islandupgrade.volcanoResourcesDescription": "Um terreno vulcânico perigoso com minerais preciosos e recursos raros esperando para serem descobertos. Expanda sua terra para descobrir seus segredos!",
+  "description.mansion": "Um lugar para descansar sua cabeça",
+  "description.volcanoGnome": "Um gnomo obcecado por minerais que pode sobreviver às condições mais adversas.",
+  "description.volcanoGnome.boost": "+0.1 Minerais"
 }

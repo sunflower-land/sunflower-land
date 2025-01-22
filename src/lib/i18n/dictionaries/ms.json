@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} penuaian",
   "cropGuide.cropMachine.seeds": "Benih Mesin Tanaman",
   "cropGuide.cantPlantSeeds": "Benih tidak boleh ditanam",
-  "cropGuide.onlyInCropMachine": "Benih hanya boleh ditanam di Mesin Tanaman"
+  "cropGuide.onlyInCropMachine": "Benih hanya boleh ditanam di Mesin Tanaman",
+  "islandupgrade.welcomeVolcanoIsland": "Selamat datang ke Pulau Gunung Berapi!",
+  "islandupgrade.volcanoResourcesDescription": "Kawasan gunung berapi berbahaya dengan mineral berharga dan sumber langka yang menunggu untuk ditemui. Kembangkan tanah anda untuk mendedahkan rahsianya!",
+  "description.mansion": "Tempat untuk berehat kepala anda",
+  "description.volcanoGnome": "Gnom yang terobsesi mineral yang dapat bertahan dalam keadaan paling sukar.",
+  "description.volcanoGnome.boost": "+0.1 Mineral"
 }

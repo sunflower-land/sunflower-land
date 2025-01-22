@@ -4928,5 +4928,10 @@
   "harvest.number": "{{noOfHarvests}} Ernten",
   "cropGuide.cropMachine.seeds": "Saatgut für Erntemaschinen",
   "cropGuide.cantPlantSeeds": "Samen können nicht gepflanzt werden",
-  "cropGuide.onlyInCropMachine": "Samen können nur in Crop Machine gepflanzt werden"
+  "cropGuide.onlyInCropMachine": "Samen können nur in Crop Machine gepflanzt werden",
+  "islandupgrade.welcomeVolcanoIsland": "Willkommen auf Volcano Island!",
+  "islandupgrade.volcanoResourcesDescription": "Ein gefährliches vulkanisches Terrain mit wertvollen Mineralien und seltenen Ressourcen, die darauf warten, entdeckt zu werden. Erweitere dein Land, um seine Geheimnisse zu lüften!",
+  "description.mansion": "Ein Ort, an dem Sie Ihren Kopf ausruhen können",
+  "description.volcanoGnome": "Ein von Mineralien besessener Gnom, der die härtesten Bedingungen überstehen kann.",
+  "description.volcanoGnome.boost": "+0.1 Mineralien"
 }
