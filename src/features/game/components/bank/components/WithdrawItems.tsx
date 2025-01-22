@@ -139,7 +139,7 @@ export const WithdrawItems: React.FC<Props> = ({
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Grower,
+    reputation: Reputation.Seedling,
   });
 
   if (!hasAccess) {
