@@ -1,4 +1,5 @@
 {
+  "active": "Active",
   "ingredients": "Ingredients",
   "animals.buyAnimal": "Buy Animal",
   "accept": "Accept",
@@ -5012,5 +5013,10 @@
   "reputation.grower.auctions": "Auction Access",
   "reputation.marketplace.trades": "Increase your reputation to unlock more trades.",
   "verify.verified": "You are verified!",
-  "verify.verify": "Verify your account to increase your reputation."
+  "verify.verify": "Verify your account to increase your reputation.",
+  "lavaPit.active": "Active",
+  "lavaPit.burning": "The Pit Burns",
+  "lavaPit.collect": "Collect",
+  "lavaPit.throw": "Throw Resources into Pit",
+  "lavaPit.description": "The lava pit turns resources into Obsidian. Requirements change each season."
 }
