@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
@@ -291,30 +291,3 @@ export const CalendarEvent: React.FC = () => {
     </Modal>
   );
 };
-
-export function useEventOver({ setEventOver }: { setEventOver: () => void }) {
-  // Calculate time until next check
-  const getNextCheckTime = () => {
-    const now = new Date();
-
-    // In development: check at the start of each minute
-    // const nextMinute = new Date(now);
-    // nextMinute.setSeconds(0);
-    // nextMinute.setMilliseconds(0);
-    // nextMinute.setMinutes(nextMinute.getMinutes() + 1);
-    // return nextMinute.getTime() - now.getTime();
-
-    // In production: check at UTC midnight
-    const tomorrow = new Date(now);
-    tomorrow.setUTCHours(24, 0, 0, 0);
-    return tomorrow.getTime() - now.getTime();
-  };
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setEventOver();
-    }, getNextCheckTime());
-
-    return () => clearTimeout(timeout);
-  }, [setEventOver]);
-}
