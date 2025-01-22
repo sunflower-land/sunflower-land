@@ -61,15 +61,9 @@ export type FlowerSeed = {
   plantingSpot: ResourceName | "Greenhouse";
 };
 
-type FlowerSeeds = {
-  "Sunpetal Seed": FlowerSeed;
-  "Bloom Seed": FlowerSeed;
-  "Lily Seed": FlowerSeed;
-};
-
 export type FlowerName = SunpetalFlowerName | BloomFlowerName | LilyFlowerName;
 
-export type FlowerSeedName = keyof FlowerSeeds;
+export type FlowerSeedName = "Sunpetal Seed" | "Bloom Seed" | "Lily Seed";
 
 export function isFlowerSeed(seed: FlowerSeedName) {
   return getKeys(FLOWER_SEEDS).includes(seed);
