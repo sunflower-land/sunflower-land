@@ -30,6 +30,9 @@ import { SELLABLE } from "features/game/events/landExpansion/sellCrop";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/events/landExpansion/harvestGreenHouse";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
+import fullMoon from "assets/icons/full_moon.png";
+
 export const CropGuide = () => {
   const { gameState } = useGame();
   const inventory = gameState.context.state.inventory;
@@ -201,6 +204,7 @@ export const CropRow: React.FC<{
         {seasons.map((season) => (
           <img key={season} src={SEASON_ICONS[season]} className="w-6 ml-1" />
         ))}
+        {isFullMoonBerry(seed) && <img src={fullMoon} className="w-6 ml-1" />}
       </div>
     </div>
   );
