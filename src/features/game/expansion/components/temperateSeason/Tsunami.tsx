@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -10,12 +10,10 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { useEventOver } from "./CalendarEvent";
 
 const _hasMangrove = (state: MachineState) =>
   state.context.state.calendar.tsunami?.protected;
-
-const _state = (state: MachineState) => state.context.state;
 
 export const Tsunami: React.FC<{
   acknowledge: () => void;
@@ -23,10 +21,11 @@ export const Tsunami: React.FC<{
 }> = ({ acknowledge, handleAFK }) => {
   const { gameService } = useGame();
   const hasMangrove = useSelector(gameService, _hasMangrove);
-  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
   const [eventOver, setEventOver] = useState(false);
-  const notTsunami = getActiveCalendarEvent({ game: state }) !== "tsunami";
+
+  const tsunamiOver = useCallback(() => setEventOver(true), [setEventOver]);
+  useEventOver({ setEventOver: tsunamiOver });
 
   const tsunamiPositions = useRef<
     {
@@ -41,12 +40,6 @@ export const Tsunami: React.FC<{
       delay: Math.random() * 2,
     })),
   );
-
-  useEffect(() => {
-    if (notTsunami) {
-      setEventOver(true);
-    }
-  }, [notTsunami]);
 
   return (
     <>
@@ -97,7 +90,7 @@ export const Tsunami: React.FC<{
             }
           />
         </div>
-        <Button onClick={notTsunami ? handleAFK : acknowledge}>
+        <Button onClick={eventOver ? handleAFK : acknowledge}>
           {t("continue")}
         </Button>
       </Panel>
