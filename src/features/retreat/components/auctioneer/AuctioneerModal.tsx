@@ -68,7 +68,7 @@ export const AuctioneerModal: React.FC<Props> = ({
 
   const hasAuctionAccess = hasReputation({
     game: gameState,
-    reputation: Reputation.Seedling,
+    reputation: Reputation.Grower,
   });
 
   if (auctioneerState.matches("idle")) {
