@@ -114,7 +114,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Grower,
+    reputation: Reputation.CropKeeper,
   });
 
   if (!hasAccess) {
