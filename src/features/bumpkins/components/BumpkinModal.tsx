@@ -264,7 +264,7 @@ export const BumpkinModal: React.FC<Props> = ({
                 </div>
               </div>
 
-              {hasFeatureAccess(gameState, "REPUTATION") && <MyReputation />}
+              <MyReputation />
 
               {!hasFeatureAccess(gameState, "SKILLS_REVAMP") && (
                 <ButtonPanel

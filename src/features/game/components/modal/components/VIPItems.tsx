@@ -37,7 +37,6 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import confetti from "canvas-confetti";
-import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -300,21 +299,14 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               text: t("vip.benefit.bonusDelivery"),
               icon: ITEM_DETAILS[getSeasonalTicket()].image,
             },
-            ...(hasFeatureAccess(
-              gameService.getSnapshot().context.state,
-              "REPUTATION_SYSTEM",
-            )
-              ? [
-                  {
-                    text: t("vip.benefit.reputation"),
-                    icon: increaseArrow,
-                  },
-                  {
-                    text: t("vip.benefit.competition"),
-                    icon: trophyIcon,
-                  },
-                ]
-              : []),
+            {
+              text: t("vip.benefit.reputation"),
+              icon: increaseArrow,
+            },
+            {
+              text: t("vip.benefit.competition"),
+              icon: trophyIcon,
+            },
           ].map((item, index) => (
             <div className="flex mb-1 items-center" key={index}>
               <img src={item.icon} className="w-6 mr-2 object-contain" />
