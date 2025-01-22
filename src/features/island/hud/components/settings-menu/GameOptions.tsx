@@ -48,10 +48,9 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { AdminSettings } from "./general-settings/AdminSettings";
-import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
+import { Preferences } from "./general-settings/Preferences";
 import { Notifications } from "./general-settings/Notifications";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { hasFeatureAccess } from "lib/flags";
 import {
   getSubscriptionsForFarmId,
   Subscriptions,
@@ -59,7 +58,7 @@ import {
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { isSupported } from "firebase/messaging";
+import { Verify } from "features/game/components/bank/components/Withdraw";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -74,11 +73,24 @@ export const subscriptionsFetcher = ([, token, farmId]: [
   return getSubscriptionsForFarmId(farmId, token);
 };
 
+const _farmId = (state: MachineState) => state.context.farmId;
+const _nftId = (state: MachineState) => state.context.nftId;
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _transaction = (state: MachineState) => state.context.state.transaction;
+const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+
 const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
   onClose,
 }) => {
   const { gameService } = useContext(GameContext);
+
+  const farmId = useSelector(gameService, _farmId);
+  const nftId = useSelector(gameService, _nftId);
+  const linkedWallet = useSelector(gameService, _linkedWallet);
+  const transaction = useSelector(gameService, _transaction);
+  const wardrobe = useSelector(gameService, _wardrobe);
+
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
 
@@ -87,20 +99,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
   const [showNftId, setShowNftId] = useState(false);
-  const [notificationsSupported, setNotificationsSupported] = useState(false);
 
   const copypaste = useSound("copypaste");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
   const pwaInstall = usePWAInstall();
-
-  useEffect(() => {
-    const checkNotificationsSupported = async () => {
-      setNotificationsSupported(await isSupported());
-    };
-    checkNotificationsSupported();
-  }, []);
 
   const handleInstallApp = () => {
     if (isMobile && !isWeb3MobileBrowser) {
@@ -127,7 +131,9 @@ const GameOptions: React.FC<ContentComponentProps> = ({
     walletService.send("RESET");
   };
 
-  const canRefresh = !gameService.state.context.state.transaction;
+  const canRefresh = !transaction;
+  const hasDevAccess =
+    CONFIG.NETWORK === "amoy" || !!wardrobe.Halo || !!wardrobe["Gift Giver"];
 
   return (
     <>
@@ -145,16 +151,14 @@ const GameOptions: React.FC<ContentComponentProps> = ({
                 setShowFarm(false);
               }, 2000);
               copypaste.play();
-              clipboard.copy(
-                gameService.state?.context?.farmId.toString() as string,
-              );
+              clipboard.copy(farmId.toString());
             }}
           >
             {t("gameOptions.farmId", {
-              farmId: gameService.state?.context?.farmId,
+              farmId,
             })}
           </Label>
-          {gameService.state?.context?.nftId !== undefined && (
+          {nftId && (
             <Label
               type="default"
               icon={ticket}
@@ -166,93 +170,62 @@ const GameOptions: React.FC<ContentComponentProps> = ({
                   setShowNftId(false);
                 }, 2000);
                 copypaste.play();
-                clipboard.copy(
-                  gameService.state?.context?.nftId?.toString() || "",
-                );
+                clipboard.copy(nftId.toString() || "");
               }}
             >
-              {`NFT ID #${gameService.state?.context?.nftId}`}
+              {`NFT ID #${nftId}`}
             </Label>
           )}
         </div>
         <div className="flex flex-wrap items-center justify-between mx-2">
-          {gameService.state?.context?.linkedWallet && (
+          {linkedWallet && (
             <WalletAddressLabel
-              walletAddress={
-                (gameService.state?.context?.linkedWallet as string) || "XXXX"
-              }
+              walletAddress={linkedWallet}
               showLabelTitle={true}
             />
           )}
         </div>
       </>
-      {!isPWA && (
-        <Button className="p-1 mb-1" onClick={handleInstallApp}>
-          <span>{t("install.app")}</span>
-        </Button>
-      )}
-      {hasFeatureAccess(
-        gameService.state.context.state,
-        "SEASONAL_EVENTS_NOTIFICATIONS",
-      ) && (
-        <Button
-          onClick={() => onSubMenuClick("notifications")}
-          className="mb-1 relative"
-          // Not available in players browser
-          disabled={
-            !(
-              "serviceWorker" in navigator &&
-              "PushManager" in window &&
-              notificationsSupported
-            )
-          }
-        >
-          <div className="flex items-center space-x-1">
-            <span>{t("gameOptions.notifications")}</span>
-            {!(
-              "serviceWorker" in navigator &&
-              "PushManager" in window &&
-              notificationsSupported
-            ) && (
-              <Label type="info" className="mt-0.5">
-                <span className=" text-xxs sm:text-xs">
-                  {t("gameOptions.notifications.notSupported")}
-                </span>
-              </Label>
-            )}
-          </div>
-        </Button>
-      )}
-      <Button
-        disabled={!canRefresh}
-        className="p-1 mb-1 relative"
-        onClick={refreshSession}
-      >
-        {t("gameOptions.blockchainSettings.refreshChain")}
-
-        {!canRefresh && (
-          <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
+      <div className="flex flex-col gap-1">
+        {!isPWA && (
+          <Button onClick={handleInstallApp}>
+            <span>{t("install.app")}</span>
+          </Button>
         )}
-      </Button>
-      {(CONFIG.NETWORK === "amoy" ||
-        !!gameService.state?.context?.state.wardrobe.Halo ||
-        !!gameService.state?.context?.state.wardrobe["Gift Giver"]) && (
-        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.developerOptions")}</span>
+        <Button
+          disabled={!canRefresh}
+          className="relative"
+          onClick={refreshSession}
+        >
+          {t("gameOptions.blockchainSettings.refreshChain")}
+
+          {!canRefresh && (
+            <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
+          )}
         </Button>
-      )}
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
-        <span>{t("gameOptions.blockchainSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("general")}>
-        <span>{t("gameOptions.generalSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
-        <span>{t("gameOptions.plazaSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
-        {t("gameOptions.logout")}
-      </Button>
+        <div className="grid grid-cols-2 gap-1">
+          {hasDevAccess && (
+            <Button onClick={() => onSubMenuClick("amoy")}>
+              <span>{t("gameOptions.developerOptions")}</span>
+            </Button>
+          )}
+          <Button onClick={() => onSubMenuClick("blockchain")}>
+            <span>{t("gameOptions.blockchainSettings")}</span>
+          </Button>
+          <Button onClick={() => onSubMenuClick("general")}>
+            <span>{t("gameOptions.generalSettings")}</span>
+          </Button>
+          <Button onClick={() => onSubMenuClick("plaza")}>
+            <span>{t("gameOptions.plazaSettings")}</span>
+          </Button>
+          <Button
+            className={hasDevAccess ? "col-span-2" : ""}
+            onClick={() => showConfirmLogoutModal(true)}
+          >
+            {t("gameOptions.logout")}
+          </Button>
+        </div>
+      </div>
       <p className="mx-1 text-xxs">
         <a
           href="https://github.com/sunflower-land/sunflower-land/releases"
@@ -282,8 +255,6 @@ interface GameOptionsModalProps {
 
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
-
-const _farmId = (state: MachineState) => state.context.farmId;
 
 const preloadSubscriptions = async (token: string, farmId: number) => {
   preload(
@@ -353,7 +324,8 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "share"
-  | "appearance&behaviour"
+  | "preferences"
+  | "verifyPersonhood"
 
   // Push Notifications
   | "notifications"
@@ -401,11 +373,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: PlazaSettings,
   },
-  notifications: {
-    title: translate("gameOptions.notifications"),
-    parent: "main",
-    content: (props) => <Notifications {...props} />,
-  },
 
   // Blockchain Settings
   deposit: {
@@ -445,10 +412,20 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: Share,
   },
-  "appearance&behaviour": {
-    title: translate("gameOptions.generalSettings.appearance&behaviour"),
+  preferences: {
+    title: translate("gameOptions.generalSettings.preferences"),
     parent: "general",
-    content: AppearanceAndBehaviour,
+    content: Preferences,
+  },
+  verifyPersonhood: {
+    title: "Verify Personhood",
+    parent: "general",
+    content: Verify,
+  },
+  notifications: {
+    title: translate("gameOptions.notifications"),
+    parent: "general",
+    content: (props) => <Notifications {...props} />,
   },
 
   // Developer Options
