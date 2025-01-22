@@ -380,6 +380,7 @@ const ISLAND_LIMITS: Record<IslandType, number> = {
   basic: 5,
   spring: 10,
   desert: 20,
+  volcano: 20,
 };
 
 export function getRemainingListings({ game }: { game: GameState }) {

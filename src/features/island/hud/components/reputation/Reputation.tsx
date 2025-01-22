@@ -338,7 +338,7 @@ export const ReputationPoints: React.FC = () => {
           ]}
         />
       </div>
-      {!hasVipAccess(gameState.context.state.inventory) && (
+      {!hasVipAccess({ game: gameState.context.state }) && (
         <Button onClick={() => openModal("VIP_ITEMS")}>
           {t("reputation.vip.purchase")}
         </Button>

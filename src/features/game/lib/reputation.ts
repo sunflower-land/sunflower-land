@@ -59,7 +59,7 @@ export const REPUTATION_TASKS: Record<
   Level100: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 100,
   Level15: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 15,
   Bud: ({ game }) => getKeys(game.buds ?? {}).length > 0,
-  VIP: ({ game }) => hasVipAccess(game.inventory),
+  VIP: ({ game }) => hasVipAccess({ game: game }),
 };
 
 export function getReputationPoints({ game }: { game: GameState }): number {

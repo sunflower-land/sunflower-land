@@ -43,6 +43,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     discovered: {},
     flowerBeds: {},
   },
+  lavaPits: {},
+
   fruitPatches: {},
   gold: {},
   iron: {},
