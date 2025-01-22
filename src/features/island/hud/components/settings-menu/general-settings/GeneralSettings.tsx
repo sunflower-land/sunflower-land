@@ -40,6 +40,11 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
     "SEASONAL_EVENTS_NOTIFICATIONS",
   );
 
+  const isNotificationSupported =
+    "serviceWorker" in navigator &&
+    "PushManager" in window &&
+    notificationsSupported;
+
   return (
     <div className="grid grid-cols-2 gap-1 m-1">
       <Button
@@ -78,21 +83,11 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         <Button
           onClick={() => onSubMenuClick("notifications")}
           // Not available in players browser
-          disabled={
-            !(
-              "serviceWorker" in navigator &&
-              "PushManager" in window &&
-              notificationsSupported
-            )
-          }
+          disabled={!isNotificationSupported}
         >
           <div className="flex items-center space-x-1">
             <span>{t("gameOptions.notifications")}</span>
-            {!(
-              "serviceWorker" in navigator &&
-              "PushManager" in window &&
-              notificationsSupported
-            ) && (
+            {!isNotificationSupported && (
               <Label type="info" className="mt-0.5">
                 <span className=" text-xxs sm:text-xs">
                   {t("gameOptions.notifications.notSupported")}

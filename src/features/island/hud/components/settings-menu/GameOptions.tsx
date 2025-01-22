@@ -170,7 +170,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
                   setShowNftId(false);
                 }, 2000);
                 copypaste.play();
-                clipboard.copy(nftId.toString() || "");
+                clipboard.copy(nftId.toString());
               }}
             >
               {`NFT ID #${nftId}`}
