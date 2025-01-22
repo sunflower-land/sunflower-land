@@ -94,7 +94,8 @@ export function getRemoveAction(
     name !== "House" &&
     name !== "Market" &&
     name !== "Fire Pit" &&
-    name !== "Workbench"
+    name !== "Workbench" &&
+    name !== "Mansion"
   ) {
     return "building.removed";
   }
@@ -106,7 +107,8 @@ export function getRemoveAction(
     name === "Town Center" ||
     name === "Market" ||
     name === "Fire Pit" ||
-    name === "Workbench"
+    name === "Workbench" ||
+    name === "Mansion"
   ) {
     return null;
   }

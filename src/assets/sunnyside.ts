@@ -256,6 +256,7 @@ export const SUNNYSIDE = {
     tent_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/tent_inside.png`,
     house_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/house_inside.png`,
     manor_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/manor_inside.png`,
+    mansion_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/mansion_inside.png`,
     animal_house_inside_one: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_one.png`,
     animal_house_inside_two: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_two.png`,
     animal_house_inside_three: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_three.png`,
@@ -432,6 +433,7 @@ export const SUNNYSIDE = {
     //Bumpkin Houses
     house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/house.png`,
     manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/manor.png`,
+    mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/mansion.png`,
   },
   //Icons
   icons: {

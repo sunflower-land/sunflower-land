@@ -25,37 +25,45 @@ import { Transition } from "@headlessui/react";
 import { formatDateTime } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
+import { hasFeatureAccess } from "lib/flags";
 
 const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
   state,
 ) => ({
   basic: new Date(0).getTime(),
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
-  desert: null, // Next prestige after desert
+  desert: hasFeatureAccess(state, "VOLCANO_ISLAND")
+    ? new Date("2025-01-01T00:00:00Z").getTime()
+    : new Date("2025-02-01T00:00:00Z").getTime(),
+  volcano: null, // Next prestige after volcano
 });
 
 const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
-  desert: null, // Next prestige after desert
+  desert: SUNNYSIDE.land.desertRaft,
+  volcano: null, // Next prestige after volcano
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.announcement.springPrestige,
   spring: SUNNYSIDE.announcement.desertPrestige,
-  desert: null, // Next prestige after desert
+  desert: SUNNYSIDE.announcement.desertPrestige,
+  volcano: null, // Next prestige after volcano
 };
 
 const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   basic: null,
   spring: translate("islandupgrade.welcomePetalParadise"),
   desert: translate("islandupgrade.welcomeDesertIsland"),
+  volcano: translate("islandupgrade.welcomeVolcanoIsland"),
 };
 
 const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   basic: null,
   spring: translate("islandupgrade.exoticResourcesDescription"),
   desert: translate("islandupgrade.desertResourcesDescription"),
+  volcano: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
 const IslandUpgraderModal: React.FC<{

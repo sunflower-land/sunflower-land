@@ -32,6 +32,7 @@ export const ISLAND_BUMPKIN_CAPACITY: Record<IslandType, number> = {
   basic: 2,
   spring: 3,
   desert: 5,
+  volcano: 5,
 };
 
 export function buyFarmhand({

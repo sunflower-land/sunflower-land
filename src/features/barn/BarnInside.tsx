@@ -37,6 +37,7 @@ export const EXTERIOR_ISLAND_BG: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.basic_building_bg,
   spring: SUNNYSIDE.land.spring_building_bg,
   desert: SUNNYSIDE.land.desert_building_bg,
+  volcano: SUNNYSIDE.land.desert_building_bg,
 };
 
 const _barn = (state: MachineState) => state.context.state.barn;

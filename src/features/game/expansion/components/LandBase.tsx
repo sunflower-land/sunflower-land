@@ -66,6 +66,7 @@ const LEVEL_IMAGES: Record<IslandType, Record<number, string>> = {
   basic: BASIC_LEVEL_IMAGES,
   spring: BASIC_LEVEL_IMAGES,
   desert: DESERT_LEVEL_IMAGES,
+  volcano: DESERT_LEVEL_IMAGES,
 };
 
 interface Props {

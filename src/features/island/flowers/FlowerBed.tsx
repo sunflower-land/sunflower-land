@@ -36,6 +36,7 @@ const LIFECYCLE_VARIANTS: Record<IslandType, typeof FLOWER_LIFECYCLE> = {
   basic: FLOWER_LIFECYCLE,
   spring: FLOWER_LIFECYCLE,
   desert: DESERT_FLOWER_LIFECYCLE,
+  volcano: DESERT_FLOWER_LIFECYCLE,
 };
 
 interface Props {

@@ -36,6 +36,7 @@ export const TREE_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree,
   spring: SUNNYSIDE.resource.tree,
   desert: cacti,
+  volcano: cacti,
 };
 
 export interface ResourceProps {

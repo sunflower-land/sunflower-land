@@ -1257,5 +1257,13 @@ function getCollectibleBuffLabels(
         boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
       },
     ],
+    "Volcano Gnome": [
+      {
+        shortDescription: translate("description.volcanoGnome.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.resource.stone,
+      },
+    ],
   };
 }

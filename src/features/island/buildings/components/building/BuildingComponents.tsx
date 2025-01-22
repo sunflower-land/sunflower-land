@@ -23,6 +23,7 @@ import { CookableName } from "features/game/types/consumables";
 import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
 import { Manor } from "./manor/Manor";
+import { Mansion } from "./mansion/Mansion";
 import { GameState, IslandType } from "features/game/types/game";
 import {
   BAKERY_VARIANTS,
@@ -187,6 +188,7 @@ export const BUILDING_COMPONENTS: Record<
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
   Manor: Manor,
+  Mansion: Mansion,
   Greenhouse: Greenhouse,
   "Crop Machine": ({ buildingId }: Pick<BuildingProps, "buildingId">) => (
     <CropMachine id={buildingId} />

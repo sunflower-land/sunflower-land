@@ -6,7 +6,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 
 const IMAGES: Partial<Record<InventoryItemName, string>> = {
-  Mog: "src/assets/sfts/morchi_mog.webp",
+  "Volcano Gnome": "src/assets/sfts/volcano_gnome.webp",
 };
 
 const WIDTH = 1920;

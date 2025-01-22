@@ -344,6 +344,7 @@ import { ToxicTuft } from "./components/ToxicTuft";
 import { Mootant } from "./components/Mootants";
 import { SuperTotem } from "./components/SuperTotem";
 import { GoldenCow } from "./components/GoldenCow";
+import { VolcanoGnome } from "./components/VolcanoGnome";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -571,7 +572,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Cobalt: Cobalt,
   Blossombeard: Blossombeard,
   "Desert Gnome": DesertGnome,
-
+  "Volcano Gnome": VolcanoGnome,
   // Dawn Breaker items
   "Mushroom House": MushroomHouse,
   "Purple Trail": PurpleTrail,

@@ -34,12 +34,14 @@ const SHAKE_SHEET: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.shakeSheet,
   spring: SUNNYSIDE.resource.springShakeSheet,
   desert: desertShakeSheet,
+  volcano: desertShakeSheet,
 };
 
 const TREE_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree,
   spring: SUNNYSIDE.resource.spring_tree,
   desert: cacti,
+  volcano: cacti,
 };
 
 const RecoveredTreeComponent: React.FC<Props> = ({

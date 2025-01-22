@@ -124,6 +124,10 @@ export function getLand({
     land = DESERT_LAYOUTS()[expansion];
   }
 
+  if (game.island.type === "volcano") {
+    land = VOLCANO_LAYOUTS()[expansion];
+  }
+
   if (!land) {
     return null;
   }
@@ -1961,6 +1965,30 @@ export const DESERT_LAYOUTS: () => Record<number, Layout> = () => ({
   25: DESERT_LAND_25_LAYOUT(),
 });
 
+export const VOLCANO_LAYOUTS: () => Record<number, Layout> = () => ({
+  5: DESERT_LAND_5_LAYOUT(),
+  6: DESERT_LAND_6_LAYOUT(),
+  7: DESERT_LAND_7_LAYOUT(),
+  8: DESERT_LAND_8_LAYOUT(),
+  9: DESERT_LAND_9_LAYOUT(),
+  10: DESERT_LAND_10_LAYOUT(),
+  11: DESERT_LAND_11_LAYOUT(),
+  12: DESERT_LAND_12_LAYOUT(),
+  13: DESERT_LAND_13_LAYOUT(),
+  14: DESERT_LAND_14_LAYOUT(),
+  15: DESERT_LAND_15_LAYOUT(),
+  16: DESERT_LAND_16_LAYOUT(),
+  17: DESERT_LAND_17_LAYOUT(),
+  18: DESERT_LAND_18_LAYOUT(),
+  19: DESERT_LAND_19_LAYOUT(),
+  20: DESERT_LAND_20_LAYOUT(),
+  21: DESERT_LAND_21_LAYOUT(),
+  22: DESERT_LAND_22_LAYOUT(),
+  23: DESERT_LAND_23_LAYOUT(),
+  24: DESERT_LAND_24_LAYOUT(),
+  25: DESERT_LAND_25_LAYOUT(),
+});
+
 export type Layout = {
   id: string;
   trees: Coordinates[];
@@ -2790,80 +2818,7 @@ export const EXPANSION_REQUIREMENTS: Record<
     24: DESERT_LAND_24_REQUIREMENTS,
     25: DESERT_LAND_25_REQUIREMENTS,
   },
-};
-
-/**
- * Minimum Bumpkin level to work on a land.
- * Prevents abuse of bumpkin swapping and reuse
- */
-export const BUMPKIN_EXPANSIONS_LEVEL: Record<
-  IslandType,
-  Record<number, number>
-> = {
-  basic: {
-    3: 1,
-    4: 1,
-    5: 1,
-    6: 1,
-    7: 1,
-    8: 3,
-    9: 3,
-    10: 5,
-    11: 12,
-    12: 17,
-    13: 20,
-    14: 23,
-    15: 25,
-    16: 30,
-    17: 30,
-    18: 30,
-    19: 40,
-    20: 40,
-    21: 45,
-    22: 45,
-    23: 50,
-  },
-  spring: {
-    4: 10,
-    5: 10,
-    6: 10,
-    7: 15,
-    8: 17,
-    9: 20,
-    10: 23,
-    11: 25,
-    12: 25,
-    13: 30,
-    14: 30,
-    15: 35,
-    16: 35,
-    17: 40,
-    18: 40,
-    19: 45,
-    20: 50,
-  },
-  desert: {
-    4: 35,
-    5: 35,
-    6: 35,
-    7: 35,
-    8: 35,
-    9: 35,
-    10: 35,
-    11: 35,
-    12: 35,
-    13: 35,
-    14: 35,
-    15: 35,
-    16: 35,
-    17: 35,
-    18: 35,
-    19: 35,
-    20: 35,
-    21: 35,
-    22: 35,
-    23: 35,
-    24: 35,
-    25: 35,
+  volcano: {
+    5: DESERT_LAND_5_REQUIREMENTS,
   },
 };
