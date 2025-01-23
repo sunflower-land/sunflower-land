@@ -26,6 +26,7 @@ describe("acknowledgeCalendarEvent", () => {
       calendar: {
         dates: [],
         tornado: {
+          startedAt: new Date("2025-01-20").getTime(),
           triggeredAt: Date.now(),
           protected: false,
         },

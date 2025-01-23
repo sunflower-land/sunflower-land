@@ -205,8 +205,7 @@ const DestroyedBuilding: React.FC<
             >
               {`Ready in: ${secondsToString(
                 24 * 60 * 60 -
-                  (Date.now() - game.calendar[calendarEvent]!.triggeredAt) /
-                    1000,
+                  (Date.now() - game.calendar[calendarEvent]!.startedAt) / 1000,
                 {
                   length: "medium",
                 },

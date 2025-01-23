@@ -85,7 +85,7 @@ const GreatFreezePlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
             >
               {`${t("ready.in")}: ${secondsToString(
                 24 * 60 * 60 -
-                  (Date.now() - game.calendar.greatFreeze!.triggeredAt) / 1000,
+                  (Date.now() - game.calendar.greatFreeze!.startedAt) / 1000,
                 {
                   length: "medium",
                 },

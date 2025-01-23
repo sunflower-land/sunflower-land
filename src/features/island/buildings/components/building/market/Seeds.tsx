@@ -390,19 +390,19 @@ export const Seeds: React.FC = () => {
                 (name) =>
                   name !== "Lunara Seed" ||
                   (hasFeatureAccess(state, "WEATHER_SHOP") &&
-                    isFullMoon(state, Date.now())),
+                    isFullMoon(state)),
               )
               .filter(
                 (name) =>
                   name !== "Celestine Seed" ||
                   (hasFeatureAccess(state, "WEATHER_SHOP") &&
-                    isFullMoon(state, Date.now())),
+                    isFullMoon(state)),
               )
               .filter(
                 (name) =>
                   name !== "Duskberry Seed" ||
                   (hasFeatureAccess(state, "WEATHER_SHOP") &&
-                    isFullMoon(state, Date.now())),
+                    isFullMoon(state)),
               )
               .map((name: SeedName) => (
                 <Box

@@ -30,6 +30,7 @@ export type SeasonalEventName =
   | "sunshower";
 
 export type CalendarEvent = {
+  startedAt: number;
   triggeredAt: number;
   protected?: boolean;
   acknowledgedAt?: number;
@@ -91,62 +92,62 @@ export function getActiveCalendarEvent({
 
   // If trigger in last 24 hours
   if (
-    game.calendar.tornado?.triggeredAt &&
-    new Date(game.calendar.tornado.triggeredAt).getTime() >
+    game.calendar.tornado?.startedAt &&
+    new Date(game.calendar.tornado.startedAt).getTime() >
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "tornado";
   }
 
   if (
-    game.calendar.tsunami?.triggeredAt &&
-    new Date(game.calendar.tsunami.triggeredAt).getTime() >
+    game.calendar.tsunami?.startedAt &&
+    new Date(game.calendar.tsunami.startedAt).getTime() >
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "tsunami";
   }
 
   if (
-    game.calendar.greatFreeze?.triggeredAt &&
-    new Date(game.calendar.greatFreeze.triggeredAt).getTime() >
+    game.calendar.greatFreeze?.startedAt &&
+    new Date(game.calendar.greatFreeze.startedAt).getTime() >
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "greatFreeze";
   }
   if (
-    game.calendar.doubleDelivery?.triggeredAt &&
-    new Date(game.calendar.doubleDelivery.triggeredAt).getTime() >
+    game.calendar.doubleDelivery?.startedAt &&
+    new Date(game.calendar.doubleDelivery.startedAt).getTime() >
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "doubleDelivery";
   }
   if (
-    game.calendar.bountifulHarvest?.triggeredAt &&
-    new Date(game.calendar.bountifulHarvest.triggeredAt).getTime() >
+    game.calendar.bountifulHarvest?.startedAt &&
+    new Date(game.calendar.bountifulHarvest.startedAt).getTime() >
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "bountifulHarvest";
   }
 
   if (
-    game.calendar.insectPlague?.triggeredAt &&
-    new Date(game.calendar.insectPlague.triggeredAt).getTime() >
+    game.calendar.insectPlague?.startedAt &&
+    new Date(game.calendar.insectPlague.startedAt).getTime() >
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "insectPlague";
   }
 
   if (
-    game.calendar.sunshower?.triggeredAt &&
-    new Date(game.calendar.sunshower.triggeredAt).getTime() >
+    game.calendar.sunshower?.startedAt &&
+    new Date(game.calendar.sunshower.startedAt).getTime() >
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "sunshower";
   }
 
   if (
-    game.calendar.fullMoon?.triggeredAt &&
-    new Date(game.calendar.fullMoon.triggeredAt).getTime() >
+    game.calendar.fullMoon?.startedAt &&
+    new Date(game.calendar.fullMoon.startedAt).getTime() >
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "fullMoon";
@@ -271,10 +272,6 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   sunshower: sunshower,
 };
 
-export const isFullMoon = (state: GameState, createdAt: number) => {
-  return (
-    state.calendar.fullMoon?.triggeredAt &&
-    state.calendar.fullMoon?.triggeredAt > createdAt - 24 * 60 * 60 * 1000 &&
-    state.calendar.fullMoon?.triggeredAt < createdAt
-  );
+export const isFullMoon = (state: GameState) => {
+  return getActiveCalendarEvent({ game: state }) === "fullMoon";
 };
