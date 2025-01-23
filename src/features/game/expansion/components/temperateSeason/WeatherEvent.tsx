@@ -110,13 +110,13 @@ export const WeatherEvent: React.FC<Props> = ({
     <>
       <Panel className="relative z-10">
         <div className="p-1">
-          <div className="flex flex-row justify-between">
-            <Label type="vibrant" icon={eventIcon} className="mb-2">
+          <div className="flex flex-col items-start justify-between mb-2 gap-1">
+            <Label type="vibrant" icon={eventIcon}>
               {eventTitle}
             </Label>
             {eventOver && (
               <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-                {getRelativeTime(eventEndTime)}
+                {`Event Over - ${getRelativeTime(eventEndTime)}`}
               </Label>
             )}
           </div>
