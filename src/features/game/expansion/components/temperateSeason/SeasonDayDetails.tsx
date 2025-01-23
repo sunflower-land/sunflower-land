@@ -73,6 +73,10 @@ const DUMMY_EVENT_INFORMATION: Record<
     description: "calendar.events.insectPlague.description",
     prevention: "Protective Pesticide",
   },
+  fishFrenzy: {
+    title: "calendar.events.fishFrenzy.title",
+    description: "calendar.events.fishFrenzy.description",
+  },
 };
 
 export const SeasonDayDetails: React.FC<Props> = ({
