@@ -58,7 +58,6 @@ import {
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Verify } from "features/game/components/bank/components/Withdraw";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -325,7 +324,6 @@ export type SettingMenuId =
   | "changeLanguage"
   | "share"
   | "preferences"
-  | "verifyPersonhood"
 
   // Push Notifications
   | "notifications"
@@ -416,11 +414,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings.preferences"),
     parent: "general",
     content: Preferences,
-  },
-  verifyPersonhood: {
-    title: "Verify Personhood",
-    parent: "general",
-    content: Verify,
   },
   notifications: {
     title: translate("gameOptions.notifications"),
