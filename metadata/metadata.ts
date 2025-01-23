@@ -13788,9 +13788,9 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/251.png",
     name: "Banana Onesie",
   },
-  "Basic Dumbo": {
+  "Blossom Dumbo": {
     description:
-      "A simple and classic hat featuring the iconic tentacles of a lovable octopus.",
+      "A cheerful, happy expression graces this dumbo, symbolizing the fresh energy of spring. Wear it to bring a bright, joyful spirit wherever you go.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -13798,7 +13798,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/252.png",
-    name: "Basic Dumbo",
+    name: "Blossom Dumbo",
   },
   "Companion Cap": {
     description:
@@ -13812,9 +13812,9 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/253.png",
     name: "Companion Cap",
   },
-  "Dazzling Dumbo": {
+  "Radiant Dumbo": {
     description:
-      "Stand out with this dazzling hat that adds a touch of sparkle to your style.",
+      "With a fiery, angry expression, this dumbo channels the intensity of the summer sun. It's perfect for those who want to wear their bold energy with pride.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -13822,7 +13822,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/254.png",
-    name: "Dazzling Dumbo",
+    name: "Radiant Dumbo",
   },
   "Deep Sea Helm": {
     description:
@@ -13842,9 +13842,9 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/255.png",
     name: "Deep Sea Helm",
   },
-  "Gloomy Dumbo": {
+  "Maple Dumbo": {
     description:
-      "Express your emotions with this somber hat, featuring the iconic tentacles of a certain melancholy octopus.",
+      "This octopus features a straight, slightly stern expression, embodying the crisp, cool energy of autumn. With its calm yet resolute demeanor, it’s perfect for those who appreciate the quiet strength of the season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -13852,7 +13852,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/256.png",
-    name: "Gloomy Dumbo",
+    name: "Maple Dumbo",
   },
   "Pickaxe Shark": {
     description:
@@ -13878,9 +13878,9 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/258.png",
     name: "Seedling Hat",
   },
-  "Stormy Dumbo": {
+  "Gloomy Dumbo": {
     description:
-      "Weather the storm in style with this hat featuring the turbulent tentacles of an octopus caught in a tempest.",
+      "This dumbo captures the melancholic stillness of winter. Perfect for those who resonate with the season's quiet, somber mood.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -13888,7 +13888,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/259.png",
-    name: "Stormy Dumbo",
+    name: "Gloomy Dumbo",
   },
   "Ugly Christmas Sweater": {
     description: "A whimsical holiday wearable from Earn Alliance",
@@ -16254,5 +16254,161 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/421.png",
     name: "New Years Crown",
+  },
+  "Ladybug Suit": {
+    description:
+      "A charming red-and-black polka-dotted suit that brings the playful energy of a ladybug to life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/422.png",
+    name: "Ladybug Suit",
+  },
+  "Acorn Hat": {
+    description:
+      "A cute, nature-inspired hat shaped like an acorn, perfect for woodland adventures.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/423.png",
+    name: "Acorn Hat",
+  },
+  "Crab Hat": {
+    description:
+      "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more fish with ease",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/424.png",
+    name: "Crab Hat",
+  },
+  "Weather Hat": {
+    description:
+      "A stylish top hat with a unique device that gauges the season's temperature, indicating whether it's hot, cold, or neutral. Perfect for staying in tune with the weather while keeping your look sharp.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/425.png",
+    name: "Weather Hat",
+  },
+  "Sakura Shirt": {
+    description:
+      "A beautiful shirt adorned with delicate cherry blossom patterns, celebrating spring's beauty.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/426.png",
+    name: "Sakura Shirt",
+  },
+  "Squirrel Onesie": {
+    description:
+      "A cozy, full-body outfit that transforms you into an adorable, bushy-tailed squirrel.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/427.png",
+    name: "Squirrel Onesie",
+  },
+  "Locust Onesie": {
+    description:
+      "A striking onesie that represents the power and swarming nature of locusts. This outfit captures the essence of these formidable insects, perfect for anyone who wants to channel the energy of a locust swarm in their look.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/428.png",
+    name: "Locust Onesie",
+  },
+  "Locust King Potion": {
+    description:
+      "A mystical body transformation potion that grants the regal aura of a locust king.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Body" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/429.png",
+    name: "Locust King Potion",
+  },
+  "Glacial Plume": {
+    description:
+      "Elegant, icy wings that shimmer with a frosty glow, embodying the beauty of winter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/430.png",
+    name: "Glacial Plume",
+  },
+  "Solflare Aegis": {
+    description:
+      "A radiant shield infused with the power of the sun, offering both warmth and protection.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/431.png",
+    name: "Solflare Aegis",
+  },
+  "Blossom Ward": {
+    description:
+      "A beautifully crafted shield adorned with vibrant cherry blossom flowers, designed to enhance the health and vitality of your crops during the spring season.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/432.png",
+    name: "Blossom Ward",
+  },
+  "Autumn's Embrace": {
+    description:
+      "A shield crafted in warm, earthy tones, inspired by the golden hues of autumn leaves.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/433.png",
+    name: "Autumn's Embrace",
+  },
+  "Frozen Heart": {
+    description:
+      "A shield forged from the essence of winter's chill, its crystal surface shimmers with frosty elegance. It pulses with the quiet strength of the cold, offering protection while ensuring that even in the harshest winter, life endures and thrives.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/434.png",
+    name: "Frozen Heart",
   },
 };
