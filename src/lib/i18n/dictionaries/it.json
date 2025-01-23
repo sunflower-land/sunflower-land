@@ -1507,10 +1507,6 @@
   "description.pink.egg": "Un uovo di Pasqua rosa",
   "description.purple.egg": "Un uovo di Pasqua viola",
   "description.homeOwnerPainting": "Un dipinto del proprietario di questa casa.",
-  "description.goblin.emblem": "Dimostra la tua fedeltà ai Goblin",
-  "description.sunflorian.emblem": "Dimostra la tua fedeltà ai Sunfloriani",
-  "description.bumpkin.emblem": "Dimostra la tua fedeltà ai Bumpkins",
-  "description.nightshade.emblem": "Dimostra la tua fedeltà ai Nightshades",
   "gameOptions.title": "Opzioni di gioco",
   "gameOptions.farmId": "ID azienda agricola n. {{farmId}}",
   "gameOptions.logout": "Esci",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Accesso all'asta",
   "reputation.marketplace.trades": "Aumenta la tua reputazione per sbloccare più scambi.",
   "verify.verified": "Sei verificato!",
-  "verify.verify": "Verifica il tuo account per aumentare la tua reputazione."
+  "verify.verify": "Verifica il tuo account per aumentare la tua reputazione.",
+  "description.goblin.emblem": "Un potente emblema per i membri della fazione dei Goblin.",
+  "description.sunflorian.emblem": "Un potente emblema per i membri della fazione Sunflorian.",
+  "description.bumpkin.emblem": "Un potente emblema per i membri della Bumpkin Faction.",
+  "description.nightshade.emblem": "Un potente emblema per i membri della Nightshade Faction."
 }

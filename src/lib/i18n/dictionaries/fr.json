@@ -2803,10 +2803,6 @@
   "description.fermented.shroomSyrup": "L'essence des abeilles et des champignons enchantés",
   "description.scroll": "Un ticket utilisé pendant la saison de Clash of Factions",
   "description.amberFossil": "Un billet utilisé pendant la saison des trésors du Pharaon",
-  "description.goblin.emblem": "Montrez votre allégeance aux gobelins",
-  "description.sunflorian.emblem": "Montrez votre allégeance aux Sunflorians",
-  "description.bumpkin.emblem": "Montrez votre allégeance aux Bumpkins",
-  "description.nightshade.emblem": "Montrez votre allégeance aux Nightshades",
   "gameOptions.title": "Options de jeu",
   "gameOptions.farmId": "N° d'identification de la ferme {{farmId}}",
   "gameOptions.blockchainSettings": "Paramètres de la blockchain",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Accès aux enchères",
   "reputation.marketplace.trades": "Augmentez votre réputation pour débloquer plus de transactions.",
   "verify.verified": "Vous êtes vérifié !",
-  "verify.verify": "Vérifiez votre compte pour améliorer votre réputation."
+  "verify.verify": "Vérifiez votre compte pour améliorer votre réputation.",
+  "description.goblin.emblem": "Un emblème puissant pour les membres de la faction gobeline.",
+  "description.sunflorian.emblem": "Un emblème puissant pour les membres de la faction Sunflorian.",
+  "description.bumpkin.emblem": "Un emblème puissant pour les membres de la faction Bumpkin.",
+  "description.nightshade.emblem": "Un emblème puissant pour les membres de la faction Nightshade."
 }

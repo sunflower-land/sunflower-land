@@ -1524,10 +1524,6 @@
   "description.pink.egg": "Ein rosafarbenes Osterei",
   "description.purple.egg": "Ein lila Osterei",
   "description.homeOwnerPainting": "Ein Gemälde des Besitzers dieses Hauses.",
-  "description.goblin.emblem": "Zeigt den Goblins eure Treue",
-  "description.sunflorian.emblem": "Zeigt den Sunflorianern eure Treue",
-  "description.bumpkin.emblem": "Zeigen Sie den Bumpkins Ihre Treue",
-  "description.nightshade.emblem": "Zeigt eure Treue zu den Nightshades",
   "description.faction.mark": "Benutze sie im Fraktionsshop",
   "gameOptions.title": "Spiel-Optionen",
   "gameOptions.farmId": "Farm-ID # {{farmId}}",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Zugang zur Auktion",
   "reputation.marketplace.trades": "Erhöhen Sie Ihren Ruf, um mehr Trades freizuschalten.",
   "verify.verified": "Du bist verifiziert!",
-  "verify.verify": "Verifizieren Sie Ihr Konto, um Ihren Ruf zu verbessern."
+  "verify.verify": "Verifizieren Sie Ihr Konto, um Ihren Ruf zu verbessern.",
+  "description.goblin.emblem": "Ein mächtiges Emblem für die Mitglieder der Goblinfraktion.",
+  "description.sunflorian.emblem": "Ein mächtiges Emblem für Mitglieder der Sunflorian-Fraktion.",
+  "description.bumpkin.emblem": "Ein mächtiges Emblem für die Mitglieder der Bumpkin-Fraktion.",
+  "description.nightshade.emblem": "Ein mächtiges Emblem für Mitglieder der Nachtschattenfraktion."
 }

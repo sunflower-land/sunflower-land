@@ -2139,10 +2139,6 @@
   "description.baozi": "农历新年活动送的美味小吃。",
   "description.scroll": "（往期）帮派冲突时季使用的票券。",
   "description.amberFossil": "法老秘宝时季使用的票券。",
-  "description.goblin.emblem": "向 Goblin 展示你的忠诚",
-  "description.sunflorian.emblem": "向 Sunflorian 展示你的忠诚",
-  "description.bumpkin.emblem": "向 Bumpkin 展示你的忠诚",
-  "description.nightshade.emblem": "向 Nightshade 展示你的忠诚",
   "gameOptions.developerOptions.timeMachine": "时光机器",
   "gameOptions.generalSettings.connectDiscord": "连接到 Discord",
   "gameOptions.generalSettings.assignRole": "分配 Discord 角色",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "拍卖权限",
   "reputation.marketplace.trades": "提高您的声誉以解锁更多交易。",
   "verify.verified": "您已通过验证！",
-  "verify.verify": "验证您的账户以提高您的声誉。"
+  "verify.verify": "验证您的账户以提高您的声誉。",
+  "description.goblin.emblem": "对于哥布林派系的玩家来说，这是一个强大的标志。",
+  "description.sunflorian.emblem": "对于桑弗洛里安派系的玩家来说，这是一个强大的象征。",
+  "description.bumpkin.emblem": "对于 Bumpkin Faction 中的玩家来说，这是一个强大的象征。",
+  "description.nightshade.emblem": "对于夜影派系的玩家来说，这是一个强大的标志。"
 }

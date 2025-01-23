@@ -1524,10 +1524,6 @@
   "description.pink.egg": "ピンクのイースターエッグ",
   "description.purple.egg": "紫のイースターエッグ",
   "description.homeOwnerPainting": "この家の所有者の絵です。",
-  "description.goblin.emblem": "ゴブリンへの忠誠を示せ",
-  "description.sunflorian.emblem": "サンフロリアンへの忠誠を示せ",
-  "description.bumpkin.emblem": "バンプキンズへの忠誠を示せ",
-  "description.nightshade.emblem": "ナイトシェードへの忠誠を示せ",
   "description.faction.mark": "ファクションショップで使おう",
   "gameOptions.title": "ゲームオプション",
   "gameOptions.farmId": "ファーム ID # {{farmId}}",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "オークションへのアクセス",
   "reputation.marketplace.trades": "評判を上げて、より多くの取引をアンロックしましょう。",
   "verify.verified": "確認されました！",
-  "verify.verify": "アカウントを確認して評判を高めましょう。"
+  "verify.verify": "アカウントを確認して評判を高めましょう。",
+  "description.goblin.emblem": "ゴブリン勢力の強力なエンブレムです。",
+  "description.sunflorian.emblem": "サンフロリアン派に属する者には強力なエンブレムだ。",
+  "description.bumpkin.emblem": "バンプキン陣営の強力なエンブレムです。",
+  "description.nightshade.emblem": "ナイトシェード陣営の強力なエンブレムです。"
 }

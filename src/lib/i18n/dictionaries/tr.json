@@ -2814,10 +2814,6 @@
   "description.hungryHare": "Bu açgözlü tavşan çiftliğinden geçiyor. Paskalya 2024'ten özel bir etkinlik öğesi",
   "description.scroll": "Fraksiyonların Çatışması Sezonunda kullanılan bir bilet",
   "description.amberFossil": "Firavun'un Hazinesi Sezonunda kullanılan bilet",
-  "description.goblin.emblem": "Goblinlere bağlılığınızı gösterin",
-  "description.sunflorian.emblem": "Sunflorianlara bağlılığınızı gösterin",
-  "description.bumpkin.emblem": "Bumpkins'e bağlılığınızı gösterin",
-  "description.nightshade.emblem": "Nightshades'a bağlılığınızı gösterin",
   "gameOptions.title": "Oyun Seçenekleri",
   "gameOptions.farmId": "Çiftlik Kimliği # {{farmId}}",
   "gameOptions.blockchainSettings": "Blockchain Ayarları",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Açık Artırma Erişimi",
   "reputation.marketplace.trades": "Daha fazla ticaretin kilidini açmak için itibarınızı artırın.",
   "verify.verified": "Doğrulandınız!",
-  "verify.verify": "İtibarınızı artırmak için hesabınızı doğrulayın."
+  "verify.verify": "İtibarınızı artırmak için hesabınızı doğrulayın.",
+  "description.goblin.emblem": "Goblin Grubu'ndakiler için güçlü bir amblem.",
+  "description.sunflorian.emblem": "Sunflorian Fraksiyonundakiler için güçlü bir amblem.",
+  "description.bumpkin.emblem": "Bumpkin Fraksiyonundakiler için güçlü bir amblem.",
+  "description.nightshade.emblem": "Nightshade Fraksiyonundakiler için güçlü bir amblem."
 }

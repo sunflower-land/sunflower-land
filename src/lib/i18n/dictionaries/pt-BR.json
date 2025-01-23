@@ -2778,10 +2778,6 @@
   "description.baozi": "Uma delícia do evento do Ano Novo Lunar.",
   "description.communityEgg": "Nossa, você realmente deve se preocupar com a comunidade!",
   "description.hungryHare": "Este coelho voraz pula pela sua fazenda. Um item de evento especial da Páscoa de 2024",
-  "description.goblin.emblem": "Mostre sua lealdade aos Goblins",
-  "description.sunflorian.emblem": "Mostre sua lealdade aos Sunflorians",
-  "description.bumpkin.emblem": "Mostre sua lealdade aos Bumpkins",
-  "description.nightshade.emblem": "Mostre sua lealdade aos Nightshades",
   "gameOptions.title": "Opções de jogo",
   "gameOptions.farmId": "Número de identificação da fazenda {{farmId}}",
   "gameOptions.blockchainSettings": "Configurações do Blockchain",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Acesso ao leilão",
   "reputation.marketplace.trades": "Aumente sua reputação para desbloquear mais negociações.",
   "verify.verified": "Você foi verificado!",
-  "verify.verify": "Verifique sua conta para aumentar sua reputação."
+  "verify.verify": "Verifique sua conta para aumentar sua reputação.",
+  "description.goblin.emblem": "Um emblema poderoso para os membros da Facção Goblin.",
+  "description.sunflorian.emblem": "Um emblema poderoso para os membros da Facção Sunflorian.",
+  "description.bumpkin.emblem": "Um emblema poderoso para os membros da Facção Bumpkin.",
+  "description.nightshade.emblem": "Um emblema poderoso para os membros da Facção Nightshade."
 }

@@ -1524,10 +1524,6 @@
   "description.pink.egg": "Telur paskah merah jambu",
   "description.purple.egg": "Telur paskah ungu",
   "description.homeOwnerPainting": "Lukisan pemilik rumah ini.",
-  "description.goblin.emblem": "Tunjukkan kesetiaan anda kepada Goblin",
-  "description.sunflorian.emblem": "Tunjukkan kesetiaan anda kepada orang Sunflorida",
-  "description.bumpkin.emblem": "Tunjukkan kesetiaan anda kepada Bumpkins",
-  "description.nightshade.emblem": "Tunjukkan kesetiaan anda kepada Nightshade",
   "description.faction.mark": "Gunakan ini di Kedai Faksi",
   "gameOptions.title": "Pilihan Permainan",
   "gameOptions.farmId": "ID Ladang # {{farmId}}",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Akses Lelongan",
   "reputation.marketplace.trades": "Tingkatkan reputasi anda untuk membuka kunci lebih banyak perdagangan.",
   "verify.verified": "Anda disahkan!",
-  "verify.verify": "Sahkan akaun anda untuk meningkatkan reputasi anda."
+  "verify.verify": "Sahkan akaun anda untuk meningkatkan reputasi anda.",
+  "description.goblin.emblem": "Lambang yang kuat bagi mereka dalam Faksi Goblin.",
+  "description.sunflorian.emblem": "Lambang yang kuat bagi mereka yang berada di Faksi Sunflorian.",
+  "description.bumpkin.emblem": "Lambang yang kuat bagi mereka yang berada di Faksi Bumpkin.",
+  "description.nightshade.emblem": "Lambang yang kuat bagi mereka yang berada di Nightshade Faction."
 }

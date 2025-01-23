@@ -1045,7 +1045,6 @@
   "description.bullRunBanner": "Баннер, посвященный сезону Bull Run.",
   "description.bumpkin.broth": "Питательный бульон для восполнения сил твоего бампкина",
   "description.bumpkin.detox": "Смой грехи прошлой ночи",
-  "description.bumpkin.emblem": "Доказательство твоей преданности Бампкинам",
   "description.bumpkin.faction.banner": "Демонстрация верности к фракции Бампкинов",
   "description.bumpkin.ganoush": "Пикантный спред из обжаренных баклажанов.",
   "description.bumpkin.lantern": "Подойдя ближе, ты слышишь шорохи живого бампкина... жуть!",
@@ -1406,7 +1405,6 @@
   "description.goblin.bear": "Медведь-гоблин. Немного пугающе.",
   "description.goblin.brunch": "Традиционное блюдо гоблинов",
   "description.goblin.crown": "Призывает предводителя гоблинов",
-  "description.goblin.emblem": "Доказательство твоей преданности Гоблинам",
   "description.goblin.faction.banner": "Демонстрация верности к фракции Гоблинов",
   "description.goblin.key": "Гоблинский ключ",
   "description.goblin.lantern": "Страшный фонарь",
@@ -1601,7 +1599,6 @@
   "description.nancy.boost": "-15% времени роста урожая",
   "description.napoleanfish.one": "Встречай рыбу с комплексом Наполеона - короткая, но властная!",
   "description.napoleanfish.two": "Преодолей свой голод с помощью этого улова!",
-  "description.nightshade.emblem": "Доказательство твоей преданности Ночным теням",
   "description.nightshade.faction.banner": "Демонстрация верности к фракции Ночных теней",
   "description.non.la.hat.boost": "+1 Рис",
   "description.nugget": "Дает 25% увеличение при сборе Золота",
@@ -1848,7 +1845,6 @@
   "description.sturdyBed": "Прочная кровать, здесь может спать один фермер.",
   "description.sunfish.one": "Океанический любитель солнца, греющийся в лучах света с высоко поднятыми плавниками.",
   "description.sunfish.two": "Насладись этим аппетитнейшим вкусом!",
-  "description.sunflorian.emblem": "Доказательство твоей преданности Санфлорианцам+",
   "description.sunflorian.faction.banner": "Демонстрация верности к фракции Санфлорианцев",
   "description.sunflower": "Солнечный цветок",
   "description.sunflower.amulet": "Урожай Подсолнухов увеличен на 10%.",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Доступ к аукционам",
   "reputation.marketplace.trades": "Повысьте свою репутацию, чтобы разблокировать больше сделок.",
   "verify.verified": "Вы проверены!",
-  "verify.verify": "Подтвердите свой аккаунт, чтобы повысить свою репутацию."
+  "verify.verify": "Подтвердите свой аккаунт, чтобы повысить свою репутацию.",
+  "description.goblin.emblem": "Мощная эмблема для членов фракции гоблинов.",
+  "description.sunflorian.emblem": "Мощная эмблема для членов фракции Sunflorian.",
+  "description.bumpkin.emblem": "Мощная эмблема для членов фракции Bumpkin.",
+  "description.nightshade.emblem": "Мощная эмблема для членов фракции Nightshade."
 }

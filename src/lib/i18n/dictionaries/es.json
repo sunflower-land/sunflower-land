@@ -1508,10 +1508,6 @@
   "description.pink.egg": "Un huevo de pascua rosado",
   "description.purple.egg": "Un huevo de pascua morado",
   "description.homeOwnerPainting": "Un cuadro del propietario de esta casa.",
-  "description.goblin.emblem": "Demuestra tu lealtad a los duendes",
-  "description.sunflorian.emblem": "Demuestra tu lealtad a los Sunflorians",
-  "description.bumpkin.emblem": "Demuestra tu lealtad a los Bumpkins",
-  "description.nightshade.emblem": "Demuestra tu lealtad a las Sombras Nocturnas",
   "gameOptions.title": "Opciones de juego",
   "gameOptions.farmId": "Número de identificación de granja {{farmId}}",
   "gameOptions.logout": "Cerrar sesión",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Acceso a la subasta",
   "reputation.marketplace.trades": "Aumenta tu reputación para desbloquear más operaciones.",
   "verify.verified": "¡Estás verificado!",
-  "verify.verify": "Verifica tu cuenta para aumentar tu reputación."
+  "verify.verify": "Verifica tu cuenta para aumentar tu reputación.",
+  "description.goblin.emblem": "Un poderoso emblema para los miembros de la facción de los duendes.",
+  "description.sunflorian.emblem": "Un poderoso emblema para los miembros de la facción Sunflorian.",
+  "description.bumpkin.emblem": "Un poderoso emblema para los miembros de la facción Bumpkin.",
+  "description.nightshade.emblem": "Un poderoso emblema para los miembros de la facción Nightshade."
 }

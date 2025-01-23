@@ -1524,10 +1524,6 @@
   "description.pink.egg": "Telur paskah merah muda",
   "description.purple.egg": "Telur paskah ungu",
   "description.homeOwnerPainting": "Lukisan pemilik rumah ini.",
-  "description.goblin.emblem": "Tunjukkan kesetiaanmu kepada para Goblin",
-  "description.sunflorian.emblem": "Tunjukkan kesetiaanmu kepada Sunflorians",
-  "description.bumpkin.emblem": "Tunjukkan kesetiaanmu kepada Bumpkins",
-  "description.nightshade.emblem": "Tunjukkan kesetiaanmu pada Nightshades",
   "description.faction.mark": "Gunakan ini di Toko Fraksi",
   "gameOptions.title": "Opsi Permainan",
   "gameOptions.farmId": "ID Peternakan # {{farmId}}",
@@ -4971,5 +4967,9 @@
   "reputation.grower.auctions": "Akses Lelang",
   "reputation.marketplace.trades": "Tingkatkan reputasi Anda untuk membuka lebih banyak perdagangan.",
   "verify.verified": "Anda diverifikasi!",
-  "verify.verify": "Verifikasi akun Anda untuk meningkatkan reputasi Anda."
+  "verify.verify": "Verifikasi akun Anda untuk meningkatkan reputasi Anda.",
+  "description.goblin.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Goblin.",
+  "description.sunflorian.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Sunflorian.",
+  "description.bumpkin.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Bumpkin.",
+  "description.nightshade.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Nightshade."
 }
