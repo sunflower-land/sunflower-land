@@ -13,7 +13,6 @@ import { isSupported } from "firebase/messaging";
 
 const _fslId = (state: MachineState) => state.context.fslId;
 const _oauthNonce = (state: MachineState) => state.context.oauthNonce;
-const _verified = (state: MachineState) => state.context.state.verified;
 const _state = (state: MachineState) => state.context.state; // to remove after featureflag removed
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
@@ -22,7 +21,6 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
   const { gameService } = useGame();
   const fslId = useSelector(gameService, _fslId);
   const oauthNonce = useSelector(gameService, _oauthNonce);
-  const verified = useSelector(gameService, _verified);
   const state = useSelector(gameService, _state); // to remove after featureflag removed
 
   const [notificationsSupported, setNotificationsSupported] = useState(false);
@@ -54,19 +52,6 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
       >
         {`Connect FSL ID`}
         {!!fslId && (
-          <img
-            src={SUNNYSIDE.icons.confirm}
-            className="absolute right-1 top-0.5 h-7"
-          />
-        )}
-      </Button>
-      <Button
-        disabled={verified}
-        className="relative col-span-2"
-        onClick={() => onSubMenuClick("verifyPersonhood")}
-      >
-        {`Verify Personhood`}
-        {!!verified === true && (
           <img
             src={SUNNYSIDE.icons.confirm}
             className="absolute right-1 top-0.5 h-7"
