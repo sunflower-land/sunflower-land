@@ -87,7 +87,7 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { item, amount } = action;
 
-    if (isFullMoonBerry(item) && !isFullMoon(state, createdAt)) {
+    if (isFullMoonBerry(item) && !isFullMoon(state)) {
       throw new Error("Not a full moon");
     }
 

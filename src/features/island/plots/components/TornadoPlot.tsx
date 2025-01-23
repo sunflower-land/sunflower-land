@@ -85,7 +85,7 @@ const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
             >
               {`${t("ready.in")}: ${secondsToString(
                 24 * 60 * 60 -
-                  (Date.now() - game.calendar.tornado!.triggeredAt) / 1000,
+                  (Date.now() - game.calendar.tornado!.startedAt) / 1000,
                 {
                   length: "medium",
                 },

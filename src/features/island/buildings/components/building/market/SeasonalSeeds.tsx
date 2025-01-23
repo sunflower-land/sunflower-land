@@ -379,7 +379,7 @@ export const SeasonalSeeds: React.FC = () => {
               </div>
             </div>
           )}
-          {isFullMoon(state, Date.now()) && (
+          {isFullMoon(state) && (
             <div id="Full Moon Seeds">
               <Label
                 icon={fullMoon}

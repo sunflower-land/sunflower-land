@@ -1705,6 +1705,9 @@ describe("plant", () => {
             },
           ],
           insectPlague: {
+            startedAt: new Date(
+              new Date().toISOString().split("T")[0],
+            ).getTime(),
             triggeredAt: Date.now(),
             protected: false,
           },
@@ -1745,6 +1748,9 @@ describe("plant", () => {
             },
           ],
           insectPlague: {
+            startedAt: new Date(
+              new Date().toISOString().split("T")[0],
+            ).getTime(),
             triggeredAt: Date.now(),
             protected: true,
           },
@@ -2299,6 +2305,7 @@ describe("getCropTime", () => {
         calendar: {
           dates: [],
           sunshower: {
+            startedAt: new Date().getTime(),
             triggeredAt: dateNow,
           },
         },

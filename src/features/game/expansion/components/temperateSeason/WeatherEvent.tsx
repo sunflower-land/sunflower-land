@@ -78,8 +78,7 @@ export const WeatherEvent: React.FC<Props> = ({
 
   const eventStartTime = useSelector(
     gameService,
-    (state: MachineState) =>
-      state.context.state.calendar[eventName]?.triggeredAt,
+    (state: MachineState) => state.context.state.calendar[eventName]?.startedAt,
   );
 
   const getEventEndTime = () => {
