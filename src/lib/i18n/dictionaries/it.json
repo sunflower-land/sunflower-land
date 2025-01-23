@@ -4787,7 +4787,7 @@
   "vip.benefit.expBoost": "Aumento EXP del 10%",
   "vip.benefit.stellaDiscounts": "Sconti Stella SFL",
   "vip.benefit.bonusDelivery": "Consegna bonus e premi per le faccende",
-  "vip.benefit.reputation": "500 punti reputazione",
+  "vip.benefit.reputation": "{{points}} punti reputazione",
   "vip.benefit.competition": "Punti bonus per la competizione e altro ancora!",
   "gameOptions.notifications": "Notifiche",
   "gameOptions.notifications.updating": "Aggiornamento delle impostazioni",

@@ -4787,7 +4787,7 @@
   "vip.benefit.expBoost": "10% 经验值提升",
   "vip.benefit.stellaDiscounts": "Stella SFL 折扣",
   "vip.benefit.bonusDelivery": "奖励配送和琐事奖励",
-  "vip.benefit.reputation": "500 声誉积分",
+  "vip.benefit.reputation": "{{points}} 声誉积分",
   "vip.benefit.competition": "奖励比赛积分 + 更多！",
   "gameOptions.notifications": "通知",
   "gameOptions.notifications.updating": "更新设置",

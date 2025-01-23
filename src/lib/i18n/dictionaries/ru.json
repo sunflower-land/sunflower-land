@@ -4700,7 +4700,7 @@
   "vip.benefit.bonusDelivery": "Доставка бонусов и вознаграждение за выполнение заданий",
   "vip.benefit.competition": "Бонусные конкурсные баллы и многое другое!",
   "vip.benefit.expBoost": "Увеличение опыта на 10%",
-  "vip.benefit.reputation": "500 очков репутации",
+  "vip.benefit.reputation": "{{points}} очков репутации",
   "vip.benefit.stellaDiscounts": "Скидки на акции Stella SFL",
   "vip.benefits": "Льготы",
   "vip.oneYear.warning": "У вас уже есть VIP-доступ сроком на 1 год.",

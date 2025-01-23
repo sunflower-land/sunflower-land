@@ -4787,7 +4787,7 @@
   "vip.benefit.expBoost": "Peningkatan EXP 10%",
   "vip.benefit.stellaDiscounts": "Stella SFL diskon",
   "vip.benefit.bonusDelivery": "Pengiriman Bonus & Hadiah Tugas Kerja",
-  "vip.benefit.reputation": "500 Poin Reputasi",
+  "vip.benefit.reputation": "{{points}} Poin Reputasi",
   "vip.benefit.competition": "Poin kompetisi bonus+lebih banyak lagi!",
   "gameOptions.notifications": "Pemberitahuan",
   "gameOptions.notifications.updating": "Memperbarui pengaturan",
