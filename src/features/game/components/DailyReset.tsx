@@ -34,10 +34,11 @@ export const DailyReset: React.FC = () => {
       // nextMinute.setMinutes(nextMinute.getMinutes() + 1);
       // return nextMinute.getTime() - now.getTime();
 
-      // In production: check at UTC midnight
+      // In production: check at UTC midnight with 0-5s jitter
       const tomorrow = new Date(now);
       tomorrow.setUTCHours(24, 0, 0, 0);
-      return tomorrow.getTime() - now.getTime();
+      const jitter = Math.floor(Math.random() * 5000); // Random 0-5000ms
+      return tomorrow.getTime() - now.getTime() + jitter;
     };
 
     const scheduleNextReset = () => {
