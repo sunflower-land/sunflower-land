@@ -10,7 +10,7 @@ import {
   FishName,
   FISH,
   MarineMarvelName,
-  SEASONAL_FISH,
+  CHAPTER_FISH,
 } from "./fishing";
 import { InventoryItemName, GameState } from "./game";
 import { FLOWERS } from "./flowers";
@@ -23,7 +23,8 @@ type FishMilestoneName =
   | "Fish Encyclopedia"
   | "Master Angler"
   | "Marine Marvel Master"
-  | "Deep Sea Diver";
+  | "Deep Sea Diver"
+  | "Marine Biologist";
 
 type FlowerMilestoneName =
   | "Sunpetal Savant"
@@ -99,10 +100,10 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
   },
   "Fish Encyclopedia": {
-    task: translate("quest.all.fish"),
+    task: translate("quest.30.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const encyclopediaFish = getEncyclopediaFish();
-      const totalFishRequired = encyclopediaFish.length;
+      const totalFishRequired = 30;
 
       const totalFishCaught = encyclopediaFish.reduce(
         (total, name) =>
@@ -136,7 +137,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     task: translate("quest.marine.marvel"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const nonSeasonalMarvels = FISH_BY_TYPE["marine marvel"].filter(
-        (marvel) => !Object.keys(SEASONAL_FISH).includes(marvel),
+        (marvel) => !Object.keys(CHAPTER_FISH).includes(marvel),
       );
 
       const totalFishRequired = nonSeasonalMarvels.length;
@@ -167,6 +168,24 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
     reward: {
       "Deep Sea Helm": 1,
+    },
+  },
+  "Marine Biologist": {
+    task: translate("quest.all.fish"),
+    percentageComplete: (farmActivity: GameState["farmActivity"]) => {
+      const encyclopediaFish = getEncyclopediaFish();
+      const totalFishRequired = encyclopediaFish.length;
+
+      const totalFishCaught = encyclopediaFish.reduce(
+        (total, name) =>
+          total + Math.min(farmActivity[`${name} Caught`] ?? 0, 1),
+        0,
+      );
+
+      return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
+    },
+    reward: {
+      "Dazzling Dumbo": 1,
     },
   },
 };
@@ -266,4 +285,5 @@ export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
   "Sunpetal Savant": translate("milestone.sunpetalSavant"),
   "Bloom Big Shot": translate("milestone.bloomBigShot"),
   "Lily Luminary": translate("milestone.lilyLuminary"),
+  "Marine Biologist": translate("milestone.marineBiologist"),
 };

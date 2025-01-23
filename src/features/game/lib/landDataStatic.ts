@@ -60,7 +60,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
   choreBoard: INITIAL_CHORE_BOARD,
 
   competitions: {
-    progress: {},
+    progress: {
+      ANIMALS: {
+        initialProgress: {
+          "Complete chore": 0,
+        },
+        startedAt: 1000000,
+      },
+    },
   },
 
   shipments: {},
