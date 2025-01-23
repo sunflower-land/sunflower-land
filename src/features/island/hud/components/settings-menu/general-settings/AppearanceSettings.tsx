@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import Switch from "components/ui/Switch";
+import { Switch } from "components/ui/Switch";
 import { FontSettings } from "./FontSettings";
 import { Context } from "features/game/GameProvider";
 

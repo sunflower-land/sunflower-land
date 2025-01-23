@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-const Switch: React.FC<{
+export const Switch: React.FC<{
   checked: boolean;
   onChange: () => void;
   label: string;
@@ -26,5 +26,3 @@ const Switch: React.FC<{
     </div>
   );
 };
-
-export default Switch;
