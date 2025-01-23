@@ -87,11 +87,10 @@ export const FlowerBedGuide: React.FC<Props> = ({ onClose }) => {
         {advancedGuide.map((item, i) => (
           <FlowerBedGuideItem key={i} icon={item.icon} content={item.content} />
         ))}
-
-        <Button onClick={onClose} className="mt-2">
-          {t("gotIt")}
-        </Button>
       </div>
+      <Button onClick={onClose} className="mt-2">
+        {t("gotIt")}
+      </Button>
     </div>
   );
 };
