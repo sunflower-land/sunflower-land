@@ -13,6 +13,7 @@ import { useSelector } from "@xstate/react";
 import { useGame } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getRelativeTime } from "lib/utils/time";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
   eventTitle: string;
@@ -24,31 +25,28 @@ interface Props {
   showEventIcons?: boolean;
 }
 
-function useEventOver({ setEventOver }: { setEventOver: () => void }) {
+function useEventOver({
+  setEventOver,
+  eventEndTime,
+}: {
+  setEventOver: () => void;
+  eventEndTime: number;
+}) {
   // Calculate time until next check
-  const getNextCheckTime = () => {
-    const now = new Date();
-
-    // In development: check at the start of each minute
-    // const nextMinute = new Date(now);
-    // nextMinute.setSeconds(0);
-    // nextMinute.setMilliseconds(0);
-    // nextMinute.setMinutes(nextMinute.getMinutes() + 1);
-    // return nextMinute.getTime() - now.getTime();
-
-    // In production: check at UTC midnight
-    const tomorrow = new Date(now);
-    tomorrow.setUTCHours(24, 0, 0, 0);
-    return tomorrow.getTime() - now.getTime();
-  };
+  const getNextCheckTime = eventEndTime - Date.now();
 
   useEffect(() => {
+    if (getNextCheckTime <= 0) {
+      setEventOver();
+      return;
+    }
+
     const timeout = setTimeout(() => {
       setEventOver();
-    }, getNextCheckTime());
+    }, getNextCheckTime);
 
     return () => clearTimeout(timeout);
-  }, [setEventOver]);
+  }, [getNextCheckTime, setEventOver]);
 }
 
 export const WeatherEvent: React.FC<Props> = ({
@@ -63,12 +61,6 @@ export const WeatherEvent: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [eventOver, setEventOver] = useState(false);
   const { gameService } = useGame();
-
-  const eventOverCallback = useCallback(
-    () => setEventOver(true),
-    [setEventOver],
-  );
-  useEventOver({ setEventOver: eventOverCallback });
 
   const eventIconPositions = useRef<
     {
@@ -89,6 +81,7 @@ export const WeatherEvent: React.FC<Props> = ({
     (state: MachineState) =>
       state.context.state.calendar[eventName]?.triggeredAt,
   );
+
   const getEventEndTime = () => {
     // In development: check at the start of each minute
     // const now = new Date();
@@ -105,6 +98,14 @@ export const WeatherEvent: React.FC<Props> = ({
   };
 
   const eventEndTime = getEventEndTime();
+
+  useUiRefresher();
+  const eventOverCallback = useCallback(
+    () => setEventOver(true),
+    [setEventOver],
+  );
+
+  useEventOver({ setEventOver: eventOverCallback, eventEndTime });
 
   return (
     <>
