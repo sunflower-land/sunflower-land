@@ -30,6 +30,7 @@ export type SeasonalEventName =
   | "sunshower";
 
 export type CalendarEvent = {
+  startedAt: number;
   triggeredAt: number;
   protected?: boolean;
   acknowledgedAt?: number;
