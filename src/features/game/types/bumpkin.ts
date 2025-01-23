@@ -34,7 +34,8 @@ export type BumpkinBody =
   | "Pale Potion"
   | "Squirrel Monkey Potion"
   | "Mermaid Potion"
-  | "Elf Potion";
+  | "Elf Potion"
+  | "Locust King Potion";
 
 export type BumpkinHair =
   | "Royal Braids"
@@ -130,7 +131,8 @@ export type BumpkinShirt =
   | "Cowboy Shirt"
   | "Merino Jumper"
   | "Fossil Armor"
-  | "Rice Shirt";
+  | "Rice Shirt"
+  | "Sakura Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -283,9 +285,9 @@ export type BumpkinHat =
   | "Seedling Hat"
   | "Deep Sea Helm"
   | "Companion Cap"
-  | "Dazzling Dumbo"
-  | "Basic Dumbo"
-  | "Stormy Dumbo"
+  | "Blossom Dumbo"
+  | "Radiant Dumbo"
+  | "Maple Dumbo"
   | "Gloomy Dumbo"
   | "New Years Tiara"
   | "New Years Crown"
@@ -315,7 +317,10 @@ export type BumpkinHat =
   | "Sunflorian Crown"
   | "Gam3s Cap"
   | "Cowboy Hat"
-  | "Pumpkin Head";
+  | "Pumpkin Head"
+  | "Acorn Hat"
+  | "Crab Hat"
+  | "Weather Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -390,7 +395,11 @@ export type BumpkinSecondaryTool =
   | "Bumpkin Shield"
   | "Goblin Shield"
   | "Nightshade Shield"
-  | "Sunflorian Shield";
+  | "Sunflorian Shield"
+  | "Solflare Aegis"
+  | "Blossom Ward"
+  | "Autumn's Embrace"
+  | "Frozen Heart";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -409,7 +418,9 @@ export type BumpkinOnesie =
   | "Rocket Onesie"
   | "White Sheep Onesie"
   | "Black Sheep Onesie"
-  | "Gingerbread Onesie";
+  | "Gingerbread Onesie"
+  | "Squirrel Onesie"
+  | "Locust Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -423,7 +434,8 @@ export type BumpkinSuit =
   | "Bee Suit"
   | "Beekeeper Suit"
   | "Lucky Red Suit"
-  | "Chicken Suit";
+  | "Chicken Suit"
+  | "Ladybug Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -440,7 +452,8 @@ export type BumpkinWings =
   | "Goblin Quiver"
   | "Nightshade Quiver"
   | "Sunflorian Quiver"
-  | "Sol & Luna";
+  | "Sol & Luna"
+  | "Glacial Plume";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
@@ -712,14 +725,14 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Tiki Pants": 249,
   "Banana Amulet": 250,
   "Banana Onesie": 251,
-  "Basic Dumbo": 252,
+  "Blossom Dumbo": 252,
   "Companion Cap": 253,
-  "Dazzling Dumbo": 254,
+  "Radiant Dumbo": 254,
   "Deep Sea Helm": 255,
-  "Gloomy Dumbo": 256,
+  "Maple Dumbo": 256,
   "Pickaxe Shark": 257,
   "Seedling Hat": 258,
-  "Stormy Dumbo": 259,
+  "Gloomy Dumbo": 259,
   "Ugly Christmas Sweater": 260,
   "Candy Cane": 261,
   "Elf Hat": 262,
@@ -892,6 +905,21 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Pumpkin Head": 419,
   "Gingerbread Onesie": 420,
   "New Years Crown": 421,
+
+  //Wind of Change Wearables
+  "Ladybug Suit": 422,
+  "Acorn Hat": 423,
+  "Crab Hat": 424,
+  "Weather Hat": 425,
+  "Sakura Shirt": 426,
+  "Squirrel Onesie": 427,
+  "Locust Onesie": 428,
+  "Locust King Potion": 429,
+  "Glacial Plume": 430,
+  "Solflare Aegis": 431,
+  "Blossom Ward": 432,
+  "Autumn's Embrace": 433,
+  "Frozen Heart": 434,
 };
 
 // The reverse of above
@@ -1208,14 +1236,14 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Tiki Pants": "pants",
   "Banana Amulet": "necklace",
   "Banana Onesie": "onesie",
-  "Basic Dumbo": "hat",
+  "Blossom Dumbo": "hat",
   "Companion Cap": "hat",
-  "Dazzling Dumbo": "hat",
+  "Radiant Dumbo": "hat",
   "Deep Sea Helm": "hat",
-  "Gloomy Dumbo": "hat",
+  "Maple Dumbo": "hat",
   "Pickaxe Shark": "tool",
   "Seedling Hat": "hat",
-  "Stormy Dumbo": "hat",
+  "Gloomy Dumbo": "hat",
   "Ugly Christmas Sweater": "shirt",
   "Candy Cane": "tool",
   "Elf Hat": "hat",
@@ -1374,6 +1402,19 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Pumpkin Head": "hat",
   "Gingerbread Onesie": "onesie",
   "New Years Crown": "hat",
+  "Ladybug Suit": "suit",
+  "Acorn Hat": "hat",
+  "Crab Hat": "hat",
+  "Weather Hat": "hat",
+  "Sakura Shirt": "shirt",
+  "Squirrel Onesie": "onesie",
+  "Locust Onesie": "onesie",
+  "Locust King Potion": "body",
+  "Glacial Plume": "wings",
+  "Solflare Aegis": "secondaryTool",
+  "Blossom Ward": "secondaryTool",
+  "Autumn's Embrace": "secondaryTool",
+  "Frozen Heart": "secondaryTool",
 };
 
 /**Copied from BE just for hoarding checks */
