@@ -100,7 +100,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
   },
   "Fish Encyclopedia": {
-    task: translate("quest.30.fish"),
+    task: translate("quest.30.species"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const encyclopediaFish = getEncyclopediaFish();
       const totalFishRequired = 30;

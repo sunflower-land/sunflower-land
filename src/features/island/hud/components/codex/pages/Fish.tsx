@@ -13,7 +13,12 @@ import {
 } from "features/game/types/milestones";
 import { getFishByType } from "../lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FISH, FishName, MarineMarvelName } from "features/game/types/fishing";
+import {
+  FISH,
+  FishName,
+  MarineMarvelName,
+  WINDS_OF_CHANGE_FISH,
+} from "features/game/types/fishing";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
@@ -137,7 +142,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
 
               <Label
                 type="default"
-                className="px-0.5 text-xxs"
+                className="px-0.5 text-xxs   mb-1"
                 icon={SUNNYSIDE.tools.fishing_rod}
               >
                 {`${farmActivity[`${selectedFish} Caught`] ?? 0} Caught`}
@@ -243,14 +248,20 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                   {type !== "marine marvel" ? `${type} Fish` : "Marine Marvels"}
                 </Label>
                 <div className="flex flex-wrap">
-                  {FISH_BY_TYPE[type].map((name) => (
-                    <SimpleBox
-                      silhouette={!farmActivity[`${name} Caught`]}
-                      onClick={() => setSelectedFish(name)}
-                      key={name}
-                      image={ITEM_DETAILS[name].image}
-                    />
-                  ))}
+                  {FISH_BY_TYPE[type]
+                    .filter(
+                      (name) =>
+                        hasFeatureAccess(state, "SEASONAL_FISH") ||
+                        !WINDS_OF_CHANGE_FISH.includes(name as FishName),
+                    )
+                    .map((name) => (
+                      <SimpleBox
+                        silhouette={!farmActivity[`${name} Caught`]}
+                        onClick={() => setSelectedFish(name)}
+                        key={name}
+                        image={ITEM_DETAILS[name].image}
+                      />
+                    ))}
                 </div>
               </div>
             );

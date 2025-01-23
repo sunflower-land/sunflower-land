@@ -270,7 +270,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
   Anchovy: {
     baits: ["Earthworm"],
     type: "basic",
-    likes: ["Egg"],
+    likes: ["Carrot", "Egg"],
     locations: ["wharf"],
     seasons: ["spring", "summer", "autumn", "winter"],
   },
@@ -335,7 +335,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "advanced",
     locations: ["wharf"],
-    likes: ["Honey"],
+    likes: ["Apple", "Honey"],
     seasons: ["spring", "summer", "autumn", "winter"],
   },
   "Moray Eel": {
@@ -405,7 +405,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
     locations: ["wharf"],
-    likes: ["Wild Mushroom"],
+    likes: ["Orange", "Wild Mushroom"],
     seasons: ["spring", "summer", "autumn", "winter"],
   },
   "Mahi Mahi": {
@@ -648,3 +648,14 @@ export const BAIT: Record<FishingBait, true> = {
   "Red Wiggler": true,
   "Fishing Lure": true,
 };
+
+export const WINDS_OF_CHANGE_FISH: FishName[] = [
+  "Porgy",
+  "Muskellunge",
+  "Trout",
+  "Walleye",
+  "Weakfish",
+  "Rock Blackfish",
+  "Cobia",
+  "Tilapia",
+];
