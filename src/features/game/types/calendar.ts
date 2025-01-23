@@ -27,7 +27,8 @@ export type SeasonalEventName =
   | "doubleDelivery"
   | "bountifulHarvest"
   | "insectPlague"
-  | "sunshower";
+  | "sunshower"
+  | "fishFrenzy";
 
 export type CalendarEvent = {
   startedAt: number;
@@ -45,6 +46,7 @@ export const SEASONAL_EVENTS: Record<SeasonalEventName, null> = {
   bountifulHarvest: null,
   insectPlague: null,
   sunshower: null,
+  fishFrenzy: null,
 };
 
 export function getPendingCalendarEvent({
@@ -151,6 +153,14 @@ export function getActiveCalendarEvent({
       Date.now() - 1000 * 60 * 60 * 24
   ) {
     return "fullMoon";
+  }
+
+  if (
+    game.calendar.fishFrenzy?.startedAt &&
+    new Date(game.calendar.fishFrenzy.startedAt).getTime() >
+      Date.now() - 1000 * 60 * 60 * 24
+  ) {
+    return "fishFrenzy";
   }
 
   // TODO more events
@@ -270,6 +280,7 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   bountifulHarvest: bountifulHarvest,
   insectPlague: locust,
   sunshower: sunshower,
+  fishFrenzy: "",
 };
 
 export const isFullMoon = (state: GameState) => {
