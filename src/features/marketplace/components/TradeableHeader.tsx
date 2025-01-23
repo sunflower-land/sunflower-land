@@ -33,7 +33,7 @@ import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
 import Decimal from "decimal.js-light";
-import { Reputation } from "features/game/lib/reputation";
+import { getRemainingTrades, Reputation } from "features/game/lib/reputation";
 import { hasReputation } from "features/game/lib/reputation";
 
 type TradeableHeaderProps = {
@@ -276,7 +276,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   <Button
                     disabled={
                       !count ||
-                      (!hasTradeReputation && dailyListings >= 1) ||
+                      (!hasTradeReputation &&
+                        getRemainingTrades({
+                          game: gameService.getSnapshot().context.state,
+                        }) <= 0) ||
                       (isItemBertObsession &&
                         isBertsObesessionCompleted &&
                         !isResources)
@@ -317,7 +320,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 onClick={onListClick}
                 disabled={
                   !count ||
-                  (!hasTradeReputation && dailyListings >= 1) ||
+                  (!hasTradeReputation &&
+                    getRemainingTrades({
+                      game: gameService.getSnapshot().context.state,
+                    }) <= 0) ||
                   (isItemBertObsession &&
                     isBertsObesessionCompleted &&
                     !isResources)
