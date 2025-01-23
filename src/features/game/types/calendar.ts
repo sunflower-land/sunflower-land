@@ -16,6 +16,7 @@ import bountifulHarvest from "assets/icons/bountiful_harvest_icon.webp";
 import locust from "assets/icons/locust.webp";
 import calendar from "assets/icons/calendar.webp";
 import sunshower from "assets/icons/sunshower.webp";
+import fishFrenzy from "assets/icons/fish_frenzy.webp";
 
 export type CalendarEventName = "unknown" | "calendar" | SeasonalEventName;
 
@@ -280,7 +281,7 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   bountifulHarvest: bountifulHarvest,
   insectPlague: locust,
   sunshower: sunshower,
-  fishFrenzy: "",
+  fishFrenzy: fishFrenzy,
 };
 
 export const isFullMoon = (state: GameState) => {
