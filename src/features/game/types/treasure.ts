@@ -22,7 +22,10 @@ export type BeachBountyTreasure =
   | "Hieroglyph"
   | BeachBountySeasonalArtefact;
 
-export type BeachBountySeasonalArtefact = "Scarab" | "Cow Skull";
+export type BeachBountySeasonalArtefact =
+  | "Scarab"
+  | "Cow Skull"
+  | "Thermometer";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -167,5 +170,9 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
             from: SEASONS["Bull Run"].startDate,
             to: SEASONS["Bull Run"].endDate,
           }),
+    },
+    Thermometer: {
+      description: "",
+      sellPrice: 200,
     },
   };
