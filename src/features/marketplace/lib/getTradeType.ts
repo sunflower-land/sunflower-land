@@ -907,7 +907,7 @@ export const ITEM_TRADE_TYPES: {
     "Ugly Duckling": "instant",
     "Lake Rug": "instant",
     Hammock: "instant",
-    Mammoth: "onchain",
+    Mammoth: "instant",
     "Cup of Chocolate": "instant",
     "Gold Sheep": "onchain",
     "Barn Blueprint": "onchain",
