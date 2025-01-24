@@ -16339,17 +16339,17 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/428.png",
     name: "Locust Onesie",
   },
-  "Locust King Potion": {
+  "Locust King Onesie": {
     description:
-      "A mystical body transformation potion that grants the regal aura of a locust king.",
+      "A mystical body transformation onesie that grants the regal aura of a locust king.",
     decimals: 0,
     attributes: [
-      { trait_type: "Part", value: "Body" },
+      { trait_type: "Part", value: "Onesie" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/429.png",
-    name: "Locust King Potion",
+    name: "Locust King Onesie",
   },
   "Glacial Plume": {
     description:

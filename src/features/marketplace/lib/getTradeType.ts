@@ -1325,7 +1325,7 @@ export const ITEM_TRADE_TYPES: {
     "Sakura Shirt": "onchain",
     "Squirrel Onesie": "onchain",
     "Locust Onesie": "onchain",
-    "Locust King Potion": "onchain",
+    "Locust King Onesie": "onchain",
     "Glacial Plume": "onchain",
     "Solflare Aegis": "onchain",
     "Blossom Ward": "onchain",

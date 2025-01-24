@@ -34,8 +34,7 @@ export type BumpkinBody =
   | "Pale Potion"
   | "Squirrel Monkey Potion"
   | "Mermaid Potion"
-  | "Elf Potion"
-  | "Locust King Potion";
+  | "Elf Potion";
 
 export type BumpkinHair =
   | "Royal Braids"
@@ -420,7 +419,8 @@ export type BumpkinOnesie =
   | "Black Sheep Onesie"
   | "Gingerbread Onesie"
   | "Squirrel Onesie"
-  | "Locust Onesie";
+  | "Locust Onesie"
+  | "Locust King Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -914,7 +914,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Sakura Shirt": 426,
   "Squirrel Onesie": 427,
   "Locust Onesie": 428,
-  "Locust King Potion": 429,
+  "Locust King Onesie": 429,
   "Glacial Plume": 430,
   "Solflare Aegis": 431,
   "Blossom Ward": 432,
@@ -1409,7 +1409,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Sakura Shirt": "shirt",
   "Squirrel Onesie": "onesie",
   "Locust Onesie": "onesie",
-  "Locust King Potion": "body",
+  "Locust King Onesie": "onesie",
   "Glacial Plume": "wings",
   "Solflare Aegis": "secondaryTool",
   "Blossom Ward": "secondaryTool",
