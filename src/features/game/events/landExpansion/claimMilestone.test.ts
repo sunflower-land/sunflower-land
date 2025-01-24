@@ -114,7 +114,7 @@ describe("claim milestone", () => {
       },
     });
 
-    expect(state.wardrobe["Dazzling Dumbo"]).toBe(1);
+    expect(state.wardrobe["Radiant Dumbo"]).toBe(1);
   });
 
   it("adds a wearable reward to wardrobe when milestone is claimed", () => {
