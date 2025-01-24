@@ -236,6 +236,9 @@ export class PlazaScene extends BaseScene {
   async create() {
     super.create();
 
+    this.placeables = {};
+    this.dogs = {};
+
     const weatherShop = this.add.sprite(728, 250, "weather_shop");
     weatherShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(weatherShop, 75)) {
