@@ -36,6 +36,7 @@ import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 import { HalloweenNPC } from "./npcs/HalloweenNPC";
 import { FlowerBounties } from "./flowerShop/FlowerBounties";
 import { Santa } from "./npcs/Santa";
+import { SolarForge } from "./solarForge/SolarForge";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -59,7 +60,8 @@ interface Props {
 }
 
 function getInitialNPC(scene: SceneId): NPCName | undefined {
-  return undefined;
+  // return undefined;
+  return "gunter";
 }
 
 export const NPCModals: React.FC<Props> = ({ scene, id }) => {
@@ -145,6 +147,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
+        {npc === "gunter" && <SolarForge onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}
 
         {npc === "digby" && <Digby onClose={closeModal} />}

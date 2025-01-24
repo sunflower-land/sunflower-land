@@ -30,6 +30,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
+    Sunstone: new Decimal(20),
   },
   previousInventory: {},
   wardrobe: {},

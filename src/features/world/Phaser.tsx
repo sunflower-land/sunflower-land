@@ -62,6 +62,7 @@ import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import worldIcon from "assets/icons/world.png";
+import { VolcaroScene } from "./scenes/VolcaroScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -147,6 +148,7 @@ export const PhaserComponent: React.FC<Props> = ({
     BumpkinHouseScene,
     ExampleAnimationScene,
     ExampleRPGScene,
+    VolcaroScene,
   ];
 
   useEffect(() => {
