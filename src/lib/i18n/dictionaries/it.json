@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Un potente emblema per i membri della fazione dei Goblin.",
   "description.sunflorian.emblem": "Un potente emblema per i membri della fazione Sunflorian.",
   "description.bumpkin.emblem": "Un potente emblema per i membri della Bumpkin Faction.",
-  "description.nightshade.emblem": "Un potente emblema per i membri della Nightshade Faction."
+  "description.nightshade.emblem": "Un potente emblema per i membri della Nightshade Faction.",
+  "active": "Attivo",
+  "lavaPit.active": "Attivo",
+  "lavaPit.burning": "La fossa brucia",
+  "lavaPit.collect": "Raccogli",
+  "lavaPit.throw": "Getta le risorse nella fossa",
+  "lavaPit.description": "La fossa di lava trasforma le risorse in ossidiana. I requisiti cambiano ogni stagione."
 }

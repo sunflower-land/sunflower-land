@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "ゴブリン勢力の強力なエンブレムです。",
   "description.sunflorian.emblem": "サンフロリアン派に属する者には強力なエンブレムだ。",
   "description.bumpkin.emblem": "バンプキン陣営の強力なエンブレムです。",
-  "description.nightshade.emblem": "ナイトシェード陣営の強力なエンブレムです。"
+  "description.nightshade.emblem": "ナイトシェード陣営の強力なエンブレムです。",
+  "active": "アクティブ",
+  "lavaPit.active": "アクティブ",
+  "lavaPit.burning": "ピットが燃える",
+  "lavaPit.collect": "収集",
+  "lavaPit.throw": "資源を穴に投げ入れる",
+  "lavaPit.description": "溶岩穴は資源を黒曜石に変えます。要件はシーズンごとに変わります。"
 }

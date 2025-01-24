@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Ein mächtiges Emblem für die Mitglieder der Goblinfraktion.",
   "description.sunflorian.emblem": "Ein mächtiges Emblem für Mitglieder der Sunflorian-Fraktion.",
   "description.bumpkin.emblem": "Ein mächtiges Emblem für die Mitglieder der Bumpkin-Fraktion.",
-  "description.nightshade.emblem": "Ein mächtiges Emblem für Mitglieder der Nachtschattenfraktion."
+  "description.nightshade.emblem": "Ein mächtiges Emblem für Mitglieder der Nachtschattenfraktion.",
+  "active": "Aktiv",
+  "lavaPit.active": "Aktiv",
+  "lavaPit.burning": "Die Grube brennt",
+  "lavaPit.collect": "Sammle",
+  "lavaPit.throw": "Wirf Ressourcen in die Grube",
+  "lavaPit.description": "Die Lavagrube wandelt Ressourcen in Obsidian um. Die Anforderungen ändern sich zu jeder Jahreszeit."
 }

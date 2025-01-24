@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Goblin Grubu'ndakiler için güçlü bir amblem.",
   "description.sunflorian.emblem": "Sunflorian Fraksiyonundakiler için güçlü bir amblem.",
   "description.bumpkin.emblem": "Bumpkin Fraksiyonundakiler için güçlü bir amblem.",
-  "description.nightshade.emblem": "Nightshade Fraksiyonundakiler için güçlü bir amblem."
+  "description.nightshade.emblem": "Nightshade Fraksiyonundakiler için güçlü bir amblem.",
+  "active": "Aktif",
+  "lavaPit.active": "Aktif",
+  "lavaPit.burning": "Çukur yanıyor",
+  "lavaPit.collect": "Toplayın",
+  "lavaPit.throw": "Kaynakları çukura atın",
+  "lavaPit.description": "Lav çukuru kaynakları Obsidiyen'e dönüştürür. Gereksinimler her sezon değişir."
 }

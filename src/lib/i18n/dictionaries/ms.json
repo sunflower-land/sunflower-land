@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Lambang yang kuat bagi mereka dalam Faksi Goblin.",
   "description.sunflorian.emblem": "Lambang yang kuat bagi mereka yang berada di Faksi Sunflorian.",
   "description.bumpkin.emblem": "Lambang yang kuat bagi mereka yang berada di Faksi Bumpkin.",
-  "description.nightshade.emblem": "Lambang yang kuat bagi mereka yang berada di Nightshade Faction."
+  "description.nightshade.emblem": "Lambang yang kuat bagi mereka yang berada di Nightshade Faction.",
+  "active": "Aktif",
+  "lavaPit.active": "Aktif",
+  "lavaPit.burning": "Lubang terbakar",
+  "lavaPit.collect": "Kumpulkan",
+  "lavaPit.throw": "Buang sumber ke dalam lubang",
+  "lavaPit.description": "Lubang lava mengubah sumber menjadi Obsidian. Keperluan berubah setiap musim."
 }

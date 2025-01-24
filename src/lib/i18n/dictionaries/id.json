@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Goblin.",
   "description.sunflorian.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Sunflorian.",
   "description.bumpkin.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Bumpkin.",
-  "description.nightshade.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Nightshade."
+  "description.nightshade.emblem": "Lambang yang kuat bagi mereka yang berada di Fraksi Nightshade.",
+  "active": "Aktif",
+  "lavaPit.active": "Aktif",
+  "lavaPit.burning": "Lubang terbakar",
+  "lavaPit.collect": "Mengumpulkan",
+  "lavaPit.throw": "Buang sumber daya ke dalam lubang",
+  "lavaPit.description": "Lubang lava mengubah sumber daya menjadi Obsidian. Persyaratan berubah setiap musim."
 }

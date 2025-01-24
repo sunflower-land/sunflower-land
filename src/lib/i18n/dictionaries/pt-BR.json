@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Um emblema poderoso para os membros da Facção Goblin.",
   "description.sunflorian.emblem": "Um emblema poderoso para os membros da Facção Sunflorian.",
   "description.bumpkin.emblem": "Um emblema poderoso para os membros da Facção Bumpkin.",
-  "description.nightshade.emblem": "Um emblema poderoso para os membros da Facção Nightshade."
+  "description.nightshade.emblem": "Um emblema poderoso para os membros da Facção Nightshade.",
+  "active": "Ativo",
+  "lavaPit.active": "Ativo",
+  "lavaPit.burning": "O poço queima",
+  "lavaPit.collect": "Colete",
+  "lavaPit.throw": "Jogue recursos no poço",
+  "lavaPit.description": "O poço de lava transforma recursos em obsidiana. Os requisitos mudam a cada temporada."
 }

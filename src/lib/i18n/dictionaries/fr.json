@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Un emblème puissant pour les membres de la faction gobeline.",
   "description.sunflorian.emblem": "Un emblème puissant pour les membres de la faction Sunflorian.",
   "description.bumpkin.emblem": "Un emblème puissant pour les membres de la faction Bumpkin.",
-  "description.nightshade.emblem": "Un emblème puissant pour les membres de la faction Nightshade."
+  "description.nightshade.emblem": "Un emblème puissant pour les membres de la faction Nightshade.",
+  "active": "Actif",
+  "lavaPit.active": "Actif",
+  "lavaPit.burning": "La fosse brûle",
+  "lavaPit.collect": "Collecter",
+  "lavaPit.throw": "Jetez des ressources dans le gouffre",
+  "lavaPit.description": "La fosse à lave transforme les ressources en obsidienne. Les exigences changent chaque saison."
 }

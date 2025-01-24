@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Un poderoso emblema para los miembros de la facción de los duendes.",
   "description.sunflorian.emblem": "Un poderoso emblema para los miembros de la facción Sunflorian.",
   "description.bumpkin.emblem": "Un poderoso emblema para los miembros de la facción Bumpkin.",
-  "description.nightshade.emblem": "Un poderoso emblema para los miembros de la facción Nightshade."
+  "description.nightshade.emblem": "Un poderoso emblema para los miembros de la facción Nightshade.",
+  "active": "Activo",
+  "lavaPit.active": "Activo",
+  "lavaPit.burning": "El pozo se quema",
+  "lavaPit.collect": "Colecciona",
+  "lavaPit.throw": "Lanza recursos al pozo",
+  "lavaPit.description": "El pozo de lava convierte los recursos en obsidiana. Los requisitos cambian cada temporada."
 }

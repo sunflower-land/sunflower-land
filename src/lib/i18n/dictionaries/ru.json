@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "Мощная эмблема для членов фракции гоблинов.",
   "description.sunflorian.emblem": "Мощная эмблема для членов фракции Sunflorian.",
   "description.bumpkin.emblem": "Мощная эмблема для членов фракции Bumpkin.",
-  "description.nightshade.emblem": "Мощная эмблема для членов фракции Nightshade."
+  "description.nightshade.emblem": "Мощная эмблема для членов фракции Nightshade.",
+  "active": "Активный",
+  "lavaPit.active": "Активный",
+  "lavaPit.burning": "Яма горит",
+  "lavaPit.collect": "Соберите",
+  "lavaPit.throw": "Выбрасывайте ресурсы в яму",
+  "lavaPit.description": "Лавовая яма превращает ресурсы в обсидиан. Требования меняются каждый сезон."
 }

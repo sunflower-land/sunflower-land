@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "对于哥布林派系的玩家来说，这是一个强大的标志。",
   "description.sunflorian.emblem": "对于桑弗洛里安派系的玩家来说，这是一个强大的象征。",
   "description.bumpkin.emblem": "对于 Bumpkin Faction 中的玩家来说，这是一个强大的象征。",
-  "description.nightshade.emblem": "对于夜影派系的玩家来说，这是一个强大的标志。"
+  "description.nightshade.emblem": "对于夜影派系的玩家来说，这是一个强大的标志。",
+  "active": "活跃",
+  "lavaPit.active": "活跃",
+  "lavaPit.burning": "坑在燃烧",
+  "lavaPit.collect": "收集",
+  "lavaPit.throw": "把资源扔进坑里",
+  "lavaPit.description": "熔岩坑将资源变成黑曜石。每个季节的要求都有所不同。"
 }

@@ -4971,5 +4971,11 @@
   "description.goblin.emblem": "고블린 진영에 속한 사람들을 위한 강력한 엠블럼입니다.",
   "description.sunflorian.emblem": "선플로리안 진영에 속한 사람들을 위한 강력한 엠블럼입니다.",
   "description.bumpkin.emblem": "범프킨 진영에 속한 사람들을 위한 강력한 엠블럼.",
-  "description.nightshade.emblem": "나이트셰이드 진영에 속한 사람들을 위한 강력한 엠블럼입니다."
+  "description.nightshade.emblem": "나이트셰이드 진영에 속한 사람들을 위한 강력한 엠블럼입니다.",
+  "active": "액티브",
+  "lavaPit.active": "액티브",
+  "lavaPit.burning": "구덩이가 타오른다",
+  "lavaPit.collect": "수집",
+  "lavaPit.throw": "자원을 구덩이에 던지세요",
+  "lavaPit.description": "용암 구덩이는 자원을 흑요석으로 바꿉니다.요구 사항은 매 시즌마다 바뀝니다."
 }
