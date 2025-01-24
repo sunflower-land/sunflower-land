@@ -25,6 +25,22 @@ export class VolcaroScene extends BaseScene {
       "volcaro-tileset",
       `${CONFIG.PROTECTED_IMAGE_URL}/world/volcano-map-extruded.png`,
     );
+
+    // Load sprite sheet for smoke
+    this.load.spritesheet(
+      "small_smoke",
+      `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_1.png`,
+      { frameWidth: 10, frameHeight: 30 },
+    );
+
+    this.load.spritesheet(
+      "large_smoke",
+      `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_3.png`,
+      { frameWidth: 18, frameHeight: 21 },
+    );
+
+    console.log("Preloaded");
+
     super.preload();
   }
 
@@ -36,5 +52,19 @@ export class VolcaroScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(BUMPKINS);
+
+    // Place smoke, create animation and play
+    const smoke = this.add.sprite(256, 301, "small_smoke");
+    // Create animation
+    this.anims.create({
+      key: "smoke",
+      frames: this.anims.generateFrameNumbers("small_smoke", {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+    smoke.play("smoke");
   }
 }
