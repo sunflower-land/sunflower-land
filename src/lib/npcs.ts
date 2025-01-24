@@ -696,7 +696,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   raven: {
     body: "Pale Potion",
-    onesie: "Locust King Onesie",
     hair: "Goth Hair",
     dress: "Gothic Twilight",
     tool: "Dawn Lamp",
