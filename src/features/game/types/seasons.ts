@@ -126,7 +126,7 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Clash of Factions": "Scarab",
   "Pharaoh's Treasure": "Scarab",
   "Bull Run": "Cow Skull",
-  "Winds of Change": "Thermometer",
+  "Winds of Change": "Ancient Clock",
 };
 
 export function getCurrentSeason(now = new Date()): SeasonName {

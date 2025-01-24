@@ -228,6 +228,7 @@ const SEASONAL_LORE: Record<SeasonName, string> = {
 
     Old Salty has a stockpile of cow skulls he has been digging up.
   `,
+  "Winds of Change": "",
 };
 
 export const CHORE_DIALOGUES: Partial<Record<NPCName, string[]>> = {

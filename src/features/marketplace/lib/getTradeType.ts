@@ -900,6 +900,9 @@ export const ITEM_TRADE_TYPES: {
     Snowman: "instant",
     "Festive Toy Train": "instant",
     "Golden Cow": "onchain",
+    "Winds of Change Banner": "instant",
+    Timeshards: "instant",
+    "Ancient Clock": "instant",
   },
   wearables: {
     "New Years Crown": "instant",

@@ -34,6 +34,7 @@ const SEASON_GRAPHICS: Record<SeasonName, string> = {
   "Clash of Factions": "?",
   "Pharaoh's Treasure": SUNNYSIDE.announcement.desertSeason,
   "Bull Run": SUNNYSIDE.announcement.bullRunSeason,
+  "Winds of Change": "",
 };
 
 interface Props {

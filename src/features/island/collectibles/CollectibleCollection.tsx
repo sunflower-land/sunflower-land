@@ -345,6 +345,7 @@ import { Mootant } from "./components/Mootants";
 import { SuperTotem } from "./components/SuperTotem";
 import { GoldenCow } from "./components/GoldenCow";
 import { VolcanoGnome } from "./components/VolcanoGnome";
+import { WindsOfChangeBanner } from "./components/WindsOfChangeBanner";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -557,6 +558,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Lifetime Farmer Banner": LifetimeFarmerBanner,
   "Pharaoh's Treasure Banner": PharaohsTreasureBanner,
   "Bull Run Banner": BullRunBanner,
+  "Winds of Change Banner": WindsOfChangeBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,
