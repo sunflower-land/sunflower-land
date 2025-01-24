@@ -48,6 +48,7 @@ export function startLavaPit({
     }
 
     lavaPit.startedAt = createdAt;
+    lavaPit.collectedAt = undefined;
 
     return copy;
   });

@@ -2,6 +2,8 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 
+export const LAVA_PIT_MS = 72 * 60 * 60 * 1000;
+
 export type CollectLavaPitAction = {
   type: "lavaPit.collected";
   id: string;
@@ -33,7 +35,7 @@ export function collectLavaPit({
       throw new Error("Lava pit already collected");
     }
 
-    if (createdAt - lavaPit.startedAt < 72 * 60 * 60 * 1000) {
+    if (createdAt - lavaPit.startedAt < LAVA_PIT_MS) {
       throw new Error("Lava pit still active");
     }
 

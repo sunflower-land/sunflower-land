@@ -82,4 +82,20 @@ describe("startLavaPit", () => {
       }),
     ).toThrow("Lava pit already started");
   });
+
+  it("unsets the collectedAt", () => {
+    const result = startLavaPit({
+      state: {
+        ...INITIAL_FARM,
+        inventory: { Crimstone: new Decimal(10) },
+        lavaPits: {
+          1: { x: 0, y: 0, width: 2, height: 2, createdAt: 0, collectedAt: 1 },
+        },
+      },
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+    });
+
+    expect(result.lavaPits[1].collectedAt).toBeUndefined();
+  });
 });
