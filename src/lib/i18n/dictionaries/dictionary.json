@@ -5015,8 +5015,8 @@
   "verify.verified": "You are verified!",
   "verify.verify": "Verify your account to increase your reputation.",
   "lavaPit.active": "Active",
-  "lavaPit.burning": "The Pit Burns",
+  "lavaPit.burning": "The pit burns",
   "lavaPit.collect": "Collect",
-  "lavaPit.throw": "Throw Resources into Pit",
+  "lavaPit.throw": "Throw resources into pit",
   "lavaPit.description": "The lava pit turns resources into Obsidian. Requirements change each season."
 }

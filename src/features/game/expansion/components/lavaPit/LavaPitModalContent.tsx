@@ -82,7 +82,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
         >
           {t(`season.${season.season}`)}
         </Label>
-        <p className="text-xxs p-2">{t("lavaPit.description")}</p>
+        <p className="text-xs p-2">{t("lavaPit.description")}</p>
         <div className="flex flex-col gap-2 p-2">
           {getKeys(LAVA_PIT_REQUIREMENTS).map((itemName) => {
             return (

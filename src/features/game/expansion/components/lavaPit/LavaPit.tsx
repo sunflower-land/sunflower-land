@@ -7,6 +7,7 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { LAVA_PIT_MS } from "features/game/events/landExpansion/collectLavaPit";
 
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
@@ -22,7 +23,8 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
   const lavaPit = useSelector(gameService, _lavaPit(id));
 
   const lavaPitReady =
-    (lavaPit?.startedAt ?? Infinity) < Date.now() && !lavaPit?.collectedAt;
+    (lavaPit?.startedAt ?? Infinity) + LAVA_PIT_MS < Date.now() &&
+    !lavaPit?.collectedAt;
 
   return (
     <div className="relative w-full h-full">
@@ -31,14 +33,13 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
         onClick={() => setShowModal(true)}
       >
         {lavaPitReady && (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className={
-              "absolute -top-2 left-[calc(50%-4px)] transform -translate-x-1/2 z-20" +
-              (showAnimations ? " ready" : "")
-            }
-            style={{ width: `${PIXEL_SCALE * 4}px` }}
-          />
+          <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20">
+            <img
+              src={SUNNYSIDE.icons.expression_alerted}
+              className={showAnimations ? " ready" : ""}
+              style={{ width: `${PIXEL_SCALE * 4}px` }}
+            />
+          </div>
         )}
         <img
           id={`lavapit-${id}`}
