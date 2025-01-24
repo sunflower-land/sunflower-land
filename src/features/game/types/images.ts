@@ -566,6 +566,14 @@ import parrotFish from "assets/fish/parrot_fish.png";
 import battleFish from "assets/fish/battle_fish.webp";
 import lemonShark from "assets/fish/lemon_shark.webp";
 import longhornCowfish from "assets/fish/cow_fish.webp";
+import porgy from "assets/fish/porgy.png";
+import muskellunge from "assets/fish/muskellunge.png";
+import trout from "assets/fish/trout.png";
+import walleye from "assets/fish/walleye.png";
+import weakfish from "assets/fish/weak_fish.png";
+import rockBlackfish from "assets/fish/rock_blackfish.png";
+import cobia from "assets/fish/copia.png";
+import tilapia from "assets/fish/tilapia.png";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -3427,6 +3435,47 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("beach.fishing")],
     description: translate("description.parrotFish"),
   },
+  Porgy: {
+    image: porgy,
+    howToGetItem: [translate("ocean.fishing")],
+    description: translate("description.porgy"),
+  },
+  Muskellunge: {
+    image: muskellunge,
+    howToGetItem: [translate("ocean.fishing")],
+    description: translate("description.muskellunge"),
+  },
+  Trout: {
+    image: trout,
+    howToGetItem: [translate("ocean.fishing")],
+    description: translate("description.trout"),
+  },
+  Walleye: {
+    image: walleye,
+    howToGetItem: [translate("ocean.fishing")],
+    description: translate("description.walleye"),
+  },
+  Weakfish: {
+    image: weakfish,
+    howToGetItem: [translate("ocean.fishing")],
+    description: translate("description.weakfish"),
+  },
+  "Rock Blackfish": {
+    image: rockBlackfish,
+    howToGetItem: [translate("ocean.fishing")],
+    description: translate("description.rock.blackfish"),
+  },
+  Cobia: {
+    image: cobia,
+    howToGetItem: [translate("ocean.fishing")],
+    description: translate("description.cobia"),
+  },
+  Tilapia: {
+    image: tilapia,
+    howToGetItem: [translate("ocean.fishing")],
+    description: translate("description.tilapia"),
+  },
+
   Rug: {
     image: SUNNYSIDE.decorations.rug,
     description: "?",

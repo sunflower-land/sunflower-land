@@ -85,6 +85,7 @@ const featureFlags = {
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
   SEASONAL_EVENTS_NOTIFICATIONS: adminFeatureFlag,
   SEASONAL_SEEDS: seasonAdminFeatureFlag,
+  SEASONAL_FISH: seasonAdminFeatureFlag,
   VOLCANO_ISLAND: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 

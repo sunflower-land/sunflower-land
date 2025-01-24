@@ -1235,6 +1235,46 @@ export const FISH: Record<FishName, Consumable> = {
     experience: 100,
     name: "Parrotfish",
   },
+  Porgy: {
+    description: "?",
+    experience: 100,
+    name: "Porgy",
+  },
+  Muskellunge: {
+    description: "?",
+    experience: 100,
+    name: "Muskellunge",
+  },
+  Trout: {
+    description: "?",
+    experience: 100,
+    name: "Trout",
+  },
+  Walleye: {
+    description: "?",
+    experience: 100,
+    name: "Walleye",
+  },
+  Weakfish: {
+    description: "?",
+    experience: 100,
+    name: "Weakfish",
+  },
+  "Rock Blackfish": {
+    description: "?",
+    experience: 100,
+    name: "Rock Blackfish",
+  },
+  Cobia: {
+    description: "?",
+    experience: 100,
+    name: "Cobia",
+  },
+  Tilapia: {
+    description: "?",
+    experience: 100,
+    name: "Tilapia",
+  },
 };
 
 export const FACTION_FOOD: Record<FactionShopFoodName, Consumable> = {
