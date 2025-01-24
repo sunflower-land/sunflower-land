@@ -25,7 +25,7 @@ export type BeachBountyTreasure =
 export type BeachBountySeasonalArtefact =
   | "Scarab"
   | "Cow Skull"
-  | "Thermometer";
+  | "Ancient Clock";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -171,7 +171,7 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
             to: SEASONS["Bull Run"].endDate,
           }),
     },
-    Thermometer: {
+    "Ancient Clock": {
       description: "",
       sellPrice: 200,
     },

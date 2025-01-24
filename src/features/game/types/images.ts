@@ -4750,4 +4750,16 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: translate("description.winterDuckling"),
   },
+  Timeshards: {
+    image: undefined,
+    description: "",
+  },
+  "Ancient Clock": {
+    image: undefined,
+    description: "",
+  },
+  "Winds of Change Banner": {
+    image: undefined,
+    description: "",
+  },
 };

@@ -455,6 +455,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Cow Skull": 750,
   Horseshoe: 751,
   "Trade Point": 752,
+  "Winds of Change Banner": 753,
+  Timeshards: 754,
+  "Ancient Clock": 755,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

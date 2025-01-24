@@ -1,6 +1,7 @@
 import { getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import { getCurrentSeason, SeasonName } from "./seasons";
+import { BeachBountySeasonalArtefact } from "./treasure";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;
@@ -9,7 +10,10 @@ type FormationPlot = { x: number; y: number; name: InventoryItemName };
 
 export type DiggingFormation = FormationPlot[];
 
-export const SEASONAL_ARTEFACT: Record<SeasonName, InventoryItemName> = {
+export const SEASONAL_ARTEFACT: Record<
+  SeasonName,
+  BeachBountySeasonalArtefact
+> = {
   "Bull Run": "Cow Skull",
   "Pharaoh's Treasure": "Scarab",
   "Solar Flare": "Scarab",
@@ -18,6 +22,7 @@ export const SEASONAL_ARTEFACT: Record<SeasonName, InventoryItemName> = {
   "Catch the Kraken": "Scarab",
   "Spring Blossom": "Scarab",
   "Clash of Factions": "Scarab",
+  "Winds of Change": "Ancient Clock",
 };
 
 export const DIGGING_FORMATIONS = {

@@ -381,4 +381,5 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
       requirement: 4,
     },
   },
+  "Winds of Change": EMPTY_SEASONAL_STORE,
 };
