@@ -60,7 +60,7 @@ describe("giftBumpkin", () => {
     expect(state.inventory["Celestial Frostbloom"]).toEqual(new Decimal(1));
   });
 
-  it("gives a noraml friendship points for a flower not on their list", () => {
+  it("gives a normal friendship points for a flower not on their list", () => {
     const state = giftFlowers({
       state: {
         ...TEST_FARM,
