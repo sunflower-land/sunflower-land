@@ -10433,6 +10433,178 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2178.png",
     name: "Golden Cow",
   },
+  Kite: {
+    description: "Soar high with the winds and let your worries drift away.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2184.png",
+    name: "Kite",
+  },
+  "Acorn House": {
+    description:
+      "A cozy woodland retreat, perfect for squirrels and dreamers alike.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2185.png",
+    name: "Acorn House",
+  },
+  "Spring Duckling": {
+    description:
+      "Bright and chirpy, this little duckling welcomes the season with joy.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2186.png",
+    name: "Spring Duckling",
+  },
+  Igloo: {
+    description:
+      "Cold on the outside, cozy on the inside—home sweet frozen home.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2187.png",
+    name: "Igloo",
+  },
+  "Ugly Duckling": {
+    description:
+      "Born different, misunderstood, but destined to become something truly magnificent.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2188.png",
+    name: "Ugly Duckling",
+  },
+  "Lake Rug": {
+    description: "Bring the calm of a peaceful lake right into your home.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2189.png",
+    name: "Lake Rug",
+  },
+  Hammock: {
+    description: "Sway gently with the breeze and enjoy a well-earned rest.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2190.png",
+    name: "Hammock",
+  },
+  Mammoth: {
+    description: "An ancient giant, standing strong through the test of time.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2191.png",
+    name: "Mammoth",
+  },
+  "Cup of Chocolate": {
+    description: "Warm, rich, and the perfect companion for a chilly day.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2192.png",
+    name: "Cup of Chocolate",
+  },
+  "Gold Sheep": {
+    description: "A dazzling wonder, worth more than its weight in wool.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2193.png",
+    name: "Gold Sheep",
+  },
+  "Barn Blueprint": {
+    description: "The foundation of every great farm begins with a solid plan.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2194.png",
+    name: "Barn Blueprint",
+  },
+  "Mama Duck": {
+    description: "Protective, loving, and always leading her little ones home.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2195.png",
+    name: "Mama Duck",
+  },
+  "Summer Duckling": {
+    description:
+      "Basking in the sun, this duckling knows how to enjoy the heat.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2196.png",
+    name: "Summer Duckling",
+  },
+  "Autumn Duckling": {
+    description:
+      "Crisp leaves and cozy feathers, ready for the harvest season.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2197.png",
+    name: "Summer Duckling",
+  },
+  "Winter Duckling": {
+    description:
+      "Bundled up in downy feathers, this little one waddles through the winter wonderland with cheer.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2198.png",
+    name: "Winter Duckling",
+  },
 
   "Rhubarb Seed": {
     description: "A seed that grows into a tart, pink vegetable stalk.",
