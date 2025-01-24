@@ -101,7 +101,9 @@ export type SoldOutCollectibleName =
   | "Swiss Whiskers"
   | "Cluckulator"
   | "UFO"
-  | "Black Sheep";
+  | "Black Sheep"
+  | "Gold Sheep"
+  | "Barn Blueprint";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"
