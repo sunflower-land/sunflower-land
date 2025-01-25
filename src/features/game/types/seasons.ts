@@ -77,7 +77,7 @@ export type SeasonalTicket =
   | "Scroll"
   | "Amber Fossil"
   | "Horseshoe"
-  | "Timeshards";
+  | "Timeshard";
 
 export type SeasonalBanner =
   | "Solar Flare Banner"
@@ -111,7 +111,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Clash of Factions": "Scroll",
   "Pharaoh's Treasure": "Amber Fossil",
   "Bull Run": "Horseshoe",
-  "Winds of Change": "Timeshards",
+  "Winds of Change": "Timeshard",
 };
 
 export const SEASON_ARTEFACT_NAME: Record<

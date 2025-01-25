@@ -340,7 +340,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trade Point": {
     description: translate("description.trade.points"),
   },
-  Timeshards: {
+  Timeshard: {
     description: "",
   },
 };

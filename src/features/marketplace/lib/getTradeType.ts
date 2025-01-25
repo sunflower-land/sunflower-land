@@ -901,7 +901,7 @@ export const ITEM_TRADE_TYPES: {
     "Festive Toy Train": "instant",
     "Golden Cow": "onchain",
     "Winds of Change Banner": "instant",
-    Timeshards: "instant",
+    Timeshard: "instant",
     "Ancient Clock": "instant",
   },
   wearables: {

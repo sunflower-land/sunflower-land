@@ -775,6 +775,8 @@ import alienChicken from "assets/sfts/alien_chicken.webp";
 import toxicTuft from "assets/sfts/toxic_tuft.webp";
 import mootant from "assets/sfts/mootant.webp";
 import tradeCake from "assets/food/trade_cake.webp";
+import timeshard from "assets/icons/timeshard.webp";
+import ancientClock from "assets/icons/ancient_clock.png";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4678,12 +4680,12 @@ export const ITEM_DETAILS: Items = {
     image: volcanoGnome,
     description: translate("description.volcanoGnome"),
   },
-  Timeshards: {
-    image: undefined,
+  Timeshard: {
+    image: timeshard,
     description: "",
   },
   "Ancient Clock": {
-    image: undefined,
+    image: ancientClock,
     description: "",
   },
   "Winds of Change Banner": {
