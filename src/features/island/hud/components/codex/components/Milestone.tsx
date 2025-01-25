@@ -5,6 +5,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 import chest from "assets/icons/chest.png";
 import { Button } from "components/ui/Button";
@@ -15,6 +16,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResizableBar } from "components/ui/ProgressBar";
+
+import { getFishByType } from "../lib/utils";
+import { FishName, MarineMarvelName } from "features/game/types/fishing";
+import { pixelDarkBorderStyle } from "features/game/lib/style";
 
 import TwilightAnglerfish from "assets/fish/twilight_anglerfish_trophy.png";
 import StarlightTuna from "assets/fish/starlight_tuna_trophy.png";
@@ -27,8 +32,16 @@ export const MilestonePanel: React.FC<{
   farmActivity: GameState["farmActivity"];
   onClaim: () => void;
   onBack: () => void;
+  setSelectedFish: (fish: FishName | MarineMarvelName) => void;
   isClaimed?: boolean;
-}> = ({ milestone, farmActivity, onClaim, onBack, isClaimed }) => {
+}> = ({
+  milestone,
+  farmActivity,
+  onClaim,
+  onBack,
+  setSelectedFish,
+  isClaimed,
+}) => {
   const { t } = useAppTranslation();
 
   const percentageComplete = milestone.percentageComplete(farmActivity);
@@ -46,6 +59,8 @@ export const MilestonePanel: React.FC<{
     PhantomBarracuda,
     GildedSwordfish,
   ];
+
+  const FISH_BY_TYPE = getFishByType();
 
   return (
     <InnerPanel>
@@ -109,6 +124,59 @@ export const MilestonePanel: React.FC<{
                     src={name}
                     className="h-7 sm:h-8 mr-1 sm:mr-1.5 mt-0.5"
                   />
+                ))}
+              </div>
+            )}
+            {reward === "Sunflower Rod" && (
+              <div className="flex items-center flex-wrap mb-1">
+                {FISH_BY_TYPE["basic"].map((name) => (
+                  <div className="relative" key={name}>
+                    <div
+                      className="flex justify-center w-8 sm:w-12 h-8 sm:h-12 m-1 p-0.5 bg-brown-600 cursor-pointer"
+                      style={{ ...pixelDarkBorderStyle }}
+                      onClick={() => setSelectedFish(name)}
+                    >
+                      <img
+                        className={classNames({
+                          silhouette: !farmActivity[`${name} Caught`],
+                        })}
+                        src={ITEM_DETAILS[name].image}
+                      />
+                      {farmActivity[`${name} Caught`] && (
+                        <img
+                          src={SUNNYSIDE.icons.confirm}
+                          className="h-3 sm:h-5 absolute -top-0 -right-0 sm:-top-1 sm:-right-1"
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {reward === "Fishing Hat" && (
+              <div className="flex items-center flex-wrap mb-1">
+                {FISH_BY_TYPE["advanced"].map((name) => (
+                  <div className="relative" key={name}>
+                    <div
+                      className="flex justify-center w-8 sm:w-12 h-8 sm:h-12 m-1 p-0.5 bg-brown-600 cursor-pointer"
+                      style={{ ...pixelDarkBorderStyle }}
+                      onClick={() => setSelectedFish(name)}
+                    >
+                      <img
+                        className={classNames({
+                          silhouette: !farmActivity[`${name} Caught`],
+                        })}
+                        src={ITEM_DETAILS[name].image}
+                      />
+                      {farmActivity[`${name} Caught`] && (
+                        <img
+                          src={SUNNYSIDE.icons.confirm}
+                          className="h-3 sm:h-5 absolute -top-0 -right-0 sm:-top-1 sm:-right-1"
+                        />
+                      )}
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
