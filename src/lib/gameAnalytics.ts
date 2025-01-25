@@ -155,7 +155,7 @@ class GameAnalyticTracker {
   /**
    * Tracks one off milestone events
    * Useful for tracking tutorial progress and achievements
-   * Game Analytics follows a hierachy event structure - [category]:[sub_category]:[outcome]
+   * Game Analytics follows a hierarchy event structure - [category]:[sub_category]:[outcome]
    * https://docs.gameanalytics.com/event-types/design-events
    */
   public trackMilestone(milestone: { event: string }) {
