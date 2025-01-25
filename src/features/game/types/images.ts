@@ -789,7 +789,7 @@ import barnBlueprint from "assets/sfts/barn_blueprint.webp";
 import mamaDuck from "assets/sfts/mama_duck.webp";
 import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
-
+import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4761,7 +4761,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Winds of Change Banner": {
-    image: undefined,
+    image: windsOfChangeBanner,
     description: "",
   },
 };
