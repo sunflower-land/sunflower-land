@@ -28,15 +28,15 @@ export const WindsOfChangeBanner: React.FC = () => {
     <div
       className="absolute pointer-events-none"
       style={{
-        width: `${PIXEL_SCALE * 22}px`,
-        top: `${PIXEL_SCALE * -5}px`,
-        left: `${PIXEL_SCALE * -1.5}px`,
+        width: `${PIXEL_SCALE * 16}px`,
+        top: `${PIXEL_SCALE * -1}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
     >
       <img
         src={Banners[currentSeason]}
         style={{
-          width: `${PIXEL_SCALE * 20}px`,
+          width: `${PIXEL_SCALE * 16}px`,
         }}
         alt="Winds of Change Banner"
       />
