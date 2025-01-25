@@ -4783,7 +4783,7 @@
   "vip.benefit.expBoost": "10% 経験値ブースト",
   "vip.benefit.stellaDiscounts": "ステラSFL割引",
   "vip.benefit.bonusDelivery": "ボーナスデリバリー＆雑用報酬",
-  "vip.benefit.reputation": "500 レピュテーションポイント",
+  "vip.benefit.reputation": "{{points}} レピュテーションポイント",
   "vip.benefit.competition": "ボーナスコンペティションポイント+その他！",
   "gameOptions.notifications": "通知",
   "gameOptions.notifications.updating": "設定を更新中",

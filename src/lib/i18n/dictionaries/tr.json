@@ -4783,7 +4783,7 @@
   "vip.benefit.expBoost": "%10 EXP Artışı",
   "vip.benefit.stellaDiscounts": "Stella SFL indirimler",
   "vip.benefit.bonusDelivery": "Bonus Teslimatı ve İşleri Ödülleri",
-  "vip.benefit.reputation": "500 İtibar Puanı",
+  "vip.benefit.reputation": "{{points}} İtibar Puanı",
   "vip.benefit.competition": "Bonus yarışma puanları+daha fazlası!",
   "gameOptions.notifications": "Bildirimler",
   "gameOptions.notifications.updating": "Ayarları güncelleme",

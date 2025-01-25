@@ -4783,7 +4783,7 @@
   "vip.benefit.expBoost": "10% de aumento de EXP",
   "vip.benefit.stellaDiscounts": "Descontos Stella SFL",
   "vip.benefit.bonusDelivery": "Entrega de bônus e recompensas por tarefas",
-  "vip.benefit.reputation": "500 pontos de reputação",
+  "vip.benefit.reputation": "{{points}} pontos de reputação",
   "vip.benefit.competition": "Bônus de pontos de competição e mais!",
   "gameOptions.notifications": "Notificações",
   "gameOptions.notifications.updating": "Atualizando configurações",

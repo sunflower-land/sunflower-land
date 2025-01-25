@@ -4783,7 +4783,7 @@
   "vip.benefit.expBoost": "10% 경험치 부스트",
   "vip.benefit.stellaDiscounts": "스텔라 SFL 할인",
   "vip.benefit.bonusDelivery": "보너스 배송 및 집안일 보상",
-  "vip.benefit.reputation": "500 평판 포인트",
+  "vip.benefit.reputation": "{{points}} 평판 포인트",
   "vip.benefit.competition": "보너스 경쟁 포인트 + 추가 정보!",
   "gameOptions.notifications": "알림",
   "gameOptions.notifications.updating": "설정 업데이트",

@@ -4873,7 +4873,7 @@
   "vip.benefit.expBoost": "10% EXP Boost",
   "vip.benefit.stellaDiscounts": "Stella SFL discounts",
   "vip.benefit.bonusDelivery": "Bonus Delivery & Chore Rewards",
-  "vip.benefit.reputation": "500 Reputation Points",
+  "vip.benefit.reputation": "{{points}} Reputation Points",
   "vip.benefit.competition": "Bonus competition points + more!",
   "fullMoon.specialEvent": "Special Event - Full Moon",
   "searchHere": "Search here...",

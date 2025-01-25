@@ -38,6 +38,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import confetti from "canvas-confetti";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { REPUTATION_POINTS } from "features/game/lib/reputation";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -300,7 +301,9 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               icon: ITEM_DETAILS[getSeasonalTicket()].image,
             },
             {
-              text: t("vip.benefit.reputation"),
+              text: t("vip.benefit.reputation", {
+                points: REPUTATION_POINTS.VIP,
+              }),
               icon: increaseArrow,
             },
             {
