@@ -12,7 +12,7 @@ export const ResourceTable: React.FC<{
   balance: Decimal;
   tableType: "listings" | "offers";
   inventoryCount: number;
-  onClick: (id: string) => void;
+  onClick?: (id: string) => void;
 }> = ({
   items,
   id: farmId,

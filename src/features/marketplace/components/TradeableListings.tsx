@@ -191,10 +191,14 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                   inventoryCount={count}
                   id={farmId}
                   tableType="listings"
-                  onClick={(listingId) => {
-                    handleSelectListing(listingId);
-                    setShowPurchaseModal(true);
-                  }}
+                  onClick={
+                    tradeable.isActive
+                      ? (listingId) => {
+                          handleSelectListing(listingId);
+                          setShowPurchaseModal(true);
+                        }
+                      : undefined
+                  }
                 />
               ) : (
                 <ListingTable

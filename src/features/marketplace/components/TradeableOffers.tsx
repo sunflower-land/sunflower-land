@@ -290,10 +290,14 @@ export const TradeableOffers: React.FC<{
                   }
                   id={farmId}
                   tableType="offers"
-                  onClick={(offerId) => {
-                    handleSelectOffer(offerId);
-                    setShowAcceptOffer(true);
-                  }}
+                  onClick={
+                    tradeable.isActive
+                      ? (offerId) => {
+                          handleSelectOffer(offerId);
+                          setShowAcceptOffer(true);
+                        }
+                      : undefined
+                  }
                 />
               )}
             </div>
