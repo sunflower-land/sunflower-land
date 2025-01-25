@@ -787,6 +787,8 @@ import cupOfChocolate from "assets/sfts/cup_of_chocolate.webp";
 import goldenSheep from "assets/sfts/golden_sheep.webp";
 import barnBlueprint from "assets/sfts/barn_blueprint.webp";
 import mamaDuck from "assets/sfts/mama_duck.webp";
+import timeshard from "assets/icons/timeshard.webp";
+import ancientClock from "assets/icons/ancient_clock.png";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4750,12 +4752,12 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: translate("description.winterDuckling"),
   },
-  Timeshards: {
-    image: undefined,
+  Timeshard: {
+    image: timeshard,
     description: "",
   },
   "Ancient Clock": {
-    image: undefined,
+    image: ancientClock,
     description: "",
   },
   "Winds of Change Banner": {
