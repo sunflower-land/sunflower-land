@@ -455,4 +455,20 @@ export const DESERT_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
   {} as Record<FlowerName, Lifecycle>,
 );
 
+export const VOLCANO_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
+  IMAGES,
+).reduce(
+  (acc, name) => ({
+    ...acc,
+    [name]: {
+      seedling: `flowers/volcano/seedling.webp`,
+      sprout: `flowers/volcano/sprout.webp`,
+      halfway: `flowers/volcano/halfway.webp`,
+      almost: `flowers/volcano/${IMAGES[name]}_growing.webp`,
+      ready: `flowers/volcano/${IMAGES[name]}_ready.webp`,
+    },
+  }),
+  {} as Record<FlowerName, Lifecycle>,
+);
+
 export type MutantFlowerName = "Desert Rose" | "Chicory";

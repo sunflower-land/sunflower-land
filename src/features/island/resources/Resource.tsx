@@ -30,13 +30,14 @@ import { OilReserve } from "features/game/expansion/components/resources/oilRese
 import { IslandType } from "features/game/types/game";
 
 import cacti from "assets/resources/tree/cacti.webp";
+import volcanoTree from "assets/resources/tree/summer_volcano_tree.webp";
 import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
 
 export const TREE_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree,
   spring: SUNNYSIDE.resource.tree,
   desert: cacti,
-  volcano: cacti,
+  volcano: volcanoTree,
 };
 
 export interface ResourceProps {

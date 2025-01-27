@@ -10,7 +10,7 @@ const STUMP_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree_stump,
   spring: SUNNYSIDE.resource.tree_stump,
   desert: cactiStump,
-  volcano: cactiStump,
+  volcano: SUNNYSIDE.resource.tree_stump,
 };
 
 interface Props {
