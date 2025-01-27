@@ -102,7 +102,7 @@ export type SoldOutCollectibleName =
   | "Cluckulator"
   | "UFO"
   | "Black Sheep"
-  | "Gold Sheep"
+  | "Golden Sheep"
   | "Barn Blueprint";
 
 export type MegaStoreCollectibleName =

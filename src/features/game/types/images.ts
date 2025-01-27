@@ -784,6 +784,8 @@ import lakeRug from "assets/sfts/lake_rug.webp";
 import hammock from "assets/sfts/hammock.webp";
 import mammoth from "assets/sfts/mammoth.webp";
 import cupOfChocolate from "assets/sfts/cup_of_chocolate.webp";
+import goldenSheep from "assets/sfts/golden_sheep.webp";
+import barnBlueprint from "assets/sfts/barn_blueprint.webp";
 import mamaDuck from "assets/sfts/mama_duck.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
@@ -4724,12 +4726,12 @@ export const ITEM_DETAILS: Items = {
     image: cupOfChocolate,
     description: translate("description.cupOfChocolate"),
   },
-  "Gold Sheep": {
-    image: SUNNYSIDE.icons.expression_confused,
+  "Golden Sheep": {
+    image: goldenSheep,
     description: translate("description.goldSheep"),
   },
   "Barn Blueprint": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: barnBlueprint,
     description: translate("description.barnBlueprint"),
   },
   "Mama Duck": {

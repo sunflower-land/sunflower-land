@@ -909,7 +909,7 @@ export const ITEM_TRADE_TYPES: {
     Hammock: "instant",
     Mammoth: "instant",
     "Cup of Chocolate": "instant",
-    "Gold Sheep": "onchain",
+    "Golden Sheep": "onchain",
     "Barn Blueprint": "onchain",
     "Mama Duck": "instant",
     "Summer Duckling": "instant",

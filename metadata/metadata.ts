@@ -10536,7 +10536,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2192.png",
     name: "Cup of Chocolate",
   },
-  "Gold Sheep": {
+  "Golden Sheep": {
     description: "A dazzling wonder, worth more than its weight in wool.",
     decimals: 0,
     attributes: [
@@ -10545,7 +10545,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2193.png",
-    name: "Gold Sheep",
+    name: "Golden Sheep",
   },
   "Barn Blueprint": {
     description: "The foundation of every great farm begins with a solid plan.",

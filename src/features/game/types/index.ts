@@ -960,7 +960,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Hammock: 2190,
   Mammoth: 2191,
   "Cup of Chocolate": 2192,
-  "Gold Sheep": 2193,
+  "Golden Sheep": 2193,
   "Barn Blueprint": 2194,
   "Mama Duck": 2195,
   "Summer Duckling": 2196,

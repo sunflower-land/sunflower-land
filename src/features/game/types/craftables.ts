@@ -1427,13 +1427,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     width: 2,
     height: 2,
   },
-  "Gold Sheep": {
+  "Golden Sheep": {
     width: 2,
     height: 2,
   },
   "Barn Blueprint": {
     width: 2,
-    height: 2,
+    height: 1,
   },
   "Mama Duck": {
     width: 1,

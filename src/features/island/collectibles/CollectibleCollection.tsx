@@ -1744,26 +1744,26 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Cup of Chocolate"
     />
   ),
-  "Gold Sheep": (props: CollectibleProps) => (
+  "Golden Sheep": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 32}px`, //WIP
+        width: `${PIXEL_SCALE * 31}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 32}px`,
       }}
-      image={ITEM_DETAILS["Gold Sheep"].image}
-      alt="Gold Sheep"
+      image={ITEM_DETAILS["Golden Sheep"].image}
+      alt="Golden Sheep"
     />
   ),
   "Barn Blueprint": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 32}px`, //WIP
+        width: `${PIXEL_SCALE * 31}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
