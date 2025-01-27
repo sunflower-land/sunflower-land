@@ -198,7 +198,7 @@ export function getSeasonalBannerImage() {
   return banners[getChapterBanner()];
 }
 
-function getPreviousSeason(now = new Date()): ChapterName {
+function getPreviousChapter(now = new Date()): ChapterName {
   const currentSeason = getCurrentChapter(now);
   const startDateOfCurrentSeason = CHAPTERS[currentSeason].startDate;
 
@@ -216,7 +216,7 @@ function getPreviousSeason(now = new Date()): ChapterName {
 }
 
 export function getPreviousSeasonalBanner(now = new Date()): ChapterBanner {
-  const previousSeason = getPreviousSeason(now);
+  const previousSeason = getPreviousChapter(now);
 
   return `${previousSeason} Banner`;
 }
