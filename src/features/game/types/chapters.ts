@@ -179,7 +179,7 @@ export function hasChapterEnded(season: ChapterName, now = Date.now()) {
   return now >= CHAPTERS[season].endDate.getTime();
 }
 
-export function getSeasonByBanner(banner: ChapterBanner): ChapterName {
+export function getChapterByBanner(banner: ChapterBanner): ChapterName {
   return SEASONAL_BANNERS[banner];
 }
 
