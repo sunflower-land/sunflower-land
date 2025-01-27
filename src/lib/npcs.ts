@@ -1,5 +1,5 @@
 import { Equipped } from "features/game/types/bumpkin";
-import { hasSeasonEnded } from "features/game/types/chapters";
+import { hasChapterEnded } from "features/game/types/chapters";
 
 export type NPCName =
   | "richie"
@@ -635,23 +635,25 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     background: "Pumpkin Plaza Background",
     hair: "Brown Long Hair",
-    shirt: hasSeasonEnded("Pharaoh's Treasure")
+    shirt: hasChapterEnded("Pharaoh's Treasure")
       ? "Merino Jumper"
       : "Explorer Shirt",
-    pants: hasSeasonEnded("Pharaoh's Treasure")
+    pants: hasChapterEnded("Pharaoh's Treasure")
       ? "Cowgirl Skirt"
       : "Oil Overalls",
-    hat: hasSeasonEnded("Pharaoh's Treasure") ? undefined : "Fossil Head",
-    tool: hasSeasonEnded("Pharaoh's Treasure")
+    hat: hasChapterEnded("Pharaoh's Treasure") ? undefined : "Fossil Head",
+    tool: hasChapterEnded("Pharaoh's Treasure")
       ? "Shepherd Staff"
       : "Ancient Shovel",
-    necklace: hasSeasonEnded("Pharaoh's Treasure") ? "Dream Scarf" : undefined,
-    coat: hasSeasonEnded("Pharaoh's Treasure") ? "Milk Apron" : undefined,
-    secondaryTool: hasSeasonEnded("Pharaoh's Treasure")
+    necklace: hasChapterEnded("Pharaoh's Treasure") ? "Dream Scarf" : undefined,
+    coat: hasChapterEnded("Pharaoh's Treasure") ? "Milk Apron" : undefined,
+    secondaryTool: hasChapterEnded("Pharaoh's Treasure")
       ? undefined
       : "Lemon Shield",
     shoes: "Black Farmer Boots",
-    wings: hasSeasonEnded("Pharaoh's Treasure") ? "Sol & Luna" : "Scarab Wings",
+    wings: hasChapterEnded("Pharaoh's Treasure")
+      ? "Sol & Luna"
+      : "Scarab Wings",
   },
   // Old loving grandma of the game
   buttons: {

@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { DailyChore } from "./DailyChore";
 import { acknowledgeChores } from "../lib/chores";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getChapterChangeover } from "lib/utils/getSeasonWeek";
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -46,7 +46,7 @@ export const ChoreV2: React.FC<Props> = ({
   }
 
   const { tasksStartAt, tasksCloseAt, ticketTasksAreFrozen } =
-    getSeasonChangeover({ id: gameService.state.context.farmId });
+    getChapterChangeover({ id: gameService.state.context.farmId });
   return (
     <>
       {ticketTasksAreFrozen && (

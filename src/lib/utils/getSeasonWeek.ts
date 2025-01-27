@@ -27,7 +27,7 @@ export function getSeasonWeek(): SeasonWeek {
  * Helps implement a preseason where tasks are 'frozen'
  * This ensures a smooth transition and testing period.
  */
-export function getSeasonChangeover({
+export function getChapterChangeover({
   id,
   now = Date.now(),
 }: {

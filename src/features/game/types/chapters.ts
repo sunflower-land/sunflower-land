@@ -171,11 +171,11 @@ export function secondsLeftInChapter() {
   return secondsLeft;
 }
 
-export function hasSeasonStarted(season: ChapterName, now = Date.now()) {
+export function hasChapterStarted(season: ChapterName, now = Date.now()) {
   return now >= CHAPTERS[season].startDate.getTime();
 }
 
-export function hasSeasonEnded(season: ChapterName, now = Date.now()) {
+export function hasChapterEnded(season: ChapterName, now = Date.now()) {
   return now >= CHAPTERS[season].endDate.getTime();
 }
 

@@ -817,7 +817,7 @@ import { BASIC_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
-import { hasSeasonEnded } from "./chapters";
+import { hasChapterEnded } from "./chapters";
 
 export interface ItemDetails {
   description: string;
@@ -3290,7 +3290,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Lemon Shark": {
     image: lemonShark,
-    howToGetItem: hasSeasonEnded("Pharaoh's Treasure")
+    howToGetItem: hasChapterEnded("Pharaoh's Treasure")
       ? [translate("howToGetThisItem.lemonShark")]
       : [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
@@ -3299,7 +3299,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Longhorn Cowfish": {
     image: longhornCowfish,
-    howToGetItem: hasSeasonEnded("Bull Run")
+    howToGetItem: hasChapterEnded("Bull Run")
       ? [translate("howToGetThisItem.longhornCowfish")]
       : [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
