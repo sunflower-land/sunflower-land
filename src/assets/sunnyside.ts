@@ -205,10 +205,10 @@ export const SUNNYSIDE = {
     universalTopAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/universal/land/dirt/1_1_0_0.png`,
     universalBottomAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/universal/land/dirt/0_1_1_0.png`,
 
-    //Prestige Island
+    // Prestige Island
     springRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/prestige_raft.png`,
     desertRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_prestige_raft.png`,
-    volcanoRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/volcano_prestige_raft.png`,
+    volcanoRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/volcano_prestige_raft_1.webp`,
     rewardsRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/rewards_raft.png`,
 
     island: `${CONFIG.PROTECTED_IMAGE_URL}/land/islands/island.webp`,
