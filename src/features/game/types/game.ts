@@ -1089,7 +1089,7 @@ export type Currency =
   | "Gem"
   | "Crimstone"
   | "Sunstone"
-  | "Seasonal Ticket"
+  | "Chapter Ticket"
   | "Mark";
 
 export type ShopItemBase = {

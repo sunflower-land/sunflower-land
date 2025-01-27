@@ -215,7 +215,7 @@ function getPreviousChapter(now = new Date()): ChapterName {
   return previousSeason[0] as ChapterName;
 }
 
-export function getPreviousSeasonalBanner(now = new Date()): ChapterBanner {
+export function getPreviousChapterBanner(now = new Date()): ChapterBanner {
   const previousSeason = getPreviousChapter(now);
 
   return `${previousSeason} Banner`;

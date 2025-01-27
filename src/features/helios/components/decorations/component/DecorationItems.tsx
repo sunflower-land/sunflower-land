@@ -72,7 +72,7 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
 
     if (selected.ingredients[getChapterTicket()]) {
       gameAnalytics.trackSink({
-        currency: "Seasonal Ticket",
+        currency: "Chapter Ticket",
         amount: selected.ingredients[getChapterTicket()]?.toNumber() ?? 1,
         item: selected.name,
         type: "Collectible",

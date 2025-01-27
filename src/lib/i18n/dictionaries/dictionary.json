@@ -3914,7 +3914,7 @@
   "bounties.board": "Bounty board",
   "bounties.board.info": "Trade this week's bounties before time runs out.",
   "bounties.board.travel": "Travel to the plaza and find Poppy to fulfill these bounties",
-  "bounties.board.ticketAmount": "The amount of {{seasonalTicket}}s will vary each week based on the requests.",
+  "bounties.board.ticketAmount": "The amount of {{chapterTicket}}s will vary each week based on the requests.",
   "bounties.board.empty": "There are no deals available right now.",
   "bounties.sold": "Sold",
   "bounties.sell.coins": "Are you sure you want to sell this for {{amount}} coins?",

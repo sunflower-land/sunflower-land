@@ -60,7 +60,7 @@ export const ItemsList: React.FC<Props> = ({
     if (currency === "SFL") return token;
 
     const currencyItem =
-      currency === "Seasonal Ticket" ? getChapterTicket() : currency;
+      currency === "Chapter Ticket" ? getChapterTicket() : currency;
 
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
   };

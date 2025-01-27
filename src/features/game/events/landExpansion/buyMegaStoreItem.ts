@@ -66,7 +66,7 @@ export function buyMegaStoreItem({
     }
 
     const currency =
-      item.currency === "Seasonal Ticket" ? getChapterTicket() : item.currency;
+      item.currency === "Chapter Ticket" ? getChapterTicket() : item.currency;
 
     // Handle SFL purchase
     if (currency === "SFL") {

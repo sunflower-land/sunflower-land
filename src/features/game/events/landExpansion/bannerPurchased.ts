@@ -4,9 +4,9 @@ import {
   SEASONAL_BANNERS,
   CHAPTERS,
   ChapterBanner,
-  getPreviousSeasonalBanner,
   getChapterByBanner,
   getChapterBanner,
+  getPreviousChapterBanner,
 } from "features/game/types/chapters";
 import { produce } from "immer";
 
@@ -37,13 +37,13 @@ export function getBannerPrice(
 
   if (hasLifetimeBanner) return new Decimal(0);
 
-  const season = getChapterByBanner(banner);
-  const seasonStartDate = CHAPTERS[season].startDate;
+  const chapter = getChapterByBanner(banner);
+  const chapterStartDate = CHAPTERS[chapter].startDate;
 
   const WEEK = 1000 * 60 * 60 * 24 * 7;
 
   const weeksElapsed = Math.floor(
-    (createdAt - seasonStartDate.getTime()) / WEEK,
+    (createdAt - chapterStartDate.getTime()) / WEEK,
   );
 
   if (weeksElapsed < 1) {
@@ -99,14 +99,14 @@ export function purchaseBanner({
       throw new Error("You already have this banner");
     }
 
-    const seasonBanner = getChapterBanner(new Date(createdAt));
-    if (action.name !== seasonBanner) {
+    const chapterBanner = getChapterBanner(new Date(createdAt));
+    if (action.name !== chapterBanner) {
       throw new Error(
-        `Attempt to purchase ${action.name} in ${seasonBanner} Season`,
+        `Attempt to purchase ${action.name} in ${chapterBanner} Chapter`,
       );
     }
 
-    const previousBanner = getPreviousSeasonalBanner(new Date(createdAt));
+    const previousBanner = getPreviousChapterBanner(new Date(createdAt));
     const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(
       0,
     );

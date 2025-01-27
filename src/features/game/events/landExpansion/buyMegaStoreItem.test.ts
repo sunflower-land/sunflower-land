@@ -27,7 +27,7 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("throws an error if the player has already purchased the max allowed of a collectible", () => {
-    const seasonTicket = getChapterTicket();
+    const chapterTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
@@ -50,7 +50,7 @@ describe("buyMegaStoreItem", () => {
             wearables: [],
           },
           inventory: {
-            [seasonTicket]: new Decimal(100),
+            [chapterTicket]: new Decimal(100),
             Nana: new Decimal(1),
           },
         },
@@ -64,14 +64,14 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("throws an error if the player has already purchased the max allowed of a wearable", () => {
-    const seasonTicket = getChapterTicket();
+    const chapterTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
         state: {
           ...TEST_FARM,
           inventory: {
-            [seasonTicket]: new Decimal(100),
+            [chapterTicket]: new Decimal(100),
           },
           megastore: {
             ...TEST_FARM.megastore,
@@ -135,14 +135,14 @@ describe("buyMegaStoreItem", () => {
     const now = new Date("2024-01-02").getTime();
     jest.setSystemTime(now);
 
-    const seasonTicket = getChapterTicket();
+    const chapterTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
         state: {
           ...TEST_FARM,
           inventory: {
-            [seasonTicket]: new Decimal(0),
+            [chapterTicket]: new Decimal(0),
           },
           megastore: {
             ...TEST_FARM.megastore,
@@ -150,7 +150,7 @@ describe("buyMegaStoreItem", () => {
               {
                 name: "Tiki Mask",
                 price: new Decimal(100),
-                currency: "Seasonal Ticket",
+                currency: "Chapter Ticket",
                 limit: 1,
                 type: "wearable",
                 shortDescription: "Lorem ipsum",
@@ -164,7 +164,7 @@ describe("buyMegaStoreItem", () => {
           name: "Tiki Mask",
         },
       }),
-    ).toThrow(`Not enough ${seasonTicket}`);
+    ).toThrow(`Not enough ${chapterTicket}`);
   });
 
   it("throws an error if the players doesn't have inventory items for a non SFL item", () => {
@@ -259,13 +259,13 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("[Non SFL Wearable] subtracts the price from inventory balance and add item to wardrobe", () => {
-    const seasonTicket = getChapterTicket();
+    const chapterTicket = getChapterTicket();
 
     const { inventory, wardrobe } = buyMegaStoreItem({
       state: {
         ...TEST_FARM,
         inventory: {
-          [seasonTicket]: new Decimal(1000),
+          [chapterTicket]: new Decimal(1000),
         },
         megastore: {
           ...TEST_FARM.megastore,
@@ -273,7 +273,7 @@ describe("buyMegaStoreItem", () => {
             {
               name: "Fish Pro Vest",
               price: new Decimal(1000),
-              currency: "Seasonal Ticket",
+              currency: "Chapter Ticket",
               limit: null,
               type: "wearable",
               shortDescription: "Lorem ipsum",
@@ -288,7 +288,7 @@ describe("buyMegaStoreItem", () => {
       },
     });
 
-    expect(inventory[seasonTicket]).toEqual(new Decimal(0));
+    expect(inventory[chapterTicket]).toEqual(new Decimal(0));
     expect(wardrobe["Fish Pro Vest"]).toEqual(1);
   });
 

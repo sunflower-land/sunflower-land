@@ -78,7 +78,7 @@ export const IslandBlacksmithItems: React.FC = () => {
 
     if ((selectedItem?.ingredients ?? {})[getChapterTicket()]) {
       gameAnalytics.trackSink({
-        currency: "Seasonal Ticket",
+        currency: "Chapter Ticket",
         amount:
           (selectedItem?.ingredients ?? {})[getChapterTicket()]?.toNumber() ??
           1,

@@ -257,7 +257,7 @@ const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
 
     if (selected.ingredients[getChapterTicket()]) {
       gameAnalytics.trackSink({
-        currency: "Seasonal Ticket",
+        currency: "Chapter Ticket",
         amount: selected.ingredients[getChapterTicket()]?.toNumber() ?? 1,
         item: selectedName,
         type: "Wearable",

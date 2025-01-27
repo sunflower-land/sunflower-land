@@ -166,7 +166,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
           <div className="flex items-center">
             <p className="text-xs">
               {t("bounties.board.ticketAmount", {
-                seasonalTicket: getChapterTicket(),
+                chapterTicket: getChapterTicket(),
               })}
             </p>
           </div>

@@ -62,17 +62,17 @@ const VIP_ICONS: Record<VipBundle, string> = {
 };
 
 const SeasonVIPDiscountTime: React.FC = () => {
-  const season = getCurrentChapter();
-  const seasonStartDate = CHAPTERS[season].startDate;
-  const seasonEndDate = CHAPTERS[season].endDate;
+  const chapter = getCurrentChapter();
+  const chapterStartDate = CHAPTERS[chapter].startDate;
+  const chapterEndDate = CHAPTERS[chapter].endDate;
 
   const WEEK = 1000 * 60 * 60 * 24 * 7;
 
   const discountDates = [
-    seasonStartDate.getTime() + 1 * WEEK, // 1 weeks
-    seasonStartDate.getTime() + 4 * WEEK, // 4 weeks
-    seasonStartDate.getTime() + 8 * WEEK, // 8 weeks
-    seasonEndDate.getTime(), // End of season
+    chapterStartDate.getTime() + 1 * WEEK, // 1 weeks
+    chapterStartDate.getTime() + 4 * WEEK, // 4 weeks
+    chapterStartDate.getTime() + 8 * WEEK, // 8 weeks
+    chapterEndDate.getTime(), // End of season
   ];
 
   const upcomingDiscountEnd = discountDates.find((date) => date > Date.now());

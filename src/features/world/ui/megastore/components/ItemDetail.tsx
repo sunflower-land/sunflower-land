@@ -113,7 +113,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     }
 
     const currency =
-      item.currency === "Seasonal Ticket" ? getChapterTicket() : item.currency;
+      item.currency === "Chapter Ticket" ? getChapterTicket() : item.currency;
 
     return (
       inventory[currency as InventoryItemName] ?? new Decimal(0)
@@ -202,7 +202,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const currency =
-    item?.currency === "Seasonal Ticket"
+    item?.currency === "Chapter Ticket"
       ? getChapterTicket()
       : (item?.currency as InventoryItemName);
 

@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { InventoryItemName, Keys } from "features/game/types/game";
+import { Currency, InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -189,11 +189,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const trackAnalytics = () => {
     if (!item) return;
     const type = isWearable ? "Wearable" : "Collectible";
-    const currency =
+    const currency: Currency =
       item.cost.sfl !== 0
         ? "SFL"
         : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
-          ? "Seasonal Ticket"
+          ? "Chapter Ticket"
           : "SFL";
     const price =
       item.cost.sfl !== 0
