@@ -25,9 +25,9 @@ export type ChapterName =
   | "Bull Run"
   | "Winds of Change";
 
-type SeasonDates = { startDate: Date; endDate: Date };
+type ChapterDates = { startDate: Date; endDate: Date };
 
-export const SEASONS: Record<ChapterName, SeasonDates> = {
+export const SEASONS: Record<ChapterName, ChapterDates> = {
   "Solar Flare": {
     startDate: new Date("2023-01-01T00:00:00.000Z"),
     endDate: new Date("2023-05-01T00:00:00.000Z"),
