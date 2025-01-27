@@ -8,7 +8,7 @@ import {
   Keys,
   MegaStoreItemName,
 } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 
 export type BuyMegaStoreItemAction = {

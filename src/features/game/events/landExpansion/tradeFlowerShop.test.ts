@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { tradeFlowerShop } from "./tradeFlowerShop";
-import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
+import { SEASONS, getSeasonalTicket } from "features/game/types/chapters";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 

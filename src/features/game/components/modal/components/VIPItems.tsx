@@ -3,7 +3,7 @@ import {
   SEASONS,
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { MachineState } from "features/game/lib/gameMachine";

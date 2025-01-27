@@ -13,7 +13,7 @@ import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { NPCName } from "lib/npcs";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { isWearableActive } from "features/game/lib/wearables";

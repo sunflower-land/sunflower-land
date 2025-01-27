@@ -5,7 +5,7 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { shortenCount } from "lib/utils/formatNumber";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 
 import token from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";

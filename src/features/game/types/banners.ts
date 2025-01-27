@@ -1,5 +1,5 @@
-import { SeasonalBanner } from "./seasons";
-import { SEASONAL_BANNERS } from "./seasons";
+import { SeasonalBanner } from "./chapters";
+import { SEASONAL_BANNERS } from "./chapters";
 import { FactionBanner } from "./game";
 type bannerName =
   | "Human War Banner"

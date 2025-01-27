@@ -37,7 +37,7 @@ import {
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";

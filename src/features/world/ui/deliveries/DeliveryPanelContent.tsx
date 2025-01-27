@@ -15,7 +15,7 @@ import {
   getCountAndTypeForDelivery,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinDelivery } from "./BumpkinDelivery";
 import { formatNumber } from "lib/utils/formatNumber";

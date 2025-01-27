@@ -3,7 +3,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { FEED_BUMPKIN_ERRORS, feedBumpkin } from "./feedBumpkin";
-import { getSeasonalBanner } from "features/game/types/seasons";
+import { getSeasonalBanner } from "features/game/types/chapters";
 
 describe("feedBumpkin", () => {
   it("throws error if food amount is invalid", () => {

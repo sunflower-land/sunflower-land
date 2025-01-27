@@ -6,7 +6,7 @@ import { ChoreV2 } from "./components/ChoreV2";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";

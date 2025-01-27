@@ -1,7 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { buyMegaStoreItem } from "./buyMegaStoreItem";
 import Decimal from "decimal.js-light";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 
 describe("buyMegaStoreItem", () => {
   beforeEach(() => jest.useFakeTimers());

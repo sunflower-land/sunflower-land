@@ -41,7 +41,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");

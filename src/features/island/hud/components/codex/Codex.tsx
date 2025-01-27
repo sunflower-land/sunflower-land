@@ -31,7 +31,7 @@ import { Season } from "./pages/Season";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FLOWERS } from "features/game/types/flowers";

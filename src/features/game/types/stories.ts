@@ -1,5 +1,5 @@
 import { NPCName } from "lib/npcs";
-import { ChapterName } from "./seasons";
+import { ChapterName } from "./chapters";
 import { translate } from "lib/i18n/translate";
 
 /**

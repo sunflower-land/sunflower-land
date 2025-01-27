@@ -1,6 +1,6 @@
 import { hasFeatureAccess } from "lib/flags";
 import { BB_TO_GEM_RATIO, Inventory, InventoryItemName } from "./game";
-import { SeasonalTicket, SEASONS } from "./seasons";
+import { SeasonalTicket, SEASONS } from "./chapters";
 import { TEST_FARM } from "../lib/constants";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";

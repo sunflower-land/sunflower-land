@@ -31,7 +31,7 @@ import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
 } from "features/island/delivery/lib/delivery";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUMPKIN_FLOWER_BONUSES,

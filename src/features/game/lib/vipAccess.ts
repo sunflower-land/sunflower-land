@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
-import { getSeasonalBanner } from "../types/seasons";
+import { getSeasonalBanner } from "../types/chapters";
 
 export const hasVipAccess = ({
   game,

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 

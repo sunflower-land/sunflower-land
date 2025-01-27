@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 

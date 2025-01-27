@@ -23,7 +23,7 @@ import {
   ARTEFACT_SHOP_WEARABLES,
   ArtefactShopWearables,
 } from "features/game/types/artefactShop";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";

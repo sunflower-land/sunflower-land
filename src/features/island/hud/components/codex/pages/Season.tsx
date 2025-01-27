@@ -6,7 +6,7 @@ import {
   SEASON_TICKET_NAME,
   ChapterName,
   secondsLeftInSeason,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";

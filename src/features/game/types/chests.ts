@@ -1,5 +1,5 @@
 import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
-import { SEASONS } from "./seasons";
+import { SEASONS } from "./chapters";
 
 export type ChestReward = {
   items?: Partial<Record<InventoryItemName, number>>;

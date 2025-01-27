@@ -16,7 +16,7 @@ import { SeedName } from "../types/seeds";
 import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
-import { getSeasonalTicket } from "../types/seasons";
+import { getSeasonalTicket } from "../types/chapters";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;

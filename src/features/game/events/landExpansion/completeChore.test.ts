@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { completeChore } from "./completeChore";
 import { ChoreV2 } from "features/game/types/game";
-import { getSeasonalTicket, SEASONS } from "features/game/types/seasons";
+import { getSeasonalTicket, SEASONS } from "features/game/types/chapters";
 import cloneDeep from "lodash.clonedeep";
 
 describe("chore.completed", () => {
