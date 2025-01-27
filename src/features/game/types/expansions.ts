@@ -1,7 +1,8 @@
 import { GameState, InventoryItemName, IslandType } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
+import { Nodes, TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
 import { getKeys } from "./decorations";
+import { RESOURCE_NODE_PRICES } from "../events/landExpansion/buyResource";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -135,9 +136,12 @@ export function getLand({
 
   const expectedResources = TOTAL_EXPANSION_NODES[game.island.type][expansion];
 
-  // If they have bought resource nodes, we expect more.
+  // If they have bought resource nodes, we expect they should have more resources.
   getKeys(RESOURCE_NODE_PRICES).forEach((resource) => {
     const bought = game.farmActivity[`${resource} Bought`] ?? 0;
+
+    expectedResources[resource as keyof Nodes] =
+      (expectedResources[resource as keyof Nodes] ?? 0) + bought;
   });
 
   // Remove any resources if they are past the limit already

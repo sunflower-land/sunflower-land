@@ -4,7 +4,13 @@ import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { CONFIG } from "lib/config";
 
-const BUMPKINS: NPCBumpkin[] = [];
+const BUMPKINS: NPCBumpkin[] = [
+  {
+    npc: "gunter",
+    x: 188,
+    y: 298,
+  },
+];
 
 export class VolcaroScene extends BaseScene {
   sceneId: SceneId = "volcaro";

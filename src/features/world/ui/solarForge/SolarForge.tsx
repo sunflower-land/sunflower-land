@@ -16,15 +16,23 @@ import { ResourceName } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 import upIcon from "assets/icons/level_up.png";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [selected, setSelected] = useState<ResourceName>("Crop Plot");
   const { gameState, gameService } = useGame();
+
+  const state = gameState.context.state;
+
+  const hasBoughtResource = getKeys(RESOURCE_NODE_PRICES).some(
+    (resource) => !!state.farmActivity[`${resource} Bought`],
+  );
+
+  const [showIntro, setShowIntro] = useState(!hasBoughtResource);
   const [bought, setBought] = useState<ResourceName>();
 
   const { t } = useAppTranslation();
-
-  const state = gameState.context.state;
 
   const price = getResourcePrice({ gameState: state, resourceName: selected });
 
@@ -39,8 +47,36 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
     setBought(undefined);
   };
+
+  if (showIntro) {
+    return (
+      <SpeakingModal
+        bumpkinParts={NPC_WEARABLES.gunter}
+        message={[
+          {
+            text: "Wow, I'm surpirsed you've made it this far!",
+          },
+          {
+            text: "I'm Gunter, the blacksmith of Volcaro.",
+          },
+          {
+            text: "I've been working on a new type of forge that can help you craft resources with the power of the sun.",
+          },
+          {
+            text: "The strength of the forge is limited, each time you use it will require more Sunstones!",
+          },
+        ]}
+        onClose={() => setShowIntro(false)}
+      />
+    );
+  }
+
   return (
-    <CloseButtonPanel container={OuterPanel} onClose={onClose}>
+    <CloseButtonPanel
+      bumpkinParts={NPC_WEARABLES.gunter}
+      container={OuterPanel}
+      onClose={onClose}
+    >
       <SplitScreenView
         panel={
           <CraftingRequirements

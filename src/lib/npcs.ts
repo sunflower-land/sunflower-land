@@ -832,7 +832,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hair: "Silver Streaks",
     pants: "Brown Suspenders",
     shirt: "Fossil Armor",
-    tool: "Hammer",
+    tool: "Infernal Pitchfork",
     background: "Forest Background",
     shoes: "Black Farmer Boots",
   },
