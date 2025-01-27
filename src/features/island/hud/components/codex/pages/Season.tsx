@@ -3,7 +3,7 @@ import { TicketsLeaderboard } from "./TicketsLeaderboard";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { InnerPanel } from "components/ui/Panel";
 import {
-  SEASON_TICKET_NAME,
+  CHAPTER_TICKET_NAME,
   ChapterName,
   secondsLeftInSeason,
 } from "features/game/types/chapters";
@@ -77,7 +77,7 @@ export const Season: React.FC<Props> = ({
             </Label>
           </div>
           <p className="text-xs">
-            {t("season.codex.intro", { ticket: SEASON_TICKET_NAME[season] })}
+            {t("season.codex.intro", { ticket: CHAPTER_TICKET_NAME[season] })}
           </p>
         </div>
       </InnerPanel>
@@ -98,7 +98,7 @@ export const Season: React.FC<Props> = ({
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
               {t("season.codex.howToEarn", {
-                ticket: SEASON_TICKET_NAME[season],
+                ticket: CHAPTER_TICKET_NAME[season],
               })}
             </Label>
 
