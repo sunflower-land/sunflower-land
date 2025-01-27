@@ -4,20 +4,22 @@ import {
 } from "features/game/expansion/lib/expansionRequirements";
 import { BumpkinLevel } from "features/game/lib/level";
 import { IslandType } from "features/game/types/game";
+import { ResourceName } from "features/game/types/resources";
 
-export interface Nodes {
-  "Crop Plot": number;
-  Tree: number;
-  "Stone Rock": number;
-  "Iron Rock": number;
-  "Gold Rock": number;
-  "Crimstone Rock": number;
-  "Sunstone Rock": number;
-  "Fruit Patch": number;
-  "Flower Bed": number;
-  Beehive: number;
-  "Oil Reserve": number;
-}
+export type Nodes = Record<ResourceName, number>;
+// export interface Nodes {
+//   "Crop Plot": number;
+//   Tree: number;
+//   "Stone Rock": number;
+//   "Iron Rock": number;
+//   "Gold Rock": number;
+//   "Crimstone Rock": number;
+//   "Sunstone Rock": number;
+//   "Fruit Patch": number;
+//   "Flower Bed": number;
+//   Beehive: number;
+//   "Oil Reserve": number;
+// }
 
 export function isNode(value: string): value is keyof Nodes {
   const nodeTypes: Array<keyof Nodes> = [
