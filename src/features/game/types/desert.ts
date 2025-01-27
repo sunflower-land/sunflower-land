@@ -1,6 +1,6 @@
 import { getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
-import { getCurrentSeason, SeasonName } from "./seasons";
+import { getCurrentSeason, ChapterName } from "./seasons";
 import { BeachBountySeasonalArtefact } from "./treasure";
 
 export const DESERT_GRID_HEIGHT = 10;
@@ -11,7 +11,7 @@ type FormationPlot = { x: number; y: number; name: InventoryItemName };
 export type DiggingFormation = FormationPlot[];
 
 export const SEASONAL_ARTEFACT: Record<
-  SeasonName,
+  ChapterName,
   BeachBountySeasonalArtefact
 > = {
   "Bull Run": "Cow Skull",
