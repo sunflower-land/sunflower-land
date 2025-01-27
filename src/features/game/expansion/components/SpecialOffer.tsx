@@ -13,7 +13,7 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeVIP } from "features/announcements/announcementsStorage";
-import { CHAPTERS, getSeasonalBanner } from "features/game/types/chapters";
+import { CHAPTERS, getChapterBanner } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import blockBuck from "assets/icons/block_buck.png";
@@ -27,7 +27,7 @@ export const SpecialOffer: React.FC = () => {
   const { gameService } = useContext(Context);
   const specialOffer = useSelector(gameService, isPromoting);
   const inventory = useSelector(gameService, _inventory);
-  const hasPreviousSeasonBanner = !!inventory[getSeasonalBanner()];
+  const hasPreviousSeasonBanner = !!inventory[getChapterBanner()];
 
   return (
     <PromotingModal

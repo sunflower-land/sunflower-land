@@ -9,7 +9,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 
 import {
   getCurrentChapter,
-  getSeasonalBanner,
+  getChapterBanner,
   CHAPTERS,
 } from "features/game/types/chapters";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
@@ -22,7 +22,7 @@ const _level = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin.experience);
 
 const _hasBanner = (state: MachineState) =>
-  state.context.state.inventory[getSeasonalBanner()];
+  state.context.state.inventory[getChapterBanner()];
 
 export const SeasonBannerCountdown: React.FC = () => {
   const { gameService } = useContext(Context);

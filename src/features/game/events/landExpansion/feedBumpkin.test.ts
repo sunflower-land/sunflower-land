@@ -3,7 +3,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { FEED_BUMPKIN_ERRORS, feedBumpkin } from "./feedBumpkin";
-import { getSeasonalBanner } from "features/game/types/chapters";
+import { getChapterBanner } from "features/game/types/chapters";
 
 describe("feedBumpkin", () => {
   it("throws error if food amount is invalid", () => {
@@ -438,7 +438,7 @@ describe("feedBumpkin", () => {
         },
         inventory: {
           "Boiled Eggs": new Decimal(2),
-          [getSeasonalBanner()]: new Decimal(1),
+          [getChapterBanner()]: new Decimal(1),
         },
       },
       action: {

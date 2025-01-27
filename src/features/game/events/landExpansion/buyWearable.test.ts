@@ -6,7 +6,7 @@ import {
   STYLIST_WEARABLES,
   StylistWearable,
 } from "features/game/types/stylist";
-import { getSeasonalBanner } from "features/game/types/chapters";
+import { getChapterBanner } from "features/game/types/chapters";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -191,7 +191,7 @@ describe("buyWearable", () => {
         coins,
         inventory: {
           Sunflower: new Decimal(150),
-          [getSeasonalBanner()]: new Decimal(1),
+          [getChapterBanner()]: new Decimal(1),
         },
       },
       action: {

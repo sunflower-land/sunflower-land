@@ -155,7 +155,7 @@ export function getSeasonalArtefact(now = new Date()) {
   return SEASON_ARTEFACT_NAME[currentSeason];
 }
 
-export function getSeasonalBanner(now = new Date()): ChapterBanner {
+export function getChapterBanner(now = new Date()): ChapterBanner {
   const currentSeason = getCurrentChapter(now);
 
   return `${currentSeason} Banner`;
@@ -195,7 +195,7 @@ export function getSeasonalBannerImage() {
     "Bull Run Banner": bullsRunBanner,
     "Winds of Change Banner": windsOfChangeWinter,
   };
-  return banners[getSeasonalBanner()];
+  return banners[getChapterBanner()];
 }
 
 function getPreviousSeason(now = new Date()): ChapterName {
