@@ -2,7 +2,7 @@ import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 import { ChapterName } from "./chapters";
 
-export type SeasonalTierItemName =
+export type ChapterTierItemName =
   | SeasonalCollectibleName
   | SeasonalWearableName
   | MegastoreKeys;
@@ -36,35 +36,33 @@ type SeasonalStoreBase = {
 export type SeasonalStoreWearable = SeasonalStoreBase & {
   wearable: BumpkinItem;
 };
-export type SeasonalStoreCollectible = SeasonalStoreBase & {
+export type ChapterStoreCollectible = SeasonalStoreBase & {
   collectible: InventoryItemName;
 };
 
-export type SeasonalStoreItem =
-  | SeasonalStoreWearable
-  | SeasonalStoreCollectible;
+export type ChapterStoreItem = SeasonalStoreWearable | ChapterStoreCollectible;
 
-export type SeasonalStore = {
+export type ChapterStore = {
   basic: {
-    items: SeasonalStoreItem[];
+    items: ChapterStoreItem[];
   };
   rare: {
-    items: SeasonalStoreItem[];
+    items: ChapterStoreItem[];
     requirement: number;
   };
   epic: {
-    items: SeasonalStoreItem[];
+    items: ChapterStoreItem[];
     requirement: number;
   };
   mega: {
-    items: SeasonalStoreItem[];
+    items: ChapterStoreItem[];
     requirement: number;
   };
 };
 
-export type SeasonalStoreTier = keyof SeasonalStore;
+export type ChapterStoreTier = keyof ChapterStore;
 
-const EMPTY_SEASONAL_STORE: SeasonalStore = {
+const EMPTY_SEASONAL_STORE: ChapterStore = {
   basic: {
     items: [],
   },
@@ -83,7 +81,7 @@ const EMPTY_SEASONAL_STORE: SeasonalStore = {
 };
 
 // Test only
-const PHARAOH_ITEMS: SeasonalStoreItem[] = [
+const PHARAOH_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Red Farmer Shirt",
     cost: {
@@ -111,7 +109,7 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
-const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
+const RARE_PHARAOH_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Rancher Hair",
     cost: {
@@ -150,7 +148,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
 ];
-const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
+const EPIC_PHARAOH_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Blue Farmer Shirt",
     cost: {
@@ -171,7 +169,7 @@ const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
-const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
+const BULL_RUN_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Cowboy Hat",
     cost: {
@@ -219,7 +217,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
-const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
+const RARE_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Cowboy Shirt",
     cost: {
@@ -265,7 +263,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
-const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
+const EPIC_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   {
     wearable: "Cowboy Trouser",
     cost: {
@@ -311,7 +309,7 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
-const MEGA_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
+const MEGA_BULL_RUN_ITEMS: ChapterStoreItem[] = [
   {
     collectible: "Sheaf of Plenty",
     cost: {
@@ -323,7 +321,7 @@ const MEGA_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
-export const MEGASTORE: Record<ChapterName, SeasonalStore> = {
+export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
   "Dawn Breaker": EMPTY_SEASONAL_STORE,

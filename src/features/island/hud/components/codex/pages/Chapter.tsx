@@ -19,7 +19,7 @@ import { SeasonalAuctions } from "../components/SeasonalAuctions";
 import classNames from "classnames";
 import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
+import { ChapterStore } from "features/world/ui/megastore/ChapterStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
 import { BertObsession } from "features/world/ui/npcs/Bert";
@@ -46,7 +46,7 @@ interface Props {
   farmId: number;
 }
 
-export const Season: React.FC<Props> = ({
+export const Chapter: React.FC<Props> = ({
   id,
   isLoading,
   data,
@@ -147,7 +147,7 @@ export const Season: React.FC<Props> = ({
         />
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <SeasonalStore readonly state={state} />
+        <ChapterStore readonly state={state} />
       </InnerPanel>
       <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
       <SeasonalMutants season={season} />

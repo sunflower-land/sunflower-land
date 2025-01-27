@@ -33,7 +33,7 @@ import { FlowerName, FlowerSeedName } from "./flowers";
 import { FactionShopItemName } from "./factionShop";
 import { ShopDecorationName, SeasonalDecorationName } from "./decorations";
 import { AnimalType } from "./animals";
-import { SeasonalTierItemName } from "./megastore";
+import { ChapterTierItemName } from "./megastore";
 
 type BuyableName =
   | SeedName
@@ -47,7 +47,7 @@ type BuyableName =
   | GreenHouseFruitSeedName
   | GreenHouseCropSeedName
   | FactionShopItemName
-  | SeasonalTierItemName;
+  | ChapterTierItemName;
 
 type SellableName =
   | CropName

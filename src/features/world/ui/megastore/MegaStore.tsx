@@ -20,7 +20,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { MegaStoreMonthly } from "./MegaStoreMonthly";
 import { MegaStoreSeasonal } from "./MegaStoreSeasonal";
 import { MachineState } from "features/game/lib/gameMachine";
-import { SeasonalStore } from "./SeasonalStore";
+import { ChapterStore } from "./ChapterStore";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -81,7 +81,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
         currentTab={tab}
         setCurrentTab={setTab}
       >
-        {tab === 0 && <SeasonalStore state={state} />}
+        {tab === 0 && <ChapterStore state={state} />}
       </CloseButtonPanel>
     );
   }

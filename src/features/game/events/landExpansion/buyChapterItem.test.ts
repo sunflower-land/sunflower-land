@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { buySeasonalItem } from "./buySeasonalItem";
+import { buySeasonalItem } from "./buyChapterItem";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
@@ -22,7 +22,7 @@ describe("buySeasonalItem", () => {
       buySeasonalItem({
         state: mockState,
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Non-existent Item" as any,
           tier: "basic",
         },
@@ -37,7 +37,7 @@ describe("buySeasonalItem", () => {
       buySeasonalItem({
         state: poorState,
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Treasure Key",
           tier: "basic",
         },
@@ -55,7 +55,7 @@ describe("buySeasonalItem", () => {
       buySeasonalItem({
         state: lowInventoryState,
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Basic Bear",
           tier: "basic",
         },
@@ -80,7 +80,7 @@ describe("buySeasonalItem", () => {
     const result = buySeasonalItem({
       state: state,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Treasure Key",
         tier: "basic",
       },
@@ -93,7 +93,7 @@ describe("buySeasonalItem", () => {
     const result = buySeasonalItem({
       state: mockState,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Treasure Key",
         tier: "basic",
       },
@@ -107,7 +107,7 @@ describe("buySeasonalItem", () => {
     const result = buySeasonalItem({
       state: mockState,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Basic Bear",
         tier: "basic",
       },
@@ -121,7 +121,7 @@ describe("buySeasonalItem", () => {
     const result = buySeasonalItem({
       state: mockState,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Basic Bear",
         tier: "basic",
       },
@@ -135,7 +135,7 @@ describe("buySeasonalItem", () => {
     const result = buySeasonalItem({
       state: mockState,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Red Farmer Shirt",
         tier: "basic",
       },
@@ -165,7 +165,7 @@ describe("buySeasonalItem", () => {
           },
         },
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Treasure Key",
           tier: "basic",
         },
@@ -184,7 +184,7 @@ describe("buySeasonalItem", () => {
         },
       },
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Treasure Key",
         tier: "basic",
       },

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 // import { getItemBuffLabel, getItemImage } from "../MegaStore";
-import { getItemImage, getItemBuffLabel } from "../SeasonalStore";
+import { getItemImage, getItemBuffLabel } from "../ChapterStore";
 import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -25,28 +25,28 @@ import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   MEGASTORE,
-  SeasonalStoreCollectible,
-  SeasonalStoreItem,
-  SeasonalStoreTier,
+  ChapterStoreCollectible,
+  ChapterStoreItem,
+  ChapterStoreTier,
   SeasonalStoreWearable,
-  SeasonalTierItemName,
+  ChapterTierItemName,
 } from "features/game/types/megastore";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
-  getSeasonalItemsCrafted,
+  getChapterItemsCrafted,
   getStore,
   isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+} from "features/game/events/landExpansion/buyChapterItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
 interface Props {
   itemsLabel?: string;
   type?: "wearables" | "collectibles" | "keys";
-  tier: SeasonalStoreTier;
-  items: SeasonalStoreItem[];
-  onItemClick: (item: SeasonalStoreItem, tier: SeasonalStoreTier) => void;
+  tier: ChapterStoreTier;
+  items: ChapterStoreItem[];
+  onItemClick: (item: ChapterStoreItem, tier: ChapterStoreTier) => void;
 }
 
 export const ItemsList: React.FC<Props> = ({
@@ -65,24 +65,24 @@ export const ItemsList: React.FC<Props> = ({
     },
   ] = useActor(gameService);
 
-  const getBalanceOfItem = (item: SeasonalStoreItem): number => {
+  const getBalanceOfItem = (item: ChapterStoreItem): number => {
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
         state.bumpkin.activity[
-          `${(item as SeasonalStoreWearable).wearable as SeasonalTierItemName} Bought`
+          `${(item as SeasonalStoreWearable).wearable as ChapterTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (
         state.bumpkin.activity[
-          `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
+          `${(item as ChapterStoreCollectible).collectible as ChapterTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
         state.bumpkin.activity[
-          `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
+          `${(item as ChapterStoreCollectible).collectible as ChapterTierItemName} Bought`
         ] ?? 0
       );
     }
@@ -90,15 +90,13 @@ export const ItemsList: React.FC<Props> = ({
     return 0;
   };
 
-  const getItemName = (item: SeasonalStoreItem): string => {
+  const getItemName = (item: ChapterStoreItem): string => {
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (item as SeasonalStoreWearable).wearable as BumpkinItem;
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
-      return (item as SeasonalStoreCollectible)
-        .collectible as InventoryItemName;
+      return (item as ChapterStoreCollectible).collectible as InventoryItemName;
     } else if (type === "keys" || (!type && "key" in item)) {
-      return (item as SeasonalStoreCollectible)
-        .collectible as InventoryItemName;
+      return (item as ChapterStoreCollectible).collectible as InventoryItemName;
     }
 
     return "";
@@ -114,7 +112,7 @@ export const ItemsList: React.FC<Props> = ({
       })
     : items; // If no type provided, show all items
 
-  const getCurrencyIcon = (item: SeasonalStoreItem) => {
+  const getCurrencyIcon = (item: ChapterStoreItem) => {
     if (item.cost.sfl !== 0) return token;
 
     const currencyItem =
@@ -128,7 +126,7 @@ export const ItemsList: React.FC<Props> = ({
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
   };
 
-  const getCurrency = (item: SeasonalStoreItem) => {
+  const getCurrency = (item: ChapterStoreItem) => {
     if (item.cost.sfl !== 0)
       return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl)));
 
@@ -150,14 +148,14 @@ export const ItemsList: React.FC<Props> = ({
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers = tier;
 
-  const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
+  const seasonalCollectiblesCrafted = getChapterItemsCrafted(
     state,
     seasonalStore,
     "collectible",
     tier,
     true,
   );
-  const seasonalWearablesCrafted = getSeasonalItemsCrafted(
+  const seasonalWearablesCrafted = getChapterItemsCrafted(
     state,
     seasonalStore,
     "wearable",
@@ -170,7 +168,7 @@ export const ItemsList: React.FC<Props> = ({
   // Type guard if the requirement exists
   const hasRequirement = (
     tier: any,
-  ): tier is { items: SeasonalStoreItem[]; requirement: number } => {
+  ): tier is { items: ChapterStoreItem[]; requirement: number } => {
     return "requirement" in tier;
   };
 

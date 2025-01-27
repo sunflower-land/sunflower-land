@@ -27,7 +27,7 @@ import chores from "assets/icons/chores.webp";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
-import { Season } from "./pages/Season";
+import { Chapter } from "./pages/Chapter";
 import {
   getCurrentChapter,
   getChapterTicket,
@@ -267,7 +267,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             )}
             {currentTab === "Chore Board" && <ChoreBoard state={state} />}
             {currentTab === "Leaderboard" && (
-              <Season
+              <Chapter
                 id={id}
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
