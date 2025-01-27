@@ -40,7 +40,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalBanner, ChapterTicket } from "./chapters";
+import { ChapterBanner, ChapterTicket } from "./chapters";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -477,7 +477,7 @@ export type InventoryItemName =
   | RecipeCraftableName
   | SeasonalCollectibleName
   | TradeFood
-  | SeasonalBanner;
+  | ChapterBanner;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

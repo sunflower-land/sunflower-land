@@ -3,7 +3,7 @@ import { BB_TO_GEM_RATIO, GameState } from "../../types/game";
 import {
   SEASONAL_BANNERS,
   CHAPTERS,
-  SeasonalBanner,
+  ChapterBanner,
   getPreviousSeasonalBanner,
   getSeasonByBanner,
   getSeasonalBanner,
@@ -12,7 +12,7 @@ import { produce } from "immer";
 
 export type PurchaseBannerAction = {
   type: "banner.purchased";
-  name: SeasonalBanner | "Lifetime Farmer Banner";
+  name: ChapterBanner | "Lifetime Farmer Banner";
 };
 
 type Options = {
@@ -23,7 +23,7 @@ type Options = {
 };
 
 export function getBannerPrice(
-  banner: SeasonalBanner | "Lifetime Farmer Banner",
+  banner: ChapterBanner | "Lifetime Farmer Banner",
   hasPreviousBanner: boolean,
   hasLifetimeBanner: boolean,
   createdAt: number,
