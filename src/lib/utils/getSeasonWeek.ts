@@ -1,5 +1,5 @@
 import { SeasonWeek } from "features/game/types/game";
-import { CHAPTERS, getCurrentSeason } from "features/game/types/chapters";
+import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 import { ADMIN_IDS } from "lib/flags";
 
 /**
@@ -8,7 +8,7 @@ import { ADMIN_IDS } from "lib/flags";
  */
 export function getSeasonWeek(): SeasonWeek {
   const now = Date.now();
-  const { startDate, endDate } = CHAPTERS[getCurrentSeason()];
+  const { startDate, endDate } = CHAPTERS[getCurrentChapter()];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();
 
@@ -34,7 +34,7 @@ export function getSeasonChangeover({
   id: number;
   now?: number;
 }) {
-  const season = getCurrentSeason(new Date(now));
+  const season = getCurrentChapter(new Date(now));
 
   const tasksCloseAt = CHAPTERS[season].endDate.getTime();
 
@@ -91,7 +91,7 @@ export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
 export function getSeasonWeekByCreatedAt(createdAt: number): SeasonWeek {
   const now = createdAt;
 
-  const season = getCurrentSeason(new Date(now));
+  const season = getCurrentChapter(new Date(now));
   const { startDate, endDate } = CHAPTERS[season];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();

@@ -3,7 +3,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isWearableActive } from "features/game/lib/wearables";
 import { ChoreV2Name, GameState } from "features/game/types/game";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalTicket,
 } from "features/game/types/chapters";
 import { produce } from "immer";
@@ -36,21 +36,21 @@ export function generateChoreTickets({
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Hat" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Shirt" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
   ) {
     amount += 1;

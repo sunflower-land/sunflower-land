@@ -29,7 +29,7 @@ import { fetchLeaderboardData } from "features/game/expansion/components/leaderb
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { Season } from "./pages/Season";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalTicket,
 } from "features/game/types/chapters";
 import { hasFeatureAccess } from "lib/flags";
@@ -271,7 +271,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 id={id}
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
-                season={getCurrentSeason()}
+                season={getCurrentChapter()}
                 state={state}
                 farmId={farmId}
               />

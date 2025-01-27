@@ -7,7 +7,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { shortenCount } from "lib/utils/formatNumber";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalArtefact,
   getSeasonalTicket,
 } from "features/game/types/chapters";
@@ -146,7 +146,7 @@ export const ItemsList: React.FC<Props> = ({
     return currencyItem;
   };
   const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const currentSeason = getCurrentChapter(new Date(createdAt));
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers = tier;
 

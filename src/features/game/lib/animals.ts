@@ -20,7 +20,7 @@ import {
   GameState,
   InventoryItemName,
 } from "../types/game";
-import { getCurrentSeason } from "../types/chapters";
+import { getCurrentChapter } from "../types/chapters";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { hasVipAccess } from "./vipAccess";
@@ -377,7 +377,7 @@ export function getBoostedFoodQuantity({
     foodQuantity *= 0.5;
   }
 
-  if (hasVipAccess({ game }) && getCurrentSeason() === "Bull Run") {
+  if (hasVipAccess({ game }) && getCurrentChapter() === "Bull Run") {
     foodQuantity *= 0.9;
   }
 

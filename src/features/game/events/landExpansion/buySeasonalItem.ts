@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 
 import { produce } from "immer";
-import { getCurrentSeason, CHAPTERS } from "features/game/types/chapters";
+import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   MEGASTORE,
@@ -42,7 +42,7 @@ export function buySeasonalItem({
   return produce(state, (stateCopy) => {
     const { name, tier } = action;
 
-    const currentSeason = getCurrentSeason(new Date(createdAt));
+    const currentSeason = getCurrentChapter(new Date(createdAt));
     const seasonalStore = MEGASTORE[currentSeason];
 
     if (!seasonalStore) {
@@ -203,7 +203,7 @@ export function isKeyBoughtWithinSeason(
 
   const keyBoughtAt =
     game.pumpkinPlaza.keysBought?.megastore[tierKey as Keys]?.boughtAt;
-  const seasonTime = CHAPTERS[getCurrentSeason()];
+  const seasonTime = CHAPTERS[getCurrentChapter()];
   const historyKey =
     game.bumpkin.activity[`${tierKey as SeasonalTierItemName} Bought`];
   //If player has no history of buying keys at megastore

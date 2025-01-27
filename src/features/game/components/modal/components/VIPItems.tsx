@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import {
   CHAPTERS,
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalTicket,
 } from "features/game/types/chapters";
 import { ButtonPanel, Panel } from "components/ui/Panel";
@@ -62,7 +62,7 @@ const VIP_ICONS: Record<VipBundle, string> = {
 };
 
 const SeasonVIPDiscountTime: React.FC = () => {
-  const season = getCurrentSeason();
+  const season = getCurrentChapter();
   const seasonStartDate = CHAPTERS[season].startDate;
   const seasonEndDate = CHAPTERS[season].endDate;
 
