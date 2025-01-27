@@ -36,7 +36,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/750.png",
     attributes: [
-      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Purpose", value: "Coupon" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -10932,25 +10932,34 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   Timeshard: {
     description: "",
     decimals: 0,
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Timeshard",
   },
   "Ancient Clock": {
     description: "",
     decimals: 0,
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Ancient Clock",
   },
   "Winds of Change Banner": {
     description: "",
     decimals: 0,
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+    ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Winds of Change Banner",
   },
 };

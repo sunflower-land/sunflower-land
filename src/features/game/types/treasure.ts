@@ -174,5 +174,11 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     "Ancient Clock": {
       description: "",
       sellPrice: 200,
+      ...(hasSeasonEnded("Winds of Change")
+        ? {}
+        : {
+            from: SEASONS["Winds of Change"].startDate,
+            to: SEASONS["Winds of Change"].endDate,
+          }),
     },
   };
