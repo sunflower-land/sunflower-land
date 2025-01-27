@@ -1,6 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { secondsLeftInSeason } from "features/game/types/chapters";
+import { secondsLeftInChapter } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import React from "react";
@@ -12,7 +12,7 @@ export const AuctionsComingSoon: React.FC = () => {
       <p>{t("auction.const")}</p>
       <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/3" />
       <Label className="my-2" type="info" icon={SUNNYSIDE.icons.timer}>
-        {secondsToString(secondsLeftInSeason(), { length: "full" })}
+        {secondsToString(secondsLeftInChapter(), { length: "full" })}
       </Label>
       <a
         href="https://docs.sunflower-land.com/player-guides/auctions"

@@ -161,7 +161,7 @@ export function getChapterBanner(now = new Date()): ChapterBanner {
   return `${currentSeason} Banner`;
 }
 
-export function secondsLeftInSeason() {
+export function secondsLeftInChapter() {
   const season = getCurrentChapter();
 
   const times = CHAPTERS[season];

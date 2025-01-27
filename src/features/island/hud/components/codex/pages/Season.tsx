@@ -5,7 +5,7 @@ import { InnerPanel } from "components/ui/Panel";
 import {
   CHAPTER_TICKET_NAME,
   ChapterName,
-  secondsLeftInSeason,
+  secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -73,7 +73,7 @@ export const Season: React.FC<Props> = ({
               className="mb-1"
               icon={SUNNYSIDE.icons.stopwatch}
             >
-              {`${secondsToString(secondsLeftInSeason(), { length: "short" })} left`}
+              {`${secondsToString(secondsLeftInChapter(), { length: "short" })} left`}
             </Label>
           </div>
           <p className="text-xs">
