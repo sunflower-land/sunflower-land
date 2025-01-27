@@ -17,7 +17,7 @@ import { getKeys } from "features/game/types/decorations";
 import { FLOWERS } from "features/game/types/flowers";
 import { BountyRequest, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -172,7 +172,7 @@ export const FlowerBountiesModal: React.FC<{
                             type="warning"
                             icon={ITEM_DETAILS[name].image}
                           >
-                            {name !== getSeasonalTicket()
+                            {name !== getChapterTicket()
                               ? deal.items?.[name]
                               : generateBountyTicket({
                                   game: state,
@@ -233,7 +233,7 @@ const Deal: React.FC<{
 
           {getKeys(deal.items ?? {}).map((name) => (
             <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
-              {name !== getSeasonalTicket()
+              {name !== getChapterTicket()
                 ? deal.items?.[name]
                 : generateBountyTicket({
                     game: state,
@@ -251,7 +251,7 @@ const Deal: React.FC<{
                   .map(
                     (name) =>
                       `${
-                        name !== getSeasonalTicket()
+                        name !== getChapterTicket()
                           ? deal.items?.[name]
                           : generateBountyTicket({
                               game: state,

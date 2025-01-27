@@ -9,7 +9,7 @@ import { produce } from "immer";
 import { NPCName } from "lib/npcs";
 import {
   getCurrentChapter,
-  getSeasonalTicket,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -99,31 +99,31 @@ export function generateChoreRewards({
 }) {
   const items = Object.assign({}, chore.reward.items) ?? {};
 
-  if (!items[getSeasonalTicket(now)]) return items;
+  if (!items[getChapterTicket(now)]) return items;
 
   if (hasVipAccess({ game, now: now.getTime() })) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 2;
+    items[getChapterTicket(now)] = (items[getChapterTicket(now)] ?? 0) + 2;
   }
 
   if (
     getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Hat" })
   ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    items[getChapterTicket(now)] = (items[getChapterTicket(now)] ?? 0) + 1;
   }
 
   if (
     getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Shirt" })
   ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    items[getChapterTicket(now)] = (items[getChapterTicket(now)] ?? 0) + 1;
   }
 
   if (
     getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
   ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    items[getChapterTicket(now)] = (items[getChapterTicket(now)] ?? 0) + 1;
   }
 
   return items;

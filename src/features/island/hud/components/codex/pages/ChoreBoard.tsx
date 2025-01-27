@@ -15,7 +15,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getChoreProgress,
@@ -99,7 +99,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
 
         <p className="text-xs mb-2 px-2">
           {t("chores.completeChoresToEarn", {
-            seasonalTicket: getSeasonalTicket(),
+            seasonalTicket: getChapterTicket(),
           })}
         </p>
 
@@ -362,14 +362,14 @@ export const ChoreRewardLabel: React.FC<{
   chore: NpcChore;
   state: GameState;
 }> = ({ chore, state }) => {
-  if (chore.reward.items[getSeasonalTicket()]) {
+  if (chore.reward.items[getChapterTicket()]) {
     return (
-      <Label type={"warning"} icon={ITEM_DETAILS[getSeasonalTicket()].image}>
+      <Label type={"warning"} icon={ITEM_DETAILS[getChapterTicket()].image}>
         {generateChoreRewards({
           game: state,
           chore,
           now: new Date(),
-        })[getSeasonalTicket()] ?? 0}
+        })[getChapterTicket()] ?? 0}
       </Label>
     );
   }

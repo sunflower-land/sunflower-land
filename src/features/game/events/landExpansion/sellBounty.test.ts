@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { sellBounty, SellBountyAction } from "./sellBounty";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 
 describe("sellBounty", () => {
   const GAME_STATE: GameState = {
@@ -123,7 +123,7 @@ describe("sellBounty", () => {
 
     const result = sellBounty({ state: GAME_STATE, action });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+    expect(result.inventory[getChapterTicket()]).toEqual(new Decimal(1));
 
     jest.useRealTimers();
   });
@@ -139,7 +139,7 @@ describe("sellBounty", () => {
 
     const result = sellBounty({ state: GAME_STATE, action });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+    expect(result.inventory[getChapterTicket()]).toEqual(new Decimal(1));
   });
 
   it("rewards +1 Horseshoe when Cowboy Hat is worn during Bull Run Season", () => {
@@ -166,7 +166,7 @@ describe("sellBounty", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(result.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("rewards +1 Horseshoe when Cowboy Shirt is worn during Bull Run Season", () => {
@@ -193,7 +193,7 @@ describe("sellBounty", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(result.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("rewards +1 Horseshoe when Cowboy Trouser is worn during Bull Run Season", () => {
@@ -220,7 +220,7 @@ describe("sellBounty", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(result.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("stacks Cowboy Set boost at Bull Run Season", () => {
@@ -249,7 +249,7 @@ describe("sellBounty", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+    expect(result.inventory[getChapterTicket()]).toEqual(new Decimal(4));
   });
 
   it("subtracts the item", () => {

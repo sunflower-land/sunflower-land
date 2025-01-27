@@ -1,7 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { buyMegaStoreItem } from "./buyMegaStoreItem";
 import Decimal from "decimal.js-light";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 
 describe("buyMegaStoreItem", () => {
   beforeEach(() => jest.useFakeTimers());
@@ -27,7 +27,7 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("throws an error if the player has already purchased the max allowed of a collectible", () => {
-    const seasonTicket = getSeasonalTicket();
+    const seasonTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
@@ -64,7 +64,7 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("throws an error if the player has already purchased the max allowed of a wearable", () => {
-    const seasonTicket = getSeasonalTicket();
+    const seasonTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
@@ -135,7 +135,7 @@ describe("buyMegaStoreItem", () => {
     const now = new Date("2024-01-02").getTime();
     jest.setSystemTime(now);
 
-    const seasonTicket = getSeasonalTicket();
+    const seasonTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
@@ -259,7 +259,7 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("[Non SFL Wearable] subtracts the price from inventory balance and add item to wardrobe", () => {
-    const seasonTicket = getSeasonalTicket();
+    const seasonTicket = getChapterTicket();
 
     const { inventory, wardrobe } = buyMegaStoreItem({
       state: {

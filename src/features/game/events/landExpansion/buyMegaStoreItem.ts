@@ -8,7 +8,7 @@ import {
   Keys,
   MegaStoreItemName,
 } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 
 export type BuyMegaStoreItemAction = {
@@ -66,7 +66,7 @@ export function buyMegaStoreItem({
     }
 
     const currency =
-      item.currency === "Seasonal Ticket" ? getSeasonalTicket() : item.currency;
+      item.currency === "Seasonal Ticket" ? getChapterTicket() : item.currency;
 
     // Handle SFL purchase
     if (currency === "SFL") {

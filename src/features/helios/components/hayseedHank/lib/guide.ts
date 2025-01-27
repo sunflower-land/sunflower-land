@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AchievementName } from "features/game/types/achievements";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { translate } from "lib/i18n/translate";
 
 export type GuidePath =
@@ -232,7 +232,7 @@ ${translate("crops.guide.three")}`,
 
   seasons: {
     achievements: ["Seasoned Farmer"],
-    icon: ITEM_DETAILS[getSeasonalTicket()].image,
+    icon: ITEM_DETAILS[getChapterTicket()].image,
     description: [
       {
         text: `${translate("seasons.guide.one")}

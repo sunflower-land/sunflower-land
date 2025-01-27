@@ -37,7 +37,7 @@ import {
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
@@ -228,7 +228,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         )}
         {!order.completedAt && !!tickets && (
           <Label
-            icon={ITEM_DETAILS[getSeasonalTicket()].image}
+            icon={ITEM_DETAILS[getChapterTicket()].image}
             type="warning"
             className={"absolute -bottom-2 text-center p-1 "}
             style={{
@@ -467,11 +467,8 @@ export const DeliveryOrders: React.FC<Props> = ({
 
         <div className="px-2 mt-2">
           <div className="flex justify-between items-center">
-            <Label
-              type="default"
-              icon={ITEM_DETAILS[getSeasonalTicket()].image}
-            >
-              {getSeasonalTicket()}
+            <Label type="default" icon={ITEM_DETAILS[getChapterTicket()].image}>
+              {getChapterTicket()}
             </Label>
             {isHoliday && (
               <Label type="formula" icon={lock} className="mt-1">
@@ -489,7 +486,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {level <= 8 && (
             <span className="text-xs mb-2">
               {t("bumpkin.delivery.earnTickets", {
-                ticket: getSeasonalTicket(),
+                ticket: getChapterTicket(),
               })}
             </span>
           )}
@@ -752,7 +749,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                         ? SUNNYSIDE.ui.coinsImg
                         : previewOrder.reward.sfl
                           ? token
-                          : ITEM_DETAILS[getSeasonalTicket()].image
+                          : ITEM_DETAILS[getChapterTicket()].image
                     }
                     width={7}
                   />
@@ -770,7 +767,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                         ? t("coins")
                         : previewOrder.reward.sfl
                           ? "SFL"
-                          : getSeasonalTicket()
+                          : getChapterTicket()
                     }`}
                   </span>
                 </Label>

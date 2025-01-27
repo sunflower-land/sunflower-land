@@ -19,7 +19,7 @@ import { BuffLabel } from "features/game/types";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -113,7 +113,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     }
 
     const currency =
-      item.currency === "Seasonal Ticket" ? getSeasonalTicket() : item.currency;
+      item.currency === "Seasonal Ticket" ? getChapterTicket() : item.currency;
 
     return (
       inventory[currency as InventoryItemName] ?? new Decimal(0)
@@ -203,7 +203,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const currency =
     item?.currency === "Seasonal Ticket"
-      ? getSeasonalTicket()
+      ? getChapterTicket()
       : (item?.currency as InventoryItemName);
 
   return (

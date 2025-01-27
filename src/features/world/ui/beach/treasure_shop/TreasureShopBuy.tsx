@@ -23,7 +23,7 @@ import {
   ARTEFACT_SHOP_WEARABLES,
   ArtefactShopWearables,
 } from "features/game/types/artefactShop";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -255,10 +255,10 @@ const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
       });
     }
 
-    if (selected.ingredients[getSeasonalTicket()]) {
+    if (selected.ingredients[getChapterTicket()]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount: selected.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        amount: selected.ingredients[getChapterTicket()]?.toNumber() ?? 1,
         item: selectedName,
         type: "Wearable",
       });

@@ -10,7 +10,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -134,7 +134,7 @@ export const DailyChore: React.FC<Props> = ({
               <div className="flex items-center justify-end space-x-1">
                 <span className="mb-0.5 font-secondary">{tickets}</span>
                 <SquareIcon
-                  icon={ITEM_DETAILS[getSeasonalTicket()].image}
+                  icon={ITEM_DETAILS[getChapterTicket()].image}
                   width={6}
                 />
               </div>

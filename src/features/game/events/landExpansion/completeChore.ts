@@ -4,7 +4,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { ChoreV2Name, GameState } from "features/game/types/game";
 import {
   getCurrentChapter,
-  getSeasonalTicket,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { produce } from "immer";
 
@@ -125,7 +125,7 @@ export function completeChore({
       throw new Error("No tickets exist for this chore");
     }
 
-    const ticket = getSeasonalTicket(new Date(createdAt));
+    const ticket = getChapterTicket(new Date(createdAt));
     const previous = game.inventory[ticket] ?? new Decimal(0);
     game.inventory[ticket] = previous.add(tickets);
 
