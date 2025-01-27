@@ -1,10 +1,10 @@
 import { BASIC_REWARDS, LUXURY_REWARDS, RARE_REWARDS } from "./chests";
-import { SEASONS } from "./chapters";
+import { CHAPTERS } from "./chapters";
 
 describe("SEASONAL_REWARDS", () => {
   it("does not include Cow Scratcher during Pharaoh's Treasure Season", () => {
     jest.useFakeTimers();
-    jest.setSystemTime(SEASONS["Pharaoh's Treasure"].startDate);
+    jest.setSystemTime(CHAPTERS["Pharaoh's Treasure"].startDate);
 
     expect(BASIC_REWARDS()).not.toContainEqual({
       items: { "Cow Scratcher": 1 },
@@ -24,7 +24,7 @@ describe("SEASONAL_REWARDS", () => {
 
   it("includes Cow Scratcher during Bull Run Season because we love to see Cows scratching their back", () => {
     jest.useFakeTimers();
-    jest.setSystemTime(SEASONS["Bull Run"].startDate);
+    jest.setSystemTime(CHAPTERS["Bull Run"].startDate);
 
     expect(BASIC_REWARDS()).toContainEqual({
       items: { "Cow Scratcher": 1 },

@@ -1,5 +1,5 @@
 import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
-import { SEASONS } from "./chapters";
+import { CHAPTERS } from "./chapters";
 
 export type ChestReward = {
   items?: Partial<Record<InventoryItemName, number>>;
@@ -13,8 +13,8 @@ const multiplier = 900;
 
 const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
   const isBullRunSeason =
-    Date.now() >= SEASONS["Bull Run"].startDate.getTime() &&
-    Date.now() < SEASONS["Bull Run"].endDate.getTime();
+    Date.now() >= CHAPTERS["Bull Run"].startDate.getTime() &&
+    Date.now() < CHAPTERS["Bull Run"].endDate.getTime();
 
   if (isBullRunSeason) {
     return [

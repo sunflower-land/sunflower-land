@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import {
-  SEASONS,
+  CHAPTERS,
   getCurrentSeason,
   getSeasonalTicket,
 } from "features/game/types/chapters";
@@ -63,8 +63,8 @@ const VIP_ICONS: Record<VipBundle, string> = {
 
 const SeasonVIPDiscountTime: React.FC = () => {
   const season = getCurrentSeason();
-  const seasonStartDate = SEASONS[season].startDate;
-  const seasonEndDate = SEASONS[season].endDate;
+  const seasonStartDate = CHAPTERS[season].startDate;
+  const seasonEndDate = CHAPTERS[season].endDate;
 
   const WEEK = 1000 * 60 * 60 * 24 * 7;
 

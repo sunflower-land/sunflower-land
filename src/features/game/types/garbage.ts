@@ -1,6 +1,6 @@
 import { hasFeatureAccess } from "lib/flags";
 import { BB_TO_GEM_RATIO, Inventory, InventoryItemName } from "./game";
-import { SeasonalTicket, SEASONS } from "./chapters";
+import { SeasonalTicket, CHAPTERS } from "./chapters";
 import { TEST_FARM } from "../lib/constants";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
@@ -130,7 +130,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: 0.1,
     gems: 0,
   },
-  ...(SEASONS["Clash of Factions"].endDate.getTime() < Date.now()
+  ...(CHAPTERS["Clash of Factions"].endDate.getTime() < Date.now()
     ? {
         Scroll: {
           sellPrice: 0.1,
@@ -138,7 +138,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
         },
       }
     : ({} as { Scroll: { sellPrice: number; gems: number } })),
-  ...(SEASONS["Pharaoh's Treasure"].endDate.getTime() < Date.now()
+  ...(CHAPTERS["Pharaoh's Treasure"].endDate.getTime() < Date.now()
     ? {
         "Amber Fossil": {
           sellPrice: 0.1,
@@ -146,7 +146,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
         },
       }
     : ({} as { "Amber Fossil": { sellPrice: number; gems: number } })),
-  ...(SEASONS["Bull Run"].endDate.getTime() < Date.now()
+  ...(CHAPTERS["Bull Run"].endDate.getTime() < Date.now()
     ? {
         Horseshoe: {
           sellPrice: 0.1,
@@ -155,7 +155,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
       }
     : ({} as { Horseshoe: { sellPrice: number; gems: number } })),
 
-  ...(SEASONS["Winds of Change"].endDate.getTime() < Date.now()
+  ...(CHAPTERS["Winds of Change"].endDate.getTime() < Date.now()
     ? {
         Timeshard: {
           sellPrice: 0.1,

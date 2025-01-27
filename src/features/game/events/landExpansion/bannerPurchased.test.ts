@@ -2,7 +2,7 @@ import { TEST_FARM } from "features/game/lib/constants";
 import { purchaseBanner } from "./bannerPurchased";
 import Decimal from "decimal.js-light";
 import {
-  SEASONS,
+  CHAPTERS,
   SeasonalBanner,
   getCurrentSeason,
   getPreviousSeasonalBanner,
@@ -66,7 +66,7 @@ describe("purchaseBanner", () => {
   it("purchases banner on first week without previous banner", () => {
     const SIX_DAYS = 1000 * 60 * 60 * 24 * 6;
     const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
+    const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
 
     const result = purchaseBanner({
@@ -95,7 +95,7 @@ describe("purchaseBanner", () => {
   it("purchases banner on first week with previous banner", () => {
     const SIX_DAYS = 1000 * 60 * 60 * 24 * 6;
     const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
+    const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
     const previousSeasonalBanner = getPreviousSeasonalBanner();
 
@@ -127,7 +127,7 @@ describe("purchaseBanner", () => {
   it("purchases banner on 2-4 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
     const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
+    const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
 
     const result = purchaseBanner({
@@ -156,7 +156,7 @@ describe("purchaseBanner", () => {
   it("purchases banner on 4-8 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
     const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
+    const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
 
     const result = purchaseBanner({
@@ -185,7 +185,7 @@ describe("purchaseBanner", () => {
   it("purchases banner after 8 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
     const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
+    const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
 
     const result = purchaseBanner({
@@ -273,7 +273,7 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on first week of Pharaohs Treasure without previous banner", () => {
     const SIX_DAYS = 1000 * 60 * 60 * 24 * 6;
-    const seasonStart = SEASONS["Pharaoh's Treasure"].startDate;
+    const seasonStart = CHAPTERS["Pharaoh's Treasure"].startDate;
     const banner = getSeasonalBanner(seasonStart);
 
     const result = purchaseBanner({

@@ -1,5 +1,5 @@
 import { translate } from "lib/i18n/translate";
-import { hasSeasonEnded, SEASONS } from "./chapters";
+import { hasSeasonEnded, CHAPTERS } from "./chapters";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -167,8 +167,8 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       ...(hasSeasonEnded("Bull Run")
         ? {}
         : {
-            from: SEASONS["Bull Run"].startDate,
-            to: SEASONS["Bull Run"].endDate,
+            from: CHAPTERS["Bull Run"].startDate,
+            to: CHAPTERS["Bull Run"].endDate,
           }),
     },
     "Ancient Clock": {

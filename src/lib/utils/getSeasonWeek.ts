@@ -1,5 +1,5 @@
 import { SeasonWeek } from "features/game/types/game";
-import { SEASONS, getCurrentSeason } from "features/game/types/chapters";
+import { CHAPTERS, getCurrentSeason } from "features/game/types/chapters";
 import { ADMIN_IDS } from "lib/flags";
 
 /**
@@ -8,7 +8,7 @@ import { ADMIN_IDS } from "lib/flags";
  */
 export function getSeasonWeek(): SeasonWeek {
   const now = Date.now();
-  const { startDate, endDate } = SEASONS[getCurrentSeason()];
+  const { startDate, endDate } = CHAPTERS[getCurrentSeason()];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();
 
@@ -36,11 +36,11 @@ export function getSeasonChangeover({
 }) {
   const season = getCurrentSeason(new Date(now));
 
-  const tasksCloseAt = SEASONS[season].endDate.getTime();
+  const tasksCloseAt = CHAPTERS[season].endDate.getTime();
 
   // 7 days after the season starts
   const tasksStartAt =
-    SEASONS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
+    CHAPTERS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
 
   const isAdmin = ADMIN_IDS.includes(id);
 
@@ -51,7 +51,7 @@ export function getSeasonChangeover({
       now < tasksCloseAt && now >= tasksCloseAt - 24 * 60 * 60 * 1000,
     ticketTasksAreFrozen:
       !isAdmin &&
-      now >= SEASONS[season].startDate.getTime() &&
+      now >= CHAPTERS[season].startDate.getTime() &&
       now <= tasksStartAt,
   };
 }
@@ -92,7 +92,7 @@ export function getSeasonWeekByCreatedAt(createdAt: number): SeasonWeek {
   const now = createdAt;
 
   const season = getCurrentSeason(new Date(now));
-  const { startDate, endDate } = SEASONS[season];
+  const { startDate, endDate } = CHAPTERS[season];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();
 

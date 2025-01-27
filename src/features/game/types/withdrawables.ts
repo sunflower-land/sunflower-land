@@ -1,5 +1,5 @@
 import { InventoryItemName } from "../types/game";
-import { SEASONS } from "./chapters";
+import { CHAPTERS } from "./chapters";
 import { BumpkinItem } from "./bumpkin";
 
 type Releases = {
@@ -244,60 +244,60 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
 
   // Bull Run Season Items
   "Cowboy Hat": {
-    tradeAt: SEASONS["Bull Run"].endDate,
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    tradeAt: CHAPTERS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Cowboy Shirt": {
-    tradeAt: SEASONS["Bull Run"].endDate,
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    tradeAt: CHAPTERS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Cowboy Trouser": {
-    tradeAt: SEASONS["Bull Run"].endDate,
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    tradeAt: CHAPTERS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Shepherd Staff": {
     tradeAt: new Date("2024-12-13"),
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Cowbell Necklace": {
     tradeAt: new Date("2024-12-13"),
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Infernal Bullwhip": {
     tradeAt: new Date("2024-12-13"),
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Chicken Suit": {
     tradeAt: new Date("2024-12-13"),
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Black Sheep Onesie": {
     tradeAt: new Date("2024-12-13"),
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Merino Jumper": {
     tradeAt: new Date("2024-12-13"),
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Cowboy Boots": {
-    tradeAt: SEASONS["Bull Run"].endDate,
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    tradeAt: CHAPTERS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "White Sheep Onesie": {
-    tradeAt: SEASONS["Bull Run"].endDate,
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    tradeAt: CHAPTERS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Cowgirl Skirt": {
-    tradeAt: SEASONS["Bull Run"].endDate,
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    tradeAt: CHAPTERS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Dream Scarf": {
-    tradeAt: SEASONS["Bull Run"].endDate,
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    tradeAt: CHAPTERS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
   "Milk Apron": {
-    tradeAt: SEASONS["Bull Run"].endDate,
-    withdrawAt: SEASONS["Bull Run"].endDate,
+    tradeAt: CHAPTERS["Bull Run"].endDate,
+    withdrawAt: CHAPTERS["Bull Run"].endDate,
   },
 
   "Gingerbread Onesie": {
@@ -631,44 +631,44 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     // Upcoming launches
     "Moo-ver": {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Swiss Whiskers": {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     Cluckulator: {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     UFO: {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Black Sheep": {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Longhorn Cowfish": {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Alien Chicken": {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     Mootant: {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Toxic Tuft": {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
 
     Chicory: {
       tradeAt: new Date("2024-12-13"),
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Christmas Stocking": {
       tradeAt: new Date("2024-12-28"),
@@ -711,32 +711,32 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: new Date("2025-01-01"),
     },
     "Cow Scratcher": {
-      tradeAt: SEASONS["Bull Run"].endDate,
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      tradeAt: CHAPTERS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Spinning Wheel": {
-      tradeAt: SEASONS["Bull Run"].endDate,
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      tradeAt: CHAPTERS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Sleepy Rug": {
-      tradeAt: SEASONS["Bull Run"].endDate,
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      tradeAt: CHAPTERS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     Meteorite: {
-      tradeAt: SEASONS["Bull Run"].endDate,
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      tradeAt: CHAPTERS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Mechanical Bull": {
-      tradeAt: SEASONS["Bull Run"].endDate,
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      tradeAt: CHAPTERS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Crop Circle": {
-      tradeAt: SEASONS["Bull Run"].endDate,
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      tradeAt: CHAPTERS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Sheaf of Plenty": {
-      tradeAt: SEASONS["Bull Run"].endDate,
-      withdrawAt: SEASONS["Bull Run"].endDate,
+      tradeAt: CHAPTERS["Bull Run"].endDate,
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     "Goblin Emblem": {
       tradeAt: new Date("2021-01-01"),
