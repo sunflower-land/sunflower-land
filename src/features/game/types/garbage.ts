@@ -1,6 +1,6 @@
 import { hasFeatureAccess } from "lib/flags";
 import { BB_TO_GEM_RATIO, Inventory, InventoryItemName } from "./game";
-import { SeasonalTicket, CHAPTERS } from "./chapters";
+import { ChapterTicket, CHAPTERS } from "./chapters";
 import { TEST_FARM } from "../lib/constants";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
@@ -25,7 +25,7 @@ export type GarbageName =
       | "Earthworm"
       | "Grub"
       | "Red Wiggler"
-      | SeasonalTicket
+      | ChapterTicket
       | "Chicken"
       | "Hen House"
       | "Basic Bear"
