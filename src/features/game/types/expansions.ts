@@ -3218,7 +3218,7 @@ const VOLCANO_LAND_6_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 0,
-  seconds: 0.003 * 60 * 60, // 10.8 seconds
+  seconds: 10, // 10 seconds
   bumpkinLevel: 70,
 };
 
@@ -3234,7 +3234,7 @@ const VOLCANO_LAND_7_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 320,
-  seconds: 0.083 * 60 * 60, // 5 minutes
+  seconds: 5 * 60, // 5 minutes
   bumpkinLevel: 72,
 };
 
