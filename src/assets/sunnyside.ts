@@ -508,7 +508,7 @@ export const SUNNYSIDE = {
     //Bumpkin Houses
     house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/house.png`,
     manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/manor.png`,
-    mansion: `${CONFIG.PROTECTED_IMAGE_URL}/universal/buildings/mansion.webp`,
+    mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/mansion.webp`,
   },
   //Icons
   icons: {
