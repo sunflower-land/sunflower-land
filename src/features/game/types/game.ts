@@ -86,7 +86,11 @@ import {
 import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
 import { SeasonalCollectibleName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
-import { CalendarEvent, CalendarEventName } from "./calendar";
+import {
+  CalendarEvent,
+  CalendarEventName,
+  SeasonalEventName,
+} from "./calendar";
 import { VipBundle } from "../lib/vipAccess";
 
 export type Reward = {
@@ -1310,16 +1314,8 @@ type OtherCalendarEvent = BaseCalendarEventDetails & {
 
 export type CalendarEventDetails = CalendarScheduledEvent | OtherCalendarEvent;
 
-export type Calendar = {
+export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
   dates: CalendarEventDetails[];
-  tornado?: CalendarEvent;
-  tsunami?: CalendarEvent;
-  fullMoon?: CalendarEvent;
-  greatFreeze?: CalendarEvent;
-  doubleDelivery?: CalendarEvent;
-  bountifulHarvest?: CalendarEvent;
-  insectPlague?: CalendarEvent;
-  sunshower?: CalendarEvent;
 };
 
 export type LavaPit = {
