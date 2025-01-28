@@ -15,6 +15,8 @@ import {
 import { InventoryItemName, GameState } from "./game";
 import { FLOWERS } from "./flowers";
 import { translate } from "lib/i18n/translate";
+import { hasFeatureAccess } from "lib/flags";
+import { INITIAL_FARM } from "../lib/constants";
 
 type FishMilestoneName =
   | "Novice Angler"
@@ -58,10 +60,10 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1,
       );
 
-      return Math.min(
-        (caughtFish.length / FISH_BY_TYPE.basic.length) * 100,
-        100,
-      );
+      const isNewSeason = hasFeatureAccess(INITIAL_FARM, "SEASONAL_FISH");
+      const required = isNewSeason ? FISH_BY_TYPE.basic.length : 9;
+
+      return Math.min((caughtFish.length / required) * 100, 100);
     },
     reward: {
       "Sunflower Rod": 1,
@@ -74,10 +76,10 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1,
       );
 
-      return Math.min(
-        (caughtFish.length / FISH_BY_TYPE.advanced.length) * 100,
-        100,
-      );
+      const isNewSeason = hasFeatureAccess(INITIAL_FARM, "SEASONAL_FISH");
+      const required = isNewSeason ? FISH_BY_TYPE.advanced.length : 10;
+
+      return Math.min((caughtFish.length / required) * 100, 100);
     },
     reward: {
       "Fishing Hat": 1,
