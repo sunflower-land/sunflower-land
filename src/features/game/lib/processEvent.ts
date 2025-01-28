@@ -604,6 +604,15 @@ export const MAX_BUMPKIN_WEARABLES: BumpkinItem[] = [
   "Sword",
   "Forest Background",
   "Seashore Background",
+  "Blossom Dumbo",
+  "Radiant Dumbo",
+  "Maple Dumbo",
+  "Gloomy Dumbo",
+  "Sickle",
+  "Ladybug Suit",
+  "Acorn Hat",
+  "Crab Hat",
+  "Locust Onesie",
 ];
 
 // Set all Wearable hoard limit to 110
