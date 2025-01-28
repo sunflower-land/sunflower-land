@@ -26,6 +26,8 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { availableWardrobe } from "./equip";
 import { FISH } from "features/game/types/fishing";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { hasFeatureAccess } from "lib/flags";
+import { getActiveCalendarEvent } from "features/game/types/calendar";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -92,17 +94,18 @@ export function generateDeliveryTickets({
     new Date(completedAt).toISOString().substring(0, 10) === dateKey;
 
   // Leave this at the end as it will multiply the whole amount by 2
-  if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
-    amount *= 2;
+  if (hasFeatureAccess(game, "WEATHER_SHOP")) {
+    if (
+      getActiveCalendarEvent({ game }) === "doubleDelivery" &&
+      !hasClaimedBonus
+    ) {
+      amount *= 2;
+    }
+  } else {
+    if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
+      amount *= 2;
+    }
   }
-
-  // TODO: replace the above with the following after feature release
-  // if (
-  //   getActiveCalendarEvent({ game }) === "doubleDelivery" &&
-  //   !hasClaimedBonus
-  // ) {
-  //   amount *= 2;
-  // }
 
   return amount;
 }
@@ -334,17 +337,18 @@ export function getOrderSellPrice<T>(
     new Date(completedAt).toISOString().substring(0, 10) === dateKey;
 
   // Leave this at the end as it will multiply the whole amount by 2
-  if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
-    mul *= 2;
+  if (hasFeatureAccess(game, "WEATHER_SHOP")) {
+    if (
+      getActiveCalendarEvent({ game }) === "doubleDelivery" &&
+      !hasClaimedBonus
+    ) {
+      mul *= 2;
+    }
+  } else {
+    if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
+      mul *= 2;
+    }
   }
-
-  // TODO: replace the above with the following after feature release
-  // if (
-  //   getActiveCalendarEvent({ game }) === "doubleDelivery" &&
-  //   !hasClaimedBonus
-  // ) {
-  //   mul *= 2;
-  // }
 
   if (order.reward.sfl) {
     return new Decimal(order.reward.sfl ?? 0).mul(mul) as T;
