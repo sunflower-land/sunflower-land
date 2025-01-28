@@ -114,3 +114,10 @@ export const BUSH_VARIANTS: Record<IslandType, string> = {
   desert: SUNNYSIDE.decorations.bush,
   volcano: volcanoBush,
 };
+
+export const VIP_ISLAND_VARIANTS: Record<IslandType, string> = {
+  basic: SUNNYSIDE.land.vip_island,
+  spring: SUNNYSIDE.land.vip_island,
+  desert: SUNNYSIDE.land.vip_island,
+  volcano: SUNNYSIDE.land.vip_volcano_island,
+};

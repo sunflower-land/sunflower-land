@@ -208,8 +208,10 @@ export const SUNNYSIDE = {
     // Prestige Island
     springRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/prestige_raft.png`,
     desertRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_prestige_raft.png`,
-    volcanoRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/volcano_prestige_raft_1.webp`,
+    volcanoRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/volcano_prestige_raft.webp`,
     rewardsRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/rewards_raft.png`,
+
+    vip_volcano_island: `${CONFIG.PROTECTED_IMAGE_URL}/land/vip_volcano_island.webp`,
 
     island: `${CONFIG.PROTECTED_IMAGE_URL}/land/islands/island.webp`,
     mushroomIsland: `${CONFIG.PROTECTED_IMAGE_URL}/land/mushroom_island.png`,

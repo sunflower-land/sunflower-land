@@ -627,7 +627,14 @@ const INITIAL_DESERT_LAND: Pick<
 
 const INITIAL_VOLCANO_LAND: Pick<
   GameState,
-  "buildings" | "crops" | "fruitPatches" | "stones" | "iron" | "gold" | "trees"
+  | "buildings"
+  | "crops"
+  | "fruitPatches"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "trees"
+  | "oilReserves"
 > = {
   buildings: {
     Mansion: [
@@ -674,6 +681,20 @@ const INITIAL_VOLCANO_LAND: Pick<
         createdAt: 0,
       },
     ],
+  },
+  oilReserves: {
+    "1": {
+      x: 2,
+      y: 8,
+      width: 2,
+      height: 2,
+      oil: {
+        amount: 1,
+        drilledAt: 0,
+      },
+      drilled: 0,
+      createdAt: 0,
+    },
   },
   crops: {
     "1": {
@@ -852,8 +873,8 @@ const INITIAL_VOLCANO_LAND: Pick<
         amount: 2,
         choppedAt: 0,
       },
-      x: 3,
-      y: 8,
+      x: 4,
+      y: 9,
       height: 2,
       width: 2,
       createdAt: Date.now(),
@@ -897,7 +918,7 @@ const INITIAL_VOLCANO_LAND: Pick<
   iron: {
     "1": {
       x: 5,
-      y: 8,
+      y: 7,
       width: 1,
       height: 1,
       stone: {

@@ -1,20 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import vipGift from "assets/decorations/vip_gift.png";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { MapPlacement } from "./MapPlacement";
 import { Modal } from "components/ui/Modal";
 import { VIPGift } from "features/world/ui/VIPGift";
+import { VIP_ISLAND_VARIANTS } from "features/island/lib/alternateArt";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   offset: number;
 }
 
+const _island = (state: MachineState) => state.context.state.island.type;
+
 export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
+  const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
+  const island = useSelector(gameService, _island);
 
   return (
     <>
@@ -23,7 +30,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
       </Modal>
       <MapPlacement x={0} y={-6 - offset} width={6}>
         <img
-          src={SUNNYSIDE.land.vip_island}
+          src={VIP_ISLAND_VARIANTS[island]}
           style={{
             width: `${PIXEL_SCALE * 62}px`,
           }}
