@@ -915,6 +915,9 @@ export const ITEM_TRADE_TYPES: {
     "Summer Duckling": "instant",
     "Autumn Duckling": "instant",
     "Winter Duckling": "instant",
+    "Winds of Change Banner": "instant",
+    Timeshard: "instant",
+    "Ancient Clock": "instant",
   },
   wearables: {
     "New Years Crown": "instant",

@@ -40,7 +40,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalTicket } from "./seasons";
+import { SeasonalBanner, SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -340,6 +340,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trade Point": {
     description: translate("description.trade.points"),
   },
+  Timeshard: {
+    description: "",
+  },
 };
 
 export type Purchase = {
@@ -473,7 +476,8 @@ export type InventoryItemName =
   | BedName
   | RecipeCraftableName
   | SeasonalCollectibleName
-  | TradeFood;
+  | TradeFood
+  | SeasonalBanner;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

@@ -155,6 +155,15 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
       }
     : ({} as { Horseshoe: { sellPrice: number; gems: number } })),
 
+  ...(SEASONS["Winds of Change"].endDate.getTime() < Date.now()
+    ? {
+        Timeshard: {
+          sellPrice: 0.1,
+          gems: 0,
+        },
+      }
+    : ({} as { Timeshard: { sellPrice: number; gems: number } })),
+
   ...(hasFeatureAccess(TEST_FARM, "CHICKEN_GARBO")
     ? {
         Chicken: {
