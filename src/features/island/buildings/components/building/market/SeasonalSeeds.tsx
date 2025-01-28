@@ -262,7 +262,12 @@ export const SeasonalSeeds: React.FC = () => {
   };
 
   const currentSeason = season.season;
-  const currentSeasonSeeds = SEASONAL_SEEDS[currentSeason];
+
+  // Sort the seeds by their default order
+  const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
+    SEASONAL_SEEDS[currentSeason].includes(seed),
+  );
+
   const cropMachineSeeds = getKeys(SEEDS).filter((seed) => {
     if (!inventory["Crop Machine"] || currentSeasonSeeds.includes(seed)) {
       return false;
