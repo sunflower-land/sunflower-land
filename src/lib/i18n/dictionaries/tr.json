@@ -5030,5 +5030,9 @@
   "whatsOn.skillSystem": "Yeni beceri sistemi başlatıldı!",
   "whatsOn.seasonCompetition": "Sezon Yarışması",
   "whatsOn.april14th": "14 Nisan",
-  "whatsOn.may1st": "1 Mayıs"
+  "whatsOn.may1st": "1 Mayıs",
+  "fishFrenzy.specialEvent": "Özel Etkinlik - Balık Çılgınlığı",
+  "fishFrenzy.info.one": "Balık avlarınız bugün 1 oranında artacak!",
+  "calendar.events.fishFrenzy.title": "Balık Çılgınlığı",
+  "calendar.events.fishFrenzy.description": "Balık avlarını bir oranında artıran nadir bir fenomen"
 }

@@ -5030,5 +5030,9 @@
   "whatsOn.skillSystem": "Sistem kemahiran baru dilancarkan!",
   "whatsOn.seasonCompetition": "Pertandingan Musim",
   "whatsOn.april14th": "14 April",
-  "whatsOn.may1st": "1 Mei"
+  "whatsOn.may1st": "1 Mei",
+  "fishFrenzy.specialEvent": "Acara Khas - Fish Frenzy",
+  "fishFrenzy.info.one": "Tangkapan ikan anda akan meningkat sebanyak 1 hari ini!",
+  "calendar.events.fishFrenzy.title": "Kegilaan Ikan",
+  "calendar.events.fishFrenzy.description": "Fenomena yang jarang berlaku yang meningkatkan tangkapan ikan sebanyak satu"
 }

@@ -73,9 +73,10 @@ const featureFlags = {
     start: new Date("2024-12-12T00:00:00Z"),
     end: new Date("2024-12-28T00:00:00Z"),
   }),
-  ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
-    new Date("2024-12-18T00:00:00Z"),
-  ),
+  ANIMAL_COMPETITION: timePeriodFeatureFlag({
+    start: new Date("2024-12-18T00:00:00Z"),
+    end: new Date("2025-01-29T00:00:00Z"),
+  }),
   TEMPERATE_SEASON: testnetFeatureFlag,
   PIZZA_SPEED_UP_RESTRICTION: timePeriodFeatureFlag({
     start: new Date("2024-12-18T00:00:00Z"),

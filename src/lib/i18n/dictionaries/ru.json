@@ -5030,5 +5030,9 @@
   "whatsOn.skillSystem": "Запущена новая система навыков!",
   "whatsOn.seasonCompetition": "Сезонное соревнование",
   "whatsOn.april14th": "14 апреля",
-  "whatsOn.may1st": "1 мая"
+  "whatsOn.may1st": "1 мая",
+  "fishFrenzy.specialEvent": "Специальное мероприятие «Рыбное веселье»",
+  "fishFrenzy.info.one": "Сегодня ваши уловы рыбы увеличатся на 1!",
+  "calendar.events.fishFrenzy.title": "Рыбное безумие",
+  "calendar.events.fishFrenzy.description": "Редкое явление, которое увеличивает улов рыбы на одного"
 }

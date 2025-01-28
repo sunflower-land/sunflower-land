@@ -5030,5 +5030,9 @@
   "whatsOn.skillSystem": "新技能系统上线！",
   "whatsOn.seasonCompetition": "赛季竞赛",
   "whatsOn.april14th": "4 月 14 日",
-  "whatsOn.may1st": "5 月 1 日"
+  "whatsOn.may1st": "5 月 1 日",
+  "fishFrenzy.specialEvent": "特别活动-Fish Frenzy",
+  "fishFrenzy.info.one": "今天你的鱼捕量将增加 1！",
+  "calendar.events.fishFrenzy.title": "疯狂捕鱼",
+  "calendar.events.fishFrenzy.description": "一种罕见的现象，可使鱼的捕捞量增加一倍"
 }
