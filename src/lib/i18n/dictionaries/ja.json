@@ -1572,7 +1572,6 @@
   "compost.complete": "コンポスト完成",
   "aoe.locked": "AOE ロック済み",
   "sunflowerLandCodex": "サンフラワーランドコーデックス",
-  "visiting.farmId": "訪問数 {{farmId}}",
   "stock.inStock": "{{stock}} 在庫あり",
   "stock.left": "{{stock}} 左",
   "pirate.chest": "パイレーツチェスト",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "保護的で愛情深く、いつも小さな子供たちを家に連れて行きます。",
   "description.summerDuckling": "日差しを浴びているこのアヒルの子は、暑さを楽しむ方法を知っています。",
   "description.autumnDuckling": "さわやかな葉と心地よい羽毛で、収穫期を迎えようとしています。",
-  "description.winterDuckling": "綿毛のような羽に身を包んだこの小さな子は、元気を出して冬のワンダーランドを歩き回っています。"
+  "description.winterDuckling": "綿毛のような羽に身を包んだこの小さな子は、元気を出して冬のワンダーランドを歩き回っています。",
+  "visiting.farmId": "訪問数 {{farmId}}"
 }

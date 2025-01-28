@@ -1554,7 +1554,6 @@
   "compost.complete": "Compost completo",
   "aoe.locked": "AOE bloqueado",
   "sunflowerLandCodex": "Códice Sunflower Land",
-  "visiting.farmId": "Número de visitas {{farmId}}",
   "stock.inStock": "{{stock}} en stock",
   "stock.left": "{{stock}} izquierda",
   "pirate.chest": "Cofre pirata",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "Protectora, amorosa y siempre guiando a sus pequeños a casa.",
   "description.summerDuckling": "Al tomar el sol, este patito sabe cómo disfrutar del calor.",
   "description.autumnDuckling": "Hojas crujientes y plumas acogedoras, listas para la temporada de cosecha.",
-  "description.winterDuckling": "Envuelto en plumas suaves, este pequeño deambula con alegría por el paraíso invernal."
+  "description.winterDuckling": "Envuelto en plumas suaves, este pequeño deambula con alegría por el paraíso invernal.",
+  "visiting.farmId": "Visitando # {{farmId}}"
 }

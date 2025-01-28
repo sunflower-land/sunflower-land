@@ -4854,7 +4854,6 @@
   "visit": "Посетить",
   "visitIsland.enterIslandId": "Введи ID острова",
   "visitIsland.visit": "Посетить",
-  "visiting.farmId": "В гостях у #{{farmId}}",
   "visitislandNotFound.title": "Остров не найден!",
   "wakesIn": "Просыпается в:",
   "wallet.connect": "Подключи свой кошелек",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "Защищайте, любя и всегда ведя своих малышей домой.",
   "description.summerDuckling": "Греясь на солнце, этот утенок умеет наслаждаться жарой.",
   "description.autumnDuckling": "Свежие листья и уютные перья, готовые к сезону сбора урожая.",
-  "description.winterDuckling": "Этот малыш в пуховых перьях весело бродит по зимней стране чудес."
+  "description.winterDuckling": "Этот малыш в пуховых перьях весело бродит по зимней стране чудес.",
+  "visiting.farmId": "Посещение # {{farmId}}"
 }

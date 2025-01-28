@@ -2828,7 +2828,6 @@
   "new.delivery.in": "Yeni teslimatlar: {{timeLeft}}",
   "new.delivery.levelup": "Daha fazla teslimatın kilidini açmak için seviye atlayın.",
   "polygonscan": "PoligonScan",
-  "visiting.farmId": "Görüntüleme # {{farmId}}",
   "stock.inStock": "{{stock}} stokta",
   "stock.left": "{{stock}} kaldı",
   "pirate.chest": "Korsan Sandığı",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "Koruyucu, sevgi dolu ve her zaman küçüklerini eve götürüyor.",
   "description.summerDuckling": "Güneşin tadını çıkaran bu ördek yavrusu sıcaktan nasıl zevk alacağını biliyor.",
   "description.autumnDuckling": "Gevrek yapraklar ve rahat tüyler, hasat mevsimi için hazır.",
-  "description.winterDuckling": "Tüylü tüylerle paketlenmiş bu küçük çocuk, kış harikalar diyarında neşeyle dolaşıyor."
+  "description.winterDuckling": "Tüylü tüylerle paketlenmiş bu küçük çocuk, kış harikalar diyarında neşeyle dolaşıyor.",
+  "visiting.farmId": "Ziyaret # {{farmId}}"
 }

@@ -2794,7 +2794,6 @@
   "new.delivery.levelup": "Suba de nível para desbloquear mais entregas.",
   "polygonscan": "Digitalização de polígonos",
   "sunflowerLandCodex": "Códice da Terra do Girassol",
-  "visiting.farmId": "Visitando # {{farmId}}",
   "stock.inStock": "{{stock}} em estoque",
   "stock.left": "{{stock}} à esquerda",
   "pirate.chest": "Baú pirata",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "Protetora, amorosa e sempre levando seus filhos para casa.",
   "description.summerDuckling": "Tomando sol, esse patinho sabe aproveitar o calor.",
   "description.autumnDuckling": "Folhas crocantes e penas aconchegantes, prontas para a época da colheita.",
-  "description.winterDuckling": "Envolto em penas felpudas, este pequeno percorre o país das maravilhas do inverno com alegria."
+  "description.winterDuckling": "Envolto em penas felpudas, este pequeno percorre o país das maravilhas do inverno com alegria.",
+  "visiting.farmId": "Visitando # {{farmId}}"
 }

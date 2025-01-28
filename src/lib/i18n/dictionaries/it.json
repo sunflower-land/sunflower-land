@@ -1553,7 +1553,6 @@
   "compost.complete": "Compost completo",
   "aoe.locked": "AOE bloccato",
   "sunflowerLandCodex": "Codice fondiario del girasole",
-  "visiting.farmId": "Visita # {{farmId}}",
   "stock.inStock": "{{stock}} disponibili",
   "stock.left": "{{stock}} a sinistra",
   "pirate.chest": "Baule dei pirati",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "Protettiva, amorevole e accompagna sempre i suoi piccoli a casa.",
   "description.summerDuckling": "Crogiolandosi al sole, questo anatroccolo sa godersi il caldo.",
   "description.autumnDuckling": "Foglie croccanti e piume accoglienti, pronte per la stagione del raccolto.",
-  "description.winterDuckling": "Avvolto in piume lanuginose, questo piccolino attraversa con allegria il paese delle meraviglie invernali."
+  "description.winterDuckling": "Avvolto in piume lanuginose, questo piccolino attraversa con allegria il paese delle meraviglie invernali.",
+  "visiting.farmId": "Visitando # {{farmId}}"
 }

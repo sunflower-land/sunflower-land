@@ -1572,7 +1572,6 @@
   "compost.complete": "Kompost komplett",
   "aoe.locked": "AOE gesperrt",
   "sunflowerLandCodex": "Sonnenblumenland-Codex",
-  "visiting.farmId": "Besuch # {{farmId}}",
   "stock.inStock": "{{stock}} auf Lager",
   "stock.left": "{{stock}} übrig",
   "pirate.chest": "Piratentruhe",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "Beschützend, liebevoll und führt ihre Kleinen immer nach Hause.",
   "description.summerDuckling": "Dieses Entlein sonnt sich und weiß, wie man die Hitze genießt.",
   "description.autumnDuckling": "Knackige Blätter und kuschelige Federn, bereit für die Erntezeit.",
-  "description.winterDuckling": "Gebündelt in Daunenfedern watschelt dieser Kleine jubelnd durch das Winterwunderland."
+  "description.winterDuckling": "Gebündelt in Daunenfedern watschelt dieser Kleine jubelnd durch das Winterwunderland.",
+  "visiting.farmId": "Zu Besuch bei # {{farmId}}"
 }

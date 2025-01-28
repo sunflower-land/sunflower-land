@@ -1572,7 +1572,6 @@
   "compost.complete": "Kompos lengkap",
   "aoe.locked": "AOE Terkunci",
   "sunflowerLandCodex": "Kodeks Tanah Bunga Matahari",
-  "visiting.farmId": "Melihat # {{farmId}}",
   "stock.inStock": "{{stock}} tersedia",
   "stock.left": "{{stock}} tersisa",
   "pirate.chest": "Peti Bajak Laut",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "Melindungi, penuh kasih, dan selalu membawa anak-anaknya pulang.",
   "description.summerDuckling": "Berjemur di bawah sinar matahari, bebek ini tahu cara menikmati panas.",
   "description.autumnDuckling": "Daun renyah dan bulu yang nyaman, siap untuk musim panen.",
-  "description.winterDuckling": "Dibundel dalam bulu berbulu halus, si kecil ini bergoyang melalui negeri ajaib musim dingin dengan gembira."
+  "description.winterDuckling": "Dibundel dalam bulu berbulu halus, si kecil ini bergoyang melalui negeri ajaib musim dingin dengan gembira.",
+  "visiting.farmId": "Mengunjungi # {{farmId}}"
 }

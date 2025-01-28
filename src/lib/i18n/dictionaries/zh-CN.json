@@ -2160,7 +2160,6 @@
   "compost.complete": "堆肥完成",
   "aoe.locked": "AOE 已锁定",
   "sunflowerLandCodex": "Sunflower Land 宝典",
-  "visiting.farmId": "正在参观 #{{farmId}}",
   "pirate.chest": "海盗宝箱",
   "pirate.chest.opened": "已打开海盗宝箱",
   "pirate.potion.equipped": "已装备海盗药水",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "善于保护、充满爱心，时刻带领孩子回家。",
   "description.summerDuckling": "在阳光下晒太阳，这只小鸭知道如何享受炎热。",
   "description.autumnDuckling": "清脆的树叶和舒适的羽毛，为收获季节做好了准备。",
-  "description.winterDuckling": "这个小家伙被毛茸茸的羽毛捆绑在一起，欢呼地穿行在冬日仙境中。"
+  "description.winterDuckling": "这个小家伙被毛茸茸的羽毛捆绑在一起，欢呼地穿行在冬日仙境中。",
+  "visiting.farmId": "访问 # {{farmId}}"
 }

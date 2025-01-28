@@ -1572,7 +1572,6 @@
   "compost.complete": "Kompos lengkap",
   "aoe.locked": "AOE Terkunci",
   "sunflowerLandCodex": "Kod Tanah Bunga Matahari",
-  "visiting.farmId": "Menonton # {{farmId}}",
   "stock.inStock": "{{stock}} dalam stok",
   "stock.left": "{{stock}} kiri",
   "pirate.chest": "Peti Lanun",
@@ -5011,5 +5010,6 @@
   "description.mamaDuck": "Melindungi, penyayang, dan sentiasa membawa anak kecilnya ke rumah.",
   "description.summerDuckling": "Berjemur di bawah sinar matahari, anak itik ini tahu bagaimana menikmati panas.",
   "description.autumnDuckling": "Daun garing dan bulu yang selesa, siap untuk musim menuai.",
-  "description.winterDuckling": "Dibungkus dengan bulu berbulu, si kecil ini berkeliaran melalui kawasan ajaib musim sejuk dengan ceria."
+  "description.winterDuckling": "Dibungkus dengan bulu berbulu, si kecil ini berkeliaran melalui kawasan ajaib musim sejuk dengan ceria.",
+  "visiting.farmId": "Melawat # {{farmId}}"
 }
