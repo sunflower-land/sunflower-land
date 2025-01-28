@@ -5012,5 +5012,6 @@
   "lavaPit.burning": "The pit burns",
   "lavaPit.collect": "Collect",
   "lavaPit.throw": "Throw resources into pit",
-  "lavaPit.description": "The lava pit turns resources into Obsidian. Requirements change each season."
+  "lavaPit.description": "The lava pit turns resources into Obsidian. Requirements change each season.",
+  "island.required": "Upgrade to {{island}}"
 }

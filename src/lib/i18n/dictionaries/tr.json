@@ -5012,5 +5012,6 @@
   "description.autumnDuckling": "Gevrek yapraklar ve rahat tüyler, hasat mevsimi için hazır.",
   "description.winterDuckling": "Tüylü tüylerle paketlenmiş bu küçük çocuk, kış harikalar diyarında neşeyle dolaşıyor.",
   "visiting.farmId": "Ziyaret # {{farmId}}",
-  "world.volcaro": "Volcaro"
+  "world.volcaro": "Volcaro",
+  "island.required": "{{island}} sürümüne yükseltin"
 }

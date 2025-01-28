@@ -5012,5 +5012,6 @@
   "description.autumnDuckling": "Knackige Blätter und kuschelige Federn, bereit für die Erntezeit.",
   "description.winterDuckling": "Gebündelt in Daunenfedern watschelt dieser Kleine jubelnd durch das Winterwunderland.",
   "visiting.farmId": "Zu Besuch bei # {{farmId}}",
-  "world.volcaro": "Volcaro"
+  "world.volcaro": "Volcaro",
+  "island.required": "Upgrade auf {{island}}"
 }

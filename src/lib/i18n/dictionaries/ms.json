@@ -5012,5 +5012,6 @@
   "description.autumnDuckling": "Daun garing dan bulu yang selesa, siap untuk musim menuai.",
   "description.winterDuckling": "Dibungkus dengan bulu berbulu, si kecil ini berkeliaran melalui kawasan ajaib musim sejuk dengan ceria.",
   "visiting.farmId": "Melawat # {{farmId}}",
-  "world.volcaro": "Volcaro"
+  "world.volcaro": "Volcaro",
+  "island.required": "Naik taraf kepada {{island}}"
 }

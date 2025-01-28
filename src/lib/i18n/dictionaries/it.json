@@ -5012,5 +5012,6 @@
   "description.autumnDuckling": "Foglie croccanti e piume accoglienti, pronte per la stagione del raccolto.",
   "description.winterDuckling": "Avvolto in piume lanuginose, questo piccolino attraversa con allegria il paese delle meraviglie invernali.",
   "visiting.farmId": "Visitando # {{farmId}}",
-  "world.volcaro": "Volcaro"
+  "world.volcaro": "Volcaro",
+  "island.required": "Esegui l'upgrade a {{island}}"
 }

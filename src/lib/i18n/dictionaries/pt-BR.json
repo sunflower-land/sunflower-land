@@ -5012,5 +5012,6 @@
   "description.autumnDuckling": "Folhas crocantes e penas aconchegantes, prontas para a época da colheita.",
   "description.winterDuckling": "Envolto em penas felpudas, este pequeno percorre o país das maravilhas do inverno com alegria.",
   "visiting.farmId": "Visitando # {{farmId}}",
-  "world.volcaro": "Volcaro"
+  "world.volcaro": "Volcaro",
+  "island.required": "Atualize para {{island}}"
 }

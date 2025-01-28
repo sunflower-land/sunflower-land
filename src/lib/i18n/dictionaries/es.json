@@ -5012,5 +5012,6 @@
   "description.autumnDuckling": "Hojas crujientes y plumas acogedoras, listas para la temporada de cosecha.",
   "description.winterDuckling": "Envuelto en plumas suaves, este pequeño deambula con alegría por el paraíso invernal.",
   "visiting.farmId": "Visitando # {{farmId}}",
-  "world.volcaro": "Volcaro"
+  "world.volcaro": "Volcaro",
+  "island.required": "Actualiza a {{island}}"
 }
