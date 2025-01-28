@@ -9,21 +9,21 @@ export const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.firePit,
   spring: SUNNYSIDE.building.firePit,
   desert: SUNNYSIDE.building.desertFirePit,
-  volcano: SUNNYSIDE.building.universalFirePit,
+  volcano: SUNNYSIDE.building.volcanoFirePit,
 };
 
 export const BAKERY_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.bakery,
   spring: SUNNYSIDE.building.bakery,
   desert: SUNNYSIDE.building.desertBakery,
-  volcano: SUNNYSIDE.building.universalBakery,
+  volcano: SUNNYSIDE.building.volcanoBakery,
 };
 
 export const DELI_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.deli,
   spring: SUNNYSIDE.building.deli,
   desert: SUNNYSIDE.building.desertDeli,
-  volcano: SUNNYSIDE.building.universalDeli,
+  volcano: SUNNYSIDE.building.volcanoDeli,
 };
 
 export const HEN_HOUSE_VARIANTS: Record<
@@ -56,7 +56,7 @@ export const KITCHEN_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.kitchen,
   spring: SUNNYSIDE.building.kitchen,
   desert: SUNNYSIDE.building.desertKitchen,
-  volcano: SUNNYSIDE.building.universalKitchen,
+  volcano: SUNNYSIDE.building.volcanoKitchen,
 };
 
 export const MANOR_VARIANTS: Record<IslandType, string> = {
@@ -70,28 +70,28 @@ export const MARKET_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.market,
   spring: SUNNYSIDE.building.market,
   desert: SUNNYSIDE.building.desertMarket,
-  volcano: SUNNYSIDE.building.universalMarket,
+  volcano: SUNNYSIDE.building.volcanoMarket,
 };
 
 export const SMOOTHIE_SHACK_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.smoothieShack,
   spring: SUNNYSIDE.building.smoothieShack,
   desert: SUNNYSIDE.building.desertSmoothieShack,
-  volcano: SUNNYSIDE.building.universalSmoothieShack,
+  volcano: SUNNYSIDE.building.volcanoSmoothieShack,
 };
 
 export const WORKBENCH_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.workbench,
   spring: SUNNYSIDE.building.workbench,
   desert: SUNNYSIDE.building.desertWorkbench,
-  volcano: SUNNYSIDE.building.universalWorkbench,
+  volcano: SUNNYSIDE.building.volcanoWorkbench,
 };
 
 export const FRUIT_PATCH_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.fruitPatchDirt,
   spring: SUNNYSIDE.building.fruitPatchDirt,
   desert: SUNNYSIDE.building.desertFruitPatchDirt,
-  volcano: SUNNYSIDE.building.universalFruitPatchDirt,
+  volcano: SUNNYSIDE.building.volcanoFruitPatchDirt,
 };
 
 export const FLOWER_VARIANTS: Record<IslandType, string> = {
@@ -105,7 +105,7 @@ export const DIRT_PATH_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.sfts.dirt,
   spring: SUNNYSIDE.sfts.dirt,
   desert: SUNNYSIDE.building.desertDirt,
-  volcano: SUNNYSIDE.building.universalDirt,
+  volcano: SUNNYSIDE.building.volcanoDirt,
 };
 
 export const BUSH_VARIANTS: Record<IslandType, string> = {

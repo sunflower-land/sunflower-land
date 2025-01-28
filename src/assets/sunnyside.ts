@@ -457,20 +457,17 @@ export const SUNNYSIDE = {
     desertEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/empty.webp`,
     desertDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/sfts/dirt_path.webp`,
 
-    // Universal (No island specific coloring)
-    universalFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/universal/buildings/firepit.webp`,
-    universalWorkbench: `${CONFIG.PROTECTED_IMAGE_URL}/universal/buildings/workbench.webp`,
-    universalKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/universal/buildings/kitchen.webp`,
-    universalMarket: `${CONFIG.PROTECTED_IMAGE_URL}/universal/buildings/market.webp`,
-    universalSmoothieShack: `${CONFIG.PROTECTED_IMAGE_URL}/universal/buildings/smoothie_shack.webp`,
-    universalBakery: `${CONFIG.PROTECTED_IMAGE_URL}/universal/buildings/bakery.webp`,
-    universalDeli: `${CONFIG.PROTECTED_IMAGE_URL}/universal/buildings/deli.webp`,
-    universalFruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/universal/fruit/fruit_patch.webp`,
-    universalEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/universal/flowers/empty.webp`,
-    universalDirt: `${CONFIG.PROTECTED_IMAGE_URL}/universal/sfts/dirt_path.webp`,
-
-    // Volcano
+    // Volcano (No island specific coloring)
+    volcanoFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/fire_pit.webp`,
+    volcanoWorkbench: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/workbench.webp`,
+    volcanoKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/kitchen.webp`,
+    volcanoMarket: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/market.webp`,
+    volcanoSmoothieShack: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/smoothie_shack.webp`,
+    volcanoBakery: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/bakery.webp`,
+    volcanoDeli: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/deli.webp`,
+    volcanoFruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/fruit/fruit_patch.webp`,
     volcanoEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/flowers/empty.webp`,
+    volcanoDirt: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/sfts/dirt_path.webp`,
 
     auction_floor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/auction_floor.png`,
     blacksmith_building: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/blacksmith_building.gif`,
