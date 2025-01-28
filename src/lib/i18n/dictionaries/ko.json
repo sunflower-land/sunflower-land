@@ -5030,5 +5030,9 @@
   "whatsOn.skillSystem": "새로운 스킬 시스템 출시!",
   "whatsOn.seasonCompetition": "시즌 경쟁",
   "whatsOn.april14th": "4월 14일",
-  "whatsOn.may1st": "5월 1일"
+  "whatsOn.may1st": "5월 1일",
+  "fishFrenzy.specialEvent": "스페셜 이벤트 - 피쉬 프렌지",
+  "fishFrenzy.info.one": "오늘 어획량이 1마리씩 늘어납니다!",
+  "calendar.events.fishFrenzy.title": "피쉬 프렌지",
+  "calendar.events.fishFrenzy.description": "어획량이 한 마리씩 늘어나는 희귀한 현상"
 }

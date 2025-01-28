@@ -5030,5 +5030,9 @@
   "whatsOn.skillSystem": "新しいスキルシステムが導入されました！",
   "whatsOn.seasonCompetition": "シーズンコンペティション",
   "whatsOn.april14th": "4 月 14 日",
-  "whatsOn.may1st": "5 月 1 日"
+  "whatsOn.may1st": "5 月 1 日",
+  "fishFrenzy.specialEvent": "スペシャルイベント-フィッシュフレンジー",
+  "fishFrenzy.info.one": "今日は漁獲量が1匹増えます！",
+  "calendar.events.fishFrenzy.title": "フィッシュフレンジー",
+  "calendar.events.fishFrenzy.description": "漁獲量が1人増えるという稀な現象"
 }

@@ -5030,5 +5030,9 @@
   "whatsOn.skillSystem": "Lancio del nuovo sistema di abilità!",
   "whatsOn.seasonCompetition": "Competizione stagionale",
   "whatsOn.april14th": "14 aprile",
-  "whatsOn.may1st": "1° maggio"
+  "whatsOn.may1st": "1° maggio",
+  "fishFrenzy.specialEvent": "Evento speciale - Fish Frenzy",
+  "fishFrenzy.info.one": "Le tue catture di pesce aumenteranno di 1 oggi!",
+  "calendar.events.fishFrenzy.title": "Frenesia dei pesci",
+  "calendar.events.fishFrenzy.description": "Un fenomeno raro che aumenta le catture di pesce di uno"
 }
