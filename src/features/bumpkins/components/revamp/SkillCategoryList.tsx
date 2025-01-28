@@ -9,21 +9,26 @@ import {
 import { Modal } from "components/ui/Modal";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import sflIcon from "assets/icons/sfl.webp";
 import { Button } from "components/ui/Button";
-import { gameAnalytics } from "lib/gameAnalytics";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ONE_DAY, secondsToString } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ISLAND_EXPANSIONS } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getTotalOilMillisInMachine } from "features/game/events/landExpansion/supplyCropMachine";
+import { gameAnalytics } from "lib/gameAnalytics";
+import {
+  getGemCost,
+  getTimeUntilNextFreeReset,
+} from "features/game/events/landExpansion/resetSkills";
+import { millisecondsToString } from "lib/utils/time";
 
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
@@ -39,60 +44,110 @@ export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Compost: ITEM_DETAILS["Premium Composter"].image,
 };
 
-export const SkillCategoryList = ({
-  onClick,
-}: {
+const _state = (state: MachineState) => state.context.state;
+
+export const SkillCategoryList: React.FC<{
   onClick: (category: BumpkinRevampSkillTree) => void;
-}) => {
+}> = ({ onClick }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const [showSkillsResetModal, setShowSkillsResetModal] =
-    useState<boolean>(false);
+  const state = useSelector(gameService, _state);
+  const [showSkillsResetModal, setShowSkillsResetModal] = useState(false);
+  const [showSkillsResetConfirmation, setShowSkillsResetConfirmation] =
+    useState(false);
 
-  const { bumpkin } = state;
-  const experience = bumpkin?.experience || 0;
+  const { bumpkin, inventory } = state;
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
 
-  // Functions
-  const hasSkills = bumpkin?.skills
-    ? Object.keys(bumpkin.skills).length > 0
-    : false;
-  const lastResetDate = bumpkin?.previousSkillsResetAt || null;
-  const threeMonthsSinceLastReset = lastResetDate
-    ? new Date().getTime() - new Date(lastResetDate).getTime() >=
-      90 * 24 * 60 * 60 * 1000
-    : true;
-  const enoughSfl = state.balance.toNumber() >= 10;
+  const hasSkills = skills ? Object.keys(skills).length > 0 : false;
 
-  const handleSkillsReset = () => {
-    setShowSkillsResetModal(false);
-    gameService.send("skills.reset");
+  const FOUR_MONTHS_IN_MS = 4 * 30 * 24 * 60 * 60 * 1000;
 
-    gameAnalytics.trackMilestone({
-      event: "Bumpkin:SkillReset",
+  const getTimeUntilNextResetText = () => {
+    const timeRemaining = getTimeUntilNextFreeReset(
+      previousFreeSkillResetAt,
+      Date.now(),
+    );
+
+    return millisecondsToString(timeRemaining, {
+      length: "medium",
+      removeTrailingZeros: true,
     });
   };
 
-  const getTimeUntilNextReset = () => {
-    if (!lastResetDate) return "";
-    const nextResetDate =
-      new Date(lastResetDate).getTime() + 90 * ONE_DAY * 1000;
-    const timeLeftInSeconds = Math.max(
-      (nextResetDate - new Date().getTime()) / 1000,
-      0,
-    );
+  const canResetForFree =
+    Date.now() - previousFreeSkillResetAt >= FOUR_MONTHS_IN_MS;
 
-    return secondsToString(timeLeftInSeconds, {
-      length: "short",
-      isShortFormat: true,
-      removeTrailingZeros: true,
+  const gemCost = getGemCost(paidSkillResets);
+
+  const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
+
+  const resetType = canResetForFree ? "free" : "gems";
+
+  const handleSkillsReset = () => {
+    gameService.send({
+      type: "skills.reset",
+      paymentType: resetType,
     });
+    setShowSkillsResetModal(false);
+
+    if (resetType === "gems") {
+      gameAnalytics.trackSink({
+        currency: "Gem",
+        amount: gemCost,
+        item: "Skills Reset",
+        type: "Fee",
+      });
+    }
+  };
+
+  const canResetSkills = () => {
+    if (!hasSkills) return false;
+    if (resetType === "free" && !canResetForFree) return false;
+    if (resetType === "gems" && !hasEnoughGems) return false;
+
+    // Check Crop Machine conditions
+    const cropMachine = state.buildings["Crop Machine"]?.[0];
+    const { queue = [], unallocatedOilTime = 0 } = cropMachine ?? {};
+
+    // Check Field Expansion Module condition
+    if (skills["Field Expansion Module"] && queue.length > 5) {
+      return false;
+    }
+
+    // Check Leak-Proof Tank condition
+    if (skills["Leak-Proof Tank"]) {
+      const oilMillisInMachine = getTotalOilMillisInMachine(
+        queue,
+        unallocatedOilTime,
+      );
+      if (oilMillisInMachine > 48 * 60 * 60 * 1000) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const getCropMachineResetWarning = (): string | undefined => {
+    const cropMachine = state.buildings["Crop Machine"]?.[0];
+    const { queue = [], unallocatedOilTime = 0 } = cropMachine ?? {};
+
+    if (skills["Field Expansion Module"] && queue.length > 5) {
+      return "Remove crops from additional slots before resetting";
+    }
+
+    if (skills["Leak-Proof Tank"]) {
+      const oilMillisInMachine = getTotalOilMillisInMachine(
+        queue,
+        unallocatedOilTime,
+      );
+      if (oilMillisInMachine > 48 * 60 * 60 * 1000) {
+        return "Reduce oil in tank before resetting";
+      }
+    }
   };
 
   return (
@@ -129,10 +184,9 @@ export const SkillCategoryList = ({
                 (category) => {
                   const skills = getRevampSkills(category);
                   const icon = SKILL_TREE_ICONS[skills[0].tree];
-                  const skillsAcquiredInCategoryCount = getKeys({
-                    ...bumpkin?.skills,
-                  }).filter((acquiredSkillName) =>
-                    skills.find((skill) => skill.name === acquiredSkillName),
+                  const skillsAcquiredInCategoryCount = getKeys(skills).filter(
+                    (acquiredSkillName) =>
+                      skills.find((skill) => skill.name === acquiredSkillName),
                   ).length;
 
                   return (
@@ -179,41 +233,76 @@ export const SkillCategoryList = ({
 
       <Modal
         show={showSkillsResetModal}
-        onHide={() => setShowSkillsResetModal(false)}
+        onHide={() => {
+          setShowSkillsResetModal(false);
+          setShowSkillsResetConfirmation(false);
+        }}
       >
         <OuterPanel>
           <InnerPanel className="flex flex-col items-center">
-            <div className="flex flex-row items-center w-full justify-between">
-              <Label type="danger">{"Skills Reset"}</Label>
-              <Label type="warning" icon={sflIcon}>
-                {"10 SFL"}
+            <div className="flex flex-col items-center w-full gap-2 my-1">
+              <Label type="warning">{`Skills Reset`}</Label>
+
+              <Label type={resetType === "free" ? "success" : "vibrant"}>
+                {resetType === "free" ? `Free Reset` : `Gem Reset`}
               </Label>
+
+              {canResetForFree ? (
+                <p className="text-xs text-center">
+                  {`Reset all your skills for free. You can do this once every 4 months.`}
+                </p>
+              ) : (
+                <>
+                  <Label type="default" icon={ITEM_DETAILS.Gem.image}>
+                    {`${gemCost} Gems`}
+                  </Label>
+                  <p className="text-xs text-center">
+                    {`Reset your skills immediately using gems. Cost doubles with each use until next free reset.`}
+                  </p>
+                  {!hasEnoughGems && (
+                    <Label type="danger" icon={ITEM_DETAILS.Gem.image}>
+                      {`Not enough gems`}
+                    </Label>
+                  )}
+                  <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                    {`Next free reset in ${getTimeUntilNextResetText()}`}
+                  </Label>
+                </>
+              )}
+
+              {!hasSkills && (
+                <Label type="danger">{`No skills to reset`}</Label>
+              )}
+
+              {getCropMachineResetWarning() && (
+                <Label type="danger">{getCropMachineResetWarning()}</Label>
+              )}
+
+              {!showSkillsResetConfirmation ? (
+                <Button
+                  onClick={() => setShowSkillsResetConfirmation(true)}
+                  disabled={!canResetSkills()}
+                >
+                  {`Reset Skills`}
+                </Button>
+              ) : (
+                <div className="flex justify-between gap-2 w-full">
+                  <Button
+                    className="w-full"
+                    onClick={() => setShowSkillsResetConfirmation(false)}
+                  >
+                    {`Cancel`}
+                  </Button>
+                  <Button
+                    className="w-full"
+                    onClick={handleSkillsReset}
+                    disabled={!canResetSkills()}
+                  >
+                    {`Confirm`}
+                  </Button>
+                </div>
+              )}
             </div>
-            <p className="text-xs py-4 px-2 text-center">
-              {
-                "Are you sure you want to reset all your skills? This action cannot be undone and will cost 10 SFL. You will be able to reset your skills again in 3 months."
-              }
-            </p>
-            {!threeMonthsSinceLastReset && (
-              <Label
-                type="danger"
-                icon={SUNNYSIDE.icons.stopwatch}
-                className="mb-2"
-              >
-                {`${getTimeUntilNextReset()} until you can reset your skills again`}
-              </Label>
-            )}
-            {!enoughSfl && (
-              <Label type="danger" icon={sflIcon} className="mb-2">
-                {t("not.enough.sfl")}
-              </Label>
-            )}
-            <Button
-              onClick={handleSkillsReset}
-              disabled={!hasSkills || !threeMonthsSinceLastReset || !enoughSfl}
-            >
-              {"Reset Skills"}
-            </Button>
           </InnerPanel>
         </OuterPanel>
       </Modal>

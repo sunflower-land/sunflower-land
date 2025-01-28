@@ -1,20 +1,45 @@
+import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getTotalOilMillisInMachine } from "./supplyCropMachine";
 
 export type ResetSkillsAction = {
   type: "skills.reset";
+  paymentType: "gems" | "free";
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: ResetSkillsAction;
   createdAt?: number;
 };
 
-export function resetSkills({ state, createdAt = Date.now() }: Options) {
+export function getGemCost(paidSkillResets: number) {
+  return 200 * Math.pow(2, paidSkillResets);
+}
+
+export function getTimeUntilNextFreeReset(
+  previousFreeSkillResetAt: number,
+  now = Date.now(),
+) {
+  const fourMonthsInMs = 4 * 30 * 24 * 60 * 60 * 1000; // 4 months in milliseconds
+  const timeSinceLastFreeReset = now - previousFreeSkillResetAt;
+  const timeRemaining = fourMonthsInMs - timeSinceLastFreeReset;
+  return timeRemaining;
+}
+
+export function resetSkills({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   return produce(state, (game) => {
     const { bumpkin, buildings } = game;
+    const {
+      paidSkillResets = 0,
+      previousFreeSkillResetAt = 0,
+      skills,
+    } = bumpkin;
 
     // Check if bumpkin exists
     if (bumpkin == undefined) {
@@ -22,24 +47,14 @@ export function resetSkills({ state, createdAt = Date.now() }: Options) {
     }
 
     // Check if bumpkin has any skills
-    if (Object.keys(bumpkin.skills).length === 0) {
+    if (getKeys(skills).length === 0) {
       throw new Error("You do not have any skills to reset");
-    }
-
-    // Check if allowed to reset skills (once per 3 months)
-    if (bumpkin.previousSkillsResetAt) {
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-
-      if (bumpkin.previousSkillsResetAt > threeMonthsAgo.getTime()) {
-        throw new Error("You can only reset your skills once every 3 months");
-      }
     }
 
     const cropMachine = buildings["Crop Machine"];
     const { queue = [], unallocatedOilTime = 0 } = cropMachine?.[0] ?? {};
     // If player has Crop Expansion Module, they can't reset skills if they have any crops in the additional slots
-    if (bumpkin.skills["Field Expansion Module"]) {
+    if (skills["Field Expansion Module"]) {
       if (queue.length > 5) {
         throw new Error(
           "You can't reset skills with crops in the additional slots",
@@ -48,7 +63,7 @@ export function resetSkills({ state, createdAt = Date.now() }: Options) {
     }
 
     // If player has more oil in Crop Machine than regular tank limit, they can't reset skills
-    if (bumpkin.skills["Leak-Proof Tank"]) {
+    if (skills["Leak-Proof Tank"]) {
       const oilMillisInMachine = getTotalOilMillisInMachine(
         queue,
         unallocatedOilTime,
@@ -58,15 +73,46 @@ export function resetSkills({ state, createdAt = Date.now() }: Options) {
       }
     }
 
-    // Check of player has enough SFL to reset skills
-    if (game.balance.lt(10)) {
-      throw new Error("You do not have enough SFL to reset your skills");
+    // Calculate time since last free reset
+    const fourMonthsInMs = 4 * 30 * 24 * 60 * 60 * 1000; // 4 months in milliseconds
+    const timeSinceLastFreeReset = createdAt - previousFreeSkillResetAt;
+
+    if (action.paymentType === "free") {
+      // If trying to do free reset before 4 months
+      if (timeSinceLastFreeReset < fourMonthsInMs) {
+        const daysRemaining = Math.ceil(
+          (fourMonthsInMs - timeSinceLastFreeReset) / (24 * 60 * 60 * 1000),
+        );
+        throw new Error(
+          `Wait ${daysRemaining} more days for free reset or use gems`,
+        );
+      }
+
+      // Reset paid resets counter since 4 months have passed
+      delete bumpkin.paidSkillResets;
     }
 
-    // All checks passed, reset skills
+    // Handle gem reset
+    if (action.paymentType === "gems") {
+      const gemCost = getGemCost(paidSkillResets);
+
+      if (game.inventory.Gem?.lt(gemCost)) {
+        throw new Error(`Not enough gems. Cost: ${gemCost} gems`);
+      }
+
+      // Deduct gems
+      game.inventory.Gem = game.inventory.Gem?.minus(gemCost);
+      // Increment paid resets counter
+      bumpkin.paidSkillResets = paidSkillResets + 1;
+    }
+
+    // Reset skills
     bumpkin.skills = {};
-    bumpkin.previousSkillsResetAt = createdAt;
-    game.balance = game.balance.minus(10);
+
+    // Update last free reset timestamp only for free resets
+    if (action.paymentType === "free") {
+      bumpkin.previousFreeSkillResetAt = createdAt;
+    }
 
     return game;
   });
