@@ -918,9 +918,6 @@ export const ITEM_TRADE_TYPES: {
     "Winds of Change Banner": "instant",
     Timeshard: "instant",
     "Ancient Clock": "instant",
-    "Winds of Change Banner": "instant",
-    Timeshard: "instant",
-    "Ancient Clock": "instant",
   },
   wearables: {
     "New Years Crown": "instant",

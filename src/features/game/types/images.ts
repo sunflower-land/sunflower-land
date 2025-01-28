@@ -775,9 +775,6 @@ import alienChicken from "assets/sfts/alien_chicken.webp";
 import toxicTuft from "assets/sfts/toxic_tuft.webp";
 import mootant from "assets/sfts/mootant.webp";
 import tradeCake from "assets/food/trade_cake.webp";
-import timeshard from "assets/icons/timeshard.webp";
-import ancientClock from "assets/icons/ancient_clock.png";
-import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import kite from "assets/sfts/kite.webp";
 import acornHouse from "assets/sfts/acorn_house.webp";
 import igloo from "assets/sfts/igloo.webp";
@@ -4753,18 +4750,6 @@ export const ITEM_DETAILS: Items = {
   "Winter Duckling": {
     image: SUNNYSIDE.icons.expression_confused,
     description: translate("description.winterDuckling"),
-  },
-  Timeshard: {
-    image: timeshard,
-    description: "",
-  },
-  "Ancient Clock": {
-    image: ancientClock,
-    description: "",
-  },
-  "Winds of Change Banner": {
-    image: windsOfChangeBanner,
-    description: "",
   },
   Timeshard: {
     image: timeshard,
