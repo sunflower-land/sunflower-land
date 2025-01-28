@@ -40,10 +40,7 @@ export type Seed = {
   disabled?: boolean;
 };
 
-const sortByPlantSeconds = <
-  K extends string,
-  T extends { plantSeconds: number },
->(
+const sortByPlantSeconds = <K extends SeedName, T extends Seed>(
   obj: Record<K, T>,
 ): Record<K, T> => {
   const entries = Object.entries(obj) as [K, T][];
