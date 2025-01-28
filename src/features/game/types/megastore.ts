@@ -8,21 +8,38 @@ export type SeasonalTierItemName =
   | MegastoreKeys;
 
 export type SeasonalCollectibleName =
+  // Bull Run
   | "Cow Scratcher"
   | "Spinning Wheel"
   | "Sleepy Rug"
   | "Meteorite"
   | "Sheaf of Plenty"
   | "Mechanical Bull"
-  | "Crop Circle";
+  | "Crop Circle"
+  // Winds of Change
+  | "Kite"
+  | "Acorn House"
+  | "Spring Duckling"
+  | "Igloo"
+  | "Ugly Duckling"
+  | "Lake Rug"
+  | "Hammock"
+  | "Mammoth"
+  | "Cup of Chocolate";
 
 export type SeasonalWearableName =
+  // Bull Run
   | "Cowboy Hat"
   | "Cowgirl Skirt"
   | "Cowboy Shirt"
   | "Dream Scarf"
   | "Milk Apron"
-  | "Cowboy Trouser";
+  | "Cowboy Trouser"
+  // Winds of Change
+  | "Acorn Hat"
+  | "Ladybug Suit"
+  | "Crab Hat"
+  | "Sickle";
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
 

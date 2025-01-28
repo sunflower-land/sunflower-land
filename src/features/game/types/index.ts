@@ -950,6 +950,22 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Thermal Stone": 2181,
   "Protective Pesticide": 2182,
   "Volcano Gnome": 2183,
+  // Winds of Change
+  Kite: 2184,
+  "Acorn House": 2185,
+  "Spring Duckling": 2186,
+  Igloo: 2187,
+  "Ugly Duckling": 2188,
+  "Lake Rug": 2189,
+  Hammock: 2190,
+  Mammoth: 2191,
+  "Cup of Chocolate": 2192,
+  "Golden Sheep": 2193,
+  "Barn Blueprint": 2194,
+  "Mama Duck": 2195,
+  "Summer Duckling": 2196,
+  "Autumn Duckling": 2197,
+  "Winter Duckling": 2198,
 };
 
 // The reverse of above
