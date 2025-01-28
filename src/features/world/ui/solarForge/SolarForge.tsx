@@ -18,6 +18,30 @@ import React, { useState } from "react";
 import upIcon from "assets/icons/level_up.png";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { IslandType } from "features/game/types/game";
+import { Label } from "components/ui/Label";
+
+const RESOURCE_REQUIREMENTS: Partial<Record<ResourceName, IslandType>> = {
+  "Crop Plot": "basic",
+  Tree: "basic",
+  "Stone Rock": "basic",
+  "Iron Rock": "basic",
+  "Gold Rock": "basic",
+  "Crimstone Rock": "spring",
+  "Flower Bed": "spring",
+  "Fruit Patch": "spring",
+  Beehive: "spring",
+  "Sunstone Rock": "spring",
+  "Lava Pit": "volcano",
+  "Oil Reserve": "desert",
+};
+
+const ISLAND_RANKS: Record<IslandType, number> = {
+  basic: 0,
+  spring: 1,
+  desert: 2,
+  volcano: 3,
+};
 
 export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [selected, setSelected] = useState<ResourceName>("Crop Plot");
@@ -71,6 +95,9 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     );
   }
 
+  const island = RESOURCE_REQUIREMENTS[selected] ?? "basic";
+  const hasAccess = ISLAND_RANKS[state.island.type] >= ISLAND_RANKS[island];
+
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.gunter}
@@ -95,10 +122,16 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 {bought === selected && (
                   <img src={upIcon} className="absolute w-4 right-0 -top-8 " />
                 )}
+                {!hasAccess && (
+                  <Label type="danger" className="mb-2 mx-auto">
+                    {t("island.required", { island })}
+                  </Label>
+                )}
                 <Button
-                  disabled={(state.inventory.Sunstone ?? new Decimal(0)).lte(
-                    price,
-                  )}
+                  disabled={
+                    !hasAccess ||
+                    (state.inventory.Sunstone ?? new Decimal(0)).lte(price)
+                  }
                   onClick={buy}
                   className="w-full"
                 >
