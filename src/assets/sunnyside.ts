@@ -333,6 +333,11 @@ export const SUNNYSIDE = {
   //VFXs
   vfx: {
     blinking: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/blinking.png`,
+    smoke1: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_1.png`,
+    smoke2: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_2.png`,
+    smoke3: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_3.png`,
+    smoke4: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_4.png`,
+    smoke5: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_5.png`,
   },
   //FXs
   fx: {
