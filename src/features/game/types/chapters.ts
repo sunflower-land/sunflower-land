@@ -7,10 +7,7 @@ import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
 import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
-// import windsOfChangeSpring from "assets/decorations/banners/winds-of-change_spring.webp";
-// import windsOfChangeSummer from "assets/decorations/banners/winds-of-change_summer.webp";
-// import windsOfChangeAutumn from "assets/decorations/banners/winds-of-change_autumn.webp";
-import windsOfChangeWinter from "assets/decorations/banners/winds-of-change_winter.webp";
+import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import { BeachBountySeasonalArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 
@@ -193,7 +190,7 @@ export function getSeasonalBannerImage() {
     "Clash of Factions Banner": clashOfFactionsBanner,
     "Pharaoh's Treasure Banner": pharaohsTreasureBanner,
     "Bull Run Banner": bullsRunBanner,
-    "Winds of Change Banner": windsOfChangeWinter,
+    "Winds of Change Banner": windsOfChangeBanner,
   };
   return banners[getChapterBanner()];
 }

@@ -1611,6 +1611,231 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Festive Toy Train"
     />
   ),
+  Kite: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Kite"].image}
+      alt="Kite"
+    />
+  ),
+  "Acorn House": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+      }}
+      image={ITEM_DETAILS["Acorn House"].image}
+      alt="Acorn House"
+    />
+  ),
+  "Spring Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`, //WIP
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Spring Duckling"].image}
+      alt="Spring Duckling"
+    />
+  ),
+  Igloo: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+      }}
+      image={ITEM_DETAILS["Igloo"].image}
+      alt="Igloo"
+    />
+  ),
+  "Ugly Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Ugly Duckling"].image}
+      alt="Ugly Duckling"
+    />
+  ),
+  "Lake Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+      image={ITEM_DETAILS["Lake Rug"].image}
+      alt="Lake Rug"
+    />
+  ),
+  Hammock: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 54}px`,
+        bottom: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 54}px`,
+      }}
+      image={ITEM_DETAILS["Hammock"].image}
+      alt="Hammock"
+    />
+  ),
+  Mammoth: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 49}px`,
+        bottom: `${PIXEL_SCALE * -4}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 49}px`,
+      }}
+      image={ITEM_DETAILS["Mammoth"].image}
+      alt="Mammoth"
+    />
+  ),
+  "Cup of Chocolate": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Cup of Chocolate"].image}
+      alt="Cup of Chocolate"
+    />
+  ),
+  "Golden Sheep": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Golden Sheep"].image}
+      alt="Golden Sheep"
+    />
+  ),
+  "Barn Blueprint": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Barn Blueprint"].image}
+      alt="Barn Blueprint"
+    />
+  ),
+  "Mama Duck": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Mama Duck"].image}
+      alt="Mama Duck"
+    />
+  ),
+  "Summer Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Summer Duckling"].image}
+      alt="Summer Duckling"
+    />
+  ),
+  "Autumn Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Autumn Duckling"].image}
+      alt="Autumn Duckling"
+    />
+  ),
+  "Winter Duckling": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Winter Duckling"].image}
+      alt="Winter Duckling"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 

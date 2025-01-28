@@ -134,7 +134,12 @@ export type PotionHouseDecorationName =
 
 export type InteriorDecorationName = "Rug" | "Wardrobe";
 
-export type AnimalDecorationName = "Wagon";
+export type AnimalDecorationName =
+  | "Wagon"
+  | "Mama Duck"
+  | "Summer Duckling"
+  | "Autumn Duckling"
+  | "Winter Duckling";
 
 export const DECORATION_TEMPLATES = {
   "Thermal Stone": {
@@ -805,6 +810,22 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Golden Cow": {
     width: 2,
     height: 2,
+  },
+  "Mama Duck": {
+    width: 1,
+    height: 1,
+  },
+  "Summer Duckling": {
+    width: 1,
+    height: 1,
+  },
+  "Autumn Duckling": {
+    width: 1,
+    height: 1,
+  },
+  "Winter Duckling": {
+    width: 1,
+    height: 1,
   },
 };
 

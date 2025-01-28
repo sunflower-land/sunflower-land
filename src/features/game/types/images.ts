@@ -778,6 +778,20 @@ import tradeCake from "assets/food/trade_cake.webp";
 import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
+import kite from "assets/sfts/kite.webp";
+import acornHouse from "assets/sfts/acorn_house.webp";
+import igloo from "assets/sfts/igloo.webp";
+import uglyDuckling from "assets/sfts/ugly_duckling.webp";
+import lakeRug from "assets/sfts/lake_rug.webp";
+import hammock from "assets/sfts/hammock.webp";
+import mammoth from "assets/sfts/mammoth.webp";
+import cupOfChocolate from "assets/sfts/cup_of_chocolate.webp";
+import goldenSheep from "assets/sfts/golden_sheep.webp";
+import barnBlueprint from "assets/sfts/barn_blueprint.webp";
+import mamaDuck from "assets/sfts/mama_duck.webp";
+import timeshard from "assets/icons/timeshard.webp";
+import ancientClock from "assets/icons/ancient_clock.png";
+import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4679,6 +4693,78 @@ export const ITEM_DETAILS: Items = {
   "Volcano Gnome": {
     image: volcanoGnome,
     description: translate("description.volcanoGnome"),
+  },
+  Kite: {
+    image: kite,
+    description: translate("description.kite"),
+  },
+  "Acorn House": {
+    image: acornHouse,
+    description: translate("description.acornHouse"),
+  },
+  "Spring Duckling": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.springDuckling"),
+  },
+  Igloo: {
+    image: igloo,
+    description: translate("description.igloo"),
+  },
+  "Ugly Duckling": {
+    image: uglyDuckling,
+    description: translate("description.uglyDuckling"),
+  },
+  "Lake Rug": {
+    image: lakeRug,
+    description: translate("description.lakeRug"),
+  },
+  Hammock: {
+    image: hammock,
+    description: translate("description.hammock"),
+  },
+  Mammoth: {
+    image: mammoth,
+    description: translate("description.mammoth"),
+  },
+  "Cup of Chocolate": {
+    image: cupOfChocolate,
+    description: translate("description.cupOfChocolate"),
+  },
+  "Golden Sheep": {
+    image: goldenSheep,
+    description: translate("description.goldSheep"),
+  },
+  "Barn Blueprint": {
+    image: barnBlueprint,
+    description: translate("description.barnBlueprint"),
+  },
+  "Mama Duck": {
+    image: mamaDuck,
+    description: translate("description.mamaDuck"),
+  },
+  "Summer Duckling": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.summerDuckling"),
+  },
+  "Autumn Duckling": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.autumnDuckling"),
+  },
+  "Winter Duckling": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.winterDuckling"),
+  },
+  Timeshard: {
+    image: timeshard,
+    description: "",
+  },
+  "Ancient Clock": {
+    image: ancientClock,
+    description: "",
+  },
+  "Winds of Change Banner": {
+    image: windsOfChangeBanner,
+    description: "",
   },
   Timeshard: {
     image: timeshard,

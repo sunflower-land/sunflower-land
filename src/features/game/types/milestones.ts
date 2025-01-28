@@ -185,7 +185,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
     },
     reward: {
-      "Dazzling Dumbo": 1,
+      "Radiant Dumbo": 1,
     },
   },
 };
