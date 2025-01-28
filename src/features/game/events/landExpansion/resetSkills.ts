@@ -98,7 +98,7 @@ export function resetSkills({
       }
 
       // Reset paid resets counter since 4 months have passed
-      delete bumpkin.paidSkillResets;
+      bumpkin.paidSkillResets = 0;
     }
 
     // Handle gem reset
