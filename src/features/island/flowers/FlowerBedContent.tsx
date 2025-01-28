@@ -38,7 +38,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state, farmId },
+      context: { state },
     },
   ] = useActor(gameService);
   const { inventory, flowers } = state;
@@ -47,6 +47,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     "seed",
   );
   const [seed, setSeed] = useState<FlowerSeedName>();
+
   const [crossbreed, setCrossBreed] = useState<FlowerCrossBreedName>();
 
   const selectSeed = (name: FlowerSeedName) => {
@@ -82,7 +83,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
 
   const hasCrossbreedRequirements = !!(
     crossbreed &&
-    inventory[crossbreed]?.gte(FLOWER_CROSS_BREED_AMOUNTS[crossbreed])
+    inventory[crossbreed]?.gte(FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed])
   );
 
   return (
@@ -228,7 +229,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
               {t("flowerBedContent.select.crossbreed")}
             </Label>
             <div className="flex flex-wrap mb-2">
-              {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
+              {getKeys(FLOWER_CROSS_BREED_AMOUNTS[seed])
                 .filter(
                   (name) =>
                     !isFlower(name) ||
@@ -253,7 +254,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   </Label>
                   <Label
                     type={!hasCrossbreedRequirements ? "danger" : "default"}
-                  >{`${FLOWER_CROSS_BREED_AMOUNTS[crossbreed]} ${crossbreed} required`}</Label>
+                  >{`${FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed]} ${crossbreed} required`}</Label>
                 </div>
                 <p className="text-xs mt-1">
                   {FLOWER_CROSS_BREED_DETAILS[crossbreed]}

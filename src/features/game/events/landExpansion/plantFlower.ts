@@ -119,7 +119,8 @@ export function plantFlower({
 
     const crossBreedCount =
       stateCopy.inventory[action.crossbreed] ?? new Decimal(0);
-    const crossBreedAmount = FLOWER_CROSS_BREED_AMOUNTS[action.crossbreed];
+    const crossBreedAmount =
+      FLOWER_CROSS_BREED_AMOUNTS[action.seed][action.crossbreed];
 
     if (crossBreedCount.lessThan(crossBreedAmount)) {
       throw new Error("Not enough crossbreeds");

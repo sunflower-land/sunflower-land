@@ -100,6 +100,27 @@ export const DEFAULT_FLOWER_POINTS: Record<FlowerName, number> = {
   "Prism Petal": 12,
   "Celestial Frostbloom": 12,
   "Primula Enigma": 12,
+
+  "Red Edelweiss": 3,
+  "Yellow Edelweiss": 3,
+  "Purple Edelweiss": 3,
+  "White Edelweiss": 3,
+  "Blue Edelweiss": 3,
+  "Red Gladiolus": 3,
+  "Yellow Gladiolus": 3,
+  "Purple Gladiolus": 3,
+  "White Gladiolus": 3,
+  "Blue Gladiolus": 3,
+  "Red Lavender": 3,
+  "Yellow Lavender": 3,
+  "Purple Lavender": 3,
+  "White Lavender": 3,
+  "Blue Lavender": 3,
+  "Red Clover": 3,
+  "Yellow Clover": 3,
+  "Purple Clover": 3,
+  "White Clover": 3,
+  "Blue Clover": 3,
 };
 
 export type BumpkinGift = {

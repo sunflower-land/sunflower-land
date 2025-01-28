@@ -457,6 +457,49 @@ export const SUNNYSIDE = {
     desertWorkbench: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/workbench.webp`,
     desertFruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/fruit/fruit_patch.webp`,
     desertEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/empty.webp`,
+    desert: {
+      spring: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/spring/empty.webp`,
+      },
+      summer: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/summer/empty.webp`,
+      },
+      autumn: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/autumn/empty.webp`,
+      },
+      winter: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/winter/empty.webp`,
+      },
+    },
+    basic: {
+      spring: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/flowers/spring/empty.webp`,
+      },
+      summer: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/flowers/summer/empty.webp`,
+      },
+      autumn: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/flowers/autumn/empty.webp`,
+      },
+      winter: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/flowers/winter/empty.webp`,
+      },
+    },
+    volcano: {
+      spring: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/flowers/spring/empty.webp`,
+      },
+      summer: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/flowers/summer/empty.webp`,
+      },
+      autumn: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/flowers/autumn/empty.webp`,
+      },
+      winter: {
+        flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/flowers/winter/empty.webp`,
+      },
+    },
+
     desertDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/sfts/dirt_path.webp`,
 
     // Volcano (No island specific coloring)

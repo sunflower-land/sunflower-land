@@ -1094,6 +1094,22 @@ export const ITEM_DETAILS: Items = {
     image: lilySeed,
     description: FLOWER_SEEDS["Lily Seed"].description,
   },
+  "Edelweiss Seed": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWER_SEEDS["Edelweiss Seed"].description,
+  },
+  "Gladiolus Seed": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWER_SEEDS["Gladiolus Seed"].description,
+  },
+  "Lavender Seed": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWER_SEEDS["Lavender Seed"].description,
+  },
+  "Clover Seed": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWER_SEEDS["Clover Seed"].description,
+  },
   "Apple Pie": {
     image: applePie,
     description: COOKABLES["Apple Pie"].description,
@@ -3693,6 +3709,86 @@ export const ITEM_DETAILS: Items = {
   "Blue Lotus": {
     image: blueLotus,
     description: FLOWERS["Blue Lotus"].description,
+  },
+  "Red Edelweiss": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Red Edelweiss"].description,
+  },
+  "Yellow Edelweiss": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Yellow Edelweiss"].description,
+  },
+  "Purple Edelweiss": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Purple Edelweiss"].description,
+  },
+  "White Edelweiss": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["White Edelweiss"].description,
+  },
+  "Blue Edelweiss": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Blue Edelweiss"].description,
+  },
+  "Red Gladiolus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Red Gladiolus"].description,
+  },
+  "Yellow Gladiolus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Yellow Gladiolus"].description,
+  },
+  "Purple Gladiolus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Purple Gladiolus"].description,
+  },
+  "White Gladiolus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["White Gladiolus"].description,
+  },
+  "Blue Gladiolus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Blue Gladiolus"].description,
+  },
+  "Red Lavender": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Red Lavender"].description,
+  },
+  "Yellow Lavender": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Yellow Lavender"].description,
+  },
+  "Purple Lavender": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Purple Lavender"].description,
+  },
+  "White Lavender": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["White Lavender"].description,
+  },
+  "Blue Lavender": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Blue Lavender"].description,
+  },
+  "Red Clover": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Red Clover"].description,
+  },
+  "Yellow Clover": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Yellow Clover"].description,
+  },
+  "Purple Clover": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Purple Clover"].description,
+  },
+  "White Clover": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["White Clover"].description,
+  },
+  "Blue Clover": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: FLOWERS["Blue Clover"].description,
   },
   "Earn Alliance Banner": {
     image: earnAllianceBanner,

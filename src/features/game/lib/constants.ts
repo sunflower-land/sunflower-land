@@ -174,6 +174,10 @@ export const INITIAL_STOCK = (
     "Sunpetal Seed": new Decimal(16),
     "Bloom Seed": new Decimal(8),
     "Lily Seed": new Decimal(4),
+    "Edelweiss Seed": new Decimal(4),
+    "Gladiolus Seed": new Decimal(4),
+    "Lavender Seed": new Decimal(4),
+    "Clover Seed": new Decimal(4),
 
     "Duskberry Seed": new Decimal(0),
     "Lunara Seed": new Decimal(0),
@@ -242,6 +246,10 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Sunpetal Seed": new Decimal(40),
     "Bloom Seed": new Decimal(20),
     "Lily Seed": new Decimal(10),
+    "Edelweiss Seed": new Decimal(10),
+    "Gladiolus Seed": new Decimal(10),
+    "Lavender Seed": new Decimal(10),
+    "Clover Seed": new Decimal(10),
 
     "Duskberry Seed": new Decimal(10),
     "Lunara Seed": new Decimal(10),
