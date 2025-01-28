@@ -82,6 +82,7 @@ type IslandElementArgs = {
   beehives: GameState["beehives"];
   oilReserves: GameState["oilReserves"];
   lavaPits: GameState["lavaPits"];
+  isVisiting: boolean;
 };
 
 const getRecipeLocation = (game: GameState, level: number) => {
@@ -174,6 +175,7 @@ const getIslandElements = ({
   beehives,
   oilReserves,
   lavaPits,
+  isVisiting,
 }: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -663,7 +665,7 @@ const getIslandElements = ({
     }),
   );
 
-  if (hasFeatureAccess(game, "BEDS")) {
+  if (hasFeatureAccess(game, "BEDS") && !isVisiting) {
     const recipeLocations = getRecipeLocations(game);
     // Group recipes by location, to stop them overlapping
     const recipeGroups = recipeLocations.reduce(
@@ -855,6 +857,7 @@ export const Land: React.FC = () => {
                 beehives,
                 oilReserves,
                 lavaPits,
+                isVisiting: visiting,
               }).sort((a, b) => {
                 if (a.props.canCollide === false) {
                   return -1;
