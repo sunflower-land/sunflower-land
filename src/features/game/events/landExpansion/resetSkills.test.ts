@@ -63,7 +63,7 @@ describe("resetSkills", () => {
 
       expect(state.bumpkin?.skills).toEqual({});
       expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
-      expect(state.bumpkin?.paidSkillResets).toBeUndefined();
+      expect(state.bumpkin?.paidSkillResets ?? new Decimal(0)).toEqual(new Decimal(0));
     });
   });
 
