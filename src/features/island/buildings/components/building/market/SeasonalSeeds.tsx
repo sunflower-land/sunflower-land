@@ -72,15 +72,22 @@ export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
 const _state = (state: MachineState) => state.context.state;
 
 export const SeasonalSeeds: React.FC = () => {
-  const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
+  const { gameService, shortcutItem } = useContext(Context);
+  const state = useSelector(gameService, _state);
+  const { inventory, coins, island, bumpkin, buds, season } = state;
+  const currentSeason = season.season;
+  // Sort the seeds by their default order
+  const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
+    SEASONAL_SEEDS[currentSeason].includes(seed),
+  );
+
+  const [selectedName, setSelectedName] = useState<SeedName>(
+    currentSeasonSeeds[0],
+  );
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
   const selected = SEEDS[selectedName];
-  const { gameService, shortcutItem } = useContext(Context);
-  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
-
-  const { inventory, coins, island, bumpkin, buds, season } = state;
 
   const price = getBuyPrice(selectedName, selected, state);
 
@@ -260,13 +267,6 @@ export const SeasonalSeeds: React.FC = () => {
 
     return getFruitHarvests(state, selectedName);
   };
-
-  const currentSeason = season.season;
-
-  // Sort the seeds by their default order
-  const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
-    SEASONAL_SEEDS[currentSeason].includes(seed),
-  );
 
   const cropMachineSeeds = getKeys(SEEDS).filter((seed) => {
     if (!inventory["Crop Machine"] || currentSeasonSeeds.includes(seed)) {
