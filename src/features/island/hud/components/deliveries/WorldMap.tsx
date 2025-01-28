@@ -13,7 +13,7 @@ import { Label } from "components/ui/Label";
 import { isMobile } from "mobile-device-detect";
 import { hasFeatureAccess } from "lib/flags";
 
-const showDebugBorders = true;
+const showDebugBorders = false;
 
 export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
