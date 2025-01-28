@@ -59,8 +59,8 @@ import {
   BASIC_CROP_MACHINE_SEEDS,
   CROP_EXTENSION_MOD_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
-import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { isFullMoon } from "features/game/types/calendar";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -72,15 +72,22 @@ export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
 const _state = (state: MachineState) => state.context.state;
 
 export const SeasonalSeeds: React.FC = () => {
-  const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
+  const { gameService, shortcutItem } = useContext(Context);
+  const state = useSelector(gameService, _state);
+  const { inventory, coins, island, bumpkin, buds, season } = state;
+  const currentSeason = season.season;
+  // Sort the seeds by their default order
+  const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
+    SEASONAL_SEEDS[currentSeason].includes(seed),
+  );
+
+  const [selectedName, setSelectedName] = useState<SeedName>(
+    currentSeasonSeeds[0],
+  );
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
   const selected = SEEDS[selectedName];
-  const { gameService, shortcutItem } = useContext(Context);
-  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
-
-  const { inventory, coins, island, bumpkin, buds, season } = state;
 
   const price = getBuyPrice(selectedName, selected, state);
 
@@ -261,8 +268,6 @@ export const SeasonalSeeds: React.FC = () => {
     return getFruitHarvests(state, selectedName);
   };
 
-  const currentSeason = season.season;
-  const currentSeasonSeeds = SEASONAL_SEEDS[currentSeason];
   const cropMachineSeeds = getKeys(SEEDS).filter((seed) => {
     if (!inventory["Crop Machine"] || currentSeasonSeeds.includes(seed)) {
       return false;
@@ -287,6 +292,10 @@ export const SeasonalSeeds: React.FC = () => {
 
   const harvestCount = getHarvestCount();
 
+  const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
+    SEASONAL_SEEDS[season].find((seed) => SEEDS[seed].yield === selected.yield),
+  );
+
   return (
     <SplitScreenView
       panel={
@@ -295,8 +304,9 @@ export const SeasonalSeeds: React.FC = () => {
           stock={stock}
           details={{
             item: selectedName,
+            seasons,
+            cropMachineSeeds,
           }}
-          hideDescription
           requirements={{
             coins: price,
             showCoinsIfFree: true,
@@ -317,7 +327,6 @@ export const SeasonalSeeds: React.FC = () => {
           }}
           actionView={Action()}
           validSeeds={validSeeds}
-          cropMachineSeeds={cropMachineSeeds}
         />
       }
       content={
