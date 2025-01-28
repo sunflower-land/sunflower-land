@@ -52,6 +52,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { calculateRelationshipPoints } from "features/game/events/landExpansion/giftFlowers";
 import { FriendshipInfoPanel } from "components/ui/FriendshipInfoPanel";
+import { hasFeatureAccess } from "lib/flags";
+import { getActiveCalendarEvent } from "features/game/types/calendar";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -797,7 +799,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
-                  {game.delivery.doubleDelivery === dateKey &&
+                  {(hasFeatureAccess(game, "WEATHER_SHOP")
+                    ? getActiveCalendarEvent({ game }) === "doubleDelivery"
+                    : game.delivery.doubleDelivery === dateKey) &&
                   !hasClaimedBonus ? (
                     <Label type="vibrant" icon={lightning}>
                       {t("double.rewards.delivery")}
