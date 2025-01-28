@@ -2,6 +2,7 @@ import { GameState, InventoryItemName } from "./game";
 import { FlowerName } from "./flowers";
 import { AnimalType } from "./animals";
 import { RecipeCollectibleName, RecipeWearableName } from "../lib/crafting";
+import { ResourceName } from "./resources";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
@@ -9,11 +10,14 @@ export type BountiedEvent = `${AnimalType | FlowerName} Bountied`;
 export type CraftedEvent =
   `${RecipeCollectibleName | RecipeWearableName} Crafted`;
 
+export type ResourceBought = `${ResourceName} Bought`;
+
 export type FarmActivityName =
   | CaughtEvent
   | HarvestedEvent
   | BountiedEvent
-  | CraftedEvent;
+  | CraftedEvent
+  | ResourceBought;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

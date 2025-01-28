@@ -143,7 +143,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Celestial Frostbloom": new Decimal(80),
   "Primula Enigma": new Decimal(80),
 
-  Sunstone: new Decimal(20),
+  Sunstone: new Decimal(25),
   Crimstone: new Decimal(500),
   Obsidian: new Decimal(500),
   Gold: new Decimal(400),

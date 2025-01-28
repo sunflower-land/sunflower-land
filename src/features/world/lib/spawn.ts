@@ -10,6 +10,12 @@ const randomXOffset = Math.random() * 60;
 const randomYOffset = Math.random() * 20;
 
 export const SPAWNS: () => SpawnLocation = () => ({
+  volcaro: {
+    default: {
+      x: 318,
+      y: 412,
+    },
+  },
   portal_example: {
     default: {
       x: 400 + randomXOffset,

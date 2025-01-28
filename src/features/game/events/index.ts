@@ -436,8 +436,10 @@ import {
 import { startLavaPit, StartLavaPitAction } from "./landExpansion/startLavaPit";
 import { placeLavaPit, PlaceLavaPitAction } from "./landExpansion/placeLavaPit";
 import { moveLavaPit, MoveLavaPitAction } from "./landExpansion/moveLavaPit";
+import { buyResource, ResourceBoughtAction } from "./landExpansion/buyResource";
 
 export type PlayingEvent =
+  | ResourceBoughtAction
   | PurchaseVIPAction
   | SellAnimalAction
   | SpeedUpBuilding
@@ -640,6 +642,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "resource.bought": buyResource,
   "vip.purchased": purchaseVIP,
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
