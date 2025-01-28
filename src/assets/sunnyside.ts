@@ -458,7 +458,7 @@ export const SUNNYSIDE = {
     desertDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/sfts/dirt_path.webp`,
 
     // Volcano (No island specific coloring)
-    volcanoFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/fire_pit.webp`,
+    volcanoFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/firepit.webp`,
     volcanoWorkbench: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/workbench.webp`,
     volcanoKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/kitchen.webp`,
     volcanoMarket: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/market.webp`,
