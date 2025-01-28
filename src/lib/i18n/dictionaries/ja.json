@@ -5011,5 +5011,6 @@
   "description.summerDuckling": "日差しを浴びているこのアヒルの子は、暑さを楽しむ方法を知っています。",
   "description.autumnDuckling": "さわやかな葉と心地よい羽毛で、収穫期を迎えようとしています。",
   "description.winterDuckling": "綿毛のような羽に身を包んだこの小さな子は、元気を出して冬のワンダーランドを歩き回っています。",
-  "visiting.farmId": "訪問数 {{farmId}}"
+  "visiting.farmId": "訪問数 {{farmId}}",
+  "world.volcaro": "ヴォルカロ"
 }

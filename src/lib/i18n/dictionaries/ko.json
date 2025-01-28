@@ -5011,5 +5011,6 @@
   "description.summerDuckling": "햇볕을 쬐는 이 오리 새끼는 더위를 즐기는 방법을 알고 있습니다.",
   "description.autumnDuckling": "파삭파삭한 잎사귀와 포근한 깃털로 수확철에 바로 사용할 수 있습니다.",
   "description.winterDuckling": "솜털 깃털로 묶인 이 꼬마는 환호성을 지르며 겨울 원더랜드를 헤쳐나갑니다.",
-  "visiting.farmId": "방문 # {{farmId}}"
+  "visiting.farmId": "방문 # {{farmId}}",
+  "world.volcaro": "볼카로"
 }

@@ -5011,5 +5011,6 @@
   "description.summerDuckling": "Güneşin tadını çıkaran bu ördek yavrusu sıcaktan nasıl zevk alacağını biliyor.",
   "description.autumnDuckling": "Gevrek yapraklar ve rahat tüyler, hasat mevsimi için hazır.",
   "description.winterDuckling": "Tüylü tüylerle paketlenmiş bu küçük çocuk, kış harikalar diyarında neşeyle dolaşıyor.",
-  "visiting.farmId": "Ziyaret # {{farmId}}"
+  "visiting.farmId": "Ziyaret # {{farmId}}",
+  "world.volcaro": "Volcaro"
 }
