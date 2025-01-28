@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { BB_TO_GEM_RATIO, GameState } from "../../types/game";
 import {
-  SEASONAL_BANNERS,
+  CHAPTER_BANNERS,
   CHAPTERS,
   ChapterBanner,
   getChapterByBanner,
@@ -91,7 +91,7 @@ export function purchaseBanner({
       return stateCopy;
     }
 
-    if (!(action.name in SEASONAL_BANNERS)) {
+    if (!(action.name in CHAPTER_BANNERS)) {
       throw new Error("Invalid banner");
     }
 

@@ -85,7 +85,7 @@ export type ChapterBanner =
   | "Bull Run Banner"
   | "Winds of Change Banner";
 
-export const SEASONAL_BANNERS: Record<ChapterBanner, ChapterName> = {
+export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Solar Flare Banner": "Solar Flare",
   "Dawn Breaker Banner": "Dawn Breaker",
   "Witches' Eve Banner": "Witches' Eve",
@@ -177,7 +177,7 @@ export function hasChapterEnded(season: ChapterName, now = Date.now()) {
 }
 
 export function getChapterByBanner(banner: ChapterBanner): ChapterName {
-  return SEASONAL_BANNERS[banner];
+  return CHAPTER_BANNERS[banner];
 }
 
 export function getSeasonalBannerImage() {
