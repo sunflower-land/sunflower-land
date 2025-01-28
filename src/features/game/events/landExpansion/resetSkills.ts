@@ -3,9 +3,11 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getTotalOilMillisInMachine } from "./supplyCropMachine";
 
+export type PaymentType = "gems" | "free";
+
 export type ResetSkillsAction = {
   type: "skills.reset";
-  paymentType: "gems" | "free";
+  paymentType: PaymentType;
 };
 
 type Options = {
@@ -14,9 +16,8 @@ type Options = {
   createdAt?: number;
 };
 
-export function getGemCost(paidSkillResets: number) {
-  return 200 * Math.pow(2, paidSkillResets);
-}
+export const getGemCost = (paidSkillResets: number) =>
+  200 * Math.pow(2, paidSkillResets);
 
 export function getTimeUntilNextFreeReset(
   previousFreeSkillResetAt: number,
@@ -26,6 +27,14 @@ export function getTimeUntilNextFreeReset(
   const timeSinceLastFreeReset = now - previousFreeSkillResetAt;
   const timeRemaining = fourMonthsInMs - timeSinceLastFreeReset;
   return timeRemaining;
+}
+
+export function canResetForFree(
+  previousFreeSkillResetAt: number,
+  now = Date.now(),
+) {
+  const fourMonthsInMs = 4 * 30 * 24 * 60 * 60 * 1000; // 4 months in milliseconds
+  return now - previousFreeSkillResetAt >= fourMonthsInMs;
 }
 
 export function resetSkills({
@@ -73,15 +82,15 @@ export function resetSkills({
       }
     }
 
-    // Calculate time since last free reset
-    const fourMonthsInMs = 4 * 30 * 24 * 60 * 60 * 1000; // 4 months in milliseconds
-    const timeSinceLastFreeReset = createdAt - previousFreeSkillResetAt;
-
     if (action.paymentType === "free") {
       // If trying to do free reset before 4 months
-      if (timeSinceLastFreeReset < fourMonthsInMs) {
+      if (!canResetForFree(previousFreeSkillResetAt, createdAt)) {
+        const timeToNextFreeResetInMilliseconds = getTimeUntilNextFreeReset(
+          previousFreeSkillResetAt,
+          createdAt,
+        );
         const daysRemaining = Math.ceil(
-          (fourMonthsInMs - timeSinceLastFreeReset) / (24 * 60 * 60 * 1000),
+          timeToNextFreeResetInMilliseconds / (24 * 60 * 60 * 1000),
         );
         throw new Error(
           `Wait ${daysRemaining} more days for free reset or use gems`,

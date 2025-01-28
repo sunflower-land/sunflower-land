@@ -25,8 +25,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getTotalOilMillisInMachine } from "features/game/events/landExpansion/supplyCropMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
+  canResetForFree,
   getGemCost,
   getTimeUntilNextFreeReset,
+  PaymentType,
 } from "features/game/events/landExpansion/resetSkills";
 import { millisecondsToString } from "lib/utils/time";
 
@@ -61,9 +63,7 @@ export const SkillCategoryList: React.FC<{
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
   const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
 
-  const hasSkills = skills ? Object.keys(skills).length > 0 : false;
-
-  const FOUR_MONTHS_IN_MS = 4 * 30 * 24 * 60 * 60 * 1000;
+  const hasSkills = getKeys(skills).length > 0;
 
   const getTimeUntilNextResetText = () => {
     const timeRemaining = getTimeUntilNextFreeReset(
@@ -77,14 +77,13 @@ export const SkillCategoryList: React.FC<{
     });
   };
 
-  const canResetForFree =
-    Date.now() - previousFreeSkillResetAt >= FOUR_MONTHS_IN_MS;
-
   const gemCost = getGemCost(paidSkillResets);
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
 
-  const resetType = canResetForFree ? "free" : "gems";
+  const resetType: PaymentType = canResetForFree(previousFreeSkillResetAt)
+    ? "free"
+    : "gems";
 
   const handleSkillsReset = () => {
     gameService.send({
@@ -105,7 +104,8 @@ export const SkillCategoryList: React.FC<{
 
   const canResetSkills = () => {
     if (!hasSkills) return false;
-    if (resetType === "free" && !canResetForFree) return false;
+    if (resetType === "free" && !canResetForFree(previousFreeSkillResetAt))
+      return false;
     if (resetType === "gems" && !hasEnoughGems) return false;
 
     // Check Crop Machine conditions
@@ -247,7 +247,7 @@ export const SkillCategoryList: React.FC<{
                 {resetType === "free" ? `Free Reset` : `Gem Reset`}
               </Label>
 
-              {canResetForFree ? (
+              {resetType === "free" ? (
                 <p className="text-xs text-center">
                   {`Reset all your skills for free. You can do this once every 4 months.`}
                 </p>
