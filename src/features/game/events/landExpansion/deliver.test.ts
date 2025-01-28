@@ -1491,7 +1491,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date("2024-09-10").getTime(),
+              readyAt: new Date().getTime(),
               from: "tango",
               items: {
                 Orange: 5,
@@ -1500,14 +1500,25 @@ describe("deliver", () => {
               reward: { coins: 320 },
             },
           ],
-          doubleDelivery: "2024-09-10",
+        },
+        calendar: {
+          dates: [
+            {
+              name: "doubleDelivery",
+              date: new Date().toISOString().substring(0, 10),
+            },
+          ],
+          doubleDelivery: {
+            triggeredAt: new Date().getTime(),
+            startedAt: new Date().getTime(),
+          },
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: new Date("2024-09-10").getTime(),
+      createdAt: new Date().getTime(),
     });
 
     expect(state.coins).toEqual(640);
@@ -1528,7 +1539,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date("2024-09-10").getTime(),
+              readyAt: new Date().getTime(),
               from: "guria",
               items: {
                 Orange: 5,
@@ -1537,14 +1548,25 @@ describe("deliver", () => {
               reward: { sfl: 1 },
             },
           ],
-          doubleDelivery: "2024-09-10",
+        },
+        calendar: {
+          dates: [
+            {
+              name: "doubleDelivery",
+              date: new Date().toISOString().substring(0, 10),
+            },
+          ],
+          doubleDelivery: {
+            triggeredAt: new Date().getTime(),
+            startedAt: new Date().getTime(),
+          },
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: new Date("2024-09-10").getTime(),
+      createdAt: new Date().getTime(),
     });
 
     expect(state.balance).toEqual(new Decimal(2));
@@ -1562,20 +1584,31 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date("2024-09-10").getTime(),
+              readyAt: new Date().getTime(),
               from: "tywin",
               items: { coins: 6400 },
               reward: {},
             },
           ],
-          doubleDelivery: "2024-09-10",
+        },
+        calendar: {
+          dates: [
+            {
+              name: "doubleDelivery",
+              date: new Date().toISOString().substring(0, 10),
+            },
+          ],
+          doubleDelivery: {
+            triggeredAt: new Date().getTime(),
+            startedAt: new Date().getTime(),
+          },
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: new Date("2024-09-10").getTime(),
+      createdAt: new Date().getTime(),
     });
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
