@@ -59,8 +59,6 @@ import {
   BASIC_CROP_MACHINE_SEEDS,
   CROP_EXTENSION_MOD_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
-import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { isFullMoon } from "features/game/types/calendar";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -384,54 +382,54 @@ export const SeasonalSeeds: React.FC = () => {
               </div>
             </div>
           )}
-          {isFullMoon(state) && (
-            <div id="Full Moon Seeds">
-              <Label
-                icon={fullMoon}
-                type="default"
-                className="ml-2 mb-1 capitalize"
-              >
-                {`Full Moon Seeds`}
-              </Label>
-              <div className="flex flex-wrap mb-2">
-                {FULL_MOON_SEEDS.map((name) => (
-                  <Box
-                    isSelected={selectedName === name}
-                    key={name}
-                    onClick={() => onSeedClick(name)}
-                    image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
-                    showOverlay={isSeedLocked(name)}
-                    // secondaryImage={SUNNYSIDE.icons.seedling}
-                    count={inventory[name]}
-                  />
-                ))}
-              </div>
+          {/* {isFullMoon(state) && ( */}
+          <div id="Full Moon Seeds">
+            <Label
+              icon={fullMoon}
+              type="default"
+              className="ml-2 mb-1 capitalize"
+            >
+              {`Full Moon Seeds`}
+            </Label>
+            <div className="flex flex-wrap mb-2">
+              {FULL_MOON_SEEDS.map((name) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
+                  showOverlay={isSeedLocked(name)}
+                  // secondaryImage={SUNNYSIDE.icons.seedling}
+                  count={inventory[name]}
+                />
+              ))}
             </div>
-          )}
-          {hasRequiredIslandExpansion(island.type, "spring") && (
-            <div id="Other Produce">
-              <Label
-                icon={SUNNYSIDE.icons.seedling}
-                type="default"
-                className="ml-2 mb-1 capitalize"
-              >
-                {t("cropGuide.otherProduce")}
-              </Label>
-              <div className="flex flex-wrap mb-2">
-                {offSeasonSeeds.map((name) => (
-                  <Box
-                    isSelected={selectedName === name}
-                    key={name}
-                    onClick={() => onSeedClick(name)}
-                    image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
-                    showOverlay={isSeedLocked(name)}
-                    // secondaryImage={SUNNYSIDE.icons.seedling}
-                    count={inventory[name]}
-                  />
-                ))}
-              </div>
+          </div>
+          {/* )} */}
+          {/* {hasRequiredIslandExpansion(island.type, "spring") && ( */}
+          <div id="Other Produce">
+            <Label
+              icon={SUNNYSIDE.icons.seedling}
+              type="default"
+              className="ml-2 mb-1 capitalize"
+            >
+              {t("cropGuide.otherProduce")}
+            </Label>
+            <div className="flex flex-wrap mb-2">
+              {offSeasonSeeds.map((name) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
+                  showOverlay={isSeedLocked(name)}
+                  // secondaryImage={SUNNYSIDE.icons.seedling}
+                  count={inventory[name]}
+                />
+              ))}
             </div>
-          )}
+          </div>
+          {/* )} */}
         </div>
       }
     />
