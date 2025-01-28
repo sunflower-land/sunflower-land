@@ -5011,5 +5011,6 @@
   "description.summerDuckling": "Se prélassant au soleil, ce canard sait profiter de la chaleur.",
   "description.autumnDuckling": "Des feuilles croustillantes et des plumes douillettes, prêtes pour la saison des récoltes.",
   "description.winterDuckling": "Emmitouflé dans des plumes duveteuses, ce petit bonhomme se dandine joyeusement dans le pays des merveilles de l'hiver.",
-  "visiting.farmId": "N° de visite {{farmId}}"
+  "visiting.farmId": "N° de visite {{farmId}}",
+  "world.volcaro": "Volcaro"
 }

@@ -5011,5 +5011,6 @@
   "description.summerDuckling": "Греясь на солнце, этот утенок умеет наслаждаться жарой.",
   "description.autumnDuckling": "Свежие листья и уютные перья, готовые к сезону сбора урожая.",
   "description.winterDuckling": "Этот малыш в пуховых перьях весело бродит по зимней стране чудес.",
-  "visiting.farmId": "Посещение # {{farmId}}"
+  "visiting.farmId": "Посещение # {{farmId}}",
+  "world.volcaro": "Вулкаро"
 }

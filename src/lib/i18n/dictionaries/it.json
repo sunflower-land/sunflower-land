@@ -5011,5 +5011,6 @@
   "description.summerDuckling": "Crogiolandosi al sole, questo anatroccolo sa godersi il caldo.",
   "description.autumnDuckling": "Foglie croccanti e piume accoglienti, pronte per la stagione del raccolto.",
   "description.winterDuckling": "Avvolto in piume lanuginose, questo piccolino attraversa con allegria il paese delle meraviglie invernali.",
-  "visiting.farmId": "Visitando # {{farmId}}"
+  "visiting.farmId": "Visitando # {{farmId}}",
+  "world.volcaro": "Volcaro"
 }
