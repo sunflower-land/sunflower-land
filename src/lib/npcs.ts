@@ -701,6 +701,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
+    wings: "Bat Wings",
+    hat: "Victorian Hat",
   },
   // Clothes shop stylist
   stella: {
