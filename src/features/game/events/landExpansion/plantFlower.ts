@@ -146,7 +146,7 @@ export function plantFlower({
         boostedTime: getFlowerTime(action.seed, stateCopy),
       }),
       amount: 1,
-      name: "Red Pansy",
+      name: "Red Lotus",
       dirty: true,
     };
 
