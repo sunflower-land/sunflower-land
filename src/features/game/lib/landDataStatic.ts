@@ -129,7 +129,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
   oilReserves: {},
 
   calendar: {
-    dates: [],
+    dates: [
+      {
+        date: "2025-01-30",
+        name: "fullMoon",
+      },
+      {
+        date: "2025-01-31",
+        name: "unknown",
+        weather: true,
+      },
+    ],
   },
 
   choreBoard: INITIAL_CHORE_BOARD,
@@ -480,7 +490,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     recipes: {},
   },
   season: {
-    season: "spring",
-    startedAt: 0,
+    season: "autumn",
+    startedAt: Date.now(),
   },
 };

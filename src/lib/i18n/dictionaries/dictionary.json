@@ -4964,6 +4964,10 @@
   "season.summer": "Summer",
   "season.autumn": "Autumn",
   "season.winter": "Winter",
+  "season.springDay": "Spring Day",
+  "season.summerDay": "Summer Day",
+  "season.autumnDay": "Autumn Day",
+  "season.winterDay": "Winter Day",
   "description.rhubarb": "A tart and tangy vegetable!",
   "description.zucchini": "Great for salads and stir-fries.",
   "description.yam": "A starchy root vegetable ",
@@ -5075,5 +5079,9 @@
   "whatsOn.skillSystem": "New skill system launched!",
   "whatsOn.seasonCompetition": "Season Competition",
   "whatsOn.april14th": "14th April",
-  "whatsOn.may1st": "1st May"
+  "whatsOn.may1st": "1st May",
+  "season.hasBegun": "{{name}} has begun!",
+  "season.newCrops": "New crops & fish",
+  "season.7daysOfSeason": "7 days of {{name}}",
+  "season.begun.description": "{{name}} has begun in Sunflower Land. Check out this week's events."
 }

@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "components/ui/Button";
 import { SEASON_DETAILS } from "features/game/types/calendar";
 import { CALENDAR_EVENT_ICONS } from "features/game/types/calendar";
 import { LocalCalendarDetails } from "./GameCalendar";
 import classNames from "classnames";
+import { ButtonPanel } from "components/ui/Panel";
 
 type Props = {
   index: number;
@@ -15,9 +15,12 @@ export const DateCard: React.FC<Props> = ({ details, onClick }) => {
   const { specialEvent } = details;
   const seasonIcon = SEASON_DETAILS[details.season].icon;
 
+  const isToday = new Date().toISOString().slice(0, 10) === details.dateString;
+
   return (
-    <Button
+    <ButtonPanel
       key={details.dateString}
+      selected={isToday}
       variant={details.isPastDay ? "secondary" : "primary"}
       className={classNames(
         "min-h-[58px] w-full relative",
@@ -32,7 +35,7 @@ export const DateCard: React.FC<Props> = ({ details, onClick }) => {
         {specialEvent && (
           <img
             src={CALENDAR_EVENT_ICONS[specialEvent]}
-            className="w-5 mt-2.5"
+            className="w-5 mt-2.5 mb-1"
           />
         )}
         <img
@@ -40,6 +43,6 @@ export const DateCard: React.FC<Props> = ({ details, onClick }) => {
           className="absolute h-[20px] -top-[11px] -right-[11px]"
         />
       </div>
-    </Button>
+    </ButtonPanel>
   );
 };

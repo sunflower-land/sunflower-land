@@ -54,6 +54,10 @@ export const SUNNYSIDE = {
 
   //Announcement
   announcement: {
+    summer: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/summer_banner.webp`,
+    winter: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winter_banner.webp`,
+    spring: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/spring_banner.webp`,
+    autumn: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/autumn_banner.webp`,
     tornado: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/tornado.png`,
     springPrestige: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/spring_prestige.png`,
     desertPrestige: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_prestige.png`,
