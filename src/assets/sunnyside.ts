@@ -461,6 +461,7 @@ export const SUNNYSIDE = {
     desertWorkbench: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/workbench.webp`,
     desertFruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/fruit/fruit_patch.webp`,
     desertEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/empty.webp`,
+
     desertDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/sfts/dirt_path.webp`,
 
     // Volcano (No island specific coloring)

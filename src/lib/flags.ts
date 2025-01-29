@@ -113,6 +113,7 @@ const featureFlags = {
   SEASONAL_SEEDS: seasonAdminFeatureFlag,
   SEASONAL_FISH: seasonAdminFeatureFlag,
   VOLCANO_ISLAND: seasonAdminFeatureFlag,
+  SEASONAL_FLOWERS: seasonAdminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

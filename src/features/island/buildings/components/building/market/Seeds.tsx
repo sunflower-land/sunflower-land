@@ -429,6 +429,26 @@ export const Seeds: React.FC = () => {
             <div className="flex flex-wrap mb-2">
               {seeds
                 .filter((name) => name in FLOWER_SEEDS)
+                .filter(
+                  (name) =>
+                    name !== "Clover Seed" ||
+                    hasFeatureAccess(state, "SEASONAL_FLOWERS"),
+                )
+                .filter(
+                  (name) =>
+                    name !== "Edelweiss Seed" ||
+                    hasFeatureAccess(state, "SEASONAL_FLOWERS"),
+                )
+                .filter(
+                  (name) =>
+                    name !== "Lavender Seed" ||
+                    hasFeatureAccess(state, "SEASONAL_FLOWERS"),
+                )
+                .filter(
+                  (name) =>
+                    name !== "Gladiolus Seed" ||
+                    hasFeatureAccess(state, "SEASONAL_FLOWERS"),
+                )
                 .map((name: SeedName) => (
                   <Box
                     isSelected={selectedName === name}

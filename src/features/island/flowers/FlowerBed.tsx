@@ -7,13 +7,10 @@ import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { useActor } from "@xstate/react";
 import {
-  DESERT_FLOWER_LIFECYCLE,
   FLOWERS,
-  FLOWER_LIFECYCLE,
   FLOWER_SEEDS,
   FlowerName,
   FlowerGrowthStage,
-  VOLCANO_FLOWER_LIFECYCLE,
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -27,18 +24,11 @@ import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
-import { IslandType } from "features/game/types/game";
 import { FLOWER_VARIANTS } from "../lib/alternateArt";
 
 import chest from "assets/icons/chest.png";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-
-const LIFECYCLE_VARIANTS: Record<IslandType, typeof FLOWER_LIFECYCLE> = {
-  basic: FLOWER_LIFECYCLE,
-  spring: FLOWER_LIFECYCLE,
-  desert: DESERT_FLOWER_LIFECYCLE,
-  volcano: VOLCANO_FLOWER_LIFECYCLE,
-};
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   id: string;
@@ -111,11 +101,18 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           onClick={() => setShowPlantModal(true)}
         >
           <img
-            src={FLOWER_VARIANTS[state.island.type]}
+            src={FLOWER_VARIANTS(
+              state.island.type,
+              hasFeatureAccess(state, "SEASONAL_FLOWERS")
+                ? state.season.season
+                : "summer",
+              "Red Pansy",
+              "flower_bed",
+            )}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 48}px`,
-              height: `${PIXEL_SCALE * 16}px`,
+              bottom: 0,
             }}
           />
         </div>
@@ -173,7 +170,12 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         onMouseLeave={() => setShowPopover(false)}
       >
         <img
-          src={LIFECYCLE_VARIANTS[state.island.type][flower.name][stage]}
+          src={FLOWER_VARIANTS(
+            state.island.type,
+            state.season.season,
+            flower.name,
+            stage,
+          )}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 48}px`,

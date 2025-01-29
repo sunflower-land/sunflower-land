@@ -40,6 +40,30 @@ type CarnationName =
   | "Purple Carnation"
   | "White Carnation"
   | "Blue Carnation";
+type EdelweissFlowerName =
+  | "Red Edelweiss"
+  | "Yellow Edelweiss"
+  | "Purple Edelweiss"
+  | "White Edelweiss"
+  | "Blue Edelweiss";
+type GladiolusFlowerName =
+  | "Red Gladiolus"
+  | "Yellow Gladiolus"
+  | "Purple Gladiolus"
+  | "White Gladiolus"
+  | "Blue Gladiolus";
+type LavenderFlowerName =
+  | "Red Lavender"
+  | "Yellow Lavender"
+  | "Purple Lavender"
+  | "White Lavender"
+  | "Blue Lavender";
+type CloverFlowerName =
+  | "Red Clover"
+  | "Yellow Clover"
+  | "Purple Clover"
+  | "White Clover"
+  | "Blue Clover";
 
 type SunpetalFlowerName = PansyName | CosmosName | "Prism Petal";
 type BloomFlowerName =
@@ -65,9 +89,23 @@ type FlowerSeeds = {
   "Sunpetal Seed": FlowerSeed;
   "Bloom Seed": FlowerSeed;
   "Lily Seed": FlowerSeed;
+  "Edelweiss Seed": FlowerSeed;
+  "Gladiolus Seed": FlowerSeed;
+  "Lavender Seed": FlowerSeed;
+  "Clover Seed": FlowerSeed;
 };
 
-export type FlowerName = SunpetalFlowerName | BloomFlowerName | LilyFlowerName;
+export type Set1FlowerName =
+  | SunpetalFlowerName
+  | BloomFlowerName
+  | LilyFlowerName;
+export type Set2FlowerName =
+  | EdelweissFlowerName
+  | GladiolusFlowerName
+  | LavenderFlowerName
+  | CloverFlowerName;
+
+export type FlowerName = Set1FlowerName | Set2FlowerName;
 
 export type FlowerSeedName = keyof FlowerSeeds;
 
@@ -100,10 +138,42 @@ export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
     disabled: false,
     plantingSpot: "Flower Bed",
   },
+  "Edelweiss Seed": {
+    price: 96,
+    bumpkinLevel: 35,
+    plantSeconds: 3 * 24 * 60 * 60,
+    plantingSpot: "Flower Bed",
+    disabled: false,
+    description: translate("description.edelweiss.seed"),
+  },
+  "Gladiolus Seed": {
+    price: 96,
+    bumpkinLevel: 35,
+    plantSeconds: 3 * 24 * 60 * 60,
+    plantingSpot: "Flower Bed",
+    disabled: false,
+    description: translate("description.gladiolus.seed"),
+  },
+  "Lavender Seed": {
+    price: 96,
+    bumpkinLevel: 35,
+    plantSeconds: 3 * 24 * 60 * 60,
+    plantingSpot: "Flower Bed",
+    disabled: false,
+    description: translate("description.lavender.seed"),
+  },
+  "Clover Seed": {
+    price: 96,
+    bumpkinLevel: 35,
+    plantSeconds: 3 * 24 * 60 * 60,
+    plantingSpot: "Flower Bed",
+    disabled: false,
+    description: translate("description.clover.seed"),
+  },
 };
 
 // Some crops have been omitted to reserve cross breeds for future use
-export type FlowerCrossBreedName =
+export type Set1FlowerCrossBreedName =
   | Extract<
       CropName,
       | "Sunflower"
@@ -115,61 +185,116 @@ export type FlowerCrossBreedName =
       | "Eggplant"
     >
   | Extract<PatchFruitName, "Blueberry" | "Banana" | "Apple">
-  | FlowerName;
+  | Set1FlowerName;
 
-export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
-  {
-    Sunflower: 50,
-    // Potato: 20,
-    // Pumpkin: 20,
-    // Carrot: 10,
-    // Cabbage: 10,
-    Beetroot: 10,
-    Cauliflower: 5,
-    Parsnip: 5,
-    Eggplant: 5,
-    // Corn: 5,
-    Radish: 5,
-    // Wheat: 5,
-    Kale: 5,
-    Blueberry: 3,
-    // Orange: 3,
-    Apple: 3,
-    Banana: 3,
-    "Red Pansy": 1,
-    "Yellow Pansy": 1,
-    "Purple Pansy": 1,
-    "White Pansy": 1,
-    "Blue Pansy": 1,
-    "Red Cosmos": 1,
-    "Yellow Cosmos": 1,
-    "Purple Cosmos": 1,
-    "White Cosmos": 1,
-    "Blue Cosmos": 1,
-    "Prism Petal": 1,
-    "Red Balloon Flower": 1,
-    "Yellow Balloon Flower": 1,
-    "Purple Balloon Flower": 1,
-    "White Balloon Flower": 1,
-    "Blue Balloon Flower": 1,
-    "Red Daffodil": 1,
-    "Yellow Daffodil": 1,
-    "Purple Daffodil": 1,
-    "White Daffodil": 1,
-    "Blue Daffodil": 1,
-    "Celestial Frostbloom": 1,
-    "Red Carnation": 1,
-    "Yellow Carnation": 1,
-    "Purple Carnation": 1,
-    "White Carnation": 1,
-    "Blue Carnation": 1,
-    "Red Lotus": 1,
-    "Yellow Lotus": 1,
-    "Purple Lotus": 1,
-    "White Lotus": 1,
-    "Blue Lotus": 1,
-    "Primula Enigma": 1,
-  };
+export type Set2FlowerCrossBreedName =
+  | Extract<CropName, "Rhubarb" | "Pepper" | "Artichoke" | "Onion" | "Barley">
+  | Set2FlowerName;
+
+export type FlowerCrossBreedName =
+  | Set1FlowerCrossBreedName
+  | Set2FlowerCrossBreedName;
+
+export const SET_1_FLOWER_CROSS_BREED_AMOUNTS: Record<
+  Set1FlowerCrossBreedName,
+  number
+> = {
+  Sunflower: 50,
+  // Potato: 20,
+  // Pumpkin: 20,
+  // Carrot: 10,
+  // Cabbage: 10,
+  Beetroot: 10,
+  Cauliflower: 5,
+  Parsnip: 5,
+  Eggplant: 5,
+  Radish: 5,
+  // Corn: 5,
+  // Wheat: 5,
+  Kale: 5,
+  Blueberry: 3,
+  // Orange: 3,
+  Apple: 3,
+  Banana: 3,
+  "Red Pansy": 1,
+  "Yellow Pansy": 1,
+  "Purple Pansy": 1,
+  "White Pansy": 1,
+  "Blue Pansy": 1,
+  "Red Cosmos": 1,
+  "Yellow Cosmos": 1,
+  "Purple Cosmos": 1,
+  "White Cosmos": 1,
+  "Blue Cosmos": 1,
+  "Red Balloon Flower": 1,
+  "Yellow Balloon Flower": 1,
+  "Purple Balloon Flower": 1,
+  "White Balloon Flower": 1,
+  "Blue Balloon Flower": 1,
+  "Red Carnation": 1,
+  "Yellow Carnation": 1,
+  "Purple Carnation": 1,
+  "White Carnation": 1,
+  "Blue Carnation": 1,
+  "Prism Petal": 1,
+  "Primula Enigma": 1,
+  "Celestial Frostbloom": 1,
+  "Red Daffodil": 1,
+  "Yellow Daffodil": 1,
+  "Purple Daffodil": 1,
+  "White Daffodil": 1,
+  "Blue Daffodil": 1,
+  "Red Lotus": 1,
+  "Yellow Lotus": 1,
+  "Purple Lotus": 1,
+  "White Lotus": 1,
+  "Blue Lotus": 1,
+};
+
+export const SET_2_FLOWER_CROSS_BREED_AMOUNTS: Record<
+  Set2FlowerCrossBreedName,
+  number
+> = {
+  Rhubarb: 1,
+  Artichoke: 1,
+  Pepper: 1,
+  Onion: 1,
+  Barley: 1,
+
+  "Red Edelweiss": 1,
+  "Yellow Edelweiss": 1,
+  "Purple Edelweiss": 1,
+  "White Edelweiss": 1,
+  "Blue Edelweiss": 1,
+  "Red Gladiolus": 1,
+  "Yellow Gladiolus": 1,
+  "Purple Gladiolus": 1,
+  "White Gladiolus": 1,
+  "Blue Gladiolus": 1,
+  "Red Lavender": 1,
+  "Yellow Lavender": 1,
+  "Purple Lavender": 1,
+  "White Lavender": 1,
+  "Blue Lavender": 1,
+  "Red Clover": 1,
+  "Yellow Clover": 1,
+  "Purple Clover": 1,
+  "White Clover": 1,
+  "Blue Clover": 1,
+};
+
+export const FLOWER_CROSS_BREED_AMOUNTS: Record<
+  FlowerSeedName,
+  Partial<Record<FlowerCrossBreedName, number>>
+> = {
+  "Sunpetal Seed": SET_1_FLOWER_CROSS_BREED_AMOUNTS,
+  "Bloom Seed": SET_1_FLOWER_CROSS_BREED_AMOUNTS,
+  "Lily Seed": SET_1_FLOWER_CROSS_BREED_AMOUNTS,
+  "Edelweiss Seed": SET_2_FLOWER_CROSS_BREED_AMOUNTS,
+  "Gladiolus Seed": SET_2_FLOWER_CROSS_BREED_AMOUNTS,
+  "Lavender Seed": SET_2_FLOWER_CROSS_BREED_AMOUNTS,
+  "Clover Seed": SET_2_FLOWER_CROSS_BREED_AMOUNTS,
+};
 
 export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
   {
@@ -216,6 +341,31 @@ export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
     "White Lotus": translate("flower.breed.whiteLotus"),
     "Blue Lotus": translate("flower.breed.blueLotus"),
     "Primula Enigma": translate("flower.breed.primulaEnigma"),
+    Rhubarb: translate("flower.breed.rhubarb"),
+    Artichoke: translate("flower.breed.artichoke"),
+    Pepper: translate("flower.breed.pepper"),
+    Onion: translate("flower.breed.onion"),
+    Barley: translate("flower.breed.barley"),
+    "Red Edelweiss": translate("flower.breed.redEdelweiss"),
+    "Yellow Edelweiss": translate("flower.breed.yellowEdelweiss"),
+    "Purple Edelweiss": translate("flower.breed.purpleEdelweiss"),
+    "White Edelweiss": translate("flower.breed.whiteEdelweiss"),
+    "Blue Edelweiss": translate("flower.breed.blueEdelweiss"),
+    "Red Gladiolus": translate("flower.breed.redGladiolus"),
+    "Yellow Gladiolus": translate("flower.breed.yellowGladiolus"),
+    "Purple Gladiolus": translate("flower.breed.purpleGladiolus"),
+    "White Gladiolus": translate("flower.breed.whiteGladiolus"),
+    "Blue Gladiolus": translate("flower.breed.blueGladiolus"),
+    "Red Lavender": translate("flower.breed.redLavender"),
+    "Yellow Lavender": translate("flower.breed.yellowLavender"),
+    "Purple Lavender": translate("flower.breed.purpleLavender"),
+    "White Lavender": translate("flower.breed.whiteLavender"),
+    "Blue Lavender": translate("flower.breed.blueLavender"),
+    "Red Clover": translate("flower.breed.redClover"),
+    "Yellow Clover": translate("flower.breed.yellowClover"),
+    "Purple Clover": translate("flower.breed.purpleClover"),
+    "White Clover": translate("flower.breed.whiteClover"),
+    "Blue Clover": translate("flower.breed.blueClover"),
   };
 
 type Flower = {
@@ -366,10 +516,118 @@ const LILY_FLOWERS: Record<LilyFlowerName, Flower & { seed: "Lily Seed" }> = {
   },
 };
 
+const EDELWEISS_FLOWERS: Record<
+  EdelweissFlowerName,
+  Flower & { seed: "Edelweiss Seed" }
+> = {
+  "Red Edelweiss": {
+    seed: "Edelweiss Seed",
+    description: translate("description.red.edelweiss"),
+  },
+  "Yellow Edelweiss": {
+    seed: "Edelweiss Seed",
+    description: translate("description.yellow.edelweiss"),
+  },
+  "Purple Edelweiss": {
+    seed: "Edelweiss Seed",
+    description: translate("description.purple.edelweiss"),
+  },
+  "White Edelweiss": {
+    seed: "Edelweiss Seed",
+    description: translate("description.white.edelweiss"),
+  },
+  "Blue Edelweiss": {
+    seed: "Edelweiss Seed",
+    description: translate("description.blue.edelweiss"),
+  },
+};
+
+const GLADIOLUS_FLOWERS: Record<
+  GladiolusFlowerName,
+  Flower & { seed: "Gladiolus Seed" }
+> = {
+  "Red Gladiolus": {
+    seed: "Gladiolus Seed",
+    description: translate("description.red.gladiolus"),
+  },
+  "Yellow Gladiolus": {
+    seed: "Gladiolus Seed",
+    description: translate("description.yellow.gladiolus"),
+  },
+  "Purple Gladiolus": {
+    seed: "Gladiolus Seed",
+    description: translate("description.purple.gladiolus"),
+  },
+  "White Gladiolus": {
+    seed: "Gladiolus Seed",
+    description: translate("description.white.gladiolus"),
+  },
+  "Blue Gladiolus": {
+    seed: "Gladiolus Seed",
+    description: translate("description.blue.gladiolus"),
+  },
+};
+
+const LAVENDER_FLOWERS: Record<
+  LavenderFlowerName,
+  Flower & { seed: "Lavender Seed" }
+> = {
+  "Red Lavender": {
+    seed: "Lavender Seed",
+    description: translate("description.red.lavender"),
+  },
+  "Yellow Lavender": {
+    seed: "Lavender Seed",
+    description: translate("description.yellow.lavender"),
+  },
+  "Purple Lavender": {
+    seed: "Lavender Seed",
+    description: translate("description.purple.lavender"),
+  },
+  "White Lavender": {
+    seed: "Lavender Seed",
+    description: translate("description.white.lavender"),
+  },
+  "Blue Lavender": {
+    seed: "Lavender Seed",
+    description: translate("description.blue.lavender"),
+  },
+};
+
+const CLOVER_FLOWERS: Record<
+  CloverFlowerName,
+  Flower & { seed: "Clover Seed" }
+> = {
+  "Red Clover": {
+    seed: "Clover Seed",
+    description: translate("description.red.clover"),
+  },
+  "Yellow Clover": {
+    seed: "Clover Seed",
+    description: translate("description.yellow.clover"),
+  },
+  "Purple Clover": {
+    seed: "Clover Seed",
+    description: translate("description.purple.clover"),
+  },
+  "White Clover": {
+    seed: "Clover Seed",
+    description: translate("description.white.clover"),
+  },
+  "Blue Clover": {
+    seed: "Clover Seed",
+    description: translate("description.blue.clover"),
+  },
+};
+
 export const FLOWERS: Record<FlowerName, Flower> = {
   ...SUNPETAL_FLOWERS,
   ...BLOOM_FLOWERS,
   ...LILY_FLOWERS,
+  ...EDELWEISS_FLOWERS,
+  ...GLADIOLUS_FLOWERS,
+  ...LAVENDER_FLOWERS,
+  ...CLOVER_FLOWERS,
 };
 
 export type FlowerGrowthStage =
@@ -378,97 +636,5 @@ export type FlowerGrowthStage =
   | "halfway"
   | "almost"
   | "ready";
-
-type Lifecycle = {
-  seedling: any;
-  sprout: any;
-  halfway: any;
-  almost: any;
-  ready: any;
-};
-
-const IMAGES: Record<FlowerName, string> = {
-  "Red Pansy": "red_pansy",
-  "Yellow Pansy": "yellow_pansy",
-  "Purple Pansy": "purple_pansy",
-  "White Pansy": "white_pansy",
-  "Blue Pansy": "blue_pansy",
-  "Red Cosmos": "red_cosmos",
-  "Yellow Cosmos": "yellow_cosmos",
-  "Purple Cosmos": "purple_cosmos",
-  "White Cosmos": "white_cosmos",
-  "Blue Cosmos": "blue_cosmos",
-  "Prism Petal": "prism_petal",
-  "Red Balloon Flower": "red_balloon_flower",
-  "Yellow Balloon Flower": "yellow_balloon_flower",
-  "Purple Balloon Flower": "purple_balloon_flower",
-  "White Balloon Flower": "white_balloon_flower",
-  "Blue Balloon Flower": "blue_balloon_flower",
-  "Red Daffodil": "red_daffodil",
-  "Yellow Daffodil": "yellow_daffodil",
-  "Purple Daffodil": "purple_daffodil",
-  "White Daffodil": "white_daffodil",
-  "Blue Daffodil": "blue_daffodil",
-  "Celestial Frostbloom": "celestial_frostbloom",
-  "Red Carnation": "red_carnation",
-  "Yellow Carnation": "yellow_carnation",
-  "Purple Carnation": "purple_carnation",
-  "White Carnation": "white_carnation",
-  "Blue Carnation": "blue_carnation",
-  "Red Lotus": "red_lotus",
-  "Yellow Lotus": "yellow_lotus",
-  "Purple Lotus": "purple_lotus",
-  "White Lotus": "white_lotus",
-  "Blue Lotus": "blue_lotus",
-  "Primula Enigma": "primula_enigma",
-};
-
-export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
-  IMAGES,
-).reduce(
-  (acc, name) => ({
-    ...acc,
-    [name]: {
-      seedling: `flowers/seedling.webp`,
-      sprout: `flowers/sprout.webp`,
-      halfway: `flowers/halfway.webp`,
-      almost: `flowers/${IMAGES[name]}_growing.webp`,
-      ready: `flowers/${IMAGES[name]}_ready.webp`,
-    },
-  }),
-  {} as Record<FlowerName, Lifecycle>,
-);
-
-export const DESERT_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
-  IMAGES,
-).reduce(
-  (acc, name) => ({
-    ...acc,
-    [name]: {
-      seedling: `flowers/desert/seedling.webp`,
-      sprout: `flowers/desert/sprout.webp`,
-      halfway: `flowers/desert/halfway.webp`,
-      almost: `flowers/desert/${IMAGES[name]}_growing.webp`,
-      ready: `flowers/desert/${IMAGES[name]}_ready.webp`,
-    },
-  }),
-  {} as Record<FlowerName, Lifecycle>,
-);
-
-export const VOLCANO_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
-  IMAGES,
-).reduce(
-  (acc, name) => ({
-    ...acc,
-    [name]: {
-      seedling: `flowers/volcano/seedling.webp`,
-      sprout: `flowers/volcano/sprout.webp`,
-      halfway: `flowers/volcano/halfway.webp`,
-      almost: `flowers/volcano/${IMAGES[name]}_growing.webp`,
-      ready: `flowers/volcano/${IMAGES[name]}_ready.webp`,
-    },
-  }),
-  {} as Record<FlowerName, Lifecycle>,
-);
 
 export type MutantFlowerName = "Desert Rose" | "Chicory";
