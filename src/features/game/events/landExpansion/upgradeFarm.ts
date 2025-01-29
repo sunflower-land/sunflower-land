@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { getKeys } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import {
   GameState,
   Inventory,
@@ -1047,30 +1047,32 @@ export function expireItems({
   game: GameState;
   createdAt: number;
 }) {
-  const inActiveTimeWarps = [
-    ...(game.collectibles["Time Warp Totem"] ?? []),
-    ...(game.home.collectibles["Time Warp Totem"] ?? []),
-  ].filter(
-    (totem) =>
-      totem.createdAt + (EXPIRY_COOLDOWNS["Time Warp Totem"] ?? 0) < createdAt,
-  ).length;
+  // iterate the expiry cooldowns and remove any items that have expired
+  const expiredItems = Object.entries(EXPIRY_COOLDOWNS).reduce(
+    (acc, [name, cooldown]) => {
+      const items = game.collectibles[name as CollectibleName] ?? [];
+      const homeItems = game.home.collectibles[name as CollectibleName] ?? [];
+      const expiredItems = [...items, ...homeItems].filter(
+        (item) => item.createdAt + cooldown < createdAt,
+      );
 
-  const inActiveSuperTotems = [
-    ...(game.collectibles["Super Totem"] ?? []),
-    ...(game.home.collectibles["Super Totem"] ?? []),
-  ].filter(
-    (totem) =>
-      totem.createdAt + (EXPIRY_COOLDOWNS["Super Totem"] ?? 0) < createdAt,
-  ).length;
+      if (expiredItems.length > 0) {
+        return { ...acc, [name]: expiredItems.length };
+      }
 
-  if (inActiveTimeWarps > 0) {
-    const previous = game.inventory["Time Warp Totem"] ?? new Decimal(0);
-    game.inventory["Time Warp Totem"] = previous.sub(inActiveTimeWarps);
-  }
+      return acc;
+    },
+    {},
+  );
 
-  if (inActiveSuperTotems > 0) {
-    const previous = game.inventory["Super Totem"] ?? new Decimal(0);
-    game.inventory["Super Totem"] = previous.sub(inActiveSuperTotems);
+  if (getKeys(expiredItems).length > 0) {
+    getKeys(expiredItems).forEach((name) => {
+      const previous =
+        game.inventory[name as InventoryItemName] ?? new Decimal(0);
+      game.inventory[name as InventoryItemName] = previous.sub(
+        expiredItems[name],
+      );
+    });
   }
 
   return game;
