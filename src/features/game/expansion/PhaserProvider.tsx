@@ -101,13 +101,7 @@ export const PhaserProvider: React.FC<{ children: React.ReactNode }> = ({
               halfway) /
             GRID_WIDTH_PX;
 
-          console.log(
-            halfway,
-            Math.floor(depth),
-            (this as any).player.y + (this as any).player.height,
-          );
-
-          (this as any).player.setDepth(Math.floor(depth));
+          (this as any).player.setDepth(Math.floor(depth) << 8);
 
           (this as any).player.setVelocity(velocityX, velocityY);
         },

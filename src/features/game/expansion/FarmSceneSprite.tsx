@@ -31,7 +31,7 @@ export const FarmSceneSprite: React.FC<FarmSceneSpriteProps> = ({
   const scene = useFarmScene();
   const mapPlacement = useMapPlacement();
 
-  const { x, y, width: mapWidth, height: mapHeight, z } = mapPlacement ?? {};
+  const { x, y, width: mapWidth, height: mapHeight } = mapPlacement ?? {};
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -69,7 +69,7 @@ export const FarmSceneSprite: React.FC<FarmSceneSpriteProps> = ({
     sprite.setOrigin(0, 0);
     sprite.setScale(PIXEL_SCALE);
 
-    sprite.setDepth(-(y ?? 0));
+    sprite.setDepth(-(y ?? 0) << 8);
 
     sprite.setInteractive({ cursor: "pointer" });
     sprite.on("pointerup", () => ref.current?.click());
@@ -123,9 +123,5 @@ export const FarmSceneSprite: React.FC<FarmSceneSpriteProps> = ({
     texture,
   ]);
 
-  return (
-    <div className="invisible" ref={ref} onClick={onClick}>
-      {image}
-    </div>
-  );
+  return <div className="invisible divsoup" ref={ref} onClick={onClick}></div>;
 };
