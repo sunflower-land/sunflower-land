@@ -918,6 +918,7 @@ export function startGame(authContext: AuthContext) {
               cond: (context) => {
                 return (
                   hasFeatureAccess(context.state, "TEMPERATE_SEASON") &&
+                  context.state.island.type !== "basic" &&
                   context.state.season.startedAt !==
                     getLastTemperateSeasonStartedAt()
                 );
