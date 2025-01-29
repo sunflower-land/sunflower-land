@@ -102,7 +102,7 @@ export const Mansion: React.FC<BuildingProps> = ({
         className="absolute"
         style={{
           bottom: `${PIXEL_SCALE * 20}px`,
-          right: `${PIXEL_SCALE * 28}px`,
+          right: `${PIXEL_SCALE * 13}px`,
         }}
       >
         <LetterBox />
