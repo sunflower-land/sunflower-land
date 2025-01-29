@@ -72,7 +72,7 @@ export const Mansion: React.FC<BuildingProps> = ({
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{
-            width: `${PIXEL_SCALE * 78}px`,
+            width: `${PIXEL_SCALE * 98}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
             left: `${PIXEL_SCALE * 1}px`,
           }}
