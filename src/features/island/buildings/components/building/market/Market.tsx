@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { Modal } from "components/ui/Modal";
@@ -21,6 +21,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
+import { FarmSceneSprite } from "features/game/expansion/FarmSceneSprite";
 
 const _specialEvents = (state: MachineState) =>
   Object.entries(state.context.state.specialEvents.current)
@@ -109,24 +110,27 @@ export const Market: React.FC<BuildingProps> = ({
           }}
         />
 
-        <img
-          src={shadow}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * 6}px`,
-            right: `${PIXEL_SCALE * 18}px`,
-          }}
+        <FarmSceneSprite
+          image={MARKET_VARIANTS[island]}
+          bottom={0}
+          pointer-events="none"
+          width={PIXEL_SCALE * 48}
+          onClick={handleClick}
         />
-        <img
-          src={SUNNYSIDE.npcs.betty}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            bottom: `${PIXEL_SCALE * 8}px`,
-            right: `${PIXEL_SCALE * 16}px`,
-            transform: "scaleX(-1)",
-          }}
+
+        <FarmSceneSprite
+          bottom={PIXEL_SCALE * 6}
+          right={PIXEL_SCALE * 18}
+          width={PIXEL_SCALE * 1}
+          image={shadow}
+        />
+
+        <FarmSceneSprite
+          bottom={PIXEL_SCALE * 8}
+          right={PIXEL_SCALE * 16}
+          width={PIXEL_SCALE * 16}
+          image={SUNNYSIDE.npcs.betty}
+          flipX={true}
         />
 
         {showHelper && (

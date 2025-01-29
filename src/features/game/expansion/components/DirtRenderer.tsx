@@ -11,6 +11,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GameGrid } from "../placeable/lib/makeGrid";
 import { IslandType } from "features/game/types/game";
+import { FarmSceneSprite } from "../FarmSceneSprite";
 
 type CropAlternateArt = Record<IslandType, string>;
 
@@ -184,16 +185,13 @@ const Renderer: React.FC<Props> = ({ grid, island }) => {
       }
 
       return (
-        <img
-          className="absolute"
-          src={image}
+        <FarmSceneSprite
+          image={image}
+          top={-GRID_WIDTH_PX * y}
+          left={GRID_WIDTH_PX * x}
+          height={GRID_WIDTH_PX}
+          width={GRID_WIDTH_PX}
           key={`${x}_${y}`}
-          style={{
-            top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
-            left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
-            height: `${GRID_WIDTH_PX}px`,
-            width: `${GRID_WIDTH_PX}px`,
-          }}
         />
       );
     });

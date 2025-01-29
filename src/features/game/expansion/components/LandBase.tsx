@@ -6,7 +6,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { IslandType } from "features/game/types/game";
 
-const IMAGE_GRID_WIDTH = 36;
+export const IMAGE_GRID_WIDTH = 36;
 
 const BASIC_LEVEL_IMAGES = {
   1: SUNNYSIDE.land.basicLevel1,

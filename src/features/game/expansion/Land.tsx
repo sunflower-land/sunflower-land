@@ -55,6 +55,7 @@ import {
 } from "../events/landExpansion/discoverRecipe";
 import { hasFeatureAccess } from "lib/flags";
 import { RecipeStack } from "features/island/recipes/RecipeStack";
+import { PhaserProvider } from "./PhaserProvider";
 
 export const LAND_WIDTH = 6;
 
@@ -805,70 +806,72 @@ export const Land: React.FC = () => {
               "pointer-events-none": visiting,
             })}
           >
-            <LandBase type={island.type} expandedCount={expansionCount} />
-            <DirtRenderer island={island.type} grid={gameGrid} />
+            <PhaserProvider>
+              <LandBase type={island.type} expandedCount={expansionCount} />
+              <DirtRenderer island={island.type} grid={gameGrid} />
 
-            {!landscaping && (
-              <Water expansionCount={expansionCount} gameState={state} />
-            )}
-            {!landscaping && <UpcomingExpansion />}
-
-            <div
-              className={classNames(
-                `w-full h-full top-0 absolute transition-opacity pointer-events-none`,
-                {
-                  "opacity-0": !landscaping,
-                  "opacity-100": landscaping,
-                },
+              {!landscaping && (
+                <Water expansionCount={expansionCount} gameState={state} />
               )}
-              style={{
-                backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
-                backgroundImage: `
+              {!landscaping && <UpcomingExpansion />}
+
+              <div
+                className={classNames(
+                  `w-full h-full top-0 absolute transition-opacity pointer-events-none`,
+                  {
+                    "opacity-0": !landscaping,
+                    "opacity-100": landscaping,
+                  },
+                )}
+                style={{
+                  backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+                  backgroundImage: `
             linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
             linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
-              }}
-            />
+                }}
+              />
 
-            {/* Sort island elements by y axis */}
-            {!paused &&
-              getIslandElements({
-                game: state,
-                expansionConstruction,
-                buildings,
-                collectibles,
-                chickens,
-                trees,
-                stones,
-                iron,
-                gold,
-                crimstones,
-                sunstones,
-                fruitPatches,
-                flowerBeds,
-                crops,
-                showTimers: showTimers,
-                grid: gameGrid,
-                mushrooms: mushrooms?.mushrooms,
-                isFirstRender,
-                buds,
-                airdrops,
-                beehives,
-                oilReserves,
-                lavaPits,
-              }).sort((a, b) => {
-                if (a.props.canCollide === false) {
-                  return -1;
-                }
+              {/* Sort island elements by y axis */}
+              {!paused &&
+                getIslandElements({
+                  game: state,
+                  expansionConstruction,
+                  buildings,
+                  collectibles,
+                  chickens,
+                  trees,
+                  stones,
+                  iron,
+                  gold,
+                  crimstones,
+                  sunstones,
+                  fruitPatches,
+                  flowerBeds,
+                  crops,
+                  showTimers: showTimers,
+                  grid: gameGrid,
+                  mushrooms: mushrooms?.mushrooms,
+                  isFirstRender,
+                  buds,
+                  airdrops,
+                  beehives,
+                  oilReserves,
+                  lavaPits,
+                }).sort((a, b) => {
+                  if (a.props.canCollide === false) {
+                    return -1;
+                  }
 
-                if (b.props.y > a.props.y) {
-                  return 1;
-                }
-                if (a.props.y > b.props.y) {
-                  return -1;
-                }
+                  if (b.props.y > a.props.y) {
+                    return 1;
+                  }
+                  if (a.props.y > b.props.y) {
+                    return -1;
+                  }
 
-                return 0;
-              })}
+                  return 0;
+                })}
+            </PhaserProvider>
           </div>
 
           {landscaping && <Placeable location="farm" />}

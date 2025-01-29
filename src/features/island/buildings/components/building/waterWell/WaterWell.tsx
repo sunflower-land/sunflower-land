@@ -5,6 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
+import { FarmSceneSprite } from "features/game/expansion/FarmSceneSprite";
 
 export const WaterWell: React.FC<BuildingProps> = ({
   onRemove,
@@ -30,14 +31,12 @@ export const WaterWell: React.FC<BuildingProps> = ({
       onClick={handleClick}
       nonInteractible={!onRemove}
     >
-      <img
-        src={SUNNYSIDE.building.well}
-        style={{
-          width: `${PIXEL_SCALE * 25}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-        }}
-        className="absolute pointer-events-none"
+      <FarmSceneSprite
+        image={SUNNYSIDE.building.well}
+        width={25}
+        bottom={0}
+        left={PIXEL_SCALE * 4}
+        pointer-events="none"
       />
     </BuildingImageWrapper>
   );

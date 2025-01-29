@@ -37,7 +37,20 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousWardrobe: {},
   bank: { taxFreeSFL: 0 },
 
-  crops: {},
+  crops: {
+    "1": {
+      crop: {
+        plantedAt: 0,
+        amount: 1,
+        name: "Sunflower",
+      },
+      createdAt: 0,
+      width: 1,
+      height: 1,
+      x: -3,
+      y: 1,
+    },
+  },
   beehives: {},
   crimstones: {},
   flowers: {
