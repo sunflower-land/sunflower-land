@@ -684,7 +684,7 @@ const INITIAL_VOLCANO_LAND: Pick<
   },
   oilReserves: {
     "1": {
-      x: 2,
+      x: -8,
       y: 8,
       width: 2,
       height: 2,
