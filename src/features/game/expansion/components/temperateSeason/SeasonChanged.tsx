@@ -5,7 +5,6 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 
-import winterBanner from "assets/temperate_seasons/winter_banner.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -24,6 +23,7 @@ import {
 } from "features/game/types/calendar";
 import { SeasonDayDetails } from "./SeasonDayDetails";
 import { CalendarEventDetails } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _calendar = (state: MachineState) => state.context.state.calendar;
 
@@ -135,48 +135,29 @@ const SeasonChangedContent = () => {
         onClick={() => setShowIngredients(false)}
       >
         <div className="relative w-full">
-          <div className="flex justify-between absolute w-full p-1 pr-0">
+          <div className="flex absolute w-full p-1 pr-0 left-1 top-1">
             <Label
-              type="default"
+              type="vibrant"
               icon={seasonDetails.icon}
-              className="capitalize"
+              className="capitalize mr-1"
             >
-              {season.season}
+              X has begun
             </Label>
-            <Label type="warning">{t("temperateSeason.newSeason")}</Label>
+            <Label type="warning">New crops & fish!</Label>
           </div>
         </div>
-        <img
-          src={winterBanner}
-          className="w-full h-24 object-cover rounded-t-md"
-          alt="Season banner"
-        />
+        <div className="w-full object-cover rounded-t-md">
+          <img
+            src={SUNNYSIDE.announcement[season.season]}
+            className="w-full h-full object-cover"
+            alt="Season banner"
+          />
+        </div>
 
         <Label type="default" className="capitalize">
-          {t("temperateSeason.seasonDetails")}
+          X Events
         </Label>
         <SeasonWeek />
-
-        <IngredientsPopover
-          ingredients={seasonDetails.inSeason}
-          show={showIngredients}
-          onClick={() => setShowIngredients(false)}
-          title={t("temperateSeason.seasonalCrops")}
-        />
-        <div
-          className="flex flex-col gap-1 mt-3"
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowIngredients(!showIngredients);
-          }}
-        >
-          <Label type="default">{t("temperateSeason.seasonalCrops")}</Label>
-          <div className="flex items-center gap-1">
-            {seasonDetails.inSeason.map((item) => (
-              <img key={item} src={ITEM_DETAILS[item].image} className="w-6" />
-            ))}
-          </div>
-        </div>
       </div>
       <Button className="mt-1 capitalize" onClick={acknowledgeSeason}>
         {t("temperateSeason.enterSeason", { season: season.season })}

@@ -336,7 +336,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     recipes: {},
   },
   season: {
-    season: "spring",
-    startedAt: 0,
+    season: "autumn",
+    startedAt: Date.now(),
   },
 };
