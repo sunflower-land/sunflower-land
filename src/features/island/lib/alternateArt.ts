@@ -3,6 +3,8 @@ import volcanoBush from "assets/decorations/bush/summer_volcano_bush.webp";
 
 import { IslandType, TemperateSeasonName } from "features/game/types/game";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
+import { FlowerGrowthStage, FlowerName } from "features/game/types/flowers";
+import { CONFIG } from "lib/config";
 
 export const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.firePit,
@@ -93,34 +95,25 @@ export const FRUIT_PATCH_VARIANTS: Record<IslandType, string> = {
   volcano: SUNNYSIDE.building.volcanoFruitPatchDirt,
 };
 
-export const FLOWER_VARIANTS: Record<
-  IslandType,
-  Record<TemperateSeasonName, string>
-> = {
-  basic: {
-    spring: SUNNYSIDE.building.basic.spring.flowerBed,
-    summer: SUNNYSIDE.building.basic.summer.flowerBed,
-    autumn: SUNNYSIDE.building.basic.autumn.flowerBed,
-    winter: SUNNYSIDE.building.basic.winter.flowerBed,
-  },
-  spring: {
-    spring: SUNNYSIDE.building.basic.spring.flowerBed,
-    summer: SUNNYSIDE.building.basic.summer.flowerBed,
-    autumn: SUNNYSIDE.building.basic.autumn.flowerBed,
-    winter: SUNNYSIDE.building.basic.winter.flowerBed,
-  },
-  desert: {
-    spring: SUNNYSIDE.building.desert.spring.flowerBed,
-    summer: SUNNYSIDE.building.desert.summer.flowerBed,
-    autumn: SUNNYSIDE.building.desert.autumn.flowerBed,
-    winter: SUNNYSIDE.building.desert.winter.flowerBed,
-  },
-  volcano: {
-    spring: SUNNYSIDE.building.volcano.spring.flowerBed,
-    summer: SUNNYSIDE.building.volcano.summer.flowerBed,
-    autumn: SUNNYSIDE.building.volcano.autumn.flowerBed,
-    winter: SUNNYSIDE.building.volcano.winter.flowerBed,
-  },
+export const FLOWER_VARIANTS = (
+  island: IslandType,
+  season: TemperateSeasonName,
+  flower: FlowerName,
+  stage: FlowerGrowthStage | "flower_bed",
+) => {
+  if (
+    stage === "seedling" ||
+    stage === "halfway" ||
+    stage === "sprout" ||
+    stage === "flower_bed"
+  ) {
+    return `${CONFIG.PROTECTED_IMAGE_URL}/flowers/${island}/${season}/${stage}.webp`;
+  }
+
+  const flowerName = flower.toLowerCase().replace(/ /g, "_");
+
+  if (flowerName)
+    return `${CONFIG.PROTECTED_IMAGE_URL}/flowers/${island}/${season}/${flowerName}_${stage}.webp`;
 };
 
 export const DIRT_PATH_VARIANTS: Record<IslandType, string> = {
