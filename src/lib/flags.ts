@@ -7,7 +7,24 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
 
 const seasonAdminFeatureFlag = ({ username }: GameState) =>
   testnetFeatureFlag() ||
-  ["adam", "eliassfl", "dcol"].includes(username?.toLowerCase() ?? "");
+  [
+    "adam",
+    "eliassfl",
+    "dcol",
+    "Vittoc",
+    "Telk",
+    "Thinktronik",
+    "Henry",
+    "Blasta",
+    "Dcol",
+    "Aeon",
+    "Elias",
+    "keg",
+    "dionis",
+    "mama",
+  ]
+    .map((name) => name.toLowerCase())
+    .includes(username?.toLowerCase() ?? "");
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
@@ -83,7 +100,7 @@ const featureFlags = {
   }),
   WEATHER_SHOP: testnetFeatureFlag,
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
-  SEASONAL_EVENTS_NOTIFICATIONS: adminFeatureFlag,
+  SEASONAL_EVENTS_NOTIFICATIONS: seasonAdminFeatureFlag,
   SEASONAL_SEEDS: seasonAdminFeatureFlag,
   SEASONAL_FISH: seasonAdminFeatureFlag,
   VOLCANO_ISLAND: seasonAdminFeatureFlag,
