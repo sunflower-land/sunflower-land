@@ -20,6 +20,17 @@ const seasonAdminFeatureFlag = ({ username }: GameState) =>
     "kegw",
     "Dionis",
     "MamaMahalkoe",
+    "Andrei",
+    "SlyKai",
+    "Oniel",
+    "Tourist",
+    "Kevin",
+    "ShinKan42",
+    "JcEii",
+    "Pecel",
+    "inubakabo",
+    "JKrak",
+    "Droid",
   ]
     .map((name) => name.toLowerCase())
     .includes(username?.toLowerCase() ?? "");
