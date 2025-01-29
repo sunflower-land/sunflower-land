@@ -23,9 +23,9 @@ export function getTimeUntilNextFreeReset(
   previousFreeSkillResetAt: number,
   now = Date.now(),
 ) {
-  const fourMonthsInMs = 4 * 30 * 24 * 60 * 60 * 1000; // 4 months in milliseconds
+  const sixMonthsInMs = 6 * 30 * 24 * 60 * 60 * 1000; // 6 months in milliseconds
   const timeSinceLastFreeReset = now - previousFreeSkillResetAt;
-  const timeRemaining = fourMonthsInMs - timeSinceLastFreeReset;
+  const timeRemaining = sixMonthsInMs - timeSinceLastFreeReset;
   return timeRemaining;
 }
 
@@ -33,8 +33,8 @@ export function canResetForFree(
   previousFreeSkillResetAt: number,
   now = Date.now(),
 ) {
-  const fourMonthsInMs = 4 * 30 * 24 * 60 * 60 * 1000; // 4 months in milliseconds
-  return now - previousFreeSkillResetAt >= fourMonthsInMs;
+  const sixMonthsInMs = 6 * 30 * 24 * 60 * 60 * 1000; // 6 months in milliseconds
+  return now - previousFreeSkillResetAt >= sixMonthsInMs;
 }
 
 export function resetSkills({

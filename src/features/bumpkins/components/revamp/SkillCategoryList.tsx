@@ -249,7 +249,7 @@ export const SkillCategoryList: React.FC<{
 
               {resetType === "free" ? (
                 <p className="text-xs text-center">
-                  {`Reset all your skills for free. You can do this once every 4 months.`}
+                  {`Reset all your skills for free. You can do this once every 6 months.`}
                 </p>
               ) : (
                 <>
