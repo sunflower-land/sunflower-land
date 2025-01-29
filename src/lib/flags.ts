@@ -91,12 +91,12 @@ const featureFlags = {
   ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
     new Date("2024-12-18T00:00:00Z"),
   ),
-  TEMPERATE_SEASON: testnetFeatureFlag,
+  TEMPERATE_SEASON: seasonAdminFeatureFlag,
   PIZZA_SPEED_UP_RESTRICTION: timePeriodFeatureFlag({
     start: new Date("2024-12-18T00:00:00Z"),
     end: new Date("2025-01-31T00:00:00Z"),
   }),
-  WEATHER_SHOP: testnetFeatureFlag,
+  WEATHER_SHOP: seasonAdminFeatureFlag,
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
   SEASONAL_EVENTS_NOTIFICATIONS: seasonAdminFeatureFlag,
   SEASONAL_SEEDS: seasonAdminFeatureFlag,
