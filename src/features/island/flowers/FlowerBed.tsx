@@ -28,6 +28,7 @@ import { FLOWER_VARIANTS } from "../lib/alternateArt";
 
 import chest from "assets/icons/chest.png";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   id: string;
@@ -102,7 +103,9 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           <img
             src={FLOWER_VARIANTS(
               state.island.type,
-              "winter",
+              hasFeatureAccess(state, "SEASONAL_FLOWERS")
+                ? state.season.season
+                : "summer",
               "Red Pansy",
               "flower_bed",
             )}

@@ -3,7 +3,6 @@ import { CropName } from "./crops";
 import { PatchFruitName } from "./fruits";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
-import { CONFIG } from "lib/config";
 
 type PansyName =
   | "Red Pansy"
@@ -140,33 +139,33 @@ export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
     plantingSpot: "Flower Bed",
   },
   "Edelweiss Seed": {
-    price: 16,
-    bumpkinLevel: 13,
-    plantSeconds: CONFIG.NETWORK === "amoy" ? 1 : 1 * 24 * 60 * 60,
+    price: 96,
+    bumpkinLevel: 35,
+    plantSeconds: 3 * 24 * 60 * 60,
     plantingSpot: "Flower Bed",
     disabled: false,
     description: translate("description.edelweiss.seed"),
   },
   "Gladiolus Seed": {
-    price: 16,
-    bumpkinLevel: 13,
-    plantSeconds: CONFIG.NETWORK === "amoy" ? 1 : 1 * 24 * 60 * 60,
+    price: 96,
+    bumpkinLevel: 35,
+    plantSeconds: 3 * 24 * 60 * 60,
     plantingSpot: "Flower Bed",
     disabled: false,
     description: translate("description.gladiolus.seed"),
   },
   "Lavender Seed": {
-    price: 16,
-    bumpkinLevel: 13,
-    plantSeconds: CONFIG.NETWORK === "amoy" ? 1 : 1 * 24 * 60 * 60,
+    price: 96,
+    bumpkinLevel: 35,
+    plantSeconds: 3 * 24 * 60 * 60,
     plantingSpot: "Flower Bed",
     disabled: false,
     description: translate("description.lavender.seed"),
   },
   "Clover Seed": {
-    price: 16,
-    bumpkinLevel: 13,
-    plantSeconds: CONFIG.NETWORK === "amoy" ? 1 : 1 * 24 * 60 * 60,
+    price: 96,
+    bumpkinLevel: 35,
+    plantSeconds: 3 * 24 * 60 * 60,
     plantingSpot: "Flower Bed",
     disabled: false,
     description: translate("description.clover.seed"),
