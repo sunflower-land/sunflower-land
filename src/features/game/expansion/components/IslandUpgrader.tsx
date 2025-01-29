@@ -41,14 +41,14 @@ const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
 const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
-  desert: SUNNYSIDE.land.desertRaft,
+  desert: SUNNYSIDE.land.volcanoRaft,
   volcano: null, // Next prestige after volcano
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.announcement.springPrestige,
   spring: SUNNYSIDE.announcement.desertPrestige,
-  desert: SUNNYSIDE.announcement.desertPrestige,
+  desert: SUNNYSIDE.announcement.volcanoPrestige,
   volcano: null, // Next prestige after volcano
 };
 

@@ -99,7 +99,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
         </div>
         {restockSeeds.length > 0 && (
           <Label
-            icon={CROP_LIFECYCLE.Sunflower.seed}
+            icon={CROP_LIFECYCLE.basic.Sunflower.seed}
             type="default"
             className="ml-2 mb-1"
           >

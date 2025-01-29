@@ -12,6 +12,7 @@ import {
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { IslandType } from "features/game/types/game";
 
 const pluralisedNames: Record<PatchFruitName, string> = {
   Orange: "Oranges",
@@ -27,18 +28,20 @@ const pluralisedNames: Record<PatchFruitName, string> = {
 
 interface Props {
   patchFruitName: PatchFruitName;
+  islandType: IslandType;
   timeLeft: number;
   playShakeAnimation: boolean;
 }
 
 export const ReplenishingTree: React.FC<Props> = ({
+  islandType,
   patchFruitName,
   timeLeft,
   playShakeAnimation,
 }) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
-  const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
+  const lifecycle = PATCH_FRUIT_LIFECYCLE[islandType][patchFruitName];
 
   const { seed, isBush } = PATCH_FRUIT[patchFruitName];
   let bottom, left, width;

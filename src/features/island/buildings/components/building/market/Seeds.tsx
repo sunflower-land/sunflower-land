@@ -298,7 +298,7 @@ export const Seeds: React.FC = () => {
       content={
         <div className="pl-1">
           <Label
-            icon={CROP_LIFECYCLE.Sunflower.crop}
+            icon={CROP_LIFECYCLE.basic.Sunflower.crop}
             type="default"
             className="ml-2 mb-1"
           >
@@ -327,7 +327,7 @@ export const Seeds: React.FC = () => {
               ))}
           </div>
           <Label
-            icon={CROP_LIFECYCLE.Carrot.crop}
+            icon={CROP_LIFECYCLE.basic.Carrot.crop}
             type="default"
             className="ml-2 mb-1"
           >
@@ -352,7 +352,7 @@ export const Seeds: React.FC = () => {
               ))}
           </div>
           <Label
-            icon={CROP_LIFECYCLE.Kale.crop}
+            icon={CROP_LIFECYCLE.basic.Kale.crop}
             type="default"
             className="ml-2 mb-1"
           >

@@ -14,10 +14,34 @@ import { Equipped } from "../types/bumpkin";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 export const STATIC_OFFLINE_FARM: GameState = {
-  coins: 0,
+  coins: 10000,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    "Dirt Path": new Decimal(20),
+    Marty: new Decimal(2),
+    Miffy: new Decimal(2),
+    Morty: new Decimal(2),
+    "Town Center": new Decimal(1),
+    Market: new Decimal(1),
+    Workbench: new Decimal(1),
+    "Basic Land": new Decimal(10),
+    Bush: new Decimal(3),
+    Axe: new Decimal(10),
+    Gem: new Decimal(1 * BB_TO_GEM_RATIO),
+    Rug: new Decimal(1),
+    Wardrobe: new Decimal(1),
+    Shovel: new Decimal(1),
+    Mansion: new Decimal(1),
+    Wood: new Decimal(1000),
+    Stone: new Decimal(1000),
+    Iron: new Decimal(1000),
+    Gold: new Decimal(1000),
+    Earthworm: new Decimal(200),
+    Sunflower: new Decimal(100),
+  },
+  previousInventory: {
+    "Dirt Path": new Decimal(20),
     Marty: new Decimal(2),
     Miffy: new Decimal(2),
     Morty: new Decimal(2),
@@ -31,26 +55,76 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
     Sunstone: new Decimal(20),
+    Mansion: new Decimal(1),
+    Wood: new Decimal(1000),
+    Stone: new Decimal(1000),
+    Iron: new Decimal(1000),
+    Gold: new Decimal(1000),
   },
-  previousInventory: {},
   wardrobe: {},
   previousWardrobe: {},
   bank: { taxFreeSFL: 0 },
-
-  crops: {},
   beehives: {},
   crimstones: {},
   flowers: {
     discovered: {},
-    flowerBeds: {},
+    flowerBeds: {
+      "1": {
+        createdAt: 0,
+        x: -3,
+        y: 3,
+        width: 3,
+        height: 1,
+        flower: {
+          name: "Red Balloon Flower",
+          plantedAt: 0,
+          amount: 1,
+        },
+      },
+    },
   },
   lavaPits: {},
 
-  fruitPatches: {},
+  fruitPatches: {
+    "1": {
+      x: -2,
+      y: 6,
+      width: 2,
+      height: 2,
+      fruit: {
+        name: "Banana",
+        plantedAt: 0,
+        amount: 1,
+        harvestsLeft: 1,
+        harvestedAt: 0,
+      },
+    },
+  },
   gold: {},
   iron: {},
   stones: {},
-  trees: {},
+  trees: {
+    1: {
+      wood: {
+        amount: 2,
+        choppedAt: 0,
+      },
+      x: 4,
+      y: -2,
+      height: 2,
+      width: 2,
+    },
+    2: {
+      wood: {
+        amount: 2,
+        choppedAt: 0,
+      },
+      x: 6,
+      y: -2,
+      height: 2,
+      width: 2,
+    },
+  },
   sunstones: {},
   oilReserves: {},
 
@@ -163,7 +237,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
 
   island: {
-    type: "basic",
+    type: "volcano",
   },
 
   home: {
@@ -202,7 +276,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   experiments: ["GEM_BOOSTS"],
 
-  conversations: ["hank-intro"],
+  conversations: [],
 
   fishing: {
     dailyAttempts: {},
@@ -218,13 +292,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
   chickens: {},
   trades: {},
   buildings: {
-    "Town Center": [
+    Mansion: [
       {
         id: "123",
         readyAt: 0,
         coordinates: {
           x: -1,
-          y: 1,
+          y: 8,
         },
         createdAt: 0,
       },
@@ -240,6 +314,50 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
+    Deli: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -8,
+          y: 1,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Smoothie Shack": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -6,
+          y: 6,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Fire Pit": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -1,
+          y: 0,
+        },
+        createdAt: 0,
+      },
+    ],
+    Bakery: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 1,
+        },
+        createdAt: 0,
+      },
+    ],
 
     Market: [
       {
@@ -247,11 +365,37 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
         coordinates: {
           x: 5,
-          y: 3,
+          y: 4,
         },
         createdAt: 0,
       },
     ],
+  },
+  crops: {
+    "1": {
+      width: 1,
+      x: -2,
+      createdAt: 1703364823336,
+      y: 0,
+      height: 1,
+      crop: {
+        plantedAt: 0,
+        name: "Sunflower",
+        amount: 1,
+      },
+    },
+    "2": {
+      width: 1,
+      x: -3,
+      createdAt: 1703364823336,
+      y: 0,
+      height: 1,
+      crop: {
+        plantedAt: 0,
+        name: "Sunflower",
+        amount: 1,
+      },
+    },
   },
   collectibles: {},
   pumpkinPlaza: {},

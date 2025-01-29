@@ -7,6 +7,9 @@ import Spritesheet, {
 import desertShakeSheet from "assets/resources/tree/desert_shake_sheet.webp";
 import cacti from "assets/resources/tree/cacti.webp";
 
+import summerVolcanoShakeSheet from "assets/resources/tree/summer_volcano_trees_shake_sheet.webp";
+import summerVolcanoTree from "assets/resources/tree/summer_volcano_tree.webp";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Bar } from "components/ui/ProgressBar";
@@ -34,14 +37,14 @@ const SHAKE_SHEET: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.shakeSheet,
   spring: SUNNYSIDE.resource.springShakeSheet,
   desert: desertShakeSheet,
-  volcano: desertShakeSheet,
+  volcano: summerVolcanoShakeSheet,
 };
 
 const TREE_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree,
   spring: SUNNYSIDE.resource.spring_tree,
   desert: cacti,
-  volcano: cacti,
+  volcano: summerVolcanoTree,
 };
 
 const RecoveredTreeComponent: React.FC<Props> = ({

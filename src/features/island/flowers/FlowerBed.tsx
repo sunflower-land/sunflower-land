@@ -13,6 +13,7 @@ import {
   FLOWER_SEEDS,
   FlowerName,
   FlowerGrowthStage,
+  VOLCANO_FLOWER_LIFECYCLE,
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -36,7 +37,7 @@ const LIFECYCLE_VARIANTS: Record<IslandType, typeof FLOWER_LIFECYCLE> = {
   basic: FLOWER_LIFECYCLE,
   spring: FLOWER_LIFECYCLE,
   desert: DESERT_FLOWER_LIFECYCLE,
-  volcano: DESERT_FLOWER_LIFECYCLE,
+  volcano: VOLCANO_FLOWER_LIFECYCLE,
 };
 
 interface Props {
