@@ -1142,8 +1142,8 @@ function volcanoUpgrade(state: GameState) {
     {
       id: "volcano-island-upgrade-reward",
       coordinates: {
-        x: -1,
-        y: 7,
+        x: -6,
+        y: 5,
       },
       createdAt: 0,
       items: {
