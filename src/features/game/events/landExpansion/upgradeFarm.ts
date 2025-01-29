@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { getKeys } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import {
   GameState,
   Inventory,
