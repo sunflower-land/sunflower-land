@@ -99,6 +99,7 @@ interface Props {
   id: string;
   index: number;
 }
+
 export const Plot: React.FC<Props> = ({ id, index }) => {
   const { t } = useAppTranslation();
 

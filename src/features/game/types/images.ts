@@ -846,191 +846,191 @@ type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 export const ITEM_DETAILS: Items = {
   Sunflower: {
-    image: CROP_LIFECYCLE.Sunflower.crop,
+    image: CROP_LIFECYCLE.basic.Sunflower.crop,
     description: CROPS.Sunflower.description,
   },
   Potato: {
-    image: CROP_LIFECYCLE.Potato.crop,
+    image: CROP_LIFECYCLE.basic.Potato.crop,
     description: CROPS.Potato.description,
   },
   Pumpkin: {
-    image: CROP_LIFECYCLE.Pumpkin.crop,
+    image: CROP_LIFECYCLE.basic.Pumpkin.crop,
     description: CROPS.Pumpkin.description,
   },
   Carrot: {
-    image: CROP_LIFECYCLE.Carrot.crop,
+    image: CROP_LIFECYCLE.basic.Carrot.crop,
     description: CROPS.Carrot.description,
   },
   Cabbage: {
-    image: CROP_LIFECYCLE.Cabbage.crop,
+    image: CROP_LIFECYCLE.basic.Cabbage.crop,
     description: CROPS.Cabbage.description,
   },
   Beetroot: {
-    image: CROP_LIFECYCLE.Beetroot.crop,
+    image: CROP_LIFECYCLE.basic.Beetroot.crop,
     description: CROPS.Beetroot.description,
   },
   Cauliflower: {
-    image: CROP_LIFECYCLE.Cauliflower.crop,
+    image: CROP_LIFECYCLE.basic.Cauliflower.crop,
     description: CROPS.Cauliflower.description,
   },
   Parsnip: {
-    image: CROP_LIFECYCLE.Parsnip.crop,
+    image: CROP_LIFECYCLE.basic.Parsnip.crop,
     description: CROPS.Parsnip.description,
   },
   Eggplant: {
-    image: CROP_LIFECYCLE.Eggplant.crop,
+    image: CROP_LIFECYCLE.basic.Eggplant.crop,
     description: CROPS.Eggplant.description,
   },
   Corn: {
-    image: CROP_LIFECYCLE.Corn.crop,
+    image: CROP_LIFECYCLE.basic.Corn.crop,
     description: CROPS.Corn.description,
   },
   Radish: {
-    image: CROP_LIFECYCLE.Radish.crop,
+    image: CROP_LIFECYCLE.basic.Radish.crop,
     description: CROPS.Radish.description,
   },
   Wheat: {
-    image: CROP_LIFECYCLE.Wheat.crop,
+    image: CROP_LIFECYCLE.basic.Wheat.crop,
     description: CROPS.Wheat.description,
   },
   Kale: {
-    image: CROP_LIFECYCLE.Kale.crop,
+    image: CROP_LIFECYCLE.basic.Kale.crop,
     description: CROPS.Kale.description,
   },
   Soybean: {
-    image: CROP_LIFECYCLE.Soybean.crop,
+    image: CROP_LIFECYCLE.basic.Soybean.crop,
     description: CROPS.Soybean.description,
   },
   Barley: {
-    image: CROP_LIFECYCLE.Barley.crop,
+    image: CROP_LIFECYCLE.basic.Barley.crop,
     description: translate("description.barley"),
   },
   Rhubarb: {
-    image: CROP_LIFECYCLE.Rhubarb.crop,
+    image: CROP_LIFECYCLE.basic.Rhubarb.crop,
     description: translate("description.rhubarb"),
   },
   Zucchini: {
-    image: CROP_LIFECYCLE.Zucchini.crop,
+    image: CROP_LIFECYCLE.basic.Zucchini.crop,
     description: translate("description.zucchini"),
   },
   Yam: {
-    image: CROP_LIFECYCLE.Yam.crop,
+    image: CROP_LIFECYCLE.basic.Yam.crop,
     description: translate("description.yam"),
   },
   Broccoli: {
-    image: CROP_LIFECYCLE.Broccoli.crop,
+    image: CROP_LIFECYCLE.basic.Broccoli.crop,
     description: translate("description.broccoli"),
   },
   Pepper: {
-    image: CROP_LIFECYCLE.Pepper.crop,
+    image: CROP_LIFECYCLE.basic.Pepper.crop,
     description: translate("description.pepper"),
   },
   Onion: {
-    image: CROP_LIFECYCLE.Onion.crop,
+    image: CROP_LIFECYCLE.basic.Onion.crop,
     description: translate("description.onion"),
   },
   Turnip: {
-    image: CROP_LIFECYCLE.Turnip.crop,
+    image: CROP_LIFECYCLE.basic.Turnip.crop,
     description: translate("description.turnip"),
   },
   Artichoke: {
-    image: CROP_LIFECYCLE.Artichoke.crop,
+    image: CROP_LIFECYCLE.basic.Artichoke.crop,
     description: translate("description.artichoke"),
   },
   "Sunflower Seed": {
-    image: CROP_LIFECYCLE.Sunflower.seed,
-    secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
+    image: CROP_LIFECYCLE.basic.Sunflower.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Sunflower.crop,
     description: CROP_SEEDS["Sunflower Seed"].description,
   },
   "Potato Seed": {
-    image: CROP_LIFECYCLE.Potato.seed,
-    secondaryImage: CROP_LIFECYCLE.Potato.crop,
+    image: CROP_LIFECYCLE.basic.Potato.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Potato.crop,
     description: CROP_SEEDS["Potato Seed"].description,
   },
   "Pumpkin Seed": {
-    image: CROP_LIFECYCLE.Pumpkin.seed,
-    secondaryImage: CROP_LIFECYCLE.Pumpkin.crop,
+    image: CROP_LIFECYCLE.basic.Pumpkin.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Pumpkin.crop,
     description: CROP_SEEDS["Pumpkin Seed"].description,
   },
   "Carrot Seed": {
-    image: CROP_LIFECYCLE.Carrot.seed,
-    secondaryImage: CROP_LIFECYCLE.Carrot.crop,
+    image: CROP_LIFECYCLE.basic.Carrot.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Carrot.crop,
     description: CROP_SEEDS["Carrot Seed"].description,
   },
   "Cabbage Seed": {
-    image: CROP_LIFECYCLE.Cabbage.seed,
-    secondaryImage: CROP_LIFECYCLE.Cabbage.crop,
+    image: CROP_LIFECYCLE.basic.Cabbage.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Cabbage.crop,
     description: CROP_SEEDS["Cabbage Seed"].description,
   },
   "Beetroot Seed": {
-    image: CROP_LIFECYCLE.Beetroot.seed,
-    secondaryImage: CROP_LIFECYCLE.Beetroot.crop,
+    image: CROP_LIFECYCLE.basic.Beetroot.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Beetroot.crop,
     description: CROP_SEEDS["Beetroot Seed"].description,
   },
   "Cauliflower Seed": {
-    image: CROP_LIFECYCLE.Cauliflower.seed,
-    secondaryImage: CROP_LIFECYCLE.Cauliflower.crop,
+    image: CROP_LIFECYCLE.basic.Cauliflower.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Cauliflower.crop,
     description: CROP_SEEDS["Cauliflower Seed"].description,
   },
   "Parsnip Seed": {
-    image: CROP_LIFECYCLE.Parsnip.seed,
-    secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
+    image: CROP_LIFECYCLE.basic.Parsnip.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Parsnip.crop,
     description: CROP_SEEDS["Parsnip Seed"].description,
   },
   "Eggplant Seed": {
-    image: CROP_LIFECYCLE.Eggplant.seed,
-    secondaryImage: CROP_LIFECYCLE.Eggplant.crop,
+    image: CROP_LIFECYCLE.basic.Eggplant.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Eggplant.crop,
     description: CROP_SEEDS["Eggplant Seed"].description,
   },
   "Corn Seed": {
-    image: CROP_LIFECYCLE.Corn.seed,
-    secondaryImage: CROP_LIFECYCLE.Corn.crop,
+    image: CROP_LIFECYCLE.basic.Corn.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Corn.crop,
     description: CROP_SEEDS["Corn Seed"].description,
   },
   "Radish Seed": {
-    image: CROP_LIFECYCLE.Radish.seed,
-    secondaryImage: CROP_LIFECYCLE.Radish.crop,
+    image: CROP_LIFECYCLE.basic.Radish.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Radish.crop,
     description: CROP_SEEDS["Radish Seed"].description,
   },
   "Wheat Seed": {
-    image: CROP_LIFECYCLE.Wheat.seed,
-    secondaryImage: CROP_LIFECYCLE.Wheat.crop,
+    image: CROP_LIFECYCLE.basic.Wheat.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Wheat.crop,
     description: CROP_SEEDS["Wheat Seed"].description,
   },
   "Barley Seed": {
-    image: CROP_LIFECYCLE.Barley.seed,
+    image: CROP_LIFECYCLE.basic.Barley.seed,
     description: translate("description.barley"),
   },
   "Rhubarb Seed": {
-    image: CROP_LIFECYCLE.Rhubarb.seed,
+    image: CROP_LIFECYCLE.basic.Rhubarb.seed,
     description: translate("description.rhubarb"),
   },
   "Zucchini Seed": {
-    image: CROP_LIFECYCLE.Zucchini.seed,
+    image: CROP_LIFECYCLE.basic.Zucchini.seed,
     description: translate("description.zucchini"),
   },
   "Yam Seed": {
-    image: CROP_LIFECYCLE.Yam.seed,
+    image: CROP_LIFECYCLE.basic.Yam.seed,
     description: translate("description.yam"),
   },
   "Broccoli Seed": {
-    image: CROP_LIFECYCLE.Broccoli.seed,
+    image: CROP_LIFECYCLE.basic.Broccoli.seed,
     description: translate("description.broccoli"),
   },
   "Pepper Seed": {
-    image: CROP_LIFECYCLE.Pepper.seed,
+    image: CROP_LIFECYCLE.basic.Pepper.seed,
     description: translate("description.pepper"),
   },
   "Onion Seed": {
-    image: CROP_LIFECYCLE.Onion.seed,
+    image: CROP_LIFECYCLE.basic.Onion.seed,
     description: translate("description.onion"),
   },
   "Turnip Seed": {
-    image: CROP_LIFECYCLE.Turnip.seed,
+    image: CROP_LIFECYCLE.basic.Turnip.seed,
     description: translate("description.turnip"),
   },
   "Artichoke Seed": {
-    image: CROP_LIFECYCLE.Artichoke.seed,
+    image: CROP_LIFECYCLE.basic.Artichoke.seed,
     description: translate("description.artichoke"),
   },
 
@@ -1039,11 +1039,11 @@ export const ITEM_DETAILS: Items = {
     description: BEANS()["Magic Bean"].description,
   },
   "Kale Seed": {
-    image: CROP_LIFECYCLE.Kale.seed,
+    image: CROP_LIFECYCLE.basic.Kale.seed,
     description: CROP_SEEDS["Kale Seed"].description,
   },
   "Soybean Seed": {
-    image: CROP_LIFECYCLE.Soybean.seed,
+    image: CROP_LIFECYCLE.basic.Soybean.seed,
     description: CROP_SEEDS["Soybean Seed"].description,
   },
   "Duskberry Seed": {

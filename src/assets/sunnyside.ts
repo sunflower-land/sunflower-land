@@ -330,6 +330,8 @@ export const SUNNYSIDE = {
     soil_dry: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil_dry.png`,
     soil_not_fertile: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil_not_fertile.png`,
     soil2: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil2.png`,
+    volcanoSoilDry: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/crops/soil_dry.png`,
+    volcanoSoil2: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/crops/soil2.png`,
   },
   //Animals
   animals: {

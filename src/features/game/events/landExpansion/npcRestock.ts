@@ -40,7 +40,7 @@ export const RestockItems: Record<RestockNPC, Restock> = {
     shopName: translate("market"),
     categoryLabel: {
       labelText: translate("seeds"),
-      icon: CROP_LIFECYCLE.Sunflower.seed,
+      icon: CROP_LIFECYCLE.basic.Sunflower.seed,
     },
   },
   blacksmith: {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { InfoPopover } from "../common/InfoPopover";
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
@@ -6,15 +6,25 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { IslandType } from "features/game/types/game";
 
 interface Props {
   patchFruitName: PatchFruitName;
   hasAxes: boolean;
+  islandType: IslandType;
 }
 
-export const DeadTree = ({ patchFruitName, hasAxes }: Props) => {
+const _island = (state: MachineState) => state.context.state.island.type;
+
+export const DeadTree = ({ patchFruitName, hasAxes, islandType }: Props) => {
+  const { gameService } = useContext(Context);
   const { isBush } = PATCH_FRUIT[patchFruitName];
   const [showNoToolWarning, setShowNoToolWarning] = useState<boolean>(false);
+
+  const island = useSelector(gameService, _island);
 
   const handleHover = () => {
     if (!hasAxes) {
@@ -39,7 +49,7 @@ export const DeadTree = ({ patchFruitName, hasAxes }: Props) => {
       >
         {/* Dead tree/bush */}
         <img
-          src={PATCH_FRUIT_LIFECYCLE[patchFruitName].dead}
+          src={PATCH_FRUIT_LIFECYCLE[island][patchFruitName].dead}
           className="absolute"
           style={{
             bottom: `${PIXEL_SCALE * (isBush ? 9 : 5)}px`,

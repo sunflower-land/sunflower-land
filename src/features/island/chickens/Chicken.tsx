@@ -324,7 +324,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={CROP_LIFECYCLE.Wheat.crop}
+                src={CROP_LIFECYCLE.basic.Wheat.crop}
                 className={classNames("transition-opacity absolute z-10", {
                   "opacity-100": showPopover,
                   "opacity-0": !showPopover,
