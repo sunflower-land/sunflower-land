@@ -16,7 +16,7 @@ import {
   CalendarEventName,
   SEASON_DETAILS,
 } from "features/game/types/calendar";
-import { TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { DateCard } from "./DateCard";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { SeasonDayDetails } from "./SeasonDayDetails";
@@ -38,6 +38,73 @@ const _calendar = (state: MachineState) => {
   return state.context.state.calendar;
 };
 
+const isPastDay = (date: Date, today: Date) => {
+  return (
+    date.getUTCMonth() < today.getUTCMonth() ||
+    (date.getUTCMonth() === today.getUTCMonth() &&
+      date.getUTCDate() < today.getUTCDate())
+  );
+};
+
+export const getCalendarDays = ({
+  game,
+}: {
+  game: GameState;
+}): LocalCalendarDetails[] => {
+  const { season, calendar } = game;
+
+  const specialEvents = calendar.dates.reduce(
+    (acc, curr) => {
+      acc[curr.date] = curr.name;
+      return acc;
+    },
+    {} as Record<string, CalendarEventName>,
+  );
+
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
+  // Get Monday by subtracting days since last Monday
+  const monday = new Date(today);
+  const daysFromMonday = (today.getUTCDay() + 6) % 7;
+  monday.setUTCDate(today.getUTCDate() - daysFromMonday);
+
+  return Array.from({ length: 28 }, (_, index) => {
+    const date = new Date(monday);
+    date.setUTCDate(monday.getUTCDate() + index);
+
+    // Calculate which season this date falls into
+    const daysSinceSeasonStart = Math.floor(
+      (date.getTime() - new Date(season.startedAt).getTime()) /
+        (1000 * 60 * 60 * 24),
+    );
+    const seasonIndex = Math.floor(daysSinceSeasonStart / 7) % 4;
+
+    // Map index to season name, starting from the current season
+    const seasons: TemperateSeasonName[] = [
+      "spring",
+      "summer",
+      "autumn",
+      "winter",
+    ];
+    const currentSeasonIndex = seasons.indexOf(season.season);
+    const dateSeasonIndex = (currentSeasonIndex + seasonIndex) % 4;
+    const dateSeason = seasons[dateSeasonIndex];
+
+    const formattedDate = date.toISOString().split("T")[0];
+    const specialEvent = specialEvents[formattedDate];
+
+    return {
+      dateNumber: date.getUTCDate(),
+      monthNumber: date.getUTCMonth() + 1,
+      dateString: formattedDate,
+      specialEvent,
+      isPastDay: isPastDay(date, today),
+      season: dateSeason,
+    };
+  });
+};
+
 const ONE_MINUTE = 1000 * 60; // 1 minute
 
 export const GameCalendar: React.FC = () => {
@@ -52,14 +119,6 @@ export const GameCalendar: React.FC = () => {
   useUiRefresher({ delay: ONE_MINUTE });
 
   const seasonDetails = SEASON_DETAILS[season.season];
-
-  const specialEvents = calendar.dates.reduce(
-    (acc, curr) => {
-      acc[curr.date] = curr.name;
-      return acc;
-    },
-    {} as Record<string, CalendarEventName>,
-  );
 
   const now = new Date();
   const utcDay = now.toLocaleString("en-US", {
@@ -83,59 +142,6 @@ export const GameCalendar: React.FC = () => {
     const lowerCaseTime = utcTime.toLowerCase();
     // remove space
     return lowerCaseTime.replace(/\s/g, "");
-  };
-
-  const isPastDay = (date: Date, today: Date) => {
-    return (
-      date.getUTCMonth() < today.getUTCMonth() ||
-      (date.getUTCMonth() === today.getUTCMonth() &&
-        date.getUTCDate() < today.getUTCDate())
-    );
-  };
-
-  const getCalendarDays = (): LocalCalendarDetails[] => {
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
-
-    // Get Monday by subtracting days since last Monday
-    const monday = new Date(today);
-    const daysFromMonday = (today.getUTCDay() + 6) % 7;
-    monday.setUTCDate(today.getUTCDate() - daysFromMonday);
-
-    return Array.from({ length: 28 }, (_, index) => {
-      const date = new Date(monday);
-      date.setUTCDate(monday.getUTCDate() + index);
-
-      // Calculate which season this date falls into
-      const daysSinceSeasonStart = Math.floor(
-        (date.getTime() - new Date(season.startedAt).getTime()) /
-          (1000 * 60 * 60 * 24),
-      );
-      const seasonIndex = Math.floor(daysSinceSeasonStart / 7) % 4;
-
-      // Map index to season name, starting from the current season
-      const seasons: TemperateSeasonName[] = [
-        "spring",
-        "summer",
-        "autumn",
-        "winter",
-      ];
-      const currentSeasonIndex = seasons.indexOf(season.season);
-      const dateSeasonIndex = (currentSeasonIndex + seasonIndex) % 4;
-      const dateSeason = seasons[dateSeasonIndex];
-
-      const formattedDate = date.toISOString().split("T")[0];
-      const specialEvent = specialEvents[formattedDate];
-
-      return {
-        dateNumber: date.getUTCDate(),
-        monthNumber: date.getUTCMonth() + 1,
-        dateString: formattedDate,
-        specialEvent,
-        isPastDay: isPastDay(date, today),
-        season: dateSeason,
-      };
-    });
   };
 
   return (
@@ -188,7 +194,9 @@ export const GameCalendar: React.FC = () => {
             ))}
           </div>
           <div className="grid grid-cols-7 gap-1 sm:gap-2">
-            {getCalendarDays().map((details, index) => (
+            {getCalendarDays({
+              game: gameService.getSnapshot().context.state,
+            }).map((details, index) => (
               <DateCard
                 key={index}
                 index={index}
