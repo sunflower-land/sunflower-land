@@ -343,6 +343,34 @@ describe("plantFlower", () => {
       dateNow - FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000 * 0.55,
     );
   });
+
+  it("throws if the seed is not in season", () => {
+    const initialState: GameState = {
+      ...GAME_STATE,
+      bumpkin: TEST_BUMPKIN,
+      inventory: {
+        "Sunpetal Seed": new Decimal(1),
+        Sunflower: new Decimal(100),
+      },
+      season: {
+        season: "winter",
+        startedAt: 0,
+      },
+    };
+
+    expect(() =>
+      plantFlower({
+        state: initialState,
+        createdAt: dateNow,
+        action: {
+          type: "flower.planted",
+          id: "1",
+          seed: "Lavender Seed",
+          crossbreed: "Pepper",
+        },
+      }),
+    ).toThrow("Lavender Seed is not in season");
+  });
 });
 
 describe("getFlowerTime", () => {

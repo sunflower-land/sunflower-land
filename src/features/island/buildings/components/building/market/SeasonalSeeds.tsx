@@ -331,7 +331,7 @@ export const SeasonalSeeds: React.FC = () => {
   const harvestCount = getHarvestCount();
 
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
-    SEASONAL_SEEDS[season].find((seed) => SEEDS[seed].yield === selected.yield),
+    SEASONAL_SEEDS[season].find((seed) => seed === selectedName),
   );
 
   return (

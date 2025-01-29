@@ -112,6 +112,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 48}px`,
+              bottom: 0,
             }}
           />
         </div>

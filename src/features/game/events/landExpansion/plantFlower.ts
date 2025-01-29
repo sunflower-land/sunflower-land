@@ -16,6 +16,7 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -109,6 +110,10 @@ export function plantFlower({
 
     if (!isFlowerSeed(action.seed)) {
       throw new Error("Not a flower seed");
+    }
+
+    if (!SEASONAL_SEEDS[state.season.season].includes(action.seed)) {
+      throw new Error(`${action.seed} is not in season`);
     }
 
     const seedCount = stateCopy.inventory[action.seed] ?? new Decimal(0);
