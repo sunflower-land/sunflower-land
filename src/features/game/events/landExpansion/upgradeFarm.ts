@@ -1265,7 +1265,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   }
 
   if (upcoming.upgrade === "volcano") {
-    game.inventory["Basic Land"] = new Decimal(4);
+    game.inventory["Basic Land"] = new Decimal(5);
     game = {
       ...game,
       ...INITIAL_VOLCANO_LAND,
