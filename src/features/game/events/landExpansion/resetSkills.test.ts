@@ -23,9 +23,9 @@ describe("resetSkills", () => {
   });
 
   describe("free reset", () => {
-    it("requires Bumpkin to wait 4 months before free reset", () => {
-      const threeMonthsAgo = new Date(dateNow);
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    it("requires Bumpkin to wait 6 months before free reset", () => {
+      const fiveMonthsAgo = new Date(dateNow);
+      fiveMonthsAgo.setMonth(fiveMonthsAgo.getMonth() - 5);
 
       expect(() => {
         resetSkills({
@@ -34,18 +34,18 @@ describe("resetSkills", () => {
             bumpkin: {
               ...TEST_BUMPKIN,
               skills: { "Green Thumb": 1 },
-              previousFreeSkillResetAt: threeMonthsAgo.getTime(),
+              previousFreeSkillResetAt: fiveMonthsAgo.getTime(),
             },
           },
           action: { type: "skills.reset", paymentType: "free" },
           createdAt: dateNow,
         });
-      }).toThrow("Wait 28 more days for free reset or use gems");
+      }).toThrow("Wait 27 more days for free reset or use gems");
     });
 
-    it("resets Bumpkin skills after 4 months for free", () => {
-      const fourMonthsAgo = new Date(dateNow);
-      fourMonthsAgo.setMonth(fourMonthsAgo.getMonth() - 4);
+    it("resets Bumpkin skills after 6 months for free", () => {
+      const sixMonthsAgo = new Date(dateNow);
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
       const state = resetSkills({
         state: {
@@ -53,7 +53,7 @@ describe("resetSkills", () => {
           bumpkin: {
             ...TEST_BUMPKIN,
             skills: { "Green Thumb": 1 },
-            previousFreeSkillResetAt: fourMonthsAgo.getTime(),
+            previousFreeSkillResetAt: sixMonthsAgo.getTime(),
             paidSkillResets: 2, // Should be cleared after free reset
           },
         },
