@@ -5034,5 +5034,13 @@
   "fishFrenzy.specialEvent": "Acara Khusus - Fish Frenzy",
   "fishFrenzy.info.one": "Tangkapan ikan Anda akan meningkat 1 hari ini!",
   "calendar.events.fishFrenzy.title": "Ikan hiruk-pikuk",
-  "calendar.events.fishFrenzy.description": "Fenomena langka yang meningkatkan tangkapan ikan sebanyak satu"
+  "calendar.events.fishFrenzy.description": "Fenomena langka yang meningkatkan tangkapan ikan sebanyak satu",
+  "season.springDay": "Hari Musim Semi",
+  "season.summerDay": "Hari Musim Panas",
+  "season.autumnDay": "Hari Musim Gugur",
+  "season.winterDay": "Hari Musim Dingin",
+  "season.hasBegun": "{{name}} telah dimulai!",
+  "season.newCrops": "Tanaman & ikan baru",
+  "season.7daysOfSeason": "7 hari dari {{name}}",
+  "season.begun.description": "{{name}} telah dimulai di Sunflower Land. Lihat acara minggu ini."
 }

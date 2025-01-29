@@ -5034,5 +5034,13 @@
   "fishFrenzy.specialEvent": "스페셜 이벤트 - 피쉬 프렌지",
   "fishFrenzy.info.one": "오늘 어획량이 1마리씩 늘어납니다!",
   "calendar.events.fishFrenzy.title": "피쉬 프렌지",
-  "calendar.events.fishFrenzy.description": "어획량이 한 마리씩 늘어나는 희귀한 현상"
+  "calendar.events.fishFrenzy.description": "어획량이 한 마리씩 늘어나는 희귀한 현상",
+  "season.springDay": "봄의 날",
+  "season.summerDay": "썸머 데이",
+  "season.autumnDay": "가을의 날",
+  "season.winterDay": "윈터 데이",
+  "season.hasBegun": "{{name}} 가 시작되었습니다!",
+  "season.newCrops": "새로운 작물과 어류",
+  "season.7daysOfSeason": "7일간의 {{name}}",
+  "season.begun.description": "{{name}} 가 선플라워 랜드에서 시작되었습니다.이번 주 이벤트를 확인해 보세요."
 }

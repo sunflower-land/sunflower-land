@@ -5034,5 +5034,13 @@
   "fishFrenzy.specialEvent": "Özel Etkinlik - Balık Çılgınlığı",
   "fishFrenzy.info.one": "Balık avlarınız bugün 1 oranında artacak!",
   "calendar.events.fishFrenzy.title": "Balık Çılgınlığı",
-  "calendar.events.fishFrenzy.description": "Balık avlarını bir oranında artıran nadir bir fenomen"
+  "calendar.events.fishFrenzy.description": "Balık avlarını bir oranında artıran nadir bir fenomen",
+  "season.springDay": "Bahar Günü",
+  "season.summerDay": "Yaz Günü",
+  "season.autumnDay": "Sonbahar Günü",
+  "season.winterDay": "Kış Günü",
+  "season.hasBegun": "{{name}} başladı!",
+  "season.newCrops": "Yeni mahsuller ve balıklar",
+  "season.7daysOfSeason": "7 gün {{name}}",
+  "season.begun.description": "{{name}} Ayçiçeği Ülkesinde başladı. Bu haftanın etkinliklerine göz atın."
 }

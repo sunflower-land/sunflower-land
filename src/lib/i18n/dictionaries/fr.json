@@ -5034,5 +5034,13 @@
   "fishFrenzy.specialEvent": "Événement spécial - Fish Frenzy",
   "fishFrenzy.info.one": "Vos prises de poisson vont augmenter de 1 % aujourd'hui !",
   "calendar.events.fishFrenzy.title": "Fish Frenzy",
-  "calendar.events.fishFrenzy.description": "Un phénomène rare qui augmente les captures de poissons d'une unité"
+  "calendar.events.fishFrenzy.description": "Un phénomène rare qui augmente les captures de poissons d'une unité",
+  "season.springDay": "Fête du printemps",
+  "season.summerDay": "Journée d'été",
+  "season.autumnDay": "Journée d'automne",
+  "season.winterDay": "Journée d'hiver",
+  "season.hasBegun": "{{name}} a commencé !",
+  "season.newCrops": "Nouvelles cultures et nouveaux poissons",
+  "season.7daysOfSeason": "7 jours de {{name}}",
+  "season.begun.description": "{{name}} a commencé à Sunflower Land. Consultez les événements de cette semaine."
 }

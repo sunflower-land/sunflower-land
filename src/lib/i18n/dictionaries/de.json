@@ -5034,5 +5034,13 @@
   "fishFrenzy.specialEvent": "Sonderveranstaltung - Fish Frenzy",
   "fishFrenzy.info.one": "Deine Fischfänge werden heute um 1 steigen!",
   "calendar.events.fishFrenzy.title": "Fischrausch",
-  "calendar.events.fishFrenzy.description": "Ein seltenes Phänomen, das die Fischfänge um eins erhöht"
+  "calendar.events.fishFrenzy.description": "Ein seltenes Phänomen, das die Fischfänge um eins erhöht",
+  "season.springDay": "Frühlingstag",
+  "season.summerDay": "Tag im Sommer",
+  "season.autumnDay": "Tag im Herbst",
+  "season.winterDay": "Wintertag",
+  "season.hasBegun": "{{name}} hat begonnen!",
+  "season.newCrops": "Neue Nutzpflanzen und Fische",
+  "season.7daysOfSeason": "7 Tage von {{name}}",
+  "season.begun.description": "{{name}} hat in Sunflower Land begonnen. Schauen Sie sich die Veranstaltungen dieser Woche an."
 }

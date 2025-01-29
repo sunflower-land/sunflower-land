@@ -5034,5 +5034,13 @@
   "fishFrenzy.specialEvent": "Специальное мероприятие «Рыбное веселье»",
   "fishFrenzy.info.one": "Сегодня ваши уловы рыбы увеличатся на 1!",
   "calendar.events.fishFrenzy.title": "Рыбное безумие",
-  "calendar.events.fishFrenzy.description": "Редкое явление, которое увеличивает улов рыбы на одного"
+  "calendar.events.fishFrenzy.description": "Редкое явление, которое увеличивает улов рыбы на одного",
+  "season.springDay": "Весенний день",
+  "season.summerDay": "Летний день",
+  "season.autumnDay": "Осенний день",
+  "season.winterDay": "Зимний день",
+  "season.hasBegun": "{{name}} началось!",
+  "season.newCrops": "Новые культуры и рыба",
+  "season.7daysOfSeason": "7 дней {{name}}",
+  "season.begun.description": "{{name}} началось в стране подсолнухов. Ознакомьтесь с событиями этой недели."
 }

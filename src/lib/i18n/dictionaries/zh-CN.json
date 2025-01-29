@@ -5034,5 +5034,13 @@
   "fishFrenzy.specialEvent": "特别活动-Fish Frenzy",
   "fishFrenzy.info.one": "今天你的鱼捕量将增加 1！",
   "calendar.events.fishFrenzy.title": "疯狂捕鱼",
-  "calendar.events.fishFrenzy.description": "一种罕见的现象，可使鱼的捕捞量增加一倍"
+  "calendar.events.fishFrenzy.description": "一种罕见的现象，可使鱼的捕捞量增加一倍",
+  "season.springDay": "春日",
+  "season.summerDay": "夏日",
+  "season.autumnDay": "秋日",
+  "season.winterDay": "冬日",
+  "season.hasBegun": "{{name}} 已经开始了！",
+  "season.newCrops": "新作物和鱼类",
+  "season.7daysOfSeason": "{{name}} 的 7 天",
+  "season.begun.description": "{{name}} 已经在向日葵之地开始了。查看本周的活动。"
 }

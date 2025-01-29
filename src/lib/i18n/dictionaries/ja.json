@@ -5034,5 +5034,13 @@
   "fishFrenzy.specialEvent": "スペシャルイベント-フィッシュフレンジー",
   "fishFrenzy.info.one": "今日は漁獲量が1匹増えます！",
   "calendar.events.fishFrenzy.title": "フィッシュフレンジー",
-  "calendar.events.fishFrenzy.description": "漁獲量が1人増えるという稀な現象"
+  "calendar.events.fishFrenzy.description": "漁獲量が1人増えるという稀な現象",
+  "season.springDay": "スプリング・デイ",
+  "season.summerDay": "サマー・デイ",
+  "season.autumnDay": "オータム・デイ",
+  "season.winterDay": "ウィンター・デイ",
+  "season.hasBegun": "{{name}} が始まりました！",
+  "season.newCrops": "新しい作物と魚",
+  "season.7daysOfSeason": "{{name}} の 7 日間",
+  "season.begun.description": "サンフラワーランドで {{name}} が始まりました。今週のイベントをチェックしてください。"
 }
