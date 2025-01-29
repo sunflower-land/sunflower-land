@@ -83,7 +83,10 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
 
   const hasCrossbreedRequirements = !!(
     crossbreed &&
-    inventory[crossbreed]?.gte(FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed])
+    seed &&
+    inventory[crossbreed]?.gte(
+      FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed] ?? 0,
+    )
   );
 
   return (
@@ -238,7 +241,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                 )
                 .map((name) => (
                   <Box
-                    image={ITEM_DETAILS[name as FlowerCrossBreedName].image}
+                    image={ITEM_DETAILS[name].image}
                     count={inventory[name]}
                     onClick={() => selectCrossBreed(name)}
                     key={name}
@@ -254,7 +257,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   </Label>
                   <Label
                     type={!hasCrossbreedRequirements ? "danger" : "default"}
-                  >{`${(FLOWER_CROSS_BREED_AMOUNTS[seed] as any)[crossbreed]} ${crossbreed} required`}</Label>
+                  >{`${FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed]} ${crossbreed} required`}</Label>
                 </div>
                 <p className="text-xs mt-1">
                   {FLOWER_CROSS_BREED_DETAILS[crossbreed]}

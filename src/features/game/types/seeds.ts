@@ -85,6 +85,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Sunpetal Seed",
     "Bloom Seed",
     "Lily Seed",
+    "Lavender Seed",
     // Greenhouse
     "Rice Seed",
     "Olive Seed",
@@ -108,6 +109,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Sunpetal Seed",
     "Bloom Seed",
     "Lily Seed",
+    "Gladiolus Seed",
     // Greenhouse
     "Rice Seed",
     "Olive Seed",
@@ -131,6 +133,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Sunpetal Seed",
     "Bloom Seed",
     "Lily Seed",
+    "Clover Seed",
     // Greenhouse
     "Rice Seed",
     "Olive Seed",
@@ -154,6 +157,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Sunpetal Seed",
     "Bloom Seed",
     "Lily Seed",
+    "Edelweiss Seed",
     // Greenhouse
     "Rice Seed",
     "Olive Seed",

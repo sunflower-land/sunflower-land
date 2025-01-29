@@ -122,6 +122,10 @@ export function plantFlower({
     const crossBreedAmount =
       FLOWER_CROSS_BREED_AMOUNTS[action.seed][action.crossbreed];
 
+    if (!crossBreedAmount) {
+      throw new Error("Not a valid crossbreed");
+    }
+
     if (crossBreedCount.lessThan(crossBreedAmount)) {
       throw new Error("Not enough crossbreeds");
     }

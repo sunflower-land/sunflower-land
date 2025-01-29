@@ -284,7 +284,10 @@ export const SET_2_FLOWER_CROSS_BREED_AMOUNTS: Record<
   "Blue Clover": 1,
 };
 
-export const FLOWER_CROSS_BREED_AMOUNTS = {
+export const FLOWER_CROSS_BREED_AMOUNTS: Record<
+  FlowerSeedName,
+  Partial<Record<FlowerCrossBreedName, number>>
+> = {
   "Sunpetal Seed": SET_1_FLOWER_CROSS_BREED_AMOUNTS,
   "Bloom Seed": SET_1_FLOWER_CROSS_BREED_AMOUNTS,
   "Lily Seed": SET_1_FLOWER_CROSS_BREED_AMOUNTS,

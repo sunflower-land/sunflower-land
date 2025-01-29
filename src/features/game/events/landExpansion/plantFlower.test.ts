@@ -227,7 +227,9 @@ describe("plantFlower", () => {
 
     const inventoryAfter = state.inventory["Sunflower"];
     expect(inventoryAfter).toEqual(
-      inventoryBefore?.sub(FLOWER_CROSS_BREED_AMOUNTS["Sunflower"]),
+      inventoryBefore?.sub(
+        FLOWER_CROSS_BREED_AMOUNTS["Sunpetal Seed"]["Sunflower"] ?? Infinity,
+      ),
     );
   });
   it("reduces flower harvest time in half if wearing Flower Crown ", () => {
