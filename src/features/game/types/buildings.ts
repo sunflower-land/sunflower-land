@@ -502,7 +502,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Town Center": { width: 4, height: 3 },
   House: { width: 4, height: 4 },
   Manor: { width: 5, height: 4 },
-  Mansion: { width: 5, height: 4 },
+  Mansion: { width: 6, height: 5 },
   Workbench: { width: 3, height: 2 },
   Kitchen: { width: 4, height: 3 },
   Bakery: { width: 4, height: 3 },
