@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "バカなバンプキンが黒曜石をSFL用に売ってるって聞いたよそれは本当なの？",
   "gorga.intro.greeting": "うーん、バンプキン... それは新しいです。",
   "gorga.intro.two": "あんたの仲間が黒曜石を見つけたと聞いたそれは本当なの？",
-  "gorga.intro.three": "言っておくが、黒曜石を見つけたら、サンストーンと交換するよ。"
+  "gorga.intro.three": "言っておくが、黒曜石を見つけたら、サンストーンと交換するよ。",
+  "description.bonusTimeshard.boost": "+1 タイムハード",
+  "description.crabHat.boost": "+1 釣りバウンティ",
+  "description.mammoth.boost": "-25% の牛生産時間",
+  "description.sickle.boost": "+2 ウィート"
 }

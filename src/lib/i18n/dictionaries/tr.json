@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "Senin aptalca Bumpkins'in Obsidiyenini SFL için sattığını duydum. Bu doğru mu?",
   "gorga.intro.greeting": "Ooooh bir Bumpkin... Bu yeni.",
   "gorga.intro.two": "Senin türlerinin Obsidiyen bulduğunu duydum. Bu doğru mu?",
-  "gorga.intro.three": "Bak ne diyeceğim, bana biraz Obsidiyen bulabilirsen... onu Sunstone'la değiştiririm."
+  "gorga.intro.three": "Bak ne diyeceğim, bana biraz Obsidiyen bulabilirsen... onu Sunstone'la değiştiririm.",
+  "description.bonusTimeshard.boost": "+1 Timeshard",
+  "description.crabHat.boost": "+1 Balıkçılık Ödülü",
+  "description.mammoth.boost": "-25% İnek Üretim Süresi",
+  "description.sickle.boost": "+2 Buğday"
 }

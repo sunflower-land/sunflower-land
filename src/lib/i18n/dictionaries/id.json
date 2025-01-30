@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "Kudengar kau Bumpkins yang konyol menjual Obsidian-mu untuk SFL. Apakah itu benar?",
   "gorga.intro.greeting": "Ooooh a Bumpkin... itu baru.",
   "gorga.intro.two": "Kudengar jenismu telah menemukan Obsidian. Apakah itu benar?",
-  "gorga.intro.three": "Aku katakan padamu, jika kau bisa mencarikan aku beberapa Obsidian, aku akan menukarnya dengan Sunstone."
+  "gorga.intro.three": "Aku katakan padamu, jika kau bisa mencarikan aku beberapa Obsidian, aku akan menukarnya dengan Sunstone.",
+  "description.bonusTimeshard.boost": "+1 Timeshard",
+  "description.crabHat.boost": "+1 Memancing Bounty",
+  "description.mammoth.boost": "-25% Waktu Produksi Sapi",
+  "description.sickle.boost": "+2 Wheat"
 }

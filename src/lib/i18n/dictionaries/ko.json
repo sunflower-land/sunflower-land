@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "멍청한 범프킨이 흑요석을 SFL에 팔고 있다고 들었어사실인가요?",
   "gorga.intro.greeting": "우와 범프킨... 새로워요.",
   "gorga.intro.two": "당신 종족이 흑요석을 찾았다고 들었어요.사실인가요?",
-  "gorga.intro.three": "말해줄게. 흑요석을 찾아주면 태양석으로 교환해 줄게."
+  "gorga.intro.three": "말해줄게. 흑요석을 찾아주면 태양석으로 교환해 줄게.",
+  "description.bonusTimeshard.boost": "+1 타임샤드",
+  "description.crabHat.boost": "+1 피싱 바운티",
+  "description.mammoth.boost": "-25% 젖소 생산 시간",
+  "description.sickle.boost": "+2 위트"
 }

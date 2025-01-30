@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "He oído que los tontos Bumpkins están vendiendo su Obsidian por SFL. ¿Es eso cierto?",
   "gorga.intro.greeting": "Oh, un Bumpkin... eso es nuevo.",
   "gorga.intro.two": "He oído que los de tu clase han encontrado algo de obsidiana. ¿Es eso cierto?",
-  "gorga.intro.three": "Te diré una cosa, si puedes encontrarme algo de obsidiana, lo cambiaré por Sunstone."
+  "gorga.intro.three": "Te diré una cosa, si puedes encontrarme algo de obsidiana, lo cambiaré por Sunstone.",
+  "description.bonusTimeshard.boost": "+1 Timeshard",
+  "description.crabHat.boost": "+1 recompensa de pesca",
+  "description.mammoth.boost": "-25% de tiempo de producción de vacas",
+  "description.sickle.boost": "+2 Trigo"
 }

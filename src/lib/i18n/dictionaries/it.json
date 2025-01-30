@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "Ho sentito che stupido Bumpkins vendi la tua ossidiana per SFL. È vero?",
   "gorga.intro.greeting": "Ooooh un Bumpkin... è nuovo.",
   "gorga.intro.two": "Ho sentito che i tuoi simili hanno trovato dell'ossidiana. È vero?",
-  "gorga.intro.three": "Ti dico una cosa, se riesci a trovarmi dell'ossidiana, la cambierò con Sunstone."
+  "gorga.intro.three": "Ti dico una cosa, se riesci a trovarmi dell'ossidiana, la cambierò con Sunstone.",
+  "description.bonusTimeshard.boost": "+1 Timeshard",
+  "description.crabHat.boost": "+1 Fishing Bounty",
+  "description.mammoth.boost": "-25% Tempo di produzione delle mucche",
+  "description.sickle.boost": "+2 Grano"
 }

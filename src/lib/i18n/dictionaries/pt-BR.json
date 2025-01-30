@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "Ouvi dizer que vocês, idiotas, estão vendendo sua Obsidiana pela SFL. Isso é verdade?",
   "gorga.intro.greeting": "Ooooh, um caipira... isso é novo.",
   "gorga.intro.two": "Ouvi dizer que sua espécie encontrou um pouco de obsidiana. Isso é verdade?",
-  "gorga.intro.three": "Vou te dizer uma coisa, se você puder me encontrar um pouco de obsidiana, vou trocá-lo por Sunstone."
+  "gorga.intro.three": "Vou te dizer uma coisa, se você puder me encontrar um pouco de obsidiana, vou trocá-lo por Sunstone.",
+  "description.bonusTimeshard.boost": "+1 Timeshard",
+  "description.crabHat.boost": "+1 Recompensa de pesca",
+  "description.mammoth.boost": "-25% de tempo de produção de vacas",
+  "description.sickle.boost": "+2 Trigo"
 }

@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "Ich habe gehört, dass du dumme Bumpkins deinen Obsidian für SFL verkaufst. Stimmt das?",
   "gorga.intro.greeting": "Ooooh ein Bumpkin... das ist neu.",
   "gorga.intro.two": "Ich habe gehört, dass deinesgleichen Obsidian gefunden haben. Stimmt das?",
-  "gorga.intro.three": "Ich sage dir was, wenn du mir etwas Obsidian besorgst, tausche ich es gegen Sonnenstein ein."
+  "gorga.intro.three": "Ich sage dir was, wenn du mir etwas Obsidian besorgst, tausche ich es gegen Sonnenstein ein.",
+  "description.bonusTimeshard.boost": "+1 Timeshard",
+  "description.crabHat.boost": "+1 Angelprämie",
+  "description.mammoth.boost": "-25% Produktionszeit für Kühe",
+  "description.sickle.boost": "+2 Weizen"
 }

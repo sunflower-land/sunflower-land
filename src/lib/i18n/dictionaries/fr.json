@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "J'ai entendu dire que Bumpkins vendait ton obsidienne pour SFL. Est-ce vrai ?",
   "gorga.intro.greeting": "Ooooh a Bumpkin... c'est nouveau.",
   "gorga.intro.two": "J'ai entendu dire que votre espèce avait trouvé de l'obsidienne. Est-ce vrai ?",
-  "gorga.intro.three": "Quoi qu'il en soit, si tu peux me trouver de l'obsidienne, je l'échangerai contre Sunstone."
+  "gorga.intro.three": "Quoi qu'il en soit, si tu peux me trouver de l'obsidienne, je l'échangerai contre Sunstone.",
+  "description.bonusTimeshard.boost": "+1 Timeshard",
+  "description.crabHat.boost": "+1 prime de pêche",
+  "description.mammoth.boost": "-25 % de temps de production des vaches",
+  "description.sickle.boost": "+2 Blé"
 }

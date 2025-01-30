@@ -5109,5 +5109,9 @@
   "bounties.sfl.intro.two": "我听说你这傻小伙子正在把你的黑曜石换成SFL。是真的吗？",
   "gorga.intro.greeting": "哦是 Bumpkin... 这是新的。",
   "gorga.intro.two": "我听说你的同类人发现了一些黑曜石。是真的吗？",
-  "gorga.intro.three": "我告诉你，如果你能给我找点黑曜石，我会把它换成日光石。"
+  "gorga.intro.three": "我告诉你，如果你能给我找点黑曜石，我会把它换成日光石。",
+  "description.bonusTimeshard.boost": "+1 Timeshar",
+  "description.crabHat.boost": "+1 钓鱼赏金",
+  "description.mammoth.boost": "-25% 奶牛生产时间",
+  "description.sickle.boost": "+2 小麦"
 }
