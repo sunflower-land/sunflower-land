@@ -5,36 +5,41 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
-const seasonAdminFeatureFlag = ({ username }: GameState) =>
-  testnetFeatureFlag() ||
-  [
-    "adam",
-    "eliassfl",
-    "dcol",
-    "Vitt0c",
-    "Telk",
-    "ThinkTronik",
-    "Henry",
-    "Blasta",
-    "Aeon",
-    "kegw",
-    "Dionis",
-    "MamaMahalkoe",
-    "Andrei",
-    "SlyKai",
-    "Oniel",
-    "Tourist",
-    "Kevin",
-    "ShinKan42",
-    "JcEii",
-    "Pecel",
-    "inubakabo",
-    "JKrak",
-    "Droid",
-    "Craig",
-  ]
-    .map((name) => name.toLowerCase())
-    .includes(username?.toLowerCase() ?? "");
+const seasonAdminFeatureFlag = (game: GameState) => {
+  return (
+    testnetFeatureFlag() ||
+    (defaultFeatureFlag(game) &&
+      Date.now() > new Date("2025-02-01:00:00Z").getTime()) ||
+    [
+      "adam",
+      "eliassfl",
+      "dcol",
+      "Vitt0c",
+      "Telk",
+      "ThinkTronik",
+      "Henry",
+      "Blasta",
+      "Aeon",
+      "kegw",
+      "Dionis",
+      "MamaMahalkoe",
+      "Andrei",
+      "SlyKai",
+      "Oniel",
+      "Tourist",
+      "Kevin",
+      "ShinKan42",
+      "JcEii",
+      "Pecel",
+      "inubakabo",
+      "JKrak",
+      "Droid",
+      "Craig",
+    ]
+      .map((name) => name.toLowerCase())
+      .includes(game.username?.toLowerCase() ?? "")
+  );
+};
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
