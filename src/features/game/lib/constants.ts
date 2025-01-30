@@ -17,6 +17,7 @@ import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getSeasonalTicket } from "../types/seasons";
+import { hasFeatureAccess } from "lib/flags";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -192,6 +193,14 @@ export const INITIAL_STOCK = (
     getKeys(seeds).forEach(
       (seed) =>
         (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(1.2).toNumber()))),
+    );
+  }
+
+  // Multiply by 2
+  if (hasFeatureAccess(state ?? INITIAL_FARM, "SEASONAL_SEEDS")) {
+    getKeys(seeds).forEach(
+      (seed) =>
+        (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(2).toNumber()))),
     );
   }
 

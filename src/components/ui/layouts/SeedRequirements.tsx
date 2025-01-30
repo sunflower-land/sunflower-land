@@ -24,9 +24,6 @@ import {
   getCropCategory,
   ProduceName,
 } from "features/game/types/crops";
-import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
-import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
-import fullMoon from "assets/icons/full_moon.png";
 
 /**
  * The props for the details for items.
@@ -226,20 +223,6 @@ export const SeedRequirements: React.FC<Props> = ({
           )}
           {isCropMachineSeed && (
             <p className="text-xxs mt-1">{t("cropGuide.onlyInCropMachine")}</p>
-          )}
-          {details.seasons && (
-            <div className="flex items-center justify-center mt-2">
-              {details.seasons.map((season) => (
-                <img
-                  key={season}
-                  src={SEASON_ICONS[season]}
-                  className="w-5 ml-1"
-                />
-              ))}
-              {isFullMoonBerry(`${details.item} Seed` as SeedName) && (
-                <img src={fullMoon} className="w-6 ml-1" />
-              )}
-            </div>
           )}
         </div>
       </>
