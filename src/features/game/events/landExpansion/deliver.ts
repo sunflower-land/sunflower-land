@@ -28,6 +28,7 @@ import { FISH } from "features/game/types/fishing";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { hasFeatureAccess } from "lib/flags";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -81,6 +82,27 @@ export function generateDeliveryTickets({
   if (
     getCurrentSeason() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isWearableActive({ game, name: "Acorn Hat" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Igloo" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Hammock" })
   ) {
     amount += 1;
   }

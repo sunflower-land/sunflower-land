@@ -842,4 +842,134 @@ describe("chore.completed", () => {
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
   });
+
+  it("provides +1 tickets when Acorn Hat is worn at Winds of Change", () => {
+    const mockDate = new Date(2025, 2, 5).getTime();
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: mockDate,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: mockDate,
+      action: {
+        type: "chore.completed",
+        id: 4,
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {},
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          history: {},
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Acorn Hat",
+          },
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
+  });
+
+  it("stacks timeshard boosts at Winds of Change", () => {
+    const mockDate = new Date(2025, 2, 5).getTime();
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: mockDate,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: mockDate,
+      action: {
+        type: "chore.completed",
+        id: 4,
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {},
+        collectibles: {
+          Igloo: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+          Hammock: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+        },
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          history: {},
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Acorn Hat",
+          },
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(7));
+  });
 });
