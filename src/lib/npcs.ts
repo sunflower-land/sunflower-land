@@ -108,9 +108,21 @@ export type NPCName =
   | "pharaoh"
   | "worried pete"
   | "chase" //cowboy
-  | "gunter";
+  | "gunter"
+  | "bailey"; // weatherman
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  bailey: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Basic Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Wise Staff",
+    hat: "Weather Hat",
+    secondaryTool: "Autumn's Embrace",
+  },
   richie: {
     body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
