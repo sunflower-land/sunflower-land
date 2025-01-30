@@ -5106,5 +5106,8 @@
   "season.welcomeToTheWeatherShop": "웨더 샵에 오신 것을 환영합니다!여기에서 특별한 날씨 이벤트에서 살아남는 데 도움이 되는 장비를 구입할 수 있습니다.",
   "bounties.sell.sfl": "정말로 이 제품을 {{amount}} SFL에 판매하시겠습니까?",
   "bounties.sfl.intro.one": "저는 인페르노스의 현상금 사냥꾼 길다입니다.",
-  "bounties.sfl.intro.two": "멍청한 범프킨이 흑요석을 SFL에 팔고 있다고 들었어사실인가요?"
+  "bounties.sfl.intro.two": "멍청한 범프킨이 흑요석을 SFL에 팔고 있다고 들었어사실인가요?",
+  "gorga.intro.greeting": "우와 범프킨... 새로워요.",
+  "gorga.intro.two": "당신 종족이 흑요석을 찾았다고 들었어요.사실인가요?",
+  "gorga.intro.three": "말해줄게. 흑요석을 찾아주면 태양석으로 교환해 줄게."
 }

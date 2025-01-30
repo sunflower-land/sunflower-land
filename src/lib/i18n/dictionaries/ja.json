@@ -5106,5 +5106,8 @@
   "season.welcomeToTheWeatherShop": "ウェザーショップへようこそ！ここでは、特別な気象現象を乗り切るのに役立つ装備を購入できます。",
   "bounties.sell.sfl": "本当にこれを {{amount}} SFLで売りたいですか？",
   "bounties.sfl.intro.one": "インフェルノスの賞金稼ぎギルダです。",
-  "bounties.sfl.intro.two": "バカなバンプキンが黒曜石をSFL用に売ってるって聞いたよそれは本当なの？"
+  "bounties.sfl.intro.two": "バカなバンプキンが黒曜石をSFL用に売ってるって聞いたよそれは本当なの？",
+  "gorga.intro.greeting": "うーん、バンプキン... それは新しいです。",
+  "gorga.intro.two": "あんたの仲間が黒曜石を見つけたと聞いたそれは本当なの？",
+  "gorga.intro.three": "言っておくが、黒曜石を見つけたら、サンストーンと交換するよ。"
 }

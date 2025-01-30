@@ -5106,5 +5106,8 @@
   "season.welcomeToTheWeatherShop": "Benvenuto nel Weather Shop! Qui puoi acquistare attrezzature per aiutarti a sopravvivere a eventi meteorologici speciali.",
   "bounties.sell.sfl": "Sei sicuro di volerlo vendere per {{amount}} SFL?",
   "bounties.sfl.intro.one": "Sono Gilda, la cacciatrice di taglie di Infernos.",
-  "bounties.sfl.intro.two": "Ho sentito che stupido Bumpkins vendi la tua ossidiana per SFL. È vero?"
+  "bounties.sfl.intro.two": "Ho sentito che stupido Bumpkins vendi la tua ossidiana per SFL. È vero?",
+  "gorga.intro.greeting": "Ooooh un Bumpkin... è nuovo.",
+  "gorga.intro.two": "Ho sentito che i tuoi simili hanno trovato dell'ossidiana. È vero?",
+  "gorga.intro.three": "Ti dico una cosa, se riesci a trovarmi dell'ossidiana, la cambierò con Sunstone."
 }

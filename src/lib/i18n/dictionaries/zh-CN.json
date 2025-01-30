@@ -5106,5 +5106,8 @@
   "season.welcomeToTheWeatherShop": "欢迎来到天气商店！在这里，你可以购买装备来帮助你在特殊天气事件中幸存下来。",
   "bounties.sell.sfl": "你确定要以 {{amount}} SFL 的价格出售这个吗？",
   "bounties.sfl.intro.one": "我是《地狱》的赏金猎人吉尔达。",
-  "bounties.sfl.intro.two": "我听说你这傻小伙子正在把你的黑曜石换成SFL。是真的吗？"
+  "bounties.sfl.intro.two": "我听说你这傻小伙子正在把你的黑曜石换成SFL。是真的吗？",
+  "gorga.intro.greeting": "哦是 Bumpkin... 这是新的。",
+  "gorga.intro.two": "我听说你的同类人发现了一些黑曜石。是真的吗？",
+  "gorga.intro.three": "我告诉你，如果你能给我找点黑曜石，我会把它换成日光石。"
 }

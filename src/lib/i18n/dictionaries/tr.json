@@ -5106,5 +5106,8 @@
   "season.welcomeToTheWeatherShop": "Hava Durumu Mağazasına Hoş Geldiniz! Burada özel hava olaylarından kurtulmanıza yardımcı olacak ekipman satın alabilirsiniz.",
   "bounties.sell.sfl": "Bunu {{amount}} SFL için satmak istediğinizden emin misiniz?",
   "bounties.sfl.intro.one": "Ben Gilda, Infernos'un ödül avcısı.",
-  "bounties.sfl.intro.two": "Senin aptalca Bumpkins'in Obsidiyenini SFL için sattığını duydum. Bu doğru mu?"
+  "bounties.sfl.intro.two": "Senin aptalca Bumpkins'in Obsidiyenini SFL için sattığını duydum. Bu doğru mu?",
+  "gorga.intro.greeting": "Ooooh bir Bumpkin... Bu yeni.",
+  "gorga.intro.two": "Senin türlerinin Obsidiyen bulduğunu duydum. Bu doğru mu?",
+  "gorga.intro.three": "Bak ne diyeceğim, bana biraz Obsidiyen bulabilirsen... onu Sunstone'la değiştiririm."
 }
