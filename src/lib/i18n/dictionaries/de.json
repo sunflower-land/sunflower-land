@@ -2052,7 +2052,6 @@
   "islandupgrade.welcomeDesertIsland": "Willkommen in der Wüste!",
   "islandupgrade.itemsReturned": "Ihre Artikel wurden sicher in Ihr Inventar zurückgebracht.",
   "islandupgrade.notReadyExpandMore": "Du bist nicht bereit. Erweitern Sie {{remainingExpansions}} mehrmals",
-  "islandupgrade.exoticResourcesDescription": "Dieses Gebiet von Sunflower Land ist bekannt für seine exotischen Ressourcen. Erweitere dein Land, um Früchte, Blumen, Bienenstöcke und seltene Mineralien zu entdecken!",
   "islandupgrade.desertResourcesDescription": "Die raue Wüstenumgebung erfordert neue Technologien, um zu überleben. Erweitere dein Land, um neue Gebäude und das, was sich darin befindet, zu entdecken!",
   "islandupgrade.requiredIsland": "Wird bei {{islandType}} freigeschaltet",
   "islandupgrade.otherIsland": "{{island}} Insel",
@@ -5122,5 +5121,7 @@
   "description.summer.chicken": "Ein sonnenliebendes Huhn, das in der Sommerhitze gedeiht, sich in den warmen Strahlen sonnt und vor Freude gackert!",
   "description.jellyfish.boost": "Erhöhen Sie den Fischfang im Sommer um 1",
   "description.jellyfish": "Ein leuchtendes Meereswunder, das vor mystischer Energie leuchtet und in den warmen Sommermonaten verbesserte Angelfähigkeiten bietet.",
-  "description.chamomile": "Eine dekorative Mutantenblume, die im Kapitel Winde des Wandels gefunden wurde."
+  "description.chamomile": "Eine dekorative Mutantenblume, die im Kapitel Winde des Wandels gefunden wurde.",
+  "islandupgrade.exoticResourcesDescription": "Dieses Gebiet von Sunflower Land ist bekannt für seine exotischen Ressourcen. Erweitere dein Land, um Früchte, Blumen, Bienenstöcke und seltene Mineralien zu entdecken! Behalte die Jahreszeiten im Auge, denn sie beeinflussen, was du anbauen kannst.",
+  "cropGuide.tutorialAlwaysSpring": "Auf deiner ersten Insel ist immer Frühling! Wenn du deine Insel aufrüstest, beginnen sich die Jahreszeiten zu ändern."
 }

@@ -46,10 +46,10 @@ const UPGRADE_RAFTS: Record<IslandType, string | null> = {
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
-  basic: SUNNYSIDE.announcement.springPrestige,
-  spring: SUNNYSIDE.announcement.desertPrestige,
-  desert: SUNNYSIDE.announcement.volcanoPrestige,
-  volcano: null, // Next prestige after volcano
+  basic: null,
+  spring: SUNNYSIDE.announcement.springPrestige,
+  desert: SUNNYSIDE.announcement.desertPrestige,
+  volcano: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
 const UPGRADE_MESSAGES: Record<IslandType, string | null> = {

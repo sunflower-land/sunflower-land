@@ -1340,7 +1340,6 @@
   "islandupgrade.exploring": "Explorando",
   "islandupgrade.welcomePetalParadise": "Bem-vindo ao Paraíso das Pétalas!",
   "islandupgrade.itemsReturned": "Seus itens foram devolvidos com segurança ao seu inventário.",
-  "islandupgrade.exoticResourcesDescription": "Esta área de Sunflower Land é conhecida por seus recursos exóticos. Expanda sua terra para descobrir frutas, flores, colmeias e minerais raros!",
   "interactableModals.returnhome.message": "Você gostaria de voltar para casa?",
   "interactableModals.fatChicken.message": "Por que esses Bumpkins não me deixam em paz, só quero relaxar.",
   "interactableModals.lazyBud.message": "Uuuuf! Tão cansado.....",
@@ -5122,5 +5121,7 @@
   "description.summer.chicken": "Uma galinha que adora o sol e que prospera no calor do verão, se aquecendo nos raios quentes e cacarejando de alegria!",
   "description.jellyfish.boost": "Aumente a captura de peixe em 1% no verão",
   "description.jellyfish": "Uma maravilha marinha luminosa que brilha com energia mística, garantindo habilidades aprimoradas de pesca durante os meses quentes de verão.",
-  "description.chamomile": "Uma flor mutante decorativa encontrada durante o capítulo Winds of Change."
+  "description.chamomile": "Uma flor mutante decorativa encontrada durante o capítulo Winds of Change.",
+  "islandupgrade.exoticResourcesDescription": "Esta área de Sunflower Land é conhecida por seus recursos exóticos. Expanda sua terra para descobrir frutas, flores, colmeias e minerais raros! Fique de olho nas estações do ano, pois elas afetam o que você pode cultivar.",
+  "cropGuide.tutorialAlwaysSpring": "Na sua primeira ilha, é sempre primavera! Quando você aprimora sua ilha, as estações começam a mudar."
 }

@@ -1441,7 +1441,6 @@
   "islandupgrade.exploring": "Exploration en cours",
   "islandupgrade.welcomePetalParadise": "Bienvenue à Petal Paradise!",
   "islandupgrade.itemsReturned": "Vos objets ont été renvoyés en toute sécurité dans votre inventaire.",
-  "islandupgrade.exoticResourcesDescription": "Cette partie de Sunflower Land est connue pour ses ressources exotiques. Étendez votre île pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares!",
   "landscape.intro.one": "Concevez votre île de rêve!",
   "landscape.intro.two": "En mode de conception, vous pouvez saisir, faire glisser et déplacer des objets.",
   "landscape.intro.three": "Fabriquez des décorations rares",
@@ -5122,5 +5121,7 @@
   "description.summer.chicken": "Un poulet qui aime le soleil et qui s'épanouit dans la chaleur estivale, se prélasse sous les chauds rayons du soleil et glousse de joie !",
   "description.jellyfish.boost": "Augmenter les prises de poissons de 1 % en été",
   "description.jellyfish": "Une merveille marine lumineuse qui rayonne d'une énergie mystique, permettant d'améliorer les capacités de pêche pendant les mois chauds de l'été.",
-  "description.chamomile": "Une fleur mutante décorative découverte dans le chapitre Winds of Change."
+  "description.chamomile": "Une fleur mutante décorative découverte dans le chapitre Winds of Change.",
+  "islandupgrade.exoticResourcesDescription": "Cette région de Sunflower Land est connue pour ses ressources exotiques. Agrandissez vos terres pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares ! Surveillez les saisons car elles influent sur ce que vous pouvez cultiver.",
+  "cropGuide.tutorialAlwaysSpring": "Sur votre première île, c'est toujours le printemps ! Lorsque vous améliorerez votre île, les saisons commenceront à changer."
 }

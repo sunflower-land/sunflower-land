@@ -2054,7 +2054,6 @@
   "islandupgrade.welcomeDesertIsland": "사막에 오신 걸 환영합니다!",
   "islandupgrade.itemsReturned": "상품이 재고로 안전하게 반품되었습니다.",
   "islandupgrade.notReadyExpandMore": "넌 아직 준비가 안 됐어{{remainingExpansions}} 를 더 확장하세요",
-  "islandupgrade.exoticResourcesDescription": "선플라워 랜드의 이 지역은 이국적인 자원으로 유명합니다.땅을 넓혀 과일, 꽃, 벌집, 희귀 광물을 발견하세요!",
   "islandupgrade.desertResourcesDescription": "혹독한 사막 환경에서 생존하려면 새로운 기술이 필요합니다.땅을 확장해 새로운 건물과 그 안에 무엇이 있는지 알아보세요!",
   "islandupgrade.requiredIsland": "{{islandType}} 에서 잠금 해제",
   "islandupgrade.otherIsland": "{{island}} 아일랜드",
@@ -5122,5 +5121,7 @@
   "description.summer.chicken": "따스한 햇살을 맞으며 기쁨에 넘실대는 따스한 여름 더위 속에서 잘 자라는 태양을 좋아하는 닭!",
   "description.jellyfish.boost": "여름철 어획량 1마리 늘리기",
   "description.jellyfish": "신비로운 에너지로 빛나는 빛나는 바다의 경이로움으로, 따뜻한 여름철에 낚시 능력을 높여줍니다.",
-  "description.chamomile": "윈즈 오브 체인지 챕터에서 발견된 장식용 돌연변이 꽃입니다."
+  "description.chamomile": "윈즈 오브 체인지 챕터에서 발견된 장식용 돌연변이 꽃입니다.",
+  "islandupgrade.exoticResourcesDescription": "선플라워 랜드의 이 지역은 이국적인 자원으로 유명합니다.땅을 넓혀 과일, 꽃, 벌집, 희귀 광물을 발견하세요!계절에 따라 재배할 수 있는 식물이 달라지므로 잘 살펴보세요.",
+  "cropGuide.tutorialAlwaysSpring": "첫 섬에서는 언제나 봄이 찾아옵니다!섬을 업그레이드하면 시즌이 바뀌기 시작합니다."
 }

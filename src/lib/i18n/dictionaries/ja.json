@@ -2054,7 +2054,6 @@
   "islandupgrade.welcomeDesertIsland": "砂漠へようこそ！",
   "islandupgrade.itemsReturned": "商品は安全に在庫に戻されました。",
   "islandupgrade.notReadyExpandMore": "まだ準備ができていません。{{remainingExpansions}} を何回も展開してください",
-  "islandupgrade.exoticResourcesDescription": "サンフラワーランドのこの地域は、そのエキゾチックな資源で知られています。土地を広げて、果物や花、ミツバチの巣箱、希少な鉱物を発見しよう！",
   "islandupgrade.desertResourcesDescription": "過酷な砂漠環境が生き残るためには新しい技術が必要です。土地を広げて新しい建物や中身を発見しよう！",
   "islandupgrade.requiredIsland": "{{islandType}} でロック解除",
   "islandupgrade.otherIsland": "{{island}} アイランド",
@@ -5122,5 +5121,7 @@
   "description.summer.chicken": "太陽を愛するニワトリは、夏の暑さの中で育ち、暖かい日差しを浴びて喜びながら鳴きます！",
   "description.jellyfish.boost": "夏には漁獲量を1匹増やす",
   "description.jellyfish": "神秘的なエネルギーで光る海の驚異的な光は、暖かい夏の間は釣りの能力を高めます。",
-  "description.chamomile": "ウィンズ・オブ・チェンジの章で見つかった装飾用のミュータントフラワー。"
+  "description.chamomile": "ウィンズ・オブ・チェンジの章で見つかった装飾用のミュータントフラワー。",
+  "islandupgrade.exoticResourcesDescription": "サンフラワーランドのこの地域は、そのエキゾチックな資源で知られています。土地を広げて、果物や花、ミツバチの巣箱、希少な鉱物を発見しよう！季節は栽培できるものに影響しますので、目を離さないでください。",
+  "cropGuide.tutorialAlwaysSpring": "初めての島は、いつだって春です！島をアップグレードすると、季節が変わり始めます。"
 }

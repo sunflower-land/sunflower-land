@@ -2018,7 +2018,6 @@
   "islandupgrade.welcomeDesertIsland": "Benvenuto nel deserto!",
   "islandupgrade.itemsReturned": "I tuoi articoli sono stati restituiti in modo sicuro al tuo inventario.",
   "islandupgrade.notReadyExpandMore": "Non sei pronto. Espandi {{remainingExpansions}} altre volte",
-  "islandupgrade.exoticResourcesDescription": "Questa zona di Sunflower Land è nota per le sue risorse esotiche. Espandi la tua terra per scoprire frutta, fiori, alveari e minerali rari!",
   "islandupgrade.desertResourcesDescription": "Il duro ambiente desertico richiede nuove tecnologie per sopravvivere. Espandi la tua terra per scoprire nuovi edifici e cosa c'è dentro!",
   "islandupgrade.requiredIsland": "Si sblocca a {{islandType}}",
   "islandupgrade.otherIsland": "{{island}} Isola",
@@ -5122,5 +5121,7 @@
   "description.summer.chicken": "Un pollo amante del sole che prospera nella calura estiva, crogiolandosi ai raggi caldi e chioccando con gioia!",
   "description.jellyfish.boost": "Aumentare la cattura di pesce dell'1% in estate",
   "description.jellyfish": "Una luminosa meraviglia marina che brilla di energia mistica, garantendo migliori capacità di pesca durante i caldi mesi estivi.",
-  "description.chamomile": "Un fiore mutante decorativo trovato nel capitolo Winds of Change."
+  "description.chamomile": "Un fiore mutante decorativo trovato nel capitolo Winds of Change.",
+  "islandupgrade.exoticResourcesDescription": "Questa zona di Sunflower Land è nota per le sue risorse esotiche. Espandi la tua terra per scoprire frutta, fiori, alveari e minerali rari! Tieni d'occhio le stagioni, poiché influiscono su ciò che puoi coltivare.",
+  "cropGuide.tutorialAlwaysSpring": "Sulla tua prima isola, è sempre primavera! Quando migliorerai la tua isola, le stagioni inizieranno a cambiare."
 }
