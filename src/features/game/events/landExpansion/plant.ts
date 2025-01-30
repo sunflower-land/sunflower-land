@@ -522,6 +522,10 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
+  if (crop === "Wheat" && isWearableActive({ name: "Sickle", game })) {
+    amount += 2;
+  }
+
   if (
     crop === "Barley" &&
     isCollectibleBuilt({ name: "Sheaf of Plenty", game })
