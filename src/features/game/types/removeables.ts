@@ -648,6 +648,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Farm Dog": (game) => areAnySheepSleeping(game),
   Mootant: (game) => areAnyCowsSleeping(game),
   "Alien Chicken": (game) => areAnyChickensSleeping(game),
+
+  // Winds of Change
+  Mammoth: (game) => areAnyCowsSleeping(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
