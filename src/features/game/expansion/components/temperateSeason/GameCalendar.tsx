@@ -20,6 +20,11 @@ import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { DateCard } from "./DateCard";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { SeasonDayDetails } from "./SeasonDayDetails";
+import {
+  getHasReadTemperateSeasonTutorial,
+  setHasReadTemperateSeasonTutorial,
+} from "features/game/lib/temperateSeason";
+import { SeasonsIntroduction } from "./SeasonsIntroduction";
 
 export type LocalCalendarDetails = {
   dateNumber: number;
@@ -107,6 +112,70 @@ export const getCalendarDays = ({
 
 const ONE_MINUTE = 1000 * 60; // 1 minute
 
+interface GameCalendarButtonProps {
+  onClick: () => void;
+  season: TemperateSeasonName;
+  utcDay: string;
+  utcDate: string;
+  showTutorial: boolean;
+}
+const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
+  onClick,
+  season,
+  utcDay,
+  utcDate,
+  showTutorial,
+}) => {
+  const seasonDetails = SEASON_DETAILS[season];
+
+  return (
+    <div
+      className="absolute z-50 flex flex-col justify-between hover:img-highlight"
+      style={{
+        top: `${100}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+    >
+      <div className="relative">
+        <img
+          src={seasonDetails.icon}
+          className="absolute z-10 w-5 sm:w-6"
+          style={{
+            transform: "translate(50%, -50%)",
+            right: 1,
+            top: 2,
+          }}
+        />
+        <Button className="h-8 sm:h-10 mb-0">
+          <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-1 text-xs sm:text-sm">
+              <span>{utcDay}</span>
+              <span>{utcDate}</span>
+            </div>
+            <img src={calendarIcon} className="h-6 sm:h-7 mr-1" />
+          </div>
+        </Button>
+        {showTutorial && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            onClick={() => onClick()}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const GameCalendar: React.FC = () => {
   const { gameService } = useContext(Context);
 
@@ -114,11 +183,12 @@ export const GameCalendar: React.FC = () => {
   const calendar = useSelector(gameService, _calendar);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<LocalCalendarDetails>();
+  const [hasReadTutorial, setHasReadTutorial] = useState(
+    getHasReadTemperateSeasonTutorial(),
+  );
 
   const { t } = useTranslation();
   useUiRefresher({ delay: ONE_MINUTE });
-
-  const seasonDetails = SEASON_DETAILS[season.season];
 
   const now = new Date();
   const utcDay = now.toLocaleString("en-US", {
@@ -130,7 +200,6 @@ export const GameCalendar: React.FC = () => {
     day: "numeric",
     timeZone: "UTC",
   });
-
   const utcTime = now.toLocaleTimeString("en-US", {
     timeZone: "UTC",
     hour: "2-digit",
@@ -138,11 +207,35 @@ export const GameCalendar: React.FC = () => {
     hour12: true,
   });
 
+  const seasonDetails = SEASON_DETAILS[season.season];
+
   const formattedTime = () => {
     const lowerCaseTime = utcTime.toLowerCase();
     // remove space
     return lowerCaseTime.replace(/\s/g, "");
   };
+
+  const acknowledgeTutorial = () => {
+    setHasReadTemperateSeasonTutorial();
+    setHasReadTutorial(true);
+  };
+
+  if (!hasReadTutorial) {
+    return (
+      <>
+        <Modal show={isCalendarOpen} onHide={() => setIsCalendarOpen(false)}>
+          <SeasonsIntroduction onClose={acknowledgeTutorial} />
+        </Modal>
+        <GameCalendarButton
+          onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+          season={season.season}
+          utcDay={utcDay}
+          utcDate={utcDate}
+          showTutorial={true}
+        />
+      </>
+    );
+  }
 
   return (
     <>
@@ -225,38 +318,13 @@ export const GameCalendar: React.FC = () => {
           />
         </ModalOverlay>
       </Modal>
-      <div
-        className="absolute z-50 flex flex-col justify-between hover:img-highlight"
-        style={{
-          top: `${100}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsCalendarOpen(!isCalendarOpen);
-        }}
-      >
-        <div className="relative">
-          <img
-            src={seasonDetails.icon}
-            className="absolute z-10 w-5 sm:w-6"
-            style={{
-              transform: "translate(50%, -50%)",
-              right: 1,
-              top: 2,
-            }}
-          />
-          <Button className="h-8 sm:h-10 mb-0">
-            <div className="flex items-center space-x-1">
-              <div className="flex items-center space-x-1 text-xs sm:text-sm">
-                <span>{utcDay}</span>
-                <span>{utcDate}</span>
-              </div>
-              <img src={calendarIcon} className="h-6 sm:h-7 mr-1" />
-            </div>
-          </Button>
-        </div>
-      </div>
+      <GameCalendarButton
+        onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+        season={season.season}
+        utcDay={utcDay}
+        utcDate={utcDate}
+        showTutorial={false}
+      />
     </>
   );
 };

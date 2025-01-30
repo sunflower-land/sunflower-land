@@ -51,6 +51,14 @@ export const CropGuide = () => {
               text: t("cropGuide.payAttentionToSeason"),
               icon: seasonIcon,
             },
+            ...(gameState.context.state.island.type === "basic"
+              ? [
+                  {
+                    text: t("cropGuide.tutorialAlwaysSpring"),
+                    icon: SEASON_ICONS["spring"],
+                  },
+                ]
+              : []),
           ]}
         />
       </div>
