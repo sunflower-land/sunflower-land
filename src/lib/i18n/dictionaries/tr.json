@@ -1436,7 +1436,6 @@
   "islandupgrade.exploring": "Keşfet",
   "islandupgrade.welcomePetalParadise": "Petal Paradise'a hoş geldiniz!",
   "islandupgrade.itemsReturned": "Öğeleriniz güvenli bir şekilde envanterinize iade edildi.",
-  "islandupgrade.exoticResourcesDescription": "Sunflower Land bu bölgesi egzotik kaynaklarıyla tanınır. Meyveleri, çiçekleri, arı kovanlarını ve nadir mineralleri keşfetmek için topraklarınızı genişletin!",
   "landscape.intro.one": "Hayalinizdeki adayı tasarlayın!",
   "landscape.intro.two": "Tasarım modunda öğeleri tutabilir, sürükleyebilir ve taşıyabilirsiniz.",
   "landscape.intro.three": "Nadir dekorasyonlar yapın",
@@ -5122,5 +5121,7 @@
   "description.summer.chicken": "Yaz sıcağında büyüyen, sıcak ışınların tadını çıkaran ve neşeyle gıcırdayan güneşi seven bir tavuk!",
   "description.jellyfish.boost": "Yaz aylarında balık avını 1 artırın",
   "description.jellyfish": "Sıcak yaz aylarında gelişmiş balıkçılık yetenekleri sağlayan mistik enerjiyle parlayan parlak bir deniz harikası.",
-  "description.chamomile": "Değişim Rüzgarları bölümünde bulunan dekoratif bir mutant çiçek."
+  "description.chamomile": "Değişim Rüzgarları bölümünde bulunan dekoratif bir mutant çiçek.",
+  "islandupgrade.exoticResourcesDescription": "Ayçiçeği Ülkesinin bu bölgesi egzotik kaynakları ile bilinir. Meyveleri, çiçekleri, arı kovanlarını ve nadir mineralleri keşfetmek için arazinizi genişletin! Ne yetiştirebileceğinizi etkiledikleri için mevsimlere dikkat edin.",
+  "cropGuide.tutorialAlwaysSpring": "İlk adanızda, her zaman ilkbahardır! Adanızı yükselttiğinizde mevsimler değişmeye başlayacak."
 }

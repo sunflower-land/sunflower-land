@@ -2054,7 +2054,6 @@
   "islandupgrade.welcomeDesertIsland": "Selamat datang di gurun!",
   "islandupgrade.itemsReturned": "Barang Anda telah dikembalikan dengan aman ke inventaris Anda.",
   "islandupgrade.notReadyExpandMore": "Anda belum siap. Perluas {{remainingExpansions}} lebih banyak",
-  "islandupgrade.exoticResourcesDescription": "Daerah Tanah Bunga Matahari ini dikenal dengan sumber daya eksotisnya. Perluas tanah Anda untuk menemukan buah, bunga, sarang lebah & mineral langka!",
   "islandupgrade.desertResourcesDescription": "Lingkungan gurun yang keras membutuhkan teknologi baru untuk bertahan hidup. Perluas tanah Anda untuk menemukan bangunan baru dan apa yang ada di dalamnya!",
   "islandupgrade.requiredIsland": "Buka di {{islandType}}",
   "islandupgrade.otherIsland": "{{island}} Pulau",
@@ -5122,5 +5121,7 @@
   "description.summer.chicken": "Ayam yang menyukai sinar matahari yang tumbuh subur di musim panas, berjemur di bawah sinar hangat dan berdebar-debar kegembiraan!",
   "description.jellyfish.boost": "Tingkatkan tangkapan ikan sebesar 1 di musim panas",
   "description.jellyfish": "Keajaiban laut bercahaya yang bersinar dengan energi mistis, memberikan kemampuan memancing yang ditingkatkan selama bulan-bulan musim panas yang hangat.",
-  "description.chamomile": "Bunga mutan dekoratif yang ditemukan selama chapter Winds of Change."
+  "description.chamomile": "Bunga mutan dekoratif yang ditemukan selama chapter Winds of Change.",
+  "islandupgrade.exoticResourcesDescription": "Daerah Tanah Bunga Matahari ini dikenal dengan sumber daya eksotisnya. Perluas tanah Anda untuk menemukan buah, bunga, sarang lebah & mineral langka! Awasi musim karena mereka memengaruhi apa yang dapat Anda tanam.",
+  "cropGuide.tutorialAlwaysSpring": "Di pulau pertama Anda, selalu musim semi! Saat Anda meningkatkan pulau Anda, musim akan mulai berubah."
 }
