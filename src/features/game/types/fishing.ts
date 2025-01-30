@@ -58,7 +58,8 @@ export type MarineMarvelName =
   | "Crimson Carp"
   | "Battle Fish"
   | "Lemon Shark"
-  | "Longhorn Cowfish";
+  | "Longhorn Cowfish"
+  | "Jellyfish";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -258,6 +259,13 @@ export const CHAPTER_FISH: Record<
   },
   "Longhorn Cowfish": {
     baits: ["Red Wiggler", "Fishing Lure"],
+    type: "marine marvel",
+    locations: ["wharf", "beach"],
+    likes: [],
+    seasons: [],
+  },
+  Jellyfish: {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf", "beach"],
     likes: [],
@@ -510,6 +518,13 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Earthworm", "Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf"],
+    likes: [],
+    seasons: [],
+  },
+  Jellyfish: {
+    baits: ["Grub", "Fishing Lure"],
+    type: "marine marvel",
+    locations: ["wharf", "beach"],
     likes: [],
     seasons: [],
   },

@@ -803,4 +803,24 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     "Nightshade Emblem": {
       tradeAt: new Date("2021-01-01"),
     },
+    "Frozen Cow": {
+      tradeAt: SEASONS["Winds of Change"].startDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Frozen Sheep": {
+      tradeAt: SEASONS["Winds of Change"].startDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Summer Chicken": {
+      tradeAt: SEASONS["Winds of Change"].startDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    Chamomile: {
+      tradeAt: SEASONS["Winds of Change"].startDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    Jellyfish: {
+      tradeAt: SEASONS["Winds of Change"].startDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
   };

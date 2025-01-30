@@ -993,6 +993,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Summer Duckling": 2196,
   "Autumn Duckling": 2197,
   "Winter Duckling": 2198,
+  "Frozen Cow": 2199,
+  "Frozen Sheep": 2200,
+  "Summer Chicken": 2201,
+  Chamomile: 2202,
+  Jellyfish: 2203,
 };
 
 // The reverse of above

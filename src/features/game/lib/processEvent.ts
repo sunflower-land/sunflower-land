@@ -73,6 +73,8 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Alien Chicken": new Decimal(5),
   "Toxic Tuft": new Decimal(5),
   Mootant: new Decimal(5),
+  "Frozen Sheep": new Decimal(5),
+  "Summer Chicken": new Decimal(5),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1250),

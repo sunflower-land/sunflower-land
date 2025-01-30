@@ -197,11 +197,12 @@ export type MutantChicken =
   | "Crim Peckster"
   | "Knight Chicken"
   | "Pharaoh Chicken"
-  | "Alien Chicken";
+  | "Alien Chicken"
+  | "Summer Chicken";
 
-export type MutantCow = "Mootant";
+export type MutantCow = "Mootant" | "Frozen Cow";
 
-export type MutantSheep = "Toxic Tuft";
+export type MutantSheep = "Toxic Tuft" | "Frozen Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
