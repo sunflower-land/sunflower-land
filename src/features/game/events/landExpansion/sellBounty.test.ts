@@ -10,6 +10,7 @@ describe("sellBounty", () => {
     ...TEST_FARM,
     inventory: {
       "Blue Balloon Flower": new Decimal(1),
+      Obsidian: new Decimal(1),
     },
     bounties: {
       requests: [
@@ -34,6 +35,11 @@ describe("sellBounty", () => {
           items: {
             Horseshoe: 1,
           },
+        },
+        {
+          id: "4",
+          name: "Obsidian",
+          sfl: 100,
         },
       ],
       completed: [],
@@ -140,6 +146,20 @@ describe("sellBounty", () => {
     const result = sellBounty({ state: GAME_STATE, action });
 
     expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+  });
+
+  it("rewards sfl", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const action: SellBountyAction = {
+      type: "bounty.sold",
+      requestId: "4",
+    };
+
+    const result = sellBounty({ state: GAME_STATE, action });
+
+    expect(result.balance).toEqual(new Decimal(100));
   });
 
   it("rewards +1 Horseshoe when Cowboy Hat is worn during Bull Run Season", () => {
