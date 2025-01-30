@@ -25,7 +25,7 @@ import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties
 import { BertObsession } from "features/world/ui/npcs/Bert";
 import { GameState } from "features/game/types/game";
 
-const SEASON_GRAPHICS: Record<SeasonName, string> = {
+const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -34,7 +34,7 @@ const SEASON_GRAPHICS: Record<SeasonName, string> = {
   "Clash of Factions": "?",
   "Pharaoh's Treasure": SUNNYSIDE.announcement.desertSeason,
   "Bull Run": SUNNYSIDE.announcement.bullRunSeason,
-  "Winds of Change": "",
+  "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
 };
 
 interface Props {
@@ -84,7 +84,7 @@ export const Season: React.FC<Props> = ({
       <InnerPanel className="mb-1">
         <div
           style={{
-            backgroundImage: `url(${SEASON_GRAPHICS[season]})`,
+            backgroundImage: `url(${CHAPTER_GRAPHICS[season]})`,
             imageRendering: "pixelated",
             height: "125px",
             backgroundSize: "600px",

@@ -13,13 +13,8 @@ type SeasonalMutants = {
   chicken: InventoryItemName;
   flower: InventoryItemName;
   fish: InventoryItemName;
-};
-
-const DEFAULT: SeasonalMutants = {
-  chicken: "Fat Chicken",
-  flower: "Red Pansy",
-  fish: "Anchovy",
-  banner: "?",
+  cow: InventoryItemName;
+  sheep: InventoryItemName;
 };
 
 const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
@@ -27,13 +22,25 @@ const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
     chicken: "Pharaoh Chicken",
     flower: "Desert Rose",
     fish: "Lemon Shark",
+    cow: "Cow",
+    sheep: "Sheep",
     banner: SUNNYSIDE.announcement.pharaohSeasonRares,
   },
   "Bull Run": {
     chicken: "Alien Chicken",
     flower: "Chicory",
     fish: "Longhorn Cowfish",
+    cow: "Mootant",
+    sheep: "Toxic Tuft",
     banner: SUNNYSIDE.announcement.bullRunSeasonRares,
+  },
+  "Winds of Change": {
+    chicken: "Summer Chicken",
+    flower: "Chamomile",
+    fish: "Jellyfish",
+    cow: "Frozen Cow",
+    sheep: "Frozen Sheep",
+    banner: SUNNYSIDE.announcement.windsOfChangeSeasonRares,
   },
 };
 
@@ -80,6 +87,18 @@ export const SeasonalMutants: React.FC<Props> = ({ season }) => {
                 item: mutants.flower,
               }),
               icon: ITEM_DETAILS["Red Pansy"].image,
+            },
+            {
+              text: t("season.codex.mutants.four", {
+                item: mutants.cow,
+              }),
+              icon: ITEM_DETAILS["Cow"].image,
+            },
+            {
+              text: t("season.codex.mutants.five", {
+                item: mutants.sheep,
+              }),
+              icon: ITEM_DETAILS["Sheep"].image,
             },
           ]}
         />
