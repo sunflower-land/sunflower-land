@@ -36,9 +36,10 @@ import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 import { HalloweenNPC } from "./npcs/HalloweenNPC";
 import { FlowerBounties } from "./flowerShop/FlowerBounties";
 import { Santa } from "./npcs/Santa";
-import { SolarForge } from "./solarForge/SolarForge";
+import { SolarForge } from "./infernos/SolarForge";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
-import { SFLBounties } from "./solarForge/SFLBounties";
+import { SFLBounties } from "./infernos/SFLBounties";
+import { ObsidianExchange } from "./infernos/ObsidianExchange";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -149,6 +150,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
         {npc === "gunter" && <SolarForge onClose={closeModal} />}
+        {npc === "gorga" && <ObsidianExchange onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}
         {npc === "bailey" && <WeatherShop onClose={closeModal} />}
         {npc === "gilda" && <SFLBounties onClose={closeModal} />}

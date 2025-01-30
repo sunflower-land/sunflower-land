@@ -15,6 +15,12 @@ const BUMPKINS: NPCBumpkin[] = [
     x: 188,
     y: 298,
   },
+  {
+    npc: "gorga",
+    x: 431,
+    y: 272,
+    direction: "left",
+  },
 ];
 
 export class InfernosScene extends BaseScene {

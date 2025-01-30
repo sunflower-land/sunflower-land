@@ -110,6 +110,7 @@ export type NPCName =
   | "gilda"
   | "chase" //cowboy
   | "gunter"
+  | "gorga"
   | "bailey"; // weatherman
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -846,6 +847,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Brown Suspenders",
     shirt: "Fossil Armor",
     tool: "Infernal Pitchfork",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+  },
+  gorga: {
+    body: "Infernal Goblin Potion",
+    hair: "Goth Hair",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    hat: "Infernal Horns",
+    secondaryTool: "Infernal Drill",
     background: "Forest Background",
     shoes: "Black Farmer Boots",
   },

@@ -437,8 +437,13 @@ import { startLavaPit, StartLavaPitAction } from "./landExpansion/startLavaPit";
 import { placeLavaPit, PlaceLavaPitAction } from "./landExpansion/placeLavaPit";
 import { moveLavaPit, MoveLavaPitAction } from "./landExpansion/moveLavaPit";
 import { buyResource, ResourceBoughtAction } from "./landExpansion/buyResource";
+import {
+  exchangeObsidian,
+  ObsidianExchangedAction,
+} from "./landExpansion/exchangeObsidian";
 
 export type PlayingEvent =
+  | ObsidianExchangedAction
   | ResourceBoughtAction
   | PurchaseVIPAction
   | SellAnimalAction
@@ -642,6 +647,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "obsidian.exchanged": exchangeObsidian,
   "resource.bought": buyResource,
   "vip.purchased": purchaseVIP,
   "animal.sold": sellAnimal,
