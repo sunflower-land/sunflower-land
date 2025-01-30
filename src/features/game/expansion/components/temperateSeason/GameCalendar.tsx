@@ -20,6 +20,11 @@ import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { DateCard } from "./DateCard";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { SeasonDayDetails } from "./SeasonDayDetails";
+import {
+  getHasReadTemperateSeasonTutorial,
+  setHasReadTemperateSeasonTutorial,
+} from "features/game/lib/temperateSeason";
+import { SeasonsIntroduction } from "./SeasonsIntroduction";
 
 export type LocalCalendarDetails = {
   dateNumber: number;
@@ -114,6 +119,9 @@ export const GameCalendar: React.FC = () => {
   const calendar = useSelector(gameService, _calendar);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<LocalCalendarDetails>();
+  const [hasReadTutorial, setHasReadTutorial] = useState(
+    getHasReadTemperateSeasonTutorial(),
+  );
 
   const { t } = useTranslation();
   useUiRefresher({ delay: ONE_MINUTE });
@@ -143,6 +151,19 @@ export const GameCalendar: React.FC = () => {
     // remove space
     return lowerCaseTime.replace(/\s/g, "");
   };
+
+  const acknowledgeTutorial = () => {
+    setHasReadTemperateSeasonTutorial();
+    setHasReadTutorial(true);
+  };
+
+  if (!hasReadTutorial) {
+    return (
+      <Modal show={isCalendarOpen} onHide={() => setIsCalendarOpen(false)}>
+        <SeasonsIntroduction onClose={acknowledgeTutorial} />
+      </Modal>
+    );
+  }
 
   return (
     <>
