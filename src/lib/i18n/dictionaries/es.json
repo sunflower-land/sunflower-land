@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.crabHat.boost": "+1 recompensa de pesca",
   "description.mammoth.boost": "-25% de tiempo de producción de vacas",
-  "description.sickle.boost": "+2 Trigo"
+  "description.sickle.boost": "+2 Trigo",
+  "description.frozen.sheep.boost": "No hay enfermedad en las ovejas durante el invierno",
+  "description.frozen.sheep": "Una oveja que ha quedado completamente congelada por los vientos del invierno.",
+  "description.frozen.cow.boost": "No hay enfermedad de las vacas durante el invierno",
+  "description.frozen.cow": "Una vaca que ha quedado completamente congelada por los vientos del invierno.",
+  "description.summer.chicken.boost": "No hay enfermedad de los pollos durante el verano",
+  "description.summer.chicken": "¡Un pollo amante del sol que prospera con el calor del verano, disfrutando de los cálidos rayos y cacareando de alegría!",
+  "description.jellyfish.boost": "Aumente la captura de peces en un 1% en verano",
+  "description.jellyfish": "Una luminosa maravilla marina que brilla con energía mística y que permite mejorar las habilidades de pesca durante los cálidos meses de verano.",
+  "description.chamomile": "Una flor mutante decorativa encontrada durante el capítulo Vientos de cambio."
 }

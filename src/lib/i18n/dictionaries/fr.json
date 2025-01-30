@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.crabHat.boost": "+1 prime de pêche",
   "description.mammoth.boost": "-25 % de temps de production des vaches",
-  "description.sickle.boost": "+2 Blé"
+  "description.sickle.boost": "+2 Blé",
+  "description.frozen.sheep.boost": "Pas de maladie des moutons en hiver",
+  "description.frozen.sheep": "Un mouton qui a été complètement gelé par les vents de l'hiver.",
+  "description.frozen.cow.boost": "Pas de maladie des vaches en hiver",
+  "description.frozen.cow": "Une vache complètement gelée par les vents de l'hiver.",
+  "description.summer.chicken.boost": "Pas de maladie des poulets en été",
+  "description.summer.chicken": "Un poulet qui aime le soleil et qui s'épanouit dans la chaleur estivale, se prélasse sous les chauds rayons du soleil et glousse de joie !",
+  "description.jellyfish.boost": "Augmenter les prises de poissons de 1 % en été",
+  "description.jellyfish": "Une merveille marine lumineuse qui rayonne d'une énergie mystique, permettant d'améliorer les capacités de pêche pendant les mois chauds de l'été.",
+  "description.chamomile": "Une fleur mutante décorative découverte dans le chapitre Winds of Change."
 }

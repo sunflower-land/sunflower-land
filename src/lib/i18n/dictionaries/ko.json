@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 타임샤드",
   "description.crabHat.boost": "+1 피싱 바운티",
   "description.mammoth.boost": "-25% 젖소 생산 시간",
-  "description.sickle.boost": "+2 위트"
+  "description.sickle.boost": "+2 위트",
+  "description.frozen.sheep.boost": "겨울철 양병 없음",
+  "description.frozen.sheep": "겨울 바람에 꽁꽁 얼어붙은 양.",
+  "description.frozen.cow.boost": "겨울에는 젖소병 없음",
+  "description.frozen.cow": "겨울 바람에 꽁꽁 얼어붙은 소.",
+  "description.summer.chicken.boost": "여름철에는 닭병 없음",
+  "description.summer.chicken": "따스한 햇살을 맞으며 기쁨에 넘실대는 따스한 여름 더위 속에서 잘 자라는 태양을 좋아하는 닭!",
+  "description.jellyfish.boost": "여름철 어획량 1마리 늘리기",
+  "description.jellyfish": "신비로운 에너지로 빛나는 빛나는 바다의 경이로움으로, 따뜻한 여름철에 낚시 능력을 높여줍니다.",
+  "description.chamomile": "윈즈 오브 체인지 챕터에서 발견된 장식용 돌연변이 꽃입니다."
 }

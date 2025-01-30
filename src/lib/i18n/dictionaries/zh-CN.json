@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshar",
   "description.crabHat.boost": "+1 钓鱼赏金",
   "description.mammoth.boost": "-25% 奶牛生产时间",
-  "description.sickle.boost": "+2 小麦"
+  "description.sickle.boost": "+2 小麦",
+  "description.frozen.sheep.boost": "冬天不会有绵羊病",
+  "description.frozen.sheep": "一只被冬风冻得结实的绵羊。",
+  "description.frozen.cow.boost": "冬天没有奶牛病",
+  "description.frozen.cow": "一头被冬天的风冻得结实的牛。",
+  "description.summer.chicken.boost": "夏天不会出现鸡病",
+  "description.summer.chicken": "一只喜欢阳光的鸡，在炎热的夏日里茁壮成长，沐浴在温暖的阳光下，欢乐地发出咯咯声！",
+  "description.jellyfish.boost": "夏季鱼类捕捞量增加 1%",
+  "description.jellyfish": "一个发光的海洋奇迹，散发着神秘的能量，在温暖的夏季增强了钓鱼能力。",
+  "description.chamomile": "在 “变革之风” 章节中发现的一朵装饰性突变花。"
 }

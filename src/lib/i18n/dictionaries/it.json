@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.crabHat.boost": "+1 Fishing Bounty",
   "description.mammoth.boost": "-25% Tempo di produzione delle mucche",
-  "description.sickle.boost": "+2 Grano"
+  "description.sickle.boost": "+2 Grano",
+  "description.frozen.sheep.boost": "Nessuna malattia di pecora durante l'inverno",
+  "description.frozen.sheep": "Una pecora congelata dai venti invernali.",
+  "description.frozen.cow.boost": "Nessuna malattia delle mucche durante l'inverno",
+  "description.frozen.cow": "Una mucca congelata dai venti invernali.",
+  "description.summer.chicken.boost": "Nessuna malattia di pollo durante l'estate",
+  "description.summer.chicken": "Un pollo amante del sole che prospera nella calura estiva, crogiolandosi ai raggi caldi e chioccando con gioia!",
+  "description.jellyfish.boost": "Aumentare la cattura di pesce dell'1% in estate",
+  "description.jellyfish": "Una luminosa meraviglia marina che brilla di energia mistica, garantendo migliori capacità di pesca durante i caldi mesi estivi.",
+  "description.chamomile": "Un fiore mutante decorativo trovato nel capitolo Winds of Change."
 }

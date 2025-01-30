@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.crabHat.boost": "+1 Recompensa de pesca",
   "description.mammoth.boost": "-25% de tempo de produção de vacas",
-  "description.sickle.boost": "+2 Trigo"
+  "description.sickle.boost": "+2 Trigo",
+  "description.frozen.sheep.boost": "Nenhuma doença das ovelhas durante o inverno",
+  "description.frozen.sheep": "Uma ovelha congelada pelos ventos do inverno.",
+  "description.frozen.cow.boost": "Sem doença das vacas durante o inverno",
+  "description.frozen.cow": "Uma vaca que ficou totalmente congelada pelos ventos do inverno.",
+  "description.summer.chicken.boost": "Sem doença de frango durante o verão",
+  "description.summer.chicken": "Uma galinha que adora o sol e que prospera no calor do verão, se aquecendo nos raios quentes e cacarejando de alegria!",
+  "description.jellyfish.boost": "Aumente a captura de peixe em 1% no verão",
+  "description.jellyfish": "Uma maravilha marinha luminosa que brilha com energia mística, garantindo habilidades aprimoradas de pesca durante os meses quentes de verão.",
+  "description.chamomile": "Uma flor mutante decorativa encontrada durante o capítulo Winds of Change."
 }

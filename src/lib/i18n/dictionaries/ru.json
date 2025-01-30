@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Таймшард",
   "description.crabHat.boost": "+1 награда за рыбалку",
   "description.mammoth.boost": "-25% времени производства коров",
-  "description.sickle.boost": "+2 пшеница"
+  "description.sickle.boost": "+2 пшеница",
+  "description.frozen.sheep.boost": "Зимой овечьей болезни нет",
+  "description.frozen.sheep": "Овца, крепко замерзшая зимними ветрами.",
+  "description.frozen.cow.boost": "Зимой коровы не болеют",
+  "description.frozen.cow": "Корова, замерзшая зимними ветрами.",
+  "description.summer.chicken.boost": "Летом куриная болезнь отсутствует",
+  "description.summer.chicken": "Любящая солнце курица, которая прекрасно себя чувствует в летнюю жару, греется в теплых лучах и полыхается от радости!",
+  "description.jellyfish.boost": "Увеличить улов рыбы летом на 1%",
+  "description.jellyfish": "Сияющее морское чудо, излучающее мистическую энергию и расширяющее возможности рыбалки в теплые летние месяцы.",
+  "description.chamomile": "Декоративный цветк-мутант, найденный в главе «Ветры перемен»."
 }

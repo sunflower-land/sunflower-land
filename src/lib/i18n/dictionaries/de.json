@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.crabHat.boost": "+1 Angelprämie",
   "description.mammoth.boost": "-25% Produktionszeit für Kühe",
-  "description.sickle.boost": "+2 Weizen"
+  "description.sickle.boost": "+2 Weizen",
+  "description.frozen.sheep.boost": "Keine Schafskrankheit im Winter",
+  "description.frozen.sheep": "Ein Schaf, das von den Winterwinden fest gefroren wurde.",
+  "description.frozen.cow.boost": "Keine Kuhkrankheit im Winter",
+  "description.frozen.cow": "Eine Kuh, die von den Winterwinden fest gefroren wurde.",
+  "description.summer.chicken.boost": "Keine Hühnerkrankheit im Sommer",
+  "description.summer.chicken": "Ein sonnenliebendes Huhn, das in der Sommerhitze gedeiht, sich in den warmen Strahlen sonnt und vor Freude gackert!",
+  "description.jellyfish.boost": "Erhöhen Sie den Fischfang im Sommer um 1",
+  "description.jellyfish": "Ein leuchtendes Meereswunder, das vor mystischer Energie leuchtet und in den warmen Sommermonaten verbesserte Angelfähigkeiten bietet.",
+  "description.chamomile": "Eine dekorative Mutantenblume, die im Kapitel Winde des Wandels gefunden wurde."
 }

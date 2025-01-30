@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 タイムハード",
   "description.crabHat.boost": "+1 釣りバウンティ",
   "description.mammoth.boost": "-25% の牛生産時間",
-  "description.sickle.boost": "+2 ウィート"
+  "description.sickle.boost": "+2 ウィート",
+  "description.frozen.sheep.boost": "冬の間は羊の病気はありません",
+  "description.frozen.sheep": "冬の風で凍りついた羊。",
+  "description.frozen.cow.boost": "冬の間は牛の病気はありません",
+  "description.frozen.cow": "冬の風で凍りついた牛。",
+  "description.summer.chicken.boost": "夏の間は鶏の病気はありません",
+  "description.summer.chicken": "太陽を愛するニワトリは、夏の暑さの中で育ち、暖かい日差しを浴びて喜びながら鳴きます！",
+  "description.jellyfish.boost": "夏には漁獲量を1匹増やす",
+  "description.jellyfish": "神秘的なエネルギーで光る海の驚異的な光は、暖かい夏の間は釣りの能力を高めます。",
+  "description.chamomile": "ウィンズ・オブ・チェンジの章で見つかった装飾用のミュータントフラワー。"
 }

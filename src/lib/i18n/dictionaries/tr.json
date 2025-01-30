@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.crabHat.boost": "+1 Balıkçılık Ödülü",
   "description.mammoth.boost": "-25% İnek Üretim Süresi",
-  "description.sickle.boost": "+2 Buğday"
+  "description.sickle.boost": "+2 Buğday",
+  "description.frozen.sheep.boost": "Kış aylarında koyun hastalığı yok",
+  "description.frozen.sheep": "Kış rüzgarları tarafından donmuş bir koyun.",
+  "description.frozen.cow.boost": "Kış aylarında inek hastalığı yok",
+  "description.frozen.cow": "Kış rüzgarları tarafından donmuş bir inek.",
+  "description.summer.chicken.boost": "Yaz aylarında tavuk hastalığı yok",
+  "description.summer.chicken": "Yaz sıcağında büyüyen, sıcak ışınların tadını çıkaran ve neşeyle gıcırdayan güneşi seven bir tavuk!",
+  "description.jellyfish.boost": "Yaz aylarında balık avını 1 artırın",
+  "description.jellyfish": "Sıcak yaz aylarında gelişmiş balıkçılık yetenekleri sağlayan mistik enerjiyle parlayan parlak bir deniz harikası.",
+  "description.chamomile": "Değişim Rüzgarları bölümünde bulunan dekoratif bir mutant çiçek."
 }

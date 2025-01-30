@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.crabHat.boost": "+1 Fishing Bounty",
   "description.mammoth.boost": "-25% Masa Pengeluaran Lembu",
-  "description.sickle.boost": "+2 Gandum"
+  "description.sickle.boost": "+2 Gandum",
+  "description.frozen.sheep.boost": "Tiada penyakit domba semasa musim sejuk",
+  "description.frozen.sheep": "Seekor domba yang telah dibekukan pepejal oleh angin musim sejuk.",
+  "description.frozen.cow.boost": "Tiada penyakit lembu semasa musim sejuk",
+  "description.frozen.cow": "Lembu yang telah dibekukan pepejal oleh angin musim sejuk.",
+  "description.summer.chicken.boost": "Tiada penyakit ayam semasa musim panas",
+  "description.summer.chicken": "Ayam yang menyukai matahari yang tumbuh subur pada musim panas, berjemur dalam sinar hangat dan berkelip dengan kegembiraan!",
+  "description.jellyfish.boost": "Meningkatkan tangkapan ikan sebanyak 1 pada musim panas",
+  "description.jellyfish": "Keajaiban laut bercahaya yang bersinar dengan tenaga mistik, memberikan kebolehan memancing yang dipertingkatkan semasa bulan-bulan musim panas yang hangat.",
+  "description.chamomile": "Bunga mutan hiasan yang ditemui semasa bab Winds of Change."
 }

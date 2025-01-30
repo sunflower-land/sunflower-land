@@ -5113,5 +5113,14 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.crabHat.boost": "+1 Memancing Bounty",
   "description.mammoth.boost": "-25% Waktu Produksi Sapi",
-  "description.sickle.boost": "+2 Wheat"
+  "description.sickle.boost": "+2 Wheat",
+  "description.frozen.sheep.boost": "Tidak ada penyakit domba selama musim dingin",
+  "description.frozen.sheep": "Seekor domba yang telah dibekukan oleh angin musim dingin.",
+  "description.frozen.cow.boost": "Tidak ada penyakit sapi selama musim dingin",
+  "description.frozen.cow": "Seekor sapi yang telah membeku oleh angin musim dingin.",
+  "description.summer.chicken.boost": "Tidak ada penyakit ayam selama musim panas",
+  "description.summer.chicken": "Ayam yang menyukai sinar matahari yang tumbuh subur di musim panas, berjemur di bawah sinar hangat dan berdebar-debar kegembiraan!",
+  "description.jellyfish.boost": "Tingkatkan tangkapan ikan sebesar 1 di musim panas",
+  "description.jellyfish": "Keajaiban laut bercahaya yang bersinar dengan energi mistis, memberikan kemampuan memancing yang ditingkatkan selama bulan-bulan musim panas yang hangat.",
+  "description.chamomile": "Bunga mutan dekoratif yang ditemukan selama chapter Winds of Change."
 }
