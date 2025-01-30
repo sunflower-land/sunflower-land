@@ -18,6 +18,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    Obsidian: new Decimal(10),
     "Dirt Path": new Decimal(20),
     Marty: new Decimal(2),
     Miffy: new Decimal(2),
@@ -235,6 +236,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
         name: "Chicken",
         level: 1,
         items: { Scroll: 1 },
+      },
+      {
+        id: "obsidian-test",
+        name: "Obsidian",
+        sfl: 5,
       },
     ],
   },

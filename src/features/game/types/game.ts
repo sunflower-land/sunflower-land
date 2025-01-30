@@ -411,7 +411,12 @@ export type FlowerBounty = Bounty & {
   name: FlowerName;
 };
 
-export type BountyRequest = AnimalBounty | FlowerBounty;
+export type SFLBounty = Bounty & {
+  name: "Obsidian";
+  sfl: number;
+};
+
+export type BountyRequest = AnimalBounty | FlowerBounty | SFLBounty;
 
 export type Bounties = {
   requests: BountyRequest[];

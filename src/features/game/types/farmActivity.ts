@@ -6,7 +6,7 @@ import { ResourceName } from "./resources";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
-export type BountiedEvent = `${AnimalType | FlowerName} Bountied`;
+export type BountiedEvent = `${AnimalType | FlowerName | "Obsidian"} Bountied`;
 export type CraftedEvent =
   `${RecipeCollectibleName | RecipeWearableName} Crafted`;
 
