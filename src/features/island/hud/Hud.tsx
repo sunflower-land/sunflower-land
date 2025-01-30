@@ -71,6 +71,7 @@ const HudComponent: React.FC<{
 
   const isFullUser = farmAddress !== undefined;
   const isTutorial = gameState.context.state.island.type === "basic";
+
   const powerSkills = getPowerSkills();
   const { skills } = gameState.context.state.bumpkin;
   const hasPowerSkills = powerSkills.some(
