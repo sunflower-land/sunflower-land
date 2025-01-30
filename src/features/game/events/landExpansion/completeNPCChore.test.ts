@@ -386,4 +386,89 @@ describe("completeNPCChore", () => {
 
     expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(1));
   });
+
+  it("provides +1 ticket rewards for Acorn Hat at Winds of Change", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hat: "Acorn Hat",
+        },
+      },
+      inventory: {},
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Timeshard"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(newState.inventory["Timeshard"]).toEqual(new Decimal(2));
+  });
+  it("stacks timeshard boosts at Winds of Change", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hat: "Acorn Hat",
+        },
+      },
+      inventory: {},
+      collectibles: {
+        Igloo: [
+          {
+            id: "123",
+            coordinates: { x: -1, y: -1 },
+            createdAt: Date.now() - 100,
+            readyAt: Date.now() - 100,
+          },
+        ],
+        Hammock: [
+          {
+            id: "123",
+            coordinates: { x: -1, y: -1 },
+            createdAt: Date.now() - 100,
+            readyAt: Date.now() - 100,
+          },
+        ],
+      },
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Timeshard"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(newState.inventory["Timeshard"]).toEqual(new Decimal(4));
+  });
 });
