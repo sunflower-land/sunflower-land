@@ -8,6 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import memoize from "lodash.memoize";
+import { hasSeasonEnded } from "./seasons";
 
 export const COLLECTIBLE_BUFF_LABELS = memoize(getCollectibleBuffLabels);
 
@@ -1263,6 +1264,38 @@ function getCollectibleBuffLabels(
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.resource.stone,
+      },
+    ],
+    Igloo: [
+      ...(hasSeasonEnded("Winds of Change")
+        ? []
+        : ([
+            {
+              shortDescription: translate("description.bonusTimeshard.boost"),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: ITEM_DETAILS.Timeshard.image,
+            },
+          ] as BuffLabel[])),
+    ],
+    Hammock: [
+      ...(hasSeasonEnded("Winds of Change")
+        ? []
+        : ([
+            {
+              shortDescription: translate("description.bonusTimeshard.boost"),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: ITEM_DETAILS.Timeshard.image,
+            },
+          ] as BuffLabel[])),
+    ],
+    Mammoth: [
+      {
+        shortDescription: translate("description.mammoth.boost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
       },
     ],
   };

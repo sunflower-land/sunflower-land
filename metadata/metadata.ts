@@ -10522,6 +10522,11 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "Cold on the outside, cozy on the inside—home sweet frozen home.",
     decimals: 0,
     attributes: [
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Timeshard",
+        value: 1,
+      },
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
     ],
@@ -10556,6 +10561,11 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "Sway gently with the breeze and enjoy a well-earned rest.",
     decimals: 0,
     attributes: [
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Timeshard",
+        value: 1,
+      },
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
     ],
@@ -10567,6 +10577,12 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "An ancient giant, standing strong through the test of time.",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cow Produce Time",
+        value: -25,
+      },
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
     ],
@@ -16351,7 +16367,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
       {
         display_type: "boost_number",
-        trait_type: "Extra Horseshoe from Deliveries",
+        trait_type: "Extra Horseshoe",
         value: 1,
       },
     ],
@@ -16368,7 +16384,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
       {
         display_type: "boost_number",
-        trait_type: "Extra Horseshoe from Bounties",
+        trait_type: "Extra Horseshoe",
         value: 1,
       },
     ],
@@ -16385,7 +16401,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
       {
         display_type: "boost_number",
-        trait_type: "Extra Horseshoe from Chores",
+        trait_type: "Extra Horseshoe",
         value: 1,
       },
     ],
@@ -16618,9 +16634,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Rice Shirt",
   },
   Sickle: {
-    description: "",
+    description:
+      "With each swing, golden wheat falls, paving the way for a bountiful harvest.",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wheat Yield",
+        value: 2,
+      },
       { trait_type: "Part", value: "Tool" },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -16727,6 +16750,11 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "Hat" },
       { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Timeshard",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/423.png",
@@ -16737,6 +16765,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more fish with ease",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_number",
+        trait_type: "Bonus Fishing Bounty",
+        value: 1,
+      },
       { trait_type: "Part", value: "Hat" },
       { trait_type: "Tradable", value: "Yes" },
     ],
