@@ -350,6 +350,9 @@ describe("animal.sold", () => {
   });
 
   it("rewards +1 Horseshoe when Cowboy Hat is worn during Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
     const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
@@ -386,6 +389,9 @@ describe("animal.sold", () => {
   });
 
   it("stacks Cowboy Set boosts at Bull Run Season", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
     const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
@@ -421,5 +427,100 @@ describe("animal.sold", () => {
     });
 
     expect(state.inventory["Horseshoe"]).toEqual(new Decimal(10));
+  });
+  it("rewards +1 Timeshard when Acorn Hat is worn during Winds of Change Chapter", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            hat: "Acorn Hat",
+          },
+        },
+        bounties: {
+          completed: [],
+          requests: [
+            {
+              id: "123",
+              items: { Timeshard: 7 },
+              level: 0,
+              name: "Chicken",
+            },
+          ],
+        },
+      },
+      action: {
+        requestId: "123",
+        animalId,
+
+        type: "animal.sold",
+      },
+      createdAt: new Date("2025-02-05").getTime(),
+    });
+
+    expect(state.inventory["Timeshard"]).toEqual(new Decimal(8));
+  });
+
+  it("stacks timeshard boosts during Winds of Change Chapter", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            hat: "Acorn Hat",
+          },
+        },
+        collectibles: {
+          Igloo: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+          Hammock: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+        },
+        bounties: {
+          completed: [],
+          requests: [
+            {
+              id: "123",
+              items: { Timeshard: 7 },
+              level: 0,
+              name: "Chicken",
+            },
+          ],
+        },
+      },
+      action: {
+        requestId: "123",
+        animalId,
+
+        type: "animal.sold",
+      },
+      createdAt: new Date("2025-02-05").getTime(),
+    });
+
+    expect(state.inventory["Timeshard"]).toEqual(new Decimal(10));
   });
 });
