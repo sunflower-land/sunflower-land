@@ -198,7 +198,7 @@ export const INITIAL_STOCK = (
     );
   }
 
-  if (hasFeatureAccess(state ?? INITIAL_FARM, "SEASONAL_SEEDS")) {
+  if (state && hasFeatureAccess(state, "SEASONAL_SEEDS")) {
     getKeys(seeds).forEach((seed) => {
       if (seed in CROP_SEEDS || seed in PATCH_FRUIT_SEEDS) {
         seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(2).toNumber()));
