@@ -18,11 +18,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
-<<<<<<< HEAD
-    Obsidian: new Decimal(10),
-=======
     Obsidian: new Decimal(20),
->>>>>>> 4a9a412d6 ([FEAT] Gorga)
     "Dirt Path": new Decimal(20),
     Marty: new Decimal(2),
     Miffy: new Decimal(2),
