@@ -308,6 +308,23 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2025-01-01"),
     withdrawAt: new Date("2025-01-01"),
   },
+
+  Sickle: {
+    tradeAt: SEASONS["Winds of Change"].endDate,
+    withdrawAt: SEASONS["Winds of Change"].endDate,
+  },
+  "Ladybug Suit": {
+    tradeAt: SEASONS["Winds of Change"].endDate,
+    withdrawAt: SEASONS["Winds of Change"].endDate,
+  },
+  "Acorn Hat": {
+    tradeAt: SEASONS["Winds of Change"].endDate,
+    withdrawAt: SEASONS["Winds of Change"].endDate,
+  },
+  "Crab Hat": {
+    tradeAt: SEASONS["Winds of Change"].endDate,
+    withdrawAt: SEASONS["Winds of Change"].endDate,
+  },
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
@@ -737,6 +754,42 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     "Sheaf of Plenty": {
       tradeAt: SEASONS["Bull Run"].endDate,
       withdrawAt: SEASONS["Bull Run"].endDate,
+    },
+    Kite: {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Acorn House": {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Spring Duckling": {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    Igloo: {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Ugly Duckling": {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Lake Rug": {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    Hammock: {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    Mammoth: {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Cup of Chocolate": {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
     },
     "Goblin Emblem": {
       tradeAt: new Date("2021-01-01"),

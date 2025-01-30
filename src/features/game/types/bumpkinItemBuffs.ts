@@ -840,5 +840,33 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.resource.wool,
     },
   ],
+  "Acorn Hat": [
+    ...(hasSeasonEnded("Winds of Change")
+      ? []
+      : ([
+          {
+            shortDescription: translate("description.bonusTimeshard.boost"),
+            labelType: "success",
+            boostTypeIcon: powerup,
+            boostedItemIcon: ITEM_DETAILS.Timeshard.image,
+          },
+        ] as BuffLabel[])),
+  ],
+  "Crab Hat": [
+    {
+      shortDescription: translate("description.crabHat.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  Sickle: [
+    {
+      shortDescription: translate("description.sickle.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Wheat.crop,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
 };

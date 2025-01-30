@@ -4554,6 +4554,11 @@
   "description.alien.chicken.boost": "+0.1 Feathers",
   "description.toxic.tuft.boost": "+0.1 Merino Wool",
   "description.mootant.boost": "+0.1 Leather",
+  "description.bonusTimeshard.boost": "+1 Timeshard",
+  "description.crabHat.boost": "+1 Fishing Bounty",
+  "description.mammoth.boost": "-25% Cow Production Time",
+
+  "description.sickle.boost": "+2 Wheat",
   "chores.ended": "All that time tellin Bumpkins what to do......I'm tired. I think I need a vacation.",
   "digby.closed": "Desert closed",
   "digby.holiday": "The desert is closed today. Come back later.",

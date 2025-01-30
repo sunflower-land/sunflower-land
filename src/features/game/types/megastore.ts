@@ -340,6 +340,156 @@ const MEGA_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
+const WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Acorn Hat",
+    cost: {
+      items: {
+        Timeshard: 250,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Kite",
+    cost: {
+      items: {
+        "Ancient Clock": 20,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Acorn House",
+    cost: {
+      items: {},
+      sfl: 5,
+    },
+  },
+  {
+    collectible: "Spring Duckling",
+    cost: {
+      items: {
+        Timeshard: 50,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Treasure Key",
+    cost: {
+      items: {
+        Timeshard: 200,
+      },
+      sfl: 0,
+    },
+  },
+];
+
+const RARE_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Ladybug Suit",
+    cost: {
+      items: {
+        Timeshard: 1250,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Igloo",
+    cost: {
+      items: {
+        Timeshard: 600,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Ugly Duckling",
+    cost: {
+      items: {},
+      sfl: 50,
+    },
+  },
+  {
+    collectible: "Lake Rug",
+    cost: {
+      items: {
+        "Ancient Clock": 80,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Rare Key",
+    cost: {
+      items: {
+        Timeshard: 500,
+      },
+      sfl: 0,
+    },
+  },
+];
+
+const EPIC_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Crab Hat",
+    cost: {
+      items: {
+        "Ancient Clock": 200,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Hammock",
+    cost: {
+      items: {
+        Timeshard: 1500,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Cup of Chocolate",
+    cost: {
+      items: {},
+      sfl: 500,
+    },
+  },
+  {
+    collectible: "Mammoth",
+    cost: {
+      items: {
+        Timeshard: 2000,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Luxury Key",
+    cost: {
+      items: {
+        Timeshard: 1000,
+      },
+      sfl: 0,
+    },
+  },
+];
+
+const MEGA_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Sickle",
+    cost: {
+      items: {
+        Timeshard: 4500,
+      },
+      sfl: 0,
+    },
+  },
+];
+
 export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
@@ -381,5 +531,21 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
       requirement: 4,
     },
   },
-  "Winds of Change": EMPTY_SEASONAL_STORE,
+  "Winds of Change": {
+    basic: {
+      items: WINDS_OF_CHANGE_ITEMS,
+    },
+    rare: {
+      items: RARE_WINDS_OF_CHANGE_ITEMS,
+      requirement: 4,
+    },
+    epic: {
+      items: EPIC_WINDS_OF_CHANGE_ITEMS,
+      requirement: 4,
+    },
+    mega: {
+      items: MEGA_WINDS_OF_CHANGE_ITEMS,
+      requirement: 4,
+    },
+  },
 };
