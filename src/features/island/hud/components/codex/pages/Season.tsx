@@ -37,6 +37,18 @@ const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
 };
 
+const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
+  "Solar Flare": "?",
+  "Dawn Breaker": "?",
+  "Witches' Eve": "?",
+  "Catch the Kraken": "?",
+  "Spring Blossom": "?",
+  "Clash of Factions": "?",
+  "Pharaoh's Treasure": "?",
+  "Bull Run": "Nov 11th",
+  "Winds of Change": "Feb 10th",
+};
+
 interface Props {
   id: string;
   isLoading: boolean;
@@ -123,11 +135,15 @@ export const Season: React.FC<Props> = ({
                 icon: SUNNYSIDE.icons.player,
               },
               {
-                text: t("season.codex.howToEarn.two"),
+                text: t("season.codex.howToEarn.two", {
+                  date: CHORES_DELIVERIES_START_DATE[season],
+                }),
                 icon: chores,
               },
               {
-                text: t("season.codex.howToEarn.three"),
+                text: t("season.codex.howToEarn.three", {
+                  date: CHORES_DELIVERIES_START_DATE[season],
+                }),
                 icon: ITEM_DETAILS["White Pansy"].image,
               },
             ]}
