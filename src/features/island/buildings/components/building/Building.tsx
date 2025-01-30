@@ -266,12 +266,16 @@ function isBuildingDestroyed({
     if (game.calendar.tornado?.protected) {
       return false;
     }
+
+    return "tornado";
   }
 
   if (calendarEvent === "tsunami") {
     if (game.calendar.tsunami?.protected) {
       return false;
     }
+
+    return "tsunami";
   }
 
   return false;
