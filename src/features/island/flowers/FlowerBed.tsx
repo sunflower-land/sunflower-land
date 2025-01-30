@@ -172,7 +172,9 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         <img
           src={FLOWER_VARIANTS(
             state.island.type,
-            state.season.season,
+            hasFeatureAccess(state, "SEASONAL_FLOWERS")
+              ? state.season.season
+              : "summer",
             flower.name,
             stage,
           )}
