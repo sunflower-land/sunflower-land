@@ -256,6 +256,10 @@ function isBuildingDestroyed({
   name: BuildingName;
   game: GameState;
 }): DestructiveEvent | false {
+  if (!DESTROYED_BUILDINGS.includes(name)) {
+    return false;
+  }
+
   const calendarEvent = getActiveCalendarEvent({ game });
 
   if (!calendarEvent) {
