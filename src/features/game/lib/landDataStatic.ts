@@ -19,6 +19,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousBalance: new Decimal(0),
   inventory: {
     Obsidian: new Decimal(20),
+    Jellyfish: new Decimal(1),
+    Chamomile: new Decimal(1),
+    "Frozen Cow": new Decimal(1),
+    "Frozen Sheep": new Decimal(1),
+    "Summer Chicken": new Decimal(1),
     "Dirt Path": new Decimal(20),
     Marty: new Decimal(2),
     Miffy: new Decimal(2),

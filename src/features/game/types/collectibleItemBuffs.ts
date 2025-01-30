@@ -1302,9 +1302,29 @@ function getCollectibleBuffLabels(
     "Frozen Sheep": [
       {
         shortDescription: translate("description.frozen.sheep.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+    ],
+    Jellyfish: [
+      {
+        shortDescription: translate("description.jellyfish.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: SUNNYSIDE.resource.wool,
+      },
+    ],
+    "Frozen Cow": [
+      {
+        shortDescription: translate("description.frozen.cow.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+    ],
+    "Summer Chicken": [
+      {
+        shortDescription: translate("description.summer.chicken.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
       },
     ],
   };

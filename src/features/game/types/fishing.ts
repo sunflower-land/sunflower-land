@@ -232,7 +232,11 @@ type Fish = {
 export const CHAPTER_FISH: Record<
   Extract<
     MarineMarvelName,
-    "Crimson Carp" | "Lemon Shark" | "Battle Fish" | "Longhorn Cowfish"
+    | "Crimson Carp"
+    | "Lemon Shark"
+    | "Battle Fish"
+    | "Longhorn Cowfish"
+    | "Jellyfish"
   >,
   Fish
 > = {
@@ -521,14 +525,6 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     likes: [],
     seasons: [],
   },
-  Jellyfish: {
-    baits: ["Grub", "Fishing Lure"],
-    type: "marine marvel",
-    locations: ["wharf", "beach"],
-    likes: [],
-    seasons: [],
-  },
-
   Porgy: {
     baits: ["Earthworm"],
     type: "basic",
