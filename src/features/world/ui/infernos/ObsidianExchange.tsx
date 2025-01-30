@@ -86,7 +86,7 @@ export const ObsidianExchange: React.FC<{ onClose: () => void }> = ({
               <img src={upIcon} className="absolute w-4 right-0 -top-8 " />
             )}
             <Button
-              disabled={(state.inventory.Obsidian ?? new Decimal(0)).lte(price)}
+              disabled={(state.inventory.Obsidian ?? new Decimal(0)).lt(price)}
               onClick={buy}
               className="w-full"
             >
