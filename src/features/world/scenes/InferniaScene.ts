@@ -7,13 +7,20 @@ import { CONFIG } from "lib/config";
 const BUMPKINS: NPCBumpkin[] = [
   {
     npc: "gilda",
-    x: 395,
-    y: 180,
+    x: 431,
+    y: 272,
+    direction: "left",
   },
   {
     npc: "gunter",
     x: 188,
     y: 298,
+  },
+  {
+    npc: "gorga",
+
+    x: 395,
+    y: 165,
   },
 ];
 

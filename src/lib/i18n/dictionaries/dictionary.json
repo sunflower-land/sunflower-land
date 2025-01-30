@@ -5147,5 +5147,8 @@
   "season.weatherEventsCanLastUpTo24Hours": "Weather events can last up to 24 hours.",
   "season.welcomeToTheWeatherShop": "Welcome to the Weather Shop! Here you can purchase equipment to help you survive special weather events.",
   "bounties.sfl.intro.one": "I'm Gilda, the bounty hunter of Infernos.",
-  "bounties.sfl.intro.two": "I heard you silly Bumpkins are selling your Obsidian for SFL. Is that true?"
+  "bounties.sfl.intro.two": "I heard you silly Bumpkins are selling your Obsidian for SFL. Is that true?",
+  "gorga.intro.greeting": "Ooooh a Bumpkin...that's new.",
+  "gorga.intro.two": "I heard your kind has found some Obsidian. Is that true?",
+  "gorga.intro.three": "I tell you what, if you can find me some Obsidian, I'll exchange it for Sunstone."
 }
