@@ -62,7 +62,7 @@ import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import worldIcon from "assets/icons/world.png";
-import { VolcaroScene } from "./scenes/VolcaroScene";
+import { InfernosScene } from "./scenes/InferniaScene";
 import { hasFeatureAccess } from "lib/flags";
 
 const _roomState = (state: MachineState) => state.value;
@@ -150,7 +150,7 @@ export const PhaserComponent: React.FC<Props> = ({
     ExampleAnimationScene,
     ExampleRPGScene,
     ...(hasFeatureAccess(gameService.state.context.state, "VOLCANO_ISLAND")
-      ? [VolcaroScene]
+      ? [InfernosScene]
       : []),
   ];
 

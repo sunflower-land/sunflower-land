@@ -12,15 +12,15 @@ const BUMPKINS: NPCBumpkin[] = [
   },
 ];
 
-export class VolcaroScene extends BaseScene {
-  sceneId: SceneId = "volcaro";
+export class InfernosScene extends BaseScene {
+  sceneId: SceneId = "infernos";
 
   constructor() {
     super({
-      name: "volcaro",
+      name: "infernos",
       map: {
         json: json,
-        imageKey: "volcaro-tileset",
+        imageKey: "infernos-tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
@@ -28,7 +28,7 @@ export class VolcaroScene extends BaseScene {
 
   preload() {
     this.load.image(
-      "volcaro-tileset",
+      "infernos-tileset",
       `${CONFIG.PROTECTED_IMAGE_URL}/world/volcano-map-extruded.png`,
     );
 
@@ -50,7 +50,7 @@ export class VolcaroScene extends BaseScene {
 
   create() {
     this.map = this.make.tilemap({
-      key: "volcaro",
+      key: "infernos",
     });
 
     super.create();

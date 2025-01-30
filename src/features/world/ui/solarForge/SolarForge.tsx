@@ -78,16 +78,16 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.gunter}
         message={[
           {
-            text: "Wow, I'm surpirsed you've made it this far!",
+            text: t("solarForge.intro.greeting"),
           },
           {
-            text: "I'm Gunter, the blacksmith of Volcaro.",
+            text: t("solarForge.intro.gunter"),
           },
           {
-            text: "I've been working on a new type of forge that can help you craft resources with the power of the sun.",
+            text: t("solarForge.intro.forge"),
           },
           {
-            text: "The strength of the forge is limited, each time you use it will require more Sunstones!",
+            text: t("solarForge.intro.forgeStrength"),
           },
         ]}
         onClose={() => setShowIntro(false)}

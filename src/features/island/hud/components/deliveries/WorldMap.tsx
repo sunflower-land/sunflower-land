@@ -38,7 +38,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const hasFaction = gameService.state.context.state.faction;
   const canTeleportToFactionHouse = level >= 7 && hasFaction;
 
-  const hasVolcaroAccess = hasFeatureAccess(
+  const hasInfernosAccess = hasFeatureAccess(
     gameService.state.context.state,
     "VOLCANO_ISLAND",
   );
@@ -84,7 +84,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         onClick={onClose}
       />
 
-      {/* Volcaro */}
+      {/* Infernos */}
       <div
         style={{
           width: "18%",
@@ -96,13 +96,13 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
-          if (!hasVolcaroAccess) return;
+          if (!hasInfernosAccess) return;
           travel.play();
-          navigate("/world/volcaro");
+          navigate("/world/infernos");
           onClose();
         }}
       >
-        {!hasVolcaroAccess ? (
+        {!hasInfernosAccess ? (
           isMobile ? (
             <img
               src={SUNNYSIDE.icons.lock}
@@ -127,7 +127,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           )
         ) : (
           <span className="map-text text-xxs sm:text-sm">
-            {t("world.volcaro")}
+            {t("world.infernos")}
           </span>
         )}
       </div>
