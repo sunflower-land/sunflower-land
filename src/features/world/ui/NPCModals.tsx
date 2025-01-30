@@ -37,6 +37,7 @@ import { HalloweenNPC } from "./npcs/HalloweenNPC";
 import { FlowerBounties } from "./flowerShop/FlowerBounties";
 import { Santa } from "./npcs/Santa";
 import { SolarForge } from "./solarForge/SolarForge";
+import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -148,6 +149,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
         {npc === "gunter" && <SolarForge onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}
+        {npc === "bailey" && <WeatherShop onClose={closeModal} />}
 
         {npc === "digby" && <Digby onClose={closeModal} />}
         {npc === "pharaoh" && <DeliveryPanel npc={npc} onClose={closeModal} />}

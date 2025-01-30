@@ -16,6 +16,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { CALEDNAR_EVENT_INFORMATION } from "./WeatherGuide";
+import { SpecialEvents } from "./WeatherGuide";
+import { getKeys } from "features/game/types/craftables";
 
 type Props = {
   season: TemperateSeasonName;
@@ -164,12 +167,33 @@ export const SeasonDayDetails: React.FC<Props> = ({
   onClose,
 }) => {
   const { t } = useTranslation();
-  const [showIngredients, setShowIngredients] = useState(false);
+  const [page, setPage] = useState(0);
 
   const seasonDetails = SEASON_DETAILS[season];
 
   if (!seasonDetails) {
     return null;
+  }
+
+  if (page === 1) {
+    return (
+      <InnerPanel className="shadow inset-3 mx-5 sm:mx-0">
+        <Label type="default" className="mb-2">
+          {t("temperateSeason.possibleEvents")}
+        </Label>
+        <p className="text-xs mb-2 ml-1">
+          {t("temperateSeason.possibleEventsDescription")}
+        </p>
+        <SpecialEvents
+          names={getKeys(CALEDNAR_EVENT_INFORMATION).filter((name) =>
+            CALEDNAR_EVENT_INFORMATION[name]?.seasons.includes(season),
+          )}
+        />
+        <div className="flex mt-1">
+          <Button onClick={() => setPage(0)}>{t("back")}</Button>
+        </div>
+      </InnerPanel>
+    );
   }
 
   return (
@@ -187,7 +211,12 @@ export const SeasonDayDetails: React.FC<Props> = ({
           season={season}
         />
       )}
-      <Button onClick={onClose}>{t("close")}</Button>
+      <div className="flex mt-1">
+        <Button onClick={onClose}>{t("close")}</Button>
+        <Button className="ml-1" onClick={() => setPage(1)}>
+          {t("read.more")}
+        </Button>
+      </div>
     </InnerPanel>
   );
 };
