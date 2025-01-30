@@ -5,6 +5,124 @@ import { makeAnimals } from "../events/landExpansion/buyAnimal.test";
 
 describe("canremove", () => {
   describe("prevents", () => {
+    it("prevents a user from removing a Frozen Cow when cows are sleeping in the winter", () => {
+      const [restricted] = hasRemoveRestriction("Frozen Cow", "123", {
+        ...INITIAL_FARM,
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.barn.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        season: {
+          startedAt: Date.now() - 1000,
+          season: "winter",
+        },
+        collectibles: {
+          "Frozen Cow": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing a Frozen Sheep when sheep are sleeping in the winter", () => {
+      const [restricted] = hasRemoveRestriction("Frozen Sheep", "123", {
+        ...INITIAL_FARM,
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.barn.animals["1"],
+              type: "Sheep",
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        season: {
+          startedAt: Date.now() - 1000,
+          season: "winter",
+        },
+        collectibles: {
+          "Frozen Sheep": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing a Summer Chicken when chickens are sleeping and the season is Winds of Change", () => {
+      const [restricted] = hasRemoveRestriction("Summer Chicken", "123", {
+        ...INITIAL_FARM,
+        season: {
+          startedAt: Date.now() - 1000,
+          season: "summer",
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "1": {
+              ...INITIAL_FARM.henHouse.animals["1"],
+              asleepAt: Date.now() - 1000,
+              awakeAt: Date.now() + 10000,
+            },
+          },
+        },
+        collectibles: {
+          "Summer Chicken": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
+    it("prevents a user from removing a Jellyfish in summer if a player has fished today", () => {
+      const today = new Date().toISOString().split("T")[0];
+      const [restricted] = hasRemoveRestriction("Jellyfish", "123", {
+        ...INITIAL_FARM,
+        fishing: {
+          dailyAttempts: {
+            [today]: 4,
+          },
+          weather: "Sunny",
+          beach: {},
+          wharf: {},
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+      });
+
+      expect(restricted).toBe(true);
+    });
+
     it("prevents a user from removing a Chicken Coop if they have a boosted number of chickens", () => {
       const [restricted] = hasRemoveRestriction("Chicken Coop", "1", {
         ...TEST_FARM,
@@ -1246,6 +1364,121 @@ describe("canremove", () => {
     expect(restricted).toBe(false);
   });
 
+  it("enables a user to remove Frozen Cow when no cows are sleeping in winter", () => {
+    const [restricted] = hasRemoveRestriction("Frozen Cow", "123", {
+      ...INITIAL_FARM,
+      barn: {
+        ...INITIAL_FARM.barn,
+        animals: {
+          "1": {
+            ...INITIAL_FARM.barn.animals["1"],
+            asleepAt: 0,
+            awakeAt: 0,
+          },
+        },
+      },
+      season: {
+        startedAt: Date.now() - 1000,
+        season: "winter",
+      },
+      collectibles: {
+        "Frozen Cow": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(false);
+  });
+
+  it("enables a user to remove Frozen Sheep when no sheep are sleeping in winter", () => {
+    const [restricted] = hasRemoveRestriction("Frozen Sheep", "123", {
+      ...INITIAL_FARM,
+      barn: {
+        ...INITIAL_FARM.barn,
+        animals: {
+          "1": {
+            ...INITIAL_FARM.barn.animals["1"],
+            type: "Sheep",
+            asleepAt: 0,
+            awakeAt: 0,
+          },
+        },
+      },
+      season: {
+        startedAt: Date.now() - 1000,
+        season: "winter",
+      },
+      collectibles: {
+        "Frozen Sheep": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(false);
+  });
+
+  it("enables a user to remove Summer Chicken when no chickens are sleeping in summer", () => {
+    const [restricted] = hasRemoveRestriction("Summer Chicken", "123", {
+      ...INITIAL_FARM,
+      season: {
+        startedAt: Date.now() - 1000,
+        season: "summer",
+      },
+      henHouse: {
+        ...INITIAL_FARM.henHouse,
+        animals: {
+          "1": {
+            ...INITIAL_FARM.henHouse.animals["1"],
+            asleepAt: 0,
+            awakeAt: 0,
+          },
+        },
+      },
+      collectibles: {
+        "Summer Chicken": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(false);
+  });
+
+  it("enables a user to remove Jellyfish in summer if a player has not fished today", () => {
+    const [restricted] = hasRemoveRestriction("Jellyfish", "123", {
+      ...INITIAL_FARM,
+      fishing: {
+        dailyAttempts: {},
+        weather: "Sunny",
+        beach: {},
+        wharf: {},
+      },
+      season: {
+        season: "summer",
+        startedAt: 0,
+      },
+    });
+
+    expect(restricted).toBe(false);
+  });
+
   it("prevents a user from removing Karkinos when Cabbages are planted", () => {
     const [restricted] = hasRemoveRestriction("Karkinos", "1", {
       ...TEST_FARM,
@@ -1843,6 +2076,27 @@ describe("canremove", () => {
             ],
           },
         ],
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
+  it("prevents a user from removing a Jellyfish in summer if a player has fished today", () => {
+    const today = new Date().toISOString().split("T")[0];
+    const [restricted] = hasRemoveRestriction("Jellyfish", "123", {
+      ...INITIAL_FARM,
+      fishing: {
+        dailyAttempts: {
+          [today]: 4,
+        },
+        weather: "Sunny",
+        beach: {},
+        wharf: {},
+      },
+      season: {
+        season: "summer",
+        startedAt: 0,
       },
     });
 

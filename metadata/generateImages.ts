@@ -6,14 +6,11 @@ import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 const IMAGES: InventoryItemName[] = [
-  "Porgy",
-  "Muskellunge",
-  "Trout",
-  "Walleye",
-  "Weakfish",
-  "Rock Blackfish",
-  "Cobia",
-  "Tilapia",
+  "Jellyfish",
+  "Frozen Cow",
+  "Frozen Sheep",
+  "Summer Chicken",
+  "Chamomile",
 ];
 
 const WIDTH = 1920;
@@ -34,7 +31,6 @@ async function generateImage({
   // Composite item image onto background
   const mergedImage = await sharp(background)
     .composite([{ input: itemImage }])
-
     .toBuffer();
 
   const resized = await sharp(mergedImage)

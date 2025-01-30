@@ -346,6 +346,11 @@ import { SuperTotem } from "./components/SuperTotem";
 import { GoldenCow } from "./components/GoldenCow";
 import { VolcanoGnome } from "./components/VolcanoGnome";
 import { WindsOfChangeBanner } from "./components/WindsOfChangeBanner";
+import { FrozenCow } from "./components/FrozenCow";
+import { FrozenSheep } from "./components/FrozenSheep";
+import { SummerChicken } from "./components/SummerChicken";
+import { Jellyfish } from "./components/Jellyfish";
+import { Chamomile } from "./components/Chamomile";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -363,6 +368,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
+  "Frozen Cow": FrozenCow,
+  "Frozen Sheep": FrozenSheep,
+  "Summer Chicken": SummerChicken,
+  Jellyfish: Jellyfish,
+  Chamomile: Chamomile,
   "Jelly Lamp": JellyLamp,
   "Paint Can": PaintCan,
   "Benevolence Flag": BenevolenceFlag,

@@ -799,6 +799,11 @@ import alienChicken from "assets/sfts/alien_chicken.webp";
 import toxicTuft from "assets/sfts/toxic_tuft.webp";
 import mootant from "assets/sfts/mootant.webp";
 import tradeCake from "assets/food/trade_cake.webp";
+import chamomile from "assets/flowers/chamomile.webp";
+import jellyfish from "assets/fish/jellyfish.webp";
+import frozenCow from "assets/sfts/frozen_mutant_cow.webp";
+import frozenSheep from "assets/sfts/frozen_mutant_sheep.webp";
+import summerChicken from "assets/sfts/summer_chicken.webp";
 
 import kite from "assets/sfts/kite.webp";
 import acornHouse from "assets/sfts/acorn_house.webp";
@@ -4883,5 +4888,25 @@ export const ITEM_DETAILS: Items = {
   "Winds of Change Banner": {
     image: windsOfChangeBanner,
     description: "",
+  },
+  "Frozen Cow": {
+    image: frozenCow,
+    description: translate("description.frozen.cow"),
+  },
+  "Frozen Sheep": {
+    image: frozenSheep,
+    description: translate("description.frozen.sheep"),
+  },
+  "Summer Chicken": {
+    image: summerChicken,
+    description: translate("description.summer.chicken"),
+  },
+  Jellyfish: {
+    image: jellyfish,
+    description: translate("description.jellyfish"),
+  },
+  Chamomile: {
+    image: chamomile,
+    description: translate("description.chamomile"),
   },
 };

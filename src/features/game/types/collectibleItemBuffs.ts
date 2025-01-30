@@ -1290,12 +1290,41 @@ function getCollectibleBuffLabels(
             },
           ] as BuffLabel[])),
     ],
+
     Mammoth: [
       {
         shortDescription: translate("description.mammoth.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+      },
+    ],
+    "Frozen Sheep": [
+      {
+        shortDescription: translate("description.frozen.sheep.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+    ],
+    Jellyfish: [
+      {
+        shortDescription: translate("description.jellyfish.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Frozen Cow": [
+      {
+        shortDescription: translate("description.frozen.cow.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+    ],
+    "Summer Chicken": [
+      {
+        shortDescription: translate("description.summer.chicken.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
       },
     ],
   };
