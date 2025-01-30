@@ -5103,5 +5103,8 @@
   "season.watchOutForSpecialEvents": "Her sezon özel etkinliklere dikkat edin!",
   "season.protectYourFarm": "Hava koşullarında hayatta kalmanıza yardımcı olacak ekipman satın alabilirsiniz.",
   "season.weatherEventsCanLastUpTo24Hours": "Hava olayları 24 saate kadar sürebilir.",
-  "season.welcomeToTheWeatherShop": "Hava Durumu Mağazasına Hoş Geldiniz! Burada özel hava olaylarından kurtulmanıza yardımcı olacak ekipman satın alabilirsiniz."
+  "season.welcomeToTheWeatherShop": "Hava Durumu Mağazasına Hoş Geldiniz! Burada özel hava olaylarından kurtulmanıza yardımcı olacak ekipman satın alabilirsiniz.",
+  "bounties.sell.sfl": "Bunu {{amount}} SFL için satmak istediğinizden emin misiniz?",
+  "bounties.sfl.intro.one": "Ben Gilda, Infernos'un ödül avcısı.",
+  "bounties.sfl.intro.two": "Senin aptalca Bumpkins'in Obsidiyenini SFL için sattığını duydum. Bu doğru mu?"
 }

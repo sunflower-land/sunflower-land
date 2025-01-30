@@ -5103,5 +5103,8 @@
   "season.watchOutForSpecialEvents": "각 시즌의 특별 이벤트를 놓치지 마세요!",
   "season.protectYourFarm": "날씨를 견디는 데 도움이 되는 장비를 구입할 수 있습니다.",
   "season.weatherEventsCanLastUpTo24Hours": "기상 현상은 최대 24시간까지 지속될 수 있습니다.",
-  "season.welcomeToTheWeatherShop": "웨더 샵에 오신 것을 환영합니다!여기에서 특별한 날씨 이벤트에서 살아남는 데 도움이 되는 장비를 구입할 수 있습니다."
+  "season.welcomeToTheWeatherShop": "웨더 샵에 오신 것을 환영합니다!여기에서 특별한 날씨 이벤트에서 살아남는 데 도움이 되는 장비를 구입할 수 있습니다.",
+  "bounties.sell.sfl": "정말로 이 제품을 {{amount}} SFL에 판매하시겠습니까?",
+  "bounties.sfl.intro.one": "저는 인페르노스의 현상금 사냥꾼 길다입니다.",
+  "bounties.sfl.intro.two": "멍청한 범프킨이 흑요석을 SFL에 팔고 있다고 들었어사실인가요?"
 }

@@ -5103,5 +5103,8 @@
   "season.watchOutForSpecialEvents": "注意每个季节的特别活动！",
   "season.protectYourFarm": "你可以购买设备来帮助你在天气中生存。",
   "season.weatherEventsCanLastUpTo24Hours": "天气事件可以持续长达 24 小时。",
-  "season.welcomeToTheWeatherShop": "欢迎来到天气商店！在这里，你可以购买装备来帮助你在特殊天气事件中幸存下来。"
+  "season.welcomeToTheWeatherShop": "欢迎来到天气商店！在这里，你可以购买装备来帮助你在特殊天气事件中幸存下来。",
+  "bounties.sell.sfl": "你确定要以 {{amount}} SFL 的价格出售这个吗？",
+  "bounties.sfl.intro.one": "我是《地狱》的赏金猎人吉尔达。",
+  "bounties.sfl.intro.two": "我听说你这傻小伙子正在把你的黑曜石换成SFL。是真的吗？"
 }

@@ -5103,5 +5103,8 @@
   "season.watchOutForSpecialEvents": "Hati-hati dengan acara khusus selama setiap musim!",
   "season.protectYourFarm": "Anda dapat membeli peralatan untuk membantu Anda bertahan dari cuaca.",
   "season.weatherEventsCanLastUpTo24Hours": "Peristiwa cuaca dapat berlangsung hingga 24 jam.",
-  "season.welcomeToTheWeatherShop": "Selamat datang di Toko Cuaca! Di sini Anda dapat membeli peralatan untuk membantu Anda bertahan dari peristiwa cuaca khusus."
+  "season.welcomeToTheWeatherShop": "Selamat datang di Toko Cuaca! Di sini Anda dapat membeli peralatan untuk membantu Anda bertahan dari peristiwa cuaca khusus.",
+  "bounties.sell.sfl": "Apakah Anda yakin ingin menjual ini untuk {{amount}} SFL?",
+  "bounties.sfl.intro.one": "Aku Gilda, pemburu hadiah dari Infernos.",
+  "bounties.sfl.intro.two": "Kudengar kau Bumpkins yang konyol menjual Obsidian-mu untuk SFL. Apakah itu benar?"
 }

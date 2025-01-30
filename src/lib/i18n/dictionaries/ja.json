@@ -5103,5 +5103,8 @@
   "season.watchOutForSpecialEvents": "各シーズンの特別イベントにご注目ください！",
   "season.protectYourFarm": "天候を乗り切るのに役立つ装備を購入できます。",
   "season.weatherEventsCanLastUpTo24Hours": "気象イベントは最大24時間続くことがあります。",
-  "season.welcomeToTheWeatherShop": "ウェザーショップへようこそ！ここでは、特別な気象現象を乗り切るのに役立つ装備を購入できます。"
+  "season.welcomeToTheWeatherShop": "ウェザーショップへようこそ！ここでは、特別な気象現象を乗り切るのに役立つ装備を購入できます。",
+  "bounties.sell.sfl": "本当にこれを {{amount}} SFLで売りたいですか？",
+  "bounties.sfl.intro.one": "インフェルノスの賞金稼ぎギルダです。",
+  "bounties.sfl.intro.two": "バカなバンプキンが黒曜石をSFL用に売ってるって聞いたよそれは本当なの？"
 }

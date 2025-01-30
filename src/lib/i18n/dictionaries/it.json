@@ -5103,5 +5103,8 @@
   "season.watchOutForSpecialEvents": "Fai attenzione agli eventi speciali durante ogni stagione!",
   "season.protectYourFarm": "Puoi acquistare attrezzature per aiutarti a sopravvivere alle intemperie.",
   "season.weatherEventsCanLastUpTo24Hours": "Gli eventi meteorologici possono durare fino a 24 ore.",
-  "season.welcomeToTheWeatherShop": "Benvenuto nel Weather Shop! Qui puoi acquistare attrezzature per aiutarti a sopravvivere a eventi meteorologici speciali."
+  "season.welcomeToTheWeatherShop": "Benvenuto nel Weather Shop! Qui puoi acquistare attrezzature per aiutarti a sopravvivere a eventi meteorologici speciali.",
+  "bounties.sell.sfl": "Sei sicuro di volerlo vendere per {{amount}} SFL?",
+  "bounties.sfl.intro.one": "Sono Gilda, la cacciatrice di taglie di Infernos.",
+  "bounties.sfl.intro.two": "Ho sentito che stupido Bumpkins vendi la tua ossidiana per SFL. È vero?"
 }
