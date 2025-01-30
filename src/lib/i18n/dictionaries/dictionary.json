@@ -5134,10 +5134,11 @@
   "season.7daysOfSeason": "7 days of {{name}}",
   "season.begun.description": "{{name}} has begun in Sunflower Land. Check out this week's events.",
   "season.possibleEvents": "Possible Events",
-  "season.possibleEventsDescription": "Visit the weather shop to protect your farm!",
+  "temperateSeason.possibleEventsDescription": "Visit the weather shop to protect your farm!",
   "season.weatherShop": "Weather Shop",
   "season.weatherShopDescription": "Buy items to protect your farm from the weather",
   "season.watchOutForSpecialEvents": "Watch out for special events during each season!",
   "season.protectYourFarm": "You can purchase equipment to help you survive the weather.",
-  "season.weatherEventsCanLastUpTo24Hours": "Weather events can last up to 24 hours."
+  "season.weatherEventsCanLastUpTo24Hours": "Weather events can last up to 24 hours.",
+  "season.welcomeToTheWeatherShop": "Welcome to the Weather Shop! Here you can purchase equipment to help you survive special weather events."
 }

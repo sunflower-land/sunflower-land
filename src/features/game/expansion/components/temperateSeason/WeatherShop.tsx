@@ -81,7 +81,7 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES["bailey"]}
         message={[
           {
-            text: "Welcome to the Weather Shop! Here you can purchase equipment to help you survive special weather events.",
+            text: t("season.welcomeToTheWeatherShop"),
           },
         ]}
       />
