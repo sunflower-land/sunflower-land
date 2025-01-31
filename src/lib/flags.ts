@@ -12,6 +12,7 @@ const seasonAdminFeatureFlag = (game: GameState) => {
       Date.now() > new Date("2025-02-01:00:00Z").getTime()) ||
     [
       "adam",
+      "tango",
       "eliassfl",
       "dcol",
       "Vitt0c",
