@@ -60,7 +60,6 @@ import {
   CROP_EXTENSION_MOD_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { isFullMoon } from "features/game/types/calendar";
-import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { hasFeatureAccess } from "lib/flags";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
@@ -385,7 +384,7 @@ export const SeasonalSeeds: React.FC = () => {
               >
                 {`${secondsToString(secondsTillWeekReset(), {
                   length: "short",
-                })} ${t("left")}`}
+                })} ${t("time.left")}`}
               </Label>
             </div>
             <div className="flex flex-wrap mb-2">
@@ -437,30 +436,6 @@ export const SeasonalSeeds: React.FC = () => {
               </Label>
               <div className="flex flex-wrap mb-2">
                 {FULL_MOON_SEEDS.map((name) => (
-                  <Box
-                    isSelected={selectedName === name}
-                    key={name}
-                    onClick={() => onSeedClick(name)}
-                    image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
-                    showOverlay={isSeedLocked(name)}
-                    // secondaryImage={SUNNYSIDE.icons.seedling}
-                    count={inventory[name]}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-          {hasRequiredIslandExpansion(island.type, "spring") && (
-            <div id="Other Produce">
-              <Label
-                icon={SUNNYSIDE.icons.seedling}
-                type="default"
-                className="ml-2 mb-1 capitalize"
-              >
-                {t("cropGuide.otherProduce")}
-              </Label>
-              <div className="flex flex-wrap mb-2">
-                {offSeasonSeeds.map((name) => (
                   <Box
                     isSelected={selectedName === name}
                     key={name}

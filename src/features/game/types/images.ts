@@ -30,7 +30,7 @@ import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
 import cropCircle from "assets/sfts/crop_circle.webp";
 
-// NFTs
+// SFTs
 import marty from "assets/sfts/morchi_marty.webp";
 import miffy from "assets/sfts/morchi_miffy.webp";
 import mog from "assets/sfts/morchi_mog.webp";
@@ -819,6 +819,8 @@ import mamaDuck from "assets/sfts/mama_duck.webp";
 import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
+import pesticide from "assets/sfts/pesticide.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -3336,14 +3338,14 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("howToGetThisItem.crimsonCarp")],
     itemType: "collectible",
     description: translate("description.crimson.carp"),
-    availability: translate("seasonal"),
+    availability: translate("chapter"),
   },
   "Battle Fish": {
     image: battleFish,
     howToGetItem: [translate("howToGetThisItem.battleFish")],
     itemType: "collectible",
     description: translate("description.battle.fish"),
-    availability: translate("seasonal"),
+    availability: translate("chapter"),
   },
   "Lemon Shark": {
     image: lemonShark,
@@ -3352,7 +3354,7 @@ export const ITEM_DETAILS: Items = {
       : [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.lemon.shark"),
-    availability: translate("seasonal"),
+    availability: translate("chapter"),
   },
   "Longhorn Cowfish": {
     image: longhornCowfish,
@@ -3361,7 +3363,7 @@ export const ITEM_DETAILS: Items = {
       : [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.longhorn.cowfish"),
-    availability: translate("seasonal"),
+    availability: translate("chapter"),
   },
   "Kraken Tentacle": {
     image: krakenTentacle,
@@ -4810,7 +4812,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.thermalStone"),
   },
   "Protective Pesticide": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pesticide,
     description: translate("description.protectivePesticide"),
   },
   "Volcano Gnome": {

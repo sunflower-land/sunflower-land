@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "Sizi kasırgadan koruyan büyülü bir fırıldak! Sadece tek kullanımlık.",
   "temperateSeason.weatherShop.weather": "Hava Durumu",
   "temperateSeason.weatherShop.buy.description": "Çiftliğinizi hava koşullarından korumak için eşyalar satın alın",
-  "temperateSeason.weatherShop.buy.comingSoon": "Çok yakında - 1 Şubat",
   "tornado": "Kasırga",
   "tornado.crops.destroyed": "Kasırga yıkımı",
   "tornado.crops.destroyed.description": "Bir kasırga mahsullerinin yarısını yok etti. Lütfen kasırganın geçmesini bekleyin.",
@@ -5123,5 +5122,7 @@
   "description.jellyfish": "Sıcak yaz aylarında gelişmiş balıkçılık yetenekleri sağlayan mistik enerjiyle parlayan parlak bir deniz harikası.",
   "description.chamomile": "Değişim Rüzgarları bölümünde bulunan dekoratif bir mutant çiçek.",
   "islandupgrade.exoticResourcesDescription": "Ayçiçeği Ülkesinin bu bölgesi egzotik kaynakları ile bilinir. Meyveleri, çiçekleri, arı kovanlarını ve nadir mineralleri keşfetmek için arazinizi genişletin! Ne yetiştirebileceğinizi etkiledikleri için mevsimlere dikkat edin.",
-  "cropGuide.tutorialAlwaysSpring": "İlk adanızda, her zaman ilkbahardır! Adanızı yükselttiğinizde mevsimler değişmeye başlayacak."
+  "cropGuide.tutorialAlwaysSpring": "İlk adanızda, her zaman ilkbahardır! Adanızı yükselttiğinizde mevsimler değişmeye başlayacak.",
+  "temperateSeason.weatherShop.buy.comingSoon": "Çok yakında - 3 Şubat",
+  "chapter": "Bölüm"
 }

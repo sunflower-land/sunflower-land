@@ -532,7 +532,7 @@ const ComposterModalContent: React.FC<{
             >
               {`${secondsToString(secondsTillWeekReset(), {
                 length: "short",
-              })} ${t("left")}`}
+              })} ${t("time.left")}`}
             </Label>
           </div>
         )}

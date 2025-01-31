@@ -1399,7 +1399,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: mockDate.getTime(),
-              readyAt: new Date("2025-01-04T15:00:00Z").getTime(),
+              readyAt: new Date("2025-01-03T15:00:00Z").getTime(),
               from: "pumpkin' pete",
               items: {
                 Sunflower: 50,

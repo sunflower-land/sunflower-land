@@ -4928,7 +4928,7 @@
   "description.protectivePesticide": "A pesticide that protects your crops from the insect plague!",
   "temperateSeason.weatherShop.weather": "Weather",
   "temperateSeason.weatherShop.buy.description": "Buy items to protect your farm from the weather",
-  "temperateSeason.weatherShop.buy.comingSoon": "Coming soon - February 1st",
+  "temperateSeason.weatherShop.buy.comingSoon": "Coming soon - February 3rd",
   "tornado": "Tornado",
   "tornado.crops.destroyed": "Tornado destruction",
   "tornado.crops.destroyed.description": "A tornado has destroyed half of your crops. Please wait for the tornado to pass.",
@@ -5167,5 +5167,6 @@
   "gorga.intro.greeting": "Ooooh a Bumpkin...that's new.",
   "gorga.intro.two": "I heard your kind has found some Obsidian. Is that true?",
   "gorga.intro.three": "I tell you what, if you can find me some Obsidian, I'll exchange it for Sunstone.",
-  "left": "left"
+  "chapter": "Chapter",
+  "time.left": "left"
 }

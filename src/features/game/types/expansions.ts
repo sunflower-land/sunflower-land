@@ -134,7 +134,9 @@ export function getLand({
     return null;
   }
 
-  const expectedResources = TOTAL_EXPANSION_NODES[game.island.type][expansion];
+  const expectedResources = {
+    ...TOTAL_EXPANSION_NODES[game.island.type][expansion],
+  };
 
   // If they have bought resource nodes, we expect they should have more resources.
   getKeys(RESOURCE_NODE_PRICES).forEach((resource) => {

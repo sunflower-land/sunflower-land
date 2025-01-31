@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "¡Un molinete mágico que te protege del tornado! Un solo uso.",
   "temperateSeason.weatherShop.weather": "Meteorología",
   "temperateSeason.weatherShop.buy.description": "Compra objetos para proteger tu granja de las inclemencias meteorológicas",
-  "temperateSeason.weatherShop.buy.comingSoon": "Próximamente: 1 de febrero",
   "tornado": "Tornado",
   "tornado.crops.destroyed": "Destrucción por tornado",
   "tornado.crops.destroyed.description": "Un tornado ha destruido la mitad de tus cultivos. Por favor, espere a que pase el tornado.",
@@ -5123,5 +5122,7 @@
   "description.jellyfish": "Una luminosa maravilla marina que brilla con energía mística y que permite mejorar las habilidades de pesca durante los cálidos meses de verano.",
   "description.chamomile": "Una flor mutante decorativa encontrada durante el capítulo Vientos de cambio.",
   "islandupgrade.exoticResourcesDescription": "Esta área de Sunflower Land es conocida por sus recursos exóticos. ¡Amplía tu tierra para descubrir frutas, flores, colmenas de abejas y minerales raros! Esté atento a las estaciones, ya que afectan a lo que puede cultivar.",
-  "cropGuide.tutorialAlwaysSpring": "En tu primera isla, ¡siempre es primavera! Cuando actualices tu isla, las estaciones comenzarán a cambiar."
+  "cropGuide.tutorialAlwaysSpring": "En tu primera isla, ¡siempre es primavera! Cuando actualices tu isla, las estaciones comenzarán a cambiar.",
+  "temperateSeason.weatherShop.buy.comingSoon": "Próximamente, 3 de febrero",
+  "chapter": "Capítulo"
 }

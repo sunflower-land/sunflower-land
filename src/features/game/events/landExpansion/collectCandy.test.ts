@@ -64,8 +64,9 @@ describe("collectCandy", () => {
       }),
     ).toThrow("Reached daily limit");
   });
+
   it("collects candy the next day", () => {
-    const firstDay = Date.now();
+    const now = new Date("2024-01-01").getTime();
     let state = collectCandy({
       state: {
         ...TEST_FARM,
@@ -73,7 +74,7 @@ describe("collectCandy", () => {
           day: {
             1: {
               candy: 9,
-              collectedAt: Date.now(),
+              collectedAt: now,
             },
           },
         },
@@ -81,29 +82,30 @@ describe("collectCandy", () => {
       action: {
         type: "candy.collected",
       },
-      createdAt: firstDay,
+      createdAt: now,
     });
-    const secondDay = firstDay + 24 * 60 * 60 * 1000;
+    const nextDay = new Date("2024-01-02").getTime();
     state = collectCandy({
       state,
       action: {
         type: "candy.collected",
       },
-      createdAt: secondDay,
+      createdAt: nextDay,
     });
     expect(state.christmas2024).toEqual({
       day: {
         1: {
           candy: 10,
-          collectedAt: firstDay,
+          collectedAt: now,
         },
         2: {
           candy: 1,
-          collectedAt: secondDay,
+          collectedAt: nextDay,
         },
       },
     });
   });
+
   it.skip("claims the sfl reward", () => {
     const mockDate = Date.now();
 
