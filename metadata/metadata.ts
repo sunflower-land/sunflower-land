@@ -18,6 +18,13 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Rhubarb Tart": {
+    description: "A sweet and tangy tart featuring fresh rhubarb",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
   "Frozen Cow": {
     description:
       "A frosty bovine mutation that prevents cows from getting sick during winter months!",

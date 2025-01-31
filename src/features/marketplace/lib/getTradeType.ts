@@ -10,6 +10,7 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Rhubarb Tart": "instant",
     "Frozen Cow": "instant",
     "Frozen Sheep": "instant",
     "Summer Chicken": "instant",

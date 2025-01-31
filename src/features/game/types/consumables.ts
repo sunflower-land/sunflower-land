@@ -24,7 +24,8 @@ type FirePitCookableName =
   | "Antipasto"
   | "Rice Bun"
   | "Fried Tofu"
-  | "Pizza Margherita";
+  | "Pizza Margherita"
+  | "Rhubarb Tart";
 
 type KitchenCookableName =
   | "Beetroot Blaze"
@@ -304,6 +305,16 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
       Tomato: new Decimal(30),
       Cheese: new Decimal(5),
       Wheat: new Decimal(20),
+    },
+  },
+  "Rhubarb Tart": {
+    name: "Rhubarb Tart",
+    description: translate("description.rhubarb.tart"),
+    building: "Fire Pit",
+    experience: 5,
+    cookingSeconds: 60,
+    ingredients: {
+      Rhubarb: new Decimal(3),
     },
   },
 };

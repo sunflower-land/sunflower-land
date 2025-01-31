@@ -21,7 +21,9 @@ import {
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 
-export const FLAGGED_RECIPES: Partial<Record<ConsumableName, FeatureName>> = {};
+export const FLAGGED_RECIPES: Partial<Record<ConsumableName, FeatureName>> = {
+  "Rhubarb Tart": "TEMPERATE_SEASON",
+};
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
