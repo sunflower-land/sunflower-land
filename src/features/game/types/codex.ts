@@ -4,7 +4,7 @@ import { BuffLabel } from ".";
 export type CodexCategoryName =
   | "Fish"
   | "Flowers"
-  | "Season"
+  | "Chapter"
   | "Bull Run"
   | "Deliveries"
   | "Chores"
@@ -33,7 +33,7 @@ export type AssetType = "collectible" | "wearable" | "bud";
 export type BaseInformation = {
   id: number;
   name: string;
-  season?: ChapterName;
+  chapter?: ChapterName;
   howToObtain: string[];
   type: AssetType;
   // Leave empty if no boosts

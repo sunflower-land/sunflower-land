@@ -11,12 +11,12 @@ export type ChestReward = {
 
 const multiplier = 900;
 
-const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
-  const isBullRunSeason =
+const CHAPTER_REWARDS: (weight: number) => ChestReward[] = (weight) => {
+  const isBullRunChapter =
     Date.now() >= CHAPTERS["Bull Run"].startDate.getTime() &&
     Date.now() < CHAPTERS["Bull Run"].endDate.getTime();
 
-  if (isBullRunSeason) {
+  if (isBullRunChapter) {
     return [
       // Deco
       { items: { "Cow Scratcher": 1 }, weighting: weight * (multiplier / 2) },
@@ -82,7 +82,7 @@ export const BASIC_REWARDS: () => ChestReward[] = () => [
   { items: { "Blueberry Jam": 3 }, weighting: 100 * multiplier },
   { items: { Rug: 1 }, weighting: 25 * multiplier },
   { items: { "Prize Ticket": 1 }, weighting: 5 * multiplier },
-  ...SEASONAL_REWARDS(5), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
+  ...CHAPTER_REWARDS(5), // Multiplier is applied in CHAPTER_REWARDS so no need to multiply by multiplier
 ];
 
 export const RARE_REWARDS: () => ChestReward[] = () => [
@@ -112,7 +112,7 @@ export const RARE_REWARDS: () => ChestReward[] = () => [
   { items: { "Goblin Brunch": 3 }, weighting: 50 * multiplier },
   { items: { "Bumpkin Roast": 3 }, weighting: 40 * multiplier },
   { items: { "Prize Ticket": 1 }, weighting: 20 * multiplier },
-  ...SEASONAL_REWARDS(25), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
+  ...CHAPTER_REWARDS(25), // Multiplier is applied in CHAPTER_REWARDS so no need to multiply by multiplier
 ];
 
 export const LUXURY_REWARDS: () => ChestReward[] = () => [
@@ -134,7 +134,7 @@ export const LUXURY_REWARDS: () => ChestReward[] = () => [
   { items: { "Goblin Brunch": 10 }, weighting: 25 * multiplier },
   { items: { "Bumpkin Roast": 10 }, weighting: 25 * multiplier },
   { items: { "Prize Ticket": 1 }, weighting: 50 * multiplier },
-  ...SEASONAL_REWARDS(25), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
+  ...CHAPTER_REWARDS(25), // Multiplier is applied in CHAPTER_REWARDS so no need to multiply by multiplier
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [

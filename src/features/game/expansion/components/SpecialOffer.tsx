@@ -27,12 +27,12 @@ export const SpecialOffer: React.FC = () => {
   const { gameService } = useContext(Context);
   const specialOffer = useSelector(gameService, isPromoting);
   const inventory = useSelector(gameService, _inventory);
-  const hasPreviousSeasonBanner = !!inventory[getChapterBanner()];
+  const hasPreviousChapterBanner = !!inventory[getChapterBanner()];
 
   return (
     <PromotingModal
       isOpen={specialOffer}
-      hasDiscount={hasPreviousSeasonBanner}
+      hasDiscount={hasPreviousChapterBanner}
       hasPurchased={!!inventory["Spring Blossom Banner"]}
       onClose={() => {
         acknowledgeVIP();
@@ -59,7 +59,7 @@ export const PromotingModal: React.FC<Props> = ({
 
   const { openModal } = useContext(ModalContext);
 
-  const isPreSeason =
+  const isPreChapter =
     Date.now() < CHAPTERS["Spring Blossom"].startDate.getTime();
 
   const { gameService } = useContext(Context);
@@ -73,7 +73,7 @@ export const PromotingModal: React.FC<Props> = ({
 
   let price = hasDiscount ? 35 * BB_TO_GEM_RATIO : 50 * BB_TO_GEM_RATIO;
 
-  if (!isPreSeason) {
+  if (!isPreChapter) {
     price = 65 * BB_TO_GEM_RATIO;
   }
 
@@ -108,7 +108,7 @@ export const PromotingModal: React.FC<Props> = ({
                 setShowPurchased(true);
               }}
             >
-              {t("season.buyNow")}
+              {t("chapter.buyNow")}
             </Button>
           </div>
         </>
@@ -144,19 +144,19 @@ export const PromotingModal: React.FC<Props> = ({
                   height: `${PIXEL_SCALE * 16}px`,
                 }}
               />
-              <p className="text-sm">{t("season.goodLuck")}</p>
+              <p className="text-sm">{t("chapter.goodLuck")}</p>
             </div>
-            <p className="text-sm">{t("season.access")}</p>
+            <p className="text-sm">{t("chapter.access")}</p>
             <ul className="list-disc">
-              <li className="text-xs ml-4">{t("season.discount")}</li>
-              <li className="text-xs ml-4">{t("season.banner")}</li>
-              <li className="text-xs ml-4">{t("season.wearableAirdrop")}</li>
-              <li className="text-xs ml-4">{t("season.bonusTickets")}</li>
-              <li className="text-xs ml-4">{t("season.boostXP")}</li>
+              <li className="text-xs ml-4">{t("chapter.discount")}</li>
+              <li className="text-xs ml-4">{t("chapter.banner")}</li>
+              <li className="text-xs ml-4">{t("chapter.wearableAirdrop")}</li>
+              <li className="text-xs ml-4">{t("chapter.bonusTickets")}</li>
+              <li className="text-xs ml-4">{t("chapter.boostXP")}</li>
             </ul>
 
             <Label className="my-2" type="default" icon={SUNNYSIDE.icons.drag}>
-              {t("season.place.land")}
+              {t("chapter.place.land")}
             </Label>
 
             <a
@@ -184,7 +184,7 @@ export const PromotingModal: React.FC<Props> = ({
     return (
       <>
         <div className="flex flex-col p-2">
-          <p className="text-base">{t("season.exclusiveOffer")}</p>
+          <p className="text-base">{t("chapter.exclusiveOffer")}</p>
 
           <div className="flex items-center">
             <img
@@ -224,15 +224,15 @@ export const PromotingModal: React.FC<Props> = ({
               )}
             </div>
           </div>
-          <p className="text-sm">{t("season.includes")}</p>
+          <p className="text-sm">{t("chapter.includes")}</p>
           <ul className="list-disc">
-            <li className="text-sm ml-4">{t("season.banner")}</li>
-            <li className="text-sm ml-4">{t("season.wearableAirdrop")}</li>
-            <li className="text-sm ml-4">{t("season.discount")}</li>
-            <li className="text-sm ml-4">{t("season.boostXP")}</li>
-            <li className="text-sm ml-4">{t("season.bonusTickets")}</li>
+            <li className="text-sm ml-4">{t("chapter.banner")}</li>
+            <li className="text-sm ml-4">{t("chapter.wearableAirdrop")}</li>
+            <li className="text-sm ml-4">{t("chapter.discount")}</li>
+            <li className="text-sm ml-4">{t("chapter.boostXP")}</li>
+            <li className="text-sm ml-4">{t("chapter.bonusTickets")}</li>
           </ul>
-          {!isPreSeason && (
+          {!isPreChapter && (
             <Label
               type="info"
               className="mt-2"
@@ -241,7 +241,7 @@ export const PromotingModal: React.FC<Props> = ({
                 width: "fit-content",
               }}
             >
-              {t("season.limitedOffer")}
+              {t("chapter.limitedOffer")}
             </Label>
           )}
           {/* <Label
@@ -275,7 +275,7 @@ export const PromotingModal: React.FC<Props> = ({
               }
             }}
           >
-            {t("season.buyNow")}
+            {t("chapter.buyNow")}
           </Button>
         </div>
       </>

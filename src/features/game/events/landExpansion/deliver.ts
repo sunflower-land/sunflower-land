@@ -484,12 +484,12 @@ export function deliverOrder({
     }
 
     if (tickets > 0) {
-      const seasonalTicket = getChapterTicket();
+      const chapterTicket = getChapterTicket();
 
-      const count = game.inventory[seasonalTicket] || new Decimal(0);
+      const count = game.inventory[chapterTicket] || new Decimal(0);
       const amount = tickets || new Decimal(0);
 
-      game.inventory[seasonalTicket] = count.add(amount);
+      game.inventory[chapterTicket] = count.add(amount);
     }
 
     const rewardItems = order.reward.items ?? {};

@@ -398,7 +398,7 @@ import {
 import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
 import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
 import {
-  buySeasonalItem,
+  buyChapterItem,
   BuyChapterItemAction,
 } from "./landExpansion/buyChapterItem";
 import {
@@ -773,7 +773,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crafting.collected": collectCrafting,
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
-  "chapterItem.bought": buySeasonalItem,
+  "chapterItem.bought": buyChapterItem,
   "recipe.discovered": discoverRecipe,
   "farmHand.unlocked": unlockFarmhand,
   "fishing.reelsBought": buyMoreReels,

@@ -15,17 +15,17 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chores from "assets/icons/chores.webp";
 import lock from "assets/icons/lock.png";
 
-import { SeasonalAuctions } from "../components/SeasonalAuctions";
+import { ChapterAuctions } from "../components/ChapterAuctions";
 import classNames from "classnames";
-import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChapterStore } from "features/world/ui/megastore/ChapterStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
 import { BertObsession } from "features/world/ui/npcs/Bert";
 import { GameState } from "features/game/types/game";
+import { ChapterMutants } from "../components/ChapterMutants";
 
-const SEASON_GRAPHICS: Record<ChapterName, string> = {
+const CHAPTER_GRAPHICS: Record<ChapterName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -41,7 +41,7 @@ interface Props {
   id: string;
   isLoading: boolean;
   data: TicketLeaderboard | null;
-  season: ChapterName;
+  chapter: ChapterName;
   state: GameState;
   farmId: number;
 }
@@ -50,7 +50,7 @@ export const Chapter: React.FC<Props> = ({
   id,
   isLoading,
   data,
-  season,
+  chapter,
   state,
   farmId,
 }) => {
@@ -66,7 +66,7 @@ export const Chapter: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between mb-1 flex-wrap">
             <Label className="-ml-1 mb-1" type="default">
-              {season}
+              {chapter}
             </Label>
             <Label
               type="info"
@@ -77,14 +77,14 @@ export const Chapter: React.FC<Props> = ({
             </Label>
           </div>
           <p className="text-xs">
-            {t("season.codex.intro", { ticket: CHAPTER_TICKET_NAME[season] })}
+            {t("season.codex.intro", { ticket: CHAPTER_TICKET_NAME[chapter] })}
           </p>
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
         <div
           style={{
-            backgroundImage: `url(${SEASON_GRAPHICS[season]})`,
+            backgroundImage: `url(${CHAPTER_GRAPHICS[chapter]})`,
             imageRendering: "pixelated",
             height: "125px",
             backgroundSize: "600px",
@@ -98,7 +98,7 @@ export const Chapter: React.FC<Props> = ({
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
               {t("season.codex.howToEarn", {
-                ticket: CHAPTER_TICKET_NAME[season],
+                ticket: CHAPTER_TICKET_NAME[chapter],
               })}
             </Label>
 
@@ -149,8 +149,8 @@ export const Chapter: React.FC<Props> = ({
       <InnerPanel className="mb-1">
         <ChapterStore readonly state={state} />
       </InnerPanel>
-      <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
-      <SeasonalMutants season={season} />
+      <ChapterAuctions gameState={state} farmId={farmId} chapter={chapter} />
+      <ChapterMutants chapter={chapter} />
       <InnerPanel className="mb-1">
         <TicketsLeaderboard id={id} isLoading={isLoading} data={data} />
       </InnerPanel>

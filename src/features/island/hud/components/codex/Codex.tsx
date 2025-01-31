@@ -271,7 +271,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 id={id}
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
-                season={getCurrentChapter()}
+                chapter={getCurrentChapter()}
                 state={state}
                 farmId={farmId}
               />

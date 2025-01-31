@@ -34,7 +34,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function buySeasonalItem({
+export function buyChapterItem({
   state,
   action,
   createdAt = Date.now(),
@@ -59,25 +59,25 @@ export function buySeasonalItem({
     );
 
     if (!item) {
-      throw new Error("Item not found in the seasonal store");
+      throw new Error("Item not found in the chapter store");
     }
 
-    const seasonalCollectiblesCrafted = getChapterItemsCrafted(
+    const chapterCollectiblesCrafted = getChapterItemsCrafted(
       state,
       chapterStore,
       "collectible",
       tier,
       true,
     );
-    const seasonalWearablesCrafted = getChapterItemsCrafted(
+    const chapterWearablesCrafted = getChapterItemsCrafted(
       state,
       chapterStore,
       "wearable",
       tier,
       true,
     );
-    const seasonalItemsCrafted =
-      seasonalCollectiblesCrafted + seasonalWearablesCrafted;
+    const chapterItemsCrafted =
+      chapterCollectiblesCrafted + chapterWearablesCrafted;
 
     const isKey = (name: InventoryItemName): name is Keys =>
       name in ARTEFACT_SHOP_KEYS;
@@ -90,7 +90,7 @@ export function buySeasonalItem({
     if (tier !== "basic") {
       if (
         tier === "rare" &&
-        seasonalItemsCrafted - reduction < chapterStore.rare.requirement
+        chapterItemsCrafted - reduction < chapterStore.rare.requirement
       ) {
         throw new Error(
           "You need to buy more basic items to unlock rare items",
@@ -99,7 +99,7 @@ export function buySeasonalItem({
 
       if (
         tier === "epic" &&
-        seasonalItemsCrafted - reduction < chapterStore.epic.requirement
+        chapterItemsCrafted - reduction < chapterStore.epic.requirement
       ) {
         throw new Error(
           "You need to buy more basic and rare items to unlock epic items",
@@ -108,7 +108,7 @@ export function buySeasonalItem({
 
       if (
         tier === "mega" &&
-        seasonalItemsCrafted - reduction < chapterStore.mega.requirement
+        chapterItemsCrafted - reduction < chapterStore.mega.requirement
       ) {
         throw new Error("You need to buy more epic items to unlock mega items");
       }

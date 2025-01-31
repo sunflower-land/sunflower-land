@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { buySeasonalItem } from "./buyChapterItem";
+import { buyChapterItem } from "./buyChapterItem";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
-describe("buySeasonalItem", () => {
+describe("buyChapterItem", () => {
   const mockState: GameState = {
     ...TEST_FARM,
     balance: new Decimal(1000),
@@ -19,7 +19,7 @@ describe("buySeasonalItem", () => {
 
   it("throws an error if the item is not found in the seasonal store", () => {
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: mockState,
         action: {
           type: "chapterItem.bought",
@@ -34,7 +34,7 @@ describe("buySeasonalItem", () => {
   it("throws an error if the player doesn't have enough SFL", () => {
     const poorState = { ...mockState, balance: new Decimal(0) };
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: poorState,
         action: {
           type: "chapterItem.bought",
@@ -52,7 +52,7 @@ describe("buySeasonalItem", () => {
       inventory: { Wood: new Decimal(0) },
     };
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: lowInventoryState,
         action: {
           type: "chapterItem.bought",
@@ -77,7 +77,7 @@ describe("buySeasonalItem", () => {
         Wood: new Decimal(100),
       },
     };
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: state,
       action: {
         type: "chapterItem.bought",
@@ -90,7 +90,7 @@ describe("buySeasonalItem", () => {
   });
 
   it("subtracts SFL when buying an item", () => {
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: mockState,
       action: {
         type: "chapterItem.bought",
@@ -104,7 +104,7 @@ describe("buySeasonalItem", () => {
   });
 
   it("subtracts items when buying an item", () => {
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: mockState,
       action: {
         type: "chapterItem.bought",
@@ -118,7 +118,7 @@ describe("buySeasonalItem", () => {
   });
 
   it("successfully buys a collectible item", () => {
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: mockState,
       action: {
         type: "chapterItem.bought",
@@ -132,7 +132,7 @@ describe("buySeasonalItem", () => {
   });
 
   it("successfully buys a wearable item", () => {
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: mockState,
       action: {
         type: "chapterItem.bought",
@@ -147,7 +147,7 @@ describe("buySeasonalItem", () => {
 
   it("throws an error if key already bought today", () => {
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: {
           ...mockState,
           inventory: {
@@ -175,7 +175,7 @@ describe("buySeasonalItem", () => {
   });
 
   it("updates createdAt when key is bought", () => {
-    const state = buySeasonalItem({
+    const state = buyChapterItem({
       state: {
         ...mockState,
         inventory: {

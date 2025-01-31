@@ -16,7 +16,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentChapter,
-  getSeasonalArtefact,
+  getChapterArtefact,
   getChapterTicket,
   // getChapterTicket,
 } from "features/game/types/chapters";
@@ -268,8 +268,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
         ? getChapterTicket()
         : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
+            (item.cost?.items[getChapterArtefact()] ?? 0 > 0)
+          ? getChapterArtefact()
           : Object.keys(item.cost.items)[0];
     return currencyName as InventoryItemName;
   };
@@ -278,8 +278,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
         ? getChapterTicket()
         : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
+            (item.cost?.items[getChapterArtefact()] ?? 0 > 0)
+          ? getChapterArtefact()
           : Object.keys(item.cost.items)[0];
 
     return inventory[currencyItem as InventoryItemName] ?? new Decimal(0);
@@ -288,7 +288,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const currency =
       item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
         ? getChapterTicket()
-        : getSeasonalArtefact();
+        : getChapterArtefact();
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]

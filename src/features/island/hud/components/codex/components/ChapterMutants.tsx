@@ -8,21 +8,21 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
-type SeasonalMutants = {
+type ChapterMutants = {
   banner: string;
   chicken: InventoryItemName;
   flower: InventoryItemName;
   fish: InventoryItemName;
 };
 
-const DEFAULT: SeasonalMutants = {
+const DEFAULT: ChapterMutants = {
   chicken: "Fat Chicken",
   flower: "Red Pansy",
   fish: "Anchovy",
   banner: "?",
 };
 
-const SEASONAL_MUTANTS: Partial<Record<ChapterName, SeasonalMutants>> = {
+const CHAPTER_MUTANTS: Partial<Record<ChapterName, ChapterMutants>> = {
   "Pharaoh's Treasure": {
     chicken: "Pharaoh Chicken",
     flower: "Desert Rose",
@@ -38,10 +38,10 @@ const SEASONAL_MUTANTS: Partial<Record<ChapterName, SeasonalMutants>> = {
 };
 
 interface Props {
-  season: ChapterName;
+  chapter: ChapterName;
 }
-export const SeasonalMutants: React.FC<Props> = ({ season }) => {
-  const mutants = SEASONAL_MUTANTS[season];
+export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
+  const mutants = CHAPTER_MUTANTS[chapter];
 
   const { t } = useAppTranslation();
 

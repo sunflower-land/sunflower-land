@@ -10,16 +10,16 @@ export const hasVipAccess = ({
   now?: number;
 }): boolean => {
   // Legacy Code - remove once DB is updated with expiresAt
-  const seasonBannerQuantity =
+  const chapterBannerQuantity =
     game.inventory[getChapterBanner(new Date(now))] ?? new Decimal(0);
-  const hasSeasonPass = seasonBannerQuantity.gt(0);
+  const hasChapterPass = chapterBannerQuantity.gt(0);
 
   const lifetimeBannerQuantity =
     game.inventory["Lifetime Farmer Banner"] ?? new Decimal(0);
 
   const hasLifetimePass = lifetimeBannerQuantity.gt(0);
 
-  if (hasSeasonPass || hasLifetimePass) return true;
+  if (hasChapterPass || hasLifetimePass) return true;
 
   // New Code
   return !!game.vip?.expiresAt && game.vip?.expiresAt > now;

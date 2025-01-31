@@ -43,14 +43,14 @@ type AuctionItems = Record<BumpkinItem | InventoryItemName, AuctionDetail>;
 /**
  * Aggregates the seasonal auction items
  */
-function getSeasonalAuctions({
+function getChapterAuctions({
   auctions,
-  season,
+  chapter,
 }: {
   auctions: Auction[];
-  season: ChapterName;
+  chapter: ChapterName;
 }) {
-  const { startDate, endDate } = CHAPTERS[season];
+  const { startDate, endDate } = CHAPTERS[chapter];
 
   // Aggregate supplies
   let details: AuctionItems = auctions.reduce((acc, auction) => {
@@ -345,15 +345,15 @@ const Drops: React.FC<{
 interface Props {
   gameState: GameState;
   farmId: number;
-  season: ChapterName;
+  chapter: ChapterName;
 }
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
-export const SeasonalAuctions: React.FC<Props> = ({
+export const ChapterAuctions: React.FC<Props> = ({
   farmId,
   gameState,
-  season,
+  chapter,
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
@@ -393,9 +393,9 @@ export const SeasonalAuctions: React.FC<Props> = ({
     return <Loading />;
   }
 
-  const auctionItems = getSeasonalAuctions({
+  const auctionItems = getChapterAuctions({
     auctions: auctioneerState.context.auctions,
-    season,
+    chapter,
   });
 
   return (
