@@ -40,6 +40,8 @@ export const getBoostedAnimalCapacity = (
 ): number => {
   const COOP_BONUS_CAPACITY = 5;
 
+  const BARN_BLUEPRINT_BONUS_CAPACITY = 5;
+
   const building = game[buildingKey] as AnimalBuilding;
   const level = building.level;
   const baseCapacity = getBaseAnimalCapacity(level);
@@ -53,6 +55,18 @@ export const getBoostedAnimalCapacity = (
     const coopBonus = coopActive ? COOP_BONUS_CAPACITY * level : 0;
 
     return baseCapacity + coopBonus;
+  }
+
+  if (buildingKey === "barn") {
+    const bprintActive = isCollectibleBuilt({
+      name: "Barn Blueprint",
+      game,
+    });
+    const capacityBonus = bprintActive
+      ? BARN_BLUEPRINT_BONUS_CAPACITY * level
+      : 0;
+
+    return baseCapacity + capacityBonus;
   }
 
   return baseCapacity;
