@@ -87,21 +87,21 @@ export function generateDeliveryTickets({
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isWearableActive({ game, name: "Acorn Hat" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Igloo" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Hammock" })
   ) {
     amount += 1;

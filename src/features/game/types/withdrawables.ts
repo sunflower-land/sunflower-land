@@ -310,20 +310,20 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   },
 
   Sickle: {
-    tradeAt: SEASONS["Winds of Change"].endDate,
-    withdrawAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: CHAPTERS["Winds of Change"].endDate,
+    withdrawAt: CHAPTERS["Winds of Change"].endDate,
   },
   "Ladybug Suit": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
-    withdrawAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: CHAPTERS["Winds of Change"].endDate,
+    withdrawAt: CHAPTERS["Winds of Change"].endDate,
   },
   "Acorn Hat": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
-    withdrawAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: CHAPTERS["Winds of Change"].endDate,
+    withdrawAt: CHAPTERS["Winds of Change"].endDate,
   },
   "Crab Hat": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
-    withdrawAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: CHAPTERS["Winds of Change"].endDate,
+    withdrawAt: CHAPTERS["Winds of Change"].endDate,
   },
 };
 
@@ -756,40 +756,40 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
     Kite: {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     "Acorn House": {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     "Spring Duckling": {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     Igloo: {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     "Ugly Duckling": {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     "Lake Rug": {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     Hammock: {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     Mammoth: {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     "Cup of Chocolate": {
-      tradeAt: SEASONS["Winds of Change"].endDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     "Goblin Emblem": {
       tradeAt: new Date("2021-01-01"),
@@ -804,23 +804,23 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: new Date("2021-01-01"),
     },
     "Frozen Cow": {
-      tradeAt: SEASONS["Winds of Change"].startDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].startDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     "Frozen Sheep": {
-      tradeAt: SEASONS["Winds of Change"].startDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].startDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     "Summer Chicken": {
-      tradeAt: SEASONS["Winds of Change"].startDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].startDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     Chamomile: {
-      tradeAt: SEASONS["Winds of Change"].startDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].startDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
     Jellyfish: {
-      tradeAt: SEASONS["Winds of Change"].startDate,
-      withdrawAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: CHAPTERS["Winds of Change"].startDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
   };

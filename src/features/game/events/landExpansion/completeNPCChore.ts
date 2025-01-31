@@ -128,24 +128,24 @@ export function generateChoreRewards({
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isWearableActive({ game, name: "Acorn Hat" })
   ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    items[getChapterTicket(now)] = (items[getChapterTicket(now)] ?? 0) + 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Igloo" })
   ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    items[getChapterTicket(now)] = (items[getChapterTicket(now)] ?? 0) + 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Hammock" })
   ) {
-    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+    items[getChapterTicket(now)] = (items[getChapterTicket(now)] ?? 0) + 1;
   }
 
   return items;

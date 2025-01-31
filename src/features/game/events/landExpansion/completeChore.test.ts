@@ -896,7 +896,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(5));
   });
 
   it("stacks timeshard boosts at Winds of Change", () => {
@@ -970,6 +970,6 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(7));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(7));
   });
 });

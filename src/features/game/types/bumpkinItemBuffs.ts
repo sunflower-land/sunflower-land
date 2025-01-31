@@ -841,7 +841,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
     },
   ],
   "Acorn Hat": [
-    ...(hasSeasonEnded("Winds of Change")
+    ...(hasChapterEnded("Winds of Change")
       ? []
       : ([
           {

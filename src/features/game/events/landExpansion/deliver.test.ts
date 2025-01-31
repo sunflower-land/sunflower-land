@@ -1202,7 +1202,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("provides +1 tickets when Igloo is placed at Winds of Change Chapter", () => {
@@ -1255,7 +1255,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("provides +1 tickets when Hammock is placed at Winds of Change Chapter", () => {
@@ -1308,7 +1308,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("stacks Timeshard boost collectibles and wearables", () => {
@@ -1370,7 +1370,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(4));
   });
   it("does not provides +1 tickets when Hammock is placed outside the WoC Chapter", () => {
     const mockDate = new Date(2025, 0, 5);
@@ -1422,7 +1422,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(1));
   });
 
   it("add 30% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {

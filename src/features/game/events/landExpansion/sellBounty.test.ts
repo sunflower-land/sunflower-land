@@ -304,7 +304,7 @@ describe("sellBounty", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(result.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("stacks timeshard boosts during Winds of Change Chapter", () => {
@@ -350,7 +350,7 @@ describe("sellBounty", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+    expect(result.inventory[getChapterTicket()]).toEqual(new Decimal(4));
   });
 
   it("subtracts the item", () => {
