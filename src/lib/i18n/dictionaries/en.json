@@ -3296,6 +3296,7 @@
   "season.codex.howToEarn.three": "Trade animal and flower bounties! (Nov 11th)",
   "season.codex.nextDrop": "Next Drop",
   "season.codex.nextDrop.available": "{{dropSupply}} available",
+  "season.codex.auction.totalSupply": "Total Supply: {{totalSupply}}",
   "season.codex.seasonalDrops": "Seasonal Drops",
   "season.codex.seasonalDrops.description": "Compete with others for the rarest items! Visit the Auctioneer in the plaza for more details.",
   "season.codex.soldOut": "Sold out",
