@@ -91,10 +91,7 @@ const featureFlags = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  SKILLS_REVAMP: (game: GameState) =>
-    Date.now() > new Date("2024-02-01T00:00:00Z").getTime()
-      ? defaultFeatureFlag(game)
-      : adminFeatureFlag(game),
+  SKILLS_REVAMP: adminFeatureFlag,
   FSL: betaTimeBasedFeatureFlag(new Date("2024-10-10T00:00:00Z")),
   ANIMAL_BUILDINGS: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   BARLEY: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
