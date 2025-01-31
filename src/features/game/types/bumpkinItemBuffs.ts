@@ -10,6 +10,7 @@ import chefHat from "assets/icons/chef_hat.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import { hasSeasonEnded } from "./seasons";
+import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 
 export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {
   Halo: [
@@ -866,6 +867,46 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: CROP_LIFECYCLE.basic.Wheat.crop,
+    },
+  ],
+  "Sol & Luna": [
+    {
+      shortDescription: translate("description.solAndLuna.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.icons.hammer,
+    },
+  ],
+  "Blossom Ward": [
+    {
+      shortDescription: translate("description.blossomWard.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SEASON_ICONS["spring"],
+    },
+  ],
+  "Solflare Aegis": [
+    {
+      shortDescription: translate("description.solflareAegis.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SEASON_ICONS["summer"],
+    },
+  ],
+  "Autumn's Embrace": [
+    {
+      shortDescription: translate("description.autumnsEmbrace.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SEASON_ICONS["autumn"],
+    },
+  ],
+  "Frozen Heart": [
+    {
+      shortDescription: translate("description.frozenHeart.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SEASON_ICONS["winter"],
     },
   ],
   ...SPECIAL_ITEM_LABELS,
