@@ -1,11 +1,5 @@
 import Decimal from "decimal.js-light";
-import {
-  Recipe,
-  RecipeIngredient,
-  RecipeItemName,
-  RECIPES,
-  Recipes,
-} from "features/game/lib/crafting";
+import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -23,14 +17,14 @@ type Options = {
   createdAt?: number;
 };
 
-export function getCraftingTime({
+export function getBoostedCraftingTime({
   game,
-  item,
+  time,
 }: {
   game: GameState;
-  item: RecipeItemName;
+  time: number;
 }) {
-  let seconds = RECIPES[item].time;
+  let seconds = time;
 
   const { inventory, buds, bumpkin } = game;
   const skills = bumpkin?.skills ?? {};
@@ -114,7 +108,10 @@ export function startCrafting({
       }
     });
 
-    const recipeTime = getCraftingTime({ game: state, item: recipe.name });
+    const recipeTime = getBoostedCraftingTime({
+      game: state,
+      time: recipe.time,
+    });
 
     copy.craftingBox = {
       status: "crafting",
