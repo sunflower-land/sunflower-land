@@ -4637,7 +4637,6 @@
   "temperateSeason.possibleEvents": "Возможные события",
   "temperateSeason.seasonDetails": "Сведения о сезоне",
   "temperateSeason.seasonalCrops": "Сезонные культуры",
-  "temperateSeason.weatherShop.buy.comingSoon": "Скоро — 1 февраля",
   "temperateSeason.weatherShop.buy.description": "Покупайте предметы, чтобы защитить свою ферму от непогоды",
   "temperateSeason.weatherShop.weather": "Погода",
   "test": "Тест",
@@ -5123,5 +5122,6 @@
   "description.jellyfish": "Сияющее морское чудо, излучающее мистическую энергию и расширяющее возможности рыбалки в теплые летние месяцы.",
   "description.chamomile": "Декоративный цветк-мутант, найденный в главе «Ветры перемен».",
   "islandupgrade.exoticResourcesDescription": "Этот район земли Санфлауэр известен своими экзотическими ресурсами. Расширяйте свою землю, открывая для себя фрукты, цветы, пчелиные ульи и редкие минералы! Следите за временами года, так как они влияют на то, что вы можете выращивать.",
-  "cropGuide.tutorialAlwaysSpring": "На вашем первом острове всегда весна! Когда вы улучшите свой остров, времена года начнут меняться."
+  "cropGuide.tutorialAlwaysSpring": "На вашем первом острове всегда весна! Когда вы улучшите свой остров, времена года начнут меняться.",
+  "temperateSeason.weatherShop.buy.comingSoon": "Скоро — 3 февраля"
 }

@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "Un moulinet magique qui te protège de la tornade ! À usage unique.",
   "temperateSeason.weatherShop.weather": "Météo",
   "temperateSeason.weatherShop.buy.description": "Achetez des articles pour protéger votre ferme des intempéries",
-  "temperateSeason.weatherShop.buy.comingSoon": "Prochainement - 1er février",
   "tornado": "Tornade",
   "tornado.crops.destroyed": "Destruction par tornade",
   "tornado.crops.destroyed.description": "Une tornade a détruit la moitié de vos récoltes. Veuillez attendre que la tornade passe.",
@@ -5123,5 +5122,6 @@
   "description.jellyfish": "Une merveille marine lumineuse qui rayonne d'une énergie mystique, permettant d'améliorer les capacités de pêche pendant les mois chauds de l'été.",
   "description.chamomile": "Une fleur mutante décorative découverte dans le chapitre Winds of Change.",
   "islandupgrade.exoticResourcesDescription": "Cette région de Sunflower Land est connue pour ses ressources exotiques. Agrandissez vos terres pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares ! Surveillez les saisons car elles influent sur ce que vous pouvez cultiver.",
-  "cropGuide.tutorialAlwaysSpring": "Sur votre première île, c'est toujours le printemps ! Lorsque vous améliorerez votre île, les saisons commenceront à changer."
+  "cropGuide.tutorialAlwaysSpring": "Sur votre première île, c'est toujours le printemps ! Lorsque vous améliorerez votre île, les saisons commenceront à changer.",
+  "temperateSeason.weatherShop.buy.comingSoon": "Prochainement, le 3 février"
 }

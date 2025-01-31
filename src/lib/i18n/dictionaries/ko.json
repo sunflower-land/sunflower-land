@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "토네이도로부터 당신을 지켜주는 마법의 바람개비!한 번만 사용할 수 있습니다.",
   "temperateSeason.weatherShop.weather": "날씨",
   "temperateSeason.weatherShop.buy.description": "날씨로부터 농장을 보호할 아이템을 구매하세요",
-  "temperateSeason.weatherShop.buy.comingSoon": "곧 출시됩니다 - 2월 1일",
   "tornado": "토네이도",
   "tornado.crops.destroyed": "토네이도 파괴",
   "tornado.crops.destroyed.description": "토네이도가 농작물의 절반을 파괴했습니다.토네이도가 지나갈 때까지 기다려 주세요.",
@@ -5123,5 +5122,6 @@
   "description.jellyfish": "신비로운 에너지로 빛나는 빛나는 바다의 경이로움으로, 따뜻한 여름철에 낚시 능력을 높여줍니다.",
   "description.chamomile": "윈즈 오브 체인지 챕터에서 발견된 장식용 돌연변이 꽃입니다.",
   "islandupgrade.exoticResourcesDescription": "선플라워 랜드의 이 지역은 이국적인 자원으로 유명합니다.땅을 넓혀 과일, 꽃, 벌집, 희귀 광물을 발견하세요!계절에 따라 재배할 수 있는 식물이 달라지므로 잘 살펴보세요.",
-  "cropGuide.tutorialAlwaysSpring": "첫 섬에서는 언제나 봄이 찾아옵니다!섬을 업그레이드하면 시즌이 바뀌기 시작합니다."
+  "cropGuide.tutorialAlwaysSpring": "첫 섬에서는 언제나 봄이 찾아옵니다!섬을 업그레이드하면 시즌이 바뀌기 시작합니다.",
+  "temperateSeason.weatherShop.buy.comingSoon": "곧 출시됩니다 - 2월 3일"
 }

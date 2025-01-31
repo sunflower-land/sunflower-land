@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "竜巻からあなたを守る魔法の風車！1回限りの使用です。",
   "temperateSeason.weatherShop.weather": "天気",
   "temperateSeason.weatherShop.buy.description": "農園を天候から守るためにアイテムを購入しましょう",
-  "temperateSeason.weatherShop.buy.comingSoon": "近日公開-2月1日",
   "tornado": "竜巻",
   "tornado.crops.destroyed": "トルネード破壊",
   "tornado.crops.destroyed.description": "竜巻があなたの作物の半分を破壊しました。竜巻が通り過ぎるのを待ってください。",
@@ -5123,5 +5122,6 @@
   "description.jellyfish": "神秘的なエネルギーで光る海の驚異的な光は、暖かい夏の間は釣りの能力を高めます。",
   "description.chamomile": "ウィンズ・オブ・チェンジの章で見つかった装飾用のミュータントフラワー。",
   "islandupgrade.exoticResourcesDescription": "サンフラワーランドのこの地域は、そのエキゾチックな資源で知られています。土地を広げて、果物や花、ミツバチの巣箱、希少な鉱物を発見しよう！季節は栽培できるものに影響しますので、目を離さないでください。",
-  "cropGuide.tutorialAlwaysSpring": "初めての島は、いつだって春です！島をアップグレードすると、季節が変わり始めます。"
+  "cropGuide.tutorialAlwaysSpring": "初めての島は、いつだって春です！島をアップグレードすると、季節が変わり始めます。",
+  "temperateSeason.weatherShop.buy.comingSoon": "近日公開-2月3日"
 }
