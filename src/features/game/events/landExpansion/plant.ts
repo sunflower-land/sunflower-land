@@ -27,6 +27,10 @@ import {
   isMediumCrop,
   isAdvancedCrop,
   isOvernightCrop,
+  isSummerCrop,
+  isAutumnCrop,
+  isSpringCrop,
+  isWinterCrop,
 } from "./harvest";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
@@ -211,6 +215,20 @@ export function getCropTime({
   if (
     isCollectibleActive({ name: "Super Totem", game }) ||
     isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  if (
+    isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Solflare Aegis", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  if (
+    isAutumnCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Autumn's Embrace", game })
   ) {
     seconds = seconds * 0.5;
   }
@@ -477,6 +495,21 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Golden Cauliflower", game })
   ) {
     amount *= 2;
+  }
+
+  //Seasonal Additions
+  if (
+    isSpringCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Blossom Ward", game })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    isWinterCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Frozen Heart", game })
+  ) {
+    amount += 1;
   }
 
   // Generic Additive Crop Boosts
