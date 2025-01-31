@@ -4915,4 +4915,8 @@ export const ITEM_DETAILS: Items = {
     image: chamomile,
     description: translate("description.chamomile"),
   },
+  "Rhubarb Tart": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.rhubarb.tart"),
+  },
 };
