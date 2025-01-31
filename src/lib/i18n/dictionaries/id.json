@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "Di pulau pertama Anda, selalu musim semi! Saat Anda meningkatkan pulau Anda, musim akan mulai berubah.",
   "temperateSeason.weatherShop.buy.comingSoon": "Segera hadir - 3 Februari",
   "chapter": "Kapitel",
-  "season.codex.auction.totalSupply": "Total Pasokan: {{totalSupply}}"
+  "season.codex.auction.totalSupply": "Total Pasokan: {{totalSupply}}",
+  "guide.compost.seasons": "Persyaratan komposter berubah setiap musim",
+  "time.left": "kiri"
 }

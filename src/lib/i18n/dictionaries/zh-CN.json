@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "在你的第一个岛上，永远是春天！当你升级岛屿时，季节将开始变化。",
   "temperateSeason.weatherShop.buy.comingSoon": "即将上线-2 月 3 日",
   "chapter": "章节",
-  "season.codex.auction.totalSupply": "总供应量：{{totalSupply}}"
+  "season.codex.auction.totalSupply": "总供应量：{{totalSupply}}",
+  "guide.compost.seasons": "堆肥者的要求每个季节都会变化",
+  "time.left": "左边"
 }

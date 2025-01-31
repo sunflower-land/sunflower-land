@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "Di pulau pertama anda, ia sentiasa musim bunga! Apabila anda menaik taraf pulau anda, musim akan mula berubah.",
   "temperateSeason.weatherShop.buy.comingSoon": "Tidak lama lagi - 3 Februari",
   "chapter": "Bab",
-  "season.codex.auction.totalSupply": "Jumlah Bekalan: {{totalSupply}}"
+  "season.codex.auction.totalSupply": "Jumlah Bekalan: {{totalSupply}}",
+  "guide.compost.seasons": "Keperluan komposter berubah setiap musim",
+  "time.left": "ditinggalkan"
 }

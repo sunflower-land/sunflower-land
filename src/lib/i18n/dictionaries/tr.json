@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "İlk adanızda, her zaman ilkbahardır! Adanızı yükselttiğinizde mevsimler değişmeye başlayacak.",
   "temperateSeason.weatherShop.buy.comingSoon": "Çok yakında - 3 Şubat",
   "chapter": "Bölüm",
-  "season.codex.auction.totalSupply": "Toplam Arz: {{totalSupply}}"
+  "season.codex.auction.totalSupply": "Toplam Arz: {{totalSupply}}",
+  "guide.compost.seasons": "Komposter gereksinimleri her mevsim değişir",
+  "time.left": "ayrıldı"
 }

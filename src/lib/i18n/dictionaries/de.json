@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "Auf deiner ersten Insel ist immer Frühling! Wenn du deine Insel aufrüstest, beginnen sich die Jahreszeiten zu ändern.",
   "temperateSeason.weatherShop.buy.comingSoon": "Demnächst — 3. Februar",
   "chapter": "Kapitel",
-  "season.codex.auction.totalSupply": "Gesamtangebot: {{totalSupply}}"
+  "season.codex.auction.totalSupply": "Gesamtangebot: {{totalSupply}}",
+  "guide.compost.seasons": "Die Anforderungen an Komposter ändern sich zu jeder Jahreszeit",
+  "time.left": "links"
 }

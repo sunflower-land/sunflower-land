@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "Na sua primeira ilha, é sempre primavera! Quando você aprimora sua ilha, as estações começam a mudar.",
   "temperateSeason.weatherShop.buy.comingSoon": "Em breve - 3 de fevereiro",
   "chapter": "Capítulo",
-  "season.codex.auction.totalSupply": "Fornecimento total: {{totalSupply}}"
+  "season.codex.auction.totalSupply": "Fornecimento total: {{totalSupply}}",
+  "guide.compost.seasons": "Os requisitos do compostor mudam a cada temporada",
+  "time.left": "esquerdo"
 }

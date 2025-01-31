@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "첫 섬에서는 언제나 봄이 찾아옵니다!섬을 업그레이드하면 시즌이 바뀌기 시작합니다.",
   "temperateSeason.weatherShop.buy.comingSoon": "곧 출시됩니다 - 2월 3일",
   "chapter": "장",
-  "season.codex.auction.totalSupply": "총 공급량: {{totalSupply}}"
+  "season.codex.auction.totalSupply": "총 공급량: {{totalSupply}}",
+  "guide.compost.seasons": "퇴비통 요구 사항은 계절마다 바뀝니다.",
+  "time.left": "왼쪽"
 }

@@ -2154,6 +2154,7 @@
   "guide.compost.compostCycle": "A compost cycle produces multiple fertilisers which can be used to boost your crops & fruit",
   "guide.compost.yieldsWorms": "Each compost yields worms that can be used as bait for fishing",
   "guide.compost.useEggs": "Tired of waiting? Use Eggs to speed up the compost production",
+  "guide.compost.seasons": "Composter requirements change each season",
   "guide.compost.addEggs.confirmation": "Are you sure you want to add {{noEggs}} Eggs to reduce compost production time by {{time}}?",
   "guide.compost.addFeathers.confirmation": "Are you sure you want to add {{noFeathers}} Feathers to reduce compost production time by {{time}}?",
   "guide.factionPet.one": "Each week the pet will request 3 foods. When fed, the XP from the food will go to the total XP tally for the faction.",
@@ -5125,5 +5126,6 @@
   "gorga.intro.greeting": "Ooooh a Bumpkin...that's new.",
   "gorga.intro.two": "I heard your kind has found some Obsidian. Is that true?",
   "gorga.intro.three": "I tell you what, if you can find me some Obsidian, I'll exchange it for Sunstone.",
-  "chapter": "Chapter"
+  "chapter": "Chapter",
+  "time.left": "left"
 }

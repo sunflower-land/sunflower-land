@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "Sulla tua prima isola, è sempre primavera! Quando migliorerai la tua isola, le stagioni inizieranno a cambiare.",
   "temperateSeason.weatherShop.buy.comingSoon": "Prossimamente - 3 febbraio",
   "chapter": "Capitolo",
-  "season.codex.auction.totalSupply": "Fornitura totale: {{totalSupply}}"
+  "season.codex.auction.totalSupply": "Fornitura totale: {{totalSupply}}",
+  "guide.compost.seasons": "I requisiti per il compostaggio cambiano ogni stagione",
+  "time.left": "sinistra"
 }

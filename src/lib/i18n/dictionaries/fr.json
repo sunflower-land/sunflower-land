@@ -5125,5 +5125,7 @@
   "cropGuide.tutorialAlwaysSpring": "Sur votre première île, c'est toujours le printemps ! Lorsque vous améliorerez votre île, les saisons commenceront à changer.",
   "temperateSeason.weatherShop.buy.comingSoon": "Prochainement, le 3 février",
   "chapter": "Chapitre",
-  "season.codex.auction.totalSupply": "Approvisionnement total : {{totalSupply}}"
+  "season.codex.auction.totalSupply": "Approvisionnement total : {{totalSupply}}",
+  "guide.compost.seasons": "Les exigences en matière de composteur changent chaque saison",
+  "time.left": "parti"
 }
