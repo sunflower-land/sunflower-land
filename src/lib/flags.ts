@@ -115,7 +115,7 @@ const featureFlags = {
   TEMPERATE_SEASON: seasonAdminFeatureFlag,
   PIZZA_SPEED_UP_RESTRICTION: timePeriodFeatureFlag({
     start: new Date("2024-12-18T00:00:00Z"),
-    end: new Date("2025-01-31T00:00:00Z"),
+    end: new Date("2025-02-01T00:00:00Z"),
   }),
   WEATHER_SHOP: seasonAdminFeatureFlag,
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
