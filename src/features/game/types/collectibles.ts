@@ -5,7 +5,7 @@ import { CHAPTERS } from "./chapters";
 
 export type PlaceableLocation = "farm" | "home";
 
-export type SeasonPassName =
+export type ChapterPassName =
   | "Dawn Breaker Banner"
   | "Solar Flare Banner"
   | "Witches' Eve Banner"

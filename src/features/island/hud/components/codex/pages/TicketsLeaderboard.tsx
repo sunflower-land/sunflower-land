@@ -19,7 +19,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
   data,
 }) => {
   const { t } = useAppTranslation();
-  const seasonTicket = getChapterTicket();
+  const chapterTicket = getChapterTicket();
 
   if (isLoading && !data) return <Loading />;
 
@@ -33,7 +33,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
   return (
     <div>
       <div className="flex flex-col md:flex-row md:items-center justify-between p-1">
-        <Label type="default">{`${seasonTicket} ${t(
+        <Label type="default">{`${chapterTicket} ${t(
           "leaderboard.leaderboard",
         )}`}</Label>
         <p className="font-secondary text-xs">

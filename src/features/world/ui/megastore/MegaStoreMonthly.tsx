@@ -81,7 +81,7 @@ export const MegaStoreMonthly: React.FC<{
           itemsLabel={t("wearables")}
           type="wearables"
           items={megastore.wearables.filter(
-            (name) => name.availableAllSeason === false,
+            (name) => name.availableAllChapter === false,
           )}
           onItemClick={handleClickItem}
         />
@@ -90,7 +90,7 @@ export const MegaStoreMonthly: React.FC<{
           itemsLabel={t("collectibles")}
           type="collectibles"
           items={megastore.collectibles.filter(
-            (name) => name.availableAllSeason === false,
+            (name) => name.availableAllChapter === false,
           )}
           onItemClick={handleClickItem}
         />

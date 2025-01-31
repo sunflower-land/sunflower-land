@@ -28,7 +28,7 @@ import { EpicFlowerName, MutantFlowerName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
-import { SeasonalCollectibleName } from "./megastore";
+import { ChapterCollectibleName } from "./megastore";
 
 export { FLAGS };
 
@@ -215,7 +215,7 @@ export type CollectibleName =
   | TreasureCollectibleItem
   | MutantFlowerName
   | BedName
-  | SeasonalCollectibleName;
+  | ChapterCollectibleName;
 
 export type ToolName =
   | "Axe"
@@ -1358,7 +1358,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Macaw: { width: 1, height: 1 },
   Butterfly: { width: 1, height: 1 },
 
-  // Animal Season
+  // Animal Chapter
   "Cow Scratcher": { width: 1, height: 2 },
   "Spinning Wheel": { width: 2, height: 2 },
   "Sleepy Rug": { width: 3, height: 2 },

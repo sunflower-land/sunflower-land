@@ -12,7 +12,7 @@ import {
   getChapterBanner,
   CHAPTERS,
 } from "features/game/types/chapters";
-import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import { getChapterWeek } from "lib/utils/getSeasonWeek";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -24,17 +24,17 @@ const _level = (state: MachineState) =>
 const _hasBanner = (state: MachineState) =>
   state.context.state.inventory[getChapterBanner()];
 
-export const SeasonBannerCountdown: React.FC = () => {
+export const ChapterBannerCountdown: React.FC = () => {
   const { gameService } = useContext(Context);
   const level = useSelector(gameService, _level);
   const hasBanner = useSelector(gameService, _hasBanner);
   const { openModal } = useContext(ModalContext);
 
-  const season = getCurrentChapter();
-  const seasonWeek = getSeasonWeek();
+  const chapter = getCurrentChapter();
+  const chapterWeek = getChapterWeek();
 
   const offerEndsAt =
-    CHAPTERS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
+    CHAPTERS[chapter].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
 
   const end = useCountdown(offerEndsAt);
 
@@ -44,7 +44,7 @@ export const SeasonBannerCountdown: React.FC = () => {
     // Don't show for new players
     level >= 10 &&
     // Only show in week 1
-    seasonWeek === 1 &&
+    chapterWeek === 1 &&
     Date.now() < offerEndsAt;
 
   const [isClosed, setIsClosed] = useState(!initialShow);

@@ -28,7 +28,7 @@ import {
   ChapterStoreCollectible,
   ChapterStoreItem,
   ChapterStoreTier,
-  SeasonalStoreWearable,
+  ChapterStoreWearable,
   ChapterTierItemName,
 } from "features/game/types/megastore";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -70,7 +70,7 @@ export const ItemsList: React.FC<Props> = ({
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
         state.bumpkin.activity[
-          `${(item as SeasonalStoreWearable).wearable as ChapterTierItemName} Bought`
+          `${(item as ChapterStoreWearable).wearable as ChapterTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
@@ -92,7 +92,7 @@ export const ItemsList: React.FC<Props> = ({
 
   const getItemName = (item: ChapterStoreItem): string => {
     if (type === "wearables" || (!type && "wearable" in item)) {
-      return (item as SeasonalStoreWearable).wearable as BumpkinItem;
+      return (item as ChapterStoreWearable).wearable as BumpkinItem;
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (item as ChapterStoreCollectible).collectible as InventoryItemName;
     } else if (type === "keys" || (!type && "key" in item)) {

@@ -3,11 +3,11 @@ import { InventoryItemName } from "./game";
 import { ChapterName } from "./chapters";
 
 export type ChapterTierItemName =
-  | SeasonalCollectibleName
-  | SeasonalWearableName
+  | ChapterCollectibleName
+  | ChapterWearableName
   | MegastoreKeys;
 
-export type SeasonalCollectibleName =
+export type ChapterCollectibleName =
   // Bull Run
   | "Cow Scratcher"
   | "Spinning Wheel"
@@ -27,7 +27,7 @@ export type SeasonalCollectibleName =
   | "Mammoth"
   | "Cup of Chocolate";
 
-export type SeasonalWearableName =
+export type ChapterWearableName =
   // Bull Run
   | "Cowboy Hat"
   | "Cowgirl Skirt"
@@ -43,21 +43,21 @@ export type SeasonalWearableName =
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
-type SeasonalStoreBase = {
+type ChapterStoreBase = {
   cost: {
     items: Partial<Record<InventoryItemName, number>>;
     sfl: number;
   };
 };
 
-export type SeasonalStoreWearable = SeasonalStoreBase & {
+export type ChapterStoreWearable = ChapterStoreBase & {
   wearable: BumpkinItem;
 };
-export type ChapterStoreCollectible = SeasonalStoreBase & {
+export type ChapterStoreCollectible = ChapterStoreBase & {
   collectible: InventoryItemName;
 };
 
-export type ChapterStoreItem = SeasonalStoreWearable | ChapterStoreCollectible;
+export type ChapterStoreItem = ChapterStoreWearable | ChapterStoreCollectible;
 
 export type ChapterStore = {
   basic: {
@@ -79,7 +79,7 @@ export type ChapterStore = {
 
 export type ChapterStoreTier = keyof ChapterStore;
 
-const EMPTY_SEASONAL_STORE: ChapterStore = {
+const EMPTY_CHAPTER_STORE: ChapterStore = {
   basic: {
     items: [],
   },
@@ -489,12 +489,12 @@ const MEGA_WINDS_OF_CHANGE_ITEMS: ChapterStoreItem[] = [
 ];
 
 export const MEGASTORE: Record<ChapterName, ChapterStore> = {
-  "Catch the Kraken": EMPTY_SEASONAL_STORE,
-  "Clash of Factions": EMPTY_SEASONAL_STORE,
-  "Dawn Breaker": EMPTY_SEASONAL_STORE,
-  "Solar Flare": EMPTY_SEASONAL_STORE,
-  "Spring Blossom": EMPTY_SEASONAL_STORE,
-  "Witches' Eve": EMPTY_SEASONAL_STORE,
+  "Catch the Kraken": EMPTY_CHAPTER_STORE,
+  "Clash of Factions": EMPTY_CHAPTER_STORE,
+  "Dawn Breaker": EMPTY_CHAPTER_STORE,
+  "Solar Flare": EMPTY_CHAPTER_STORE,
+  "Spring Blossom": EMPTY_CHAPTER_STORE,
+  "Witches' Eve": EMPTY_CHAPTER_STORE,
   "Pharaoh's Treasure": {
     basic: {
       items: PHARAOH_ITEMS,

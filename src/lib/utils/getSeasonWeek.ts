@@ -1,4 +1,4 @@
-import { SeasonWeek } from "features/game/types/game";
+import { ChapterWeek } from "features/game/types/game";
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 import { ADMIN_IDS } from "lib/flags";
 
@@ -6,7 +6,7 @@ import { ADMIN_IDS } from "lib/flags";
  * Helper function to get the week number of the season
  * @returns week number of the season 1-12
  */
-export function getSeasonWeek(): SeasonWeek {
+export function getChapterWeek(): ChapterWeek {
   const now = Date.now();
   const { startDate, endDate } = CHAPTERS[getCurrentChapter()];
   const endTime = endDate.getTime();
@@ -20,7 +20,7 @@ export function getSeasonWeek(): SeasonWeek {
     throw new Error("The current date is beyond the end date");
   }
 
-  return Math.min(Math.max(totalWeeks + 1, 1), 13) as SeasonWeek; // Return the week number, minimum is 1, maximum is 12
+  return Math.min(Math.max(totalWeeks + 1, 1), 13) as ChapterWeek; // Return the week number, minimum is 1, maximum is 12
 }
 
 /**
@@ -96,7 +96,7 @@ export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
  * Helper function to get the week number of the season
  * @returns week number of the season 1-12
  */
-export function getSeasonWeekByCreatedAt(createdAt: number): SeasonWeek {
+export function getChapterWeekByCreatedAt(createdAt: number): ChapterWeek {
   const now = createdAt;
 
   const season = getCurrentChapter(new Date(now));
@@ -112,5 +112,5 @@ export function getSeasonWeekByCreatedAt(createdAt: number): SeasonWeek {
     throw new Error("The current date is beyond the end date");
   }
 
-  return Math.min(Math.max(totalWeeks + 1, 1), 13) as SeasonWeek; // Return the week number, minimum is 1, maximum is 12
+  return Math.min(Math.max(totalWeeks + 1, 1), 13) as ChapterWeek; // Return the week number, minimum is 1, maximum is 12
 }

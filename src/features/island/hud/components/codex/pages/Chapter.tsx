@@ -77,7 +77,7 @@ export const Chapter: React.FC<Props> = ({
             </Label>
           </div>
           <p className="text-xs">
-            {t("season.codex.intro", { ticket: CHAPTER_TICKET_NAME[chapter] })}
+            {t("chapter.codex.intro", { ticket: CHAPTER_TICKET_NAME[chapter] })}
           </p>
         </div>
       </InnerPanel>
@@ -97,7 +97,7 @@ export const Chapter: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
-              {t("season.codex.howToEarn", {
+              {t("chapter.codex.howToEarn", {
                 ticket: CHAPTER_TICKET_NAME[chapter],
               })}
             </Label>
@@ -111,7 +111,7 @@ export const Chapter: React.FC<Props> = ({
           {Date.now() < new Date("2024-11-06").getTime() && (
             <div className="mb-2">
               <span className="text-xs">
-                {t("season.codex.howToEarn.comingSoon")}
+                {t("chapter.codex.howToEarn.comingSoon")}
               </span>
             </div>
           )}
@@ -119,15 +119,15 @@ export const Chapter: React.FC<Props> = ({
             iconWidth={8}
             items={[
               {
-                text: t("season.codex.howToEarn.one"),
+                text: t("chapter.codex.howToEarn.one"),
                 icon: SUNNYSIDE.icons.player,
               },
               {
-                text: t("season.codex.howToEarn.two"),
+                text: t("chapter.codex.howToEarn.two"),
                 icon: chores,
               },
               {
-                text: t("season.codex.howToEarn.three"),
+                text: t("chapter.codex.howToEarn.three"),
                 icon: ITEM_DETAILS["White Pansy"].image,
               },
             ]}

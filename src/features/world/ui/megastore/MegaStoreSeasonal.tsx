@@ -83,7 +83,7 @@ export const MegaStoreSeasonal: React.FC<{
         </span>
         {getKeys(
           megastore.collectibles.filter(
-            (name) => name.availableAllSeason === true,
+            (name) => name.availableAllChapter === true,
           ),
         ).length > 0 && (
           <ItemsList
@@ -91,28 +91,29 @@ export const MegaStoreSeasonal: React.FC<{
             type="collectibles"
             items={megastore.collectibles.filter(
               (name) =>
-                name.availableAllSeason === true && name.type === "collectible",
+                name.availableAllChapter === true &&
+                name.type === "collectible",
             )}
             onItemClick={handleClickItem}
           />
         )}
         {getKeys(
           megastore.wearables.filter(
-            (name) => name.availableAllSeason === true,
+            (name) => name.availableAllChapter === true,
           ),
         ).length > 0 && (
           <ItemsList
             itemsLabel={t("mega.wearables")}
             type="wearables"
             items={megastore.wearables.filter(
-              (name) => name.availableAllSeason === true,
+              (name) => name.availableAllChapter === true,
             )}
             onItemClick={handleClickItem}
           />
         )}
         {getKeys(
           megastore.collectibles.filter(
-            (name) => name.availableAllSeason === true,
+            (name) => name.availableAllChapter === true,
           ),
         ).length > 0 && (
           <ItemsList
@@ -120,7 +121,7 @@ export const MegaStoreSeasonal: React.FC<{
             type="keys"
             items={megastore.collectibles.filter(
               (name) =>
-                name.availableAllSeason === true && name.type === "keys",
+                name.availableAllChapter === true && name.type === "keys",
             )}
             onItemClick={handleClickItem}
           />

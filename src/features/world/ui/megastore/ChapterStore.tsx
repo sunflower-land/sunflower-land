@@ -11,7 +11,7 @@ import {
   ChapterStoreCollectible,
   ChapterStoreItem,
   ChapterStoreTier,
-  SeasonalStoreWearable,
+  ChapterStoreWearable,
 } from "features/game/types/megastore";
 
 import { ItemsList } from "./seasonalstore_components/ItemsList";
@@ -29,8 +29,8 @@ import { GameState } from "features/game/types/game";
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
   item: ChapterStoreItem | null,
-): item is SeasonalStoreWearable => {
-  return (item as SeasonalStoreWearable).wearable in ITEM_IDS;
+): item is ChapterStoreWearable => {
+  return (item as ChapterStoreWearable).wearable in ITEM_IDS;
 };
 // type guard for Keys
 export const isKeys = (

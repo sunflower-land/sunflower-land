@@ -27,7 +27,7 @@ import {
   MEGASTORE,
   ChapterStoreCollectible,
   ChapterStoreItem,
-  SeasonalStoreWearable,
+  ChapterStoreWearable,
 } from "features/game/types/megastore";
 import { getItemDescription } from "../ChapterStore";
 import { getKeys } from "features/game/types/craftables";
@@ -112,7 +112,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const itemName = item
     ? isWearable
-      ? (item as SeasonalStoreWearable).wearable
+      ? (item as ChapterStoreWearable).wearable
       : (item as ChapterStoreCollectible).collectible
     : undefined;
 
@@ -202,7 +202,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
           ? item.cost?.items[getChapterTicket()] ?? 0
           : sfl;
     const itemName = isWearable
-      ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)
+      ? ((item as ChapterStoreWearable).wearable as BumpkinItem)
       : ((item as ChapterStoreCollectible).collectible as InventoryItemName);
 
     gameAnalytics.trackSink({

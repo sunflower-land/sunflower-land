@@ -242,7 +242,7 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   "Grape Pants": CAN_WITHDRAW_AND_TRADE,
   "Carrot Amulet": CAN_WITHDRAW_AND_TRADE,
 
-  // Bull Run Season Items
+  // Bull Run Chapter Items
   "Cowboy Hat": {
     tradeAt: CHAPTERS["Bull Run"].endDate,
     withdrawAt: CHAPTERS["Bull Run"].endDate,

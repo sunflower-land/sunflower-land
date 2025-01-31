@@ -53,30 +53,30 @@ export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
       <div className="p-1">
         <div className="flex justify-between mb-2">
           <Label className="-ml-1" type="default">
-            {t("season.codex.mutants")}
+            {t("chapter.codex.mutants")}
           </Label>
         </div>
-        <p className="text-xs">{t("season.codex.mutants.discover")}</p>
+        <p className="text-xs">{t("chapter.codex.mutants.discover")}</p>
         <img className="my-1 w-full rounded-md" src={mutants.banner} />
 
         <NoticeboardItems
           iconWidth={8}
           items={[
             {
-              text: t("season.codex.mutants.one", {
+              text: t("chapter.codex.mutants.one", {
                 item: mutants.chicken,
               }),
               icon: ITEM_DETAILS.Chicken.image,
             },
             {
-              text: t("season.codex.mutants.two", {
+              text: t("chapter.codex.mutants.two", {
                 item: mutants.fish,
               }),
 
               icon: ITEM_DETAILS.Rod.image,
             },
             {
-              text: t("season.codex.mutants.three", {
+              text: t("chapter.codex.mutants.three", {
                 item: mutants.flower,
               }),
               icon: ITEM_DETAILS["Red Pansy"].image,
