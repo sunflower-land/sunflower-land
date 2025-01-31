@@ -66,13 +66,15 @@ const HOLIDAYS: string[] = [
   "2024-11-04",
   "2024-11-05",
 
-  // TODO Auction week
   "2025-02-01",
   "2025-02-02",
   "2025-02-03",
   "2025-02-04",
   "2025-02-05",
   "2025-02-06",
+  "2025-02-07",
+  "2025-02-08",
+  "2025-02-09",
 ];
 
 export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
