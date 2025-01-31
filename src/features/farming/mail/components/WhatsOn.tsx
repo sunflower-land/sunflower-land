@@ -105,7 +105,7 @@ export const WhatsOn = () => {
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
-            <Label type="default">{t("whatsOn.seasonCompetition")}</Label>
+            <Label type="default">{t("whatsOn.chapterCompetition")}</Label>
             <Label type="formula">{t("whatsOn.april14th")}</Label>
           </div>
           <NoticeboardItems
@@ -128,7 +128,7 @@ export const WhatsOn = () => {
           <NoticeboardItems
             items={[
               {
-                text: t("whatsOn.mysterySeasonText"),
+                text: t("whatsOn.mysteryChapterText"),
                 icon: SUNNYSIDE.icons.expression_confused,
               },
             ]}

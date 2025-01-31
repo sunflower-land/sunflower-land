@@ -191,7 +191,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
       <div className="flex flex-col pt-2">
         <div className="flex justify-between px-1">
           <Label icon={vipIcon} type="default" className="ml-1">
-            {t("season.vip.purchase")}
+            {t("chapter.vip.purchase")}
           </Label>
           <a
             href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-banners"
@@ -202,7 +202,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             {t("read.more")}
           </a>
         </div>
-        <p className="text-xs px-1 mt-2">{t("season.vip.description")}</p>
+        <p className="text-xs px-1 mt-2">{t("chapter.vip.description")}</p>
         {hasVip && (
           <>
             <div className="flex justify-between my-2">

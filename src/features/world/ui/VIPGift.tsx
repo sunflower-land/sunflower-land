@@ -95,7 +95,7 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
           )}
         </div>
       </div>
-      <p className="text-xs mb-2 pl-1">{t("season.vip.claim")}</p>
+      <p className="text-xs mb-2 pl-1">{t("chapter.vip.claim")}</p>
       <Button onClick={open} disabled={!hasVip || hasOpened}>
         {t("claim")}
       </Button>
