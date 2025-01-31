@@ -27,8 +27,8 @@ export const RESOURCE_NODE_PRICES: Partial<
   "Iron Rock": { price: 7, increase: 5 },
   "Gold Rock": { price: 10, increase: 6 },
   "Crimstone Rock": { price: 20, increase: 20 },
-  Beehive: { price: 20, increase: 20 },
-  "Flower Bed": { price: 20, increase: 20 },
+  // Beehive: { price: 20, increase: 20 },
+  // "Flower Bed": { price: 20, increase: 20 },
   "Oil Reserve": { price: 40, increase: 20 },
   "Lava Pit": { price: 40, increase: 40 },
 };

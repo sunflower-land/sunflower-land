@@ -5,9 +5,8 @@ import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useGame } from "features/game/GameProvider";
-import { WEATHER_SHOP } from "features/game/types/calendar";
+import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
 import { getKeys } from "features/game/types/decorations";
-import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -41,11 +40,10 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
 
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
 
-  const [selected, setSelected] =
-    useState<InventoryItemName>("Tornado Pinwheel");
+  const [selected, setSelected] = useState<WeatherShopItem>("Tornado Pinwheel");
 
   const state = useSelector(gameService, _state);
-  const { coins, inventory } = state;
+  const { coins, inventory, island } = state;
 
   const hasAccess = hasFeatureAccess(state, "WEATHER_SHOP");
 
@@ -88,8 +86,10 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  const hasCoins = coins >= WEATHER_SHOP[selected]!.price;
+  const weatherShop = getWeatherShop(island.type);
+  const hasCoins = coins >= weatherShop[selected].price;
   const hasItem = !!inventory[selected];
+
   return (
     <CloseButtonPanel
       tabs={[
@@ -112,7 +112,8 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
               }}
               limit={1}
               requirements={{
-                coins: WEATHER_SHOP[selected]!.price,
+                resources: weatherShop[selected].ingredients,
+                coins: weatherShop[selected].price,
               }}
               actionView={
                 hasItem ? undefined : (
@@ -125,7 +126,7 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
           }
           content={
             <>
-              {getKeys(WEATHER_SHOP).map((itemName) => {
+              {getKeys(weatherShop).map((itemName) => {
                 return (
                   <Box
                     isSelected={selected === itemName}

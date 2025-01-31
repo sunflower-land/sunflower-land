@@ -1,4 +1,9 @@
-import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
+import {
+  GameState,
+  InventoryItemName,
+  IslandType,
+  TemperateSeasonName,
+} from "./game";
 import { Tool } from "./tools";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
@@ -17,6 +22,7 @@ import locust from "assets/icons/locust.webp";
 import calendar from "assets/icons/calendar.webp";
 import sunshower from "assets/icons/sunshower.webp";
 import fishFrenzy from "assets/icons/fish_frenzy.webp";
+import Decimal from "decimal.js-light";
 
 export type CalendarEventName = "unknown" | "calendar" | SeasonalEventName;
 
@@ -168,31 +174,88 @@ export function getActiveCalendarEvent({
   return undefined;
 }
 
-export const WEATHER_SHOP: Partial<Record<InventoryItemName, Tool>> = {
-  "Tornado Pinwheel": {
-    name: translate("calendar.events.tornado.prevention"),
-    description: translate("description.tornadoPinwheel"),
-    ingredients: {},
-    price: 1000,
-  },
-  Mangrove: {
-    name: translate("calendar.events.tsunami.prevention"),
-    description: translate("description.mangrove"),
-    ingredients: {},
-    price: 1000,
-  },
-  "Thermal Stone": {
-    name: translate("calendar.events.greatFreeze.prevention"),
-    description: translate("description.thermalStone"),
-    ingredients: {},
-    price: 1000,
-  },
-  "Protective Pesticide": {
-    name: translate("calendar.events.insectPlague.prevention"),
-    description: translate("description.protectivePesticide"),
-    ingredients: {},
-    price: 1000,
-  },
+export type WeatherShopItem =
+  | "Tornado Pinwheel"
+  | "Mangrove"
+  | "Thermal Stone"
+  | "Protective Pesticide";
+
+export const getWeatherShop = (
+  islandType: IslandType,
+): Record<WeatherShopItem, Tool> => {
+  // Base costs for each item
+  const baseCosts = {
+    "Tornado Pinwheel": {
+      ingredients: { Wood: 30, Leather: 5 },
+      coins: 100,
+    },
+    Mangrove: {
+      ingredients: { Wood: 30, Leather: 5 },
+      coins: 100,
+    },
+    "Thermal Stone": {
+      ingredients: { Stone: 5, Wool: 5 },
+      coins: 100,
+    },
+    "Protective Pesticide": {
+      ingredients: { Wood: 30, Feather: 30 },
+      coins: 100,
+    },
+  } as const;
+
+  const getMultiplier = (islandType: IslandType) => {
+    switch (islandType) {
+      case "volcano":
+        return 2.5;
+      case "desert":
+        return 2;
+      default:
+        return 1;
+    }
+  };
+
+  const multiplier = getMultiplier(islandType);
+
+  const convertIngredients = (ingredients: Record<string, number>) => {
+    return Object.entries(ingredients).reduce(
+      (acc, [name, amount]) => {
+        acc[name as InventoryItemName] = new Decimal(amount * multiplier);
+        return acc;
+      },
+      {} as Record<InventoryItemName, Decimal>,
+    );
+  };
+
+  return {
+    "Tornado Pinwheel": {
+      name: translate("calendar.events.tornado.prevention"),
+      description: translate("description.tornadoPinwheel"),
+      ingredients: convertIngredients(
+        baseCosts["Tornado Pinwheel"].ingredients,
+      ),
+      price: baseCosts["Tornado Pinwheel"].coins * multiplier,
+    },
+    Mangrove: {
+      name: translate("calendar.events.tsunami.prevention"),
+      description: translate("description.mangrove"),
+      ingredients: convertIngredients(baseCosts["Mangrove"].ingredients),
+      price: baseCosts["Mangrove"].coins * multiplier,
+    },
+    "Thermal Stone": {
+      name: translate("calendar.events.greatFreeze.prevention"),
+      description: translate("description.thermalStone"),
+      ingredients: convertIngredients(baseCosts["Thermal Stone"].ingredients),
+      price: baseCosts["Thermal Stone"].coins * multiplier,
+    },
+    "Protective Pesticide": {
+      name: translate("calendar.events.insectPlague.prevention"),
+      description: translate("description.protectivePesticide"),
+      ingredients: convertIngredients(
+        baseCosts["Protective Pesticide"].ingredients,
+      ),
+      price: baseCosts["Protective Pesticide"].coins * multiplier,
+    },
+  };
 };
 
 export const SEASON_DETAILS: Record<
