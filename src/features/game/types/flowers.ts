@@ -255,11 +255,11 @@ export const SET_2_FLOWER_CROSS_BREED_AMOUNTS: Record<
   Set2FlowerCrossBreedName,
   number
 > = {
-  Rhubarb: 1,
-  Artichoke: 1,
-  Pepper: 1,
-  Onion: 1,
-  Barley: 1,
+  Rhubarb: 25,
+  Pepper: 15,
+  Onion: 10,
+  Artichoke: 8,
+  Barley: 5,
 
   "Red Edelweiss": 1,
   "Yellow Edelweiss": 1,
