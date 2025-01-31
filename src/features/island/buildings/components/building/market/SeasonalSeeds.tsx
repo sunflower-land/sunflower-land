@@ -385,7 +385,7 @@ export const SeasonalSeeds: React.FC = () => {
               >
                 {`${secondsToString(secondsTillWeekReset(), {
                   length: "short",
-                })} left`}
+                })} ${t("left")}`}
               </Label>
             </div>
             <div className="flex flex-wrap mb-2">

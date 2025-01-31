@@ -43,6 +43,7 @@ import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { hasFeatureAccess } from "lib/flags";
 import { SEASON_ICONS } from "../market/SeasonalSeeds";
 import { RecipeInfoPanel } from "../craftingBox/components/RecipeInfoPanel";
+import { secondsTillWeekReset } from "features/game/lib/factions";
 
 const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
   "Compost Bin": { min: 2, max: 4 },
@@ -220,7 +221,7 @@ const FertiliserLabel: React.FC<{
 const ComposterModalContent: React.FC<{
   composterName: ComposterName;
   startComposter: () => void;
-  readyAt: number;
+  readyAt?: number;
   onCollect: () => void;
   onBoost: () => void;
 }> = ({ composterName, startComposter, readyAt, onCollect, onBoost }) => {
@@ -516,13 +517,24 @@ const ComposterModalContent: React.FC<{
     <>
       <div className="flex flex-col h-full">
         {hasFeatureAccess(state, "WEATHER_SHOP") && (
-          <Label
-            icon={SEASON_ICONS[state.season.season]}
-            type="default"
-            className="ml-2"
-          >
-            {t(`season.${state.season.season}`)}
-          </Label>
+          <div className="flex justify-between mt-1">
+            <Label
+              icon={SEASON_ICONS[state.season.season]}
+              type="default"
+              className="ml-2"
+            >
+              {t(`season.${state.season.season}`)}
+            </Label>
+            <Label
+              icon={SUNNYSIDE.icons.stopwatch}
+              type="transparent"
+              className="mb-1"
+            >
+              {`${secondsToString(secondsTillWeekReset(), {
+                length: "short",
+              })} ${t("left")}`}
+            </Label>
+          </div>
         )}
         <div className="flex flex-col h-full px-1 py-0">
           <div className="flex flex-wrap my-1">
