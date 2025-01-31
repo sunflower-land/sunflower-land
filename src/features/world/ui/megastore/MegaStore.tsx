@@ -91,7 +91,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.stella}
       tabs={[
         { icon: shopIcon, name: t("monthly") },
-        { icon: lightning, name: t("seasonal") },
+        { icon: lightning, name: t("chapter") },
       ]}
       onClose={onClose}
       currentTab={tab}

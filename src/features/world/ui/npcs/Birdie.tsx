@@ -100,7 +100,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
           text: translate("birdieplaza.admiringOutfit"),
         },
         {
-          text: translate("birdieplaza.currentSeason", {
+          text: translate("birdieplaza.currentChapter", {
             currentSeason: getCurrentChapter(),
             chapterTicket: getChapterTicket(),
           }),
@@ -111,7 +111,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
           }),
           actions: [
             {
-              text: translate("birdieplaza.whatIsSeason"),
+              text: translate("birdieplaza.whatIsChapter"),
               cb: () => setShowChapterHelp(true),
             },
             {
