@@ -1655,12 +1655,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`, //WIP
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 8}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 4}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 8}px`,
       }}
       image={ITEM_DETAILS["Spring Duckling"].image}
       alt="Spring Duckling"
@@ -1805,12 +1805,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 8}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 4}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 8}px`,
       }}
       image={ITEM_DETAILS["Summer Duckling"].image}
       alt="Summer Duckling"
@@ -1820,12 +1820,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 8}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 4}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 8}px`,
       }}
       image={ITEM_DETAILS["Autumn Duckling"].image}
       alt="Autumn Duckling"
@@ -1835,12 +1835,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 8}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 4}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 8}px`,
       }}
       image={ITEM_DETAILS["Winter Duckling"].image}
       alt="Winter Duckling"
