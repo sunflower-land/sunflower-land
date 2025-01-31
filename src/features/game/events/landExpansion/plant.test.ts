@@ -2356,7 +2356,7 @@ describe("getCropTime", () => {
 });
 
 describe("isPlotFertile", () => {
-  it("cannot plant on 18th field if a well is not available", () => {
+  it("cannot plant on 19th field if a well is not available", () => {
     let counter = 1;
     const fakePlot = () => ({
       createdAt: Date.now() + counter++,
@@ -2387,7 +2387,7 @@ describe("isPlotFertile", () => {
         99: fakePlot(), // 18th
         100: fakePlot(), // 19th
       },
-      plotIndex: "99",
+      plotIndex: "100",
       buildings: {},
       bumpkin: { ...INITIAL_BUMPKIN },
     });
@@ -2395,7 +2395,7 @@ describe("isPlotFertile", () => {
     expect(isFertile).toBeFalsy();
   });
 
-  it("cannot plant on 25th field if 2 wells are not avilable", () => {
+  it("cannot plant on 26th field if 2 wells are not avilable", () => {
     let counter = 1;
     const fakePlot = () => ({
       createdAt: Date.now() + counter++,
@@ -2440,11 +2440,12 @@ describe("isPlotFertile", () => {
         20: fakePlot(),
         21: fakePlot(),
         22: fakePlot(),
-        23: fakePlot(), // 24th
+        23: fakePlot(),
         24: fakePlot(), // 25th
         25: fakePlot(), // 26th
+        26: fakePlot(), // 27th
       },
-      plotIndex: "25",
+      plotIndex: "26",
     });
 
     expect(isFertile).toBeFalsy();
