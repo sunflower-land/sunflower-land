@@ -203,6 +203,10 @@ export function feedAnimal({
       name: "Golden Cow",
       game: copy,
     });
+    const hasGoldenSheepPlaced = isCollectibleBuilt({
+      name: "Golden Sheep",
+      game: copy,
+    });
     const favouriteFood = getAnimalFavoriteFood(
       action.animal,
       animal.experience,
@@ -220,6 +224,16 @@ export function feedAnimal({
 
     // Handle Golden Cow Free Food
     if (action.animal === "Cow" && hasGoldenCowPlaced) {
+      return handleFreeFeeding({
+        animal,
+        animalType: action.animal,
+        level,
+        copy,
+      });
+    }
+
+    // Handle Golden Sheep Free Food
+    if (action.animal === "Sheep" && hasGoldenSheepPlaced) {
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
