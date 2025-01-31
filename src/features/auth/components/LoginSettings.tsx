@@ -16,7 +16,7 @@ export const LoginSettings: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentMenu, setMenu] = useState<SettingMenuId | "login">("login");
 
-  const buttons: SettingMenuId[] = ["changeLanguage", "appearance&behaviour"];
+  const buttons: SettingMenuId[] = ["changeLanguage", "preferences"];
 
   const { t } = useAppTranslation();
 

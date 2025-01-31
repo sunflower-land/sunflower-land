@@ -1,4 +1,4 @@
-import Switch from "components/ui/Switch";
+import { Switch } from "components/ui/Switch";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";

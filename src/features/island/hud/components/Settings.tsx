@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-
-import { Context } from "features/game/GameProvider";
+import React, { useEffect, useRef, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ResizableBar } from "components/ui/ProgressBar";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
   getFarmingSong,
@@ -26,7 +23,6 @@ interface Props {
 }
 
 export const Settings: React.FC<Props> = ({ isFarming }) => {
-  const { showTimers, toggleTimers } = useContext(Context);
   const [showMoreButtons, setShowMoreButtons] = useState(false);
   const [openAudioMenu, setOpenAudioMenu] = useState(false);
   const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
@@ -173,27 +169,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       />,
     );
 
-  const progressBarButton = (index: number) =>
-    settingButton(
-      index,
-      () => {
-        button.play();
-        toggleTimers();
-      },
-      <div
-        className="absolute"
-        style={{
-          top: `${PIXEL_SCALE * 7.5}px`,
-          left: `${PIXEL_SCALE * 3.5}px`,
-        }}
-      >
-        <ResizableBar
-          percentage={70}
-          type={showTimers ? "progress" : "error"}
-        />
-      </div>,
-    );
-
   const moreButton = (index: number) =>
     settingButton(
       index,
@@ -214,7 +189,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   // list of buttons to show in the HUD from right to left in order
   const buttons = [
     gearButton,
-    ...(isFarming ? [progressBarButton] : []),
     audioButton,
     ...(!showLimitedButtons ? [moreButton] : []),
   ];

@@ -237,8 +237,8 @@ export const Verify: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <div>
-      <p className="text-sm">{t("verify.verify")}</p>
+    <div className="flex flex-col gap-1">
+      <p className="text-sm m-1">{t("verify.verify")}</p>
       <Button
         onClick={() => {
           gameService.send("PROVE_PERSONHOOD");
