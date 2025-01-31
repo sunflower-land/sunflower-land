@@ -67,8 +67,8 @@ type IsPlotFertile = {
   bumpkin?: Bumpkin;
 };
 
-// First 15 plots do not need water
-const INITIAL_SUPPORTED_PLOTS = 17;
+// First 18 plots do not need water
+const INITIAL_SUPPORTED_PLOTS = 18;
 // Each well can support an additional 8 plots
 const WELL_PLOT_SUPPORT = 8;
 
