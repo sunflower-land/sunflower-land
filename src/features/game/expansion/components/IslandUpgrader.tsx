@@ -33,8 +33,8 @@ const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
   basic: new Date(0).getTime(),
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
   desert: hasFeatureAccess(state, "VOLCANO_ISLAND")
-    ? new Date("2025-01-01T00:00:00Z").getTime()
-    : new Date("2025-02-01T00:00:00Z").getTime(),
+    ? new Date("2025-01-03T00:00:00Z").getTime()
+    : new Date("2025-02-03T00:00:00Z").getTime(),
   volcano: null, // Next prestige after volcano
 });
 
