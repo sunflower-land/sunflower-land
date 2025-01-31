@@ -11,11 +11,11 @@ import {
 } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { NPCName } from "lib/npcs";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getChapterWeek";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
@@ -66,42 +66,42 @@ export function generateDeliveryTickets({
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Hat" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Shirt" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isWearableActive({ game, name: "Acorn Hat" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Igloo" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Hammock" })
   ) {
     amount += 1;
@@ -484,12 +484,12 @@ export function deliverOrder({
     }
 
     if (tickets > 0) {
-      const seasonalTicket = getSeasonalTicket();
+      const chapterTicket = getChapterTicket();
 
-      const count = game.inventory[seasonalTicket] || new Decimal(0);
+      const count = game.inventory[chapterTicket] || new Decimal(0);
       const amount = tickets || new Decimal(0);
 
-      game.inventory[seasonalTicket] = count.add(amount);
+      game.inventory[chapterTicket] = count.add(amount);
     }
 
     const rewardItems = order.reward.items ?? {};

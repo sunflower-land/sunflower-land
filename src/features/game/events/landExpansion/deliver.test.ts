@@ -10,7 +10,7 @@ import {
   INITIAL_FARM,
   TEST_FARM,
 } from "features/game/lib/constants";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
@@ -604,7 +604,7 @@ describe("deliver", () => {
       createdAt: MID_SEASON,
     });
 
-    const seasonTicket = getSeasonalTicket();
+    const seasonTicket = getChapterTicket();
 
     expect(state.inventory[seasonTicket]).toEqual(new Decimal(1));
   });
@@ -826,7 +826,7 @@ describe("deliver", () => {
         createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
       });
 
-      expect(state.inventory[getSeasonalTicket()]).toEqual(
+      expect(state.inventory[getChapterTicket()]).toEqual(
         new Decimal(TICKET_REWARDS[name as QuestNPCName]),
       );
     });
@@ -864,7 +864,7 @@ describe("deliver", () => {
       createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(1));
   });
 
   it("provides +2 tickets for banner holder", () => {
@@ -900,7 +900,7 @@ describe("deliver", () => {
       createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(3));
   });
 
   it("provides +2 tickets for Lifetime Farmer banner holder", () => {
@@ -936,7 +936,7 @@ describe("deliver", () => {
       createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(3));
   });
 
   it("provides +1 tickets when Cowboy Hat is worn at Bull Run Season", () => {
@@ -980,7 +980,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("provides +1 tickets when Cowboy Shirt is worn at Bull Run Season", () => {
@@ -1024,7 +1024,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("provides +1 tickets when Cowboy Trouser is worn at Bull Run Season", () => {
@@ -1068,7 +1068,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("stacks Cowboy Set boost at Bull Run Season", () => {
@@ -1114,7 +1114,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(4));
   });
 
   it("does not provide +1 tickets when Cowboy Hat is worn outside Bull Run Season", () => {
@@ -1158,7 +1158,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(1));
   });
 
   it("provides +1 tickets when Acorn Hat is worn at Winds of Change Chapter", () => {
@@ -1202,7 +1202,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("provides +1 tickets when Igloo is placed at Winds of Change Chapter", () => {
@@ -1255,7 +1255,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("provides +1 tickets when Hammock is placed at Winds of Change Chapter", () => {
@@ -1308,7 +1308,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(2));
   });
 
   it("stacks Timeshard boost collectibles and wearables", () => {
@@ -1370,7 +1370,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(4));
   });
   it("does not provides +1 tickets when Hammock is placed outside the WoC Chapter", () => {
     const mockDate = new Date(2025, 0, 5);
@@ -1422,7 +1422,7 @@ describe("deliver", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(1));
   });
 
   it("add 30% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
@@ -1875,7 +1875,7 @@ describe("deliver", () => {
       createdAt: new Date().getTime(),
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(10));
   });
 
   it("can deliver items from the wardrobe", () => {
@@ -1914,6 +1914,6 @@ describe("deliver", () => {
     });
 
     expect(state.wardrobe["Basic Hair"]).toEqual(0);
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(4));
   });
 });

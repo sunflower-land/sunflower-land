@@ -40,7 +40,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalBanner, SeasonalTicket } from "./seasons";
+import { ChapterBanner, ChapterTicket } from "./chapters";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -84,7 +84,7 @@ import {
   RecipeWearableName,
 } from "../lib/crafting";
 import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
-import { SeasonalCollectibleName } from "./megastore";
+import { ChapterCollectibleName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
   CalendarEvent,
@@ -231,7 +231,7 @@ export type Coupons =
   | "Mark"
   | "Trade Point"
   | Keys
-  | SeasonalTicket
+  | ChapterTicket
   | FactionEmblem;
 
 export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -485,9 +485,9 @@ export type InventoryItemName =
   | LoveAnimalItem
   | BedName
   | RecipeCraftableName
-  | SeasonalCollectibleName
+  | ChapterCollectibleName
   | TradeFood
-  | SeasonalBanner;
+  | ChapterBanner;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -734,7 +734,7 @@ export type Bid = {
   tickets: number;
 };
 
-export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
+export type MazeAttempts = Partial<Record<ChapterWeek, MazeMetadata>>;
 
 export type WitchesEve = {
   weeklyLostCrowCount: number;
@@ -965,7 +965,7 @@ export type KingdomChore = {
   | { startedAt?: never; startCount?: never }
 );
 
-export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
+export type ChapterWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
 export type MazeAttempt = {
   startedAt: number;
@@ -1099,7 +1099,7 @@ export type Currency =
   | "Gem"
   | "Crimstone"
   | "Sunstone"
-  | "Seasonal Ticket"
+  | "Chapter Ticket"
   | "Mark";
 
 export type ShopItemBase = {
@@ -1110,19 +1110,19 @@ export type ShopItemBase = {
   type: "wearable" | "collectible" | "food" | "keys";
 };
 
-type AvailableAllSeason = {
-  availableAllSeason: boolean;
+type AvailableAllChapter = {
+  availableAllChapter: boolean;
 };
 
 export type WearablesItem = {
   name: BumpkinItem;
 } & ShopItemBase &
-  AvailableAllSeason;
+  AvailableAllChapter;
 
 export type CollectiblesItem = {
   name: InventoryItemName;
 } & ShopItemBase &
-  AvailableAllSeason;
+  AvailableAllChapter;
 
 export type MegaStoreItemName = BumpkinItem | InventoryItemName;
 

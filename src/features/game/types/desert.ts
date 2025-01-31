@@ -1,7 +1,7 @@
 import { getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
-import { getCurrentSeason, SeasonName } from "./seasons";
-import { BeachBountySeasonalArtefact } from "./treasure";
+import { getCurrentChapter, ChapterName } from "./chapters";
+import { BeachBountyChapterArtefact } from "./treasure";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;
@@ -10,151 +10,149 @@ type FormationPlot = { x: number; y: number; name: InventoryItemName };
 
 export type DiggingFormation = FormationPlot[];
 
-export const SEASONAL_ARTEFACT: Record<
-  SeasonName,
-  BeachBountySeasonalArtefact
-> = {
-  "Bull Run": "Cow Skull",
-  "Pharaoh's Treasure": "Scarab",
-  "Solar Flare": "Scarab",
-  "Dawn Breaker": "Scarab",
-  "Witches' Eve": "Scarab",
-  "Catch the Kraken": "Scarab",
-  "Spring Blossom": "Scarab",
-  "Clash of Factions": "Scarab",
-  "Winds of Change": "Ancient Clock",
-};
+export const CHAPTER_ARTEFACT: Record<ChapterName, BeachBountyChapterArtefact> =
+  {
+    "Bull Run": "Cow Skull",
+    "Pharaoh's Treasure": "Scarab",
+    "Solar Flare": "Scarab",
+    "Dawn Breaker": "Scarab",
+    "Witches' Eve": "Scarab",
+    "Catch the Kraken": "Scarab",
+    "Spring Blossom": "Scarab",
+    "Clash of Factions": "Scarab",
+    "Winds of Change": "Ancient Clock",
+  };
 
 export const DIGGING_FORMATIONS = {
   // Horizontal Zig Zag - X Coins
   MONDAY_ARTEFACT_FORMATION: [
     { x: 0, y: -1, name: "Camel Bone" },
-    { x: 1, y: -1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: -1, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
   // Upside T - X Coins
   TUESDAY_ARTEFACT_FORMATION: [
-    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: 2, name: "Camel Bone" },
   ],
 
   // Star - X Coins
   WEDNESDAY_ARTEFACT_FORMATION: [
     { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
 
   // Square - X Coins
   THURSDAY_ARTEFACT_FORMATION: [
     { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: -1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: -1, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
 
   // Horizontal - X Coins
   FRIDAY_ARTEFACT_FORMATION: [
     { x: 2, y: 0, name: "Camel Bone" },
-    { x: 3, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 3, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
 
   // U Shape - X Coins
   SATURDAY_ARTEFACT_FORMATION: [
-    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: -1, name: "Camel Bone" },
   ],
 
   // Horizontal - X Coins
   SUNDAY_ARTEFACT_FORMATION: [
-    { x: 0, y: -2, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: -2, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
 
   ARTEFACT_ONE: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 0, y: 1, name: "Camel Bone" },
     { x: 0, y: 2, name: "Camel Bone" },
   ],
 
   ARTEFACT_TWO: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: 0, name: "Camel Bone" },
     { x: 0, y: 2, name: "Camel Bone" },
   ],
 
-  ARTEFACT_THREE: [{ x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] }],
+  ARTEFACT_THREE: [{ x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] }],
 
   ARTEFACT_FOUR: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 0, y: 1, name: "Camel Bone" },
     { x: 0, y: 2, name: "Camel Bone" },
     { x: 0, y: 3, name: "Camel Bone" },
   ],
 
   ARTEFACT_FIVE: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: -1, y: 0, name: "Camel Bone" },
     { x: -2, y: 0, name: "Camel Bone" },
   ],
 
   ARTEFACT_SIX: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: -1, y: 0, name: "Camel Bone" },
     { x: -2, y: -1, name: "Camel Bone" },
   ],
 
   ARTEFACT_SEVEN: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: 1, name: "Camel Bone" },
   ],
 
   ARTEFACT_EIGHT: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: 0, name: "Camel Bone" },
     { x: 0, y: 2, name: "Camel Bone" },
   ],
 
   ARTEFACT_NINE: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 0, y: 1, name: "Camel Bone" },
     { x: 0, y: -1, name: "Camel Bone" },
     { x: -1, y: -1, name: "Camel Bone" },
   ],
 
   ARTEFACT_TEN: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 0, y: 1, name: "Camel Bone" },
     { x: -1, y: 0, name: "Camel Bone" },
     { x: -1, y: 1, name: "Camel Bone" },
   ],
 
   ARTEFACT_ELEVEN: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 0, y: 1, name: "Camel Bone" },
     { x: 1, y: 1, name: "Camel Bone" },
   ],
 
   ARTEFACT_TWELVE: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 0, y: 1, name: "Camel Bone" },
     { x: -1, y: 1, name: "Camel Bone" },
     { x: 1, y: 1, name: "Camel Bone" },
   ],
 
   ARTEFACT_THIRTEEN: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 2, y: 0, name: "Camel Bone" },
   ],
 
   ARTEFACT_FOURTEEN: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 0, y: 2, name: "Camel Bone" },
   ],
 
   ARTEFACT_FIFTEEN: [
     { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 2, y: 0, name: "Camel Bone" },
   ],
 
   ARTEFACT_SIXTEEN: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: 0, name: "Camel Bone" },
     { x: 1, y: 1, name: "Camel Bone" },
   ],
@@ -162,11 +160,11 @@ export const DIGGING_FORMATIONS = {
   ARTEFACT_SEVENTEEN: [
     { x: 0, y: 0, name: "Camel Bone" },
     { x: 1, y: 0, name: "Camel Bone" },
-    { x: 1, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 1, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
 
   ARTEFACT_EIGHTEEN: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: 0, name: "Camel Bone" },
     { x: 0, y: 1, name: "Camel Bone" },
     { x: 1, y: 1, name: "Camel Bone" },
@@ -176,18 +174,18 @@ export const DIGGING_FORMATIONS = {
     { x: 0, y: 0, name: "Camel Bone" },
     { x: 1, y: 0, name: "Camel Bone" },
     { x: 2, y: 0, name: "Camel Bone" },
-    { x: 1, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 1, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
 
   ARTEFACT_TWENTY: [
     { x: 0, y: 0, name: "Camel Bone" },
     { x: 1, y: 0, name: "Camel Bone" },
-    { x: 0, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 1, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: 1, name: "Camel Bone" },
   ],
 
   ARTEFACT_TWENTY_ONE: [
-    { x: 0, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 0, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 1, y: 0, name: "Camel Bone" },
     { x: 2, y: 0, name: "Camel Bone" },
     { x: 0, y: 1, name: "Camel Bone" },
@@ -199,7 +197,7 @@ export const DIGGING_FORMATIONS = {
     { x: 1, y: 0, name: "Camel Bone" },
     { x: 2, y: 0, name: "Camel Bone" },
     { x: 0, y: 1, name: "Camel Bone" },
-    { x: 1, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 1, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
 
   ARTEFACT_TWENTY_THREE: [
@@ -207,12 +205,12 @@ export const DIGGING_FORMATIONS = {
     { x: 1, y: 0, name: "Camel Bone" },
     { x: 2, y: 0, name: "Camel Bone" },
     { x: 1, y: 1, name: "Camel Bone" },
-    { x: 2, y: 1, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 2, y: 1, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
   ],
 
   ARTEFACT_TWENTY_FOUR: [
     { x: 0, y: 0, name: "Camel Bone" },
-    { x: 1, y: 0, name: SEASONAL_ARTEFACT[getCurrentSeason()] },
+    { x: 1, y: 0, name: CHAPTER_ARTEFACT[getCurrentChapter()] },
     { x: 2, y: 0, name: "Camel Bone" },
     { x: 0, y: 1, name: "Camel Bone" },
     { x: 2, y: 1, name: "Camel Bone" },
@@ -351,7 +349,7 @@ export function getTreasuresFound({ game }: { game: GameState }) {
 
 export function getArtefactsFound({ game }: { game: GameState }) {
   return game.desert.digging.grid.flat().filter((hole) => {
-    return getKeys(hole.items)[0] === SEASONAL_ARTEFACT[getCurrentSeason()];
+    return getKeys(hole.items)[0] === CHAPTER_ARTEFACT[getCurrentChapter()];
   }).length;
 }
 

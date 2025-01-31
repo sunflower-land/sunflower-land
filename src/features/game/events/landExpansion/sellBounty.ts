@@ -6,11 +6,11 @@ import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { BountyRequest, GameState, SFLBounty } from "features/game/types/game";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { produce } from "immer";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getChapterChangeover } from "lib/utils/getChapterWeek";
 
 export type SellBountyAction = {
   type: "bounty.sold";
@@ -33,49 +33,49 @@ export function generateBountyTicket({
   bounty: BountyRequest;
   now?: number;
 }) {
-  let amount = bounty.items?.[getSeasonalTicket(new Date(now))] ?? 0;
+  let amount = bounty.items?.[getChapterTicket(new Date(now))] ?? 0;
 
   if (!amount) {
     return 0;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Hat" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Shirt" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isWearableActive({ game, name: "Acorn Hat" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Igloo" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Hammock" })
   ) {
     amount += 1;
@@ -126,7 +126,7 @@ export function sellBounty({
       throw new Error("Bounty already completed");
     }
 
-    const { ticketTasksAreFrozen } = getSeasonChangeover({
+    const { ticketTasksAreFrozen } = getChapterChangeover({
       now: createdAt,
       id: farmId as number,
     });
@@ -161,8 +161,8 @@ export function sellBounty({
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = draft.inventory[name] ?? new Decimal(0);
-      const seasonalTicket = getSeasonalTicket();
-      if (tickets > 0 && seasonalTicket === name) {
+      const chapterTicket = getChapterTicket();
+      if (tickets > 0 && chapterTicket === name) {
         draft.inventory[name] = previous.add(tickets ?? 0);
       } else draft.inventory[name] = previous.add(request.items?.[name] ?? 0);
     });

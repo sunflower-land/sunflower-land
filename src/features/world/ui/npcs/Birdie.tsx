@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { translate } from "lib/i18n/translate";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 export const Birdie: React.FC<Props> = ({ onClose }) => {
   const [showTicketHelp, setShowTicketHelp] = useState(false);
-  const [showSeasonHelp, setShowSeasonHelp] = useState(false);
+  const [showChapterHelp, setShowChapterHelp] = useState(false);
 
   useEffect(() => {
     acknowledgeNPC("birdie");
@@ -29,22 +29,22 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         message={[
           {
             text: translate("birdieplaza.earnTicketsVariety", {
-              seasonalTicket: getSeasonalTicket(),
+              chapterTicket: getChapterTicket(),
             }),
           },
           {
             text: translate("birdieplaza.commonMethod", {
-              seasonalTicket: getSeasonalTicket(),
+              chapterTicket: getChapterTicket(),
             }),
           },
           {
             text: translate("birdieplaza.choresAndRewards", {
-              seasonalTicket: getSeasonalTicket(),
+              chapterTicket: getChapterTicket(),
             }),
           },
           {
             text: translate("birdieplaza.gatherAndCraft", {
-              seasonalTicket: getSeasonalTicket(),
+              chapterTicket: getChapterTicket(),
             }),
           },
         ]}
@@ -52,29 +52,29 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  if (showSeasonHelp) {
+  if (showChapterHelp) {
     return (
       <SpeakingModal
         onClose={() => {
           onClose();
         }}
         bumpkinParts={NPC_WEARABLES.birdie}
-        key="season"
+        key="chapter"
         message={[
           {
-            text: translate("birdieplaza.newSeasonIntro"),
+            text: translate("birdieplaza.newChapterIntro"),
           },
           {
-            text: translate("birdieplaza.seasonQuests"),
+            text: translate("birdieplaza.chapterQuests"),
           },
           {
             text: translate("birdieplaza.craftItems", {
-              seasonalTicket: getSeasonalTicket(),
+              chapterTicket: getChapterTicket(),
             }),
             actions: [
               {
                 text: translate("birdieplaza.howToEarnTickets", {
-                  seasonalTicket: getSeasonalTicket(),
+                  chapterTicket: getChapterTicket(),
                 }),
                 cb: () => setShowTicketHelp(true),
               },
@@ -100,23 +100,23 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
           text: translate("birdieplaza.admiringOutfit"),
         },
         {
-          text: translate("birdieplaza.currentSeason", {
-            currentSeason: getCurrentSeason(),
-            seasonalTicket: getSeasonalTicket(),
+          text: translate("birdieplaza.currentChapter", {
+            currentSeason: getCurrentChapter(),
+            chapterTicket: getChapterTicket(),
           }),
         },
         {
           text: translate("birdieplaza.collectTickets", {
-            seasonalTicket: getSeasonalTicket(),
+            chapterTicket: getChapterTicket(),
           }),
           actions: [
             {
-              text: translate("birdieplaza.whatIsSeason"),
-              cb: () => setShowSeasonHelp(true),
+              text: translate("birdieplaza.whatIsChapter"),
+              cb: () => setShowChapterHelp(true),
             },
             {
               text: translate("birdieplaza.howToEarnTickets", {
-                seasonalTicket: getSeasonalTicket(),
+                chapterTicket: getChapterTicket(),
               }),
               cb: () => setShowTicketHelp(true),
             },

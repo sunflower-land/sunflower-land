@@ -18,9 +18,9 @@ import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MegaStoreMonthly } from "./MegaStoreMonthly";
-import { MegaStoreSeasonal } from "./MegaStoreSeasonal";
+import { MegaStoreChapter } from "./MegaStoreChapter";
 import { MachineState } from "features/game/lib/gameMachine";
-import { SeasonalStore } from "./SeasonalStore";
+import { ChapterStore } from "./ChapterStore";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -81,7 +81,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
         currentTab={tab}
         setCurrentTab={setTab}
       >
-        {tab === 0 && <SeasonalStore state={state} />}
+        {tab === 0 && <ChapterStore state={state} />}
       </CloseButtonPanel>
     );
   }
@@ -91,14 +91,14 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.stella}
       tabs={[
         { icon: shopIcon, name: t("monthly") },
-        { icon: lightning, name: t("seasonal") },
+        { icon: lightning, name: t("chapter") },
       ]}
       onClose={onClose}
       currentTab={tab}
       setCurrentTab={setTab}
     >
       {tab === 0 && <MegaStoreMonthly />}
-      {tab === 1 && <MegaStoreSeasonal />}
+      {tab === 1 && <MegaStoreChapter />}
     </CloseButtonPanel>
   );
 };

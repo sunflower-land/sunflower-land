@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
-import { SEASONS } from "features/game/types/seasons";
+import { CHAPTERS } from "features/game/types/chapters";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import React, { useEffect, useState } from "react";
 
@@ -42,7 +42,7 @@ export const DEV_TimeMachine = () => {
             <Button onClick={() => setDays(days + 1)}>{" + "}</Button>
           </div>
           <div>
-            {SEASONS["Witches' Eve"].startDate.getTime() < Date.now()
+            {CHAPTERS["Witches' Eve"].startDate.getTime() < Date.now()
               ? "Witches's Eve"
               : "Dawn Breaker"}
           </div>

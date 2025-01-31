@@ -8,10 +8,10 @@ import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
 import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
-import { BeachBountySeasonalArtefact } from "./treasure";
+import { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 
-export type SeasonName =
+export type ChapterName =
   | "Solar Flare"
   | "Dawn Breaker"
   | "Witches' Eve"
@@ -22,9 +22,9 @@ export type SeasonName =
   | "Bull Run"
   | "Winds of Change";
 
-type SeasonDates = { startDate: Date; endDate: Date };
+type ChapterDates = { startDate: Date; endDate: Date };
 
-export const SEASONS: Record<SeasonName, SeasonDates> = {
+export const CHAPTERS: Record<ChapterName, ChapterDates> = {
   "Solar Flare": {
     startDate: new Date("2023-01-01T00:00:00.000Z"),
     endDate: new Date("2023-05-01T00:00:00.000Z"),
@@ -63,9 +63,7 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
   },
 };
 
-export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
-
-export type SeasonalTicket =
+export type ChapterTicket =
   | "Solar Flare Ticket"
   | "Dawn Breaker Ticket"
   | "Crow Feather"
@@ -76,7 +74,7 @@ export type SeasonalTicket =
   | "Horseshoe"
   | "Timeshard";
 
-export type SeasonalBanner =
+export type ChapterBanner =
   | "Solar Flare Banner"
   | "Dawn Breaker Banner"
   | "Witches' Eve Banner"
@@ -87,7 +85,7 @@ export type SeasonalBanner =
   | "Bull Run Banner"
   | "Winds of Change Banner";
 
-export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
+export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Solar Flare Banner": "Solar Flare",
   "Dawn Breaker Banner": "Dawn Breaker",
   "Witches' Eve Banner": "Witches' Eve",
@@ -99,7 +97,7 @@ export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Winds of Change Banner": "Winds of Change",
 };
 
-export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
+export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Solar Flare": "Solar Flare Ticket",
   "Dawn Breaker": "Dawn Breaker Ticket",
   "Witches' Eve": "Crow Feather",
@@ -111,9 +109,9 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Winds of Change": "Timeshard",
 };
 
-export const SEASON_ARTEFACT_NAME: Record<
-  SeasonName,
-  BeachBountySeasonalArtefact
+export const CHAPTER_ARTEFACT_NAME: Record<
+  ChapterName,
+  BeachBountyChapterArtefact
 > = {
   "Solar Flare": "Scarab",
   "Dawn Breaker": "Scarab",
@@ -126,64 +124,64 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Winds of Change": "Ancient Clock",
 };
 
-export function getCurrentSeason(now = new Date()): SeasonName {
-  const seasons = getKeys(SEASONS);
+export function getCurrentChapter(now = new Date()): ChapterName {
+  const chapters = getKeys(CHAPTERS);
 
-  const currentSeason = seasons.find((season) => {
-    const { startDate, endDate } = SEASONS[season];
+  const currentChapter = chapters.find((chapter) => {
+    const { startDate, endDate } = CHAPTERS[chapter];
 
     return now >= startDate && now < endDate;
   });
 
-  if (!currentSeason) {
-    throw new Error("No Season found");
+  if (!currentChapter) {
+    throw new Error("No Chapter found");
   }
 
-  return currentSeason;
+  return currentChapter;
 }
 
-export function getSeasonalTicket(now = new Date()): SeasonalTicket {
-  const currentSeason = getCurrentSeason(now);
+export function getChapterTicket(now = new Date()): ChapterTicket {
+  const currentChapter = getCurrentChapter(now);
 
-  return SEASON_TICKET_NAME[currentSeason];
+  return CHAPTER_TICKET_NAME[currentChapter];
 }
 
-export function getSeasonalArtefact(now = new Date()) {
-  const currentSeason = getCurrentSeason(now);
+export function getChapterArtefact(now = new Date()) {
+  const currentChapter = getCurrentChapter(now);
 
-  return SEASON_ARTEFACT_NAME[currentSeason];
+  return CHAPTER_ARTEFACT_NAME[currentChapter];
 }
 
-export function getSeasonalBanner(now = new Date()): SeasonalBanner {
-  const currentSeason = getCurrentSeason(now);
+export function getChapterBanner(now = new Date()): ChapterBanner {
+  const currentChapter = getCurrentChapter(now);
 
-  return `${currentSeason} Banner`;
+  return `${currentChapter} Banner`;
 }
 
-export function secondsLeftInSeason() {
-  const season = getCurrentSeason();
+export function secondsLeftInChapter() {
+  const chapter = getCurrentChapter();
 
-  const times = SEASONS[season];
+  const times = CHAPTERS[chapter];
 
   const secondsLeft = (times.endDate.getTime() - Date.now()) / 1000;
 
   return secondsLeft;
 }
 
-export function hasSeasonStarted(season: SeasonName, now = Date.now()) {
-  return now >= SEASONS[season].startDate.getTime();
+export function hasChapterStarted(chapter: ChapterName, now = Date.now()) {
+  return now >= CHAPTERS[chapter].startDate.getTime();
 }
 
-export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
-  return now >= SEASONS[season].endDate.getTime();
+export function hasChapterEnded(chapter: ChapterName, now = Date.now()) {
+  return now >= CHAPTERS[chapter].endDate.getTime();
 }
 
-export function getSeasonByBanner(banner: SeasonalBanner): SeasonName {
-  return SEASONAL_BANNERS[banner];
+export function getChapterByBanner(banner: ChapterBanner): ChapterName {
+  return CHAPTER_BANNERS[banner];
 }
 
-export function getSeasonalBannerImage() {
-  const banners: Record<SeasonalBanner, string> = {
+export function getChapterBannerImage() {
+  const banners: Record<ChapterBanner, string> = {
     "Solar Flare Banner": solarFlareBanner,
     "Dawn Breaker Banner": dawnBreakerBanner,
     "Witches' Eve Banner": witchesEveBanner,
@@ -194,28 +192,28 @@ export function getSeasonalBannerImage() {
     "Bull Run Banner": bullsRunBanner,
     "Winds of Change Banner": windsOfChangeBanner,
   };
-  return banners[getSeasonalBanner()];
+  return banners[getChapterBanner()];
 }
 
-function getPreviousSeason(now = new Date()): SeasonName {
-  const currentSeason = getCurrentSeason(now);
-  const startDateOfCurrentSeason = SEASONS[currentSeason].startDate;
+function getPreviousChapter(now = new Date()): ChapterName {
+  const currentChapter = getCurrentChapter(now);
+  const startDateOfCurrentChapter = CHAPTERS[currentChapter].startDate;
 
-  // Find the season where the end date matches the start date of the current season
-  const previousSeason = Object.entries(SEASONS).find(
+  // Find the chapter where the end date matches the start date of the current chapter
+  const previousChapter = Object.entries(CHAPTERS).find(
     ([_, { endDate }]) =>
-      endDate.getTime() === startDateOfCurrentSeason.getTime(),
+      endDate.getTime() === startDateOfCurrentChapter.getTime(),
   );
 
-  if (!previousSeason) {
+  if (!previousChapter) {
     throw new Error("No previous banner found");
   }
 
-  return previousSeason[0] as SeasonName;
+  return previousChapter[0] as ChapterName;
 }
 
-export function getPreviousSeasonalBanner(now = new Date()): SeasonalBanner {
-  const previousSeason = getPreviousSeason(now);
+export function getPreviousChapterBanner(now = new Date()): ChapterBanner {
+  const previousChapter = getPreviousChapter(now);
 
-  return `${previousSeason} Banner`;
+  return `${previousChapter} Banner`;
 }

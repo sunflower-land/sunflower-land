@@ -56,7 +56,7 @@ export type ShopDecorationName =
   | BasicDecorationName
   | LandscapingDecorationName;
 
-export type SeasonalDecorationName =
+export type ChapterDecorationName =
   | "Blossombeard"
   | "Desert Gnome"
   | "Clementine"
@@ -299,7 +299,7 @@ export type DecorationName =
   | EventDecorationName
   | DecorationTreasure
   | BoostTreasure
-  | SeasonalDecorationName
+  | ChapterDecorationName
   | PotionHouseDecorationName
   | InteriorDecorationName
   | TemplateDecorationName

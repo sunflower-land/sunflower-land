@@ -1,7 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { buyMegaStoreItem } from "./buyMegaStoreItem";
 import Decimal from "decimal.js-light";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 
 describe("buyMegaStoreItem", () => {
   beforeEach(() => jest.useFakeTimers());
@@ -27,7 +27,7 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("throws an error if the player has already purchased the max allowed of a collectible", () => {
-    const seasonTicket = getSeasonalTicket();
+    const chapterTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
@@ -44,13 +44,13 @@ describe("buyMegaStoreItem", () => {
                 limit: 1,
                 type: "collectible",
                 shortDescription: "Lorem ipsum",
-                availableAllSeason: false,
+                availableAllChapter: false,
               },
             ],
             wearables: [],
           },
           inventory: {
-            [seasonTicket]: new Decimal(100),
+            [chapterTicket]: new Decimal(100),
             Nana: new Decimal(1),
           },
         },
@@ -64,14 +64,14 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("throws an error if the player has already purchased the max allowed of a wearable", () => {
-    const seasonTicket = getSeasonalTicket();
+    const chapterTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
         state: {
           ...TEST_FARM,
           inventory: {
-            [seasonTicket]: new Decimal(100),
+            [chapterTicket]: new Decimal(100),
           },
           megastore: {
             ...TEST_FARM.megastore,
@@ -84,7 +84,7 @@ describe("buyMegaStoreItem", () => {
                 limit: 1,
                 type: "wearable",
                 shortDescription: "Lorem ipsum",
-                availableAllSeason: false,
+                availableAllChapter: false,
               },
             ],
           },
@@ -117,7 +117,7 @@ describe("buyMegaStoreItem", () => {
                 limit: 1,
                 type: "collectible",
                 shortDescription: "Lorem ipsum",
-                availableAllSeason: false,
+                availableAllChapter: false,
               },
             ],
             wearables: [],
@@ -135,14 +135,14 @@ describe("buyMegaStoreItem", () => {
     const now = new Date("2024-01-02").getTime();
     jest.setSystemTime(now);
 
-    const seasonTicket = getSeasonalTicket();
+    const chapterTicket = getChapterTicket();
 
     expect(() =>
       buyMegaStoreItem({
         state: {
           ...TEST_FARM,
           inventory: {
-            [seasonTicket]: new Decimal(0),
+            [chapterTicket]: new Decimal(0),
           },
           megastore: {
             ...TEST_FARM.megastore,
@@ -150,11 +150,11 @@ describe("buyMegaStoreItem", () => {
               {
                 name: "Tiki Mask",
                 price: new Decimal(100),
-                currency: "Seasonal Ticket",
+                currency: "Chapter Ticket",
                 limit: 1,
                 type: "wearable",
                 shortDescription: "Lorem ipsum",
-                availableAllSeason: false,
+                availableAllChapter: false,
               },
             ],
           },
@@ -164,7 +164,7 @@ describe("buyMegaStoreItem", () => {
           name: "Tiki Mask",
         },
       }),
-    ).toThrow(`Not enough ${seasonTicket}`);
+    ).toThrow(`Not enough ${chapterTicket}`);
   });
 
   it("throws an error if the players doesn't have inventory items for a non SFL item", () => {
@@ -185,7 +185,7 @@ describe("buyMegaStoreItem", () => {
                 limit: 1,
                 type: "collectible",
                 shortDescription: "Lorem ipsum",
-                availableAllSeason: false,
+                availableAllChapter: false,
               },
             ],
           },
@@ -213,7 +213,7 @@ describe("buyMegaStoreItem", () => {
               limit: null,
               type: "wearable",
               shortDescription: "Lorem ipsum",
-              availableAllSeason: false,
+              availableAllChapter: false,
             },
           ],
         },
@@ -243,7 +243,7 @@ describe("buyMegaStoreItem", () => {
               limit: null,
               type: "collectible",
               shortDescription: "Lorem ipsum",
-              availableAllSeason: false,
+              availableAllChapter: false,
             },
           ],
         },
@@ -259,13 +259,13 @@ describe("buyMegaStoreItem", () => {
   });
 
   it("[Non SFL Wearable] subtracts the price from inventory balance and add item to wardrobe", () => {
-    const seasonTicket = getSeasonalTicket();
+    const chapterTicket = getChapterTicket();
 
     const { inventory, wardrobe } = buyMegaStoreItem({
       state: {
         ...TEST_FARM,
         inventory: {
-          [seasonTicket]: new Decimal(1000),
+          [chapterTicket]: new Decimal(1000),
         },
         megastore: {
           ...TEST_FARM.megastore,
@@ -273,11 +273,11 @@ describe("buyMegaStoreItem", () => {
             {
               name: "Fish Pro Vest",
               price: new Decimal(1000),
-              currency: "Seasonal Ticket",
+              currency: "Chapter Ticket",
               limit: null,
               type: "wearable",
               shortDescription: "Lorem ipsum",
-              availableAllSeason: false,
+              availableAllChapter: false,
             },
           ],
         },
@@ -288,7 +288,7 @@ describe("buyMegaStoreItem", () => {
       },
     });
 
-    expect(inventory[seasonTicket]).toEqual(new Decimal(0));
+    expect(inventory[chapterTicket]).toEqual(new Decimal(0));
     expect(wardrobe["Fish Pro Vest"]).toEqual(1);
   });
 
@@ -309,7 +309,7 @@ describe("buyMegaStoreItem", () => {
               limit: null,
               type: "collectible",
               shortDescription: "Lorem ipsum",
-              availableAllSeason: false,
+              availableAllChapter: false,
             },
           ],
         },
@@ -339,7 +339,7 @@ describe("buyMegaStoreItem", () => {
               limit: null,
               type: "wearable",
               shortDescription: "Lorem ipsum",
-              availableAllSeason: false,
+              availableAllChapter: false,
             },
           ],
         },

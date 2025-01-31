@@ -1,16 +1,16 @@
-import { SeasonalBanner } from "./seasons";
-import { SEASONAL_BANNERS } from "./seasons";
+import { ChapterBanner } from "./chapters";
+import { CHAPTER_BANNERS } from "./chapters";
 import { FactionBanner } from "./game";
-type bannerName =
+type BannerName =
   | "Human War Banner"
   | "Goblin War Banner"
   | "Lifetime Farmer Banner"
   | "Earn Alliance Banner"
-  | SeasonalBanner
+  | ChapterBanner
   | FactionBanner;
 
-export const BANNERS: Record<bannerName, string> = {
-  ...SEASONAL_BANNERS,
+export const BANNERS: Record<BannerName, string> = {
+  ...CHAPTER_BANNERS,
   "Human War Banner": "",
   "Goblin War Banner": "",
   "Lifetime Farmer Banner": "",

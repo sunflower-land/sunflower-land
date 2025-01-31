@@ -1,5 +1,5 @@
 import { translate } from "lib/i18n/translate";
-import { hasSeasonEnded, SEASONS } from "./seasons";
+import { hasChapterEnded, CHAPTERS } from "./chapters";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -20,9 +20,9 @@ export type BeachBountyTreasure =
   | "Camel Bone"
   | "Vase"
   | "Hieroglyph"
-  | BeachBountySeasonalArtefact;
+  | BeachBountyChapterArtefact;
 
-export type BeachBountySeasonalArtefact =
+export type BeachBountyChapterArtefact =
   | "Scarab"
   | "Cow Skull"
   | "Ancient Clock";
@@ -164,21 +164,21 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     "Cow Skull": {
       sellPrice: 200,
       description: translate("description.cowSkull"),
-      ...(hasSeasonEnded("Bull Run")
+      ...(hasChapterEnded("Bull Run")
         ? {}
         : {
-            from: SEASONS["Bull Run"].startDate,
-            to: SEASONS["Bull Run"].endDate,
+            from: CHAPTERS["Bull Run"].startDate,
+            to: CHAPTERS["Bull Run"].endDate,
           }),
     },
     "Ancient Clock": {
       description: "",
       sellPrice: 200,
-      ...(hasSeasonEnded("Winds of Change")
+      ...(hasChapterEnded("Winds of Change")
         ? {}
         : {
-            from: SEASONS["Winds of Change"].startDate,
-            to: SEASONS["Winds of Change"].endDate,
+            from: CHAPTERS["Winds of Change"].startDate,
+            to: CHAPTERS["Winds of Change"].endDate,
           }),
     },
   };

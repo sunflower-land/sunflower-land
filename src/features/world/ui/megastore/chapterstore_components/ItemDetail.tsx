@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { InventoryItemName, Keys } from "features/game/types/game";
+import { Currency, InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -15,31 +15,31 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  getCurrentSeason,
-  getSeasonalArtefact,
-  getSeasonalTicket,
-  // getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterArtefact,
+  getChapterTicket,
+  // getChapterTicket,
+} from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   MEGASTORE,
-  SeasonalStoreCollectible,
-  SeasonalStoreItem,
-  SeasonalStoreWearable,
+  ChapterStoreCollectible,
+  ChapterStoreItem,
+  ChapterStoreWearable,
 } from "features/game/types/megastore";
-import { getItemDescription } from "../SeasonalStore";
+import { getItemDescription } from "../ChapterStore";
 import { getKeys } from "features/game/types/craftables";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
-  getSeasonalItemsCrafted,
-  isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+  getChapterItemsCrafted,
+  isKeyBoughtWithinChapter,
+} from "features/game/events/landExpansion/buyChapterItem";
 
 interface ItemOverlayProps {
-  item: SeasonalStoreItem | null;
+  item: ChapterStoreItem | null;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel[];
@@ -80,8 +80,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   ] = useActor(gameService);
 
   const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
-  const seasonalStore = MEGASTORE[currentSeason];
+  const currentChapter = getCurrentChapter(new Date(createdAt));
+  const chapterStore = MEGASTORE[currentChapter];
   const tiers =
     tier === "basic"
       ? "basic"
@@ -93,42 +93,42 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             ? "mega"
             : "basic";
 
-  const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
+  const chapterCollectiblesCrafted = getChapterItemsCrafted(
     state,
-    seasonalStore,
+    chapterStore,
     "collectible",
     tiers,
     true,
   );
-  const seasonalWearablesCrafted = getSeasonalItemsCrafted(
+  const chapterWearablesCrafted = getChapterItemsCrafted(
     state,
-    seasonalStore,
+    chapterStore,
     "wearable",
     tiers,
     true,
   );
-  const seasonalItemsCrafted =
-    seasonalCollectiblesCrafted + seasonalWearablesCrafted;
+  const chapterItemsCrafted =
+    chapterCollectiblesCrafted + chapterWearablesCrafted;
 
   const itemName = item
     ? isWearable
-      ? (item as SeasonalStoreWearable).wearable
-      : (item as SeasonalStoreCollectible).collectible
+      ? (item as ChapterStoreWearable).wearable
+      : (item as ChapterStoreCollectible).collectible
     : undefined;
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
-  const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
+  const reduction = isKeyBoughtWithinChapter(state, tiers, true) ? 0 : 1;
   const isRareUnlocked =
     tiers === "rare" &&
-    seasonalItemsCrafted - reduction >= seasonalStore.rare.requirement;
+    chapterItemsCrafted - reduction >= chapterStore.rare.requirement;
   const isEpicUnlocked =
     tiers === "epic" &&
-    seasonalItemsCrafted - reduction >= seasonalStore.epic.requirement;
+    chapterItemsCrafted - reduction >= chapterStore.epic.requirement;
   const isMegaUnlocked =
-    tier === "mega" &&
-    seasonalItemsCrafted - reduction >= seasonalStore.mega.requirement;
+    tiers === "mega" &&
+    chapterItemsCrafted - reduction >= chapterStore.mega.requirement;
 
   const keysBoughtAt = keysBought?.megastore[itemName as Keys]?.boughtAt;
   const keysBoughtToday =
@@ -189,23 +189,21 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const trackAnalytics = () => {
     if (!item) return;
     const type = isWearable ? "Wearable" : "Collectible";
-    const currency =
+    const currency: Currency =
       item.cost.sfl !== 0
         ? "SFL"
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? "Seasonal Ticket"
+        : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+          ? "Chapter Ticket"
           : "SFL";
     const price =
       item.cost.sfl !== 0
         ? sfl
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? item.cost?.items[getSeasonalTicket()] ?? 0
+        : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+          ? item.cost?.items[getChapterTicket()] ?? 0
           : sfl;
     const itemName = isWearable
-      ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)
-      : ((item as SeasonalStoreCollectible).collectible as InventoryItemName);
+      ? ((item as ChapterStoreWearable).wearable as BumpkinItem)
+      : ((item as ChapterStoreCollectible).collectible as InventoryItemName);
 
     gameAnalytics.trackSink({
       currency,
@@ -215,7 +213,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     });
 
     if (!isWearable) {
-      const itemName = (item as SeasonalStoreCollectible)
+      const itemName = (item as ChapterStoreCollectible)
         .collectible as InventoryItemName;
       const count = inventory[itemName]?.toNumber() ?? 1;
       gameAnalytics.trackMilestone({
@@ -227,7 +225,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
-    gameService.send("seasonalItem.bought", {
+    gameService.send("chapterItem.bought", {
       name: itemName,
       tier: tiers,
     });
@@ -265,32 +263,32 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
-  const getCurrencyName = (item: SeasonalStoreItem) => {
+  const getCurrencyName = (item: ChapterStoreItem) => {
     const currencyName =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
+      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        ? getChapterTicket()
         : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
+            (item.cost?.items[getChapterArtefact()] ?? 0 > 0)
+          ? getChapterArtefact()
           : Object.keys(item.cost.items)[0];
     return currencyName as InventoryItemName;
   };
-  const getCurrencyBalance = (item: SeasonalStoreItem) => {
+  const getCurrencyBalance = (item: ChapterStoreItem) => {
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
+      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        ? getChapterTicket()
         : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
+            (item.cost?.items[getChapterArtefact()] ?? 0 > 0)
+          ? getChapterArtefact()
           : Object.keys(item.cost.items)[0];
 
     return inventory[currencyItem as InventoryItemName] ?? new Decimal(0);
   };
-  const getCurrency = (item: SeasonalStoreItem) => {
+  const getCurrency = (item: ChapterStoreItem) => {
     const currency =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : getSeasonalArtefact();
+      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        ? getChapterTicket()
+        : getChapterArtefact();
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]

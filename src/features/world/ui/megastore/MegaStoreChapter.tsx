@@ -11,7 +11,7 @@ import lightning from "assets/icons/lightning.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import classNames from "classnames";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
+import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
 import { getKeys } from "features/game/types/decorations";
 import {
   getItemImage,
@@ -22,7 +22,7 @@ import {
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
-export const MegaStoreSeasonal: React.FC<{
+export const MegaStoreChapter: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
   const { t } = useAppTranslation();
@@ -34,7 +34,7 @@ export const MegaStoreSeasonal: React.FC<{
   ] = useActor(gameService);
   const megastore = useSelector(gameService, _megastore);
   const getTotalSecondsAvailableMega = () => {
-    const { startDate, endDate } = SEASONS[getCurrentSeason()];
+    const { startDate, endDate } = CHAPTERS[getCurrentChapter()];
 
     return (endDate.getTime() - startDate.getTime()) / 1000;
   };
@@ -54,7 +54,7 @@ export const MegaStoreSeasonal: React.FC<{
   };
 
   const megaTimeRemaining = getTimeLeft(
-    SEASONS[getCurrentSeason()].startDate.getTime(),
+    CHAPTERS[getCurrentChapter()].startDate.getTime(),
     getTotalSecondsAvailableMega(),
   );
 
@@ -62,7 +62,7 @@ export const MegaStoreSeasonal: React.FC<{
     <div className="relative h-full w-full">
       <div className="flex justify-between px-2 flex-wrap pb-1">
         <Label type="vibrant" icon={lightning} className="mb-1">
-          {t("available.all.season")}
+          {t("available.all.chapter")}
         </Label>
         <Label icon={SUNNYSIDE.icons.stopwatch} type="danger" className="mb-1">
           {t("megaStore.timeRemaining", {
@@ -79,11 +79,11 @@ export const MegaStoreSeasonal: React.FC<{
         })}
       >
         <span className="text-xs pb-2">
-          {readonly ? t("megaStore.visit") : t("megastore.message.allSeason")}
+          {readonly ? t("megaStore.visit") : t("megastore.message.allChapter")}
         </span>
         {getKeys(
           megastore.collectibles.filter(
-            (name) => name.availableAllSeason === true,
+            (name) => name.availableAllChapter === true,
           ),
         ).length > 0 && (
           <ItemsList
@@ -91,28 +91,29 @@ export const MegaStoreSeasonal: React.FC<{
             type="collectibles"
             items={megastore.collectibles.filter(
               (name) =>
-                name.availableAllSeason === true && name.type === "collectible",
+                name.availableAllChapter === true &&
+                name.type === "collectible",
             )}
             onItemClick={handleClickItem}
           />
         )}
         {getKeys(
           megastore.wearables.filter(
-            (name) => name.availableAllSeason === true,
+            (name) => name.availableAllChapter === true,
           ),
         ).length > 0 && (
           <ItemsList
             itemsLabel={t("mega.wearables")}
             type="wearables"
             items={megastore.wearables.filter(
-              (name) => name.availableAllSeason === true,
+              (name) => name.availableAllChapter === true,
             )}
             onItemClick={handleClickItem}
           />
         )}
         {getKeys(
           megastore.collectibles.filter(
-            (name) => name.availableAllSeason === true,
+            (name) => name.availableAllChapter === true,
           ),
         ).length > 0 && (
           <ItemsList
@@ -120,7 +121,7 @@ export const MegaStoreSeasonal: React.FC<{
             type="keys"
             items={megastore.collectibles.filter(
               (name) =>
-                name.availableAllSeason === true && name.type === "keys",
+                name.availableAllChapter === true && name.type === "keys",
             )}
             onItemClick={handleClickItem}
           />

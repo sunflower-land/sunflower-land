@@ -3,7 +3,7 @@ import React from "react";
 import { Loading } from "features/auth/components";
 import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
@@ -19,7 +19,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
   data,
 }) => {
   const { t } = useAppTranslation();
-  const seasonTicket = getSeasonalTicket();
+  const chapterTicket = getChapterTicket();
 
   if (isLoading && !data) return <Loading />;
 
@@ -33,7 +33,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
   return (
     <div>
       <div className="flex flex-col md:flex-row md:items-center justify-between p-1">
-        <Label type="default">{`${seasonTicket} ${t(
+        <Label type="default">{`${chapterTicket} ${t(
           "leaderboard.leaderboard",
         )}`}</Label>
         <p className="font-secondary text-xs">

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import {
-  SEASONS,
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  CHAPTERS,
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -62,17 +62,17 @@ const VIP_ICONS: Record<VipBundle, string> = {
 };
 
 const SeasonVIPDiscountTime: React.FC = () => {
-  const season = getCurrentSeason();
-  const seasonStartDate = SEASONS[season].startDate;
-  const seasonEndDate = SEASONS[season].endDate;
+  const chapter = getCurrentChapter();
+  const chapterStartDate = CHAPTERS[chapter].startDate;
+  const chapterEndDate = CHAPTERS[chapter].endDate;
 
   const WEEK = 1000 * 60 * 60 * 24 * 7;
 
   const discountDates = [
-    seasonStartDate.getTime() + 1 * WEEK, // 1 weeks
-    seasonStartDate.getTime() + 4 * WEEK, // 4 weeks
-    seasonStartDate.getTime() + 8 * WEEK, // 8 weeks
-    seasonEndDate.getTime(), // End of season
+    chapterStartDate.getTime() + 1 * WEEK, // 1 weeks
+    chapterStartDate.getTime() + 4 * WEEK, // 4 weeks
+    chapterStartDate.getTime() + 8 * WEEK, // 8 weeks
+    chapterEndDate.getTime(), // End of season
   ];
 
   const upcomingDiscountEnd = discountDates.find((date) => date > Date.now());
@@ -298,7 +298,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             },
             {
               text: t("vip.benefit.bonusDelivery"),
-              icon: ITEM_DETAILS[getSeasonalTicket()].image,
+              icon: ITEM_DETAILS[getChapterTicket()].image,
             },
             {
               text: t("vip.benefit.reputation", {

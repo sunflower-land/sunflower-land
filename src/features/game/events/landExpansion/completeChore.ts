@@ -4,9 +4,9 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isWearableActive } from "features/game/lib/wearables";
 import { ChoreV2Name, GameState } from "features/game/types/game";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { produce } from "immer";
 
 const CHORE_TICKETS: Record<ChoreV2Name, number> = {
@@ -37,42 +37,42 @@ export function generateChoreTickets({
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Hat" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Shirt" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isWearableActive({ game, name: "Acorn Hat" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Igloo" })
   ) {
     amount += 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Hammock" })
   ) {
     amount += 1;
@@ -147,7 +147,7 @@ export function completeChore({
       throw new Error("No tickets exist for this chore");
     }
 
-    const ticket = getSeasonalTicket(new Date(createdAt));
+    const ticket = getChapterTicket(new Date(createdAt));
     const previous = game.inventory[ticket] ?? new Decimal(0);
     game.inventory[ticket] = previous.add(tickets);
 

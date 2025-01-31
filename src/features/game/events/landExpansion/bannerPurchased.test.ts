@@ -2,12 +2,12 @@ import { TEST_FARM } from "features/game/lib/constants";
 import { purchaseBanner } from "./bannerPurchased";
 import Decimal from "decimal.js-light";
 import {
-  SEASONS,
-  SeasonalBanner,
-  getCurrentSeason,
-  getPreviousSeasonalBanner,
-  getSeasonalBanner,
-} from "features/game/types/seasons";
+  CHAPTERS,
+  ChapterBanner,
+  getCurrentChapter,
+  getChapterBanner,
+  getPreviousChapterBanner,
+} from "features/game/types/chapters";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("purchaseBanner", () => {
@@ -22,7 +22,7 @@ describe("purchaseBanner", () => {
         },
         action: {
           type: "banner.purchased",
-          name: "Invalid Banner" as SeasonalBanner,
+          name: "Invalid Banner" as ChapterBanner,
         },
       }),
     ).toThrow("Invalid banner");
@@ -39,7 +39,7 @@ describe("purchaseBanner", () => {
         },
         action: {
           type: "banner.purchased",
-          name: getSeasonalBanner(),
+          name: getChapterBanner(),
         },
       }),
     ).toThrow("Insufficient Gems");
@@ -65,9 +65,9 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on first week without previous banner", () => {
     const SIX_DAYS = 1000 * 60 * 60 * 24 * 6;
-    const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
-    const banner = getSeasonalBanner();
+    const chapter = getCurrentChapter();
+    const chapterStart = CHAPTERS[chapter].startDate;
+    const banner = getChapterBanner();
 
     const result = purchaseBanner({
       state: {
@@ -80,7 +80,7 @@ describe("purchaseBanner", () => {
         type: "banner.purchased",
         name: banner,
       },
-      createdAt: seasonStart.getTime() + SIX_DAYS,
+      createdAt: chapterStart.getTime() + SIX_DAYS,
     });
 
     expect(result).toEqual({
@@ -94,24 +94,24 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on first week with previous banner", () => {
     const SIX_DAYS = 1000 * 60 * 60 * 24 * 6;
-    const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
-    const banner = getSeasonalBanner();
-    const previousSeasonalBanner = getPreviousSeasonalBanner();
+    const chapter = getCurrentChapter();
+    const chapterStart = CHAPTERS[chapter].startDate;
+    const banner = getChapterBanner();
+    const previousChapterBanner = getPreviousChapterBanner();
 
     const result = purchaseBanner({
       state: {
         ...TEST_FARM,
         inventory: {
           Gem: new Decimal(60 * BB_TO_GEM_RATIO),
-          [previousSeasonalBanner]: new Decimal(1),
+          [previousChapterBanner]: new Decimal(1),
         },
       },
       action: {
         type: "banner.purchased",
         name: banner,
       },
-      createdAt: seasonStart.getTime() + SIX_DAYS,
+      createdAt: chapterStart.getTime() + SIX_DAYS,
     });
 
     expect(result).toEqual({
@@ -119,16 +119,16 @@ describe("purchaseBanner", () => {
       inventory: {
         Gem: new Decimal(0),
         [banner]: new Decimal(1),
-        [previousSeasonalBanner]: new Decimal(1),
+        [previousChapterBanner]: new Decimal(1),
       },
     });
   });
 
   it("purchases banner on 2-4 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
-    const banner = getSeasonalBanner();
+    const chapter = getCurrentChapter();
+    const chapterStart = CHAPTERS[chapter].startDate;
+    const banner = getChapterBanner();
 
     const result = purchaseBanner({
       state: {
@@ -141,7 +141,7 @@ describe("purchaseBanner", () => {
         type: "banner.purchased",
         name: banner,
       },
-      createdAt: seasonStart.getTime() + WEEK * 3,
+      createdAt: chapterStart.getTime() + WEEK * 3,
     });
 
     expect(result).toEqual({
@@ -155,9 +155,9 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on 4-8 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
-    const banner = getSeasonalBanner();
+    const chapter = getCurrentChapter();
+    const chapterStart = CHAPTERS[chapter].startDate;
+    const banner = getChapterBanner();
 
     const result = purchaseBanner({
       state: {
@@ -170,7 +170,7 @@ describe("purchaseBanner", () => {
         type: "banner.purchased",
         name: banner,
       },
-      createdAt: seasonStart.getTime() + WEEK * 5,
+      createdAt: chapterStart.getTime() + WEEK * 5,
     });
 
     expect(result).toEqual({
@@ -184,9 +184,9 @@ describe("purchaseBanner", () => {
 
   it("purchases banner after 8 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
-    const banner = getSeasonalBanner();
+    const chapter = getCurrentChapter();
+    const chapterStart = CHAPTERS[chapter].startDate;
+    const banner = getChapterBanner();
 
     const result = purchaseBanner({
       state: {
@@ -199,7 +199,7 @@ describe("purchaseBanner", () => {
         type: "banner.purchased",
         name: banner,
       },
-      createdAt: seasonStart.getTime() + WEEK * 9,
+      createdAt: chapterStart.getTime() + WEEK * 9,
     });
 
     expect(result).toEqual({
@@ -246,12 +246,12 @@ describe("purchaseBanner", () => {
       },
       action: {
         type: "banner.purchased",
-        name: getSeasonalBanner(),
+        name: getChapterBanner(),
       },
     });
 
     expect(result.inventory["Gem"]).toEqual(new Decimal(100 * BB_TO_GEM_RATIO));
-    expect(result.inventory[getSeasonalBanner()]).toEqual(new Decimal(1));
+    expect(result.inventory[getChapterBanner()]).toEqual(new Decimal(1));
   });
 
   it("throws an error if buying a banner out of season", () => {
@@ -273,8 +273,8 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on first week of Pharaohs Treasure without previous banner", () => {
     const SIX_DAYS = 1000 * 60 * 60 * 24 * 6;
-    const seasonStart = SEASONS["Pharaoh's Treasure"].startDate;
-    const banner = getSeasonalBanner(seasonStart);
+    const seasonStart = CHAPTERS["Pharaoh's Treasure"].startDate;
+    const banner = getChapterBanner(seasonStart);
 
     const result = purchaseBanner({
       state: {

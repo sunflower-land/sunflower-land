@@ -14,7 +14,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import { SeasonName, SEASONS } from "features/game/types/seasons";
+import { ChapterName, CHAPTERS } from "features/game/types/chapters";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -41,18 +41,18 @@ type AuctionDetail = {
 type AuctionItems = Record<BumpkinItem | InventoryItemName, AuctionDetail>;
 
 /**
- * Aggregates the seasonal auction items
+ * Aggregates the chapter auction items
  */
-function getSeasonalAuctions({
+function getChapterAuctions({
   auctions,
   totalSupply,
-  season,
+  chapter,
 }: {
   auctions: Auction[];
   totalSupply: Record<string, number>;
-  season: SeasonName;
+  chapter: ChapterName;
 }) {
-  const { startDate, endDate } = SEASONS[season];
+  const { startDate, endDate } = CHAPTERS[chapter];
 
   // Aggregate supplies
   let details: AuctionItems = auctions.reduce((acc, auction) => {
@@ -76,15 +76,15 @@ function getSeasonalAuctions({
     return acc;
   }, {} as AuctionItems);
 
-  // Filter out any not in this season
+  // Filter out any not in this chapter
   details = getKeys(details).reduce((acc, name) => {
-    const hasNoSeasonAuctions = details[name].auctions.every(
+    const hasNoChapterAuctions = details[name].auctions.every(
       (auction) =>
         auction.startAt < startDate.getTime() ||
         auction.startAt > endDate.getTime(),
     );
 
-    if (hasNoSeasonAuctions) {
+    if (hasNoChapterAuctions) {
       return acc;
     }
 
@@ -138,11 +138,11 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
       <div className="p-1">
         <div className="flex justify-between mb-1 flex-wrap wrap">
           <Label className="-ml-1 mb-1" type="default">
-            {t("season.codex.nextDrop")}
+            {t("chapter.codex.nextDrop")}
           </Label>
           {nextDrop.sfl > 0 && (
             <Label type="formula" icon={sfl} className="mb-1">
-              {t("season.codex.nextDrop.available", {
+              {t("chapter.codex.nextDrop.available", {
                 dropSupply: nextDrop.supply,
               })}
             </Label>
@@ -154,7 +154,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
               className="mb-1"
               key={name}
             >
-              {t("season.codex.nextDrop.available", {
+              {t("chapter.codex.nextDrop.available", {
                 dropSupply: nextDrop.supply,
               })}
             </Label>
@@ -274,7 +274,7 @@ const Drops: React.FC<{
             {detail.type === "collectible" ? t("collectible") : t("wearable")}
           </Label>
           <Label type="default" className="mt-1 mb-1">
-            {t("season.codex.auction.totalSupply", {
+            {t("chapter.codex.auction.totalSupply", {
               totalSupply: maxSupply,
             })}
           </Label>
@@ -341,7 +341,7 @@ const Drops: React.FC<{
 
                   {drop.startAt > Date.now() ? (
                     <Label type="formula">
-                      {t("season.codex.nextDrop.available", {
+                      {t("chapter.codex.nextDrop.available", {
                         dropSupply: drop.supply,
                       })}
                     </Label>
@@ -361,15 +361,15 @@ const Drops: React.FC<{
 interface Props {
   gameState: GameState;
   farmId: number;
-  season: SeasonName;
+  chapter: ChapterName;
 }
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
-export const SeasonalAuctions: React.FC<Props> = ({
+export const ChapterAuctions: React.FC<Props> = ({
   farmId,
   gameState,
-  season,
+  chapter,
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
@@ -410,10 +410,10 @@ export const SeasonalAuctions: React.FC<Props> = ({
   }
 
   const { details: auctionItems, filteredTotalSupply: totalItems } =
-    getSeasonalAuctions({
+    getChapterAuctions({
       auctions: auctioneerState.context.auctions,
       totalSupply: auctioneerState.context.totalSupply,
-      season,
+      chapter,
     });
 
   return (
@@ -443,11 +443,11 @@ export const SeasonalAuctions: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
-              {t("season.codex.seasonalDrops")}
+              {t("chapter.codex.chapterDrops")}
             </Label>
           </div>
           <p className="text-xs mb-2">
-            {t("season.codex.seasonalDrops.description")}
+            {t("chapter.codex.chapterDrops.description")}
           </p>
 
           <div className="flex flex-col -mx-1">
@@ -517,7 +517,9 @@ export const SeasonalAuctions: React.FC<Props> = ({
                         </Label>
                       )}
                       {remainingLeft === 0 ? (
-                        <Label type="danger">{t("season.codex.soldOut")}</Label>
+                        <Label type="danger">
+                          {t("chapter.codex.soldOut")}
+                        </Label>
                       ) : remainingLeft <= 50 ? (
                         <Label type="formula">{`${remainingLeft} left`}</Label>
                       ) : (

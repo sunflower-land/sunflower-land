@@ -55,7 +55,7 @@ class GameAnalyticTracker {
         "SFL",
         "BlockBuck",
         "Gem",
-        "SeasonalTicket",
+        "ChapterTicket",
         // TODO add future seasonal tickets
       ]);
 

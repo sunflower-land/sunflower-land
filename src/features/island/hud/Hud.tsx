@@ -23,7 +23,7 @@ import { BuyCurrenciesModal } from "./components/BuyCurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
-import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
+import { ChapterBannerCountdown } from "./ChapterBannerCountdown";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 import { PowerSkillsButton } from "./components/PowerSkillsButton";
@@ -186,7 +186,7 @@ const HudComponent: React.FC<{
           <TransactionCountdown />
           <AuctionCountdown />
           <SpecialEventCountdown />
-          <SeasonBannerCountdown />
+          <ChapterBannerCountdown />
         </div>
         <div
           className="absolute z-50 flex flex-col justify-between"

@@ -3,10 +3,10 @@ import { TicketsLeaderboard } from "./TicketsLeaderboard";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { InnerPanel } from "components/ui/Panel";
 import {
-  SEASON_TICKET_NAME,
-  SeasonName,
-  secondsLeftInSeason,
-} from "features/game/types/seasons";
+  CHAPTER_TICKET_NAME,
+  ChapterName,
+  secondsLeftInChapter,
+} from "features/game/types/chapters";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
@@ -15,17 +15,17 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chores from "assets/icons/chores.webp";
 import lock from "assets/icons/lock.png";
 
-import { SeasonalAuctions } from "../components/SeasonalAuctions";
+import { ChapterAuctions } from "../components/ChapterAuctions";
 import classNames from "classnames";
-import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
+import { ChapterStore } from "features/world/ui/megastore/ChapterStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
 import { BertObsession } from "features/world/ui/npcs/Bert";
 import { GameState } from "features/game/types/game";
+import { ChapterMutants } from "../components/ChapterMutants";
 
-const SEASON_GRAPHICS: Record<SeasonName, string> = {
+const CHAPTER_GRAPHICS: Record<ChapterName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -41,16 +41,16 @@ interface Props {
   id: string;
   isLoading: boolean;
   data: TicketLeaderboard | null;
-  season: SeasonName;
+  chapter: ChapterName;
   state: GameState;
   farmId: number;
 }
 
-export const Season: React.FC<Props> = ({
+export const Chapter: React.FC<Props> = ({
   id,
   isLoading,
   data,
-  season,
+  chapter,
   state,
   farmId,
 }) => {
@@ -66,25 +66,25 @@ export const Season: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between mb-1 flex-wrap">
             <Label className="-ml-1 mb-1" type="default">
-              {season}
+              {chapter}
             </Label>
             <Label
               type="info"
               className="mb-1"
               icon={SUNNYSIDE.icons.stopwatch}
             >
-              {`${secondsToString(secondsLeftInSeason(), { length: "short" })} left`}
+              {`${secondsToString(secondsLeftInChapter(), { length: "short" })} left`}
             </Label>
           </div>
           <p className="text-xs">
-            {t("season.codex.intro", { ticket: SEASON_TICKET_NAME[season] })}
+            {t("chapter.codex.intro", { ticket: CHAPTER_TICKET_NAME[chapter] })}
           </p>
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
         <div
           style={{
-            backgroundImage: `url(${SEASON_GRAPHICS[season]})`,
+            backgroundImage: `url(${CHAPTER_GRAPHICS[chapter]})`,
             imageRendering: "pixelated",
             height: "125px",
             backgroundSize: "600px",
@@ -97,8 +97,8 @@ export const Season: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
-              {t("season.codex.howToEarn", {
-                ticket: SEASON_TICKET_NAME[season],
+              {t("chapter.codex.howToEarn", {
+                ticket: CHAPTER_TICKET_NAME[chapter],
               })}
             </Label>
 
@@ -111,7 +111,7 @@ export const Season: React.FC<Props> = ({
           {Date.now() < new Date("2024-11-06").getTime() && (
             <div className="mb-2">
               <span className="text-xs">
-                {t("season.codex.howToEarn.comingSoon")}
+                {t("chapter.codex.howToEarn.comingSoon")}
               </span>
             </div>
           )}
@@ -119,15 +119,15 @@ export const Season: React.FC<Props> = ({
             iconWidth={8}
             items={[
               {
-                text: t("season.codex.howToEarn.one"),
+                text: t("chapter.codex.howToEarn.one"),
                 icon: SUNNYSIDE.icons.player,
               },
               {
-                text: t("season.codex.howToEarn.two"),
+                text: t("chapter.codex.howToEarn.two"),
                 icon: chores,
               },
               {
-                text: t("season.codex.howToEarn.three"),
+                text: t("chapter.codex.howToEarn.three"),
                 icon: ITEM_DETAILS["White Pansy"].image,
               },
             ]}
@@ -147,10 +147,10 @@ export const Season: React.FC<Props> = ({
         />
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <SeasonalStore readonly state={state} />
+        <ChapterStore readonly state={state} />
       </InnerPanel>
-      <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
-      <SeasonalMutants season={season} />
+      <ChapterAuctions gameState={state} farmId={farmId} chapter={chapter} />
+      <ChapterMutants chapter={chapter} />
       <InnerPanel className="mb-1">
         <TicketsLeaderboard id={id} isLoading={isLoading} data={data} />
       </InnerPanel>

@@ -1,14 +1,14 @@
-import { SeasonWeek } from "features/game/types/game";
-import { SEASONS, getCurrentSeason } from "features/game/types/seasons";
+import { ChapterWeek } from "features/game/types/game";
+import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 import { ADMIN_IDS } from "lib/flags";
 
 /**
  * Helper function to get the week number of the season
  * @returns week number of the season 1-12
  */
-export function getSeasonWeek(): SeasonWeek {
+export function getChapterWeek(): ChapterWeek {
   const now = Date.now();
-  const { startDate, endDate } = SEASONS[getCurrentSeason()];
+  const { startDate, endDate } = CHAPTERS[getCurrentChapter()];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();
 
@@ -20,27 +20,27 @@ export function getSeasonWeek(): SeasonWeek {
     throw new Error("The current date is beyond the end date");
   }
 
-  return Math.min(Math.max(totalWeeks + 1, 1), 13) as SeasonWeek; // Return the week number, minimum is 1, maximum is 12
+  return Math.min(Math.max(totalWeeks + 1, 1), 13) as ChapterWeek; // Return the week number, minimum is 1, maximum is 12
 }
 
 /**
  * Helps implement a preseason where tasks are 'frozen'
  * This ensures a smooth transition and testing period.
  */
-export function getSeasonChangeover({
+export function getChapterChangeover({
   id,
   now = Date.now(),
 }: {
   id: number;
   now?: number;
 }) {
-  const season = getCurrentSeason(new Date(now));
+  const season = getCurrentChapter(new Date(now));
 
-  const tasksCloseAt = SEASONS[season].endDate.getTime();
+  const tasksCloseAt = CHAPTERS[season].endDate.getTime();
 
   // 7 days after the season starts
   const tasksStartAt =
-    SEASONS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
+    CHAPTERS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
 
   const isAdmin = ADMIN_IDS.includes(id);
 
@@ -51,7 +51,7 @@ export function getSeasonChangeover({
       now < tasksCloseAt && now >= tasksCloseAt - 24 * 60 * 60 * 1000,
     ticketTasksAreFrozen:
       !isAdmin &&
-      now >= SEASONS[season].startDate.getTime() &&
+      now >= CHAPTERS[season].startDate.getTime() &&
       now <= tasksStartAt,
   };
 }
@@ -96,11 +96,11 @@ export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
  * Helper function to get the week number of the season
  * @returns week number of the season 1-12
  */
-export function getSeasonWeekByCreatedAt(createdAt: number): SeasonWeek {
+export function getChapterWeekByCreatedAt(createdAt: number): ChapterWeek {
   const now = createdAt;
 
-  const season = getCurrentSeason(new Date(now));
-  const { startDate, endDate } = SEASONS[season];
+  const season = getCurrentChapter(new Date(now));
+  const { startDate, endDate } = CHAPTERS[season];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();
 
@@ -112,5 +112,5 @@ export function getSeasonWeekByCreatedAt(createdAt: number): SeasonWeek {
     throw new Error("The current date is beyond the end date");
   }
 
-  return Math.min(Math.max(totalWeeks + 1, 1), 13) as SeasonWeek; // Return the week number, minimum is 1, maximum is 12
+  return Math.min(Math.max(totalWeeks + 1, 1), 13) as ChapterWeek; // Return the week number, minimum is 1, maximum is 12
 }
