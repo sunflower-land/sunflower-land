@@ -11,7 +11,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
 import { getChapterTicket } from "features/game/types/chapters";
-import { getChapterChangeover } from "lib/utils/getSeasonWeek";
+import { getChapterChangeover } from "lib/utils/getChapterWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { MachineState } from "features/game/lib/gameMachine";

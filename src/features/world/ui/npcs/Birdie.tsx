@@ -12,7 +12,7 @@ interface Props {
 }
 export const Birdie: React.FC<Props> = ({ onClose }) => {
   const [showTicketHelp, setShowTicketHelp] = useState(false);
-  const [showSeasonHelp, setShowSeasonHelp] = useState(false);
+  const [showChapterHelp, setShowChapterHelp] = useState(false);
 
   useEffect(() => {
     acknowledgeNPC("birdie");
@@ -29,22 +29,22 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         message={[
           {
             text: translate("birdieplaza.earnTicketsVariety", {
-              seasonalTicket: getChapterTicket(),
+              chapterTicket: getChapterTicket(),
             }),
           },
           {
             text: translate("birdieplaza.commonMethod", {
-              seasonalTicket: getChapterTicket(),
+              chapterTicket: getChapterTicket(),
             }),
           },
           {
             text: translate("birdieplaza.choresAndRewards", {
-              seasonalTicket: getChapterTicket(),
+              chapterTicket: getChapterTicket(),
             }),
           },
           {
             text: translate("birdieplaza.gatherAndCraft", {
-              seasonalTicket: getChapterTicket(),
+              chapterTicket: getChapterTicket(),
             }),
           },
         ]}
@@ -52,29 +52,29 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  if (showSeasonHelp) {
+  if (showChapterHelp) {
     return (
       <SpeakingModal
         onClose={() => {
           onClose();
         }}
         bumpkinParts={NPC_WEARABLES.birdie}
-        key="season"
+        key="chapter"
         message={[
           {
-            text: translate("birdieplaza.newSeasonIntro"),
+            text: translate("birdieplaza.newChapterIntro"),
           },
           {
-            text: translate("birdieplaza.seasonQuests"),
+            text: translate("birdieplaza.chapterQuests"),
           },
           {
             text: translate("birdieplaza.craftItems", {
-              seasonalTicket: getChapterTicket(),
+              chapterTicket: getChapterTicket(),
             }),
             actions: [
               {
                 text: translate("birdieplaza.howToEarnTickets", {
-                  seasonalTicket: getChapterTicket(),
+                  chapterTicket: getChapterTicket(),
                 }),
                 cb: () => setShowTicketHelp(true),
               },
@@ -102,21 +102,21 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         {
           text: translate("birdieplaza.currentSeason", {
             currentSeason: getCurrentChapter(),
-            seasonalTicket: getChapterTicket(),
+            chapterTicket: getChapterTicket(),
           }),
         },
         {
           text: translate("birdieplaza.collectTickets", {
-            seasonalTicket: getChapterTicket(),
+            chapterTicket: getChapterTicket(),
           }),
           actions: [
             {
               text: translate("birdieplaza.whatIsSeason"),
-              cb: () => setShowSeasonHelp(true),
+              cb: () => setShowChapterHelp(true),
             },
             {
               text: translate("birdieplaza.howToEarnTickets", {
-                seasonalTicket: getChapterTicket(),
+                chapterTicket: getChapterTicket(),
               }),
               cb: () => setShowTicketHelp(true),
             },

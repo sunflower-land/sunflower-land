@@ -12,7 +12,7 @@ import { NPCName } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { hasFeatureAccess } from "lib/flags";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getChapterWeek";
 import { DogContainer } from "../containers/DogContainer";
 
 export type FactionNPC = {

@@ -18,7 +18,7 @@ import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MegaStoreMonthly } from "./MegaStoreMonthly";
-import { MegaStoreSeasonal } from "./MegaStoreSeasonal";
+import { MegaStoreChapter } from "./MegaStoreChapter";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ChapterStore } from "./ChapterStore";
 import { hasFeatureAccess } from "lib/flags";
@@ -98,7 +98,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
     >
       {tab === 0 && <MegaStoreMonthly />}
-      {tab === 1 && <MegaStoreSeasonal />}
+      {tab === 1 && <MegaStoreChapter />}
     </CloseButtonPanel>
   );
 };

@@ -22,7 +22,7 @@ import {
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
-export const MegaStoreSeasonal: React.FC<{
+export const MegaStoreChapter: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
   const { t } = useAppTranslation();
@@ -62,7 +62,7 @@ export const MegaStoreSeasonal: React.FC<{
     <div className="relative h-full w-full">
       <div className="flex justify-between px-2 flex-wrap pb-1">
         <Label type="vibrant" icon={lightning} className="mb-1">
-          {t("available.all.season")}
+          {t("available.all.chapter")}
         </Label>
         <Label icon={SUNNYSIDE.icons.stopwatch} type="danger" className="mb-1">
           {t("megaStore.timeRemaining", {
@@ -79,7 +79,7 @@ export const MegaStoreSeasonal: React.FC<{
         })}
       >
         <span className="text-xs pb-2">
-          {readonly ? t("megaStore.visit") : t("megastore.message.allSeason")}
+          {readonly ? t("megaStore.visit") : t("megastore.message.allChapter")}
         </span>
         {getKeys(
           megastore.collectibles.filter(

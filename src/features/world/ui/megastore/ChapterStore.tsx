@@ -14,8 +14,8 @@ import {
   ChapterStoreWearable,
 } from "features/game/types/megastore";
 
-import { ItemsList } from "./seasonalstore_components/ItemsList";
-import { ItemDetail } from "./seasonalstore_components/ItemDetail";
+import { ItemsList } from "./chapterstore_components/ItemsList";
+import { ItemDetail } from "./chapterstore_components/ItemDetail";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -104,13 +104,13 @@ export const ChapterStore: React.FC<{
   );
   const { t } = useAppTranslation();
 
-  const currentSeason = getCurrentChapter(new Date(createdAt));
+  const currentChapter = getCurrentChapter(new Date(createdAt));
 
   // Basic-Epic
-  const basicAllItems = MEGASTORE[currentSeason].basic.items;
-  const rareAllItems = MEGASTORE[currentSeason].rare.items;
-  const epicAllItems = MEGASTORE[currentSeason].epic.items;
-  const megaItems = MEGASTORE[currentSeason].mega.items;
+  const basicAllItems = MEGASTORE[currentChapter].basic.items;
+  const rareAllItems = MEGASTORE[currentChapter].rare.items;
+  const epicAllItems = MEGASTORE[currentChapter].epic.items;
+  const megaItems = MEGASTORE[currentChapter].mega.items;
 
   return (
     <>

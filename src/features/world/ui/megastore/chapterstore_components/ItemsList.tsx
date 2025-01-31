@@ -37,7 +37,7 @@ import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   getChapterItemsCrafted,
   getStore,
-  isKeyBoughtWithinSeason,
+  isKeyBoughtWithinChapter,
 } from "features/game/events/landExpansion/buyChapterItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
@@ -144,26 +144,26 @@ export const ItemsList: React.FC<Props> = ({
     return currencyItem;
   };
   const createdAt = Date.now();
-  const currentSeason = getCurrentChapter(new Date(createdAt));
-  const seasonalStore = MEGASTORE[currentSeason];
+  const currentChapter = getCurrentChapter(new Date(createdAt));
+  const chapterStore = MEGASTORE[currentChapter];
   const tiers = tier;
 
-  const seasonalCollectiblesCrafted = getChapterItemsCrafted(
+  const chapterCollectiblesCrafted = getChapterItemsCrafted(
     state,
-    seasonalStore,
+    chapterStore,
     "collectible",
     tier,
     true,
   );
-  const seasonalWearablesCrafted = getChapterItemsCrafted(
+  const chapterWearablesCrafted = getChapterItemsCrafted(
     state,
-    seasonalStore,
+    chapterStore,
     "wearable",
     tier,
     true,
   );
-  const seasonalItemsCrafted =
-    seasonalCollectiblesCrafted + seasonalWearablesCrafted;
+  const chapterItemsCrafted =
+    chapterCollectiblesCrafted + chapterWearablesCrafted;
 
   // Type guard if the requirement exists
   const hasRequirement = (
@@ -172,25 +172,25 @@ export const ItemsList: React.FC<Props> = ({
     return "requirement" in tier;
   };
 
-  const tierData = getStore(seasonalStore, tier);
+  const tierData = getStore(chapterStore, tier);
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
   // For Current Tier Key - Unlocked(0) / Locked(1)
-  const isKeyCounted = isKeyBoughtWithinSeason(state, tiers) ? 0 : 1;
+  const isKeyCounted = isKeyBoughtWithinChapter(state, tiers) ? 0 : 1;
   // Reduction is by getting the lower tier of currrent tier
-  const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
+  const reduction = isKeyBoughtWithinChapter(state, tiers, true) ? 0 : 1;
 
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
   const isRareUnlocked =
-    tier === "rare" && seasonalItemsCrafted - reduction >= requirements;
+    tier === "rare" && chapterItemsCrafted - reduction >= requirements;
   const isEpicUnlocked =
-    tier === "epic" && seasonalItemsCrafted - reduction >= requirements;
+    tier === "epic" && chapterItemsCrafted - reduction >= requirements;
   const isMegaUnlocked =
-    tier === "mega" && seasonalItemsCrafted - reduction >= requirements;
-  const tierpercentage = seasonalItemsCrafted - reduction;
+    tier === "mega" && chapterItemsCrafted - reduction >= requirements;
+  const tierpercentage = chapterItemsCrafted - reduction;
 
   const percentage = Math.round((tierpercentage / requirements) * 100);
 

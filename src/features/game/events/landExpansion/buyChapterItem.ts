@@ -84,7 +84,7 @@ export function buyChapterItem({
     const keyBoughtAt =
       stateCopy.pumpkinPlaza.keysBought?.megastore[name as Keys]?.boughtAt;
 
-    const reduction = isKeyBoughtWithinSeason(state, tier, true) ? 0 : 1;
+    const reduction = isKeyBoughtWithinChapter(state, tier, true) ? 0 : 1;
 
     // Check if player meets the tier requirement
     if (tier !== "basic") {
@@ -183,7 +183,7 @@ export function buyChapterItem({
 }
 
 // Function to assess if key is bought within the current season
-export function isKeyBoughtWithinSeason(
+export function isKeyBoughtWithinChapter(
   game: GameState,
   tier: keyof ChapterStore,
   isLowerTier = false,

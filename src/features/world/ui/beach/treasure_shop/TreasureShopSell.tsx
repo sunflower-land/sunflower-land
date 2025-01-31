@@ -141,7 +141,7 @@ export const TreasureShopSell: React.FC = () => {
         onHide={() => showConfirmationModal(false)}
         messages={[
           selectedName === CHAPTER_ARTEFACT[getCurrentChapter()]
-            ? t("confirmation.sellSeasonalArtefact")
+            ? t("confirmation.sellChapterArtefact")
             : price > 1000
               ? t("confirmation.valuableTreasure")
               : t("confirmation.sell", {

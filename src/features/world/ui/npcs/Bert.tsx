@@ -46,23 +46,23 @@ interface Props {
 const obsessionDialogues = (itemName: string) => [
   `${translate("obsessionDialogue.line1", {
     itemName: itemName,
-    seasonalTicket: getChapterTicket().toLowerCase(),
+    chapterTicket: getChapterTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line2", {
     itemName: itemName,
-    seasonalTicket: getChapterTicket().toLowerCase(),
+    chapterTicket: getChapterTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line3", {
     itemName: itemName,
-    seasonalTicket: getChapterTicket().toLowerCase(),
+    chapterTicket: getChapterTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line4", {
     itemName: itemName,
-    seasonalTicket: getChapterTicket().toLowerCase(),
+    chapterTicket: getChapterTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line5", {
     itemName: itemName,
-    seasonalTicket: getChapterTicket().toLowerCase(),
+    chapterTicket: getChapterTicket().toLowerCase(),
   })}`,
 ];
 
@@ -290,7 +290,7 @@ const CompleteObsession: React.FC<{
         }`}
       </Button>
       <span className="text-xs text-center">
-        {t("bert.day", { seasonalTicket: getChapterTicket() })}
+        {t("bert.day", { chapterTicket: getChapterTicket() })}
       </span>
     </>
   );
@@ -348,7 +348,7 @@ const BertObsessionReadonly: React.FC<{
             <span className="text-xs leading-none">
               {t("obsessionDialogue.codex", {
                 itemName: obsessionName ?? "",
-                seasonalTicket: getChapterTicket().toLowerCase(),
+                chapterTicket: getChapterTicket().toLowerCase(),
               })}
             </span>
             <div className="flex flex-row flex-wrap gap-1">

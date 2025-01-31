@@ -45,7 +45,7 @@ import {
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getChapterWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -622,7 +622,7 @@ interface Props {
   npc: NPCName;
 }
 
-const GOBLINS_REQUIRING_SEASON_PASS: Partial<NPCName[]> = [
+const GOBLINS_REQUIRING_VIP_PASS: Partial<NPCName[]> = [
   "grimtooth",
   "grubnuk",
   "gordo",
@@ -680,7 +680,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     });
   };
 
-  const requiresSeasonPass = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
+  const requiresVIP = GOBLINS_REQUIRING_VIP_PASS.includes(npc);
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
@@ -718,14 +718,14 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const hasVIP = hasVipAccess({ game: gameState.context.state });
 
-  if (requiresSeasonPass && !hasVIP) {
+  if (requiresVIP && !hasVIP) {
     message = t("goblinTrade.vipDelivery");
   }
 
   const missingLevels =
     (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
     getBumpkinLevel(game.bumpkin?.experience ?? 0);
-  const missingVIPAccess = requiresSeasonPass && !hasVIP;
+  const missingVIPAccess = requiresVIP && !hasVIP;
   const isLocked = missingLevels >= 1;
   const isTicketOrder = tickets > 0;
   const deliveryFrozen = isHoliday && isTicketOrder;
@@ -825,7 +825,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   )}
                 </div>
                 <div className="flex flex-row justify-between w-full">
-                  {!delivery?.completedAt && requiresSeasonPass && (
+                  {!delivery?.completedAt && requiresVIP && (
                     <VIPAccess
                       isVIP={hasVIP}
                       onUpgrade={() => {

@@ -12,7 +12,7 @@ import {
   getChapterBanner,
   CHAPTERS,
 } from "features/game/types/chapters";
-import { getChapterWeek } from "lib/utils/getSeasonWeek";
+import { getChapterWeek } from "lib/utils/getChapterWeek";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";

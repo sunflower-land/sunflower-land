@@ -35,7 +35,7 @@ import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   getChapterItemsCrafted,
-  isKeyBoughtWithinSeason,
+  isKeyBoughtWithinChapter,
 } from "features/game/events/landExpansion/buyChapterItem";
 
 interface ItemOverlayProps {
@@ -80,8 +80,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   ] = useActor(gameService);
 
   const createdAt = Date.now();
-  const currentSeason = getCurrentChapter(new Date(createdAt));
-  const seasonalStore = MEGASTORE[currentSeason];
+  const currentChapter = getCurrentChapter(new Date(createdAt));
+  const chapterStore = MEGASTORE[currentChapter];
   const tiers =
     tier === "basic"
       ? "basic"
@@ -93,22 +93,22 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             ? "mega"
             : "basic";
 
-  const seasonalCollectiblesCrafted = getChapterItemsCrafted(
+  const chapterCollectiblesCrafted = getChapterItemsCrafted(
     state,
-    seasonalStore,
+    chapterStore,
     "collectible",
     tiers,
     true,
   );
-  const seasonalWearablesCrafted = getChapterItemsCrafted(
+  const chapterWearablesCrafted = getChapterItemsCrafted(
     state,
-    seasonalStore,
+    chapterStore,
     "wearable",
     tiers,
     true,
   );
-  const seasonalItemsCrafted =
-    seasonalCollectiblesCrafted + seasonalWearablesCrafted;
+  const chapterItemsCrafted =
+    chapterCollectiblesCrafted + chapterWearablesCrafted;
 
   const itemName = item
     ? isWearable
@@ -119,16 +119,16 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
-  const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
+  const reduction = isKeyBoughtWithinChapter(state, tiers, true) ? 0 : 1;
   const isRareUnlocked =
     tiers === "rare" &&
-    seasonalItemsCrafted - reduction >= seasonalStore.rare.requirement;
+    chapterItemsCrafted - reduction >= chapterStore.rare.requirement;
   const isEpicUnlocked =
     tiers === "epic" &&
-    seasonalItemsCrafted - reduction >= seasonalStore.epic.requirement;
+    chapterItemsCrafted - reduction >= chapterStore.epic.requirement;
   const isMegaUnlocked =
-    tier === "mega" &&
-    seasonalItemsCrafted - reduction >= seasonalStore.mega.requirement;
+    tiers === "mega" &&
+    chapterItemsCrafted - reduction >= chapterStore.mega.requirement;
 
   const keysBoughtAt = keysBought?.megastore[itemName as Keys]?.boughtAt;
   const keysBoughtToday =

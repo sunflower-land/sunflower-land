@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { DailyChore } from "./DailyChore";
 import { acknowledgeChores } from "../lib/chores";
-import { getChapterChangeover } from "lib/utils/getSeasonWeek";
+import { getChapterChangeover } from "lib/utils/getChapterWeek";
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
