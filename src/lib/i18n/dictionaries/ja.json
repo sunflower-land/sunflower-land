@@ -5124,5 +5124,6 @@
   "islandupgrade.exoticResourcesDescription": "サンフラワーランドのこの地域は、そのエキゾチックな資源で知られています。土地を広げて、果物や花、ミツバチの巣箱、希少な鉱物を発見しよう！季節は栽培できるものに影響しますので、目を離さないでください。",
   "cropGuide.tutorialAlwaysSpring": "初めての島は、いつだって春です！島をアップグレードすると、季節が変わり始めます。",
   "temperateSeason.weatherShop.buy.comingSoon": "近日公開-2月3日",
-  "chapter": "章"
+  "chapter": "章",
+  "season.codex.auction.totalSupply": "総供給量:{{totalSupply}}"
 }

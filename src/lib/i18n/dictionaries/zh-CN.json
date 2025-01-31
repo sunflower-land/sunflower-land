@@ -5124,5 +5124,6 @@
   "islandupgrade.exoticResourcesDescription": "向日葵地的这一地区以其异国情调的资源而闻名。扩大您的土地，探索水果、鲜花、蜂箱和稀有矿物质！留意季节，因为它们会影响你的种植能力。",
   "cropGuide.tutorialAlwaysSpring": "在你的第一个岛上，永远是春天！当你升级岛屿时，季节将开始变化。",
   "temperateSeason.weatherShop.buy.comingSoon": "即将上线-2 月 3 日",
-  "chapter": "章节"
+  "chapter": "章节",
+  "season.codex.auction.totalSupply": "总供应量：{{totalSupply}}"
 }
