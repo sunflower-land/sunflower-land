@@ -2,6 +2,8 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { startCrafting, StartCraftingAction } from "./startCrafting";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { RECIPES } from "features/game/lib/crafting";
 
 describe("startCrafting", () => {
   let gameState: GameState;
@@ -436,5 +438,44 @@ describe("startCrafting", () => {
     const newState = startCrafting({ state: { ...gameState }, action });
     expect(newState.inventory["Leather"]).toStrictEqual(new Decimal(0));
     expect(newState.wardrobe["Farmer Pants"]).toBe(1);
+  });
+
+  it("it applies 50% crafting reduction when Sol & Luna is worn", () => {
+    gameState.wardrobe = {};
+
+    gameState.bumpkin = {
+      ...TEST_BUMPKIN,
+      equipped: {
+        ...TEST_BUMPKIN.equipped,
+        wings: "Sol & Luna",
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
+        { collectible: "Stone" },
+        { collectible: "Stone" },
+        null,
+        null,
+        null,
+      ],
+    };
+
+    const date = Date.now();
+
+    const newState = startCrafting({
+      state: { ...gameState },
+      action,
+      createdAt: date,
+    });
+
+    const craftingTime = date + RECIPES["Stone Fence"].time * 0.5;
+    const craftedAt = newState.craftingBox.readyAt;
+    expect(craftedAt).toBe(craftingTime);
   });
 });
