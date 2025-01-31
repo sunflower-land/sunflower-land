@@ -638,7 +638,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       "Flower Bed": 3,
     },
     7: {
-      "Crop Plot": 46,
+      "Crop Plot": 48,
       Tree: 18,
       "Stone Rock": 16,
       "Iron Rock": 10,

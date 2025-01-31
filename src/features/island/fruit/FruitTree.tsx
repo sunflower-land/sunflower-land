@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
@@ -11,6 +11,9 @@ import { FruitSeedling } from "./FruitSeedling";
 import { DeadTree } from "./DeadTree";
 import { ReplenishingTree } from "./ReplenishingTree";
 import { ReplenishedTree } from "./ReplenishedTree";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 type Stage = "Empty" | "Seedling" | "Replenishing" | "Replenished" | "Dead";
 
@@ -61,6 +64,8 @@ interface Props {
   hasAxes: boolean;
 }
 
+const _island = (state: MachineState) => state.context.state.island.type;
+
 export const FruitTree: React.FC<Props> = ({
   plantedFruit,
   plantTree,
@@ -70,6 +75,8 @@ export const FruitTree: React.FC<Props> = ({
   playShakingAnimation,
   hasAxes,
 }) => {
+  const { gameService } = useContext(Context);
+  const island = useSelector(gameService, _island);
   const treeStatus = getFruitTreeStatus(plantedFruit);
   useUiRefresher({ active: !!treeStatus.timeLeft });
 
@@ -88,7 +95,7 @@ export const FruitTree: React.FC<Props> = ({
   if (treeStatus.stage === "Dead") {
     return (
       <div className="absolute w-full h-full" onClick={removeTree}>
-        <DeadTree patchFruitName={name} hasAxes={hasAxes} />
+        <DeadTree islandType={island} patchFruitName={name} hasAxes={hasAxes} />
       </div>
     );
   }
@@ -97,7 +104,11 @@ export const FruitTree: React.FC<Props> = ({
   if (treeStatus.stage === "Seedling" && !!treeStatus.timeLeft) {
     return (
       <div className="absolute w-full h-full" onClick={fertilise}>
-        <FruitSeedling patchFruitName={name} timeLeft={treeStatus.timeLeft} />
+        <FruitSeedling
+          islandType={island}
+          patchFruitName={name}
+          timeLeft={treeStatus.timeLeft}
+        />
       </div>
     );
   }
@@ -107,6 +118,7 @@ export const FruitTree: React.FC<Props> = ({
     return (
       <div className="absolute w-full h-full" onClick={fertilise}>
         <ReplenishingTree
+          islandType={island}
           patchFruitName={name}
           timeLeft={treeStatus.timeLeft}
           playShakeAnimation={playShakingAnimation}
@@ -118,7 +130,7 @@ export const FruitTree: React.FC<Props> = ({
   // Ready tree
   return (
     <div className="absolute w-full h-full" onClick={harvestFruit}>
-      <ReplenishedTree patchFruitName={name} />
+      <ReplenishedTree islandType={island} patchFruitName={name} />
     </div>
   );
 };

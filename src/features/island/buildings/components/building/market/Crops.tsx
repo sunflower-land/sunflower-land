@@ -69,6 +69,7 @@ export const Crops: React.FC = () => {
   ] = useActor(gameService);
 
   const inventory = state.inventory;
+  const island = state.island.type;
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -223,7 +224,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE.Sunflower.crop}
+                icon={CROP_LIFECYCLE[island].Sunflower.crop}
                 type="default"
               >
                 {`Basic Crops`}
@@ -247,7 +248,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE.Carrot.crop}
+                icon={CROP_LIFECYCLE[island].Carrot.crop}
                 type="default"
               >
                 {`Medium Crops`}
@@ -271,7 +272,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE.Kale.crop}
+                icon={CROP_LIFECYCLE[island].Kale.crop}
                 type="default"
               >
                 {`Advanced Crops`}

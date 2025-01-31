@@ -210,7 +210,7 @@ export const CompetitionDetails: React.FC<{
           </div>
         </InnerPanel>
 
-        <CompetitionLeaderboard name={competitionName} />
+        {/* <CompetitionLeaderboard name={competitionName} /> */}
 
         <InnerPanel>
           <div className="p-1">

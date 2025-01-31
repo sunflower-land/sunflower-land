@@ -107,9 +107,24 @@ export type NPCName =
   | "petro"
   | "pharaoh"
   | "worried pete"
-  | "chase"; //cowboy
+  | "gilda"
+  | "chase" //cowboy
+  | "gunter"
+  | "gorga"
+  | "bailey"; // weatherman
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  bailey: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Basic Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Wise Staff",
+    hat: "Weather Hat",
+    secondaryTool: "Autumn's Embrace",
+  },
   richie: {
     body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
@@ -703,6 +718,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
+    wings: "Bat Wings",
+    hat: "Victorian Hat",
   },
   // Clothes shop stylist
   stella: {
@@ -826,6 +843,26 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Forest Background",
     shoes: "Black Farmer Boots",
   },
+  gunter: {
+    body: "Infernal Goblin Potion",
+    hair: "Silver Streaks",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+  },
+  gorga: {
+    body: "Infernal Goblin Potion",
+    hair: "Goth Hair",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    hat: "Infernal Horns",
+    secondaryTool: "Infernal Drill",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+  },
   // Placeholder fisherman
   finn: {
     body: "Light Brown Farmer Potion",
@@ -836,6 +873,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Wellies",
     tool: "Sunflower Rod",
     hat: "Fishing Hat",
+  },
+  gilda: {
+    body: "Infernal Goblin Potion",
+    hair: "Rancher Hair",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+    hat: "Infernal Horns",
   },
   finley: {
     body: "Light Brown Farmer Potion",

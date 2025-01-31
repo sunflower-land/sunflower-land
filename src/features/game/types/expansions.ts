@@ -1,6 +1,8 @@
 import { GameState, InventoryItemName, IslandType } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
+import { Nodes, TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
+import { getKeys } from "./decorations";
+import { RESOURCE_NODE_PRICES } from "../events/landExpansion/buyResource";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -133,6 +135,14 @@ export function getLand({
   }
 
   const expectedResources = TOTAL_EXPANSION_NODES[game.island.type][expansion];
+
+  // If they have bought resource nodes, we expect they should have more resources.
+  getKeys(RESOURCE_NODE_PRICES).forEach((resource) => {
+    const bought = game.farmActivity[`${resource} Bought`] ?? 0;
+
+    expectedResources[resource as keyof Nodes] =
+      (expectedResources[resource as keyof Nodes] ?? 0) + bought;
+  });
 
   // Remove any resources if they are past the limit already
   const availableTrees =
@@ -3208,7 +3218,7 @@ const VOLCANO_LAND_6_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 0,
-  seconds: 5 * 60,
+  seconds: 10, // 10 seconds
   bumpkinLevel: 70,
 };
 
@@ -3224,7 +3234,7 @@ const VOLCANO_LAND_7_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 320,
-  seconds: 2 * 60 * 60,
+  seconds: 5 * 60, // 5 minutes
   bumpkinLevel: 72,
 };
 
@@ -3240,7 +3250,7 @@ const VOLCANO_LAND_8_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 640,
-  seconds: 12 * 60 * 60,
+  seconds: 0.5 * 60 * 60, // 30 minutes
   bumpkinLevel: 74,
 };
 
@@ -3256,7 +3266,7 @@ const VOLCANO_LAND_9_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 960,
-  seconds: 24 * 60 * 60,
+  seconds: 1 * 60 * 60, // 1 hour
   bumpkinLevel: 76,
 };
 
@@ -3273,7 +3283,7 @@ const VOLCANO_LAND_10_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 1600,
-  seconds: 48 * 60 * 60,
+  seconds: 2 * 60 * 60, // 2 hours
   bumpkinLevel: 78,
 };
 
@@ -3289,7 +3299,7 @@ const VOLCANO_LAND_11_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 2500,
-  seconds: 96 * 60 * 60,
+  seconds: 4 * 60 * 60, // 4 hours
   bumpkinLevel: 80,
 };
 
@@ -3306,7 +3316,7 @@ const VOLCANO_LAND_12_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 3200,
-  seconds: 192 * 60 * 60,
+  seconds: 8 * 60 * 60, // 8 hours
   bumpkinLevel: 82,
 };
 
@@ -3322,7 +3332,7 @@ const VOLCANO_LAND_13_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 4000,
-  seconds: 288 * 60 * 60,
+  seconds: 12 * 60 * 60, // 12 hours
   bumpkinLevel: 84,
 };
 
@@ -3339,7 +3349,7 @@ const VOLCANO_LAND_14_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 4800,
-  seconds: 288 * 60 * 60,
+  seconds: 12 * 60 * 60, // 12 hours
   bumpkinLevel: 86,
 };
 
@@ -3356,7 +3366,7 @@ const VOLCANO_LAND_15_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 5600,
-  seconds: 576 * 60 * 60,
+  seconds: 24 * 60 * 60, // 24 hours
   bumpkinLevel: 88,
 };
 
@@ -3373,7 +3383,7 @@ const VOLCANO_LAND_16_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 6400,
-  seconds: 576 * 60 * 60,
+  seconds: 24 * 60 * 60, // 24 hours
   bumpkinLevel: 90,
 };
 
@@ -3390,7 +3400,7 @@ const VOLCANO_LAND_17_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 8000,
-  seconds: 576 * 60 * 60,
+  seconds: 24 * 60 * 60, // 24 hours
   bumpkinLevel: 92,
 };
 
@@ -3407,7 +3417,7 @@ const VOLCANO_LAND_18_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 10000,
-  seconds: 864 * 60 * 60,
+  seconds: 36 * 60 * 60, // 36 hours
   bumpkinLevel: 94,
 };
 
@@ -3424,7 +3434,7 @@ const VOLCANO_LAND_19_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 12800,
-  seconds: 864 * 60 * 60,
+  seconds: 36 * 60 * 60, // 36 hours
   bumpkinLevel: 96,
 };
 
@@ -3441,7 +3451,7 @@ const VOLCANO_LAND_20_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 15000,
-  seconds: 1152 * 60 * 60,
+  seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 98,
 };
 
@@ -3458,7 +3468,7 @@ const VOLCANO_LAND_21_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 18000,
-  seconds: 1152 * 60 * 60,
+  seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 100,
 };
 
@@ -3475,7 +3485,7 @@ const VOLCANO_LAND_22_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 21000,
-  seconds: 1152 * 60 * 60,
+  seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 102,
 };
 
@@ -3492,7 +3502,7 @@ const VOLCANO_LAND_23_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 25000,
-  seconds: 1152 * 60 * 60,
+  seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 104,
 };
 
@@ -3509,7 +3519,7 @@ const VOLCANO_LAND_24_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 28000,
-  seconds: 1152 * 60 * 60,
+  seconds: 48 * 60 * 60, // 48 hours
   bumpkinLevel: 106,
 };
 
@@ -3526,7 +3536,7 @@ const VOLCANO_LAND_25_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 32000,
-  seconds: 1440 * 60 * 60,
+  seconds: 60 * 60 * 60, // 60 hours
   bumpkinLevel: 108,
 };
 
@@ -3543,7 +3553,7 @@ const VOLCANO_LAND_26_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 35000,
-  seconds: 1440 * 60 * 60,
+  seconds: 60 * 60 * 60, // 60 hours
   bumpkinLevel: 110,
 };
 
@@ -3560,7 +3570,7 @@ const VOLCANO_LAND_27_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 38000,
-  seconds: 1440 * 60 * 60,
+  seconds: 60 * 60 * 60, // 60 hours
   bumpkinLevel: 112,
 };
 
@@ -3577,7 +3587,7 @@ const VOLCANO_LAND_28_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 42000,
-  seconds: 1440 * 60 * 60,
+  seconds: 60 * 60 * 60, // 60 hours
   bumpkinLevel: 114,
 };
 
@@ -3594,7 +3604,7 @@ const VOLCANO_LAND_29_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 45000,
-  seconds: 1728 * 60 * 60,
+  seconds: 72 * 60 * 60, // 72 hours
   bumpkinLevel: 116,
 };
 
@@ -3611,7 +3621,7 @@ const VOLCANO_LAND_30_REQUIREMENTS: Requirements = {
   },
   sfl: 0,
   coins: 50000,
-  seconds: 1728 * 60 * 60,
+  seconds: 72 * 60 * 60, // 72 hours
   bumpkinLevel: 120,
 };
 

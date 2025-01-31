@@ -79,7 +79,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.eggplant.onesie.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Eggplant.crop,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Eggplant.crop,
     },
   ],
   "Golden Spatula": [
@@ -102,7 +102,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.parsnip.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Parsnip.crop,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Parsnip.crop,
     },
   ],
   "Sunflower Shield": [
@@ -110,7 +110,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.sunflower.shield.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
-      boostedItemIcon: CROP_LIFECYCLE.Sunflower.crop,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Sunflower.crop,
     },
   ],
   "Sunflower Amulet": [
@@ -118,7 +118,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.sunflower.amulet.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Sunflower.crop,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Sunflower.crop,
     },
   ],
   "Carrot Amulet": [
@@ -126,7 +126,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.carrot.amulet.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: CROP_LIFECYCLE.Carrot.crop,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Carrot.crop,
     },
   ],
   "Beetroot Amulet": [
@@ -134,7 +134,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.beetroot.amulet.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Beetroot.crop,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Beetroot.crop,
     },
   ],
   "Green Amulet": [
@@ -171,7 +171,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.corn.onesie.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Corn.crop,
     },
   ],
   "Sunflower Rod": [
@@ -838,6 +838,34 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.resource.wool,
+    },
+  ],
+  "Acorn Hat": [
+    ...(hasSeasonEnded("Winds of Change")
+      ? []
+      : ([
+          {
+            shortDescription: translate("description.bonusTimeshard.boost"),
+            labelType: "success",
+            boostTypeIcon: powerup,
+            boostedItemIcon: ITEM_DETAILS.Timeshard.image,
+          },
+        ] as BuffLabel[])),
+  ],
+  "Crab Hat": [
+    {
+      shortDescription: translate("description.crabHat.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  Sickle: [
+    {
+      shortDescription: translate("description.sickle.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Wheat.crop,
     },
   ],
   ...SPECIAL_ITEM_LABELS,

@@ -18,6 +18,81 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Frozen Cow": {
+    description:
+      "A frosty bovine mutation that prevents cows from getting sick during winter months!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2163.png",
+    attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Prevent cow sickness during winter",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Frozen Sheep": {
+    description:
+      "A frosty sheep mutation that prevents sheep from getting sick during winter months!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2163.png",
+    attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Prevent sheep sickness during winter",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Summer Chicken": {
+    description:
+      "A chicken mutation that prevents chickens from getting sick during summer months!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2163.png",
+    attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Prevent chicken sickness during summer",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Jellyfish: {
+    description:
+      "A marine marvel from the Winds of Change chapter that grants +1 fish during summer months!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2163.png",
+    attributes: [
+      { trait_type: "Boost", value: "Fish" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase fish catch by 1 in summer",
+        value: 1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Chamomile: {
+    description:
+      "A decorative mutant flower found during the Winds of Change chapter.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2163.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
   "Bull Run Banner": {
     name: "Bull Run Banner",
     description: "A banner that celebrates the Bull Run season.",
@@ -348,6 +423,55 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Edelweiss Seed": {
+    name: "Edelweiss Seed",
+    description:
+      "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Edelweiss seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/142.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Gladiolus Seed": {
+    name: "Gladiolus Seed",
+    description:
+      "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Gladiolus seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/143.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Lavender Seed": {
+    name: "Lavender Seed",
+    description:
+      "A seed used to grow lavender.\n\nYou can buy lavender seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/144.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Clover Seed": {
+    name: "Clover Seed",
+    description:
+      "A seed used to grow clover.\n\nYou can buy clover seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/145.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
   Beetroot: {
     name: "Beetroot",
     description:
@@ -10473,6 +10597,11 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "Cold on the outside, cozy on the inside—home sweet frozen home.",
     decimals: 0,
     attributes: [
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Timeshard",
+        value: 1,
+      },
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
     ],
@@ -10507,6 +10636,11 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "Sway gently with the breeze and enjoy a well-earned rest.",
     decimals: 0,
     attributes: [
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Timeshard",
+        value: 1,
+      },
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
     ],
@@ -10518,6 +10652,12 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "An ancient giant, standing strong through the test of time.",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cow Produce Time",
+        value: -25,
+      },
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
     ],
@@ -10848,7 +10988,206 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/268.png",
     name: "Celestine",
   },
-
+  "Red Edelweiss": {
+    description: "A beautiful red edelweiss!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/269.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Yellow Edelweiss": {
+    description: "A beautiful yellow edelweiss!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/270.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Purple Edelweiss": {
+    description: "A beautiful purple edelweiss!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/271.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "White Edelweiss": {
+    description: "A beautiful white edelweiss!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/272.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Blue Edelweiss": {
+    description: "A beautiful blue edelweiss!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/273.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Red Gladiolus": {
+    description: "A beautiful red gladiolus!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/274.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Yellow Gladiolus": {
+    description: "A beautiful yellow gladiolus!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/275.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Purple Gladiolus": {
+    description: "A beautiful purple gladiolus!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/276.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "White Gladiolus": {
+    description: "A beautiful white gladiolus!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/277.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Blue Gladiolus": {
+    description: "A beautiful blue gladiolus!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/278.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Red Lavender": {
+    description: "A beautiful red lavender!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/279.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Yellow Lavender": {
+    description: "A beautiful yellow lavender!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/280.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Purple Lavender": {
+    description: "A beautiful purple lavender!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/281.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "White Lavender": {
+    description: "A beautiful white lavender!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/282.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Blue Lavender": {
+    description: "A beautiful blue lavender!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/283.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Red Clover": {
+    description: "A beautiful red clover!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/284.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Yellow Clover": {
+    description: "A beautiful yellow clover!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/285.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Purple Clover": {
+    description: "A beautiful purple clover!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/286.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "White Clover": {
+    description: "A beautiful white clover!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/287.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Blue Clover": {
+    description: "A beautiful blue clover!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/288.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Flower" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   Porgy: {
     description: "A beautiful porgy!",
     decimals: 0,
@@ -16103,7 +16442,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
       {
         display_type: "boost_number",
-        trait_type: "Extra Horseshoe from Deliveries",
+        trait_type: "Extra Horseshoe",
         value: 1,
       },
     ],
@@ -16120,7 +16459,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
       {
         display_type: "boost_number",
-        trait_type: "Extra Horseshoe from Bounties",
+        trait_type: "Extra Horseshoe",
         value: 1,
       },
     ],
@@ -16137,7 +16476,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
       {
         display_type: "boost_number",
-        trait_type: "Extra Horseshoe from Chores",
+        trait_type: "Extra Horseshoe",
         value: 1,
       },
     ],
@@ -16370,9 +16709,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Rice Shirt",
   },
   Sickle: {
-    description: "",
+    description:
+      "With each swing, golden wheat falls, paving the way for a bountiful harvest.",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wheat Yield",
+        value: 2,
+      },
       { trait_type: "Part", value: "Tool" },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -16479,6 +16825,11 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "Hat" },
       { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Timeshard",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/423.png",
@@ -16489,6 +16840,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more fish with ease",
     decimals: 0,
     attributes: [
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_number",
+        trait_type: "Bonus Fishing Bounty",
+        value: 1,
+      },
       { trait_type: "Part", value: "Hat" },
       { trait_type: "Tradable", value: "Yes" },
     ],

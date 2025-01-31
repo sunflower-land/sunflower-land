@@ -16,10 +16,15 @@ import {
   CalendarEventName,
   SEASON_DETAILS,
 } from "features/game/types/calendar";
-import { TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { DateCard } from "./DateCard";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { SeasonDayDetails } from "./SeasonDayDetails";
+import {
+  getHasReadTemperateSeasonTutorial,
+  setHasReadTemperateSeasonTutorial,
+} from "features/game/lib/temperateSeason";
+import { SeasonsIntroduction } from "./SeasonsIntroduction";
 
 export type LocalCalendarDetails = {
   dateNumber: number;
@@ -38,20 +43,20 @@ const _calendar = (state: MachineState) => {
   return state.context.state.calendar;
 };
 
-const ONE_MINUTE = 1000 * 60; // 1 minute
+const isPastDay = (date: Date, today: Date) => {
+  return (
+    date.getUTCMonth() < today.getUTCMonth() ||
+    (date.getUTCMonth() === today.getUTCMonth() &&
+      date.getUTCDate() < today.getUTCDate())
+  );
+};
 
-export const GameCalendar: React.FC = () => {
-  const { gameService } = useContext(Context);
-
-  const season = useSelector(gameService, _season);
-  const calendar = useSelector(gameService, _calendar);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<LocalCalendarDetails>();
-
-  const { t } = useTranslation();
-  useUiRefresher({ delay: ONE_MINUTE });
-
-  const seasonDetails = SEASON_DETAILS[season.season];
+export const getCalendarDays = ({
+  game,
+}: {
+  game: GameState;
+}): LocalCalendarDetails[] => {
+  const { season, calendar } = game;
 
   const specialEvents = calendar.dates.reduce(
     (acc, curr) => {
@@ -60,6 +65,130 @@ export const GameCalendar: React.FC = () => {
     },
     {} as Record<string, CalendarEventName>,
   );
+
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
+  // Get Monday by subtracting days since last Monday
+  const monday = new Date(today);
+  const daysFromMonday = (today.getUTCDay() + 6) % 7;
+  monday.setUTCDate(today.getUTCDate() - daysFromMonday);
+
+  return Array.from({ length: 28 }, (_, index) => {
+    const date = new Date(monday);
+    date.setUTCDate(monday.getUTCDate() + index);
+
+    // Calculate which season this date falls into
+    const daysSinceSeasonStart = Math.floor(
+      (date.getTime() - new Date(season.startedAt).getTime()) /
+        (1000 * 60 * 60 * 24),
+    );
+    const seasonIndex = Math.floor(daysSinceSeasonStart / 7) % 4;
+
+    // Map index to season name, starting from the current season
+    const seasons: TemperateSeasonName[] = [
+      "spring",
+      "summer",
+      "autumn",
+      "winter",
+    ];
+    const currentSeasonIndex = seasons.indexOf(season.season);
+    const dateSeasonIndex = (currentSeasonIndex + seasonIndex) % 4;
+    const dateSeason = seasons[dateSeasonIndex];
+
+    const formattedDate = date.toISOString().split("T")[0];
+    const specialEvent = specialEvents[formattedDate];
+
+    return {
+      dateNumber: date.getUTCDate(),
+      monthNumber: date.getUTCMonth() + 1,
+      dateString: formattedDate,
+      specialEvent,
+      isPastDay: isPastDay(date, today),
+      season: dateSeason,
+    };
+  });
+};
+
+const ONE_MINUTE = 1000 * 60; // 1 minute
+
+interface GameCalendarButtonProps {
+  onClick: () => void;
+  season: TemperateSeasonName;
+  utcDay: string;
+  utcDate: string;
+  showTutorial: boolean;
+}
+const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
+  onClick,
+  season,
+  utcDay,
+  utcDate,
+  showTutorial,
+}) => {
+  const seasonDetails = SEASON_DETAILS[season];
+
+  return (
+    <div
+      className="absolute z-50 flex flex-col justify-between hover:img-highlight"
+      style={{
+        top: `${100}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+    >
+      <div className="relative">
+        <img
+          src={seasonDetails.icon}
+          className="absolute z-10 w-5 sm:w-6"
+          style={{
+            transform: "translate(50%, -50%)",
+            right: 1,
+            top: 2,
+          }}
+        />
+        <Button className="h-8 sm:h-10 mb-0">
+          <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-1 text-xs sm:text-sm">
+              <span>{utcDay}</span>
+              <span>{utcDate}</span>
+            </div>
+            <img src={calendarIcon} className="h-6 sm:h-7 mr-1" />
+          </div>
+        </Button>
+        {showTutorial && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            onClick={() => onClick()}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export const GameCalendar: React.FC = () => {
+  const { gameService } = useContext(Context);
+
+  const season = useSelector(gameService, _season);
+  const calendar = useSelector(gameService, _calendar);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<LocalCalendarDetails>();
+  const [hasReadTutorial, setHasReadTutorial] = useState(
+    getHasReadTemperateSeasonTutorial(),
+  );
+
+  const { t } = useTranslation();
+  useUiRefresher({ delay: ONE_MINUTE });
 
   const now = new Date();
   const utcDay = now.toLocaleString("en-US", {
@@ -71,7 +200,6 @@ export const GameCalendar: React.FC = () => {
     day: "numeric",
     timeZone: "UTC",
   });
-
   const utcTime = now.toLocaleTimeString("en-US", {
     timeZone: "UTC",
     hour: "2-digit",
@@ -79,64 +207,35 @@ export const GameCalendar: React.FC = () => {
     hour12: true,
   });
 
+  const seasonDetails = SEASON_DETAILS[season.season];
+
   const formattedTime = () => {
     const lowerCaseTime = utcTime.toLowerCase();
     // remove space
     return lowerCaseTime.replace(/\s/g, "");
   };
 
-  const isPastDay = (date: Date, today: Date) => {
+  const acknowledgeTutorial = () => {
+    setHasReadTemperateSeasonTutorial();
+    setHasReadTutorial(true);
+  };
+
+  if (!hasReadTutorial) {
     return (
-      date.getUTCMonth() < today.getUTCMonth() ||
-      (date.getUTCMonth() === today.getUTCMonth() &&
-        date.getUTCDate() < today.getUTCDate())
+      <>
+        <Modal show={isCalendarOpen} onHide={() => setIsCalendarOpen(false)}>
+          <SeasonsIntroduction onClose={acknowledgeTutorial} />
+        </Modal>
+        <GameCalendarButton
+          onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+          season={season.season}
+          utcDay={utcDay}
+          utcDate={utcDate}
+          showTutorial={true}
+        />
+      </>
     );
-  };
-
-  const getCalendarDays = (): LocalCalendarDetails[] => {
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
-
-    // Get Monday by subtracting days since last Monday
-    const monday = new Date(today);
-    const daysFromMonday = (today.getUTCDay() + 6) % 7;
-    monday.setUTCDate(today.getUTCDate() - daysFromMonday);
-
-    return Array.from({ length: 28 }, (_, index) => {
-      const date = new Date(monday);
-      date.setUTCDate(monday.getUTCDate() + index);
-
-      // Calculate which season this date falls into
-      const daysSinceSeasonStart = Math.floor(
-        (date.getTime() - new Date(season.startedAt).getTime()) /
-          (1000 * 60 * 60 * 24),
-      );
-      const seasonIndex = Math.floor(daysSinceSeasonStart / 7) % 4;
-
-      // Map index to season name, starting from the current season
-      const seasons: TemperateSeasonName[] = [
-        "spring",
-        "summer",
-        "autumn",
-        "winter",
-      ];
-      const currentSeasonIndex = seasons.indexOf(season.season);
-      const dateSeasonIndex = (currentSeasonIndex + seasonIndex) % 4;
-      const dateSeason = seasons[dateSeasonIndex];
-
-      const formattedDate = date.toISOString().split("T")[0];
-      const specialEvent = specialEvents[formattedDate];
-
-      return {
-        dateNumber: date.getUTCDate(),
-        monthNumber: date.getUTCMonth() + 1,
-        dateString: formattedDate,
-        specialEvent,
-        isPastDay: isPastDay(date, today),
-        season: dateSeason,
-      };
-    });
-  };
+  }
 
   return (
     <>
@@ -188,7 +287,9 @@ export const GameCalendar: React.FC = () => {
             ))}
           </div>
           <div className="grid grid-cols-7 gap-1 sm:gap-2">
-            {getCalendarDays().map((details, index) => (
+            {getCalendarDays({
+              game: gameService.getSnapshot().context.state,
+            }).map((details, index) => (
               <DateCard
                 key={index}
                 index={index}
@@ -217,38 +318,13 @@ export const GameCalendar: React.FC = () => {
           />
         </ModalOverlay>
       </Modal>
-      <div
-        className="absolute z-50 flex flex-col justify-between hover:img-highlight"
-        style={{
-          top: `${100}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsCalendarOpen(!isCalendarOpen);
-        }}
-      >
-        <div className="relative">
-          <img
-            src={seasonDetails.icon}
-            className="absolute z-10 w-5 sm:w-6"
-            style={{
-              transform: "translate(50%, -50%)",
-              right: 1,
-              top: 2,
-            }}
-          />
-          <Button className="h-8 sm:h-10 mb-0">
-            <div className="flex items-center space-x-1">
-              <div className="flex items-center space-x-1 text-xs sm:text-sm">
-                <span>{utcDay}</span>
-                <span>{utcDate}</span>
-              </div>
-              <img src={calendarIcon} className="h-6 sm:h-7 mr-1" />
-            </div>
-          </Button>
-        </div>
-      </div>
+      <GameCalendarButton
+        onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+        season={season.season}
+        utcDay={utcDay}
+        utcDate={utcDate}
+        showTutorial={false}
+      />
     </>
   );
 };

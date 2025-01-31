@@ -460,6 +460,49 @@ export function areAnyCookingBuildingWorking(game: GameState): Restriction {
   return [areAnyCookingBuildingWorking, "Building is in use"];
 }
 
+export function areAnyCowsSleepingInWinter(game: GameState): Restriction {
+  const cowsAreSleeping = Object.values(game.barn.animals).some(
+    (animal) =>
+      animal.asleepAt &&
+      animal.type === "Cow" &&
+      Date.now() < animal.awakeAt &&
+      game.season.season === "winter",
+  );
+
+  return [cowsAreSleeping, "Cows are sleeping"];
+}
+
+export function areAnySheepSleepingInWinter(game: GameState): Restriction {
+  const sheepAreSleeping = Object.values(game.barn.animals).some(
+    (animal) =>
+      animal.asleepAt &&
+      animal.type === "Sheep" &&
+      Date.now() < animal.awakeAt &&
+      game.season.season === "winter",
+  );
+
+  return [sheepAreSleeping, "Sheep are sleeping"];
+}
+
+export function areAnyChickensSleepingInSummer(game: GameState): Restriction {
+  const chickensAreSleeping = Object.values(game.henHouse.animals).some(
+    (animal) =>
+      animal.asleepAt &&
+      animal.type === "Chicken" &&
+      Date.now() < animal.awakeAt &&
+      game.season.season === "summer",
+  );
+
+  return [chickensAreSleeping, "Chickens are sleeping"];
+}
+
+export function hasFishedTodayInSummer(game: GameState): Restriction {
+  return [
+    getDailyFishingCount(game) !== 0 && game.season.season === "summer",
+    "Recently fished",
+  ];
+}
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
@@ -648,6 +691,13 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Farm Dog": (game) => areAnySheepSleeping(game),
   Mootant: (game) => areAnyCowsSleeping(game),
   "Alien Chicken": (game) => areAnyChickensSleeping(game),
+
+  // Winds of Change
+  "Frozen Cow": (game) => areAnyCowsSleepingInWinter(game),
+  "Frozen Sheep": (game) => areAnySheepSleepingInWinter(game),
+  "Summer Chicken": (game) => areAnyChickensSleepingInSummer(game),
+  Jellyfish: (game) => hasFishedTodayInSummer(game),
+  Mammoth: (game) => areAnyCowsSleeping(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<

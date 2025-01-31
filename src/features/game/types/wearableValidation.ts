@@ -83,6 +83,7 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Chicken Suit": (state) => !areAnyChickensSleeping(state)[0],
   "Merino Jumper": (state) => !areAnySheepSleeping(state)[0],
   "Cowbell Necklace": (state) => !areAnyCowsSleeping(state)[0],
+  Sickle: (state) => !cropIsGrowing({ item: "Wheat", game: state })[0],
 };
 
 export const canWithdrawBoostedWearable = (

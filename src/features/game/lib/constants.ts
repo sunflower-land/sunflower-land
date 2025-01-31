@@ -17,6 +17,9 @@ import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getChapterTicket } from "../types/chapters";
+import { hasFeatureAccess } from "lib/flags";
+import { CROP_SEEDS } from "../types/crops";
+import { PATCH_FRUIT_SEEDS } from "../types/fruits";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -174,6 +177,10 @@ export const INITIAL_STOCK = (
     "Sunpetal Seed": new Decimal(16),
     "Bloom Seed": new Decimal(8),
     "Lily Seed": new Decimal(4),
+    "Edelweiss Seed": new Decimal(4),
+    "Gladiolus Seed": new Decimal(4),
+    "Lavender Seed": new Decimal(4),
+    "Clover Seed": new Decimal(4),
 
     "Duskberry Seed": new Decimal(0),
     "Lunara Seed": new Decimal(0),
@@ -189,6 +196,14 @@ export const INITIAL_STOCK = (
       (seed) =>
         (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(1.2).toNumber()))),
     );
+  }
+
+  if (state && hasFeatureAccess(state, "SEASONAL_SEEDS")) {
+    getKeys(seeds).forEach((seed) => {
+      if (seed in CROP_SEEDS || seed in PATCH_FRUIT_SEEDS) {
+        seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(2).toNumber()));
+      }
+    });
   }
 
   return {
@@ -242,6 +257,10 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Sunpetal Seed": new Decimal(40),
     "Bloom Seed": new Decimal(20),
     "Lily Seed": new Decimal(10),
+    "Edelweiss Seed": new Decimal(10),
+    "Gladiolus Seed": new Decimal(10),
+    "Lavender Seed": new Decimal(10),
+    "Clover Seed": new Decimal(10),
 
     "Duskberry Seed": new Decimal(10),
     "Lunara Seed": new Decimal(10),

@@ -5,9 +5,42 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
-const seasonAdminFeatureFlag = ({ username }: GameState) =>
-  testnetFeatureFlag() ||
-  ["adam", "eliassfl", "dcol"].includes(username?.toLowerCase() ?? "");
+const seasonAdminFeatureFlag = (game: GameState) => {
+  return (
+    testnetFeatureFlag() ||
+    (defaultFeatureFlag(game) &&
+      Date.now() > new Date("2025-02-01:00:00Z").getTime()) ||
+    [
+      "adam",
+      "tango",
+      "eliassfl",
+      "dcol",
+      "Vitt0c",
+      "Telk",
+      "ThinkTronik",
+      "Henry",
+      "Blasta",
+      "Aeon",
+      "kegw",
+      "Dionis",
+      "MamaMahalkoe",
+      "Andrei",
+      "SlyKai",
+      "Oniel",
+      "Tourist",
+      "Kevin",
+      "ShinKan42",
+      "JcEii",
+      "Pecel",
+      "inubakabo",
+      "JKrak",
+      "Droid",
+      "Craig",
+    ]
+      .map((name) => name.toLowerCase())
+      .includes(game.username?.toLowerCase() ?? "")
+  );
+};
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
@@ -58,7 +91,10 @@ const featureFlags = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  SKILLS_REVAMP: adminFeatureFlag,
+  SKILLS_REVAMP: (game: GameState) =>
+    Date.now() > new Date("2025-02-01T00:00:00Z").getTime()
+      ? defaultFeatureFlag(game)
+      : adminFeatureFlag(game),
   FSL: betaTimeBasedFeatureFlag(new Date("2024-10-10T00:00:00Z")),
   ANIMAL_BUILDINGS: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   BARLEY: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
@@ -76,17 +112,18 @@ const featureFlags = {
   ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
     new Date("2024-12-18T00:00:00Z"),
   ),
-  TEMPERATE_SEASON: testnetFeatureFlag,
+  TEMPERATE_SEASON: seasonAdminFeatureFlag,
   PIZZA_SPEED_UP_RESTRICTION: timePeriodFeatureFlag({
     start: new Date("2024-12-18T00:00:00Z"),
-    end: new Date("2025-01-31T00:00:00Z"),
+    end: new Date("2025-02-01T00:00:00Z"),
   }),
-  WEATHER_SHOP: testnetFeatureFlag,
+  WEATHER_SHOP: seasonAdminFeatureFlag,
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
-  SEASONAL_EVENTS_NOTIFICATIONS: adminFeatureFlag,
+  SEASONAL_EVENTS_NOTIFICATIONS: seasonAdminFeatureFlag,
   SEASONAL_SEEDS: seasonAdminFeatureFlag,
   SEASONAL_FISH: seasonAdminFeatureFlag,
-  VOLCANO_ISLAND: testnetFeatureFlag,
+  VOLCANO_ISLAND: seasonAdminFeatureFlag,
+  SEASONAL_FLOWERS: seasonAdminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

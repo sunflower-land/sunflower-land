@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { CROPS, CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -23,6 +23,9 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   cropName?: CropName;
@@ -39,6 +42,8 @@ interface Props {
   pulsating: boolean;
 }
 
+const _island = (state: MachineState) => state.context.state.island.type;
+
 const FertilePlotComponent: React.FC<Props> = ({
   cropName,
   inventory,
@@ -52,6 +57,8 @@ const FertilePlotComponent: React.FC<Props> = ({
   showTimers,
   pulsating,
 }) => {
+  const { gameService } = useContext(Context);
+  const island = useSelector(gameService, _island);
   const [showTimerPopover, setShowTimerPopover] = useState(false);
   const [_, setRender] = useState<number>(0);
 
@@ -127,7 +134,7 @@ const FertilePlotComponent: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 16}px`,
           }}
         >
-          <Soil cropName={cropName} stage={stage} />
+          <Soil cropName={cropName} stage={stage} islandType={island} />
         </div>
       </div>
       {activeInsectPlague && !isProtected && (

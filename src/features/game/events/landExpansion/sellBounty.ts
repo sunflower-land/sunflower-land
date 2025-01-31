@@ -1,9 +1,10 @@
 import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { ANIMALS } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { BountyRequest, GameState } from "features/game/types/game";
+import { BountyRequest, GameState, SFLBounty } from "features/game/types/game";
 import {
   getCurrentChapter,
   getChapterTicket,
@@ -55,6 +56,27 @@ export function generateBountyTicket({
   if (
     getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isWearableActive({ game, name: "Acorn Hat" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Igloo" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Hammock" })
   ) {
     amount += 1;
   }
@@ -144,6 +166,10 @@ export function sellBounty({
         draft.inventory[name] = previous.add(tickets ?? 0);
       } else draft.inventory[name] = previous.add(request.items?.[name] ?? 0);
     });
+
+    if ((request as SFLBounty).sfl) {
+      draft.balance = draft.balance.add((request as SFLBounty).sfl);
+    }
 
     // Mark bounty as completed
     draft.bounties.completed.push({

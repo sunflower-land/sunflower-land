@@ -52,11 +52,17 @@ export function placeEvent(
   return "collectible.placed";
 }
 
+export type LandscapingPlaceable =
+  | BuildingName
+  | CollectibleName
+  | "Chicken"
+  | BudName;
+
 export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?: BuildingName | CollectibleName | "Chicken" | BudName;
+  placeable?: LandscapingPlaceable;
 
   multiple?: boolean;
 

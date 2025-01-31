@@ -33,23 +33,23 @@ const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
   basic: new Date(0).getTime(),
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
   desert: hasFeatureAccess(state, "VOLCANO_ISLAND")
-    ? new Date("2025-01-01T00:00:00Z").getTime()
-    : new Date("2025-02-01T00:00:00Z").getTime(),
+    ? new Date("2025-01-03T00:00:00Z").getTime()
+    : new Date("2025-02-03T00:00:00Z").getTime(),
   volcano: null, // Next prestige after volcano
 });
 
 const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
-  desert: SUNNYSIDE.land.desertRaft,
+  desert: SUNNYSIDE.land.volcanoRaft,
   volcano: null, // Next prestige after volcano
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
-  basic: SUNNYSIDE.announcement.springPrestige,
-  spring: SUNNYSIDE.announcement.desertPrestige,
+  basic: null,
+  spring: SUNNYSIDE.announcement.springPrestige,
   desert: SUNNYSIDE.announcement.desertPrestige,
-  volcano: null, // Next prestige after volcano
+  volcano: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
 const UPGRADE_MESSAGES: Record<IslandType, string | null> = {

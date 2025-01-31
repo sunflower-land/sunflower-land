@@ -1,9 +1,13 @@
 import Decimal from "decimal.js-light";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useState } from "react";
+import React from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -36,7 +40,10 @@ type BaseProps = {
 type InventoryDetailsProps = BaseProps & {
   item: SeedName;
 };
-type ItemDetailsProps = InventoryDetailsProps;
+type ItemDetailsProps = InventoryDetailsProps & {
+  seasons?: TemperateSeasonName[];
+  cropMachineSeeds?: SeedName[];
+};
 
 /**
  * The props for harvests requirement label.
@@ -92,10 +99,8 @@ interface Props {
   requirements?: RequirementsProps;
   limit?: number;
   actionView?: JSX.Element;
-  hideDescription?: boolean;
   label?: JSX.Element;
   validSeeds: SeedName[];
-  cropMachineSeeds: SeedName[];
 }
 
 function getDetails(
@@ -141,13 +146,10 @@ export const SeedRequirements: React.FC<Props> = ({
   details,
   requirements,
   actionView,
-  hideDescription,
   label,
   validSeeds,
-  cropMachineSeeds,
 }) => {
   const { t } = useAppTranslation();
-  const [showIngredients, setShowIngredients] = useState(false);
   const getStock = () => {
     if (!stock) return <></>;
 
@@ -176,14 +178,10 @@ export const SeedRequirements: React.FC<Props> = ({
   };
 
   const inSeasonSeeds = validSeeds.includes(details.item);
-  const isCropMachineSeed = cropMachineSeeds.includes(details.item);
+  const isCropMachineSeed = details.cropMachineSeeds?.includes(details.item);
 
-  const getItemDetail = ({
-    hideDescription,
-  }: {
-    hideDescription?: boolean;
-  }) => {
-    const { image: icon, description, name } = getDetails(gameState, details);
+  const getItemDetail = () => {
+    const { image: icon, name } = getDetails(gameState, details);
     const title = details.quantity
       ? `${details.quantity} x ${details.item}`
       : name;
@@ -300,7 +298,7 @@ export const SeedRequirements: React.FC<Props> = ({
             {formatDateRange(details.from, details.to as Date)}
           </Label>
         )}
-        {getItemDetail({ hideDescription })}
+        {getItemDetail()}
         {limit && (
           <p className="my-1 text-xs text-left sm:text-center">{`${t(
             "max",

@@ -10,7 +10,6 @@ import {
   GreenHouseCrop,
   ProduceName,
 } from "features/game/types/crops";
-import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -29,6 +28,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+
+const _state = (state: MachineState) => state.context.state;
 
 export const isExoticCrop = (
   item: Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
@@ -47,13 +50,11 @@ export const SeasonalCrops: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
-  const inventory = state.inventory;
+  const state = useSelector(gameService, _state);
+
+  const { inventory, island, season } = state;
+  const { type: islandType } = island;
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -87,7 +88,7 @@ export const SeasonalCrops: React.FC = () => {
   const cropAmount = setPrecision(inventory[selected.name] ?? 0, 2);
   const coinAmount = setPrecision(
     new Decimal(displaySellPrice(selected)).mul(
-      state.island.type !== "basic" ? new Decimal(customAmount) : cropAmount,
+      islandType !== "basic" ? new Decimal(customAmount) : cropAmount,
     ),
     2,
   );
@@ -117,7 +118,10 @@ export const SeasonalCrops: React.FC = () => {
 
   const crops = ALL_PRODUCE;
 
-  const seasonal = SEASONAL_SEEDS[state.season.season]
+  const currentSeason = season.season;
+
+  const seasonal = getKeys(SEEDS)
+    .filter((seed) => SEASONAL_SEEDS[currentSeason].includes(seed))
     .map((name) => SEEDS[name].yield)
     .filter(Boolean) as ProduceName[];
 
@@ -171,15 +175,13 @@ export const SeasonalCrops: React.FC = () => {
                       {cropAmount.greaterThan(10) && (
                         <Button
                           onClick={
-                            state.island.type !== "basic"
+                            islandType !== "basic"
                               ? openBulkSellModal
                               : openConfirmationModal
                           }
                         >
                           {t(
-                            state.island.type !== "basic"
-                              ? "sell.inBulk"
-                              : "sell.all",
+                            islandType !== "basic" ? "sell.inBulk" : "sell.all",
                           )}
                         </Button>
                       )}
@@ -200,10 +202,10 @@ export const SeasonalCrops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1 capitalize"
-                icon={SEASON_ICONS[state.season.season]}
+                icon={SEASON_ICONS[currentSeason]}
                 type="default"
               >
-                {state.season.season}
+                {currentSeason}
               </Label>
             </div>
             <div className="flex flex-wrap mb-2">
@@ -252,7 +254,7 @@ export const SeasonalCrops: React.FC = () => {
         onHide={closeConfirmationModal}
         messages={[
           t("confirmation.sell", {
-            amount: state.island.type !== "basic" ? customAmount : cropAmount,
+            amount: islandType !== "basic" ? customAmount : cropAmount,
             name: selected.name,
             coinAmount,
           }),
@@ -260,13 +262,11 @@ export const SeasonalCrops: React.FC = () => {
         onCancel={closeConfirmationModal}
         onConfirm={() =>
           handleSell(
-            state.island.type !== "basic"
-              ? new Decimal(customAmount)
-              : cropAmount,
+            islandType !== "basic" ? new Decimal(customAmount) : cropAmount,
           )
         }
         confirmButtonLabel={
-          state.island.type !== "basic"
+          islandType !== "basic"
             ? t("sell.amount", { amount: customAmount })
             : t("sell.all")
         }

@@ -2228,6 +2228,43 @@ describe("getCropTime", () => {
     );
   });
 
+  it("gives +2 Wheat when Sickle is worn and ready", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            tool: "Sickle",
+          },
+        },
+        inventory: {
+          "Wheat Seed": new Decimal(1),
+        },
+        collectibles: {},
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Wheat Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Wheat",
+        plantedAt: expect.any(Number),
+        amount: 3,
+      }),
+    );
+  });
+
   it("applies a +5% speed boost with Green Thumb skill", () => {
     const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({

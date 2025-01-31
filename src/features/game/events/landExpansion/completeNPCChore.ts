@@ -13,6 +13,7 @@ import {
 } from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -124,6 +125,27 @@ export function generateChoreRewards({
     isWearableActive({ game, name: "Cowboy Trouser" })
   ) {
     items[getChapterTicket(now)] = (items[getChapterTicket(now)] ?? 0) + 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isWearableActive({ game, name: "Acorn Hat" })
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Igloo" })
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Hammock" })
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
   }
 
   return items;

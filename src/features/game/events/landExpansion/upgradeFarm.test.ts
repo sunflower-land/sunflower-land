@@ -428,6 +428,69 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Super Totem"]).toEqual(new Decimal(1));
   });
 
+  it("removes hourglasses which have expired on the land", () => {
+    const createdAt = Date.now();
+
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Gold: new Decimal(15),
+          "Orchard Hourglass": new Decimal(1),
+        },
+        collectibles: {
+          "Orchard Hourglass": [
+            {
+              id: "1",
+              readyAt: Date.now() - 6 * 60 * 60 * 1000,
+              createdAt: Date.now() - 6 * 60 * 60 * 1000 - 1,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Orchard Hourglass"]).toEqual(new Decimal(0));
+  });
+
+  it("it does not remove hourglasses that have not yet expired", () => {
+    const createdAt = Date.now();
+
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Gold: new Decimal(15),
+          "Super Totem": new Decimal(1),
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "1",
+              // Still active
+              readyAt: Date.now() - 1 * 60 * 60 * 1000,
+              createdAt: Date.now() - 1 * 60 * 60 * 1000,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Super Totem"]).toEqual(new Decimal(1));
+  });
+
   it("does not remove sunstones", () => {
     const createdAt = Date.now();
     const sunstones = {

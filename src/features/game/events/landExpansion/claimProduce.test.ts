@@ -1082,6 +1082,51 @@ describe("claimProduce", () => {
     expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
+  it("reduces the sleep time of Cow by 25% if Mammoth is placed and ready", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        collectibles: {
+          Mammoth: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              state: "ready",
+              type: "Cow",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Cow",
+        id: "0",
+      },
+    });
+
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.75;
+
+    expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
+  });
+
   it("reduces the sleep time by 10% for a Cow if player has Wrangler skill", () => {
     const state = claimProduce({
       createdAt: now,

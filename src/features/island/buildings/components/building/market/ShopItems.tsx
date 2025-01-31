@@ -96,7 +96,7 @@ export const ShopItems: React.FC<Props> = ({
           unread: showBuyHelper,
         },
         {
-          icon: CROP_LIFECYCLE.Sunflower.crop,
+          icon: CROP_LIFECYCLE.basic.Sunflower.crop,
           name: t("sell"),
           unread: !hasSoldBefore,
         },

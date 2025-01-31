@@ -918,6 +918,9 @@ export function startGame(authContext: AuthContext) {
               cond: (context) => {
                 return (
                   hasFeatureAccess(context.state, "TEMPERATE_SEASON") &&
+                  context.state.island.type !== "basic" &&
+                  (context.state.island.upgradedAt ?? 0) <
+                    context.state.season.startedAt &&
                   context.state.season.startedAt !==
                     getLastTemperateSeasonStartedAt()
                 );
@@ -1355,8 +1358,11 @@ export function startGame(authContext: AuthContext) {
                   }
 
                   return (
+                    context.state.island.type !== "basic" &&
+                    (context.state.island.upgradedAt ?? 0) <
+                      event.data.farm.seasonStartedAt &&
                     event.data.farm.season.startedAt !==
-                    getLastTemperateSeasonStartedAt()
+                      getLastTemperateSeasonStartedAt()
                   );
                 },
                 actions: assign((context: Context, event) =>

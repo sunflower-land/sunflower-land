@@ -149,6 +149,7 @@ type DestructiveEvent = Exclude<
   | "bountifulHarvest"
   | "insectPlague"
   | "sunshower"
+  | "fishFrenzy"
 >;
 
 const DESTROYED_BUILDING_ICONS: Record<DestructiveEvent, string> = {
@@ -255,6 +256,10 @@ function isBuildingDestroyed({
   name: BuildingName;
   game: GameState;
 }): DestructiveEvent | false {
+  if (!DESTROYED_BUILDINGS.includes(name)) {
+    return false;
+  }
+
   const calendarEvent = getActiveCalendarEvent({ game });
 
   if (!calendarEvent) {
@@ -265,12 +270,16 @@ function isBuildingDestroyed({
     if (game.calendar.tornado?.protected) {
       return false;
     }
+
+    return "tornado";
   }
 
   if (calendarEvent === "tsunami") {
     if (game.calendar.tsunami?.protected) {
       return false;
     }
+
+    return "tsunami";
   }
 
   return false;

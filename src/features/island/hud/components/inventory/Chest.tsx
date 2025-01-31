@@ -28,7 +28,10 @@ import { Label } from "components/ui/Label";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TREE_VARIANTS } from "features/island/resources/Resource";
-import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
+import {
+  BUSH_VARIANTS,
+  DIRT_PATH_VARIANTS,
+} from "features/island/lib/alternateArt";
 import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
@@ -54,6 +57,7 @@ export const ITEM_ICONS: (
   Tree: TREE_VARIANTS[island],
   "Dirt Path": DIRT_PATH_VARIANTS[island],
   Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
+  Bush: BUSH_VARIANTS[island],
 });
 
 interface PanelContentProps {

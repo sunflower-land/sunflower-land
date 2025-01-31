@@ -434,6 +434,7 @@ export function getBoostedAwakeAt({
 
   const isChicken = animalType === "Chicken";
   const isSheep = animalType === "Sheep";
+  const isCow = animalType === "Cow";
 
   // Apply fixed time reductions first
   if (isChicken) {
@@ -452,6 +453,12 @@ export function getBoostedAwakeAt({
     }
 
     if (isCollectibleBuilt({ name: "Farm Dog", game })) {
+      totalDuration *= 0.75;
+    }
+  }
+
+  if (isCow) {
+    if (isCollectibleBuilt({ name: "Mammoth", game })) {
       totalDuration *= 0.75;
     }
   }

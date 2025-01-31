@@ -54,9 +54,14 @@ export const SUNNYSIDE = {
 
   //Announcement
   announcement: {
+    summer: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/summer_banner.webp`,
+    winter: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winter_banner.webp`,
+    spring: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/spring_banner.webp`,
+    autumn: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/autumn_banner.webp`,
     tornado: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/tornado.png`,
     springPrestige: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/spring_prestige.png`,
     desertPrestige: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_prestige.png`,
+    volcanoPrestige: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/volcano_prestige.webp`,
     desert_digging: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert.webp`,
     factions: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/factions.png`,
     desertSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_season.png`,
@@ -186,10 +191,31 @@ export const SUNNYSIDE = {
     desertTopAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/desert/land/dirt/1_1_0_0.png`,
     desertBottomAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/desert/land/dirt/0_1_1_0.png`,
 
-    //Prestige Island
+    // Volcano Dirt Renderer (same dirt colour as universal buildings)
+    volcanoFullEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/1_1_1_1.png`,
+    volcanoNoEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/0_0_0_0.png`,
+    volcanoTopAndBottomEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/1_0_1_0.png`,
+    volcanoTopLeftAndBottomEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/1_0_1_1.png`,
+    volcanoTopRightAndBottomEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/1_1_1_0.png`,
+    volcanoTopRightAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/1_1_0_1.png`,
+    volcanoRightBottomAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/0_1_1_1.png`,
+    volcanoRightAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/0_1_0_1.png`,
+    volcanoRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/0_1_0_0.png`,
+    volcanoBottomEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/0_0_1_0.png`,
+    volcanoTopEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/1_0_0_0.png`,
+    volcanoLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/0_0_0_1.png`,
+    volcanoTopAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/1_0_0_1.png`,
+    volcanoBottomAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/0_0_1_1.png`,
+    volcanoTopAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/1_1_0_0.png`,
+    volcanoBottomAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/land/dirt/0_1_1_0.png`,
+
+    // Prestige Island
     springRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/prestige_raft.png`,
     desertRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_prestige_raft.png`,
+    volcanoRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/volcano_prestige_raft.webp`,
     rewardsRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/rewards_raft.png`,
+
+    vip_volcano_island: `${CONFIG.PROTECTED_IMAGE_URL}/land/vip_volcano_island.webp`,
 
     island: `${CONFIG.PROTECTED_IMAGE_URL}/land/islands/island.webp`,
     mushroomIsland: `${CONFIG.PROTECTED_IMAGE_URL}/land/mushroom_island.png`,
@@ -257,6 +283,37 @@ export const SUNNYSIDE = {
     desertLevel24: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/desert/level_24.webp`,
     desertLevel25: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/desert/level_25.webp`,
 
+    volcanoLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_1.webp`,
+    volcanoLevel2: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_2.webp`,
+    volcanoLevel3: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_3.webp`,
+    volcanoLevel4: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_4.webp`,
+    volcanoLevel5: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_5.webp`,
+    volcanoLevel6: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_6.webp`,
+    volcanoLevel7: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_7.webp`,
+    volcanoLevel8: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_8.webp`,
+    volcanoLevel9: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_9.webp`,
+    volcanoLevel10: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_10.webp`,
+    volcanoLevel11: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_11.webp`,
+    volcanoLevel12: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_12.webp`,
+    volcanoLevel13: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_13.webp`,
+    volcanoLevel14: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_14.webp`,
+    volcanoLevel15: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_15.webp`,
+    volcanoLevel16: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_16.webp`,
+    volcanoLevel17: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_17.webp`,
+    volcanoLevel18: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_18.webp`,
+    volcanoLevel19: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_19.webp`,
+    volcanoLevel20: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_20.webp`,
+    volcanoLevel21: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_21.webp`,
+    volcanoLevel22: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_22.webp`,
+    volcanoLevel23: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_23.webp`,
+    volcanoLevel24: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_24.webp`,
+    volcanoLevel25: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_25.webp`,
+    volcanoLevel26: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_26.webp`,
+    volcanoLevel27: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_27.webp`,
+    volcanoLevel28: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_28.webp`,
+    volcanoLevel29: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_29.webp`,
+    volcanoLevel30: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/volcano/level_30.webp`,
+
     tent_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/tent_inside.png`,
     house_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/house_inside.png`,
     manor_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/manor_inside.png`,
@@ -268,6 +325,7 @@ export const SUNNYSIDE = {
     basic_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/basic_building_bg.png`,
     spring_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/spring_building_bg.png`,
     desert_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_building_bg.png`,
+    volcano_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/volcano_building_bg.webp`,
   },
   //Soil
   soil: {
@@ -276,6 +334,8 @@ export const SUNNYSIDE = {
     soil_dry: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil_dry.png`,
     soil_not_fertile: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil_not_fertile.png`,
     soil2: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil2.png`,
+    volcanoSoilDry: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/crops/soil_dry.png`,
+    volcanoSoil2: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/crops/soil2.png`,
   },
   //Animals
   animals: {
@@ -333,6 +393,11 @@ export const SUNNYSIDE = {
   //VFXs
   vfx: {
     blinking: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/blinking.png`,
+    smoke1: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_1.png`,
+    smoke2: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_2.png`,
+    smoke3: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_3.png`,
+    smoke4: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_4.png`,
+    smoke5: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/smoke_5.png`,
   },
   //FXs
   fx: {
@@ -396,7 +461,20 @@ export const SUNNYSIDE = {
     desertWorkbench: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/workbench.webp`,
     desertFruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/fruit/fruit_patch.webp`,
     desertEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/empty.webp`,
+
     desertDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/sfts/dirt_path.webp`,
+
+    // Volcano (No island specific coloring)
+    volcanoFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/firepit.webp`,
+    volcanoWorkbench: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/workbench.webp`,
+    volcanoKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/kitchen.webp`,
+    volcanoMarket: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/market.webp`,
+    volcanoSmoothieShack: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/smoothie_shack.webp`,
+    volcanoBakery: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/bakery.webp`,
+    volcanoDeli: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/deli.webp`,
+    volcanoFruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/fruit/fruit_patch.webp`,
+    volcanoEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/flowers/empty.webp`,
+    volcanoDirt: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/sfts/dirt_path.webp`,
 
     auction_floor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/auction_floor.png`,
     blacksmith_building: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/blacksmith_building.gif`,
@@ -437,7 +515,7 @@ export const SUNNYSIDE = {
     //Bumpkin Houses
     house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/house.png`,
     manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/manor.png`,
-    mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/mansion.png`,
+    mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/mansion.webp`,
   },
   //Icons
   icons: {
