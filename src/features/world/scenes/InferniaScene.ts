@@ -70,10 +70,10 @@ export class InfernosScene extends BaseScene {
     this.initialiseNPCs(BUMPKINS);
 
     // Place smoke, create animation and play
-    const smoke = this.add.sprite(256, 286, "small_smoke");
-    const smoke2 = this.add.sprite(352, 270, "small_smoke");
-    const smoke3 = this.add.sprite(352, 270, "small_smoke");
-    const smoke4 = this.add.sprite(480, 44, "small_smoke");
+    const smoke = this.add.sprite(256, 286, "small_smoke").setDepth(100000);
+    const smoke2 = this.add.sprite(352, 270, "small_smoke").setDepth(100000);
+    const smoke3 = this.add.sprite(352, 270, "small_smoke").setDepth(100000);
+    const smoke4 = this.add.sprite(480, 44, "small_smoke").setDepth(100000);
 
     const forgeSmoke = this.add.sprite(160, 284, "large_smoke");
 

@@ -5124,5 +5124,8 @@
   "islandupgrade.exoticResourcesDescription": "Kawasan Tanah Bunga Matahari ini terkenal dengan sumber eksotiknya. Kembangkan tanah anda untuk menemui buah-buahan, bunga, sarang lebah & mineral langka! Perhatikan musim kerana ia mempengaruhi apa yang boleh anda tanam.",
   "cropGuide.tutorialAlwaysSpring": "Di pulau pertama anda, ia sentiasa musim bunga! Apabila anda menaik taraf pulau anda, musim akan mula berubah.",
   "temperateSeason.weatherShop.buy.comingSoon": "Tidak lama lagi - 3 Februari",
-  "chapter": "Bab"
+  "chapter": "Bab",
+  "season.codex.auction.totalSupply": "Jumlah Bekalan: {{totalSupply}}",
+  "guide.compost.seasons": "Keperluan komposter berubah setiap musim",
+  "time.left": "ditinggalkan"
 }

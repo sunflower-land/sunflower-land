@@ -5124,5 +5124,8 @@
   "islandupgrade.exoticResourcesDescription": "Esta área de Sunflower Land es conocida por sus recursos exóticos. ¡Amplía tu tierra para descubrir frutas, flores, colmenas de abejas y minerales raros! Esté atento a las estaciones, ya que afectan a lo que puede cultivar.",
   "cropGuide.tutorialAlwaysSpring": "En tu primera isla, ¡siempre es primavera! Cuando actualices tu isla, las estaciones comenzarán a cambiar.",
   "temperateSeason.weatherShop.buy.comingSoon": "Próximamente, 3 de febrero",
-  "chapter": "Capítulo"
+  "chapter": "Capítulo",
+  "season.codex.auction.totalSupply": "Suministro total: {{totalSupply}}",
+  "guide.compost.seasons": "Los requisitos de compostaje cambian cada temporada",
+  "time.left": "izquierda"
 }

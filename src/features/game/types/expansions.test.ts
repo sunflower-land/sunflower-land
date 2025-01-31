@@ -97,7 +97,8 @@ describe("getLand", () => {
     expect(land?.flowerBeds).toHaveLength(1);
   });
 
-  it("returns spring resources if they had bought resource nodes", () => {
+  // Flower bed and honey temp disabled
+  it.skip("returns spring resources if they had bought resource nodes", () => {
     const land = getLand({
       id: 1,
       game: {

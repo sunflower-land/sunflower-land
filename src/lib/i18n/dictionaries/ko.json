@@ -5124,5 +5124,8 @@
   "islandupgrade.exoticResourcesDescription": "선플라워 랜드의 이 지역은 이국적인 자원으로 유명합니다.땅을 넓혀 과일, 꽃, 벌집, 희귀 광물을 발견하세요!계절에 따라 재배할 수 있는 식물이 달라지므로 잘 살펴보세요.",
   "cropGuide.tutorialAlwaysSpring": "첫 섬에서는 언제나 봄이 찾아옵니다!섬을 업그레이드하면 시즌이 바뀌기 시작합니다.",
   "temperateSeason.weatherShop.buy.comingSoon": "곧 출시됩니다 - 2월 3일",
-  "chapter": "장"
+  "chapter": "장",
+  "season.codex.auction.totalSupply": "총 공급량: {{totalSupply}}",
+  "guide.compost.seasons": "퇴비통 요구 사항은 계절마다 바뀝니다.",
+  "time.left": "왼쪽"
 }

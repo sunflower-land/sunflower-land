@@ -55,10 +55,10 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
   },
   "Bull Run": {
     startDate: new Date("2024-11-01T00:00:00.000Z"),
-    endDate: new Date("2025-02-01T00:00:00.000Z"),
+    endDate: new Date("2025-02-03T00:00:00.000Z"),
   },
   "Winds of Change": {
-    startDate: new Date("2025-02-01T00:00:00.000Z"),
+    startDate: new Date("2025-02-03T00:00:00.000Z"),
     endDate: new Date("2025-05-01T00:00:00.000Z"),
   },
 };

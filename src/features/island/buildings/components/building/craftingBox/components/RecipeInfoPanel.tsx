@@ -12,12 +12,14 @@ interface Props {
   show: boolean;
   ingredients: RecipeIngredient[];
   onClick: () => void;
+  title?: string;
 }
 
 export const RecipeInfoPanel: React.FC<Props> = ({
   show,
   ingredients,
   onClick,
+  title,
 }) => {
   const { t } = useAppTranslation();
 
@@ -65,7 +67,7 @@ export const RecipeInfoPanel: React.FC<Props> = ({
         <div className="flex flex-col mb-1">
           <div className="flex space-x-1 mb-1">
             <span className="text-xs whitespace-nowrap">
-              {`${t("ingredients")}:`}
+              {title ?? `${t("ingredients")}:`}
             </span>
           </div>
           <div className="space-y-1">

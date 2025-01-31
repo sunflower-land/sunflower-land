@@ -815,6 +815,10 @@ import cupOfChocolate from "assets/sfts/cup_of_chocolate.webp";
 import goldenSheep from "assets/sfts/golden_sheep.webp";
 import barnBlueprint from "assets/sfts/barn_blueprint.webp";
 import mamaDuck from "assets/sfts/mama_duck.webp";
+import autumnDuckling from "assets/sfts/autumn_duckling.webp";
+import winterDuckling from "assets/sfts/winter_duckling.webp";
+import summerDuckling from "assets/sfts/summer_duckling.webp";
+import springDuckling from "assets/sfts/spring_duckling.webp";
 import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
@@ -4827,7 +4831,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.acornHouse"),
   },
   "Spring Duckling": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: springDuckling,
     description: translate("description.springDuckling"),
   },
   Igloo: {
@@ -4867,15 +4871,15 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.mamaDuck"),
   },
   "Summer Duckling": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: summerDuckling,
     description: translate("description.summerDuckling"),
   },
   "Autumn Duckling": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: autumnDuckling,
     description: translate("description.autumnDuckling"),
   },
   "Winter Duckling": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: winterDuckling,
     description: translate("description.winterDuckling"),
   },
   Timeshard: {
