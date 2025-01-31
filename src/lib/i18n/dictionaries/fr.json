@@ -5127,5 +5127,6 @@
   "chapter": "Chapitre",
   "season.codex.auction.totalSupply": "Approvisionnement total : {{totalSupply}}",
   "guide.compost.seasons": "Les exigences en matière de composteur changent chaque saison",
-  "time.left": "parti"
+  "time.left": "parti",
+  "description.rhubarb.tart": "Une tarte sucrée et acidulée à la rhubarbe fraîche"
 }

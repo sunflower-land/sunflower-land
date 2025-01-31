@@ -5127,5 +5127,6 @@
   "chapter": "Capítulo",
   "season.codex.auction.totalSupply": "Suministro total: {{totalSupply}}",
   "guide.compost.seasons": "Los requisitos de compostaje cambian cada temporada",
-  "time.left": "izquierda"
+  "time.left": "izquierda",
+  "description.rhubarb.tart": "Una tarta dulce y ácida con ruibarbo fresco"
 }

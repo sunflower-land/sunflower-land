@@ -5127,5 +5127,6 @@
   "chapter": "Глава",
   "season.codex.auction.totalSupply": "Общий объем предложения: {{totalSupply}}",
   "guide.compost.seasons": "Требования к компостерам меняются каждый сезон",
-  "time.left": "левый"
+  "time.left": "левый",
+  "description.rhubarb.tart": "Сладкий и острый пирог со свежим ревенем"
 }

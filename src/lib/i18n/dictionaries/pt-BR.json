@@ -5127,5 +5127,6 @@
   "chapter": "Capítulo",
   "season.codex.auction.totalSupply": "Fornecimento total: {{totalSupply}}",
   "guide.compost.seasons": "Os requisitos do compostor mudam a cada temporada",
-  "time.left": "esquerdo"
+  "time.left": "esquerdo",
+  "description.rhubarb.tart": "Uma torta doce e picante com ruibarbo fresco"
 }
