@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "Ein magisches Windrad, das dich vor dem Tornado schützt! Nur zum einmaligen Gebrauch.",
   "temperateSeason.weatherShop.weather": "Wetter",
   "temperateSeason.weatherShop.buy.description": "Kaufe Gegenstände, um deine Farm vor dem Wetter zu schützen",
-  "temperateSeason.weatherShop.buy.comingSoon": "Demnächst — 1. Februar",
   "tornado": "Tornado",
   "tornado.crops.destroyed": "Zerstörung durch Tornados",
   "tornado.crops.destroyed.description": "Ein Tornado hat die Hälfte deiner Ernte vernichtet. Bitte warten Sie, bis der Tornado vorüber ist.",
@@ -5123,5 +5122,6 @@
   "description.jellyfish": "Ein leuchtendes Meereswunder, das vor mystischer Energie leuchtet und in den warmen Sommermonaten verbesserte Angelfähigkeiten bietet.",
   "description.chamomile": "Eine dekorative Mutantenblume, die im Kapitel Winde des Wandels gefunden wurde.",
   "islandupgrade.exoticResourcesDescription": "Dieses Gebiet von Sunflower Land ist bekannt für seine exotischen Ressourcen. Erweitere dein Land, um Früchte, Blumen, Bienenstöcke und seltene Mineralien zu entdecken! Behalte die Jahreszeiten im Auge, denn sie beeinflussen, was du anbauen kannst.",
-  "cropGuide.tutorialAlwaysSpring": "Auf deiner ersten Insel ist immer Frühling! Wenn du deine Insel aufrüstest, beginnen sich die Jahreszeiten zu ändern."
+  "cropGuide.tutorialAlwaysSpring": "Auf deiner ersten Insel ist immer Frühling! Wenn du deine Insel aufrüstest, beginnen sich die Jahreszeiten zu ändern.",
+  "temperateSeason.weatherShop.buy.comingSoon": "Demnächst — 3. Februar"
 }

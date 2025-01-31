@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "Um cata-vento mágico que protege você do tornado! Somente para uso único.",
   "temperateSeason.weatherShop.weather": "Clima",
   "temperateSeason.weatherShop.buy.description": "Compre itens para proteger sua fazenda das intempéries",
-  "temperateSeason.weatherShop.buy.comingSoon": "Em breve - 1º de fevereiro",
   "tornado": "Tornado",
   "tornado.crops.destroyed": "Destruição do tornado",
   "tornado.crops.destroyed.description": "Um tornado destruiu metade de suas plantações. Por favor, espere o tornado passar.",
@@ -5123,5 +5122,6 @@
   "description.jellyfish": "Uma maravilha marinha luminosa que brilha com energia mística, garantindo habilidades aprimoradas de pesca durante os meses quentes de verão.",
   "description.chamomile": "Uma flor mutante decorativa encontrada durante o capítulo Winds of Change.",
   "islandupgrade.exoticResourcesDescription": "Esta área de Sunflower Land é conhecida por seus recursos exóticos. Expanda sua terra para descobrir frutas, flores, colmeias e minerais raros! Fique de olho nas estações do ano, pois elas afetam o que você pode cultivar.",
-  "cropGuide.tutorialAlwaysSpring": "Na sua primeira ilha, é sempre primavera! Quando você aprimora sua ilha, as estações começam a mudar."
+  "cropGuide.tutorialAlwaysSpring": "Na sua primeira ilha, é sempre primavera! Quando você aprimora sua ilha, as estações começam a mudar.",
+  "temperateSeason.weatherShop.buy.comingSoon": "Em breve - 3 de fevereiro"
 }

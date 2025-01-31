@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "Roda pinwheel ajaib yang melindungi anda dari puting beliung! Satu penggunaan sahaja.",
   "temperateSeason.weatherShop.weather": "Cuaca",
   "temperateSeason.weatherShop.buy.description": "Beli barang untuk melindungi ladang anda dari cuaca",
-  "temperateSeason.weatherShop.buy.comingSoon": "Tidak lama lagi - 1 Februari",
   "tornado": "Tornado",
   "tornado.crops.destroyed": "Kemusnahan puting beliung",
   "tornado.crops.destroyed.description": "Putung beliung telah memusnahkan separuh tanaman anda. Sila tunggu puting beliung berlalu.",
@@ -5123,5 +5122,6 @@
   "description.jellyfish": "Keajaiban laut bercahaya yang bersinar dengan tenaga mistik, memberikan kebolehan memancing yang dipertingkatkan semasa bulan-bulan musim panas yang hangat.",
   "description.chamomile": "Bunga mutan hiasan yang ditemui semasa bab Winds of Change.",
   "islandupgrade.exoticResourcesDescription": "Kawasan Tanah Bunga Matahari ini terkenal dengan sumber eksotiknya. Kembangkan tanah anda untuk menemui buah-buahan, bunga, sarang lebah & mineral langka! Perhatikan musim kerana ia mempengaruhi apa yang boleh anda tanam.",
-  "cropGuide.tutorialAlwaysSpring": "Di pulau pertama anda, ia sentiasa musim bunga! Apabila anda menaik taraf pulau anda, musim akan mula berubah."
+  "cropGuide.tutorialAlwaysSpring": "Di pulau pertama anda, ia sentiasa musim bunga! Apabila anda menaik taraf pulau anda, musim akan mula berubah.",
+  "temperateSeason.weatherShop.buy.comingSoon": "Tidak lama lagi - 3 Februari"
 }

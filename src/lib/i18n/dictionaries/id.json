@@ -4737,7 +4737,6 @@
   "description.tornadoPinwheel": "Kincir ajaib yang melindungi Anda dari tornado! Sekali pakai saja.",
   "temperateSeason.weatherShop.weather": "Cuaca",
   "temperateSeason.weatherShop.buy.description": "Beli barang untuk melindungi pertanian Anda dari cuaca",
-  "temperateSeason.weatherShop.buy.comingSoon": "Segera hadir - 1 Februari",
   "tornado": "Tornado",
   "tornado.crops.destroyed": "Penghancuran tornado",
   "tornado.crops.destroyed.description": "Tornado telah menghancurkan setengah dari hasil panen Anda. Tolong tunggu sampai tornado lewat.",
@@ -5123,5 +5122,6 @@
   "description.jellyfish": "Keajaiban laut bercahaya yang bersinar dengan energi mistis, memberikan kemampuan memancing yang ditingkatkan selama bulan-bulan musim panas yang hangat.",
   "description.chamomile": "Bunga mutan dekoratif yang ditemukan selama chapter Winds of Change.",
   "islandupgrade.exoticResourcesDescription": "Daerah Tanah Bunga Matahari ini dikenal dengan sumber daya eksotisnya. Perluas tanah Anda untuk menemukan buah, bunga, sarang lebah & mineral langka! Awasi musim karena mereka memengaruhi apa yang dapat Anda tanam.",
-  "cropGuide.tutorialAlwaysSpring": "Di pulau pertama Anda, selalu musim semi! Saat Anda meningkatkan pulau Anda, musim akan mulai berubah."
+  "cropGuide.tutorialAlwaysSpring": "Di pulau pertama Anda, selalu musim semi! Saat Anda meningkatkan pulau Anda, musim akan mulai berubah.",
+  "temperateSeason.weatherShop.buy.comingSoon": "Segera hadir - 3 Februari"
 }
