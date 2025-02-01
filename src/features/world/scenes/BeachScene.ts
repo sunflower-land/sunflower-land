@@ -3,7 +3,6 @@ import mapJSON from "assets/map/beach.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { InventoryItemName } from "features/game/types/game";
@@ -129,12 +128,6 @@ export class BeachScene extends BaseScene {
       frameHeight: 16,
     });
 
-    // "misty" NPC fisher
-    this.load.spritesheet("fisher", SUNNYSIDE.npcs.fishing_sheet, {
-      frameWidth: 58,
-      frameHeight: 50,
-    });
-
     // fishing weather icons
     this.load.image("fish_frenzy", "world/lightning.png");
     this.load.image("full_moon", "world/full_moon.png");
@@ -209,22 +202,6 @@ export class BeachScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
     this.digbyProgressBar = new ProgressBarContainer(this, 337, 234);
-
-    const fisher = new FishermanContainer({
-      x: 402,
-      y: 791,
-      scene: this,
-      weather: this.gameState.fishing.weather,
-    });
-    fisher.setDepth(100000000);
-    this.physics.world.enable(fisher);
-    this.colliders?.add(fisher);
-    this.triggerColliders?.add(fisher);
-    (fisher.body as Phaser.Physics.Arcade.Body)
-      .setSize(12, 16)
-      .setOffset(12, 11)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
 
     const turtle = this.add.sprite(408, 595, "beach_bud");
     turtle.setScale(-1, 1);
