@@ -130,7 +130,7 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 <Button
                   disabled={
                     !hasAccess ||
-                    (state.inventory.Sunstone ?? new Decimal(0)).lte(price)
+                    (state.inventory.Sunstone ?? new Decimal(0)).lt(price)
                   }
                   onClick={buy}
                   className="w-full"
