@@ -756,4 +756,45 @@ describe("upgradeFarm", () => {
       },
     });
   });
+
+  it("removes buds from farm on upgrade", () => {
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+        },
+        island: {
+          type: "desert",
+        },
+        buds: {
+          "1": {
+            type: "Beach",
+            colour: "Beige",
+            stem: "3 Leaf Clover",
+            aura: "Basic",
+            ears: "Ears",
+            location: "farm",
+            coordinates: { x: 0, y: 0 },
+          },
+        },
+      },
+    });
+
+    expect(state.buds).toEqual({
+      "1": {
+        type: "Beach",
+        colour: "Beige",
+        stem: "3 Leaf Clover",
+        aura: "Basic",
+        ears: "Ears",
+        coordinates: undefined,
+        location: undefined,
+      },
+    });
+  });
 });
