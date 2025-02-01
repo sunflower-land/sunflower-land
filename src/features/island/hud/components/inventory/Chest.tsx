@@ -39,6 +39,8 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { BEDS } from "features/game/types/beds";
+import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -298,13 +300,61 @@ export const Chest: React.FC<Props> = ({
     )
     .filter((name) => !resources.includes(name) && !buildings.includes(name));
   const banners = getKeys(collectibles).filter((name) => name in BANNERS);
+  const beds = getKeys(collectibles).filter((name) => name in BEDS);
+  const weatherItems = getKeys(collectibles).filter(
+    (name) => name in WEATHER_SHOP_ITEM_COSTS,
+  );
   const decorations = getKeys(collectibles).filter(
     (name) =>
       !resources.includes(name) &&
       !buildings.includes(name) &&
       !boosts.includes(name) &&
-      !banners.includes(name),
+      !banners.includes(name) &&
+      !beds.includes(name) &&
+      !weatherItems.includes(name),
   );
+
+  const ITEM_GROUPS: {
+    items: CollectibleName[];
+    label: TranslationKeys;
+    icon: string;
+  }[] = [
+    {
+      items: resources,
+      label: "resource.nodes",
+      icon: SUNNYSIDE.resource.tree,
+    },
+    {
+      items: buildings,
+      label: "buildings",
+      icon: SUNNYSIDE.icons.hammer,
+    },
+    {
+      items: boosts,
+      label: "boosts",
+      icon: lightning,
+    },
+    {
+      items: banners,
+      label: "banners",
+      icon: ITEM_DETAILS["Lifetime Farmer Banner"].image,
+    },
+    {
+      items: beds,
+      label: "beds",
+      icon: ITEM_DETAILS["Basic Bed"].image,
+    },
+    {
+      items: weatherItems,
+      label: "weatherItems",
+      icon: ITEM_DETAILS["Tornado Pinwheel"].image,
+    },
+    {
+      items: decorations,
+      label: "decorations",
+      icon: ITEM_DETAILS["Basic Bear"].image,
+    },
+  ];
 
   return (
     <SplitScreenView
@@ -377,141 +427,19 @@ export const Chest: React.FC<Props> = ({
             </div>
           )} */}
 
-          {resources.length > 0 && (
-            <div className="flex flex-col pl-2 mb-2 w-full" key="Resources">
-              <Label
-                type="default"
-                className="my-1"
-                icon={SUNNYSIDE.resource.tree}
-              >
-                {t("resource.nodes")}
-              </Label>
-              <div className="flex mb-2 flex-wrap -ml-1.5">
-                {resources.map((item) => (
-                  <Box
-                    count={chestMap[item]}
-                    isSelected={selectedChestItem === item}
-                    key={item}
-                    onClick={() => handleItemClick(item)}
-                    image={
-                      ITEM_ICONS(state.island.type, state.season.season)[
-                        item
-                      ] ?? ITEM_DETAILS[item].image
-                    }
-                    parentDivRef={divRef}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {buildings.length > 0 && (
-            <div className="flex flex-col pl-2 mb-2 w-full" key="Buildings">
-              <Label
-                type="default"
-                className="my-1"
-                icon={SUNNYSIDE.icons.hammer}
-              >
-                {t("buildings")}
-              </Label>
-              <div className="flex mb-2 flex-wrap -ml-1.5">
-                {buildings.map((item) => (
-                  <Box
-                    count={chestMap[item]}
-                    isSelected={selectedChestItem === item}
-                    key={item}
-                    onClick={() => handleItemClick(item)}
-                    image={
-                      ITEM_ICONS(state.island.type, state.season.season)[
-                        item
-                      ] ?? ITEM_DETAILS[item].image
-                    }
-                    parentDivRef={divRef}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {boosts.length > 0 && (
-            <div className="flex flex-col pl-2 mb-2 w-full" key="Boosts">
-              <Label type="default" className="my-1" icon={lightning}>
-                {t("boosts")}
-              </Label>
-              <div className="flex mb-2 flex-wrap -ml-1.5">
-                {boosts.map((item) => (
-                  <Box
-                    count={chestMap[item]}
-                    isSelected={selectedChestItem === item}
-                    key={item}
-                    onClick={() => handleItemClick(item)}
-                    image={
-                      ITEM_ICONS(state.island.type, state.season.season)[
-                        item
-                      ] ?? ITEM_DETAILS[item].image
-                    }
-                    parentDivRef={divRef}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {banners.length > 0 && (
-            <div className="flex flex-col pl-2 mb-2 w-full" key="Banners">
-              <Label
-                type="default"
-                className="my-1"
-                icon={ITEM_DETAILS["Lifetime Farmer Banner"].image}
-              >
-                {t("banners")}
-              </Label>
-              <div className="flex mb-2 flex-wrap -ml-1.5">
-                {banners.map((item) => (
-                  <Box
-                    count={chestMap[item]}
-                    isSelected={selectedChestItem === item}
-                    key={item}
-                    onClick={() => handleItemClick(item)}
-                    image={
-                      ITEM_ICONS(state.island.type, state.season.season)[
-                        item
-                      ] ?? ITEM_DETAILS[item].image
-                    }
-                    parentDivRef={divRef}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {decorations.length > 0 && (
-            <div className="flex flex-col pl-2 mb-2 w-full" key="Decorations">
-              <Label
-                type="default"
-                className="my-1"
-                icon={ITEM_DETAILS["Basic Bear"].image}
-              >
-                {t("decorations")}
-              </Label>
-              <div className="flex mb-2 flex-wrap -ml-1.5">
-                {decorations.map((item) => (
-                  <Box
-                    count={chestMap[item]}
-                    isSelected={selectedChestItem === item}
-                    key={item}
-                    onClick={() => handleItemClick(item)}
-                    image={
-                      ITEM_ICONS(state.island.type, state.season.season)[
-                        item
-                      ] ?? ITEM_DETAILS[item].image
-                    }
-                    parentDivRef={divRef}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          {ITEM_GROUPS.map(({ items, label, icon }) => (
+            <ItemGroup
+              key={label}
+              items={items}
+              label={t(label)}
+              icon={icon}
+              chestMap={chestMap}
+              selectedChestItem={selectedChestItem}
+              onItemClick={handleItemClick}
+              state={state}
+              divRef={divRef}
+            />
+          ))}
 
           {onDepositClick && (
             <div className="flex w-full ml-1 my-1">
@@ -529,5 +457,52 @@ export const Chest: React.FC<Props> = ({
         </>
       }
     />
+  );
+};
+
+interface ItemGroupProps {
+  items: CollectibleName[];
+  label: string;
+  icon: string;
+  chestMap: Record<string, Decimal>;
+  selectedChestItem: string;
+  onItemClick: (item: InventoryItemName | BudName) => void;
+  state: GameState;
+  divRef: React.RefObject<HTMLDivElement>;
+}
+
+const ItemGroup: React.FC<ItemGroupProps> = ({
+  items,
+  label,
+  icon,
+  chestMap,
+  selectedChestItem,
+  onItemClick,
+  state,
+  divRef,
+}) => {
+  if (items.length === 0) return null;
+
+  return (
+    <div className="flex flex-col pl-2 mb-2 w-full">
+      <Label type="default" className="my-1" icon={icon}>
+        {label}
+      </Label>
+      <div className="flex mb-2 flex-wrap -ml-1.5">
+        {items.map((item) => (
+          <Box
+            count={chestMap[item]}
+            isSelected={selectedChestItem === item}
+            key={item}
+            onClick={() => onItemClick(item)}
+            image={
+              ITEM_ICONS(state.island.type, state.season.season)[item] ??
+              ITEM_DETAILS[item].image
+            }
+            parentDivRef={divRef}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
