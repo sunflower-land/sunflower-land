@@ -147,6 +147,24 @@ export const CompetitionDetails: React.FC<{
 
   const tasks = getKeys(COMPETITION_POINTS[competitionName].points);
 
+  const hasEnded = Date.now() > competition.endAt;
+
+  if (hasEnded) {
+    return (
+      <InnerPanel>
+        <Label type="default" className="mb-2">
+          {t("competition.ended")}
+        </Label>
+        <div className="p-1">
+          <p className="text-xs mb-2">{t("competition.ended.description")}</p>
+          <p className="text-xs mb-2">
+            {t("competition.ended.description.two")}
+          </p>
+        </div>
+      </InnerPanel>
+    );
+  }
+
   return (
     <>
       <InnerPanel className="mb-1">
