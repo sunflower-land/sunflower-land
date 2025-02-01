@@ -242,7 +242,13 @@ export const GameCalendar: React.FC = () => {
 
   return (
     <>
-      <Modal show={isCalendarOpen} onHide={() => setIsCalendarOpen(false)}>
+      <Modal
+        show={isCalendarOpen}
+        onHide={() => {
+          setIsCalendarOpen(false);
+          setSelectedDate(undefined);
+        }}
+      >
         <Panel className="flex flex-col justify-between p-1">
           <div className="flex justify-between px-1 pb-2">
             <div className="flex items-center space-x-3">
@@ -303,7 +309,7 @@ export const GameCalendar: React.FC = () => {
           </div>
         </Panel>
         <ModalOverlay
-          show={selectedDate !== undefined}
+          show={!!selectedDate}
           onBackdropClick={() => setSelectedDate(undefined)}
           className="inset-3"
         >
