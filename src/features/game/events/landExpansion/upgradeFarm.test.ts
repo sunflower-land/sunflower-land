@@ -715,4 +715,45 @@ describe("upgradeFarm", () => {
       }),
     ).toThrow("Not implemented");
   });
+
+  it("does not remove buds from home on upgrade", () => {
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+        },
+        island: {
+          type: "desert",
+        },
+        buds: {
+          "1": {
+            type: "Beach",
+            colour: "Beige",
+            stem: "3 Leaf Clover",
+            aura: "Basic",
+            ears: "Ears",
+            location: "home",
+            coordinates: { x: 0, y: 0 },
+          },
+        },
+      },
+    });
+
+    expect(state.buds).toEqual({
+      "1": {
+        type: "Beach",
+        colour: "Beige",
+        stem: "3 Leaf Clover",
+        aura: "Basic",
+        ears: "Ears",
+        location: "home",
+        coordinates: { x: 0, y: 0 },
+      },
+    });
+  });
 });
