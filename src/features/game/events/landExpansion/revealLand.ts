@@ -247,6 +247,21 @@ export function revealLand({
       land.oilReserves?.length ?? 0,
     );
 
+    // Add lava pits
+    land.lavaPits?.forEach((coords) => {
+      const id = randomUUID();
+      game.lavaPits[id] = {
+        height: 2,
+        width: 2,
+        x: coords.x + origin.x,
+        y: coords.y + origin.y,
+        createdAt,
+      };
+    });
+    inventory["Lava Pit"] = (inventory["Lava Pit"] || new Decimal(0)).add(
+      land.lavaPits?.length ?? 0,
+    );
+
     // Refresh all basic resources
     game.trees = getKeys(game.trees).reduce(
       (acc, id) => {

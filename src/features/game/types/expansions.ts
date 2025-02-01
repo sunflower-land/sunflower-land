@@ -205,6 +205,12 @@ export function getLand({
     (game.inventory["Oil Reserve"]?.toNumber() ?? 0);
   land.oilReserves = land.oilReserves?.slice(0, availableOilReserves);
 
+  // Add Lava
+  const availableLavaPit =
+    expectedResources["Lava Pit"] -
+    (game.inventory["Lava Pit"]?.toNumber() ?? 0);
+  land.lavaPits = land.lavaPits?.slice(0, availableLavaPit);
+
   return land;
 }
 
@@ -2463,6 +2469,7 @@ export type Layout = {
   flowerBeds?: Coordinates[];
   fruitPatches?: Coordinates[];
   oilReserves?: Coordinates[];
+  lavaPits?: Coordinates[];
 };
 
 /**
