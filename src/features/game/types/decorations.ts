@@ -151,8 +151,8 @@ export const DECORATION_TEMPLATES = {
   },
   "Protective Pesticide": {
     dimensions: {
-      width: 2,
-      height: 2,
+      width: 1,
+      height: 1,
     },
     isWithdrawable: () => false,
   },
