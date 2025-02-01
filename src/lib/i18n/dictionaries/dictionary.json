@@ -657,6 +657,7 @@
   "confirmation.sellSeasonalArtefact": "This bounty is a seasonal artefact! Are you sure you want to sell it?",
   "confirmation.valuableTreasure": "This bounty is very valuable! Are you sure you want to sell it?",
   "confirm.skillClaim": "Are you sure you want to claim the skill?",
+  "confirm.skillReset": "Are you sure you want to reset all your skills? This action cannot be undone and will cost {{sfl}} SFL. You will be able to reset your skills again in {{days}} days.",
   "faction-intro.one": "Welcome to your new faction house... We need your help to become more powerful and dominate the kingdom.",
   "faction-intro.two": "You will be rewarded with marks by completing chores, delivering items to the kitchen and feeding our majestic pet.",
   "faction-intro.three": "At the end of each week, bonus prizes will be given to our best members. Good luck!",

@@ -26,6 +26,9 @@ import { ISLAND_EXPANSIONS } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import classNames from "classnames";
 
+const RESET_SKILLS_SFL_BASE_COST = 0;
+const RESET_SKILLS_COOLDOWN_DAYS = 90;
+
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -69,7 +72,7 @@ export const SkillCategoryList = ({
     ? new Date().getTime() - new Date(lastResetDate).getTime() >=
       90 * 24 * 60 * 60 * 1000
     : true;
-  const enoughSfl = state.balance.toNumber() >= 10;
+  const enoughSfl = state.balance.toNumber() >= RESET_SKILLS_SFL_BASE_COST;
 
   const handleSkillsReset = () => {
     setShowSkillsResetModal(false);
@@ -197,9 +200,10 @@ export const SkillCategoryList = ({
               </Label>
             </div>
             <p className="text-xs py-4 px-2 text-center">
-              {
-                "Are you sure you want to reset all your skills? This action cannot be undone and will cost 0 SFL. You will be able to reset your skills again in 3 months."
-              }
+              {t("confirm.skillReset", {
+                sfl: RESET_SKILLS_SFL_BASE_COST,
+                days: RESET_SKILLS_COOLDOWN_DAYS,
+              })}
               {/* Will change to 10 SFL on release */}
             </p>
             {/* {!threeMonthsSinceLastReset && (
