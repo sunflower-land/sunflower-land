@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "Fornitura totale: {{totalSupply}}",
   "guide.compost.seasons": "I requisiti per il compostaggio cambiano ogni stagione",
   "time.left": "sinistra",
-  "description.rhubarb.tart": "Una crostata dolce e piccante con rabarbaro fresco"
+  "description.rhubarb.tart": "Una crostata dolce e piccante con rabarbaro fresco",
+  "competition.ended": "La competizione è terminata",
+  "competition.ended.description": "La competizione è terminata. Grazie per aver partecipato!",
+  "competition.ended.description.two": "I vincitori sono in fase di calcolo e saranno annunciati a breve."
 }

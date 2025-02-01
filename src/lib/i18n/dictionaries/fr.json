@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "Approvisionnement total : {{totalSupply}}",
   "guide.compost.seasons": "Les exigences en matière de composteur changent chaque saison",
   "time.left": "parti",
-  "description.rhubarb.tart": "Une tarte sucrée et acidulée à la rhubarbe fraîche"
+  "description.rhubarb.tart": "Une tarte sucrée et acidulée à la rhubarbe fraîche",
+  "competition.ended": "La compétition est terminée",
+  "competition.ended.description": "La compétition est terminée. Merci d'avoir participé !",
+  "competition.ended.description.two": "Les gagnants sont en cours de calcul et seront annoncés prochainement."
 }

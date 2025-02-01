@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "総供給量:{{totalSupply}}",
   "guide.compost.seasons": "コンポスターの要件は季節ごとに変わります",
   "time.left": "左",
-  "description.rhubarb.tart": "新鮮なルバーブを使った甘くてピリッとしたタルト"
+  "description.rhubarb.tart": "新鮮なルバーブを使った甘くてピリッとしたタルト",
+  "competition.ended": "コンテストは終了しました",
+  "competition.ended.description": "コンテストは終了しました。ご参加いただきありがとうございます。",
+  "competition.ended.description.two": "受賞者は現在計算中で、まもなく発表されます。"
 }

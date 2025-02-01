@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "Общий объем предложения: {{totalSupply}}",
   "guide.compost.seasons": "Требования к компостерам меняются каждый сезон",
   "time.left": "левый",
-  "description.rhubarb.tart": "Сладкий и острый пирог со свежим ревенем"
+  "description.rhubarb.tart": "Сладкий и острый пирог со свежим ревенем",
+  "competition.ended": "Соревнование закончилось",
+  "competition.ended.description": "Соревнование закончилось. Спасибо за участие!",
+  "competition.ended.description.two": "Победители подсчитываются и будут объявлены в ближайшее время."
 }

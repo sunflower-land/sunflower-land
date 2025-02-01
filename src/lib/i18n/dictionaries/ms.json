@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "Jumlah Bekalan: {{totalSupply}}",
   "guide.compost.seasons": "Keperluan komposter berubah setiap musim",
   "time.left": "ditinggalkan",
-  "description.rhubarb.tart": "Tart manis dan pedas yang menampilkan rhubarb segar"
+  "description.rhubarb.tart": "Tart manis dan pedas yang menampilkan rhubarb segar",
+  "competition.ended": "Pertandingan telah berakhir",
+  "competition.ended.description": "Pertandingan telah berakhir. Terima kasih kerana menyertai!",
+  "competition.ended.description.two": "Pemenang sedang dikira dan akan diumumkan tidak lama lagi."
 }
