@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "Toplam Arz: {{totalSupply}}",
   "guide.compost.seasons": "Komposter gereksinimleri her mevsim değişir",
   "time.left": "ayrıldı",
-  "description.rhubarb.tart": "Taze ravent içeren tatlı ve keskin bir tart"
+  "description.rhubarb.tart": "Taze ravent içeren tatlı ve keskin bir tart",
+  "competition.ended": "Yarışma sona erdi",
+  "competition.ended.description": "Yarışma sona erdi. Katıldığınız için teşekkür ederiz!",
+  "competition.ended.description.two": "Kazananlar hesaplanıyor ve yakında açıklanacak."
 }

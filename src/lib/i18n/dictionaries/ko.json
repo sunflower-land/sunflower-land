@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "총 공급량: {{totalSupply}}",
   "guide.compost.seasons": "퇴비통 요구 사항은 계절마다 바뀝니다.",
   "time.left": "왼쪽",
-  "description.rhubarb.tart": "신선한 루바브가 들어간 달콤하고 톡 쏘는 타르트"
+  "description.rhubarb.tart": "신선한 루바브가 들어간 달콤하고 톡 쏘는 타르트",
+  "competition.ended": "대회가 종료되었습니다",
+  "competition.ended.description": "대회가 종료되었습니다.참여해주셔서 감사합니다!",
+  "competition.ended.description.two": "수상자는 계산 중이며 곧 발표될 예정입니다."
 }

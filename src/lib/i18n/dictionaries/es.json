@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "Suministro total: {{totalSupply}}",
   "guide.compost.seasons": "Los requisitos de compostaje cambian cada temporada",
   "time.left": "izquierda",
-  "description.rhubarb.tart": "Una tarta dulce y ácida con ruibarbo fresco"
+  "description.rhubarb.tart": "Una tarta dulce y ácida con ruibarbo fresco",
+  "competition.ended": "La competencia ha terminado",
+  "competition.ended.description": "La competición ha terminado. ¡Gracias por participar!",
+  "competition.ended.description.two": "Los ganadores se están calculando y se anunciarán pronto."
 }

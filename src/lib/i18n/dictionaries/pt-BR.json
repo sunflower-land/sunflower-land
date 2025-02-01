@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "Fornecimento total: {{totalSupply}}",
   "guide.compost.seasons": "Os requisitos do compostor mudam a cada temporada",
   "time.left": "esquerdo",
-  "description.rhubarb.tart": "Uma torta doce e picante com ruibarbo fresco"
+  "description.rhubarb.tart": "Uma torta doce e picante com ruibarbo fresco",
+  "competition.ended": "A competição terminou",
+  "competition.ended.description": "A competição acabou. Obrigado por participar!",
+  "competition.ended.description.two": "Os vencedores estão sendo calculados e serão anunciados em breve."
 }

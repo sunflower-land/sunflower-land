@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "Gesamtangebot: {{totalSupply}}",
   "guide.compost.seasons": "Die Anforderungen an Komposter ändern sich zu jeder Jahreszeit",
   "time.left": "links",
-  "description.rhubarb.tart": "Eine süße und würzige Tarte mit frischem Rhabarber"
+  "description.rhubarb.tart": "Eine süße und würzige Tarte mit frischem Rhabarber",
+  "competition.ended": "Das Gewinnspiel ist beendet",
+  "competition.ended.description": "Das Gewinnspiel ist beendet. Danke für deine Teilnahme!",
+  "competition.ended.description.two": "Die Gewinner werden derzeit berechnet und in Kürze bekannt gegeben."
 }

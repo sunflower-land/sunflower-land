@@ -5128,5 +5128,8 @@
   "season.codex.auction.totalSupply": "总供应量：{{totalSupply}}",
   "guide.compost.seasons": "堆肥者的要求每个季节都会变化",
   "time.left": "左边",
-  "description.rhubarb.tart": "一款以新鲜大黄为特色的甜而浓郁的馅饼"
+  "description.rhubarb.tart": "一款以新鲜大黄为特色的甜而浓郁的馅饼",
+  "competition.ended": "比赛已经结束",
+  "competition.ended.description": "比赛已经结束。感谢您的参与！",
+  "competition.ended.description.two": "正在计算获胜者，并将很快公布。"
 }
