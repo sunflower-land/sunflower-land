@@ -99,7 +99,6 @@ import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { hasFeatureAccess } from "lib/flags";
-import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
@@ -993,24 +992,26 @@ export function startGame(authContext: AuthContext) {
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
-            {
-              target: "competition",
-              cond: (context: Context) => {
-                if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
-                  return false;
+            // {
+            //   target: "competition",
+            //   cond: (context: Context) => {
+            //     if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
+            //       return false;
 
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
+            //     // TODO is competition active?
 
-                if (level <= 5) return false;
+            //     const level = getBumpkinLevel(
+            //       context.state.bumpkin?.experience ?? 0,
+            //     );
 
-                const competition = context.state.competitions.progress.ANIMALS;
+            //     if (level <= 5) return false;
 
-                // Show the competition introduction if they have not started it yet
-                return !competition;
-              },
-            },
+            //     const competition = context.state.competitions.progress.ANIMALS;
+
+            //     // Show the competition introduction if they have not started it yet
+            //     return !competition;
+            //   },
+            // },
             {
               target: "playing",
             },
