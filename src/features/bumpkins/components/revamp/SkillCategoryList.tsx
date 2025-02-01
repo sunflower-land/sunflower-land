@@ -70,7 +70,7 @@ export const SkillCategoryList = ({
   const lastResetDate = bumpkin?.previousSkillsResetAt || null;
   const threeMonthsSinceLastReset = lastResetDate
     ? new Date().getTime() - new Date(lastResetDate).getTime() >=
-      90 * 24 * 60 * 60 * 1000
+      RESET_SKILLS_COOLDOWN_DAYS * 24 * 60 * 60 * 1000
     : true;
   const enoughSfl = state.balance.toNumber() >= RESET_SKILLS_SFL_BASE_COST;
 
@@ -86,7 +86,8 @@ export const SkillCategoryList = ({
   const getTimeUntilNextReset = () => {
     if (!lastResetDate) return "";
     const nextResetDate =
-      new Date(lastResetDate).getTime() + 90 * ONE_DAY * 1000;
+      new Date(lastResetDate).getTime() +
+      RESET_SKILLS_COOLDOWN_DAYS * ONE_DAY * 1000;
     const timeLeftInSeconds = Math.max(
       (nextResetDate - new Date().getTime()) / 1000,
       0,
