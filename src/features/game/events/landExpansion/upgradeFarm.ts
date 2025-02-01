@@ -691,7 +691,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       width: 2,
       height: 2,
       oil: {
-        amount: 1,
+        amount: 10,
         drilledAt: 0,
       },
       drilled: 0,
