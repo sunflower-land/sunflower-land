@@ -507,8 +507,8 @@ export class PlazaScene extends BaseScene {
     }
 
     const Banners: Record<TemperateSeasonName, string> = {
-      spring: "woc_banner_summer",
-      summer: "woc_banner_spring",
+      spring: "woc_banner_spring",
+      summer: "woc_banner_summer",
       autumn: "woc_banner_autumn",
       winter: "woc_banner_winter",
     };
