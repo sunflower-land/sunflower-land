@@ -45,6 +45,7 @@ type Props = {
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _farmId = (state: MachineState) => state.context.farmId;
+const _balance = (state: MachineState) => state.context.state.balance;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 
 export const BuyCurrenciesModal: React.FC<Props> = ({
@@ -69,9 +70,16 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
 
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
+  const balance = useSelector(gameService, _balance);
   const autosaving = useSelector(gameService, _autosaving);
 
-  const showStarter = useEffect(() => {
+  const enoughSfl =
+    !!exchangePackageId &&
+    balance.greaterThanOrEqualTo(
+      SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].sfl,
+    );
+
+  useEffect(() => {
     // Trigger an autosave in case they have changes so user can sync right away
     gameService.send("SAVE");
 
@@ -237,7 +245,10 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                   <div className="py-1">
                     <img
                       src={SUNNYSIDE.icons.arrow_left}
-                      className="h-6 w-6 ml-2 cursor-pointer"
+                      className="ml-2 cursor-pointer"
+                      style={{
+                        width: `${PIXEL_SCALE * 11}px`,
+                      }}
                       onClick={() => setExchangePackageId(undefined)}
                     />
                   </div>
@@ -254,7 +265,13 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                       SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].sfl
                     } SFL`}</span>
                   </div>
+                  {!enoughSfl && (
+                    <Label type="danger" icon={sflIcon} className="mb-2">
+                      {t("not.enough.sfl")}
+                    </Label>
+                  )}
                   <Button
+                    disabled={!enoughSfl}
                     onClick={() => handleSFLtoCoinsExchange(exchangePackageId)}
                   >
                     {t("confirm")}
