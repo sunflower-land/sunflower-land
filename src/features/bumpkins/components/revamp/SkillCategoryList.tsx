@@ -110,12 +110,15 @@ export const SkillCategoryList = ({
           return (
             <div key={islandType} className="flex flex-col items-stretch">
               <div className="flex items-center gap-2 mt-1 mb-2">
-                <Label
-                  type={hasUnlockedIslandCategory ? "default" : "warning"}
-                  className="capitalize"
-                >
-                  {`${islandType} Skills`}
-                </Label>
+                {getRevampSkillTreeCategoriesByIsland(islandType).length >
+                  0 && (
+                  <Label
+                    type={hasUnlockedIslandCategory ? "default" : "warning"}
+                    className="capitalize"
+                  >
+                    {`${islandType} Skills`}
+                  </Label>
+                )}
                 {!hasUnlockedIslandCategory && (
                   <Label type="warning">
                     {`Reach ${islandType} island to unlock`}
