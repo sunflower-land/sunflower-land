@@ -111,7 +111,7 @@ export const NoAccount: React.FC = () => {
             </Button>
           )}
           <Button onClick={() => authService.send("CREATE_FARM")}>
-            {`Yes, let's go!`}
+            {t("noaccount.letsGo")}
           </Button>
         </div>
       </div>
