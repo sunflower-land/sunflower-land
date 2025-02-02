@@ -221,7 +221,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
                 key={name}
                 onClick={() => setSelectedName(name)}
                 image={
-                  ITEM_ICONS(state.island.type)[name] ??
+                  ITEM_ICONS(state.island.type, state.season.season)[name] ??
                   ITEM_DETAILS[name].image
                 }
                 secondaryImage={secondaryIcon}

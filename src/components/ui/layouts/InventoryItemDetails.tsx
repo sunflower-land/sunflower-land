@@ -80,7 +80,9 @@ export const InventoryItemDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const getItemDetail = () => {
     const item = ITEM_DETAILS[details.item];
-    const icon = ITEM_ICONS(game.island.type)[details.item] ?? item.image;
+    const icon =
+      ITEM_ICONS(game.island.type, game.season.season)[details.item] ??
+      item.image;
     const title = details.item;
 
     let description = item.description;

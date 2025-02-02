@@ -5,6 +5,7 @@ import {
   GameState,
   InventoryItemName,
   IslandType,
+  TemperateSeasonName,
 } from "features/game/types/game";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { getChestBuds, getChestItems } from "./utils/inventory";
@@ -27,10 +28,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { TREE_VARIANTS } from "features/island/resources/Resource";
 import {
   BUSH_VARIANTS,
   DIRT_PATH_VARIANTS,
+  TREE_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
@@ -43,7 +44,8 @@ const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: (
   island: IslandType,
-) => Partial<Record<InventoryItemName, string>> = (island) => ({
+  season: TemperateSeasonName,
+) => Partial<Record<InventoryItemName, string>> = (island, season) => ({
   Market: SUNNYSIDE.icons.marketIcon,
   "Fire Pit": SUNNYSIDE.icons.firePitIcon,
   Workbench: SUNNYSIDE.icons.workbenchIcon,
@@ -54,10 +56,10 @@ export const ITEM_ICONS: (
   "Smoothie Shack": SUNNYSIDE.icons.smoothieIcon,
   Toolshed: SUNNYSIDE.icons.toolshedIcon,
   Warehouse: SUNNYSIDE.icons.warehouseIcon,
-  Tree: TREE_VARIANTS[island],
+  Tree: TREE_VARIANTS[island][season],
   "Dirt Path": DIRT_PATH_VARIANTS[island],
   Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
-  Bush: BUSH_VARIANTS[island],
+  Bush: BUSH_VARIANTS[island][season],
 });
 
 interface PanelContentProps {
@@ -392,8 +394,9 @@ export const Chest: React.FC<Props> = ({
                     key={item}
                     onClick={() => handleItemClick(item)}
                     image={
-                      ITEM_ICONS(state.island.type)[item] ??
-                      ITEM_DETAILS[item].image
+                      ITEM_ICONS(state.island.type, state.season.season)[
+                        item
+                      ] ?? ITEM_DETAILS[item].image
                     }
                     parentDivRef={divRef}
                   />
@@ -419,8 +422,9 @@ export const Chest: React.FC<Props> = ({
                     key={item}
                     onClick={() => handleItemClick(item)}
                     image={
-                      ITEM_ICONS(state.island.type)[item] ??
-                      ITEM_DETAILS[item].image
+                      ITEM_ICONS(state.island.type, state.season.season)[
+                        item
+                      ] ?? ITEM_DETAILS[item].image
                     }
                     parentDivRef={divRef}
                   />
@@ -442,8 +446,9 @@ export const Chest: React.FC<Props> = ({
                     key={item}
                     onClick={() => handleItemClick(item)}
                     image={
-                      ITEM_ICONS(state.island.type)[item] ??
-                      ITEM_DETAILS[item].image
+                      ITEM_ICONS(state.island.type, state.season.season)[
+                        item
+                      ] ?? ITEM_DETAILS[item].image
                     }
                     parentDivRef={divRef}
                   />
@@ -469,8 +474,9 @@ export const Chest: React.FC<Props> = ({
                     key={item}
                     onClick={() => handleItemClick(item)}
                     image={
-                      ITEM_ICONS(state.island.type)[item] ??
-                      ITEM_DETAILS[item].image
+                      ITEM_ICONS(state.island.type, state.season.season)[
+                        item
+                      ] ?? ITEM_DETAILS[item].image
                     }
                     parentDivRef={divRef}
                   />
@@ -496,8 +502,9 @@ export const Chest: React.FC<Props> = ({
                     key={item}
                     onClick={() => handleItemClick(item)}
                     image={
-                      ITEM_ICONS(state.island.type)[item] ??
-                      ITEM_DETAILS[item].image
+                      ITEM_ICONS(state.island.type, state.season.season)[
+                        item
+                      ] ?? ITEM_DETAILS[item].image
                     }
                     parentDivRef={divRef}
                   />

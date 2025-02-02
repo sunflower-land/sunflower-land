@@ -29,7 +29,7 @@ import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { LANDSCAPING_DECORATIONS } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import { IslandType } from "features/game/types/game";
+import { IslandType, TemperateSeasonName } from "features/game/types/game";
 
 interface Props {
   location: PlaceableLocation;
@@ -145,18 +145,22 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   };
 
   const island = gameState.context.state.island.type;
+  const season = gameState.context.state.season.season;
 
   const getPlaceableImage = (
     placeable: LandscapingPlaceable,
     island: IslandType,
+    season: TemperateSeasonName,
   ) => {
     if (isBudName(placeable)) {
       return "";
     }
-    return ITEM_ICONS(island)[placeable] ?? ITEM_DETAILS[placeable].image;
+    return (
+      ITEM_ICONS(island, season)[placeable] ?? ITEM_DETAILS[placeable].image
+    );
   };
 
-  const image = getPlaceableImage(placeable, island);
+  const image = getPlaceableImage(placeable, island, season);
 
   const Hint = () => {
     if (!requirements) {
