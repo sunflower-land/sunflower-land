@@ -102,7 +102,7 @@ describe("upgradeFarm", () => {
         oilReserves: {
           oil: {
             oil: {
-              amount: 1,
+              amount: 10,
               drilledAt: 1,
             },
             createdAt: 1,
