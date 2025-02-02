@@ -5133,5 +5133,6 @@
   "season.codex.howToEarn.three": "Tauschen Sie Tier- und Blumenprämien ein! ({{date}})",
   "season.codex.mutants.four": "Sammle Milch von deinen Kühen, um die {{item}} zu entdecken.",
   "season.codex.mutants.five": "Sammle Wolle von deinen Schafen, um die {{item}} zu entdecken.",
-  "competition.ended.description.two": "Die Gewinner werden berechnet und am 7. Februar bekannt gegeben!"
+  "competition.ended.description.two": "Die Gewinner werden berechnet und am 7. Februar bekannt gegeben!",
+  "not.enough.sfl": "Du hast nicht genug SFL"
 }

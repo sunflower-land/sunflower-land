@@ -5133,5 +5133,6 @@
   "season.codex.howToEarn.three": "Troque recompensas por animais e flores! ({{date}})",
   "season.codex.mutants.four": "Colete leite de suas vacas para descobrir o {{item}}.",
   "season.codex.mutants.five": "Colete lã de suas ovelhas para descobrir o {{item}}.",
-  "competition.ended.description.two": "Os vencedores estão sendo calculados e serão anunciados em 7 de fevereiro!"
+  "competition.ended.description.two": "Os vencedores estão sendo calculados e serão anunciados em 7 de fevereiro!",
+  "not.enough.sfl": "Você não tem SFL suficiente"
 }

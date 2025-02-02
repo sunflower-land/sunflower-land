@@ -5133,5 +5133,6 @@
   "season.codex.howToEarn.three": "Échangez des primes d'animaux et de fleurs ! ({{date}})",
   "season.codex.mutants.four": "Récupérez le lait de vos vaches pour découvrir le {{item}}.",
   "season.codex.mutants.five": "Récupérez la laine de vos moutons pour découvrir le {{item}}.",
-  "competition.ended.description.two": "Les gagnants sont en cours de calcul et seront annoncés le 7 février !"
+  "competition.ended.description.two": "Les gagnants sont en cours de calcul et seront annoncés le 7 février !",
+  "not.enough.sfl": "Vous n'avez pas assez de SFL"
 }

@@ -5133,5 +5133,6 @@
   "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!({{date}})",
   "season.codex.mutants.four": "젖소에서 우유를 모아서 {{item}} 를 발견하세요.",
   "season.codex.mutants.five": "양에게서 양털을 모아 {{item}} 를 찾아보세요.",
-  "competition.ended.description.two": "당첨자는 현재 집계되고 있으며 2월 7일에 발표될 예정입니다!"
+  "competition.ended.description.two": "당첨자는 현재 집계되고 있으며 2월 7일에 발표될 예정입니다!",
+  "not.enough.sfl": "SFL이 충분하지 않습니다"
 }

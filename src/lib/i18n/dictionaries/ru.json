@@ -5133,5 +5133,6 @@
   "season.codex.howToEarn.three": "Торгуйте наградами за животных и цветы! ({{date}})",
   "season.codex.mutants.four": "Собирайте молоко у своих коров, чтобы найти {{item}}.",
   "season.codex.mutants.five": "Собирайте шерсть у своих овец и откройте для себя {{item}}.",
-  "competition.ended.description.two": "Победители подсчитываются и будут объявлены 7 февраля!"
+  "competition.ended.description.two": "Победители подсчитываются и будут объявлены 7 февраля!",
+  "not.enough.sfl": "У вас недостаточно SFL"
 }

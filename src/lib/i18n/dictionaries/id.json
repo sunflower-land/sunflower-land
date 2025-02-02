@@ -5133,5 +5133,6 @@
   "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga! ({{date}})",
   "season.codex.mutants.four": "Kumpulkan susu dari sapi Anda untuk menemukan {{item}}.",
   "season.codex.mutants.five": "Kumpulkan wol dari domba Anda untuk menemukan {{item}}.",
-  "competition.ended.description.two": "Pemenang sedang dihitung dan akan diumumkan pada 7 Februari!"
+  "competition.ended.description.two": "Pemenang sedang dihitung dan akan diumumkan pada 7 Februari!",
+  "not.enough.sfl": "Anda tidak memiliki cukup SFL"
 }

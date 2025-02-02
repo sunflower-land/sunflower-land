@@ -5133,5 +5133,6 @@
   "season.codex.howToEarn.three": "動物や花の賞金を交換しよう！({{date}})",
   "season.codex.mutants.four": "牛からミルクを集めて {{item}} を見つけましょう。",
   "season.codex.mutants.five": "羊から羊毛を集めて {{item}} を見つけましょう。",
-  "competition.ended.description.two": "受賞者は現在計算中で、2月7日に発表されます！"
+  "competition.ended.description.two": "受賞者は現在計算中で、2月7日に発表されます！",
+  "not.enough.sfl": "SFLが足りません"
 }

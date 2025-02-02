@@ -5133,5 +5133,6 @@
   "season.codex.howToEarn.three": "Scambia ricompense per animali e fiori! ({{date}})",
   "season.codex.mutants.four": "Raccogli il latte dalle tue mucche per scoprire il {{item}}.",
   "season.codex.mutants.five": "Raccogli la lana dalle tue pecore per scoprire il {{item}}.",
-  "competition.ended.description.two": "I vincitori sono in fase di calcolo e saranno annunciati il 7 febbraio!"
+  "competition.ended.description.two": "I vincitori sono in fase di calcolo e saranno annunciati il 7 febbraio!",
+  "not.enough.sfl": "Non hai abbastanza SFL"
 }
