@@ -83,7 +83,10 @@ export const getCalendarDays = ({
       (date.getTime() - new Date(season.startedAt).getTime()) /
         (1000 * 60 * 60 * 24),
     );
-    const seasonIndex = Math.floor(daysSinceSeasonStart / 7) % 4;
+    let seasonIndex = Math.floor(daysSinceSeasonStart / 7) % 4;
+
+    // Avoid edge case where spring gives -1
+    seasonIndex = Math.max(0, seasonIndex);
 
     // Map index to season name, starting from the current season
     const seasons: TemperateSeasonName[] = [
