@@ -4040,8 +4040,6 @@
   "description.free.range": "+0.1 Tierische Produkte",
   "description.chicken.coop": "Ein Hühnerstall, in dem Hühner aufgezogen werden können. Erhöhen Sie die Eierproduktion mit diesem seltenen Stall.",
   "description.gold.egg": "Ein goldenes Ei. Es ist bekannt, dass das, was darin liegt, Glück bringt.",
-  "season.codex.howToEarn.two": "Erledige die Hausarbeiten für Bumpkins. (11. November)",
-  "season.codex.howToEarn.three": "Tauschen Sie Tier- und Blumenprämien ein! (11. November)",
   "description.cowboyHat.boost": "+1 Hufeisen",
   "description.cowboyShirt.boost": "+1 Hufeisen",
   "description.cowboyTrouser.boost": "+1 Hufeisen",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "Eine süße und würzige Tarte mit frischem Rhabarber",
   "competition.ended": "Das Gewinnspiel ist beendet",
   "competition.ended.description": "Das Gewinnspiel ist beendet. Danke für deine Teilnahme!",
-  "competition.ended.description.two": "Die Gewinner werden derzeit berechnet und in Kürze bekannt gegeben."
+  "season.codex.howToEarn.two": "Erledige die Aufgaben für Bumpkins. ({{date}})",
+  "season.codex.howToEarn.three": "Tauschen Sie Tier- und Blumenprämien ein! ({{date}})",
+  "season.codex.mutants.four": "Sammle Milch von deinen Kühen, um die {{item}} zu entdecken.",
+  "season.codex.mutants.five": "Sammle Wolle von deinen Schafen, um die {{item}} zu entdecken.",
+  "competition.ended.description.two": "Die Gewinner werden berechnet und am 7. Februar bekannt gegeben!"
 }

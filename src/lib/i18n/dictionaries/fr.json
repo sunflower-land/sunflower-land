@@ -4040,8 +4040,6 @@
   "description.free.range": "+0,1 Produits d'origine animale",
   "description.chicken.coop": "Un poulailler qui peut être utilisé pour élever des poulets. Augmentez la production d'œufs avec ce poulailler rare.",
   "description.gold.egg": "Un œuf d'or. Ce qui se trouve à l'intérieur est connu pour être porteur de bonne fortune.",
-  "season.codex.howToEarn.two": "Terminez les corvées pour Bumpkins. (11 novembre)",
-  "season.codex.howToEarn.three": "Échangez des primes d'animaux et de fleurs ! (11 novembre)",
   "description.cowboyHat.boost": "+1 Fers à cheval",
   "description.cowboyShirt.boost": "+1 Fers à cheval",
   "description.cowboyTrouser.boost": "+1 Fers à cheval",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "Une tarte sucrée et acidulée à la rhubarbe fraîche",
   "competition.ended": "La compétition est terminée",
   "competition.ended.description": "La compétition est terminée. Merci d'avoir participé !",
-  "competition.ended.description.two": "Les gagnants sont en cours de calcul et seront annoncés prochainement."
+  "season.codex.howToEarn.two": "Terminez les corvées pour Bumpkins. ({{date}})",
+  "season.codex.howToEarn.three": "Échangez des primes d'animaux et de fleurs ! ({{date}})",
+  "season.codex.mutants.four": "Récupérez le lait de vos vaches pour découvrir le {{item}}.",
+  "season.codex.mutants.five": "Récupérez la laine de vos moutons pour découvrir le {{item}}.",
+  "competition.ended.description.two": "Les gagnants sont en cours de calcul et seront annoncés le 7 février !"
 }

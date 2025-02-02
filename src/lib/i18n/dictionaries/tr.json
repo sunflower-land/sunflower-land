@@ -4040,8 +4040,6 @@
   "description.free.range": "+0.1 Hayvan Ürünleri",
   "description.chicken.coop": "Tavuk yetiştirmek için kullanılabilecek bir tavuk kümesi. Bu nadir küme ile yumurta üretimini artırın.",
   "description.gold.egg": "Altın yumurta. İçinde bulunanın iyi şansın taşıyıcısı olduğu biliniyor.",
-  "season.codex.howToEarn.two": "Bumpkins için işleri tamamla. (11 Kasım)",
-  "season.codex.howToEarn.three": "Hayvan ve çiçek ödüllerini takas et! (11 Kasım)",
   "description.cowboyHat.boost": "+1 Horseshoes",
   "description.cowboyShirt.boost": "+1 Horseshoes",
   "description.cowboyTrouser.boost": "+1 Horseshoes",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "Taze ravent içeren tatlı ve keskin bir tart",
   "competition.ended": "Yarışma sona erdi",
   "competition.ended.description": "Yarışma sona erdi. Katıldığınız için teşekkür ederiz!",
-  "competition.ended.description.two": "Kazananlar hesaplanıyor ve yakında açıklanacak."
+  "season.codex.howToEarn.two": "Bumpkins için ev işleri tamamlayın. ({{date}})",
+  "season.codex.howToEarn.three": "Hayvan ve çiçek ödüllerini takas et! ({{date}})",
+  "season.codex.mutants.four": "{{item}} 'yi keşfetmek için ineklerinizden süt toplayın.",
+  "season.codex.mutants.five": "{{item}} 'yi keşfetmek için koyunlarınızdan yün toplayın.",
+  "competition.ended.description.two": "Kazananlar hesaplanıyor ve 7 Şubat'ta açıklanacak!"
 }

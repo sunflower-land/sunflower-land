@@ -4040,8 +4040,6 @@
   "description.free.range": "+0,1 Prodotti di origine animale",
   "description.chicken.coop": "Un pollaio che può essere utilizzato per allevare polli. Aumenta la produzione di uova con questo raro pollaio.",
   "description.gold.egg": "Un uovo dorato. Ciò che c'è dentro è noto per essere portatore di buona fortuna.",
-  "season.codex.howToEarn.two": "Faccende complete per Bumpkins. (11 novembre)",
-  "season.codex.howToEarn.three": "Scambia ricompense per animali e fiori! (11 novembre)",
   "description.cowboyHat.boost": "+1 Ferri di cavallo",
   "description.cowboyShirt.boost": "+1 Ferri di cavallo",
   "description.cowboyTrouser.boost": "+1 Ferri di cavallo",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "Una crostata dolce e piccante con rabarbaro fresco",
   "competition.ended": "La competizione è terminata",
   "competition.ended.description": "La competizione è terminata. Grazie per aver partecipato!",
-  "competition.ended.description.two": "I vincitori sono in fase di calcolo e saranno annunciati a breve."
+  "season.codex.howToEarn.two": "Compiti completi per Bumpkins. ({{date}})",
+  "season.codex.howToEarn.three": "Scambia ricompense per animali e fiori! ({{date}})",
+  "season.codex.mutants.four": "Raccogli il latte dalle tue mucche per scoprire il {{item}}.",
+  "season.codex.mutants.five": "Raccogli la lana dalle tue pecore per scoprire il {{item}}.",
+  "competition.ended.description.two": "I vincitori sono in fase di calcolo e saranno annunciati il 7 febbraio!"
 }

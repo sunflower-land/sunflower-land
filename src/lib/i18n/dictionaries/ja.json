@@ -4040,8 +4040,6 @@
   "description.free.range": "+0.1 アニマル・プロデュース",
   "description.chicken.coop": "鶏の飼育に使用できる鶏小屋。この珍しい小屋で産卵量を増やしましょう。",
   "description.gold.egg": "黄金の卵。中に入っているものは幸運の持ち主として知られています。",
-  "season.codex.howToEarn.two": "バンプキンズの雑用を全部やりましょう。(11 月 11 日)",
-  "season.codex.howToEarn.three": "動物や花の賞金を交換しよう！(11月11日)",
   "description.cowboyHat.boost": "+1 ホースシュー",
   "description.cowboyShirt.boost": "+1 ホースシュー",
   "description.cowboyTrouser.boost": "+1 ホースシュー",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "新鮮なルバーブを使った甘くてピリッとしたタルト",
   "competition.ended": "コンテストは終了しました",
   "competition.ended.description": "コンテストは終了しました。ご参加いただきありがとうございます。",
-  "competition.ended.description.two": "受賞者は現在計算中で、まもなく発表されます。"
+  "season.codex.howToEarn.two": "バンプキンズの雑用を完了してください。({{date}})",
+  "season.codex.howToEarn.three": "動物や花の賞金を交換しよう！({{date}})",
+  "season.codex.mutants.four": "牛からミルクを集めて {{item}} を見つけましょう。",
+  "season.codex.mutants.five": "羊から羊毛を集めて {{item}} を見つけましょう。",
+  "competition.ended.description.two": "受賞者は現在計算中で、2月7日に発表されます！"
 }

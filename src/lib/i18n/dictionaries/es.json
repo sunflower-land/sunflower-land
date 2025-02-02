@@ -4040,8 +4040,6 @@
   "description.free.range": "+0.1 Productos de origen animal",
   "description.chicken.coop": "Un gallinero que se puede utilizar para criar pollos. Aumente la producción de huevos con este raro gallinero.",
   "description.gold.egg": "Un huevo dorado. Se sabe que lo que hay dentro es portador de buena suerte.",
-  "season.codex.howToEarn.two": "Completa las tareas para Bumpkins. (11 de noviembre)",
-  "season.codex.howToEarn.three": "¡Intercambia recompensas de animales y flores! (11 de noviembre)",
   "description.cowboyHat.boost": "+1 Herraduras",
   "description.cowboyShirt.boost": "+1 Herraduras",
   "description.cowboyTrouser.boost": "+1 Herraduras",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "Una tarta dulce y ácida con ruibarbo fresco",
   "competition.ended": "La competencia ha terminado",
   "competition.ended.description": "La competición ha terminado. ¡Gracias por participar!",
-  "competition.ended.description.two": "Los ganadores se están calculando y se anunciarán pronto."
+  "season.codex.howToEarn.two": "Completa las tareas para Bumpkins. ({{date}})",
+  "season.codex.howToEarn.three": "¡Intercambia recompensas de animales y flores! ({{date}})",
+  "season.codex.mutants.four": "Recoge leche de tus vacas para descubrir el {{item}}.",
+  "season.codex.mutants.five": "Reúne lana de tus ovejas para descubrir el {{item}}.",
+  "competition.ended.description.two": "¡Los ganadores se están calculando y se anunciarán el 7 de febrero!"
 }

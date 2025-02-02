@@ -4040,8 +4040,6 @@
   "description.free.range": "+0.1 动物产出",
   "description.chicken.coop": "可以用来养鸡的鸡舍。使用这种稀有鸡舍来增加产蛋量。",
   "description.gold.egg": "一个金蛋。里面所填之物，众所周知，承载着好运。",
-  "season.codex.howToEarn.two": "为乡包佬完成农活。（11月11日）",
-  "season.codex.howToEarn.three": "交易动物和花卉赏金！（11月11日）",
   "description.cowboyHat.boost": "+1 马蹄铁",
   "description.cowboyShirt.boost": "+1 马蹄铁",
   "description.cowboyTrouser.boost": "+1 马蹄铁",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "一款以新鲜大黄为特色的甜而浓郁的馅饼",
   "competition.ended": "比赛已经结束",
   "competition.ended.description": "比赛已经结束。感谢您的参与！",
-  "competition.ended.description.two": "正在计算获胜者，并将很快公布。"
+  "season.codex.howToEarn.two": "为 Bumpkins 完成家务。({{date}})",
+  "season.codex.howToEarn.three": "交易动物和花卉赏金！({{date}})",
+  "season.codex.mutants.four": "从奶牛身上收集牛奶来发现 {{item}}。",
+  "season.codex.mutants.five": "从你的绵羊身上收集羊毛来发现 {{item}}。",
+  "competition.ended.description.two": "正在计算获胜者，并将于2月7日公布！"
 }

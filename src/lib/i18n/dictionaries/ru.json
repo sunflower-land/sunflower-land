@@ -771,7 +771,6 @@
   "competition.earnPoints.how": "Каждый раз, когда вы выполняете задание ниже, вы зарабатываете очки в таблице лидеров!",
   "competition.ended": "Соревнование закончилось",
   "competition.ended.description": "Соревнование закончилось. Спасибо за участие!",
-  "competition.ended.description.two": "Победители подсчитываются и будут объявлены в ближайшее время.",
   "competition.farmerCompetition": "Конкурс фермеров",
   "competition.highscore": "Самые высокие баллы",
   "competition.hurry": "Торопитесь, конкурс ограничен по времени!",
@@ -4356,8 +4355,6 @@
   "season.codex.howToEarn": "Как получить {{ticket}}?",
   "season.codex.howToEarn.comingSoon": "Зарабатывайте подковы, выполняя работу по дому, доставками и наградами!",
   "season.codex.howToEarn.one": "Посещай плазу и доставляй ресурсы бампкинам.",
-  "season.codex.howToEarn.three": "Торгуйте наградами за животных и цветы! (11 ноября)",
-  "season.codex.howToEarn.two": "Выполните работу по дому для Бампкинсов. (11 ноября)",
   "season.codex.intro": "Зарабатывай {{ticket}}, чтобы создавать эксклюзивную одежду и коллекционные предметы для твоей фермы в этом сезоне...Поторопись, пока время не истекло!",
   "season.codex.mutants": "Мутанты",
   "season.codex.mutants.discover": "Найди сезонных мутантов!",
@@ -5131,5 +5128,10 @@
   "worm.grub": "Сочная личинка - идеальный вариант для продвинутых рыболовов.",
   "worm.redWiggler": "Экзотический червь, для самых элитных рыб.",
   "yes": "Да",
-  "yes.please": "Да, пожалуйста"
+  "yes.please": "Да, пожалуйста",
+  "season.codex.howToEarn.two": "Полная работа по дому для шишек. ({{date}})",
+  "season.codex.howToEarn.three": "Торгуйте наградами за животных и цветы! ({{date}})",
+  "season.codex.mutants.four": "Собирайте молоко у своих коров, чтобы найти {{item}}.",
+  "season.codex.mutants.five": "Собирайте шерсть у своих овец и откройте для себя {{item}}.",
+  "competition.ended.description.two": "Победители подсчитываются и будут объявлены 7 февраля!"
 }

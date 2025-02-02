@@ -4040,8 +4040,6 @@
   "description.free.range": "+0.1 애니멀 프로듀스",
   "description.chicken.coop": "닭을 기르는 데 사용할 수 있는 닭장입니다.이 희귀한 닭장으로 계란 생산량을 늘리세요.",
   "description.gold.egg": "황금 달걀.안에 있는 것은 행운을 가져다주는 존재로 알려져 있습니다.",
-  "season.codex.howToEarn.two": "범프킨의 집안일을 완료하세요.(11월 11일)",
-  "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!(11월 11일)",
   "description.cowboyHat.boost": "+1 호스슈즈",
   "description.cowboyShirt.boost": "+1 호스슈즈",
   "description.cowboyTrouser.boost": "+1 호스슈즈",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "신선한 루바브가 들어간 달콤하고 톡 쏘는 타르트",
   "competition.ended": "대회가 종료되었습니다",
   "competition.ended.description": "대회가 종료되었습니다.참여해주셔서 감사합니다!",
-  "competition.ended.description.two": "수상자는 계산 중이며 곧 발표될 예정입니다."
+  "season.codex.howToEarn.two": "범프킨의 집안일을 완료하세요. ({{date}})",
+  "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!({{date}})",
+  "season.codex.mutants.four": "젖소에서 우유를 모아서 {{item}} 를 발견하세요.",
+  "season.codex.mutants.five": "양에게서 양털을 모아 {{item}} 를 찾아보세요.",
+  "competition.ended.description.two": "당첨자는 현재 집계되고 있으며 2월 7일에 발표될 예정입니다!"
 }

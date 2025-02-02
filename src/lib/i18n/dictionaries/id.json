@@ -4040,8 +4040,6 @@
   "description.free.range": "+0.1 Produk Hewan",
   "description.chicken.coop": "Kandang ayam yang bisa digunakan untuk memelihara ayam. Tingkatkan produksi telur dengan kandang langka ini.",
   "description.gold.egg": "Telur emas. Apa yang ada di dalamnya dikenal sebagai pembawa keberuntungan.",
-  "season.codex.howToEarn.two": "Selesaikan tugas untuk Bumpkins. (11 November)",
-  "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga! (11 November)",
   "description.cowboyHat.boost": "+1 Horseshoes",
   "description.cowboyShirt.boost": "+1 Horseshoes",
   "description.cowboyTrouser.boost": "+1 Horseshoes",
@@ -5131,5 +5129,9 @@
   "description.rhubarb.tart": "Tart manis dan tajam yang menampilkan rhubarb segar",
   "competition.ended": "Kompetisi telah berakhir",
   "competition.ended.description": "Kompetisi telah berakhir. Terima kasih telah berpartisipasi!",
-  "competition.ended.description.two": "Para pemenang sedang dihitung dan akan diumumkan segera."
+  "season.codex.howToEarn.two": "Selesaikan tugas untuk Bumpkins. ({{date}})",
+  "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga! ({{date}})",
+  "season.codex.mutants.four": "Kumpulkan susu dari sapi Anda untuk menemukan {{item}}.",
+  "season.codex.mutants.five": "Kumpulkan wol dari domba Anda untuk menemukan {{item}}.",
+  "competition.ended.description.two": "Pemenang sedang dihitung dan akan diumumkan pada 7 Februari!"
 }
