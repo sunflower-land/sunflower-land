@@ -61,7 +61,7 @@ export const getResources = (
     },
   },
   stones: {
-    component: () => <Stone id="1" index={0} />,
+    component: () => <Stone id="1" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -69,7 +69,7 @@ export const getResources = (
     icon: SUNNYSIDE.resource.small_stone,
   },
   iron: {
-    component: () => <Iron id="1" index={0} />,
+    component: () => <Iron id="1" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -77,7 +77,7 @@ export const getResources = (
     icon: ironStone,
   },
   gold: {
-    component: () => <Gold id="1" index={0} />,
+    component: () => <Gold id="1" />,
     dimensions: {
       height: 1,
       width: 1,
