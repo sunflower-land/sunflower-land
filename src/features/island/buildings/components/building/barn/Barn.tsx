@@ -10,12 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { useSound } from "lib/utils/hooks/useSound";
-
-export const BARN_IMAGES: Record<AnimalBuildingLevel, string> = {
-  1: SUNNYSIDE.building.barnLevel1,
-  2: SUNNYSIDE.building.barnLevel2,
-  3: SUNNYSIDE.building.barnLevel3,
-};
+import { BARN_VARIANTS } from "features/island/lib/alternateArt";
 
 const _hasHungryAnimals = (state: MachineState) => {
   return Object.values(state.context.state.barn.animals).some(
@@ -41,6 +36,10 @@ const _barnLevel = (state: MachineState) => {
   return state.context.state.barn.level;
 };
 
+const _islandType = (state: MachineState) => {
+  return state.context.state.island.type;
+};
+
 export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService, showAnimations } = useContext(Context);
   const buildingLevel = useSelector(
@@ -55,7 +54,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);
   const animalsNeedLove = useSelector(gameService, _animalsNeedLove);
   const hasAwakeSickAnimals = useSelector(gameService, _hasAwakeSickAnimals);
-
+  const islandType = useSelector(gameService, _islandType);
   const handleClick = () => {
     if (onRemove) {
       onRemove();
@@ -83,7 +82,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           />
         )}
         <img
-          src={BARN_IMAGES[buildingLevel]}
+          src={BARN_VARIANTS[islandType][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 64}px`,

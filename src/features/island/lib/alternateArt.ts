@@ -26,6 +26,32 @@ export const DELI_VARIANTS: Record<IslandType, string> = {
   volcano: SUNNYSIDE.building.volcanoDeli,
 };
 
+export const BARN_VARIANTS: Record<
+  IslandType,
+  Record<AnimalBuildingLevel, string>
+> = {
+  basic: {
+    1: SUNNYSIDE.building.barnLevel1,
+    2: SUNNYSIDE.building.barnLevel2,
+    3: SUNNYSIDE.building.barnLevel3,
+  },
+  spring: {
+    1: SUNNYSIDE.building.barnLevel1,
+    2: SUNNYSIDE.building.barnLevel2,
+    3: SUNNYSIDE.building.barnLevel3,
+  },
+  desert: {
+    1: SUNNYSIDE.building.barnLevel1,
+    2: SUNNYSIDE.building.barnLevel2,
+    3: SUNNYSIDE.building.barnLevel3,
+  },
+  volcano: {
+    1: SUNNYSIDE.building.volcanoBarnLevel1,
+    2: SUNNYSIDE.building.volcanoBarnLevel2,
+    3: SUNNYSIDE.building.volcanoBarnLevel3,
+  },
+};
+
 export const HEN_HOUSE_VARIANTS: Record<
   IslandType,
   Record<AnimalBuildingLevel, string>

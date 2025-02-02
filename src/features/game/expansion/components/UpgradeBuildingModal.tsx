@@ -21,7 +21,7 @@ import { AnimalBuildingType } from "features/game/types/animals";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import powerup from "assets/icons/level_up.png";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
+import { BARN_VARIANTS } from "features/island/lib/alternateArt";
 import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 
 interface Props {
@@ -151,7 +151,7 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 icon={
                   buildingName === "Hen House"
                     ? HEN_HOUSE_VARIANTS[state.island.type][nextLevel]
-                    : BARN_IMAGES[nextLevel]
+                    : BARN_VARIANTS[state.island.type][nextLevel]
                 }
                 iconWidth={11}
                 className={`${buildingName === "Hen House" ? "ml-2" : "ml-1.5"} mt-2`}

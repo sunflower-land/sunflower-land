@@ -27,6 +27,7 @@ import { Mansion } from "./mansion/Mansion";
 import { GameState, IslandType } from "features/game/types/game";
 import {
   BAKERY_VARIANTS,
+  BARN_VARIANTS,
   DELI_VARIANTS,
   FIRE_PIT_VARIANTS,
   HEN_HOUSE_VARIANTS,
@@ -38,7 +39,7 @@ import {
 
 import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
-import { Barn, BARN_IMAGES } from "./barn/Barn";
+import { Barn } from "./barn/Barn";
 import { CraftingBox } from "./craftingBox/CraftingBox";
 
 export interface BuildingProps {
@@ -343,7 +344,7 @@ export const READONLY_BUILDINGS: (
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       >
         <img
-          src={BARN_IMAGES[barnLevel]}
+          src={BARN_VARIANTS[island][barnLevel]}
           className="absolute bottom-0"
           style={{ width: `${PIXEL_SCALE * 64}px` }}
         />
