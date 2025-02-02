@@ -52,9 +52,11 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
     });
   };
 
-  const hasIngredients = getKeys(LAVA_PIT_REQUIREMENTS).every((itemName) =>
+  const requirements = LAVA_PIT_REQUIREMENTS[season.season];
+
+  const hasIngredients = getKeys(requirements).every((itemName) =>
     (inventory[itemName] ?? new Decimal(0)).gte(
-      LAVA_PIT_REQUIREMENTS[itemName] ?? new Decimal(0),
+      requirements[itemName] ?? new Decimal(0),
     ),
   );
 
@@ -84,7 +86,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
         </Label>
         <p className="text-xs p-2">{t("lavaPit.description")}</p>
         <div className="flex flex-col gap-2 p-2">
-          {getKeys(LAVA_PIT_REQUIREMENTS).map((itemName) => {
+          {getKeys(requirements).map((itemName) => {
             return (
               <>
                 <div className="flex items-start cursor-context-menu hover:brightness-100">
@@ -95,7 +97,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
                   <div>
                     <div className="flex flex-wrap items-start">
                       <Label type="default" className="mr-1 mb-1">
-                        {`${formatNumber(LAVA_PIT_REQUIREMENTS[itemName])} x ${itemName}`}
+                        {`${formatNumber(requirements[itemName])} x ${itemName}`}
                       </Label>
                     </div>
 
