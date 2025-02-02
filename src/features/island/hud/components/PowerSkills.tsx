@@ -32,6 +32,7 @@ import { SkillSquareIcon } from "features/bumpkins/components/revamp/SkillSquare
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { powerSkillDisabledConditions } from "features/game/events/landExpansion/skillUsed";
+import { millisecondsToString } from "lib/utils/time";
 
 interface PowerSkillsProps {
   show: boolean;
@@ -253,7 +254,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                 />
               </div>
             )}
-            <div className="flex flex-col lg:items-center">
+            <div className="flex flex-wrap justify-between gap-x-2 sm:flex-col lg:items-center">
               <Label
                 type={
                   !powerSkillReady ? "info" : disabled ? "danger" : "success"
@@ -277,6 +278,21 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                   t("powerSkills.ready")
                 )}
               </Label>
+              {powerSkillReady && (
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  className="mb-2"
+                >
+                  {t("skill.cooldown", {
+                    cooldown: millisecondsToString(requirements.cooldown ?? 0, {
+                      length: "short",
+                      isShortFormat: true,
+                      removeTrailingZeros: true,
+                    }),
+                  })}
+                </Label>
+              )}
             </div>
           </div>
 
