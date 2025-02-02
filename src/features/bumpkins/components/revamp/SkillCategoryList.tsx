@@ -213,7 +213,7 @@ export const SkillCategoryList = ({
             )} */}
             {!enoughSfl && (
               <Label type="danger" icon={sflIcon} className="mb-2">
-                {"You do not have enough SFL"}
+                {t("not.enough.sfl")}
               </Label>
             )}
             <Button
