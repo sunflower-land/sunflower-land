@@ -46,7 +46,6 @@ import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
-import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
 import { RetreatScene } from "./scenes/RetreatScene";
@@ -537,7 +536,6 @@ export const PhaserComponent: React.FC<Props> = ({
         id={gameService.state.context.farmId as number}
         scene={scene}
       />
-      <FishingModal />
       <PlayerModals game={gameService.state.context.state} />
       <TradeCompleted
         mmoService={mmoService}
