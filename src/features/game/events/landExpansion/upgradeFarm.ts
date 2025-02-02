@@ -1228,16 +1228,15 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
     mushrooms: {},
     spawnedAt: game.mushrooms?.spawnedAt ?? 0,
   };
-  game.buds = getKeys(game.buds ?? {}).reduce(
-    (acc, key) => ({
-      ...acc,
-      [key]: {
-        ...(game.buds ?? {})[key],
-        location: undefined,
-        coordinates: undefined,
+  game.buds = Object.fromEntries(
+    Object.entries(game.buds ?? {}).map(([budId, bud]) => [
+      budId,
+      {
+        ...bud,
+        location: bud.location === "home" ? "home" : undefined,
+        coordinates: bud.location === "home" ? bud.coordinates : undefined,
       },
-    }),
-    game.buds,
+    ]),
   );
   game.crimstones = {};
   game.beehives = {};
