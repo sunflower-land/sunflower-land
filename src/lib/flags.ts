@@ -102,7 +102,7 @@ const featureFlags = {
   CRAFTING_BOX: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   FLOWER_BOUNTIES: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   BEDS: timeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
-  BULL_RUN_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  SEASONAL_PLAZA: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
   BALE_AOE_END: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   HALLOWEEN_2024: defaultFeatureFlag,
   CHRISTMAS_2024: timePeriodFeatureFlag({

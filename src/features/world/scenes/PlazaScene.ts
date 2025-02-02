@@ -1,5 +1,6 @@
-import desert_plaza from "assets/map/desert_plaza.json";
+import seasonal_plaza from "assets/map/seasonal_plaza.json";
 import bull_run_plaza from "assets/map/bull_run_plaza.json";
+import seasonal_tileset from "assets/map/seasonal_tileset.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
@@ -9,7 +10,11 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
-import { FactionName, GameState } from "features/game/types/game";
+import {
+  FactionName,
+  GameState,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
@@ -116,12 +121,15 @@ export class PlazaScene extends BaseScene {
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
   constructor({ gameState }: { gameState: GameState }) {
-    const showBullRunPlaza = hasFeatureAccess(gameState, "BULL_RUN_PLAZA");
+    const showNextChapterPlaza = hasFeatureAccess(gameState, "SEASONAL_PLAZA");
     super({
       name: "plaza",
       map: {
-        json: showBullRunPlaza ? bull_run_plaza : desert_plaza,
-        imageKey: "tileset",
+        json: showNextChapterPlaza ? seasonal_plaza : bull_run_plaza,
+        imageKey: showNextChapterPlaza ? "seasonal-tileset" : "tileset",
+        defaultTilesetConfig: showNextChapterPlaza
+          ? seasonal_tileset
+          : undefined,
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
@@ -131,12 +139,6 @@ export class PlazaScene extends BaseScene {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
     this.load.image("vip_gift", "world/vip_gift.png");
-    this.load.image("rabbit_1", "world/rabbit_1.png");
-    this.load.image("rabbit_2", "world/rabbit_2.png");
-    this.load.image("rabbit_3", "world/rabbit_3.png");
-    this.load.image("rabbit_4", "world/rabbit_4.png");
-    this.load.image("rabbit_5", "world/rabbit_5.png");
-    this.load.image("rabbit_6", "world/rabbit_6.png");
 
     this.load.image("page", "world/page.png");
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
@@ -179,11 +181,6 @@ export class PlazaScene extends BaseScene {
       frameHeight: 21,
     });
 
-    this.load.spritesheet("mecha_bull", "world/mecha_bull.webp", {
-      frameWidth: 35,
-      frameHeight: 31,
-    });
-
     this.load.image("chest", "world/rare_chest.png");
     this.load.image("weather_shop", "world/weather_shop.webp");
 
@@ -194,13 +191,27 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.image("tomato_bombard", "world/tomato_bombard.gif");
+    this.load.spritesheet("mecha_bull", "world/mecha_bull.webp", {
+      frameWidth: 35,
+      frameHeight: 31,
+    });
+    this.load.image("mammoth", "world/mammoth.webp");
 
-    this.load.image("explorer_hat", "world/explorer_hat.png");
+    // Auction Items
+    this.load.image("golden_sheep", "world/golden_sheep.webp");
+    this.load.image("barn_blueprint", "world/barn_blueprint.webp");
+    this.load.image("locust_king", "world/locust_king.webp");
+    this.load.image("sol_luna", "world/sol_luna.webp");
+    this.load.image("glacial_plume", "world/glacial_plume.webp");
+
     this.load.image("cowboy_hat", "world/cowboy_hat.png");
+    this.load.image("acorn_hat", "world/acorn_hat.png");
 
-    this.load.image("pharaoh_banner", "world/pharaohs_treasure_banner.webp");
     this.load.image("bull_run_banner", "world/bull_run_banner.webp");
+    this.load.image("woc_banner_summer", "world/winds_of_change_summer.webp");
+    this.load.image("woc_banner_spring", "world/winds_of_change_spring.webp");
+    this.load.image("woc_banner_autumn", "world/winds_of_change_autumn.webp");
+    this.load.image("woc_banner_winter", "world/winds_of_change_winter.webp");
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -453,20 +464,69 @@ export class PlazaScene extends BaseScene {
         }
       });
 
+    const season = this.gameState.season.season;
+
+    if (hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")) {
+      // List of all seasonal elements
+      const seasonElements = [
+        "Water",
+        "Ground",
+        "Flowers & Grass",
+        "Paths",
+        "Paths Layer 2",
+        "Decoration Base",
+        "Decoration Base 2",
+        "Decoration Base 3",
+        "Decorations Layer 2",
+        "Decorations Layer 3",
+      ];
+      const seasons = ["Spring", "Summer", "Autumn", "Winter"];
+
+      // Hide all seasonal layers at the start
+      seasons.forEach((seasonName) => {
+        seasonElements.forEach((element) => {
+          const layerName = `${element}/${seasonName} ${element}`;
+          this.layers[layerName]?.setVisible(false);
+        });
+      });
+
+      // Determine active season layer and show relevant elements
+      const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
+      seasonElements.forEach((element) => {
+        const activeLayer = `${element}/${activeSeasonName} ${element}`;
+        this.layers[activeLayer]?.setVisible(true);
+
+        // Add Elements here that are drawn on top of the map
+        if (
+          element === "Decorations Layer 2" ||
+          element === "Decorations Layer 3"
+        ) {
+          this.layers[activeLayer]?.setDepth(1000000);
+        }
+      });
+    }
+
+    const Banners: Record<TemperateSeasonName, string> = {
+      spring: "woc_banner_summer",
+      summer: "woc_banner_spring",
+      autumn: "woc_banner_autumn",
+      winter: "woc_banner_winter",
+    };
+
     // Banner
-    const banner = hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")
-      ? "bull_run_banner"
-      : "pharaoh_banner";
-    this.add.image(400, 225, banner).setDepth(100000000000);
+    const banner = hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")
+      ? Banners[season]
+      : "bull_run_banner";
+    this.add.image(400, 225, banner).setDepth(225);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open(banner);
     // });
-    this.add.image(464, 225, banner).setDepth(100000000000);
+    this.add.image(464, 225, banner).setDepth(225);
 
-    this.add.image(480, 386, banner).setDepth(100000000000);
+    this.add.image(480, 386, banner).setDepth(386);
 
-    this.add.sprite(385, 386, banner).setDepth(100000000000);
+    this.add.sprite(385, 386, banner).setDepth(386);
 
     const bud3 = this.add.sprite(176, 290, "plaza_bud_3");
     this.anims.create({
@@ -536,7 +596,9 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    if (hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")) {
+    if (hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")) {
+      this.add.image(248, 244, "mammoth");
+    } else {
       const mechaBull = this.add.sprite(248, 244, "mecha_bull");
       this.anims.create({
         key: "mech_bull_anim",
@@ -548,11 +610,11 @@ export class PlazaScene extends BaseScene {
         frameRate: 10,
       });
       mechaBull.play("mech_bull_anim", true);
-    } else this.add.image(248, 244, "tomato_bombard");
+    }
 
-    const featuredHat = hasFeatureAccess(this.gameState, "BULL_RUN_PLAZA")
-      ? "cowboy_hat"
-      : "explorer_hat";
+    const featuredHat = hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")
+      ? "acorn_hat"
+      : "cowboy_hat";
     this.add.image(288.5, 248, featuredHat);
 
     if (this.textures.exists("sparkle")) {
@@ -578,7 +640,7 @@ export class PlazaScene extends BaseScene {
       const sparkle4 = this.add.sprite(615, 205, "sparkle");
       sparkle4.setDepth(1000000);
 
-      const sparkle5 = this.add.sprite(639, 181, "sparkle");
+      const sparkle5 = this.add.sprite(635, 191, "sparkle");
       sparkle5.setDepth(1000000);
 
       sparkle.play(`sparkel_anim`, true);
@@ -586,6 +648,24 @@ export class PlazaScene extends BaseScene {
       sparkle3.play(`sparkel_anim`, true);
       sparkle4.play(`sparkel_anim`, true);
       sparkle5.play(`sparkel_anim`, true);
+    }
+
+    // Change image every chapter change
+    if (hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")) {
+      const nft1 = this.add.image(564, 191, "barn_blueprint");
+      nft1.setDepth(191);
+
+      const nft2 = this.add.image(585, 205, "sol_luna");
+      nft2.setDepth(205);
+
+      const nft3 = this.add.image(598, 181, "golden_sheep");
+      nft3.setDepth(181);
+
+      const nft4 = this.add.image(615, 205, "glacial_plume");
+      nft4.setDepth(205);
+
+      const nft5 = this.add.image(635, 191, "locust_king");
+      nft5.setDepth(181);
     }
 
     const door = this.colliders
