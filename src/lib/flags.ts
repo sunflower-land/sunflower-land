@@ -102,7 +102,6 @@ const featureFlags = {
   CRAFTING_BOX: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   FLOWER_BOUNTIES: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   BEDS: timeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
-  SEASONAL_PLAZA: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
   BALE_AOE_END: betaTimeBasedFeatureFlag(new Date("2024-11-04T00:00:00Z")),
   HALLOWEEN_2024: defaultFeatureFlag,
   CHRISTMAS_2024: timePeriodFeatureFlag({
@@ -112,18 +111,19 @@ const featureFlags = {
   ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
     new Date("2024-12-18T00:00:00Z"),
   ),
-  TEMPERATE_SEASON: seasonAdminFeatureFlag,
   PIZZA_SPEED_UP_RESTRICTION: timePeriodFeatureFlag({
     start: new Date("2024-12-18T00:00:00Z"),
     end: new Date("2025-02-01T00:00:00Z"),
   }),
-  WEATHER_SHOP: seasonAdminFeatureFlag,
   FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
+  TEMPERATE_SEASON: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
+  SEASONAL_PLAZA: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
+  WEATHER_SHOP: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
   SEASONAL_EVENTS_NOTIFICATIONS: seasonAdminFeatureFlag,
-  SEASONAL_SEEDS: seasonAdminFeatureFlag,
-  SEASONAL_FISH: seasonAdminFeatureFlag,
-  VOLCANO_ISLAND: seasonAdminFeatureFlag,
-  SEASONAL_FLOWERS: seasonAdminFeatureFlag,
+  SEASONAL_SEEDS: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
+  SEASONAL_FISH: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
+  VOLCANO_ISLAND: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
+  SEASONAL_FLOWERS: betaTimeBasedFeatureFlag(new Date("2025-02-03T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
