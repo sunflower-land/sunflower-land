@@ -703,8 +703,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     if (
       npc === "pumpkin' pete" &&
       (game.npcs?.[npc]?.friendship?.points ?? 0) > 2 &&
-      game.delivery.doubleDelivery &&
-      game.delivery.doubleDelivery !== dateKey
+      (hasFeatureAccess(game, "WEATHER_SHOP")
+        ? getActiveCalendarEvent({ game }) !== "doubleDelivery"
+        : game.delivery.doubleDelivery &&
+          game.delivery.doubleDelivery !== dateKey)
     ) {
       message = t("double.delivery.hint", {
         date: game.delivery.doubleDelivery ?? "",
