@@ -45,6 +45,7 @@ const HasTool = (
 };
 
 const selectIsland = (state: MachineState) => state.context.state.island.type;
+const selectSeason = (state: MachineState) => state.context.state.season.season;
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Tree Chopped"] ?? 0;
@@ -118,7 +119,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   const treesChopped = useSelector(gameService, selectTreesChopped);
   const island = useSelector(gameService, selectIsland);
-
+  const season = useSelector(gameService, selectSeason);
   const hasTool = HasTool(inventory, game);
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
@@ -207,6 +208,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
             touchCount={touchCount}
             showHelper={treesChopped < 3 && treesChopped + 1 === Number(id)}
             island={island}
+            season={season}
           />
         </div>
       )}

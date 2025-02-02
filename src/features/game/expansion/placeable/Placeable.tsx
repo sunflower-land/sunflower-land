@@ -30,17 +30,23 @@ import { isBudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameState, IslandType } from "features/game/types/game";
+import {
+  GameState,
+  IslandType,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 
 export const PLACEABLES: (
   state: GameState,
 ) => Record<PlaceableName | "Bud", React.FC<any>> = (state) => {
   const island: IslandType = state.island.type;
+  const season: TemperateSeasonName = state.season.season;
+
   return {
     Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
     ...READONLY_COLLECTIBLES,
-    ...READONLY_RESOURCE_COMPONENTS(island),
+    ...READONLY_RESOURCE_COMPONENTS(island, season),
     ...READONLY_BUILDINGS(state),
     "Dirt Path": () => (
       <img

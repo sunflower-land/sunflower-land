@@ -120,7 +120,7 @@ function getDetails(
     count: inventoryCount,
     description: ITEM_DETAILS[details.item].description,
     image:
-      ITEM_ICONS(game.island.type)[details.item] ??
+      ITEM_ICONS(game.island.type, game.season.season)[details.item] ??
       ITEM_DETAILS[details.item].image,
     name: details.item,
     limit: limit as Decimal,
