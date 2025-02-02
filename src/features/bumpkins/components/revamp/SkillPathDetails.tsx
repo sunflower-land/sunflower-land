@@ -27,7 +27,6 @@ import { gameAnalytics } from "lib/gameAnalytics";
 // Icon imports
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { isMobile } from "mobile-device-detect";
 import { millisecondsToString } from "lib/utils/time";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -114,19 +113,17 @@ export const SkillPathDetails: React.FC<Props> = ({
         <div className="flex flex-col h-full justify-between">
           {/* Header */}
           <div className="flex flex-col h-full px-1 py-0">
-            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 sm:py-0 py-2">
-              {isMobile && (
-                <img
-                  src={SUNNYSIDE.icons.arrow_left}
-                  className="cursor-pointer"
-                  alt="back"
-                  style={{
-                    width: `${PIXEL_SCALE * 11}px`,
-                    marginRight: `${PIXEL_SCALE * 1}px`,
-                  }}
-                  onClick={onBack}
-                />
-              )}
+            <div className="flex gap-x-2 justify-start items-center sm:flex-col-reverse sm:py-0 py-2">
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="cursor-pointer block sm:hidden"
+                alt="back"
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                  marginRight: `${PIXEL_SCALE * 1}px`,
+                }}
+                onClick={onBack}
+              />
               <div className="sm:mt-2">
                 <SkillSquareIcon
                   icon={getSkillImage(image, buff.boostedItemIcon, tree)}
@@ -239,18 +236,16 @@ export const SkillPathDetails: React.FC<Props> = ({
             className="flex flex-row my-2 items-center"
             style={{ margin: `${PIXEL_SCALE * 2}px` }}
           >
-            {!isMobile && (
-              <img
-                src={SUNNYSIDE.icons.arrow_left}
-                className="cursor-pointer"
-                alt="back"
-                style={{
-                  width: `${PIXEL_SCALE * 11}px`,
-                  marginRight: `${PIXEL_SCALE * 4}px`,
-                }}
-                onClick={onBack}
-              />
-            )}
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="cursor-pointer hidden sm:block"
+              alt="back"
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+                marginRight: `${PIXEL_SCALE * 4}px`,
+              }}
+              onClick={onBack}
+            />
             <Label type="default">
               {t("skillPath.skills", { skillPath: selectedSkillPath })}
             </Label>
