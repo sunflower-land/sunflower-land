@@ -19,12 +19,12 @@ import lockIcon from "assets/icons/lock.png";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";
 import { ResourceOffer } from "./ResourceOffer";
-import { InventoryItemName } from "features/game/types/game";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { getKeys } from "features/game/types/craftables";
+import {
+  isTradeResource,
+  TradeResource,
+} from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { StoreOnChain } from "./StoreOnChain";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
@@ -55,17 +55,13 @@ export const MakeOffer: React.FC<{
   const hasTradeReputation = useSelector(gameService, _hasReputation);
   const usd = useSelector(gameService, _usd);
 
-  const { openModal } = useContext(ModalContext);
-
   const [offer, setOffer] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [needsSync, setNeedsSync] = useState(false);
 
-  const isResource = getKeys(TRADE_LIMITS).includes(
-    KNOWN_ITEMS[Number(itemId)],
-  );
+  const isResource = isTradeResource(KNOWN_ITEMS[Number(itemId)]);
 
   const tradeType = getTradeType({
     collection: display.type,
@@ -216,7 +212,7 @@ export const MakeOffer: React.FC<{
   if (isResource) {
     return (
       <ResourceOffer
-        itemName={display.name as InventoryItemName}
+        itemName={display.name as TradeResource}
         floorPrice={floorPrice}
         isSaving={false}
         onCancel={onClose}
