@@ -26,7 +26,6 @@ export type TradeResource = Extract<
 >;
 
 export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
-  ...EMBLEM_TRADE_LIMITS,
   // Crops
   Sunflower: 2000,
   Potato: 2000,
@@ -83,6 +82,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Leather: 100,
   Wool: 100,
   "Merino Wool": 100,
+  ...EMBLEM_TRADE_LIMITS,
 };
 
 export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
