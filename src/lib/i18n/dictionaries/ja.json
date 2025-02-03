@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "牛からミルクを集めて {{item}} を見つけましょう。",
   "season.codex.mutants.five": "羊から羊毛を集めて {{item}} を見つけましょう。",
   "competition.ended.description.two": "受賞者は現在計算中で、2月7日に発表されます！",
-  "not.enough.sfl": "SFLが足りません"
+  "not.enough.sfl": "SFLが足りません",
+  "description.goldenSheep.boost": "羊に無料で餌をやろう！",
+  "description.barnBlueprint.boost": "+5 バーン・アニマル",
+  "description.solAndLuna.boost": "2倍のクラフトスピード",
+  "description.blossomWard.boost": "+1プロットの春の収穫量",
+  "description.solflareAegis.boost": "夏季の作付期間が 50% 減少",
+  "description.autumnsEmbrace.boost": "秋の作付時期 -50%",
+  "description.frozenHeart.boost": "+1プロットの冬の収穫量"
 }

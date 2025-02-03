@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "{{item}} 'yi keşfetmek için ineklerinizden süt toplayın.",
   "season.codex.mutants.five": "{{item}} 'yi keşfetmek için koyunlarınızdan yün toplayın.",
   "competition.ended.description.two": "Kazananlar hesaplanıyor ve 7 Şubat'ta açıklanacak!",
-  "not.enough.sfl": "Yeterli SFL'niz yok"
+  "not.enough.sfl": "Yeterli SFL'niz yok",
+  "description.goldenSheep.boost": "Sheeps'i ücretsiz besleyin!",
+  "description.barnBlueprint.boost": "+5 Barn Hayvanları",
+  "description.solAndLuna.boost": "2x İşleme Hızı",
+  "description.blossomWard.boost": "İlkbaharda +1 Arsa Mahsul Verimi",
+  "description.solflareAegis.boost": "Yaz aylarında -50% Arsa Mahsul Zamanı",
+  "description.autumnsEmbrace.boost": "Sonbaharda -50% Arsa Mahsul Zamanı",
+  "description.frozenHeart.boost": "Kışın +1 Arsa Mahsul Verimi"
 }

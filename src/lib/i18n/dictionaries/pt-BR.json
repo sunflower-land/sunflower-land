@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "Colete leite de suas vacas para descobrir o {{item}}.",
   "season.codex.mutants.five": "Colete lã de suas ovelhas para descobrir o {{item}}.",
   "competition.ended.description.two": "Os vencedores estão sendo calculados e serão anunciados em 7 de fevereiro!",
-  "not.enough.sfl": "Você não tem SFL suficiente"
+  "not.enough.sfl": "Você não tem SFL suficiente",
+  "description.goldenSheep.boost": "Alimente ovelhas de graça!",
+  "description.barnBlueprint.boost": "+5 Animais de celeiro",
+  "description.solAndLuna.boost": "2x Velocidade de Fabricação",
+  "description.blossomWard.boost": "+1 parcela de rendimento da safra na primavera",
+  "description.solflareAegis.boost": "-50% da safra do lote no verão",
+  "description.autumnsEmbrace.boost": "-50% Plote o tempo de colheita no outono",
+  "description.frozenHeart.boost": "+1 parcela de rendimento da safra no inverno"
 }

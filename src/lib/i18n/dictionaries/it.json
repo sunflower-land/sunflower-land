@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "Raccogli il latte dalle tue mucche per scoprire il {{item}}.",
   "season.codex.mutants.five": "Raccogli la lana dalle tue pecore per scoprire il {{item}}.",
   "competition.ended.description.two": "I vincitori sono in fase di calcolo e saranno annunciati il 7 febbraio!",
-  "not.enough.sfl": "Non hai abbastanza SFL"
+  "not.enough.sfl": "Non hai abbastanza SFL",
+  "description.goldenSheep.boost": "Dai da mangiare alle pecore gratis!",
+  "description.barnBlueprint.boost": "+5 Animali da fienile",
+  "description.solAndLuna.boost": "Velocità di creazione 2x",
+  "description.blossomWard.boost": "+1 Rendimento del raccolto per parcella in primavera",
+  "description.solflareAegis.boost": "-50% del tempo di raccolta del terreno in estate",
+  "description.autumnsEmbrace.boost": "-50% del tempo di raccolta del terreno in autunno",
+  "description.frozenHeart.boost": "+1 Rendimento del raccolto per parcella in inverno"
 }

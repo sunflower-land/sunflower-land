@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "Kumpulkan susu dari lembu anda untuk mengetahui {{item}}.",
   "season.codex.mutants.five": "Kumpulkan bulu dari domba anda untuk menemui {{item}}.",
   "competition.ended.description.two": "Pemenang sedang dikira dan akan diumumkan pada 7 Februari!",
-  "not.enough.sfl": "Anda tidak mempunyai SFL yang mencukupi"
+  "not.enough.sfl": "Anda tidak mempunyai SFL yang mencukupi",
+  "description.goldenSheep.boost": "Memberi makan Sheeps secara percuma!",
+  "description.barnBlueprint.boost": "+5 Haiwan Barn",
+  "description.solAndLuna.boost": "Kelajuan Kerajinan 2x",
+  "description.blossomWard.boost": "+1 Hasil Tanaman Plot pada Musim Bunga",
+  "description.solflareAegis.boost": "-50% Masa Tanaman Plot pada Musim Panas",
+  "description.autumnsEmbrace.boost": "-50% Masa Tanaman Plot pada Musim Luruh",
+  "description.frozenHeart.boost": "+1 Hasil Tanaman Plot pada Musim Sejuk"
 }

@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "Recoge leche de tus vacas para descubrir el {{item}}.",
   "season.codex.mutants.five": "Reúne lana de tus ovejas para descubrir el {{item}}.",
   "competition.ended.description.two": "¡Los ganadores se están calculando y se anunciarán el 7 de febrero!",
-  "not.enough.sfl": "No tienes suficiente SFL"
+  "not.enough.sfl": "No tienes suficiente SFL",
+  "description.goldenSheep.boost": "¡Alimenta a tus ovejas gratis!",
+  "description.barnBlueprint.boost": "+5 animales de establo",
+  "description.solAndLuna.boost": "2 veces la velocidad de fabricación",
+  "description.blossomWard.boost": "+1 Rendimiento de la cosecha de la parcela en primavera",
+  "description.solflareAegis.boost": "-50% del tiempo de cosecha de la parcela en verano",
+  "description.autumnsEmbrace.boost": "-50% del tiempo de cosecha de la parcela en otoño",
+  "description.frozenHeart.boost": "Rendimiento de cosecha de +1 parcela en invierno"
 }

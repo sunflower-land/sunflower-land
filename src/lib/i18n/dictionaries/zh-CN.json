@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "从奶牛身上收集牛奶来发现 {{item}}。",
   "season.codex.mutants.five": "从你的绵羊身上收集羊毛来发现 {{item}}。",
   "competition.ended.description.two": "正在计算获胜者，并将于2月7日公布！",
-  "not.enough.sfl": "你没有足够的 SFL"
+  "not.enough.sfl": "你没有足够的 SFL",
+  "description.goldenSheep.boost": "免费喂羊！",
+  "description.barnBlueprint.boost": "+5 谷仓动物",
+  "description.solAndLuna.boost": "2 倍制作速度",
+  "description.blossomWard.boost": "+1 地块春季作物产量",
+  "description.solflareAegis.boost": "夏季作物作物时间 -50%",
+  "description.autumnsEmbrace.boost": "秋季地块收割时间 -50%",
+  "description.frozenHeart.boost": "+1 地块冬季作物产量"
 }

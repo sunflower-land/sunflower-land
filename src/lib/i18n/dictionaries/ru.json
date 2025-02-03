@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "Собирайте молоко у своих коров, чтобы найти {{item}}.",
   "season.codex.mutants.five": "Собирайте шерсть у своих овец и откройте для себя {{item}}.",
   "competition.ended.description.two": "Победители подсчитываются и будут объявлены 7 февраля!",
-  "not.enough.sfl": "У вас недостаточно SFL"
+  "not.enough.sfl": "У вас недостаточно SFL",
+  "description.goldenSheep.boost": "Кормите овец бесплатно!",
+  "description.barnBlueprint.boost": "+5 амбарных животных",
+  "description.solAndLuna.boost": "Скорость изготовления в 2 раза",
+  "description.blossomWard.boost": "Урожай на участке +1 весной",
+  "description.solflareAegis.boost": "Время сбора урожая на участке: -50% летом",
+  "description.autumnsEmbrace.boost": "Осенний период сбора урожая на участке: -50%",
+  "description.frozenHeart.boost": "+1 урожайность на участке зимой"
 }

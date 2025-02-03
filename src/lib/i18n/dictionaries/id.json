@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "Kumpulkan susu dari sapi Anda untuk menemukan {{item}}.",
   "season.codex.mutants.five": "Kumpulkan wol dari domba Anda untuk menemukan {{item}}.",
   "competition.ended.description.two": "Pemenang sedang dihitung dan akan diumumkan pada 7 Februari!",
-  "not.enough.sfl": "Anda tidak memiliki cukup SFL"
+  "not.enough.sfl": "Anda tidak memiliki cukup SFL",
+  "description.goldenSheep.boost": "Beri makan domba secara gratis!",
+  "description.barnBlueprint.boost": "+5 Hewan Gudang",
+  "description.solAndLuna.boost": "Kecepatan Kerajinan 2x",
+  "description.blossomWard.boost": "+1 Hasil Tanaman Plot di Musim Semi",
+  "description.solflareAegis.boost": "-50% Waktu Panen Plot di Musim Panas",
+  "description.autumnsEmbrace.boost": "-50% Waktu Panen Plot di Musim Gugur",
+  "description.frozenHeart.boost": "+1 Hasil Tanaman Plot di Musim Dingin"
 }

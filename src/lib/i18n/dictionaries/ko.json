@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "젖소에서 우유를 모아서 {{item}} 를 발견하세요.",
   "season.codex.mutants.five": "양에게서 양털을 모아 {{item}} 를 찾아보세요.",
   "competition.ended.description.two": "당첨자는 현재 집계되고 있으며 2월 7일에 발표될 예정입니다!",
-  "not.enough.sfl": "SFL이 충분하지 않습니다"
+  "not.enough.sfl": "SFL이 충분하지 않습니다",
+  "description.goldenSheep.boost": "양에게 무료로 먹이를 주세요!",
+  "description.barnBlueprint.boost": "+5 헛간 애니멀",
+  "description.solAndLuna.boost": "제작 속도 2배",
+  "description.blossomWard.boost": "봄철 작물 수확량 +1",
+  "description.solflareAegis.boost": "여름철 플롯 크롭 타임 -50%",
+  "description.autumnsEmbrace.boost": "가을철 수확량 -50%",
+  "description.frozenHeart.boost": "겨울철 작물 수확량 +1"
 }

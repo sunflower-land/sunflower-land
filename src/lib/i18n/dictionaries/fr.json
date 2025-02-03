@@ -5134,5 +5134,12 @@
   "season.codex.mutants.four": "Récupérez le lait de vos vaches pour découvrir le {{item}}.",
   "season.codex.mutants.five": "Récupérez la laine de vos moutons pour découvrir le {{item}}.",
   "competition.ended.description.two": "Les gagnants sont en cours de calcul et seront annoncés le 7 février !",
-  "not.enough.sfl": "Vous n'avez pas assez de SFL"
+  "not.enough.sfl": "Vous n'avez pas assez de SFL",
+  "description.goldenSheep.boost": "Nourrissez les moutons gratuitement !",
+  "description.barnBlueprint.boost": "+5 animaux de grange",
+  "description.solAndLuna.boost": "Vitesse de fabrication multipliée par 2",
+  "description.blossomWard.boost": "Rendement des cultures par parcelle de +1 au printemps",
+  "description.solflareAegis.boost": "-50 % de la durée de récolte des parcelles en été",
+  "description.autumnsEmbrace.boost": "-50 % de la durée de récolte des parcelles en automne",
+  "description.frozenHeart.boost": "Rendement des cultures par parcelle +1 en hiver"
 }
