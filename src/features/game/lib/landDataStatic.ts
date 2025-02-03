@@ -14,6 +14,7 @@ import { Equipped } from "../types/bumpkin";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  username: "Local Hero",
   coins: 10000,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),

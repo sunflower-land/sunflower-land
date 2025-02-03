@@ -88,8 +88,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "3%",
           bottom: "62%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center cursor-pointer ${
+          level >= 30 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
+          if (level < 30) return;
           travel.play();
           navigate("/world/infernos");
           onClose();
@@ -158,7 +161,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "35%",
           bottom: "20%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 2 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 2) return;
           travel.play();
@@ -204,7 +209,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "35%",
           bottom: "61%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 7 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 7) return;
           travel.play();
@@ -250,7 +257,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "35%",
           bottom: "46%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          canTeleportToFactionHouse ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (!canTeleportToFactionHouse) return;
           travel.play();
@@ -296,7 +305,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "22%",
           bottom: "24%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 4 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 4) return;
           travel.play();
@@ -342,7 +353,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           right: "34%",
           bottom: "33%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 6 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 6) return;
           travel.play();
@@ -388,7 +401,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           right: "0%",
           bottom: "0%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 5 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 5) return;
           travel.play();
