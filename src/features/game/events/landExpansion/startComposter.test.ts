@@ -583,6 +583,41 @@ describe("start Turbo Composter", () => {
       dateNow + 7.2 * 60 * 60 * 1000,
     );
   });
+  it("should not remove fertiliser from inventory if the player has Composting Overhaul skill", () => {
+    const result = startComposter({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Composting Overhaul": 1 },
+        },
+        inventory: {
+          "Fruitful Blend": new Decimal(10),
+          ...Object.fromEntries(
+            Object.entries(
+              SEASON_COMPOST_REQUIREMENTS["Turbo Composter"][
+                GAME_STATE.season.season
+              ],
+            ).map(([key, value]) => [key, new Decimal(value)]),
+          ),
+        },
+        buildings: {
+          "Turbo Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              id: "0",
+            },
+          ],
+        },
+      },
+      action: { type: "composter.started", building: "Turbo Composter" },
+      createdAt: dateNow,
+    });
+
+    expect(result.inventory["Fruitful Blend"]).toEqual(new Decimal(10));
+  });
 });
 
 describe("start Premium Composter", () => {
