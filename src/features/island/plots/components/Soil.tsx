@@ -4,7 +4,7 @@ import { CropName } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../lib/plant";
-import { FarmSceneSprite } from "features/game/expansion/FarmSceneSprite";
+import { FarmSprite } from "features/game/expansion/FarmSprite";
 
 export type GrowthStage = "seedling" | "halfway" | "almost" | "ready";
 
@@ -15,11 +15,13 @@ interface Props {
 
 const getCropImage = (imageSource: string): JSX.Element => {
   return (
-    <FarmSceneSprite
+    <FarmSprite
       image={imageSource}
       pointer-events="none"
       top={PIXEL_SCALE * -12}
       width={PIXEL_SCALE * 16}
+      z={1}
+      collide={false}
     />
   );
 };

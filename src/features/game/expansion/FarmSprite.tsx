@@ -5,7 +5,7 @@ import { PIXEL_SCALE } from "../lib/constants";
 import { IMAGE_GRID_WIDTH } from "./components/LandBase";
 import { useMapPlacement } from "./components/MapPlacement";
 
-interface FarmSceneSpriteProps {
+interface FarmSpriteProps {
   image: string;
   width?: number;
   height?: number;
@@ -15,9 +15,11 @@ interface FarmSceneSpriteProps {
   right?: number;
   flipX?: boolean;
   onClick?: () => void;
+  z?: number;
+  collide?: boolean;
 }
 
-export const FarmSceneSprite: React.FC<FarmSceneSpriteProps> = ({
+export const FarmSprite: React.FC<FarmSpriteProps> = ({
   image,
   width,
   height,
@@ -27,6 +29,8 @@ export const FarmSceneSprite: React.FC<FarmSceneSpriteProps> = ({
   right,
   flipX,
   onClick,
+  z,
+  collide = true,
 }) => {
   const scene = useFarmScene();
   const mapPlacement = useMapPlacement();
@@ -69,12 +73,20 @@ export const FarmSceneSprite: React.FC<FarmSceneSpriteProps> = ({
     sprite.setOrigin(0, 0);
     sprite.setScale(PIXEL_SCALE);
 
-    sprite.setDepth(-(y ?? 0) << 8);
+    sprite.setDepth(-(y ?? 0) * 100 + (z ?? 0));
 
     sprite.setInteractive({ cursor: "pointer" });
-    sprite.on("pointerup", () => ref.current?.click());
-
+    const _onClick = () => {
+      console.log("clicked", image);
+      ref.current?.click();
+    };
+    sprite.on("pointerup", _onClick);
+    sprite.setData("onClick", _onClick);
     scene.physics.world.enable(sprite);
+    (sprite.body as Phaser.Physics.Arcade.Body).setImmovable(true);
+    if (collide) {
+      (scene as any).colliders.add(sprite);
+    }
 
     if (left !== undefined) {
       sprite.setX(sprite.x + left);
@@ -121,6 +133,9 @@ export const FarmSceneSprite: React.FC<FarmSceneSpriteProps> = ({
     left,
     top,
     texture,
+    onClick,
+    collide,
+    z,
   ]);
 
   return <div className="invisible divsoup" ref={ref} onClick={onClick}></div>;

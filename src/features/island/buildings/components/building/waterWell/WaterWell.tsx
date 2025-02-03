@@ -5,7 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { FarmSceneSprite } from "features/game/expansion/FarmSceneSprite";
+import { FarmSprite } from "features/game/expansion/FarmSprite";
 
 export const WaterWell: React.FC<BuildingProps> = ({
   onRemove,
@@ -31,7 +31,7 @@ export const WaterWell: React.FC<BuildingProps> = ({
       onClick={handleClick}
       nonInteractible={!onRemove}
     >
-      <FarmSceneSprite
+      <FarmSprite
         image={SUNNYSIDE.building.well}
         width={25}
         bottom={0}

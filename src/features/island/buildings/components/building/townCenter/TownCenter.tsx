@@ -11,6 +11,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router";
 import { HomeBumpkins } from "../house/HomeBumpkins";
+import { FarmSprite } from "features/game/expansion/FarmSprite";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -55,14 +56,13 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   return (
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
-        <img
-          src={SUNNYSIDE.building.townCenter}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 62}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-          }}
+        <FarmSprite
+          image={SUNNYSIDE.building.townCenter}
+          pointer-events="none"
+          top={PIXEL_SCALE * -12}
+          width={PIXEL_SCALE * 16}
+          z={1}
+          collide={true}
         />
       </BuildingImageWrapper>
       <div

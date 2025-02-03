@@ -12,6 +12,7 @@ import { useSelector } from "@xstate/react";
 import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
+import { FarmSprite } from "features/game/expansion/FarmSprite";
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
     !state.context.state.inventory["Basic Scarecrow"] &&
@@ -58,12 +59,10 @@ export const WorkBench: React.FC<BuildingProps> = ({
   return (
     <>
       <BuildingImageWrapper name="Workbench" onClick={handleClick}>
-        <img
-          src={WORKBENCH_VARIANTS[island]}
-          className="absolute bottom-0 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 47}px`,
-          }}
+        <FarmSprite
+          image={WORKBENCH_VARIANTS[island]}
+          width={PIXEL_SCALE * 47}
+          bottom={0}
         />
 
         <img

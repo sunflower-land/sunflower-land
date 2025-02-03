@@ -806,8 +806,9 @@ export const Land: React.FC = () => {
               "pointer-events-none": visiting,
             })}
           >
+            <LandBase type={island.type} expandedCount={expansionCount} />
+
             <PhaserProvider>
-              <LandBase type={island.type} expandedCount={expansionCount} />
               <DirtRenderer island={island.type} grid={gameGrid} />
 
               {!landscaping && (

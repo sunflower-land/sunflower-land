@@ -11,6 +11,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { FarmSprite } from "features/game/expansion/FarmSprite";
 
 const getRecipeImage = (recipe: RecipeItemName) => {
   const recipeDetails = RECIPES[recipe];
@@ -54,14 +55,10 @@ export const RecipeStack: React.FC<{ recipes: RecipeItemName[] }> = ({
 
   return (
     <>
-      <img
-        className="cursor-pointer animate-float hover:img-highlight "
+      <FarmSprite
+        image={page}
+        width={PIXEL_SCALE * 16}
         onClick={() => setIsModalOpen(true)}
-        src={page}
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          height: `${PIXEL_SCALE * 16}px`,
-        }}
       />
 
       <Modal show={isModalOpen} onHide={handleClose}>

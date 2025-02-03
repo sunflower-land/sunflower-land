@@ -17,7 +17,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { IslandType } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
-import { FarmSceneSprite } from "features/game/expansion/FarmSceneSprite";
+import { FarmSprite } from "features/game/expansion/FarmSprite";
 
 const tool = "Axe";
 
@@ -112,7 +112,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
 
         {/* static tree image */}
         {!showSpritesheet && (
-          <FarmSceneSprite
+          <FarmSprite
             image={TREE_IMAGE[island]}
             width={PIXEL_SCALE * 26}
             bottom={PIXEL_SCALE * 2}
