@@ -1525,4 +1525,42 @@ describe("feedAnimal", () => {
 
     expect(state.barn.animals["0"].experience).toEqual(maxLevelXP + maxLevelXP);
   });
+
+  it("feeds a sheep for free if the player has a Golden Sheep", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Mixed Grain": new Decimal(2),
+        },
+        collectibles: {
+          "Golden Sheep": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Sheep",
+        id: "0",
+      },
+    });
+
+    expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(2));
+  });
 });

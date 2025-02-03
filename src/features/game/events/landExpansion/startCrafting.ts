@@ -4,6 +4,7 @@ import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { availableWardrobe } from "./equip";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -15,6 +16,23 @@ type Options = {
   action: StartCraftingAction;
   createdAt?: number;
 };
+
+export function getBoostedCraftingTime({
+  game,
+  time,
+}: {
+  game: GameState;
+  time: number;
+}) {
+  let seconds = time;
+
+  // Sol & Luna 50% Crafting Speed
+  if (isWearableActive({ name: "Sol & Luna", game })) {
+    seconds *= 0.5;
+  }
+
+  return seconds;
+}
 
 export function startCrafting({
   state,
@@ -87,10 +105,15 @@ export function startCrafting({
       }
     });
 
+    const recipeTime = getBoostedCraftingTime({
+      game: state,
+      time: recipe.time,
+    });
+
     copy.craftingBox = {
       status: "crafting",
       startedAt: createdAt,
-      readyAt: createdAt + recipe.time,
+      readyAt: createdAt + recipeTime,
       item:
         recipe.type === "collectible"
           ? { collectible: recipe.name }

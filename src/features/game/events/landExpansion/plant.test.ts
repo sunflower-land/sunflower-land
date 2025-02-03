@@ -417,6 +417,185 @@ describe("plant", () => {
 
     expect(plantedAt).toBe(dateNow - parsnipTime * 0.5);
   });
+
+  it("reduces wheat harvest time in half if Solflare Aegis is worn", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Solflare Aegis",
+          },
+        },
+        inventory: {
+          "Wheat Seed": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        collectibles: {},
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+
+        item: "Wheat Seed",
+      },
+    });
+
+    // Should be twice as fast! (Planted in the past)
+    const plantTime = CROPS.Wheat.harvestSeconds * 1000;
+
+    const crops = state.crops;
+
+    expect(crops).toBeDefined();
+    const plantedAt =
+      (crops as Record<number, CropPlot>)[0].crop?.plantedAt || 0;
+
+    expect(plantedAt).toBe(dateNow - plantTime * 0.5);
+  });
+
+  it("reduces Barley harvest time in half if Autumn's Embrace is worn", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Autumn's Embrace",
+          },
+        },
+        inventory: {
+          "Barley Seed": new Decimal(1),
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
+        collectibles: {},
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+
+        item: "Barley Seed",
+      },
+    });
+
+    // Should be twice as fast! (Planted in the past)
+    const plantTime = CROPS.Barley.harvestSeconds * 1000;
+
+    const crops = state.crops;
+
+    expect(crops).toBeDefined();
+    const plantedAt =
+      (crops as Record<number, CropPlot>)[0].crop?.plantedAt || 0;
+
+    expect(plantedAt).toBe(dateNow - plantTime * 0.5);
+  });
+
+  it("yields +1 when wearing Blossom Ward at Spring Season", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Blossom Ward",
+          },
+        },
+        inventory: {
+          "Kale Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Kale Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields +1 when wearing Frozen Heart at Winter Season", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Frozen Heart",
+          },
+        },
+        inventory: {
+          "Onion Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Onion Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
   it("yields 20% more parsnip if bumpkin is equipped with Parsnip Tool", () => {
     const PARSNIP_STATE: GameState = {
       ...TEST_FARM,
