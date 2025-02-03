@@ -5,6 +5,7 @@ import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeB
 import { FlowerGrowthStage, FlowerName } from "features/game/types/flowers";
 import { CONFIG } from "lib/config";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
+import autumnCactiStump from "assets/resources/tree/autumn_cacti_stump.webp";
 
 export const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.firePit,
@@ -217,7 +218,7 @@ export const STUMP_VARIANTS: Record<
   desert: {
     spring: cactiStump,
     summer: cactiStump,
-    autumn: cactiStump,
+    autumn: autumnCactiStump,
     winter: cactiStump,
   },
   volcano: {
