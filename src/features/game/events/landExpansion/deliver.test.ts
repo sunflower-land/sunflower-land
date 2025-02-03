@@ -1837,6 +1837,7 @@ describe("deliver", () => {
   });
 
   it("gives 100% more seasonal ticket on completed deliveries if double delivery is active", () => {
+    const mockDate = new Date("2025-02-11").getTime();
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1848,7 +1849,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date().getTime(),
+              readyAt: mockDate,
               from: "tywin",
               items: { coins: 6400 },
               reward: {},
@@ -1859,12 +1860,12 @@ describe("deliver", () => {
           dates: [
             {
               name: "doubleDelivery",
-              date: new Date().toISOString().substring(0, 10),
+              date: new Date(mockDate).toISOString().substring(0, 10),
             },
           ],
           doubleDelivery: {
-            triggeredAt: new Date().getTime(),
-            startedAt: new Date().getTime(),
+            triggeredAt: mockDate,
+            startedAt: mockDate,
           },
         },
       },
@@ -1872,13 +1873,14 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: new Date().getTime(),
+      createdAt: mockDate,
     });
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
   });
 
   it("can deliver items from the wardrobe", () => {
+    const mockDate = new Date("2024-05-10").getTime();
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1899,7 +1901,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date("2024-09-10").getTime(),
+              readyAt: mockDate,
               from: "cornwell",
               items: { "Basic Hair": 1 },
               reward: {},
@@ -1911,6 +1913,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: mockDate,
     });
 
     expect(state.wardrobe["Basic Hair"]).toEqual(0);
