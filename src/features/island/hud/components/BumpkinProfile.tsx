@@ -116,7 +116,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           "cursor-pointer hover:img-highlight": !!onClick,
         })}
         style={{
-          height: hasFeatureAccess(state, "TEMPERATE_SEASON") ? "70px" : "80px",
+          height: window.innerWidth >= 640 ? "80px" : "70px",
         }}
         onClick={onClick}
       >
@@ -161,11 +161,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           image={SUNNYSIDE.ui.progressBarSprite}
           widthFrame={DIMENSIONS.original}
           heightFrame={DIMENSIONS.original}
-          zoomScale={
-            new SpringValue(
-              hasFeatureAccess(state, "TEMPERATE_SEASON") ? 0.7 : 1,
-            )
-          }
+          zoomScale={new SpringValue(window.innerWidth >= 640 ? 0.7 : 1)}
           fps={10}
           steps={SPRITE_STEPS}
           autoplay={false}
@@ -278,7 +274,8 @@ export const BumpkinProfile: React.FC<{
       </Modal>
 
       {/* Bumpkin profile */}
-      {hasFeatureAccess(gameState.context.state, "TEMPERATE_SEASON") ? (
+      {/* Mobile */}
+      <div className="sm:hidden">
         <div className="scale-[0.7] absolute left-0 top-0">
           <BumpkinAvatar
             state={gameState.context.state}
@@ -290,7 +287,9 @@ export const BumpkinProfile: React.FC<{
             }
           />
         </div>
-      ) : (
+      </div>
+      {/* Desktop */}
+      <div className="hidden sm:block">
         <BumpkinAvatar
           state={gameState.context.state}
           bumpkin={state.bumpkin}
@@ -300,7 +299,7 @@ export const BumpkinProfile: React.FC<{
             showSkillPointAlert && !gameState.matches("visiting")
           }
         />
-      )}
+      </div>
     </>
   );
 };

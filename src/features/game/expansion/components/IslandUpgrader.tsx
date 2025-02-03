@@ -25,16 +25,13 @@ import { Transition } from "@headlessui/react";
 import { formatDateTime } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
-import { hasFeatureAccess } from "lib/flags";
 
 const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
   state,
 ) => ({
   basic: new Date(0).getTime(),
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
-  desert: hasFeatureAccess(state, "VOLCANO_ISLAND")
-    ? new Date("2025-01-03T00:00:00Z").getTime()
-    : new Date("2025-02-03T00:00:00Z").getTime(),
+  desert: new Date("2025-01-03T00:00:00Z").getTime(),
   volcano: null, // Next prestige after volcano
 });
 

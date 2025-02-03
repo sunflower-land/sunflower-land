@@ -865,7 +865,6 @@ export function plant({
     }
 
     if (
-      hasFeatureAccess(stateCopy, "SEASONAL_SEEDS") &&
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
     ) {
       throw new Error("This seed is not available in this season");

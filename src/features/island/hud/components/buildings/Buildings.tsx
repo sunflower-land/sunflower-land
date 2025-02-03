@@ -17,7 +17,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { GameState, IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -38,17 +37,11 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     "Premium Composter",
     "Greenhouse",
     "Crop Machine",
-    ...(hasFeatureAccess(state, "CRAFTING_BOX") ? ["Crafting Box"] : []),
+    "Crafting Box",
+    "Barn",
   ];
 
-  const CONDITIONAL_BUILDINGS = hasFeatureAccess(state, "ANIMAL_BUILDINGS")
-    ? ["Barn"]
-    : [];
-
-  const VALID_BUILDINGS = [
-    ...UNSORTED_BUILDINGS,
-    ...CONDITIONAL_BUILDINGS,
-  ].sort(
+  const VALID_BUILDINGS = [...UNSORTED_BUILDINGS].sort(
     (a, b) =>
       BUILDINGS[a as BuildingName][0].unlocksAtLevel -
       BUILDINGS[b as BuildingName][0].unlocksAtLevel,

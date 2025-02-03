@@ -1,7 +1,6 @@
 import { GameState } from "../../types/game";
 
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
@@ -37,10 +36,6 @@ export function exchangeObsidian({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "VOLCANO_ISLAND")) {
-      throw new Error("Volcano Island not unlocked");
-    }
-
     const obsidianRequired = getObsidianSunstonePrice({
       gameState: state,
     });

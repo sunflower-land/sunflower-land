@@ -17,7 +17,6 @@ import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getSeasonalTicket } from "../types/seasons";
-import { hasFeatureAccess } from "lib/flags";
 import { CROP_SEEDS } from "../types/crops";
 import { PATCH_FRUIT_SEEDS } from "../types/fruits";
 
@@ -198,7 +197,7 @@ export const INITIAL_STOCK = (
     );
   }
 
-  if (state && hasFeatureAccess(state, "SEASONAL_SEEDS")) {
+  if (state) {
     getKeys(seeds).forEach((seed) => {
       if (seed in CROP_SEEDS || seed in PATCH_FRUIT_SEEDS) {
         seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(2).toNumber()));

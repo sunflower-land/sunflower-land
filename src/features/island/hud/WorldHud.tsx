@@ -24,7 +24,6 @@ import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
-import { hasFeatureAccess } from "lib/flags";
 import { CandyHUD } from "./CandyHud";
 import { getDayOfChristmas } from "features/game/events/landExpansion/collectCandy";
 import { isMobile } from "mobile-device-detect";
@@ -156,19 +155,16 @@ const HudComponent: React.FC = () => {
             </CloseButtonPanel>
           </Modal>
         )}
-        {pathname.includes("plaza") &&
-          hasFeatureAccess(gameState.context.state, "CHRISTMAS_2024") && (
-            <div
-              className="absolute z-40 flex justify-center w-full"
-              style={{
-                top: isMobile
-                  ? `${PIXEL_SCALE * 15}px`
-                  : `${PIXEL_SCALE * 3}px`,
-              }}
-            >
-              {dayOfChristmas <= 12 && <CandyHUD />}
-            </div>
-          )}
+        {pathname.includes("plaza") && (
+          <div
+            className="absolute z-40 flex justify-center w-full"
+            style={{
+              top: isMobile ? `${PIXEL_SCALE * 15}px` : `${PIXEL_SCALE * 3}px`,
+            }}
+          >
+            {dayOfChristmas <= 12 && <CandyHUD />}
+          </div>
+        )}
       </HudContainer>
     </>
   );

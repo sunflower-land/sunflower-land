@@ -21,7 +21,7 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
-import { GameState, Inventory } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -40,7 +40,6 @@ import {
   getSpeedUpTime,
 } from "features/game/events/landExpansion/accelerateComposter";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
-import { hasFeatureAccess } from "lib/flags";
 import { SEASON_ICONS } from "../market/SeasonalSeeds";
 import { RecipeInfoPanel } from "../craftingBox/components/RecipeInfoPanel";
 import { secondsTillWeekReset } from "features/game/lib/factions";
@@ -263,9 +262,8 @@ const ComposterModalContent: React.FC<{
 
   const produces = buildings[composterName]?.[0].producing?.items ?? {};
 
-  const requires = hasFeatureAccess(state, "WEATHER_SHOP")
-    ? SEASON_COMPOST_REQUIREMENTS[composterName][state.season.season]
-    : buildings[composterName]?.[0].requires ?? {};
+  const requires =
+    SEASON_COMPOST_REQUIREMENTS[composterName][state.season.season];
 
   const boost = buildings[composterName]?.[0].boost;
 
@@ -297,15 +295,13 @@ const ComposterModalContent: React.FC<{
   if (isReady) {
     return (
       <>
-        {hasFeatureAccess(state, "WEATHER_SHOP") && (
-          <Label
-            icon={SEASON_ICONS[state.season.season]}
-            type="default"
-            className="ml-2"
-          >
-            {t(`season.${state.season.season}`)}
-          </Label>
-        )}
+        <Label
+          icon={SEASON_ICONS[state.season.season]}
+          type="default"
+          className="ml-2"
+        >
+          {t(`season.${state.season.season}`)}
+        </Label>
         <div className="flex p-2 -mt-2">
           <img
             src={COMPOSTER_IMAGES[composterName].ready}
@@ -343,15 +339,14 @@ const ComposterModalContent: React.FC<{
   if (composting) {
     return (
       <>
-        {hasFeatureAccess(state, "WEATHER_SHOP") && (
-          <Label
-            icon={SEASON_ICONS[state.season.season]}
-            type="default"
-            className="ml-2"
-          >
-            {t(`season.${state.season.season}`)}
-          </Label>
-        )}
+        <Label
+          icon={SEASON_ICONS[state.season.season]}
+          type="default"
+          className="ml-2"
+        >
+          {t(`season.${state.season.season}`)}
+        </Label>
+
         <div className="flex p-2 -mt-2">
           <img
             src={COMPOSTER_IMAGES[composterName].composting}
@@ -489,15 +484,14 @@ const ComposterModalContent: React.FC<{
   if (getKeys(requires).length === 0) {
     return (
       <>
-        {hasFeatureAccess(state, "WEATHER_SHOP") && (
-          <Label
-            icon={SEASON_ICONS[state.season.season]}
-            type="default"
-            className="ml-2"
-          >
-            {t(`season.${state.season.season}`)}
-          </Label>
-        )}
+        <Label
+          icon={SEASON_ICONS[state.season.season]}
+          type="default"
+          className="ml-2"
+        >
+          {t(`season.${state.season.season}`)}
+        </Label>
+
         <div className="flex p-2 -mt-2 items-center">
           <img
             src={COMPOSTER_IMAGES[composterName].ready}
@@ -516,26 +510,25 @@ const ComposterModalContent: React.FC<{
   return (
     <>
       <div className="flex flex-col h-full">
-        {hasFeatureAccess(state, "WEATHER_SHOP") && (
-          <div className="flex justify-between mt-1">
-            <Label
-              icon={SEASON_ICONS[state.season.season]}
-              type="default"
-              className="ml-2"
-            >
-              {t(`season.${state.season.season}`)}
-            </Label>
-            <Label
-              icon={SUNNYSIDE.icons.stopwatch}
-              type="transparent"
-              className="mb-1"
-            >
-              {`${secondsToString(secondsTillWeekReset(), {
-                length: "short",
-              })} ${t("time.left")}`}
-            </Label>
-          </div>
-        )}
+        <div className="flex justify-between mt-1">
+          <Label
+            icon={SEASON_ICONS[state.season.season]}
+            type="default"
+            className="ml-2"
+          >
+            {t(`season.${state.season.season}`)}
+          </Label>
+          <Label
+            icon={SUNNYSIDE.icons.stopwatch}
+            type="transparent"
+            className="mb-1"
+          >
+            {`${secondsToString(secondsTillWeekReset(), {
+              length: "short",
+            })} ${t("time.left")}`}
+          </Label>
+        </div>
+
         <div className="flex flex-col h-full px-1 py-0">
           <div className="flex flex-wrap my-1">
             <div className="flex space-x-2 justify-start mr-2">
@@ -745,98 +738,5 @@ export const ComposterModal: React.FC<Props> = ({
         )}
       </CloseButtonPanel>
     </Modal>
-  );
-};
-
-interface CraftingProps {
-  gameState: GameState;
-  stock?: Decimal;
-  isLimitedItem?: boolean;
-  details: any;
-  boost?: string;
-  requirements?: Inventory;
-  limit?: number;
-  actionView?: JSX.Element;
-  hideDescription?: boolean;
-  seconds: number;
-}
-export const CraftingRequirements: React.FC<CraftingProps> = ({
-  gameState,
-  stock,
-  isLimitedItem = false,
-  limit,
-  details,
-  boost,
-  requirements,
-  actionView,
-  hideDescription,
-  seconds,
-}: CraftingProps) => {
-  const getItemDetail = ({
-    hideDescription,
-  }: {
-    hideDescription?: boolean;
-  }) => {
-    const { image: icon, description, name } = details;
-    const title = details.quantity
-      ? `${details.quantity} x ${details.item}`
-      : name;
-
-    return (
-      <>
-        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
-          {icon && !!details.item && (
-            <div className="sm:mt-2">
-              <SquareIcon icon={icon} width={14} />
-            </div>
-          )}
-          <span className="sm:text-center">{title}</span>
-        </div>
-        {!hideDescription && (
-          <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
-            {description}
-          </span>
-        )}
-      </>
-    );
-  };
-
-  const getRequirements = () => {
-    if (!requirements) return <></>;
-
-    return (
-      <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
-        {/* Item ingredients requirements */}
-        {!!requirements &&
-          getKeys(requirements).map((ingredientName, index) => (
-            <RequirementLabel
-              key={index}
-              type="item"
-              item={ingredientName}
-              balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
-              requirement={
-                (requirements ?? {})[ingredientName] ?? new Decimal(0)
-              }
-            />
-          ))}
-
-        <RequirementLabel type="time" waitSeconds={seconds} />
-      </div>
-    );
-  };
-  const { t } = useAppTranslation();
-  return (
-    <div className="flex flex-col h-full justify-between">
-      <div className="flex flex-col h-full px-1 py-0">
-        {getItemDetail({ hideDescription })}
-        {limit && (
-          <p className="my-1 text-xs text-left sm:text-center">{`${t(
-            "max",
-          )} ${limit} ${t("statements.perplayer")}`}</p>
-        )}
-        {getRequirements()}
-      </div>
-      {actionView}
-    </div>
   );
 };

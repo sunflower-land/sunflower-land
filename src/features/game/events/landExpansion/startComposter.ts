@@ -14,7 +14,6 @@ import {
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type StartComposterAction = {
   type: "composter.started";
@@ -102,9 +101,8 @@ export function startComposter({
       throw new Error(translate("error.alr.composter"));
     }
 
-    const requires = hasFeatureAccess(stateCopy, "WEATHER_SHOP")
-      ? SEASON_COMPOST_REQUIREMENTS[building][stateCopy.season.season]
-      : composter.requires;
+    const requires =
+      SEASON_COMPOST_REQUIREMENTS[building][stateCopy.season.season];
 
     if (!requires) {
       throw new Error(translate("error.alr.composter"));

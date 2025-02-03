@@ -110,7 +110,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     }
 
     if (
-      hasFeatureAccess(game, "SEASONAL_SEEDS") &&
       item &&
       item in PATCH_FRUIT_SEEDS &&
       !SEASONAL_SEEDS[game.season.season].includes(
@@ -266,10 +265,8 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           options={getKeys(PATCH_FRUIT_SEEDS)
             .filter(
               (seed) =>
-                !hasFeatureAccess(game, "SEASONAL_SEEDS") ||
-                SEASONAL_SEEDS[game.season.season].includes(
-                  seed as PatchFruitSeedName,
-                ),
+                SEASONAL_SEEDS[game.season.season].includes(seed) ||
+                isFullMoonBerry(seed),
             )
             .map((seed) => ({
               name: seed as InventoryItemName,
