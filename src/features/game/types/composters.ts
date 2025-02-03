@@ -143,17 +143,16 @@ export const SEASON_COMPOST_REQUIREMENTS: Record<
       Egg: 5,
     },
     summer: {
-      Apple: 4,
-      Kale: 5,
+      Banana: 3,
+      Egg: 5,
     },
     autumn: {
-      Orange: 6,
-      Egg: 4,
+      Apple: 4,
+      Tomato: 5,
     },
     winter: {
+      Lemon: 3,
       Apple: 3,
-      Blueberry: 3,
-      Egg: 5,
     },
   },
 };
