@@ -11,7 +11,6 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { isMobile } from "mobile-device-detect";
-import { hasFeatureAccess } from "lib/flags";
 
 const showDebugBorders = false;
 
@@ -37,11 +36,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   );
   const hasFaction = gameService.state.context.state.faction;
   const canTeleportToFactionHouse = level >= 7 && hasFaction;
-
-  const hasInfernosAccess = hasFeatureAccess(
-    gameService.state.context.state,
-    "VOLCANO_ISLAND",
-  );
 
   const getFactionHouseRoute = () => {
     switch (hasFaction?.name) {
@@ -96,39 +90,28 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
-          if (!hasInfernosAccess) return;
           travel.play();
           navigate("/world/infernos");
           onClose();
         }}
       >
-        {!hasInfernosAccess ? (
-          isMobile ? (
-            <img
-              src={SUNNYSIDE.icons.lock}
-              className="h-4 sm:h-6 ml-1 img-highlight"
-              onClick={() => {
-                // setShowPopup(true);
-                // setReqLvl("7");
-                // setTimeout(() => {
-                //   setShowPopup(false);
-                // }, 1300);
-              }}
-            />
-          ) : (
-            <Label
-              type="default"
-              icon={SUNNYSIDE.icons.lock}
-              className="text-sm"
-            >
-              {/* {t("world.lvl.requirement", { lvl: 7 })} */}
-              {t("coming.soon")}
-            </Label>
-          )
+        {isMobile ? (
+          <img
+            src={SUNNYSIDE.icons.lock}
+            className="h-4 sm:h-6 ml-1 img-highlight"
+            onClick={() => {
+              // setShowPopup(true);
+              // setReqLvl("7");
+              // setTimeout(() => {
+              //   setShowPopup(false);
+              // }, 1300);
+            }}
+          />
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.infernos")}
-          </span>
+          <Label type="default" icon={SUNNYSIDE.icons.lock} className="text-sm">
+            {/* {t("world.lvl.requirement", { lvl: 7 })} */}
+            {t("coming.soon")}
+          </Label>
         )}
       </div>
       <div
