@@ -283,6 +283,7 @@ import sunflowerCake from "assets/food/cakes/sunflower_cake.png";
 import wheatCake from "assets/food/cakes/wheat_cake.png";
 
 // Food
+import rhubarbTart from "assets/food/rhubarb_tart.webp";
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
 import radishPie from "assets/food/radish_pie.png";
 import cheese from "assets/food/cheese.webp";
@@ -4916,7 +4917,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.chamomile"),
   },
   "Rhubarb Tart": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: rhubarbTart,
     description: translate("description.rhubarb.tart"),
   },
 };
