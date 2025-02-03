@@ -10,7 +10,11 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context, useGame } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 import { CookableName } from "features/game/types/consumables";
-import { GameState, IslandType } from "features/game/types/game";
+import {
+  GameState,
+  IslandType,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -43,6 +47,7 @@ interface Prop {
   x: number;
   y: number;
   island: IslandType;
+  season: TemperateSeasonName;
 }
 
 export interface BuildingProps {
@@ -53,6 +58,7 @@ export interface BuildingProps {
   isBuilt?: boolean;
   onRemove?: () => void;
   island: IslandType;
+  season: TemperateSeasonName;
 }
 
 const InProgressBuilding: React.FC<Prop> = ({
@@ -63,6 +69,7 @@ const InProgressBuilding: React.FC<Prop> = ({
   createdAt,
   showTimers,
   island,
+  season,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
 
@@ -118,6 +125,7 @@ const InProgressBuilding: React.FC<Prop> = ({
       >
         <div className="w-full h-full pointer-events-none opacity-50">
           <BuildingPlaced
+            season={season}
             buildingId={id}
             buildingIndex={index}
             island={island}
@@ -170,6 +178,7 @@ const DestroyedBuilding: React.FC<
   showTimers,
   island,
   calendarEvent,
+  season,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
 
@@ -225,6 +234,7 @@ const DestroyedBuilding: React.FC<
             buildingId={id}
             buildingIndex={index}
             island={island}
+            season={season}
           />
         </div>
         <img
@@ -297,6 +307,7 @@ const BuildingComponent: React.FC<Prop> = ({
   x,
   y,
   island,
+  season,
 }) => {
   const { gameState } = useGame();
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -324,6 +335,7 @@ const BuildingComponent: React.FC<Prop> = ({
         y={y}
         island={island}
         calendarEvent={destroyedBy}
+        season={season}
       />
     );
   }
@@ -342,6 +354,7 @@ const BuildingComponent: React.FC<Prop> = ({
           x={x}
           y={y}
           island={island}
+          season={season}
         />
       ) : (
         <BuildingPlaced
@@ -351,6 +364,7 @@ const BuildingComponent: React.FC<Prop> = ({
           craftingReadyAt={craftingReadyAt}
           isBuilt
           island={island}
+          season={season}
         />
       )}
     </>
