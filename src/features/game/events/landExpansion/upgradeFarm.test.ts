@@ -526,7 +526,7 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Sunstone"]).toEqual(new Decimal(1));
     expect(state.sunstones).toEqual({
       ...sunstones,
-      "1234": { ...sunstones["1234"], x: -3, y: 7 },
+      "1234": { ...sunstones["1234"], x: -5, y: 5 },
     });
   });
 
@@ -587,7 +587,7 @@ describe("upgradeFarm", () => {
 
     expect(state.inventory["Sunstone"]).toEqual(new Decimal(1));
     expect(state.sunstones).toEqual({
-      "1234": { ...sunstones["1234"], x: -3, y: 7 },
+      "1234": { ...sunstones["1234"], x: -5, y: 5 },
     });
   });
 
