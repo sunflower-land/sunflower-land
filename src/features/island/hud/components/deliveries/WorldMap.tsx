@@ -95,7 +95,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        {isMobile ? (
+        {level >= 30 ? (
+          <span className="map-text text-xxs sm:text-sm">
+            {t("world.infernos")}
+          </span>
+        ) : (
           <img
             src={SUNNYSIDE.icons.lock}
             className="h-4 sm:h-6 ml-1 img-highlight"
@@ -107,11 +111,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               // }, 1300);
             }}
           />
-        ) : (
-          <Label type="default" icon={SUNNYSIDE.icons.lock} className="text-sm">
-            {/* {t("world.lvl.requirement", { lvl: 7 })} */}
-            {t("coming.soon")}
-          </Label>
         )}
       </div>
       <div
