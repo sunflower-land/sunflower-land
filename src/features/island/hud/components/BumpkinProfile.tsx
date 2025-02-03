@@ -275,21 +275,7 @@ export const BumpkinProfile: React.FC<{
 
       {/* Bumpkin profile */}
       {/* Mobile */}
-      <div className="sm:hidden">
-        <div className="scale-[0.7] absolute left-0 top-0">
-          <BumpkinAvatar
-            state={gameState.context.state}
-            bumpkin={state.bumpkin}
-            username={username}
-            onClick={handleShowHomeModal}
-            showSkillPointAlert={
-              showSkillPointAlert && !gameState.matches("visiting")
-            }
-          />
-        </div>
-      </div>
-      {/* Desktop */}
-      <div className="hidden sm:block">
+      <div className="scale-[0.7] absolute left-0 top-0">
         <BumpkinAvatar
           state={gameState.context.state}
           bumpkin={state.bumpkin}
