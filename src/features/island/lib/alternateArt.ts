@@ -265,3 +265,10 @@ export const GREENHOUSE_VARIANTS: Record<TemperateSeasonName, string> = {
   autumn: SUNNYSIDE.seasons.autumn.greenhouse,
   winter: SUNNYSIDE.seasons.winter.greenhouse,
 };
+
+export const WATER_WELL_VARIANTS: Record<TemperateSeasonName, string> = {
+  spring: SUNNYSIDE.seasons.spring.well,
+  summer: SUNNYSIDE.building.well,
+  autumn: SUNNYSIDE.seasons.autumn.well,
+  winter: SUNNYSIDE.seasons.winter.well,
+};

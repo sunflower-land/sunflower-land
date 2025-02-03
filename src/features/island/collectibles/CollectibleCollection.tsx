@@ -1851,7 +1851,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
 export const READONLY_COLLECTIBLES: Record<
   CollectibleName | "Bud",
-  React.FC<any>
+  React.FC<CollectibleProps>
 > = {
   ...COLLECTIBLE_COMPONENTS,
   Observatory: () => (

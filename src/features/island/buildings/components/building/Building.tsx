@@ -396,7 +396,11 @@ const MoveableBuilding: React.FC<Prop> = (props) => {
         {inProgress ? (
           <BuildingComponent {...props} />
         ) : (
-          <BuildingPlaced buildingId={props.id} {...props} />
+          <BuildingPlaced
+            buildingId={props.id}
+            {...props}
+            buildingIndex={props.index}
+          />
         )}
       </MoveableComponent>
     );

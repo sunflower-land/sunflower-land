@@ -218,7 +218,7 @@ export const BUILDING_COMPONENTS: Record<
 
 export const READONLY_BUILDINGS: (
   gameState: GameState,
-) => Record<BuildingName, React.FC<any>> = (gameState) => {
+) => Record<BuildingName, React.FC<BuildingProps>> = (gameState) => {
   const island: IslandType = gameState.island.type;
   const season: TemperateSeasonName = gameState.season.season;
   const henHouseLevel = gameState.henHouse.level;

@@ -45,6 +45,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Gold: new Decimal(1000),
     Earthworm: new Decimal(200),
     Sunflower: new Decimal(100),
+    "Water Well": new Decimal(1),
+    "Hen House": new Decimal(3),
+    Greenhouse: new Decimal(1),
   },
   previousInventory: {
     "Dirt Path": new Decimal(20),
