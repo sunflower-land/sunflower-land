@@ -49,7 +49,7 @@ const _buildingLevel = (state: MachineState) => {
 export const ChickenHouse: React.FC<BuildingProps> = ({
   isBuilt,
   onRemove,
-  island,
+  season,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
@@ -101,7 +101,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
           />
         )}
         <img
-          src={HEN_HOUSE_VARIANTS[island][buildingLevel]}
+          src={HEN_HOUSE_VARIANTS[season][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 61}px`,

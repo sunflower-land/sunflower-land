@@ -206,6 +206,7 @@ const getIslandElements = ({
                 x={x}
                 y={y}
                 island={game.island.type}
+                season={game.season.season}
               />
             </MapPlacement>
           );

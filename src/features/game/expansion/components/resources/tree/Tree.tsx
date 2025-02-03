@@ -217,7 +217,9 @@ export const Tree: React.FC<Props> = ({ id }) => {
       {collecting && <DepletingTree resourceAmount={collectedAmount} />}
 
       {/* Depleted resource */}
-      {chopped && <DepletedTree timeLeft={timeLeft} island={island} />}
+      {chopped && (
+        <DepletedTree timeLeft={timeLeft} island={island} season={season} />
+      )}
 
       {/* Chest reward */}
       {reward && (
