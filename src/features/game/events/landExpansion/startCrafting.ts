@@ -26,9 +26,6 @@ export function getBoostedCraftingTime({
 }) {
   let seconds = time;
 
-  const { inventory, buds, bumpkin } = game;
-  const skills = bumpkin?.skills ?? {};
-
   // Sol & Luna 50% Crafting Speed
   if (isWearableActive({ name: "Sol & Luna", game })) {
     seconds *= 0.5;
