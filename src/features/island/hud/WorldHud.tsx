@@ -27,6 +27,7 @@ import { MarketplaceButton } from "./components/MarketplaceButton";
 import { CandyHUD } from "./CandyHud";
 import { getDayOfChristmas } from "features/game/events/landExpansion/collectCandy";
 import { isMobile } from "mobile-device-detect";
+import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -65,7 +66,7 @@ const HudComponent: React.FC = () => {
 
   const farmAddress = gameService.state?.context?.farmAddress;
   const isFullUser = farmAddress !== undefined;
-
+  const isTutorial = gameState.context.state.island.type === "basic";
   return (
     <>
       <HudContainer>
@@ -121,9 +122,8 @@ const HudComponent: React.FC = () => {
           <AuctionCountdown />
           <SpecialEventCountdown />
         </div>
-
         <BumpkinProfile isFullUser={isFullUser} />
-
+        {!isTutorial && <GameCalendar />}
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
@@ -136,7 +136,6 @@ const HudComponent: React.FC = () => {
           <Save />
           <Settings isFarming={false} />
         </div>
-
         {farmAddress && (
           <Modal
             show={showDepositModal}
