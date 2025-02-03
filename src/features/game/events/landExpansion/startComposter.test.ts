@@ -2,6 +2,8 @@ import Decimal from "decimal.js-light";
 import { startComposter } from "./startComposter";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
+import { SEASON_COMPOST_REQUIREMENTS } from "features/game/types/composters";
+import { getKeys } from "features/game/types/decorations";
 
 const season: TemperateSeasonName = "winter";
 
@@ -653,9 +655,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Apple: new Decimal(3),
-        Blueberry: new Decimal(3),
-        Egg: new Decimal(5),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
@@ -675,13 +681,19 @@ describe("start Premium Composter", () => {
     };
 
     const newState = startComposter({
+      createdAt: dateNow,
       state,
       action: { type: "composter.started", building: "Premium Composter" },
     });
 
-    expect(newState.inventory.Apple).toStrictEqual(new Decimal(0));
-    expect(newState.inventory.Blueberry).toStrictEqual(new Decimal(0));
-    expect(newState.inventory.Egg).toStrictEqual(new Decimal(0));
+    const requirements =
+      SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+        GAME_STATE.season.season
+      ];
+
+    getKeys(requirements).forEach((itemName) => {
+      expect(newState.inventory[itemName]).toEqual(new Decimal(0));
+    });
   });
 
   it("starts ExpertComposters", () => {
@@ -689,9 +701,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Apple: new Decimal(3),
-        Blueberry: new Decimal(3),
-        Egg: new Decimal(5),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
@@ -729,9 +745,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Apple: new Decimal(3),
-        Blueberry: new Decimal(3),
-        Egg: new Decimal(5),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
@@ -766,9 +786,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Apple: new Decimal(3),
-        Blueberry: new Decimal(3),
-        Egg: new Decimal(5),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
@@ -845,9 +869,13 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Apple: new Decimal(3),
-        Blueberry: new Decimal(3),
-        Egg: new Decimal(5),
+        ...Object.fromEntries(
+          Object.entries(
+            SEASON_COMPOST_REQUIREMENTS["Premium Composter"][
+              GAME_STATE.season.season
+            ],
+          ).map(([key, value]) => [key, new Decimal(value)]),
+        ),
       },
       buildings: {
         "Premium Composter": [
