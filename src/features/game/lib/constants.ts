@@ -197,13 +197,11 @@ export const INITIAL_STOCK = (
     );
   }
 
-  if (state) {
-    getKeys(seeds).forEach((seed) => {
-      if (seed in CROP_SEEDS || seed in PATCH_FRUIT_SEEDS) {
-        seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(2).toNumber()));
-      }
-    });
-  }
+  getKeys(seeds).forEach((seed) => {
+    if (seed in CROP_SEEDS || seed in PATCH_FRUIT_SEEDS) {
+      seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(2).toNumber()));
+    }
+  });
 
   return {
     // Tools

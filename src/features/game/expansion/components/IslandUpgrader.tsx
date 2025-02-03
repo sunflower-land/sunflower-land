@@ -26,14 +26,12 @@ import { formatDateTime } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 
-const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
-  state,
-) => ({
+const UPGRADE_DATES: Record<IslandType, number | null> = {
   basic: new Date(0).getTime(),
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
-  desert: new Date("2025-01-03T00:00:00Z").getTime(),
+  desert: new Date("2025-02-03T00:00:00Z").getTime(),
   volcano: null, // Next prestige after volcano
-});
+};
 
 const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
@@ -108,7 +106,7 @@ const IslandUpgraderModal: React.FC<{
     );
   }
 
-  const upgradeDate = UPGRADE_DATES(gameState.context.state)[island.type];
+  const upgradeDate = UPGRADE_DATES[island.type];
   const hasUpgrade = upgradeDate !== null;
   const isReady = hasUpgrade && upgradeDate < Date.now();
 

@@ -116,7 +116,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           "cursor-pointer hover:img-highlight": !!onClick,
         })}
         style={{
-          height: window.innerWidth >= 640 ? "80px" : "70px",
+          height: "70px",
         }}
         onClick={onClick}
       >
@@ -161,7 +161,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           image={SUNNYSIDE.ui.progressBarSprite}
           widthFrame={DIMENSIONS.original}
           heightFrame={DIMENSIONS.original}
-          zoomScale={new SpringValue(window.innerWidth >= 640 ? 0.7 : 1)}
+          zoomScale={new SpringValue(0.7)}
           fps={10}
           steps={SPRITE_STEPS}
           autoplay={false}

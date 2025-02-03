@@ -101,8 +101,9 @@ export function startComposter({
       throw new Error(translate("error.alr.composter"));
     }
 
-    const requires =
-      SEASON_COMPOST_REQUIREMENTS[building][stateCopy.season.season];
+    const requires = {
+      ...SEASON_COMPOST_REQUIREMENTS[building][stateCopy.season.season],
+    };
 
     if (!requires) {
       throw new Error(translate("error.alr.composter"));

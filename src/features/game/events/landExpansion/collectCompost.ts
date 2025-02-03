@@ -57,6 +57,10 @@ export function collectCompost({
       bumpkin?.activity,
     );
 
+    if (building.requires) {
+      delete building.requires;
+    }
+
     delete building.producing;
 
     delete building.boost;
