@@ -124,7 +124,7 @@ export const SmoothieShack: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 24}px`,
             height: `${PIXEL_SCALE * 32}px`,
             right: `${PIXEL_SCALE * 12}px`,
-            top: `${PIXEL_SCALE * 2}px`,
+            top: `${season === "summer" ? PIXEL_SCALE * 2 : PIXEL_SCALE * 0}px`,
           }}
         />
 
