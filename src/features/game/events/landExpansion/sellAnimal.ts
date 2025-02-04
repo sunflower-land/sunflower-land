@@ -5,7 +5,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { produce } from "immer";
-import { generateBountyTicket } from "./sellBounty";
+import { generateBountyTicket, generateBountyCoins } from "./sellBounty";
 
 export function isValidDeal({
   animal,
@@ -82,9 +82,11 @@ export function sellAnimal({
     delete animals[action.animalId];
 
     if (request.coins) {
-      game.coins += isSick
-        ? getSickAnimalRewardAmount(request.coins)
-        : request.coins;
+      const { coins } = generateBountyCoins({
+        game: state,
+        bounty: request,
+      });
+      game.coins += isSick ? getSickAnimalRewardAmount(coins) : coins;
     }
 
     getKeys(request.items ?? {}).forEach((name) => {
