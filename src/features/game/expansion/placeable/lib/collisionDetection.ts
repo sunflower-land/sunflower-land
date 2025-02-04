@@ -308,7 +308,7 @@ function detectHomeCollision({
   const placed = home.collectibles;
 
   const collidingItems = getKeys(placed).filter(
-    (name) => !NON_COLLIDING_OBJECTS.includes(name),
+    (other) => !NON_COLLIDING_OBJECTS.includes(other) && other !== name,
   );
 
   const placeableBounds = collidingItems.flatMap((name) => {
