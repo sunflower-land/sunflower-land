@@ -32,6 +32,10 @@ import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
+import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
+import { SeasonalSeed } from "../plots/components/SeasonalSeed";
+import { Modal } from "components/ui/Modal";
+import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -78,6 +82,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const [collectedFruitAmount, setCollectedFruitAmount] = useState<number>();
   const [collectedWoodAmount, setCollectedWoodAmount] = useState<number>();
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
   const fruitPatch = useSelector(
     gameService,
     (state) => state.context.state.fruitPatches[id],
@@ -105,9 +110,21 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     }
 
     if (
+      item &&
+      item in PATCH_FRUIT_SEEDS &&
+      !SEASONAL_SEEDS[game.season.season].includes(
+        item as PatchFruitSeedName,
+      ) &&
+      !isFullMoonBerry(item as PatchFruitSeedName)
+    ) {
+      setShowSeasonalSeed(true);
+      return;
+    }
+
+    if (
       hasFeatureAccess(game, "FRUIT_PATCH_QUICK_SELECT") &&
       enableQuickSelect &&
-      (!item || !(item in PATCH_FRUIT_SEEDS()) || !inventory[item]?.gte(1))
+      (!item || !(item in PATCH_FRUIT_SEEDS) || !inventory[item]?.gte(1))
     ) {
       setShowQuickSelect(true);
       return;
@@ -245,11 +262,17 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         className="flex bottom-20 left-10 absolute z-40"
       >
         <QuickSelect
-          options={getKeys(PATCH_FRUIT_SEEDS()).map((seed) => ({
-            name: seed as InventoryItemName,
-            icon: PATCH_FRUIT_SEEDS()[seed].yield as InventoryItemName,
-            showSecondaryImage: true,
-          }))}
+          options={getKeys(PATCH_FRUIT_SEEDS)
+            .filter(
+              (seed) =>
+                SEASONAL_SEEDS[game.season.season].includes(seed) ||
+                isFullMoonBerry(seed),
+            )
+            .map((seed) => ({
+              name: seed as InventoryItemName,
+              icon: PATCH_FRUIT_SEEDS[seed].yield as InventoryItemName,
+              showSecondaryImage: true,
+            }))}
           onClose={() => setShowQuickSelect(false)}
           onSelected={(seed) => {
             plantTree(seed as PatchFruitSeedName);
@@ -259,6 +282,14 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           showExpanded
         />
       </Transition>
+
+      <Modal show={showSeasonalSeed} onHide={() => setShowSeasonalSeed(false)}>
+        <SeasonalSeed
+          seed={selectedItem as SeedName}
+          season={game.season.season}
+          onClose={() => setShowSeasonalSeed(false)}
+        />
+      </Modal>
     </>
   );
 };

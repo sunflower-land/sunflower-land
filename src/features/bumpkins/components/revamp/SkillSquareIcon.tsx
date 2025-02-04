@@ -6,13 +6,14 @@ import tier2Book from "src/assets/icons/tier2_book.webp";
 import tier3Book from "src/assets/icons/tier3_book.webp";
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { BumpkinSkillTier } from "features/game/types/bumpkinSkills";
 
 interface Props {
   icon?: string;
   width?: number;
   className?: string;
   style?: CSSProperties;
-  tier: 1 | 2 | 3;
+  tier: BumpkinSkillTier;
   npc?: NPCName;
 }
 

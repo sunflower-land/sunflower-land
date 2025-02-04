@@ -198,10 +198,23 @@ export abstract class FactionHouseScene extends BaseScene {
 
   create() {
     super.create();
+
+    // Clear interval if setting up a new one
+    if (this.fetchInterval) {
+      clearInterval(this.fetchInterval);
+    }
+
     this.fetchInterval = setInterval(
       () => this.makeFetchRequest(),
       FACTION_PET_REFRESH_INTERVAL,
     );
+
+    // Clear if scene is shut down
+    this.events.once("shutdown", () => {
+      if (this.fetchInterval) {
+        clearInterval(this.fetchInterval);
+      }
+    });
   }
 
   async makeFetchRequest() {
@@ -216,18 +229,6 @@ export abstract class FactionHouseScene extends BaseScene {
     this.progress = this.calculatePetProgress();
 
     this.boostIcon?.setVisible((data.streak ?? 0) >= 3);
-  }
-
-  shutdown() {
-    if (this.fetchInterval) {
-      clearInterval(this.fetchInterval);
-    }
-  }
-
-  destroy() {
-    if (this.fetchInterval) {
-      clearInterval(this.fetchInterval);
-    }
   }
 
   set petState(newValue: PetStateSprite) {

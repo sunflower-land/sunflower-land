@@ -20,6 +20,11 @@ import Decimal from "decimal.js-light";
 import { getAnimalLevel } from "features/game/lib/animals";
 import { ANIMAL_LEVELS, AnimalLevel } from "features/game/types/animals";
 import { isMaxLevel } from "./feedAnimal";
+import { translate } from "lib/i18n/translate";
+import { CROPS } from "features/game/types/crops";
+import { canChop } from "./chop";
+import { canDrillOilReserve } from "./drillOilReserve";
+import { isReadyToHarvest } from "./harvest";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -134,7 +139,7 @@ function useAppleTastic({ game }: { game: GameState }): GameState {
     // Process each animal
     Object.values(animals).forEach((animal) => {
       const { state, experience, type, awakeAt } = animal;
-      if (state === "sick" || awakeAt > Date.now()) return;
+      if (state === "sick" || state === "ready" || awakeAt > Date.now()) return;
 
       const currentXP = experience;
       const currentLevel = getAnimalLevel(currentXP, type);
@@ -164,6 +169,200 @@ function useAppleTastic({ game }: { game: GameState }): GameState {
   return game;
 }
 
+export function powerSkillDisabledConditions({
+  state,
+  skillTree,
+  createdAt = Date.now(),
+}: {
+  state: GameState;
+  skillTree: BumpkinSkillRevamp;
+  createdAt?: number;
+}): {
+  disabled: boolean;
+  reason: string;
+} {
+  const {
+    bumpkin,
+    crops,
+    trees,
+    greenhouse: { pots },
+    oilReserves,
+    buildings,
+    inventory,
+    fruitPatches,
+    henHouse: { animals: henHouseAnimals },
+    barn: { animals: barnAnimals },
+    flowers: { flowerBeds },
+  } = state;
+  const { previousPowerUseAt } = bumpkin;
+
+  const { name: skillName, requirements } = skillTree as {
+    name: BumpkinRevampSkillName;
+  } & BumpkinSkillRevamp;
+  const { cooldown, items } = requirements;
+
+  const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + (cooldown ?? 0);
+
+  const powerSkillReady = nextSkillUse < createdAt;
+  const itemsRequired =
+    !items ||
+    Object.entries(items).every(([item, quantity]) =>
+      (inventory[item as InventoryItemName] ?? new Decimal(0)).gte(quantity),
+    );
+
+  // Base conditions for all skills
+  if (!powerSkillReady)
+    return { disabled: true, reason: "Power Skill on Cooldown" };
+  if (!itemsRequired) {
+    return {
+      disabled: true,
+      reason: translate("powerSkills.reason.insufficientItems"),
+    };
+  }
+
+  switch (skillName) {
+    // Crop fertiliser skills
+    case "Sprout Surge":
+    case "Root Rocket": {
+      const unfertilisedPlots = Object.values(crops).filter(
+        (plot) => !plot.fertiliser,
+      ).length;
+      const fertiliser =
+        skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root";
+      const fertiliserCount = inventory[fertiliser] ?? new Decimal(0);
+
+      if (fertiliserCount.lt(unfertilisedPlots)) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.insufficientFertiliser", {
+            fertiliser,
+          }),
+        };
+      }
+      if (unfertilisedPlots === 0) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.allPlotsFertilised"),
+        };
+      }
+      break;
+    }
+
+    // Fruit fertiliser skill
+    case "Blend-tastic": {
+      const unfertilisedPatches = Object.values(fruitPatches).filter(
+        (patch) => !patch.fertiliser,
+      ).length;
+      const fertiliserCount = inventory["Fruitful Blend"] ?? new Decimal(0);
+      if (fertiliserCount.lt(unfertilisedPatches)) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.insufficientFertiliser", {
+            fertiliser: "Fruitful Blend",
+          }),
+        };
+      }
+      if (unfertilisedPatches === 0) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.allFruitPatchesFertilised"),
+        };
+      }
+      break;
+    }
+
+    case "Instant Growth": {
+      // Checks if all plots are empty or ready to harvest.
+      const plotsStatus = Object.values(crops).map((plot) => {
+        if (!plot.crop) return "empty";
+        return isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])
+          ? "ready"
+          : "growing";
+      });
+      if (!plotsStatus.includes("growing")) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.noCropsGrowing"),
+        };
+      }
+      break;
+    }
+
+    case "Tree Blitz": {
+      if (Object.values(trees).every((tree) => canChop(tree))) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.noTreesRecovering"),
+        };
+      }
+      break;
+    }
+
+    case "Greenhouse Guru": {
+      if (Object.values(pots).every((pot) => !pot.plant)) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.noGreenhouseProduceGrowing"),
+        };
+      }
+      break;
+    }
+
+    case "Instant Gratification": {
+      if (
+        getKeys(BUILDING_DAILY_OIL_CAPACITY).every(
+          (building) => !buildings[building]?.[0].crafting,
+        )
+      ) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.noBuildingsAreCooking"),
+        };
+      }
+      break;
+    }
+
+    case "Petal Blessed": {
+      if (Object.values(flowerBeds).every((bed) => !bed.flower)) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.noFlowersGrowing"),
+        };
+      }
+      break;
+    }
+
+    case "Grease Lightning": {
+      if (
+        Object.values(oilReserves).every((reserve) =>
+          canDrillOilReserve(reserve),
+        )
+      ) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.noOilreservesRefilling"),
+        };
+      }
+      break;
+    }
+
+    case "Apple-Tastic": {
+      if (
+        Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
+          ({ state, awakeAt }) =>
+            state === "sick" || state === "ready" || awakeAt > Date.now(),
+        )
+      ) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.animalsSickReadyAsleep"),
+        };
+      }
+    }
+  }
+  return { disabled: false, reason: "" };
+}
+
 export function skillUse({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const {
@@ -182,7 +381,7 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
     const skillTree = BUMPKIN_REVAMP_SKILL_TREE[skill] as BumpkinSkillRevamp;
 
     const { requirements, power } = skillTree;
-    const { cooldown, items } = requirements;
+    const { items } = requirements;
 
     if (bumpkin == undefined) {
       throw new Error("You do not have a Bumpkin");
@@ -200,25 +399,14 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
       bumpkin.previousPowerUseAt = {};
     }
 
-    if (bumpkin.previousPowerUseAt[skill]) {
-      if (!cooldown) {
-        throw new Error("This skill can only be used once");
-      }
+    const { disabled, reason } = powerSkillDisabledConditions({
+      state: stateCopy,
+      skillTree,
+      createdAt,
+    });
 
-      const lastUse = bumpkin.previousPowerUseAt[skill] ?? 0;
-      if (lastUse + cooldown > createdAt) {
-        throw new Error("This skill is still under cooldown");
-      }
-    }
-
-    if (items) {
-      Object.entries(items).forEach(([item, quantity]) => {
-        const inventoryAmount =
-          inventory[item as InventoryItemName] ?? new Decimal(0);
-        if (inventoryAmount.lt(quantity)) {
-          throw new Error(`You do not have enough ${item}`);
-        }
-      });
+    if (disabled) {
+      throw new Error(reason);
     }
 
     // Skill is off cooldown, use it

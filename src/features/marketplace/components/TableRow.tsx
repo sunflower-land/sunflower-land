@@ -63,7 +63,7 @@ export const TableRow: React.FC<RowProps> = ({
     >
       <div className="p-1.5 truncate flex sm:w-1/3 items-center">
         <div className="flex items-center">
-          <div className="relative w-8 h-8 flex items-center">
+          <div className="relative w-6 sm:w-8 h-8 flex items-center">
             <NPCIcon
               width={24}
               parts={interpretTokenUri(createdBy.bumpkinUri).equipped}
@@ -72,11 +72,16 @@ export const TableRow: React.FC<RowProps> = ({
           <p className="hidden sm:block truncate py-1">{createdBy.username}</p>
         </div>
       </div>
-      <div className="p-1.5 truncate flex flex-1 items-center">
+      <div
+        className={classNames("p-1.5 truncate flex items-center", {
+          "flex-1": !isResource,
+          "w-1/4 sm:flex-1": isResource,
+        })}
+      >
         <div className="flex items-center justify-start space-x-1">
           <img
             src={details.image}
-            className="h-6 w-6 sm:h-8 sm:w-8 object-contain mr-3 sm:mr-4"
+            className="h-6 w-6 sm:h-8 sm:w-8 object-contain mr-1 sm:mr-4"
           />
           <p className="py-0.5 text-xxs sm:text-sm">
             {`${isResource ? quantity : details.name}`}
@@ -93,7 +98,7 @@ export const TableRow: React.FC<RowProps> = ({
           <div className="flex items-center justify-start space-x-1">
             <img src={token} className="h-6" />
             <div>
-              <span className="text-xxs sm:text-sm">{`${price.toFixed(2)} SFL`}</span>
+              <span className="text-xxs sm:text-sm">{`${formatNumber(price, { decimalPlaces: 4 })} SFL`}</span>
               {!isResource && (
                 <p className="text-xxs">
                   {`$${new Decimal(item.usd ?? 0).mul(price).toFixed(2)} USD`}

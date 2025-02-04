@@ -58,6 +58,8 @@ import {
 } from "features/game/actions/subscriptions";
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { isSupported } from "firebase/messaging";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -85,12 +87,20 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
   const [showNftId, setShowNftId] = useState(false);
+  const [notificationsSupported, setNotificationsSupported] = useState(false);
 
   const copypaste = useSound("copypaste");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
   const pwaInstall = usePWAInstall();
+
+  useEffect(() => {
+    const checkNotificationsSupported = async () => {
+      setNotificationsSupported(await isSupported());
+    };
+    checkNotificationsSupported();
+  }, []);
 
   const handleInstallApp = () => {
     if (isMobile && !isWeb3MobileBrowser) {
@@ -189,15 +199,28 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           onClick={() => onSubMenuClick("notifications")}
           className="mb-1 relative"
           // Not available in players browser
-          disabled={!("serviceWorker" in navigator && "PushManager" in window)}
+          disabled={
+            !(
+              "serviceWorker" in navigator &&
+              "PushManager" in window &&
+              notificationsSupported
+            )
+          }
         >
-          {t("gameOptions.notifications")}
-          {!!gameService.state.context.fslId && (
-            <img
-              src={SUNNYSIDE.icons.confirm}
-              className="absolute right-1 top-0.5 h-7"
-            />
-          )}
+          <div className="flex items-center space-x-1">
+            <span>{t("gameOptions.notifications")}</span>
+            {!(
+              "serviceWorker" in navigator &&
+              "PushManager" in window &&
+              notificationsSupported
+            ) && (
+              <Label type="info" className="mt-0.5">
+                <span className=" text-xxs sm:text-xs">
+                  {t("gameOptions.notifications.notSupported")}
+                </span>
+              </Label>
+            )}
+          </div>
         </Button>
       )}
       <Button
@@ -260,6 +283,8 @@ interface GameOptionsModalProps {
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
+const _farmId = (state: MachineState) => state.context.farmId;
+
 const preloadSubscriptions = async (token: string, farmId: number) => {
   preload(
     ["/notifications/subscriptions", token, farmId],
@@ -275,12 +300,13 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
 
   const token = useSelector(authService, _token);
   const { gameService } = useContext(GameContext);
+  const farmId = useSelector(gameService, _farmId);
   const [selected, setSelected] = useState<SettingMenuId>("main");
 
   useEffect(() => {
-    preloadSubscriptions(token, gameService.state.context.farmId);
+    if (farmId) preloadSubscriptions(token, farmId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [farmId]);
 
   const onHide = async () => {
     onClose();

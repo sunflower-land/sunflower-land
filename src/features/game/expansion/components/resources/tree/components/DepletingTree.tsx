@@ -5,15 +5,21 @@ import Spritesheet, {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
+import { CHOPPED_SHEET_VARIANTS } from "features/island/lib/alternateArt";
+import { TemperateSeasonName } from "features/game/types/game";
 
 const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
 const CHOPPED_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
   resourceAmount?: number;
+  season: TemperateSeasonName;
 }
 
-const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
+const DepletingTreeComponent: React.FC<Props> = ({
+  resourceAmount,
+  season,
+}) => {
   const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
   const choppedGif = useRef<SpriteSheetInstance>();
@@ -40,7 +46,7 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
           spritesheet.goToAndPlay(0);
           setPlaying(true);
         }}
-        image={SUNNYSIDE.resource.choppedSheet}
+        image={CHOPPED_SHEET_VARIANTS[season]}
         widthFrame={CHOPPED_SHEET_FRAME_WIDTH}
         heightFrame={CHOPPED_SHEET_FRAME_HEIGHT}
         zoomScale={scale}

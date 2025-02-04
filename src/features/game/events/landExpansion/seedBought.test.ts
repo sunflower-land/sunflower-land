@@ -33,6 +33,10 @@ describe("seedBought", () => {
             ...INITIAL_BUMPKIN,
             experience: 0,
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -146,6 +150,10 @@ describe("seedBought", () => {
           ...INITIAL_BUMPKIN,
           experience: 200,
         },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
       },
       action: {
         item,
@@ -171,6 +179,10 @@ describe("seedBought", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: 200,
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
         },
       },
       action: {
@@ -493,6 +505,10 @@ describe("seedBought", () => {
           inventory: {
             "Fruit Patch": new Decimal(0),
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -510,6 +526,10 @@ describe("seedBought", () => {
           coins: Infinity,
           inventory: {
             "Fruit Patch": new Decimal(1),
+          },
+          season: {
+            season: "autumn",
+            startedAt: 0,
           },
         },
         action: {
@@ -530,6 +550,10 @@ describe("seedBought", () => {
           inventory: {
             "Fruit Patch": new Decimal(0),
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -548,6 +572,10 @@ describe("seedBought", () => {
           inventory: {
             "Fruit Patch": new Decimal(1),
           },
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
         },
         action: {
           type: "seed.bought",
@@ -556,5 +584,18 @@ describe("seedBought", () => {
         },
       }),
     ).not.toThrow();
+  });
+
+  it("requires full moon to buy full moon berry seeds", () => {
+    expect(() =>
+      seedBought({
+        state: GAME_STATE,
+        action: {
+          type: "seed.bought",
+          item: "Duskberry Seed",
+          amount: 1,
+        },
+      }),
+    ).toThrow("Not a full moon");
   });
 });

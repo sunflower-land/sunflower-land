@@ -8,7 +8,7 @@ import {
   BUMPKIN_SKILL_TREE,
 } from "features/game/types/bumpkinSkills";
 
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { getAvailableBumpkinOldSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
@@ -104,7 +104,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   const { bumpkin } = state;
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinOldSkillPoints(bumpkin);
   const hasSelectedSkill = !!bumpkin?.skills[selectedSkill];
 
   const { points: pointsRequired, skill: skillRequired } =

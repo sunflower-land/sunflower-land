@@ -55,7 +55,7 @@ import { PlaceableLocation } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
-  getSeasonPassRead,
+  getVipRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -98,10 +98,9 @@ import {
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
-import { hasFeatureAccess } from "lib/flags";
-import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
-import { getActiveCalenderEvent } from "../types/calendar";
+import { hasVipAccess } from "./vipAccess";
+import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -286,9 +285,7 @@ type TransactEvent = {
 };
 
 export type BlockchainEvent =
-  | {
-      type: "SAVE";
-    }
+  | { type: "SAVE" }
   | TransactEvent
   | WalletUpdatedEvent
   | CommunityEvent
@@ -296,48 +293,20 @@ export type BlockchainEvent =
   | DeleteTradeListingEvent
   | FulfillTradeListingEvent
   | SellMarketResourceEvent
-  | {
-      type: "REFRESH";
-    }
-  | {
-      type: "ACKNOWLEDGE";
-    }
-  | {
-      type: "EXPIRED";
-    }
-  | {
-      type: "CONTINUE";
-      id?: string;
-    }
-  | {
-      type: "RESET";
-    }
-  | {
-      type: "DEPOSIT";
-    }
-  | {
-      type: "PAUSE";
-    }
-  | {
-      type: "PLAY";
-    }
-  | {
-      type: "REVEAL";
-    }
-  | {
-      type: "SKIP_MIGRATION";
-    }
+  | { type: "REFRESH" }
+  | { type: "ACKNOWLEDGE" }
+  | { type: "EXPIRED" }
+  | { type: "CONTINUE"; id?: string }
+  | { type: "RESET" }
+  | { type: "DEPOSIT" }
+  | { type: "PAUSE" }
+  | { type: "PLAY" }
+  | { type: "REVEAL" }
+  | { type: "SKIP_MIGRATION" }
   | { type: "END_VISIT" }
-  | {
-      type: "PROVE_PERSONHOOD";
-    }
-  | {
-      type: "PERSONHOOD_FINISHED";
-      verified: boolean;
-    }
-  | {
-      type: "PERSONHOOD_CANCELLED";
-    }
+  | { type: "PROVE_PERSONHOOD" }
+  | { type: "PERSONHOOD_FINISHED"; verified: boolean }
+  | { type: "PERSONHOOD_CANCELLED" }
   | GameEvent
   | LandscapeEvent
   | VisitEvent
@@ -543,7 +512,7 @@ export type BlockchainState = {
     | "transacting"
     | "depositing"
     | "landscaping"
-    | "specialOffer"
+    | "vip"
     | "promo"
     | "trading"
     | "listing"
@@ -894,11 +863,48 @@ export function startGame(authContext: AuthContext) {
               cond: () => isSwarming(),
             },
             {
-              target: "specialOffer",
-              cond: (context) =>
-                (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Bull Run Banner"] &&
-                !getSeasonPassRead(),
+              target: "vip",
+              cond: (context) => {
+                const isNew = context.state.bumpkin.experience < 100;
+
+                // Don't show for new players
+                if (isNew) return false;
+
+                // Wow, they haven't seen the VIP promo in 1 month
+                const readAt = getVipRead();
+                if (
+                  !hasVipAccess({ game: context.state }) &&
+                  (!readAt ||
+                    readAt.getTime() <
+                      Date.now() - 1 * 31 * 24 * 60 * 60 * 1000)
+                ) {
+                  return true;
+                }
+
+                const vip = context.state.vip;
+
+                // Show them a reminder if it is expiring in 3 days
+                const isExpiring =
+                  vip &&
+                  vip.expiresAt &&
+                  vip.expiresAt < Date.now() + 3 * 24 * 60 * 60 * 1000 &&
+                  // Haven't read since expiry approached
+                  (readAt?.getTime() ?? 0) <
+                    vip.expiresAt - 3 * 24 * 60 * 60 * 1000;
+
+                if (isExpiring) return true;
+
+                const hasExpired =
+                  vip &&
+                  vip.expiresAt &&
+                  vip.expiresAt < Date.now() &&
+                  // Hasn't read since expired
+                  (readAt?.getTime() ?? 0) < vip.expiresAt;
+
+                if (hasExpired) return true;
+
+                return false;
+              },
             },
             {
               target: "somethingArrived",
@@ -909,7 +915,9 @@ export function startGame(authContext: AuthContext) {
               target: "seasonChanged",
               cond: (context) => {
                 return (
-                  hasFeatureAccess(context.state, "TEMPERATE_SEASON") &&
+                  context.state.island.type !== "basic" &&
+                  (context.state.island.upgradedAt ?? 0) <
+                    context.state.season.startedAt &&
                   context.state.season.startedAt !==
                     getLastTemperateSeasonStartedAt()
                 );
@@ -919,20 +927,17 @@ export function startGame(authContext: AuthContext) {
             {
               target: "calendarEvent",
               cond: (context) => {
-                if (!hasFeatureAccess(context.state, "WEATHER_SHOP")) {
-                  return false;
-                }
-
                 const game = context.state;
 
-                const activeEvent = getActiveCalenderEvent({
+                const activeEvent = getActiveCalendarEvent({
                   game,
                 });
 
                 if (!activeEvent) return false;
 
                 const isAcknowledged =
-                  game?.calendar[activeEvent]?.acknowledgedAt;
+                  game?.calendar[activeEvent as SeasonalEventName]
+                    ?.acknowledgedAt;
 
                 return !isAcknowledged;
               },
@@ -981,34 +986,34 @@ export function startGame(authContext: AuthContext) {
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
-            {
-              target: "competition",
-              cond: (context: Context) => {
-                if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
-                  return false;
+            // {
+            //   target: "competition",
+            //   cond: (context: Context) => {
+            //     if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
+            //       return false;
 
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
+            //     // TODO is competition active?
 
-                if (level <= 5) return false;
+            //     const level = getBumpkinLevel(
+            //       context.state.bumpkin?.experience ?? 0,
+            //     );
 
-                const competition = context.state.competitions.progress.ANIMALS;
+            //     if (level <= 5) return false;
 
-                // Show the competition introduction if they have not started it yet
-                return !competition;
-              },
-            },
+            //     const competition = context.state.competitions.progress.ANIMALS;
+
+            //     // Show the competition introduction if they have not started it yet
+            //     return !competition;
+            //   },
+            // },
             {
               target: "playing",
             },
           ],
         },
-        specialOffer: {
+        vip: {
           on: {
-            "banner.purchased": (GAME_EVENT_HANDLERS as any)[
-              "banner.purchased"
-            ],
+            "vip.purchased": (GAME_EVENT_HANDLERS as any)["vip.purchased"],
             ACKNOWLEDGE: {
               target: "notifying",
             },
@@ -1033,11 +1038,15 @@ export function startGame(authContext: AuthContext) {
         },
         calendarEvent: {
           on: {
+            "daily.reset": (GAME_EVENT_HANDLERS as any)["daily.reset"],
             "calendarEvent.acknowledged": (GAME_EVENT_HANDLERS as any)[
               "calendarEvent.acknowledged"
             ],
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+            CONTINUE: {
+              target: "autosaving",
             },
           },
         },
@@ -1339,13 +1348,12 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "seasonChanged",
                 cond: (context, event) => {
-                  if (!hasFeatureAccess(context.state, "TEMPERATE_SEASON")) {
-                    return false;
-                  }
-
                   return (
+                    context.state.island.type !== "basic" &&
+                    (context.state.island.upgradedAt ?? 0) <
+                      event.data.farm.seasonStartedAt &&
                     event.data.farm.season.startedAt !==
-                    getLastTemperateSeasonStartedAt()
+                      getLastTemperateSeasonStartedAt()
                   );
                 },
                 actions: assign((context: Context, event) =>
@@ -1355,13 +1363,9 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "calendarEvent",
                 cond: (_, event) => {
-                  if (!hasFeatureAccess(event.data.farm, "WEATHER_SHOP")) {
-                    return false;
-                  }
-
                   const game = event.data.farm;
 
-                  const activeEvent = getActiveCalenderEvent({
+                  const activeEvent = getActiveCalendarEvent({
                     game,
                   });
 

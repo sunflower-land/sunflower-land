@@ -513,10 +513,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Fruit Aficionado": {
     description: translate("fruitAficionado.description"),
     progress: (gameState: GameState) => {
-      const fruits = [
-        ...getKeys(PATCH_FRUIT()),
-        ...getKeys(GREENHOUSE_FRUIT()),
-      ];
+      const fruits = [...getKeys(PATCH_FRUIT), ...getKeys(GREENHOUSE_FRUIT)];
       const harvestEvents = fruits.map(
         (name) => `${name} Harvested` as HarvestEvent,
       );
@@ -558,10 +555,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Fruit Platter": {
     description: translate("fruitPlatter.description"),
     progress: (gameState: GameState) => {
-      const fruits = [
-        ...getKeys(PATCH_FRUIT()),
-        ...getKeys(GREENHOUSE_FRUIT()),
-      ];
+      const fruits = [...getKeys(PATCH_FRUIT), ...getKeys(GREENHOUSE_FRUIT)];
       const harvestEvents = fruits.map(
         (name) => `${name} Harvested` as HarvestEvent,
       );

@@ -1,4 +1,4 @@
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
 import { upgrade } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
@@ -102,7 +102,7 @@ describe("upgradeFarm", () => {
         oilReserves: {
           oil: {
             oil: {
-              amount: 1,
+              amount: 10,
               drilledAt: 1,
             },
             createdAt: 1,
@@ -302,26 +302,6 @@ describe("upgradeFarm", () => {
     expect(state.island.previousExpansions).toEqual(16);
   });
 
-  it("does not allow a player to upgrade from desert island", () => {
-    expect(() =>
-      upgrade({
-        action: {
-          type: "farm.upgraded",
-        },
-        state: {
-          ...TEST_FARM,
-          island: {
-            type: "desert",
-          },
-          inventory: {
-            "Basic Land": new Decimal(16),
-            Gold: new Decimal(1000000000000),
-          },
-        },
-      }),
-    ).toThrow("Not implemented");
-  });
-
   it("removes items which have expired on the land", () => {
     const createdAt = Date.now();
 
@@ -448,6 +428,69 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Super Totem"]).toEqual(new Decimal(1));
   });
 
+  it("removes hourglasses which have expired on the land", () => {
+    const createdAt = Date.now();
+
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Gold: new Decimal(15),
+          "Orchard Hourglass": new Decimal(1),
+        },
+        collectibles: {
+          "Orchard Hourglass": [
+            {
+              id: "1",
+              readyAt: Date.now() - 6 * 60 * 60 * 1000,
+              createdAt: Date.now() - 6 * 60 * 60 * 1000 - 1,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Orchard Hourglass"]).toEqual(new Decimal(0));
+  });
+
+  it("it does not remove hourglasses that have not yet expired", () => {
+    const createdAt = Date.now();
+
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Gold: new Decimal(15),
+          "Super Totem": new Decimal(1),
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "1",
+              // Still active
+              readyAt: Date.now() - 1 * 60 * 60 * 1000,
+              createdAt: Date.now() - 1 * 60 * 60 * 1000,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Super Totem"]).toEqual(new Decimal(1));
+  });
+
   it("does not remove sunstones", () => {
     const createdAt = Date.now();
     const sunstones = {
@@ -483,7 +526,7 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Sunstone"]).toEqual(new Decimal(1));
     expect(state.sunstones).toEqual({
       ...sunstones,
-      "1234": { ...sunstones["1234"], x: -3, y: 7 },
+      "1234": { ...sunstones["1234"], x: -5, y: 5 },
     });
   });
 
@@ -544,7 +587,7 @@ describe("upgradeFarm", () => {
 
     expect(state.inventory["Sunstone"]).toEqual(new Decimal(1));
     expect(state.sunstones).toEqual({
-      "1234": { ...sunstones["1234"], x: -3, y: 7 },
+      "1234": { ...sunstones["1234"], x: -5, y: 5 },
     });
   });
 
@@ -629,5 +672,129 @@ describe("upgradeFarm", () => {
     });
 
     expect(state.island.sunstones).toEqual(100);
+  });
+
+  it("allows a player to upgrade from desert island", () => {
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(1000000000000),
+        },
+      },
+    });
+
+    expect(state.inventory.Mansion).toEqual(new Decimal(1));
+    expect(state.inventory.Manor).toBeUndefined();
+    expect(state.island.type).toEqual("volcano");
+  });
+
+  it("does not allow a player to upgrade from volcano island", () => {
+    expect(() =>
+      upgrade({
+        action: {
+          type: "farm.upgraded",
+        },
+        state: {
+          ...INITIAL_FARM,
+          island: {
+            type: "volcano",
+          },
+          inventory: {
+            "Basic Land": new Decimal(16),
+            Oil: new Decimal(1000000000000),
+          },
+        },
+      }),
+    ).toThrow("Not implemented");
+  });
+
+  it("does not remove buds from home on upgrade", () => {
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+        },
+        island: {
+          type: "desert",
+        },
+        buds: {
+          "1": {
+            type: "Beach",
+            colour: "Beige",
+            stem: "3 Leaf Clover",
+            aura: "Basic",
+            ears: "Ears",
+            location: "home",
+            coordinates: { x: 0, y: 0 },
+          },
+        },
+      },
+    });
+
+    expect(state.buds).toEqual({
+      "1": {
+        type: "Beach",
+        colour: "Beige",
+        stem: "3 Leaf Clover",
+        aura: "Basic",
+        ears: "Ears",
+        location: "home",
+        coordinates: { x: 0, y: 0 },
+      },
+    });
+  });
+
+  it("removes buds from farm on upgrade", () => {
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+        },
+        island: {
+          type: "desert",
+        },
+        buds: {
+          "1": {
+            type: "Beach",
+            colour: "Beige",
+            stem: "3 Leaf Clover",
+            aura: "Basic",
+            ears: "Ears",
+            location: "farm",
+            coordinates: { x: 0, y: 0 },
+          },
+        },
+      },
+    });
+
+    expect(state.buds).toEqual({
+      "1": {
+        type: "Beach",
+        colour: "Beige",
+        stem: "3 Leaf Clover",
+        aura: "Basic",
+        ears: "Ears",
+        coordinates: undefined,
+        location: undefined,
+      },
+    });
   });
 });

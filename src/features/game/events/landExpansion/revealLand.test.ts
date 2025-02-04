@@ -144,6 +144,7 @@ describe("totalExpansions", () => {
       Beehive: 0,
       Tree: 3,
       "Oil Reserve": 0,
+      "Lava Pit": 0,
     };
 
     let expansion = 4;

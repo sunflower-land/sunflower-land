@@ -1,6 +1,8 @@
 import { GameState, InventoryItemName, IslandType } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
+import { Nodes, TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
+import { getKeys } from "./decorations";
+import { RESOURCE_NODE_PRICES } from "../events/landExpansion/buyResource";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -124,11 +126,25 @@ export function getLand({
     land = DESERT_LAYOUTS()[expansion];
   }
 
+  if (game.island.type === "volcano") {
+    land = VOLCANO_LAYOUTS()[expansion];
+  }
+
   if (!land) {
     return null;
   }
 
-  const expectedResources = TOTAL_EXPANSION_NODES[game.island.type][expansion];
+  const expectedResources = {
+    ...TOTAL_EXPANSION_NODES[game.island.type][expansion],
+  };
+
+  // If they have bought resource nodes, we expect they should have more resources.
+  getKeys(RESOURCE_NODE_PRICES).forEach((resource) => {
+    const bought = game.farmActivity[`${resource} Bought`] ?? 0;
+
+    expectedResources[resource as keyof Nodes] =
+      (expectedResources[resource as keyof Nodes] ?? 0) + bought;
+  });
 
   // Remove any resources if they are past the limit already
   const availableTrees =
@@ -188,6 +204,12 @@ export function getLand({
     expectedResources["Oil Reserve"] -
     (game.inventory["Oil Reserve"]?.toNumber() ?? 0);
   land.oilReserves = land.oilReserves?.slice(0, availableOilReserves);
+
+  // Add Lava
+  const availableLavaPit =
+    expectedResources["Lava Pit"] -
+    (game.inventory["Lava Pit"]?.toNumber() ?? 0);
+  land.lavaPits = land.lavaPits?.slice(0, availableLavaPit);
 
   return land;
 }
@@ -1961,6 +1983,479 @@ export const DESERT_LAYOUTS: () => Record<number, Layout> = () => ({
   25: DESERT_LAND_25_LAYOUT(),
 });
 
+export const VOLCANO_LAND_6_LAYOUT: () => Layout = () => ({
+  id: "volcano_6",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_7_LAYOUT: () => Layout = () => ({
+  id: "volcano_7",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
+});
+
+export const VOLCANO_LAND_8_LAYOUT: () => Layout = () => ({
+  id: "volcano_8",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_9_LAYOUT: () => Layout = () => ({
+  id: "volcano_9",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_10_LAYOUT: () => Layout = () => ({
+  id: "volcano_10",
+  plots: [],
+  fruitPatches: [],
+  gold: [
+    {
+      x: -1,
+      y: 0,
+    },
+  ],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_11_LAYOUT: () => Layout = () => ({
+  id: "volcano_11",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_12_LAYOUT: () => Layout = () => ({
+  id: "volcano_12",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: 0,
+      y: 1,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_13_LAYOUT: () => Layout = () => ({
+  id: "volcano_13",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_14_LAYOUT: () => Layout = () => ({
+  id: "volcano_14",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_15_LAYOUT: () => Layout = () => ({
+  id: "volcano_15",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [
+    {
+      x: 1,
+      y: 0,
+    },
+  ],
+});
+
+export const VOLCANO_LAND_16_LAYOUT: () => Layout = () => ({
+  id: "volcano_16",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [
+    {
+      x: -1,
+      y: 1,
+    },
+  ],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_17_LAYOUT: () => Layout = () => ({
+  id: "volcano_17",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: 0,
+      y: -1,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_18_LAYOUT: () => Layout = () => ({
+  id: "volcano_18",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_19_LAYOUT: () => Layout = () => ({
+  id: "volcano_19",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: 1,
+      y: -1,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_20_LAYOUT: () => Layout = () => ({
+  id: "volcano_20",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_21_LAYOUT: () => Layout = () => ({
+  id: "volcano_21",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: -1,
+      y: -1,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_22_LAYOUT: () => Layout = () => ({
+  id: "volcano_22",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_23_LAYOUT: () => Layout = () => ({
+  id: "volcano_23",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [
+    {
+      x: 0,
+      y: 1,
+    },
+  ],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_24_LAYOUT: () => Layout = () => ({
+  id: "volcano_24",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [
+    {
+      x: -1,
+      y: 0,
+    },
+  ],
+});
+
+export const VOLCANO_LAND_25_LAYOUT: () => Layout = () => ({
+  id: "volcano_25",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_26_LAYOUT: () => Layout = () => ({
+  id: "volcano_26",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_27_LAYOUT: () => Layout = () => ({
+  id: "volcano_27",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_28_LAYOUT: () => Layout = () => ({
+  id: "volcano_28",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: 0,
+      y: -1,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_29_LAYOUT: () => Layout = () => ({
+  id: "volcano_29",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAND_30_LAYOUT: () => Layout = () => ({
+  id: "volcano_30",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: 1,
+      y: 0,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  oilReserves: [],
+  lavaPits: [],
+});
+
+export const VOLCANO_LAYOUTS: () => Record<number, Layout> = () => ({
+  6: VOLCANO_LAND_6_LAYOUT(),
+  7: VOLCANO_LAND_7_LAYOUT(),
+  8: VOLCANO_LAND_8_LAYOUT(),
+  9: VOLCANO_LAND_9_LAYOUT(),
+  10: VOLCANO_LAND_10_LAYOUT(),
+  11: VOLCANO_LAND_11_LAYOUT(),
+  12: VOLCANO_LAND_12_LAYOUT(),
+  13: VOLCANO_LAND_13_LAYOUT(),
+  14: VOLCANO_LAND_14_LAYOUT(),
+  15: VOLCANO_LAND_15_LAYOUT(),
+  16: VOLCANO_LAND_16_LAYOUT(),
+  17: VOLCANO_LAND_17_LAYOUT(),
+  18: VOLCANO_LAND_18_LAYOUT(),
+  19: VOLCANO_LAND_19_LAYOUT(),
+  20: VOLCANO_LAND_20_LAYOUT(),
+  21: VOLCANO_LAND_21_LAYOUT(),
+  22: VOLCANO_LAND_22_LAYOUT(),
+  23: VOLCANO_LAND_23_LAYOUT(),
+  24: VOLCANO_LAND_24_LAYOUT(),
+  25: VOLCANO_LAND_25_LAYOUT(),
+  26: VOLCANO_LAND_26_LAYOUT(),
+  27: VOLCANO_LAND_27_LAYOUT(),
+  28: VOLCANO_LAND_28_LAYOUT(),
+  29: VOLCANO_LAND_29_LAYOUT(),
+  30: VOLCANO_LAND_30_LAYOUT(),
+});
+
 export type Layout = {
   id: string;
   trees: Coordinates[];
@@ -1974,6 +2469,7 @@ export type Layout = {
   flowerBeds?: Coordinates[];
   fruitPatches?: Coordinates[];
   oilReserves?: Coordinates[];
+  lavaPits?: Coordinates[];
 };
 
 /**
@@ -2722,6 +3218,422 @@ const DESERT_LAND_25_REQUIREMENTS: Requirements = {
   bumpkinLevel: 75,
 };
 
+const VOLCANO_LAND_6_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 100,
+    Stone: 50,
+    Iron: 30,
+    Gold: 10,
+  },
+  sfl: 0,
+  coins: 0,
+  seconds: 10, // 10 seconds
+  bumpkinLevel: 70,
+};
+
+const VOLCANO_LAND_7_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 200,
+    Stone: 75,
+    Iron: 25,
+    Gold: 15,
+    Crimstone: 4,
+    Oil: 30,
+    Gem: LAND_GEM_RATIO * 2,
+  },
+  sfl: 0,
+  coins: 320,
+  seconds: 5 * 60, // 5 minutes
+  bumpkinLevel: 72,
+};
+
+const VOLCANO_LAND_8_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 300,
+    Stone: 100,
+    Iron: 40,
+    Gold: 20,
+    Crimstone: 8,
+    Oil: 60,
+    Gem: LAND_GEM_RATIO * 2,
+  },
+  sfl: 0,
+  coins: 640,
+  seconds: 0.5 * 60 * 60, // 30 minutes
+  bumpkinLevel: 74,
+};
+
+const VOLCANO_LAND_9_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 400,
+    Stone: 150,
+    Iron: 35,
+    Gold: 25,
+    Crimstone: 12,
+    Oil: 90,
+    Gem: LAND_GEM_RATIO * 4,
+  },
+  sfl: 0,
+  coins: 960,
+  seconds: 1 * 60 * 60, // 1 hour
+  bumpkinLevel: 76,
+};
+
+const VOLCANO_LAND_10_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 450,
+    Stone: 200,
+    Iron: 30,
+    Gold: 20,
+    Crimstone: 16,
+    Oil: 120,
+    Obsidian: 1,
+    Gem: LAND_GEM_RATIO * 4,
+  },
+  sfl: 0,
+  coins: 1600,
+  seconds: 2 * 60 * 60, // 2 hours
+  bumpkinLevel: 78,
+};
+
+const VOLCANO_LAND_11_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 500,
+    Stone: 175,
+    Iron: 30,
+    Gold: 30,
+    Crimstone: 20,
+    Oil: 100,
+    Gem: LAND_GEM_RATIO * 6,
+  },
+  sfl: 0,
+  coins: 2500,
+  seconds: 4 * 60 * 60, // 4 hours
+  bumpkinLevel: 80,
+};
+
+const VOLCANO_LAND_12_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 650,
+    Stone: 225,
+    Iron: 25,
+    Gold: 25,
+    Crimstone: 24,
+    Oil: 100,
+    Obsidian: 2,
+    Gem: LAND_GEM_RATIO * 10,
+  },
+  sfl: 0,
+  coins: 3200,
+  seconds: 8 * 60 * 60, // 8 hours
+  bumpkinLevel: 82,
+};
+
+const VOLCANO_LAND_13_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 550,
+    Stone: 200,
+    Iron: 40,
+    Gold: 30,
+    Crimstone: 28,
+    Oil: 100,
+    Gem: LAND_GEM_RATIO * 10,
+  },
+  sfl: 0,
+  coins: 4000,
+  seconds: 12 * 60 * 60, // 12 hours
+  bumpkinLevel: 84,
+};
+
+const VOLCANO_LAND_14_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 700,
+    Stone: 250,
+    Iron: 35,
+    Gold: 35,
+    Crimstone: 32,
+    Oil: 100,
+    Obsidian: 1,
+    Gem: LAND_GEM_RATIO * 10,
+  },
+  sfl: 0,
+  coins: 4800,
+  seconds: 12 * 60 * 60, // 12 hours
+  bumpkinLevel: 86,
+};
+
+const VOLCANO_LAND_15_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 650,
+    Stone: 200,
+    Iron: 30,
+    Gold: 40,
+    Crimstone: 36,
+    Oil: 200,
+    Obsidian: 2,
+    Gem: LAND_GEM_RATIO * 10,
+  },
+  sfl: 0,
+  coins: 5600,
+  seconds: 24 * 60 * 60, // 24 hours
+  bumpkinLevel: 88,
+};
+
+const VOLCANO_LAND_16_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 750,
+    Stone: 250,
+    Iron: 40,
+    Gold: 30,
+    Crimstone: 40,
+    Oil: 200,
+    Obsidian: 4,
+    Gem: LAND_GEM_RATIO * 10,
+  },
+  sfl: 0,
+  coins: 6400,
+  seconds: 24 * 60 * 60, // 24 hours
+  bumpkinLevel: 90,
+};
+
+const VOLCANO_LAND_17_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 700,
+    Stone: 200,
+    Iron: 35,
+    Gold: 35,
+    Crimstone: 44,
+    Oil: 200,
+    Obsidian: 4,
+    Gem: LAND_GEM_RATIO * 10,
+  },
+  sfl: 0,
+  coins: 8000,
+  seconds: 24 * 60 * 60, // 24 hours
+  bumpkinLevel: 92,
+};
+
+const VOLCANO_LAND_18_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 800,
+    Stone: 300,
+    Iron: 45,
+    Gold: 45,
+    Crimstone: 48,
+    Oil: 200,
+    Obsidian: 6,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 10000,
+  seconds: 36 * 60 * 60, // 36 hours
+  bumpkinLevel: 94,
+};
+
+const VOLCANO_LAND_19_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 750,
+    Stone: 250,
+    Iron: 40,
+    Gold: 40,
+    Crimstone: 52,
+    Oil: 200,
+    Obsidian: 6,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 12800,
+  seconds: 36 * 60 * 60, // 36 hours
+  bumpkinLevel: 96,
+};
+
+const VOLCANO_LAND_20_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 850,
+    Stone: 300,
+    Iron: 45,
+    Gold: 30,
+    Crimstone: 56,
+    Oil: 200,
+    Obsidian: 8,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 15000,
+  seconds: 48 * 60 * 60, // 48 hours
+  bumpkinLevel: 98,
+};
+
+const VOLCANO_LAND_21_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 900,
+    Stone: 325,
+    Iron: 50,
+    Gold: 35,
+    Crimstone: 60,
+    Oil: 200,
+    Obsidian: 8,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 18000,
+  seconds: 48 * 60 * 60, // 48 hours
+  bumpkinLevel: 100,
+};
+
+const VOLCANO_LAND_22_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 800,
+    Stone: 300,
+    Iron: 45,
+    Gold: 30,
+    Crimstone: 64,
+    Oil: 200,
+    Obsidian: 10,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 21000,
+  seconds: 48 * 60 * 60, // 48 hours
+  bumpkinLevel: 102,
+};
+
+const VOLCANO_LAND_23_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 950,
+    Stone: 350,
+    Iron: 50,
+    Gold: 35,
+    Crimstone: 68,
+    Oil: 200,
+    Obsidian: 10,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 25000,
+  seconds: 48 * 60 * 60, // 48 hours
+  bumpkinLevel: 104,
+};
+
+const VOLCANO_LAND_24_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1000,
+    Stone: 400,
+    Iron: 55,
+    Gold: 40,
+    Crimstone: 72,
+    Oil: 300,
+    Obsidian: 12,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 28000,
+  seconds: 48 * 60 * 60, // 48 hours
+  bumpkinLevel: 106,
+};
+
+const VOLCANO_LAND_25_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1100,
+    Stone: 450,
+    Iron: 60,
+    Gold: 35,
+    Crimstone: 80,
+    Oil: 300,
+    Obsidian: 12,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 32000,
+  seconds: 60 * 60 * 60, // 60 hours
+  bumpkinLevel: 108,
+};
+
+const VOLCANO_LAND_26_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1200,
+    Stone: 350,
+    Iron: 65,
+    Gold: 30,
+    Crimstone: 85,
+    Oil: 300,
+    Obsidian: 18,
+    Gem: LAND_GEM_RATIO * 12,
+  },
+  sfl: 0,
+  coins: 35000,
+  seconds: 60 * 60 * 60, // 60 hours
+  bumpkinLevel: 110,
+};
+
+const VOLCANO_LAND_27_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1250,
+    Stone: 450,
+    Iron: 70,
+    Gold: 40,
+    Crimstone: 95,
+    Oil: 300,
+    Obsidian: 24,
+    Gem: LAND_GEM_RATIO * 15,
+  },
+  sfl: 0,
+  coins: 38000,
+  seconds: 60 * 60 * 60, // 60 hours
+  bumpkinLevel: 112,
+};
+
+const VOLCANO_LAND_28_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1150,
+    Stone: 500,
+    Iron: 60,
+    Gold: 45,
+    Crimstone: 100,
+    Oil: 300,
+    Obsidian: 30,
+    Gem: LAND_GEM_RATIO * 15,
+  },
+  sfl: 0,
+  coins: 42000,
+  seconds: 60 * 60 * 60, // 60 hours
+  bumpkinLevel: 114,
+};
+
+const VOLCANO_LAND_29_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1350,
+    Stone: 550,
+    Iron: 65,
+    Gold: 40,
+    Crimstone: 105,
+    Oil: 300,
+    Obsidian: 36,
+    Gem: LAND_GEM_RATIO * 15,
+  },
+  sfl: 0,
+  coins: 45000,
+  seconds: 72 * 60 * 60, // 72 hours
+  bumpkinLevel: 116,
+};
+
+const VOLCANO_LAND_30_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1500,
+    Stone: 600,
+    Iron: 70,
+    Gold: 50,
+    Crimstone: 125,
+    Oil: 300,
+    Obsidian: 42,
+    Gem: LAND_GEM_RATIO * 15,
+  },
+  sfl: 0,
+  coins: 50000,
+  seconds: 72 * 60 * 60, // 72 hours
+  bumpkinLevel: 120,
+};
+
 export const EXPANSION_REQUIREMENTS: Record<
   IslandType,
   Record<number, Requirements>
@@ -2790,80 +3702,31 @@ export const EXPANSION_REQUIREMENTS: Record<
     24: DESERT_LAND_24_REQUIREMENTS,
     25: DESERT_LAND_25_REQUIREMENTS,
   },
-};
-
-/**
- * Minimum Bumpkin level to work on a land.
- * Prevents abuse of bumpkin swapping and reuse
- */
-export const BUMPKIN_EXPANSIONS_LEVEL: Record<
-  IslandType,
-  Record<number, number>
-> = {
-  basic: {
-    3: 1,
-    4: 1,
-    5: 1,
-    6: 1,
-    7: 1,
-    8: 3,
-    9: 3,
-    10: 5,
-    11: 12,
-    12: 17,
-    13: 20,
-    14: 23,
-    15: 25,
-    16: 30,
-    17: 30,
-    18: 30,
-    19: 40,
-    20: 40,
-    21: 45,
-    22: 45,
-    23: 50,
-  },
-  spring: {
-    4: 10,
-    5: 10,
-    6: 10,
-    7: 15,
-    8: 17,
-    9: 20,
-    10: 23,
-    11: 25,
-    12: 25,
-    13: 30,
-    14: 30,
-    15: 35,
-    16: 35,
-    17: 40,
-    18: 40,
-    19: 45,
-    20: 50,
-  },
-  desert: {
-    4: 35,
-    5: 35,
-    6: 35,
-    7: 35,
-    8: 35,
-    9: 35,
-    10: 35,
-    11: 35,
-    12: 35,
-    13: 35,
-    14: 35,
-    15: 35,
-    16: 35,
-    17: 35,
-    18: 35,
-    19: 35,
-    20: 35,
-    21: 35,
-    22: 35,
-    23: 35,
-    24: 35,
-    25: 35,
+  volcano: {
+    6: VOLCANO_LAND_6_REQUIREMENTS,
+    7: VOLCANO_LAND_7_REQUIREMENTS,
+    8: VOLCANO_LAND_8_REQUIREMENTS,
+    9: VOLCANO_LAND_9_REQUIREMENTS,
+    10: VOLCANO_LAND_10_REQUIREMENTS,
+    11: VOLCANO_LAND_11_REQUIREMENTS,
+    12: VOLCANO_LAND_12_REQUIREMENTS,
+    13: VOLCANO_LAND_13_REQUIREMENTS,
+    14: VOLCANO_LAND_14_REQUIREMENTS,
+    15: VOLCANO_LAND_15_REQUIREMENTS,
+    16: VOLCANO_LAND_16_REQUIREMENTS,
+    17: VOLCANO_LAND_17_REQUIREMENTS,
+    18: VOLCANO_LAND_18_REQUIREMENTS,
+    19: VOLCANO_LAND_19_REQUIREMENTS,
+    20: VOLCANO_LAND_20_REQUIREMENTS,
+    21: VOLCANO_LAND_21_REQUIREMENTS,
+    22: VOLCANO_LAND_22_REQUIREMENTS,
+    23: VOLCANO_LAND_23_REQUIREMENTS,
+    24: VOLCANO_LAND_24_REQUIREMENTS,
+    25: VOLCANO_LAND_25_REQUIREMENTS,
+    26: VOLCANO_LAND_26_REQUIREMENTS,
+    27: VOLCANO_LAND_27_REQUIREMENTS,
+    28: VOLCANO_LAND_28_REQUIREMENTS,
+    29: VOLCANO_LAND_29_REQUIREMENTS,
+    30: VOLCANO_LAND_30_REQUIREMENTS,
   },
 };

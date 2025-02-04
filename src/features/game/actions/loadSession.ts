@@ -48,7 +48,10 @@ const API_URL = CONFIG.API_URL;
 
 let loadSessionErrors = 0;
 
-export async function loadSession(request: Request): Promise<Response> {
+export async function loadSession(
+  request: Request,
+  retries = 0,
+): Promise<Response> {
   if (loadSessionErrors) {
     await new Promise((res) => setTimeout(res, loadSessionErrors * 5000));
   }
@@ -75,7 +78,22 @@ export async function loadSession(request: Request): Promise<Response> {
   });
 
   if (response.status === 503) {
-    throw new Error(ERRORS.MAINTENANCE);
+    const data = await response.json();
+    if (data.message === "Temporary maintenance") {
+      throw new Error(ERRORS.MAINTENANCE);
+    } else {
+      // Throttling. Do exponential backoff with jitter
+      const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
+      const jitter = Math.random() * 1000;
+
+      await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
+
+      if (retries < 3) {
+        return await loadSession(request, retries + 1);
+      }
+
+      throw new Error(ERRORS.SESSION_SERVER_ERROR);
+    }
   }
 
   if (response.status === 429) {

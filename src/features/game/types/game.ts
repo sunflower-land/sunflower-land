@@ -40,7 +40,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalTicket } from "./seasons";
+import { SeasonalBanner, SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -86,7 +86,12 @@ import {
 import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
 import { SeasonalCollectibleName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
-import { CalendarEvent, CalendarEventName } from "./calendar";
+import {
+  CalendarEvent,
+  CalendarEventName,
+  SeasonalEventName,
+} from "./calendar";
+import { VipBundle } from "../lib/vipAccess";
 
 export type Reward = {
   coins?: number;
@@ -192,11 +197,12 @@ export type MutantChicken =
   | "Crim Peckster"
   | "Knight Chicken"
   | "Pharaoh Chicken"
-  | "Alien Chicken";
+  | "Alien Chicken"
+  | "Summer Chicken";
 
-export type MutantCow = "Mootant";
+export type MutantCow = "Mootant" | "Frozen Cow";
 
-export type MutantSheep = "Toxic Tuft";
+export type MutantSheep = "Toxic Tuft" | "Frozen Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -339,6 +345,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trade Point": {
     description: translate("description.trade.points"),
   },
+  Timeshard: {
+    description: "",
+  },
 };
 
 export type Purchase = {
@@ -403,7 +412,12 @@ export type FlowerBounty = Bounty & {
   name: FlowerName;
 };
 
-export type BountyRequest = AnimalBounty | FlowerBounty;
+export type SFLBounty = Bounty & {
+  name: "Obsidian";
+  sfl: number;
+};
+
+export type BountyRequest = AnimalBounty | FlowerBounty | SFLBounty;
 
 export type Bounties = {
   requests: BountyRequest[];
@@ -472,7 +486,8 @@ export type InventoryItemName =
   | BedName
   | RecipeCraftableName
   | SeasonalCollectibleName
-  | TradeFood;
+  | TradeFood
+  | SeasonalBanner;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1127,13 +1142,18 @@ export type MegaStore = {
   collectibles: CollectiblesItem[];
 };
 
-export type IslandType = "basic" | "spring" | "desert";
+export type IslandType = "basic" | "spring" | "desert" | "volcano";
 
 /**
  * The order of the islands is important as it determines the levels of the islands.
  * Each new island should be added to the end of the array.
  */
-export const ISLAND_EXPANSIONS: IslandType[] = ["basic", "spring", "desert"];
+export const ISLAND_EXPANSIONS: IslandType[] = [
+  "basic",
+  "spring",
+  "desert",
+  "volcano",
+];
 
 export type Home = {
   collectibles: Collectibles;
@@ -1293,6 +1313,42 @@ export type Season = {
   season: TemperateSeasonName;
 };
 
+type BaseCalendarEventDetails = {
+  date: string;
+  weather?: boolean;
+};
+
+type CalendarScheduledEvent = BaseCalendarEventDetails & {
+  name: "calendar";
+  title: string;
+  description: string;
+};
+
+type OtherCalendarEvent = BaseCalendarEventDetails & {
+  name: Exclude<CalendarEventName, "calendar">;
+};
+
+export type CalendarEventDetails = CalendarScheduledEvent | OtherCalendarEvent;
+
+export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
+  dates: CalendarEventDetails[];
+};
+
+export type LavaPit = {
+  createdAt: number;
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+  startedAt?: number;
+  collectedAt?: number;
+};
+
+export type VIP = {
+  bundles: { name: VipBundle; boughtAt: number }[];
+  expiresAt: number;
+};
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1305,16 +1361,13 @@ export interface GameState {
     progress: Partial<Record<CompetitionName, CompetitionProgress>>;
   };
 
-  calendar: {
-    dates: { name: CalendarEventName; date: string }[];
-
-    tornado?: CalendarEvent;
-    tsunami?: CalendarEvent;
-  };
-
+  calendar: Calendar;
+  vip?: VIP;
   shipments: {
     restockedAt?: number;
   };
+
+  verified?: boolean;
 
   gems: {
     history?: Record<string, { spent: number }>;
@@ -1498,6 +1551,7 @@ export interface GameState {
     recipes: Partial<Recipes>;
   };
   season: Season;
+  lavaPits: Record<string, LavaPit>;
 }
 
 export interface Context {

@@ -29,6 +29,7 @@ export type Scenes = {
   nightshade_house: Room<PlazaRoomState> | undefined;
   bumpkin_house: Room<PlazaRoomState> | undefined;
   portal_example: Room<PlazaRoomState> | undefined;
+  infernos: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;

@@ -10,11 +10,11 @@ import { useLocation, useNavigate } from "react-router";
 import sflIcon from "assets/icons/sfl.webp";
 import increaseIcon from "assets/icons/increase_arrow.png";
 import decreaseIcon from "assets/icons/decrease_arrow.png";
-import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { formatNumber } from "lib/utils/formatNumber";
 
 const _state = (state: MachineState) => state.context.state;
 export const TrendingTrades: React.FC<{
@@ -92,7 +92,7 @@ export const TrendingTrades: React.FC<{
                   <img src={sflIcon} className="h-5 mr-1" />
                   <div>
                     <p className="text-sm">
-                      {new Decimal(prices.dates[0].low).toFixed(4)}
+                      {formatNumber(prices.dates[0].low, { decimalPlaces: 4 })}
                     </p>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ export const TrendingTrades: React.FC<{
                     }
                     className="h-5 mr-1"
                   />
-                  <p className="text-sm">{`${prices.sevenDayChange.toFixed(2)}%`}</p>
+                  <p className="text-sm">{`${formatNumber(prices.sevenDayChange)}%`}</p>
                 </div>
               </td>
             </tr>

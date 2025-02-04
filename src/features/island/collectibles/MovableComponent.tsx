@@ -55,6 +55,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Flower Bed": "flowerBed.moved",
   "Sunstone Rock": "sunstone.moved",
   "Oil Reserve": "oilReserve.moved",
+  "Lava Pit": "lavaPit.moved",
 };
 
 function getMoveAction(
@@ -93,7 +94,8 @@ export function getRemoveAction(
     name !== "House" &&
     name !== "Market" &&
     name !== "Fire Pit" &&
-    name !== "Workbench"
+    name !== "Workbench" &&
+    name !== "Mansion"
   ) {
     return "building.removed";
   }
@@ -105,7 +107,8 @@ export function getRemoveAction(
     name === "Town Center" ||
     name === "Market" ||
     name === "Fire Pit" ||
-    name === "Workbench"
+    name === "Workbench" ||
+    name === "Mansion"
   ) {
     return null;
   }

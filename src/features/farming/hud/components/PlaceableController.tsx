@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import {
+  LandscapingPlaceable,
+  MachineInterpreter,
+} from "features/game/expansion/placeable/landscapingMachine";
 import { Context } from "features/game/GameProvider";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -25,6 +28,8 @@ import { Label } from "components/ui/Label";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { LANDSCAPING_DECORATIONS } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
+import { IslandType, TemperateSeasonName } from "features/game/types/game";
 
 interface Props {
   location: PlaceableLocation;
@@ -139,7 +144,24 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     send("BACK");
   };
 
-  const image = isBudName(placeable) ? "" : ITEM_DETAILS[placeable].image;
+  const island = gameState.context.state.island.type;
+  const season = gameState.context.state.season.season;
+
+  const getPlaceableImage = (
+    placeable: LandscapingPlaceable,
+    island: IslandType,
+    season: TemperateSeasonName,
+  ) => {
+    if (isBudName(placeable)) {
+      return "";
+    }
+    return (
+      ITEM_ICONS(island, season)[placeable] ?? ITEM_DETAILS[placeable].image
+    );
+  };
+
+  const image = getPlaceableImage(placeable, island, season);
+
   const Hint = () => {
     if (!requirements) {
       return (

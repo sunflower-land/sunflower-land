@@ -11,6 +11,7 @@ import { GameState } from "features/game/types/game";
 import tornadoIcon from "assets/icons/tornado.webp";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
+import { SOIL_IMAGES } from "../lib/plant";
 
 const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
   const [showModal, setShowModal] = useState(false);
@@ -24,6 +25,8 @@ const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
     setShowTooltip(false);
   };
 
+  const soilImage = SOIL_IMAGES[game.island.type].dry;
+
   return (
     <>
       <div
@@ -32,7 +35,7 @@ const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
         onMouseLeave={handleMouseLeave}
       >
         <img
-          src={SUNNYSIDE.soil.soil_dry}
+          src={soilImage}
           alt="soil image"
           className="absolute"
           style={{
@@ -75,7 +78,7 @@ const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
             <Label icon={tornadoIcon} type="danger" className="mb-1 -ml-1">
               {t("tornado")}
             </Label>
-            <p className="text-sm">
+            <p className="text-sm mb-3">
               {t("tornado.crops.destroyed.description")}
             </p>
             <Label
@@ -83,9 +86,9 @@ const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
               type="transparent"
               className="mt-2 ml-1"
             >
-              {`Ready in: ${secondsToString(
+              {`${t("ready.in")}: ${secondsToString(
                 24 * 60 * 60 -
-                  (Date.now() - game.calendar.tornado!.triggeredAt) / 1000,
+                  (Date.now() - game.calendar.tornado!.startedAt) / 1000,
                 {
                   length: "medium",
                 },

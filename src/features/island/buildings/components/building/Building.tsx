@@ -10,7 +10,11 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context, useGame } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 import { CookableName } from "features/game/types/consumables";
-import { GameState, IslandType } from "features/game/types/game";
+import {
+  GameState,
+  IslandType,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -27,8 +31,8 @@ import tornadoIcon from "assets/icons/tornado.webp";
 import tsunamiIcon from "assets/icons/tsunami.webp";
 import { secondsToString } from "lib/utils/time";
 import {
-  CalendarEventName,
-  getActiveCalenderEvent,
+  getActiveCalendarEvent,
+  SeasonalEventName,
 } from "features/game/types/calendar";
 
 interface Prop {
@@ -43,6 +47,7 @@ interface Prop {
   x: number;
   y: number;
   island: IslandType;
+  season: TemperateSeasonName;
 }
 
 export interface BuildingProps {
@@ -53,6 +58,7 @@ export interface BuildingProps {
   isBuilt?: boolean;
   onRemove?: () => void;
   island: IslandType;
+  season: TemperateSeasonName;
 }
 
 const InProgressBuilding: React.FC<Prop> = ({
@@ -63,6 +69,7 @@ const InProgressBuilding: React.FC<Prop> = ({
   createdAt,
   showTimers,
   island,
+  season,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
 
@@ -118,6 +125,7 @@ const InProgressBuilding: React.FC<Prop> = ({
       >
         <div className="w-full h-full pointer-events-none opacity-50">
           <BuildingPlaced
+            season={season}
             buildingId={id}
             buildingIndex={index}
             island={island}
@@ -141,13 +149,26 @@ const InProgressBuilding: React.FC<Prop> = ({
   );
 };
 
-const DESTROYED_BUILDING_ICONS: Record<CalendarEventName, string> = {
+type DestructiveEvent = Exclude<
+  SeasonalEventName,
+  | "fullMoon"
+  | "greatFreeze"
+  | "doubleDelivery"
+  | "bountifulHarvest"
+  | "insectPlague"
+  | "sunshower"
+  | "fishFrenzy"
+>;
+
+const DESTROYED_BUILDING_ICONS: Record<DestructiveEvent, string> = {
   tornado: tornadoIcon,
   tsunami: tsunamiIcon,
 };
 
 const DestroyedBuilding: React.FC<
-  Prop & { calendarEvent: CalendarEventName }
+  Prop & {
+    calendarEvent: DestructiveEvent;
+  }
 > = ({
   name,
   id,
@@ -157,6 +178,7 @@ const DestroyedBuilding: React.FC<
   showTimers,
   island,
   calendarEvent,
+  season,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
 
@@ -193,8 +215,7 @@ const DestroyedBuilding: React.FC<
             >
               {`Ready in: ${secondsToString(
                 24 * 60 * 60 -
-                  (Date.now() - game.calendar[calendarEvent]!.triggeredAt) /
-                    1000,
+                  (Date.now() - game.calendar[calendarEvent]!.startedAt) / 1000,
                 {
                   length: "medium",
                 },
@@ -213,6 +234,7 @@ const DestroyedBuilding: React.FC<
             buildingId={id}
             buildingIndex={index}
             island={island}
+            season={season}
           />
         </div>
         <img
@@ -243,8 +265,12 @@ function isBuildingDestroyed({
 }: {
   name: BuildingName;
   game: GameState;
-}): CalendarEventName | false {
-  const calendarEvent = getActiveCalenderEvent({ game });
+}): DestructiveEvent | false {
+  if (!DESTROYED_BUILDINGS.includes(name)) {
+    return false;
+  }
+
+  const calendarEvent = getActiveCalendarEvent({ game });
 
   if (!calendarEvent) {
     return false;
@@ -254,16 +280,16 @@ function isBuildingDestroyed({
     if (game.calendar.tornado?.protected) {
       return false;
     }
+
+    return "tornado";
   }
 
   if (calendarEvent === "tsunami") {
     if (game.calendar.tsunami?.protected) {
       return false;
     }
-  }
 
-  if (DESTROYED_BUILDINGS.includes(name)) {
-    return calendarEvent;
+    return "tsunami";
   }
 
   return false;
@@ -281,6 +307,7 @@ const BuildingComponent: React.FC<Prop> = ({
   x,
   y,
   island,
+  season,
 }) => {
   const { gameState } = useGame();
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -308,6 +335,7 @@ const BuildingComponent: React.FC<Prop> = ({
         y={y}
         island={island}
         calendarEvent={destroyedBy}
+        season={season}
       />
     );
   }
@@ -326,6 +354,7 @@ const BuildingComponent: React.FC<Prop> = ({
           x={x}
           y={y}
           island={island}
+          season={season}
         />
       ) : (
         <BuildingPlaced
@@ -335,6 +364,7 @@ const BuildingComponent: React.FC<Prop> = ({
           craftingReadyAt={craftingReadyAt}
           isBuilt
           island={island}
+          season={season}
         />
       )}
     </>
@@ -366,7 +396,11 @@ const MoveableBuilding: React.FC<Prop> = (props) => {
         {inProgress ? (
           <BuildingComponent {...props} />
         ) : (
-          <BuildingPlaced buildingId={props.id} {...props} />
+          <BuildingPlaced
+            buildingId={props.id}
+            {...props}
+            buildingIndex={props.index}
+          />
         )}
       </MoveableComponent>
     );

@@ -24,7 +24,8 @@ type FirePitCookableName =
   | "Antipasto"
   | "Rice Bun"
   | "Fried Tofu"
-  | "Pizza Margherita";
+  | "Pizza Margherita"
+  | "Rhubarb Tart";
 
 type KitchenCookableName =
   | "Beetroot Blaze"
@@ -304,6 +305,16 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
       Tomato: new Decimal(30),
       Cheese: new Decimal(5),
       Wheat: new Decimal(20),
+    },
+  },
+  "Rhubarb Tart": {
+    name: "Rhubarb Tart",
+    description: translate("description.rhubarb.tart"),
+    building: "Fire Pit",
+    experience: 5,
+    cookingSeconds: 60,
+    ingredients: {
+      Rhubarb: new Decimal(3),
     },
   },
 };
@@ -1234,6 +1245,46 @@ export const FISH: Record<FishName, Consumable> = {
     description: "?",
     experience: 100,
     name: "Parrotfish",
+  },
+  Porgy: {
+    description: "?",
+    experience: 100,
+    name: "Porgy",
+  },
+  Muskellunge: {
+    description: "?",
+    experience: 100,
+    name: "Muskellunge",
+  },
+  Trout: {
+    description: "?",
+    experience: 100,
+    name: "Trout",
+  },
+  Walleye: {
+    description: "?",
+    experience: 100,
+    name: "Walleye",
+  },
+  Weakfish: {
+    description: "?",
+    experience: 100,
+    name: "Weakfish",
+  },
+  "Rock Blackfish": {
+    description: "?",
+    experience: 100,
+    name: "Rock Blackfish",
+  },
+  Cobia: {
+    description: "?",
+    experience: 100,
+    name: "Cobia",
+  },
+  Tilapia: {
+    description: "?",
+    experience: 100,
+    name: "Tilapia",
   },
 };
 

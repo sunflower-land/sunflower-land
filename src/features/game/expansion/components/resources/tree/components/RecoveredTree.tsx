@@ -4,9 +4,6 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import desertShakeSheet from "assets/resources/tree/desert_shake_sheet.webp";
-import cacti from "assets/resources/tree/cacti.webp";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Bar } from "components/ui/ProgressBar";
@@ -14,9 +11,13 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
-import { IslandType } from "features/game/types/game";
+import { IslandType, TemperateSeasonName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import {
+  TREE_SHAKE_SHEET_VARIANTS,
+  TREE_VARIANTS,
+} from "features/island/lib/alternateArt";
 
 const tool = "Axe";
 
@@ -28,25 +29,15 @@ interface Props {
   showHelper: boolean;
   touchCount: number;
   island: IslandType;
+  season: TemperateSeasonName;
 }
-
-const SHAKE_SHEET: Record<IslandType, string> = {
-  basic: SUNNYSIDE.resource.shakeSheet,
-  spring: SUNNYSIDE.resource.springShakeSheet,
-  desert: desertShakeSheet,
-};
-
-const TREE_IMAGE: Record<IslandType, string> = {
-  basic: SUNNYSIDE.resource.tree,
-  spring: SUNNYSIDE.resource.spring_tree,
-  desert: cacti,
-};
 
 const RecoveredTreeComponent: React.FC<Props> = ({
   hasTool,
   touchCount,
   showHelper,
   island,
+  season,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
@@ -110,7 +101,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         {/* static tree image */}
         {!showSpritesheet && (
           <img
-            src={TREE_IMAGE[island]}
+            src={TREE_VARIANTS[island][season]}
             className={"absolute pointer-events-none"}
             style={{
               width: `${PIXEL_SCALE * 26}px`,
@@ -139,7 +130,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
               shakeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={SHAKE_SHEET[island]}
+            image={TREE_SHAKE_SHEET_VARIANTS[island][season]}
             widthFrame={SHAKE_SHEET_FRAME_WIDTH}
             heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
             zoomScale={scale}

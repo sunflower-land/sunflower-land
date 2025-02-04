@@ -11,8 +11,6 @@ import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { setImageWidth } from "lib/images";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import sflIcon from "assets/icons/sfl.webp";
@@ -25,6 +23,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ISLAND_EXPANSIONS } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import classNames from "classnames";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
@@ -110,12 +109,15 @@ export const SkillCategoryList = ({
           return (
             <div key={islandType} className="flex flex-col items-stretch">
               <div className="flex items-center gap-2 mt-1 mb-2">
-                <Label
-                  type={hasUnlockedIslandCategory ? "default" : "warning"}
-                  className="capitalize"
-                >
-                  {`${islandType} Skills`}
-                </Label>
+                {getRevampSkillTreeCategoriesByIsland(islandType).length >
+                  0 && (
+                  <Label
+                    type={hasUnlockedIslandCategory ? "default" : "warning"}
+                    className="capitalize"
+                  >
+                    {`${islandType} Skills`}
+                  </Label>
+                )}
                 {!hasUnlockedIslandCategory && (
                   <Label type="warning">
                     {`Reach ${islandType} island to unlock`}
@@ -143,7 +145,7 @@ export const SkillCategoryList = ({
                             : undefined
                         }
                         className={classNames(
-                          `flex relative items-center !py-2 mb-1 hover:bg-brown-200`,
+                          `flex relative items-center mb-1 hover:bg-brown-200`,
                           { "cursor-pointer": hasUnlockedIslandCategory },
                         )}
                       >
@@ -153,17 +155,8 @@ export const SkillCategoryList = ({
                         >
                           {`${skillsAcquiredInCategoryCount}/${skills.filter((skill) => !skill.disabled).length}`}
                         </Label>
-                        <div className="flex justify-center items-center">
-                          <img
-                            src={icon}
-                            style={{
-                              opacity: 0,
-                              marginRight: `${PIXEL_SCALE * 4}px`,
-                              maxWidth: `${PIXEL_SCALE * 10}px`,
-                              maxHeight: `${PIXEL_SCALE * 10}px`,
-                            }}
-                            onLoad={(e) => setImageWidth(e.currentTarget)}
-                          />
+                        <div className="flex gap-2 justify-center items-center">
+                          <SquareIcon icon={icon} width={14} />
                           <span className="text-sm">{category}</span>
                         </div>
                       </ButtonPanel>
@@ -213,7 +206,7 @@ export const SkillCategoryList = ({
             )} */}
             {!enoughSfl && (
               <Label type="danger" icon={sflIcon} className="mb-2">
-                {"You do not have enough SFL"}
+                {t("not.enough.sfl")}
               </Label>
             )}
             <Button

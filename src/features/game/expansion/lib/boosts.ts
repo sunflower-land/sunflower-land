@@ -272,7 +272,7 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
-  if (hasVipAccess(game.inventory)) {
+  if (hasVipAccess({ game })) {
     boostedExp = boostedExp.mul(1.1);
   }
 

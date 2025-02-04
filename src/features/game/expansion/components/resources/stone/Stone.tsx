@@ -4,16 +4,15 @@ import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { InventoryItemName, Rock } from "features/game/types/game";
+import { InventoryItemName, Rock, Skills } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedStone } from "./components/DepletedStone";
 import { DepletingStone } from "./components/DepletingStone";
 import { RecoveredStone } from "./components/RecoveredStone";
 import { canMine } from "features/game/expansion/lib/utils";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { useSound } from "lib/utils/hooks/useSound";
 
 const HITS = 3;
@@ -24,25 +23,22 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const showHelper = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 3 &&
-  !state.context.state.bumpkin?.activity?.["Stone Mined"];
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
+const selectSkills = (state: MachineState) =>
+  state.context.state.bumpkin?.skills;
+
+const compareSkills = (prev: Skills, next: Skills) =>
+  (prev["Tap Prospector"] ?? false) === (next["Tap Prospector"] ?? false);
+
 interface Props {
   id: string;
-  index: number;
 }
 
-export const Stone: React.FC<Props> = ({ id, index }) => {
+export const Stone: React.FC<Props> = ({ id }) => {
   const { gameService, shortcutItem, showAnimations } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const [touchCount, setTouchCount] = useState(0);
 
@@ -79,8 +75,7 @@ export const Stone: React.FC<Props> = ({ id, index }) => {
       HasTool(prev) === HasTool(next) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
-
-  const needsHelp = useSelector(gameService, showHelper);
+  const skills = useSelector(gameService, selectSkills, compareSkills);
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
@@ -93,7 +88,7 @@ export const Stone: React.FC<Props> = ({ id, index }) => {
 
     shortcutItem(tool);
 
-    if (state.bumpkin.skills["Tap Prospector"]) {
+    if (skills["Tap Prospector"]) {
       // insta-mine the mineral
       return mine();
     }

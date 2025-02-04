@@ -26,6 +26,8 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { availableWardrobe } from "./equip";
 import { FISH } from "features/game/types/fishing";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -41,7 +43,7 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   pharaoh: 5,
 };
 
-const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT();
+const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT;
 
 export function generateDeliveryTickets({
   game,
@@ -58,7 +60,7 @@ export function generateDeliveryTickets({
     return 0;
   }
 
-  if (hasVipAccess(game.inventory, now)) {
+  if (hasVipAccess({ game, now: now.getTime() })) {
     amount += 2;
   }
 
@@ -83,6 +85,27 @@ export function generateDeliveryTickets({
     amount += 1;
   }
 
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isWearableActive({ game, name: "Acorn Hat" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Igloo" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Hammock" })
+  ) {
+    amount += 1;
+  }
+
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
 
   const dateKey = new Date(now).toISOString().substring(0, 10);
@@ -92,7 +115,10 @@ export function generateDeliveryTickets({
     new Date(completedAt).toISOString().substring(0, 10) === dateKey;
 
   // Leave this at the end as it will multiply the whole amount by 2
-  if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
+  if (
+    getActiveCalendarEvent({ game }) === "doubleDelivery" &&
+    !hasClaimedBonus
+  ) {
     amount *= 2;
   }
 
@@ -290,7 +316,7 @@ export function getOrderSellPrice<T>(
     order.reward.coins &&
     order.from === "corale"
   ) {
-    mul += 0.5;
+    mul += 1;
   }
 
   // Nom Nom - 10% bonus with food orders
@@ -326,7 +352,10 @@ export function getOrderSellPrice<T>(
     new Date(completedAt).toISOString().substring(0, 10) === dateKey;
 
   // Leave this at the end as it will multiply the whole amount by 2
-  if (game.delivery.doubleDelivery === dateKey && !hasClaimedBonus) {
+  if (
+    getActiveCalendarEvent({ game }) === "doubleDelivery" &&
+    !hasClaimedBonus
+  ) {
     mul *= 2;
   }
 

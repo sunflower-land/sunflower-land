@@ -33,25 +33,28 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { TradeableSummary } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";
 import { ResourceList } from "./ResourceList";
-import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
-  getKeys,
 } from "features/game/types/craftables";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import {
+  isTradeResource,
+  TradeResource,
+} from "features/game/actions/tradeLimits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
-import { VIPAccess } from "features/game/components/VipAccess";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getDayOfYear } from "lib/utils/time";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { StoreOnChain } from "./StoreOnChain";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 
-const _isVIP = (state: MachineState) =>
-  hasVipAccess(state.context.state.inventory);
+const _hasTradeReputation = (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
 
 type TradeableListItemProps = {
   authToken: string;
@@ -79,9 +82,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [quantity, setQuantity] = useState(0);
   const [needsSync, setNeedsSync] = useState(false);
 
-  const { openModal } = useContext(ModalContext);
-
-  const isVIP = useSelector(gameService, _isVIP);
+  const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
 
   const { state } = gameState.context;
 
@@ -97,7 +98,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const dailyListings = getDailyListings();
 
-  const hasAccess = isVIP || dailyListings < 1;
+  const hasAccess = hasTradeReputation || dailyListings < 1;
 
   const tradeType = getTradeType({
     collection: display.type,
@@ -108,7 +109,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   });
 
   const isResource =
-    getKeys(TRADE_LIMITS).includes(display.name as InventoryItemName) &&
+    isTradeResource(display.name as InventoryItemName) &&
     display.type === "collectibles";
 
   // Check inventory count
@@ -344,7 +345,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return (
       <ResourceList
         inventoryCount={new Decimal(available)}
-        itemName={KNOWN_ITEMS[id] as InventoryItemName}
+        itemName={display.name as TradeResource}
         floorPrice={floorPrice}
         isSaving={false}
         onCancel={onClose}
@@ -374,14 +375,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         )}
 
         {!hasAccess && (
-          <VIPAccess
-            isVIP={isVIP}
-            onUpgrade={() => {
-              openModal("BUY_BANNER");
-            }}
-            text={t("marketplace.unlockSelling")}
-            labelType={!isVIP && dailyListings >= 1 ? "danger" : undefined}
-          />
+          <RequiredReputation reputation={Reputation.Cropkeeper} />
         )}
       </div>
       <div className="flex justify-between">
@@ -410,7 +404,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <NumberInput
                 value={price}
                 onValueChange={(decimal) => setPrice(decimal.toNumber())}
-                maxDecimalPlaces={tradeType === "onchain" ? 0 : 2}
+                maxDecimalPlaces={tradeType === "onchain" ? 0 : 4}
                 icon={sflIcon}
               />
               <p className="text-xxs ml-2">
@@ -425,7 +419,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               }}
             >
               <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
-              <p className="text-xs font-secondary">{`${price} SFL`}</p>
+              <p className="text-xs font-secondary">{`${formatNumber(price, {
+                decimalPlaces: 4,
+                showTrailingZeros: true,
+              })} SFL`}</p>
             </div>
             <div
               className="flex justify-between"
@@ -438,8 +435,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <p className="text-xs font-secondary">{`${formatNumber(
                 price * 0.1,
                 {
-                  decimalPlaces: 1,
-                  showTrailingZeros: false,
+                  decimalPlaces: 4,
+                  showTrailingZeros: true,
                 },
               )} SFL`}</p>
             </div>
@@ -456,8 +453,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <p className="text-xs font-secondary">{`${formatNumber(
                 new Decimal(price).mul(1 - MARKETPLACE_TAX),
                 {
-                  decimalPlaces: 1,
-                  showTrailingZeros: false,
+                  decimalPlaces: 4,
+                  showTrailingZeros: true,
                 },
               )} SFL`}</p>
             </div>
@@ -473,7 +470,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                   new Decimal(estTradePoints),
                   {
                     decimalPlaces: 2,
-                    showTrailingZeros: false,
                   },
                 )}`}</p>
                 <img src={ITEM_DETAILS["Trade Point"].image} />

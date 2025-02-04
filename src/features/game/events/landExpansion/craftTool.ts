@@ -11,18 +11,19 @@ import {
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 
-import { GameState } from "../../types/game";
+import { GameState, IslandType } from "../../types/game";
 import {
   PURCHASEABLE_BAIT,
   PurchaseableBait,
 } from "features/game/types/fishing";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { WEATHER_SHOP } from "features/game/types/calendar";
+import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
 
 type CraftableToolName =
   | WorkbenchToolName
   | TreasureToolName
-  | PurchaseableBait;
+  | PurchaseableBait
+  | WeatherShopItem;
 
 export type CraftToolAction = {
   type: "tool.crafted";
@@ -30,13 +31,15 @@ export type CraftToolAction = {
   amount?: number;
 };
 
-export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
+export const CRAFTABLE_TOOLS = (
+  islandType: IslandType,
+): Record<CraftableToolName, Tool> => ({
   ...WORKBENCH_TOOLS,
   ...TREASURE_TOOLS,
   ...PURCHASEABLE_BAIT,
   ...LOVE_ANIMAL_TOOLS,
-  ...WEATHER_SHOP,
-};
+  ...getWeatherShop(islandType),
+});
 
 type Options = {
   state: Readonly<GameState>;
@@ -92,7 +95,7 @@ export function craftTool({ state, action }: Options) {
   const stateCopy: GameState = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
-  const tool = CRAFTABLE_TOOLS[action.tool];
+  const tool = CRAFTABLE_TOOLS(stateCopy.island.type)[action.tool];
   const amount = action.amount ?? 1;
 
   if (!tool) {

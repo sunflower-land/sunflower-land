@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName } from "./game";
+import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type Worm = "Earthworm" | "Grub" | "Red Wiggler";
@@ -97,3 +97,62 @@ export function isComposting(game: GameState, name: ComposterName): boolean {
   if (!producing) return false;
   return Date.now() > producing?.readyAt;
 }
+
+export const SEASON_COMPOST_REQUIREMENTS: Record<
+  ComposterName,
+  Record<TemperateSeasonName, Requirements>
+> = {
+  "Compost Bin": {
+    spring: {
+      Rhubarb: 10,
+      Carrot: 5,
+    },
+    summer: {
+      Pumpkin: 10,
+      Pepper: 2,
+    },
+    autumn: {
+      Yam: 15,
+    },
+    winter: {
+      Potato: 10,
+      Cabbage: 3,
+    },
+  },
+  "Turbo Composter": {
+    spring: {
+      Soybean: 5,
+      Corn: 3,
+    },
+    summer: {
+      Cauliflower: 4,
+      Eggplant: 3,
+    },
+    autumn: {
+      Broccoli: 10,
+      Artichoke: 2,
+    },
+    winter: {
+      Onion: 5,
+      Turnip: 2,
+    },
+  },
+  "Premium Composter": {
+    spring: {
+      Blueberry: 8,
+      Egg: 5,
+    },
+    summer: {
+      Banana: 3,
+      Egg: 5,
+    },
+    autumn: {
+      Apple: 4,
+      Tomato: 5,
+    },
+    winter: {
+      Lemon: 3,
+      Apple: 3,
+    },
+  },
+};

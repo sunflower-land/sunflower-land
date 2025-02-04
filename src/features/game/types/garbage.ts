@@ -1,7 +1,5 @@
-import { hasFeatureAccess } from "lib/flags";
 import { BB_TO_GEM_RATIO, Inventory, InventoryItemName } from "./game";
 import { SeasonalTicket, SEASONS } from "./seasons";
-import { TEST_FARM } from "../lib/constants";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
 
@@ -155,33 +153,30 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
       }
     : ({} as { Horseshoe: { sellPrice: number; gems: number } })),
 
-  ...(hasFeatureAccess(TEST_FARM, "CHICKEN_GARBO")
+  ...(SEASONS["Winds of Change"].endDate.getTime() < Date.now()
     ? {
-        Chicken: {
-          sellPrice: 200,
+        Timeshard: {
+          sellPrice: 0.1,
           gems: 0,
-        },
-        "Hen House": {
-          sellPrice: 800,
-          gems: 0,
-          limit: 1,
-          items: {
-            Wood: new Decimal(200),
-            Iron: new Decimal(15),
-            Gold: new Decimal(15),
-            Egg: new Decimal(300),
-          },
         },
       }
-    : ({} as {
-        Chicken: { sellPrice: number; gems: number };
-        "Hen House": {
-          sellPrice: number;
-          gems: number;
-          limit: number;
-          items: Inventory;
-        };
-      })),
+    : ({} as { Timeshard: { sellPrice: number; gems: number } })),
+
+  Chicken: {
+    sellPrice: 200,
+    gems: 0,
+  },
+  "Hen House": {
+    sellPrice: 800,
+    gems: 0,
+    limit: 1,
+    items: {
+      Wood: new Decimal(200),
+      Iron: new Decimal(15),
+      Gold: new Decimal(15),
+      Egg: new Decimal(300),
+    },
+  },
   "Basic Bear": {
     sellPrice: 1,
     gems: 0,

@@ -24,6 +24,8 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
+import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 
 const isFlower = (name: FlowerCrossBreedName): name is FlowerName =>
   name in FLOWERS;
@@ -38,7 +40,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state, farmId },
+      context: { state },
     },
   ] = useActor(gameService);
   const { inventory, flowers } = state;
@@ -47,11 +49,16 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     "seed",
   );
   const [seed, setSeed] = useState<FlowerSeedName>();
+
   const [crossbreed, setCrossBreed] = useState<FlowerCrossBreedName>();
 
   const selectSeed = (name: FlowerSeedName) => {
     setSeed(name);
     if (!crossbreed) setSelecting("crossbreed");
+    if (crossbreed && !FLOWER_CROSS_BREED_AMOUNTS[name][crossbreed]) {
+      setSelecting("crossbreed");
+      setCrossBreed(undefined);
+    }
   };
 
   const selectCrossBreed = (name: FlowerCrossBreedName) => {
@@ -82,8 +89,19 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
 
   const hasCrossbreedRequirements = !!(
     crossbreed &&
-    inventory[crossbreed]?.gte(FLOWER_CROSS_BREED_AMOUNTS[crossbreed])
+    seed &&
+    inventory[crossbreed]?.gte(
+      FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed] ?? 0,
+    )
   );
+
+  const seasons = (flowerSeed: FlowerSeedName) =>
+    getKeys(SEASONAL_SEEDS).filter((season) =>
+      SEASONAL_SEEDS[season].find((seed) => seed === flowerSeed),
+    );
+
+  const isInSeason = (flowerSeed: FlowerSeedName) =>
+    seasons(flowerSeed).includes(state.season.season);
 
   return (
     <>
@@ -187,15 +205,21 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
               {t("flowerBedContent.select.seed")}
             </Label>
             <div className="flex flex-wrap">
-              {getKeys(FLOWER_SEEDS()).map((name) => (
-                <Box
-                  image={ITEM_DETAILS[name].image}
-                  count={inventory[name]}
-                  onClick={() => selectSeed(name)}
-                  key={name}
-                  isSelected={seed === name}
-                />
-              ))}
+              {getKeys(FLOWER_SEEDS)
+                .sort((a, b) => Number(isInSeason(b)) - Number(isInSeason(a)))
+                .map((name) => (
+                  <Box
+                    image={ITEM_DETAILS[name].image}
+                    count={inventory[name]}
+                    onClick={() => selectSeed(name)}
+                    key={name}
+                    isSelected={seed === name}
+                    disabled={!isInSeason(name)}
+                    secondaryImage={
+                      seasons(name).length < 4 && SEASON_ICONS[seasons(name)[0]]
+                    }
+                  />
+                ))}
             </div>
             {seed && (
               <div className="space-y-1">
@@ -216,19 +240,19 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                     <Label type={"danger"}>{`1 ${seed} required`}</Label>
                   )}
                 </div>
-                <p className="text-xs">{FLOWER_SEEDS()[seed].description}</p>
+                <p className="text-xs">{FLOWER_SEEDS[seed].description}</p>
               </div>
             )}
           </>
         )}
 
-        {selecting === "crossbreed" && (
+        {selecting === "crossbreed" && seed && (
           <>
             <Label type="default" className="mb-1">
               {t("flowerBedContent.select.crossbreed")}
             </Label>
             <div className="flex flex-wrap mb-2">
-              {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
+              {getKeys(FLOWER_CROSS_BREED_AMOUNTS[seed])
                 .filter(
                   (name) =>
                     !isFlower(name) ||
@@ -253,7 +277,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   </Label>
                   <Label
                     type={!hasCrossbreedRequirements ? "danger" : "default"}
-                  >{`${FLOWER_CROSS_BREED_AMOUNTS[crossbreed]} ${crossbreed} required`}</Label>
+                  >{`${FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed]} ${crossbreed} required`}</Label>
                 </div>
                 <p className="text-xs mt-1">
                   {FLOWER_CROSS_BREED_DETAILS[crossbreed]}

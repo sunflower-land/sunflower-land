@@ -19,6 +19,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { NumberInput } from "components/ui/NumberInput";
 import { Label } from "components/ui/Label";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 
 interface Props {
   onWithdraw: (sfl: string) => void;
@@ -56,6 +58,15 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
     }
   };
 
+  const hasAccess = hasReputation({
+    game: state,
+    reputation: Reputation.Grower,
+  });
+
+  if (!hasAccess) {
+    return <RequiredReputation reputation={Reputation.Grower} />;
+  }
+
   const disableWithdraw = amount.greaterThan(balance) || amount.lessThan(0);
 
   return (
@@ -71,18 +82,18 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
           <div className="flex items-center mt-2">
             <NumberInput
               value={amount}
-              maxDecimalPlaces={4}
+              maxDecimalPlaces={0}
               isOutOfRange={disableWithdraw}
               onValueChange={setAmount}
             />
             <Button
-              onClick={() => setAmount(setPrecision(balance.mul(0.5)))}
+              onClick={() => setAmount(setPrecision(balance.mul(0.5), 0))}
               className="ml-2 px-1 py-1 w-auto"
             >
               {`50%`}
             </Button>
             <Button
-              onClick={() => setAmount(setPrecision(balance))}
+              onClick={() => setAmount(setPrecision(balance, 0))}
               className="ml-2 px-1 py-1 w-auto"
             >
               {t("max")}

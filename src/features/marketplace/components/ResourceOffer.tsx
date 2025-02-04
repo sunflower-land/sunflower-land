@@ -8,8 +8,8 @@ import { Decimal } from "decimal.js-light";
 import {
   TRADE_LIMITS,
   TRADE_MINIMUMS,
+  TradeResource,
 } from "features/game/actions/tradeLimits";
-import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
@@ -19,7 +19,7 @@ import tradeIcon from "assets/icons/trade.png";
 import lockIcon from "assets/icons/lock.png";
 
 type Props = {
-  itemName: InventoryItemName;
+  itemName: TradeResource;
   floorPrice: number;
   isSaving: boolean;
   price: number;

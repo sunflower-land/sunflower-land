@@ -5,15 +5,20 @@ import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 
 import { Context } from "features/game/GameProvider";
+import { IslandType } from "features/game/types/game";
 
 interface Props {
   patchFruitName: PatchFruitName;
+  islandType: IslandType;
 }
 
-export const ReplenishedTree: React.FC<Props> = ({ patchFruitName }) => {
-  const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
+export const ReplenishedTree: React.FC<Props> = ({
+  patchFruitName,
+  islandType,
+}) => {
+  const lifecycle = PATCH_FRUIT_LIFECYCLE[islandType][patchFruitName];
 
-  const { isBush } = PATCH_FRUIT()[patchFruitName];
+  const { isBush } = PATCH_FRUIT[patchFruitName];
   let bottom, left, width;
   switch (patchFruitName) {
     case "Banana":
@@ -30,6 +35,13 @@ export const ReplenishedTree: React.FC<Props> = ({ patchFruitName }) => {
       bottom = 8;
       left = 7;
       width = 18;
+      break;
+    case "Celestine":
+    case "Lunara":
+    case "Duskberry":
+      bottom = 8;
+      left = 9;
+      width = 15;
       break;
     default:
       bottom = 5;

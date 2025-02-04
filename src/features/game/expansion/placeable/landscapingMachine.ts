@@ -33,6 +33,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Flower Bed": "flowerBed.placed",
   "Sunstone Rock": "sunstone.placed",
   "Oil Reserve": "oilReserve.placed",
+  "Lava Pit": "lavaPit.placed",
 };
 
 export function placeEvent(
@@ -51,11 +52,17 @@ export function placeEvent(
   return "collectible.placed";
 }
 
+export type LandscapingPlaceable =
+  | BuildingName
+  | CollectibleName
+  | "Chicken"
+  | BudName;
+
 export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?: BuildingName | CollectibleName | "Chicken" | BudName;
+  placeable?: LandscapingPlaceable;
 
   multiple?: boolean;
 

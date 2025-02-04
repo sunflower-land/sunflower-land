@@ -124,7 +124,8 @@ export type EventDecorationName =
   | "Penguin Pool"
   | "Snowman"
   | "Festive Toy Train"
-  | "Golden Cow";
+  | "Golden Cow"
+  | "Volcano Gnome";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -133,9 +134,28 @@ export type PotionHouseDecorationName =
 
 export type InteriorDecorationName = "Rug" | "Wardrobe";
 
-export type AnimalDecorationName = "Wagon";
+export type AnimalDecorationName =
+  | "Wagon"
+  | "Mama Duck"
+  | "Summer Duckling"
+  | "Autumn Duckling"
+  | "Winter Duckling";
 
 export const DECORATION_TEMPLATES = {
+  "Thermal Stone": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Protective Pesticide": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
   "Tornado Pinwheel": {
     dimensions: {
       width: 1,
@@ -372,6 +392,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
   },
   "Desert Gnome": {
+    width: 1,
+    height: 1,
+  },
+  "Volcano Gnome": {
     width: 1,
     height: 1,
   },
@@ -786,6 +810,22 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Golden Cow": {
     width: 2,
     height: 2,
+  },
+  "Mama Duck": {
+    width: 1,
+    height: 1,
+  },
+  "Summer Duckling": {
+    width: 1,
+    height: 1,
+  },
+  "Autumn Duckling": {
+    width: 1,
+    height: 1,
+  },
+  "Winter Duckling": {
+    width: 1,
+    height: 1,
   },
 };
 
