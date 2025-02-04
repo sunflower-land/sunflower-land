@@ -15,6 +15,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { hasFeatureAccess } from "lib/flags";
+import { translate } from "lib/i18n/translate";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `portal-chooser-${host}-${window.location.pathname}`;
@@ -49,33 +50,29 @@ const PORTAL_OPTIONS: PortalOption[] = [
   {
     id: "chicken-rescue",
     npc: "billy",
-    title: "Chicken Rescue",
-    description:
-      "Help rescue the chickens while avoiding tricky obstacles in this survival challenge!",
+    title: translate("portal.chickenRescue.title"),
+    description: translate("portal.chickenRescue.description"),
     component: ChickenRescue,
   },
   {
     id: "crops-and-chickens",
     npc: "cluck e cheese",
-    title: "Crops & Chickens",
-    description:
-      "Race against time to collect crops while dodging chickens in this fast-paced challenge!",
+    title: translate("portal.cropsAndChickens.title"),
+    description: translate("portal.cropsAndChickens.description"),
     component: CropsAndChickens,
   },
   {
     id: "fruit-dash",
     npc: "felga",
-    title: "Fruit Dash",
-    description:
-      "Survive as long as you can collecting fruits while dodging obstacles in this endless challenge!",
+    title: translate("portal.fruitDash.title"),
+    description: translate("portal.fruitDash.description"),
     component: FruitDash,
   },
   {
     id: "halloween",
     npc: "luna",
-    title: "Halloween",
-    description:
-      "Brave the haunted mansion, collect torches, and outrun ghosts in this spooky survival challenge!",
+    title: translate("portal.halloween.title"),
+    description: translate("portal.halloween.description"),
     component: Halloween,
   },
 ];

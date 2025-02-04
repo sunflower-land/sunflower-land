@@ -5190,5 +5190,13 @@
   "competition.ended": "Competition has ended",
   "competition.ended.description": "The competition has ended. Thank you for participating!",
   "competition.ended.description.two": "The winners are being calculated and will be announced on February 7th!",
-  "not.enough.sfl": "You do not have enough SFL"
+  "not.enough.sfl": "You do not have enough SFL",
+  "portal.chickenRescue.title": "Chicken Rescue",
+  "portal.chickenRescue.description": "Help rescue the chickens while avoiding tricky obstacles in this survival challenge!",
+  "portal.cropsAndChickens.title": "Crops & Chickens",
+  "portal.cropsAndChickens.description": "Race against time to collect crops while dodging chickens in this fast-paced challenge!",
+  "portal.fruitDash.title": "Fruit Dash",
+  "portal.fruitDash.description": "Survive as long as you can collecting fruits while dodging obstacles in this endless challenge!",
+  "portal.halloween.title": "Halloween",
+  "portal.halloween.description": "Brave the haunted mansion, collect torches, and outrun ghosts in this spooky survival challenge!"
 }
