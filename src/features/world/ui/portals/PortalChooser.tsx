@@ -132,7 +132,7 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
             onClick={() => setSelectedGame(id)}
           >
             {npc && <NPCIcon parts={NPC_WEARABLES[npc]} />}
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start gap-1">
               <span className="text-sm font-bold">{title}</span>
               <span className="text-xs mt-1">{description}</span>
             </div>
