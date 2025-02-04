@@ -69,7 +69,7 @@ export const Button: React.FC<Props> = ({
     <>
       <button
         className={classnames(
-          `w-full p-1 text-sm object-contain justify-center items-center hover:brightness-90 cursor-pointer flex disabled:opacity-50 [border-image:var(--button-image)_3_3_4_3_fill] active:[border-image:var(--button-pressed-image)_3_3_4_3_fill]`,
+          `w-full p-1 text-sm object-contain justify-center items-center hover:brightness-90 cursor-pointer flex disabled:opacity-50 [border-image:var(--button-image)_3_3_4_3_fill] active:[border-image:var(--button-pressed-image)_3_3_4_3_fill] transition-transform hover:scale-[1.015] active:scale-[0.98]`,
           className,
           { "cursor-not-allowed": disabled },
         )}
