@@ -282,7 +282,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
         {/* <Label type="default" icon={vipIcon} className="mb-2 ml-2">
           {t("vip.benefits")}
         </Label> */}
-        <div className="flex flex-col ml-2">
+        <div className="flex flex-col space-y-1 ml-1 mb-2 justify-between h-full">
           {[
             {
               text: t("vip.benefit.airdrop"),
@@ -310,11 +310,19 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               text: t("vip.benefit.competition"),
               icon: trophyIcon,
             },
+            ...(getCurrentSeason() === "Winds of Change"
+              ? [
+                  {
+                    text: t("vip.benefit.windOfChange"),
+                    icon: increaseArrow,
+                  },
+                ]
+              : []),
           ].map((item, index) => (
-            <div className="flex mb-1 items-center" key={index}>
+            <div className="flex items-center min-h-[25px]" key={index}>
               <img src={item.icon} className="w-6 mr-2 object-contain" />
-              <div className="w-full">
-                <p className="text-xs  flex-1">{item.text}</p>
+              <div className="w-full flex items-center">
+                <p className="text-xs">{item.text}</p>
               </div>
             </div>
           ))}
