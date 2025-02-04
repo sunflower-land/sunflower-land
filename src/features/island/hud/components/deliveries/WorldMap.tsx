@@ -5,19 +5,17 @@ import worldMap from "assets/map/world_map.png";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { OuterPanel } from "components/ui/Panel";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { isMobile } from "mobile-device-detect";
-import { hasFeatureAccess } from "lib/flags";
 
 const showDebugBorders = false;
 
 export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [location] = useState(useLocation());
   const { t } = useAppTranslation();
 
   const navigate = useNavigate();
@@ -26,10 +24,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const [showPopup, setShowPopup] = useState(false);
 
-  const [reqLvl, setReqLvl] = useState("1");
+  const [reqLvl, setReqLvl] = useState(1);
 
   useEffect(() => {
     gameService.send("SAVE");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const level = getBumpkinLevel(
@@ -37,11 +36,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   );
   const hasFaction = gameService.state.context.state.faction;
   const canTeleportToFactionHouse = level >= 7 && hasFaction;
-
-  const hasInfernosAccess = hasFeatureAccess(
-    gameService.state.context.state,
-    "VOLCANO_ISLAND",
-  );
 
   const getFactionHouseRoute = () => {
     switch (hasFaction?.name) {
@@ -94,25 +88,27 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "3%",
           bottom: "62%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center cursor-pointer ${
+          level >= 30 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
-          if (!hasInfernosAccess) return;
+          if (level < 30) return;
           travel.play();
           navigate("/world/infernos");
           onClose();
         }}
       >
-        {!hasInfernosAccess ? (
+        {level < 30 ? (
           isMobile ? (
             <img
               src={SUNNYSIDE.icons.lock}
               className="h-4 sm:h-6 ml-1 img-highlight"
               onClick={() => {
-                // setShowPopup(true);
-                // setReqLvl("7");
-                // setTimeout(() => {
-                //   setShowPopup(false);
-                // }, 1300);
+                setShowPopup(true);
+                setReqLvl(30);
+                setTimeout(() => {
+                  setShowPopup(false);
+                }, 1300);
               }}
             />
           ) : (
@@ -121,8 +117,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               icon={SUNNYSIDE.icons.lock}
               className="text-sm"
             >
-              {/* {t("world.lvl.requirement", { lvl: 7 })} */}
-              {t("coming.soon")}
+              {t("world.lvl.requirement", { lvl: 30 })}
             </Label>
           )
         ) : (
@@ -176,7 +171,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "35%",
           bottom: "20%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 2 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 2) return;
           travel.play();
@@ -191,7 +188,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               className="h-4 sm:h-6 ml-1 img-highlight"
               onClick={() => {
                 setShowPopup(true);
-                setReqLvl("2");
+                setReqLvl(2);
                 setTimeout(() => {
                   setShowPopup(false);
                 }, 1300);
@@ -222,7 +219,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "35%",
           bottom: "61%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 7 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 7) return;
           travel.play();
@@ -237,7 +236,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               className="h-4 sm:h-6 ml-1 img-highlight"
               onClick={() => {
                 setShowPopup(true);
-                setReqLvl("7");
+                setReqLvl(7);
                 setTimeout(() => {
                   setShowPopup(false);
                 }, 1300);
@@ -268,7 +267,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "35%",
           bottom: "46%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          canTeleportToFactionHouse ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (!canTeleportToFactionHouse) return;
           travel.play();
@@ -291,7 +292,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               className="h-4 sm:h-6 ml-1 img-highlight"
               onClick={() => {
                 setShowPopup(true);
-                setReqLvl("7");
+                setReqLvl(7);
                 setTimeout(() => {
                   setShowPopup(false);
                 }, 1300);
@@ -314,7 +315,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "22%",
           bottom: "24%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 4 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 4) return;
           travel.play();
@@ -329,7 +332,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               className="h-4 sm:h-6 ml-1 img-highlight"
               onClick={() => {
                 setShowPopup(true);
-                setReqLvl("4");
+                setReqLvl(4);
                 setTimeout(() => {
                   setShowPopup(false);
                 }, 1300);
@@ -360,7 +363,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           right: "34%",
           bottom: "33%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 6 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 6) return;
           travel.play();
@@ -375,7 +380,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               className="h-4 sm:h-6 ml-1 img-highlight"
               onClick={() => {
                 setShowPopup(true);
-                setReqLvl("6");
+                setReqLvl(6);
                 setTimeout(() => {
                   setShowPopup(false);
                 }, 1300);
@@ -406,7 +411,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           right: "0%",
           bottom: "0%",
         }}
-        className="flex justify-center items-center cursor-pointer"
+        className={`flex justify-center items-center ${
+          level >= 5 ? "cursor-pointer" : "cursor-not-allowed"
+        }`}
         onClick={() => {
           if (level < 5) return;
           travel.play();
@@ -421,7 +428,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               className="h-4 sm:h-6 ml-1 img-highlight"
               onClick={() => {
                 setShowPopup(true);
-                setReqLvl("5");
+                setReqLvl(5);
                 setTimeout(() => {
                   setShowPopup(false);
                 }, 1300);
@@ -457,7 +464,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           className="transition duration-400 pointer-events-none"
         >
           <span className="text-xxs sm:text-sm">
-            {reqLvl === "7" && level >= 7 && !hasFaction
+            {reqLvl === 7 && level >= 7 && !hasFaction
               ? t("world.factionMembersOnly")
               : t("warning.level.required", { lvl: reqLvl })}
           </span>

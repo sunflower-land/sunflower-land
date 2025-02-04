@@ -14,10 +14,13 @@ import { Equipped } from "../types/bumpkin";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  username: "Local Hero",
   coins: 10000,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    "Fruit Patch": new Decimal(1),
+    "Lunara Seed": new Decimal(1),
     Obsidian: new Decimal(20),
     Jellyfish: new Decimal(1),
     Chamomile: new Decimal(1),
@@ -100,13 +103,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 6,
       width: 2,
       height: 2,
-      fruit: {
-        name: "Banana",
-        plantedAt: 0,
-        amount: 1,
-        harvestsLeft: 1,
-        harvestedAt: 0,
-      },
     },
   },
   gold: {},
@@ -421,7 +417,30 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  collectibles: {},
+  collectibles: {
+    Bale: [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        readyAt: 0,
+      },
+    ],
+    "Gold Egg": [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        readyAt: 0,
+      },
+    ],
+  },
   pumpkinPlaza: {},
   treasureIsland: {
     holes: {},

@@ -4,7 +4,6 @@ import { GameState } from "../../types/game";
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { hasFeatureAccess } from "lib/flags";
 
 export type ResourceBoughtAction = {
   type: "resource.bought";
@@ -57,10 +56,6 @@ export function buyResource({
 }: Options): GameState {
   return produce(state, (game) => {
     const node = RESOURCE_NODE_PRICES[action.name];
-
-    if (!hasFeatureAccess(game, "VOLCANO_ISLAND")) {
-      throw new Error("Volcano Island not unlocked");
-    }
 
     if (!node) {
       throw new Error("Resource not for sale");

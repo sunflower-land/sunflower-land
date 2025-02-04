@@ -98,7 +98,6 @@ import {
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
-import { hasFeatureAccess } from "lib/flags";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
@@ -916,7 +915,6 @@ export function startGame(authContext: AuthContext) {
               target: "seasonChanged",
               cond: (context) => {
                 return (
-                  hasFeatureAccess(context.state, "TEMPERATE_SEASON") &&
                   context.state.island.type !== "basic" &&
                   (context.state.island.upgradedAt ?? 0) <
                     context.state.season.startedAt &&
@@ -929,10 +927,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "calendarEvent",
               cond: (context) => {
-                if (!hasFeatureAccess(context.state, "WEATHER_SHOP")) {
-                  return false;
-                }
-
                 const game = context.state;
 
                 const activeEvent = getActiveCalendarEvent({
@@ -1354,10 +1348,6 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "seasonChanged",
                 cond: (context, event) => {
-                  if (!hasFeatureAccess(context.state, "TEMPERATE_SEASON")) {
-                    return false;
-                  }
-
                   return (
                     context.state.island.type !== "basic" &&
                     (context.state.island.upgradedAt ?? 0) <
@@ -1373,10 +1363,6 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "calendarEvent",
                 cond: (_, event) => {
-                  if (!hasFeatureAccess(event.data.farm, "WEATHER_SHOP")) {
-                    return false;
-                  }
-
                   const game = event.data.farm;
 
                   const activeEvent = getActiveCalendarEvent({

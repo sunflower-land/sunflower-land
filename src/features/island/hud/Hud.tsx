@@ -32,7 +32,6 @@ import {
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
-import { hasFeatureAccess } from "lib/flags";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 
@@ -201,8 +200,7 @@ const HudComponent: React.FC<{
           <Settings isFarming={isFarming} />
         </div>
         <BumpkinProfile isFullUser={isFullUser} />
-        {hasFeatureAccess(gameState.context.state, "TEMPERATE_SEASON") &&
-          !isTutorial && <GameCalendar />}
+        {!isTutorial && <GameCalendar />}
 
         <DepositModal
           farmAddress={farmAddress ?? ""}

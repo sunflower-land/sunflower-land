@@ -16,7 +16,6 @@ import { getFruitYield } from "./fruitHarvested";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
-import { hasFeatureAccess } from "lib/flags";
 import { isFullMoonBerry } from "./seedBought";
 
 export type PlantFruitAction = {
@@ -255,7 +254,6 @@ export function plantFruit({
     }
 
     if (
-      hasFeatureAccess(stateCopy, "SEASONAL_SEEDS") &&
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.seed) &&
       !isFullMoonBerry(action.seed)
     ) {

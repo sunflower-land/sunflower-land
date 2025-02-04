@@ -29,7 +29,6 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 
 const FISH_BY_TYPE = getFishByType();
 
@@ -88,7 +87,6 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
 
   if (selectedFish) {
     const hasCaught = (farmActivity[`${selectedFish} Caught`] ?? 0) > 0;
-    const hasSeasonAccess = hasFeatureAccess(state, "SEASONAL_FISH");
 
     return (
       <Detail
@@ -97,20 +95,18 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
         onBack={() => setSelectedFish(undefined)}
         additionalLabels={
           <div>
-            {hasSeasonAccess && (
-              <div className="flex flex-wrap">
-                {FISH[selectedFish].seasons.map((season) => (
-                  <Label
-                    key={`${selectedFish}-${season}`}
-                    type="vibrant"
-                    className="px-0.5 mr-4 text-xxs whitespace-nowrap  mb-1"
-                    icon={SEASON_ICONS[season]}
-                  >
-                    {t(`season.${season}`)}
-                  </Label>
-                ))}
-              </div>
-            )}
+            <div className="flex flex-wrap">
+              {FISH[selectedFish].seasons.map((season) => (
+                <Label
+                  key={`${selectedFish}-${season}`}
+                  type="vibrant"
+                  className="px-0.5 mr-4 text-xxs whitespace-nowrap  mb-1"
+                  icon={SEASON_ICONS[season]}
+                >
+                  {t(`season.${season}`)}
+                </Label>
+              ))}
+            </div>
 
             <div className="flex flex-wrap items-center">
               {FISH[selectedFish].baits.map((bait) => (
@@ -124,7 +120,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                   {bait}
                 </Label>
               ))}
-              {hasCaught && hasSeasonAccess && (
+              {hasCaught && (
                 <>
                   {FISH[selectedFish].likes.map((chum) => (
                     <Label
@@ -251,7 +247,6 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                   {FISH_BY_TYPE[type]
                     .filter(
                       (name) =>
-                        hasFeatureAccess(state, "SEASONAL_FISH") ||
                         !WINDS_OF_CHANGE_FISH.includes(name as FishName),
                     )
                     .map((name) => (
