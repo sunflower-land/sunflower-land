@@ -199,6 +199,11 @@ export const AnimalDeal: React.FC<{
     return null;
   }
 
+  const { coins } = generateBountyCoins({
+    game: state,
+    bounty: deal,
+  });
+
   return (
     <>
       {animal.state === "sick" ? (
@@ -213,7 +218,7 @@ export const AnimalDeal: React.FC<{
                     className="w-4"
                     alt="Coins"
                   />
-                  <p>{`x ${getSickAnimalRewardAmount(deal.coins)} coins`}</p>
+                  <p>{`x ${getSickAnimalRewardAmount(coins)} coins`}</p>
                 </div>
               )}
               {getKeys(deal.items ?? {}).map((name) => {
@@ -248,7 +253,7 @@ export const AnimalDeal: React.FC<{
               </Label>
               {!!deal.coins && (
                 <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
-                  {deal.coins}
+                  {coins}
                 </Label>
               )}
 
@@ -270,7 +275,7 @@ export const AnimalDeal: React.FC<{
 
             <p>
               {deal.coins
-                ? t("bounties.sell.coins", { amount: deal.coins })
+                ? t("bounties.sell.coins", { amount: coins })
                 : t("bounties.sell.items", {
                     amount: getKeys(deal.items ?? {})
                       .map(
@@ -305,6 +310,14 @@ export const ExchangeHud: React.FC<{
   onClose: () => void;
 }> = ({ deal, onClose }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const state = gameService.getSnapshot().context.state;
+
+  const { coins } = generateBountyCoins({
+    game: state,
+    bounty: deal,
+  });
+
   return (
     <HudContainer>
       <div className="absolute items-start flex top-3 px-2 cursor-pointer z-10 w-full justify-between">
@@ -316,7 +329,7 @@ export const ExchangeHud: React.FC<{
 
             {!!deal.coins && (
               <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
-                {deal.coins}
+                {coins}
               </Label>
             )}
 
