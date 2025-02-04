@@ -32,6 +32,9 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
+import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
+import { formatNumber } from "lib/utils/formatNumber";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 function acknowledgeIntro() {
   localStorage.setItem(
@@ -228,53 +231,63 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               <img src={SUNNYSIDE.tutorial.animals} className="w-full" />
             </InnerPanel>
             <div className="flex flex-col space-y-2 text-xs">
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.building.feederMachine}
-                  className="h-8"
-                  alt="feeder machine"
-                />
+              <div className="flex items-center gap-1">
+                <div className="px-1">
+                  <SquareIcon
+                    icon={SUNNYSIDE.building.feederMachine}
+                    width={7}
+                  />
+                </div>
                 <p>{t("animals.guide.feeder")}</p>
               </div>
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.animalFoods.kernel_blend}
-                  className="h-6"
-                  alt="animal food"
-                />
+              <div className="flex items-center gap-1">
+                <div className="px-1">
+                  <SquareIcon
+                    icon={SUNNYSIDE.animalFoods.kernel_blend}
+                    width={7}
+                  />
+                </div>
                 <p>{t("animals.guide.food_preference")}</p>
               </div>
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.icons.expression_ready}
-                  className="h-6"
-                  alt="animal food"
-                />
+              <div className="flex items-center gap-1">
+                <div className="px-1">
+                  <SquareIcon
+                    icon={SUNNYSIDE.icons.expression_ready}
+                    width={7}
+                  />
+                </div>
                 <p>{t("animals.guide.progress")}</p>
               </div>
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.icons.sleeping}
-                  className="h-6"
-                  alt="animal food"
-                />
+              <div className="flex items-center gap-1">
+                <div className="px-1">
+                  <SquareIcon icon={SUNNYSIDE.icons.sleeping} width={7} />
+                </div>
                 <p>{t("animals.guide.sleeping")}</p>
               </div>
-              <div className="flex items-center space-x-1">
-                <img src={brush} className="h-6" alt="brush" />
+              <div className="flex items-center gap-1">
+                <div className="px-1">
+                  <SquareIcon icon={brush} width={7} />
+                </div>
                 <p>{t("animals.guide.affection")}</p>
               </div>
-              <div className="flex items-center space-x-1">
-                <img src={SUNNYSIDE.icons.death} className="h-6" alt="trade" />
-                <p>{t("animals.guide.bounties")}</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.animalFoods.barn_delight}
-                  className="h-6"
-                  alt="barn delight medicine"
-                />
+              <div className="flex items-center gap-1">
+                <div className="px-1">
+                  <SquareIcon
+                    icon={SUNNYSIDE.animalFoods.barn_delight}
+                    width={7}
+                  />
+                </div>
                 <p>{t("animals.guide.sickness")}</p>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="px-1">
+                  <SquareIcon icon={SUNNYSIDE.icons.death} width={7} />
+                </div>
+                <p>
+                  {t("animals.guide.bounties", {
+                    percent: formatNumber(SICK_ANIMAL_REWARD_MULTIPLIER * 100),
+                  })}
+                </p>
               </div>
             </div>
           </div>
