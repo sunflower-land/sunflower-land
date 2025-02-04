@@ -16,6 +16,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `portal-chooser-${host}-${window.location.pathname}`;
@@ -40,7 +41,7 @@ function acknowledgeIntroRead() {
 
 interface PortalOption {
   id: MinigameName;
-  npc?: NPCName;
+  npc: NPCName;
   title: string;
   description: string;
   component: React.FC<{ onClose: () => void }>;
@@ -107,35 +108,44 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
   );
   if (selectedOption) {
     const GameComponent = selectedOption.component;
-    return <GameComponent onClose={onClose} />;
+    return (
+      <CloseButtonPanel
+        onClose={onClose}
+        bumpkinParts={NPC_WEARABLES[selectedOption.npc]}
+      >
+        <GameComponent onClose={onClose} />
+      </CloseButtonPanel>
+    );
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="p-2">
-        <Label type="default" icon={SUNNYSIDE.icons.player}>
-          {`Choose your adventure!`}
-        </Label>
-      </div>
+    <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES["billy"]}>
+      <div className="flex flex-col items-center">
+        <div className="p-2">
+          <Label type="default" icon={SUNNYSIDE.icons.player}>
+            {`Choose your adventure!`}
+          </Label>
+        </div>
 
-      <div className="flex flex-col gap-1 w-full">
-        {PORTAL_OPTIONS.filter(
-          ({ id }) =>
-            id !== "halloween" || hasFeatureAccess(state, "HALLOWEEN_2024"),
-        ).map(({ id, npc, title, description }) => (
-          <ButtonPanel
-            key={id}
-            className="flex flex-row items-center gap-2"
-            onClick={() => setSelectedGame(id)}
-          >
-            {npc && <NPCIcon parts={NPC_WEARABLES[npc]} />}
-            <div className="flex flex-col items-start gap-1">
-              <span className="text-sm font-bold">{title}</span>
-              <span className="text-xs mt-1">{description}</span>
-            </div>
-          </ButtonPanel>
-        ))}
+        <div className="flex flex-col gap-1 w-full">
+          {PORTAL_OPTIONS.filter(
+            ({ id }) =>
+              id !== "halloween" || hasFeatureAccess(state, "HALLOWEEN_2024"),
+          ).map(({ id, npc, title, description }) => (
+            <ButtonPanel
+              key={id}
+              className="flex flex-row items-center gap-2"
+              onClick={() => setSelectedGame(id)}
+            >
+              {npc && <NPCIcon parts={NPC_WEARABLES[npc]} />}
+              <div className="flex flex-col items-start gap-1">
+                <span className="text-sm font-bold">{title}</span>
+                <span className="text-xs mt-1">{description}</span>
+              </div>
+            </ButtonPanel>
+          ))}
+        </div>
       </div>
-    </div>
+    </CloseButtonPanel>
   );
 };

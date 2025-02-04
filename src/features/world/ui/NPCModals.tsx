@@ -200,14 +200,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <GarbageCollectorModal />
           </CloseButtonPanel>
         )}
-        {npc === "billy" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.billy}
-          >
-            <PortalChooser onClose={closeModal} />
-          </CloseButtonPanel>
-        )}
+        {npc === "billy" && <PortalChooser onClose={closeModal} />}
         {npc === "cluck e cheese" && (
           <CloseButtonPanel
             onClose={closeModal}
