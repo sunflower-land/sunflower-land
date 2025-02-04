@@ -856,7 +856,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
   "Crab Hat": [
     {
       shortDescription: translate("description.crabHat.boost"),
-      labelType: "vibrant",
+      labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
