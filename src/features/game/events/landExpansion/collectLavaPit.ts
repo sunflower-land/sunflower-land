@@ -2,8 +2,7 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 
-// export const LAVA_PIT_MS = 72 * 60 * 60 * 1000;
-export const LAVA_PIT_MS = 10 * 1000;
+export const LAVA_PIT_MS = 72 * 60 * 60 * 1000;
 
 export type CollectLavaPitAction = {
   type: "lavaPit.collected";
