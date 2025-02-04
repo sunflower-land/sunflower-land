@@ -185,7 +185,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
   const easterEggs = getItems(EASTER_EGG);
-  const bounty = getItems(SELLABLE_TREASURE);
+  const treasure = getItems(SELLABLE_TREASURE);
   const exotics = getItems(EXOTIC_CROPS);
   const cropCompost = getItems(CROP_COMPOST);
   const fruitCompost = getItems(FRUIT_COMPOST);
@@ -328,8 +328,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["Carrot Cake"].image,
           )}
           {itemsSection(
-            t("bounty"),
-            bounty,
+            t("treasure"),
+            treasure,
             ITEM_DETAILS["Pirate Bounty"].image,
           )}
           {itemsSection(
