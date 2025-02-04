@@ -2351,8 +2351,6 @@
   "description.pharaoh.chicken": "Yönetici bir tavuk, +1 Dig.",
   "description.knight.chicken": "Yağ veriminizi artıran güçlü ve asil bir tavuk.",
   "description.time.warp.totem": "Mahsuller, ağaçlar, meyveler, yemek pişirme ve mineraller için 2x hız. Sadece 2 saat sürer",
-  "description.scary.mike": "Yakındaki Havuç, Lahana, Soya Fasulyesi, Pancar, Karnabahar ve Yaban Havucunu güçlendirin",
-  "description.laurie.chuckle.crow": "Yakındaki Patlıcan, Mısır, Turp, Buğday ve Lahanayı güçlendirin",
   "description.immortal.pear": "Meyve yamalarınızın hayatta kalmasını artırın.",
   "description.immortal.pear.boost": "Tohum başına +1 Meyve Hasadı",
   "description.battle.fish.boost": "+0.05 Petrol",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "+15 günlük balıkçılık sınırı",
   "skill.alternateMedicine": "Barn Delight karıştırmak için 1 daha az Limon ve Bal gerektirir",
   "skill.seedyBusiness": "-15% Sera tohumları maliyeti",
-  "description.basic.scarecrow": "Yakındaki temel mahsulleri artırın",
   "description.sir.goldensnout.boost": "+0.5 mahsul verimi",
   "description.sir.goldensnout.boost.aoe": "Çevresindeki arsaları etkiler (4x4)",
   "description.basic.scarecrow.boost.aoe": "Etki Alanı (3x3) aşağıda",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Bölüm Yarışması",
   "bounties.sell.animal.sick": "Hmm, bu zavallı hayvanın hasta olduğunu görüyorum. Yine de onları ellerinden alacağım, ama sana daha düşük bir ödül sunmak zorunda kalacağım. Anlaşma mı?",
   "skill.appleTastic": "Uykuda olmayan tüm sağlıklı hayvanların seviyesini yükseltmek için 600 elma kullanın",
-  "powerSkills.reason.animalsSickReadyAsleep": "Tüm hayvanlarınız hasta, hazır veya uykuda"
+  "powerSkills.reason.animalsSickReadyAsleep": "Tüm hayvanlarınız hasta, hazır veya uykuda",
+  "description.basic.scarecrow": "Yakındaki Temel Bitkileri güçlendirin.",
+  "description.scary.mike": "Yakındaki Orta Mahsulleri Güçlendirin.",
+  "description.laurie.chuckle.crow": "Yakındaki Gelişmiş Bitkileri güçlendirin."
 }

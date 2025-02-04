@@ -179,8 +179,6 @@
   "description.heart.davy.jones": "それを持っている人は誰でも7つの海を支配する計り知れない力を持っているので、疲れずに宝を掘ることができます。",
   "description.treasure.map": "所有者を貴重な宝物へと導く魅惑的な地図。ビーチバウンティアイテムから +20% の利益。",
   "description.genie.lamp": "3つの願いを叶えてくれる魔神が宿った魔法のランプ。",
-  "description.scary.mike": "近くのにんじん、キャベツ、大豆、ビートルーツ、カリフラワー、パースニップを満足",
-  "description.laurie.chuckle.crow": "近くのナス、コーン、ラディッシュ、ウィート、ケールをブースト",
   "description.immortal.pear": "フルーツパッチの生存率を高めましょう。",
   "description.sir.goldensnout": "王室の一員であるサー・ゴールデンスナウトは、黄金の肥料を通して農場に主権的な繁栄をもたらします。",
   "description.freya.fox": "魅惑的なガーディアン。彼女の神秘的な魅力でカボチャの成長を促します。彼女の注視の下、豊富なカボチャを収穫しましょう。",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "+15 デイリーフィッシングリミット",
   "skill.alternateMedicine": "Barn Delightは混ぜるのにレモンとハチミツを1つ少なくする必要があります",
   "skill.seedyBusiness": "-15% 温室種子のコスト",
-  "description.basic.scarecrow": "近くの基本農作物を強化しよう",
   "description.sir.goldensnout.boost": "+0.5 作物収量",
   "description.sir.goldensnout.boost.aoe": "周辺のプロットに影響します (4x4)",
   "description.basic.scarecrow.boost.aoe": "下のエリアオブエフェクト (3x3)",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "チャプターコンペティション",
   "bounties.sell.animal.sick": "うーん、このかわいそうな動物は病気らしい。それでも君の手からはずすが、賞金を減らさないといけない。取引？",
   "skill.appleTastic": "600個のリンゴを使って、眠っていない健康な動物をすべてレベルアップさせましょう",
-  "powerSkills.reason.animalsSickReadyAsleep": "すべての動物が病気か、準備ができているか、眠っている"
+  "powerSkills.reason.animalsSickReadyAsleep": "すべての動物が病気か、準備ができているか、眠っている",
+  "description.basic.scarecrow": "近くの基本農作物にブーストを与える。",
+  "description.scary.mike": "近くの中型作物にブーストを与える。",
+  "description.laurie.chuckle.crow": "近くの上級作物を強化しよう。"
 }

@@ -179,8 +179,6 @@
   "description.heart.davy.jones": "Sesiapa yang memilikinya mempunyai kuasa besar di atas tujuh laut, boleh menggali harta karun tanpa meletihkan.",
   "description.treasure.map": "Peta terpesona yang membawa pemegang ke harta karun yang berharga. +20% keuntungan dari barangan hadiah pantai.",
   "description.genie.lamp": "Lampu ajaib yang mengandungi jin yang akan memenuhi tiga hasrat kepada anda.",
-  "description.scary.mike": "Tingkatkan Wortel, Kubis, Kacang Soya, Beetroot, Kembang Kol dan Parsnips yang berdekatan",
-  "description.laurie.chuckle.crow": "Tingkatkan Terung, Jagung, Lobak, Gandum dan Kale berdekatan",
   "description.immortal.pear": "Tingkatkan kelangsungan hidup tompok buah anda.",
   "description.sir.goldensnout": "Seorang anggota kerajaan, Sir Goldensnout menanamkan ladang anda dengan kemakmuran berdaulat melalui baja emasnya.",
   "description.freya.fox": "Penjaga yang mempesona, meningkatkan pertumbuhan labu dengan daya tarikan mistiknya. Tuai labu yang banyak di bawah pandangannya yang berhati-hati.",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "+15 had memancing harian",
   "skill.alternateMedicine": "Barn Delight memerlukan 1 Lemon dan Madu kurang untuk dicampur",
   "skill.seedyBusiness": "-15% kos biji rumah hijau",
-  "description.basic.scarecrow": "Tingkatkan tanaman asas berdekatan",
   "description.sir.goldensnout.boost": "+0.5 hasil tanaman",
   "description.sir.goldensnout.boost.aoe": "Mempengaruhi plot sekitar (4x4)",
   "description.basic.scarecrow.boost.aoe": "Kawasan Kesan (3x3) di bawah",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Pertandingan Bab",
   "bounties.sell.animal.sick": "Hmm, saya lihat haiwan miskin ini sakit. Saya masih akan mengeluarkannya dari tangan anda, tetapi saya perlu menawarkan hadiah yang dikurangkan. Perjanjian?",
   "skill.appleTastic": "Gunakan 600 epal untuk meningkatkan semua haiwan yang sihat yang tidak tidur",
-  "powerSkills.reason.animalsSickReadyAsleep": "Semua haiwan anda sakit, bersedia atau tidur"
+  "powerSkills.reason.animalsSickReadyAsleep": "Semua haiwan anda sakit, bersedia atau tidur",
+  "description.basic.scarecrow": "Tingkatkan Tanaman Asas berdekatan.",
+  "description.scary.mike": "Tingkatkan Tanaman Sederhana berdekatan.",
+  "description.laurie.chuckle.crow": "Tingkatkan Tanaman Lanjutan berdekatan."
 }

@@ -174,8 +174,6 @@
   "description.heart.davy.jones": "谁拥有它，谁就拥有掌控七大洋的浩瀚力量，可以挖掘财宝不知疲倦",
   "description.treasure.map": "一张魔法地图，能引领持有者找到珍贵的财宝。沙岸财宝的利润 +20%",
   "description.genie.lamp": "一盏有魔力的灯，里面有一个能帮你实现三个愿望的精灵",
-  "description.scary.mike": "为附近的胡萝卜、卷心菜、大豆、甜菜根、花椰菜和防风草提供增益。",
-  "description.laurie.chuckle.crow": "为附近的茄子、玉米、小萝卜、小麦和羽衣甘蓝提供增益",
   "description.immortal.pear": "一种能使果树寿命变长的长寿梨",
   "description.sir.goldensnout": "一位皇家成员，Sir Goldensnout 通过它的黄金肥料为您的农场带来了治下繁荣",
   "description.freya.fox": "迷人的守护者，用她的神秘魅力来促进南瓜的生长。在她的注视下，收获大量南瓜。",
@@ -4668,7 +4666,6 @@
   "skill.fishermansTenFold": "+10 每日钓鱼上限",
   "skill.alternateMedicine": "Barn Delight 需要减少 1 个柠檬和蜂蜜才能混合",
   "skill.seedyBusiness": "-15% 温室种子成本",
-  "description.basic.scarecrow": "培育附近的基础作物",
   "description.sir.goldensnout.boost": "+0.5 作物产量",
   "description.sir.goldensnout.boost.aoe": "影响周围的绘图 (4x4)",
   "description.basic.scarecrow.boost.aoe": "效果区域 (3x3) 如下",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "分会竞赛",
   "bounties.sell.animal.sick": "嗯，我看见这只可怜的动物生病了。我还是会把它们从你手中夺走，但我得给你一笔较低的赏金。交易？",
   "skill.appleTastic": "使用 600 个苹果来提升所有未睡觉的健康动物的等级",
-  "powerSkills.reason.animalsSickReadyAsleep": "你所有的动物都生病了、准备好了或者睡着了"
+  "powerSkills.reason.animalsSickReadyAsleep": "你所有的动物都生病了、准备好了或者睡着了",
+  "description.basic.scarecrow": "提升附近的基础作物。",
+  "description.scary.mike": "提升附近的中型作物。",
+  "description.laurie.chuckle.crow": "提升附近的高级作物。"
 }

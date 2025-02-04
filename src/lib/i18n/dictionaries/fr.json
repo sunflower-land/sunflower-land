@@ -2348,8 +2348,6 @@
   "description.pharaoh.chicken": "Un poulet dominant, +1 Dig.",
   "description.knight.chicken": "Un poulet fort et noble qui augmente votre rendement en huile.",
   "description.time.warp.totem": "Vitesse 2 fois supérieure pour les cultures, les arbres, les fruits, la cuisine et les minéraux. Ne dure que 2 heures",
-  "description.scary.mike": "Boostez les carottes, les choux, le soja, les betteraves, les choux-fleurs et les panais à proximité",
-  "description.laurie.chuckle.crow": "Boostez l'aubergine, le maïs, le radis, le blé et le chou frisé à proximité",
   "description.immortal.pear": "Augmentez la survie de vos parcelles de fruits.",
   "description.purple.trail.boost": "+0,2 Aubergine",
   "description.maximus.boost": "+1 Aubergine",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "Limite de pêche quotidienne de +15",
   "skill.alternateMedicine": "Barn Delight nécessite 1 citron et 1 miel en moins pour être mélangé",
   "skill.seedyBusiness": "-15 % Coût des semences de serre",
-  "description.basic.scarecrow": "Stimulez les cultures de base à proximité",
   "description.sir.goldensnout.boost": "+0,5 rendement des récoltes",
   "description.sir.goldensnout.boost.aoe": "Affecte les parcelles environnantes (4x4)",
   "description.basic.scarecrow.boost.aoe": "Zone d'effet (3x3) ci-dessous",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Chapitre Compétition",
   "bounties.sell.animal.sick": "Hmm, je vois que ce pauvre animal est malade. Je vais quand même vous les retirer, mais je vais devoir vous offrir une prime réduite. Un accord ?",
   "skill.appleTastic": "Utilisez 600 pommes pour améliorer le niveau de tous les animaux en bonne santé qui ne dorment pas",
-  "powerSkills.reason.animalsSickReadyAsleep": "Tous vos animaux sont malades, prêts ou endormis"
+  "powerSkills.reason.animalsSickReadyAsleep": "Tous vos animaux sont malades, prêts ou endormis",
+  "description.basic.scarecrow": "Boostez les cultures de base à proximité.",
+  "description.scary.mike": "Stimulez les cultures moyennes à proximité.",
+  "description.laurie.chuckle.crow": "Boostez les cultures avancées à proximité."
 }

@@ -179,8 +179,6 @@
   "description.heart.davy.jones": "Siapa pun yang memilikinya memegang kekuasaan besar atas tujuh lautan, dapat menggali harta tanpa melelahkan.",
   "description.treasure.map": "Peta ajaib yang mengarahkan pemegangnya ke harta berharga. +20% keuntungan dari item hadiah pantai.",
   "description.genie.lamp": "Lampu ajaib yang berisi jin yang akan memberi Anda tiga keinginan.",
-  "description.scary.mike": "Tingkatkan Wortel, Kubis, Kedelai, Bit, Kembang Kol, dan Parsnip terdekat",
-  "description.laurie.chuckle.crow": "Tingkatkan Terong, Jagung, Lobak, Gandum, dan Kale terdekat",
   "description.immortal.pear": "Tingkatkan kelangsungan hidup bercak buah Anda.",
   "description.sir.goldensnout": "Seorang anggota kerajaan, Sir Goldensnout menanamkan pertanian Anda dengan kemakmuran yang berdaulat melalui kotoran emasnya.",
   "description.freya.fox": "Penjaga yang mempesona, meningkatkan pertumbuhan labu dengan pesona mistisnya. Panen labu berlimpah di bawah tatapannya yang waspada.",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "+15 batas memancing harian",
   "skill.alternateMedicine": "Barn Delight membutuhkan 1 lebih sedikit Lemon dan Madu untuk dicampur",
   "skill.seedyBusiness": "-15% biaya benih rumah kaca",
-  "description.basic.scarecrow": "Tingkatkan tanaman dasar terdekat",
   "description.sir.goldensnout.boost": "+0,5 hasil panen",
   "description.sir.goldensnout.boost.aoe": "Mempengaruhi plot di sekitar (4x4)",
   "description.basic.scarecrow.boost.aoe": "Area Efek (3x3) di bawah",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Kompetisi Bab",
   "bounties.sell.animal.sick": "Hmm, aku melihat hewan malang ini sakit. Aku masih akan melepasnya dari tanganmu, tapi aku harus menawarkan hadiah yang lebih rendah. Kesepakatan?",
   "skill.appleTastic": "Gunakan 600 apel untuk meningkatkan level semua hewan sehat yang tidak tidur",
-  "powerSkills.reason.animalsSickReadyAsleep": "Semua hewan Anda sakit, siap atau tertidur"
+  "powerSkills.reason.animalsSickReadyAsleep": "Semua hewan Anda sakit, siap atau tertidur",
+  "description.basic.scarecrow": "Tingkatkan Tanaman Dasar terdekat.",
+  "description.scary.mike": "Tingkatkan Tanaman Sedang di dekatnya.",
+  "description.laurie.chuckle.crow": "Tingkatkan Tanaman Lanjutan terdekat."
 }

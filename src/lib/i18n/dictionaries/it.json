@@ -178,8 +178,6 @@
   "description.heart.davy.jones": "Chi lo possiede possiede un immenso potere sui sette mari, può scavare alla ricerca di tesori senza stancarsi.",
   "description.treasure.map": "Una mappa incantata che porta il possessore a un prezioso tesoro. +20% di profitto dagli oggetti da spiaggia.",
   "description.genie.lamp": "Una lampada magica che contiene un genio che esaudirà tre desideri.",
-  "description.scary.mike": "Potenzia carote, cavoli, soia, barbabietole, cavolfiori e pastinache nelle vicinanze",
-  "description.laurie.chuckle.crow": "Potenzia melanzane, mais, ravanelli, frumento e cavoli nelle vicinanze",
   "description.immortal.pear": "Aumenta la sopravvivenza dei tuoi appezzamenti di frutta.",
   "description.sir.goldensnout": "Membro reale, Sir Goldensnout infonde alla tua fattoria una prosperità sovrana attraverso il suo letame dorato.",
   "description.freya.fox": "Incantevole guardiana, stimola la crescita delle zucche con il suo fascino mistico. Raccogli abbondanti zucche sotto il suo sguardo attento.",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "+15 limite di pesca giornaliero",
   "skill.alternateMedicine": "Barn Delight richiede 1 limone e miele in meno per miscelare",
   "skill.seedyBusiness": "-15% Costo dei semi in serra",
-  "description.basic.scarecrow": "Potenzia le colture di base nelle vicinanze",
   "description.sir.goldensnout.boost": "+0,5 resa del raccolto",
   "description.sir.goldensnout.boost.aoe": "Influisce sui grafici in giro (4x4)",
   "description.basic.scarecrow.boost.aoe": "Area di effetto (3x3) qui sotto",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Capitolo Competizione",
   "bounties.sell.animal.sick": "Hmm, vedo che questo povero animale è malato. Ve li toglierò comunque dalle mani, ma dovrò offrirvi una ricompensa ridotta. Affare?",
   "skill.appleTastic": "Usa 600 mele per far salire di livello tutti gli animali sani che non dormono",
-  "powerSkills.reason.animalsSickReadyAsleep": "Tutti i tuoi animali sono malati, pronti o dormono"
+  "powerSkills.reason.animalsSickReadyAsleep": "Tutti i tuoi animali sono malati, pronti o dormono",
+  "description.basic.scarecrow": "Potenzia le colture di base nelle vicinanze.",
+  "description.scary.mike": "Potenzia le colture medie nelle vicinanze.",
+  "description.laurie.chuckle.crow": "Potenzia le colture avanzate nelle vicinanze."
 }

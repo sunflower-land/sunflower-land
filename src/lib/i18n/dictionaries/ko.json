@@ -179,8 +179,6 @@
   "description.heart.davy.jones": "일곱 대양을 다스리는 막강한 힘을 가진 자라면 누구나 지치지 않고 보물을 캐낼 수 있습니다.",
   "description.treasure.map": "소유자를 귀중한 보물로 인도하는 마법에 걸린 지도. 해변 현상금 아이템으로 20% 이상 수익을 올리세요.",
   "description.genie.lamp": "세 가지 소원을 들어줄 지니가 들어 있는 마법의 램프입니다.",
-  "description.scary.mike": "근처에 있는 당근, 양배추, 대두, 비트 뿌리, 콜리플라워, 파스닙을 키워보세요.",
-  "description.laurie.chuckle.crow": "근처의 가지, 옥수수, 무, 밀, 케일을 강화하세요",
   "description.immortal.pear": "과일 패치의 생존율을 높이십시오.",
   "description.sir.goldensnout": "왕족인 골든스누트 경은 황금 거름을 통해 농장에 주권적 번영을 불어넣습니다.",
   "description.freya.fox": "매혹적인 수호자는 신비로운 매력으로 호박의 성장을 촉진합니다.그녀의 조심스러운 시선 아래 풍성한 호박을 수확하세요.",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "일일 낚시 한도 +15",
   "skill.alternateMedicine": "반 딜라이트는 섞을 때 레몬과 꿀이 1개 덜 필요합니다.",
   "skill.seedyBusiness": "-15% 온실 종자 비용",
-  "description.basic.scarecrow": "주변의 기본 작물을 강화하세요",
   "description.sir.goldensnout.boost": "+0.5 농작물 수확량",
   "description.sir.goldensnout.boost.aoe": "주변 플롯에 영향을 미칩니다 (4x4)",
   "description.basic.scarecrow.boost.aoe": "아래 효과 영역 (3x3)",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "챕터 경쟁",
   "bounties.sell.animal.sick": "흠, 이 불쌍한 짐승이 아픈 것 같네요.그래도 네 손에서 떼어주겠지만 현상금을 줄여야 겠어.딜?",
   "skill.appleTastic": "사과 600개를 사용해 잠들지 않는 모든 건강한 동물의 레벨을 올리세요.",
-  "powerSkills.reason.animalsSickReadyAsleep": "모든 동물이 아프거나, 준비가 되었거나, 잠들어 있습니다."
+  "powerSkills.reason.animalsSickReadyAsleep": "모든 동물이 아프거나, 준비가 되었거나, 잠들어 있습니다.",
+  "description.basic.scarecrow": "근처의 기본 작물을 강화하세요.",
+  "description.scary.mike": "근처의 중형 작물을 강화하세요.",
+  "description.laurie.chuckle.crow": "근처의 고급 작물을 강화하세요."
 }

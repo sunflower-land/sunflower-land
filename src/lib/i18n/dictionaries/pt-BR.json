@@ -2301,8 +2301,6 @@
   "description.pharaoh.chicken": "Uma galinha dominante, +1 Dig.",
   "description.knight.chicken": "Um frango forte e nobre que aumenta sua produção de óleo.",
   "description.time.warp.totem": "Velocidade 2x para plantações, árvores, frutas, culinária e minerais. Dura apenas 2 horas",
-  "description.scary.mike": "Impulsione cenouras, repolhos, soja, beterraba, couve-flor e pastinaga nas proximidades",
-  "description.laurie.chuckle.crow": "Impulsione berinjela, milho, rabanete, trigo e couve nas proximidades",
   "description.immortal.pear": "Aumente a sobrevivência de seus canteiros de frutas.",
   "description.immortal.pear.boost": "+1 colheita de frutas por semente",
   "description.banana.chicken.boost": "+0.1 Banana",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "Limite diário de pesca de +15",
   "skill.alternateMedicine": "Barn Delight requer menos 1 limão e mel para misturar",
   "skill.seedyBusiness": "-15% de custo de sementes de estufa",
-  "description.basic.scarecrow": "Impulsione as plantações básicas próximas",
   "description.sir.goldensnout.boost": "+0,5 rendimento da safra",
   "description.sir.goldensnout.boost.aoe": "Afeta os lotes ao redor (4x4)",
   "description.basic.scarecrow.boost.aoe": "Área de efeito (3x3) abaixo",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Capítulo: Competição",
   "bounties.sell.animal.sick": "Hmm, vejo que esse pobre animal está doente. Ainda vou tirá-los de suas mãos, mas terei que lhe oferecer uma recompensa reduzida. Acordo?",
   "skill.appleTastic": "Use 600 maçãs para aumentar o nível de todos os animais saudáveis que não estão dormindo",
-  "powerSkills.reason.animalsSickReadyAsleep": "Todos os seus animais estão doentes, prontos ou dormindo"
+  "powerSkills.reason.animalsSickReadyAsleep": "Todos os seus animais estão doentes, prontos ou dormindo",
+  "description.basic.scarecrow": "Impulsione as plantações básicas próximas.",
+  "description.scary.mike": "Impulsione as safras médias próximas.",
+  "description.laurie.chuckle.crow": "Impulsione as colheitas avançadas próximas."
 }

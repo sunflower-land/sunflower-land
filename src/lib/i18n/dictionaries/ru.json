@@ -1046,7 +1046,6 @@
   "description.barredknifejaw.two": "Утоли голод резким вкусом!",
   "description.basic.bear": "Обычный медведь.",
   "description.basic.land": "Базовая земля",
-  "description.basic.scarecrow": "Ускоряет близлежащие базовые культуры",
   "description.basic.scarecrow.boost": "-20% времени роста базовых культур",
   "description.basic.scarecrow.boost.aoe": "Область действия (3x3) ниже",
   "description.basic.scarecrow.boost.aoe.skill": "Область действия (7x7) ниже",
@@ -1611,7 +1610,6 @@
   "description.lady.bug": "Потрясающая букашка, которая питается тлей. Улучшает качество яблок.",
   "description.lady.bug.boost": "+0.25 Яблоко",
   "description.lakeRug": "Принесите спокойствие тихого озера прямо в свой дом.",
-  "description.laurie.chuckle.crow": "Увеличивает урожай находящихся рядом Баклажана, Кукурузы, Редиса, Пшеницы и Кейла",
   "description.laurie.chuckle.crow.boost": "+0.2 к продвинутым культурам",
   "description.laurie.chuckle.crow.boost.aoe": "Область действия (3x3)",
   "description.laurie.chuckle.crow.boost.aoe.skill": "Область действия (7x7)",
@@ -1874,7 +1872,6 @@
   "description.scarab": "Потерянный артефакт фараона.",
   "description.scarecrow": "Пугало-гоблин. Урожай увеличен на 20%",
   "description.scarecrow.boost": "Урожай: +20%",
-  "description.scary.mike": "Увеличивает урожай находящихся рядом Моркови, Капусты, Сои, Свеклы, Цветной капусты и Пастернака",
   "description.scary.mike.boost": "+0.2 к средним культурам",
   "description.scary.mike.boost.aoe": "Область действия (3x3) ниже",
   "description.scary.mike.boost.aoe.skill": "Область действия (7x7) ниже",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Конкурс глав",
   "bounties.sell.animal.sick": "Хм, я вижу, это бедное животное больно. Я всё равно сниму их с тебя, но мне придётся предложить тебе меньшую награду. Сделка?",
   "skill.appleTastic": "Используйте 600 яблок, чтобы повысить уровень всех здоровых животных, которые не спят",
-  "powerSkills.reason.animalsSickReadyAsleep": "Все ваши животные больны, готовы или спят"
+  "powerSkills.reason.animalsSickReadyAsleep": "Все ваши животные больны, готовы или спят",
+  "description.basic.scarecrow": "Укрепляйте близлежащие основные культуры.",
+  "description.scary.mike": "Выращивайте близлежащие средние урожаи.",
+  "description.laurie.chuckle.crow": "Выращивайте близлежащие передовые культуры."
 }

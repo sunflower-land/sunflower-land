@@ -179,8 +179,6 @@
   "description.heart.davy.jones": "Quien lo posea tiene un inmenso poder sobre los siete mares y puede cavar en busca de tesoros sin cansarse.",
   "description.treasure.map": "Un mapa encantado que lleva a su poseedor a un valioso tesoro. Consigue más de un 20% de beneficio con objetos de recompensa en la playa.",
   "description.genie.lamp": "Una lámpara mágica que contiene un genio que te concederá tres deseos.",
-  "description.scary.mike": "Mejora las zanahorias, coles, soja, remolachas, coliflores y chirivías cercanas",
-  "description.laurie.chuckle.crow": "Mejora las berenjenas, el maíz, los rábanos, el trigo y la col rizada cercanos.",
   "description.immortal.pear": "Aumente la supervivencia de sus huertos frutales.",
   "description.sir.goldensnout": "Sir Goldensnout, miembro de la realeza, infunde prosperidad soberana a tu granja con su estiércol dorado.",
   "description.freya.fox": "Encantadora guardiana, estimula el crecimiento de las calabazas con su encanto místico. Coseche abundantes calabazas bajo su atenta mirada.",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "Límite de pesca diario de +15",
   "skill.alternateMedicine": "Barn Delight requiere 1 limón y miel menos para mezclar",
   "skill.seedyBusiness": "-15% del costo de las semillas de invernadero",
-  "description.basic.scarecrow": "Potencie los cultivos básicos cercanos",
   "description.sir.goldensnout.boost": "+0,5 de rendimiento de la cosecha",
   "description.sir.goldensnout.boost.aoe": "Afecta a las parcelas de alrededor (4x4)",
   "description.basic.scarecrow.boost.aoe": "Área de efecto (3x3) inferior",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Concurso de capítulos",
   "bounties.sell.animal.sick": "Hmm, veo que este pobre animal está enfermo. Aun así te los quitaré de las manos, pero tendré que ofrecerte una recompensa reducida. ¿Trato?",
   "skill.appleTastic": "Usa 600 manzanas para subir de nivel a todos los animales sanos que no duermen",
-  "powerSkills.reason.animalsSickReadyAsleep": "Todos tus animales están enfermos, preparados o dormidos"
+  "powerSkills.reason.animalsSickReadyAsleep": "Todos tus animales están enfermos, preparados o dormidos",
+  "description.basic.scarecrow": "Mejora los cultivos básicos cercanos.",
+  "description.scary.mike": "Potencia los cultivos medianos cercanos.",
+  "description.laurie.chuckle.crow": "Mejora los cultivos avanzados cercanos."
 }

@@ -179,8 +179,6 @@
   "description.heart.davy.jones": "Wer es besitzt, besitzt immense Macht über die sieben Meere, kann ohne Ermüdung nach Schätzen graben.",
   "description.treasure.map": "Eine verzauberte Karte, die den Besitzer zu wertvollen Schätzen führt. +20% Gewinn durch Strandprämien.",
   "description.genie.lamp": "Eine magische Lampe, die einen Geist enthält, der Ihnen drei Wünsche erfüllt.",
-  "description.scary.mike": "Verstärke Karotten, Kohl, Sojabohnen, Rote Beete, Blumenkohl und Pastinaken in der Nähe",
-  "description.laurie.chuckle.crow": "Verstärke Auberginen, Mais, Rettich, Weizen und Grünkohl in deiner Nähe",
   "description.immortal.pear": "Erhöhen Sie das Überleben Ihrer Fruchtbeete.",
   "description.sir.goldensnout": "Als königliches Mitglied verleiht Sir Goldensnout Ihrer Farm durch seinen goldenen Mist souveränen Wohlstand.",
   "description.freya.fox": "Zauberhafte Wächterin, kurbelt mit ihrem mystischen Charme das Kürbiswachstum an. Ernten Sie unter ihrem wachsamen Blick reichlich Kürbisse.",
@@ -4668,7 +4666,6 @@
   "skill.moreWithLess.buff": "+15 tägliches Fanglimit",
   "skill.alternateMedicine": "Barn Delight benötigt 1 Zitrone und Honig weniger zum Mischen",
   "skill.seedyBusiness": "-15% Kosten für Gewächshaussamen",
-  "description.basic.scarecrow": "Verbessere Grundkulturen in der Nähe",
   "description.sir.goldensnout.boost": "+0,5 Ernteertrag",
   "description.sir.goldensnout.boost.aoe": "Wirkt sich auf Grundstücke in der Umgebung aus (4x4)",
   "description.basic.scarecrow.boost.aoe": "Wirkungsbereich (3x3) unten",
@@ -5145,5 +5142,8 @@
   "whatsOn.seasonCompetition": "Kapitel Wettbewerb",
   "bounties.sell.animal.sick": "Hmm, ich sehe, dieses arme Tier ist krank. Ich nehme sie dir trotzdem ab, aber ich muss dir ein reduziertes Kopfgeld anbieten. Abgemacht?",
   "skill.appleTastic": "Verwende 600 Äpfel, um alle gesunden Tiere, die nicht schlafen, aufzuleveln.",
-  "powerSkills.reason.animalsSickReadyAsleep": "Alle Ihre Tiere sind krank, bereit oder schlafen"
+  "powerSkills.reason.animalsSickReadyAsleep": "Alle Ihre Tiere sind krank, bereit oder schlafen",
+  "description.basic.scarecrow": "Verbessere Grundkulturen in der Nähe.",
+  "description.scary.mike": "Verbessere mittlere Nutzpflanzen in der Nähe.",
+  "description.laurie.chuckle.crow": "Verbessere Fortgeschrittene Nutzpflanzen in der Nähe."
 }
