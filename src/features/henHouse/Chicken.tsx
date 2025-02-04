@@ -16,7 +16,6 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
-  isAnimalMedicine,
 } from "features/game/lib/animals";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
@@ -158,8 +157,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const sick = chickenMachineState === "sick";
   const sleepingAndSick =
     chickenMachineState === "sleeping" && chicken.state === "sick";
-  const needsLoveAndSick =
-    chickenMachineState === "needsLove" && chicken.state === "sick";
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
@@ -308,11 +305,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return onLoveClick();
 
-    const medicineSelected = selectedItem && isAnimalMedicine(selectedItem);
+    if (sick) return onSickClick();
 
-    if (sick || (sleepingAndSick && medicineSelected)) {
-      return onSickClick();
-    }
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
       return;
@@ -540,7 +534,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       <Transition
         appear={true}
         id="oil-reserve-collected-amount"
-        show={showFeedXP}
+        show={showFeedXP && !!xpIndicatorAmount}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
         enterTo="opacity-100 -translate-y-0"
@@ -561,7 +555,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       <Transition
         appear={true}
         id="love-xp"
-        show={!!showLoveItem}
+        show={!!showLoveItem && !!animalXP}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
         enterTo="opacity-100 -translate-y-0"

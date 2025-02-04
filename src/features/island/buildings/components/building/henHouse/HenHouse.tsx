@@ -20,9 +20,9 @@ const _hasHungryChickens = (state: MachineState) => {
   );
 };
 
-const _hasAwakeSickChickens = (state: MachineState) => {
+const _hasSickChickens = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
-    (animal) => animal.state === "sick" && animal.awakeAt < Date.now(),
+    (animal) => animal.state === "sick",
   );
 };
 
@@ -48,7 +48,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   const navigate = useNavigate();
 
   const hasHungryChickens = useSelector(gameService, _hasHungryChickens);
-  const hasAwakeSickChickens = useSelector(gameService, _hasAwakeSickChickens);
+  const hasSickChickens = useSelector(gameService, _hasSickChickens);
   const chickensNeedLove = useSelector(gameService, _chickensNeedLove);
   const buildingLevel = useSelector(gameService, _buildingLevel);
 
@@ -76,7 +76,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   return (
     <>
       <BuildingImageWrapper name="Hen House" onClick={handleClick}>
-        {(hasHungryChickens || chickensNeedLove || hasAwakeSickChickens) && (
+        {(hasHungryChickens || chickensNeedLove || hasSickChickens) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className={

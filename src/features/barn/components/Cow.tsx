@@ -15,7 +15,6 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
-  isAnimalMedicine,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
@@ -295,9 +294,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return onLoveClick();
 
-    const medicineSelected = selectedItem && isAnimalMedicine(selectedItem);
-
-    if (sick || (sickAndSleeping && medicineSelected)) return onSickClick();
+    if (sick) return onSickClick();
 
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
@@ -509,7 +506,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         <Transition
           appear={true}
           id="oil-reserve-collected-amount"
-          show={showFeedXP}
+          show={showFeedXP && !!xpIndicatorAmount}
           enter="transition-opacity transition-transform duration-200"
           enterFrom="opacity-0 translate-y-4"
           enterTo="opacity-100 -translate-y-0"
@@ -530,7 +527,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         <Transition
           appear={true}
           id="oil-reserve-collected-amount"
-          show={!!showLoveItem}
+          show={!!showLoveItem && !!animalXP}
           enter="transition-opacity transition-transform duration-200"
           enterFrom="opacity-0 translate-y-4"
           enterTo="opacity-100 -translate-y-0"
