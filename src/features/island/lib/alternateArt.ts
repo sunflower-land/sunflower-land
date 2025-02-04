@@ -104,6 +104,13 @@ export const FRUIT_PATCH_VARIANTS: Record<IslandType, string> = {
   volcano: SUNNYSIDE.building.volcanoFruitPatchDirt,
 };
 
+export const CHOPPED_SHEET_VARIANTS: Record<TemperateSeasonName, string> = {
+  spring: SUNNYSIDE.resource.springChoppedSheet,
+  summer: SUNNYSIDE.resource.summerChoppedSheet,
+  autumn: SUNNYSIDE.resource.autumnChoppedSheet,
+  winter: SUNNYSIDE.resource.winterChoppedSheet,
+};
+
 export const FLOWER_VARIANTS = (
   island: IslandType,
   season: TemperateSeasonName,

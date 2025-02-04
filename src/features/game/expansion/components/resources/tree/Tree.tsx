@@ -217,7 +217,9 @@ export const Tree: React.FC<Props> = ({ id }) => {
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingTree resourceAmount={collectedAmount} />}
+      {collecting && (
+        <DepletingTree resourceAmount={collectedAmount} season={season} />
+      )}
 
       {/* Depleted resource */}
       {chopped && (
