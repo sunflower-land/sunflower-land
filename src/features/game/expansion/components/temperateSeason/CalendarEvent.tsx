@@ -3,21 +3,16 @@ import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
-import { getActiveCalendarEvent } from "features/game/types/calendar";
+import {
+  CALENDAR_EVENT_ICONS,
+  getActiveCalendarEvent,
+} from "features/game/types/calendar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { WeatherEvent } from "./WeatherEvent";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import tsunami from "assets/icons/tsunami.webp";
-import tornado from "assets/icons/tornado.webp";
-import greatFreeze from "assets/icons/great-freeze.webp";
-import fullMoon from "assets/icons/full_moon.png";
-import doubleDelivery from "assets/icons/double_delivery_icon.webp";
-import bountifulHarvest from "assets/icons/bountiful_harvest_icon.webp";
-import sunshower from "assets/icons/sunshower.webp";
-import locust from "assets/icons/locust.webp";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -50,7 +45,7 @@ export const CalendarEvent: React.FC = () => {
           eventName={event}
           acknowledge={handleAcknowledge}
           handleAFK={handleAFK}
-          eventIcon={tornado}
+          eventIcon={CALENDAR_EVENT_ICONS.tornado}
           noticeboardItems={
             hasPinwheel
               ? [
@@ -92,7 +87,7 @@ export const CalendarEvent: React.FC = () => {
           eventTitle={t("tsunami.specialEvent")}
           acknowledge={handleAcknowledge}
           handleAFK={handleAFK}
-          eventIcon={tsunami}
+          eventIcon={CALENDAR_EVENT_ICONS.tsunami}
           noticeboardItems={
             hasMangrove
               ? [
@@ -131,7 +126,7 @@ export const CalendarEvent: React.FC = () => {
         <WeatherEvent
           eventName={event}
           eventTitle={t("greatFreeze.specialEvent")}
-          eventIcon={greatFreeze}
+          eventIcon={CALENDAR_EVENT_ICONS.greatFreeze}
           noticeboardItems={
             hasThermalStone
               ? [
@@ -164,7 +159,7 @@ export const CalendarEvent: React.FC = () => {
         <WeatherEvent
           eventName={event}
           eventTitle={t("fullMoon.specialEvent")}
-          eventIcon={fullMoon}
+          eventIcon={CALENDAR_EVENT_ICONS.fullMoon}
           noticeboardItems={[
             {
               text: t("fullMoon.one"),
@@ -188,7 +183,7 @@ export const CalendarEvent: React.FC = () => {
         <WeatherEvent
           eventName={event}
           eventTitle={t("doubleDelivery.specialEvent")}
-          eventIcon={doubleDelivery}
+          eventIcon={CALENDAR_EVENT_ICONS.doubleDelivery}
           noticeboardItems={[
             {
               text: t("doubleDelivery.one"),
@@ -208,11 +203,11 @@ export const CalendarEvent: React.FC = () => {
         <WeatherEvent
           eventName={event}
           eventTitle={t("bountifulHarvest.specialEvent")}
-          eventIcon={bountifulHarvest}
+          eventIcon={CALENDAR_EVENT_ICONS.bountifulHarvest}
           noticeboardItems={[
             {
               text: t("bountifulHarvest.noticeboard.one"),
-              icon: bountifulHarvest,
+              icon: CALENDAR_EVENT_ICONS.bountifulHarvest,
             },
             {
               text: t("bountifulHarvest.noticeboard.two"),
@@ -232,7 +227,7 @@ export const CalendarEvent: React.FC = () => {
         <WeatherEvent
           eventName={event}
           eventTitle={t("insectPlague.specialEvent")}
-          eventIcon={locust}
+          eventIcon={CALENDAR_EVENT_ICONS.insectPlague}
           noticeboardItems={
             hasProtectivePesticide
               ? [
@@ -265,11 +260,27 @@ export const CalendarEvent: React.FC = () => {
         <WeatherEvent
           eventName={event}
           eventTitle={t("sunshower.specialEvent")}
-          eventIcon={sunshower}
+          eventIcon={CALENDAR_EVENT_ICONS.sunshower}
           noticeboardItems={[
             {
               text: t("sunshower.info.one"),
               icon: SUNNYSIDE.icons.plant,
+            },
+          ]}
+          acknowledge={handleAcknowledge}
+          handleAFK={handleAFK}
+          showEventIcons
+        />
+      )}
+      {event === "fishFrenzy" && (
+        <WeatherEvent
+          eventTitle={t("fishFrenzy.specialEvent")}
+          eventName={event}
+          eventIcon={CALENDAR_EVENT_ICONS.fishFrenzy}
+          noticeboardItems={[
+            {
+              text: t("fishFrenzy.info.one"),
+              icon: SUNNYSIDE.icons.fish,
             },
           ]}
           acknowledge={handleAcknowledge}

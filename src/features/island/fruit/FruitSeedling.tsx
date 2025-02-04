@@ -11,8 +11,10 @@ import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { IslandType } from "features/game/types/game";
 
 interface Props {
+  islandType: IslandType;
   patchFruitName: PatchFruitName;
   timeLeft: number;
 }
@@ -34,13 +36,14 @@ const getFruitImage = (imageSource: string) => {
 
 export const FruitSeedling: React.FC<Props> = ({
   patchFruitName,
+  islandType,
   timeLeft,
 }) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
   const { seed } = PATCH_FRUIT[patchFruitName];
   const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
-  const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
+  const lifecycle = PATCH_FRUIT_LIFECYCLE[islandType][patchFruitName];
 
   const growPercentage = 100 - (timeLeft / plantSeconds) * 100;
   const isAlmostReady = growPercentage >= 50;

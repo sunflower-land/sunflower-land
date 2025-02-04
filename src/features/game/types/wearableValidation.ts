@@ -19,6 +19,8 @@ import {
   areAnyCowsSleeping,
   areTreasureHolesDug,
   areAnyCookingBuildingWorking,
+  isCraftingBoxWorking,
+  areAnySeasonCropsorGHCropsGrowing,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -83,6 +85,16 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Chicken Suit": (state) => !areAnyChickensSleeping(state)[0],
   "Merino Jumper": (state) => !areAnySheepSleeping(state)[0],
   "Cowbell Necklace": (state) => !areAnyCowsSleeping(state)[0],
+  Sickle: (state) => !cropIsGrowing({ item: "Wheat", game: state })[0],
+  "Sol & Luna": (state) => !isCraftingBoxWorking(state)[0],
+  "Solflare Aegis": (state) =>
+    !areAnySeasonCropsorGHCropsGrowing(state, "summer")[0],
+  "Blossom Ward": (state) =>
+    !areAnySeasonCropsorGHCropsGrowing(state, "spring")[0],
+  "Autumn's Embrace": (state) =>
+    !areAnySeasonCropsorGHCropsGrowing(state, "autumn")[0],
+  "Frozen Heart": (state) =>
+    !areAnySeasonCropsorGHCropsGrowing(state, "winter")[0],
 };
 
 export const canWithdrawBoostedWearable = (

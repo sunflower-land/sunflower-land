@@ -1,7 +1,7 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { Bumpkin, GameState } from "features/game/types/game";
+import { Bumpkin, GameState, IslandType } from "features/game/types/game";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
@@ -14,10 +14,18 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   game: GameState;
 }
+
+const FARM_HANDS_PER_BUILDING: Record<IslandType, number> = {
+  basic: 1,
+  spring: 2,
+  desert: 3,
+  volcano: 4,
+};
+
 export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   const { gameService } = useContext(Context);
 
-  const [selectedFarmHandId, setSelectedFarmHandId] = React.useState<string>();
+  const [selectedFarmHandId, setSelectedFarmHandId] = useState<string>();
 
   const bumpkin = game.bumpkin as Bumpkin;
 
@@ -33,7 +41,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
         </div>
 
         {getKeys(farmHands)
-          .slice(0, 3)
+          .slice(0, FARM_HANDS_PER_BUILDING[game.island.type])
           .map((id) => (
             <div
               key={id}

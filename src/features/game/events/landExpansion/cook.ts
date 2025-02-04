@@ -1,9 +1,5 @@
 import Decimal from "decimal.js-light";
-import {
-  ConsumableName,
-  CookableName,
-  COOKABLES,
-} from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import {
   Bumpkin,
   GameState,
@@ -13,15 +9,12 @@ import {
 } from "features/game/types/game";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { translate } from "lib/i18n/translate";
-import { FeatureName } from "lib/flags";
 import {
   BuildingName,
   CookingBuildingName,
 } from "features/game/types/buildings";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
-
-export const FLAGGED_RECIPES: Partial<Record<ConsumableName, FeatureName>> = {};
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";

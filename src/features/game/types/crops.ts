@@ -2,7 +2,12 @@ import { translate } from "lib/i18n/translate";
 import { Seed } from "./seeds";
 import { getKeys } from "./decorations";
 import { EXOTIC_CROPS, ExoticCrop, ExoticCropName } from "./beans";
-import { GREENHOUSE_FRUIT, PATCH_FRUIT, PatchFruitName } from "./fruits";
+import {
+  GREENHOUSE_FRUIT,
+  GreenHouseFruitName,
+  PATCH_FRUIT,
+  PatchFruitName,
+} from "./fruits";
 import {
   isAdvancedCrop,
   isBasicCrop,
@@ -34,8 +39,7 @@ export type CropName =
   | "Pepper"
   | "Onion"
   | "Turnip"
-  | "Artichoke"
-  | "Barley";
+  | "Artichoke";
 
 export type Crop = {
   sellPrice: number;
@@ -488,7 +492,10 @@ export function getCropCategory(crop: ProduceName): TranslationKeys {
     return "crops.exoticCrop";
   }
 
-  if (GREENHOUSE_CROPS[crop as GreenHouseCropName]) {
+  if (
+    GREENHOUSE_CROPS[crop as GreenHouseCropName] ||
+    GREENHOUSE_FRUIT[crop as GreenHouseFruitName]
+  ) {
     return "crops.greenhouse";
   }
 

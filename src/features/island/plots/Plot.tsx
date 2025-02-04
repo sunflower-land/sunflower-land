@@ -99,6 +99,7 @@ interface Props {
   id: string;
   index: number;
 }
+
 export const Plot: React.FC<Props> = ({ id, index }) => {
   const { t } = useAppTranslation();
 
@@ -280,7 +281,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
       }
 
       if (
-        hasFeatureAccess(state, "SEASONAL_SEEDS") &&
         !!SEEDS[seed] &&
         !SEASONAL_SEEDS[state.season.season].includes(seed)
       ) {

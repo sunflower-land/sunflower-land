@@ -59,7 +59,6 @@ import {
   BASIC_CROP_MACHINE_SEEDS,
   CROP_EXTENSION_MOD_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
-import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { isFullMoon } from "features/game/types/calendar";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
@@ -72,15 +71,22 @@ export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
 const _state = (state: MachineState) => state.context.state;
 
 export const SeasonalSeeds: React.FC = () => {
-  const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
+  const { gameService, shortcutItem } = useContext(Context);
+  const state = useSelector(gameService, _state);
+  const { inventory, coins, island, bumpkin, buds, season } = state;
+  const currentSeason = season.season;
+  // Sort the seeds by their default order
+  const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
+    SEASONAL_SEEDS[currentSeason].includes(seed),
+  );
+
+  const [selectedName, setSelectedName] = useState<SeedName>(
+    currentSeasonSeeds[0],
+  );
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
   const selected = SEEDS[selectedName];
-  const { gameService, shortcutItem } = useContext(Context);
-  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
-
-  const { inventory, coins, island, bumpkin, buds, season } = state;
 
   const price = getBuyPrice(selectedName, selected, state);
 
@@ -261,8 +267,6 @@ export const SeasonalSeeds: React.FC = () => {
     return getFruitHarvests(state, selectedName);
   };
 
-  const currentSeason = season.season;
-  const currentSeasonSeeds = SEASONAL_SEEDS[currentSeason];
   const cropMachineSeeds = getKeys(SEEDS).filter((seed) => {
     if (!inventory["Crop Machine"] || currentSeasonSeeds.includes(seed)) {
       return false;
@@ -281,11 +285,11 @@ export const SeasonalSeeds: React.FC = () => {
     ...FULL_MOON_SEEDS,
   ];
 
-  const offSeasonSeeds = getKeys(SEEDS).filter(
-    (seed) => !validSeeds.includes(seed),
-  );
-
   const harvestCount = getHarvestCount();
+
+  const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
+    SEASONAL_SEEDS[season].find((seed) => seed === selectedName),
+  );
 
   return (
     <SplitScreenView
@@ -295,8 +299,9 @@ export const SeasonalSeeds: React.FC = () => {
           stock={stock}
           details={{
             item: selectedName,
+            seasons,
+            cropMachineSeeds,
           }}
-          hideDescription
           requirements={{
             coins: price,
             showCoinsIfFree: true,
@@ -317,7 +322,6 @@ export const SeasonalSeeds: React.FC = () => {
           }}
           actionView={Action()}
           validSeeds={validSeeds}
-          cropMachineSeeds={cropMachineSeeds}
         />
       }
       content={
@@ -338,7 +342,7 @@ export const SeasonalSeeds: React.FC = () => {
               >
                 {`${secondsToString(secondsTillWeekReset(), {
                   length: "short",
-                })} left`}
+                })} ${t("time.left")}`}
               </Label>
             </div>
             <div className="flex flex-wrap mb-2">
@@ -390,30 +394,6 @@ export const SeasonalSeeds: React.FC = () => {
               </Label>
               <div className="flex flex-wrap mb-2">
                 {FULL_MOON_SEEDS.map((name) => (
-                  <Box
-                    isSelected={selectedName === name}
-                    key={name}
-                    onClick={() => onSeedClick(name)}
-                    image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
-                    showOverlay={isSeedLocked(name)}
-                    // secondaryImage={SUNNYSIDE.icons.seedling}
-                    count={inventory[name]}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-          {hasRequiredIslandExpansion(island.type, "spring") && (
-            <div id="Other Produce">
-              <Label
-                icon={SUNNYSIDE.icons.seedling}
-                type="default"
-                className="ml-2 mb-1 capitalize"
-              >
-                {t("cropGuide.otherProduce")}
-              </Label>
-              <div className="flex flex-wrap mb-2">
-                {offSeasonSeeds.map((name) => (
                   <Box
                     isSelected={selectedName === name}
                     key={name}

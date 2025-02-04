@@ -35,7 +35,7 @@ export const MutantAnimalModal = ({ mutant, show, onContinue }: Props) => {
             {t("reward")}
           </Label>
           <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-            {t("seasonal")}
+            {t("chapter")}
           </Label>
         </div>
         <div className="flex flex-col justify-center items-center mb-2 mx-1 sm:mx-2">

@@ -18,7 +18,7 @@ import Decimal from "decimal.js-light";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
 
 /**
@@ -76,9 +76,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
             points: !listing.signature ? 1 : 3,
           }).multipliedPoints;
 
-          const isResource = getKeys(TRADE_LIMITS).includes(
-            KNOWN_ITEMS[Number(itemId)],
-          );
+          const isResource = isTradeResource(KNOWN_ITEMS[Number(itemId)]);
 
           return (
             <div className="flex flex-col space-y-1" key={listingId}>

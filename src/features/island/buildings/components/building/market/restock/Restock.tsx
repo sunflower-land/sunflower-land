@@ -87,10 +87,14 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   );
 };
 
+const _island = (state: MachineState) => state.context.state.island.type;
+
 const RestockSelectionModal: React.FC<{
   npc: RestockNPC;
   showShipment: boolean;
 }> = ({ npc, showShipment }) => {
+  const { gameService } = useContext(Context);
+  const island = useSelector(gameService, _island);
   const { t } = useAppTranslation();
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -137,14 +141,14 @@ const RestockSelectionModal: React.FC<{
               <div className="flex flex-row flex-wrap ml-7 mb-0.5">
                 <Label
                   type="default"
-                  icon={CROP_LIFECYCLE.Sunflower.seed}
+                  icon={CROP_LIFECYCLE[island].Sunflower.seed}
                   className="mt-1 ml-1 capitalize"
                 >
                   {t("basic.seeds")}
                 </Label>
                 <Label
                   type="default"
-                  icon={CROP_LIFECYCLE.Carrot.seed}
+                  icon={CROP_LIFECYCLE[island].Carrot.seed}
                   className="mt-1 ml-1 capitalize"
                 >
                   {t("medium.seeds")}

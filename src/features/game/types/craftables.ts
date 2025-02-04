@@ -1321,7 +1321,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Bumpkin Faction Rug": { width: 3, height: 2 },
   "Desert Rose": { width: 1, height: 1 },
   Chicory: { width: 1, height: 1 },
-
+  Chamomile: { width: 1, height: 1 },
   "Hapy Jar": { width: 1, height: 2 },
   "Duamutef Jar": { width: 1, height: 2 },
   "Qebehsenuef Jar": { width: 1, height: 2 },
@@ -1404,6 +1404,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Autumn Duckling": { width: 1, height: 1 },
   "Winter Duckling": { width: 1, height: 1 },
   "Winds of Change Banner": { width: 1, height: 2 },
+  "Frozen Cow": { width: 2, height: 1 },
+  "Frozen Sheep": { width: 2, height: 1 },
+  "Summer Chicken": { width: 1, height: 1 },
+  Jellyfish: { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

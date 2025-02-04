@@ -7,6 +7,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { IslandType } from "features/game/types/game";
 
 const IMAGE_GRID_WIDTH = 36;
+const VOLCANO_IMAGE_GRID_WIDTH = 48;
 
 const BASIC_LEVEL_IMAGES = {
   1: SUNNYSIDE.land.basicLevel1,
@@ -62,11 +63,44 @@ const DESERT_LEVEL_IMAGES = {
   25: SUNNYSIDE.land.desertLevel25,
 };
 
+const VOLCANO_LEVEL_IMAGES = {
+  1: SUNNYSIDE.land.volcanoLevel1,
+  2: SUNNYSIDE.land.volcanoLevel2,
+  3: SUNNYSIDE.land.volcanoLevel3,
+  4: SUNNYSIDE.land.volcanoLevel4,
+  5: SUNNYSIDE.land.volcanoLevel5,
+  6: SUNNYSIDE.land.volcanoLevel6,
+  7: SUNNYSIDE.land.volcanoLevel7,
+  8: SUNNYSIDE.land.volcanoLevel8,
+  9: SUNNYSIDE.land.volcanoLevel9,
+  10: SUNNYSIDE.land.volcanoLevel10,
+  11: SUNNYSIDE.land.volcanoLevel11,
+  12: SUNNYSIDE.land.volcanoLevel12,
+  13: SUNNYSIDE.land.volcanoLevel13,
+  14: SUNNYSIDE.land.volcanoLevel14,
+  15: SUNNYSIDE.land.volcanoLevel15,
+  16: SUNNYSIDE.land.volcanoLevel16,
+  17: SUNNYSIDE.land.volcanoLevel17,
+  18: SUNNYSIDE.land.volcanoLevel18,
+  19: SUNNYSIDE.land.volcanoLevel19,
+  20: SUNNYSIDE.land.volcanoLevel20,
+  21: SUNNYSIDE.land.volcanoLevel21,
+  22: SUNNYSIDE.land.volcanoLevel22,
+  23: SUNNYSIDE.land.volcanoLevel23,
+  24: SUNNYSIDE.land.volcanoLevel24,
+  25: SUNNYSIDE.land.volcanoLevel25,
+  26: SUNNYSIDE.land.volcanoLevel26,
+  27: SUNNYSIDE.land.volcanoLevel27,
+  28: SUNNYSIDE.land.volcanoLevel28,
+  29: SUNNYSIDE.land.volcanoLevel29,
+  30: SUNNYSIDE.land.volcanoLevel30,
+};
+
 const LEVEL_IMAGES: Record<IslandType, Record<number, string>> = {
   basic: BASIC_LEVEL_IMAGES,
   spring: BASIC_LEVEL_IMAGES,
   desert: DESERT_LEVEL_IMAGES,
-  volcano: DESERT_LEVEL_IMAGES,
+  volcano: VOLCANO_LEVEL_IMAGES,
 };
 
 interface Props {
@@ -75,6 +109,9 @@ interface Props {
 }
 
 export const LandBase: React.FC<Props> = ({ type, expandedCount }) => {
+  const imageGridWidth =
+    type === "volcano" ? VOLCANO_IMAGE_GRID_WIDTH : IMAGE_GRID_WIDTH;
+
   return (
     <img
       id={Section.GenesisBlock}
@@ -82,7 +119,7 @@ export const LandBase: React.FC<Props> = ({ type, expandedCount }) => {
       alt="land"
       className="h-auto -z-10"
       style={{
-        width: `${IMAGE_GRID_WIDTH * GRID_WIDTH_PX}px`,
+        width: `${imageGridWidth * GRID_WIDTH_PX}px`,
       }}
     />
   );

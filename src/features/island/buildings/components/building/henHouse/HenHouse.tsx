@@ -6,21 +6,13 @@ import { HenHouseModal } from "./components/HenHouseModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { GameState } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { useSound } from "lib/utils/hooks/useSound";
-
-const _betaInventory = (state: MachineState) => {
-  const pass = state.context.state.inventory["Beta Pass"];
-
-  return { inventory: { "Beta Pass": pass } } as GameState;
-};
 
 const _hasHungryChickens = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
@@ -49,13 +41,12 @@ const _buildingLevel = (state: MachineState) => {
 export const ChickenHouse: React.FC<BuildingProps> = ({
   isBuilt,
   onRemove,
-  island,
+  season,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const betaInventory = useSelector(gameService, _betaInventory);
   const hasHungryChickens = useSelector(gameService, _hasHungryChickens);
   const hasAwakeSickChickens = useSelector(gameService, _hasAwakeSickChickens);
   const chickensNeedLove = useSelector(gameService, _chickensNeedLove);
@@ -73,12 +64,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
       // Add future on click actions here
       barnAudio();
 
-      if (hasFeatureAccess(betaInventory, "ANIMAL_BUILDINGS")) {
-        navigate("/hen-house");
-        return;
-      }
-
-      setIsOpen(true);
+      navigate("/hen-house");
       return;
     }
   };
@@ -101,7 +87,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
           />
         )}
         <img
-          src={HEN_HOUSE_VARIANTS[island][buildingLevel]}
+          src={HEN_HOUSE_VARIANTS[season][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 61}px`,

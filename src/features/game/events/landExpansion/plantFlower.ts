@@ -16,6 +16,7 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -111,6 +112,10 @@ export function plantFlower({
       throw new Error("Not a flower seed");
     }
 
+    if (!SEASONAL_SEEDS[state.season.season].includes(action.seed)) {
+      throw new Error(`${action.seed} is not in season`);
+    }
+
     const seedCount = stateCopy.inventory[action.seed] ?? new Decimal(0);
 
     if (seedCount.lessThan(1)) {
@@ -119,7 +124,12 @@ export function plantFlower({
 
     const crossBreedCount =
       stateCopy.inventory[action.crossbreed] ?? new Decimal(0);
-    const crossBreedAmount = FLOWER_CROSS_BREED_AMOUNTS[action.crossbreed];
+    const crossBreedAmount =
+      FLOWER_CROSS_BREED_AMOUNTS[action.seed][action.crossbreed];
+
+    if (!crossBreedAmount) {
+      throw new Error("Not a valid crossbreed");
+    }
 
     if (crossBreedCount.lessThan(crossBreedAmount)) {
       throw new Error("Not enough crossbreeds");
@@ -136,7 +146,7 @@ export function plantFlower({
         boostedTime: getFlowerTime(action.seed, stateCopy),
       }),
       amount: 1,
-      name: "Red Pansy",
+      name: "Red Lotus",
       dirty: true,
     };
 

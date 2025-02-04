@@ -27,13 +27,9 @@ import { RecipeInfoPanel } from "./RecipeInfoPanel";
 import { getKeys } from "features/game/types/decorations";
 import { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
 
-const _craftingBoxRecipes = (state: MachineState) =>
-  state.context.state.craftingBox.recipes;
-const _craftingStatus = (state: MachineState) =>
-  state.context.state.craftingBox.status;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+const _state = (state: MachineState) => state.context.state;
 
 interface Props {
   gameService: MachineInterpreter;
@@ -47,9 +43,10 @@ export const RecipesTab: React.FC<Props> = ({
   const { t } = useTranslation();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
-  const recipes = useSelector(gameService, _craftingBoxRecipes);
+  const state = useSelector(gameService, _state);
+  const { craftingBox, inventory, wardrobe } = state;
+  const { recipes, status: craftingStatus } = craftingBox;
 
-  const craftingStatus = useSelector(gameService, _craftingStatus);
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
 
@@ -73,9 +70,6 @@ export const RecipesTab: React.FC<Props> = ({
       return acc;
     }, {} as Recipes);
   }, [recipes, searchTerm]);
-
-  const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
 
   const remainingInventory = useMemo(() => {
     const updatedInventory = { ...inventory };
@@ -150,6 +144,10 @@ export const RecipesTab: React.FC<Props> = ({
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.values(filteredRecipes || {}).map((recipe) => {
             const canCraft = hasRequiredIngredients(recipe);
+            const boostedCraftTime = getBoostedCraftingTime({
+              game: state,
+              time: recipe.time,
+            });
 
             return (
               <div
@@ -231,8 +229,8 @@ export const RecipesTab: React.FC<Props> = ({
                         alt="Crafting time"
                       />
                       <span className="text-xxs">
-                        {recipe.time
-                          ? secondsToString(recipe.time / 1000, {
+                        {boostedCraftTime
+                          ? secondsToString(boostedCraftTime / 1000, {
                               length: "short",
                               isShortFormat: true,
                             })

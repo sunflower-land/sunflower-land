@@ -58,10 +58,9 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1,
       );
 
-      return Math.min(
-        (caughtFish.length / FISH_BY_TYPE.basic.length) * 100,
-        100,
-      );
+      const required = FISH_BY_TYPE.basic.length;
+
+      return Math.min((caughtFish.length / required) * 100, 100);
     },
     reward: {
       "Sunflower Rod": 1,
@@ -74,10 +73,9 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1,
       );
 
-      return Math.min(
-        (caughtFish.length / FISH_BY_TYPE.advanced.length) * 100,
-        100,
-      );
+      const required = FISH_BY_TYPE.advanced.length;
+
+      return Math.min((caughtFish.length / required) * 100, 100);
     },
     reward: {
       "Fishing Hat": 1,

@@ -1,4 +1,9 @@
-import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
+import {
+  GameState,
+  InventoryItemName,
+  IslandType,
+  TemperateSeasonName,
+} from "./game";
 import { Tool } from "./tools";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
@@ -16,6 +21,8 @@ import bountifulHarvest from "assets/icons/bountiful_harvest_icon.webp";
 import locust from "assets/icons/locust.webp";
 import calendar from "assets/icons/calendar.webp";
 import sunshower from "assets/icons/sunshower.webp";
+import fishFrenzy from "assets/icons/fish_frenzy.webp";
+import Decimal from "decimal.js-light";
 
 export type CalendarEventName = "unknown" | "calendar" | SeasonalEventName;
 
@@ -27,7 +34,8 @@ export type SeasonalEventName =
   | "doubleDelivery"
   | "bountifulHarvest"
   | "insectPlague"
-  | "sunshower";
+  | "sunshower"
+  | "fishFrenzy";
 
 export type CalendarEvent = {
   startedAt: number;
@@ -45,6 +53,7 @@ export const SEASONAL_EVENTS: Record<SeasonalEventName, null> = {
   bountifulHarvest: null,
   insectPlague: null,
   sunshower: null,
+  fishFrenzy: null,
 };
 
 export function getPendingCalendarEvent({
@@ -153,35 +162,111 @@ export function getActiveCalendarEvent({
     return "fullMoon";
   }
 
+  if (
+    game.calendar.fishFrenzy?.startedAt &&
+    new Date(game.calendar.fishFrenzy.startedAt).getTime() >
+      Date.now() - 1000 * 60 * 60 * 24
+  ) {
+    return "fishFrenzy";
+  }
+
   // TODO more events
   return undefined;
 }
 
-export const WEATHER_SHOP: Partial<Record<InventoryItemName, Tool>> = {
+export type WeatherShopItem =
+  | "Tornado Pinwheel"
+  | "Mangrove"
+  | "Thermal Stone"
+  | "Protective Pesticide";
+
+export const WEATHER_SHOP_ITEM_COSTS: Record<
+  WeatherShopItem,
+  {
+    ingredients: Partial<Record<InventoryItemName, number>>;
+    coins: number;
+  }
+> = {
   "Tornado Pinwheel": {
-    name: translate("calendar.events.tornado.prevention"),
-    description: translate("description.tornadoPinwheel"),
-    ingredients: {},
-    price: 1000,
+    ingredients: { Wood: 30, Leather: 5 },
+    coins: 100,
   },
   Mangrove: {
-    name: translate("calendar.events.tsunami.prevention"),
-    description: translate("description.mangrove"),
-    ingredients: {},
-    price: 1000,
+    ingredients: { Wood: 30, Leather: 5 },
+    coins: 100,
   },
   "Thermal Stone": {
-    name: translate("calendar.events.greatFreeze.prevention"),
-    description: translate("description.thermalStone"),
-    ingredients: {},
-    price: 1000,
+    ingredients: { Stone: 5, Wool: 5 },
+    coins: 100,
   },
   "Protective Pesticide": {
-    name: translate("calendar.events.insectPlague.prevention"),
-    description: translate("description.protectivePesticide"),
-    ingredients: {},
-    price: 1000,
+    ingredients: { Wood: 30, Feather: 30 },
+    coins: 100,
   },
+} as const;
+
+export const getWeatherShop = (
+  islandType: IslandType,
+): Record<WeatherShopItem, Tool> => {
+  // Base costs for each item
+
+  const getMultiplier = (islandType: IslandType) => {
+    switch (islandType) {
+      case "volcano":
+        return 2.5;
+      case "desert":
+        return 2;
+      default:
+        return 1;
+    }
+  };
+
+  const multiplier = getMultiplier(islandType);
+
+  const convertIngredients = (ingredients: Record<string, number>) => {
+    return Object.entries(ingredients).reduce(
+      (acc, [name, amount]) => {
+        acc[name as InventoryItemName] = new Decimal(amount * multiplier);
+        return acc;
+      },
+      {} as Record<InventoryItemName, Decimal>,
+    );
+  };
+
+  return {
+    "Tornado Pinwheel": {
+      name: translate("calendar.events.tornado.prevention"),
+      description: translate("description.tornadoPinwheel"),
+      ingredients: convertIngredients(
+        WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].ingredients,
+      ),
+      price: WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].coins * multiplier,
+    },
+    Mangrove: {
+      name: translate("calendar.events.tsunami.prevention"),
+      description: translate("description.mangrove"),
+      ingredients: convertIngredients(
+        WEATHER_SHOP_ITEM_COSTS["Mangrove"].ingredients,
+      ),
+      price: WEATHER_SHOP_ITEM_COSTS["Mangrove"].coins * multiplier,
+    },
+    "Thermal Stone": {
+      name: translate("calendar.events.greatFreeze.prevention"),
+      description: translate("description.thermalStone"),
+      ingredients: convertIngredients(
+        WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].ingredients,
+      ),
+      price: WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].coins * multiplier,
+    },
+    "Protective Pesticide": {
+      name: translate("calendar.events.insectPlague.prevention"),
+      description: translate("description.protectivePesticide"),
+      ingredients: convertIngredients(
+        WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].ingredients,
+      ),
+      price: WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].coins * multiplier,
+    },
+  };
 };
 
 export const SEASON_DETAILS: Record<
@@ -270,6 +355,7 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   bountifulHarvest: bountifulHarvest,
   insectPlague: locust,
   sunshower: sunshower,
+  fishFrenzy: fishFrenzy,
 };
 
 export const isFullMoon = (state: GameState) => {

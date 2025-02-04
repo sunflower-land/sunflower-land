@@ -1,10 +1,31 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, Inventory } from "features/game/types/game";
+import {
+  GameState,
+  Inventory,
+  TemperateSeasonName,
+} from "features/game/types/game";
 
-export const LAVA_PIT_REQUIREMENTS: Inventory = {
-  Crimstone: new Decimal(10),
+export const LAVA_PIT_REQUIREMENTS: Record<TemperateSeasonName, Inventory> = {
+  autumn: {
+    "Royal Ornament": new Decimal(1),
+    "Celestial Frostbloom": new Decimal(1),
+  },
+  winter: {
+    "Merino Wool": new Decimal(50),
+    Crimsteel: new Decimal(1),
+  },
+  spring: {
+    Gold: new Decimal(10),
+    Duskberry: new Decimal(1),
+    Lunara: new Decimal(1),
+    Celestine: new Decimal(1),
+  },
+  summer: {
+    Oil: new Decimal(60),
+    Cobia: new Decimal(5),
+  },
 };
 
 export type StartLavaPitAction = {
@@ -32,9 +53,10 @@ export function startLavaPit({
       throw new Error("Lava pit not found");
     }
 
-    getKeys(LAVA_PIT_REQUIREMENTS).forEach((item) => {
+    const requirements = LAVA_PIT_REQUIREMENTS[state.season.season];
+    getKeys(requirements).forEach((item) => {
       const inventoryAmount = inventory[item] ?? new Decimal(0);
-      const requiredAmount = LAVA_PIT_REQUIREMENTS[item] ?? new Decimal(0);
+      const requiredAmount = requirements[item] ?? new Decimal(0);
 
       if (inventoryAmount.lt(requiredAmount)) {
         throw new Error(`Required resource ${item} not found`);

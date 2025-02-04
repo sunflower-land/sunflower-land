@@ -1,12 +1,12 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { GameProvider } from "features/game/GameProvider";
+import { Context, GameProvider } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
-import { RESOURCES, ResourcePlacer } from "./components/ResourcePlacer";
+import { ResourcePlacer, getResources } from "./components/ResourcePlacer";
 import {
   Coordinates,
   MapPlacement,
@@ -15,17 +15,24 @@ import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
 import { INITIAL_LAYOUTS, Layout } from "./lib/layouts";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 /**
  * A test component for collision detection and resource sizing/dimensions
  */
+
+const _island = (state: MachineState) => state.context.state.island.type;
+
 export const Builder: React.FC = () => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const container = useRef(null);
   const background = SUNNYSIDE.land.basicLevel1;
 
-  const [selected, setSelected] = useState<keyof Layout>();
+  const island = useSelector(gameService, _island);
 
+  const [selected, setSelected] = useState<keyof Layout>();
   const [placed, setPlaced] = useState<Layout>({
     plots: [],
     fruitPatches: [],
@@ -84,6 +91,8 @@ export const Builder: React.FC = () => {
     console.log(JSON.stringify(identifiedLayouts, null, 2));
   };
 
+  const resources = getResources(island);
+
   // Load data
   return (
     <GameProvider>
@@ -114,10 +123,10 @@ export const Builder: React.FC = () => {
           ))}
         </InnerPanel>
         <div className="absolute bottom-0 flex z-30">
-          {getKeys(RESOURCES).map((name) => (
+          {getKeys(resources).map((name) => (
             <Box
               key={name}
-              image={RESOURCES[name].icon}
+              image={resources[name].icon}
               isSelected={name === selected}
               onClick={() => setSelected(name)}
             />
@@ -181,10 +190,10 @@ export const Builder: React.FC = () => {
                 }}
               >
                 {getKeys(placed).flatMap((resourceName) => {
-                  const resource = RESOURCES[resourceName];
+                  const resource = resources[resourceName];
                   const positions = placed[resourceName];
 
-                  const { width, height } = RESOURCES[resourceName].dimensions;
+                  const { width, height } = resource.dimensions;
 
                   return positions.map((coords, index) => {
                     const { x, y } = coords;

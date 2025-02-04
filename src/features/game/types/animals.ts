@@ -581,7 +581,7 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
     12: {
       Egg: new Decimal(3),
-      Feather: new Decimal(1),
+      Feather: new Decimal(2),
     },
     13: {
       Egg: new Decimal(4),

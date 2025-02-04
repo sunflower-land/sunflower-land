@@ -22,8 +22,6 @@ import {
 } from "features/game/types/resources";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { AnimalType } from "features/game/types/animals";
-import { hasFeatureAccess } from "lib/flags";
-import { INITIAL_FARM } from "features/game/lib/constants";
 
 type BoundingBox = Position;
 
@@ -310,7 +308,7 @@ function detectHomeCollision({
   const placed = home.collectibles;
 
   const collidingItems = getKeys(placed).filter(
-    (name) => !NON_COLLIDING_OBJECTS.includes(name),
+    (other) => !NON_COLLIDING_OBJECTS.includes(other) && other !== name,
   );
 
   const placeableBounds = collidingItems.flatMap((name) => {
@@ -635,14 +633,6 @@ export function isWithinAOE(
     }
 
     case "Bale": {
-      if (!hasFeatureAccess(INITIAL_FARM, "BALE_AOE_END")) {
-        const dxRect = effectItem.x - x;
-        const dyRect = effectItem.y - y;
-        return (
-          dxRect >= -1 && dxRect <= width && dyRect <= 1 && dyRect >= -height
-        );
-      }
-
       return false;
     }
 
