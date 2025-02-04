@@ -68,10 +68,18 @@ export const PhaserProvider: React.FC<{ children: React.ReactNode }> = ({
               frameWidth: 96,
             },
           );
+          this.load.spritesheet(
+            "roll",
+            "https://api-dev.sunflower-land.com/animate/0_v1_48_243_42_0_0_22_96/roll",
+            {
+              frameHeight: 64,
+              frameWidth: 96,
+            },
+          );
         },
 
         create: function (this) {
-          this.physics.world.drawDebug = true;
+          this.physics.world.drawDebug = false;
 
           // Create collision group
           (this as any).colliders = this.add.group();
@@ -93,6 +101,13 @@ export const PhaserProvider: React.FC<{ children: React.ReactNode }> = ({
           this.anims.create({
             key: "attack",
             frames: this.anims.generateFrameNumbers("attack"),
+            frameRate: 20,
+            repeat: 0,
+          });
+
+          this.anims.create({
+            key: "roll",
+            frames: this.anims.generateFrameNumbers("roll"),
             frameRate: 20,
             repeat: 0,
           });
@@ -121,6 +136,7 @@ export const PhaserProvider: React.FC<{ children: React.ReactNode }> = ({
           (this as any).s = this.input.keyboard?.addKey("S");
           (this as any).d = this.input.keyboard?.addKey("D");
           (this as any).e = this.input.keyboard?.addKey("E");
+          (this as any).q = this.input.keyboard?.addKey("Q");
 
           setScene(this);
           this.events.on("shutdown", () => {
@@ -140,12 +156,20 @@ export const PhaserProvider: React.FC<{ children: React.ReactNode }> = ({
             player.anims.isPlaying &&
             player.anims.currentAnim?.key === "attack";
 
+          const isRolling =
+            player.anims.isPlaying && player.anims.currentAnim?.key === "roll";
+
+          // Handle roll
+          if (scene.q?.isDown && !isRolling && !isAttacking) {
+            player.play("roll", true);
+          }
+
           // Handle attack
-          if (scene.e?.isDown && !isAttacking) {
+          if (scene.e?.isDown && !isAttacking && !isRolling) {
             player.play("attack", true);
 
             // Get nearby interactable objects
-            const radius = 12; // Interaction radius in pixels
+            const radius = 24; // Interaction radius in pixels
             const nearby = scene.children.list.filter((sprite: any) => {
               // Skip non-interactive sprites
               if (!sprite.getData("onClick")) return false;
@@ -183,8 +207,8 @@ export const PhaserProvider: React.FC<{ children: React.ReactNode }> = ({
             });
           }
 
-          // Only allow movement if not attacking
-          if (!isAttacking) {
+          // Only allow movement if not attacking or rolling
+          if (!isAttacking && !isRolling) {
             // Handle horizontal movement
             if (scene.d?.isDown) {
               velocityX += 100;

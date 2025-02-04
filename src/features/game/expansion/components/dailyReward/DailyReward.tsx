@@ -19,6 +19,7 @@ import { Label } from "components/ui/Label";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWallet } from "features/wallet/Wallet";
+import { FarmSprite } from "../../FarmSprite";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
@@ -131,12 +132,13 @@ export const DailyReward: React.FC = () => {
                 </p>
               </>
             )}
-            <img
-              src={SUNNYSIDE.decorations.treasure_chest}
-              className="mb-2 mt-2"
-              style={{
-                width: `${PIXEL_SCALE * 24}px`,
-              }}
+            <FarmSprite
+              image={SUNNYSIDE.decorations.treasure_chest}
+              z={50}
+              // className="mb-2 mt-2"
+              // style={{
+              //   width: `${PIXEL_SCALE * 24}px`,
+              // }}
             />
           </div>
           <Button onClick={() => chestService.send("UNLOCK")}>
@@ -246,14 +248,16 @@ export const DailyReward: React.FC = () => {
           top: `${GRID_WIDTH_PX * 1}px`,
         }}
       >
-        <img
-          id="daily-reward"
-          src={
+        <FarmSprite
+          image={
             chestState.matches("opened")
               ? SUNNYSIDE.decorations.treasure_chest_opened
               : SUNNYSIDE.decorations.treasure_chest
           }
-          className="cursor-pointer hover:img-highlight w-full absolute bottom-0"
+          bottom={0}
+          right={0}
+          z={50}
+          // className="cursor-pointer hover:img-highlight w-full absolute bottom-0"
           onClick={() => openModal()}
         />
         {!chestState.matches("opened") && (
