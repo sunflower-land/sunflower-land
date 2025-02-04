@@ -204,7 +204,7 @@ export const AnimalDeal: React.FC<{
       {animal.state === "sick" ? (
         <Panel bumpkinParts={NPC_WEARABLES.grabnab}>
           <div className="p-2">
-            <p className="mb-1">{`Hmm, I see this poor animal is sick. I'll still take them off your hands, but I will have to offer you a reduced bounty. Deal?`}</p>
+            <p className="mb-1">{t("bounties.sell.animal.sick")}</p>
             <div className="flex flex-col space-y-1 my-3">
               {deal.coins && (
                 <div className="flex items-center space-x-1">
