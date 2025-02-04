@@ -9,8 +9,6 @@ import {
   InventoryItemName,
   PlacedItem,
   Position,
-  TemperateSeasonName,
-  VIP,
 } from "../../types/game";
 import {
   COLLECTIBLES_DIMENSIONS,
@@ -53,6 +51,7 @@ import {
   getActiveCalendarEvent,
 } from "features/game/types/calendar";
 import { getCurrentSeason } from "features/game/types/seasons";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -421,13 +420,11 @@ function isPlotCrop(plant: GreenHouseCropName | CropName): plant is CropName {
 
 const getWindsOfChangeVIPYieldBoost = ({
   crop,
-  season,
-  vip,
+  game,
   createdAt,
 }: {
   crop: CropName | GreenHouseCropName;
-  season: TemperateSeasonName;
-  vip: VIP | undefined;
+  game: GameState;
   createdAt: number;
 }) => {
   try {
@@ -435,21 +432,20 @@ const getWindsOfChangeVIPYieldBoost = ({
 
     if (chapter !== "Winds of Change") return 0;
 
-    const isVIP = vip?.expiresAt && createdAt < vip.expiresAt;
+    if (!hasVipAccess({ game, now: createdAt })) return 0;
 
-    if (!isVIP) return 0;
+    const newCrops: (CropName | GreenHouseCropName)[] = [
+      "Zucchini",
+      "Pepper",
+      "Onion",
+      "Turnip",
+      "Yam",
+      "Broccoli",
+      "Artichoke",
+      "Rhubarb",
+    ] as const;
 
-    const newCrops: Record<
-      TemperateSeasonName,
-      (CropName | GreenHouseCropName)[]
-    > = {
-      summer: ["Zucchini", "Pepper"],
-      winter: ["Onion", "Turnip"],
-      autumn: ["Yam", "Broccoli", "Artichoke"],
-      spring: ["Rhubarb"],
-    };
-
-    if (newCrops[season].includes(crop)) {
+    if (newCrops.includes(crop)) {
       return 0.25;
     }
 
@@ -867,9 +863,8 @@ export function getCropYieldAmount({
 
   const vipBoost = getWindsOfChangeVIPYieldBoost({
     crop,
-    season: game.season.season,
     createdAt,
-    vip: game.vip,
+    game,
   });
 
   if (vipBoost) {
