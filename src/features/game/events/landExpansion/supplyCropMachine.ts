@@ -148,6 +148,7 @@ export function getPackYieldAmount(
     totalYield += getCropYieldAmount({
       game: state,
       crop,
+      createdAt: Date.now(),
     });
   }
   return totalYield;

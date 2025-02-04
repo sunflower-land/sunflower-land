@@ -80,7 +80,7 @@ export function getGreenhouseYieldAmount({
   game: GameState;
 }): number {
   if (isGreenhouseCrop(crop)) {
-    return getCropYieldAmount({ crop, game });
+    return getCropYieldAmount({ crop, game, createdAt: Date.now() });
   }
 
   return getFruitYield({ name: crop, game });

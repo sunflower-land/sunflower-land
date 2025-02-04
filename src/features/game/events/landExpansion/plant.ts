@@ -9,6 +9,8 @@ import {
   InventoryItemName,
   PlacedItem,
   Position,
+  TemperateSeasonName,
+  VIP,
 } from "../../types/game";
 import {
   COLLECTIBLES_DIMENSIONS,
@@ -50,6 +52,7 @@ import {
   CalendarEventName,
   getActiveCalendarEvent,
 } from "features/game/types/calendar";
+import { getCurrentSeason } from "features/game/types/seasons";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -416,6 +419,46 @@ function isPlotCrop(plant: GreenHouseCropName | CropName): plant is CropName {
   return (plant as CropName) in CROPS;
 }
 
+const getWindsOfChangeVIPYieldBoost = ({
+  crop,
+  season,
+  vip,
+  createdAt,
+}: {
+  crop: CropName | GreenHouseCropName;
+  season: TemperateSeasonName;
+  vip: VIP | undefined;
+  createdAt: number;
+}) => {
+  try {
+    const chapter = getCurrentSeason(new Date(createdAt));
+
+    if (chapter !== "Winds of Change") return 0;
+
+    const isVIP = vip?.expiresAt && createdAt < vip.expiresAt;
+
+    if (!isVIP) return 0;
+
+    const newCrops: Record<
+      TemperateSeasonName,
+      (CropName | GreenHouseCropName)[]
+    > = {
+      summer: ["Zucchini", "Pepper"],
+      winter: ["Onion", "Turnip"],
+      autumn: ["Yam", "Broccoli", "Artichoke"],
+      spring: ["Rhubarb"],
+    };
+
+    if (newCrops[season].includes(crop)) {
+      return 0.25;
+    }
+
+    return 0;
+  } catch (e) {
+    return 0;
+  }
+};
+
 /**
  * Based on items, the output will be different
  */
@@ -424,11 +467,13 @@ export function getCropYieldAmount({
   plot,
   game,
   fertiliser,
+  createdAt,
 }: {
   crop: CropName | GreenHouseCropName;
   plot?: CropPlot;
   game: GameState;
   fertiliser?: CropCompostName;
+  createdAt: number;
 }): number {
   if (game.bumpkin === undefined) return 1;
 
@@ -820,6 +865,17 @@ export function getCropYieldAmount({
     amount = amount * 0.5;
   }
 
+  const vipBoost = getWindsOfChangeVIPYieldBoost({
+    crop,
+    season: game.season.season,
+    createdAt,
+    vip: game.vip,
+  });
+
+  if (vipBoost) {
+    amount += vipBoost;
+  }
+
   return Number(setPrecision(amount));
 }
 
@@ -895,6 +951,7 @@ export function plant({
           crop: cropName,
           game: stateCopy,
           plot,
+          createdAt,
           fertiliser: plot.fertiliser?.name,
         }),
       },
