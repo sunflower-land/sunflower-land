@@ -13,12 +13,7 @@ import {
 } from "features/game/types/milestones";
 import { getFishByType } from "../lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
-import {
-  FISH,
-  FishName,
-  MarineMarvelName,
-  WINDS_OF_CHANGE_FISH,
-} from "features/game/types/fishing";
+import { FISH, FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
@@ -100,7 +95,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                 <Label
                   key={`${selectedFish}-${season}`}
                   type="vibrant"
-                  className="px-0.5 mr-4 text-xxs whitespace-nowrap  mb-1"
+                  className="px-0.5 mr-4 text-xxs whitespace-nowrap mb-1"
                   icon={SEASON_ICONS[season]}
                 >
                   {t(`season.${season}`)}
@@ -126,7 +121,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                     <Label
                       key={`${selectedFish}-${chum}`}
                       type="chill"
-                      className="px-0.5 text-xxs whitespace-nowrap mr-4  mb-1"
+                      className="px-0.5 text-xxs whitespace-nowrap mr-4 mb-1"
                       icon={ITEM_DETAILS[chum].image}
                       secondaryIcon={SUNNYSIDE.icons.heart}
                     >
@@ -138,7 +133,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
 
               <Label
                 type="default"
-                className="px-0.5 text-xxs   mb-1"
+                className="px-0.5 text-xxs mb-1"
                 icon={SUNNYSIDE.tools.fishing_rod}
               >
                 {`${farmActivity[`${selectedFish} Caught`] ?? 0} Caught`}
@@ -198,7 +193,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                     width: "100px",
                     zIndex: 100 - index,
                   }}
-                  className="flex mr-2  flex-col items-center justify-center relative"
+                  className="flex mr-2 flex-col items-center justify-center relative"
                   onClick={() => setSelectedMilestone(name)}
                 >
                   <span
@@ -244,19 +239,14 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                   {type !== "marine marvel" ? `${type} Fish` : "Marine Marvels"}
                 </Label>
                 <div className="flex flex-wrap">
-                  {FISH_BY_TYPE[type]
-                    .filter(
-                      (name) =>
-                        !WINDS_OF_CHANGE_FISH.includes(name as FishName),
-                    )
-                    .map((name) => (
-                      <SimpleBox
-                        silhouette={!farmActivity[`${name} Caught`]}
-                        onClick={() => setSelectedFish(name)}
-                        key={name}
-                        image={ITEM_DETAILS[name].image}
-                      />
-                    ))}
+                  {FISH_BY_TYPE[type].map((name) => (
+                    <SimpleBox
+                      silhouette={!farmActivity[`${name} Caught`]}
+                      onClick={() => setSelectedFish(name)}
+                      key={name}
+                      image={ITEM_DETAILS[name].image}
+                    />
+                  ))}
                 </div>
               </div>
             );
