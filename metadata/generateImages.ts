@@ -1,26 +1,36 @@
 import fs from "fs";
 import sharp from "sharp";
 
-import { getKeys } from "features/game/types/decorations";
 import { InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
+import { ITEM_DETAILS } from "features/game/types/images";
 
-const IMAGES: Partial<Record<InventoryItemName, string>> = {
-  Mog: "src/assets/sfts/morchi_mog.webp",
-};
+const IMAGES: InventoryItemName[] = [
+  "Jellyfish",
+  "Frozen Cow",
+  "Frozen Sheep",
+  "Summer Chicken",
+  "Chamomile",
+];
 
 const WIDTH = 1920;
 
-async function generateImage({ name }: { name: InventoryItemName }) {
+async function generateImage({
+  name,
+  image,
+}: {
+  name: InventoryItemName;
+  image: string;
+}) {
   const ID = KNOWN_IDS[name];
 
   const background = await sharp("public/erc1155/images/3x3_bg.png").toBuffer();
-  const itemImage = await sharp(IMAGES[name]).toBuffer();
+  const imgFile = ITEM_DETAILS[name].image.slice(1);
+  const itemImage = await sharp(imgFile).toBuffer();
 
   // Composite item image onto background
   const mergedImage = await sharp(background)
     .composite([{ input: itemImage }])
-
     .toBuffer();
 
   const resized = await sharp(mergedImage)
@@ -35,8 +45,8 @@ async function generateImage({ name }: { name: InventoryItemName }) {
 }
 
 export const generateImages = () => {
-  getKeys(IMAGES).forEach((item) => {
-    generateImage({ name: item });
+  IMAGES.forEach((item) => {
+    generateImage({ name: item, image: ITEM_DETAILS[item].image });
   });
 };
 

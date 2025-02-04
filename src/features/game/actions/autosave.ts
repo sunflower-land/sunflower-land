@@ -96,7 +96,7 @@ export async function autosaveRequest(
 
 let autosaveErrors = 0;
 
-export async function autosave(request: Request) {
+export async function autosave(request: Request, retries = 0) {
   if (!API_URL) return { verified: true };
 
   // Shorten the payload
@@ -119,7 +119,22 @@ export async function autosave(request: Request) {
   });
 
   if (response.status === 503) {
-    throw new Error(ERRORS.MAINTENANCE);
+    const data = await response.json();
+    if (data.message === "Temporary maintenance") {
+      throw new Error(ERRORS.MAINTENANCE);
+    } else {
+      // Throttling. Do exponential backoff with jitter
+      const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
+      const jitter = Math.random() * 1000;
+
+      await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
+
+      if (retries < 3) {
+        return await autosave(request, retries + 1);
+      }
+
+      throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
+    }
   }
 
   if (response.status === 401) {
@@ -135,10 +150,7 @@ export async function autosave(request: Request) {
   }
 
   if (response.status !== 200 || !response.ok) {
-    const data = await response.json();
-
     autosaveErrors += 1;
-
     throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
   }
 

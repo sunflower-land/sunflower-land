@@ -1,35 +1,48 @@
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useGame } from "features/game/GameProvider";
-import { WEATHER_SHOP } from "features/game/types/calendar";
+import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
 import { getKeys } from "features/game/types/decorations";
-import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 
 import weatherIcon from "assets/icons/temperature.webp";
 import calendarIcon from "assets/icons/calendar.webp";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { NPC_WEARABLES } from "lib/npcs";
+import { WeatherGuide } from "./WeatherGuide";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 
+function hasReadIntro() {
+  const intro = localStorage.getItem("temperateSeasonIntro");
+  return intro === "true";
+}
+
+function acknowledgeIntro() {
+  localStorage.setItem("temperateSeasonIntro", "true");
+}
+
+const _state = (state: MachineState) => state.context.state;
 interface Props {
   onClose: () => void;
 }
 export const WeatherShop: React.FC<Props> = ({ onClose }) => {
-  const { gameState, gameService } = useGame();
+  const { gameService } = useGame();
   const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
 
-  const [selected, setSelected] =
-    useState<InventoryItemName>("Tornado Pinwheel");
+  const [showIntro, setShowIntro] = useState(!hasReadIntro());
 
-  const game = gameState.context.state;
+  const [selected, setSelected] = useState<WeatherShopItem>("Tornado Pinwheel");
 
-  const hasAccess = hasFeatureAccess(game, "WEATHER_SHOP");
+  const state = useSelector(gameService, _state);
+  const { coins, inventory, island } = state;
 
   const craft = () => {
     gameService.send("tool.crafted", {
@@ -37,71 +50,83 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
     });
   };
 
-  if (!hasAccess) {
+  if (showIntro) {
     return (
-      <Panel>
-        <div className="p-2">
-          <p className="text-sm mb-2">
-            {t("temperateSeason.weatherShop.buy.description")}
-          </p>
-          <p className="text-xs">
-            {t("temperateSeason.weatherShop.buy.comingSoon")}
-          </p>
-        </div>
-        <Button onClick={onClose}>{t("close")}</Button>
-      </Panel>
+      <SpeakingModal
+        onClose={() => {
+          acknowledgeIntro();
+          setShowIntro(false);
+        }}
+        bumpkinParts={NPC_WEARABLES["bailey"]}
+        message={[
+          {
+            text: t("season.welcomeToTheWeatherShop"),
+          },
+        ]}
+      />
     );
   }
 
-  const hasCoins = game.coins >= WEATHER_SHOP[selected]!.price;
-  const hasItem = !!game.inventory[selected];
+  const weatherShop = getWeatherShop(island.type);
+  const hasCoins = coins >= weatherShop[selected].price;
+  const hasItem = !!inventory[selected];
+
   return (
     <CloseButtonPanel
       tabs={[
-        { icon: weatherIcon, name: t("temperateSeason.weatherShop.weather") },
+        { icon: weatherIcon, name: t("sale") },
         { icon: calendarIcon, name: t("guide") },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
       container={OuterPanel}
+      bumpkinParts={NPC_WEARABLES["bailey"]}
     >
-      <SplitScreenView
-        panel={
-          <CraftingRequirements
-            gameState={game}
-            details={{
-              item: selected,
-            }}
-            limit={1}
-            requirements={{
-              coins: WEATHER_SHOP[selected]!.price,
-            }}
-            actionView={
-              hasItem ? undefined : (
-                <Button disabled={!hasCoins} onClick={craft}>
-                  {t("buy")}
-                </Button>
-              )
-            }
-          />
-        }
-        content={
-          <>
-            {getKeys(WEATHER_SHOP).map((itemName) => {
-              return (
-                <Box
-                  isSelected={selected === itemName}
-                  key={itemName}
-                  onClick={() => setSelected(itemName)}
-                  image={ITEM_DETAILS[itemName].image}
-                  count={game.inventory[itemName]}
-                />
-              );
-            })}
-          </>
-        }
-      />
+      {tab === 0 && (
+        <SplitScreenView
+          panel={
+            <CraftingRequirements
+              gameState={state}
+              details={{
+                item: selected,
+              }}
+              limit={1}
+              requirements={{
+                resources: weatherShop[selected].ingredients,
+                coins: weatherShop[selected].price,
+              }}
+              actionView={
+                hasItem ? undefined : (
+                  <Button disabled={!hasCoins} onClick={craft}>
+                    {t("buy")}
+                  </Button>
+                )
+              }
+            />
+          }
+          content={
+            <>
+              {getKeys(weatherShop).map((itemName) => {
+                return (
+                  <Box
+                    isSelected={selected === itemName}
+                    key={itemName}
+                    onClick={() => setSelected(itemName)}
+                    image={ITEM_DETAILS[itemName].image}
+                    count={inventory[itemName]}
+                  />
+                );
+              })}
+            </>
+          }
+        />
+      )}
+      {tab === 1 && (
+        <InnerPanel>
+          <WeatherGuide />
+        </InnerPanel>
+      )}
     </CloseButtonPanel>
   );
 };

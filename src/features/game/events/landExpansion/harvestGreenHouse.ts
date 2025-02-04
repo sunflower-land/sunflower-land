@@ -19,7 +19,7 @@ export const GREENHOUSE_CROP_TIME_SECONDS: Record<
   GreenHouseCropName | GreenHouseFruitName,
   number
 > = {
-  Grape: GREENHOUSE_FRUIT_SEEDS()["Grape Seed"].plantSeconds,
+  Grape: GREENHOUSE_FRUIT_SEEDS["Grape Seed"].plantSeconds,
   Olive: GREENHOUSE_CROPS.Olive.harvestSeconds,
   Rice: GREENHOUSE_CROPS.Rice.harvestSeconds,
 };

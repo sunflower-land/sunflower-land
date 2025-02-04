@@ -20,13 +20,10 @@ interface Props {
 export const VIPGift: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const { inventory, pumpkinPlaza } = gameState.context.state;
-
   const { openModal } = useContext(ModalContext);
 
+  const { pumpkinPlaza } = gameState.context.state;
   const [isRevealing, setIsRevealing] = useState(false);
-
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
 
@@ -45,8 +42,7 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
     setIsPicking(false);
   };
 
-  const hasVip = hasVipAccess(inventory);
-
+  const hasVip = hasVipAccess({ game: gameState.context.state });
   const openedAt = pumpkinPlaza.vipChest?.openedAt ?? 0;
 
   // Have they opened this month?
@@ -82,7 +78,7 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
       <div className="p-2">
         <div className="flex justify-between items-center pr-8">
           <VIPAccess
-            isVIP={hasVipAccess(inventory)}
+            isVIP={hasVipAccess({ game: gameState.context.state })}
             onUpgrade={() => {
               onClose();
               openModal("BUY_BANNER");

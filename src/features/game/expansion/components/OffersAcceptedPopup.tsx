@@ -17,7 +17,7 @@ import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
 
 /**
@@ -73,9 +73,7 @@ export const OffersAcceptedPopup: React.FC = () => {
             sfl: offer.sfl,
             points: !offer.signature ? 2 : 4,
           }).multipliedPoints;
-          const isResource = getKeys(TRADE_LIMITS).includes(
-            KNOWN_ITEMS[Number(itemId)],
-          );
+          const isResource = isTradeResource(KNOWN_ITEMS[Number(itemId)]);
 
           return (
             <div className="flex flex-col space-y-1" key={listingId}>
@@ -97,7 +95,6 @@ export const OffersAcceptedPopup: React.FC = () => {
                         <span className="text-xs">
                           {`${formatNumber(estTradePoints, {
                             decimalPlaces: 2,
-                            showTrailingZeros: false,
                           })} Trade Points`}
                         </span>
                         <img

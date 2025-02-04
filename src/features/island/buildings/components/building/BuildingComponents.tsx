@@ -23,7 +23,12 @@ import { CookableName } from "features/game/types/consumables";
 import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
 import { Manor } from "./manor/Manor";
-import { GameState, IslandType } from "features/game/types/game";
+import { Mansion } from "./mansion/Mansion";
+import {
+  GameState,
+  IslandType,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import {
   BAKERY_VARIANTS,
   DELI_VARIANTS,
@@ -47,6 +52,7 @@ export interface BuildingProps {
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
   isBuilt?: boolean;
+  season: TemperateSeasonName;
 }
 
 export const BUILDING_COMPONENTS: Record<
@@ -60,6 +66,7 @@ export const BUILDING_COMPONENTS: Record<
     craftingReadyAt,
     isBuilt,
     island,
+    season,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
@@ -68,12 +75,14 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      season={season}
     >
       <FirePit
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
         island={island}
+        season={season}
       />
     </WithCraftingMachine>
   ),
@@ -85,6 +94,7 @@ export const BUILDING_COMPONENTS: Record<
     craftingReadyAt,
     isBuilt,
     island,
+    season,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
@@ -93,12 +103,14 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      season={season}
     >
       <Bakery
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
         island={island}
+        season={season}
       />
     </WithCraftingMachine>
   ),
@@ -118,6 +130,7 @@ export const BUILDING_COMPONENTS: Record<
     craftingReadyAt,
     isBuilt,
     island,
+    season,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
@@ -125,6 +138,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      season={season}
       buildingName="Kitchen"
     >
       <Kitchen
@@ -132,6 +146,7 @@ export const BUILDING_COMPONENTS: Record<
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
         island={island}
+        season={season}
       />
     </WithCraftingMachine>
   ),
@@ -142,6 +157,7 @@ export const BUILDING_COMPONENTS: Record<
     craftingReadyAt,
     isBuilt,
     island,
+    season,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
@@ -149,6 +165,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      season={season}
       buildingName="Deli"
     >
       <Deli
@@ -156,6 +173,7 @@ export const BUILDING_COMPONENTS: Record<
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
         island={island}
+        season={season}
       />
     </WithCraftingMachine>
   ),
@@ -166,6 +184,7 @@ export const BUILDING_COMPONENTS: Record<
     craftingReadyAt,
     isBuilt,
     island,
+    season,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
@@ -173,6 +192,7 @@ export const BUILDING_COMPONENTS: Record<
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
       island={island}
+      season={season}
       buildingName="Smoothie Shack"
     >
       <SmoothieShack
@@ -180,6 +200,7 @@ export const BUILDING_COMPONENTS: Record<
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
         island={island}
+        season={season}
       />
     </WithCraftingMachine>
   ),
@@ -187,6 +208,7 @@ export const BUILDING_COMPONENTS: Record<
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
   Manor: Manor,
+  Mansion: Mansion,
   Greenhouse: Greenhouse,
   "Crop Machine": ({ buildingId }: Pick<BuildingProps, "buildingId">) => (
     <CropMachine id={buildingId} />
@@ -196,8 +218,9 @@ export const BUILDING_COMPONENTS: Record<
 
 export const READONLY_BUILDINGS: (
   gameState: GameState,
-) => Record<BuildingName, React.FC<any>> = (gameState) => {
+) => Record<BuildingName, React.FC<BuildingProps>> = (gameState) => {
   const island: IslandType = gameState.island.type;
+  const season: TemperateSeasonName = gameState.season.season;
   const henHouseLevel = gameState.henHouse.level;
   const barnLevel = gameState.barn.level;
 
@@ -236,7 +259,7 @@ export const READONLY_BUILDINGS: (
     ),
     "Hen House": () => (
       <img
-        src={HEN_HOUSE_VARIANTS[island][henHouseLevel] as string}
+        src={HEN_HOUSE_VARIANTS[season][henHouseLevel] as string}
         className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 61}px`,
@@ -263,14 +286,14 @@ export const READONLY_BUILDINGS: (
     ),
     Bakery: () => (
       <img
-        src={BAKERY_VARIANTS[island]}
+        src={BAKERY_VARIANTS[season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 62}px`, left: `${PIXEL_SCALE * 1}px` }}
       />
     ),
     Deli: () => (
       <img
-        src={DELI_VARIANTS[island]}
+        src={DELI_VARIANTS[season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       />

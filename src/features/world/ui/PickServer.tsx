@@ -26,10 +26,10 @@ interface Props {
 // If colyseus does not return one of the servers, it means its empty
 const ICONS = [
   SUNNYSIDE.icons.water,
-  CROP_LIFECYCLE.Sunflower.crop,
+  CROP_LIFECYCLE.basic.Sunflower.crop,
   SUNNYSIDE.icons.heart,
   brazilFlag,
-  CROP_LIFECYCLE.Pumpkin.crop,
+  CROP_LIFECYCLE.basic.Pumpkin.crop,
 ];
 
 export const PickServer: React.FC<Props> = ({ mmoService }) => {

@@ -8,7 +8,7 @@ import {
 } from "features/game/types/bumpkinSkills";
 
 import { Box } from "components/ui/Box";
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { getAvailableBumpkinOldSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
@@ -45,7 +45,7 @@ export const SkillPath = ({
       {skillPath.map((level, index) => (
         <div className="flex justify-center" key={index}>
           {level.map((skill) => {
-            const availableSkillPoints = getAvailableBumpkinSkillPoints(
+            const availableSkillPoints = getAvailableBumpkinOldSkillPoints(
               state.bumpkin,
             );
             const hasSkill = !!bumpkin.skills[skill];

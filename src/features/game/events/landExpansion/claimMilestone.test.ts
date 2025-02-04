@@ -2,6 +2,8 @@ import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { getFishByType } from "features/island/hud/components/codex/lib/utils";
 import { claimMilestone } from "./claimMilestone";
+import { getKeys } from "features/game/types/decorations";
+import { FISH } from "features/game/types/fishing";
 
 const farm: GameState = { ...TEST_FARM };
 
@@ -61,6 +63,58 @@ describe("claim milestone", () => {
     });
 
     expect(state.milestones["Novice Angler"]).toBe(1);
+  });
+
+  it("claims Fish Encyclopedia milestone when all 30 are caught", () => {
+    const allFish = getKeys(FISH).slice(0, 30);
+
+    const farmActivity = allFish.reduce(
+      (acc, fish) => {
+        acc[`${fish} Caught`] = 5;
+
+        return acc;
+      },
+      {} as GameState["farmActivity"],
+    );
+
+    const state = claimMilestone({
+      state: {
+        ...farm,
+        farmActivity,
+      },
+      action: {
+        type: "milestone.claimed",
+        milestone: "Fish Encyclopedia",
+      },
+    });
+
+    expect(state.wardrobe["Bucket O' Worms"]).toBe(1);
+  });
+
+  it("claims Marine Biologist milestone when all fish are caught", () => {
+    const allFish = getKeys(FISH);
+
+    const farmActivity = allFish.reduce(
+      (acc, fish) => {
+        acc[`${fish} Caught`] = 5;
+
+        return acc;
+      },
+      {} as GameState["farmActivity"],
+    );
+
+    const state = claimMilestone({
+      state: {
+        ...farm,
+        farmActivity,
+      },
+      action: {
+        type: "milestone.claimed",
+        milestone: "Marine Biologist",
+      },
+    });
+
+    expect(state.wardrobe["Radiant Dumbo"]).toBe(1);
   });
 
   it("adds a wearable reward to wardrobe when milestone is claimed", () => {

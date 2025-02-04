@@ -76,7 +76,7 @@ const generateImages = (
   if (isMoonSeekerMode) {
     resourceImages = [
       ...getKeys(CROPS),
-      ...getKeys(PATCH_FRUIT()),
+      ...getKeys(PATCH_FRUIT),
       ...getKeys(COMMODITIES),
     ];
     resourceImages = resourceImages.filter(

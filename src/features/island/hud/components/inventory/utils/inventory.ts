@@ -187,6 +187,17 @@ export const getChestItems = (state: GameState): Inventory => {
       };
     }
 
+    if (itemName === "Lava Pit") {
+      return {
+        ...acc,
+        "Lava Pit": new Decimal(
+          state.inventory["Lava Pit"]?.minus(
+            Object.keys(state.lavaPits).length,
+          ) ?? 0,
+        ),
+      };
+    }
+
     if (itemName in COLLECTIBLES_DIMENSIONS) {
       return {
         ...acc,

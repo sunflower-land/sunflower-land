@@ -1161,6 +1161,270 @@ describe("deliver", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
   });
 
+  it("provides +1 tickets when Acorn Hat is worn at Winds of Change Chapter", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2025-02-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            hat: "Acorn Hat",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("provides +1 tickets when Igloo is placed at Winds of Change Chapter", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        collectibles: {
+          Igloo: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2025-02-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("provides +1 tickets when Hammock is placed at Winds of Change Chapter", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        collectibles: {
+          Hammock: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2025-02-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("stacks Timeshard boost collectibles and wearables", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        collectibles: {
+          Hammock: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+          Igloo: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2025-02-04T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            hat: "Acorn Hat",
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+  });
+  it("does not provides +1 tickets when Hammock is placed outside the WoC Chapter", () => {
+    const mockDate = new Date(2025, 0, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const state = deliverOrder({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        collectibles: {
+          Hammock: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+        },
+        delivery: {
+          ...INITIAL_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: mockDate.getTime(),
+              readyAt: new Date("2025-01-03T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
+  });
+
   it("add 30% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
@@ -1396,7 +1660,7 @@ describe("deliver", () => {
       },
     });
 
-    expect(state.coins).toEqual(480);
+    expect(state.coins).toEqual(640);
   });
 
   it("gives 10% more revenue on completed food orders with Nom Nom skill", () => {
@@ -1491,7 +1755,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date("2024-09-10").getTime(),
+              readyAt: new Date().getTime(),
               from: "tango",
               items: {
                 Orange: 5,
@@ -1500,14 +1764,25 @@ describe("deliver", () => {
               reward: { coins: 320 },
             },
           ],
-          doubleDelivery: "2024-09-10",
+        },
+        calendar: {
+          dates: [
+            {
+              name: "doubleDelivery",
+              date: new Date().toISOString().substring(0, 10),
+            },
+          ],
+          doubleDelivery: {
+            triggeredAt: new Date().getTime(),
+            startedAt: new Date().getTime(),
+          },
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: new Date("2024-09-10").getTime(),
+      createdAt: new Date().getTime(),
     });
 
     expect(state.coins).toEqual(640);
@@ -1528,7 +1803,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date("2024-09-10").getTime(),
+              readyAt: new Date().getTime(),
               from: "guria",
               items: {
                 Orange: 5,
@@ -1537,20 +1812,32 @@ describe("deliver", () => {
               reward: { sfl: 1 },
             },
           ],
-          doubleDelivery: "2024-09-10",
+        },
+        calendar: {
+          dates: [
+            {
+              name: "doubleDelivery",
+              date: new Date().toISOString().substring(0, 10),
+            },
+          ],
+          doubleDelivery: {
+            triggeredAt: new Date().getTime(),
+            startedAt: new Date().getTime(),
+          },
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: new Date("2024-09-10").getTime(),
+      createdAt: new Date().getTime(),
     });
 
     expect(state.balance).toEqual(new Decimal(2));
   });
 
   it("gives 100% more seasonal ticket on completed deliveries if double delivery is active", () => {
+    const mockDate = new Date("2025-02-11").getTime();
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1562,26 +1849,38 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date("2024-09-10").getTime(),
+              readyAt: mockDate,
               from: "tywin",
               items: { coins: 6400 },
               reward: {},
             },
           ],
-          doubleDelivery: "2024-09-10",
+        },
+        calendar: {
+          dates: [
+            {
+              name: "doubleDelivery",
+              date: new Date(mockDate).toISOString().substring(0, 10),
+            },
+          ],
+          doubleDelivery: {
+            triggeredAt: mockDate,
+            startedAt: mockDate,
+          },
         },
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: new Date("2024-09-10").getTime(),
+      createdAt: mockDate,
     });
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
   });
 
   it("can deliver items from the wardrobe", () => {
+    const mockDate = new Date("2024-05-10").getTime();
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -1602,7 +1901,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: new Date("2024-09-10").getTime(),
+              readyAt: mockDate,
               from: "cornwell",
               items: { "Basic Hair": 1 },
               reward: {},
@@ -1614,6 +1913,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: mockDate,
     });
 
     expect(state.wardrobe["Basic Hair"]).toEqual(0);

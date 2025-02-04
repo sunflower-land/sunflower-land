@@ -1,4 +1,3 @@
-import { getSeasonalBanner } from "features/game/types/seasons";
 import { Announcements } from "features/game/types/announcements";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
@@ -39,18 +38,15 @@ export function acknowledgeIntroduction() {
   return localStorage.setItem("islesIntroduction", new Date().toISOString());
 }
 
-export function getSeasonPassRead(): Date | null {
-  const value = localStorage.getItem(`${getSeasonalBanner()}IsRead`);
+export function getVipRead(): Date | null {
+  const value = localStorage.getItem(`vipIsRead`);
   if (!value) return null;
 
   return new Date(value);
 }
 
-export function acknowledgeSeasonPass() {
-  return localStorage.setItem(
-    `${getSeasonalBanner()}IsRead`,
-    new Date().toISOString(),
-  );
+export function acknowledgeVIP() {
+  return localStorage.setItem(`vipIsRead`, new Date().toISOString());
 }
 
 export function getBudsRead(): Date | null {

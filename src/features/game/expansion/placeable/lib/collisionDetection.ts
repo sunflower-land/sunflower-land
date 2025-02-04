@@ -22,8 +22,6 @@ import {
 } from "features/game/types/resources";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { AnimalType } from "features/game/types/animals";
-import { hasFeatureAccess } from "lib/flags";
-import { INITIAL_FARM } from "features/game/lib/constants";
 
 type BoundingBox = Position;
 
@@ -109,6 +107,7 @@ function detectPlaceableCollision(
     gold,
     iron,
     crimstones,
+    lavaPits,
     sunstones,
     fruitPatches,
     buds,
@@ -149,6 +148,7 @@ function detectPlaceableCollision(
     ...Object.values(gold),
     ...Object.values(crimstones),
     ...Object.values(sunstones),
+    ...Object.values(lavaPits),
     ...Object.values(crops),
     ...Object.values(fruitPatches),
     ...Object.values(beehives),
@@ -203,6 +203,12 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     width: 16,
     x: -8,
     y: -8,
+  },
+  volcano: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
   },
 };
 
@@ -269,6 +275,7 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Sleepy Rug",
   "Crop Circle",
   "Christmas Rug",
+  "Lake Rug",
 ];
 
 function detectHomeCollision({
@@ -301,7 +308,7 @@ function detectHomeCollision({
   const placed = home.collectibles;
 
   const collidingItems = getKeys(placed).filter(
-    (name) => !NON_COLLIDING_OBJECTS.includes(name),
+    (other) => !NON_COLLIDING_OBJECTS.includes(other) && other !== name,
   );
 
   const placeableBounds = collidingItems.flatMap((name) => {
@@ -626,14 +633,6 @@ export function isWithinAOE(
     }
 
     case "Bale": {
-      if (!hasFeatureAccess(INITIAL_FARM, "BALE_AOE_END")) {
-        const dxRect = effectItem.x - x;
-        const dyRect = effectItem.y - y;
-        return (
-          dxRect >= -1 && dxRect <= width && dyRect <= 1 && dyRect >= -height
-        );
-      }
-
       return false;
     }
 

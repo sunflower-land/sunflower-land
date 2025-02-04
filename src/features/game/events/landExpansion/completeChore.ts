@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isWearableActive } from "features/game/lib/wearables";
 import { ChoreV2Name, GameState } from "features/game/types/game";
@@ -31,7 +32,7 @@ export function generateChoreTickets({
     return 0;
   }
 
-  if (hasVipAccess(game.inventory, now)) {
+  if (hasVipAccess({ game, now: now.getTime() })) {
     amount += 2;
   }
 
@@ -52,6 +53,27 @@ export function generateChoreTickets({
   if (
     getCurrentSeason() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isWearableActive({ game, name: "Acorn Hat" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Igloo" })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    getCurrentSeason() === "Winds of Change" &&
+    isCollectibleBuilt({ game, name: "Hammock" })
   ) {
     amount += 1;
   }

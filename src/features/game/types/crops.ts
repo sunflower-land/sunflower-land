@@ -1,5 +1,20 @@
 import { translate } from "lib/i18n/translate";
 import { Seed } from "./seeds";
+import { getKeys } from "./decorations";
+import { EXOTIC_CROPS, ExoticCrop, ExoticCropName } from "./beans";
+import {
+  GREENHOUSE_FRUIT,
+  GreenHouseFruitName,
+  PATCH_FRUIT,
+  PatchFruitName,
+} from "./fruits";
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+  isOvernightCrop,
+} from "../events/landExpansion/harvest";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 export type CropName =
   | "Sunflower"
@@ -16,7 +31,15 @@ export type CropName =
   | "Radish"
   | "Wheat"
   | "Kale"
-  | "Barley";
+  | "Barley"
+  | "Rhubarb"
+  | "Zucchini"
+  | "Yam"
+  | "Broccoli"
+  | "Pepper"
+  | "Onion"
+  | "Turnip"
+  | "Artichoke";
 
 export type Crop = {
   sellPrice: number;
@@ -88,11 +111,24 @@ export const CROPS: Record<CropName, Crop> = {
     sellPrice: 0.14,
     harvestSeconds: 5 * 60,
   },
+  Rhubarb: {
+    sellPrice: 0.24,
+    harvestSeconds: 10 * 60,
+    name: "Rhubarb",
+    description: translate("description.rhubarb"),
+  },
   Pumpkin: {
     name: "Pumpkin",
     description: translate("description.pumpkin"),
     sellPrice: 0.4,
     harvestSeconds: 30 * 60,
+  },
+
+  Zucchini: {
+    sellPrice: 0.4,
+    harvestSeconds: 30 * 60,
+    name: "Zucchini",
+    description: translate("description.zucchini"),
   },
   Carrot: {
     name: "Carrot",
@@ -100,11 +136,24 @@ export const CROPS: Record<CropName, Crop> = {
     sellPrice: 0.8,
     harvestSeconds: 60 * 60,
   },
+  Yam: {
+    sellPrice: 0.8,
+    harvestSeconds: 60 * 60,
+    name: "Yam",
+    description: translate("description.yam"),
+  },
   Cabbage: {
     name: "Cabbage",
     description: translate("description.cabbage"),
     sellPrice: 1.5,
     harvestSeconds: 2 * 60 * 60,
+  },
+
+  Broccoli: {
+    sellPrice: 1.5,
+    harvestSeconds: 2 * 60 * 60,
+    name: "Broccoli",
+    description: translate("description.broccoli"),
   },
   Soybean: {
     name: "Soybean",
@@ -117,6 +166,13 @@ export const CROPS: Record<CropName, Crop> = {
     description: translate("description.beetroot"),
     sellPrice: 2.8,
     harvestSeconds: 4 * 60 * 60,
+  },
+
+  Pepper: {
+    sellPrice: 3,
+    harvestSeconds: 4 * 60 * 60,
+    name: "Pepper",
+    description: translate("description.pepper"),
   },
   Cauliflower: {
     name: "Cauliflower",
@@ -142,6 +198,13 @@ export const CROPS: Record<CropName, Crop> = {
     sellPrice: 9,
     harvestSeconds: 20 * 60 * 60,
   },
+
+  Onion: {
+    sellPrice: 10,
+    harvestSeconds: 20 * 60 * 60,
+    name: "Onion",
+    description: translate("description.onion"),
+  },
   Radish: {
     name: "Radish",
     description: translate("description.radish"),
@@ -154,11 +217,24 @@ export const CROPS: Record<CropName, Crop> = {
     sellPrice: 7,
     harvestSeconds: 24 * 60 * 60,
   },
+
+  Turnip: {
+    sellPrice: 8,
+    harvestSeconds: 24 * 60 * 60,
+    name: "Turnip",
+    description: translate("description.turnip"),
+  },
   Kale: {
     name: "Kale",
     description: translate("description.kale"),
     sellPrice: 10,
     harvestSeconds: 36 * 60 * 60,
+  },
+  Artichoke: {
+    sellPrice: 12,
+    harvestSeconds: 36 * 60 * 60,
+    name: "Artichoke",
+    description: translate("description.artichoke"),
   },
   Barley: {
     sellPrice: 12,
@@ -187,6 +263,14 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     yield: "Potato",
     plantingSpot: "Crop Plot",
   },
+  "Rhubarb Seed": {
+    price: 0.15,
+    description: translate("description.rhubarb"),
+    plantSeconds: 10 * 60,
+    bumpkinLevel: 1,
+    plantingSpot: "Crop Plot",
+    yield: "Rhubarb",
+  },
   "Pumpkin Seed": {
     description: translate("description.pumpkin"),
     price: 0.2,
@@ -194,6 +278,15 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     bumpkinLevel: 2,
     yield: "Pumpkin",
     plantingSpot: "Crop Plot",
+  },
+
+  "Zucchini Seed": {
+    price: 0.2,
+    description: translate("description.zucchini"),
+    plantSeconds: 30 * 60,
+    bumpkinLevel: 2,
+    plantingSpot: "Crop Plot",
+    yield: "Zucchini",
   },
   "Carrot Seed": {
     description: translate("description.carrot"),
@@ -203,6 +296,14 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     yield: "Carrot",
     plantingSpot: "Crop Plot",
   },
+  "Yam Seed": {
+    price: 0.5,
+    description: translate("description.yam"),
+    plantSeconds: 60 * 60,
+    bumpkinLevel: 2,
+    plantingSpot: "Crop Plot",
+    yield: "Yam",
+  },
   "Cabbage Seed": {
     description: translate("description.cabbage"),
     price: 1,
@@ -210,6 +311,15 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     plantSeconds: 2 * 60 * 60,
     yield: "Cabbage",
     plantingSpot: "Crop Plot",
+  },
+
+  "Broccoli Seed": {
+    price: 1,
+    description: translate("description.broccoli"),
+    plantSeconds: 2 * 60 * 60,
+    bumpkinLevel: 3,
+    plantingSpot: "Crop Plot",
+    yield: "Broccoli",
   },
   "Soybean Seed": {
     description: translate("description.soybean"),
@@ -226,6 +336,14 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     plantSeconds: 4 * 60 * 60,
     yield: "Beetroot",
     plantingSpot: "Crop Plot",
+  },
+  "Pepper Seed": {
+    price: 2,
+    description: translate("description.pepper"),
+    plantSeconds: 4 * 60 * 60,
+    bumpkinLevel: 3,
+    plantingSpot: "Crop Plot",
+    yield: "Pepper",
   },
   "Cauliflower Seed": {
     description: translate("description.cauliflower"),
@@ -259,6 +377,14 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     yield: "Corn",
     plantingSpot: "Crop Plot",
   },
+  "Onion Seed": {
+    price: 7,
+    description: translate("description.onion"),
+    plantSeconds: 20 * 60 * 60,
+    bumpkinLevel: 5,
+    plantingSpot: "Crop Plot",
+    yield: "Onion",
+  },
   "Radish Seed": {
     description: translate("description.radish"),
     price: 7,
@@ -275,6 +401,15 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     yield: "Wheat",
     plantingSpot: "Crop Plot",
   },
+
+  "Turnip Seed": {
+    price: 5,
+    description: translate("description.turnip"),
+    plantSeconds: 24 * 60 * 60,
+    bumpkinLevel: 6,
+    plantingSpot: "Crop Plot",
+    yield: "Turnip",
+  },
   "Kale Seed": {
     description: translate("description.kale"),
     price: 7,
@@ -282,6 +417,14 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     plantSeconds: 36 * 60 * 60,
     yield: "Kale",
     plantingSpot: "Crop Plot",
+  },
+  "Artichoke Seed": {
+    price: 7,
+    description: translate("description.artichoke"),
+    plantSeconds: 36 * 60 * 60,
+    bumpkinLevel: 8,
+    plantingSpot: "Crop Plot",
+    yield: "Artichoke",
   },
   "Barley Seed": {
     price: 10,
@@ -292,3 +435,80 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     yield: "Barley",
   },
 };
+
+const exotics = getKeys(EXOTIC_CROPS)
+  // sort by sell price
+  .sort((a, b) => EXOTIC_CROPS[a].sellPrice - EXOTIC_CROPS[b].sellPrice)
+  .reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: EXOTIC_CROPS[key],
+    }),
+    {} as Record<ExoticCropName, ExoticCrop>,
+  );
+
+export const ALL_PRODUCE: Record<ProduceName, any> = {
+  ...CROPS,
+  ...PATCH_FRUIT,
+  ...GREENHOUSE_FRUIT,
+  ...GREENHOUSE_CROPS,
+  ...exotics,
+};
+
+export type ProduceCategory =
+  | "Basic Crop"
+  | "Medium Crop"
+  | "Advanced Crop"
+  | "Exotic Crop"
+  | "Overnight Crop"
+  | "Greenhouse"
+  | "Fruit"
+  | "Flower";
+
+export type ProduceName =
+  | CropName
+  | PatchFruitName
+  | GreenHouseCropName
+  | ExoticCropName;
+
+export function getCropCategory(crop: ProduceName): TranslationKeys {
+  if (!crop) {
+    return "crops.flower";
+  }
+
+  if (isBasicCrop(crop as CropName)) {
+    return "crops.basicCrop";
+  }
+
+  if (isMediumCrop(crop as CropName)) {
+    return "crops.mediumCrop";
+  }
+
+  if (isAdvancedCrop(crop as CropName)) {
+    return "crops.advancedCrop";
+  }
+
+  if (EXOTIC_CROPS[crop as ExoticCropName]) {
+    return "crops.exoticCrop";
+  }
+
+  if (
+    GREENHOUSE_CROPS[crop as GreenHouseCropName] ||
+    GREENHOUSE_FRUIT[crop as GreenHouseFruitName]
+  ) {
+    return "crops.greenhouse";
+  }
+
+  if (PATCH_FRUIT[crop as PatchFruitName]) {
+    return "crops.fruit";
+  }
+
+  if (
+    ALL_PRODUCE[crop].harvestSeconds >= 24 * 60 * 60 &&
+    isOvernightCrop(crop as CropName)
+  ) {
+    return "crops.overnightCrop";
+  }
+
+  return "crops.flower";
+}

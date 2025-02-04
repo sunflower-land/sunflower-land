@@ -56,6 +56,7 @@ export interface Context {
   username?: string;
   bid?: GameState["auctioneer"]["bid"];
   auctions: Auction[];
+  totalSupply: Record<string, number>;
   auctionId: string;
   transactionId: string;
   results?: AuctionResults;
@@ -139,6 +140,7 @@ export const createAuctioneerMachine = ({
         deviceTrackerId: "",
         canAccess: false,
         linkedAddress: "",
+        totalSupply: {},
 
         // Offline testing
         results: {
@@ -228,13 +230,14 @@ export const createAuctioneerMachine = ({
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              const { auctions } = await loadAuctions({
+              const { auctions, totalSupply } = await loadAuctions({
                 token: context.token,
                 transactionId: context.transactionId as string,
               });
 
               return {
                 auctions,
+                totalSupply,
                 auctionId:
                   auctions.length > 0 ? auctions[0].auctionId : undefined,
               };
@@ -243,6 +246,7 @@ export const createAuctioneerMachine = ({
               target: "initialising",
               actions: [
                 assign({
+                  totalSupply: (_, event) => event.data.totalSupply,
                   auctions: (_, event) => event.data.auctions,
                   auctionId: (_, event) => event.data.auctionId,
                 }),

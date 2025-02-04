@@ -12,6 +12,7 @@ import {
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { IslandType } from "features/game/types/game";
 
 const pluralisedNames: Record<PatchFruitName, string> = {
   Orange: "Oranges",
@@ -20,24 +21,29 @@ const pluralisedNames: Record<PatchFruitName, string> = {
   Banana: "Bananas",
   Tomato: "Tomatoes",
   Lemon: "Lemons",
+  Celestine: "Celestines",
+  Lunara: "Lunara",
+  Duskberry: "Duskberries",
 };
 
 interface Props {
   patchFruitName: PatchFruitName;
+  islandType: IslandType;
   timeLeft: number;
   playShakeAnimation: boolean;
 }
 
 export const ReplenishingTree: React.FC<Props> = ({
+  islandType,
   patchFruitName,
   timeLeft,
   playShakeAnimation,
 }) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
-  const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
+  const lifecycle = PATCH_FRUIT_LIFECYCLE[islandType][patchFruitName];
 
-  const { seed, isBush } = PATCH_FRUIT()[patchFruitName];
+  const { seed, isBush } = PATCH_FRUIT[patchFruitName];
   let bottom, left, width;
   switch (patchFruitName) {
     case "Banana":
@@ -55,13 +61,20 @@ export const ReplenishingTree: React.FC<Props> = ({
       left = 8;
       width = 14;
       break;
+    case "Celestine":
+    case "Lunara":
+    case "Duskberry":
+      bottom = 8;
+      left = 9;
+      width = 15;
+      break;
     default:
       bottom = 5;
       left = isBush ? 4 : 3;
       width = isBush ? 24 : 26;
   }
 
-  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
   const replenishPercentage = 100 - (timeLeft / plantSeconds) * 100;
 

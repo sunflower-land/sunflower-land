@@ -46,7 +46,6 @@ import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
-import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
 import { RetreatScene } from "./scenes/RetreatScene";
@@ -62,6 +61,7 @@ import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import worldIcon from "assets/icons/world.png";
+import { InfernosScene } from "./scenes/InferniaScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -147,6 +147,7 @@ export const PhaserComponent: React.FC<Props> = ({
     BumpkinHouseScene,
     ExampleAnimationScene,
     ExampleRPGScene,
+    InfernosScene,
   ];
 
   useEffect(() => {
@@ -532,7 +533,6 @@ export const PhaserComponent: React.FC<Props> = ({
         id={gameService.state.context.farmId as number}
         scene={scene}
       />
-      <FishingModal />
       <PlayerModals game={gameService.state.context.state} />
       <TradeCompleted
         mmoService={mmoService}

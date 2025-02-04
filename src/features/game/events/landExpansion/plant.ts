@@ -19,7 +19,7 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
-import { SEEDS } from "features/game/types/seeds";
+import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
@@ -27,6 +27,10 @@ import {
   isMediumCrop,
   isAdvancedCrop,
   isOvernightCrop,
+  isSummerCrop,
+  isAutumnCrop,
+  isSpringCrop,
+  isWinterCrop,
 } from "./harvest";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
@@ -44,8 +48,10 @@ import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 import {
   CalendarEventName,
-  getActiveCalenderEvent,
+  getActiveCalendarEvent,
 } from "features/game/types/calendar";
+import { getCurrentSeason } from "features/game/types/seasons";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -138,7 +144,7 @@ export function getAffectedWeather({
   id: string;
   game: GameState;
 }): CalendarEventName | undefined {
-  const weather = getActiveCalenderEvent({ game });
+  const weather = getActiveCalendarEvent({ game });
 
   if (
     weather === "tornado" &&
@@ -154,6 +160,14 @@ export function getAffectedWeather({
     isCropDestroyed({ id, game })
   ) {
     return "tsunami";
+  }
+
+  if (
+    game.calendar.greatFreeze?.triggeredAt &&
+    !game.calendar.greatFreeze?.protected &&
+    isCropDestroyed({ id, game })
+  ) {
+    return "greatFreeze";
   }
 
   return undefined;
@@ -203,6 +217,20 @@ export function getCropTime({
   if (
     isCollectibleActive({ name: "Super Totem", game }) ||
     isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  if (
+    isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Solflare Aegis", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  if (
+    isAutumnCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Autumn's Embrace", game })
   ) {
     seconds = seconds * 0.5;
   }
@@ -326,11 +354,21 @@ export const getCropPlotTime = ({
         game.bumpkin.skills,
       )
     ) {
-      seconds = seconds * 0.8;
+      if (game.bumpkin.skills["Chonky Scarecrow"]) {
+        seconds = seconds * 0.7;
+      } else {
+        seconds = seconds * 0.8;
+      }
     }
   }
 
   if (fertiliser === "Rapid Root") {
+    seconds = seconds * 0.5;
+  }
+
+  const isSunshower = getActiveCalendarEvent({ game }) === "sunshower";
+
+  if (isSunshower) {
     seconds = seconds * 0.5;
   }
 
@@ -380,6 +418,43 @@ function isPlotCrop(plant: GreenHouseCropName | CropName): plant is CropName {
   return (plant as CropName) in CROPS;
 }
 
+const getWindsOfChangeVIPYieldBoost = ({
+  crop,
+  game,
+  createdAt,
+}: {
+  crop: CropName | GreenHouseCropName;
+  game: GameState;
+  createdAt: number;
+}) => {
+  try {
+    const chapter = getCurrentSeason(new Date(createdAt));
+
+    if (chapter !== "Winds of Change") return 0;
+
+    if (!hasVipAccess({ game, now: createdAt })) return 0;
+
+    const newCrops: (CropName | GreenHouseCropName)[] = [
+      "Zucchini",
+      "Pepper",
+      "Onion",
+      "Turnip",
+      "Yam",
+      "Broccoli",
+      "Artichoke",
+      "Rhubarb",
+    ];
+
+    if (newCrops.includes(crop)) {
+      return 0.25;
+    }
+
+    return 0;
+  } catch (e) {
+    return 0;
+  }
+};
+
 /**
  * Based on items, the output will be different
  */
@@ -388,11 +463,13 @@ export function getCropYieldAmount({
   plot,
   game,
   fertiliser,
+  createdAt,
 }: {
   crop: CropName | GreenHouseCropName;
   plot?: CropPlot;
   game: GameState;
   fertiliser?: CropCompostName;
+  createdAt: number;
 }): number {
   if (game.bumpkin === undefined) return 1;
 
@@ -461,6 +538,21 @@ export function getCropYieldAmount({
     amount *= 2;
   }
 
+  //Seasonal Additions
+  if (
+    isSpringCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Blossom Ward", game })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    isWinterCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Frozen Heart", game })
+  ) {
+    amount += 1;
+  }
+
   // Generic Additive Crop Boosts
   if (isWearableActive({ name: "Infernal Pitchfork", game })) {
     amount += 3;
@@ -504,6 +596,10 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
+  if (crop === "Wheat" && isWearableActive({ name: "Sickle", game })) {
+    amount += 2;
+  }
+
   if (
     crop === "Barley" &&
     isCollectibleBuilt({ name: "Sheaf of Plenty", game })
@@ -540,7 +636,11 @@ export function getCropYieldAmount({
       isCollectibleBuilt({ name: "Scary Mike", game }) &&
       isWithinAOE("Scary Mike", scarecrowPosition, plotPosition, bumpkin.skills)
     ) {
-      amount = amount + 0.2;
+      if (game.bumpkin.skills["Horror Mike"]) {
+        amount = amount + 0.3;
+      } else {
+        amount = amount + 0.2;
+      }
     }
   }
 
@@ -599,7 +699,11 @@ export function getCropYieldAmount({
         bumpkin.skills,
       )
     ) {
-      amount = amount + 0.2;
+      if (game.bumpkin.skills["Laurie's Gains"]) {
+        amount = amount + 0.3;
+      } else {
+        amount = amount + 0.2;
+      }
     }
   }
 
@@ -745,6 +849,28 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
+  if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
+    amount += 1;
+  }
+
+  const isInsectPlagueActive =
+    getActiveCalendarEvent({ game }) === "insectPlague";
+  const isProtected = game.calendar.insectPlague?.protected;
+
+  if (isInsectPlagueActive && !isProtected) {
+    amount = amount * 0.5;
+  }
+
+  const vipBoost = getWindsOfChangeVIPYieldBoost({
+    crop,
+    createdAt,
+    game,
+  });
+
+  if (vipBoost) {
+    amount += vipBoost;
+  }
+
   return Number(setPrecision(amount));
 }
 
@@ -779,7 +905,7 @@ export function plant({
       throw new Error("No seed selected");
     }
 
-    if (!(action.item in SEEDS())) {
+    if (!(action.item in SEEDS)) {
       throw new Error("Not a seed");
     }
 
@@ -787,6 +913,12 @@ export function plant({
 
     if (seedCount.lessThan(1)) {
       throw new Error("Not enough seeds");
+    }
+
+    if (
+      !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
+    ) {
+      throw new Error("This seed is not available in this season");
     }
 
     const cropName = action.item.split(" ")[0] as CropName;
@@ -813,6 +945,7 @@ export function plant({
           crop: cropName,
           game: stateCopy,
           plot,
+          createdAt,
           fertiliser: plot.fertiliser?.name,
         }),
       },

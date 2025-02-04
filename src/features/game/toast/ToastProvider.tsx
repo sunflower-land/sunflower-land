@@ -81,7 +81,7 @@ export const ToastContext = createContext<{
 const TOAST_TIMEOUT_MS = 5000;
 
 /**
- * The toast provder for setting the toast list for the toast panel.
+ * The toast provider for setting the toast list for the toast panel.
  */
 export const ToastProvider: FC = ({ children }) => {
   const [toastsList, setToastsList] = useState<Toast[]>([]);

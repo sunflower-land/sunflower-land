@@ -18,12 +18,17 @@ export const SHIPMENT_STOCK: Partial<Record<StockableName, number>> = {
   // Basic Crops
   "Sunflower Seed": 100,
   "Potato Seed": 50,
+  "Rhubarb Seed": 50,
   "Pumpkin Seed": 30,
+  "Zucchini Seed": 30,
   // Medium Crops
   "Carrot Seed": 20,
+  "Yam Seed": 20,
   "Cabbage Seed": 20,
+  "Broccoli Seed": 20,
   "Soybean Seed": 20,
   "Beetroot Seed": 20,
+  "Pepper Seed": 20,
   "Cauliflower Seed": 20,
   "Parsnip Seed": 10,
   // Tools

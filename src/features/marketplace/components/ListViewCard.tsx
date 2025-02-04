@@ -9,8 +9,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { getTradeType } from "../lib/getTradeType";
 import { getItemId } from "../lib/offers";
 import { TradeableDisplay } from "../lib/tradeables";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { getKeys } from "features/game/types/craftables";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import { InventoryItemName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -56,8 +55,7 @@ export const ListViewCard: React.FC<Props> = ({
   });
 
   const isResources =
-    getKeys(TRADE_LIMITS).includes(name as InventoryItemName) &&
-    type === "collectibles";
+    isTradeResource(name as InventoryItemName) && type === "collectibles";
 
   // Check inventory count
   const getTotalCount = () => {
@@ -181,7 +179,7 @@ export const ListViewCard: React.FC<Props> = ({
           {lastSalePrice?.gt(0) && (
             <p className="text-xxs truncate pb-0.5">
               {`Last sale: ${formatNumber(lastSalePrice, {
-                decimalPlaces: 2,
+                decimalPlaces: 4,
               })} SFL`}
             </p>
           )}

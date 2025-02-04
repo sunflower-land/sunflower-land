@@ -76,14 +76,12 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
     useState<boolean>(false);
 
   const getProgress = (index: number) => {
-    if (!kingdomChores.chores[index].startedAt) {
+    const chore = kingdomChores.chores[index];
+    if (!chore?.startedAt) {
       return 0;
     }
 
-    return (
-      (bumpkin?.activity?.[kingdomChores.chores[index].activity] ?? 0) -
-      (kingdomChores.chores[index].startCount ?? 0)
-    );
+    return (bumpkin?.activity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
   };
 
   const handleComplete = (index: number) => {
@@ -116,7 +114,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
     kingdomChores.resetsAt && kingdomChores.resetsAt < Date.now();
   const isRefreshing = !!(needsRefresh && autosaving);
 
-  if (activeChores.length === 0) {
+  if (activeChoresCount === 0) {
     return (
       <InnerPanel>
         <div className="absolute -top-7 right-0">
@@ -154,7 +152,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
           mobileReversePanelOrder={true}
           tallMobileContent={true}
           panel={
-            <Panel
+            <ChoresPanel
               progress={progress}
               chore={selectedChore}
               onComplete={() => handleComplete(selected)}
@@ -198,7 +196,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                       />
                     );
                   })}
-                  {activeChores.length === 0 && (
+                  {activeChoresCount === 0 && (
                     <span className="p-2 text-xxs">
                       {t("kingdomChores.noUpcoming")}
                     </span>
@@ -275,7 +273,7 @@ type PanelProps = {
   skipAvailableAt: number;
 };
 
-const Panel: React.FC<PanelProps> = ({
+const ChoresPanel: React.FC<PanelProps> = ({
   progress,
   skipAvailableAt,
   onComplete,

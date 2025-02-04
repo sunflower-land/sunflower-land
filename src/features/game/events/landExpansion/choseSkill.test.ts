@@ -82,8 +82,8 @@ describe("choseSkill", () => {
         ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[4],
-          skills: { "Green Thumb": 1, "Young Farmer": 1 },
+          experience: LEVEL_EXPERIENCE[5],
+          skills: { "Green Thumb": 1, "Young Farmer": 1, "Old Farmer": 1 },
         },
       },
       action: { type: "skill.chosen", skill: "Strong Roots" },
@@ -93,6 +93,7 @@ describe("choseSkill", () => {
     expect(result.bumpkin?.skills).toEqual({
       "Green Thumb": 1,
       "Young Farmer": 1,
+      "Old Farmer": 1,
       "Strong Roots": 1,
     });
   });
@@ -124,12 +125,14 @@ describe("choseSkill", () => {
         ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[8],
+          experience: LEVEL_EXPERIENCE[11],
           skills: {
             "Green Thumb": 1,
             "Young Farmer": 1,
+            "Old Farmer": 1,
             "Experienced Farmer": 1,
             "Strong Roots": 1,
+            "Horror Mike": 1,
           },
         },
       },
@@ -140,8 +143,10 @@ describe("choseSkill", () => {
     expect(result.bumpkin?.skills).toEqual({
       "Green Thumb": 1,
       "Young Farmer": 1,
+      "Old Farmer": 1,
       "Experienced Farmer": 1,
       "Strong Roots": 1,
+      "Horror Mike": 1,
       "Instant Growth": 1,
     });
   });

@@ -54,7 +54,7 @@ function generateUnlockLabels(): Record<
   { text: string; icon: string }[]
 > {
   const levels = getKeys(LEVEL_EXPERIENCE);
-  const seeds = SEEDS();
+  const seeds = SEEDS;
 
   const unlocks = levels.reduce(
     (acc, id) => {

@@ -8,7 +8,7 @@ import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives"
 describe("removeBeehive", () => {
   const now = Date.now();
 
-  const FLOWER_GROW_TIME = FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000;
+  const FLOWER_GROW_TIME = FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000;
 
   const DEFAULT_BEEHIVE: Beehive = {
     x: 3,

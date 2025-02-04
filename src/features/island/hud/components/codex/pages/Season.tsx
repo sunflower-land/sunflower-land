@@ -25,7 +25,7 @@ import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties
 import { BertObsession } from "features/world/ui/npcs/Bert";
 import { GameState } from "features/game/types/game";
 
-const SEASON_GRAPHICS: Record<SeasonName, string> = {
+const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -34,6 +34,19 @@ const SEASON_GRAPHICS: Record<SeasonName, string> = {
   "Clash of Factions": "?",
   "Pharaoh's Treasure": SUNNYSIDE.announcement.desertSeason,
   "Bull Run": SUNNYSIDE.announcement.bullRunSeason,
+  "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
+};
+
+const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
+  "Solar Flare": "?",
+  "Dawn Breaker": "?",
+  "Witches' Eve": "?",
+  "Catch the Kraken": "?",
+  "Spring Blossom": "?",
+  "Clash of Factions": "?",
+  "Pharaoh's Treasure": "?",
+  "Bull Run": "Nov 11th",
+  "Winds of Change": "Feb 10th",
 };
 
 interface Props {
@@ -83,7 +96,7 @@ export const Season: React.FC<Props> = ({
       <InnerPanel className="mb-1">
         <div
           style={{
-            backgroundImage: `url(${SEASON_GRAPHICS[season]})`,
+            backgroundImage: `url(${CHAPTER_GRAPHICS[season]})`,
             imageRendering: "pixelated",
             height: "125px",
             backgroundSize: "600px",
@@ -122,11 +135,15 @@ export const Season: React.FC<Props> = ({
                 icon: SUNNYSIDE.icons.player,
               },
               {
-                text: t("season.codex.howToEarn.two"),
+                text: t("season.codex.howToEarn.two", {
+                  date: CHORES_DELIVERIES_START_DATE[season],
+                }),
                 icon: chores,
               },
               {
-                text: t("season.codex.howToEarn.three"),
+                text: t("season.codex.howToEarn.three", {
+                  date: CHORES_DELIVERIES_START_DATE[season],
+                }),
                 icon: ITEM_DETAILS["White Pansy"].image,
               },
             ]}

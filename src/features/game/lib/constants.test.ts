@@ -110,27 +110,30 @@ describe("INITIAL_STOCK", () => {
       },
     };
 
-    expect(INITIAL_STOCK(state)["Sunflower Seed"]).toEqual(new Decimal(400));
-    expect(INITIAL_STOCK(state)["Potato Seed"]).toEqual(new Decimal(200));
-    expect(INITIAL_STOCK(state)["Pumpkin Seed"]).toEqual(new Decimal(150));
-    expect(INITIAL_STOCK(state)["Carrot Seed"]).toEqual(new Decimal(100));
-    expect(INITIAL_STOCK(state)["Cabbage Seed"]).toEqual(new Decimal(90));
-    expect(INITIAL_STOCK(state)["Soybean Seed"]).toEqual(new Decimal(90));
-    expect(INITIAL_STOCK(state)["Beetroot Seed"]).toEqual(new Decimal(80));
-    expect(INITIAL_STOCK(state)["Cauliflower Seed"]).toEqual(new Decimal(80));
-    expect(INITIAL_STOCK(state)["Parsnip Seed"]).toEqual(new Decimal(60));
-    expect(INITIAL_STOCK(state)["Eggplant Seed"]).toEqual(new Decimal(50));
-    expect(INITIAL_STOCK(state)["Corn Seed"]).toEqual(new Decimal(50));
-    expect(INITIAL_STOCK(state)["Radish Seed"]).toEqual(new Decimal(40));
-    expect(INITIAL_STOCK(state)["Wheat Seed"]).toEqual(new Decimal(40));
-    expect(INITIAL_STOCK(state)["Kale Seed"]).toEqual(new Decimal(30));
-
-    expect(INITIAL_STOCK(state)["Tomato Seed"]).toEqual(new Decimal(10));
-    expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(10));
-    expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(10));
-    expect(INITIAL_STOCK(state)["Apple Seed"]).toEqual(new Decimal(10));
-    expect(INITIAL_STOCK(state)["Banana Plant"]).toEqual(new Decimal(10));
-    expect(INITIAL_STOCK(state)["Lemon Seed"]).toEqual(new Decimal(10));
+    expect(INITIAL_STOCK(state)["Sunflower Seed"]).toEqual(
+      new Decimal(400 * 2),
+    );
+    expect(INITIAL_STOCK(state)["Potato Seed"]).toEqual(new Decimal(200 * 2));
+    expect(INITIAL_STOCK(state)["Pumpkin Seed"]).toEqual(new Decimal(150 * 2));
+    expect(INITIAL_STOCK(state)["Carrot Seed"]).toEqual(new Decimal(100 * 2));
+    expect(INITIAL_STOCK(state)["Cabbage Seed"]).toEqual(new Decimal(90 * 2));
+    expect(INITIAL_STOCK(state)["Soybean Seed"]).toEqual(new Decimal(90 * 2));
+    expect(INITIAL_STOCK(state)["Beetroot Seed"]).toEqual(new Decimal(80 * 2));
+    expect(INITIAL_STOCK(state)["Cauliflower Seed"]).toEqual(
+      new Decimal(80 * 2),
+    );
+    expect(INITIAL_STOCK(state)["Parsnip Seed"]).toEqual(new Decimal(60 * 2));
+    expect(INITIAL_STOCK(state)["Eggplant Seed"]).toEqual(new Decimal(50 * 2));
+    expect(INITIAL_STOCK(state)["Corn Seed"]).toEqual(new Decimal(50 * 2));
+    expect(INITIAL_STOCK(state)["Radish Seed"]).toEqual(new Decimal(40 * 2));
+    expect(INITIAL_STOCK(state)["Wheat Seed"]).toEqual(new Decimal(40 * 2));
+    expect(INITIAL_STOCK(state)["Kale Seed"]).toEqual(new Decimal(30 * 2));
+    expect(INITIAL_STOCK(state)["Tomato Seed"]).toEqual(new Decimal(10 * 2));
+    expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(10 * 2));
+    expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(10 * 2));
+    expect(INITIAL_STOCK(state)["Apple Seed"]).toEqual(new Decimal(10 * 2));
+    expect(INITIAL_STOCK(state)["Banana Plant"]).toEqual(new Decimal(10 * 2));
+    expect(INITIAL_STOCK(state)["Lemon Seed"]).toEqual(new Decimal(10 * 2));
 
     expect(INITIAL_STOCK(state)["Grape Seed"]).toEqual(new Decimal(10));
     expect(INITIAL_STOCK(state)["Olive Seed"]).toEqual(new Decimal(10));
@@ -156,27 +159,30 @@ describe("INITIAL_STOCK", () => {
       },
     };
 
-    expect(INITIAL_STOCK(state)["Sunflower Seed"]).toEqual(new Decimal(480));
-    expect(INITIAL_STOCK(state)["Potato Seed"]).toEqual(new Decimal(240));
-    expect(INITIAL_STOCK(state)["Pumpkin Seed"]).toEqual(new Decimal(180));
-    expect(INITIAL_STOCK(state)["Carrot Seed"]).toEqual(new Decimal(120));
-    expect(INITIAL_STOCK(state)["Cabbage Seed"]).toEqual(new Decimal(108));
-    expect(INITIAL_STOCK(state)["Soybean Seed"]).toEqual(new Decimal(108));
-    expect(INITIAL_STOCK(state)["Beetroot Seed"]).toEqual(new Decimal(96));
-    expect(INITIAL_STOCK(state)["Cauliflower Seed"]).toEqual(new Decimal(96));
-    expect(INITIAL_STOCK(state)["Parsnip Seed"]).toEqual(new Decimal(72));
-    expect(INITIAL_STOCK(state)["Eggplant Seed"]).toEqual(new Decimal(60));
-    expect(INITIAL_STOCK(state)["Corn Seed"]).toEqual(new Decimal(60));
-    expect(INITIAL_STOCK(state)["Radish Seed"]).toEqual(new Decimal(48));
-    expect(INITIAL_STOCK(state)["Wheat Seed"]).toEqual(new Decimal(48));
-    expect(INITIAL_STOCK(state)["Kale Seed"]).toEqual(new Decimal(36));
-
-    expect(INITIAL_STOCK(state)["Tomato Seed"]).toEqual(new Decimal(12));
-    expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(12));
-    expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(12));
-    expect(INITIAL_STOCK(state)["Apple Seed"]).toEqual(new Decimal(12));
-    expect(INITIAL_STOCK(state)["Banana Plant"]).toEqual(new Decimal(12));
-    expect(INITIAL_STOCK(state)["Lemon Seed"]).toEqual(new Decimal(12));
+    expect(INITIAL_STOCK(state)["Sunflower Seed"]).toEqual(
+      new Decimal(480 * 2),
+    );
+    expect(INITIAL_STOCK(state)["Potato Seed"]).toEqual(new Decimal(240 * 2));
+    expect(INITIAL_STOCK(state)["Pumpkin Seed"]).toEqual(new Decimal(180 * 2));
+    expect(INITIAL_STOCK(state)["Carrot Seed"]).toEqual(new Decimal(120 * 2));
+    expect(INITIAL_STOCK(state)["Cabbage Seed"]).toEqual(new Decimal(108 * 2));
+    expect(INITIAL_STOCK(state)["Soybean Seed"]).toEqual(new Decimal(108 * 2));
+    expect(INITIAL_STOCK(state)["Beetroot Seed"]).toEqual(new Decimal(96 * 2));
+    expect(INITIAL_STOCK(state)["Cauliflower Seed"]).toEqual(
+      new Decimal(96 * 2),
+    );
+    expect(INITIAL_STOCK(state)["Parsnip Seed"]).toEqual(new Decimal(72 * 2));
+    expect(INITIAL_STOCK(state)["Eggplant Seed"]).toEqual(new Decimal(60 * 2));
+    expect(INITIAL_STOCK(state)["Corn Seed"]).toEqual(new Decimal(60 * 2));
+    expect(INITIAL_STOCK(state)["Radish Seed"]).toEqual(new Decimal(48 * 2));
+    expect(INITIAL_STOCK(state)["Wheat Seed"]).toEqual(new Decimal(48 * 2));
+    expect(INITIAL_STOCK(state)["Kale Seed"]).toEqual(new Decimal(36 * 2));
+    expect(INITIAL_STOCK(state)["Tomato Seed"]).toEqual(new Decimal(12 * 2));
+    expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(12 * 2));
+    expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(12 * 2));
+    expect(INITIAL_STOCK(state)["Apple Seed"]).toEqual(new Decimal(12 * 2));
+    expect(INITIAL_STOCK(state)["Banana Plant"]).toEqual(new Decimal(12 * 2));
+    expect(INITIAL_STOCK(state)["Lemon Seed"]).toEqual(new Decimal(12 * 2));
 
     expect(INITIAL_STOCK(state)["Grape Seed"]).toEqual(new Decimal(12));
     expect(INITIAL_STOCK(state)["Olive Seed"]).toEqual(new Decimal(12));

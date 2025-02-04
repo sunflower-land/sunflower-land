@@ -26,7 +26,7 @@ export const Deli: React.FC<Props> = ({
   craftingService,
   isBuilt,
   onRemove,
-  island,
+  season,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -75,7 +75,7 @@ export const Deli: React.FC<Props> = ({
     <>
       <BuildingImageWrapper name="Deli" onClick={handleClick} ready={ready}>
         <img
-          src={DELI_VARIANTS[island]}
+          src={DELI_VARIANTS[season]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,

@@ -27,15 +27,10 @@ import { FlowerBed } from "../flowers/FlowerBed";
 import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
-import { IslandType } from "features/game/types/game";
+import { IslandType, TemperateSeasonName } from "features/game/types/game";
 
-import cacti from "assets/resources/tree/cacti.webp";
-
-export const TREE_VARIANTS: Record<IslandType, string> = {
-  basic: SUNNYSIDE.resource.tree,
-  spring: SUNNYSIDE.resource.tree,
-  desert: cacti,
-};
+import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
+import { TREE_VARIANTS } from "../lib/alternateArt";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -50,7 +45,8 @@ export interface ResourceProps {
 // Used for placing
 export const READONLY_RESOURCE_COMPONENTS: (
   island: IslandType,
-) => Record<ResourceName, React.FC<ResourceProps>> = (island) => ({
+  season: TemperateSeasonName,
+) => Record<ResourceName, React.FC<ResourceProps>> = (island, season) => ({
   "Crop Plot": () => (
     <div
       className="relative"
@@ -131,7 +127,7 @@ export const READONLY_RESOURCE_COMPONENTS: (
   ),
   Tree: () => (
     <img
-      src={TREE_VARIANTS[island]}
+      src={TREE_VARIANTS[island][season]}
       className="relative"
       style={{
         width: `${PIXEL_SCALE * 26}px`,
@@ -190,6 +186,12 @@ export const READONLY_RESOURCE_COMPONENTS: (
       }}
     />
   ),
+  "Lava Pit": () => (
+    <img
+      src={ITEM_DETAILS["Lava Pit"].image}
+      className="absolute h-auto w-full"
+    />
+  ),
 });
 
 export const RESOURCE_COMPONENTS: Record<
@@ -208,6 +210,7 @@ export const RESOURCE_COMPONENTS: Record<
   "Flower Bed": FlowerBed,
   "Sunstone Rock": Sunstone,
   "Oil Reserve": OilReserve,
+  "Lava Pit": LavaPit,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

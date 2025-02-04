@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 /**
  * The props for the component.
- * @param divRef The parent div reference. It is used to link up the parentDivRef prop of the the <Box/> component.
+ * @param divRef The parent div reference. It is used to link up the parentDivRef prop of the <Box/> component.
  * @param tallMobileContent true if the content is taller for small screen views, else false. Usually set to true if the parent panel has no bumpkin parts. Defaults to false.
  * @param wideModal true if the panel modal is using a wider variant, else false. Defaults to false.
  * @param showPanel Whether to show the top or right panel view or not.

@@ -16,7 +16,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MyTableRow } from "./MyTableRow";
 
 import lock from "assets/icons/lock.png";
@@ -157,7 +157,7 @@ export const MyOffers: React.FC = () => {
                   });
 
                   const isResource =
-                    getKeys(TRADE_LIMITS).includes(itemName) &&
+                    isTradeResource(itemName) &&
                     offer.collection === "collectibles";
 
                   const quantity = offer.items[itemName];

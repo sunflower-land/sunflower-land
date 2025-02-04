@@ -53,7 +53,6 @@ import {
   canDiscoverRecipe,
   RECIPE_UNLOCKS,
 } from "../events/landExpansion/discoverRecipe";
-import { hasFeatureAccess } from "lib/flags";
 import { RecipeStack } from "features/island/recipes/RecipeStack";
 
 export const LAND_WIDTH = 6;
@@ -81,6 +80,7 @@ type IslandElementArgs = {
   buds: GameState["buds"];
   beehives: GameState["beehives"];
   oilReserves: GameState["oilReserves"];
+  lavaPits: GameState["lavaPits"];
 };
 
 const getRecipeLocation = (game: GameState, level: number) => {
@@ -172,6 +172,7 @@ const getIslandElements = ({
   airdrops,
   beehives,
   oilReserves,
+  lavaPits,
 }: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -204,6 +205,7 @@ const getIslandElements = ({
                 x={x}
                 y={y}
                 island={game.island.type}
+                season={game.season.season}
               />
             </MapPlacement>
           );
@@ -462,6 +464,32 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
+    ...getKeys(lavaPits).map((id, index) => {
+      const { x, y, width, height } = lavaPits[id];
+
+      return (
+        <MapPlacement
+          key={`oil-reserve-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            name="Lava Pit"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
+      );
+    }),
+  );
+
+  mapPlacements.push(
     ...getKeys(fruitPatches).map((id, index) => {
       const { x, y, width, height } = fruitPatches[id];
 
@@ -635,44 +663,42 @@ const getIslandElements = ({
     }),
   );
 
-  if (hasFeatureAccess(game, "BEDS")) {
-    const recipeLocations = getRecipeLocations(game);
-    // Group recipes by location, to stop them overlapping
-    const recipeGroups = recipeLocations.reduce(
-      (groups, recipe) => {
-        const key = `${recipe.x},${recipe.y}`;
-        if (!groups[key]) {
-          groups[key] = [];
-        }
-        groups[key].push(recipe);
-        return groups;
-      },
-      {} as Record<
-        string,
-        (Coordinates & {
-          recipe: RecipeItemName;
-        })[]
-      >,
-    );
+  const recipeLocations = getRecipeLocations(game);
+  // Group recipes by location, to stop them overlapping
+  const recipeGroups = recipeLocations.reduce(
+    (groups, recipe) => {
+      const key = `${recipe.x},${recipe.y}`;
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+      groups[key].push(recipe);
+      return groups;
+    },
+    {} as Record<
+      string,
+      (Coordinates & {
+        recipe: RecipeItemName;
+      })[]
+    >,
+  );
 
-    Object.entries(recipeGroups).forEach(([key, recipes]) => {
-      const [x, y] = key.split(",").map(Number);
-      mapPlacements.push(
-        <MapPlacement
-          key={`recipe-group-${key}`}
-          x={x}
-          y={y}
-          height={1}
-          width={1}
-        >
-          <RecipeStack
-            key={`recipe-${recipes}`}
-            recipes={recipes.map((r) => r.recipe)}
-          />
-        </MapPlacement>,
-      );
-    });
-  }
+  Object.entries(recipeGroups).forEach(([key, recipes]) => {
+    const [x, y] = key.split(",").map(Number);
+    mapPlacements.push(
+      <MapPlacement
+        key={`recipe-group-${key}`}
+        x={x}
+        y={y}
+        height={1}
+        width={1}
+      >
+        <RecipeStack
+          key={`recipe-${recipes}`}
+          recipes={recipes.map((r) => r.recipe)}
+        />
+      </MapPlacement>,
+    );
+  });
 
   return mapPlacements;
 };
@@ -712,6 +738,7 @@ export const Land: React.FC = () => {
     beehives,
     oilReserves,
     island,
+    lavaPits,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
@@ -825,6 +852,7 @@ export const Land: React.FC = () => {
                 airdrops,
                 beehives,
                 oilReserves,
+                lavaPits,
               }).sort((a, b) => {
                 if (a.props.canCollide === false) {
                   return -1;

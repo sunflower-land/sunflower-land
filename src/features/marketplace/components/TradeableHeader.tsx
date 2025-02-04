@@ -27,13 +27,13 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
 import { useParams } from "react-router";
-import { getKeys } from "features/game/types/craftables";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
 import Decimal from "decimal.js-light";
+import { getRemainingTrades, Reputation } from "features/game/lib/reputation";
+import { hasReputation } from "features/game/lib/reputation";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -50,8 +50,11 @@ type TradeableHeaderProps = {
 };
 
 const _balance = (state: MachineState) => state.context.state.balance;
-const _isVIP = (state: MachineState) =>
-  hasVipAccess(state.context.state.inventory);
+const _hasTradeReputation = (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
 const _bertObsession = (state: MachineState) =>
   state.context.state.bertObsession;
 const _npcs = (state: MachineState) => state.context.state.npcs;
@@ -68,7 +71,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
 }) => {
   const { gameService } = useContext(Context);
   const balance = useSelector(gameService, _balance);
-  const isVIP = useSelector(gameService, _isVIP);
+  const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
   const params = useParams();
   const bertObsession = useSelector(gameService, _bertObsession);
   const npcs = useSelector(gameService, _npcs);
@@ -119,7 +122,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   );
 
   const isResources =
-    getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
+    isTradeResource(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
 
   const showBuyNow =
@@ -209,10 +212,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   >
                     <p className={classNames("text-base")}>
                       {!tradeable
-                        ? "0.00 SFL"
+                        ? "0 SFL"
                         : `${formatNumber(cheapestListing?.sfl ?? 0, {
-                            decimalPlaces: 2,
-                            showTrailingZeros: true,
+                            decimalPlaces: 4,
                           })} SFL`}
                     </p>
                     <p className="text-xs">
@@ -236,7 +238,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                             price: tradeable.floor
                               ? formatNumber(tradeable.floor, {
                                   decimalPlaces: 4,
-                                  showTrailingZeros: true,
                                 })
                               : "?",
                           })}
@@ -245,7 +246,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                         <>
                           <span className="text-base loading-fade-pulse">
                             {t("marketplace.pricePerUnit", {
-                              price: "0.0000",
+                              price: "0",
                             })}
                           </span>
                         </>
@@ -274,7 +275,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   <Button
                     disabled={
                       !count ||
-                      (!isVIP && dailyListings >= 1) ||
+                      (!hasTradeReputation &&
+                        getRemainingTrades({
+                          game: gameService.getSnapshot().context.state,
+                        }) <= 0) ||
                       (isItemBertObsession &&
                         isBertsObesessionCompleted &&
                         !isResources)
@@ -315,7 +319,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 onClick={onListClick}
                 disabled={
                   !count ||
-                  (!isVIP && dailyListings >= 1) ||
+                  (!hasTradeReputation &&
+                    getRemainingTrades({
+                      game: gameService.getSnapshot().context.state,
+                    }) <= 0) ||
                   (isItemBertObsession &&
                     isBertsObesessionCompleted &&
                     !isResources)

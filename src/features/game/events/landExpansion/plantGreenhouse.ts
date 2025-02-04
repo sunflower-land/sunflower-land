@@ -69,18 +69,20 @@ export function isGreenhouseCrop(plant: Resource): plant is GreenHouseCropName {
 export function isGreenhouseFruit(
   fruit: Resource,
 ): fruit is GreenHouseFruitName {
-  return (fruit as GreenHouseFruitName) in GREENHOUSE_FRUIT();
+  return (fruit as GreenHouseFruitName) in GREENHOUSE_FRUIT;
 }
 
 export function getGreenhouseYieldAmount({
   crop,
   game,
+  createdAt,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
+  createdAt: number;
 }): number {
   if (isGreenhouseCrop(crop)) {
-    return getCropYieldAmount({ crop, game });
+    return getCropYieldAmount({ crop, game, createdAt });
   }
 
   return getFruitYield({ name: crop, game });
@@ -212,6 +214,7 @@ export function plantGreenhouse({
         amount: getGreenhouseYieldAmount({
           crop: plantName,
           game,
+          createdAt,
         }),
         name: plantName,
         plantedAt: getPlantedAt({ createdAt, crop: plantName, game }),

@@ -1,3 +1,4 @@
+import { SUNNYSIDE } from "assets/sunnyside";
 import { ChoreName } from "features/game/types/choreBoard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
@@ -8,23 +9,23 @@ export const CHORE_DETAILS: Record<
 > = {
   CHOP_1_TREE: {
     description: translate("chore.chop.1.tree"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   CHOP_2_TREE: {
     description: translate("chore.chop.2.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Mine 20 Gold": {
     description: translate("chore.mine.20.gold"),
-    icon: ITEM_DETAILS.Pickaxe.image,
+    icon: ITEM_DETAILS.Gold.image,
   },
   "Mine 23 Gold": {
     description: translate("chore.mine.23.gold"),
-    icon: ITEM_DETAILS.Pickaxe.image,
+    icon: ITEM_DETAILS.Gold.image,
   },
   "Mine 25 Gold": {
     description: translate("chore.mine.25.gold"),
-    icon: ITEM_DETAILS.Pickaxe.image,
+    icon: ITEM_DETAILS.Gold.image,
   },
   "Mine 10 Crimstone": {
     description: translate("chore.mine.10.crimstone"),
@@ -56,15 +57,15 @@ export const CHORE_DETAILS: Record<
   },
   "Spend 35,000 Coins": {
     description: translate("chore.spend.35000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Spend 42,000 Coins": {
     description: translate("chore.spend.42000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Spend 55,000 Coins": {
     description: translate("chore.spend.55000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Pick 45 Blueberries": {
     description: translate("chore.pick.45.blueberries"),
@@ -380,15 +381,15 @@ export const CHORE_DETAILS: Record<
   },
   "Chop 60 Trees": {
     description: translate("chore.chop.60.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 70 Trees": {
     description: translate("chore.chop.70.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 80 Trees": {
     description: translate("chore.chop.80.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Mine 50 Stones": {
     description: translate("chore.mine.50.stones"),
@@ -488,15 +489,15 @@ export const CHORE_DETAILS: Record<
   },
   "Dig 25 times": {
     description: translate("chore.dig.25.times"),
-    icon: ITEM_DETAILS.Shovel.image,
+    icon: SUNNYSIDE.soil.sand_dug,
   },
   "Dig 35 times": {
     description: translate("chore.dig.35.times"),
-    icon: ITEM_DETAILS.Shovel.image,
+    icon: SUNNYSIDE.soil.sand_dug,
   },
   "Dig 50 times": {
     description: translate("chore.dig.50.times"),
-    icon: ITEM_DETAILS.Shovel.image,
+    icon: SUNNYSIDE.soil.sand_dug,
   },
   "Drink 10 Orange Juice": {
     description: translate("chore.drink.10.orange.juice"),
@@ -624,15 +625,15 @@ export const CHORE_DETAILS: Record<
   },
   "Chop 3 Trees": {
     description: translate("chore.chop.3.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 4 Trees": {
     description: translate("chore.chop.4.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 5 Trees": {
     description: translate("chore.chop.5.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Mine 2 Stones": {
     description: translate("chore.mine.2.stones"),
@@ -894,18 +895,17 @@ export const CHORE_DETAILS: Record<
     description: translate("chore.cook.12.steamed.red.rice"),
     icon: ITEM_DETAILS["Steamed Red Rice"].image,
   },
-
   "Chop 450 Trees": {
     description: translate("chore.chop.450.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 500 Trees": {
     description: translate("chore.chop.500.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Chop 600 Trees": {
     description: translate("chore.chop.600.trees"),
-    icon: ITEM_DETAILS.Axe.image,
+    icon: ITEM_DETAILS.Wood.image,
   },
   "Mine 200 Stones": {
     description: translate("chore.mine.200.stones"),
@@ -933,15 +933,15 @@ export const CHORE_DETAILS: Record<
   },
   "Earn 2,500 Coins": {
     description: translate("chore.earn.2500.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Earn 3,500 Coins": {
     description: translate("chore.earn.3500.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Earn 5,000 Coins": {
     description: translate("chore.earn.5000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Harvest Soybean 15 times": {
     description: translate("chore.harvest.15.soybeans"),
@@ -1053,15 +1053,15 @@ export const CHORE_DETAILS: Record<
   },
   "Spend 1,000 Coins": {
     description: translate("chore.spend.1000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Spend 2,000 Coins": {
     description: translate("chore.spend.2000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Spend 3,000 Coins": {
     description: translate("chore.spend.3000.coins"),
-    icon: ITEM_DETAILS.Gold.image,
+    icon: SUNNYSIDE.ui.coins,
   },
   "Harvest Carrots 50 times": {
     description: translate("chore.harvest.50.carrots"),

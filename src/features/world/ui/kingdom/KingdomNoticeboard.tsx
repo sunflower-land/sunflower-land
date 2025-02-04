@@ -10,10 +10,18 @@ import trophy from "assets/icons/trophy.png";
 import gift from "assets/icons/gift.png";
 import { BuffLabel } from "features/game/types";
 import { Label } from "components/ui/Label";
+
+export type NoticeboardItemsElements = {
+  text: string;
+  icon: string;
+  label?: BuffLabel;
+};
+
 interface NoticeboardItemProps {
-  items: { text: string; icon: string; label?: BuffLabel }[];
+  items: NoticeboardItemsElements[];
   iconWidth?: number;
 }
+
 export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
   items,
   iconWidth = 12,

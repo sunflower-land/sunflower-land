@@ -2,7 +2,11 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import { CollectibleName } from "features/game/types/craftables";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
@@ -12,6 +16,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { Label } from "../Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
+import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 
 /**
  * The props for the details for items.
@@ -19,6 +24,7 @@ import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
  */
 interface ItemDetailsProps {
   item: InventoryItemName;
+  seasons?: string[];
 }
 
 /**
@@ -74,7 +80,9 @@ export const InventoryItemDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const getItemDetail = () => {
     const item = ITEM_DETAILS[details.item];
-    const icon = ITEM_ICONS(game.island.type)[details.item] ?? item.image;
+    const icon =
+      ITEM_ICONS(game.island.type, game.season.season)[details.item] ??
+      item.image;
     const title = details.item;
 
     let description = item.description;
@@ -134,6 +142,17 @@ export const InventoryItemDetails: React.FC<Props> = ({
                 </Label>
               ),
             )}
+          </div>
+        )}
+        {details.seasons && (
+          <div className="flex items-center justify-center mb-2">
+            {details.seasons.map((season) => (
+              <img
+                key={season}
+                src={SEASON_ICONS[season as TemperateSeasonName]}
+                className="w-5 ml-1"
+              />
+            ))}
           </div>
         )}
       </>

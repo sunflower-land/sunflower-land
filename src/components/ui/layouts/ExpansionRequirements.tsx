@@ -26,6 +26,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -188,7 +189,7 @@ export const Expanding: React.FC<{
     game: state,
   });
 
-  const hasAccess = state.island.type !== "desert";
+  const hasAccess = !hasRequiredIslandExpansion(state.island.type, "desert");
 
   useEffect(() => {
     const interval = setInterval(() => {

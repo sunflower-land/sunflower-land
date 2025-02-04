@@ -25,8 +25,8 @@ import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useSound } from "lib/utils/hooks/useSound";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
 
 const HITS = 3;
 const tool = "Axe";
@@ -45,6 +45,7 @@ const HasTool = (
 };
 
 const selectIsland = (state: MachineState) => state.context.state.island.type;
+const selectSeason = (state: MachineState) => state.context.state.season.season;
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Tree Chopped"] ?? 0;
@@ -55,7 +56,9 @@ const compareResource = (prev: TreeType, next: TreeType) => {
 };
 const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
-  isCollectibleBuilt({ name: "Foreman Beaver", game: next });
+    isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
+  (prev.bumpkin?.skills["Insta-Chop"] ?? false) ===
+    (next.bumpkin?.skills["Insta-Chop"] ?? false);
 
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
@@ -63,8 +66,10 @@ const isSeasonedPlayer = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
   // - verified (personhood verification)
   state.context.verified &&
-  // - has active seasonal banner
-  hasVipAccess(state.context.state.inventory);
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
 
 interface Props {
   id: string;
@@ -116,7 +121,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   const treesChopped = useSelector(gameService, selectTreesChopped);
   const island = useSelector(gameService, selectIsland);
-
+  const season = useSelector(gameService, selectSeason);
   const hasTool = HasTool(inventory, game);
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
@@ -142,6 +147,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       // insta-chop the tree
       claimAnyReward();
       chop();
+      setTouchCount(0);
     }
 
     // need to hit enough times to collect resource
@@ -205,15 +211,20 @@ export const Tree: React.FC<Props> = ({ id }) => {
             touchCount={touchCount}
             showHelper={treesChopped < 3 && treesChopped + 1 === Number(id)}
             island={island}
+            season={season}
           />
         </div>
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingTree resourceAmount={collectedAmount} />}
+      {collecting && (
+        <DepletingTree resourceAmount={collectedAmount} season={season} />
+      )}
 
       {/* Depleted resource */}
-      {chopped && <DepletedTree timeLeft={timeLeft} island={island} />}
+      {chopped && (
+        <DepletedTree timeLeft={timeLeft} island={island} season={season} />
+      )}
 
       {/* Chest reward */}
       {reward && (

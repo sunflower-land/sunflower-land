@@ -10,6 +10,7 @@ describe("sellBounty", () => {
     ...TEST_FARM,
     inventory: {
       "Blue Balloon Flower": new Decimal(1),
+      Obsidian: new Decimal(1),
     },
     bounties: {
       requests: [
@@ -33,6 +34,18 @@ describe("sellBounty", () => {
           name: "Blue Balloon Flower",
           items: {
             Horseshoe: 1,
+          },
+        },
+        {
+          id: "4",
+          name: "Obsidian",
+          sfl: 100,
+        },
+        {
+          id: "5",
+          name: "Blue Balloon Flower",
+          items: {
+            Timeshard: 1,
           },
         },
       ],
@@ -142,6 +155,20 @@ describe("sellBounty", () => {
     expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
   });
 
+  it("rewards sfl", () => {
+    const mockDate = new Date(2024, 11, 11);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+    const action: SellBountyAction = {
+      type: "bounty.sold",
+      requestId: "4",
+    };
+
+    const result = sellBounty({ state: GAME_STATE, action });
+
+    expect(result.balance).toEqual(new Decimal(100));
+  });
+
   it("rewards +1 Horseshoe when Cowboy Hat is worn during Bull Run Season", () => {
     const mockDate = new Date(2024, 11, 11);
     jest.useFakeTimers();
@@ -242,6 +269,80 @@ describe("sellBounty", () => {
             hat: "Cowboy Hat",
             shirt: "Cowboy Shirt",
             pants: "Cowboy Trouser",
+          },
+        },
+      },
+      action,
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+  });
+
+  it("rewards +1 TimeShard when Acorn Hat is worn during Winds of Change Chapter", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    const action: SellBountyAction = {
+      type: "bounty.sold",
+      requestId: "5",
+    };
+
+    const result = sellBounty({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Acorn Hat",
+          },
+        },
+      },
+      action,
+      createdAt: mockDate.getTime(),
+    });
+
+    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(2));
+  });
+
+  it("stacks timeshard boosts during Winds of Change Chapter", () => {
+    const mockDate = new Date(2025, 2, 5);
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    const action: SellBountyAction = {
+      type: "bounty.sold",
+      requestId: "5",
+    };
+
+    const result = sellBounty({
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          Igloo: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+          Hammock: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: Date.now() - 100,
+              readyAt: Date.now() - 100,
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Acorn Hat",
           },
         },
       },

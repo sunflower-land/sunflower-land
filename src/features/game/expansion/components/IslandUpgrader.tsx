@@ -26,36 +26,39 @@ import { formatDateTime } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 
-const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
-  state,
-) => ({
+const UPGRADE_DATES: Record<IslandType, number | null> = {
   basic: new Date(0).getTime(),
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
-  desert: null, // Next prestige after desert
-});
+  desert: new Date("2025-02-03T00:00:00Z").getTime(),
+  volcano: null, // Next prestige after volcano
+};
 
 const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
-  desert: null, // Next prestige after desert
+  desert: SUNNYSIDE.land.volcanoRaft,
+  volcano: null, // Next prestige after volcano
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
-  basic: SUNNYSIDE.announcement.springPrestige,
-  spring: SUNNYSIDE.announcement.desertPrestige,
-  desert: null, // Next prestige after desert
+  basic: null,
+  spring: SUNNYSIDE.announcement.springPrestige,
+  desert: SUNNYSIDE.announcement.desertPrestige,
+  volcano: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
 const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   basic: null,
   spring: translate("islandupgrade.welcomePetalParadise"),
   desert: translate("islandupgrade.welcomeDesertIsland"),
+  volcano: translate("islandupgrade.welcomeVolcanoIsland"),
 };
 
 const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   basic: null,
   spring: translate("islandupgrade.exoticResourcesDescription"),
   desert: translate("islandupgrade.desertResourcesDescription"),
+  volcano: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
 const IslandUpgraderModal: React.FC<{
@@ -103,7 +106,7 @@ const IslandUpgraderModal: React.FC<{
     );
   }
 
-  const upgradeDate = UPGRADE_DATES(gameState.context.state)[island.type];
+  const upgradeDate = UPGRADE_DATES[island.type];
   const hasUpgrade = upgradeDate !== null;
   const isReady = hasUpgrade && upgradeDate < Date.now();
 

@@ -13,7 +13,10 @@ import {
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
-import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
+import {
+  getBuyPrice,
+  isFullMoonBerry,
+} from "features/game/events/landExpansion/seedBought";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
@@ -43,19 +46,19 @@ import {
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
 import {
   isAdvancedCrop,
   isBasicCrop,
   isMediumCrop,
 } from "features/game/events/landExpansion/harvest";
 import { Restock } from "./restock/Restock";
+import { isFullMoon } from "features/game/types/calendar";
 
 export const Seeds: React.FC = () => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
-  const selected = SEEDS()[selectedName];
+  const selected = SEEDS[selectedName];
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -107,7 +110,7 @@ export const Seeds: React.FC = () => {
   const plantingSpot = selected.plantingSpot;
 
   const isSeedLocked = (seedName: SeedName) => {
-    const seed = SEEDS()[seedName];
+    const seed = SEEDS[seedName];
     return getBumpkinLevel(state.bumpkin?.experience ?? 0) < seed.bumpkinLevel;
   };
 
@@ -128,7 +131,7 @@ export const Seeds: React.FC = () => {
     }
 
     // return delayed sync when no stock
-    if (stock.lessThanOrEqualTo(0)) {
+    if (stock.lessThanOrEqualTo(0) && !isFullMoonBerry(selectedName)) {
       return <Restock npc={"betty"} />;
     }
 
@@ -210,19 +213,19 @@ export const Seeds: React.FC = () => {
     );
   };
 
-  const yields = SEEDS()[selectedName].yield;
+  const yields = SEEDS[selectedName].yield;
 
   const getPlantSeconds = () => {
-    if (selectedName in FLOWER_SEEDS()) {
+    if (selectedName in FLOWER_SEEDS) {
       return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
-    if (yields && yields in PATCH_FRUIT())
+    if (yields && yields in PATCH_FRUIT)
       return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
 
     if (
       selectedName in GREENHOUSE_SEEDS ||
-      selectedName in GREENHOUSE_FRUIT_SEEDS()
+      selectedName in GREENHOUSE_FRUIT_SEEDS
     ) {
       const plant = SEED_TO_PLANT[selectedName as GreenHouseCropSeedName];
       const seconds = getGreenhouseCropTime({
@@ -243,13 +246,26 @@ export const Seeds: React.FC = () => {
   const getHarvestCount = () => {
     if (!yields) return undefined;
 
-    if (!(yields in PATCH_FRUIT())) return undefined;
+    if (!(yields in PATCH_FRUIT)) return undefined;
 
-    return getFruitHarvests(state);
+    return getFruitHarvests(state, selectedName);
   };
 
+  const NEW_SEEDS: SeedName[] = [
+    "Rhubarb Seed",
+    "Zucchini Seed",
+    "Yam Seed",
+    "Broccoli Seed",
+    "Pepper Seed",
+    "Onion Seed",
+    "Turnip Seed",
+    "Artichoke Seed",
+  ];
+
   const harvestCount = getHarvestCount();
-  const seeds = getKeys(SEEDS()).filter((seed) => !SEEDS()[seed].disabled);
+  const seeds = getKeys(SEEDS).filter(
+    (seed) => !SEEDS[seed].disabled && !NEW_SEEDS.includes(seed),
+  );
 
   return (
     <SplitScreenView
@@ -281,7 +297,7 @@ export const Seeds: React.FC = () => {
       content={
         <div className="pl-1">
           <Label
-            icon={CROP_LIFECYCLE.Sunflower.crop}
+            icon={CROP_LIFECYCLE.basic.Sunflower.crop}
             type="default"
             className="ml-2 mb-1"
           >
@@ -291,10 +307,6 @@ export const Seeds: React.FC = () => {
             {seeds
               .filter((name) => name in CROP_SEEDS)
               .filter((name) => isBasicCrop(name.split(" ")[0] as CropName))
-              .filter(
-                (name) =>
-                  name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
-              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
@@ -310,7 +322,7 @@ export const Seeds: React.FC = () => {
               ))}
           </div>
           <Label
-            icon={CROP_LIFECYCLE.Carrot.crop}
+            icon={CROP_LIFECYCLE.basic.Carrot.crop}
             type="default"
             className="ml-2 mb-1"
           >
@@ -335,7 +347,7 @@ export const Seeds: React.FC = () => {
               ))}
           </div>
           <Label
-            icon={CROP_LIFECYCLE.Kale.crop}
+            icon={CROP_LIFECYCLE.basic.Kale.crop}
             type="default"
             className="ml-2 mb-1"
           >
@@ -345,10 +357,6 @@ export const Seeds: React.FC = () => {
             {seeds
               .filter((name) => name in CROP_SEEDS)
               .filter((name) => isAdvancedCrop(name.split(" ")[0] as CropName))
-              .filter(
-                (name) =>
-                  name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
-              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
@@ -368,7 +376,10 @@ export const Seeds: React.FC = () => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => name in PATCH_FRUIT_SEEDS())
+              .filter((name) => name in PATCH_FRUIT_SEEDS)
+              .filter((name) => name !== "Lunara Seed" || isFullMoon(state))
+              .filter((name) => name !== "Celestine Seed" || isFullMoon(state))
+              .filter((name) => name !== "Duskberry Seed" || isFullMoon(state))
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
@@ -393,7 +404,7 @@ export const Seeds: React.FC = () => {
             </Label>
             <div className="flex flex-wrap mb-2">
               {seeds
-                .filter((name) => name in FLOWER_SEEDS())
+                .filter((name) => name in FLOWER_SEEDS)
                 .map((name: SeedName) => (
                   <Box
                     isSelected={selectedName === name}
@@ -422,7 +433,7 @@ export const Seeds: React.FC = () => {
                   .filter(
                     (name) =>
                       name in GREENHOUSE_SEEDS ||
-                      name in GREENHOUSE_FRUIT_SEEDS(),
+                      name in GREENHOUSE_FRUIT_SEEDS,
                   )
                   .map((name: SeedName) => (
                     <Box

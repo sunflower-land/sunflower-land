@@ -15,6 +15,8 @@ import { randomInt } from "lib/utils/random";
 import { getFruitYield } from "./fruitHarvested";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
+import { isFullMoonBerry } from "./seedBought";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -67,7 +69,7 @@ export function getPlantedAt(
 ) {
   if (!patchFruitSeedName) return createdAt;
 
-  const fruitTime = PATCH_FRUIT_SEEDS()[patchFruitSeedName].plantSeconds;
+  const fruitTime = PATCH_FRUIT_SEEDS[patchFruitSeedName].plantSeconds;
   const boostedTime = getFruitPatchTime(patchFruitSeedName, game);
 
   const offset = fruitTime - boostedTime;
@@ -125,7 +127,7 @@ export const getFruitPatchTime = (
   game: GameState,
 ) => {
   const { bumpkin } = game;
-  let seconds = PATCH_FRUIT_SEEDS()[patchFruitSeedName]?.plantSeconds ?? 0;
+  let seconds = PATCH_FRUIT_SEEDS[patchFruitSeedName]?.plantSeconds ?? 0;
 
   const baseMultiplier = getFruitTime({ game, name: patchFruitSeedName });
   seconds *= baseMultiplier;
@@ -251,6 +253,17 @@ export function plantFruit({
       throw new Error("Not enough seeds");
     }
 
+    if (
+      !SEASONAL_SEEDS[stateCopy.season.season].includes(action.seed) &&
+      !isFullMoonBerry(action.seed)
+    ) {
+      throw new Error("This seed is not available in this season");
+    }
+
+    if (isFullMoonBerry(action.seed)) {
+      harvestsLeft = () => 4;
+    }
+
     const { harvestCount } = getHarvestsLeft({
       state: stateCopy,
       harvestsLeft,
@@ -268,7 +281,7 @@ export function plantFruit({
     stateCopy.inventory[action.seed] =
       stateCopy.inventory[action.seed]?.minus(1);
 
-    const fruitName = PATCH_FRUIT_SEEDS()[action.seed].yield;
+    const fruitName = PATCH_FRUIT_SEEDS[action.seed].yield;
 
     patch.fruit = {
       name: fruitName,

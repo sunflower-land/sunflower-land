@@ -3,7 +3,7 @@ import { GameState } from "features/game/types/game";
 import { acknowledgeCalendarEvent } from "./acknowledgeCalendarEvent";
 
 jest.mock("features/game/types/calendar", () => ({
-  getActiveCalenderEvent: jest.fn(() => "tornado"),
+  getActiveCalendarEvent: jest.fn(() => "tornado"),
 }));
 
 describe("acknowledgeCalendarEvent", () => {
@@ -26,6 +26,7 @@ describe("acknowledgeCalendarEvent", () => {
       calendar: {
         dates: [],
         tornado: {
+          startedAt: new Date("2025-01-20").getTime(),
           triggeredAt: Date.now(),
           protected: false,
         },

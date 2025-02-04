@@ -28,7 +28,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SeedName } from "features/game/types/seeds";
+import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "features/game/types/craftables";
@@ -37,10 +37,13 @@ import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TornadoPlot } from "./components/TornadoPlot";
 import { TsunamiPlot } from "./components/TsunamiPlot";
+import { GreatFreezePlot } from "./components/GreatFreezePlot";
+import { SeasonalSeed } from "./components/SeasonalSeed";
+import { Modal } from "components/ui/Modal";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -56,8 +59,6 @@ export function getYieldColour(yieldAmount: number) {
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
-const selectLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 const selectHarvests = (state: MachineState) => {
   return getKeys(CROPS).reduce(
@@ -85,22 +86,20 @@ const compareBuildings = (
   return getCompletedWellCount(prev) === getCompletedWellCount(next);
 };
 
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
-
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
   // - level 60+
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
   // - verified (personhood verification)
   state.context.verified &&
-  // - has active seasonal banner
-  hasVipAccess(state.context.state.inventory);
+  // - has grower reputation
+  hasReputation({ game: state.context.state, reputation: Reputation.Grower });
 
 interface Props {
   id: string;
   index: number;
 }
+
 export const Plot: React.FC<Props> = ({ id, index }) => {
   const { t } = useAppTranslation();
 
@@ -116,6 +115,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
   const [reward, setReward] = useState<Omit<Reward, "sfl">>();
   const clickedAt = useRef<number>(0);
   const [pulsating, setPulsating] = useState(false);
@@ -162,6 +162,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
   if (weather === "tornado") return <TornadoPlot game={state} />;
   if (weather === "tsunami") return <TsunamiPlot game={state} />;
+  if (weather === "greatFreeze") return <GreatFreezePlot game={state} />;
 
   const harvestCrop = async (crop: PlantedCrop) => {
     const newState = gameService.send("crop.harvested", {
@@ -279,6 +280,13 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         return;
       }
 
+      if (
+        !!SEEDS[seed] &&
+        !SEASONAL_SEEDS[state.season.season].includes(seed)
+      ) {
+        setShowSeasonalSeed(true);
+      }
+
       const newState = gameService.send("seed.planted", {
         index: id,
         item: seed,
@@ -352,6 +360,14 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           type={t("quickSelect.cropSeeds")}
         />
       </Transition>
+
+      <Modal show={showSeasonalSeed} onHide={() => setShowSeasonalSeed(false)}>
+        <SeasonalSeed
+          seed={selectedItem as SeedName}
+          season={state.season.season}
+          onClose={() => setShowSeasonalSeed(false)}
+        />
+      </Modal>
 
       <div onClick={() => onClick()} className="w-full h-full relative">
         {harvestCount < 3 &&
