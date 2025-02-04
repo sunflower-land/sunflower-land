@@ -443,7 +443,7 @@ const getWindsOfChangeVIPYieldBoost = ({
       "Broccoli",
       "Artichoke",
       "Rhubarb",
-    ] as const;
+    ];
 
     if (newCrops.includes(crop)) {
       return 0.25;
