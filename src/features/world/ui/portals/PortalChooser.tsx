@@ -115,7 +115,7 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="p-2 mb-2">
+      <div className="p-2">
         <Label type="default" icon={SUNNYSIDE.icons.player}>
           {`Choose your adventure!`}
         </Label>
