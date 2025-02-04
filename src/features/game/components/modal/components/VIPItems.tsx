@@ -314,7 +314,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               ? [
                   {
                     text: t("vip.benefit.windOfChange"),
-                    icon: increaseArrow,
+                    icon: ITEM_DETAILS.Broccoli.image,
                   },
                 ]
               : []),
