@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "Güneşin gücüyle kaynak üretmenize yardımcı olabilecek yeni bir demirhane türü üzerinde çalışıyorum.",
   "solarForge.intro.forgeStrength": "Demirhanenin gücü sınırlıdır, her kullandığınızda daha fazla Güneş Taşı gerekir!",
   "season.possibleEvents": "Olası Olaylar",
-  "temperateSeason.possibleEventsDescription": "Çiftliğinizi korumak için hava durumu dükkanını ziyaret edin!",
   "season.weatherShop": "Hava Durumu Mağazası",
   "season.weatherShopDescription": "Çiftliğinizi hava koşullarından korumak için eşyalar satın alın",
   "season.watchOutForSpecialEvents": "Her sezon özel etkinliklere dikkat edin!",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "Yaz aylarında -50% Arsa Mahsul Zamanı",
   "description.autumnsEmbrace.boost": "Sonbaharda -50% Arsa Mahsul Zamanı",
   "description.frozenHeart.boost": "Kışın +1 Arsa Mahsul Verimi",
-  "vip.benefit.windOfChange": "Winds of Change VIP verim artışı (+0.25 Yeni Mahsul)"
+  "vip.benefit.windOfChange": "Winds of Change VIP verim artışı (+0.25 Yeni Mahsul)",
+  "temperateSeason.possibleEventsDescription": "Çiftliğinizi korumak için plazadaki hava durumu dükkanını ziyaret edin!",
+  "beds": "Yataklar",
+  "weatherItems": "Hava Durumu Öğeleri"
 }

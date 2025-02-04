@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "He estado trabajando en un nuevo tipo de forja que puede ayudarte a crear recursos con el poder del sol.",
   "solarForge.intro.forgeStrength": "La fuerza de la forja es limitada, ¡cada vez que la utilices necesitarás más piedras solares!",
   "season.possibleEvents": "Posibles eventos",
-  "temperateSeason.possibleEventsDescription": "¡Visita la tienda meteorológica para proteger tu granja!",
   "season.weatherShop": "Tienda meteorológica",
   "season.weatherShopDescription": "Compra objetos para proteger tu granja de las inclemencias meteorológicas",
   "season.watchOutForSpecialEvents": "¡Esté atento a los eventos especiales durante cada temporada!",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "-50% del tiempo de cosecha de la parcela en verano",
   "description.autumnsEmbrace.boost": "-50% del tiempo de cosecha de la parcela en otoño",
   "description.frozenHeart.boost": "Rendimiento de cosecha de +1 parcela en invierno",
-  "vip.benefit.windOfChange": "Aumento de rendimiento VIP de Winds of Change (+0,25 cosechas nuevas)"
+  "vip.benefit.windOfChange": "Aumento de rendimiento VIP de Winds of Change (+0,25 cosechas nuevas)",
+  "temperateSeason.possibleEventsDescription": "¡Visita la tienda meteorológica de la plaza para proteger tu granja!",
+  "beds": "Camas",
+  "weatherItems": "Artículos meteorológicos"
 }

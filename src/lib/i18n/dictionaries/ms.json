@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "Saya telah mengusahakan jenis tempaan baru yang dapat membantu anda membuat sumber dengan kekuatan matahari.",
   "solarForge.intro.forgeStrength": "Kekuatan penempaan itu terhad, setiap kali anda menggunakannya memerlukan lebih banyak Batu Matahari!",
   "season.possibleEvents": "Kemungkinan Peristiwa",
-  "temperateSeason.possibleEventsDescription": "Lawati kedai cuaca untuk melindungi ladang anda!",
   "season.weatherShop": "Kedai Cuaca",
   "season.weatherShopDescription": "Beli barang untuk melindungi ladang anda dari cuaca",
   "season.watchOutForSpecialEvents": "Berhati-hati dengan acara istimewa pada setiap musim!",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "-50% Masa Tanaman Plot pada Musim Panas",
   "description.autumnsEmbrace.boost": "-50% Masa Tanaman Plot pada Musim Luruh",
   "description.frozenHeart.boost": "+1 Hasil Tanaman Plot pada Musim Sejuk",
-  "vip.benefit.windOfChange": "Rangsangan hasil VIP Winds of Change (+0.25 Tanaman Baru)"
+  "vip.benefit.windOfChange": "Rangsangan hasil VIP Winds of Change (+0.25 Tanaman Baru)",
+  "temperateSeason.possibleEventsDescription": "Lawati kedai cuaca di plaza untuk melindungi ladang anda!",
+  "beds": "Katil",
+  "weatherItems": "Item Cuaca"
 }

@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "私は太陽の力で資源を作るのに役立つ新しいタイプの鍛冶場を開発してきました。",
   "solarForge.intro.forgeStrength": "鍛冶場の強度は限られているため、使用するたびにサンストーンが増えます！",
   "season.possibleEvents": "可能なイベント",
-  "temperateSeason.possibleEventsDescription": "ウェザーショップに行って農場を守りましょう！",
   "season.weatherShop": "ウェザーショップ",
   "season.weatherShopDescription": "農園を天候から守るためにアイテムを購入しましょう",
   "season.watchOutForSpecialEvents": "各シーズンの特別イベントにご注目ください！",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "夏季の作付期間が 50% 減少",
   "description.autumnsEmbrace.boost": "秋の作付時期 -50%",
   "description.frozenHeart.boost": "+1プロットの冬の収穫量",
-  "vip.benefit.windOfChange": "ウィンズ・オブ・チェンジ VIP 生産量増加 (+0.25 新規作物)"
+  "vip.benefit.windOfChange": "ウィンズ・オブ・チェンジ VIP 生産量増加 (+0.25 新規作物)",
+  "temperateSeason.possibleEventsDescription": "広場のウェザーショップに行って農場を守ろう！",
+  "beds": "ベッド",
+  "weatherItems": "天気アイテム"
 }

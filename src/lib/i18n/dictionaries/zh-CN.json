@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "我一直在研究一种新型的锻造厂，它可以帮助你用太阳的力量制作资源。",
   "solarForge.intro.forgeStrength": "熔炉的力量是有限的，每次使用它都会需要更多的日光石！",
   "season.possibleEvents": "可能发生的事件",
-  "temperateSeason.possibleEventsDescription": "前往气象商店保护您的农场！",
   "season.weatherShop": "天气商店",
   "season.weatherShopDescription": "购买物品以保护您的农场免受天气影响",
   "season.watchOutForSpecialEvents": "注意每个季节的特别活动！",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "夏季作物作物时间 -50%",
   "description.autumnsEmbrace.boost": "秋季地块收割时间 -50%",
   "description.frozenHeart.boost": "+1 地块冬季作物产量",
-  "vip.benefit.windOfChange": "变革之风贵宾收益率提升（+0.25 新作物）"
+  "vip.benefit.windOfChange": "变革之风贵宾收益率提升（+0.25 新作物）",
+  "temperateSeason.possibleEventsDescription": "参观广场上的气象商店以保护您的农场！",
+  "beds": "床",
+  "weatherItems": "天气物品"
 }

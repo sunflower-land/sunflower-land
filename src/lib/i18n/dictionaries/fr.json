@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "J'ai travaillé sur un nouveau type de forge qui peut vous aider à fabriquer des ressources grâce à la puissance du soleil.",
   "solarForge.intro.forgeStrength": "La force de la forge est limitée. Chaque fois que vous l'utiliserez, vous aurez besoin de pierres solaires supplémentaires !",
   "season.possibleEvents": "Évènements possibles",
-  "temperateSeason.possibleEventsDescription": "Visitez la boutique météo pour protéger votre ferme !",
   "season.weatherShop": "Boutique météo",
   "season.weatherShopDescription": "Achetez des articles pour protéger votre ferme des intempéries",
   "season.watchOutForSpecialEvents": "Surveillez les événements spéciaux qui se déroulent chaque saison !",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "-50 % de la durée de récolte des parcelles en été",
   "description.autumnsEmbrace.boost": "-50 % de la durée de récolte des parcelles en automne",
   "description.frozenHeart.boost": "Rendement des cultures par parcelle +1 en hiver",
-  "vip.benefit.windOfChange": "Augmentation du rendement VIP de Winds of Change (+0,25 nouvelles récoltes)"
+  "vip.benefit.windOfChange": "Augmentation du rendement VIP de Winds of Change (+0,25 nouvelles récoltes)",
+  "temperateSeason.possibleEventsDescription": "Visitez la boutique météo de la place pour protéger votre ferme !",
+  "beds": "Lits",
+  "weatherItems": "Articles météorologiques"
 }

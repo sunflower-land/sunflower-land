@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "Estou trabalhando em um novo tipo de forja que pode ajudá-lo a criar recursos com o poder do sol.",
   "solarForge.intro.forgeStrength": "A força da forja é limitada, cada vez que você usá-la, serão necessárias mais pedras do sol!",
   "season.possibleEvents": "Eventos possíveis",
-  "temperateSeason.possibleEventsDescription": "Visite a loja de meteorologia para proteger sua fazenda!",
   "season.weatherShop": "Loja de meteorologia",
   "season.weatherShopDescription": "Compre itens para proteger sua fazenda das intempéries",
   "season.watchOutForSpecialEvents": "Fique atento aos eventos especiais em cada temporada!",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "-50% da safra do lote no verão",
   "description.autumnsEmbrace.boost": "-50% Plote o tempo de colheita no outono",
   "description.frozenHeart.boost": "+1 parcela de rendimento da safra no inverno",
-  "vip.benefit.windOfChange": "Aumento de rendimento VIP de Winds of Change (+0,25 novas safras)"
+  "vip.benefit.windOfChange": "Aumento de rendimento VIP de Winds of Change (+0,25 novas safras)",
+  "temperateSeason.possibleEventsDescription": "Visite a loja de meteorologia na praça para proteger sua fazenda!",
+  "beds": "Camas",
+  "weatherItems": "Itens climáticos"
 }

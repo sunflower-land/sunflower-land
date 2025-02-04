@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "태양의 힘으로 자원을 만드는 데 도움이 되는 새로운 유형의 대장로를 개발 중이었어요.",
   "solarForge.intro.forgeStrength": "제련소의 힘은 제한되어 있습니다. 사용할 때마다 태양석이 더 필요합니다!",
   "season.possibleEvents": "가능한 이벤트",
-  "temperateSeason.possibleEventsDescription": "웨더 샵을 방문하여 농장을 보호하세요!",
   "season.weatherShop": "웨더 샵",
   "season.weatherShopDescription": "날씨로부터 농장을 보호할 아이템을 구매하세요",
   "season.watchOutForSpecialEvents": "각 시즌의 특별 이벤트를 놓치지 마세요!",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "여름철 플롯 크롭 타임 -50%",
   "description.autumnsEmbrace.boost": "가을철 수확량 -50%",
   "description.frozenHeart.boost": "겨울철 작물 수확량 +1",
-  "vip.benefit.windOfChange": "윈즈 오브 체인지 VIP 수확량 증가 (+0.25 신규 작물)"
+  "vip.benefit.windOfChange": "윈즈 오브 체인지 VIP 수확량 증가 (+0.25 신규 작물)",
+  "temperateSeason.possibleEventsDescription": "광장에 있는 웨더 샵을 방문하여 농장을 보호하세요!",
+  "beds": "침대",
+  "weatherItems": "날씨 아이템"
 }

@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "Ich habe an einer neuen Art von Schmiede gearbeitet, die dir helfen kann, Ressourcen mit der Kraft der Sonne herzustellen.",
   "solarForge.intro.forgeStrength": "Die Stärke der Schmiede ist begrenzt, jedes Mal, wenn du sie benutzt, benötigst du mehr Sonnensteine!",
   "season.possibleEvents": "Mögliche Ereignisse",
-  "temperateSeason.possibleEventsDescription": "Besuche den Wettershop, um deine Farm zu schützen!",
   "season.weatherShop": "Wettershop",
   "season.weatherShopDescription": "Kaufe Gegenstände, um deine Farm vor dem Wetter zu schützen",
   "season.watchOutForSpecialEvents": "Achten Sie zu jeder Jahreszeit auf besondere Ereignisse!",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "-50% Erntezeit auf der Parzelle im Sommer",
   "description.autumnsEmbrace.boost": "-50% Erntezeit auf der Parzelle im Herbst",
   "description.frozenHeart.boost": "+1 Ernteertrag der Parzelle im Winter",
-  "vip.benefit.windOfChange": "Winds of Change VIP-Ertragssteigerung (+0,25 neue Pflanzen)"
+  "vip.benefit.windOfChange": "Winds of Change VIP-Ertragssteigerung (+0,25 neue Pflanzen)",
+  "temperateSeason.possibleEventsDescription": "Besuche den Wettershop auf dem Platz, um deine Farm zu schützen!",
+  "beds": "Betten",
+  "weatherItems": "Wetterartikel"
 }

@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "Sto lavorando a un nuovo tipo di fucina che può aiutarti a creare risorse con il potere del sole.",
   "solarForge.intro.forgeStrength": "La forza della fucina è limitata, ogni volta che la usi avrai bisogno di più pietre solari!",
   "season.possibleEvents": "Eventi possibili",
-  "temperateSeason.possibleEventsDescription": "Visita il negozio meteorologico per proteggere la tua fattoria!",
   "season.weatherShop": "Weather Shop",
   "season.weatherShopDescription": "Acquista oggetti per proteggere la tua fattoria dalle intemperie",
   "season.watchOutForSpecialEvents": "Fai attenzione agli eventi speciali durante ogni stagione!",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "-50% del tempo di raccolta del terreno in estate",
   "description.autumnsEmbrace.boost": "-50% del tempo di raccolta del terreno in autunno",
   "description.frozenHeart.boost": "+1 Rendimento del raccolto per parcella in inverno",
-  "vip.benefit.windOfChange": "Aumento della resa VIP di Winds of Change (+0,25 nuove colture)"
+  "vip.benefit.windOfChange": "Aumento della resa VIP di Winds of Change (+0,25 nuove colture)",
+  "temperateSeason.possibleEventsDescription": "Visita il negozio meteorologico in piazza per proteggere la tua fattoria!",
+  "beds": "Letti",
+  "weatherItems": "Articoli meteorologici"
 }

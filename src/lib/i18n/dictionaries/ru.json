@@ -4755,7 +4755,6 @@
   "temperateSeason.introduction.two": "Каждый сезон приносит разные возможности. Некоторые культуры могут расти только в определенные сезоны. Следите за сезонными событиями, которые могут повлиять на вашу ферму.",
   "temperateSeason.newSeason": "Новый сезон",
   "temperateSeason.possibleEvents": "Возможные события",
-  "temperateSeason.possibleEventsDescription": "Посетите магазин погоды, чтобы защитить свою ферму!",
   "temperateSeason.seasonDetails": "Сведения о сезоне",
   "temperateSeason.seasonalCrops": "Сезонные культуры",
   "temperateSeason.weatherShop.buy.comingSoon": "Скоро — 3 февраля",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "Время сбора урожая на участке: -50% летом",
   "description.autumnsEmbrace.boost": "Осенний период сбора урожая на участке: -50%",
   "description.frozenHeart.boost": "+1 урожайность на участке зимой",
-  "vip.benefit.windOfChange": "Рост урожайности VIP-персон в условиях ветров перемен (+0,25 новых культур)"
+  "vip.benefit.windOfChange": "Рост урожайности VIP-персон в условиях ветров перемен (+0,25 новых культур)",
+  "temperateSeason.possibleEventsDescription": "Посетите магазин погоды на площади, чтобы защитить свою ферму!",
+  "beds": "Кровати",
+  "weatherItems": "Предметы погоды"
 }

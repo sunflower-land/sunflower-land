@@ -5093,7 +5093,6 @@
   "solarForge.intro.forge": "Saya telah mengerjakan jenis baru bengkel yang dapat membantu Anda membuat sumber daya dengan kekuatan matahari.",
   "solarForge.intro.forgeStrength": "Kekuatan bengkel terbatas, setiap kali Anda menggunakannya akan membutuhkan lebih banyak batu matahari!",
   "season.possibleEvents": "Kemungkinan Peristiwa",
-  "temperateSeason.possibleEventsDescription": "Kunjungi toko cuaca untuk melindungi pertanian Anda!",
   "season.weatherShop": "Toko Cuaca",
   "season.weatherShopDescription": "Beli barang untuk melindungi pertanian Anda dari cuaca",
   "season.watchOutForSpecialEvents": "Hati-hati dengan acara khusus selama setiap musim!",
@@ -5142,5 +5141,8 @@
   "description.solflareAegis.boost": "-50% Waktu Panen Plot di Musim Panas",
   "description.autumnsEmbrace.boost": "-50% Waktu Panen Plot di Musim Gugur",
   "description.frozenHeart.boost": "+1 Hasil Tanaman Plot di Musim Dingin",
-  "vip.benefit.windOfChange": "Peningkatan hasil VIP Winds of Change (+0,25 Tanaman Baru)"
+  "vip.benefit.windOfChange": "Peningkatan hasil VIP Winds of Change (+0,25 Tanaman Baru)",
+  "temperateSeason.possibleEventsDescription": "Kunjungi toko cuaca di alun-alun untuk melindungi pertanian Anda!",
+  "beds": "Tempat tidur",
+  "weatherItems": "Item Cuaca"
 }
