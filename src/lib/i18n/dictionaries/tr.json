@@ -4664,7 +4664,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "QuickSelect'i devre dışı bırak",
   "gameOptions.generalSettings.enableQuickSelect": "Hızlı Seçimi Etkinleştir",
   "gameOptions.generalSettings.appearance&behaviour": "Görünüm ve Davranış",
-  "skill.appleTastic": "Tüm hayvanların seviyesini yükseltmek için 600 elma kullanın",
   "skill.fishermansTenFold": "+10 günlük balık tutma limiti",
   "skill.moreWithLess.buff": "+15 günlük balıkçılık sınırı",
   "skill.alternateMedicine": "Barn Delight karıştırmak için 1 daha az Limon ve Bal gerektirir",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "Hiçbir bina yemek pişirmiyor",
   "powerSkills.reason.noFlowersGrowing": "Çiçek tarhlarında çiçek yetişmiyor",
   "powerSkills.reason.noOilreservesRefilling": "Petrol rezervleri yeniden doldurulmuyor",
-  "powerSkills.reason.animalsSickReadyAsleep": "Hayvanlarınız hasta, hazır veya uykuda",
   "description.thermalStone": "Sizi büyük donmadan koruyan bir termal taş!",
   "greatFreeze.crops.frozen": "Büyük donma tarafından donduruldu",
   "greatFreeze.description": "Büyük bir donma çiftliğinizi donduruyor!",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "Her Bölüm için afiş alın",
   "season.vip.access": "Bölüm VIP Erişimi",
   "whatsOn.seasonCompetition": "Bölüm Yarışması",
-  "bounties.sell.animal.sick": "Hmm, bu zavallı hayvanın hasta olduğunu görüyorum. Yine de onları ellerinden alacağım, ama sana daha düşük bir ödül sunmak zorunda kalacağım. Anlaşma mı?"
+  "bounties.sell.animal.sick": "Hmm, bu zavallı hayvanın hasta olduğunu görüyorum. Yine de onları ellerinden alacağım, ama sana daha düşük bir ödül sunmak zorunda kalacağım. Anlaşma mı?",
+  "skill.appleTastic": "Uykuda olmayan tüm sağlıklı hayvanların seviyesini yükseltmek için 600 elma kullanın",
+  "powerSkills.reason.animalsSickReadyAsleep": "Tüm hayvanlarınız hasta, hazır veya uykuda"
 }

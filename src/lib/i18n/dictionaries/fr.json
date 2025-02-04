@@ -4664,7 +4664,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "Désactiver QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Activer QuickSelect",
   "gameOptions.generalSettings.appearance&behaviour": "Apparence et comportement",
-  "skill.appleTastic": "Utilise 600 pommes pour améliorer tous les animaux",
   "skill.fishermansTenFold": "Limite de pêche quotidienne de +10",
   "skill.moreWithLess.buff": "Limite de pêche quotidienne de +15",
   "skill.alternateMedicine": "Barn Delight nécessite 1 citron et 1 miel en moins pour être mélangé",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "Aucun bâtiment ne cuisine",
   "powerSkills.reason.noFlowersGrowing": "Aucune fleur ne pousse dans les parterres de fleurs",
   "powerSkills.reason.noOilreservesRefilling": "Aucune réserve de pétrole n'est en cours de remplissage",
-  "powerSkills.reason.animalsSickReadyAsleep": "Vos animaux sont malades, prêts ou endormis",
   "description.thermalStone": "Une pierre thermale qui vous protège du grand froid !",
   "greatFreeze.crops.frozen": "Congelé par le grand froid",
   "greatFreeze.description": "Un bon gel est en train de geler votre ferme !",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "Recevez des bannières pour chaque chapitre",
   "season.vip.access": "Chapitre Accès VIP",
   "whatsOn.seasonCompetition": "Chapitre Compétition",
-  "bounties.sell.animal.sick": "Hmm, je vois que ce pauvre animal est malade. Je vais quand même vous les retirer, mais je vais devoir vous offrir une prime réduite. Un accord ?"
+  "bounties.sell.animal.sick": "Hmm, je vois que ce pauvre animal est malade. Je vais quand même vous les retirer, mais je vais devoir vous offrir une prime réduite. Un accord ?",
+  "skill.appleTastic": "Utilisez 600 pommes pour améliorer le niveau de tous les animaux en bonne santé qui ne dorment pas",
+  "powerSkills.reason.animalsSickReadyAsleep": "Tous vos animaux sont malades, prêts ou endormis"
 }

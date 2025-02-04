@@ -4664,7 +4664,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "Nonaktifkan QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Aktifkan QuickSelect",
   "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Perilaku",
-  "skill.appleTastic": "Gunakan 600 apel untuk menaikkan level semua hewan",
   "skill.fishermansTenFold": "+10 batas memancing harian",
   "skill.moreWithLess.buff": "+15 batas memancing harian",
   "skill.alternateMedicine": "Barn Delight membutuhkan 1 lebih sedikit Lemon dan Madu untuk dicampur",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "Tidak ada bangunan yang memasak",
   "powerSkills.reason.noFlowersGrowing": "Tidak ada bunga yang tumbuh di hamparan bunga",
   "powerSkills.reason.noOilreservesRefilling": "Tidak ada cadangan minyak yang diisi ulang",
-  "powerSkills.reason.animalsSickReadyAsleep": "Hewan Anda sakit, siap atau tertidur",
   "description.thermalStone": "Batu termal yang melindungi Anda dari pembekuan hebat!",
   "greatFreeze.crops.frozen": "Beku oleh pembekuan besar",
   "greatFreeze.description": "Pembekuan yang hebat membekukan peternakan Anda!",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "Terima spanduk untuk setiap Bab",
   "season.vip.access": "Akses Bab VIP",
   "whatsOn.seasonCompetition": "Kompetisi Bab",
-  "bounties.sell.animal.sick": "Hmm, aku melihat hewan malang ini sakit. Aku masih akan melepasnya dari tanganmu, tapi aku harus menawarkan hadiah yang lebih rendah. Kesepakatan?"
+  "bounties.sell.animal.sick": "Hmm, aku melihat hewan malang ini sakit. Aku masih akan melepasnya dari tanganmu, tapi aku harus menawarkan hadiah yang lebih rendah. Kesepakatan?",
+  "skill.appleTastic": "Gunakan 600 apel untuk meningkatkan level semua hewan sehat yang tidak tidur",
+  "powerSkills.reason.animalsSickReadyAsleep": "Semua hewan Anda sakit, siap atau tertidur"
 }

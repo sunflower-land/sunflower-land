@@ -4664,7 +4664,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "クイックセレクトを無効にする",
   "gameOptions.generalSettings.enableQuickSelect": "クイックセレクトを有効にする",
   "gameOptions.generalSettings.appearance&behaviour": "外観と動作",
-  "skill.appleTastic": "リンゴを600個使って全動物をレベルアップさせよう",
   "skill.fishermansTenFold": "+10 デイリーフィッシングリミット",
   "skill.moreWithLess.buff": "+15 デイリーフィッシングリミット",
   "skill.alternateMedicine": "Barn Delightは混ぜるのにレモンとハチミツを1つ少なくする必要があります",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "調理をしている建物はありません",
   "powerSkills.reason.noFlowersGrowing": "花壇には花が咲いていません",
   "powerSkills.reason.noOilreservesRefilling": "石油埋蔵量は補充されていません",
-  "powerSkills.reason.animalsSickReadyAsleep": "あなたの動物は病気で、準備ができている、または眠っている",
   "description.thermalStone": "極寒から身を守るサーマルストーン！",
   "greatFreeze.crops.frozen": "フリーズ・バイ・ザ・グレート・フリーズ",
   "greatFreeze.description": "ひどい凍結で農場が凍りついてる！",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "すべてのチャプターのバナーを受け取る",
   "season.vip.access": "チャプターVIPアクセス",
   "whatsOn.seasonCompetition": "チャプターコンペティション",
-  "bounties.sell.animal.sick": "うーん、このかわいそうな動物は病気らしい。それでも君の手からはずすが、賞金を減らさないといけない。取引？"
+  "bounties.sell.animal.sick": "うーん、このかわいそうな動物は病気らしい。それでも君の手からはずすが、賞金を減らさないといけない。取引？",
+  "skill.appleTastic": "600個のリンゴを使って、眠っていない健康な動物をすべてレベルアップさせましょう",
+  "powerSkills.reason.animalsSickReadyAsleep": "すべての動物が病気か、準備ができているか、眠っている"
 }

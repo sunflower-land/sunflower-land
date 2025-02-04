@@ -4664,7 +4664,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "퀵 셀렉트 비활성화",
   "gameOptions.generalSettings.enableQuickSelect": "퀵 셀렉트 활성화",
   "gameOptions.generalSettings.appearance&behaviour": "외모 및 행동",
-  "skill.appleTastic": "사과 600개를 사용해 모든 동물의 레벨을 올리세요",
   "skill.fishermansTenFold": "일일 낚시 한도 +10",
   "skill.moreWithLess.buff": "일일 낚시 한도 +15",
   "skill.alternateMedicine": "반 딜라이트는 섞을 때 레몬과 꿀이 1개 덜 필요합니다.",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "조리 중인 건물이 없습니다",
   "powerSkills.reason.noFlowersGrowing": "화단에는 꽃이 자라지 않습니다",
   "powerSkills.reason.noOilreservesRefilling": "석유 매장량 보충 없음",
-  "powerSkills.reason.animalsSickReadyAsleep": "동물이 아프거나, 준비가 되었거나, 잠들어 있습니다",
   "description.thermalStone": "극한의 추위로부터 몸을 보호해 주는 보온석!",
   "greatFreeze.crops.frozen": "프로즌 바이 더 그레이트 프리즈",
   "greatFreeze.description": "얼음이 심하면 농장이 얼어붙을 수 있습니다!",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "모든 챕터에서 배너 받기",
   "season.vip.access": "챕터 VIP 액세스",
   "whatsOn.seasonCompetition": "챕터 경쟁",
-  "bounties.sell.animal.sick": "흠, 이 불쌍한 짐승이 아픈 것 같네요.그래도 네 손에서 떼어주겠지만 현상금을 줄여야 겠어.딜?"
+  "bounties.sell.animal.sick": "흠, 이 불쌍한 짐승이 아픈 것 같네요.그래도 네 손에서 떼어주겠지만 현상금을 줄여야 겠어.딜?",
+  "skill.appleTastic": "사과 600개를 사용해 잠들지 않는 모든 건강한 동물의 레벨을 올리세요.",
+  "powerSkills.reason.animalsSickReadyAsleep": "모든 동물이 아프거나, 준비가 되었거나, 잠들어 있습니다."
 }

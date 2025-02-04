@@ -4664,7 +4664,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "Desativar QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Ativar QuickSelec",
   "gameOptions.generalSettings.appearance&behaviour": "Aparência e comportamento",
-  "skill.appleTastic": "Use 600 maçãs para aumentar o nível de todos os animais",
   "skill.fishermansTenFold": "+10 limite diário de pesca",
   "skill.moreWithLess.buff": "Limite diário de pesca de +15",
   "skill.alternateMedicine": "Barn Delight requer menos 1 limão e mel para misturar",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "Nenhum prédio está cozinhando",
   "powerSkills.reason.noFlowersGrowing": "Nenhuma flor está crescendo em canteiros",
   "powerSkills.reason.noOilreservesRefilling": "Nenhuma reserva de petróleo está sendo reabastecida",
-  "powerSkills.reason.animalsSickReadyAsleep": "Seus animais estão doentes, prontos ou dormindo",
   "description.thermalStone": "Uma pedra térmica que protege você do grande congelamento!",
   "greatFreeze.crops.frozen": "Congelado pelo grande congelamento",
   "greatFreeze.description": "Um ótimo congelamento está congelando sua fazenda!",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "Receba banners para cada capítulo",
   "season.vip.access": "Capítulo: Acesso VIP",
   "whatsOn.seasonCompetition": "Capítulo: Competição",
-  "bounties.sell.animal.sick": "Hmm, vejo que esse pobre animal está doente. Ainda vou tirá-los de suas mãos, mas terei que lhe oferecer uma recompensa reduzida. Acordo?"
+  "bounties.sell.animal.sick": "Hmm, vejo que esse pobre animal está doente. Ainda vou tirá-los de suas mãos, mas terei que lhe oferecer uma recompensa reduzida. Acordo?",
+  "skill.appleTastic": "Use 600 maçãs para aumentar o nível de todos os animais saudáveis que não estão dormindo",
+  "powerSkills.reason.animalsSickReadyAsleep": "Todos os seus animais estão doentes, prontos ou dormindo"
 }

@@ -4665,7 +4665,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "禁用快速选择",
   "gameOptions.generalSettings.enableQuickSelect": "启用快速选择",
   "gameOptions.generalSettings.appearance&behaviour": "外表与行为",
-  "skill.appleTastic": "使用 600 个苹果来提升所有动物的等级",
   "skill.fishermansTenFold": "+10 每日钓鱼上限",
   "skill.alternateMedicine": "Barn Delight 需要减少 1 个柠檬和蜂蜜才能混合",
   "skill.seedyBusiness": "-15% 温室种子成本",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "没有建筑物在做饭",
   "powerSkills.reason.noFlowersGrowing": "花坛里没有开花",
   "powerSkills.reason.noOilreservesRefilling": "没有石油储备正在补充",
-  "powerSkills.reason.animalsSickReadyAsleep": "你的动物生病了、准备好了或者睡着了",
   "description.thermalStone": "一块能保护你免受极度冻结的热石！",
   "greatFreeze.crops.frozen": "被大冻所冻结",
   "greatFreeze.description": "很棒的冻结就是冻结你的农场！",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "获得每个章节的旗帜",
   "season.vip.access": "章节 VIP 访问权限",
   "whatsOn.seasonCompetition": "分会竞赛",
-  "bounties.sell.animal.sick": "嗯，我看见这只可怜的动物生病了。我还是会把它们从你手中夺走，但我得给你一笔较低的赏金。交易？"
+  "bounties.sell.animal.sick": "嗯，我看见这只可怜的动物生病了。我还是会把它们从你手中夺走，但我得给你一笔较低的赏金。交易？",
+  "skill.appleTastic": "使用 600 个苹果来提升所有未睡觉的健康动物的等级",
+  "powerSkills.reason.animalsSickReadyAsleep": "你所有的动物都生病了、准备好了或者睡着了"
 }

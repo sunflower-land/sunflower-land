@@ -4091,7 +4091,6 @@
   "powerSkills.ready": "Готов к силовым навыкам",
   "powerSkills.reason.allFruitPatchesFertilised": "Все грядки с фруктами уже оплодотворены",
   "powerSkills.reason.allPlotsFertilised": "Все участки уже удобрены",
-  "powerSkills.reason.animalsSickReadyAsleep": "Ваши животные больны, готовы или спят",
   "powerSkills.reason.insufficientFertiliser": "Недостаточно {{fertiliser}}",
   "powerSkills.reason.insufficientItems": "Недостаточное количество предметов",
   "powerSkills.reason.noBuildingsAreCooking": "Ни в одном здании не готовят еду",
@@ -4433,7 +4432,6 @@
   "skill.acreFarm.buff": "+1 продвинутых культур",
   "skill.acreFarm.debuff": "-0.5 базовых и средних культур",
   "skill.alternateMedicine": "Для Barn Delight требуется меньше на 1 лимон и мед",
-  "skill.appleTastic": "Используйте 600 яблок, чтобы повысить уровень всех животных",
   "skill.baleEconomy": "Тюк влияет на производство молока и шерсти",
   "skill.beeCollective": "+20% к шансу «Пчелиного роя»",
   "skill.bettysFriend": "+30% монет от доставки для Betty",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "Получайте баннеры для каждой главы",
   "season.vip.access": "Глава VIP-доступ",
   "whatsOn.seasonCompetition": "Конкурс глав",
-  "bounties.sell.animal.sick": "Хм, я вижу, это бедное животное больно. Я всё равно сниму их с тебя, но мне придётся предложить тебе меньшую награду. Сделка?"
+  "bounties.sell.animal.sick": "Хм, я вижу, это бедное животное больно. Я всё равно сниму их с тебя, но мне придётся предложить тебе меньшую награду. Сделка?",
+  "skill.appleTastic": "Используйте 600 яблок, чтобы повысить уровень всех здоровых животных, которые не спят",
+  "powerSkills.reason.animalsSickReadyAsleep": "Все ваши животные больны, готовы или спят"
 }

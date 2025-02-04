@@ -4664,7 +4664,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "QuickSelect deaktivieren",
   "gameOptions.generalSettings.enableQuickSelect": "QuickSelect aktivieren",
   "gameOptions.generalSettings.appearance&behaviour": "Aussehen und Verhalten",
-  "skill.appleTastic": "Verwende 600 Äpfel, um alle Tiere aufzuleveln",
   "skill.fishermansTenFold": "+10 tägliches Fanglimit",
   "skill.moreWithLess.buff": "+15 tägliches Fanglimit",
   "skill.alternateMedicine": "Barn Delight benötigt 1 Zitrone und Honig weniger zum Mischen",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "Keine Gebäude kochen",
   "powerSkills.reason.noFlowersGrowing": "In Blumenbeeten wachsen keine Blumen",
   "powerSkills.reason.noOilreservesRefilling": "Es werden keine Ölreserven aufgefüllt",
-  "powerSkills.reason.animalsSickReadyAsleep": "Ihre Tiere sind krank, bereit oder schlafen",
   "description.thermalStone": "Ein Thermostein, der Sie vor dem großen Frost schützt!",
   "greatFreeze.crops.frozen": "Vom großen Frost eingefroren",
   "greatFreeze.description": "Ein großer Frost friert deine Farm ein!",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "Erhalte Banner für jedes Kapitel",
   "season.vip.access": "Kapitel VIP-Zugang",
   "whatsOn.seasonCompetition": "Kapitel Wettbewerb",
-  "bounties.sell.animal.sick": "Hmm, ich sehe, dieses arme Tier ist krank. Ich nehme sie dir trotzdem ab, aber ich muss dir ein reduziertes Kopfgeld anbieten. Abgemacht?"
+  "bounties.sell.animal.sick": "Hmm, ich sehe, dieses arme Tier ist krank. Ich nehme sie dir trotzdem ab, aber ich muss dir ein reduziertes Kopfgeld anbieten. Abgemacht?",
+  "skill.appleTastic": "Verwende 600 Äpfel, um alle gesunden Tiere, die nicht schlafen, aufzuleveln.",
+  "powerSkills.reason.animalsSickReadyAsleep": "Alle Ihre Tiere sind krank, bereit oder schlafen"
 }

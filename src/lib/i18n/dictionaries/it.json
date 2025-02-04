@@ -4664,7 +4664,6 @@
   "gameOptions.generalSettings.disableQuickSelect": "Disattiva QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Abilita QuickSelect",
   "gameOptions.generalSettings.appearance&behaviour": "Aspetto e comportamento",
-  "skill.appleTastic": "Usa 600 mele per far salire di livello tutti gli animali",
   "skill.fishermansTenFold": "+10 limite di pesca giornaliero",
   "skill.moreWithLess.buff": "+15 limite di pesca giornaliero",
   "skill.alternateMedicine": "Barn Delight richiede 1 limone e miele in meno per miscelare",
@@ -4806,7 +4805,6 @@
   "powerSkills.reason.noBuildingsAreCooking": "Nessun edificio sta cucinando",
   "powerSkills.reason.noFlowersGrowing": "Nessun fiore cresce nelle aiuole",
   "powerSkills.reason.noOilreservesRefilling": "Nessuna riserva di petrolio si sta riempiendo",
-  "powerSkills.reason.animalsSickReadyAsleep": "I tuoi animali sono malati, pronti o dormono",
   "description.thermalStone": "Una pietra termale che ti protegge dal grande gelo!",
   "greatFreeze.crops.frozen": "Congelata dal grande gelo",
   "greatFreeze.description": "Un grande congelamento sta congelando la tua fattoria!",
@@ -5145,5 +5143,7 @@
   "season.free.season.passes.description": "Ricevi banner per ogni capitolo",
   "season.vip.access": "Capitolo VIP Access",
   "whatsOn.seasonCompetition": "Capitolo Competizione",
-  "bounties.sell.animal.sick": "Hmm, vedo che questo povero animale è malato. Ve li toglierò comunque dalle mani, ma dovrò offrirvi una ricompensa ridotta. Affare?"
+  "bounties.sell.animal.sick": "Hmm, vedo che questo povero animale è malato. Ve li toglierò comunque dalle mani, ma dovrò offrirvi una ricompensa ridotta. Affare?",
+  "skill.appleTastic": "Usa 600 mele per far salire di livello tutti gli animali sani che non dormono",
+  "powerSkills.reason.animalsSickReadyAsleep": "Tutti i tuoi animali sono malati, pronti o dormono"
 }
