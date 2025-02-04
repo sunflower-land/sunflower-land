@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "+1 parcela de rendimento da safra na primavera",
   "description.solflareAegis.boost": "-50% da safra do lote no verão",
   "description.autumnsEmbrace.boost": "-50% Plote o tempo de colheita no outono",
-  "description.frozenHeart.boost": "+1 parcela de rendimento da safra no inverno"
+  "description.frozenHeart.boost": "+1 parcela de rendimento da safra no inverno",
+  "vip.benefit.windOfChange": "Aumento de rendimento VIP de Winds of Change (+0,25 novas safras)"
 }

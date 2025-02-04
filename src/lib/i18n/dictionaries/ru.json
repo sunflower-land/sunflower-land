@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "Урожай на участке +1 весной",
   "description.solflareAegis.boost": "Время сбора урожая на участке: -50% летом",
   "description.autumnsEmbrace.boost": "Осенний период сбора урожая на участке: -50%",
-  "description.frozenHeart.boost": "+1 урожайность на участке зимой"
+  "description.frozenHeart.boost": "+1 урожайность на участке зимой",
+  "vip.benefit.windOfChange": "Рост урожайности VIP-персон в условиях ветров перемен (+0,25 новых культур)"
 }

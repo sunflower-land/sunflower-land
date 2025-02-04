@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "+1プロットの春の収穫量",
   "description.solflareAegis.boost": "夏季の作付期間が 50% 減少",
   "description.autumnsEmbrace.boost": "秋の作付時期 -50%",
-  "description.frozenHeart.boost": "+1プロットの冬の収穫量"
+  "description.frozenHeart.boost": "+1プロットの冬の収穫量",
+  "vip.benefit.windOfChange": "ウィンズ・オブ・チェンジ VIP 生産量増加 (+0.25 新規作物)"
 }

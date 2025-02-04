@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "+1 Rendimiento de la cosecha de la parcela en primavera",
   "description.solflareAegis.boost": "-50% del tiempo de cosecha de la parcela en verano",
   "description.autumnsEmbrace.boost": "-50% del tiempo de cosecha de la parcela en otoño",
-  "description.frozenHeart.boost": "Rendimiento de cosecha de +1 parcela en invierno"
+  "description.frozenHeart.boost": "Rendimiento de cosecha de +1 parcela en invierno",
+  "vip.benefit.windOfChange": "Aumento de rendimiento VIP de Winds of Change (+0,25 cosechas nuevas)"
 }

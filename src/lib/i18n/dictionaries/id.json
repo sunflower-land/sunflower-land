@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "+1 Hasil Tanaman Plot di Musim Semi",
   "description.solflareAegis.boost": "-50% Waktu Panen Plot di Musim Panas",
   "description.autumnsEmbrace.boost": "-50% Waktu Panen Plot di Musim Gugur",
-  "description.frozenHeart.boost": "+1 Hasil Tanaman Plot di Musim Dingin"
+  "description.frozenHeart.boost": "+1 Hasil Tanaman Plot di Musim Dingin",
+  "vip.benefit.windOfChange": "Peningkatan hasil VIP Winds of Change (+0,25 Tanaman Baru)"
 }

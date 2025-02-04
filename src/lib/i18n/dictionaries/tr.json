@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "İlkbaharda +1 Arsa Mahsul Verimi",
   "description.solflareAegis.boost": "Yaz aylarında -50% Arsa Mahsul Zamanı",
   "description.autumnsEmbrace.boost": "Sonbaharda -50% Arsa Mahsul Zamanı",
-  "description.frozenHeart.boost": "Kışın +1 Arsa Mahsul Verimi"
+  "description.frozenHeart.boost": "Kışın +1 Arsa Mahsul Verimi",
+  "vip.benefit.windOfChange": "Winds of Change VIP verim artışı (+0.25 Yeni Mahsul)"
 }

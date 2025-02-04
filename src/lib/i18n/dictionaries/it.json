@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "+1 Rendimento del raccolto per parcella in primavera",
   "description.solflareAegis.boost": "-50% del tempo di raccolta del terreno in estate",
   "description.autumnsEmbrace.boost": "-50% del tempo di raccolta del terreno in autunno",
-  "description.frozenHeart.boost": "+1 Rendimento del raccolto per parcella in inverno"
+  "description.frozenHeart.boost": "+1 Rendimento del raccolto per parcella in inverno",
+  "vip.benefit.windOfChange": "Aumento della resa VIP di Winds of Change (+0,25 nuove colture)"
 }

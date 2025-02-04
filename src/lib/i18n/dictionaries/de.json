@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "+1 Ernteertrag auf der Parzelle im Frühjahr",
   "description.solflareAegis.boost": "-50% Erntezeit auf der Parzelle im Sommer",
   "description.autumnsEmbrace.boost": "-50% Erntezeit auf der Parzelle im Herbst",
-  "description.frozenHeart.boost": "+1 Ernteertrag der Parzelle im Winter"
+  "description.frozenHeart.boost": "+1 Ernteertrag der Parzelle im Winter",
+  "vip.benefit.windOfChange": "Winds of Change VIP-Ertragssteigerung (+0,25 neue Pflanzen)"
 }

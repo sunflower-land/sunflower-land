@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "봄철 작물 수확량 +1",
   "description.solflareAegis.boost": "여름철 플롯 크롭 타임 -50%",
   "description.autumnsEmbrace.boost": "가을철 수확량 -50%",
-  "description.frozenHeart.boost": "겨울철 작물 수확량 +1"
+  "description.frozenHeart.boost": "겨울철 작물 수확량 +1",
+  "vip.benefit.windOfChange": "윈즈 오브 체인지 VIP 수확량 증가 (+0.25 신규 작물)"
 }

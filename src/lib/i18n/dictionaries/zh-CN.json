@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "+1 地块春季作物产量",
   "description.solflareAegis.boost": "夏季作物作物时间 -50%",
   "description.autumnsEmbrace.boost": "秋季地块收割时间 -50%",
-  "description.frozenHeart.boost": "+1 地块冬季作物产量"
+  "description.frozenHeart.boost": "+1 地块冬季作物产量",
+  "vip.benefit.windOfChange": "变革之风贵宾收益率提升（+0.25 新作物）"
 }

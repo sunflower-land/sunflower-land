@@ -5141,5 +5141,6 @@
   "description.blossomWard.boost": "Rendement des cultures par parcelle de +1 au printemps",
   "description.solflareAegis.boost": "-50 % de la durée de récolte des parcelles en été",
   "description.autumnsEmbrace.boost": "-50 % de la durée de récolte des parcelles en automne",
-  "description.frozenHeart.boost": "Rendement des cultures par parcelle +1 en hiver"
+  "description.frozenHeart.boost": "Rendement des cultures par parcelle +1 en hiver",
+  "vip.benefit.windOfChange": "Augmentation du rendement VIP de Winds of Change (+0,25 nouvelles récoltes)"
 }
