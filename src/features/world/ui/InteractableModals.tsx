@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -37,11 +37,9 @@ import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
 import { ChristmasPortal } from "./portals/ChristmasPortal";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { ChristmasReward } from "./npcs/Santa";
-import { MachineState } from "features/game/lib/gameMachine";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
+import { PortalChooser } from "./portals/PortalChooser";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -131,7 +129,8 @@ type InteractableName =
   | "world_map"
   | "halloween"
   | "christmas_portal"
-  | "festive_tree";
+  | "festive_tree"
+  | "portal_chooser";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -167,19 +166,14 @@ interface Props {
   scene: SceneId;
 }
 
-const _state = (state: MachineState) => state.context.state;
-
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
   const [interactable, setInteractable] = useState<
     InteractableName | undefined
   >(getInitialModal(scene));
   const [isLoading, setIsLoading] = useState(false);
 
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
-
   useEffect(() => {
-    interactableModalManager.listen((interactable, open) => {
+    interactableModalManager.listen((interactable) => {
       setInteractable(interactable);
     });
   }, []);
@@ -474,6 +468,15 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             },
           ]}
         />
+      </Modal>
+
+      <Modal show={interactable === "portal_chooser"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.billy}
+        >
+          <PortalChooser onClose={closeModal} />
+        </CloseButtonPanel>
       </Modal>
 
       <Modal show={interactable === "chicken_rescue"} onHide={closeModal}>
