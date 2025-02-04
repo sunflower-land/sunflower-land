@@ -28,9 +28,8 @@ import { useParams } from "react-router";
 import { PurchaseModalContent } from "./PurchaseModalContent";
 import { TradeableDisplay } from "../lib/tradeables";
 import { KNOWN_ITEMS } from "features/game/types";
-import { getKeys } from "features/game/types/craftables";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 import { KeyedMutator } from "swr";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -126,7 +125,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   };
 
   const isResource =
-    getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
+    isTradeResource(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
 
   const loading = !tradeable;

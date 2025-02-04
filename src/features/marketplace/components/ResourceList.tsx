@@ -8,6 +8,7 @@ import { Decimal } from "decimal.js-light";
 import {
   TRADE_LIMITS,
   TRADE_MINIMUMS,
+  TradeResource,
 } from "features/game/actions/tradeLimits";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -20,7 +21,7 @@ import tradeIcon from "assets/icons/trade.png";
 
 type Props = {
   inventoryCount: Decimal;
-  itemName: InventoryItemName;
+  itemName: TradeResource;
   floorPrice: number;
   isSaving: boolean;
   price: number;

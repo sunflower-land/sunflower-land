@@ -21,7 +21,7 @@ import token from "assets/icons/sfl.webp";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
 import { CannotTrade } from "./CannotTrade";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
@@ -80,7 +80,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
           return (
             listing.collection === "collectibles" &&
-            getKeys(TRADE_LIMITS).includes(item as InventoryItemName)
+            isTradeResource(item as InventoryItemName)
           );
         },
       );

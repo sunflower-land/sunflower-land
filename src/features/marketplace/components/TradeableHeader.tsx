@@ -27,8 +27,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
 import { useParams } from "react-router";
-import { getKeys } from "features/game/types/craftables";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
@@ -123,7 +122,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   );
 
   const isResources =
-    getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(params.id)]) &&
+    isTradeResource(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
 
   const showBuyNow =
