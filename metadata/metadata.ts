@@ -16855,7 +16855,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Crab Hat": {
     description:
-      "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more fish with ease",
+      "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more treasures when fishing!",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Other" },
