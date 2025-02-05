@@ -44,6 +44,14 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
 
   let price = seed.price;
 
+  // Ladybug Suit 25% Onion Cost
+  if (
+    name === "Onion Seed" &&
+    isWearableActive({ name: "Ladybug Suit", game })
+  ) {
+    price = price * 0.75;
+  }
+
   //LEGACY SKILL Contributor Artist Skill
   if (price && inventory.Artist?.gte(1)) {
     price = price * 0.9;
