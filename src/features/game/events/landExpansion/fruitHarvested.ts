@@ -131,19 +131,19 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 0.1;
   }
 
-  if (bumpkin.skills["Fruitful Fumble"]) {
+  if (isFruit(name) && bumpkin.skills["Fruitful Fumble"]) {
     amount += 0.1;
   }
 
-  if (name === "Grape" && bumpkin.skills["Glass Room"]) {
+  if (isGreenhouseFruit(name) && bumpkin.skills["Glass Room"]) {
     amount += 0.1;
   }
 
-  if (name === "Grape" && bumpkin.skills["Seeded Bounty"]) {
+  if (isGreenhouseFruit(name) && bumpkin.skills["Seeded Bounty"]) {
     amount += 0.5;
   }
 
-  if (name === "Grape" && bumpkin.skills["Greasy Plants"]) {
+  if (isGreenhouseFruit(name) && bumpkin.skills["Greasy Plants"]) {
     amount += 1;
   }
 
