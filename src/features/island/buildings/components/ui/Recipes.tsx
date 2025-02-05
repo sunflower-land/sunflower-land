@@ -82,12 +82,11 @@ export const Recipes: React.FC<Props> = ({
       amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
     );
 
-  const cookingTime = getCookingTime(
-    getCookingOilBoost(selected.name, state, buildingId).timeToCook,
-    selected.name,
-    bumpkin,
-    state,
-  );
+  const cookingTime = getCookingTime({
+    seconds: getCookingOilBoost(selected.name, state, buildingId).timeToCook,
+    item: selected.name,
+    game: state,
+  });
 
   const cook = () => {
     onCook(selected.name);

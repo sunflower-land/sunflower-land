@@ -10,6 +10,8 @@ export interface CraftingContext {
   buildingId: string;
   readyAt?: number;
   secondsTillReady?: number;
+  queue: CookableName[];
+  completedRecipes: CookableName[];
   gameService: GameServiceMachineInterpreter;
 }
 
@@ -31,6 +33,13 @@ type CraftEvent = {
   buildingId: string;
 };
 
+type AddToQueue = {
+  type: "ADD_TO_QUEUE";
+  event: GameEventName<PlayingEvent>;
+  item: CookableName;
+  buildingId: string;
+};
+
 type InstantReady = {
   type: "INSTANT_READY";
   readyAt: number;
@@ -38,7 +47,6 @@ type InstantReady = {
 
 type CollectEvent = {
   type: "COLLECT";
-  item: CookableName;
   event: GameEventName<PlayingEvent>;
 };
 
@@ -47,7 +55,8 @@ type CraftingEvent =
   | CollectEvent
   | { type: "TICK" }
   | { type: "INSTANT" }
-  | InstantReady;
+  | InstantReady
+  | AddToQueue;
 
 export type MachineState = State<CraftingContext, CraftingEvent, CraftingState>;
 
@@ -58,168 +67,303 @@ export type MachineInterpreter = Interpreter<
   CraftingState
 >;
 
+/**
+ * Checks if the crafting is ready based on the readyAt timestamp
+ */
+export function isReady(readyAt?: number): boolean {
+  if (!readyAt) return false;
+
+  return readyAt <= Date.now();
+}
+
 export const craftingMachine = createMachine<
   CraftingContext,
   CraftingEvent,
   CraftingState
->(
-  {
-    initial: "loading",
-    states: {
-      loading: {
-        always: [
+>({
+  initial: "loading",
+  states: {
+    loading: {
+      always: [
+        {
+          target: "crafting",
+          cond: ({ readyAt, queue }) => {
+            // Check if currently crafting
+            if (!isReady(readyAt)) return true;
+            // Check if items in queue
+            return Boolean(queue?.length);
+          },
+        },
+        {
+          target: "ready",
+          cond: ({ readyAt, queue }) => {
+            // Only ready if current item is done and queue is empty
+            return isReady(readyAt) && !queue?.length;
+          },
+        },
+        { target: "idle" },
+      ],
+    },
+    idle: {
+      on: {
+        CRAFT: {
+          target: "checkCrafting",
+          actions: [
+            (context, event) => {
+              if (!context.buildingId) return;
+
+              context.gameService.send((event as CraftEvent).event, {
+                item: (event as CraftEvent).item,
+                buildingId: context.buildingId,
+              });
+            },
+            assign((context, event) => {
+              const item = (event as CraftEvent).item;
+
+              const cookingTime = getCookingTime({
+                seconds: getCookingOilBoost(
+                  item,
+                  context.gameService.state.context.state,
+                  context.buildingId,
+                ).timeToCook,
+                item,
+                game: context.gameService.state.context.state,
+              });
+
+              return {
+                readyAt: Date.now() + cookingTime * 1000,
+                name: (event as CraftEvent).item,
+              };
+            }),
+          ],
+        },
+      },
+    },
+    checkCrafting: {
+      after: {
+        1: [
+          {
+            target: "idle",
+            cond: ({ gameService }) => gameService.state.matches("hoarding"),
+            actions: assign((_) => ({
+              readyAt: undefined,
+              secondsTillReady: undefined,
+              name: undefined,
+            })),
+          },
           {
             target: "crafting",
-            cond: "isCrafting",
+          },
+        ],
+      },
+    },
+    crafting: {
+      invoke: {
+        src: (_) => (cb) => {
+          cb("TICK");
+          const interval = setInterval(() => {
+            cb("TICK");
+          }, 1000);
+
+          return () => {
+            clearInterval(interval);
+          };
+        },
+      },
+      always: [
+        // Go to ready if the crafting is ready and there are no items in the queue
+        {
+          target: "ready",
+          cond: ({ readyAt, queue }) => isReady(readyAt) && queue.length === 0,
+        },
+        // Go to crafting if the current item is ready and there is another item waiting to be crafted
+        {
+          target: "crafting",
+          cond: ({ readyAt, queue }) => isReady(readyAt) && queue.length > 0,
+          actions: assign((context) => {
+            const [nextItem, ...remainingQueue] = context.queue;
+
+            const cookingTime = getCookingTime({
+              seconds: getCookingOilBoost(
+                nextItem,
+                context.gameService.state.context.state,
+                context.buildingId,
+              ).timeToCook,
+              item: nextItem,
+              game: context.gameService.state.context.state,
+            });
+
+            return {
+              queue: remainingQueue,
+              completedRecipes: [
+                ...context.completedRecipes,
+                context.name as CookableName,
+              ],
+              readyAt: Date.now() + cookingTime * 1000,
+              name: nextItem,
+            };
+          }),
+        },
+      ],
+      on: {
+        TICK: {
+          actions: assign((context) => {
+            if (!context.readyAt) {
+              return {
+                secondsTillReady: undefined,
+              };
+            }
+
+            const now = Date.now();
+
+            return {
+              secondsTillReady: (context.readyAt - now) / 1000,
+            };
+          }),
+        },
+        INSTANT: [
+          // If there is an item in the queue, then move to crafting and move the current
+          // item to the completed recipes
+          {
+            target: "crafting",
+            cond: ({ queue }) => queue.length > 0,
+            actions: assign((context) => {
+              const [nextItem, ...remainingQueue] = context.queue;
+
+              const cookingTime = getCookingTime({
+                seconds: getCookingOilBoost(
+                  nextItem,
+                  context.gameService.state.context.state,
+                  context.buildingId,
+                ).timeToCook,
+                item: nextItem,
+                game: context.gameService.state.context.state,
+              });
+
+              return {
+                queue: remainingQueue,
+                readyAt: Date.now() + cookingTime * 1000,
+                name: nextItem,
+                secondsTillReady: cookingTime,
+                completedRecipes: [
+                  ...context.completedRecipes,
+                  context.name as CookableName,
+                ],
+              };
+            }),
+          },
+          {
+            target: "idle",
+            actions: assign((_) => ({
+              readyAt: undefined,
+              secondsTillReady: undefined,
+              name: undefined,
+            })),
+          },
+        ],
+        INSTANT_READY: [
+          {
+            target: "crafting",
+            cond: ({ queue }) => queue.length > 0,
+            actions: assign((context) => {
+              const [nextItem, ...remainingQueue] = context.queue;
+
+              const cookingTime = getCookingTime({
+                seconds: getCookingOilBoost(
+                  nextItem,
+                  context.gameService.state.context.state,
+                  context.buildingId,
+                ).timeToCook,
+                item: nextItem,
+                game: context.gameService.state.context.state,
+              });
+
+              return {
+                queue: remainingQueue,
+                readyAt: Date.now() + cookingTime * 1000,
+                name: nextItem,
+                secondsTillReady: cookingTime,
+                completedRecipes: [
+                  ...context.completedRecipes,
+                  context.name as CookableName,
+                ],
+              };
+            }),
           },
           {
             target: "ready",
-            cond: "isReady",
+            actions: assign((context) => ({
+              completedRecipes: [
+                ...context.completedRecipes,
+                context.name as CookableName,
+              ],
+            })),
           },
-          { target: "idle" },
+        ],
+        ADD_TO_QUEUE: {
+          cond: ({ queue }) => queue.length < 3,
+          actions: assign((context, event) => {
+            const { queue } = context;
+
+            return {
+              queue: [...queue, (event as AddToQueue).item],
+            };
+          }),
+        },
+        COLLECT: {
+          target: "checkReady",
+          cond: ({ completedRecipes }) => completedRecipes.length > 0,
+          actions: ({ gameService, buildingId, completedRecipes }, event) => {
+            const { building } = COOKABLES[completedRecipes[0]];
+
+            gameService?.send((event as CollectEvent).event, {
+              building,
+              buildingId,
+            });
+          },
+        },
+      },
+    },
+    ready: {
+      on: {
+        COLLECT: {
+          target: "checkReady",
+          actions: ({ gameService, buildingId, completedRecipes }, event) => {
+            const { building } = COOKABLES[completedRecipes[0]];
+
+            gameService?.send((event as CollectEvent).event, {
+              building,
+              buildingId,
+            });
+          },
+        },
+      },
+    },
+    checkReady: {
+      after: {
+        1: [
+          {
+            target: "ready",
+            cond: ({ gameService }) => gameService.state.matches("hoarding"),
+          },
+          {
+            target: "crafting",
+            cond: ({ readyAt, queue }) => !isReady(readyAt) || queue.length > 0,
+            actions: assign((_) => ({
+              completedRecipes: [],
+            })),
+          },
+          {
+            target: "idle",
+            actions: assign((_) => ({
+              readyAt: undefined,
+              secondsTillReady: undefined,
+              name: undefined,
+              completedRecipes: [],
+            })),
+          },
         ],
       },
-      idle: {
-        on: {
-          CRAFT: {
-            target: "checkCrafting",
-            actions: ["sendCraftEventToGameMachine", "assignCraftingDetails"],
-          },
-        },
-      },
-      checkCrafting: {
-        after: {
-          1: [
-            {
-              target: "idle",
-              cond: "isHoarding",
-              actions: ["clearCraftingDetails"],
-            },
-            {
-              target: "crafting",
-            },
-          ],
-        },
-      },
-      crafting: {
-        invoke: {
-          src: "createTimer",
-        },
-        always: {
-          target: "ready",
-          cond: "isReady",
-        },
-        on: {
-          TICK: {
-            actions: "updateSecondsTillReady",
-          },
-          INSTANT: {
-            target: "idle",
-            actions: ["clearCraftingDetails"],
-          },
-          INSTANT_READY: {
-            target: "ready",
-            actions: assign({
-              readyAt: ({ readyAt }) => readyAt,
-            }),
-          },
-        },
-      },
-      ready: {
-        on: {
-          COLLECT: {
-            target: "checkReady",
-            actions: ["sendCollectEventToGameMachine"],
-          },
-        },
-      },
-      checkReady: {
-        after: {
-          1: [
-            {
-              target: "ready",
-              cond: "isHoarding",
-            },
-            {
-              target: "idle",
-              actions: ["clearCraftingDetails"],
-            },
-          ],
-        },
-      },
     },
   },
-  {
-    services: {
-      createTimer: (_) => (cb) => {
-        cb("TICK");
-        const interval = setInterval(() => {
-          cb("TICK");
-        }, 1000);
-
-        return () => {
-          clearInterval(interval);
-        };
-      },
-    },
-    actions: {
-      sendCraftEventToGameMachine: (context, event) => {
-        if (!context.buildingId) return;
-
-        context.gameService.send((event as CraftEvent).event, {
-          item: (event as CraftEvent).item,
-          buildingId: context.buildingId,
-        });
-      },
-      assignCraftingDetails: assign((context, event) => {
-        const { bumpkin } = context.gameService.state.context.state;
-        const reducedSeconds = getCookingTime(
-          getCookingOilBoost(
-            (event as CraftEvent).item,
-            context.gameService.state.context.state,
-            context.buildingId,
-          ).timeToCook,
-          (event as CraftEvent).item,
-          bumpkin,
-          context.gameService.state.context.state,
-        );
-
-        return {
-          readyAt: Date.now() + reducedSeconds * 1000,
-          name: (event as CraftEvent).item,
-        };
-      }),
-      sendCollectEventToGameMachine: ({ gameService, buildingId }, event) => {
-        const { building } = COOKABLES[(event as CollectEvent).item];
-
-        gameService?.send((event as CollectEvent).event, {
-          building,
-          buildingId,
-        });
-      },
-      clearCraftingDetails: assign((_) => ({
-        readyAt: undefined,
-        secondsTillReady: undefined,
-        name: undefined,
-      })),
-      updateSecondsTillReady: assign({
-        secondsTillReady: ({ readyAt }) => {
-          if (!readyAt) return;
-
-          const now = Date.now();
-
-          return (readyAt - now) / 1000;
-        },
-      }),
-    },
-    guards: {
-      isReady: ({ readyAt: readyAt }) => {
-        return readyAt ? readyAt <= Date.now() : false;
-      },
-      isCrafting: ({ readyAt }) => (readyAt ? readyAt > Date.now() : false),
-      isHoarding: ({ gameService }) => {
-        return gameService.state.matches("hoarding");
-      },
-    },
-  },
-);
+});

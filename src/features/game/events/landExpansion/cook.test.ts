@@ -313,7 +313,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -335,10 +334,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Luna's Hat" },
-      },
       game: {
         ...TEST_FARM,
         bumpkin: {
@@ -364,10 +359,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
-      },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -401,10 +392,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
-      },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -435,10 +422,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
-      },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -463,7 +446,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -494,7 +476,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -525,7 +506,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -564,7 +544,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -602,7 +581,6 @@ describe("getReadyAt", () => {
     const result = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -651,7 +629,6 @@ describe("getReadyAt", () => {
     const boostedTime = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
       game: state,
     });
@@ -698,7 +675,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
       game: state,
     });
@@ -714,7 +690,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -736,7 +711,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Sunflower Crunch",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -783,7 +757,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Sunflower Crunch",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -802,7 +775,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Parsnip Cake",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Frosted Cakes": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -851,7 +823,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,

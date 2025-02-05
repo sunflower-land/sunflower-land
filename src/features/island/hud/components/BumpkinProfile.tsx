@@ -275,7 +275,7 @@ export const BumpkinProfile: React.FC<{
 
       {/* Bumpkin profile */}
       {/* Mobile */}
-      <div className="scale-[0.7] absolute left-0 top-0">
+      <div className="scale-[0.8] absolute left-0 top-0">
         <BumpkinAvatar
           state={gameState.context.state}
           bumpkin={state.bumpkin}

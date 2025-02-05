@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CookableName, COOKABLES } from "features/game/types/consumables";
 import {
-  Bumpkin,
   GameState,
   Inventory,
   InventoryItemName,
@@ -31,7 +30,6 @@ type Options = {
 type GetReadyAtArgs = {
   buildingId: string;
   item: CookableName;
-  bumpkin: Bumpkin;
   createdAt: number;
   game: GameState;
 };
@@ -92,13 +90,16 @@ export function getCookingOilBoost(
 export const getReadyAt = ({
   buildingId,
   item,
-  bumpkin,
   createdAt,
   game,
 }: GetReadyAtArgs) => {
   const withOilBoost = getCookingOilBoost(item, game, buildingId).timeToCook;
 
-  const seconds = getCookingTime(withOilBoost, item, bumpkin, game);
+  const seconds = getCookingTime({
+    seconds: withOilBoost,
+    item,
+    game,
+  });
 
   return createdAt + seconds * 1000;
 };
@@ -230,7 +231,6 @@ export function cook({
       readyAt: getReadyAt({
         buildingId: buildingId,
         item,
-        bumpkin,
         createdAt,
         game: stateCopy,
       }),
