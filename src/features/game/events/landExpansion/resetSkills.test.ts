@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { resetSkills } from "./resetSkills";
+import { getTimeUntilNextFreeReset, resetSkills } from "./resetSkills";
 
 describe("resetSkills", () => {
   const dateNow = Date.now();
@@ -27,6 +27,14 @@ describe("resetSkills", () => {
       const fiveMonthsAgo = new Date(dateNow);
       fiveMonthsAgo.setMonth(fiveMonthsAgo.getMonth() - 5);
 
+      const timeUntilNextReset = getTimeUntilNextFreeReset(
+        fiveMonthsAgo.getTime(),
+        dateNow,
+      );
+      const daysRemaining = Math.ceil(
+        timeUntilNextReset / (1000 * 60 * 60 * 24),
+      );
+
       expect(() => {
         resetSkills({
           state: {
@@ -40,7 +48,7 @@ describe("resetSkills", () => {
           action: { type: "skills.reset", paymentType: "free" },
           createdAt: dateNow,
         });
-      }).toThrow("Wait 27 more days for free reset or use gems");
+      }).toThrow(`Wait ${daysRemaining} more days for free reset or use gems`);
     });
 
     it("resets Bumpkin skills after 6 months for free", () => {
