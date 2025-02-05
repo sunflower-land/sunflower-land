@@ -100,8 +100,8 @@ export const BasicTreasureChest: React.FC<Props> = ({
     );
   }
 
-  const isValentinesDayUTC =
-    new Date().getUTCMonth() === 1 && new Date().getUTCDate() <= 17;
+  // const isValentinesDayUTC =
+  //   new Date().getUTCMonth() === 1 && new Date().getUTCDate() <= 17;
 
   return (
     <CloseButtonPanel onClose={onClose}>
@@ -115,7 +115,7 @@ export const BasicTreasureChest: React.FC<Props> = ({
           >
             {type}
           </Label>
-          {isValentinesDayUTC && (
+          {/* {isValentinesDayUTC && (
             <Label
               className="mb-2"
               type="vibrant"
@@ -123,7 +123,7 @@ export const BasicTreasureChest: React.FC<Props> = ({
             >
               {t("event.valentines.rewards")}
             </Label>
-          )}
+          )} */}
         </div>
         <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
         <p className="text-xs mb-2">{t("basic.treasure.openChest")}</p>
