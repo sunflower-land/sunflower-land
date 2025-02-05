@@ -19,6 +19,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    "Sunpetal Seed": new Decimal(1),
+    "Bloom Seed": new Decimal(1),
+    "Lily Seed": new Decimal(1),
+    "Edelweiss Seed": new Decimal(1),
+    "Gladiolus Seed": new Decimal(1),
+    "Lavender Seed": new Decimal(1),
+    "Clover Seed": new Decimal(1),
     "Celestial Frostbloom": new Decimal(1),
     "Royal Ornament": new Decimal(1),
     "Fruit Patch": new Decimal(1),
@@ -185,7 +192,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
     experience: 100000,
 
     id: 1,
-    skills: {},
+    skills: {
+      "Blooming Boost": 1,
+      "Flower Power": 1,
+    },
     tokenUri: `1_${tokenUriBuilder(INITIAL_EQUIPMENT)}`,
     achievements: {},
 

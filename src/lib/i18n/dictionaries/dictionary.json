@@ -119,7 +119,7 @@
   "beehive.harvestHoney": "Harvest honey",
   "beehive.noFlowersGrowing": "No flowers growing",
   "beehive.beeSwarm": "Bee swarm",
-  "beehive.pollinationCelebration": "Pollination celebration! Your crops are in for a treat with a 0.2 boost from a friendly bee swarm!",
+  "beehive.pollinationCelebration": "Pollination celebration! Your crops are in for a treat with a +{{amount}} boost from a friendly bee swarm!",
   "beehive.honeyProductionPaused": "Honey production paused",
   "beehive.yield": "Yield",
   "beehive.honeyPerFullHive": "{{multiplier}} honey / full hive",
