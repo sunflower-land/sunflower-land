@@ -57,7 +57,11 @@ import {
 } from "features/game/types/composters";
 import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
-import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
+import {
+  FLOWERS,
+  FLOWER_SEEDS,
+  isFlowerSeed,
+} from "features/game/types/flowers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUILDING_ORDER } from "features/island/bumpkin/components/NPCModal";
 import {
@@ -67,6 +71,7 @@ import {
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
+import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 
 interface Prop {
   gameState: GameState;
@@ -114,8 +119,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
 
   const getHarvestTime = (seedName: SeedName) => {
-    if (seedName in FLOWER_SEEDS) {
-      return SEEDS[seedName].plantSeconds;
+    if (isFlowerSeed(seedName)) {
+      return getFlowerTime(seedName, gameState);
     }
 
     if (isPatchFruitSeed(seedName)) {
