@@ -118,7 +118,7 @@ function useInstantGratification({
   createdAt?: number;
 }): Buildings {
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((building) => {
-    const crafting = buildings[building]?.[0].crafting;
+    const crafting = buildings[building]?.[0]?.crafting;
 
     if (crafting) {
       crafting.readyAt = createdAt;
@@ -304,7 +304,7 @@ export function powerSkillDisabledConditions({
     case "Instant Gratification": {
       if (
         getKeys(BUILDING_DAILY_OIL_CAPACITY).every(
-          (building) => !buildings[building]?.[0].crafting,
+          (building) => !buildings[building]?.[0]?.crafting,
         )
       ) {
         return {
