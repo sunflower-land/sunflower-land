@@ -23,19 +23,116 @@ import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
+  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(50),
+    }),
+    {},
+  ),
+
+  // Max of 1000 food item
+  ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(1000),
+    }),
+    {},
+  ),
+
+  // Max of 1 skill badge
+  ...(Object.keys(SKILL_TREE) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(1),
+    }),
+    {},
+  ),
+
+  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(50),
+    }),
+    {},
+  ),
+
+  // Max of 100 basic decoration
+  ...(Object.keys(BASIC_DECORATIONS()) as BasicDecorationName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(100),
+    }),
+    {},
+  ),
+
+  "Basic Bear": new Decimal(1000),
+
+  // Max of 100 fish
+  ...(Object.keys(FISH) as (FishName | MarineMarvelName)[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(100),
+    }),
+    {},
+  ),
+
+  Anchovy: new Decimal(300),
+  Tuna: new Decimal(250),
+  "Red Snapper": new Decimal(200),
+
+  // Max of 1000 landscaping decoration, but only 100 for mushrooms
+  ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
+    .filter(
+      (name) => !LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
+    )
+    .reduce(
+      (acc, name) => ({
+        ...acc,
+        [name]: new Decimal(1000),
+      }),
+      {},
+    ),
+  ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
+    .filter(
+      (name) => LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
+    )
+    .reduce(
+      (acc, name) => ({
+        ...acc,
+        [name]: new Decimal(100),
+      }),
+      {},
+    ),
+
+  ...(Object.keys(ANIMAL_FOODS) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(1500),
+    }),
+    {},
+  ),
   Sunflower: new Decimal(30000),
   Potato: new Decimal(20000),
+  Rhubarb: new Decimal(20000),
   Pumpkin: new Decimal(16000),
+  Zucchini: new Decimal(16000),
   Carrot: new Decimal(14000),
+  Yam: new Decimal(14000),
   Cabbage: new Decimal(12000),
+  Broccoli: new Decimal(12000),
   Soybean: new Decimal(12000),
   Beetroot: new Decimal(10000),
+  Pepper: new Decimal(10000),
   Cauliflower: new Decimal(10000),
   Parsnip: new Decimal(8000),
   Eggplant: new Decimal(6000),
   Corn: new Decimal(5000),
+  Onion: new Decimal(5000),
   Radish: new Decimal(4000),
   Wheat: new Decimal(4000),
+  Turnip: new Decimal(4000),
+  Artichoke: new Decimal(4000),
   Kale: new Decimal(4000),
   Barley: new Decimal(4050),
 
@@ -300,96 +397,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   Squirrel: new Decimal(5),
   Butterfly: new Decimal(5),
   Macaw: new Decimal(5),
-
-  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(50),
-    }),
-    {},
-  ),
-
-  // Max of 1000 food item
-  ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(1000),
-    }),
-    {},
-  ),
-
-  // Max of 1 skill badge
-  ...(Object.keys(SKILL_TREE) as InventoryItemName[]).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(1),
-    }),
-    {},
-  ),
-
-  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(50),
-    }),
-    {},
-  ),
-
-  // Max of 100 basic decoration
-  ...(Object.keys(BASIC_DECORATIONS()) as BasicDecorationName[]).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(100),
-    }),
-    {},
-  ),
-
-  "Basic Bear": new Decimal(1000),
-
-  // Max of 100 fish
-  ...(Object.keys(FISH) as (FishName | MarineMarvelName)[]).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(100),
-    }),
-    {},
-  ),
-
-  Anchovy: new Decimal(300),
-  Tuna: new Decimal(250),
-  "Red Snapper": new Decimal(200),
-
-  // Max of 1000 landscaping decoration, but only 100 for mushrooms
-  ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
-    .filter(
-      (name) => !LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
-    )
-    .reduce(
-      (acc, name) => ({
-        ...acc,
-        [name]: new Decimal(1000),
-      }),
-      {},
-    ),
-  ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
-    .filter(
-      (name) => LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
-    )
-    .reduce(
-      (acc, name) => ({
-        ...acc,
-        [name]: new Decimal(100),
-      }),
-      {},
-    ),
-
-  ...(Object.keys(ANIMAL_FOODS) as InventoryItemName[]).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(1500),
-    }),
-    {},
-  ),
 };
 /**
  * Add wearable into array if it requires a hoard limit
