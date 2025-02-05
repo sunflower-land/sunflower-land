@@ -29,6 +29,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { capitalize } from "lodash";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { ButtonPanel } from "components/ui/Panel";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -118,139 +119,156 @@ const RestockSelectionModal: React.FC<{
               {t("restock.outOfStock", { npc: capitalize(npc) })}
             </p>
           </div>
-          <Button
-            className="relative justify-between"
+
+          {/* Daily Shipment Button */}
+          <ButtonPanel
+            className="relative"
             onClick={() => setShowShipmentConfirm(true)}
             disabled={!showShipment}
           >
-            <p className="capitalize text-left p-1 mb-1">
-              {t("restock.dailyShipment")}
-            </p>
-            <div className="flex w-full mb-1">
-              <div className="pb-1 mr-2 w-11">
-                <div className="absolute left-0">
-                  <NPCIcon parts={NPC_WEARABLES.betty} />
+            <div className="flex flex-col w-full">
+              <p className="capitalize text-left p-1 mb-1">
+                {t("restock.dailyShipment")}
+              </p>
+              <div className="flex items-start gap-2">
+                <div className="relative w-16">
+                  <div className="absolute left-0">
+                    <NPCIcon parts={NPC_WEARABLES.betty} />
+                  </div>
+                  <div className="absolute left-3">
+                    <NPCIcon parts={NPC_WEARABLES.blacksmith} />
+                  </div>
+                  <div className="absolute left-6">
+                    <NPCIcon parts={NPC_WEARABLES.jafar} />
+                  </div>
                 </div>
-                <div className="absolute left-3">
-                  <NPCIcon parts={NPC_WEARABLES.blacksmith} />
-                </div>
-                <div className="absolute left-6">
-                  <NPCIcon parts={NPC_WEARABLES.jafar} />
+                <div className="flex flex-row flex-wrap flex-1">
+                  <Label
+                    type="default"
+                    icon={CROP_LIFECYCLE[island].Sunflower.seed}
+                    className="mt-1 mr-1 capitalize"
+                  >
+                    {t("basic.seeds")}
+                  </Label>
+                  <Label
+                    type="default"
+                    icon={CROP_LIFECYCLE[island].Carrot.seed}
+                    className="mt-1 mr-1 capitalize"
+                  >
+                    {t("medium.seeds")}
+                  </Label>
+                  <Label
+                    type="default"
+                    icon={SUNNYSIDE.tools.axe}
+                    className="mt-1 mr-1 capitalize"
+                  >
+                    {t("tools")}
+                  </Label>
+                  <Label
+                    type="default"
+                    icon={SUNNYSIDE.tools.sand_shovel}
+                    className="mt-1 mr-1 capitalize"
+                  >
+                    {`Sand Shovel`}
+                  </Label>
                 </div>
               </div>
-              <div className="flex flex-row flex-wrap ml-7 mb-0.5">
-                <Label
-                  type="default"
-                  icon={CROP_LIFECYCLE[island].Sunflower.seed}
-                  className="mt-1 ml-1 capitalize"
-                >
-                  {t("basic.seeds")}
-                </Label>
-                <Label
-                  type="default"
-                  icon={CROP_LIFECYCLE[island].Carrot.seed}
-                  className="mt-1 ml-1 capitalize"
-                >
-                  {t("medium.seeds")}
-                </Label>
-                <Label
-                  type="default"
-                  icon={SUNNYSIDE.tools.axe}
-                  className="mt-1 ml-1 capitalize"
-                >
-                  {t("tools")}
-                </Label>
-                <Label
-                  type="default"
-                  icon={SUNNYSIDE.tools.sand_shovel}
-                  className="mt-1 ml-1 capitalize"
-                >
-                  {`Sand Shovel`}
-                </Label>
-              </div>
-              <Label type="success" className="absolute right-0 top-0 w-20 h-8">
-                <p className="mr-4">{t("free")}</p>
-                <img src={stockIcon} className="h-5 absolute right-1 top-0" />
-              </Label>
+              {showShipment ? (
+                <p className="text-xs text-left mt-2">
+                  {t("restock.shipmentArrived")}
+                </p>
+              ) : (
+                <div className="flex items-center mt-2 text-xs">
+                  <span className="mr-2">{t("gems.nextFreeShipment")}</span>
+                  <TimerDisplay time={shipmentTime} />
+                  <img src={stockIcon} className="h-5 ml-1" />
+                </div>
+              )}
             </div>
-            {showShipment ? (
-              <div className="text-xs text-left">
-                {t("restock.shipmentArrived")}
-              </div>
-            ) : (
-              <div className="px-1 text-xs flex flex-wrap mt-2">
-                <span className="mr-2">{t("gems.nextFreeShipment")}</span>
-                <TimerDisplay time={shipmentTime} />
-                <img src={stockIcon} className="h-5 ml-1" />
-              </div>
-            )}
-          </Button>
-          <Button
-            onClick={() => setShowEnhancedConfirm(true)}
-            className="flex justify-between relative"
-          >
-            <p className="capitalize p-1 mb-1">
-              {t("restock.shop", { shopName })}
-            </p>
-            <div className="flex w-full mb-1">
-              <div className="pb-1 mr-2 w-11 relative">
-                <NPCIcon parts={NPC_WEARABLES[npc]} />
-              </div>
-              <div className="flex flex-col ml-3 mt-2">
-                <Label type="default" icon={icon} className="ml-1 capitalize">
-                  {labelText}
-                </Label>
-              </div>
-            </div>
-            <Label type="warning" className="absolute right-0 top-0 w-20 h-8">
-              <p className="mr-4">{gemPrice}</p>
-              <img
-                src={ITEM_DETAILS["Gem"].image}
-                className="h-5 absolute right-1 top-0"
-              />
+            <Label
+              secondaryIcon={stockIcon}
+              type="success"
+              className="absolute right-1 top-1"
+            >
+              {t("free")}
             </Label>
-          </Button>
-          <Button
-            className="relative justify-between"
+          </ButtonPanel>
+
+          {/* Single Shop Button */}
+          <ButtonPanel
+            onClick={() => setShowEnhancedConfirm(true)}
+            className="relative"
+          >
+            <div className="flex flex-col w-full">
+              <p className="capitalize p-1 mb-1">
+                {t("restock.shop", { shopName })}
+              </p>
+              <div className="flex items-start gap-2">
+                <div className="w-11">
+                  <NPCIcon parts={NPC_WEARABLES[npc]} />
+                </div>
+                <div className="flex flex-1 mt-2">
+                  <Label type="default" icon={icon} className="capitalize">
+                    {labelText}
+                  </Label>
+                </div>
+              </div>
+            </div>
+            <Label
+              secondaryIcon={ITEM_DETAILS["Gem"].image}
+              type="warning"
+              className="absolute right-1 top-1 w-14"
+            >
+              {gemPrice}
+            </Label>
+          </ButtonPanel>
+
+          {/* Full Restock Button */}
+          <ButtonPanel
+            className="relative"
             onClick={() => setShowConfirm(true)}
           >
-            <p className="capitalize p-1 mb-1 text-left">{t("restock.full")}</p>
-            <div className="flex w-full mb-1">
-              <div className="pb-1 mr-2 w-11">
-                <div className="absolute left-0">
-                  <NPCIcon parts={NPC_WEARABLES.betty} />
+            <div className="flex flex-col w-full mb-3">
+              <p className="capitalize p-1 mb-1 text-left">
+                {t("restock.full")}
+              </p>
+              <div className="flex items-start gap-2">
+                <div className="relative w-16">
+                  <div className="absolute left-0">
+                    <NPCIcon parts={NPC_WEARABLES.betty} />
+                  </div>
+                  <div className="absolute left-3">
+                    <NPCIcon parts={NPC_WEARABLES.blacksmith} />
+                  </div>
+                  <div className="absolute left-6">
+                    <NPCIcon parts={NPC_WEARABLES.jafar} />
+                  </div>
                 </div>
-                <div className="absolute left-3">
-                  <NPCIcon parts={NPC_WEARABLES.blacksmith} />
-                </div>
-                <div className="absolute left-6">
-                  <NPCIcon parts={NPC_WEARABLES.jafar} />
+                <div className="flex flex-row flex-wrap flex-1">
+                  {getKeys(RestockItems).map((npc) => {
+                    const { labelText, icon } = RestockItems[npc].categoryLabel;
+                    return (
+                      <Label
+                        key={npc}
+                        type="default"
+                        icon={icon}
+                        className="mt-1 mr-1 capitalize"
+                      >
+                        {labelText}
+                      </Label>
+                    );
+                  })}
                 </div>
               </div>
-              <div className="flex flex-row flex-wrap ml-3 mb-0.5">
-                {getKeys(RestockItems).map((npc) => {
-                  const { labelText, icon } = RestockItems[npc].categoryLabel;
-                  return (
-                    <Label
-                      key={npc}
-                      type="default"
-                      icon={icon}
-                      className="mt-1 ml-1 capitalize"
-                    >
-                      {labelText}
-                    </Label>
-                  );
-                })}
-              </div>
-              <Label type="warning" className="absolute right-0 top-0 w-20 h-8">
-                <p className="mr-4">{20}</p>
-                <img
-                  src={ITEM_DETAILS["Gem"].image}
-                  className="h-5 absolute right-1 top-0"
-                />
-              </Label>
             </div>
-          </Button>
+            <Label
+              secondaryIcon={ITEM_DETAILS["Gem"].image}
+              type="warning"
+              className="absolute right-1 top-1 w-14"
+            >
+              {20}
+            </Label>
+          </ButtonPanel>
         </div>
       )}
       {showEnhancedConfirm && (
