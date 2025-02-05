@@ -26,11 +26,11 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import {
   canResetForFree,
   getGemCost,
-  getTimeUntilNextFreeReset,
   PaymentType,
+  getTimeUntilNextFreeReset,
 } from "features/game/events/landExpansion/resetSkills";
-import { millisecondsToString } from "lib/utils/time";
 import { SkillReset } from "./SkillReset";
+import Decimal from "decimal.js-light";
 
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
@@ -65,21 +65,29 @@ export const SkillCategoryList: React.FC<{
 
   const hasSkills = getKeys(skills).length > 0;
 
-  const getTimeUntilNextResetText = () => {
-    const timeRemaining = getTimeUntilNextFreeReset(
-      previousFreeSkillResetAt,
-      Date.now(),
-    );
+  const getNextResetDateAndTime = () => {
+    const nextResetTime =
+      Date.now() + getTimeUntilNextFreeReset(previousFreeSkillResetAt);
+    const nextResetDate = new Date(nextResetTime);
 
-    return millisecondsToString(timeRemaining, {
-      length: "medium",
-      removeTrailingZeros: true,
-    });
+    return {
+      date: nextResetDate.toLocaleDateString(navigator.language, {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+      time: nextResetDate.toLocaleTimeString(navigator.language, {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+      }),
+    };
   };
 
   const gemCost = getGemCost(paidSkillResets);
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
+  const gemBalance = inventory.Gem ?? new Decimal(0);
 
   const resetType: PaymentType = canResetForFree(previousFreeSkillResetAt)
     ? "free"
@@ -241,8 +249,8 @@ export const SkillCategoryList: React.FC<{
         <SkillReset
           resetType={resetType}
           gemCost={gemCost}
-          hasEnoughGems={hasEnoughGems}
-          getTimeUntilNextResetText={getTimeUntilNextResetText}
+          gemBalance={gemBalance}
+          getNextResetDateAndTime={getNextResetDateAndTime}
           getCropMachineResetWarning={getCropMachineResetWarning}
           hasSkills={hasSkills}
           canResetSkills={canResetSkills}

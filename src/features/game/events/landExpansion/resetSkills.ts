@@ -23,9 +23,23 @@ export function getTimeUntilNextFreeReset(
   previousFreeSkillResetAt: number,
   now = Date.now(),
 ) {
-  const sixMonthsInMs = 6 * 30 * 24 * 60 * 60 * 1000; // 6 months in milliseconds
-  const timeSinceLastFreeReset = now - previousFreeSkillResetAt;
-  const timeRemaining = sixMonthsInMs - timeSinceLastFreeReset;
+  // Get the reset date
+  const resetDate = new Date(previousFreeSkillResetAt);
+
+  // Create next reset date
+  const nextResetDate = new Date(resetDate);
+
+  // First set the month, which might give us an incorrect date
+  nextResetDate.setMonth(resetDate.getMonth() + 6);
+
+  // If we've gone beyond 6 months due to day overflow,
+  // set to the last day of the target month
+  while (nextResetDate.getMonth() !== (resetDate.getMonth() + 6) % 12) {
+    nextResetDate.setDate(nextResetDate.getDate() - 1);
+  }
+
+  // Calculate time remaining
+  const timeRemaining = nextResetDate.getTime() - now;
   return timeRemaining;
 }
 
@@ -33,8 +47,11 @@ export function canResetForFree(
   previousFreeSkillResetAt: number,
   now = Date.now(),
 ) {
-  const sixMonthsInMs = 6 * 30 * 24 * 60 * 60 * 1000; // 6 months in milliseconds
-  return now - previousFreeSkillResetAt >= sixMonthsInMs;
+  const timeUntilNextReset = getTimeUntilNextFreeReset(
+    previousFreeSkillResetAt,
+    now,
+  );
+  return timeUntilNextReset <= 0;
 }
 
 export function resetSkills({
