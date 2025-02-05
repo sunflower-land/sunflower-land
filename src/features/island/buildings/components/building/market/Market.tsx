@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
-import { Bumpkin, IslandType } from "features/game/types/game";
+import { Bumpkin } from "features/game/types/game";
 import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
 import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Label } from "components/ui/Label";
@@ -51,33 +51,17 @@ const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
   );
 };
 
-const getBettyPositioning = (island: IslandType) => {
-  if (island === "volcano") {
-    return {
-      shadow: {
-        width: `${PIXEL_SCALE * 15}px`,
-        bottom: `${PIXEL_SCALE * 6}px`,
-        right: `${PIXEL_SCALE * 9}px`,
-      },
-      betty: {
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 8}px`,
-        right: `${PIXEL_SCALE * 8}px`,
-        transform: "scaleX(-1)",
-      },
-    };
-  }
-
+const getBettyPositioning = () => {
   return {
     shadow: {
       width: `${PIXEL_SCALE * 15}px`,
       bottom: `${PIXEL_SCALE * 6}px`,
-      right: `${PIXEL_SCALE * 18}px`,
+      right: `${PIXEL_SCALE * 9}px`,
     },
     betty: {
       width: `${PIXEL_SCALE * 16}px`,
       bottom: `${PIXEL_SCALE * 8}px`,
-      right: `${PIXEL_SCALE * 16}px`,
+      right: `${PIXEL_SCALE * 8}px`,
       transform: "scaleX(-1)",
     },
   };
@@ -132,7 +116,7 @@ export const Market: React.FC<BuildingProps> = ({
   const boostAmount =
     specialEventDetails?.[1]?.bonus?.[boostItem]?.saleMultiplier;
   const { shadow: shadowPosition, betty: bettyPosition } =
-    getBettyPositioning(island);
+    getBettyPositioning();
 
   return (
     <>
