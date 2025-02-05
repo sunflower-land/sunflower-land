@@ -21,6 +21,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
+const _season = (state: MachineState) => state.context.state.season.season;
 
 const _specialEvents = (state: MachineState) =>
   Object.entries(state.context.state.specialEvents.current)
@@ -92,6 +93,7 @@ export const Market: React.FC<BuildingProps> = ({
   const [gameState] = useActor(gameService);
   const specialEvents = useSelector(gameService, _specialEvents);
 
+  const season = useSelector(gameService, _season);
   const { t } = useAppTranslation();
 
   const { play: shopAudio } = useSound("shop");
@@ -136,7 +138,7 @@ export const Market: React.FC<BuildingProps> = ({
     <>
       <BuildingImageWrapper name="Market" onClick={handleClick}>
         <img
-          src={MARKET_VARIANTS[island]}
+          src={MARKET_VARIANTS[island][season]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 48}px`,

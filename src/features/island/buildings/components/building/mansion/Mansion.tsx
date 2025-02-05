@@ -14,6 +14,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { MachineState } from "features/game/lib/gameMachine";
+const _season = (state: MachineState) => state.context.state.season.season;
 
 const _state = (state: MachineState) => {
   return state.context.state;
@@ -28,6 +29,8 @@ export const Mansion: React.FC<BuildingProps> = ({
   const state = useSelector(gameService, _state);
 
   const bumpkin = state.bumpkin as Bumpkin;
+
+  const season = useSelector(gameService, _season);
 
   const [showHeart, setShowHeart] = useState(false);
 
@@ -68,7 +71,7 @@ export const Mansion: React.FC<BuildingProps> = ({
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={MANOR_VARIANTS[island]}
+          src={MANOR_VARIANTS[island][season]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{

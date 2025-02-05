@@ -10,11 +10,100 @@ import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { useSound } from "lib/utils/hooks/useSound";
+import { IslandType, TemperateSeasonName } from "features/game/types/game";
 
-export const BARN_IMAGES: Record<AnimalBuildingLevel, string> = {
-  1: SUNNYSIDE.building.barnLevel1,
-  2: SUNNYSIDE.building.barnLevel2,
-  3: SUNNYSIDE.building.barnLevel3,
+export const BARN_IMAGES: Record<
+  IslandType,
+  Record<TemperateSeasonName, Record<AnimalBuildingLevel, string>>
+> = {
+  basic: {
+    spring: {
+      1: SUNNYSIDE.seasons.spring.barn_1,
+      2: SUNNYSIDE.seasons.spring.barn_2,
+      3: SUNNYSIDE.seasons.spring.barn_3,
+    },
+    summer: {
+      1: SUNNYSIDE.building.barnLevel1,
+      2: SUNNYSIDE.building.barnLevel2,
+      3: SUNNYSIDE.building.barnLevel3,
+    },
+    autumn: {
+      1: SUNNYSIDE.seasons.autumn.barn_1,
+      2: SUNNYSIDE.seasons.autumn.barn_2,
+      3: SUNNYSIDE.seasons.autumn.barn_3,
+    },
+    winter: {
+      1: SUNNYSIDE.seasons.winter.barn_1,
+      2: SUNNYSIDE.seasons.winter.barn_2,
+      3: SUNNYSIDE.seasons.winter.barn_3,
+    },
+  },
+  spring: {
+    spring: {
+      1: SUNNYSIDE.seasons.spring.barn_1,
+      2: SUNNYSIDE.seasons.spring.barn_2,
+      3: SUNNYSIDE.seasons.spring.barn_3,
+    },
+    summer: {
+      1: SUNNYSIDE.building.barnLevel1,
+      2: SUNNYSIDE.building.barnLevel2,
+      3: SUNNYSIDE.building.barnLevel3,
+    },
+    autumn: {
+      1: SUNNYSIDE.seasons.autumn.barn_1,
+      2: SUNNYSIDE.seasons.autumn.barn_2,
+      3: SUNNYSIDE.seasons.autumn.barn_3,
+    },
+    winter: {
+      1: SUNNYSIDE.seasons.winter.barn_1,
+      2: SUNNYSIDE.seasons.winter.barn_2,
+      3: SUNNYSIDE.seasons.winter.barn_3,
+    },
+  },
+  desert: {
+    spring: {
+      1: SUNNYSIDE.seasons.spring.desertBarn_1,
+      2: SUNNYSIDE.seasons.spring.desertBarn_2,
+      3: SUNNYSIDE.seasons.spring.desertBarn_3,
+    },
+    summer: {
+      1: SUNNYSIDE.building.desertBarn_1,
+      2: SUNNYSIDE.building.desertBarn_2,
+      3: SUNNYSIDE.building.desertBarn_3,
+    },
+    autumn: {
+      1: SUNNYSIDE.seasons.autumn.desertBarn_1,
+      2: SUNNYSIDE.seasons.autumn.desertBarn_2,
+      3: SUNNYSIDE.seasons.autumn.desertBarn_3,
+    },
+    winter: {
+      1: SUNNYSIDE.seasons.winter.desertBarn_1,
+      2: SUNNYSIDE.seasons.winter.desertBarn_2,
+      3: SUNNYSIDE.seasons.winter.desertBarn_3,
+    },
+  },
+  volcano: {
+    spring: {
+      1: SUNNYSIDE.seasons.spring.volcanoBarn_1,
+      2: SUNNYSIDE.seasons.spring.volcanoBarn_2,
+      3: SUNNYSIDE.seasons.spring.volcanoBarn_3,
+    },
+    summer: {
+      1: SUNNYSIDE.building.volcanoBarn_1,
+      2: SUNNYSIDE.building.volcanoBarn_2,
+      3: SUNNYSIDE.building.volcanoBarn_3,
+    },
+    autumn: {
+      1: SUNNYSIDE.seasons.autumn.volcanoBarn_1,
+      2: SUNNYSIDE.seasons.autumn.volcanoBarn_2,
+      3: SUNNYSIDE.seasons.autumn.volcanoBarn_3,
+    },
+    winter: {
+      1: SUNNYSIDE.seasons.winter.volcanoBarn_1,
+      2: SUNNYSIDE.seasons.winter.volcanoBarn_2,
+      3: SUNNYSIDE.seasons.winter.volcanoBarn_3,
+    },
+  },
 };
 
 const _hasHungryAnimals = (state: MachineState) => {
@@ -41,7 +130,13 @@ const _barnLevel = (state: MachineState) => {
   return state.context.state.barn.level;
 };
 
-export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+const _season = (state: MachineState) => state.context.state.season.season;
+
+export const Barn: React.FC<BuildingProps> = ({
+  isBuilt,
+  onRemove,
+  island,
+}) => {
   const { gameService, showAnimations } = useContext(Context);
   const buildingLevel = useSelector(
     gameService,
@@ -55,7 +150,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);
   const animalsNeedLove = useSelector(gameService, _animalsNeedLove);
   const hasSickAnimals = useSelector(gameService, _hasSickAnimals);
-
+  const season = useSelector(gameService, _season);
   const handleClick = () => {
     if (onRemove) {
       onRemove();
@@ -83,7 +178,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           />
         )}
         <img
-          src={BARN_IMAGES[buildingLevel]}
+          src={BARN_IMAGES[island][season][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 64}px`,

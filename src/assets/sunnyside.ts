@@ -461,6 +461,9 @@ export const SUNNYSIDE = {
     desertMarket: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/bettys_market.webp`,
     desertSmoothieShack: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/smoothie_shack_background.webp`,
     desertWorkbench: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/workbench.webp`,
+    desertBarn_1: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/barn_1.webp`,
+    desertBarn_2: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/barn_2.webp`,
+    desertBarn_3: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/barn_3.webp`,
     desertFruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/desert/fruit/fruit_patch.webp`,
     desertEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/desert/flowers/empty.webp`,
 
@@ -474,6 +477,9 @@ export const SUNNYSIDE = {
     volcanoSmoothieShack: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/smoothie_shack.webp`,
     volcanoBakery: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/bakery.webp`,
     volcanoDeli: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/deli.webp`,
+    volcanoBarn_1: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/barn_1.webp`,
+    volcanoBarn_2: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/barn_2.webp`,
+    volcanoBarn_3: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/barn_3.webp`,
     volcanoFruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/fruit/fruit_patch.webp`,
     volcanoEmptyFlowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/flowers/empty.webp`,
     volcanoDirt: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/sfts/dirt_path.webp`,
@@ -516,7 +522,7 @@ export const SUNNYSIDE = {
 
     //Bumpkin Houses
     house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/house.png`,
-    manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/manor.png`,
+    manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/manor.webp`,
     mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/mansion.webp`,
   },
   //Icons
@@ -836,6 +842,33 @@ export const SUNNYSIDE = {
   },
   seasons: {
     spring: {
+      //Spring
+      firePit: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/fire_pit.webp`,
+      kitchen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/kitchen.webp`,
+      market: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/market.webp`,
+      barn_1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/barn_1.webp`,
+      barn_2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/barn_2.webp`,
+      barn_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/barn_3.webp`,
+      house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/house.webp`,
+      manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/manor.webp`,
+      mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/mansion.webp`,
+      toolshed: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/toolshed.webp`,
+      warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/warehouse.webp`,
+      //Desert
+      desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/spring/fire_pit.webp`,
+      desertKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/spring/kitchen.webp`,
+      desertMarket: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/spring/market.webp`,
+      desertBarn_1: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/spring/barn_1.webp`,
+      desertBarn_2: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/spring/barn_2.webp`,
+      desertBarn_3: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/spring/barn_3.webp`,
+      // Volcano
+      volcanoFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/spring/fire_pit.webp`,
+      volcanoKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/spring/kitchen.webp`,
+      volcanoMarket: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/spring/market.webp`,
+      volcanoBarn_1: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/spring/barn_1.webp`,
+      volcanoBarn_2: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/spring/barn_2.webp`,
+      volcanoBarn_3: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/spring/barn_3.webp`,
+
       bakery: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/bakery.webp`,
       deli: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/deli.webp`,
       greenhouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/greenhouse.webp`,
@@ -846,6 +879,33 @@ export const SUNNYSIDE = {
       well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well.webp`,
     },
     autumn: {
+      //Spring
+      firePit: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/fire_pit.webp`,
+      kitchen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/kitchen.webp`,
+      market: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/market.webp`,
+      barn_1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/barn_1.webp`,
+      barn_2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/barn_2.webp`,
+      barn_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/barn_3.webp`,
+      house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/house.webp`,
+      manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/manor.webp`,
+      mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/mansion.webp`,
+      toolshed: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/toolshed.webp`,
+      warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/warehouse.webp`,
+      //Desert
+      desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/autumn/fire_pit.webp`,
+      desertKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/autumn/kitchen.webp`,
+      desertMarket: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/autumn/market.webp`,
+      desertBarn_1: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/autumn/barn_1.webp`,
+      desertBarn_2: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/autumn/barn_2.webp`,
+      desertBarn_3: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/autumn/barn_3.webp`,
+      // Volcano
+      volcanoFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/autumn/fire_pit.webp`,
+      volcanoKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/autumn/kitchen.webp`,
+      volcanoMarket: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/autumn/market.webp`,
+      volcanoBarn_1: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/autumn/barn_1.webp`,
+      volcanoBarn_2: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/autumn/barn_2.webp`,
+      volcanoBarn_3: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/autumn/barn_3.webp`,
+
       bakery: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/bakery.webp`,
       deli: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/deli.webp`,
       greenhouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/greenhouse.webp`,
@@ -856,6 +916,33 @@ export const SUNNYSIDE = {
       well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well.webp`,
     },
     winter: {
+      //Spring
+      firePit: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/fire_pit.webp`,
+      kitchen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/kitchen.webp`,
+      market: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/market.webp`,
+      barn_1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/barn_1.webp`,
+      barn_2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/barn_2.webp`,
+      barn_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/barn_3.webp`,
+      house: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/house.webp`,
+      manor: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/manor.webp`,
+      mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/mansion.webp`,
+      toolshed: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/toolshed.webp`,
+      warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/warehouse.webp`,
+      //Desert
+      desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/winter/fire_pit.webp`,
+      desertKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/winter/kitchen.webp`,
+      desertMarket: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/winter/market.webp`,
+      desertBarn_1: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/winter/barn_1.webp`,
+      desertBarn_2: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/winter/barn_2.webp`,
+      desertBarn_3: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/winter/barn_3.webp`,
+      // Volcano
+      volcanoFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/winter/fire_pit.webp`,
+      volcanoKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/winter/kitchen.webp`,
+      volcanoMarket: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/winter/market.webp`,
+      volcanoBarn_1: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/winter/barn_1.webp`,
+      volcanoBarn_2: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/winter/barn_2.webp`,
+      volcanoBarn_3: `${CONFIG.PROTECTED_IMAGE_URL}/volcano/buildings/winter/barn_3.webp`,
+
       bakery: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/bakery.webp`,
       deli: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/deli.webp`,
       greenhouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/greenhouse.webp`,

@@ -1,12 +1,18 @@
-import React from "react";
-
-import { SUNNYSIDE } from "assets/sunnyside";
+import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { TOOLSHED_VARIANTS } from "features/island/lib/alternateArt";
+const _season = (state: MachineState) => state.context.state.season.season;
 
 export const Toolshed: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
+  const { gameService } = useContext(Context);
+  const season = useSelector(gameService, _season);
+
   const handleClick = () => {
     if (onRemove) {
       onRemove();
@@ -34,7 +40,7 @@ export const Toolshed: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
         }}
       >
         <img
-          src={SUNNYSIDE.building.toolshed}
+          src={TOOLSHED_VARIANTS[season]}
           style={{
             width: `${PIXEL_SCALE * 36}px`,
           }}
