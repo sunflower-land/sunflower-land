@@ -5146,5 +5146,6 @@
   "animals.guide.feeder": "Prepare la comida para sus animales con la máquina alimentadora.",
   "animals.guide.sleeping": "Después de subir de nivel a tus animales, se dormirán.",
   "animals.guide.bounties": "Completa las recompensas semanales intercambiando tus animales por recompensas. Los animales que duermen no se pueden vender, ¡y los animales enfermos solo os lleváis el {{percent}}% de las recompensas!",
-  "animals.guide.sickness": "¡Cuidado con las enfermedades! Los animales de nivel superior son más susceptibles: usa el medicamento Barn Delight para curarlos."
+  "animals.guide.sickness": "¡Cuidado con las enfermedades! Los animales de nivel superior son más susceptibles: usa el medicamento Barn Delight para curarlos.",
+  "season.megastore.crafting.limit": "Límite: {{limit}} /1"
 }

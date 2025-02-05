@@ -5146,5 +5146,6 @@
   "animals.guide.feeder": "使用喂食机为您的动物准备食物。",
   "animals.guide.sleeping": "提升动物等级后，它们会进入睡眠状态。",
   "animals.guide.bounties": "用动物换取奖励，完成每周赏金。沉睡的动物无法交易，生病的动物只能为您获得 {{percent}}% 的奖励！",
-  "animals.guide.sickness": "当心疾病！等级较高的动物更容易受到感染-使用 Barn Delight 药物来治愈它们。"
+  "animals.guide.sickness": "当心疾病！等级较高的动物更容易受到感染-使用 Barn Delight 药物来治愈它们。",
+  "season.megastore.crafting.limit": "限制：{{limit}} /1"
 }

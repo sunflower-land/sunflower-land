@@ -5146,5 +5146,6 @@
   "animals.guide.feeder": "Besleyici Makinesini kullanarak hayvanlarınız için yiyecek hazırlayın.",
   "animals.guide.sleeping": "Hayvanlarınızın seviyesini yükselttikten sonra uyuyacaklar.",
   "animals.guide.bounties": "Hayvanlarınızı ödüller karşılığında takas ederek haftalık ödülleri tamamlayın. Uyuyan hayvanlar takas edilemez ve hasta hayvanlar size yalnızca ödüllerin {{percent}} %'sini kazandırır!",
-  "animals.guide.sickness": "Hastalıklara dikkat edin! Daha yüksek seviyeli hayvanlar daha hassastır - onları iyileştirmek için Barn Delight ilacını kullanın."
+  "animals.guide.sickness": "Hastalıklara dikkat edin! Daha yüksek seviyeli hayvanlar daha hassastır - onları iyileştirmek için Barn Delight ilacını kullanın.",
+  "season.megastore.crafting.limit": "Sınır: {{limit}} /1"
 }

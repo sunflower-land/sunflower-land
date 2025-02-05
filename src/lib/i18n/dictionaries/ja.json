@@ -5146,5 +5146,6 @@
   "animals.guide.feeder": "フィーダーマシンを使用して動物用の餌を準備します。",
   "animals.guide.sleeping": "動物がレベルアップすると、眠りにつきます。",
   "animals.guide.bounties": "動物を報酬と交換して、毎週の賞金を獲得してください。眠っている動物はトレードできず、病気の動物は報酬の {{percent}} %しか獲得できません！",
-  "animals.guide.sickness": "病気に気をつけろ！レベルが高い動物ほど感染しやすくなります。バーンディライトの薬を使って治療してください。"
+  "animals.guide.sickness": "病気に気をつけろ！レベルが高い動物ほど感染しやすくなります。バーンディライトの薬を使って治療してください。",
+  "season.megastore.crafting.limit": "リミット:{{limit}} /1"
 }

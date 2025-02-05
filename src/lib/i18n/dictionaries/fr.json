@@ -5146,5 +5146,6 @@
   "animals.guide.feeder": "Préparez de la nourriture pour vos animaux à l'aide de la machine d'alimentation.",
   "animals.guide.sleeping": "Après avoir amélioré le niveau de vos animaux, ils s'endormiront.",
   "animals.guide.bounties": "Complétez les primes hebdomadaires en échangeant vos animaux contre des récompenses. Les animaux endormis ne peuvent pas être échangés, et les animaux malades ne vous rapportent que {{percent}} % des récompenses !",
-  "animals.guide.sickness": "Attention à la maladie ! Les animaux de niveau supérieur sont plus sensibles. Utilisez le médicament Barn Delight pour les soigner."
+  "animals.guide.sickness": "Attention à la maladie ! Les animaux de niveau supérieur sont plus sensibles. Utilisez le médicament Barn Delight pour les soigner.",
+  "season.megastore.crafting.limit": "Limite : {{limit}} /1"
 }

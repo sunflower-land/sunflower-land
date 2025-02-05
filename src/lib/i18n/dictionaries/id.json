@@ -5146,5 +5146,6 @@
   "animals.guide.feeder": "Siapkan makanan untuk hewan Anda menggunakan Mesin Pengumpan.",
   "animals.guide.sleeping": "Setelah menaikkan level hewan Anda, mereka akan tidur.",
   "animals.guide.bounties": "Selesaikan hadiah mingguan dengan menukar hewan Anda dengan hadiah. Hewan yang sedang tidur tidak dapat diperdagangkan, dan hewan yang sakit hanya memberi Anda {{percent}}% dari hadiah!",
-  "animals.guide.sickness": "Waspadalah terhadap penyakit! Hewan tingkat yang lebih tinggi lebih rentan - gunakan obat Barn Delight untuk menyembuhkannya."
+  "animals.guide.sickness": "Waspadalah terhadap penyakit! Hewan tingkat yang lebih tinggi lebih rentan - gunakan obat Barn Delight untuk menyembuhkannya.",
+  "season.megastore.crafting.limit": "Batas: {{limit}} /1"
 }

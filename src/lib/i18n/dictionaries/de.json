@@ -5146,5 +5146,6 @@
   "animals.guide.feeder": "Bereiten Sie mit der Futtermaschine Futter für Ihre Tiere zu.",
   "animals.guide.sleeping": "Nachdem deine Tiere ein höheres Level erreicht haben, werden sie schlafen gehen.",
   "animals.guide.bounties": "Schließe wöchentliche Kopfgelder ab, indem du deine Tiere gegen Belohnungen eintauschst. Schlafende Tiere können nicht getauscht werden und kranke Tiere bringen dir nur {{percent}}% der Belohnungen ein!",
-  "animals.guide.sickness": "Vorsicht vor Krankheit! Tiere höherer Stufen sind anfälliger — verwenden Sie Barn Delight-Medikamente, um sie zu heilen."
+  "animals.guide.sickness": "Vorsicht vor Krankheit! Tiere höherer Stufen sind anfälliger — verwenden Sie Barn Delight-Medikamente, um sie zu heilen.",
+  "season.megastore.crafting.limit": "Limit: {{limit}} /1"
 }
