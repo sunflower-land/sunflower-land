@@ -89,9 +89,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const sleeping = sheepState === "sleeping";
   const needsLove = sheepState === "needsLove";
   const ready = sheepState === "ready";
-  const sick = sheepState === "sick";
+  const sick = sheepState === "sick" || sheep.state === "sick";
   const idle = sheepState === "idle";
-  const sickAndSleeping = sleeping && sheep.state === "sick";
 
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Sheep",
@@ -240,9 +239,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const handleClick = async () => {
     if (disabled) return;
 
-    if (needsLove) return onLoveClick();
-
     if (sick) return onSickClick();
+
+    if (needsLove) return onLoveClick();
 
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
@@ -313,6 +312,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     };
   };
 
+  const requestBubbleRequest = () => {
+    if (sick) return "Barn Delight";
+    if (needsLove) return sheep.item;
+    return favFood;
+  };
+  const showRequestBubble = sick || needsLove || idle;
+
   if (sheepState === "initial") return null;
 
   const level = getAnimalLevel(sheep.experience, "Sheep");
@@ -382,33 +388,12 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
             />
           )}
           {/* Request */}
-          {idle && (
+          {showRequestBubble && (
             <RequestBubble
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
-              request={favFood}
-              quantity={requiredFoodQty}
-            />
-          )}
-          {sickAndSleeping && (
-            <RequestBubble
-              top={PIXEL_SCALE * 2}
-              left={PIXEL_SCALE * 23}
-              request="Barn Delight"
-            />
-          )}
-          {sick && (
-            <RequestBubble
-              top={PIXEL_SCALE * 2}
-              left={PIXEL_SCALE * 23}
-              request="Barn Delight"
-            />
-          )}
-          {needsLove && (
-            <RequestBubble
-              top={PIXEL_SCALE * 1}
-              left={PIXEL_SCALE * 23}
-              request={sheep.item}
+              request={requestBubbleRequest()}
+              quantity={idle ? requiredFoodQty : undefined}
             />
           )}
           {sleeping && showWakesIn && (
@@ -441,7 +426,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         <Transition
           appear={true}
           id="food-xp-amount"
-          show={showFeedXP && !!foodXp}
+          show={showFeedXP}
           enter="transition-opacity transition-transform duration-200"
           enterFrom="opacity-0 translate-y-4"
           enterTo="opacity-100 -translate-y-0"
@@ -459,13 +444,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
                   : "#fff",
             }}
           >
-            {`+${foodXp}`}
+            {!!foodXp && `+${foodXp}`}
           </span>
         </Transition>
         <Transition
           appear={true}
           id="food-xp-amount"
-          show={!!showLoveItem && !!animalXP}
+          show={!!showLoveItem}
           enter="transition-opacity transition-transform duration-200"
           enterFrom="opacity-0 translate-y-4"
           enterTo="opacity-100 -translate-y-0"
@@ -480,7 +465,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               color: "#ffffff",
             }}
           >
-            {`+${animalXP}`}
+            {!!animalXP && `+${animalXP}`}
           </span>
         </Transition>
       </div>

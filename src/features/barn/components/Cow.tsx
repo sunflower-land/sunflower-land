@@ -151,8 +151,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const needsLove = cowMachineState === "needsLove";
   const ready = cowMachineState === "ready";
   const idle = cowMachineState === "idle";
-  const sick = cowMachineState === "sick";
-  const sickAndSleeping = sleeping && cow.state === "sick";
+  const sick = cowMachineState === "sick" || cow.state === "sick";
 
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Cow",
@@ -292,9 +291,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const handleClick = async () => {
     if (disabled) return;
 
-    if (needsLove) return onLoveClick();
-
     if (sick) return onSickClick();
+
+    if (needsLove) return onLoveClick();
 
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
@@ -380,6 +379,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     };
   };
 
+  const requestBubbleRequest = () => {
+    if (sick) return "Barn Delight";
+    if (needsLove) return cow.item;
+    return favFood;
+  };
+  const showRequestBubble = sick || needsLove || idle;
+
   if (cowMachineState === "initial") return null;
 
   const level = getAnimalLevel(cow.experience, "Cow");
@@ -446,34 +452,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
             />
           )}
           {/* Request */}
-          {idle && (
-            <RequestBubble
-              key={id}
-              top={PIXEL_SCALE * 1}
-              left={PIXEL_SCALE * 23}
-              request={favFood}
-              quantity={!hasGoldenCow ? requiredFoodQty : undefined}
-            />
-          )}
-          {sickAndSleeping && (
-            <RequestBubble
-              top={PIXEL_SCALE * 2}
-              left={PIXEL_SCALE * 23}
-              request="Barn Delight"
-            />
-          )}
-          {sick && (
-            <RequestBubble
-              top={PIXEL_SCALE * 2}
-              left={PIXEL_SCALE * 23}
-              request="Barn Delight"
-            />
-          )}
-          {needsLove && (
+          {showRequestBubble && (
             <RequestBubble
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
-              request={cow.item}
+              request={requestBubbleRequest()}
+              quantity={idle && !hasGoldenCow ? requiredFoodQty : undefined}
             />
           )}
           {(sleeping || needsLove) && showWakesIn && (
@@ -506,7 +490,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         <Transition
           appear={true}
           id="oil-reserve-collected-amount"
-          show={showFeedXP && !!xpIndicatorAmount}
+          show={showFeedXP}
           enter="transition-opacity transition-transform duration-200"
           enterFrom="opacity-0 translate-y-4"
           enterTo="opacity-100 -translate-y-0"
@@ -521,13 +505,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               color: xpIndicatorColor,
             }}
           >
-            {`+${xpIndicatorAmount}`}
+            {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
           </span>
         </Transition>
         <Transition
           appear={true}
           id="oil-reserve-collected-amount"
-          show={!!showLoveItem && !!animalXP}
+          show={!!showLoveItem}
           enter="transition-opacity transition-transform duration-200"
           enterFrom="opacity-0 translate-y-4"
           enterTo="opacity-100 -translate-y-0"
@@ -542,7 +526,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               color: "#ffffff",
             }}
           >
-            {`+${animalXP}`}
+            {!!animalXP && `+${animalXP}`}
           </span>
         </Transition>
       </div>
