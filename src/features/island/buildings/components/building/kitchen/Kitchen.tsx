@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import classNames from "classnames";
 
@@ -15,7 +15,11 @@ import { setImageWidth } from "lib/images";
 import { KITCHEN_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
+const _season = (state: MachineState) => state.context.state.season.season;
 
 export const Kitchen: React.FC<Props> = ({
   buildingId,
@@ -29,6 +33,9 @@ export const Kitchen: React.FC<Props> = ({
   island,
 }) => {
   const [showModal, setShowModal] = useState(false);
+
+  const { gameService } = useContext(Context);
+  const season = useSelector(gameService, _season);
 
   const { play: bakeryAudio } = useSound("bakery");
 
@@ -76,7 +83,7 @@ export const Kitchen: React.FC<Props> = ({
     <>
       <BuildingImageWrapper name="Kitchen" onClick={handleClick} ready={ready}>
         <img
-          src={KITCHEN_VARIANTS[island]}
+          src={KITCHEN_VARIANTS[island][season]}
           className={classNames("absolute pointer-events-none bottom-0", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
