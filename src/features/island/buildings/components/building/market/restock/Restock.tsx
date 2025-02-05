@@ -109,7 +109,7 @@ const RestockSelectionModal: React.FC<{
   return (
     <>
       {!showEnhancedConfirm && !showConfirm && !showShipmentConfirm && (
-        <>
+        <div className="flex flex-col gap-1">
           <div className="flex flex-col mx-2 mt-1 items-start">
             <Label type="default" className="mb-2" icon={stockIcon}>
               {t("restock")}
@@ -119,7 +119,7 @@ const RestockSelectionModal: React.FC<{
             </p>
           </div>
           <Button
-            className="relative mt-1 justify-between"
+            className="relative justify-between"
             onClick={() => setShowShipmentConfirm(true)}
             disabled={!showShipment}
           >
@@ -211,7 +211,7 @@ const RestockSelectionModal: React.FC<{
             </Label>
           </Button>
           <Button
-            className="relative mt-1 justify-between"
+            className="relative justify-between"
             onClick={() => setShowConfirm(true)}
           >
             <p className="capitalize p-1 mb-1 text-left">{t("restock.full")}</p>
@@ -251,7 +251,7 @@ const RestockSelectionModal: React.FC<{
               </Label>
             </div>
           </Button>
-        </>
+        </div>
       )}
       {showEnhancedConfirm && (
         <NPCRestockModal
