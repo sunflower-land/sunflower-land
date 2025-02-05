@@ -3280,6 +3280,7 @@
   "season.wearableAirdrop": "Seasonal Wearable Airdrop",
   "season.place.land": "You must place it on your land",
   "season.megastore.discount": "Megastore SFL discount",
+  "season.megastore.crafting.limit": "Limit: {{limit}}/1",
   "season.supporter.gift": "Supporter Gift",
   "season.free.season.passes": "Free Chapter Banners",
   "season.free.season.passes.description": "Receive banners for every Chapter",
