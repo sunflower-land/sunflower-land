@@ -12,10 +12,10 @@ export const FIRE_PIT_VARIANTS: Record<
   Record<TemperateSeasonName, string>
 > = {
   basic: {
-    spring: SUNNYSIDE.building.firePit,
+    spring: SUNNYSIDE.seasons.spring.firePit,
     summer: SUNNYSIDE.building.firePit,
-    autumn: SUNNYSIDE.building.firePit,
-    winter: SUNNYSIDE.building.firePit,
+    autumn: SUNNYSIDE.seasons.autumn.firePit,
+    winter: SUNNYSIDE.seasons.winter.firePit,
   },
   spring: {
     spring: SUNNYSIDE.seasons.spring.firePit,
@@ -96,10 +96,10 @@ export const KITCHEN_VARIANTS: Record<
   Record<TemperateSeasonName, string>
 > = {
   basic: {
-    spring: SUNNYSIDE.building.kitchen,
+    spring: SUNNYSIDE.seasons.spring.kitchen,
     summer: SUNNYSIDE.building.kitchen,
-    autumn: SUNNYSIDE.building.kitchen,
-    winter: SUNNYSIDE.building.kitchen,
+    autumn: SUNNYSIDE.seasons.autumn.kitchen,
+    winter: SUNNYSIDE.seasons.winter.kitchen,
   },
   spring: {
     spring: SUNNYSIDE.seasons.spring.kitchen,
@@ -126,10 +126,10 @@ export const MANOR_VARIANTS: Record<
   Record<TemperateSeasonName, string>
 > = {
   basic: {
-    spring: SUNNYSIDE.building.house,
+    spring: SUNNYSIDE.seasons.spring.house,
     summer: SUNNYSIDE.building.house,
-    autumn: SUNNYSIDE.building.house,
-    winter: SUNNYSIDE.building.house,
+    autumn: SUNNYSIDE.seasons.autumn.house,
+    winter: SUNNYSIDE.seasons.winter.house,
   },
   spring: {
     spring: SUNNYSIDE.seasons.spring.house,
@@ -156,10 +156,10 @@ export const MARKET_VARIANTS: Record<
   Record<TemperateSeasonName, string>
 > = {
   basic: {
-    spring: SUNNYSIDE.building.market,
+    spring: SUNNYSIDE.seasons.spring.market,
     summer: SUNNYSIDE.building.market,
-    autumn: SUNNYSIDE.building.market,
-    winter: SUNNYSIDE.building.market,
+    autumn: SUNNYSIDE.seasons.autumn.market,
+    winter: SUNNYSIDE.seasons.winter.market,
   },
   spring: {
     spring: SUNNYSIDE.seasons.spring.market,
