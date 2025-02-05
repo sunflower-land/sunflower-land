@@ -66,7 +66,6 @@ const featureFlags = {
   ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
     new Date("2024-12-18T00:00:00Z"),
   ),
-  FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
   SEASONAL_EVENTS_NOTIFICATIONS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
