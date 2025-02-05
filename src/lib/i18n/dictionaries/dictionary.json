@@ -3988,7 +3988,7 @@
   "skill.bettysFriend": "Betty Coin delivery revenue increased by 30%",
   "skill.oldFarmer": "+0.1 Advanced Crop yield",
   "skill.strongRoots": "-10% Advanced crop growth time",
-  "skill.coinSwindler": "+10% coins when selling crops at the Market",
+  "skill.coinSwindler": "+10% coins when selling plot crops at the Market",
   "skill.goldenSunflower": "1/700 chance for +0.35 gold when harvesting sunflowers (plots only)",
   "skill.chonkyScarecrow": "Increases Basic Scarecrow's area of effect (AOE) to a 7x7 area; Additional -10% basic crop growth time",
   "skill.horrorMike": "Increases Scary Mike's area of effect (AOE) to a 7x7 area; Additional +0.1 medium crop yield",
