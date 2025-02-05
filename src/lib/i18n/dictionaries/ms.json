@@ -191,7 +191,6 @@
   "description.scary.mike.boost": "+0.2 Tanaman Sederhana",
   "description.laurie.chuckle.crow.boost": "+0.2 Tanaman Lanjutan",
   "description.immortal.pear.boost": "+1 Penuaian Buah setiap biji",
-  "description.treasure.map.boost": "+20% Syiling Harga Jualan Treasure Bounty",
   "description.poppy.boost": "+0.1 Jagung",
   "description.kernaldo.boost": "-25% Masa Pertumbuhan Jagung",
   "description.grain.grinder.boost": "+20% Kek XP",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25% Masa Pertumbuhan Bunga",
   "description.blossom.hourglass.boost.effectTime": "Bertahan selama 4 jam",
   "description.camel.boost": "+1 Pasir",
-  "description.camel.boost.two": "+30% Harga Jualan Treasure Bounty",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% SFL & Penghantaran Syiling",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% Markah",
   "bumpkinItemBuff.goblin.crown.boost": "+25% SFL & Penghantaran Syiling",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "Saya dengar jenis anda telah menemui beberapa Obsidian. Adakah itu benar?",
   "gorga.intro.three": "Saya memberitahu anda apa, jika anda boleh mencari Obsidian saya, saya akan menukarnya dengan Sunstone.",
   "description.bonusTimeshard.boost": "+1 Timeshard",
-  "description.crabHat.boost": "+1 Fishing Bounty",
   "description.mammoth.boost": "-25% Masa Pengeluaran Lembu",
   "description.sickle.boost": "+2 Gandum",
   "description.frozen.sheep.boost": "Tiada penyakit domba semasa musim sejuk",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "Semua haiwan anda sakit, bersedia atau tidur",
   "description.basic.scarecrow": "Tingkatkan Tanaman Asas berdekatan.",
   "description.scary.mike": "Tingkatkan Tanaman Sederhana berdekatan.",
-  "description.laurie.chuckle.crow": "Tingkatkan Tanaman Lanjutan berdekatan."
+  "description.laurie.chuckle.crow": "Tingkatkan Tanaman Lanjutan berdekatan.",
+  "description.treasure.map.boost": "Harga Jualan Harga Harta Karun +20% Syiling",
+  "description.camel.boost.two": "Harga Jualan Harta Karun +30%",
+  "description.crab.hat": "Ketam yang comel dan hidup terletak di atas kepala anda, menambah daya tarikan dan sedikit keperibadian tambahan. Sahabat mesra ini membantu anda menangkap lebih banyak khazanah dengan mudah",
+  "description.crabHat.boost": "+1 harta karun semasa memancing"
 }

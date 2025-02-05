@@ -191,7 +191,6 @@
   "description.scary.mike.boost": "+0.2 Mittlere Ernten",
   "description.laurie.chuckle.crow.boost": "+0.2 Fortgeschrittene Nutzpflanzen",
   "description.immortal.pear.boost": "+1 Fruchternte pro Samen",
-  "description.treasure.map.boost": "+20% Coins Treasure Bounty Angebotspreis",
   "description.poppy.boost": "+0.1 Mais",
   "description.kernaldo.boost": "-25% Wachstumszeit von Mais",
   "description.grain.grinder.boost": "+20% Kuchen-EP",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25% Wachstumszeit der Blüten",
   "description.blossom.hourglass.boost.effectTime": "Hält 4 Stunden an",
   "description.camel.boost": "+1 Sand",
-  "description.camel.boost.two": "+30% Treasure Bounty Angebotspreis",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% SFL- und Münzlieferungen",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% Punkte",
   "bumpkinItemBuff.goblin.crown.boost": "+25% SFL- und Münzlieferungen",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "Ich habe gehört, dass deinesgleichen Obsidian gefunden haben. Stimmt das?",
   "gorga.intro.three": "Ich sage dir was, wenn du mir etwas Obsidian besorgst, tausche ich es gegen Sonnenstein ein.",
   "description.bonusTimeshard.boost": "+1 Timeshard",
-  "description.crabHat.boost": "+1 Angelprämie",
   "description.mammoth.boost": "-25% Produktionszeit für Kühe",
   "description.sickle.boost": "+2 Weizen",
   "description.frozen.sheep.boost": "Keine Schafskrankheit im Winter",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "Alle Ihre Tiere sind krank, bereit oder schlafen",
   "description.basic.scarecrow": "Verbessere Grundkulturen in der Nähe.",
   "description.scary.mike": "Verbessere mittlere Nutzpflanzen in der Nähe.",
-  "description.laurie.chuckle.crow": "Verbessere Fortgeschrittene Nutzpflanzen in der Nähe."
+  "description.laurie.chuckle.crow": "Verbessere Fortgeschrittene Nutzpflanzen in der Nähe.",
+  "description.treasure.map.boost": "+20% Verkaufspreis von Coins Treasure",
+  "description.camel.boost.two": "+30% Verkaufspreis für Schätze",
+  "description.crab.hat": "Eine süße, lebende Krabbe, die auf Ihrem Kopf thront und Charme und ein bisschen mehr Persönlichkeit verleiht. Dieser freundliche Begleiter hilft dir, mühelos mehr Schätze zu fangen",
+  "description.crabHat.boost": "+1 Schatz beim Angeln"
 }

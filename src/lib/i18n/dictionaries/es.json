@@ -191,7 +191,6 @@
   "description.scary.mike.boost": "Incrementa en +0.2 los cultivos medianos.",
   "description.laurie.chuckle.crow.boost": "Incrementa en +0.2 los cultivos avanzados.",
   "description.immortal.pear.boost": "Aumenta +1 cosecha de fruta adicional por cada semilla.",
-  "description.treasure.map.boost": "Aumenta en un +20% el precio de venta de Coins en la Recompensa del Tesoro.",
   "description.poppy.boost": "Incrementa en +0.1 el maíz.",
   "description.kernaldo.boost": "Reduce el tiempo de crecimiento del maíz en un -25%.",
   "description.grain.grinder.boost": "Aumenta un +20% el XP obtenido por tartas.",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25% de tiempo de crecimiento de las flores",
   "description.blossom.hourglass.boost.effectTime": "Tiene una duración de 4 horas",
   "description.camel.boost": "+1 Arena",
-  "description.camel.boost.two": "+30% de precio de venta de Treasure Bounty",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% de SFL y entregas de monedas",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% de puntos",
   "bumpkinItemBuff.goblin.crown.boost": "+25% de SFL y entregas de monedas",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "He oído que los de tu clase han encontrado algo de obsidiana. ¿Es eso cierto?",
   "gorga.intro.three": "Te diré una cosa, si puedes encontrarme algo de obsidiana, lo cambiaré por Sunstone.",
   "description.bonusTimeshard.boost": "+1 Timeshard",
-  "description.crabHat.boost": "+1 recompensa de pesca",
   "description.mammoth.boost": "-25% de tiempo de producción de vacas",
   "description.sickle.boost": "+2 Trigo",
   "description.frozen.sheep.boost": "No hay enfermedad en las ovejas durante el invierno",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "Todos tus animales están enfermos, preparados o dormidos",
   "description.basic.scarecrow": "Mejora los cultivos básicos cercanos.",
   "description.scary.mike": "Potencia los cultivos medianos cercanos.",
-  "description.laurie.chuckle.crow": "Mejora los cultivos avanzados cercanos."
+  "description.laurie.chuckle.crow": "Mejora los cultivos avanzados cercanos.",
+  "description.treasure.map.boost": "+20% de precio de venta de Coins Treasure",
+  "description.camel.boost.two": "+30% del precio de venta del tesoro",
+  "description.crab.hat": "Un lindo cangrejo vivo posado sobre tu cabeza, que añade encanto y un poco más de personalidad. Este simpático compañero te ayuda a atrapar más tesoros con facilidad",
+  "description.crabHat.boost": "+1 tesoro al pescar"
 }

@@ -190,7 +190,6 @@
   "description.scary.mike.boost": "+0,2 raccolti medi",
   "description.laurie.chuckle.crow.boost": "+0.2 Colture avanzate",
   "description.immortal.pear.boost": "+1 Raccolta di frutta per seme",
-  "description.treasure.map.boost": "+20% Coins Treasure Bounty Prezzo di vendita",
   "description.poppy.boost": "+0.1 Mais",
   "description.kernaldo.boost": "-25% Tempo di crescita del mais",
   "description.grain.grinder.boost": "+20% Cake XP",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25% Tempo di crescita dei fiori",
   "description.blossom.hourglass.boost.effectTime": "Dura 4 ore",
   "description.camel.boost": "+1 Sabbia",
-  "description.camel.boost.two": "+30% Prezzo di vendita Treasure Bounty",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% SFL e consegne di monete",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% di voti",
   "bumpkinItemBuff.goblin.crown.boost": "+25% SFL e consegne di monete",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "Ho sentito che i tuoi simili hanno trovato dell'ossidiana. È vero?",
   "gorga.intro.three": "Ti dico una cosa, se riesci a trovarmi dell'ossidiana, la cambierò con Sunstone.",
   "description.bonusTimeshard.boost": "+1 Timeshard",
-  "description.crabHat.boost": "+1 Fishing Bounty",
   "description.mammoth.boost": "-25% Tempo di produzione delle mucche",
   "description.sickle.boost": "+2 Grano",
   "description.frozen.sheep.boost": "Nessuna malattia di pecora durante l'inverno",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "Tutti i tuoi animali sono malati, pronti o dormono",
   "description.basic.scarecrow": "Potenzia le colture di base nelle vicinanze.",
   "description.scary.mike": "Potenzia le colture medie nelle vicinanze.",
-  "description.laurie.chuckle.crow": "Potenzia le colture avanzate nelle vicinanze."
+  "description.laurie.chuckle.crow": "Potenzia le colture avanzate nelle vicinanze.",
+  "description.treasure.map.boost": "+20% Coins Treasure Prezzo di vendita",
+  "description.camel.boost.two": "+30% Prezzo di vendita del tesoro",
+  "description.crab.hat": "Un simpatico granchio vivo appollaiato sulla testa, che aggiunge fascino e un po' di personalità in più. Questo simpatico compagno ti aiuta a catturare più tesori con facilità",
+  "description.crabHat.boost": "+1 tesoro durante la pesca"
 }

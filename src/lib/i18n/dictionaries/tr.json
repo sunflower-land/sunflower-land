@@ -164,7 +164,6 @@
   "description.basic.scarecrow.boost": "-20% Temel Mahsullerin Büyüme süresi: Ayçiçeği, Patates ve Kabak (Etki Alanı 3x3)",
   "description.scary.mike.boost": "+0.2 Orta Mahsul: Havuç, Lahana, Soya, Pancar, Karnabahar ve Yaban havucu (Etki Alanı 3x3)",
   "description.laurie.chuckle.crow.boost": "+0.2 Gelişmiş Mahsul: Patlıcan, Mısır, Turp, Buğday, Kıvırcık lahana (Etki Alanı 3x3)",
-  "description.treasure.map.boost": "Hazine Ödülü satışlarında +20% Coins",
   "description.poppy.boost": "+0.1 Mısır",
   "description.kernaldo.boost": "Mısır Büyüme Süresi -25%",
   "description.grain.grinder.boost": "+20% Pasta XP’si",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25% Çiçek Büyüme Süresi",
   "description.blossom.hourglass.boost.effectTime": "4 saat sürer",
   "description.camel.boost": "+1 Sand",
-  "description.camel.boost.two": "+30% Treasure Bounty Satış Fiyatı",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% SFL ve Madeni Para Teslimatları",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% Markalar",
   "bumpkinItemBuff.goblin.crown.boost": "+25% SFL ve Madeni Para Teslimatları",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "Senin türlerinin Obsidiyen bulduğunu duydum. Bu doğru mu?",
   "gorga.intro.three": "Bak ne diyeceğim, bana biraz Obsidiyen bulabilirsen... onu Sunstone'la değiştiririm.",
   "description.bonusTimeshard.boost": "+1 Timeshard",
-  "description.crabHat.boost": "+1 Balıkçılık Ödülü",
   "description.mammoth.boost": "-25% İnek Üretim Süresi",
   "description.sickle.boost": "+2 Buğday",
   "description.frozen.sheep.boost": "Kış aylarında koyun hastalığı yok",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "Tüm hayvanlarınız hasta, hazır veya uykuda",
   "description.basic.scarecrow": "Yakındaki Temel Bitkileri güçlendirin.",
   "description.scary.mike": "Yakındaki Orta Mahsulleri Güçlendirin.",
-  "description.laurie.chuckle.crow": "Yakındaki Gelişmiş Bitkileri güçlendirin."
+  "description.laurie.chuckle.crow": "Yakındaki Gelişmiş Bitkileri güçlendirin.",
+  "description.treasure.map.boost": "+20% Coins Treasure Satış Fiyatı",
+  "description.camel.boost.two": "+30% Hazine Satış Fiyatı",
+  "description.crab.hat": "Başınızın üstüne tünemiş sevimli, canlı bir yengeç, çekicilik ve biraz ekstra kişilik katıyor. Bu arkadaş canlısı arkadaş, daha fazla hazineyi kolaylıkla yakalamanıza yardımcı olur",
+  "description.crabHat.boost": "Balık tutarken +1 hazine"
 }

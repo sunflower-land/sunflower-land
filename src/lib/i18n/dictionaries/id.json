@@ -191,7 +191,6 @@
   "description.scary.mike.boost": "+0.2 Tanaman Sedang",
   "description.laurie.chuckle.crow.boost": "+0.2 Tanaman Tingkat Lanjut",
   "description.immortal.pear.boost": "+1 Panen Buah per biji",
-  "description.treasure.map.boost": "+20% Harga Jual Koin Treasure Bounty",
   "description.poppy.boost": "+0.1 Jagung",
   "description.kernaldo.boost": "-25% Waktu Pertumbuhan Jagung",
   "description.grain.grinder.boost": "+20% XP Kue",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25% Waktu Pertumbuhan Bunga",
   "description.blossom.hourglass.boost.effectTime": "Berlangsung selama 4 jam",
   "description.camel.boost": "+1 Sand",
-  "description.camel.boost.two": "+30% Harga Jual Treasure Bounty",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% Pengiriman SFL & Koin",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% Tanda",
   "bumpkinItemBuff.goblin.crown.boost": "+25% Pengiriman SFL & Koin",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "Kudengar jenismu telah menemukan Obsidian. Apakah itu benar?",
   "gorga.intro.three": "Aku katakan padamu, jika kau bisa mencarikan aku beberapa Obsidian, aku akan menukarnya dengan Sunstone.",
   "description.bonusTimeshard.boost": "+1 Timeshard",
-  "description.crabHat.boost": "+1 Memancing Bounty",
   "description.mammoth.boost": "-25% Waktu Produksi Sapi",
   "description.sickle.boost": "+2 Wheat",
   "description.frozen.sheep.boost": "Tidak ada penyakit domba selama musim dingin",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "Semua hewan Anda sakit, siap atau tertidur",
   "description.basic.scarecrow": "Tingkatkan Tanaman Dasar terdekat.",
   "description.scary.mike": "Tingkatkan Tanaman Sedang di dekatnya.",
-  "description.laurie.chuckle.crow": "Tingkatkan Tanaman Lanjutan terdekat."
+  "description.laurie.chuckle.crow": "Tingkatkan Tanaman Lanjutan terdekat.",
+  "description.treasure.map.boost": "+20% Harga Jual Harta Karun Koin",
+  "description.camel.boost.two": "+30% Harga Jual Harta Karun",
+  "description.crab.hat": "Seekor kepiting yang lucu dan hidup bertengger di atas kepala Anda, menambah pesona dan sedikit kepribadian ekstra. Teman yang ramah ini membantu Anda menangkap lebih banyak harta dengan mudah",
+  "description.crabHat.boost": "+1 harta saat memancing"
 }

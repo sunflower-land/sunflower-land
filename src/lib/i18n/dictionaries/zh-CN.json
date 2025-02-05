@@ -189,7 +189,6 @@
   "description.scary.mike.boost": "+0.2 中阶庄稼：胡萝卜、卷心菜、大豆、甜菜根、花椰菜和防风草(AOE 3x3)",
   "description.laurie.chuckle.crow.boost": "+0.2 高阶庄稼：茄子玉米、小萝卜、小麦和羽衣甘蓝(AOE 3x3)",
   "description.immortal.pear.boost": "每个种子水果收获次数 +1",
-  "description.treasure.map.boost": "财宝售价 +20% SFL",
   "description.poppy.boost": "+0.1 玉米",
   "description.kernaldo.boost": "-25% 玉米生长时间",
   "description.grain.grinder.boost": "+20% 蛋糕 XP",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25% 花朵生长时间",
   "description.blossom.hourglass.boost.effectTime": "持续 4 小时",
   "description.camel.boost": "+1 沙子",
-  "description.camel.boost.two": "+30% 宝藏赏金促销价格",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% SFL 和硬币交付",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% 分数",
   "bumpkinItemBuff.goblin.crown.boost": "+25% SFL 和硬币交付",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "我听说你的同类人发现了一些黑曜石。是真的吗？",
   "gorga.intro.three": "我告诉你，如果你能给我找点黑曜石，我会把它换成日光石。",
   "description.bonusTimeshard.boost": "+1 Timeshar",
-  "description.crabHat.boost": "+1 钓鱼赏金",
   "description.mammoth.boost": "-25% 奶牛生产时间",
   "description.sickle.boost": "+2 小麦",
   "description.frozen.sheep.boost": "冬天不会有绵羊病",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "你所有的动物都生病了、准备好了或者睡着了",
   "description.basic.scarecrow": "提升附近的基础作物。",
   "description.scary.mike": "提升附近的中型作物。",
-  "description.laurie.chuckle.crow": "提升附近的高级作物。"
+  "description.laurie.chuckle.crow": "提升附近的高级作物。",
+  "description.treasure.map.boost": "+20% 硬币宝藏销售价格",
+  "description.camel.boost.two": "+30% 宝藏销售价格",
+  "description.crab.hat": "一只可爱的活螃蟹栖息在你的头顶，增添了魅力和额外的个性。这个友好的同伴可以帮助您轻松捕捉更多宝藏",
+  "description.crabHat.boost": "钓鱼时有 +1 个宝藏"
 }

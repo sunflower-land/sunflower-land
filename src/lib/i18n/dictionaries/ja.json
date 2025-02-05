@@ -191,7 +191,6 @@
   "description.scary.mike.boost": "+0.2 ミディアムクロップ",
   "description.laurie.chuckle.crow.boost": "+0.2 アドバンスド・クロップ",
   "description.immortal.pear.boost": "種1個につき +1フルーツ収穫",
-  "description.treasure.map.boost": "+20% コイントレジャーバウンティセール価格",
   "description.poppy.boost": "+0.1 コーン",
   "description.kernaldo.boost": "-25% トウモロコシの成長時間",
   "description.grain.grinder.boost": "+20% ケーキ経験値",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25% の花の成長時間",
   "description.blossom.hourglass.boost.effectTime": "4時間持続",
   "description.camel.boost": "+1 サンド",
-  "description.camel.boost.two": "+30% トレジャーバウンティセール価格",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% SFLおよびコインデリバリー",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% マークス",
   "bumpkinItemBuff.goblin.crown.boost": "+25% SFLおよびコインデリバリー",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "あんたの仲間が黒曜石を見つけたと聞いたそれは本当なの？",
   "gorga.intro.three": "言っておくが、黒曜石を見つけたら、サンストーンと交換するよ。",
   "description.bonusTimeshard.boost": "+1 タイムハード",
-  "description.crabHat.boost": "+1 釣りバウンティ",
   "description.mammoth.boost": "-25% の牛生産時間",
   "description.sickle.boost": "+2 ウィート",
   "description.frozen.sheep.boost": "冬の間は羊の病気はありません",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "すべての動物が病気か、準備ができているか、眠っている",
   "description.basic.scarecrow": "近くの基本農作物にブーストを与える。",
   "description.scary.mike": "近くの中型作物にブーストを与える。",
-  "description.laurie.chuckle.crow": "近くの上級作物を強化しよう。"
+  "description.laurie.chuckle.crow": "近くの上級作物を強化しよう。",
+  "description.treasure.map.boost": "+20% コイントレジャーセール価格",
+  "description.camel.boost.two": "+30% トレジャーセール価格",
+  "description.crab.hat": "かわいい生きたカニが頭の上に乗っていて、魅力と少し個性を加えています。この親しみやすいお供は、より多くの宝物を簡単に捕まえるのに役立ちます。",
+  "description.crabHat.boost": "釣り時に宝物1個を獲得"
 }

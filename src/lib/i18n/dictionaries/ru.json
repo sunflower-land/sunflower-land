@@ -1137,7 +1137,6 @@
   "description.camel": "Злой на вид верблюд!",
   "description.camel.bone": "По слухам, кости древнего верблюда перевозившего артефакты",
   "description.camel.boost": "+1 Песок",
-  "description.camel.boost.two": "Цена продажи сокровищ: +30%",
   "description.camel.onesie.boost": "Урожайность фруктовых грядок +0.1",
   "description.candles": "Зачаровывает твою ферму мерцающим призрачным пламенем во время Witches' Eve.",
   "description.cannonball": "Пушечное ядро — свирепое существо. Живя в Tomato Bombard, оно готово напасть на любого, кто ей помешает",
@@ -1216,7 +1215,6 @@
   "description.cowboyTrouser.boost": "+1 Подковы",
   "description.cozyFireplace": "Теплый и уютный камин, который создает идеальный фон для праздничных встреч.",
   "description.crab": "Краб, остерегайся его клешней!",
-  "description.crabHat.boost": "+1 сокровища при рыбалке",
   "description.craftingBox": "Верстак для изготовления различных предметов.",
   "description.crim.peckster": "Детектив, который обладает умением находить Кримстоун.",
   "description.crim.peckster.boost": "+0.1 Кримстоун",
@@ -2019,7 +2017,6 @@
   "description.trading.ticket": "Бесплатные листинги! Урааа!",
   "description.treasure.key": "Волшебный ключ, позволяющий разблокировать основной сундук, расположенный на площади рядом с Тайвином.",
   "description.treasure.map": "Зачарованная карта, которая приведет владельца к ценным сокровищам. +20% прибыли с пляжных сокровищ.",
-  "description.treasure.map.boost": "+20% монет за продажу сокровищ",
   "description.tree": "Дерево, которое можно срубить для сбора Дерева",
   "description.tree.hugger": "Деревья вырастают на 20% быстрее",
   "description.trex.skull": "Череп Ти-Рекса! Потрясающе!",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "Все ваши животные больны, готовы или спят",
   "description.basic.scarecrow": "Укрепляйте близлежащие основные культуры.",
   "description.scary.mike": "Выращивайте близлежащие средние урожаи.",
-  "description.laurie.chuckle.crow": "Выращивайте близлежащие передовые культуры."
+  "description.laurie.chuckle.crow": "Выращивайте близлежащие передовые культуры.",
+  "description.treasure.map.boost": "Цена продажи сокровищ в монетах +20%",
+  "description.camel.boost.two": "Цена продажи сокровищ +30%",
+  "description.crab.hat": "Милый живой краб, сидящий на вашей голове, добавляет шарма и немного индивидуальности. Этот дружелюбный компаньон поможет вам с легкостью поймать больше сокровищ",
+  "description.crabHat.boost": "+1 сокровище во время рыбалки"
 }

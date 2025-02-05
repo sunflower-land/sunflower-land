@@ -191,7 +191,6 @@
   "description.scary.mike.boost": "+0.2 미디엄 크롭",
   "description.laurie.chuckle.crow.boost": "+0.2 어드밴스드 크롭",
   "description.immortal.pear.boost": "씨앗당 과일 수확량 +1",
-  "description.treasure.map.boost": "+20% 코인 트레저 바운티 세일 가격",
   "description.poppy.boost": "+0.1 옥수수",
   "description.kernaldo.boost": "-25% 옥수수 성장 시간",
   "description.grain.grinder.boost": "+20% 케이크 경험치",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "꽃 성장 시간 -25%",
   "description.blossom.hourglass.boost.effectTime": "4시간 지속",
   "description.camel.boost": "+1 샌드",
-  "description.camel.boost.two": "+30% 트레저 바운티 세일 가격",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25% 할인쿠폰 및 코인 배송",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10% 마크",
   "bumpkinItemBuff.goblin.crown.boost": "+25% 할인쿠폰 및 코인 배송",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "당신 종족이 흑요석을 찾았다고 들었어요.사실인가요?",
   "gorga.intro.three": "말해줄게. 흑요석을 찾아주면 태양석으로 교환해 줄게.",
   "description.bonusTimeshard.boost": "+1 타임샤드",
-  "description.crabHat.boost": "+1 피싱 바운티",
   "description.mammoth.boost": "-25% 젖소 생산 시간",
   "description.sickle.boost": "+2 위트",
   "description.frozen.sheep.boost": "겨울철 양병 없음",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "모든 동물이 아프거나, 준비가 되었거나, 잠들어 있습니다.",
   "description.basic.scarecrow": "근처의 기본 작물을 강화하세요.",
   "description.scary.mike": "근처의 중형 작물을 강화하세요.",
-  "description.laurie.chuckle.crow": "근처의 고급 작물을 강화하세요."
+  "description.laurie.chuckle.crow": "근처의 고급 작물을 강화하세요.",
+  "description.treasure.map.boost": "+20% 코인 트레저 세일 가격",
+  "description.camel.boost.two": "+30% 트레저 세일 가격",
+  "description.crab.hat": "머리 꼭대기에 앉은 귀여운 살아있는 게가 매력과 약간의 개성을 더합니다.이 친절한 동반자는 더 많은 보물을 쉽게 잡을 수 있도록 도와줍니다.",
+  "description.crabHat.boost": "낚시 시 보물 1개"
 }

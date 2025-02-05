@@ -165,7 +165,6 @@
   "description.basic.scarecrow.boost": "-20% Temps de croissance des cultures de base : Tournesol, potato et pumpkin (AOE 3x3)",
   "description.scary.mike.boost": "+0.2 Culture moyenne : Carotte, Cabbage, Soya, Betterave, Cauliflower et Parsnip (AOE 3x3)",
   "description.laurie.chuckle.crow.boost": "+0.2 Culture avancée: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
-  "description.treasure.map.boost": "+20% Coins sur les ventes de trésors",
   "description.kernaldo.boost": "-25% Temps de croissance du Wheat",
   "description.grain.grinder.boost": "+20% XP de gâteau",
   "description.nana.boost": "-10% Temps de croissance de la banana",
@@ -4704,7 +4703,6 @@
   "description.blossom.hourglass.boost": "-25 % de temps de croissance des fleurs",
   "description.blossom.hourglass.boost.effectTime": "Dure 4 heures",
   "description.camel.boost": "+1 Sand",
-  "description.camel.boost.two": "Prix de vente de Treasure Bounty +30 %",
   "bumpkinItemBuff.bumpkin.crown.boost": "+25 % de livraisons de SFL et de pièces",
   "bumpkinItemBuff.bumpkin.crown.boost.two": "+10 % de points",
   "bumpkinItemBuff.goblin.crown.boost": "+25 % de livraisons de SFL et de pièces",
@@ -5088,7 +5086,6 @@
   "gorga.intro.two": "J'ai entendu dire que votre espèce avait trouvé de l'obsidienne. Est-ce vrai ?",
   "gorga.intro.three": "Quoi qu'il en soit, si tu peux me trouver de l'obsidienne, je l'échangerai contre Sunstone.",
   "description.bonusTimeshard.boost": "+1 Timeshard",
-  "description.crabHat.boost": "+1 prime de pêche",
   "description.mammoth.boost": "-25 % de temps de production des vaches",
   "description.sickle.boost": "+2 Blé",
   "description.frozen.sheep.boost": "Pas de maladie des moutons en hiver",
@@ -5145,5 +5142,9 @@
   "powerSkills.reason.animalsSickReadyAsleep": "Tous vos animaux sont malades, prêts ou endormis",
   "description.basic.scarecrow": "Boostez les cultures de base à proximité.",
   "description.scary.mike": "Stimulez les cultures moyennes à proximité.",
-  "description.laurie.chuckle.crow": "Boostez les cultures avancées à proximité."
+  "description.laurie.chuckle.crow": "Boostez les cultures avancées à proximité.",
+  "description.treasure.map.boost": "Prix de vente du trésor de pièces +20 %",
+  "description.camel.boost.two": "+30 % de prix de vente du trésor",
+  "description.crab.hat": "Un crabe mignon et vivant perché au sommet de votre tête, qui ajoute du charme et une touche de personnalité supplémentaire. Ce sympathique compagnon vous aide à attraper plus de trésors en toute simplicité",
+  "description.crabHat.boost": "+1 trésor lors de la pêche"
 }
