@@ -3982,7 +3982,7 @@
   "npcDialogues.sheep.intro1": "Thanks for finding me! One moment I was pretending to be a sheep with the Cowboy and the next moment I was here.",
   "npcDialogues.sheep.intro2": "All I remember is flashing lights and strange noises...",
 
-  "skill.greenThumb": "-5% crop growth time",
+  "skill.greenThumb": "-5% plot crop growth time",
   "skill.youngFarmer": "+0.1 Basic Crop yield",
   "skill.experiencedFarmer": "+0.1 Medium Crop yield",
   "skill.bettysFriend": "Betty Coin delivery revenue increased by 30%",
