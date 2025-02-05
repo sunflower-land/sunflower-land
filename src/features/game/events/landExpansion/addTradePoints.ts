@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_IDS } from "features/game/types";
 import { getKeys } from "features/game/types/decorations";
 import { GameState, InventoryItemName } from "features/game/types/game";
@@ -22,7 +22,7 @@ export function calculateTradePoints({
     const name = getKeys(items).filter(
       (itemName) => itemName in KNOWN_IDS,
     )[0] as InventoryItemName;
-    const isResource = getKeys(TRADE_LIMITS).includes(name);
+    const isResource = isTradeResource(name);
 
     if (isResource) {
       return { multipliedPoints };

@@ -14,7 +14,6 @@ import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 import { TradeableDisplay } from "../lib/tradeables";
-import { getKeys } from "features/game/types/decorations";
 import {
   BlockchainEvent,
   Context as ContextType,
@@ -31,7 +30,7 @@ import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
@@ -144,7 +143,7 @@ export const TradeableOffers: React.FC<{
   };
 
   const loading = !tradeable;
-  const isResource = getKeys(TRADE_LIMITS).includes(KNOWN_ITEMS[Number(id)]);
+  const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
 
   // Check if the item is a bert obsession and whether the bert obsession is completed
   const isItemBertObsession = bertObsession?.name === display.name;

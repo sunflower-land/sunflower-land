@@ -1,4 +1,4 @@
-import { GameState, PlantedCrop } from "../../types/game";
+import { GameState, PlantedCrop, TemperateSeasonName } from "../../types/game";
 import {
   Crop,
   CropName,
@@ -6,6 +6,7 @@ import {
   GREENHOUSE_CROPS,
   GreenHouseCropName,
 } from "../../types/crops";
+import { SeedName } from "features/game/types/seeds";
 import Decimal from "decimal.js-light";
 import {
   BumpkinActivityName,
@@ -23,6 +24,39 @@ type Options = {
   state: GameState;
   action: LandExpansionHarvestAction;
   createdAt?: number;
+};
+
+export const isSummerCrop = (
+  cropName: CropName | GreenHouseCropName,
+  season: TemperateSeasonName,
+  seasonalSeeds: Record<TemperateSeasonName, SeedName[]>,
+): boolean => {
+  if (season !== "summer") return false;
+  return seasonalSeeds.summer.includes(`${cropName} Seed` as SeedName);
+};
+export const isAutumnCrop = (
+  cropName: CropName | GreenHouseCropName,
+  season: TemperateSeasonName,
+  seasonalSeeds: Record<TemperateSeasonName, SeedName[]>, // 🔄 Pass as argument
+): boolean => {
+  if (season !== "autumn") return false;
+  return seasonalSeeds.autumn.includes(`${cropName} Seed` as SeedName);
+};
+export const isSpringCrop = (
+  cropName: CropName | GreenHouseCropName,
+  season: TemperateSeasonName,
+  seasonalSeeds: Record<TemperateSeasonName, SeedName[]>, // 🔄 Pass as argument
+): boolean => {
+  if (season !== "spring") return false;
+  return seasonalSeeds.spring.includes(`${cropName} Seed` as SeedName);
+};
+export const isWinterCrop = (
+  cropName: CropName | GreenHouseCropName,
+  season: TemperateSeasonName,
+  seasonalSeeds: Record<TemperateSeasonName, SeedName[]>, // 🔄 Pass as argument
+): boolean => {
+  if (season !== "winter") return false;
+  return seasonalSeeds.winter.includes(`${cropName} Seed` as SeedName);
 };
 
 export const isBasicCrop = (cropName: CropName | GreenHouseCropName) => {

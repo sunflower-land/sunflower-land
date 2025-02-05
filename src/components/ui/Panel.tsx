@@ -170,7 +170,7 @@ export const ButtonPanel: React.FC<
   return (
     <div
       className={classNames(
-        `![border-image:var(--button-image)_3_3_4_3_fill] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill] ${className}`,
+        `![border-image:var(--button-image)_3_3_4_3_fill] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill] transition-transform active:scale-[0.997] ${className}`,
         "relative",
         {
           "opacity-50": !!disabled,

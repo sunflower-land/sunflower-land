@@ -67,7 +67,6 @@ import {
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Prop {
   gameState: GameState;
@@ -186,7 +185,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
   const easterEggs = getItems(EASTER_EGG);
-  const bounty = getItems(SELLABLE_TREASURE);
+  const treasure = getItems(SELLABLE_TREASURE);
   const exotics = getItems(EXOTIC_CROPS);
   const cropCompost = getItems(CROP_COMPOST);
   const fruitCompost = getItems(FRUIT_COMPOST);
@@ -248,8 +247,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             details={{
               item: selectedItem,
               seasons:
-                selectedItem in SEEDS &&
-                hasFeatureAccess(gameState, "SEASONAL_SEEDS")
+                selectedItem in SEEDS
                   ? getKeys(SEASONAL_SEEDS).filter((season) =>
                       SEASONAL_SEEDS[season].includes(selectedItem as SeedName),
                     )
@@ -282,26 +280,19 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       }
       content={
         <>
-          {hasFeatureAccess(gameState, "SEASONAL_SEEDS") ? (
-            <>
-              {itemsSection(
-                `${t(`${gameState.season.season}.seeds`)}`,
-                allSeeds.filter((seed) =>
-                  SEASONAL_SEEDS[gameState.season.season].includes(seed),
-                ),
-                SEASON_ICONS[gameState.season.season],
-              )}
-              {itemsSection(
-                t("seeds"),
-                allSeeds.filter(
-                  (seed) =>
-                    !SEASONAL_SEEDS[gameState.season.season].includes(seed),
-                ),
-                SUNNYSIDE.icons.seeds,
-              )}
-            </>
-          ) : (
-            <>{itemsSection(t("seeds"), allSeeds, SUNNYSIDE.icons.seeds)}</>
+          {itemsSection(
+            `${t(`${gameState.season.season}.seeds`)}`,
+            allSeeds.filter((seed) =>
+              SEASONAL_SEEDS[gameState.season.season].includes(seed),
+            ),
+            SEASON_ICONS[gameState.season.season],
+          )}
+          {itemsSection(
+            t("seeds"),
+            allSeeds.filter(
+              (seed) => !SEASONAL_SEEDS[gameState.season.season].includes(seed),
+            ),
+            SUNNYSIDE.icons.seeds,
           )}
 
           {itemsSection(
@@ -337,8 +328,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["Carrot Cake"].image,
           )}
           {itemsSection(
-            t("bounty"),
-            bounty,
+            t("treasure"),
+            treasure,
             ITEM_DETAILS["Pirate Bounty"].image,
           )}
           {itemsSection(

@@ -33,19 +33,19 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { TradeableSummary } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";
 import { ResourceList } from "./ResourceList";
-import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
-  getKeys,
 } from "features/game/types/craftables";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import {
+  isTradeResource,
+  TradeResource,
+} from "features/game/actions/tradeLimits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getDayOfYear } from "lib/utils/time";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { StoreOnChain } from "./StoreOnChain";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
@@ -82,8 +82,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [quantity, setQuantity] = useState(0);
   const [needsSync, setNeedsSync] = useState(false);
 
-  const { openModal } = useContext(ModalContext);
-
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
 
   const { state } = gameState.context;
@@ -111,7 +109,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   });
 
   const isResource =
-    getKeys(TRADE_LIMITS).includes(display.name as InventoryItemName) &&
+    isTradeResource(display.name as InventoryItemName) &&
     display.type === "collectibles";
 
   // Check inventory count
@@ -347,7 +345,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return (
       <ResourceList
         inventoryCount={new Decimal(available)}
-        itemName={KNOWN_ITEMS[id] as InventoryItemName}
+        itemName={display.name as TradeResource}
         floorPrice={floorPrice}
         isSaving={false}
         onCancel={onClose}

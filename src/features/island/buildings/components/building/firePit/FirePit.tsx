@@ -28,6 +28,7 @@ const _experience = (state: MachineState) =>
   state.context.state.bumpkin?.experience;
 const _potatoCount = (state: MachineState) =>
   state.context.state.inventory.Potato ?? new Decimal(0);
+const _season = (state: MachineState) => state.context.state.season.season;
 const _cooking = (id: number) => (state: MachineState) =>
   state.context.state.buildings["Fire Pit"]?.[id]?.crafting;
 export const FirePit: React.FC<Props> = ({
@@ -47,6 +48,7 @@ export const FirePit: React.FC<Props> = ({
   const mashedPotatoCooked = useSelector(gameService, _mashedPotatoCooked);
   const experience = useSelector(gameService, _experience);
   const potatoCount = useSelector(gameService, _potatoCount);
+  const season = useSelector(gameService, _season);
 
   const { play: bakeryAudio } = useSound("bakery");
 
@@ -102,7 +104,7 @@ export const FirePit: React.FC<Props> = ({
     <>
       <BuildingImageWrapper name="Fire Pit" onClick={handleClick} ready={ready}>
         <img
-          src={FIRE_PIT_VARIANTS[island]}
+          src={FIRE_PIT_VARIANTS[island][season]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,

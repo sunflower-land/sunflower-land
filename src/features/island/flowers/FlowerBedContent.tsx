@@ -24,7 +24,6 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 
@@ -207,26 +206,6 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
             </Label>
             <div className="flex flex-wrap">
               {getKeys(FLOWER_SEEDS)
-                .filter(
-                  (name) =>
-                    name !== "Clover Seed" ||
-                    hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-                )
-                .filter(
-                  (name) =>
-                    name !== "Edelweiss Seed" ||
-                    hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-                )
-                .filter(
-                  (name) =>
-                    name !== "Lavender Seed" ||
-                    hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-                )
-                .filter(
-                  (name) =>
-                    name !== "Gladiolus Seed" ||
-                    hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-                )
                 .sort((a, b) => Number(isInSeason(b)) - Number(isInSeason(a)))
                 .map((name) => (
                   <Box

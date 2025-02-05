@@ -1,14 +1,13 @@
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useGame } from "features/game/GameProvider";
 import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
 import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 
@@ -45,29 +44,11 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
   const state = useSelector(gameService, _state);
   const { coins, inventory, island } = state;
 
-  const hasAccess = hasFeatureAccess(state, "WEATHER_SHOP");
-
   const craft = () => {
     gameService.send("tool.crafted", {
       tool: selected,
     });
   };
-
-  if (!hasAccess) {
-    return (
-      <Panel>
-        <div className="p-2">
-          <p className="text-sm mb-2">
-            {t("temperateSeason.weatherShop.buy.description")}
-          </p>
-          <p className="text-xs">
-            {t("temperateSeason.weatherShop.buy.comingSoon")}
-          </p>
-        </div>
-        <Button onClick={onClose}>{t("close")}</Button>
-      </Panel>
-    );
-  }
 
   if (showIntro) {
     return (

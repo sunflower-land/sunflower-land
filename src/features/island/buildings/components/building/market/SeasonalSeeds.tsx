@@ -60,7 +60,6 @@ import {
   CROP_EXTENSION_MOD_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { isFullMoon } from "features/game/types/calendar";
-import { hasFeatureAccess } from "lib/flags";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -78,27 +77,7 @@ export const SeasonalSeeds: React.FC = () => {
   const currentSeason = season.season;
   // Sort the seeds by their default order
   const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
-    SEASONAL_SEEDS[currentSeason]
-      .filter(
-        (name) =>
-          name !== "Clover Seed" || hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-      )
-      .filter(
-        (name) =>
-          name !== "Edelweiss Seed" ||
-          hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-      )
-      .filter(
-        (name) =>
-          name !== "Lavender Seed" ||
-          hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-      )
-      .filter(
-        (name) =>
-          name !== "Gladiolus Seed" ||
-          hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-      )
-      .includes(seed),
+    SEASONAL_SEEDS[currentSeason].includes(seed),
   );
 
   const [selectedName, setSelectedName] = useState<SeedName>(
@@ -305,27 +284,6 @@ export const SeasonalSeeds: React.FC = () => {
     ...currentSeasonSeeds,
     ...FULL_MOON_SEEDS,
   ];
-
-  const offSeasonSeeds = getKeys(SEEDS)
-    .filter(
-      (name) =>
-        name !== "Clover Seed" || hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-    )
-    .filter(
-      (name) =>
-        name !== "Edelweiss Seed" ||
-        hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-    )
-    .filter(
-      (name) =>
-        name !== "Lavender Seed" || hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-    )
-    .filter(
-      (name) =>
-        name !== "Gladiolus Seed" ||
-        hasFeatureAccess(state, "SEASONAL_FLOWERS"),
-    )
-    .filter((seed) => !validSeeds.includes(seed));
 
   const harvestCount = getHarvestCount();
 

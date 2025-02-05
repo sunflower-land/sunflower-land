@@ -150,8 +150,10 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 type="default"
                 icon={
                   buildingName === "Hen House"
-                    ? HEN_HOUSE_VARIANTS[state.island.type][nextLevel]
-                    : BARN_IMAGES[nextLevel]
+                    ? HEN_HOUSE_VARIANTS[state.season.season][nextLevel]
+                    : BARN_IMAGES[state.island.type][state.season.season][
+                        nextLevel
+                      ]
                 }
                 iconWidth={11}
                 className={`${buildingName === "Hen House" ? "ml-2" : "ml-1.5"} mt-2`}

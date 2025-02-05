@@ -10,7 +10,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { SmoothieShackModal } from "./SmoothieShackModal";
-import { SMOOTHIE_SHACK_VARIANTS } from "features/island/lib/alternateArt";
+import {
+  SMOOTHIE_SHACK_DESK_VARIANTS,
+  SMOOTHIE_SHACK_VARIANTS,
+} from "features/island/lib/alternateArt";
 import { useSound } from "lib/utils/hooks/useSound";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
@@ -25,6 +28,7 @@ export const SmoothieShack: React.FC<Props> = ({
   isBuilt,
   onRemove,
   island,
+  season,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -111,7 +115,7 @@ export const SmoothieShack: React.FC<Props> = ({
         )}
 
         <img
-          src={SUNNYSIDE.building.smoothieShackDesk}
+          src={SMOOTHIE_SHACK_DESK_VARIANTS[season]}
           className={classNames("absolute pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
@@ -120,7 +124,7 @@ export const SmoothieShack: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 24}px`,
             height: `${PIXEL_SCALE * 32}px`,
             right: `${PIXEL_SCALE * 12}px`,
-            top: `${PIXEL_SCALE * 2}px`,
+            top: `${season === "summer" ? PIXEL_SCALE * 2 : PIXEL_SCALE * 0}px`,
           }}
         />
 

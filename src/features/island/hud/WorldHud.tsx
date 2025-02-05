@@ -24,10 +24,8 @@ import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
-import { hasFeatureAccess } from "lib/flags";
-import { CandyHUD } from "./CandyHud";
 import { getDayOfChristmas } from "features/game/events/landExpansion/collectCandy";
-import { isMobile } from "mobile-device-detect";
+import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -66,7 +64,7 @@ const HudComponent: React.FC = () => {
 
   const farmAddress = gameService.state?.context?.farmAddress;
   const isFullUser = farmAddress !== undefined;
-
+  const isTutorial = gameState.context.state.island.type === "basic";
   return (
     <>
       <HudContainer>
@@ -122,9 +120,8 @@ const HudComponent: React.FC = () => {
           <AuctionCountdown />
           <SpecialEventCountdown />
         </div>
-
         <BumpkinProfile isFullUser={isFullUser} />
-
+        {!isTutorial && <GameCalendar />}
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
@@ -137,7 +134,6 @@ const HudComponent: React.FC = () => {
           <Save />
           <Settings isFarming={false} />
         </div>
-
         {farmAddress && (
           <Modal
             show={showDepositModal}
@@ -156,19 +152,6 @@ const HudComponent: React.FC = () => {
             </CloseButtonPanel>
           </Modal>
         )}
-        {pathname.includes("plaza") &&
-          hasFeatureAccess(gameState.context.state, "CHRISTMAS_2024") && (
-            <div
-              className="absolute z-40 flex justify-center w-full"
-              style={{
-                top: isMobile
-                  ? `${PIXEL_SCALE * 15}px`
-                  : `${PIXEL_SCALE * 3}px`,
-              }}
-            >
-              {dayOfChristmas <= 12 && <CandyHUD />}
-            </div>
-          )}
       </HudContainer>
     </>
   );

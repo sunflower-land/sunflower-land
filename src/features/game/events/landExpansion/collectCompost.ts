@@ -4,7 +4,6 @@ import { ComposterName } from "features/game/types/composters";
 import { getKeys } from "features/game/types/craftables";
 import { CompostBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 
 export type collectCompostAction = {
@@ -45,8 +44,7 @@ export function collectCompost({
     }
 
     if (createdAt < compost.readyAt) {
-      throw new Error(translate("error.no.ready"));
-      ("Compost is not ready");
+      throw new Error("Compost is not ready");
     }
 
     getKeys(compost.items ?? {}).forEach((name) => {
@@ -59,8 +57,7 @@ export function collectCompost({
       bumpkin?.activity,
     );
 
-    if (!hasFeatureAccess(stateCopy, "WEATHER_SHOP")) {
-      // Set on backend
+    if (building.requires) {
       delete building.requires;
     }
 

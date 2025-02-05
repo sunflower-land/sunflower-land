@@ -16,7 +16,6 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
-  isAnimalMedicine,
 } from "features/game/lib/animals";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
@@ -155,11 +154,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const needsLove = chickenMachineState === "needsLove";
   const ready = chickenMachineState === "ready";
   const idle = chickenMachineState === "idle";
-  const sick = chickenMachineState === "sick";
-  const sleepingAndSick =
-    chickenMachineState === "sleeping" && chicken.state === "sick";
-  const needsLoveAndSick =
-    chickenMachineState === "needsLove" && chicken.state === "sick";
+  const sick = chickenMachineState === "sick" || chicken.state === "sick";
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
@@ -306,13 +301,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const handleClick = async () => {
     if (disabled) return;
 
+    if (sick) return onSickClick();
+
     if (needsLove) return onLoveClick();
 
-    const medicineSelected = selectedItem && isAnimalMedicine(selectedItem);
-
-    if (sick || (sleepingAndSick && medicineSelected)) {
-      return onSickClick();
-    }
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
       return;
@@ -398,6 +390,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     };
   };
 
+  const requestBubbleRequest = () => {
+    if (sick) return "Barn Delight";
+    if (needsLove) return chicken.item;
+    return favFood;
+  };
+  const showRequestBubble = sick || needsLove || idle;
+
   if (chickenMachineState === "initial") return null;
 
   const level = getAnimalLevel(chicken.experience, "Chicken");
@@ -481,32 +480,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             />
           )}
           {/* Request */}
-          {idle && (
+          {showRequestBubble && (
             <RequestBubble
               top={PIXEL_SCALE * -3.5}
               left={PIXEL_SCALE * 20}
-              request={favFood}
-            />
-          )}
-          {sick && (
-            <RequestBubble
-              top={PIXEL_SCALE * -3.5}
-              left={PIXEL_SCALE * 20}
-              request="Barn Delight"
-            />
-          )}
-          {sleepingAndSick && (
-            <RequestBubble
-              top={PIXEL_SCALE * -3.5}
-              left={PIXEL_SCALE * 20}
-              request="Barn Delight"
-            />
-          )}
-          {needsLove && (
-            <RequestBubble
-              top={PIXEL_SCALE * -3.5}
-              left={PIXEL_SCALE * 20}
-              request={chicken.item}
+              request={requestBubbleRequest()}
             />
           )}
           {sleeping && showWakesIn && (
@@ -555,7 +533,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             color: xpIndicatorColor,
           }}
         >
-          {`+${xpIndicatorAmount}`}
+          {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
         </span>
       </Transition>
       <Transition
@@ -576,7 +554,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             color: "#ffffff",
           }}
         >
-          {`+${animalXP}`}
+          {!!animalXP && `+${animalXP}`}
         </span>
       </Transition>
     </>

@@ -1339,6 +1339,11 @@ export type LavaPit = {
   collectedAt?: number;
 };
 
+export type VIP = {
+  bundles: { name: VipBundle; boughtAt: number }[];
+  expiresAt: number;
+};
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1352,10 +1357,7 @@ export interface GameState {
   };
 
   calendar: Calendar;
-  vip?: {
-    bundles: { name: VipBundle; boughtAt: number }[];
-    expiresAt: number;
-  };
+  vip?: VIP;
   shipments: {
     restockedAt?: number;
   };

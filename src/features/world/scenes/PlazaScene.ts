@@ -1,5 +1,4 @@
 import seasonal_plaza from "assets/map/seasonal_plaza.json";
-import bull_run_plaza from "assets/map/bull_run_plaza.json";
 import seasonal_tileset from "assets/map/seasonal_tileset.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -16,7 +15,6 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 
@@ -121,15 +119,12 @@ export class PlazaScene extends BaseScene {
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
   constructor({ gameState }: { gameState: GameState }) {
-    const showNextChapterPlaza = hasFeatureAccess(gameState, "SEASONAL_PLAZA");
     super({
       name: "plaza",
       map: {
-        json: showNextChapterPlaza ? seasonal_plaza : bull_run_plaza,
-        imageKey: showNextChapterPlaza ? "seasonal-tileset" : "tileset",
-        defaultTilesetConfig: showNextChapterPlaza
-          ? seasonal_tileset
-          : undefined,
+        json: seasonal_plaza,
+        imageKey: "seasonal-tileset",
+        defaultTilesetConfig: seasonal_tileset,
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
@@ -466,45 +461,43 @@ export class PlazaScene extends BaseScene {
 
     const season = this.gameState.season.season;
 
-    if (hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")) {
-      // List of all seasonal elements
-      const seasonElements = [
-        "Water",
-        "Ground",
-        "Flowers & Grass",
-        "Paths",
-        "Paths Layer 2",
-        "Decoration Base",
-        "Decoration Base 2",
-        "Decoration Base 3",
-        "Decorations Layer 2",
-        "Decorations Layer 3",
-      ];
-      const seasons = ["Spring", "Summer", "Autumn", "Winter"];
+    // List of all seasonal elements
+    const seasonElements = [
+      "Water",
+      "Ground",
+      "Flowers & Grass",
+      "Paths",
+      "Paths Layer 2",
+      "Decoration Base",
+      "Decoration Base 2",
+      "Decoration Base 3",
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+    ];
+    const seasons = ["Spring", "Summer", "Autumn", "Winter"];
 
-      // Hide all seasonal layers at the start
-      seasons.forEach((seasonName) => {
-        seasonElements.forEach((element) => {
-          const layerName = `${element}/${seasonName} ${element}`;
-          this.layers[layerName]?.setVisible(false);
-        });
-      });
-
-      // Determine active season layer and show relevant elements
-      const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
+    // Hide all seasonal layers at the start
+    seasons.forEach((seasonName) => {
       seasonElements.forEach((element) => {
-        const activeLayer = `${element}/${activeSeasonName} ${element}`;
-        this.layers[activeLayer]?.setVisible(true);
-
-        // Add Elements here that are drawn on top of the map
-        if (
-          element === "Decorations Layer 2" ||
-          element === "Decorations Layer 3"
-        ) {
-          this.layers[activeLayer]?.setDepth(1000000);
-        }
+        const layerName = `${element}/${seasonName} ${element}`;
+        this.layers[layerName]?.setVisible(false);
       });
-    }
+    });
+
+    // Determine active season layer and show relevant elements
+    const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
+    seasonElements.forEach((element) => {
+      const activeLayer = `${element}/${activeSeasonName} ${element}`;
+      this.layers[activeLayer]?.setVisible(true);
+
+      // Add Elements here that are drawn on top of the map
+      if (
+        element === "Decorations Layer 2" ||
+        element === "Decorations Layer 3"
+      ) {
+        this.layers[activeLayer]?.setDepth(1000000);
+      }
+    });
 
     const Banners: Record<TemperateSeasonName, string> = {
       spring: "woc_banner_spring",
@@ -514,9 +507,7 @@ export class PlazaScene extends BaseScene {
     };
 
     // Banner
-    const banner = hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")
-      ? Banners[season]
-      : "bull_run_banner";
+    const banner = Banners[season];
     this.add.image(400, 225, banner).setDepth(225);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
@@ -596,26 +587,9 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    if (hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")) {
-      this.add.image(248, 244, "mammoth");
-    } else {
-      const mechaBull = this.add.sprite(248, 244, "mecha_bull");
-      this.anims.create({
-        key: "mech_bull_anim",
-        frames: this.anims.generateFrameNumbers("mecha_bull", {
-          start: 0,
-          end: 7,
-        }),
-        repeat: -1,
-        frameRate: 10,
-      });
-      mechaBull.play("mech_bull_anim", true);
-    }
+    this.add.image(248, 244, "mammoth");
 
-    const featuredHat = hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")
-      ? "acorn_hat"
-      : "cowboy_hat";
-    this.add.image(288.5, 248, featuredHat);
+    this.add.image(288.5, 248, "acorn_hat");
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(564, 191, "sparkle");
@@ -651,22 +625,20 @@ export class PlazaScene extends BaseScene {
     }
 
     // Change image every chapter change
-    if (hasFeatureAccess(this.gameState, "SEASONAL_PLAZA")) {
-      const nft1 = this.add.image(564, 191, "barn_blueprint");
-      nft1.setDepth(191);
+    const nft1 = this.add.image(564, 191, "barn_blueprint");
+    nft1.setDepth(191);
 
-      const nft2 = this.add.image(585, 205, "sol_luna");
-      nft2.setDepth(205);
+    const nft2 = this.add.image(585, 205, "sol_luna");
+    nft2.setDepth(205);
 
-      const nft3 = this.add.image(598, 181, "golden_sheep");
-      nft3.setDepth(181);
+    const nft3 = this.add.image(598, 181, "golden_sheep");
+    nft3.setDepth(181);
 
-      const nft4 = this.add.image(615, 205, "glacial_plume");
-      nft4.setDepth(205);
+    const nft4 = this.add.image(615, 205, "glacial_plume");
+    nft4.setDepth(205);
 
-      const nft5 = this.add.image(635, 191, "locust_king");
-      nft5.setDepth(181);
-    }
+    const nft5 = this.add.image(635, 191, "locust_king");
+    nft5.setDepth(181);
 
     const door = this.colliders
       ?.getChildren()

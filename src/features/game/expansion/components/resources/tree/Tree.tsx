@@ -56,7 +56,9 @@ const compareResource = (prev: TreeType, next: TreeType) => {
 };
 const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
-  isCollectibleBuilt({ name: "Foreman Beaver", game: next });
+    isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
+  (prev.bumpkin?.skills["Insta-Chop"] ?? false) ===
+    (next.bumpkin?.skills["Insta-Chop"] ?? false);
 
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
@@ -145,6 +147,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       // insta-chop the tree
       claimAnyReward();
       chop();
+      setTouchCount(0);
     }
 
     // need to hit enough times to collect resource
@@ -214,10 +217,14 @@ export const Tree: React.FC<Props> = ({ id }) => {
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingTree resourceAmount={collectedAmount} />}
+      {collecting && (
+        <DepletingTree resourceAmount={collectedAmount} season={season} />
+      )}
 
       {/* Depleted resource */}
-      {chopped && <DepletedTree timeLeft={timeLeft} island={island} />}
+      {chopped && (
+        <DepletedTree timeLeft={timeLeft} island={island} season={season} />
+      )}
 
       {/* Chest reward */}
       {reward && (

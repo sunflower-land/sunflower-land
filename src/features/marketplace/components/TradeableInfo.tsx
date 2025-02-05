@@ -14,8 +14,7 @@ import brownBg from "assets/brand/brown_background.png";
 import lockIcon from "assets/icons/lock.png";
 
 import { InventoryItemName } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
 import { secondsToString } from "lib/utils/time";
@@ -39,9 +38,7 @@ export const TradeableImage: React.FC<{
 }> = ({ display, supply }) => {
   const { t } = useAppTranslation();
   const params = useParams();
-  const isResource = getKeys(TRADE_LIMITS).includes(
-    display.name as InventoryItemName,
-  );
+  const isResource = isTradeResource(display.name as InventoryItemName);
 
   const isBumpkinBackground = display.name.includes("Background");
   const useBrownBackground = params.collection === "wearables" || isResource;
@@ -115,9 +112,7 @@ export const TradeableDescription: React.FC<{
 
   const isWearable = display.type === "wearables";
   const isCollectible = display.type === "collectibles";
-  const isResource = getKeys(TRADE_LIMITS).includes(
-    display.name as InventoryItemName,
-  );
+  const isResource = isTradeResource(display.name as InventoryItemName);
 
   return (
     <InnerPanel>
@@ -203,12 +198,6 @@ export const TradeableMobileInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
 }> = ({ display, tradeable }) => {
-  let latestSale = 0;
-  if (tradeable?.history.sales.length) {
-    latestSale =
-      tradeable.history.sales[0].sfl / tradeable.history.sales[0].quantity;
-  }
-
   const marketPrice = getMarketPrice({ tradeable });
   return (
     <>

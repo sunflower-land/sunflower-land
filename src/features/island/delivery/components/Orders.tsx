@@ -55,7 +55,6 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { Context } from "features/game/GameProvider";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
-import { hasFeatureAccess } from "lib/flags";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -436,9 +435,7 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between gap-1 flex-row w-full">
             <Label type="default">{t("deliveries")}</Label>
-            {(hasFeatureAccess(state, "WEATHER_SHOP")
-              ? getActiveCalendarEvent({ game: state }) === "doubleDelivery"
-              : delivery.doubleDelivery === dateKey) && (
+            {getActiveCalendarEvent({ game: state }) === "doubleDelivery" && (
               <Label type="vibrant" icon={lightning}>
                 {t("double.rewards.deliveries")}
               </Label>
@@ -780,9 +777,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </Label>
               </div>
               <div className="mb-1">
-                {(hasFeatureAccess(state, "WEATHER_SHOP")
-                  ? getActiveCalendarEvent({ game: state }) === "doubleDelivery"
-                  : delivery.doubleDelivery === dateKey) &&
+                {getActiveCalendarEvent({ game: state }) === "doubleDelivery" &&
                   !hasClaimedBonus && (
                     <Label type="vibrant" icon={lightning}>
                       {t("2x.rewards")}

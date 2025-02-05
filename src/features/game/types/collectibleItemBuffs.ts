@@ -1327,5 +1327,21 @@ function getCollectibleBuffLabels(
         boostTypeIcon: lightning,
       },
     ],
+    "Golden Sheep": [
+      {
+        shortDescription: translate("description.goldenSheep.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+        boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
+      },
+    ],
+    "Barn Blueprint": [
+      {
+        shortDescription: translate("description.barnBlueprint.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.cowIdle,
+      },
+    ],
   };
 }

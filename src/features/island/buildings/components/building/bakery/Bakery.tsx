@@ -27,6 +27,7 @@ export const Bakery: React.FC<Props> = ({
   isBuilt,
   onRemove,
   island,
+  season,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -76,7 +77,7 @@ export const Bakery: React.FC<Props> = ({
     <>
       <BuildingImageWrapper name="Bakery" onClick={handleClick} ready={ready}>
         <img
-          src={BAKERY_VARIANTS[island]}
+          src={BAKERY_VARIANTS[season]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,

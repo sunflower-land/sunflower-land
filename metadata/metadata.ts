@@ -10674,11 +10674,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Cup of Chocolate",
   },
   "Golden Sheep": {
-    description: "A dazzling wonder, worth more than its weight in wool.",
+    description:
+      "A dazzling wonder, worth more than its weight in wool. Feed Sheeps for free!",
     decimals: 0,
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Feed Reduction",
+        value: 100,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2193.png",
@@ -10689,7 +10695,12 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Barn Capacity",
+        value: 5,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2194.png",
@@ -16820,7 +16831,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Crab Hat": {
     description:
-      "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more fish with ease",
+      "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more treasures when fishing!",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Other" },
@@ -16915,6 +16926,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Summer Crop Growth Time",
+        value: -50,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/431.png",
@@ -16927,6 +16944,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Spring Crop Yield",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/432.png",
@@ -16939,6 +16962,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Autumn Crop Growth Time",
+        value: -50,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/433.png",
@@ -16951,6 +16980,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Winter Crop Yield",
+        value: 1,
+      },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/434.png",

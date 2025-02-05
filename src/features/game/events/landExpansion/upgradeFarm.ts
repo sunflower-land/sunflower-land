@@ -957,6 +957,9 @@ const INITIAL_VOLCANO_LAND: Pick<
 };
 
 const SUNSTONE_RELOCATION: Coordinates[] = [
+  { x: -5, y: 5 },
+  { x: -5, y: 9 },
+  { x: -5, y: 7 },
   { x: -3, y: 7 },
   { x: -1, y: 7 },
   { x: 1, y: 7 },

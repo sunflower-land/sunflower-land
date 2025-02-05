@@ -7,11 +7,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  ConsumableName,
-  Cookable,
-  CookableName,
-} from "features/game/types/consumables";
+import { Cookable, CookableName } from "features/game/types/consumables";
 
 import { InProgressInfo } from "../building/InProgressInfo";
 import { MachineInterpreter } from "../../lib/craftingMachine";
@@ -23,11 +19,9 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  FLAGGED_RECIPES,
   getCookingOilBoost,
   getCookingRequirements,
 } from "features/game/events/landExpansion/cook";
-import { FeatureName, hasFeatureAccess } from "lib/flags";
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "../building/BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
@@ -112,18 +106,6 @@ export const Recipes: React.FC<Props> = ({
     }, 100);
   };
 
-  const validRecipes = recipes.filter((recipes) => {
-    const flag = FLAGGED_RECIPES[recipes.name];
-    if (!flag) {
-      return true;
-    }
-
-    return hasFeatureAccess(
-      state,
-      FLAGGED_RECIPES[recipes.name as ConsumableName] as FeatureName,
-    );
-  });
-
   const isOilBoosted = buildings?.[buildingName]?.[0].crafting?.boost?.["Oil"];
 
   const hasDoubleNom = !!bumpkin.skills["Double Nom"];
@@ -191,7 +173,7 @@ export const Recipes: React.FC<Props> = ({
             </Label>
           </div>
           <div className="flex flex-wrap h-fit">
-            {validRecipes.map((item) => (
+            {recipes.map((item) => (
               <Box
                 isSelected={selected.name === item.name}
                 key={item.name}

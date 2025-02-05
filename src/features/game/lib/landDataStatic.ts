@@ -14,10 +14,15 @@ import { Equipped } from "../types/bumpkin";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  username: "Local Hero",
   coins: 10000,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    "Celestial Frostbloom": new Decimal(1),
+    "Royal Ornament": new Decimal(1),
+    "Fruit Patch": new Decimal(1),
+    "Lunara Seed": new Decimal(1),
     Obsidian: new Decimal(20),
     Jellyfish: new Decimal(1),
     Chamomile: new Decimal(1),
@@ -32,6 +37,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Market: new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(10),
+    "Lava Pit": new Decimal(1),
     Bush: new Decimal(3),
     Axe: new Decimal(10),
     Gem: new Decimal(1 * BB_TO_GEM_RATIO),
@@ -45,6 +51,21 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Gold: new Decimal(1000),
     Earthworm: new Decimal(200),
     Sunflower: new Decimal(100),
+    "Water Well": new Decimal(1),
+    "Hen House": new Decimal(3),
+    Greenhouse: new Decimal(1),
+    "Protective Pesticide": new Decimal(1),
+    "Tornado Pinwheel": new Decimal(1),
+    "Basic Bed": new Decimal(1),
+    "Fisher Bed": new Decimal(1),
+    "Floral Bed": new Decimal(1),
+    "Sturdy Bed": new Decimal(1),
+    "Desert Bed": new Decimal(1),
+    "Cow Bed": new Decimal(1),
+    "Pirate Bed": new Decimal(1),
+    "Royal Bed": new Decimal(1),
+    Mangrove: new Decimal(1),
+    "Thermal Stone": new Decimal(1),
   },
   previousInventory: {
     "Dirt Path": new Decimal(20),
@@ -89,7 +110,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  lavaPits: {},
+  lavaPits: {
+    "1": { createdAt: 0, x: -4, y: -6, height: 2, width: 2 },
+  },
 
   fruitPatches: {
     "1": {
@@ -97,13 +120,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 6,
       width: 2,
       height: 2,
-      fruit: {
-        name: "Banana",
-        plantedAt: 0,
-        amount: 1,
-        harvestsLeft: 1,
-        harvestedAt: 0,
-      },
     },
   },
   gold: {},
@@ -418,7 +434,30 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  collectibles: {},
+  collectibles: {
+    Bale: [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        readyAt: 0,
+      },
+    ],
+    "Gold Egg": [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        readyAt: 0,
+      },
+    ],
+  },
   pumpkinPlaza: {},
   treasureIsland: {
     holes: {},

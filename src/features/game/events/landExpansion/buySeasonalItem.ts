@@ -114,6 +114,16 @@ export function buySeasonalItem({
       }
     }
 
+    // Ensure item can only be crafted once, except for keys
+    if (!isKey(name as InventoryItemName)) {
+      const itemCrafted =
+        stateCopy.bumpkin.activity[`${name as SeasonalTierItemName} Bought`];
+
+      if (itemCrafted) {
+        throw new Error("This item has already been crafted");
+      }
+    }
+
     // Check if player has enough resources
     const { sfl, items } = item.cost;
 

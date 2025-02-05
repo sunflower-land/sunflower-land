@@ -27,6 +27,10 @@ import {
   isMediumCrop,
   isAdvancedCrop,
   isOvernightCrop,
+  isSummerCrop,
+  isAutumnCrop,
+  isSpringCrop,
+  isWinterCrop,
 } from "./harvest";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
@@ -46,6 +50,8 @@ import {
   CalendarEventName,
   getActiveCalendarEvent,
 } from "features/game/types/calendar";
+import { getCurrentSeason } from "features/game/types/seasons";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -211,6 +217,20 @@ export function getCropTime({
   if (
     isCollectibleActive({ name: "Super Totem", game }) ||
     isCollectibleActive({ name: "Time Warp Totem", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  if (
+    isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Solflare Aegis", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  if (
+    isAutumnCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Autumn's Embrace", game })
   ) {
     seconds = seconds * 0.5;
   }
@@ -398,6 +418,43 @@ function isPlotCrop(plant: GreenHouseCropName | CropName): plant is CropName {
   return (plant as CropName) in CROPS;
 }
 
+const getWindsOfChangeVIPYieldBoost = ({
+  crop,
+  game,
+  createdAt,
+}: {
+  crop: CropName | GreenHouseCropName;
+  game: GameState;
+  createdAt: number;
+}) => {
+  try {
+    const chapter = getCurrentSeason(new Date(createdAt));
+
+    if (chapter !== "Winds of Change") return 0;
+
+    if (!hasVipAccess({ game, now: createdAt })) return 0;
+
+    const newCrops: (CropName | GreenHouseCropName)[] = [
+      "Zucchini",
+      "Pepper",
+      "Onion",
+      "Turnip",
+      "Yam",
+      "Broccoli",
+      "Artichoke",
+      "Rhubarb",
+    ];
+
+    if (newCrops.includes(crop)) {
+      return 0.25;
+    }
+
+    return 0;
+  } catch (e) {
+    return 0;
+  }
+};
+
 /**
  * Based on items, the output will be different
  */
@@ -406,11 +463,13 @@ export function getCropYieldAmount({
   plot,
   game,
   fertiliser,
+  createdAt,
 }: {
   crop: CropName | GreenHouseCropName;
   plot?: CropPlot;
   game: GameState;
   fertiliser?: CropCompostName;
+  createdAt: number;
 }): number {
   if (game.bumpkin === undefined) return 1;
 
@@ -477,6 +536,21 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Golden Cauliflower", game })
   ) {
     amount *= 2;
+  }
+
+  //Seasonal Additions
+  if (
+    isSpringCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Blossom Ward", game })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    isWinterCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Frozen Heart", game })
+  ) {
+    amount += 1;
   }
 
   // Generic Additive Crop Boosts
@@ -787,6 +861,16 @@ export function getCropYieldAmount({
     amount = amount * 0.5;
   }
 
+  const vipBoost = getWindsOfChangeVIPYieldBoost({
+    crop,
+    createdAt,
+    game,
+  });
+
+  if (vipBoost) {
+    amount += vipBoost;
+  }
+
   return Number(setPrecision(amount));
 }
 
@@ -832,7 +916,6 @@ export function plant({
     }
 
     if (
-      hasFeatureAccess(stateCopy, "SEASONAL_SEEDS") &&
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
     ) {
       throw new Error("This seed is not available in this season");
@@ -862,6 +945,7 @@ export function plant({
           crop: cropName,
           game: stateCopy,
           plot,
+          createdAt,
           fertiliser: plot.fertiliser?.name,
         }),
       },

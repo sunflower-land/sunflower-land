@@ -62,7 +62,7 @@ import { RichBear } from "./components/RichBear";
 import { SunflowerBear } from "./components/SunflowerBear";
 import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
@@ -336,7 +336,6 @@ import { TomatoBombard } from "./components/TomatoBombard";
 import { BullRunBanner } from "./components/BullRunBanner";
 import { Bed } from "./components/Bed";
 import { Wagon } from "./components/Wagon";
-import { hasFeatureAccess } from "lib/flags";
 import { Chicory } from "./components/Chicory";
 import { LonghornCowfish } from "./components/LonghornCownfish";
 import { AlienChicken } from "./components/AlienChicken";
@@ -1851,7 +1850,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
 export const READONLY_COLLECTIBLES: Record<
   CollectibleName | "Bud",
-  React.FC<any>
+  React.FC<CollectibleProps>
 > = {
   ...COLLECTIBLE_COMPONENTS,
   Observatory: () => (
@@ -2140,27 +2139,6 @@ export const READONLY_COLLECTIBLES: Record<
           top: `${PIXEL_SCALE * 5}px`,
         }}
       />
-      {!hasFeatureAccess(INITIAL_FARM, "BALE_AOE_END") && (
-        <div
-          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 16 * 4}px`,
-            height: `${PIXEL_SCALE * 16 * 4}px`,
-            left: `${PIXEL_SCALE * -13}px`,
-            top: `${PIXEL_SCALE * -11}px`,
-          }}
-        >
-          <img
-            src={lightning}
-            className="absolute bottom-0 opacity-50 animate-pulsate"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * 27}px`,
-              top: `${PIXEL_SCALE * 25}px`,
-            }}
-          />
-        </div>
-      )}
     </div>
   ),
   "Nyon Statue": () => (

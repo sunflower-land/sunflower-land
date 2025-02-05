@@ -12,7 +12,6 @@ import { ComposterName } from "features/game/types/composters";
 import { CompostBuilding } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { hasFeatureAccess } from "lib/flags";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0] as CompostBuilding;
@@ -58,10 +57,6 @@ export const Composter: React.FC<Props> = ({ name }) => {
       buildingId: composter!.id,
       building: name,
     });
-
-    if (!hasFeatureAccess(gameService.state.context.state, "WEATHER_SHOP")) {
-      gameService.send("SAVE");
-    }
 
     if (
       name === "Compost Bin" &&
