@@ -20,6 +20,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IngredientsPopover } from "../IngredientsPopover";
+import { BuffLabel } from "features/game/types";
 
 /**
  * The props for the details for items.
@@ -92,7 +93,7 @@ interface Props {
   stock?: Decimal;
   isLimitedItem?: boolean;
   details: ItemDetailsProps;
-  boost?: string;
+  boost?: BuffLabel[];
   requirements?: RequirementsProps;
   limit?: number;
   actionView?: JSX.Element;
@@ -229,12 +230,23 @@ export const CraftingRequirements: React.FC<Props> = ({
     if (!boost) return <></>;
 
     return (
-      <div className="flex flex-col space-y-1 mb-2">
-        <div className="flex justify-start sm:justify-center">
-          <Label type="info" className="text-center">
-            {boost}
-          </Label>
-        </div>
+      <div className="flex flex-wrap gap-x-2 gap-y-1">
+        {boost.map(
+          (
+            { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+            index,
+          ) => (
+            <Label
+              key={index}
+              type={labelType}
+              icon={boostTypeIcon}
+              secondaryIcon={boostedItemIcon}
+              className="text-center"
+            >
+              {shortDescription}
+            </Label>
+          ),
+        )}
       </div>
     );
   };
