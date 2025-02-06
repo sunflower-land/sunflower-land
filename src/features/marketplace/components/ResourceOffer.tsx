@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -17,6 +18,10 @@ import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
 import lockIcon from "assets/icons/lock.png";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
 
 type Props = {
   itemName: TradeResource;
@@ -32,6 +37,12 @@ type Props = {
 
 const MAX_SFL = 150;
 
+const _hasReputation = (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
+
 export const ResourceOffer: React.FC<Props> = ({
   itemName,
   floorPrice,
@@ -44,6 +55,8 @@ export const ResourceOffer: React.FC<Props> = ({
   onOffer,
 }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const hasTradeReputation = useSelector(gameService, _hasReputation);
 
   const unitPrice = new Decimal(quantity).equals(0)
     ? new Decimal(0)
@@ -70,9 +83,14 @@ export const ResourceOffer: React.FC<Props> = ({
   return (
     <>
       <div>
-        <Label type="default" className="my-1 ml-2" icon={tradeIcon}>
-          {t("marketplace.makeOffer")}
-        </Label>
+        <div className="flex flex-wrap justify-between mb-1">
+          <Label type="default" className="my-1 ml-2" icon={tradeIcon}>
+            {t("marketplace.makeOffer")}
+          </Label>
+          {!hasTradeReputation && (
+            <RequiredReputation reputation={Reputation.Cropkeeper} />
+          )}
+        </div>
         <div className="flex justify-between">
           <div className="flex items-center">
             <Box image={ITEM_DETAILS[itemName].image} disabled />
@@ -249,7 +267,8 @@ export const ResourceOffer: React.FC<Props> = ({
               ) ||
               new Decimal(quantity).equals(0) || // Disable when quantity is 0
               new Decimal(price).equals(0) || // Disable when sfl is 0
-              isSaving
+              isSaving ||
+              !hasTradeReputation
             }
             onClick={onOffer}
           >
