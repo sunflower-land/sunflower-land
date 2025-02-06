@@ -248,6 +248,12 @@ export function powerSkillDisabledConditions({
 
     case "Instant Growth": {
       // Checks if all plots are empty or ready to harvest.
+      if (getKeys(crops).length === 0) {
+        return {
+          disabled: true,
+          reason: `You don't have any plots to grow crops on`,
+        };
+      }
       const plotsStatus = Object.values(crops).map((plot) => {
         if (!plot.crop) return "empty";
         return isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])
