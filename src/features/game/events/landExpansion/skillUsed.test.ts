@@ -239,6 +239,35 @@ describe("skillUse", () => {
   });
 
   describe("useTreeBlitz", () => {
+    it("requires all trees to be recovering to use Tree Blitz", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Tree Blitz": 1 },
+            },
+            trees: {
+              "123": {
+                wood: {
+                  amount: 1,
+                  choppedAt: 0,
+                },
+                x: 1,
+                y: 1,
+                height: 2,
+                width: 2,
+                createdAt: 0,
+              },
+            },
+          },
+          action: { type: "skill.used", skill: "Tree Blitz" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No trees are recovering");
+    });
+
     it("activates Tree Blitz", () => {
       const state = skillUse({
         state: {
@@ -321,6 +350,22 @@ describe("skillUse", () => {
   });
 
   describe("useGreenhouseGuru", () => {
+    it("throws an error if pots are empty", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Greenhouse Guru": 1 },
+            },
+          },
+          action: { type: "skill.used", skill: "Greenhouse Guru" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No greenhouse produce is growing");
+    });
+
     it("activates Greenhouse Guru", () => {
       const state = skillUse({
         state: {
@@ -372,6 +417,26 @@ describe("skillUse", () => {
   });
 
   describe("usePetalBlessed", () => {
+    it("throws an error when flower beds are empty", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Petal Blessed": 1 },
+            },
+            flowers: {
+              discovered: {},
+              flowerBeds: {},
+            },
+          },
+          action: { type: "skill.used", skill: "Petal Blessed" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No flowers are growing in flower beds");
+    });
+
     it("activates Petal Blessed", () => {
       const state = skillUse({
         state: {
@@ -490,6 +555,48 @@ describe("skillUse", () => {
   });
 
   describe("useInstantGratification", () => {
+    it("throws an error if all cooking buildings are not cooking", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Gratification": 1 },
+            },
+            buildings: {
+              "Fire Pit": [
+                {
+                  id: "123",
+                  createdAt: dateNow,
+                  coordinates: {
+                    x: -4,
+                    y: -8,
+                  },
+                  readyAt: 0,
+                  oil: 0,
+                },
+              ],
+              "Smoothie Shack": [
+                {
+                  id: "456",
+                  createdAt: dateNow,
+                  coordinates: {
+                    x: -7,
+                    y: -8,
+                  },
+                  readyAt: 0,
+                  oil: 0,
+                },
+              ],
+            },
+          },
+          action: { type: "skill.used", skill: "Instant Gratification" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No buildings are cooking");
+    });
+
     it("activates Instant Gratification", () => {
       const state = skillUse({
         state: {
