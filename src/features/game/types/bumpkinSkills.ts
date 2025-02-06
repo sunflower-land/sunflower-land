@@ -1518,7 +1518,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Apple-Tastic": {
     name: "Apple-Tastic",
     tree: "Animals",
-    disabled: false,
+    disabled: true,
     requirements: {
       points: 3,
       tier: 3,

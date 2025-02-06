@@ -13,6 +13,7 @@ import {
   OilReserve,
   Buildings,
   InventoryItemName,
+  AnimalBuildingKey,
 } from "features/game/types/game";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
@@ -130,7 +131,7 @@ function useInstantGratification({
 
 function useAppleTastic({ game }: { game: GameState }): GameState {
   // Get all animal buildings
-  const buildings = ["henHouse", "barn"] as const;
+  const buildings: AnimalBuildingKey[] = ["henHouse", "barn"];
 
   buildings.forEach((building) => {
     const { animals } = game[building];
@@ -373,7 +374,7 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
 
     const skillTree = BUMPKIN_REVAMP_SKILL_TREE[skill] as BumpkinSkillRevamp;
 
-    const { requirements, power } = skillTree;
+    const { requirements, power, disabled } = skillTree;
     const { items } = requirements;
 
     if (bumpkin == undefined) {
@@ -388,18 +389,23 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("This skill does not have a power");
     }
 
+    if (disabled) {
+      throw new Error(`Skill ${skill} is disabled`);
+    }
+
     if (!bumpkin.previousPowerUseAt) {
       bumpkin.previousPowerUseAt = {};
     }
 
-    const { disabled, reason } = powerSkillDisabledConditions({
-      state: stateCopy,
-      skillTree,
-      createdAt,
-    });
+    const { disabled: powerDisabled, reason: powerReason } =
+      powerSkillDisabledConditions({
+        state: stateCopy,
+        skillTree,
+        createdAt,
+      });
 
-    if (disabled) {
-      throw new Error(reason);
+    if (powerDisabled) {
+      throw new Error(powerReason);
     }
 
     // Skill is off cooldown, use it
