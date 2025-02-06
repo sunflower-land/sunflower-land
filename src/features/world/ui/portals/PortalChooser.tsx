@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -11,10 +11,6 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MinigameName } from "features/game/types/minigames";
 import { Halloween } from "./Halloween";
-import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
-import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
@@ -78,16 +74,12 @@ const PORTAL_OPTIONS: PortalOption[] = [
   },
 ];
 
-const _state = (state: MachineState) => state.context.state;
-
 export const PortalChooser: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
   const { t } = useAppTranslation();
   const [selectedGame, setSelectedGame] = useState<MinigameName>();
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
   if (showIntro) {
     return (
       <SpeakingText
@@ -128,10 +120,7 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
         </div>
 
         <div className="flex flex-col gap-1 w-full">
-          {PORTAL_OPTIONS.filter(
-            ({ id }) =>
-              id !== "halloween" || hasFeatureAccess(state, "HALLOWEEN_2024"),
-          ).map(({ id, npc, title, description }) => (
+          {PORTAL_OPTIONS.map(({ id, npc, title, description }) => (
             <ButtonPanel
               key={id}
               className="flex flex-row items-center gap-2"

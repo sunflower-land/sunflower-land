@@ -62,7 +62,6 @@ const featureFlags = {
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
   SKILLS_REVAMP: defaultFeatureFlag,
-  HALLOWEEN_2024: defaultFeatureFlag,
   ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
     new Date("2024-12-18T00:00:00Z"),
   ),
