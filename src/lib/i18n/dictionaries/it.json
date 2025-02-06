@@ -5147,5 +5147,6 @@
   "animals.guide.sleeping": "Dopo aver fatto salire di livello i tuoi animali, si addormenteranno.",
   "animals.guide.bounties": "Completa le taglie settimanali scambiando i tuoi animali per ottenere ricompense. Gli animali che dormono non possono essere scambiati e gli animali malati ti fanno guadagnare solo il {{percent}}% delle ricompense!",
   "animals.guide.sickness": "Attenzione alle malattie! Gli animali di livello superiore sono più sensibili: usa la medicina Barn Delight per curarli.",
-  "season.megastore.crafting.limit": "Limite: {{limit}} /1"
+  "season.megastore.crafting.limit": "Limite: {{limit}} /1",
+  "description.ladybugSuit.boost": "-25% Costo in monete per semi di cipolla"
 }

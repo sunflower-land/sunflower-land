@@ -5147,5 +5147,6 @@
   "animals.guide.sleeping": "Selepas meratakan haiwan anda, mereka akan tidur.",
   "animals.guide.bounties": "Lengkapkan hadiah mingguan dengan memperdagangkan haiwan anda untuk ganjaran. Haiwan tidur tidak boleh didagangkan, dan haiwan yang sakit hanya memperoleh {{percent}}% ganjaran kepada anda!",
   "animals.guide.sickness": "Berhati-hati dengan penyakit! Haiwan peringkat lebih tinggi lebih mudah terdedah - gunakan ubat Barn Delight untuk menyembuhkannya.",
-  "season.megastore.crafting.limit": "Had: {{limit}} /1"
+  "season.megastore.crafting.limit": "Had: {{limit}} /1",
+  "description.ladybugSuit.boost": "-25% kos Syiling Benih Bawang"
 }

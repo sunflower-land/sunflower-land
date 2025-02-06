@@ -5147,5 +5147,6 @@
   "animals.guide.sleeping": "Après avoir amélioré le niveau de vos animaux, ils s'endormiront.",
   "animals.guide.bounties": "Complétez les primes hebdomadaires en échangeant vos animaux contre des récompenses. Les animaux endormis ne peuvent pas être échangés, et les animaux malades ne vous rapportent que {{percent}} % des récompenses !",
   "animals.guide.sickness": "Attention à la maladie ! Les animaux de niveau supérieur sont plus sensibles. Utilisez le médicament Barn Delight pour les soigner.",
-  "season.megastore.crafting.limit": "Limite : {{limit}} /1"
+  "season.megastore.crafting.limit": "Limite : {{limit}} /1",
+  "description.ladybugSuit.boost": "-25 % du coût de la pièce Onion Seed"
 }

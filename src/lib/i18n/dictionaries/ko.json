@@ -5147,5 +5147,6 @@
   "animals.guide.sleeping": "동물의 레벨을 올리면 잠이 듭니다.",
   "animals.guide.bounties": "동물을 보상으로 교환하여 주간 현상금을 완료하세요.잠자는 동물은 거래할 수 없으며, 아픈 동물은 보상의 {{percent}} %만 받을 수 있습니다!",
   "animals.guide.sickness": "질병을 조심하세요!레벨이 높은 동물은 더 취약합니다. 반 딜라이트 약을 사용하여 치료하세요.",
-  "season.megastore.crafting.limit": "제한: {{limit}} /1"
+  "season.megastore.crafting.limit": "제한: {{limit}} /1",
+  "description.ladybugSuit.boost": "-25% 어니언 씨드 코인 비용"
 }

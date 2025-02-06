@@ -5147,5 +5147,6 @@
   "animals.guide.sleeping": "Hayvanlarınızın seviyesini yükselttikten sonra uyuyacaklar.",
   "animals.guide.bounties": "Hayvanlarınızı ödüller karşılığında takas ederek haftalık ödülleri tamamlayın. Uyuyan hayvanlar takas edilemez ve hasta hayvanlar size yalnızca ödüllerin {{percent}} %'sini kazandırır!",
   "animals.guide.sickness": "Hastalıklara dikkat edin! Daha yüksek seviyeli hayvanlar daha hassastır - onları iyileştirmek için Barn Delight ilacını kullanın.",
-  "season.megastore.crafting.limit": "Sınır: {{limit}} /1"
+  "season.megastore.crafting.limit": "Sınır: {{limit}} /1",
+  "description.ladybugSuit.boost": "-25% Soğan Tohumu Parası maliyeti"
 }
