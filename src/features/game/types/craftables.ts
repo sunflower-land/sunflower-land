@@ -1371,7 +1371,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Cluckulator: { width: 1, height: 2 },
   UFO: { width: 2, height: 2 },
   Wagon: { width: 2, height: 2 },
-  "Black Sheep": { width: 2, height: 2 },
+  "Black Sheep": { width: 2, height: 1 },
   "Alien Chicken": { width: 1, height: 1 },
   "Toxic Tuft": { width: 2, height: 1 },
   Mootant: { width: 2, height: 1 },
