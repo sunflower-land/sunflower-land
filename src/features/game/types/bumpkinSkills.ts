@@ -8,7 +8,6 @@ import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
 import bee from "assets/icons/bee.webp";
-import Decimal from "decimal.js-light";
 import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
@@ -1515,23 +1514,20 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
   },
 
-  "Apple-Tastic": {
-    name: "Apple-Tastic",
+  "Barnyard Rouse": {
+    name: "Barnyard Rouse",
     tree: "Animals",
-    disabled: true,
+    disabled: false,
     requirements: {
       points: 3,
       tier: 3,
       island: "spring",
-      cooldown: 1000 * 60 * 60 * 24 * 7,
-      items: {
-        Apple: new Decimal(600),
-      },
+      cooldown: 1000 * 60 * 60 * 24 * 5,
     },
     power: true,
     boosts: {
       buff: {
-        shortDescription: translate("skill.appleTastic"),
+        shortDescription: translate("skill.barnyardRouse"),
         labelType: "transparent",
       },
     },

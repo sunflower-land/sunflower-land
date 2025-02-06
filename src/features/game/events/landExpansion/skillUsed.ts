@@ -18,9 +18,6 @@ import {
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 import Decimal from "decimal.js-light";
-import { getAnimalLevel } from "features/game/lib/animals";
-import { ANIMAL_LEVELS, AnimalLevel } from "features/game/types/animals";
-import { isMaxLevel } from "./feedAnimal";
 import { translate } from "lib/i18n/translate";
 import { CROPS } from "features/game/types/crops";
 import { canChop } from "./chop";
@@ -129,7 +126,13 @@ function useInstantGratification({
   return buildings;
 }
 
-function useAppleTastic({ game }: { game: GameState }): GameState {
+function useBarnyardRouse({
+  game,
+  createdAt = Date.now(),
+}: {
+  game: GameState;
+  createdAt?: number;
+}): GameState {
   // Get all animal buildings
   const buildings: AnimalBuildingKey[] = ["henHouse", "barn"];
 
@@ -139,31 +142,9 @@ function useAppleTastic({ game }: { game: GameState }): GameState {
 
     // Process each animal
     Object.values(animals).forEach((animal) => {
-      const { state, experience, type, awakeAt } = animal;
-      if (state === "sick" || state === "ready" || awakeAt > Date.now()) return;
-
-      const currentXP = experience;
-      const currentLevel = getAnimalLevel(currentXP, type);
-      const maxLevel = (getKeys(ANIMAL_LEVELS[type]).length - 1) as AnimalLevel;
-
-      if (isMaxLevel(type, currentXP)) {
-        // For max level animals, add XP to complete the next cycle
-        const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
-        const maxLevelXp = ANIMAL_LEVELS[type][maxLevel];
-        const levelBeforeMaxXp = ANIMAL_LEVELS[type][levelBeforeMax];
-        const cycleXP = maxLevelXp - levelBeforeMaxXp;
-        const excessXpBeforeFeed = Math.max(currentXP - maxLevelXp, 0);
-        const currentCycleProgress = excessXpBeforeFeed % cycleXP;
-
-        animal.experience += cycleXP - currentCycleProgress;
-      } else {
-        // For non-max level animals, add XP to reach next level
-        const nextLevel = (currentLevel + 1) as AnimalLevel;
-        const xpNeeded = ANIMAL_LEVELS[type][nextLevel] - currentXP;
-        animal.experience += xpNeeded;
-      }
-
-      animal.state = "ready";
+      const { awakeAt } = animal;
+      if (awakeAt < createdAt) return;
+      animal.awakeAt = createdAt;
     });
   });
 
@@ -340,21 +321,20 @@ export function powerSkillDisabledConditions({
       break;
     }
 
-    case "Apple-Tastic": {
+    case "Barnyard Rouse": {
       if (
         Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
-          ({ state, awakeAt }) =>
-            state === "sick" || state === "ready" || awakeAt > Date.now(),
+          ({ awakeAt }) => awakeAt < createdAt,
         )
       ) {
         return {
           disabled: true,
-          reason: translate("powerSkills.reason.animalsSickReadyAsleep"),
+          reason: translate("powerSkills.reason.animalsNotAsleep"),
         };
       }
     }
   }
-  return { disabled: false, reason: "" };
+  return { disabled: false };
 }
 
 export function skillUse({ state, action, createdAt = Date.now() }: Options) {
@@ -440,8 +420,8 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
       stateCopy.buildings = useInstantGratification({ buildings, createdAt });
     }
 
-    if (skill === "Apple-Tastic") {
-      stateCopy = useAppleTastic({ game: stateCopy });
+    if (skill === "Barnyard Rouse") {
+      stateCopy = useBarnyardRouse({ game: stateCopy, createdAt });
     }
 
     if (items) {

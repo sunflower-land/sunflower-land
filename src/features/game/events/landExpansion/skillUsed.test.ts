@@ -252,7 +252,7 @@ describe("skillUse", () => {
     });
   });
 
-  describe.only("useGreenhouseGuru", () => {
+  describe("useGreenhouseGuru", () => {
     it("activates Greenhouse Guru", () => {
       const state = skillUse({
         state: {
@@ -482,6 +482,82 @@ describe("skillUse", () => {
       expect(state.buildings["Smoothie Shack"]?.[0].crafting?.readyAt).toEqual(
         dateNow,
       );
+    });
+  });
+
+  describe("useBarnyardRouse", () => {
+    it("doesn't activate Barnyard Rouse if the animals are not asleep", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Barnyard Rouse": 1 },
+            },
+            henHouse: {
+              level: 1,
+              animals: {
+                "123": {
+                  id: "123",
+                  type: "Chicken",
+                  state: "idle",
+                  createdAt: dateNow,
+                  awakeAt: dateNow - 1000 * 60 * 60 * 24,
+                  experience: 120,
+                  asleepAt: 0,
+                  lovedAt: 0,
+                  item: "Petting Hand",
+                },
+                "456": {
+                  id: "456",
+                  type: "Chicken",
+                  state: "idle",
+                  createdAt: dateNow,
+                  awakeAt: dateNow - 1000 * 60 * 60 * 24,
+                  experience: 120,
+                  asleepAt: 0,
+                  lovedAt: 0,
+                  item: "Petting Hand",
+                },
+              },
+            },
+          },
+          action: { type: "skill.used", skill: "Barnyard Rouse" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("All your animals are not asleep");
+    });
+
+    it("activates Barnyard Rouse", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Barnyard Rouse": 1 },
+          },
+          henHouse: {
+            level: 1,
+            animals: {
+              "123": {
+                id: "123",
+                type: "Chicken",
+                state: "idle",
+                createdAt: dateNow,
+                awakeAt: dateNow + 1000 * 60 * 60 * 24,
+                experience: 120,
+                asleepAt: dateNow,
+                lovedAt: 0,
+                item: "Petting Hand",
+              },
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Barnyard Rouse" },
+        createdAt: dateNow,
+      });
+      expect(state.henHouse.animals["123"].awakeAt).toEqual(dateNow);
     });
   });
 });
