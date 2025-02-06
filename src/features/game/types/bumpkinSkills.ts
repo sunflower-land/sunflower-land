@@ -365,6 +365,43 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: ITEM_DETAILS.Cauliflower.image,
     disabled: false,
   },
+  "Old Farmer": {
+    name: "Old Farmer",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oldFarmer"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS.Kale.image,
+  },
+  "Chonky Scarecrow": {
+    name: "Chonky Scarecrow",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.chonkyScarecrow"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Basic Scarecrow"].image,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS["Basic Scarecrow"].image,
+  },
   "Betty's Friend": {
     name: "Betty's Friend",
     tree: "Crops",
@@ -383,24 +420,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     npc: "betty",
     disabled: false,
-  },
-  "Old Farmer": {
-    name: "Old Farmer",
-    tree: "Crops",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.oldFarmer"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-      },
-    },
-    disabled: false,
-    image: ITEM_DETAILS.Kale.image,
   },
 
   // Crops - Tier 2
@@ -458,25 +477,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.golden_flowers,
     disabled: false,
-  },
-  "Chonky Scarecrow": {
-    name: "Chonky Scarecrow",
-    tree: "Crops",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.chonkyScarecrow"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Basic Scarecrow"].image,
-      },
-    },
-    disabled: false,
-    image: ITEM_DETAILS["Basic Scarecrow"].image,
   },
   "Horror Mike": {
     name: "Horror Mike",

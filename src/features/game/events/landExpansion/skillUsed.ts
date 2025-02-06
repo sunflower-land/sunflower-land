@@ -118,7 +118,7 @@ function useInstantGratification({
   createdAt?: number;
 }): Buildings {
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((building) => {
-    const crafting = buildings[building]?.[0].crafting;
+    const crafting = buildings[building]?.[0]?.crafting;
 
     if (crafting) {
       crafting.readyAt = createdAt;
@@ -179,7 +179,7 @@ export function powerSkillDisabledConditions({
   createdAt?: number;
 }): {
   disabled: boolean;
-  reason: string;
+  reason?: string;
 } {
   const {
     bumpkin,
@@ -216,7 +216,6 @@ export function powerSkillDisabledConditions({
   if (!itemsRequired) {
     return {
       disabled: true,
-      reason: translate("powerSkills.reason.insufficientItems"),
     };
   }
 
@@ -234,9 +233,6 @@ export function powerSkillDisabledConditions({
       if (fertiliserCount.lt(unfertilisedPlots)) {
         return {
           disabled: true,
-          reason: translate("powerSkills.reason.insufficientFertiliser", {
-            fertiliser,
-          }),
         };
       }
       if (unfertilisedPlots === 0) {
@@ -257,9 +253,6 @@ export function powerSkillDisabledConditions({
       if (fertiliserCount.lt(unfertilisedPatches)) {
         return {
           disabled: true,
-          reason: translate("powerSkills.reason.insufficientFertiliser", {
-            fertiliser: "Fruitful Blend",
-          }),
         };
       }
       if (unfertilisedPatches === 0) {
@@ -311,7 +304,7 @@ export function powerSkillDisabledConditions({
     case "Instant Gratification": {
       if (
         getKeys(BUILDING_DAILY_OIL_CAPACITY).every(
-          (building) => !buildings[building]?.[0].crafting,
+          (building) => !buildings[building]?.[0]?.crafting,
         )
       ) {
         return {

@@ -26,13 +26,13 @@ type Options = {
   createdAt?: number;
 };
 
-const calculateSwarmBoost = (amount: number, game: GameState) => {
+export const calculateSwarmBoost = (amount: number, game: GameState) => {
   const { bumpkin } = game;
 
   let boost = amount + 0.2;
 
   if (bumpkin.skills["Pollen Power Up"]) {
-    boost += 0.3;
+    boost += 0.1; // 0.3
   }
 
   return boost;

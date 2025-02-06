@@ -77,6 +77,10 @@ export function getCompostAmount({
     produceAmount += 5;
   }
 
+  if (produceAmount < 0) {
+    produceAmount = 0;
+  }
+
   return { produceAmount };
 }
 

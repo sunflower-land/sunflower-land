@@ -2144,4 +2144,52 @@ describe("plantGreenhouse", () => {
       },
     });
   });
+  it("does not give 5% time boost to Greenhouse Crops when wearing Green Thumb skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...farm.bumpkin,
+          skills: {
+            "Green Thumb": 1,
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        collectibles: {},
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now,
+      },
+    });
+  });
 });

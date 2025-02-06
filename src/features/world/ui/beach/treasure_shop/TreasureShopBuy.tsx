@@ -150,9 +150,7 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
-  const isBoost = COLLECTIBLE_BUFF_LABELS(state)
-    [selectedName]?.map(({ shortDescription }) => shortDescription)
-    .join(", ");
+  const isBoost = COLLECTIBLE_BUFF_LABELS(state)[selectedName];
 
   const craft = () => {
     gameService.send("collectible.crafted", {
@@ -237,9 +235,7 @@ const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = (wardrobe[selectedName] ?? 0) >= 1;
-  const isBoost = BUMPKIN_ITEM_BUFF_LABELS[selectedName]
-    ?.map(({ shortDescription }) => shortDescription)
-    .join(", ");
+  const isBoost = BUMPKIN_ITEM_BUFF_LABELS[selectedName];
 
   const craft = () => {
     gameService.send("wearable.bought", {

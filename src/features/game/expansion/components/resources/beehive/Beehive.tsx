@@ -38,12 +38,14 @@ import { Label } from "components/ui/Label";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
-import { translate } from "lib/i18n/translate";
 import Decimal from "decimal.js-light";
 import { secondsToString } from "lib/utils/time";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getHoneyMultiplier } from "features/game/events/landExpansion/harvestBeehive";
+import {
+  calculateSwarmBoost,
+  getHoneyMultiplier,
+} from "features/game/events/landExpansion/harvestBeehive";
 
 interface Props {
   id: string;
@@ -432,7 +434,9 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           <SpeakingText
             message={[
               {
-                text: translate("beehive.pollinationCelebration"),
+                text: t("beehive.pollinationCelebration", {
+                  amount: calculateSwarmBoost(0, gameState),
+                }),
               },
             ]}
             onClose={() => setShowSwarmModal(false)}

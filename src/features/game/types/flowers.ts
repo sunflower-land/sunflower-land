@@ -1,8 +1,8 @@
-import { getKeys } from "./craftables";
 import { CropName } from "./crops";
 import { PatchFruitName } from "./fruits";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
+import { SeedName } from "./seeds";
 
 type PansyName =
   | "Red Pansy"
@@ -109,8 +109,8 @@ export type FlowerName = Set1FlowerName | Set2FlowerName;
 
 export type FlowerSeedName = keyof FlowerSeeds;
 
-export function isFlowerSeed(seed: FlowerSeedName) {
-  return getKeys(FLOWER_SEEDS).includes(seed);
+export function isFlowerSeed(seed: SeedName): seed is FlowerSeedName {
+  return seed in FLOWER_SEEDS;
 }
 
 export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
