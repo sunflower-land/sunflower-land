@@ -82,16 +82,18 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   if (showIntro) {
     return (
-      <SpeakingText
-        message={[
-          { text: t("minigame.discovered.one") },
-          { text: t("minigame.discovered.two") },
-        ]}
-        onClose={() => {
-          setShowIntro(false);
-          acknowledgeIntroRead();
-        }}
-      />
+      <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES["billy"]}>
+        <SpeakingText
+          message={[
+            { text: t("minigame.discovered.one") },
+            { text: t("minigame.discovered.two") },
+          ]}
+          onClose={() => {
+            setShowIntro(false);
+            acknowledgeIntroRead();
+          }}
+        />
+      </CloseButtonPanel>
     );
   }
 
@@ -128,7 +130,7 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
             >
               {npc && <NPCIcon parts={NPC_WEARABLES[npc]} />}
               <div className="flex flex-col items-start gap-1">
-                <span className="text-sm font-bold">{title}</span>
+                <span className="text-sm">{title}</span>
                 <span className="text-xs mt-1">{description}</span>
               </div>
             </ButtonPanel>
