@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "+10 % de consommation d'huile dans la machine de récolte",
   "skill.oilGadget": "-10 % de consommation d'huile dans la machine de récolte",
   "skill.rapidRig.debuff": "+40 % de consommation d'huile dans Crop Machine",
-  "skill.efficiencyExtensionModule": "-30% de consommation d'huile dans la machine de récolte"
+  "skill.efficiencyExtensionModule": "-30% de consommation d'huile dans la machine de récolte",
+  "portal.chickenRescue.title": "Sauvetage de poulets",
+  "portal.chickenRescue.description": "Aidez à sauver les poulets tout en évitant les obstacles difficiles dans ce défi de survie !",
+  "portal.cropsAndChickens.title": "Cultures et poulets",
+  "portal.cropsAndChickens.description": "Faites une course contre la montre pour récolter des récoltes tout en évitant les poulets dans ce défi rapide !",
+  "portal.fruitDash.title": "Fruit Dash",
+  "portal.fruitDash.description": "Survivez aussi longtemps que possible en récoltant des fruits tout en évitant les obstacles dans ce défi sans fin !",
+  "portal.halloween.title": "Halloween",
+  "portal.halloween.description": "Bravez le manoir hanté, collectez des torches et affrontez les fantômes dans ce défi de survie effrayant !"
 }

@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "Расход масла в сельскохозяйственных машинах: +10%",
   "skill.oilGadget": "Расход масла в сельскохозяйственных машинах -10%",
   "skill.rapidRig.debuff": "Расход масла в сельскохозяйственных машинах: +40%",
-  "skill.efficiencyExtensionModule": "-30% потребления масла в сельскохозяйственных машинах"
+  "skill.efficiencyExtensionModule": "-30% потребления масла в сельскохозяйственных машинах",
+  "portal.chickenRescue.title": "Спасение курицы",
+  "portal.chickenRescue.description": "Помогите спасти цыплят, избегая сложных препятствий в этом испытании на выживание!",
+  "portal.cropsAndChickens.title": "Сельскохозяйственные культуры и куры",
+  "portal.cropsAndChickens.description": "Соревнуйтесь со временем, собирая урожай, уклоняясь от цыплят в этом динамичном испытании!",
+  "portal.fruitDash.title": "Фруктовый тире",
+  "portal.fruitDash.description": "Выживайте как можно дольше, собирая фрукты, избегая препятствий в этом бесконечном испытании!",
+  "portal.halloween.title": "Хэллоуин",
+  "portal.halloween.description": "Бросьте вызов особняку с привидениями, собирайте факелы и убегайте призраков в этом жутком испытании на выживание!"
 }

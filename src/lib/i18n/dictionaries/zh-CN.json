@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "作物机油消耗 +10%",
   "skill.oilGadget": "作物机油消耗 -10%",
   "skill.rapidRig.debuff": "作物机油消耗 +40%",
-  "skill.efficiencyExtensionModule": "作物机油消耗 -30%"
+  "skill.efficiencyExtensionModule": "作物机油消耗 -30%",
+  "portal.chickenRescue.title": "救鸡",
+  "portal.chickenRescue.description": "在这场生存挑战赛中，帮助营救小鸡，同时避开棘手的障碍！",
+  "portal.cropsAndChickens.title": "农作物和鸡",
+  "portal.cropsAndChickens.description": "在这场快节奏的挑战中，与时间赛跑，收集农作物，同时躲避小鸡！",
+  "portal.fruitDash.title": "水果短跑",
+  "portal.fruitDash.description": "在这场无尽的挑战中，只要你能收集水果就能存活下来，同时躲避障碍物！",
+  "portal.halloween.title": "万圣节",
+  "portal.halloween.description": "在这场幽灵般的生存挑战中，勇敢地穿越鬼屋，收集火把，超越幽灵！"
 }

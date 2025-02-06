@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "크롭 머신의 오일 소비량 10% 증가",
   "skill.oilGadget": "-10% 농작물 기계의 오일 소비량",
   "skill.rapidRig.debuff": "크롭 머신의 오일 소비량 +40%",
-  "skill.efficiencyExtensionModule": "-농작물 기계의 오일 소비량 30%"
+  "skill.efficiencyExtensionModule": "-농작물 기계의 오일 소비량 30%",
+  "portal.chickenRescue.title": "치킨 레스큐",
+  "portal.chickenRescue.description": "이 생존 챌린지에서 까다로운 장애물을 피하면서 닭을 구출하세요!",
+  "portal.cropsAndChickens.title": "농작물 및 닭",
+  "portal.cropsAndChickens.description": "빠르게 진행되는 이 챌린지에서 시간과 경쟁하여 닭을 피하면서 작물을 모으세요!",
+  "portal.fruitDash.title": "프루트 대시",
+  "portal.fruitDash.description": "이 끝없는 도전에서 장애물을 피하면서 과일을 모을 수 있는 한 오래 살아남으세요!",
+  "portal.halloween.title": "할로윈",
+  "portal.halloween.description": "이 으스스한 서바이벌 챌린지에서 유령의 저택을 무찌르고, 횃불을 모으고, 유령을 물리치세요!"
 }

@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "+10% Konsumsi Minyak di Mesin Tanaman",
   "skill.oilGadget": "-10% Konsumsi Minyak di Mesin Tanaman",
   "skill.rapidRig.debuff": "+40% Konsumsi minyak di Mesin Tanaman",
-  "skill.efficiencyExtensionModule": "-30% Konsumsi Minyak di Mesin Tanaman"
+  "skill.efficiencyExtensionModule": "-30% Konsumsi Minyak di Mesin Tanaman",
+  "portal.chickenRescue.title": "Penyelamatan Ayam",
+  "portal.chickenRescue.description": "Bantu menyelamatkan ayam sambil menghindari rintangan rumit dalam tantangan bertahan hidup ini!",
+  "portal.cropsAndChickens.title": "Tanaman & Ayam",
+  "portal.cropsAndChickens.description": "Berlomba melawan waktu untuk mengumpulkan tanaman sambil menghindari ayam dalam tantangan serba cepat ini!",
+  "portal.fruitDash.title": "Dash Buah",
+  "portal.fruitDash.description": "Bertahan selama Anda bisa mengumpulkan buah-buahan sambil menghindari rintangan dalam tantangan tanpa akhir ini!",
+  "portal.halloween.title": "Halloween",
+  "portal.halloween.description": "Berani rumah berhantu, kumpulkan obor, dan lari lebih cepat dari hantu dalam tantangan bertahan hidup yang menyeramkan ini!"
 }

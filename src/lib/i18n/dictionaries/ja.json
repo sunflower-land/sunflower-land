@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "クロップマシンのオイル消費量 +10%",
   "skill.oilGadget": "クロップマシンのオイル消費量 -10%",
   "skill.rapidRig.debuff": "クロップマシンのオイル消費量 +40%",
-  "skill.efficiencyExtensionModule": "-クロップマシンのオイル消費量 -30%"
+  "skill.efficiencyExtensionModule": "-クロップマシンのオイル消費量 -30%",
+  "portal.chickenRescue.title": "チキンレスキュー",
+  "portal.chickenRescue.description": "このサバイバルチャレンジでトリッキーな障害物を避けながらニワトリを救出するのを手伝ってください！",
+  "portal.cropsAndChickens.title": "農作物と鶏",
+  "portal.cropsAndChickens.description": "このテンポの速いチャレンジでニワトリをかわしながら、時間と競い合って作物を集めよう！",
+  "portal.fruitDash.title": "フルーツダッシュ",
+  "portal.fruitDash.description": "この無限のチャレンジで障害物を避けながら果物を集めることができる限り生き残ってください！",
+  "portal.halloween.title": "ハロウィン",
+  "portal.halloween.description": "この不気味なサバイバルチャレンジで、お化け屋敷に勇敢に立ち向かい、松明を集め、幽霊を追い払ってください！"
 }

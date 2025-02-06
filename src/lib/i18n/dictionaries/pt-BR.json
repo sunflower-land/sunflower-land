@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "+10% de consumo de óleo na Crop Machine",
   "skill.oilGadget": "-10% de consumo de óleo na Crop Machine",
   "skill.rapidRig.debuff": "+40% de consumo de óleo na Crop Machine",
-  "skill.efficiencyExtensionModule": "-30% de consumo de óleo na Crop Machine"
+  "skill.efficiencyExtensionModule": "-30% de consumo de óleo na Crop Machine",
+  "portal.chickenRescue.title": "Resgate de galinhas",
+  "portal.chickenRescue.description": "Ajude a resgatar as galinhas enquanto evita obstáculos complicados neste desafio de sobrevivência!",
+  "portal.cropsAndChickens.title": "Culturas e galinhas",
+  "portal.cropsAndChickens.description": "Corra contra o tempo para coletar colheitas enquanto evita galinhas neste desafio acelerado!",
+  "portal.fruitDash.title": "Fruit Dash",
+  "portal.fruitDash.description": "Sobreviva o máximo que puder coletando frutas enquanto evita obstáculos neste desafio sem fim!",
+  "portal.halloween.title": "Dia das Bruxas",
+  "portal.halloween.description": "Enfrente a mansão mal-assombrada, colete tochas e supere fantasmas neste assustador desafio de sobrevivência!"
 }

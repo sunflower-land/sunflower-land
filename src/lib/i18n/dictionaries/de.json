@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "+10% Ölverbrauch in der Crop Machine",
   "skill.oilGadget": "-10% Ölverbrauch in der Erntemaschine",
   "skill.rapidRig.debuff": "+40% Ölverbrauch in der Crop Machine",
-  "skill.efficiencyExtensionModule": "-30% Ölverbrauch in der Erntemaschine"
+  "skill.efficiencyExtensionModule": "-30% Ölverbrauch in der Erntemaschine",
+  "portal.chickenRescue.title": "Rettung von Hühnern",
+  "portal.chickenRescue.description": "Hilf bei dieser Überlebensherausforderung, die Hühner zu retten und dabei kniffligen Hindernissen auszuweichen!",
+  "portal.cropsAndChickens.title": "Nutzpflanzen und Hühner",
+  "portal.cropsAndChickens.description": "Rennen gegen die Zeit, um Getreide zu sammeln und gleichzeitig Hühnern auszuweichen in dieser rasanten Herausforderung!",
+  "portal.fruitDash.title": "Fruit Dash",
+  "portal.fruitDash.description": "Überlebe so lange du kannst und sammle Früchte, während du Hindernissen ausweichst in dieser endlosen Herausforderung!",
+  "portal.halloween.title": "Halloween",
+  "portal.halloween.description": "Trotze der Spukvilla, sammle Fackeln und entlaufe Geistern in dieser gruseligen Überlebensherausforderung!"
 }

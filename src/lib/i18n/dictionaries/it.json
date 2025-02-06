@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "+10% consumo di olio in Crop Machine",
   "skill.oilGadget": "-10% consumo di olio in Crop Machine",
   "skill.rapidRig.debuff": "+40% consumo di olio in Crop Machine",
-  "skill.efficiencyExtensionModule": "-30% consumo di olio in Crop Machine"
+  "skill.efficiencyExtensionModule": "-30% consumo di olio in Crop Machine",
+  "portal.chickenRescue.title": "Pollo Rescue",
+  "portal.chickenRescue.description": "Aiuta a salvare i polli evitando gli ostacoli difficili in questa sfida di sopravvivenza!",
+  "portal.cropsAndChickens.title": "Colture e polli",
+  "portal.cropsAndChickens.description": "Corri contro il tempo per raccogliere i raccolti mentre schivi i polli in questa sfida frenetica!",
+  "portal.fruitDash.title": "Fruit Dash",
+  "portal.fruitDash.description": "Sopravvivi il più a lungo possibile raccogliendo frutta schivando gli ostacoli in questa sfida senza fine!",
+  "portal.halloween.title": "Halloween",
+  "portal.halloween.description": "Affronta la villa infestata, raccogli torce e fuggi dai fantasmi in questa spaventosa sfida di sopravvivenza!"
 }

@@ -5148,5 +5148,13 @@
   "skill.cropProcessorUnit.debuff": "Mahsul Makinesinde +10% Yağ tüketimi",
   "skill.oilGadget": "Mahsul Makinasında% -10 Yağ tüketimi",
   "skill.rapidRig.debuff": "Mahsul Makinesinde +40% Yağ tüketimi",
-  "skill.efficiencyExtensionModule": "Mahsul Makinasında% -30 Yağ tüketimi"
+  "skill.efficiencyExtensionModule": "Mahsul Makinasında% -30 Yağ tüketimi",
+  "portal.chickenRescue.title": "Tavuk Kurtarma",
+  "portal.chickenRescue.description": "Bu hayatta kalma mücadelesinde zorlu engellerden kaçınırken tavukları kurtarmaya yardım edin!",
+  "portal.cropsAndChickens.title": "Mahsuller ve Tavuklar",
+  "portal.cropsAndChickens.description": "Bu hızlı tempolu mücadelede tavuklardan kaçarken mahsul toplamak için zamana karşı yarışın!",
+  "portal.fruitDash.title": "Meyve Dash",
+  "portal.fruitDash.description": "Bu sonsuz mücadelede engellerden kaçarken meyve toplayabildiğiniz sürece hayatta kalın!",
+  "portal.halloween.title": "cadılar bayramı",
+  "portal.halloween.description": "Bu ürkütücü hayatta kalma mücadelesinde perili malikaneye cesaret edin, meşaleler toplayın ve hayaletleri geride bırakın!"
 }
