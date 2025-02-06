@@ -1,6 +1,6 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { skillUse } from "./skillUsed";
-import { SEEDS } from "features/game/types/seeds";
+import { CROPS } from "features/game/types/crops";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -130,7 +130,7 @@ describe("skillUse", () => {
                 crop: {
                   id: "123",
                   name: "Wheat",
-                  plantedAt: dateNow - SEEDS["Wheat Seed"].plantSeconds * 1000,
+                  plantedAt: dateNow - CROPS["Wheat"].harvestSeconds * 1000,
                   amount: 20,
                 },
               },
