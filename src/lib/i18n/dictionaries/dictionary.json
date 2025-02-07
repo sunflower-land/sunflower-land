@@ -4123,7 +4123,7 @@
   "skill.rapidRig.buff": "-20% Crop Machine growth time",
   "skill.rapidRig.debuff": "+40% Oil consumption in Crop Machine",
   "skill.oilBeBack": "-20% Oil refill time",
-  "skill.fieldExpansionModule": "+5 packs added to machine",
+  "skill.fieldExpansionModule": "+5 packs added to machine queue system",
   "skill.fieldExtensionModule": "+5 plots added to machine",
   "skill.efficiencyExtensionModule": "-30% Oil consumption in Crop Machine",
   "skill.greaseLightning": "Ability to make empty oil wells instantly refill",
