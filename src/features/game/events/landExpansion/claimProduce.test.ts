@@ -1202,6 +1202,64 @@ describe("claimProduce", () => {
     expect(state.henHouse.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
   });
 
+  it("stacks speed boosts for chickens", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Speed Chicken": new Decimal(1),
+          Wrangler: new Decimal(1),
+          "El Pollo Veloz": new Decimal(1),
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Restless Animals": 1,
+          },
+        },
+        collectibles: {
+          "Speed Chicken": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+          "El Pollo Veloz": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+
+    const boostedAwakeAt =
+      now + ANIMAL_SLEEP_DURATION * 0.9 * 0.9 * 0.9 - 1000 * 60 * 60 * 2;
+
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
+  });
+
   it("stacks all possible speed boosts for chickens", () => {
     const state = claimProduce({
       createdAt: now,
@@ -1255,9 +1313,8 @@ describe("claimProduce", () => {
     });
 
     const twoHoursInMs = 2 * 60 * 60 * 1000;
-    // First subtract 2 hours, then apply percentage reductions
-    const afterFixedReduction = ANIMAL_SLEEP_DURATION - twoHoursInMs;
-    const finalDuration = afterFixedReduction * 0.9 * 0.9 * 0.9; // Apply all 10% reductions
+    const finalDuration =
+      ANIMAL_SLEEP_DURATION * 0.9 * 0.9 * 0.9 - twoHoursInMs; // Apply all 10% reductions
     const boostedAwakeAt = now + finalDuration;
 
     expect(state.henHouse.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
@@ -1476,7 +1533,7 @@ describe("claimProduce", () => {
 
     const twoHoursInMs = 2 * 60 * 60 * 1000;
     // First subtract 2 hours, then apply 10% reduction
-    const reducedDuration = (ANIMAL_SLEEP_DURATION - twoHoursInMs) * 0.9;
+    const reducedDuration = ANIMAL_SLEEP_DURATION * 0.9 - twoHoursInMs;
     const boostedAwakeAt = now + reducedDuration;
 
     expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);

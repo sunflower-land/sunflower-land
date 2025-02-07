@@ -425,56 +425,47 @@ export function getBoostedAwakeAt({
   createdAt: number;
   game: GameState;
 }) {
-  const sleepDuration = ANIMAL_SLEEP_DURATION;
+  let totalDuration = ANIMAL_SLEEP_DURATION;
   const { bumpkin } = game;
-  const twoHoursInMs = 2 * 60 * 60 * 1000;
 
-  // Start with the base duration
-  let totalDuration = sleepDuration;
-
-  const isChicken = animalType === "Chicken";
-  const isSheep = animalType === "Sheep";
-  const isCow = animalType === "Cow";
-
-  // Apply fixed time reductions first
-  if (isChicken) {
-    if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
-      totalDuration -= twoHoursInMs;
-    }
-
-    if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
-      totalDuration *= 0.9;
-    }
+  // Animal-specific boosts
+  if (
+    animalType === "Chicken" &&
+    isCollectibleBuilt({ name: "Speed Chicken", game })
+  ) {
+    totalDuration *= 0.9;
   }
-
-  if (isSheep) {
+  if (animalType === "Sheep") {
     if (isWearableActive({ name: "Dream Scarf", game })) {
       totalDuration *= 0.8;
     }
-
     if (isCollectibleBuilt({ name: "Farm Dog", game })) {
       totalDuration *= 0.75;
     }
   }
 
-  if (isCow) {
-    if (isCollectibleBuilt({ name: "Mammoth", game })) {
-      totalDuration *= 0.75;
-    }
+  if (animalType === "Cow" && isCollectibleBuilt({ name: "Mammoth", game })) {
+    totalDuration *= 0.75;
   }
 
+  // Global boosts
   if (game.inventory["Wrangler"]?.gt(0)) {
     totalDuration *= 0.9;
   }
-
   if (bumpkin.skills["Stable Hand"]) {
     totalDuration *= 0.9;
   }
-
   if (bumpkin.skills["Restless Animals"]) {
     totalDuration *= 0.9;
   }
 
-  // Add the boosted duration to the created time
+  // Fixed time reduction after multipliers
+  if (
+    animalType === "Chicken" &&
+    isCollectibleBuilt({ name: "El Pollo Veloz", game })
+  ) {
+    totalDuration -= 2 * 60 * 60 * 1000; // 2 hours
+  }
+
   return createdAt + totalDuration;
 }
