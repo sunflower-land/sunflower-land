@@ -5,7 +5,6 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
 import {
   GameState,
   Inventory,
@@ -22,7 +21,6 @@ export enum CHOP_ERRORS {
 }
 
 type GetChoppedAtArgs = {
-  skills: Partial<Record<BumpkinRevampSkillName, number>>;
   game: GameState;
   createdAt: number;
 };
@@ -46,11 +44,8 @@ export function canChop(tree: Tree, now: number = Date.now()) {
 /**
  * Set a chopped in the past to make it replenish faster
  */
-export function getChoppedAt({
-  game,
-  skills,
-  createdAt,
-}: GetChoppedAtArgs): number {
+export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): number {
+  const { skills } = game.bumpkin;
   const hasBeaverReady =
     isCollectibleBuilt({ name: "Apprentice Beaver", game }) ||
     isCollectibleBuilt({ name: "Foreman Beaver", game });
@@ -135,7 +130,6 @@ export function chop({
     tree.wood = {
       choppedAt: getChoppedAt({
         createdAt,
-        skills: bumpkin.skills,
         game: stateCopy,
       }),
       // Placeholder amount for next drop. This will get overridden on the next autosave.

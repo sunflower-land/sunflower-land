@@ -370,7 +370,6 @@ describe("getChoppedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -394,7 +393,6 @@ describe("getChoppedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -426,7 +424,6 @@ describe("getChoppedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -468,7 +465,6 @@ describe("getChoppedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -494,7 +490,6 @@ describe("getChoppedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -522,7 +517,6 @@ describe("getChoppedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -533,8 +527,13 @@ describe("getChoppedAt", () => {
     const now = Date.now();
 
     const time = getChoppedAt({
-      game: TEST_FARM,
-      skills: { "Tree Charge": 1 },
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Tree Charge": 1 },
+        },
+      },
       createdAt: now,
     });
 
