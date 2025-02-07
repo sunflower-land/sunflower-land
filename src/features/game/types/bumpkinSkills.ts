@@ -8,6 +8,8 @@ import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
 import bee from "assets/icons/bee.webp";
+import baits from "assets/composters/baits.png";
+import fertilisers from "assets/composters/fertilisers.png";
 import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
@@ -2750,7 +2752,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.wormyTreat"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+        boostedItemIcon: baits,
       },
     },
     disabled: false,
@@ -2924,13 +2926,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.compostingOverhaul.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
+        boostedItemIcon: baits,
       },
       debuff: {
         shortDescription: translate("skill.compostingOverhaul.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
-        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+        boostedItemIcon: fertilisers,
       },
     },
     disabled: false,
@@ -2948,13 +2950,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.compostingRevamp.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+        boostedItemIcon: fertilisers,
       },
       debuff: {
         shortDescription: translate("skill.compostingRevamp.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
-        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
+        boostedItemIcon: baits,
       },
     },
     disabled: false,
