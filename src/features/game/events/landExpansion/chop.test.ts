@@ -353,45 +353,6 @@ describe("chop", () => {
 });
 
 describe("getChoppedAt", () => {
-  it("applies a 20% speed boost with Tree Hugger skill", () => {
-    const now = Date.now();
-
-    const time = getChoppedAt({
-      game: TEST_FARM,
-      skills: { "Tree Hugger": 1 },
-      createdAt: now,
-    });
-
-    const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.2;
-    expect(time).toEqual(now - treeTimeWithBoost);
-  });
-
-  it("tree replenishes faster when Apprentice Beaver is placed and the bumpkins has the skill Tree Hugger", () => {
-    const now = Date.now();
-
-    const time = getChoppedAt({
-      game: {
-        ...TEST_FARM,
-
-        collectibles: {
-          "Apprentice Beaver": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
-      },
-      skills: { "Tree Hugger": 1 },
-      createdAt: now,
-    });
-
-    const buff = TREE_RECOVERY_TIME * 0.5 * 1.2 * 1000;
-    expect(time).toEqual(now - buff);
-  });
-
   it("tree replenishes faster with time warp", () => {
     const now = Date.now();
 
@@ -507,11 +468,11 @@ describe("getChoppedAt", () => {
           ],
         },
       },
-      skills: { "Tree Hugger": 1 },
+      skills: {},
       createdAt: now,
     });
 
-    const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5 * 0.5 * 0.8;
+    const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5 * 0.5;
 
     expect(time).toEqual(now - buff * 1000);
   });

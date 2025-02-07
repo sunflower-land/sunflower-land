@@ -10,10 +10,6 @@ import {
   getExperienceToNextLevel,
   isMaxLevel,
 } from "features/game/lib/level";
-import {
-  acknowledgeSkillPoints,
-  hasUnacknowledgedSkillPoints,
-} from "features/island/bumpkin/lib/skillPointStorage";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
@@ -63,17 +59,10 @@ const SPRITE_STEPS = 51;
 
 interface AvatarProps {
   bumpkin?: Bumpkin;
-  showSkillPointAlert?: boolean;
   onClick?: () => void;
 }
 
-export const BumpkinAvatar: React.FC<AvatarProps> = ({
-  bumpkin,
-  showSkillPointAlert,
-  onClick,
-}) => {
-  const { showAnimations } = useContext(Context);
-
+export const BumpkinAvatar: React.FC<AvatarProps> = ({ bumpkin, onClick }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
 
   const experience = bumpkin?.experience ?? 0;
@@ -177,21 +166,6 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         >
           {level}
         </div>
-
-        {showSkillPointAlert && (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className={
-              "col-start-1 row-start-1 z-30" +
-              (showAnimations ? " animate-float" : "")
-            }
-            style={{
-              width: `${DIMENSIONS.skillsMark.width}px`,
-              marginLeft: `${DIMENSIONS.skillsMark.marginLeft}px`,
-              marginTop: `${DIMENSIONS.skillsMark.marginTop}px`,
-            }}
-          />
-        )}
       </div>
     </>
   );
@@ -211,7 +185,6 @@ export const BumpkinProfile: React.FC = () => {
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
-  const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
 
   useEffect(() => {
     goToProgress();
@@ -221,9 +194,6 @@ export const BumpkinProfile: React.FC = () => {
   const handleShowHomeModal = () => {
     profile.play();
     setShowModal(true);
-    if (showSkillPointAlert) {
-      acknowledgeSkillPoints(state.bumpkin);
-    }
   };
 
   const goToProgress = () => {
@@ -262,13 +232,7 @@ export const BumpkinProfile: React.FC = () => {
       {/* Bumpkin profile */}
       {/* Mobile */}
       <div className="scale-[0.7] absolute left-0 top-0">
-        <BumpkinAvatar
-          bumpkin={state.bumpkin}
-          onClick={handleShowHomeModal}
-          showSkillPointAlert={
-            showSkillPointAlert && !gameState.matches("visiting")
-          }
-        />
+        <BumpkinAvatar bumpkin={state.bumpkin} onClick={handleShowHomeModal} />
       </div>
     </>
   );

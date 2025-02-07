@@ -177,18 +177,6 @@ describe("mineStone", () => {
 });
 
 describe("getMinedAt", () => {
-  it("applies a speed boost of 20% with Coal Face skill", () => {
-    const now = Date.now();
-
-    const time = getMinedAt({
-      skills: { "Coal Face": 1 },
-      createdAt: now,
-      game: TEST_FARM,
-    });
-
-    expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
-  });
-
   it("stone replenishes faster with time warp", () => {
     const now = Date.now();
 
@@ -288,32 +276,6 @@ describe("getMinedAt", () => {
       },
     });
     expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
-  });
-
-  it("time buffs are multiplicative", () => {
-    const now = Date.now();
-
-    const time = getMinedAt({
-      skills: { "Coal Face": 1 },
-      createdAt: now,
-      game: {
-        ...TEST_FARM,
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
-      },
-    });
-
-    const buff = STONE_RECOVERY_TIME - STONE_RECOVERY_TIME * 0.5 * 0.8;
-
-    expect(time).toEqual(now - buff * 1000);
   });
 
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {

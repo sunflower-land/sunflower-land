@@ -27,12 +27,6 @@ import {
   mineIron as landExpansionIronMine,
   LandExpansionIronMineAction,
 } from "./landExpansion/ironMine";
-
-import {
-  feedChicken as LandExpansionFeedChicken,
-  LandExpansionFeedChickenAction,
-} from "./landExpansion/feedChicken";
-
 import { GameState } from "../types/game";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
@@ -479,7 +473,6 @@ export type PlayingEvent =
   | ResetSkillsAction
   | SeedBoughtAction
   | ClaimAchievementAction
-  | LandExpansionFeedChickenAction
   | CraftToolAction
   | buyDecorationAction
   | SellCropAction
@@ -688,7 +681,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "skills.reset": resetSkills,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
-  "chicken.fed": LandExpansionFeedChicken,
   "tool.crafted": craftTool,
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,

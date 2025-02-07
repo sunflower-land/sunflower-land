@@ -70,9 +70,7 @@ const FertilePlotComponent: React.FC<Props> = ({
     const fertiliserName = fertiliser?.name ?? undefined;
     harvestSeconds = getCropPlotTime({
       crop: cropName,
-      inventory,
       game,
-      buds: buds ?? {},
       plot,
       fertiliser: fertiliserName,
     });

@@ -307,28 +307,6 @@ describe("cook", () => {
 });
 
 describe("getReadyAt", () => {
-  it("applies 10% speed boost with Rush Hour skill", () => {
-    const now = Date.now();
-
-    const time = getReadyAt({
-      buildingId: "123",
-      item: "Boiled Eggs",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
-      createdAt: now,
-      game: {
-        ...TEST_FARM,
-        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
-      },
-    });
-
-    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.1;
-
-    const readyAt =
-      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
-
-    expect(time).toEqual(readyAt);
-  });
-
   it("applies 50% speed boost with Luna's Hat", () => {
     const now = Date.now();
 

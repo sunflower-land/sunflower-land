@@ -804,43 +804,6 @@ describe("claimProduce", () => {
     expect(newState.inventory.Egg).toEqual(new Decimal(2.3));
   });
 
-  it("gives +0.1 more produce for animals when a bumpkin has the Free Range skill", () => {
-    const sheepId = "123";
-
-    const newState = claimProduce({
-      state: {
-        ...INITIAL_FARM,
-        bumpkin: {
-          ...INITIAL_FARM.bumpkin,
-          skills: {
-            "Free Range": 1,
-          },
-        },
-        barn: {
-          ...INITIAL_FARM.barn,
-          animals: {
-            [sheepId]: {
-              id: sheepId,
-              type: "Sheep",
-              createdAt: 0,
-              state: "ready",
-              experience: 240,
-              asleepAt: 0,
-              lovedAt: 0,
-              item: "Petting Hand",
-              awakeAt: 0,
-            },
-          },
-        },
-      },
-      action: { type: "produce.claimed", animal: "Sheep", id: sheepId },
-      createdAt: now,
-    });
-
-    expect(newState.inventory.Wool).toEqual(new Decimal(1.1));
-    expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1.1));
-  });
-
   it("applies bud boosts", () => {
     const cowId = "123";
 
@@ -1214,9 +1177,6 @@ describe("claimProduce", () => {
         },
         bumpkin: {
           ...INITIAL_FARM.bumpkin,
-          skills: {
-            "Stable Hand": 1,
-          },
         },
         collectibles: {
           "Speed Chicken": [
@@ -1257,7 +1217,7 @@ describe("claimProduce", () => {
     const twoHoursInMs = 2 * 60 * 60 * 1000;
     // First subtract 2 hours, then apply percentage reductions
     const afterFixedReduction = ANIMAL_SLEEP_DURATION - twoHoursInMs;
-    const finalDuration = afterFixedReduction * 0.9 * 0.9 * 0.9; // Apply all 10% reductions
+    const finalDuration = afterFixedReduction * 0.9 * 0.9; // Apply all 10% reductions
     const boostedAwakeAt = now + finalDuration;
 
     expect(state.henHouse.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
@@ -1273,9 +1233,6 @@ describe("claimProduce", () => {
         },
         bumpkin: {
           ...INITIAL_FARM.bumpkin,
-          skills: {
-            "Stable Hand": 1,
-          },
           equipped: {
             ...INITIAL_FARM.bumpkin?.equipped,
             necklace: "Dream Scarf",
@@ -1300,78 +1257,10 @@ describe("claimProduce", () => {
       },
     });
 
-    // 0.9 (Wrangler) * 0.9 (Stable Hand) * 0.8 (Dream Scarf) = 0.648
-    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.648;
+    // 0.9 (Wrangler) * 0.8 (Dream Scarf) = 0.72
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.72;
 
     expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
-  });
-
-  it("adds a time boost of 10% if a Stable Hand skill is present", () => {
-    const state = claimProduce({
-      createdAt: now,
-      state: {
-        ...INITIAL_FARM,
-        bumpkin: {
-          ...INITIAL_FARM.bumpkin,
-          skills: {
-            "Stable Hand": 1,
-          },
-        },
-        barn: {
-          ...INITIAL_FARM.barn,
-          animals: {
-            "0": {
-              ...INITIAL_FARM.barn.animals["0"],
-              state: "ready",
-              experience: 60,
-            },
-          },
-        },
-      },
-      action: {
-        type: "produce.claimed",
-        animal: "Cow",
-        id: "0",
-      },
-    });
-
-    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.9;
-
-    expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
-  });
-
-  it("applies the multiplier on all produce when a critical drop is hit with Buckaroo skill", () => {
-    const state = claimProduce({
-      createdAt: now,
-      state: {
-        ...INITIAL_FARM,
-        bumpkin: {
-          ...INITIAL_FARM.bumpkin,
-          skills: {
-            Buckaroo: 1,
-          },
-        },
-        barn: {
-          ...INITIAL_FARM.barn,
-          animals: {
-            "0": {
-              ...INITIAL_FARM.barn.animals["0"],
-              state: "ready",
-              experience: 360,
-              multiplier: 2,
-            },
-          },
-        },
-      },
-      action: {
-        type: "produce.claimed",
-        animal: "Cow",
-        id: "0",
-      },
-    });
-
-    expect(state.inventory.Milk).toEqual(new Decimal(2));
-    expect(state.inventory.Leather).toEqual(new Decimal(2));
   });
 
   it("tracks the bumpkin activity when a resource is collected", () => {
@@ -1535,9 +1424,6 @@ describe("claimProduce", () => {
         },
         bumpkin: {
           ...INITIAL_FARM.bumpkin,
-          skills: {
-            "Stable Hand": 1,
-          },
         },
         collectibles: {
           "Farm Dog": [
@@ -1568,8 +1454,8 @@ describe("claimProduce", () => {
       },
     });
 
-    // 0.75 (Farm Dog) * 0.9 (Wrangler) * 0.9 (Stable Hand) = 0.6075
-    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.6075;
+    // 0.75 (Farm Dog) * 0.9 (Wrangler) = 0.675
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.675;
 
     expect(state.barn.animals["0"].awakeAt).toBeCloseTo(boostedAwakeAt);
   });

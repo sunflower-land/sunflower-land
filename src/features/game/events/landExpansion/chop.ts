@@ -5,10 +5,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import {
-  BumpkinRevampSkillName,
-  BumpkinSkillName,
-} from "features/game/types/bumpkinSkills";
+import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
 import {
   GameState,
   Inventory,
@@ -25,9 +22,7 @@ export enum CHOP_ERRORS {
 }
 
 type GetChoppedAtArgs = {
-  skills: Partial<
-    Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
-  >;
+  skills: Partial<Record<BumpkinRevampSkillName, number>>;
   game: GameState;
   createdAt: number;
 };
@@ -64,10 +59,6 @@ export function getChoppedAt({
 
   if (hasBeaverReady) {
     totalSeconds = totalSeconds * 0.5;
-  }
-
-  if (skills["Tree Hugger"]) {
-    totalSeconds = totalSeconds * 0.8;
   }
 
   // 10% faster
@@ -115,7 +106,7 @@ export function chop({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { trees, bumpkin, collectibles, inventory } = stateCopy;
+    const { trees, bumpkin, inventory } = stateCopy;
 
     if (bumpkin === undefined) {
       throw new Error("You do not have a Bumpkin!");

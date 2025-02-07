@@ -269,11 +269,6 @@ export function getOrderSellPrice<T>(
 ): T {
   let mul = 1;
 
-  // Michelin Stars - 5% bonus
-  if (game.bumpkin?.skills["Michelin Stars"]) {
-    mul += 0.05;
-  }
-
   if (
     order.from === "betty" &&
     game.bumpkin?.skills["Betty's Friend"] &&

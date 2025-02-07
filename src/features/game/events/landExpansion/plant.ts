@@ -201,11 +201,6 @@ export function getCropTime({
     seconds = seconds * 0.85;
   }
 
-  // Cultivator skill: 5% reduction
-  if (skills["Cultivator"]) {
-    seconds = seconds * 0.95;
-  }
-
   // Lunar calender: 10% reduction
   if (isCollectibleBuilt({ name: "Lunar Calendar", game })) {
     seconds = seconds * 0.9;
@@ -264,16 +259,12 @@ export function getCropTime({
  */
 export const getCropPlotTime = ({
   crop,
-  inventory,
   game,
-  buds,
   plot,
   fertiliser,
 }: {
   crop: CropName;
-  inventory: Inventory;
   game: GameState;
-  buds: NonNullable<GameState["buds"]>;
   plot?: CropPlot;
   fertiliser?: CropCompostName;
 }) => {
@@ -389,9 +380,7 @@ type GetPlantedAtArgs = {
  */
 export function getPlantedAt({
   crop,
-  inventory,
   game,
-  buds,
   createdAt,
   plot,
   fertiliser,
@@ -401,9 +390,7 @@ export function getPlantedAt({
   const cropTime = CROPS[crop].harvestSeconds;
   const boostedTime = getCropPlotTime({
     crop,
-    inventory,
     game: game,
-    buds,
     plot,
     fertiliser,
   });
@@ -486,11 +473,6 @@ export function getCropYieldAmount({
 
   if (inventory.Coder?.gte(1)) {
     amount *= 1.2;
-  }
-
-  //Bumpkin Skill boost Master Farmer Skill
-  if (skills["Master Farmer"]) {
-    amount *= 1.1;
   }
 
   //Bumpkin Wearable boost Sunflower Amulet
