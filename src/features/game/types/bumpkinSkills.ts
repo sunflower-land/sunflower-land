@@ -10,6 +10,8 @@ import redArrowDown from "assets/icons/decrease_arrow.png";
 import bee from "assets/icons/bee.webp";
 import baits from "assets/composters/baits.png";
 import fertilisers from "assets/composters/fertilisers.png";
+import pickaxes from "assets/icons/pickaxes.png";
+import rockOres from "assets/icons/1tap.png";
 import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
@@ -1829,6 +1831,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.tapProspector"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: rockOres,
       },
     },
     disabled: false,
@@ -2001,7 +2004,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.morePicks"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
-        boostedItemIcon: ITEM_DETAILS.Pickaxe.image,
+        boostedItemIcon: pickaxes,
       },
     },
     disabled: false,
