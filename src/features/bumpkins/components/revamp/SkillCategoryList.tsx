@@ -169,18 +169,19 @@ export const SkillCategoryList: React.FC<{
             state.island.type,
             islandType,
           );
+          if (getRevampSkillTreeCategoriesByIsland(islandType).length <= 0)
+            return;
+
           return (
             <div key={islandType} className="flex flex-col items-stretch">
               <div className="flex items-center gap-2 mt-1 mb-2">
-                {getRevampSkillTreeCategoriesByIsland(islandType).length >
-                  0 && (
-                  <Label
-                    type={hasUnlockedIslandCategory ? "default" : "warning"}
-                    className="capitalize"
-                  >
-                    {t("skillCategory.islands", { island: islandType })}
-                  </Label>
-                )}
+                <Label
+                  type={hasUnlockedIslandCategory ? "default" : "warning"}
+                  className="capitalize"
+                >
+                  {t("skillCategory.islands", { island: islandType })}
+                </Label>
+
                 {!hasUnlockedIslandCategory && (
                   <Label type="warning">
                     {t("skillCategory.reachIsland", { island: islandType })}
