@@ -45,7 +45,6 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 import {
   CalendarEventName,
   getActiveCalendarEvent,
@@ -235,11 +234,7 @@ export function getCropTime({
     seconds = seconds * 0.5;
   }
 
-  if (
-    skills["Green Thumb"] &&
-    !isGreenhouseCrop(crop) &&
-    hasFeatureAccess(game, "SKILLS_REVAMP")
-  ) {
+  if (skills["Green Thumb"] && !isGreenhouseCrop(crop)) {
     seconds = seconds * 0.95;
   }
 
@@ -491,11 +486,6 @@ export function getCropYieldAmount({
 
   if (inventory.Coder?.gte(1)) {
     amount *= 1.2;
-  }
-
-  //Bumpkin Skill boost Green Thumb Skill
-  if (skills["Green Thumb"] && !hasFeatureAccess(game, "SKILLS_REVAMP")) {
-    amount *= 1.05;
   }
 
   //Bumpkin Skill boost Master Farmer Skill

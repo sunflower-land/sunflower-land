@@ -182,6 +182,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
     );
     setFilteredWardrobeNames(filteredWardrobe);
     setSelectedBumpkinItem(equipped[selectedBumpkinPart]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBumpkinPart]);
 
   return (

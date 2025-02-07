@@ -58,6 +58,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
       firstUnclaimedAchievementName ?? achievementKeys[0];
 
     setSelected(defaultSelectedAchievement);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const claim = () => {

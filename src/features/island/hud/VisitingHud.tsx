@@ -50,7 +50,7 @@ export const VisitingHud: React.FC = () => {
         isFullUser={false}
         hideActions
       />
-      <BumpkinProfile isFullUser={false} />
+      <BumpkinProfile />
       <div
         className="fixed z-50"
         style={{
