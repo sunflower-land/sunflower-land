@@ -30,8 +30,6 @@ export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
       onClose={onClose}
     >
       <SplitScreenView
-        tallDesktopContent
-        tallMobileContent
         wideModal
         panel={
           <div className="flex flex-col h-full justify-between">
