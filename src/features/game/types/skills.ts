@@ -250,6 +250,11 @@ export function getLevel(experience: Decimal) {
     return 10;
   }
 
+  // Around 2 months farming
+  if (experience.gte(REQUIRED_XP.LEVEL_9)) {
+    return 9;
+  }
+
   // Around 6 weeks farming
   if (experience.gte(REQUIRED_XP.LEVEL_8)) {
     return 8;
