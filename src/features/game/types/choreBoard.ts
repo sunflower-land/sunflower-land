@@ -36,6 +36,7 @@ function farmActivityTask({
 }
 
 export const NPC_CHORES = {
+  // Keep for testing
   CHOP_1_TREE: {
     requirement: 1,
     progress: (game: GameState) => game.bumpkin.activity["Tree Chopped"] ?? 0,
@@ -44,286 +45,7 @@ export const NPC_CHORES = {
     requirement: 2,
     progress: (game: GameState) => game.bumpkin.activity["Tree Chopped"] ?? 0,
   },
-
-  "Mine 20 Gold": bumpkinActivityTask({ activity: "Gold Mined", amount: 20 }),
-  "Mine 23 Gold": bumpkinActivityTask({ activity: "Gold Mined", amount: 23 }),
-  "Mine 25 Gold": bumpkinActivityTask({ activity: "Gold Mined", amount: 25 }),
-  "Mine 10 Crimstone": bumpkinActivityTask({
-    activity: "Crimstone Mined",
-    amount: 10,
-  }),
-  "Mine 12 Crimstone": bumpkinActivityTask({
-    activity: "Crimstone Mined",
-    amount: 12,
-  }),
-  "Mine 15 Crimstone": bumpkinActivityTask({
-    activity: "Crimstone Mined",
-    amount: 15,
-  }),
-  "Craft 20 Iron Pickaxe": bumpkinActivityTask({
-    activity: "Iron Pickaxe Crafted",
-    amount: 20,
-  }),
-  "Craft 25 Iron Pickaxe": bumpkinActivityTask({
-    activity: "Iron Pickaxe Crafted",
-    amount: 25,
-  }),
-  "Craft 15 Gold Pickaxe": bumpkinActivityTask({
-    activity: "Gold Pickaxe Crafted",
-    amount: 15,
-  }),
-  "Craft 20 Gold Pickaxe": bumpkinActivityTask({
-    activity: "Gold Pickaxe Crafted",
-    amount: 20,
-  }),
-  "Spend 35,000 Coins": bumpkinActivityTask({
-    activity: "Coins Spent",
-    amount: 35000,
-  }),
-  "Spend 42,000 Coins": bumpkinActivityTask({
-    activity: "Coins Spent",
-    amount: 42000,
-  }),
-  "Spend 55,000 Coins": bumpkinActivityTask({
-    activity: "Coins Spent",
-    amount: 55000,
-  }),
-
-  "Pick 45 Blueberries": bumpkinActivityTask({
-    activity: "Blueberry Harvested",
-    amount: 45,
-  }),
-  "Pick 51 Blueberries": bumpkinActivityTask({
-    activity: "Blueberry Harvested",
-    amount: 51,
-  }),
-  "Pick 60 Blueberries": bumpkinActivityTask({
-    activity: "Blueberry Harvested",
-    amount: 60,
-  }),
-  "Pick 30 Oranges": bumpkinActivityTask({
-    activity: "Orange Harvested",
-    amount: 30,
-  }),
-  "Pick 40 Oranges": bumpkinActivityTask({
-    activity: "Orange Harvested",
-    amount: 40,
-  }),
-  "Pick 50 Oranges": bumpkinActivityTask({
-    activity: "Orange Harvested",
-    amount: 50,
-  }),
-  "Pick 25 Apples": bumpkinActivityTask({
-    activity: "Apple Harvested",
-    amount: 25,
-  }),
-  "Pick 30 Apples": bumpkinActivityTask({
-    activity: "Apple Harvested",
-    amount: 30,
-  }),
-  "Pick 45 Apples": bumpkinActivityTask({
-    activity: "Apple Harvested",
-    amount: 45,
-  }),
-  "Pick 35 Bananas": bumpkinActivityTask({
-    activity: "Banana Harvested",
-    amount: 35,
-  }),
-  "Pick 40 Bananas": bumpkinActivityTask({
-    activity: "Banana Harvested",
-    amount: 40,
-  }),
-  "Pick 45 Bananas": bumpkinActivityTask({
-    activity: "Banana Harvested",
-    amount: 45,
-  }),
-  "Pick 40 Tomatoes": bumpkinActivityTask({
-    activity: "Tomato Harvested",
-    amount: 40,
-  }),
-  "Pick 60 Tomatoes": bumpkinActivityTask({
-    activity: "Tomato Harvested",
-    amount: 60,
-  }),
-  "Pick 80 Tomatoes": bumpkinActivityTask({
-    activity: "Tomato Harvested",
-    amount: 80,
-  }),
-  "Pick 25 Lemons": bumpkinActivityTask({
-    activity: "Lemon Harvested",
-    amount: 25,
-  }),
-  "Pick 40 Lemons": bumpkinActivityTask({
-    activity: "Lemon Harvested",
-    amount: 40,
-  }),
-  "Pick 65 Lemons": bumpkinActivityTask({
-    activity: "Lemon Harvested",
-    amount: 65,
-  }),
-
-  "Harvest Parsnips 450 times": bumpkinActivityTask({
-    activity: "Parsnip Harvested",
-    amount: 450,
-  }),
-  "Harvest Parsnips 500 times": bumpkinActivityTask({
-    activity: "Parsnip Harvested",
-    amount: 500,
-  }),
-  "Harvest Eggplants 250 times": bumpkinActivityTask({
-    activity: "Eggplant Harvested",
-    amount: 250,
-  }),
-  "Harvest Eggplants 300 times": bumpkinActivityTask({
-    activity: "Eggplant Harvested",
-    amount: 300,
-  }),
-  "Harvest Corn 275 times": bumpkinActivityTask({
-    activity: "Corn Harvested",
-    amount: 275,
-  }),
-  "Harvest Corn 300 times": bumpkinActivityTask({
-    activity: "Corn Harvested",
-    amount: 300,
-  }),
-  "Harvest Radish 200 times": bumpkinActivityTask({
-    activity: "Radish Harvested",
-    amount: 200,
-  }),
-  "Harvest Radish 240 times": bumpkinActivityTask({
-    activity: "Radish Harvested",
-    amount: 240,
-  }),
-  "Harvest Wheat 200 times": bumpkinActivityTask({
-    activity: "Wheat Harvested",
-    amount: 200,
-  }),
-  "Harvest Wheat 240 times": bumpkinActivityTask({
-    activity: "Wheat Harvested",
-    amount: 240,
-  }),
-  "Harvest Kale 175 times": bumpkinActivityTask({
-    activity: "Kale Harvested",
-    amount: 175,
-  }),
-  "Harvest Kale 200 times": bumpkinActivityTask({
-    activity: "Kale Harvested",
-    amount: 200,
-  }),
-  "Cook 15 Honey Cake": bumpkinActivityTask({
-    activity: "Honey Cake Cooked",
-    amount: 15,
-  }),
-  "Cook 20 Honey Cake": bumpkinActivityTask({
-    activity: "Honey Cake Cooked",
-    amount: 20,
-  }),
-  "Cook 3 Parsnip Cake": bumpkinActivityTask({
-    activity: "Parsnip Cake Cooked",
-    amount: 3,
-  }),
-  "Cook 5 Parsnip Cake": bumpkinActivityTask({
-    activity: "Parsnip Cake Cooked",
-    amount: 5,
-  }),
-  "Cook 3 Eggplant Cake": bumpkinActivityTask({
-    activity: "Eggplant Cake Cooked",
-    amount: 3,
-  }),
-  "Cook 5 Eggplant Cake": bumpkinActivityTask({
-    activity: "Eggplant Cake Cooked",
-    amount: 5,
-  }),
-  "Cook 3 Radish Cake": bumpkinActivityTask({
-    activity: "Radish Cake Cooked",
-    amount: 3,
-  }),
-  "Cook 5 Radish Cake": bumpkinActivityTask({
-    activity: "Radish Cake Cooked",
-    amount: 5,
-  }),
-
-  "Cook 5 Cauliflower Burger": bumpkinActivityTask({
-    activity: "Cauliflower Burger Cooked",
-    amount: 5,
-  }),
-  "Cook 7 Cauliflower Burger": bumpkinActivityTask({
-    activity: "Cauliflower Burger Cooked",
-    amount: 7,
-  }),
-  "Cook 10 Cauliflower Burger": bumpkinActivityTask({
-    activity: "Cauliflower Burger Cooked",
-    amount: 10,
-  }),
-  "Cook 5 Bumpkin Salad": bumpkinActivityTask({
-    activity: "Bumpkin Salad Cooked",
-    amount: 5,
-  }),
-  "Cook 7 Bumpkin Salad": bumpkinActivityTask({
-    activity: "Bumpkin Salad Cooked",
-    amount: 7,
-  }),
-  "Cook 10 Bumpkin Salad": bumpkinActivityTask({
-    activity: "Bumpkin Salad Cooked",
-    amount: 10,
-  }),
-  "Cook 3 Bumpkin ganoush": bumpkinActivityTask({
-    activity: "Bumpkin ganoush Cooked",
-    amount: 3,
-  }),
-  "Cook 5 Bumpkin ganoush": bumpkinActivityTask({
-    activity: "Bumpkin ganoush Cooked",
-    amount: 5,
-  }),
-  "Cook 7 Bumpkin ganoush": bumpkinActivityTask({
-    activity: "Bumpkin ganoush Cooked",
-    amount: 7,
-  }),
-  "Cook 3 Goblin's Treat": bumpkinActivityTask({
-    activity: "Goblin's Treat Cooked",
-    amount: 3,
-  }),
-  "Cook 5 Goblin's Treat": bumpkinActivityTask({
-    activity: "Goblin's Treat Cooked",
-    amount: 5,
-  }),
-  "Cook 7 Goblin's Treat": bumpkinActivityTask({
-    activity: "Goblin's Treat Cooked",
-    amount: 7,
-  }),
-  "Harvest Beetroot 250 times": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 250,
-  }),
-  "Harvest Beetroot 300 times": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 300,
-  }),
-  "Harvest Cauliflower 180 times": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 180,
-  }),
-  "Harvest Cauliflower 200 times": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 200,
-  }),
-  "Harvest Parsnip 100 times": bumpkinActivityTask({
-    activity: "Parsnip Harvested",
-    amount: 100,
-  }),
-  "Harvest Parsnip 150 times": bumpkinActivityTask({
-    activity: "Parsnip Harvested",
-    amount: 150,
-  }),
-  "Harvest Eggplants 80 times": bumpkinActivityTask({
-    activity: "Eggplant Harvested",
-    amount: 80,
-  }),
-  "Harvest Eggplants 120 times": bumpkinActivityTask({
-    activity: "Eggplant Harvested",
-    amount: 120,
-  }),
-
+  // Harvest
   "Harvest Sunflowers 150 times": bumpkinActivityTask({
     activity: "Sunflower Harvested",
     amount: 150,
@@ -336,210 +58,81 @@ export const NPC_CHORES = {
     activity: "Sunflower Harvested",
     amount: 250,
   }),
-  "Harvest Potato 100 times": bumpkinActivityTask({
+  "Harvest Potatoes 100 times": bumpkinActivityTask({
     activity: "Potato Harvested",
     amount: 100,
   }),
-  "Harvest Potato 125 times": bumpkinActivityTask({
+  "Harvest Potatoes 125 times": bumpkinActivityTask({
     activity: "Potato Harvested",
     amount: 125,
   }),
-  "Harvest Potato 150 times": bumpkinActivityTask({
+  "Harvest Potatoes 130 times": bumpkinActivityTask({
+    activity: "Potato Harvested",
+    amount: 130,
+  }),
+  "Harvest Potatoes 150 times": bumpkinActivityTask({
     activity: "Potato Harvested",
     amount: 150,
   }),
-  "Harvest Pumpkin 75 times": bumpkinActivityTask({
-    activity: "Pumpkin Harvested",
-    amount: 75,
+  "Harvest Potatoes 200 times": bumpkinActivityTask({
+    activity: "Potato Harvested",
+    amount: 200,
   }),
-  "Harvest Pumpkin 100 times": bumpkinActivityTask({
-    activity: "Pumpkin Harvested",
+  "Harvest Potatoes 250 times": bumpkinActivityTask({
+    activity: "Potato Harvested",
+    amount: 250,
+  }),
+  "Harvest Rhubarbs 100 times": bumpkinActivityTask({
+    activity: "Rhubarb Harvested",
     amount: 100,
   }),
-  "Harvest Pumpkin 125 times": bumpkinActivityTask({
-    activity: "Pumpkin Harvested",
+  "Harvest Rhubarbs 125 times": bumpkinActivityTask({
+    activity: "Rhubarb Harvested",
     amount: 125,
   }),
-  "Eat 10 Pumpkin Soup": bumpkinActivityTask({
-    activity: "Pumpkin Soup Fed",
-    amount: 10,
+  "Harvest Rhubarbs 150 times": bumpkinActivityTask({
+    activity: "Rhubarb Harvested",
+    amount: 150,
   }),
-  "Eat 12 Pumpkin Soup": bumpkinActivityTask({
-    activity: "Pumpkin Soup Fed",
-    amount: 12,
-  }),
-  "Eat 15 Pumpkin Soup": bumpkinActivityTask({
-    activity: "Pumpkin Soup Fed",
-    amount: 15,
-  }),
-  "Eat 8 Bumpkin Broth": bumpkinActivityTask({
-    activity: "Bumpkin Broth Fed",
-    amount: 8,
-  }),
-  "Eat 12 Bumpkin Broth": bumpkinActivityTask({
-    activity: "Bumpkin Broth Fed",
-    amount: 12,
-  }),
-  "Eat 10 Reindeer Carrot": bumpkinActivityTask({
-    activity: "Reindeer Carrot Fed",
-    amount: 10,
-  }),
-  "Eat 15 Reindeer Carrot": bumpkinActivityTask({
-    activity: "Reindeer Carrot Fed",
-    amount: 15,
-  }),
-  "Cook 3 Bumpkin Broth": bumpkinActivityTask({
-    activity: "Bumpkin Broth Cooked",
-    amount: 3,
-  }),
-  "Cook 5 Bumpkin Broth": bumpkinActivityTask({
-    activity: "Bumpkin Broth Cooked",
-    amount: 5,
-  }),
-  "Cook 8 Reindeer Carrot": bumpkinActivityTask({
-    activity: "Reindeer Carrot Cooked",
-    amount: 8,
-  }),
-  "Cook 12 Reindeer Carrot": bumpkinActivityTask({
-    activity: "Reindeer Carrot Cooked",
-    amount: 12,
-  }),
-
-  "Chop 60 Trees": bumpkinActivityTask({
-    activity: "Tree Chopped",
-    amount: 60,
-  }),
-  "Chop 70 Trees": bumpkinActivityTask({
-    activity: "Tree Chopped",
-    amount: 70,
-  }),
-  "Chop 80 Trees": bumpkinActivityTask({
-    activity: "Tree Chopped",
-    amount: 80,
-  }),
-  "Mine 50 Stones": bumpkinActivityTask({
-    activity: "Stone Mined",
-    amount: 50,
-  }),
-  "Mine 75 Stones": bumpkinActivityTask({
-    activity: "Stone Mined",
-    amount: 75,
-  }),
-  "Mine 100 Stones": bumpkinActivityTask({
-    activity: "Stone Mined",
+  "Harvest Pumpkins 100 times": bumpkinActivityTask({
+    activity: "Pumpkin Harvested",
     amount: 100,
   }),
-  "Collect 3 Honey": bumpkinActivityTask({
-    activity: "Honey Harvested",
-    amount: 3,
+  "Harvest Pumpkins 130 times": bumpkinActivityTask({
+    activity: "Pumpkin Harvested",
+    amount: 130,
   }),
-  "Collect 5 Honey": bumpkinActivityTask({
-    activity: "Honey Harvested",
-    amount: 5,
+  "Harvest Pumpkins 150 times": bumpkinActivityTask({
+    activity: "Pumpkin Harvested",
+    amount: 150,
   }),
-
-  // "Fish 80 times": bumpkinActivityTask({ activity: "Fish Caught", amount: 80 }),
-  // "Fish 90 times": bumpkinActivityTask({ activity: "Fish Caught", amount: 90 }),
-  // "Fish 100 times": bumpkinActivityTask({ activity: "Fish Caught", amount: 100 }),
-
-  "Cook 3 Fermented Fish": bumpkinActivityTask({
-    activity: "Fermented Fish Cooked",
-    amount: 3,
+  "Harvest Pumpkins 200 times": bumpkinActivityTask({
+    activity: "Pumpkin Harvested",
+    amount: 200,
   }),
-  "Cook 4 Fermented Fish": bumpkinActivityTask({
-    activity: "Fermented Fish Cooked",
-    amount: 4,
+  "Harvest Pumpkins 250 times": bumpkinActivityTask({
+    activity: "Pumpkin Harvested",
+    amount: 250,
   }),
-  "Cook 5 Fermented Fish": bumpkinActivityTask({
-    activity: "Fermented Fish Cooked",
-    amount: 5,
-  }),
-  "Cook 10 Chowder": bumpkinActivityTask({
-    activity: "Chowder Cooked",
-    amount: 10,
-  }),
-  "Cook 12 Chowder": bumpkinActivityTask({
-    activity: "Chowder Cooked",
-    amount: 12,
-  }),
-  "Cook 15 Chowder": bumpkinActivityTask({
-    activity: "Chowder Cooked",
-    amount: 15,
-  }),
-
-  "Craft 30 Fishing Rod": bumpkinActivityTask({
-    activity: "Rod Crafted",
-    amount: 30,
-  }),
-  "Craft 40 Fishing Rod": bumpkinActivityTask({
-    activity: "Rod Crafted",
-    amount: 40,
-  }),
-  "Craft 50 Fishing Rod": bumpkinActivityTask({
-    activity: "Rod Crafted",
+  "Harvest Zucchini 50 times": bumpkinActivityTask({
+    activity: "Zucchini Harvested",
     amount: 50,
   }),
-  "Cook 5 Gumbo": bumpkinActivityTask({ activity: "Gumbo Cooked", amount: 5 }),
-  "Cook 7 Gumbo": bumpkinActivityTask({ activity: "Gumbo Cooked", amount: 7 }),
-  "Cook 10 Gumbo": bumpkinActivityTask({
-    activity: "Gumbo Cooked",
-    amount: 10,
+  "Harvest Zucchini 75 times": bumpkinActivityTask({
+    activity: "Zucchini Harvested",
+    amount: 75,
   }),
-  "Eat 5 Chowder": bumpkinActivityTask({ activity: "Chowder Fed", amount: 5 }),
-  "Eat 7 Chowder": bumpkinActivityTask({ activity: "Chowder Fed", amount: 7 }),
-  "Eat 10 Chowder": bumpkinActivityTask({
-    activity: "Chowder Fed",
-    amount: 10,
-  }),
-
-  "Grow 2 Red Pansy": farmActivityTask({
-    activity: "Red Pansy Harvested",
-    amount: 2,
-  }),
-  "Grow 3 Red Pansy": farmActivityTask({
-    activity: "Red Pansy Harvested",
-    amount: 3,
-  }),
-  "Grow 2 Yellow Pansy": farmActivityTask({
-    activity: "Yellow Pansy Harvested",
-    amount: 2,
-  }),
-  "Grow 3 Yellow Pansy": farmActivityTask({
-    activity: "Yellow Pansy Harvested",
-    amount: 3,
-  }),
-  "Grow 2 Purple Cosmos": farmActivityTask({
-    activity: "Purple Cosmos Harvested",
-    amount: 2,
-  }),
-  "Grow 3 Purple Cosmos": farmActivityTask({
-    activity: "Purple Cosmos Harvested",
-    amount: 3,
-  }),
-  "Grow 2 Blue Cosmos": farmActivityTask({
-    activity: "Blue Cosmos Harvested",
-    amount: 2,
-  }),
-  "Grow 3 Blue Cosmos": farmActivityTask({
-    activity: "Blue Cosmos Harvested",
-    amount: 3,
-  }),
-
-  "Spend 1,000 Coins": bumpkinActivityTask({
-    activity: "Coins Spent",
-    amount: 1000,
-  }),
-  "Spend 2,000 Coins": bumpkinActivityTask({
-    activity: "Coins Spent",
-    amount: 2000,
-  }),
-  "Spend 3,000 Coins": bumpkinActivityTask({
-    activity: "Coins Spent",
-    amount: 3000,
+  "Harvest Zucchini 100 times": bumpkinActivityTask({
+    activity: "Zucchini Harvested",
+    amount: 100,
   }),
   "Harvest Carrots 50 times": bumpkinActivityTask({
     activity: "Carrot Harvested",
     amount: 50,
+  }),
+  "Harvest Carrots 60 times": bumpkinActivityTask({
+    activity: "Carrot Harvested",
+    amount: 60,
   }),
   "Harvest Carrots 75 times": bumpkinActivityTask({
     activity: "Carrot Harvested",
@@ -549,30 +142,320 @@ export const NPC_CHORES = {
     activity: "Carrot Harvested",
     amount: 100,
   }),
+  "Harvest Carrots 120 times": bumpkinActivityTask({
+    activity: "Carrot Harvested",
+    amount: 120,
+  }),
+  "Harvest Yam 125 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 125,
+  }),
+  "Harvest Yam 150 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 150,
+  }),
+  "Harvest Yam 175 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 175,
+  }),
   "Harvest Cabbage 25 times": bumpkinActivityTask({
     activity: "Cabbage Harvested",
     amount: 25,
+  }),
+  "Harvest Cabbage 30 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 30,
+  }),
+  "Harvest Cabbage 40 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 40,
   }),
   "Harvest Cabbage 50 times": bumpkinActivityTask({
     activity: "Cabbage Harvested",
     amount: 50,
   }),
+  "Harvest Cabbage 60 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 60,
+  }),
   "Harvest Cabbage 75 times": bumpkinActivityTask({
     activity: "Cabbage Harvested",
     amount: 75,
   }),
-  "Eat 15 Mashed Potatoes": bumpkinActivityTask({
-    activity: "Mashed Potato Fed",
-    amount: 15,
+  "Harvest Cabbage 80 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 80,
   }),
-  "Eat 20 Mashed Potatoes": bumpkinActivityTask({
-    activity: "Mashed Potato Fed",
-    amount: 20,
+  "Harvest Cabbage 90 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 90,
   }),
-  "Eat 25 Mashed Potatoes": bumpkinActivityTask({
-    activity: "Mashed Potato Fed",
+  "Harvest Cabbage 100 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 100,
+  }),
+  "Harvest Cabbage 125 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 125,
+  }),
+  "Harvest Cabbage 150 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 150,
+  }),
+  "Harvest Cabbage 175 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 175,
+  }),
+  "Harvest Broccoli 40 times": bumpkinActivityTask({
+    activity: "Broccoli Harvested",
+    amount: 40,
+  }),
+  "Harvest Broccoli 80 times": bumpkinActivityTask({
+    activity: "Broccoli Harvested",
+    amount: 80,
+  }),
+  "Harvest Broccoli 100 times": bumpkinActivityTask({
+    activity: "Broccoli Harvested",
+    amount: 100,
+  }),
+  "Harvest Soybeans 30 times": bumpkinActivityTask({
+    activity: "Soybean Harvested",
+    amount: 30,
+  }),
+  "Harvest Soybeans 60 times": bumpkinActivityTask({
+    activity: "Soybean Harvested",
+    amount: 60,
+  }),
+  "Harvest Soybeans 90 times": bumpkinActivityTask({
+    activity: "Soybean Harvested",
+    amount: 90,
+  }),
+  "Harvest Beetroot 30 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 30,
+  }),
+  "Harvest Beetroot 50 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 50,
+  }),
+  "Harvest Beetroot 60 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 60,
+  }),
+  "Harvest Beetroot 75 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 75,
+  }),
+  "Harvest Beetroot 90 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 90,
+  }),
+  "Harvest Beetroot 100 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 100,
+  }),
+  "Harvest Beetroot 120 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 120,
+  }),
+  "Harvest Pepper 25 times": bumpkinActivityTask({
+    activity: "Pepper Harvested",
     amount: 25,
   }),
+  "Harvest Pepper 40 times": bumpkinActivityTask({
+    activity: "Pepper Harvested",
+    amount: 40,
+  }),
+  "Harvest Pepper 50 times": bumpkinActivityTask({
+    activity: "Pepper Harvested",
+    amount: 50,
+  }),
+  "Harvest Pepper 75 times": bumpkinActivityTask({
+    activity: "Pepper Harvested",
+    amount: 75,
+  }),
+  "Harvest Pepper 80 times": bumpkinActivityTask({
+    activity: "Pepper Harvested",
+    amount: 80,
+  }),
+  "Harvest Pepper 100 times": bumpkinActivityTask({
+    activity: "Pepper Harvested",
+    amount: 100,
+  }),
+  "Harvest Cauliflower 30 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 30,
+  }),
+  "Harvest Cauliflower 60 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 60,
+  }),
+  "Harvest Cauliflower 90 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 90,
+  }),
+  "Harvest Cauliflower 400 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 400,
+  }),
+  "Harvest Cauliflower 450 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 450,
+  }),
+  "Harvest Cauliflower 500 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 500,
+  }),
+  "Harvest Eggplant 300 times": bumpkinActivityTask({
+    activity: "Eggplant Harvested",
+    amount: 300,
+  }),
+  "Harvest Eggplant 360 times": bumpkinActivityTask({
+    activity: "Eggplant Harvested",
+    amount: 360,
+  }),
+  "Harvest Eggplant 420 times": bumpkinActivityTask({
+    activity: "Eggplant Harvested",
+    amount: 420,
+  }),
+  "Harvest Corn 300 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 300,
+  }),
+  "Harvest Corn 360 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 360,
+  }),
+  "Harvest Corn 420 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 420,
+  }),
+  "Harvest Onions 300 times": bumpkinActivityTask({
+    activity: "Onion Harvested",
+    amount: 300,
+  }),
+  "Harvest Onions 360 times": bumpkinActivityTask({
+    activity: "Onion Harvested",
+    amount: 360,
+  }),
+  "Harvest Onions 420 times": bumpkinActivityTask({
+    activity: "Onion Harvested",
+    amount: 420,
+  }),
+  "Harvest Wheat 240 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 240,
+  }),
+  "Harvest Wheat 250 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 250,
+  }),
+  "Harvest Wheat 300 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 300,
+  }),
+  "Harvest Wheat 360 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 360,
+  }),
+  "Harvest Radish 240 times": bumpkinActivityTask({
+    activity: "Radish Harvested",
+    amount: 240,
+  }),
+  "Harvest Radish 280 times": bumpkinActivityTask({
+    activity: "Radish Harvested",
+    amount: 280,
+  }),
+  "Harvest Radish 340 times": bumpkinActivityTask({
+    activity: "Radish Harvested",
+    amount: 340,
+  }),
+  "Harvest Turnip 250 times": bumpkinActivityTask({
+    activity: "Turnip Harvested",
+    amount: 250,
+  }),
+  "Harvest Turnip 300 times": bumpkinActivityTask({
+    activity: "Turnip Harvested",
+    amount: 300,
+  }),
+  "Harvest Turnip 360 times": bumpkinActivityTask({
+    activity: "Turnip Harvested",
+    amount: 360,
+  }),
+  "Harvest Kale 120 times": bumpkinActivityTask({
+    activity: "Kale Harvested",
+    amount: 120,
+  }),
+  "Harvest Kale 180 times": bumpkinActivityTask({
+    activity: "Kale Harvested",
+    amount: 180,
+  }),
+  "Harvest Kale 200 times": bumpkinActivityTask({
+    activity: "Kale Harvested",
+    amount: 200,
+  }),
+  "Harvest Kale 240 times": bumpkinActivityTask({
+    activity: "Kale Harvested",
+    amount: 240,
+  }),
+  "Harvest Artichoke 150 times": bumpkinActivityTask({
+    activity: "Artichoke Harvested",
+    amount: 150,
+  }),
+  "Harvest Artichoke 200 times": bumpkinActivityTask({
+    activity: "Artichoke Harvested",
+    amount: 200,
+  }),
+  "Harvest Artichoke 260 times": bumpkinActivityTask({
+    activity: "Artichoke Harvested",
+    amount: 260,
+  }),
+  "Harvest Barley 100 times": bumpkinActivityTask({
+    activity: "Barley Harvested",
+    amount: 100,
+  }),
+  "Harvest Barley 120 times": bumpkinActivityTask({
+    activity: "Barley Harvested",
+    amount: 120,
+  }),
+  "Harvest Barley 150 times": bumpkinActivityTask({
+    activity: "Barley Harvested",
+    amount: 150,
+  }),
+  "Harvest Barley 180 times": bumpkinActivityTask({
+    activity: "Barley Harvested",
+    amount: 180,
+  }),
+  "Harvest Barley 200 times": bumpkinActivityTask({
+    activity: "Barley Harvested",
+    amount: 200,
+  }),
+  "Harvest Rice 16 times": bumpkinActivityTask({
+    activity: "Rice Harvested",
+    amount: 16,
+  }),
+  "Harvest Rice 20 times": bumpkinActivityTask({
+    activity: "Rice Harvested",
+    amount: 20,
+  }),
+  "Harvest Rice 24 times": bumpkinActivityTask({
+    activity: "Rice Harvested",
+    amount: 24,
+  }),
+  "Harvest Olives 12 times": bumpkinActivityTask({
+    activity: "Olive Harvested",
+    amount: 12,
+  }),
+  "Harvest Olives 16 times": bumpkinActivityTask({
+    activity: "Olive Harvested",
+    amount: 16,
+  }),
+  "Harvest Olives 20 times": bumpkinActivityTask({
+    activity: "Olive Harvested",
+    amount: 20,
+  }),
+
+  // Eat
   "Eat 3 Boiled Eggs": bumpkinActivityTask({
     activity: "Boiled Eggs Fed",
     amount: 3,
@@ -585,505 +468,116 @@ export const NPC_CHORES = {
     activity: "Boiled Eggs Fed",
     amount: 7,
   }),
-
-  "Chop 450 Trees": bumpkinActivityTask({
-    activity: "Tree Chopped",
-    amount: 450,
-  }),
-  "Chop 500 Trees": bumpkinActivityTask({
-    activity: "Tree Chopped",
-    amount: 500,
-  }),
-  "Chop 600 Trees": bumpkinActivityTask({
-    activity: "Tree Chopped",
-    amount: 600,
-  }),
-  "Mine 200 Stones": bumpkinActivityTask({
-    activity: "Stone Mined",
-    amount: 200,
-  }),
-  "Mine 250 Stones": bumpkinActivityTask({
-    activity: "Stone Mined",
-    amount: 250,
-  }),
-  "Mine 300 Stones": bumpkinActivityTask({
-    activity: "Stone Mined",
-    amount: 300,
-  }),
-  "Mine 80 Iron": bumpkinActivityTask({ activity: "Iron Mined", amount: 80 }),
-  "Mine 90 Iron": bumpkinActivityTask({ activity: "Iron Mined", amount: 90 }),
-  "Mine 100 Iron": bumpkinActivityTask({ activity: "Iron Mined", amount: 100 }),
-
-  "Earn 2,500 Coins": bumpkinActivityTask({
-    activity: "Coins Earned",
-    amount: 2500,
-  }),
-  "Earn 3,500 Coins": bumpkinActivityTask({
-    activity: "Coins Earned",
-    amount: 3500,
-  }),
-  "Earn 5,000 Coins": bumpkinActivityTask({
-    activity: "Coins Earned",
-    amount: 5000,
-  }),
-  "Harvest Soybean 15 times": bumpkinActivityTask({
-    activity: "Soybean Harvested",
-    amount: 15,
-  }),
-  "Harvest Soybean 30 times": bumpkinActivityTask({
-    activity: "Soybean Harvested",
-    amount: 30,
-  }),
-  "Harvest Soybean 50 times": bumpkinActivityTask({
-    activity: "Soybean Harvested",
-    amount: 50,
-  }),
-  "Harvest Beetroot 15 times": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 15,
-  }),
-  "Harvest Beetroot 25 times": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 25,
-  }),
-  "Harvest Beetroot 35 times": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 35,
-  }),
-  "Harvest Cauliflower 10 times": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
+  "Eat 10 Boiled Eggs": bumpkinActivityTask({
+    activity: "Boiled Eggs Fed",
     amount: 10,
   }),
-  "Harvest Cauliflower 20 times": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 20,
-  }),
-  "Harvest Cauliflower 30 times": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 30,
-  }),
-
-  "Collect Eggs 10 times": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 10,
-  }),
-  "Collect Eggs 15 times": bumpkinActivityTask({
-    activity: "Egg Collected",
+  "Eat 15 Boiled Eggs": bumpkinActivityTask({
+    activity: "Boiled Eggs Fed",
     amount: 15,
   }),
-  "Collect Eggs 20 times": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 20,
+  "Eat 10 Reindeer Carrot": bumpkinActivityTask({
+    activity: "Reindeer Carrot Fed",
+    amount: 10,
   }),
-  // "Collect 5 Wool": bumpkinActivityTask({ activity: "Wool Collected", amount: 5 }),
-  // "Collect 10 Wool": bumpkinActivityTask({ activity: "Wool Collected", amount: 10 }),
-  // "Collect 15 Wool": bumpkinActivityTask({ activity: "Wool Collected", amount: 15 }),
-  // "Collect 5 Milk": bumpkinActivityTask({ activity: "Milk Collected", amount: 5 }),
-  // "Collect 7 Milk": bumpkinActivityTask({ activity: "Milk Collected", amount: 7 }),
-  // "Collect 10 Milk": bumpkinActivityTask({ activity: "Milk Collected", amount: 10 }),
-
-  // "Fish 10 times": bumpkinActivityTask({ activity: "Fish Caught", amount: 10 }),
-  // "Fish 20 times": bumpkinActivityTask({ activity: "Fish Caught", amount: 20 }),
-  // "Fish 30 times": bumpkinActivityTask({ activity: "Fish Caught", amount: 30 }),
-
-  "Eat 5 Anchovies": bumpkinActivityTask({
+  "Eat 15 Reindeer Carrot": bumpkinActivityTask({
+    activity: "Reindeer Carrot Fed",
+    amount: 15,
+  }),
+  "Eat 20 Anchovies": bumpkinActivityTask({
     activity: "Anchovy Fed",
+    amount: 20,
+  }),
+  "Eat 40 Anchovies": bumpkinActivityTask({
+    activity: "Anchovy Fed",
+    amount: 40,
+  }),
+  "Eat 60 Anchovies": bumpkinActivityTask({
+    activity: "Anchovy Fed",
+    amount: 60,
+  }),
+  "Eat 10 Tunas": bumpkinActivityTask({
+    activity: "Tuna Fed",
+    amount: 10,
+  }),
+  "Eat 20 Tunas": bumpkinActivityTask({
+    activity: "Tuna Fed",
+    amount: 20,
+  }),
+  "Eat 30 Tunas": bumpkinActivityTask({
+    activity: "Tuna Fed",
+    amount: 30,
+  }),
+  "Eat 5 Cauliflower Burgers": bumpkinActivityTask({
+    activity: "Cauliflower Burger Fed",
     amount: 5,
   }),
-  "Eat 10 Anchovies": bumpkinActivityTask({
-    activity: "Anchovy Fed",
-    amount: 10,
-  }),
-  "Eat 15 Anchovies": bumpkinActivityTask({
-    activity: "Anchovy Fed",
-    amount: 15,
-  }),
-  "Eat 3 Tunas": bumpkinActivityTask({ activity: "Tuna Fed", amount: 3 }),
-  "Eat 6 Tunas": bumpkinActivityTask({ activity: "Tuna Fed", amount: 6 }),
-  "Eat 10 Tunas": bumpkinActivityTask({ activity: "Tuna Fed", amount: 10 }),
-
-  "Cook 10 Antipasto": bumpkinActivityTask({
-    activity: "Antipasto Cooked",
-    amount: 10,
-  }),
-  "Cook 15 Antipasto": bumpkinActivityTask({
-    activity: "Antipasto Cooked",
-    amount: 15,
-  }),
-  "Cook 20 Antipasto": bumpkinActivityTask({
-    activity: "Antipasto Cooked",
-    amount: 20,
-  }),
-  "Cook 25 Fruit Salad": bumpkinActivityTask({
-    activity: "Fruit Salad Cooked",
-    amount: 25,
-  }),
-  "Cook 35 Fruit Salad": bumpkinActivityTask({
-    activity: "Fruit Salad Cooked",
-    amount: 35,
-  }),
-  "Cook 45 Fruit Salad": bumpkinActivityTask({
-    activity: "Fruit Salad Cooked",
-    amount: 45,
-  }),
-  "Cook 12 Steamed Red Rice": bumpkinActivityTask({
-    activity: "Steamed Red Rice Cooked",
-    amount: 12,
-  }),
-  "Cook 15 Steamed Red Rice": bumpkinActivityTask({
-    activity: "Steamed Red Rice Cooked",
-    amount: 15,
-  }),
-  "Cook 17 Steamed Red Rice": bumpkinActivityTask({
-    activity: "Steamed Red Rice Cooked",
-    amount: 17,
-  }),
-  "Cook 3 Blueberry Jam": bumpkinActivityTask({
-    activity: "Blueberry Jam Cooked",
-    amount: 3,
-  }),
-  "Cook 4 Blueberry Jam": bumpkinActivityTask({
-    activity: "Blueberry Jam Cooked",
-    amount: 4,
-  }),
-  "Cook 5 Blueberry Jam": bumpkinActivityTask({
-    activity: "Blueberry Jam Cooked",
+  "Eat 5 Club Sandwiches": bumpkinActivityTask({
+    activity: "Club Sandwich Fed",
     amount: 5,
   }),
-
-  "Prepare 10 Banana Blast": bumpkinActivityTask({
-    activity: "Banana Blast Cooked",
-    amount: 10,
+  "Eat 5 Pancakes": bumpkinActivityTask({
+    activity: "Pancakes Fed",
+    amount: 5,
   }),
-  "Prepare 20 Banana Blast": bumpkinActivityTask({
-    activity: "Banana Blast Cooked",
+  "Eat 20 Chowder": bumpkinActivityTask({
+    activity: "Chowder Fed",
     amount: 20,
   }),
-  "Prepare 30 Banana Blast": bumpkinActivityTask({
-    activity: "Banana Blast Cooked",
-    amount: 30,
-  }),
-  "Prepare 15 Bumpkin Detox": bumpkinActivityTask({
-    activity: "Bumpkin Detox Cooked",
-    amount: 15,
-  }),
-  "Prepare 25 Bumpkin Detox": bumpkinActivityTask({
-    activity: "Bumpkin Detox Cooked",
+  "Eat 25 Chowder": bumpkinActivityTask({
+    activity: "Chowder Fed",
     amount: 25,
   }),
-  "Prepare 35 Bumpkin Detox": bumpkinActivityTask({
-    activity: "Bumpkin Detox Cooked",
-    amount: 35,
-  }),
-
-  "Dig 25 times": bumpkinActivityTask({ activity: "Treasure Dug", amount: 25 }),
-  "Dig 35 times": bumpkinActivityTask({ activity: "Treasure Dug", amount: 35 }),
-  "Dig 50 times": bumpkinActivityTask({ activity: "Treasure Dug", amount: 50 }),
-  "Drink 10 Orange Juice": bumpkinActivityTask({
-    activity: "Orange Juice Fed",
-    amount: 10,
-  }),
-  "Drink 20 Orange Juice": bumpkinActivityTask({
-    activity: "Orange Juice Fed",
-    amount: 20,
-  }),
-  "Drink 30 Orange Juice": bumpkinActivityTask({
-    activity: "Orange Juice Fed",
+  "Eat 30 Chowder": bumpkinActivityTask({
+    activity: "Chowder Fed",
     amount: 30,
   }),
   "Eat 5 Orange Cake": bumpkinActivityTask({
     activity: "Orange Cake Fed",
     amount: 5,
   }),
-  "Eat 6 Orange Cake": bumpkinActivityTask({
-    activity: "Orange Cake Fed",
-    amount: 6,
-  }),
   "Eat 7 Orange Cake": bumpkinActivityTask({
     activity: "Orange Cake Fed",
     amount: 7,
   }),
-
-  // "Collect 10 Sand": bumpkinActivityTask({ activity: "Sand Collected", amount: 10 }),
-  // "Collect 15 Sand": bumpkinActivityTask({ activity: "Sand Collected", amount: 15 }),
-  // "Collect 20 Sand": bumpkinActivityTask({ activity: "Sand Collected", amount: 20 }),
-
-  // "Dig 150 times": bumpkinActivityTask({ activity: "Treasure Dug", amount: 150 }),
-  // "Dig 175 times": bumpkinActivityTask({ activity: "Treasure Dug", amount: 175 }),
-  // "Dig 200 times": bumpkinActivityTask({ activity: "Treasure Dug", amount: 200 }),
-  // "Craft 5 Sand Drill": bumpkinActivityTask({ activity: "Sand Drill Crafted", amount: 5 }),
-  // "Craft 10 Sand Drill": bumpkinActivityTask({ activity: "Sand Drill Crafted", amount: 10 }),
-  // "Craft 15 Sand Drill": bumpkinActivityTask({ activity: "Sand Drill Crafted", amount: 15 }),
-  // "Complete 3 Digging Puzzle": bumpkinActivityTask({ activity: "Digging Puzzle Completed", amount: 3 }),
-  // "Complete 4 Digging Puzzle": bumpkinActivityTask({ activity: "Digging Puzzle Completed", amount: 4 }),
-  // "Complete 5 Digging Puzzle": bumpkinActivityTask({ activity: "Digging Puzzle Completed", amount: 5 }),
-
-  // "Drill 8 Oil Reserves": bumpkinActivityTask({ activity: "Oil Reserve Drilled", amount: 8 }),
-  // "Drill 9 Oil Reserves": bumpkinActivityTask({ activity: "Oil Reserve Drilled", amount: 9 }),
-  // "Drill 10 Oil Reserves": bumpkinActivityTask({ activity: "Oil Reserve Drilled", amount: 10 }),
-
-  "Pick Grapes 12 times": bumpkinActivityTask({
-    activity: "Grape Harvested",
-    amount: 12,
-  }),
-  "Pick Grapes 16 times": bumpkinActivityTask({
-    activity: "Grape Harvested",
-    amount: 16,
-  }),
-  "Pick Grapes 20 times": bumpkinActivityTask({
-    activity: "Grape Harvested",
-    amount: 20,
-  }),
-  "Harvest Rice 8 times": bumpkinActivityTask({
-    activity: "Rice Harvested",
-    amount: 8,
-  }),
-  "Harvest Rice 10 times": bumpkinActivityTask({
-    activity: "Rice Harvested",
+  "Eat 10 Orange Cake": bumpkinActivityTask({
+    activity: "Orange Cake Fed",
     amount: 10,
   }),
-  "Harvest Rice 12 times": bumpkinActivityTask({
-    activity: "Rice Harvested",
-    amount: 12,
+  "Eat 15 Orange Cake": bumpkinActivityTask({
+    activity: "Orange Cake Fed",
+    amount: 15,
   }),
-  "Harvest Olives 4 times": bumpkinActivityTask({
-    activity: "Olive Harvested",
-    amount: 4,
+  "Eat 10 Mashed Potatoes": bumpkinActivityTask({
+    activity: "Mashed Potato Fed",
+    amount: 10,
   }),
-  "Harvest Olives 6 times": bumpkinActivityTask({
-    activity: "Olive Harvested",
-    amount: 6,
+  "Eat 15 Mashed Potatoes": bumpkinActivityTask({
+    activity: "Mashed Potato Fed",
+    amount: 15,
   }),
-  "Harvest Olives 8 times": bumpkinActivityTask({
-    activity: "Olive Harvested",
-    amount: 8,
+  "Eat 20 Mashed Potatoes": bumpkinActivityTask({
+    activity: "Mashed Potato Fed",
+    amount: 20,
   }),
-
-  // "Play Fruit Dash 5 times": bumpkinActivityTask({ activity: "Fruit Dash Played", amount: 5 }),
-  // "Play Fruit Dash 10 times": bumpkinActivityTask({ activity: "Fruit Dash Played", amount: 10 }),
-  // "Play Fruit Dash 15 times": bumpkinActivityTask({ activity: "Fruit Dash Played", amount: 15 }),
-  // "Play Chicken Rescue 5 times": bumpkinActivityTask({ activity: "Chicken Rescue Played", amount: 5 }),
-  // "Play Chicken Rescue 10 times": bumpkinActivityTask({ activity: "Chicken Rescue Played", amount: 10 }),
-  // "Play Chicken Rescue 15 times": bumpkinActivityTask({ activity: "Chicken Rescue Played", amount: 15 }),
-  // "Play Crops & Chickens 5 times": bumpkinActivityTask({ activity: "Crops & Chickens Played", amount: 5 }),
-  // "Play Crops & Chickens 10 times": bumpkinActivityTask({ activity: "Crops & Chickens Played", amount: 10 }),
-  // "Play Crops & Chickens 15 times": bumpkinActivityTask({ activity: "Crops & Chickens Played", amount: 15 }),
-
-  // "Rescue 25 Chickens in Chicken Rescue": bumpkinActivityTask({ activity: "Chickens Rescued", amount: 25 }),
-  // "Rescue 30 Chickens in Chicken Rescue": bumpkinActivityTask({ activity: "Chickens Rescued", amount: 30 }),
-  // "Rescue 35 Chickens in Chicken Rescue": bumpkinActivityTask({ activity: "Chickens Rescued", amount: 35 }),
-  // "Rescue 40 Chickens in Chicken Rescue": bumpkinActivityTask({ activity: "Chickens Rescued", amount: 40 }),
-  // "Earn 1000 Points in Crops & Chickens": bumpkinActivityTask({ activity: "Points Earned", amount: 1000 }),
-  // "Earn 1250 Points in Crops & Chickens": bumpkinActivityTask({ activity: "Points Earned", amount: 1250 }),
-  // "Earn 1500 Points in Crops & Chickens": bumpkinActivityTask({ activity: "Points Earned", amount: 1500 }),
-  // "Earn 2000 Points in Crops & Chickens": bumpkinActivityTask({ activity: "Points Earned", amount: 2000 }),
-  // "Earn 1500 Points in Fruit Dash": bumpkinActivityTask({ activity: "Points Earned", amount: 1500 }),
-  // "Earn 2000 Points in Fruit Dash": bumpkinActivityTask({ activity: "Points Earned", amount: 2000 }),
-  // "Earn 3000 Points in Fruit Dash": bumpkinActivityTask({ activity: "Points Earned", amount: 3000 }),
-  // "Earn 4000 Points in Fruit Dash": bumpkinActivityTask({ activity: "Points Earned", amount: 4000 }),
-
-  // "Play Fruit Dash 25 times": bumpkinActivityTask({ activity: "Fruit Dash Played", amount: 25 }),
-  // "Play Fruit Dash 30 times": bumpkinActivityTask({ activity: "Fruit Dash Played", amount: 30 }),
-  // "Play Fruit Dash 35 times": bumpkinActivityTask({ activity: "Fruit Dash Played", amount: 35 }),
-  // "Play Chicken Rescue 25 times": bumpkinActivityTask({ activity: "Chicken Rescue Played", amount: 25 }),
-  // "Play Chicken Rescue 30 times": bumpkinActivityTask({ activity: "Chicken Rescue Played", amount: 30 }),
-  // "Play Chicken Rescue 35 times": bumpkinActivityTask({ activity: "Chicken Rescue Played", amount: 35 }),
-  // "Play Crops & Chickens 25 times": bumpkinActivityTask({ activity: "Crops & Chickens Played", amount: 25 }),
-  // "Play Crops & Chickens 30 times": bumpkinActivityTask({ activity: "Crops & Chickens Played", amount: 30 }),
-  // "Play Crops & Chickens 35 times": bumpkinActivityTask({ activity: "Crops & Chickens Played", amount: 35 }),
-  // "Rescue 50 Chickens in Chicken Rescue": bumpkinActivityTask({ activity: "Chickens Rescued", amount: 50 }),
-  // "Earn 2500 Points in Crops & Chickens": bumpkinActivityTask({ activity: "Points Earned", amount: 2500 }),
-  // "Earn 5000 Points in Fruit Dash": bumpkinActivityTask({ activity: "Points Earned", amount: 5000 }),
-
-  "Grow Red Balloon Flower 3 times": farmActivityTask({
-    activity: "Red Balloon Flower Harvested",
-    amount: 3,
+  "Eat 30 Mashed Potatoes": bumpkinActivityTask({
+    activity: "Mashed Potato Fed",
+    amount: 30,
   }),
-  "Grow Red Balloon Flower 4 times": farmActivityTask({
-    activity: "Red Balloon Flower Harvested",
-    amount: 4,
+  "Eat 20 Pumpkin Soup": bumpkinActivityTask({
+    activity: "Pumpkin Soup Fed",
+    amount: 20,
   }),
-  "Grow Red Balloon Flower 5 times": farmActivityTask({
-    activity: "Red Balloon Flower Harvested",
+  "Eat 30 Pumpkin Soup": bumpkinActivityTask({
+    activity: "Pumpkin Soup Fed",
+    amount: 30,
+  }),
+  "Eat 5 Bumpkin Salad": bumpkinActivityTask({
+    activity: "Bumpkin Salad Fed",
     amount: 5,
   }),
-  "Grow Blue Balloon Flower 3 times": farmActivityTask({
-    activity: "Blue Balloon Flower Harvested",
-    amount: 3,
-  }),
-  "Grow Blue Balloon Flower 4 times": farmActivityTask({
-    activity: "Blue Balloon Flower Harvested",
-    amount: 4,
-  }),
-  "Grow Blue Balloon Flower 5 times": farmActivityTask({
-    activity: "Blue Balloon Flower Harvested",
-    amount: 5,
-  }),
-  "Grow Purple Daffodil 3 times": farmActivityTask({
-    activity: "Purple Daffodil Harvested",
-    amount: 3,
-  }),
-  "Grow Purple Daffodil 4 times": farmActivityTask({
-    activity: "Purple Daffodil Harvested",
-    amount: 4,
-  }),
-  "Grow Purple Daffodil 5 times": farmActivityTask({
-    activity: "Purple Daffodil Harvested",
-    amount: 5,
-  }),
-  "Grow Red Daffodil 2 times": farmActivityTask({
-    activity: "Red Daffodil Harvested",
-    amount: 2,
-  }),
-  "Grow Red Daffodil 3 times": farmActivityTask({
-    activity: "Red Daffodil Harvested",
-    amount: 3,
-  }),
 
-  "Cook 2 Roast Veggies": bumpkinActivityTask({
-    activity: "Roast Veggies Cooked",
-    amount: 2,
-  }),
-  "Cook 3 Roast Veggies": bumpkinActivityTask({
-    activity: "Roast Veggies Cooked",
-    amount: 3,
-  }),
-  "Cook 4 Roast Veggies": bumpkinActivityTask({
-    activity: "Roast Veggies Cooked",
-    amount: 4,
-  }),
-  "Cook 2 Club Sandwich": bumpkinActivityTask({
-    activity: "Club Sandwich Cooked",
-    amount: 2,
-  }),
-  "Cook 3 Club Sandwich": bumpkinActivityTask({
-    activity: "Club Sandwich Cooked",
-    amount: 3,
-  }),
-  "Cook 4 Club Sandwich": bumpkinActivityTask({
-    activity: "Club Sandwich Cooked",
-    amount: 4,
-  }),
-  "Cook 1 Bumpkin ganoush": bumpkinActivityTask({
-    activity: "Bumpkin ganoush Cooked",
-    amount: 1,
-  }),
-  "Cook 2 Bumpkin ganoush": bumpkinActivityTask({
-    activity: "Bumpkin ganoush Cooked",
-    amount: 2,
-  }),
-
-  "Craft 10 Axes": bumpkinActivityTask({ activity: "Axe Crafted", amount: 10 }),
-  "Craft 12 Axes": bumpkinActivityTask({ activity: "Axe Crafted", amount: 12 }),
-  "Craft 15 Axes": bumpkinActivityTask({ activity: "Axe Crafted", amount: 15 }),
-  "Craft 3 Pickaxes": bumpkinActivityTask({
-    activity: "Pickaxe Crafted",
-    amount: 3,
-  }),
-  "Craft 4 Pickaxes": bumpkinActivityTask({
-    activity: "Pickaxe Crafted",
-    amount: 4,
-  }),
-  "Craft 5 Pickaxes": bumpkinActivityTask({
-    activity: "Pickaxe Crafted",
-    amount: 5,
-  }),
-  "Chop 3 Trees": bumpkinActivityTask({ activity: "Tree Chopped", amount: 3 }),
-  "Chop 4 Trees": bumpkinActivityTask({ activity: "Tree Chopped", amount: 4 }),
-  "Chop 5 Trees": bumpkinActivityTask({ activity: "Tree Chopped", amount: 5 }),
-  "Mine 2 Stones": bumpkinActivityTask({ activity: "Stone Mined", amount: 2 }),
-  "Mine 3 Stones": bumpkinActivityTask({ activity: "Stone Mined", amount: 3 }),
-  "Mine 4 Stones": bumpkinActivityTask({ activity: "Stone Mined", amount: 4 }),
-
-  "Grow Yellow Carnation 3 times": farmActivityTask({
-    activity: "Yellow Carnation Harvested",
-    amount: 3,
-  }),
-  "Grow Blue Carnation 3 times": farmActivityTask({
-    activity: "Blue Carnation Harvested",
-    amount: 3,
-  }),
-  "Grow White Carnation 3 times": farmActivityTask({
-    activity: "White Carnation Harvested",
-    amount: 3,
-  }),
-  "Grow Red Lotus 3 times": farmActivityTask({
-    activity: "Red Lotus Harvested",
-    amount: 3,
-  }),
-  "Grow Yellow Lotus 3 times": farmActivityTask({
-    activity: "Yellow Lotus Harvested",
-    amount: 3,
-  }),
-  "Grow White Lotus 3 times": farmActivityTask({
-    activity: "White Lotus Harvested",
-    amount: 3,
-  }),
-  "Grow Blue Pansy 3 times": farmActivityTask({
-    activity: "Blue Pansy Harvested",
-    amount: 3,
-  }),
-  "Grow White Pansy 3 times": farmActivityTask({
-    activity: "White Pansy Harvested",
-    amount: 3,
-  }),
-  "Grow White Cosmos 3 times": farmActivityTask({
-    activity: "White Cosmos Harvested",
-    amount: 3,
-  }),
-  "Grow Purple Daffodil 6 times": farmActivityTask({
-    activity: "Purple Daffodil Harvested",
-    amount: 6,
-  }),
-  "Grow Red Balloon Flower 6 times": farmActivityTask({
-    activity: "Red Balloon Flower Harvested",
-    amount: 6,
-  }),
-
-  "Collect Eggs 40 times": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 40,
-  }),
-  "Collect Eggs 60 times": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 60,
-  }),
-  "Collect Eggs 80 times": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 80,
-  }),
-
-  // "Collect 20 Wool": bumpkinActivityTask({ activity: "Wool Collected", amount: 20 }),
-  // "Collect 30 Wool": bumpkinActivityTask({ activity: "Wool Collected", amount: 30 }),
-  // "Collect 40 Wool": bumpkinActivityTask({ activity: "Wool Collected", amount: 40 }),
-  // "Collect 10 Milk": bumpkinActivityTask({ activity: "Milk Collected", amount: 10 }),
-  // "Collect 20 Milk": bumpkinActivityTask({ activity: "Milk Collected", amount: 20 }),
-  // "Collect 30 Milk": bumpkinActivityTask({ activity: "Milk Collected", amount: 30 }),
-
-  "Eat 5 Bumpkin ganoush": bumpkinActivityTask({
-    activity: "Bumpkin ganoush Fed",
-    amount: 5,
-  }),
-  "Eat 5 Cauliflower Burger": bumpkinActivityTask({
-    activity: "Cauliflower Burger Fed",
-    amount: 5,
-  }),
-  "Eat 4 Club Sandwich": bumpkinActivityTask({
-    activity: "Club Sandwich Fed",
-    amount: 4,
-  }),
-  "Eat 6 Cabbers n Mash": bumpkinActivityTask({
-    activity: "Cabbers n Mash Fed",
-    amount: 6,
-  }),
-  "Eat 4 Goblin's Treat": bumpkinActivityTask({
-    activity: "Goblin's Treat Fed",
-    amount: 4,
-  }),
-  "Eat 3 Pancakes": bumpkinActivityTask({
-    activity: "Pancakes Fed",
-    amount: 3,
-  }),
+  // Drink
   "Drink 15 Orange Juice": bumpkinActivityTask({
     activity: "Orange Juice Fed",
     amount: 15,
@@ -1096,440 +590,1210 @@ export const NPC_CHORES = {
     activity: "Apple Juice Fed",
     amount: 10,
   }),
-  "Drink 5 Power Smoothie": bumpkinActivityTask({
+  "Drink 5 Power Smoothies": bumpkinActivityTask({
     activity: "Power Smoothie Fed",
     amount: 5,
   }),
-
-  "Cook 10 Kale Stew": bumpkinActivityTask({
-    activity: "Kale Stew Cooked",
+  "Drink 25 Orange Juice": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
+    amount: 25,
+  }),
+  "Drink 35 Orange Juice": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
+    amount: 35,
+  }),
+  "Drink 40 Orange Juice": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
+    amount: 40,
+  }),
+  "Drink 50 Orange Juice": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
+    amount: 50,
+  }),
+  "Drink 15 Sour Shakes": bumpkinActivityTask({
+    activity: "Sour Shake Fed",
+    amount: 15,
+  }),
+  "Drink 15 Banana Blast": bumpkinActivityTask({
+    activity: "Banana Blast Fed",
+    amount: 15,
+  }),
+  "Drink 5 Grape Juice": bumpkinActivityTask({
+    activity: "Grape Juice Fed",
+    amount: 5,
+  }),
+  "Drink 10 Orange Juice": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
     amount: 10,
   }),
-  "Cook 8 Kale Omelette": bumpkinActivityTask({
-    activity: "Kale Omelette Cooked",
-    amount: 8,
+  "Drink 15 Carrot Juice": bumpkinActivityTask({
+    activity: "Carrot Juice Fed",
+    amount: 15,
   }),
-  "Cook 3 Mushroom Soup": bumpkinActivityTask({
-    activity: "Mushroom Soup Cooked",
+
+  // Cook
+  "Cook Boiled Eggs 3 times": bumpkinActivityTask({
+    activity: "Boiled Eggs Cooked",
     amount: 3,
   }),
-  "Cook 20 Boiled Eggs": bumpkinActivityTask({
+  "Cook Boiled Eggs 5 times": bumpkinActivityTask({
     activity: "Boiled Eggs Cooked",
-    amount: 20,
-  }),
-  "Cook 2 Beetroot Blaze": bumpkinActivityTask({
-    activity: "Beetroot Blaze Cooked",
-    amount: 2,
-  }),
-  "Cook 5 Sushi Roll": bumpkinActivityTask({
-    activity: "Sushi Roll Cooked",
     amount: 5,
   }),
-  "Cook 5 Fish n Chips": bumpkinActivityTask({
-    activity: "Fish n Chips Cooked",
-    amount: 5,
+  "Cook Reindeer Carrot 8 times": bumpkinActivityTask({
+    activity: "Reindeer Carrot Cooked",
+    amount: 8,
   }),
-  "Cook 10 Apple Pie": bumpkinActivityTask({
-    activity: "Apple Pie Cooked",
-    amount: 10,
+  "Cook Reindeer Carrot 12 times": bumpkinActivityTask({
+    activity: "Reindeer Carrot Cooked",
+    amount: 12,
   }),
-  "Cook 10 Orange Cake": bumpkinActivityTask({
-    activity: "Orange Cake Cooked",
-    amount: 10,
+  "Cook Mashed Potatoes 15 times": bumpkinActivityTask({
+    activity: "Mashed Potato Cooked",
+    amount: 15,
   }),
-  "Prepare 20 Bumpkin Detox": bumpkinActivityTask({
-    activity: "Bumpkin Detox Cooked",
+  "Cook Mashed Potatoes 18 times": bumpkinActivityTask({
+    activity: "Mashed Potato Cooked",
+    amount: 18,
+  }),
+  "Cook Mashed Potatoes 20 times": bumpkinActivityTask({
+    activity: "Mashed Potato Cooked",
     amount: 20,
   }),
-  "Prepare 25 Banana Blast": bumpkinActivityTask({
-    activity: "Banana Blast Cooked",
-    amount: 25,
+  "Cook Roast Veggies 5 times": bumpkinActivityTask({
+    activity: "Roast Veggies Cooked",
+    amount: 5,
   }),
-  "Prepare 25 Carrot Juice": bumpkinActivityTask({
-    activity: "Carrot Juice Cooked",
-    amount: 25,
+  "Cook Roast Veggies 6 times": bumpkinActivityTask({
+    activity: "Roast Veggies Cooked",
+    amount: 6,
   }),
-  "Prepare 10 Grape Juice": bumpkinActivityTask({
-    activity: "Grape Juice Cooked",
-    amount: 10,
-  }),
-  "Prepare 7 The Lot": bumpkinActivityTask({
-    activity: "The Lot Cooked",
+  "Cook Roast Veggies 7 times": bumpkinActivityTask({
+    activity: "Roast Veggies Cooked",
     amount: 7,
   }),
-
-  "Cook 2 Mushroom Syrup": bumpkinActivityTask({
+  "Cook Club Sandwich 5 times": bumpkinActivityTask({
+    activity: "Club Sandwich Cooked",
+    amount: 5,
+  }),
+  "Cook Club Sandwich 6 times": bumpkinActivityTask({
+    activity: "Club Sandwich Cooked",
+    amount: 6,
+  }),
+  "Cook Club Sandwich 7 times": bumpkinActivityTask({
+    activity: "Club Sandwich Cooked",
+    amount: 7,
+  }),
+  "Cook Pancakes 3 times": bumpkinActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 3,
+  }),
+  "Cook Pancakes 4 times": bumpkinActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 4,
+  }),
+  "Cook Pancakes 5 times": bumpkinActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 5,
+  }),
+  "Cook Pancakes 6 times": bumpkinActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 6,
+  }),
+  "Cook Fried Calamari 1 time": bumpkinActivityTask({
+    activity: "Fried Calamari Cooked",
+    amount: 1,
+  }),
+  "Cook Fried Calamari 2 times": bumpkinActivityTask({
+    activity: "Fried Calamari Cooked",
+    amount: 2,
+  }),
+  "Cook Fried Calamari 3 times": bumpkinActivityTask({
+    activity: "Fried Calamari Cooked",
+    amount: 3,
+  }),
+  "Cook Fried Calamari 4 times": bumpkinActivityTask({
+    activity: "Fried Calamari Cooked",
+    amount: 4,
+  }),
+  "Cook Cauliflower Burger 5 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 5,
+  }),
+  "Cook Cauliflower Burger 7 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 7,
+  }),
+  "Cook Cauliflower Burger 10 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 10,
+  }),
+  "Cook Bumpkin Salad 5 times": bumpkinActivityTask({
+    activity: "Bumpkin Salad Cooked",
+    amount: 5,
+  }),
+  "Cook Bumpkin Salad 7 times": bumpkinActivityTask({
+    activity: "Bumpkin Salad Cooked",
+    amount: 7,
+  }),
+  "Cook Bumpkin Salad 10 times": bumpkinActivityTask({
+    activity: "Bumpkin Salad Cooked",
+    amount: 10,
+  }),
+  "Cook Bumpkin ganoush 3 times": bumpkinActivityTask({
+    activity: "Bumpkin ganoush Cooked",
+    amount: 3,
+  }),
+  "Cook Bumpkin ganoush 5 times": bumpkinActivityTask({
+    activity: "Bumpkin ganoush Cooked",
+    amount: 5,
+  }),
+  "Cook Bumpkin ganoush 7 times": bumpkinActivityTask({
+    activity: "Bumpkin ganoush Cooked",
+    amount: 7,
+  }),
+  "Cook Goblin's Treat 3 times": bumpkinActivityTask({
+    activity: "Goblin's Treat Cooked",
+    amount: 3,
+  }),
+  "Cook Goblin's Treat 5 times": bumpkinActivityTask({
+    activity: "Goblin's Treat Cooked",
+    amount: 5,
+  }),
+  "Cook Goblin's Treat 7 times": bumpkinActivityTask({
+    activity: "Goblin's Treat Cooked",
+    amount: 7,
+  }),
+  "Cook Gumbo 20 times": bumpkinActivityTask({
+    activity: "Gumbo Cooked",
+    amount: 20,
+  }),
+  "Cook Gumbo 25 times": bumpkinActivityTask({
+    activity: "Gumbo Cooked",
+    amount: 25,
+  }),
+  "Cook Gumbo 30 times": bumpkinActivityTask({
+    activity: "Gumbo Cooked",
+    amount: 30,
+  }),
+  "Cook Sunflower Cake 7 times": bumpkinActivityTask({
+    activity: "Sunflower Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Carrot Cake 5 times": bumpkinActivityTask({
+    activity: "Carrot Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Cabbage Cake 5 times": bumpkinActivityTask({
+    activity: "Cabbage Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Wheat Cake 5 times": bumpkinActivityTask({
+    activity: "Wheat Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Honey Cake 10 times": bumpkinActivityTask({
+    activity: "Honey Cake Cooked",
+    amount: 10,
+  }),
+  "Cook Honey Cake 15 times": bumpkinActivityTask({
+    activity: "Honey Cake Cooked",
+    amount: 15,
+  }),
+  "Cook Honey Cake 20 times": bumpkinActivityTask({
+    activity: "Honey Cake Cooked",
+    amount: 20,
+  }),
+  "Cook Cornbread 10 times": bumpkinActivityTask({
+    activity: "Cornbread Cooked",
+    amount: 10,
+  }),
+  "Cook Lemon Cheesecakes 3 times": bumpkinActivityTask({
+    activity: "Lemon Cheesecake Cooked",
+    amount: 3,
+  }),
+  "Cook Lemon Cheesecakes 5 times": bumpkinActivityTask({
+    activity: "Lemon Cheesecake Cooked",
+    amount: 5,
+  }),
+  "Cook Fermented Fish 10 times": bumpkinActivityTask({
+    activity: "Fermented Fish Cooked",
+    amount: 10,
+  }),
+  "Cook Fermented Fish 12 times": bumpkinActivityTask({
+    activity: "Fermented Fish Cooked",
+    amount: 12,
+  }),
+  "Cook Fermented Fish 15 times": bumpkinActivityTask({
+    activity: "Fermented Fish Cooked",
+    amount: 15,
+  }),
+  "Cook Chowder 15 times": bumpkinActivityTask({
+    activity: "Chowder Cooked",
+    amount: 15,
+  }),
+  "Cook Chowder 18 times": bumpkinActivityTask({
+    activity: "Chowder Cooked",
+    amount: 18,
+  }),
+  "Cook Chowder 21 times": bumpkinActivityTask({
+    activity: "Chowder Cooked",
+    amount: 21,
+  }),
+  "Cook Antipasto 25 times": bumpkinActivityTask({
+    activity: "Antipasto Cooked",
+    amount: 25,
+  }),
+  "Cook Antipasto 30 times": bumpkinActivityTask({
+    activity: "Antipasto Cooked",
+    amount: 30,
+  }),
+  "Cook Antipasto 35 times": bumpkinActivityTask({
+    activity: "Antipasto Cooked",
+    amount: 35,
+  }),
+  "Cook Fruit Salad 50 times": bumpkinActivityTask({
+    activity: "Fruit Salad Cooked",
+    amount: 50,
+  }),
+  "Cook Fruit Salad 75 times": bumpkinActivityTask({
+    activity: "Fruit Salad Cooked",
+    amount: 75,
+  }),
+  "Cook Fruit Salad 100 times": bumpkinActivityTask({
+    activity: "Fruit Salad Cooked",
+    amount: 100,
+  }),
+  "Cook Steamed Red Rice 20 times": bumpkinActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 20,
+  }),
+  "Cook Steamed Red Rice 25 times": bumpkinActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 25,
+  }),
+  "Cook Steamed Red Rice 30 times": bumpkinActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 30,
+  }),
+  "Cook Rice Bun 20 times": bumpkinActivityTask({
+    activity: "Rice Bun Cooked",
+    amount: 20,
+  }),
+  "Cook Rice Bun 25 times": bumpkinActivityTask({
+    activity: "Rice Bun Cooked",
+    amount: 25,
+  }),
+  "Cook Rice Bun 30 times": bumpkinActivityTask({
+    activity: "Rice Bun Cooked",
+    amount: 30,
+  }),
+  "Cook Shroom Syrup 2 times": bumpkinActivityTask({
     activity: "Shroom Syrup Cooked",
     amount: 2,
   }),
-  "Cook 5 Ocean's Olive": bumpkinActivityTask({
+  "Cook Cheese 50 times": bumpkinActivityTask({
+    activity: "Cheese Cooked",
+    amount: 50,
+  }),
+  "Cook Honey Cheddar 5 times": bumpkinActivityTask({
+    activity: "Honey Cheddar Cooked",
+    amount: 5,
+  }),
+  "Cook Honey Cheddar 7 times": bumpkinActivityTask({
+    activity: "Honey Cheddar Cooked",
+    amount: 7,
+  }),
+  "Cook Honey Cheddar 10 times": bumpkinActivityTask({
+    activity: "Honey Cheddar Cooked",
+    amount: 10,
+  }),
+  "Cook Blue Cheese 20 times": bumpkinActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 20,
+  }),
+  "Cook Blue Cheese 25 times": bumpkinActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 25,
+  }),
+  "Cook Blue Cheese 30 times": bumpkinActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 30,
+  }),
+  "Cook Goblin Brunch 1 time": bumpkinActivityTask({
+    activity: "Goblin Brunch Cooked",
+    amount: 1,
+  }),
+  "Cook Goblin Brunch 2 times": bumpkinActivityTask({
+    activity: "Goblin Brunch Cooked",
+    amount: 2,
+  }),
+  "Cook Goblin Brunch 3 times": bumpkinActivityTask({
+    activity: "Goblin Brunch Cooked",
+    amount: 3,
+  }),
+  "Cook Sushi Roll 3 times": bumpkinActivityTask({
+    activity: "Sushi Roll Cooked",
+    amount: 3,
+  }),
+  "Cook Sushi Roll 4 times": bumpkinActivityTask({
+    activity: "Sushi Roll Cooked",
+    amount: 4,
+  }),
+  "Cook Sushi Roll 5 times": bumpkinActivityTask({
+    activity: "Sushi Roll Cooked",
+    amount: 5,
+  }),
+  "Cook Caprese Salad 4 times": bumpkinActivityTask({
+    activity: "Caprese Salad Cooked",
+    amount: 4,
+  }),
+  "Cook Caprese Salad 5 times": bumpkinActivityTask({
+    activity: "Caprese Salad Cooked",
+    amount: 5,
+  }),
+  "Cook Caprese Salad 6 times": bumpkinActivityTask({
+    activity: "Caprese Salad Cooked",
+    amount: 6,
+  }),
+  "Cook Caprese Salad 7 times": bumpkinActivityTask({
+    activity: "Caprese Salad Cooked",
+    amount: 7,
+  }),
+  "Cook Caprese Salad 8 times": bumpkinActivityTask({
+    activity: "Caprese Salad Cooked",
+    amount: 8,
+  }),
+  "Cook Caprese Salad 10 times": bumpkinActivityTask({
+    activity: "Caprese Salad Cooked",
+    amount: 10,
+  }),
+  "Cook Ocean's Olive 3 times": bumpkinActivityTask({
+    activity: "Ocean's Olive Cooked",
+    amount: 3,
+  }),
+  "Cook Ocean's Olive 5 times": bumpkinActivityTask({
     activity: "Ocean's Olive Cooked",
     amount: 5,
   }),
-  "Cook 2 Fish n Chips": bumpkinActivityTask({
-    activity: "Fish n Chips Cooked",
+  "Cook Ocean's Olive 7 times": bumpkinActivityTask({
+    activity: "Ocean's Olive Cooked",
+    amount: 7,
+  }),
+  "Cook Eggplant Cake 5 times": bumpkinActivityTask({
+    activity: "Eggplant Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Radish Cake 5 times": bumpkinActivityTask({
+    activity: "Radish Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Beetroot Cake 5 times": bumpkinActivityTask({
+    activity: "Beetroot Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Pumpkin Soup 5 times": bumpkinActivityTask({
+    activity: "Pumpkin Soup Cooked",
+    amount: 5,
+  }),
+  "Cook Pumpkin Soup 7 times": bumpkinActivityTask({
+    activity: "Pumpkin Soup Cooked",
+    amount: 7,
+  }),
+  "Cook Pumpkin Soup 10 times": bumpkinActivityTask({
+    activity: "Pumpkin Soup Cooked",
+    amount: 10,
+  }),
+  "Cook Bumpkin Roast 5 times": bumpkinActivityTask({
+    activity: "Bumpkin Roast Cooked",
+    amount: 5,
+  }),
+  "Cook Bumpkin Roast 7 times": bumpkinActivityTask({
+    activity: "Bumpkin Roast Cooked",
+    amount: 7,
+  }),
+  "Cook Bumpkin Roast 10 times": bumpkinActivityTask({
+    activity: "Bumpkin Roast Cooked",
+    amount: 10,
+  }),
+  "Cook Pizza Margherita 5 times": bumpkinActivityTask({
+    activity: "Pizza Margherita Cooked",
+    amount: 5,
+  }),
+  "Cook Pizza Margherita 7 times": bumpkinActivityTask({
+    activity: "Pizza Margherita Cooked",
+    amount: 7,
+  }),
+  "Cook Pizza Margherita 10 times": bumpkinActivityTask({
+    activity: "Pizza Margherita Cooked",
+    amount: 10,
+  }),
+  "Cook Apple Pie 15 times": bumpkinActivityTask({
+    activity: "Apple Pie Cooked",
+    amount: 15,
+  }),
+  "Cook Potato Cake 7 times": bumpkinActivityTask({
+    activity: "Potato Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Carrot Cake 7 times": bumpkinActivityTask({
+    activity: "Carrot Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Wheat Cake 7 times": bumpkinActivityTask({
+    activity: "Wheat Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Spaghetti al Limone 4 times": bumpkinActivityTask({
+    activity: "Spaghetti al Limone Cooked",
+    amount: 4,
+  }),
+  "Cook Spaghetti al Limone 6 times": bumpkinActivityTask({
+    activity: "Spaghetti al Limone Cooked",
+    amount: 6,
+  }),
+  "Cook Spaghetti al Limone 8 times": bumpkinActivityTask({
+    activity: "Spaghetti al Limone Cooked",
+    amount: 8,
+  }),
+  "Cook Beetroot Cake 7 times": bumpkinActivityTask({
+    activity: "Beetroot Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Cabbage Cake 7 times": bumpkinActivityTask({
+    activity: "Cabbage Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Parsnip Cake 7 times": bumpkinActivityTask({
+    activity: "Parsnip Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Cauliflower Cake 7 times": bumpkinActivityTask({
+    activity: "Cauliflower Cake Cooked",
+    amount: 7,
+  }),
+
+  // Prepare
+  "Prepare Power Smoothie 20 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 20,
+  }),
+  "Prepare Power Smoothie 35 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 35,
+  }),
+  "Prepare Power Smoothie 50 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 50,
+  }),
+  "Prepare Slow Juice 5 times": bumpkinActivityTask({
+    activity: "Slow Juice Cooked",
+    amount: 5,
+  }),
+  "Prepare Slow Juice 6 times": bumpkinActivityTask({
+    activity: "Slow Juice Cooked",
+    amount: 6,
+  }),
+  "Prepare Slow Juice 7 times": bumpkinActivityTask({
+    activity: "Slow Juice Cooked",
+    amount: 7,
+  }),
+  "Prepare Banana Blast 20 times": bumpkinActivityTask({
+    activity: "Banana Blast Cooked",
+    amount: 20,
+  }),
+  "Prepare Banana Blast 35 times": bumpkinActivityTask({
+    activity: "Banana Blast Cooked",
+    amount: 35,
+  }),
+  "Prepare Banana Blast 50 times": bumpkinActivityTask({
+    activity: "Banana Blast Cooked",
+    amount: 50,
+  }),
+  "Prepare Grape Juice 10 times": bumpkinActivityTask({
+    activity: "Grape Juice Cooked",
+    amount: 10,
+  }),
+  "Prepare Grape Juice 12 times": bumpkinActivityTask({
+    activity: "Grape Juice Cooked",
+    amount: 12,
+  }),
+  "Prepare Grape Juice 15 times": bumpkinActivityTask({
+    activity: "Grape Juice Cooked",
+    amount: 15,
+  }),
+  "Prepare Apple Juice 5 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 5,
+  }),
+  "Prepare Apple Juice 6 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 6,
+  }),
+  "Prepare Apple Juice 7 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 7,
+  }),
+  "Prepare Apple Juice 15 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 15,
+  }),
+  "Prepare Apple Juice 20 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 20,
+  }),
+  "Prepare Apple Juice 25 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 25,
+  }),
+  "Prepare Carrot Juice 2 times": bumpkinActivityTask({
+    activity: "Carrot Juice Cooked",
     amount: 2,
+  }),
+  "Prepare Carrot Juice 3 times": bumpkinActivityTask({
+    activity: "Carrot Juice Cooked",
+    amount: 3,
+  }),
+  "Prepare Carrot Juice 4 times": bumpkinActivityTask({
+    activity: "Carrot Juice Cooked",
+    amount: 4,
+  }),
+  "Prepare Purple Smoothie 5 times": bumpkinActivityTask({
+    activity: "Purple Smoothie Cooked",
+    amount: 5,
+  }),
+  "Prepare Purple Smoothie 6 times": bumpkinActivityTask({
+    activity: "Purple Smoothie Cooked",
+    amount: 6,
+  }),
+  "Prepare Purple Smoothie 7 times": bumpkinActivityTask({
+    activity: "Purple Smoothie Cooked",
+    amount: 7,
+  }),
+  "Prepare Power Smoothie 2 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 2,
+  }),
+  "Prepare Power Smoothie 3 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 3,
+  }),
+  "Prepare Power Smoothie 4 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 4,
+  }),
+  // Grow
+  "Grow Red Pansy 2 times": bumpkinActivityTask({
+    activity: "Red Pansy Harvested",
+    amount: 2,
+  }),
+  "Grow Red Pansy 3 times": bumpkinActivityTask({
+    activity: "Red Pansy Harvested",
+    amount: 3,
+  }),
+  "Grow Yellow Pansy 2 times": bumpkinActivityTask({
+    activity: "Yellow Pansy Harvested",
+    amount: 2,
+  }),
+  "Grow Yellow Pansy 3 times": bumpkinActivityTask({
+    activity: "Yellow Pansy Harvested",
+    amount: 3,
+  }),
+  "Grow Purple Cosmos 2 times": bumpkinActivityTask({
+    activity: "Purple Cosmos Harvested",
+    amount: 2,
+  }),
+  "Grow Purple Cosmos 3 times": bumpkinActivityTask({
+    activity: "Purple Cosmos Harvested",
+    amount: 3,
+  }),
+  "Grow Blue Cosmos 2 times": bumpkinActivityTask({
+    activity: "Blue Cosmos Harvested",
+    amount: 2,
+  }),
+  "Grow Blue Cosmos 3 times": bumpkinActivityTask({
+    activity: "Blue Cosmos Harvested",
+    amount: 3,
+  }),
+  "Grow Red Balloon Flower 3 times": bumpkinActivityTask({
+    activity: "Red Balloon Flower Harvested",
+    amount: 3,
+  }),
+  "Grow Red Balloon Flower 4 times": bumpkinActivityTask({
+    activity: "Red Balloon Flower Harvested",
+    amount: 4,
+  }),
+  "Grow Red Balloon Flower 5 times": bumpkinActivityTask({
+    activity: "Red Balloon Flower Harvested",
+    amount: 5,
+  }),
+  "Grow Blue Balloon Flower 3 times": bumpkinActivityTask({
+    activity: "Blue Balloon Flower Harvested",
+    amount: 3,
+  }),
+  "Grow Blue Balloon Flower 4 times": bumpkinActivityTask({
+    activity: "Blue Balloon Flower Harvested",
+    amount: 4,
+  }),
+  "Grow Blue Balloon Flower 5 times": bumpkinActivityTask({
+    activity: "Blue Balloon Flower Harvested",
+    amount: 5,
+  }),
+  "Grow Purple Daffodil 3 times": bumpkinActivityTask({
+    activity: "Purple Daffodil Harvested",
+    amount: 3,
+  }),
+  "Grow Purple Daffodil 4 times": bumpkinActivityTask({
+    activity: "Purple Daffodil Harvested",
+    amount: 4,
+  }),
+  "Grow Purple Daffodil 5 times": bumpkinActivityTask({
+    activity: "Purple Daffodil Harvested",
+    amount: 5,
+  }),
+  "Grow Red Daffodil 2 times": bumpkinActivityTask({
+    activity: "Red Daffodil Harvested",
+    amount: 2,
+  }),
+  "Grow Red Daffodil 3 times": bumpkinActivityTask({
+    activity: "Red Daffodil Harvested",
+    amount: 3,
+  }),
+  "Grow Yellow Carnation 3 times": bumpkinActivityTask({
+    activity: "Yellow Carnation Harvested",
+    amount: 3,
+  }),
+  "Grow Blue Carnation 3 times": bumpkinActivityTask({
+    activity: "Blue Carnation Harvested",
+    amount: 3,
+  }),
+  "Grow White Carnation 3 times": bumpkinActivityTask({
+    activity: "White Carnation Harvested",
+    amount: 3,
+  }),
+  "Grow Red Lotus 3 times": bumpkinActivityTask({
+    activity: "Red Lotus Harvested",
+    amount: 3,
+  }),
+  "Grow Yellow Lotus 3 times": bumpkinActivityTask({
+    activity: "Yellow Lotus Harvested",
+    amount: 3,
+  }),
+  "Grow White Lotus 3 times": bumpkinActivityTask({
+    activity: "White Lotus Harvested",
+    amount: 3,
+  }),
+  "Grow Blue Pansy 6 times": bumpkinActivityTask({
+    activity: "Blue Pansy Harvested",
+    amount: 6,
+  }),
+  "Grow White Pansy 6 times": bumpkinActivityTask({
+    activity: "White Pansy Harvested",
+    amount: 6,
+  }),
+  "Grow White Cosmos 3 times": bumpkinActivityTask({
+    activity: "White Cosmos Harvested",
+    amount: 3,
+  }),
+  "Grow Purple Daffodil 6 times": bumpkinActivityTask({
+    activity: "Purple Daffodil Harvested",
+    amount: 6,
+  }),
+  "Grow Red Balloon Flower 6 times": bumpkinActivityTask({
+    activity: "Red Balloon Flower Harvested",
+    amount: 6,
+  }),
+
+  // Fish
+  "Fish 20 times": bumpkinActivityTask({
+    activity: "Rod Casted",
+    amount: 20,
+  }),
+  "Fish 40 times": bumpkinActivityTask({
+    activity: "Rod Casted",
+    amount: 40,
+  }),
+  "Fish 60 times": bumpkinActivityTask({
+    activity: "Rod Casted",
+    amount: 60,
+  }),
+  "Fish 200 times": bumpkinActivityTask({
+    activity: "Rod Casted",
+    amount: 200,
+  }),
+  "Fish 250 times": bumpkinActivityTask({
+    activity: "Rod Casted",
+    amount: 250,
+  }),
+  "Fish 275 times": bumpkinActivityTask({
+    activity: "Rod Casted",
+    amount: 275,
+  }),
+
+  // Craft
+  "Craft 10 Axes": bumpkinActivityTask({
+    activity: "Axe Crafted",
+    amount: 10,
+  }),
+  "Craft 12 Axes": bumpkinActivityTask({
+    activity: "Axe Crafted",
+    amount: 12,
+  }),
+  "Craft 15 Axes": bumpkinActivityTask({
+    activity: "Axe Crafted",
+    amount: 15,
+  }),
+  "Craft 6 Pickaxes": bumpkinActivityTask({
+    activity: "Pickaxe Crafted",
+    amount: 6,
+  }),
+  "Craft 8 Pickaxes": bumpkinActivityTask({
+    activity: "Pickaxe Crafted",
+    amount: 8,
+  }),
+  "Craft 10 Pickaxes": bumpkinActivityTask({
+    activity: "Pickaxe Crafted",
+    amount: 10,
+  }),
+  "Craft 100 Rods": bumpkinActivityTask({
+    activity: "Rod Crafted",
+    amount: 100,
+  }),
+  "Craft 150 Rods": bumpkinActivityTask({
+    activity: "Rod Crafted",
+    amount: 150,
+  }),
+  "Craft 200 Rods": bumpkinActivityTask({
+    activity: "Rod Crafted",
+    amount: 200,
+  }),
+  "Craft 25 Gold Pickaxes": bumpkinActivityTask({
+    activity: "Gold Pickaxe Crafted",
+    amount: 25,
+  }),
+  "Craft 30 Gold Pickaxes": bumpkinActivityTask({
+    activity: "Gold Pickaxe Crafted",
+    amount: 30,
+  }),
+  "Craft 35 Gold Pickaxes": bumpkinActivityTask({
+    activity: "Gold Pickaxe Crafted",
+    amount: 35,
+  }),
+  "Craft 40 Gold Pickaxes": bumpkinActivityTask({
+    activity: "Gold Pickaxe Crafted",
+    amount: 40,
+  }),
+  "Craft 5 Sand Drill": bumpkinActivityTask({
+    activity: "Sand Drill Crafted",
+    amount: 5,
+  }),
+  "Craft 10 Sand Drill": bumpkinActivityTask({
+    activity: "Sand Drill Crafted",
+    amount: 10,
+  }),
+  "Craft 15 Sand Drill": bumpkinActivityTask({
+    activity: "Sand Drill Crafted",
+    amount: 15,
+  }),
+
+  // Chop
+  "Chop Trees 10 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 10,
+  }),
+  "Chop Trees 15 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 15,
+  }),
+  "Chop Trees 20 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 20,
+  }),
+  "Chop Trees 100 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 100,
+  }),
+  "Chop Trees 120 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 120,
+  }),
+  "Chop Trees 150 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 150,
+  }),
+  "Chop Trees 450 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 450,
+  }),
+  "Chop Trees 500 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 500,
+  }),
+  "Chop Trees 600 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 600,
+  }),
+
+  // Mine
+  "Mine Stones 5 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 5,
+  }),
+  "Mine Stones 7 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 7,
+  }),
+  "Mine Stones 8 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 8,
+  }),
+  "Mine Stones 50 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 50,
+  }),
+  "Mine Stones 60 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 60,
+  }),
+  "Mine Stones 100 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 100,
+  }),
+  "Mine Gold 30 times": bumpkinActivityTask({
+    activity: "Gold Mined",
+    amount: 30,
+  }),
+  "Mine Gold 38 times": bumpkinActivityTask({
+    activity: "Gold Mined",
+    amount: 38,
+  }),
+  "Mine Gold 45 times": bumpkinActivityTask({
+    activity: "Gold Mined",
+    amount: 45,
+  }),
+  "Mine Crimstone 20 times": bumpkinActivityTask({
+    activity: "Crimstone Mined",
+    amount: 20,
+  }),
+  "Mine Crimstone 22 times": bumpkinActivityTask({
+    activity: "Crimstone Mined",
+    amount: 22,
+  }),
+  "Mine Crimstone 24 times": bumpkinActivityTask({
+    activity: "Crimstone Mined",
+    amount: 24,
+  }),
+  "Mine Iron 150 times": bumpkinActivityTask({
+    activity: "Iron Mined",
+    amount: 150,
+  }),
+  "Mine Iron 175 times": bumpkinActivityTask({
+    activity: "Iron Mined",
+    amount: 175,
+  }),
+  "Mine Iron 200 times": bumpkinActivityTask({
+    activity: "Iron Mined",
+    amount: 200,
+  }),
+  "Mine Iron 225 times": bumpkinActivityTask({
+    activity: "Iron Mined",
+    amount: 225,
+  }),
+  "Mine Stones 200 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 200,
+  }),
+  "Mine Stones 250 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 250,
+  }),
+  "Mine Stones 300 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 300,
+  }),
+
+  // Drill
+  "Drill Oil Reserves 15 times": bumpkinActivityTask({
+    activity: "Oil Drilled",
+    amount: 15,
+  }),
+  "Drill Oil Reserves 18 times": bumpkinActivityTask({
+    activity: "Oil Drilled",
+    amount: 18,
+  }),
+  "Drill Oil Reserves 21 times": bumpkinActivityTask({
+    activity: "Oil Drilled",
+    amount: 21,
+  }),
+
+  // Pick
+  "Pick Blueberries 120 times": bumpkinActivityTask({
+    activity: "Blueberry Harvested",
+    amount: 120,
+  }),
+  "Pick Blueberries 150 times": bumpkinActivityTask({
+    activity: "Blueberry Harvested",
+    amount: 150,
+  }),
+  "Pick Blueberries 200 times": bumpkinActivityTask({
+    activity: "Blueberry Harvested",
+    amount: 200,
+  }),
+  "Pick Oranges 100 times": bumpkinActivityTask({
+    activity: "Orange Harvested",
+    amount: 100,
+  }),
+  "Pick Oranges 125 times": bumpkinActivityTask({
+    activity: "Orange Harvested",
+    amount: 125,
+  }),
+  "Pick Oranges 160 times": bumpkinActivityTask({
+    activity: "Orange Harvested",
+    amount: 160,
+  }),
+  "Pick Apples 60 times": bumpkinActivityTask({
+    activity: "Apple Harvested",
+    amount: 60,
+  }),
+  "Pick Apples 75 times": bumpkinActivityTask({
+    activity: "Apple Harvested",
+    amount: 75,
+  }),
+  "Pick Apples 90 times": bumpkinActivityTask({
+    activity: "Apple Harvested",
+    amount: 90,
+  }),
+  "Pick Tomatoes 150 times": bumpkinActivityTask({
+    activity: "Tomato Harvested",
+    amount: 150,
+  }),
+  "Pick Tomatoes 200 times": bumpkinActivityTask({
+    activity: "Tomato Harvested",
+    amount: 200,
+  }),
+  "Pick Tomatoes 250 times": bumpkinActivityTask({
+    activity: "Tomato Harvested",
+    amount: 250,
+  }),
+  "Pick Grapes 36 times": bumpkinActivityTask({
+    activity: "Grape Harvested",
+    amount: 36,
+  }),
+  "Pick Grapes 44 times": bumpkinActivityTask({
+    activity: "Grape Harvested",
+    amount: 44,
+  }),
+  "Pick Grapes 52 times": bumpkinActivityTask({
+    activity: "Grape Harvested",
+    amount: 52,
+  }),
+  "Pick Bananas 80 times": bumpkinActivityTask({
+    activity: "Banana Harvested",
+    amount: 80,
+  }),
+  "Pick Bananas 90 times": bumpkinActivityTask({
+    activity: "Banana Harvested",
+    amount: 90,
+  }),
+  "Pick Bananas 100 times": bumpkinActivityTask({
+    activity: "Banana Harvested",
+    amount: 100,
+  }),
+  "Pick Bananas 120 times": bumpkinActivityTask({
+    activity: "Banana Harvested",
+    amount: 120,
+  }),
+  "Pick Bananas 150 times": bumpkinActivityTask({
+    activity: "Banana Harvested",
+    amount: 150,
+  }),
+  "Pick Lemons 150 times": bumpkinActivityTask({
+    activity: "Lemon Harvested",
+    amount: 150,
+  }),
+  "Pick Lemons 200 times": bumpkinActivityTask({
+    activity: "Lemon Harvested",
+    amount: 200,
+  }),
+  "Pick Lemons 250 times": bumpkinActivityTask({
+    activity: "Lemon Harvested",
+    amount: 250,
+  }),
+
+  // Collect
+  "Collect 15 Honey": bumpkinActivityTask({
+    activity: "Honey Harvested",
+    amount: 15,
+  }),
+  "Collect 18 Honey": bumpkinActivityTask({
+    activity: "Honey Harvested",
+    amount: 18,
+  }),
+  "Collect 21 Honey": bumpkinActivityTask({
+    activity: "Honey Harvested",
+    amount: 21,
+  }),
+  "Collect Eggs 60 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 60,
+  }),
+  "Collect Eggs 80 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 80,
+  }),
+  "Collect Eggs 100 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 100,
+  }),
+  "Collect Eggs 125 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 125,
+  }),
+  "Collect Eggs 150 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 150,
+  }),
+  "Collect Wool 30 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 30,
+  }),
+  "Collect Wool 40 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 40,
+  }),
+  "Collect Wool 50 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 50,
+  }),
+  "Collect Wool 60 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 60,
+  }),
+  "Collect Wool 75 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 75,
+  }),
+  "Collect Milk 30 times": bumpkinActivityTask({
+    activity: "Milk Collected",
+    amount: 30,
+  }),
+  "Collect Milk 40 times": bumpkinActivityTask({
+    activity: "Milk Collected",
+    amount: 40,
+  }),
+  "Collect Milk 50 times": bumpkinActivityTask({
+    activity: "Milk Collected",
+    amount: 50,
+  }),
+  "Collect Milk 60 times": bumpkinActivityTask({
+    activity: "Milk Collected",
+    amount: 60,
+  }),
+  "Collect Milk 75 times": bumpkinActivityTask({
+    activity: "Milk Collected",
+    amount: 75,
+  }),
+
+  // Dig
+  "Dig 50 times": bumpkinActivityTask({
+    activity: "Treasure Dug",
+    amount: 50,
+  }),
+  "Dig 75 times": bumpkinActivityTask({
+    activity: "Treasure Dug",
+    amount: 75,
+  }),
+  "Dig 100 times": bumpkinActivityTask({
+    activity: "Treasure Dug",
+    amount: 100,
+  }),
+  "Dig 125 times": bumpkinActivityTask({
+    activity: "Treasure Dug",
+    amount: 125,
+  }),
+  "Dig 150 times": bumpkinActivityTask({
+    activity: "Treasure Dug",
+    amount: 150,
+  }),
+  "Dig 175 times": bumpkinActivityTask({
+    activity: "Treasure Dug",
+    amount: 175,
+  }),
+  "Dig 200 times": bumpkinActivityTask({
+    activity: "Treasure Dug",
+    amount: 200,
+  }),
+  "Dig 225 times": bumpkinActivityTask({
+    activity: "Treasure Dug",
+    amount: 225,
+  }),
+
+  // Spend
+  "Spend 32,000 Coins": bumpkinActivityTask({
+    activity: "Coins Spent",
+    amount: 32000,
+  }),
+  "Spend 48,000 Coins": bumpkinActivityTask({
+    activity: "Coins Spent",
+    amount: 48000,
+  }),
+  "Spend 64,000 Coins": bumpkinActivityTask({
+    activity: "Coins Spent",
+    amount: 64000,
+  }),
+
+  // To Remove
+  "Cook 5 Cauliflower Burger": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 5,
+  }),
+  "Harvest Potato 100 times": bumpkinActivityTask({
+    activity: "Potato Harvested",
+    amount: 100,
+  }),
+  "Eat 15 Pumpkin Soup": bumpkinActivityTask({
+    activity: "Pumpkin Soup Fed",
+    amount: 15,
+  }),
+  "Grow 3 Blue Cosmos": bumpkinActivityTask({
+    activity: "Blue Cosmos Harvested",
+    amount: 3,
+  }),
+  "Chop 80 Trees": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 80,
+  }),
+  "Pick 60 Blueberries": bumpkinActivityTask({
+    activity: "Blueberry Harvested",
+    amount: 60,
   }),
   "Cook 10 Sushi Roll": bumpkinActivityTask({
     activity: "Sushi Roll Cooked",
     amount: 10,
   }),
-  "Cook 5 Bumpkin Roast": bumpkinActivityTask({
-    activity: "Bumpkin Roast Cooked",
-    amount: 5,
-  }),
-  "Cook 5 Goblin Brunch": bumpkinActivityTask({
-    activity: "Goblin Brunch Cooked",
-    amount: 5,
-  }),
-  "Cook 7 Sunflower Cakes": bumpkinActivityTask({
-    activity: "Sunflower Cake Cooked",
+  "Eat 7 Chowder": bumpkinActivityTask({
+    activity: "Chowder Fed",
     amount: 7,
   }),
-  "Cook 6 Potato Cakes": bumpkinActivityTask({
-    activity: "Potato Cake Cooked",
-    amount: 6,
-  }),
-  "Cook 6 Pumpkin Cakes": bumpkinActivityTask({
-    activity: "Pumpkin Cake Cooked",
-    amount: 6,
-  }),
-  "Cook 5 Carrot Cakes": bumpkinActivityTask({
-    activity: "Carrot Cake Cooked",
-    amount: 5,
-  }),
-  "Cook 4 Cabbage Cakes": bumpkinActivityTask({
-    activity: "Cabbage Cake Cooked",
-    amount: 4,
-  }),
-
-  // To delete after 2024-11-25
-  "Harvest 450 Parsnips": bumpkinActivityTask({
-    activity: "Parsnip Harvested",
-    amount: 450,
-  }),
-  "Harvest 500 Parsnips": bumpkinActivityTask({
-    activity: "Parsnip Harvested",
-    amount: 500,
-  }),
-  "Harvest 250 Eggplants": bumpkinActivityTask({
-    activity: "Eggplant Harvested",
-    amount: 250,
-  }),
-  "Harvest 300 Eggplants": bumpkinActivityTask({
-    activity: "Eggplant Harvested",
-    amount: 300,
-  }),
-  "Harvest 275 Corn": bumpkinActivityTask({
-    activity: "Corn Harvested",
-    amount: 275,
-  }),
-  "Harvest 300 Corn": bumpkinActivityTask({
-    activity: "Corn Harvested",
-    amount: 300,
-  }),
-  "Harvest 200 Radishes": bumpkinActivityTask({
-    activity: "Radish Harvested",
-    amount: 200,
-  }),
-  "Harvest 240 Radishes": bumpkinActivityTask({
-    activity: "Radish Harvested",
-    amount: 240,
-  }),
-  "Harvest 200 Wheat": bumpkinActivityTask({
-    activity: "Wheat Harvested",
-    amount: 200,
-  }),
-  "Harvest 240 Wheat": bumpkinActivityTask({
-    activity: "Wheat Harvested",
-    amount: 240,
-  }),
-  "Harvest 175 Kale": bumpkinActivityTask({
-    activity: "Kale Harvested",
-    amount: 175,
-  }),
-  "Harvest 200 Kale": bumpkinActivityTask({
-    activity: "Kale Harvested",
-    amount: 200,
-  }),
-  "Harvest 250 Beetroot": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 250,
-  }),
-  "Harvest 300 Beetroot": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 300,
-  }),
-  "Harvest 180 Cauliflower": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 180,
-  }),
-  "Harvest 200 Cauliflower": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 200,
-  }),
-  "Harvest 100 Parsnip": bumpkinActivityTask({
-    activity: "Parsnip Harvested",
-    amount: 100,
-  }),
-  "Harvest 150 Parsnip": bumpkinActivityTask({
-    activity: "Parsnip Harvested",
-    amount: 150,
-  }),
-  "Harvest 80 Eggplant": bumpkinActivityTask({
-    activity: "Eggplant Harvested",
-    amount: 80,
-  }),
-  "Harvest 120 Eggplant": bumpkinActivityTask({
-    activity: "Eggplant Harvested",
-    amount: 120,
-  }),
-
-  "Harvest 150 Sunflowers": bumpkinActivityTask({
-    activity: "Sunflower Harvested",
-    amount: 150,
-  }),
-  "Harvest 200 Sunflowers": bumpkinActivityTask({
-    activity: "Sunflower Harvested",
-    amount: 200,
-  }),
-  "Harvest 250 Sunflowers": bumpkinActivityTask({
-    activity: "Sunflower Harvested",
-    amount: 250,
-  }),
-  "Harvest 100 Potatoes": bumpkinActivityTask({
-    activity: "Potato Harvested",
-    amount: 100,
-  }),
-  "Harvest 125 Potatoes": bumpkinActivityTask({
-    activity: "Potato Harvested",
-    amount: 125,
-  }),
-  "Harvest 150 Potatoes": bumpkinActivityTask({
-    activity: "Potato Harvested",
-    amount: 150,
-  }),
-  "Harvest 75 Pumpkins": bumpkinActivityTask({
-    activity: "Pumpkin Harvested",
-    amount: 75,
-  }),
-  "Harvest 100 Pumpkins": bumpkinActivityTask({
-    activity: "Pumpkin Harvested",
-    amount: 100,
-  }),
-  "Harvest 125 Pumpkins": bumpkinActivityTask({
-    activity: "Pumpkin Harvested",
-    amount: 125,
-  }),
-  "Harvest 50 Carrots": bumpkinActivityTask({
-    activity: "Carrot Harvested",
-    amount: 50,
-  }),
-  "Harvest 75 Carrots": bumpkinActivityTask({
-    activity: "Carrot Harvested",
-    amount: 75,
-  }),
-  "Harvest 100 Carrots": bumpkinActivityTask({
-    activity: "Carrot Harvested",
-    amount: 100,
-  }),
-  "Harvest 25 Cabbage": bumpkinActivityTask({
-    activity: "Cabbage Harvested",
-    amount: 25,
-  }),
-  "Harvest 50 Cabbage": bumpkinActivityTask({
-    activity: "Cabbage Harvested",
-    amount: 50,
-  }),
-  "Harvest 75 Cabbage": bumpkinActivityTask({
-    activity: "Cabbage Harvested",
-    amount: 75,
-  }),
-  "Harvest 15 Soybeans": bumpkinActivityTask({
-    activity: "Soybean Harvested",
-    amount: 15,
-  }),
-  "Harvest 30 Soybeans": bumpkinActivityTask({
-    activity: "Soybean Harvested",
-    amount: 30,
-  }),
-  "Harvest 50 Soybeans": bumpkinActivityTask({
-    activity: "Soybean Harvested",
-    amount: 50,
-  }),
-  "Harvest 15 Beetroots": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 15,
-  }),
-  "Harvest 25 Beetroots": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 25,
-  }),
-  "Harvest 35 Beetroots": bumpkinActivityTask({
-    activity: "Beetroot Harvested",
-    amount: 35,
-  }),
-  "Harvest 10 Cauliflowers": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 10,
-  }),
-  "Harvest 20 Cauliflowers": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 20,
-  }),
-  "Harvest 30 Cauliflowers": bumpkinActivityTask({
-    activity: "Cauliflower Harvested",
-    amount: 30,
-  }),
-
-  "Collect 10 Eggs": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 10,
-  }),
-  "Collect 15 Eggs": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 15,
-  }),
-  "Collect 20 Eggs": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 20,
-  }),
-  "Pick 12 Grapes": bumpkinActivityTask({
-    activity: "Grape Harvested",
-    amount: 12,
-  }),
-  "Pick 16 Grapes": bumpkinActivityTask({
-    activity: "Grape Harvested",
-    amount: 16,
-  }),
-  "Pick 20 Grapes": bumpkinActivityTask({
-    activity: "Grape Harvested",
-    amount: 20,
-  }),
-  "Harvest 8 Rice": bumpkinActivityTask({
-    activity: "Rice Harvested",
-    amount: 8,
-  }),
-  "Harvest 10 Rice": bumpkinActivityTask({
-    activity: "Rice Harvested",
-    amount: 10,
-  }),
-  "Harvest 12 Rice": bumpkinActivityTask({
-    activity: "Rice Harvested",
-    amount: 12,
-  }),
-  "Harvest 4 Olives": bumpkinActivityTask({
-    activity: "Olive Harvested",
-    amount: 4,
-  }),
-  "Harvest 6 Olives": bumpkinActivityTask({
-    activity: "Olive Harvested",
-    amount: 6,
-  }),
-  "Harvest 8 Olives": bumpkinActivityTask({
+  "Harvest Olives 8 times": bumpkinActivityTask({
     activity: "Olive Harvested",
     amount: 8,
   }),
-  "Grow 3 Red Balloon Flower": farmActivityTask({
-    activity: "Red Balloon Flower Harvested",
-    amount: 3,
+  "Mine 10 Crimstone": bumpkinActivityTask({
+    activity: "Crimstone Mined",
+    amount: 10,
   }),
-  "Grow 4 Red Balloon Flower": farmActivityTask({
-    activity: "Red Balloon Flower Harvested",
-    amount: 4,
+  "Prepare 15 Bumpkin Detox": bumpkinActivityTask({
+    activity: "Bumpkin Detox Cooked",
+    amount: 15,
   }),
-  "Grow 5 Red Balloon Flower": farmActivityTask({
-    activity: "Red Balloon Flower Harvested",
-    amount: 5,
-  }),
-  "Grow 3 Blue Balloon Flower": farmActivityTask({
-    activity: "Blue Balloon Flower Harvested",
-    amount: 3,
-  }),
-  "Grow 4 Blue Balloon Flower": farmActivityTask({
-    activity: "Blue Balloon Flower Harvested",
-    amount: 4,
-  }),
-  "Grow 5 Blue Balloon Flower": farmActivityTask({
-    activity: "Blue Balloon Flower Harvested",
-    amount: 5,
-  }),
-  "Grow 3 Purple Daffodil": farmActivityTask({
-    activity: "Purple Daffodil Harvested",
-    amount: 3,
-  }),
-  "Grow 4 Purple Daffodil": farmActivityTask({
-    activity: "Purple Daffodil Harvested",
-    amount: 4,
-  }),
-  "Grow 5 Purple Daffodil": farmActivityTask({
-    activity: "Purple Daffodil Harvested",
-    amount: 5,
-  }),
-  "Grow 2 Red Daffodil": farmActivityTask({
-    activity: "Red Daffodil Harvested",
-    amount: 2,
-  }),
-  "Grow 3 Red Daffodil": farmActivityTask({
-    activity: "Red Daffodil Harvested",
-    amount: 3,
-  }),
-  "Grow 3 Yellow Carnation": farmActivityTask({
-    activity: "Yellow Carnation Harvested",
-    amount: 3,
-  }),
-  "Grow 3 Blue Carnation": farmActivityTask({
-    activity: "Blue Carnation Harvested",
-    amount: 3,
-  }),
-  "Grow 3 White Carnation": farmActivityTask({
-    activity: "White Carnation Harvested",
-    amount: 3,
-  }),
-  "Grow 3 Red Lotus": farmActivityTask({
-    activity: "Red Lotus Harvested",
-    amount: 3,
-  }),
-  "Grow 3 Yellow Lotus": farmActivityTask({
-    activity: "Yellow Lotus Harvested",
-    amount: 3,
-  }),
-  "Grow 3 White Lotus": farmActivityTask({
-    activity: "White Lotus Harvested",
-    amount: 3,
-  }),
-  "Grow 3 Blue Pansy": farmActivityTask({
-    activity: "Blue Pansy Harvested",
-    amount: 3,
-  }),
-  "Grow 3 White Pansy": farmActivityTask({
+  "Grow White Pansy 3 times": bumpkinActivityTask({
     activity: "White Pansy Harvested",
     amount: 3,
   }),
-  "Grow 3 White Cosmos": farmActivityTask({
-    activity: "White Cosmos Harvested",
-    amount: 3,
-  }),
-  "Grow 6 Purple Daffodil": farmActivityTask({
-    activity: "Purple Daffodil Harvested",
-    amount: 6,
-  }),
-  "Grow 6 Red Balloon Flower": farmActivityTask({
-    activity: "Red Balloon Flower Harvested",
-    amount: 6,
-  }),
-
-  "Collect 40 Eggs": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 40,
-  }),
-  "Collect 60 Eggs": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 60,
-  }),
-  "Collect 80 Eggs": bumpkinActivityTask({
-    activity: "Egg Collected",
-    amount: 80,
+  "Cook 5 Fermented Fish": bumpkinActivityTask({
+    activity: "Fermented Fish Cooked",
+    amount: 5,
   }),
 } satisfies Record<string, ChoreTask>;
 
