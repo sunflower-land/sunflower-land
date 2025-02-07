@@ -30,7 +30,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A frosty bovine mutation that prevents cows from getting sick during winter months!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2199.png",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
       {
@@ -46,7 +46,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A frosty sheep mutation that prevents sheep from getting sick during winter months!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2200.png",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
       {
@@ -62,7 +62,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A chicken mutation that prevents chickens from getting sick during summer months!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2201.png",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
       {
@@ -78,7 +78,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A marine marvel from the Winds of Change chapter that grants +1 fish during summer months!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2203.png",
     attributes: [
       { trait_type: "Boost", value: "Fish" },
       {
@@ -94,7 +94,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A decorative mutant flower found during the Winds of Change chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2202.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
