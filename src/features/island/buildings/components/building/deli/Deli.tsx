@@ -3,8 +3,6 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CraftingMachineChildProps } from "../WithCraftingMachine";
-import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DeliModal } from "./DeliModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -17,18 +15,19 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { ReadyRecipes } from "../ReadyRecipes";
+import { IslandType, TemperateSeasonName } from "features/game/types/game";
 
-type Props = BuildingProps & Partial<CraftingMachineChildProps>;
+type Props = {
+  buildingId: string;
+  isBuilt: boolean;
+  island: IslandType;
+  season: TemperateSeasonName;
+};
 
 const _deli = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Deli"]?.find((b) => b.id === id);
 
-export const Deli: React.FC<Props> = ({
-  buildingId,
-  isBuilt,
-  onRemove,
-  season,
-}) => {
+export const Deli: React.FC<Props> = ({ buildingId, isBuilt, season }) => {
   const { gameService } = useContext(Context);
 
   const deli = useSelector(gameService, _deli(buildingId));
@@ -54,11 +53,6 @@ export const Deli: React.FC<Props> = ({
   };
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (!isBuilt) return;
 
     if (!cooking && readyRecipes.length > 0) {

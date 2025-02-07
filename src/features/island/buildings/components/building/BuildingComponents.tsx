@@ -59,48 +59,22 @@ export const BUILDING_COMPONENTS: Record<
   BuildingName,
   React.FC<BuildingProps>
 > = {
-  "Fire Pit": ({
-    buildingId,
-    buildingIndex,
-    isBuilt,
-    island,
-    season,
-  }: BuildingProps) => (
+  "Fire Pit": ({ buildingId, isBuilt, island, season }: BuildingProps) => (
     <FirePit
+      isBuilt={!!isBuilt}
       buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      isBuilt={isBuilt}
       island={island}
       season={season}
     />
   ),
   Workbench: WorkBench,
-  Bakery: ({
-    buildingId,
-    buildingIndex,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    island,
-    season,
-  }: BuildingProps) => (
-    <WithCraftingMachine
+  Bakery: ({ buildingId, isBuilt, island, season }: BuildingProps) => (
+    <Bakery
+      isBuilt={!!isBuilt}
       buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      buildingName="Bakery"
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
       island={island}
       season={season}
-    >
-      <Bakery
-        buildingId={buildingId}
-        buildingIndex={buildingIndex}
-        isBuilt={isBuilt}
-        island={island}
-        season={season}
-      />
-    </WithCraftingMachine>
+    />
   ),
   Market: Market,
   Tent: Tent,
@@ -111,27 +85,15 @@ export const BUILDING_COMPONENTS: Record<
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Barn: Barn,
-  Kitchen: ({
-    buildingId,
-    buildingIndex,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    island,
-    season,
-  }: BuildingProps) => (
+  Kitchen: ({ buildingId, isBuilt, island, season }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
       island={island}
       season={season}
       buildingName="Kitchen"
     >
       <Kitchen
         buildingId={buildingId}
-        buildingIndex={buildingIndex}
         isBuilt={isBuilt}
         island={island}
         season={season}
@@ -147,8 +109,7 @@ export const BUILDING_COMPONENTS: Record<
   }: BuildingProps) => (
     <Deli
       buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      isBuilt={isBuilt}
+      isBuilt={!!isBuilt}
       island={island}
       season={season}
     />
@@ -156,17 +117,12 @@ export const BUILDING_COMPONENTS: Record<
   "Smoothie Shack": ({
     buildingId,
     buildingIndex,
-    craftingItemName,
-    craftingReadyAt,
     isBuilt,
     island,
     season,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
       island={island}
       season={season}
       buildingName="Smoothie Shack"

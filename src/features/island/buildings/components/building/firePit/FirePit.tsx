@@ -4,8 +4,6 @@ import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CraftingMachineChildProps } from "../WithCraftingMachine";
-import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
@@ -21,8 +19,14 @@ import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ReadyRecipes } from "../ReadyRecipes";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
+import { IslandType, TemperateSeasonName } from "features/game/types/game";
 
-type Props = BuildingProps & Partial<CraftingMachineChildProps>;
+type Props = {
+  buildingId: string;
+  isBuilt: boolean;
+  island: IslandType;
+  season: TemperateSeasonName;
+};
 
 const _mashedPotatoCooked = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Mashed Potato Cooked"];
@@ -34,12 +38,7 @@ const _season = (state: MachineState) => state.context.state.season.season;
 const _firePit = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Fire Pit"]?.find((b) => b.id === id);
 
-export const FirePit: React.FC<Props> = ({
-  buildingId,
-  isBuilt,
-  island,
-  onRemove,
-}) => {
+export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
@@ -78,11 +77,6 @@ export const FirePit: React.FC<Props> = ({
   };
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (!isBuilt) return;
 
     if (!cooking && readyRecipes.length > 0) {
