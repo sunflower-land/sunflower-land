@@ -192,9 +192,10 @@ export const SkillCategoryList: React.FC<{
                 (category) => {
                   const skills = getRevampSkills(category);
                   const icon = SKILL_TREE_ICONS[skills[0].tree];
-                  const skillsAcquiredInCategoryCount = getKeys(skills).filter(
-                    (acquiredSkillName) =>
-                      skills.find((skill) => skill.name === acquiredSkillName),
+                  const skillsAcquiredInCategoryCount = getKeys({
+                    ...bumpkin?.skills,
+                  }).filter((acquiredSkillName) =>
+                    skills.find((skill) => skill.name === acquiredSkillName),
                   ).length;
 
                   return (
