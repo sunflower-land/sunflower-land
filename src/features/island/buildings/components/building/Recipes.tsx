@@ -9,7 +9,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Cookable, CookableName } from "features/game/types/consumables";
 
-import { InProgressInfo } from "../building/InProgressInfo";
+import { InProgressInfo } from "./InProgressInfo";
 import {
   getCookingTime,
   getFoodExpBoost,
@@ -23,7 +23,7 @@ import {
   MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
 import { BuildingName } from "features/game/types/buildings";
-import { BuildingOilTank } from "../building/BuildingOilTank";
+import { BuildingOilTank } from "./BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
 import { gameAnalytics } from "lib/gameAnalytics";

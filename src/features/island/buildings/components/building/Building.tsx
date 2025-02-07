@@ -52,11 +52,7 @@ interface Prop {
 
 export interface BuildingProps {
   buildingId: string;
-  buildingIndex: number;
-  craftingItemName?: CookableName;
-  craftingReadyAt?: number;
   isBuilt?: boolean;
-  onRemove?: () => void;
   island: IslandType;
   season: TemperateSeasonName;
 }
@@ -169,27 +165,14 @@ const DestroyedBuilding: React.FC<
   Prop & {
     calendarEvent: DestructiveEvent;
   }
-> = ({
-  name,
-  id,
-  index,
-  readyAt,
-  createdAt,
-  showTimers,
-  island,
-  calendarEvent,
-  season,
-}) => {
-  const { gameService, showAnimations } = useContext(Context);
+> = ({ name, id, index, island, calendarEvent, season }) => {
+  const { gameService } = useContext(Context);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const { t } = useAppTranslation();
 
   const [showModal, setShowModal] = useState(false);
-
-  const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsLeft = (readyAt - Date.now()) / 1000;
 
   const game = gameService.getSnapshot().context.state;
 

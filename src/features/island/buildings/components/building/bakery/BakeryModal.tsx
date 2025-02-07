@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Modal } from "components/ui/Modal";
 import chefHat from "assets/icons/chef_hat.png";
 
-import { Recipes } from "../../ui/Recipes";
+import { Recipes } from "../Recipes";
 import {
   BAKERY_COOKABLES,
   Cookable,

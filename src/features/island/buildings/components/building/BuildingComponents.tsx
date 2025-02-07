@@ -2,17 +2,14 @@ import React from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { FirePit } from "./firePit/FirePit";
-import { WithCraftingMachine } from "./WithCraftingMachine";
 import { Market } from "./market/Market";
 import { WorkBench } from "./workBench/WorkBench";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
 import { ChickenHouse } from "./henHouse/HenHouse";
 import { Bakery } from "./bakery/Bakery";
-
 import { Kitchen } from "./kitchen/Kitchen";
 import { Deli } from "./deli/Deli";
-
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
@@ -67,7 +64,17 @@ export const BUILDING_COMPONENTS: Record<
       season={season}
     />
   ),
-  Workbench: WorkBench,
+  Kitchen: ({ buildingId, isBuilt, season, island }: BuildingProps) => (
+    <Kitchen
+      buildingId={buildingId}
+      isBuilt={!!isBuilt}
+      season={season}
+      island={island}
+    />
+  ),
+  Deli: ({ buildingId, isBuilt, season }: BuildingProps) => (
+    <Deli buildingId={buildingId} isBuilt={!!isBuilt} season={season} />
+  ),
   Bakery: ({ buildingId, isBuilt, island, season }: BuildingProps) => (
     <Bakery
       isBuilt={!!isBuilt}
@@ -76,6 +83,20 @@ export const BUILDING_COMPONENTS: Record<
       season={season}
     />
   ),
+  "Smoothie Shack": ({
+    buildingId,
+    isBuilt,
+    island,
+    season,
+  }: BuildingProps) => (
+    <SmoothieShack
+      buildingId={buildingId}
+      isBuilt={!!isBuilt}
+      island={island}
+      season={season}
+    />
+  ),
+  Workbench: WorkBench,
   Market: Market,
   Tent: Tent,
   "Town Center": TownCenter,
@@ -85,57 +106,6 @@ export const BUILDING_COMPONENTS: Record<
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Barn: Barn,
-  Kitchen: ({ buildingId, isBuilt, island, season }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      island={island}
-      season={season}
-      buildingName="Kitchen"
-    >
-      <Kitchen
-        buildingId={buildingId}
-        isBuilt={isBuilt}
-        island={island}
-        season={season}
-      />
-    </WithCraftingMachine>
-  ),
-  Deli: ({
-    buildingId,
-    buildingIndex,
-    isBuilt,
-    island,
-    season,
-  }: BuildingProps) => (
-    <Deli
-      buildingId={buildingId}
-      isBuilt={!!isBuilt}
-      island={island}
-      season={season}
-    />
-  ),
-  "Smoothie Shack": ({
-    buildingId,
-    buildingIndex,
-    isBuilt,
-    island,
-    season,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      island={island}
-      season={season}
-      buildingName="Smoothie Shack"
-    >
-      <SmoothieShack
-        buildingId={buildingId}
-        buildingIndex={buildingIndex}
-        isBuilt={isBuilt}
-        island={island}
-        season={season}
-      />
-    </WithCraftingMachine>
-  ),
   "Compost Bin": () => <Composter name="Compost Bin" />,
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,

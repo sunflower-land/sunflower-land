@@ -15,12 +15,11 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { ReadyRecipes } from "../ReadyRecipes";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { TemperateSeasonName } from "features/game/types/game";
 
 type Props = {
   buildingId: string;
   isBuilt: boolean;
-  island: IslandType;
   season: TemperateSeasonName;
 };
 
