@@ -228,14 +228,14 @@ export const READONLY_BUILDINGS: (
     ...BUILDING_COMPONENTS,
     "Fire Pit": () => (
       <img
-        src={FIRE_PIT_VARIANTS[island]}
+        src={FIRE_PIT_VARIANTS[island][season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 47}px` }}
       />
     ),
     Kitchen: () => (
       <img
-        src={KITCHEN_VARIANTS[island]}
+        src={KITCHEN_VARIANTS[island][season]}
         className="absolute"
         style={{ width: `${PIXEL_SCALE * 63}px`, bottom: 0 }}
       />
@@ -252,7 +252,7 @@ export const READONLY_BUILDINGS: (
     ),
     Market: () => (
       <img
-        src={MARKET_VARIANTS[island]}
+        src={MARKET_VARIANTS[island][season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 48}px` }}
       />
@@ -364,7 +364,7 @@ export const READONLY_BUILDINGS: (
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       >
         <img
-          src={BARN_IMAGES[barnLevel]}
+          src={BARN_IMAGES[island][season][barnLevel]}
           className="absolute bottom-0"
           style={{ width: `${PIXEL_SCALE * 64}px` }}
         />

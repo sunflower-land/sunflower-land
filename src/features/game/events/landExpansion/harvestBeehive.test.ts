@@ -721,6 +721,6 @@ describe("harvestBeehive", () => {
       },
     });
 
-    expect(state.crops?.["987"].crop?.amount).toEqual(1.5);
+    expect(state.crops?.["987"].crop?.amount).toEqual(1.3);
   });
 });

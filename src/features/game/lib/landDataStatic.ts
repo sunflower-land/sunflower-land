@@ -19,6 +19,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    "Sunpetal Seed": new Decimal(1),
+    "Bloom Seed": new Decimal(1),
+    "Lily Seed": new Decimal(1),
+    "Edelweiss Seed": new Decimal(1),
+    "Gladiolus Seed": new Decimal(1),
+    "Lavender Seed": new Decimal(1),
+    "Clover Seed": new Decimal(1),
+    "Celestial Frostbloom": new Decimal(1),
+    "Royal Ornament": new Decimal(1),
     "Fruit Patch": new Decimal(1),
     "Lunara Seed": new Decimal(1),
     Obsidian: new Decimal(20),
@@ -35,6 +44,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Market: new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(10),
+    "Lava Pit": new Decimal(1),
     Bush: new Decimal(3),
     Axe: new Decimal(10),
     Gem: new Decimal(1 * BB_TO_GEM_RATIO),
@@ -107,7 +117,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  lavaPits: {},
+  lavaPits: {
+    "1": { createdAt: 0, x: -4, y: -6, height: 2, width: 2 },
+  },
 
   fruitPatches: {
     "1": {
@@ -180,7 +192,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
     experience: 100000,
 
     id: 1,
-    skills: {},
+    skills: {
+      "Blooming Boost": 1,
+      "Flower Power": 1,
+    },
     tokenUri: `1_${tokenUriBuilder(INITIAL_EQUIPMENT)}`,
     achievements: {},
 

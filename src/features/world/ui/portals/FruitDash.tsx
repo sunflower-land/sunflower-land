@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -18,17 +18,8 @@ import { MinigameHistory, MinigamePrize } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-
-export function hasReadFruitDashNotice() {
-  return !!localStorage.getItem("fruitDash.notice");
-}
-
-function acknowledgeIntro() {
-  return localStorage.setItem("fruitDash.notice", new Date().toISOString());
-}
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -100,30 +91,9 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
 
   const minigame = gameState.context.state.minigames.games["fruit-dash"];
 
-  const [showIntro, setShowIntro] = useState(!minigame?.history);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { t } = useAppTranslation();
-
-  useEffect(() => {
-    acknowledgeIntro();
-  }, []);
-
-  if (showIntro) {
-    return (
-      <SpeakingText
-        message={[
-          {
-            text: t("minigame.discovered.one"),
-          },
-          {
-            text: t("minigame.discovered.two"),
-          },
-        ]}
-        onClose={() => setShowIntro(false)}
-      />
-    );
-  }
 
   const dateKey = new Date().toISOString().slice(0, 10);
   const history = minigame?.history ?? {};

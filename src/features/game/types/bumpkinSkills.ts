@@ -8,7 +8,6 @@ import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
 import bee from "assets/icons/bee.webp";
-import Decimal from "decimal.js-light";
 import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
@@ -365,6 +364,43 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: ITEM_DETAILS.Cauliflower.image,
     disabled: false,
   },
+  "Old Farmer": {
+    name: "Old Farmer",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oldFarmer"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS.Kale.image,
+  },
+  "Chonky Scarecrow": {
+    name: "Chonky Scarecrow",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "basic",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.chonkyScarecrow"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Basic Scarecrow"].image,
+      },
+    },
+    disabled: false,
+    image: ITEM_DETAILS["Basic Scarecrow"].image,
+  },
   "Betty's Friend": {
     name: "Betty's Friend",
     tree: "Crops",
@@ -383,24 +419,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     npc: "betty",
     disabled: false,
-  },
-  "Old Farmer": {
-    name: "Old Farmer",
-    tree: "Crops",
-    requirements: {
-      points: 1,
-      tier: 1,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.oldFarmer"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-      },
-    },
-    disabled: false,
-    image: ITEM_DETAILS.Kale.image,
   },
 
   // Crops - Tier 2
@@ -458,25 +476,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE?.skills?.golden_flowers,
     disabled: false,
-  },
-  "Chonky Scarecrow": {
-    name: "Chonky Scarecrow",
-    tree: "Crops",
-    requirements: {
-      points: 2,
-      tier: 2,
-      island: "basic",
-    },
-    boosts: {
-      buff: {
-        shortDescription: translate("skill.chonkyScarecrow"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Basic Scarecrow"].image,
-      },
-    },
-    disabled: false,
-    image: ITEM_DETAILS["Basic Scarecrow"].image,
   },
   "Horror Mike": {
     name: "Horror Mike",
@@ -1515,23 +1514,20 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
   },
 
-  "Apple-Tastic": {
-    name: "Apple-Tastic",
+  "Barnyard Rouse": {
+    name: "Barnyard Rouse",
     tree: "Animals",
     disabled: false,
     requirements: {
       points: 3,
       tier: 3,
       island: "spring",
-      cooldown: 1000 * 60 * 60 * 24 * 7,
-      items: {
-        Apple: new Decimal(600),
-      },
+      cooldown: 1000 * 60 * 60 * 24 * 5,
     },
     power: true,
     boosts: {
       buff: {
-        shortDescription: translate("skill.appleTastic"),
+        shortDescription: translate("skill.barnyardRouse"),
         labelType: "transparent",
       },
     },

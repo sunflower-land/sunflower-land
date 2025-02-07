@@ -152,6 +152,21 @@ export function getCookingRequirements({
   return ingredients;
 }
 
+export const getCookingAmount = (
+  building: BuildingName,
+  recipe: { name: CookableName; amount: number },
+  bumpkin: Bumpkin,
+): number => {
+  let amount = recipe.amount;
+
+  // Double Nom - Guarantee +1 food
+  if (bumpkin.skills["Double Nom"] && isCookingBuilding(building)) {
+    amount += 1;
+  }
+
+  return amount;
+};
+
 export function cook({
   state,
   action,
@@ -203,6 +218,12 @@ export function cook({
       stateCopy.inventory,
     );
 
+    const amount = getCookingAmount(
+      requiredBuilding,
+      { name: item, amount: 1 },
+      bumpkin,
+    );
+
     building.crafting = {
       name: item,
       boost: { Oil: oilConsumed },
@@ -213,8 +234,8 @@ export function cook({
         createdAt,
         game: stateCopy,
       }),
-      // Placeholder - can be different from backend
-      amount: 1,
+      // Chance based boosts to be calculated on BE
+      amount,
     };
 
     const previousOilRemaining = building.oil || 0;

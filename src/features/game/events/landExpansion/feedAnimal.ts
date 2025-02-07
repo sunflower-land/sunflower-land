@@ -109,7 +109,23 @@ const handleFreeFeeding = ({
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = nextLevelXp - beforeFeedXp;
 
-    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
+    const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp);
+
+    const { foodXp } = handleFoodXP({
+      state: copy,
+      animal: animalType,
+      level: nextLevel,
+      food: favouriteFood,
+    });
+
+    const noOfFeed = Math.ceil(xpDiff / foodXp);
+    const xpToFeed = noOfFeed * foodXp;
+    isReady = handleAnimalExperience(
+      animal,
+      animalType,
+      beforeFeedXp,
+      xpToFeed,
+    );
   }
 
   animal.state = isReady ? "ready" : "happy";

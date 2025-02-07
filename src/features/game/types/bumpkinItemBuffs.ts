@@ -853,10 +853,18 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
           },
         ] as BuffLabel[])),
   ],
+  "Ladybug Suit": [
+    {
+      shortDescription: translate("description.ladybugSuit.boost"),
+      labelType: "success",
+      boostTypeIcon: SUNNYSIDE.ui.coins,
+      boostedItemIcon: CROP_LIFECYCLE.basic.Onion.crop,
+    },
+  ],
   "Crab Hat": [
     {
       shortDescription: translate("description.crabHat.boost"),
-      labelType: "vibrant",
+      labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },

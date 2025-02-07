@@ -32,6 +32,9 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
+import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
+import { formatNumber } from "lib/utils/formatNumber";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 function acknowledgeIntro() {
   localStorage.setItem(
@@ -135,6 +138,30 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     );
   }
 
+  const guideItems = [
+    { icon: SUNNYSIDE.building.feederMachine, text: t("animals.guide.feeder") },
+    {
+      icon: SUNNYSIDE.animalFoods.kernel_blend,
+      text: t("animals.guide.food_preference"),
+    },
+    {
+      icon: SUNNYSIDE.icons.expression_ready,
+      text: t("animals.guide.progress"),
+    },
+    { icon: SUNNYSIDE.icons.sleeping, text: t("animals.guide.sleeping") },
+    { icon: brush, text: t("animals.guide.affection") },
+    {
+      icon: SUNNYSIDE.animalFoods.barn_delight,
+      text: t("animals.guide.sickness"),
+    },
+    {
+      icon: SUNNYSIDE.icons.death,
+      text: t("animals.guide.bounties", {
+        percent: formatNumber(SICK_ANIMAL_REWARD_MULTIPLIER * 100),
+      }),
+    },
+  ];
+
   return (
     <CloseButtonPanel
       onClose={onClose}
@@ -223,69 +250,29 @@ export const AnimalBuildingModal: React.FC<Props> = ({
 
       {currentTab === 2 && (
         <>
-          <div className="flex flex-col p-1 space-y-1 mb-2">
-            <InnerPanel className="p-1">
+          <InnerPanel className="p-1">
+            <div className="flex flex-col p-1 space-y-1 mb-2">
               <img src={SUNNYSIDE.tutorial.animals} className="w-full" />
-            </InnerPanel>
-            <div className="flex flex-col space-y-2 text-xs">
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.building.feederMachine}
-                  className="h-8"
-                  alt="feeder machine"
-                />
-                <p>{t("animals.guide.feeder")}</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.animalFoods.kernel_blend}
-                  className="h-6"
-                  alt="animal food"
-                />
-                <p>{t("animals.guide.food_preference")}</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.icons.expression_ready}
-                  className="h-6"
-                  alt="animal food"
-                />
-                <p>{t("animals.guide.progress")}</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.icons.sleeping}
-                  className="h-6"
-                  alt="animal food"
-                />
-                <p>{t("animals.guide.sleeping")}</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <img src={brush} className="h-6" alt="brush" />
-                <p>{t("animals.guide.affection")}</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <img src={SUNNYSIDE.icons.death} className="h-6" alt="trade" />
-                <p>{t("animals.guide.bounties")}</p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <img
-                  src={SUNNYSIDE.animalFoods.barn_delight}
-                  className="h-6"
-                  alt="barn delight medicine"
-                />
-                <p>{t("animals.guide.sickness")}</p>
+              <div className="flex flex-col space-y-2 text-xs">
+                {guideItems.map((item, index) => (
+                  <div key={index} className="flex items-center gap-1">
+                    <div className="px-1">
+                      <SquareIcon icon={item.icon} width={7} />
+                    </div>
+                    <p>{item.text}</p>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-          <Button
-            onClick={() => {
-              acknowledgeGuide();
-              onClose();
-            }}
-          >
-            {t("gotIt")}
-          </Button>
+            <Button
+              onClick={() => {
+                acknowledgeGuide();
+                onClose();
+              }}
+            >
+              {t("gotIt")}
+            </Button>
+          </InnerPanel>
         </>
       )}
     </CloseButtonPanel>

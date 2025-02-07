@@ -82,8 +82,18 @@ export const Recipes: React.FC<Props> = ({
       amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
     );
 
-  const cook = async () => {
+  const cookingTime = getCookingTime(
+    getCookingOilBoost(selected.name, state, buildingId).timeToCook,
+    selected.name,
+    bumpkin,
+    state,
+  );
+
+  const cook = () => {
     onCook(selected.name);
+    if (buildingName === "Fire Pit" || cookingTime < 60) {
+      gameService.send("SAVE");
+    }
   };
 
   const onInstantCook = (gems: number) => {
@@ -125,12 +135,7 @@ export const Recipes: React.FC<Props> = ({
               xp: new Decimal(
                 getFoodExpBoost(selected, bumpkin, state, buds ?? {}),
               ),
-              timeSeconds: getCookingTime(
-                getCookingOilBoost(selected.name, state, buildingId).timeToCook,
-                selected.name,
-                bumpkin,
-                state,
-              ),
+              timeSeconds: cookingTime,
             }}
             actionView={
               <>

@@ -19,7 +19,6 @@ import { MinigameHistory, MinigamePrize } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PortalLeaderboard } from "./PortalLeaderboard";
@@ -95,28 +94,11 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
 
   const minigame = gameState.context.state.minigames.games["chicken-rescue"];
 
-  const [showIntro, setShowIntro] = useState(!minigame?.history);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const [page, setPage] = useState<"play" | "leaderboard">("play");
 
   const { t } = useAppTranslation();
-
-  if (showIntro) {
-    return (
-      <SpeakingText
-        message={[
-          {
-            text: t("minigame.discovered.one"),
-          },
-          {
-            text: t("minigame.discovered.two"),
-          },
-        ]}
-        onClose={() => setShowIntro(false)}
-      />
-    );
-  }
 
   const dateKey = new Date().toISOString().slice(0, 10);
   const history = minigame?.history ?? {};

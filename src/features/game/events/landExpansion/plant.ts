@@ -235,7 +235,11 @@ export function getCropTime({
     seconds = seconds * 0.5;
   }
 
-  if (skills["Green Thumb"] && hasFeatureAccess(game, "SKILLS_REVAMP")) {
+  if (
+    skills["Green Thumb"] &&
+    !isGreenhouseCrop(crop) &&
+    hasFeatureAccess(game, "SKILLS_REVAMP")
+  ) {
     seconds = seconds * 0.95;
   }
 

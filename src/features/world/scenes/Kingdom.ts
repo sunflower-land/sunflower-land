@@ -23,8 +23,6 @@ import {
 } from "features/game/lib/factions";
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
-import { hasReadCropsAndChickensNotice } from "../ui/portals/CropsAndChickens";
-import { hasFeatureAccess } from "lib/flags";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -181,7 +179,7 @@ export class KingdomScene extends BaseScene {
     this.initialiseNPCs(KINGDOM_NPCS);
     this.addShopDisplayItems();
 
-    const chickenRescuePortal = this.add.sprite(285, 515, "portal");
+    const portal = this.add.sprite(285, 515, "portal");
     this.anims.create({
       key: "portal_anim",
       frames: this.anims.generateFrameNumbers("portal", {
@@ -191,115 +189,14 @@ export class KingdomScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
-    chickenRescuePortal.play("portal_anim", true);
-    chickenRescuePortal
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(chickenRescuePortal, 40)) {
-          interactableModalManager.open("chicken_rescue");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-
-    if (!hasReadCropsAndChickensNotice()) {
-      const cropsAndChickensPortalNotice = this.add
-        .image(400, 732, "question_disc")
-        .setDepth(1000000);
-      cropsAndChickensPortalNotice
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          if (this.checkDistanceToSprite(cropsAndChickensPortalNotice, 40)) {
-            interactableModalManager.open("crops_and_chickens");
-          } else {
-            this.currentPlayer?.speak(translate("base.iam.far.away"));
-          }
-        });
-    }
-
-    const cropsAndChickensPortal = this.add.sprite(
-      400,
-      752,
-      "portal_crops_and_chickens",
-    );
-    this.anims.create({
-      key: "portal_crops_and_chickens_anim",
-      frames: this.anims.generateFrameNumbers("portal_crops_and_chickens", {
-        start: 0,
-        end: 17,
-      }),
-      repeat: -1,
-      frameRate: 10,
+    portal.play("portal_anim", true);
+    portal.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(portal, 40)) {
+        interactableModalManager.open("portal_chooser");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
-    cropsAndChickensPortal.play("portal_crops_and_chickens_anim", true);
-    cropsAndChickensPortal
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(cropsAndChickensPortal, 40)) {
-          interactableModalManager.open("crops_and_chickens");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-
-    this.physics.world.enable(cropsAndChickensPortal);
-    this.colliders?.add(cropsAndChickensPortal);
-    (cropsAndChickensPortal.body as Phaser.Physics.Arcade.Body)
-      .setSize(32, 32)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
-
-    if (hasFeatureAccess(this.gameState, "HALLOWEEN_2024")) {
-      const halloweenPortal = this.add.sprite(193, 577, "portal_halloween");
-      this.anims.create({
-        key: "portal_halloween_anim",
-        frames: this.anims.generateFrameNumbers("portal_halloween", {
-          start: 0,
-          end: 17,
-        }),
-        repeat: -1,
-        frameRate: 10,
-      });
-      halloweenPortal.play("portal_halloween_anim", true);
-      halloweenPortal
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          if (this.checkDistanceToSprite(halloweenPortal, 40)) {
-            interactableModalManager.open("halloween");
-          } else {
-            this.currentPlayer?.speak(translate("base.iam.far.away"));
-          }
-        });
-
-      this.physics.world.enable(halloweenPortal);
-      this.colliders?.add(halloweenPortal);
-      (halloweenPortal.body as Phaser.Physics.Arcade.Body)
-        .setSize(32, 32)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
-    }
-
-    const fruitDashPortal = this.add.sprite(40, 510, "portal");
-    fruitDashPortal.play("portal_anim", true);
-    fruitDashPortal
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(fruitDashPortal, 40)) {
-          interactableModalManager.open("fruit_dash");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-
-    this.physics.world.enable(fruitDashPortal);
-    this.colliders?.add(fruitDashPortal);
-    (fruitDashPortal.body as Phaser.Physics.Arcade.Body)
-      .setSize(32, 32)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
 
     const board1 = this.add.sprite(328, 620, "sunflorian_board");
 

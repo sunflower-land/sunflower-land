@@ -1,5 +1,6 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { skillUse } from "./skillUsed";
+import { CROPS } from "features/game/types/crops";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -50,7 +51,7 @@ describe("skillUse", () => {
         action: { type: "skill.used", skill: "Instant Growth" },
         createdAt: dateNow,
       });
-    }).toThrow("This skill is still under cooldown");
+    }).toThrow("Power Skill on Cooldown");
   });
 
   it("adds the power.useAt to the bumpkin", () => {
@@ -60,6 +61,21 @@ describe("skillUse", () => {
         bumpkin: {
           ...INITIAL_FARM.bumpkin,
           skills: { "Instant Growth": 1 },
+        },
+        crops: {
+          1: {
+            crop: {
+              id: "123",
+              name: "Wheat",
+              plantedAt: dateNow,
+              amount: 20,
+            },
+            createdAt: dateNow,
+            x: 1,
+            y: 1,
+            height: 1,
+            width: 1,
+          },
         },
       },
       action: { type: "skill.used", skill: "Instant Growth" },
@@ -72,6 +88,60 @@ describe("skillUse", () => {
   });
 
   describe("useInstantGrowth", () => {
+    it("throws error if no plots are available", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Growth": 1 },
+            },
+          },
+          action: { type: "skill.used", skill: "Instant Growth" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("You don't have any plots to grow crops on");
+    });
+
+    it("requires all plots are growing to use Instant Growth", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Growth": 1 },
+            },
+            crops: {
+              "0": {
+                createdAt: dateNow,
+                x: 0,
+                y: 0,
+                height: 1,
+                width: 1,
+              },
+              "1": {
+                createdAt: dateNow,
+                x: 1,
+                y: 1,
+                height: 1,
+                width: 1,
+                crop: {
+                  id: "123",
+                  name: "Wheat",
+                  plantedAt: dateNow - CROPS["Wheat"].harvestSeconds * 1000,
+                  amount: 20,
+                },
+              },
+            },
+          },
+          action: { type: "skill.used", skill: "Instant Growth" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No crops are growing");
+    });
+
     it("activates Instant Growth", () => {
       const state = skillUse({
         state: {
@@ -121,55 +191,83 @@ describe("skillUse", () => {
     });
 
     it("doesn't activate Instant Growth if they have a different skill", () => {
-      const state = skillUse({
-        state: {
-          ...INITIAL_FARM,
-          bumpkin: {
-            ...INITIAL_FARM.bumpkin,
-            skills: { "Instant Gratification": 1 },
-          },
-          crops: {
-            "123": {
-              crop: {
-                id: "456",
-                name: "Kale",
-                plantedAt: dateNow,
-                amount: 20,
-              },
-              createdAt: dateNow,
-              x: 1,
-              y: 1,
-              height: 1,
-              width: 1,
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Gratification": 1 },
             },
-            "789": {
-              crop: {
-                id: "147",
-                name: "Kale",
-                plantedAt: dateNow,
-                amount: 20,
+            crops: {
+              "123": {
+                crop: {
+                  id: "456",
+                  name: "Kale",
+                  plantedAt: dateNow,
+                  amount: 20,
+                },
+                createdAt: dateNow,
+                x: 1,
+                y: 1,
+                height: 1,
+                width: 1,
               },
-              createdAt: dateNow,
-              x: 1,
-              y: 1,
-              height: 1,
-              width: 1,
+              "789": {
+                crop: {
+                  id: "147",
+                  name: "Kale",
+                  plantedAt: dateNow,
+                  amount: 20,
+                },
+                createdAt: dateNow,
+                x: 1,
+                y: 1,
+                height: 1,
+                width: 1,
+              },
             },
           },
-        },
-        action: {
-          type: "skill.used",
-          skill: "Instant Gratification",
-        },
-        createdAt: dateNow,
-      });
-
-      expect(state.crops["123"].crop?.plantedAt).toEqual(dateNow);
-      expect(state.crops["789"].crop?.plantedAt).toEqual(dateNow);
+          action: {
+            type: "skill.used",
+            skill: "Instant Growth",
+          },
+          createdAt: dateNow,
+        }),
+      ).toThrow("You do not have this skill");
     });
   });
 
   describe("useTreeBlitz", () => {
+    it("requires all trees to be recovering to use Tree Blitz", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Tree Blitz": 1 },
+            },
+            trees: {
+              "123": {
+                wood: {
+                  amount: 1,
+                  choppedAt: 0,
+                },
+                x: 1,
+                y: 1,
+                height: 2,
+                width: 2,
+                createdAt: 0,
+              },
+            },
+          },
+          action: { type: "skill.used", skill: "Tree Blitz" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No trees are recovering");
+    });
+
     it("activates Tree Blitz", () => {
       const state = skillUse({
         state: {
@@ -211,48 +309,63 @@ describe("skillUse", () => {
       expect(state.trees["456"].wood.choppedAt).toEqual(1);
     });
     it("does not activate Tree Blitz when they have a different skill", () => {
-      const state = skillUse({
-        state: {
-          ...INITIAL_FARM,
-          bumpkin: {
-            ...INITIAL_FARM.bumpkin,
-            skills: { "Instant Growth": 1 },
-          },
-          trees: {
-            "123": {
-              wood: {
-                amount: 1,
-                choppedAt: dateNow,
-              },
-              x: 1,
-              y: 1,
-              height: 2,
-              width: 2,
-              createdAt: dateNow,
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Growth": 1 },
             },
-            "456": {
-              wood: {
-                amount: 1,
-                choppedAt: dateNow,
+            trees: {
+              "123": {
+                wood: {
+                  amount: 1,
+                  choppedAt: dateNow,
+                },
+                x: 1,
+                y: 1,
+                height: 2,
+                width: 2,
+                createdAt: dateNow,
               },
-              x: 3,
-              y: 1,
-              height: 2,
-              width: 2,
-              createdAt: dateNow,
+              "456": {
+                wood: {
+                  amount: 1,
+                  choppedAt: dateNow,
+                },
+                x: 3,
+                y: 1,
+                height: 2,
+                width: 2,
+                createdAt: dateNow,
+              },
             },
           },
-        },
-        action: { type: "skill.used", skill: "Instant Growth" },
-        createdAt: dateNow,
-      });
-
-      expect(state.trees["123"].wood.choppedAt).toEqual(dateNow);
-      expect(state.trees["456"].wood.choppedAt).toEqual(dateNow);
+          action: { type: "skill.used", skill: "Tree Blitz" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("You do not have this skill");
     });
   });
 
-  describe.only("useGreenhouseGuru", () => {
+  describe("useGreenhouseGuru", () => {
+    it("throws an error if pots are empty", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Greenhouse Guru": 1 },
+            },
+          },
+          action: { type: "skill.used", skill: "Greenhouse Guru" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No greenhouse produce is growing");
+    });
+
     it("activates Greenhouse Guru", () => {
       const state = skillUse({
         state: {
@@ -304,6 +417,26 @@ describe("skillUse", () => {
   });
 
   describe("usePetalBlessed", () => {
+    it("throws an error when flower beds are empty", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Petal Blessed": 1 },
+            },
+            flowers: {
+              discovered: {},
+              flowerBeds: {},
+            },
+          },
+          action: { type: "skill.used", skill: "Petal Blessed" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No flowers are growing in flower beds");
+    });
+
     it("activates Petal Blessed", () => {
       const state = skillUse({
         state: {
@@ -376,7 +509,7 @@ describe("skillUse", () => {
             "123": {
               createdAt: 1718896710652,
               oil: {
-                drilledAt: 1733773070581,
+                drilledAt: dateNow - 1000 * 60,
                 amount: 22.1,
               },
               width: 2,
@@ -400,7 +533,7 @@ describe("skillUse", () => {
             "789": {
               createdAt: 1716767207652,
               oil: {
-                drilledAt: 1733773071663,
+                drilledAt: dateNow - 1000 * 60,
                 amount: 22.1,
               },
               width: 2,
@@ -422,6 +555,48 @@ describe("skillUse", () => {
   });
 
   describe("useInstantGratification", () => {
+    it("throws an error if all cooking buildings are not cooking", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Gratification": 1 },
+            },
+            buildings: {
+              "Fire Pit": [
+                {
+                  id: "123",
+                  createdAt: dateNow,
+                  coordinates: {
+                    x: -4,
+                    y: -8,
+                  },
+                  readyAt: 0,
+                  oil: 0,
+                },
+              ],
+              "Smoothie Shack": [
+                {
+                  id: "456",
+                  createdAt: dateNow,
+                  coordinates: {
+                    x: -7,
+                    y: -8,
+                  },
+                  readyAt: 0,
+                  oil: 0,
+                },
+              ],
+            },
+          },
+          action: { type: "skill.used", skill: "Instant Gratification" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("No buildings are cooking");
+    });
+
     it("activates Instant Gratification", () => {
       const state = skillUse({
         state: {
@@ -482,6 +657,82 @@ describe("skillUse", () => {
       expect(state.buildings["Smoothie Shack"]?.[0].crafting?.readyAt).toEqual(
         dateNow,
       );
+    });
+  });
+
+  describe("useBarnyardRouse", () => {
+    it("doesn't activate Barnyard Rouse if the animals are not asleep", () => {
+      expect(() =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Barnyard Rouse": 1 },
+            },
+            henHouse: {
+              level: 1,
+              animals: {
+                "123": {
+                  id: "123",
+                  type: "Chicken",
+                  state: "idle",
+                  createdAt: dateNow,
+                  awakeAt: dateNow - 1000 * 60 * 60 * 24,
+                  experience: 120,
+                  asleepAt: 0,
+                  lovedAt: 0,
+                  item: "Petting Hand",
+                },
+                "456": {
+                  id: "456",
+                  type: "Chicken",
+                  state: "idle",
+                  createdAt: dateNow,
+                  awakeAt: dateNow - 1000 * 60 * 60 * 24,
+                  experience: 120,
+                  asleepAt: 0,
+                  lovedAt: 0,
+                  item: "Petting Hand",
+                },
+              },
+            },
+          },
+          action: { type: "skill.used", skill: "Barnyard Rouse" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("All your animals are not asleep");
+    });
+
+    it("activates Barnyard Rouse", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Barnyard Rouse": 1 },
+          },
+          henHouse: {
+            level: 1,
+            animals: {
+              "123": {
+                id: "123",
+                type: "Chicken",
+                state: "idle",
+                createdAt: dateNow,
+                awakeAt: dateNow + 1000 * 60 * 60 * 24,
+                experience: 120,
+                asleepAt: dateNow,
+                lovedAt: 0,
+                item: "Petting Hand",
+              },
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Barnyard Rouse" },
+        createdAt: dateNow,
+      });
+      expect(state.henHouse.animals["123"].awakeAt).toEqual(dateNow);
     });
   });
 });

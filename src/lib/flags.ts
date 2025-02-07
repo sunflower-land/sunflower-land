@@ -61,12 +61,10 @@ const featureFlags = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  SKILLS_REVAMP: defaultFeatureFlag,
-  HALLOWEEN_2024: defaultFeatureFlag,
+  SKILLS_REVAMP: betaTimeBasedFeatureFlag(new Date("2025-02-10T00:00:00Z")),
   ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
     new Date("2024-12-18T00:00:00Z"),
   ),
-  FRUIT_PATCH_QUICK_SELECT: defaultFeatureFlag,
   SEASONAL_EVENTS_NOTIFICATIONS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
