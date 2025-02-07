@@ -1027,6 +1027,10 @@ export type MinigameHistory = {
   prizeClaimedAt?: number;
 };
 
+export type MinigameAchievement = {
+  unlockedAt: number;
+};
+
 export type Minigame = {
   highscore: number;
   purchases?: {
@@ -1035,6 +1039,8 @@ export type Minigame = {
     purchasedAt: number;
   }[];
   history: Record<string, MinigameHistory>;
+  achievements?: Record<string, MinigameAchievement>;
+  activities?: Record<string, Decimal>;
 };
 
 export type TradeListing = {
