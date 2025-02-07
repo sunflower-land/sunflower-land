@@ -62,7 +62,7 @@ export function getWoodReward({
   patchFruitName,
 }: {
   state: GameState;
-  patchFruitName: PatchFruitName;
+  patchFruitName?: PatchFruitName;
 }) {
   let woodReward = 1;
   // Fruity Woody: +1 Wood when removing a fruit tree

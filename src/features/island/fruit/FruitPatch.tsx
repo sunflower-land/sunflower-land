@@ -181,7 +181,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     });
 
     if (!newState.matches("hoarding")) {
-      const { woodReward } = getWoodReward({ state: game });
+      const { woodReward } = getWoodReward({
+        state: game,
+        patchFruitName: fruit?.name,
+      });
       setCollectingWood(true);
       setCollectedWoodAmount(woodReward);
 
