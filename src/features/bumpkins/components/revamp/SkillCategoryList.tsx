@@ -144,7 +144,7 @@ export const SkillCategoryList: React.FC<{
     const { queue = [], unallocatedOilTime = 0 } = cropMachine ?? {};
 
     if (skills["Field Expansion Module"] && queue.length > 5) {
-      return "Remove crops from additional slots before resetting";
+      return t("skillReset.removeCrops");
     }
 
     if (skills["Leak-Proof Tank"]) {
@@ -153,7 +153,7 @@ export const SkillCategoryList: React.FC<{
         unallocatedOilTime,
       );
       if (oilMillisInMachine > 48 * 60 * 60 * 1000) {
-        return "Reduce oil in tank before resetting";
+        return t("skillReset.reduceOilInTank");
       }
     }
   };
@@ -178,12 +178,12 @@ export const SkillCategoryList: React.FC<{
                     type={hasUnlockedIslandCategory ? "default" : "warning"}
                     className="capitalize"
                   >
-                    {`${islandType} Skills`}
+                    {t("skillCategory.islands", { island: islandType })}
                   </Label>
                 )}
                 {!hasUnlockedIslandCategory && (
                   <Label type="warning">
-                    {`Reach ${islandType} island to unlock`}
+                    {t("skillCategory.reachIsland", { island: islandType })}
                   </Label>
                 )}
               </div>
@@ -235,7 +235,7 @@ export const SkillCategoryList: React.FC<{
             className="text-xs cursor-pointer underline"
             onClick={() => setShowSkillsResetModal(true)}
           >
-            {"Reset Skills"}
+            {t("skillReset.resetSkills")}
           </p>
         </div>
       </InnerPanel>
