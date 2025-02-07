@@ -12,6 +12,9 @@ import baits from "assets/composters/baits.png";
 import fertilisers from "assets/composters/fertilisers.png";
 import pickaxes from "assets/icons/pickaxes.png";
 import rockOres from "assets/icons/1tap.png";
+import tomato_lemon from "assets/fruit/tomato_lemon.png";
+import orange_blueberry from "assets/fruit/orange_blueberry.png";
+import apple_banana from "assets/fruit/apple_banana.png";
 import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
@@ -794,7 +797,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: ITEM_DETAILS.Banana.image,
+    image: apple_banana,
   },
   "Short Pickings": {
     name: "Short Pickings",
@@ -819,7 +822,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: ITEM_DETAILS.Blueberry.image,
+    image: orange_blueberry,
   },
   "Zesty Vibes": {
     name: "Zesty Vibes",
@@ -835,6 +838,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.zestyVibes.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: tomato_lemon,
       },
       debuff: {
         shortDescription: translate("skill.zestyVibes.debuff"),
