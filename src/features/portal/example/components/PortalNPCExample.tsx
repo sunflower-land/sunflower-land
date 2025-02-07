@@ -1,8 +1,10 @@
 import { Button } from "components/ui/Button";
+import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import {
   achievementsUnlocked,
+  activitiesTracked,
   claimPrize,
   purchase,
 } from "features/portal/lib/portalUtil";
@@ -70,6 +72,20 @@ export const PortalNPCExample: React.FC<Props> = ({ onClose }) => {
         }}
       >
         {t("portal.example.unlockAchievements")}
+      </Button>
+      <Button
+        onClick={() => {
+          // Tracks multiple activities at the same time
+          activitiesTracked({
+            activities: {
+              "Activity 1": new Decimal(1),
+              "Activity 2": new Decimal(2),
+            },
+          });
+          onClose();
+        }}
+      >
+        {t("portal.example.trackActivities")}
       </Button>
     </CloseButtonPanel>
   );

@@ -1040,6 +1040,7 @@ export type Minigame = {
   }[];
   history: Record<string, MinigameHistory>;
   achievements?: Record<string, MinigameAchievement>;
+  activities?: Record<string, Decimal>;
 };
 
 export type TradeListing = {

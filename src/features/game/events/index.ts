@@ -340,6 +340,10 @@ import {
   unlockMinigameAchievements,
   UnlockMinigameAchievementsAction,
 } from "./minigames/unlockMinigameAchievements";
+import {
+  trackMinigameActivities,
+  TrackMinigameActivitiesAction,
+} from "./minigames/trackMinigameActivities";
 import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
 import {
   completeDailyChallenge,
@@ -551,6 +555,7 @@ export type PlayingEvent =
   | StartMinigameAttemptAction
   | SubmitMinigameScoreAction
   | UnlockMinigameAchievementsAction
+  | TrackMinigameActivitiesAction
   | SkillUseAction
   | SupplyCropMachineAction
   | HarvestCropMachineAction
@@ -675,6 +680,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "minigame.attemptStarted": startMinigameAttempt,
   "minigame.scoreSubmitted": submitMinigameScore,
   "minigame.achievementsUnlocked": unlockMinigameAchievements,
+  "minigame.activitiesTracked": trackMinigameActivities,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,

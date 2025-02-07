@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
@@ -108,6 +109,21 @@ export function achievementsUnlocked({
       { event: "achievementsUnlocked", achievementNames },
       "*",
     );
+  }
+}
+
+/**
+ * When activities are tracked
+ */
+export function activitiesTracked({
+  activities,
+}: {
+  activities: Record<string, Decimal>;
+}) {
+  if (!isInIframe) {
+    alert(`Sunflower Land running in test mode - activities tracked`);
+  } else {
+    window.parent.postMessage({ event: "activitiesTracked", activities }, "*");
   }
 }
 
