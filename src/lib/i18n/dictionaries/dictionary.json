@@ -4015,7 +4015,7 @@
   "skill.shortPickings.buff": "-50% Blueberry and Orange growth time",
   "skill.shortPickings.debuff": "+100% growth time for all other fruits",
   "skill.zestyVibes.buff": "+1 Tomato and Lemon yield",
-  "skill.zestyVibes.debuff": "-0.5 yield for all other fruits",
+  "skill.zestyVibes.debuff": "-0.25 yield for all other fruits",
   "skill.lumberjacksExtra": "+0.1 wood yield",
   "skill.treeCharge": "-10% tree growth time",
   "skill.moreAxes": "+50 axe stock",
