@@ -123,7 +123,13 @@ export function activitiesTracked({
   if (!isInIframe) {
     alert(`Sunflower Land running in test mode - activities tracked`);
   } else {
-    window.parent.postMessage({ event: "activitiesTracked", activities }, "*");
+    window.parent.postMessage(
+      {
+        event: "activitiesTracked",
+        activities: JSON.parse(JSON.stringify(activities)),
+      },
+      "*",
+    );
   }
 }
 

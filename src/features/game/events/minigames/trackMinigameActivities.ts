@@ -37,7 +37,7 @@ export function trackMinigameActivities({ state, action }: Options): GameState {
   Object.keys(action.activities).forEach((activityName) => {
     const currentCount = minigameActivities[activityName] || new Decimal(0);
     minigameActivities[activityName] = currentCount.add(
-      action.activities[activityName],
+      new Decimal(action.activities[activityName]),
     );
   });
 
