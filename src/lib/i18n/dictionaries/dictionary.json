@@ -3993,7 +3993,7 @@
   "skill.goldenSunflower": "1/700 chance for +0.35 gold when harvesting sunflowers (plots only)",
   "skill.chonkyScarecrow": "Increases Basic Scarecrow's area of effect (AOE) to a 7x7 area; Additional -10% basic crop growth time",
   "skill.horrorMike": "Increases Scary Mike's area of effect (AOE) to a 7x7 area; Additional +0.1 medium crop yield",
-  "skill.instantGrowth": "Grants the ability to instantly harvest all currently growing crops",
+  "skill.instantGrowth": "Grants the ability to instantly harvest all currently growing crops in plots",
   "skill.acreFarm.buff": "+1 Advanced crop yield",
   "skill.acreFarm.debuff": "-0.5 Basic and Medium crop yield",
   "skill.hectareFarm.buff": "+1 Basic and Medium crop yield",
