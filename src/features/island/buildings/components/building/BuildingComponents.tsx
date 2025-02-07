@@ -68,23 +68,13 @@ export const BUILDING_COMPONENTS: Record<
     island,
     season,
   }: BuildingProps) => (
-    <WithCraftingMachine
+    <FirePit
       buildingId={buildingId}
-      buildingName="Fire Pit"
       buildingIndex={buildingIndex}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
+      isBuilt={isBuilt}
       island={island}
       season={season}
-    >
-      <FirePit
-        buildingId={buildingId}
-        buildingIndex={buildingIndex}
-        isBuilt={isBuilt}
-        island={island}
-        season={season}
-      />
-    </WithCraftingMachine>
+    />
   ),
   Workbench: WorkBench,
   Bakery: ({

@@ -1232,14 +1232,14 @@
   "error.noprod.composter": "Composter is not producing anything",
   "error.buildingNotExist": "Building does not exist",
   "error.buildingNotCooking": "Building is not cooking anything",
-  "error.recipeNotReady": "Recipe is not ready",
+  "error.recipeNotReady": "No recipes are ready",
   "error.npcsNotExist": "NPCs does not exist",
   "error.noDiscoveryAvailable": "No discovery available",
   "error.obsessionAlreadyCompleted": "This obsession is already completed",
   "error.collectibleNotInInventory": "You do not have the collectible required",
   "error.wearableNotInWardrobe": "You do not have the wearable required",
   "error.requiredBuildingNotExist": "Required building does not exist",
-  "error.cookingInProgress": "Cooking already in progress",
+  "error.noAvailableSlots": "No available slots",
   "error.insufficientIngredient": "Insufficient ingredient",
   "error.ClientRPC": "Client RPC Error",
   "error.walletInUse.one": "Wallet in Use",
@@ -5466,5 +5466,7 @@
   "portal.fruitDash.title": "Fruit Dash",
   "portal.fruitDash.description": "Survive as long as you can collecting fruits while dodging obstacles in this endless challenge!",
   "portal.halloween.title": "Halloween",
-  "portal.halloween.description": "Brave the haunted mansion, collect torches, and outrun ghosts in this spooky survival challenge!"
+  "portal.halloween.description": "Brave the haunted mansion, collect torches, and outrun ghosts in this spooky survival challenge!",
+  "recipes.upNext": "Up next",
+  "recipes.addToQueue": "Add to queue"
 }

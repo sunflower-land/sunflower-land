@@ -10,7 +10,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Cookable, CookableName } from "features/game/types/consumables";
 
 import { InProgressInfo } from "../building/InProgressInfo";
-import { MachineInterpreter } from "../../lib/craftingMachine";
 import {
   getCookingTime,
   getFoodExpBoost,
@@ -21,22 +20,25 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getCookingOilBoost,
   getCookingRequirements,
+  MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "../building/BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { InventoryItemName } from "features/game/types/game";
+import { BuildingProduct, InventoryItemName } from "features/game/types/game";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   selected: Cookable;
   setSelected: Dispatch<SetStateAction<Cookable>>;
   recipes: Cookable[];
+  queue: BuildingProduct[];
   onClose: () => void;
   onCook: (name: CookableName) => void;
-  craftingService?: MachineInterpreter;
-  crafting: boolean;
+  crafting?: BuildingProduct;
   buildingName: BuildingName;
   buildingId?: string;
 }
@@ -49,7 +51,6 @@ interface Props {
  * @onClose The close action.
  * @onCook The cook action.
  * @crafting Whether the building is in the process of crafting a food item.
- * @craftingService The crafting service.
  */
 
 export const Recipes: React.FC<Props> = ({
@@ -59,9 +60,9 @@ export const Recipes: React.FC<Props> = ({
   onClose,
   onCook,
   crafting,
-  craftingService,
   buildingId,
   buildingName,
+  queue,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -95,6 +96,13 @@ export const Recipes: React.FC<Props> = ({
     }
   };
 
+  const collect = () => {
+    gameService.send("recipes.collected", {
+      buildingId,
+      building: buildingName,
+    });
+  };
+
   const onInstantCook = (gems: number) => {
     gameService.send("recipe.spedUp", {
       buildingId,
@@ -107,17 +115,20 @@ export const Recipes: React.FC<Props> = ({
       item: "Instant Cook",
       type: "Fee",
     });
-
-    setTimeout(() => {
-      craftingService?.send({
-        type: "INSTANT",
-      });
-    }, 100);
   };
 
-  const isOilBoosted = buildings?.[buildingName]?.[0].crafting?.boost?.["Oil"];
-
+  const building = buildings?.[buildingName]?.[0];
+  const buildingCrafting = building?.crafting ?? [];
+  const isOilBoosted = buildingCrafting.find(
+    (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
+  );
   const hasDoubleNom = !!bumpkin.skills["Double Nom"];
+
+  const hasReadyRecipes = buildingCrafting.some(
+    (recipe) => recipe.readyAt <= Date.now(),
+  );
+  const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
+  const hasAvailableSlots = buildingCrafting.length < availableSlots;
 
   return (
     <SplitScreenView
@@ -143,18 +154,27 @@ export const Recipes: React.FC<Props> = ({
                     {`Double Nom Boost: 2x Food`}
                   </Label>
                 )}
-                <Button
-                  disabled={lessIngredients() || crafting || selected.disabled}
-                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-                  onClick={() => cook()}
-                >
-                  {t("cook")}
-                </Button>
                 {crafting && (
                   <p className="sm:text-xs text-center my-1">
                     {t("sceneDialogues.chefIsBusy")}
                   </p>
                 )}
+                <Button
+                  disabled={
+                    lessIngredients() || selected.disabled || !hasAvailableSlots
+                  }
+                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                  onClick={() => cook()}
+                >
+                  {crafting ? t("recipes.addToQueue") : t("cook")}
+                </Button>
+                <Button
+                  disabled={!hasReadyRecipes}
+                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                  onClick={() => collect()}
+                >
+                  {t("collect")}
+                </Button>
               </>
             }
           />
@@ -162,15 +182,45 @@ export const Recipes: React.FC<Props> = ({
       }
       content={
         <>
-          {craftingService && (
-            <InProgressInfo
-              craftingService={craftingService}
-              onClose={onClose}
-              isOilBoosted={!!isOilBoosted}
-              onInstantCooked={onInstantCook}
-              state={state}
-            />
+          {crafting && (
+            <>
+              <InProgressInfo
+                crafting={crafting}
+                onClose={onClose}
+                isOilBoosted={!!isOilBoosted}
+                onInstantCooked={onInstantCook}
+                state={state}
+              />
+              <div className="mb-2">
+                <div className="w-full">
+                  <Label
+                    className="mr-3 ml-2 mb-1"
+                    icon={SUNNYSIDE.icons.arrow_right}
+                    type="default"
+                  >
+                    {t("recipes.upNext")}
+                  </Label>
+                </div>
+                <div className="flex flex-wrap h-fit">
+                  {Array(3)
+                    .fill(null)
+                    .map((_, index) => {
+                      const item = queue[index];
+                      return item ? (
+                        <Box
+                          key={`${item.readyAt}-${item.name}`}
+                          image={ITEM_DETAILS[item.name].image}
+                          count={inventory[item.name]}
+                        />
+                      ) : (
+                        <Box key={index} />
+                      );
+                    })}
+                </div>
+              </div>
+            </>
           )}
+
           <div className="w-full">
             <Label className="mr-3 ml-2 mb-1" icon={pumpkinSoup} type="default">
               {t("recipes")}
