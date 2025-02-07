@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
 import { CookableName, COOKABLES } from "features/game/types/consumables";
 import {
+  BuildingProduct,
+  Bumpkin,
   GameState,
   Inventory,
   InventoryItemName,
@@ -14,6 +16,7 @@ import {
 } from "features/game/types/buildings";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
@@ -168,6 +171,8 @@ export const getCookingAmount = (
   return amount;
 };
 
+export const MAX_COOKING_SLOTS = 4;
+
 export function cook({
   state,
   action,
@@ -179,6 +184,9 @@ export function cook({
     const ingredients = getCookingRequirements({ state, item });
     const { buildings, bumpkin } = stateCopy;
     const buildingsOfRequiredType = buildings[requiredBuilding];
+    const availableSlots = hasVipAccess({ game: stateCopy })
+      ? MAX_COOKING_SLOTS
+      : 1;
 
     if (!Object.keys(buildings).length || !buildingsOfRequiredType) {
       throw new Error(translate("error.requiredBuildingNotExist"));
@@ -196,8 +204,10 @@ export function cook({
       throw new Error(translate("error.requiredBuildingNotExist"));
     }
 
-    if (building.crafting !== undefined) {
-      throw new Error(translate("error.cookingInProgress"));
+    const crafting = (building.crafting ?? []) as BuildingProduct[];
+
+    if (crafting.length >= availableSlots) {
+      throw new Error(translate("error.noAvailableSlots"));
     }
 
     const { oilConsumed } = getCookingOilBoost(item, stateCopy, buildingId);
@@ -224,19 +234,32 @@ export function cook({
       { name: item, amount: 1 },
       bumpkin,
     );
+    // Start the new recipe when the last recipe is ready or now (createdAt)
+    let recipeStartAt = createdAt;
+    const lastRecipeReadyAt =
+      crafting[crafting.length - 1]?.readyAt ?? createdAt;
 
-    building.crafting = {
-      name: item,
-      boost: { Oil: oilConsumed },
-      readyAt: getReadyAt({
-        buildingId: buildingId,
-        item,
-        createdAt,
-        game: stateCopy,
-      }),
-      // Chance based boosts to be calculated on BE
-      amount,
-    };
+    if (lastRecipeReadyAt > createdAt) {
+      recipeStartAt = lastRecipeReadyAt;
+    }
+
+    const readyAt = getReadyAt({
+      buildingId: buildingId,
+      item,
+      createdAt: recipeStartAt,
+      game: stateCopy,
+    });
+
+    building.crafting = [
+      ...(building.crafting ?? []),
+      {
+        name: item,
+        boost: { Oil: oilConsumed },
+        readyAt,
+        // Placeholder - can be different from backend
+        amount,
+      },
+    ];
 
     const previousOilRemaining = building.oil || 0;
 
