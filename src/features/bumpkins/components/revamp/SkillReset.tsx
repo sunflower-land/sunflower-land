@@ -54,7 +54,7 @@ export const SkillReset: React.FC<SkillResetProps> = ({
               {`Reset all your skills for free.`}
             </p>
             <Label type="warning">
-              {`You can do this once every 6 months.`}
+              {`You can do this once every 180 days.`}
             </Label>
           </div>
         ) : (
