@@ -32,7 +32,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCook: (name: CookableName) => void;
-  crafting?: BuildingProduct;
+  cooking?: BuildingProduct;
   itemInProgress?: CookableName;
   buildingId: string;
   queue: BuildingProduct[];
@@ -41,7 +41,7 @@ export const FirePitModal: React.FC<Props> = ({
   isOpen,
   onCook,
   onClose,
-  crafting,
+  cooking,
   itemInProgress,
   buildingId,
   queue,
@@ -91,7 +91,7 @@ export const FirePitModal: React.FC<Props> = ({
             recipes={firePitRecipes}
             onCook={onCook}
             onClose={onClose}
-            crafting={crafting}
+            cooking={cooking}
             buildingName="Fire Pit"
             buildingId={buildingId}
             queue={queue}

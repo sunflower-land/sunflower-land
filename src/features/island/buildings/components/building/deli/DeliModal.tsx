@@ -9,27 +9,27 @@ import {
   CookableName,
   DELI_COOKABLES,
 } from "features/game/types/consumables";
-import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
+import { BuildingProduct } from "features/game/types/game";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCook: (name: CookableName) => void;
-  crafting: boolean;
+  cooking?: BuildingProduct;
   itemInProgress?: CookableName;
-  craftingService?: MachineInterpreter;
   buildingId: string;
+  queue: BuildingProduct[];
 }
 export const DeliModal: React.FC<Props> = ({
   isOpen,
   onCook,
   onClose,
-  crafting,
+  cooking,
   itemInProgress,
-  craftingService,
   buildingId,
+  queue,
 }) => {
   const deliRecipes = Object.values(DELI_COOKABLES).sort(
     (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
@@ -61,10 +61,10 @@ export const DeliModal: React.FC<Props> = ({
           recipes={deliRecipes}
           onCook={onCook}
           onClose={onClose}
-          crafting={crafting}
-          craftingService={craftingService}
+          cooking={cooking}
           buildingName="Deli"
           buildingId={buildingId}
+          queue={queue}
         />
       </CloseButtonPanel>
     </Modal>

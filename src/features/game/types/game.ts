@@ -628,9 +628,8 @@ export type PlacedItem = {
   coordinates: { x: number; y: number };
   readyAt: number;
   createdAt: number;
-
+  crafting?: BuildingProduct[];
   oil?: number;
-  crafting?: BuildingProduct;
 };
 
 type ShakeItem = PlacedItem & { shakenAt?: number };

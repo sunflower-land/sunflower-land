@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useContext, useState } from "react";
 
 import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
@@ -24,9 +19,8 @@ import shadow from "assets/npcs/shadow.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
-import { useTimeout } from "lib/utils/hooks/useTimeout";
-import { BuildingProduct } from "features/game/types/game";
 import { ReadyRecipes } from "../ReadyRecipes";
+import { useCookingState } from "features/island/buildings/lib/useCookingState";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -55,36 +49,8 @@ export const FirePit: React.FC<Props> = ({
   const season = useSelector(gameService, _season);
   const firePit = useSelector(gameService, _firePit(buildingId));
 
-  const [cooking, setCooking] = useState<BuildingProduct | undefined>();
-  const [queuedRecipes, setQueuedRecipes] = useState<BuildingProduct[]>([]);
-  const getRecipeBeingCooked = useCallback(() => {
-    const crafting = firePit?.crafting?.find(
-      (recipe) => recipe.readyAt > Date.now(),
-    );
-
-    setCooking(crafting);
-  }, [firePit]);
-
-  const getQueue = useCallback(() => {
-    const queue = firePit?.crafting?.filter(
-      (recipe) =>
-        recipe.readyAt > Date.now() && recipe.readyAt !== cooking?.readyAt,
-    );
-
-    setQueuedRecipes(queue ?? []);
-  }, [firePit, cooking]);
-
-  useLayoutEffect(() => {
-    getRecipeBeingCooked();
-    getQueue();
-  }, [firePit, getRecipeBeingCooked, getQueue]);
-
-  const readyRecipes =
-    firePit?.crafting?.filter((recipe) => recipe.readyAt <= Date.now()) ?? [];
-
-  useTimeout(
-    getRecipeBeingCooked,
-    cooking?.readyAt ? Math.max(0, cooking.readyAt - Date.now()) : null,
+  const { cooking, queuedRecipes, readyRecipes } = useCookingState(
+    firePit ?? {},
   );
 
   const { play: bakeryAudio } = useSound("bakery");
@@ -117,15 +83,13 @@ export const FirePit: React.FC<Props> = ({
       return;
     }
 
-    if (isBuilt) {
-      // Add future on click actions here
+    if (!isBuilt) return;
 
-      if (!cooking && readyRecipes.length > 0) {
-        handleCollect();
-      } else {
-        bakeryAudio();
-        setShowModal(true);
-      }
+    if (!cooking && readyRecipes.length > 0) {
+      handleCollect();
+    } else {
+      bakeryAudio();
+      setShowModal(true);
     }
   };
 
@@ -224,7 +188,7 @@ export const FirePit: React.FC<Props> = ({
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}
-        crafting={cooking}
+        cooking={cooking}
         itemInProgress={cooking?.name}
         buildingId={buildingId}
       />

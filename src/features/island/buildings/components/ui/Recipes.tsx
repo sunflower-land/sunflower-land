@@ -38,7 +38,7 @@ interface Props {
   queue: BuildingProduct[];
   onClose: () => void;
   onCook: (name: CookableName) => void;
-  crafting?: BuildingProduct;
+  cooking?: BuildingProduct;
   buildingName: BuildingName;
   buildingId?: string;
 }
@@ -50,7 +50,7 @@ interface Props {
  * @recipes The list of available recipes.
  * @onClose The close action.
  * @onCook The cook action.
- * @crafting Whether the building is in the process of crafting a food item.
+ * @cooking Whether the building is in the process of cooking a food item.
  */
 
 export const Recipes: React.FC<Props> = ({
@@ -59,7 +59,7 @@ export const Recipes: React.FC<Props> = ({
   recipes,
   onClose,
   onCook,
-  crafting,
+  cooking,
   buildingId,
   buildingName,
   queue,
@@ -154,7 +154,7 @@ export const Recipes: React.FC<Props> = ({
                     {`Double Nom Boost: 2x Food`}
                   </Label>
                 )}
-                {crafting && (
+                {cooking && (
                   <p className="sm:text-xs text-center my-1">
                     {t("sceneDialogues.chefIsBusy")}
                   </p>
@@ -166,7 +166,7 @@ export const Recipes: React.FC<Props> = ({
                   className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
                   onClick={() => cook()}
                 >
-                  {crafting ? t("recipes.addToQueue") : t("cook")}
+                  {cooking ? t("recipes.addToQueue") : t("cook")}
                 </Button>
                 <Button
                   disabled={!hasReadyRecipes}
@@ -182,10 +182,10 @@ export const Recipes: React.FC<Props> = ({
       }
       content={
         <>
-          {crafting && (
+          {cooking && (
             <>
               <InProgressInfo
-                crafting={crafting}
+                cooking={cooking}
                 onClose={onClose}
                 isOilBoosted={!!isOilBoosted}
                 onInstantCooked={onInstantCook}

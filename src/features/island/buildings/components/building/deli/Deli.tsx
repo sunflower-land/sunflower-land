@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
-
 import { SUNNYSIDE } from "assets/sunnyside";
-
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
@@ -14,40 +12,44 @@ import { setImageWidth } from "lib/images";
 import { DELI_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { useCookingState } from "features/island/buildings/lib/useCookingState";
+import { ReadyRecipes } from "../ReadyRecipes";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
+const _deli = (id: string) => (state: MachineState) =>
+  state.context.state.buildings["Deli"]?.find((b) => b.id === id);
+
 export const Deli: React.FC<Props> = ({
   buildingId,
-  crafting,
-  idle,
-  ready,
-  name,
-  craftingService,
   isBuilt,
   onRemove,
   season,
 }) => {
+  const { gameService } = useContext(Context);
+
+  const deli = useSelector(gameService, _deli(buildingId));
   const [showModal, setShowModal] = useState(false);
+  const { cooking, queuedRecipes, readyRecipes } = useCookingState(deli ?? {});
 
   const { play: bakeryAudio } = useSound("bakery");
 
   const handleCook = (item: CookableName) => {
-    craftingService?.send({
-      type: "CRAFT",
-      event: "recipe.cooked",
+    gameService?.send({
+      type: "recipe.cooked",
       item,
       buildingId,
     });
   };
 
   const handleCollect = () => {
-    if (!name) return;
-
-    craftingService?.send({
-      type: "COLLECT",
-      item: name,
-      event: "recipe.collected",
+    gameService?.send({
+      type: "recipes.collected",
+      building: "Deli",
+      buildingId,
     });
   };
 
@@ -57,28 +59,28 @@ export const Deli: React.FC<Props> = ({
       return;
     }
 
-    if (isBuilt) {
-      if (idle || crafting) {
-        bakeryAudio();
-        setShowModal(true);
-        return;
-      }
+    if (!isBuilt) return;
 
-      if (ready) {
-        handleCollect();
-        return;
-      }
+    if (!cooking && readyRecipes.length > 0) {
+      handleCollect();
+    } else {
+      bakeryAudio();
+      setShowModal(true);
     }
   };
 
   return (
     <>
-      <BuildingImageWrapper name="Deli" onClick={handleClick} ready={ready}>
+      <BuildingImageWrapper
+        name="Deli"
+        onClick={handleClick}
+        ready={readyRecipes?.length > 0}
+      >
         <img
           src={DELI_VARIANTS[season]}
           className={classNames("absolute bottom-0 pointer-events-none", {
-            "opacity-100": !crafting,
-            "opacity-80": crafting,
+            "opacity-100": !cooking,
+            "opacity-80": cooking,
           })}
           style={{
             width: `${PIXEL_SCALE * 64}px`,
@@ -94,7 +96,7 @@ export const Deli: React.FC<Props> = ({
             bottom: `${PIXEL_SCALE * 15}px`,
           }}
         />
-        {crafting ? (
+        {cooking ? (
           <img
             src={SUNNYSIDE.npcs.artisianDoing}
             className="absolute pointer-events-none"
@@ -118,12 +120,10 @@ export const Deli: React.FC<Props> = ({
           />
         )}
 
-        {(crafting || ready) && name && (
+        {cooking && (
           <img
-            src={ITEM_DETAILS[name].image}
-            className={classNames("absolute pointer-events-none z-30", {
-              "img-highlight-heavy": ready,
-            })}
+            src={ITEM_DETAILS[cooking.name].image}
+            className="absolute pointer-events-none z-30"
             onLoad={(e) => {
               const img = e.currentTarget;
               if (
@@ -145,15 +145,16 @@ export const Deli: React.FC<Props> = ({
             }}
           />
         )}
+        <ReadyRecipes readyRecipes={readyRecipes} leftOffset={90} />
       </BuildingImageWrapper>
 
       <DeliModal
+        queue={queuedRecipes ?? []}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}
-        crafting={!!crafting}
-        itemInProgress={name}
-        craftingService={craftingService}
+        cooking={cooking}
+        itemInProgress={cooking?.name}
         buildingId={buildingId}
       />
     </>

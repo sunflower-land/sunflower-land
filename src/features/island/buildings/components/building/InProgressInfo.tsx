@@ -16,7 +16,7 @@ import fastForward from "assets/icons/fast_forward.png";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
-  crafting: BuildingProduct;
+  cooking: BuildingProduct;
   onClose: () => void;
   isOilBoosted: boolean;
   onInstantCooked: (gems: number) => void;
@@ -24,7 +24,7 @@ interface Props {
 }
 
 export const InProgressInfo: React.FC<Props> = ({
-  crafting,
+  cooking,
   isOilBoosted,
   onInstantCooked,
   state,
@@ -33,15 +33,15 @@ export const InProgressInfo: React.FC<Props> = ({
   useUiRefresher();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const secondsTillReady = (crafting.readyAt - Date.now()) / 1000;
+  const secondsTillReady = (cooking.readyAt - Date.now()) / 1000;
 
-  if (!crafting.name) return null;
+  if (!cooking.name) return null;
 
-  const { cookingSeconds } = COOKABLES[crafting.name];
+  const { cookingSeconds } = COOKABLES[cooking.name];
   const { inventory } = state;
 
   const gems = getInstantGems({
-    readyAt: crafting.readyAt,
+    readyAt: cooking.readyAt,
     game: state,
   });
 
@@ -56,7 +56,7 @@ export const InProgressInfo: React.FC<Props> = ({
       </Label>
       <div className="flex items-center justify-between">
         <Box
-          image={ITEM_DETAILS[crafting.name].image}
+          image={ITEM_DETAILS[cooking.name].image}
           // alternateIcon={isOilBoosted ? ITEM_DETAILS["Oil"].image : null}
           secondaryImage={isOilBoosted ? ITEM_DETAILS["Oil"].image : null}
         />
