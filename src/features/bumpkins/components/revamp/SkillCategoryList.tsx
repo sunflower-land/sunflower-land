@@ -231,9 +231,9 @@ export const SkillCategoryList: React.FC<{
             </div>
           );
         })}
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center m-1">
           <p
-            className="text-xs cursor-pointer underline"
+            className="text-xs cursor-pointer underline py-1"
             onClick={() => setShowSkillsResetModal(true)}
           >
             {t("skillReset.resetSkills")}
