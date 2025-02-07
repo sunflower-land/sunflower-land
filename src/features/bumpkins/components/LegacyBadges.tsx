@@ -17,7 +17,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const LegacySkills: React.FC<Props> = ({ onBack, onClose }) => {
+export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
   const { t } = useAppTranslation();
   const BADGES = getObjectEntries(LEGACY_SKILL_TREE);
   const [selectedSkill, setSelectedSkill] = useState(BADGES[0]);
@@ -25,7 +25,7 @@ export const LegacySkills: React.FC<Props> = ({ onBack, onClose }) => {
   const { buff } = legacySkillDetails;
   return (
     <CloseButtonPanel
-      tabs={[{ icon: SUNNYSIDE.badges.seedSpecialist, name: "Legacy Skills" }]}
+      tabs={[{ icon: SUNNYSIDE.badges.seedSpecialist, name: "Legacy Badges" }]}
       container={OuterPanel}
       onClose={onClose}
     >
@@ -96,7 +96,7 @@ export const LegacySkills: React.FC<Props> = ({ onBack, onClose }) => {
                 }}
                 onClick={onBack}
               />
-              <Label type="default">{`Legacy Skills`}</Label>
+              <Label type="default">{`Legacy Badges`}</Label>
             </div>
             {/* Skills */}
             <div className="flex flex-row flex-wrap gap-0">

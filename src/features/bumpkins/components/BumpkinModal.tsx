@@ -40,10 +40,10 @@ import { MyReputation } from "features/island/hud/components/reputation/Reputati
 import { ITEM_DETAILS } from "features/game/types/images";
 import { LEGACY_SKILL_TREE } from "features/game/types/skills";
 import { setImageWidth } from "lib/images";
-import { LegacySkills } from "./LegacySkills";
+import { LegacyBadges } from "./LegacyBadges";
 import { getKeys } from "features/game/types/decorations";
 
-export type ViewState = "home" | "achievements" | "skills" | "legacySkills";
+export type ViewState = "home" | "achievements" | "skills" | "legacyBadges";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
@@ -178,8 +178,8 @@ export const BumpkinModal: React.FC<Props> = ({
     );
   }
 
-  if (view === "legacySkills") {
-    return <LegacySkills onBack={() => setView("home")} onClose={onClose} />;
+  if (view === "legacyBadges") {
+    return <LegacyBadges onBack={() => setView("home")} onClose={onClose} />;
   }
 
   const hasAvailableSP = getAvailableBumpkinOldSkillPoints(bumpkin) > 0;
@@ -361,11 +361,11 @@ export const BumpkinInfo: React.FC<{
         {badges.length > 0 && (
           <ButtonPanel
             className="mb-2 relative mt-1 !px-2 !py-1"
-            onClick={() => setView("legacySkills")}
+            onClick={() => setView("legacyBadges")}
           >
             <div className="flex items-center mb-1 justify-between">
               <div className="flex items-center">
-                <span className="text-sm">{`Legacy Skills`}</span>
+                <span className="text-sm">{`Legacy Badges`}</span>
               </div>
               <span className="underline text-sm">{t("viewAll")}</span>
             </div>
