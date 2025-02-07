@@ -6,7 +6,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { SKILL_TREE } from "features/game/types/skills";
+import { LEGACY_SKILL_TREE } from "features/game/types/skills";
 import { setImageWidth } from "lib/images";
 import {
   BUMPKIN_SKILL_TREE,
@@ -21,7 +21,7 @@ export const SkillBadges: React.FC<{
     (skill) => skill as BumpkinSkillName,
   );
 
-  const BADGES: InventoryItemName[] = Object.keys(SKILL_TREE).map(
+  const BADGES: InventoryItemName[] = Object.keys(LEGACY_SKILL_TREE).map(
     (badge) => badge as InventoryItemName,
   );
 
