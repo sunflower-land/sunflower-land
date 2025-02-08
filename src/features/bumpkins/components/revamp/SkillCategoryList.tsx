@@ -188,46 +188,47 @@ export const SkillCategoryList: React.FC<{
                   </Label>
                 )}
               </div>
+              <div className="grid grid-cols-2 gap-1">
+                {getRevampSkillTreeCategoriesByIsland(islandType).map(
+                  (category) => {
+                    const skills = getRevampSkills(category);
+                    const icon = SKILL_TREE_ICONS[skills[0].tree];
+                    const skillsAcquiredInCategoryCount = getKeys({
+                      ...bumpkin?.skills,
+                    }).filter((acquiredSkillName) =>
+                      skills.find((skill) => skill.name === acquiredSkillName),
+                    ).length;
 
-              {getRevampSkillTreeCategoriesByIsland(islandType).map(
-                (category) => {
-                  const skills = getRevampSkills(category);
-                  const icon = SKILL_TREE_ICONS[skills[0].tree];
-                  const skillsAcquiredInCategoryCount = getKeys({
-                    ...bumpkin?.skills,
-                  }).filter((acquiredSkillName) =>
-                    skills.find((skill) => skill.name === acquiredSkillName),
-                  ).length;
-
-                  return (
-                    <div key={category}>
-                      <ButtonPanel
-                        disabled={!hasUnlockedIslandCategory}
-                        onClick={
-                          hasUnlockedIslandCategory
-                            ? () => onClick(category)
-                            : undefined
-                        }
-                        className={classNames(
-                          `flex relative items-center mb-1 hover:bg-brown-200`,
-                          { "cursor-pointer": hasUnlockedIslandCategory },
-                        )}
-                      >
-                        <Label
-                          type="default"
-                          className="px-1 text-xxs absolute -top-3 -right-1"
+                    return (
+                      <div key={category}>
+                        <ButtonPanel
+                          disabled={!hasUnlockedIslandCategory}
+                          onClick={
+                            hasUnlockedIslandCategory
+                              ? () => onClick(category)
+                              : undefined
+                          }
+                          className={classNames(
+                            `flex relative items-center mb-1 hover:bg-brown-200`,
+                            { "cursor-pointer": hasUnlockedIslandCategory },
+                          )}
                         >
-                          {`${skillsAcquiredInCategoryCount}/${skills.filter((skill) => !skill.disabled).length}`}
-                        </Label>
-                        <div className="flex gap-2 justify-center items-center">
-                          <SquareIcon icon={icon} width={14} />
-                          <span className="text-sm">{category}</span>
-                        </div>
-                      </ButtonPanel>
-                    </div>
-                  );
-                },
-              )}
+                          <Label
+                            type="default"
+                            className="px-1 text-xxs absolute -top-3 -right-1"
+                          >
+                            {`${skillsAcquiredInCategoryCount}/${skills.filter((skill) => !skill.disabled).length}`}
+                          </Label>
+                          <div className="flex gap-2 justify-center items-center">
+                            <SquareIcon icon={icon} width={14} />
+                            <span className="text-sm">{category}</span>
+                          </div>
+                        </ButtonPanel>
+                      </div>
+                    );
+                  },
+                )}
+              </div>
             </div>
           );
         })}
