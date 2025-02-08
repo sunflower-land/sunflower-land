@@ -30,6 +30,7 @@ import {
   getTimeUntilNextFreeReset,
 } from "features/game/events/landExpansion/resetSkills";
 import { SkillReset } from "./SkillReset";
+import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
@@ -37,7 +38,7 @@ export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Trees: SUNNYSIDE.skills.trees,
   Cooking: SUNNYSIDE.skills.cooking,
   Animals: SUNNYSIDE.animals.chickenIdle,
-  "Fruit Patch": ITEM_DETAILS.Apple.image,
+  "Fruit Patch": fruits,
   Fishing: SUNNYSIDE.icons.fish,
   Greenhouse: ITEM_DETAILS.Greenhouse.image,
   Mining: SUNNYSIDE.tools.stone_pickaxe,

@@ -15,6 +15,13 @@ import rockOres from "assets/icons/1tap.png";
 import tomato_lemon from "assets/fruit/tomato_lemon.png";
 import orange_blueberry from "assets/fruit/orange_blueberry.png";
 import apple_banana from "assets/fruit/apple_banana.png";
+import field_expansion_module from "assets/icons/field_expansion_module.png";
+import field_extension_module from "assets/icons/field_extension_module.png";
+import glass_room from "assets/icons/glass_room.png";
+import seedy_business from "assets/icons/seedybusiness.png";
+import greasy_plants from "assets/icons/greasy.png";
+import greenhouse_gamble from "assets/icons/gamble.png";
+import greenhouse_guru from "assets/icons/guru.png";
 import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
@@ -1558,6 +1565,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
+    image: glass_room,
   },
   "Seedy Business": {
     name: "Seedy Business",
@@ -1575,6 +1583,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.ui.coins,
       },
     },
+    image: seedy_business,
   },
   "Rice and Shine": {
     name: "Rice and Shine",
@@ -1707,6 +1716,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     power: true,
+    image: greenhouse_guru,
   },
   "Greenhouse Gamble": {
     name: "Greenhouse Gamble",
@@ -1724,6 +1734,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: greenhouse_gamble,
   },
   "Slick Saver": {
     name: "Slick Saver",
@@ -1765,6 +1776,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
     },
+    image: greasy_plants,
   },
 
   // Mining - Tier 1
@@ -2652,6 +2664,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
+    image: field_expansion_module,
     disabled: false,
   },
   "Field Extension Module": {
@@ -2670,6 +2683,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: field_extension_module,
   },
   "Efficiency Extension Module": {
     name: "Efficiency Extension Module",
