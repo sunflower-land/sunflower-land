@@ -597,7 +597,7 @@ export const saveGame = async (
 };
 
 const handleSuccessfulSave = (context: Context, event: any) => {
-  // Actions that occured since the server request
+  // Actions that occurred since the server request
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
   );

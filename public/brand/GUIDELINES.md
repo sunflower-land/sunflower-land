@@ -8,7 +8,7 @@ _TODO_
 
 ## Pixel Art / Sizing
 
-All of our designs are based on pixel art and we stored files as optimzed webp and pngs. To enlarge these assets. most photo editing software have pixelised scaling built in but you can also use online tools such as [Pixel Scaler](https://lospec.com/pixel-art-scaler/) to achieve the size you desire.
+All of our designs are based on pixel art and we stored files as optimized webp and pngs. To enlarge these assets. most photo editing software have pixelised scaling built in but you can also use online tools such as [Pixel Scaler](https://lospec.com/pixel-art-scaler/) to achieve the size you desire.
 
 ## Logos
 

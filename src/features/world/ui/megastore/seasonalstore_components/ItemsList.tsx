@@ -181,7 +181,7 @@ export const ItemsList: React.FC<Props> = ({
 
   // For Current Tier Key - Unlocked(0) / Locked(1)
   const isKeyCounted = isKeyBoughtWithinSeason(state, tiers) ? 0 : 1;
-  // Reduction is by getting the lower tier of currrent tier
+  // Reduction is by getting the lower tier of current tier
   const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
 
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
