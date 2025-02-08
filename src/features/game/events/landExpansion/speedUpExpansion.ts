@@ -2,6 +2,7 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export type InstantExpand = {
   type: "expansion.spedUp";
@@ -23,6 +24,10 @@ export function speedUpExpansion({
 
     if (!expansion) {
       throw new Error("Expansion not in progress");
+    }
+
+    if (!hasRequiredIslandExpansion(game.island.type, "desert")) {
+      throw new Error("You can't speed up the expansion on this island");
     }
 
     if (expansion.readyAt <= createdAt) {
