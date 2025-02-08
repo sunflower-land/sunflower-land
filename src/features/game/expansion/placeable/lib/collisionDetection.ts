@@ -8,7 +8,6 @@ import {
   Position,
 } from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
-import { Coordinates } from "../../components/MapPlacement";
 import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
@@ -402,112 +401,6 @@ enum Direction {
   Bottom,
 }
 
-/**
- * Detects whether a bounding box collides with a land corner.
- *
- * As corners of a land change depending on how many expansions you have, this function looks for
- * neighbouring expansions in all directions to determine where the corners are and whether the bounding box
- * overlaps with any of them.
- * @param expansions The list of expansions that are not under construction.
- * @param boundingBox
- * @returns boolean
- */
-function detectLandCornerCollision(
-  expansions: number,
-  boundingBox: BoundingBox,
-) {
-  // Mid point coordinates for all land expansions
-  const originCoordinatesForExpansions: Coordinates[] = new Array(expansions)
-    .fill(null)
-    .map((_, i) => EXPANSION_ORIGINS[i]);
-
-  /**
-   *
-   * @param expansionOrigin Center coordinates for a land expansion
-   * @param offset coordinate multiplier to determine direction to check eg bottomLeft = { x: -1, y: -1 }
-   * @returns Boolean
-   */
-  const expansionExistsAtOffset = (
-    expansionOrigin: Coordinates,
-    offset: {
-      x: -1 | 0 | 1;
-      y: -1 | 0 | 1;
-    },
-  ) => {
-    return originCoordinatesForExpansions.some((neighbour) => {
-      return (
-        neighbour.x === expansionOrigin.x + LAND_SIZE * offset.x &&
-        neighbour.y === expansionOrigin.y + LAND_SIZE * offset.y
-      );
-    });
-  };
-
-  const hasNeighbouringExpansion = (
-    origin: Coordinates,
-    direction: Direction,
-  ) => {
-    switch (direction) {
-      case Direction.Left:
-        return expansionExistsAtOffset(origin, { x: -1, y: 0 });
-      case Direction.Right:
-        return expansionExistsAtOffset(origin, { x: 1, y: 0 });
-      case Direction.Top:
-        return expansionExistsAtOffset(origin, { x: 0, y: 1 });
-      case Direction.Bottom:
-        return expansionExistsAtOffset(origin, { x: 0, y: -1 });
-    }
-  };
-
-  return originCoordinatesForExpansions.some((originCoordinate) => {
-    const overlapsTopLeft = () =>
-      !hasNeighbouringExpansion(originCoordinate, Direction.Left) &&
-      !hasNeighbouringExpansion(originCoordinate, Direction.Top) &&
-      isOverlapping(boundingBox, {
-        x: originCoordinate.x - LAND_SIZE / 2,
-        y: originCoordinate.y + LAND_SIZE / 2,
-        width: 1,
-        height: 1,
-      });
-
-    const overlapsTopRight = () =>
-      !hasNeighbouringExpansion(originCoordinate, Direction.Right) &&
-      !hasNeighbouringExpansion(originCoordinate, Direction.Top) &&
-      isOverlapping(boundingBox, {
-        x: originCoordinate.x + LAND_SIZE / 2 - 1,
-        y: originCoordinate.y + LAND_SIZE / 2,
-        width: 1,
-        height: 1,
-      });
-
-    const overlapsBottomLeft = () =>
-      !hasNeighbouringExpansion(originCoordinate, Direction.Left) &&
-      !hasNeighbouringExpansion(originCoordinate, Direction.Bottom) &&
-      isOverlapping(boundingBox, {
-        x: originCoordinate.x - LAND_SIZE / 2,
-        y: originCoordinate.y - LAND_SIZE / 2 + 1,
-        width: 1,
-        height: 1,
-      });
-
-    const overlapsBottomRight = () =>
-      !hasNeighbouringExpansion(originCoordinate, Direction.Right) &&
-      !hasNeighbouringExpansion(originCoordinate, Direction.Bottom) &&
-      isOverlapping(boundingBox, {
-        x: originCoordinate.x + LAND_SIZE / 2 - 1,
-        y: originCoordinate.y - LAND_SIZE / 2 + 1,
-        width: 1,
-        height: 1,
-      });
-
-    return (
-      overlapsTopLeft() ||
-      overlapsTopRight() ||
-      overlapsBottomLeft() ||
-      overlapsBottomRight()
-    );
-  });
-}
-
 export function detectCollision({
   state,
   position,
@@ -530,7 +423,6 @@ export function detectCollision({
   return (
     detectWaterCollision(expansions, position) ||
     detectPlaceableCollision(state, position, item) ||
-    detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position) ||
     detectAirdropCollision(state, position)
