@@ -232,7 +232,7 @@ export default [
   },
   {
     inputs: [{ internalType: "uint256", name: "_minimum", type: "uint256" }],
-    name: "setTeamWithrawalMinimum",
+    name: "setTeamWithdrawalMinimum",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
