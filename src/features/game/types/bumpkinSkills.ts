@@ -22,6 +22,11 @@ import seedy_business from "assets/icons/seedybusiness.png";
 import greasy_plants from "assets/icons/greasy.png";
 import greenhouse_gamble from "assets/icons/gamble.png";
 import greenhouse_guru from "assets/icons/guru.png";
+import hyperBees from "assets/icons/Hyperbees.png";
+import flower_sale from "assets/icons/flowersale.png";
+import blossom_bonding from "assets/icons/Bonding.png";
+import abode from "assets/icons/Abode.png";
+import pollen from "assets/icons/Pollen.png";
 import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
@@ -547,6 +552,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     power: true,
+    image: SUNNYSIDE.skills.cultivator,
   },
   "Acre Farm": {
     name: "Acre Farm",
@@ -2321,6 +2327,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: hyperBees,
   },
   "Blooming Boost": {
     name: "Blooming Boost",
@@ -2357,6 +2364,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Sunpetal Seed"].image,
       },
     },
+    image: flower_sale,
   },
   // Bees & Flowers - Tier 2
   "Buzzworthy Treats": {
@@ -2376,6 +2384,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS["Honey Cake"].image,
   },
   "Blossom Bonding": {
     name: "Blossom Bonding",
@@ -2393,6 +2402,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: blossom_bonding,
   },
   "Pollen Power Up": {
     name: "Pollen Power Up",
@@ -2410,6 +2420,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: pollen,
   },
   "Petalled Perk": {
     name: "Petalled Perk",
@@ -2427,6 +2438,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS["Red Lotus"].image,
   },
   // Bees & Flowers - Tier 3
   "Bee Collective": {
@@ -2464,6 +2476,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS["Dawn Flower"].image,
   },
   "Flowery Abode": {
     name: "Flowery Abode",
@@ -2488,6 +2501,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: abode,
   },
   "Petal Blessed": {
     name: "Petal Blessed",
@@ -2506,6 +2520,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
+    image: ITEM_DETAILS["Prism Petal"].image,
   },
 
   // Machinery - Tier 1
