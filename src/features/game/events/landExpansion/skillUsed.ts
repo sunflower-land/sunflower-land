@@ -116,10 +116,16 @@ function useInstantGratification({
   createdAt?: number;
 }): Buildings {
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((building) => {
-    const crafting = buildings[building]?.[0]?.crafting;
+    const buildingRecipes = buildings[building]?.[0]?.crafting;
 
-    if (crafting) {
-      crafting.readyAt = createdAt;
+    if (!buildingRecipes) return;
+
+    const currentlyCooking = buildingRecipes
+      .sort((a, b) => b.readyAt - a.readyAt)
+      .find((recipe) => recipe.readyAt > createdAt);
+
+    if (currentlyCooking) {
+      currentlyCooking.readyAt = createdAt;
     }
   });
 
