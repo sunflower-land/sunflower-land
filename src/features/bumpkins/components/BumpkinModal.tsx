@@ -114,7 +114,7 @@ export const BumpkinModal: React.FC<Props> = ({
   const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
   const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState<ViewState>(
-    !hasFeatureAccess(gameState, "SKILLS_REVAMP") ? initialView : "home",
+    !hasFeatureAccess(gameState, "REMOVE_OLD_SKILLS") ? initialView : "home",
   );
 
   const [tab, setTab] = useState(0);
@@ -266,7 +266,7 @@ export const BumpkinModal: React.FC<Props> = ({
 
               <MyReputation />
 
-              {!hasFeatureAccess(gameState, "SKILLS_REVAMP") && (
+              {!hasFeatureAccess(gameState, "REMOVE_OLD_SKILLS") && (
                 <ButtonPanel
                   onClick={() => setView("skills")}
                   className="mb-2 relative mt-1 !px-2 !py-1"

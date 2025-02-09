@@ -229,7 +229,9 @@ export const BumpkinProfile: React.FC<{
   const handleShowHomeModal = () => {
     profile.play();
     setViewSkillsPage(
-      !hasFeatureAccess(state, "SKILLS_REVAMP") ? showSkillPointAlert : false,
+      !hasFeatureAccess(state, "REMOVE_OLD_SKILLS")
+        ? showSkillPointAlert
+        : false,
     );
     setShowModal(true);
     if (showSkillPointAlert) {

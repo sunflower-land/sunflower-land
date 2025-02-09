@@ -5,33 +5,27 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
-const seasonAdminFeatureFlag = (game: GameState) => {
-  return (
-    testnetFeatureFlag() ||
-    ["adam", "tango", "eliassfl", "dcol", "Aeon", "Craig", "Spencer", "Sacul"]
-      .map((name) => name.toLowerCase())
-      .includes(game.username?.toLowerCase() ?? "")
-  );
-};
+const seasonAdminFeatureFlag = (game: GameState) =>
+  testnetFeatureFlag() ||
+  ["adam", "tango", "eliassfl", "dcol", "Aeon", "Craig", "Spencer"]
+    .map((name) => name.toLowerCase())
+    .includes(game.username?.toLowerCase() ?? "");
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
-const timeBasedFeatureFlag = (date: Date) => () => {
-  return testnetFeatureFlag() || Date.now() > date.getTime();
-};
+const timeBasedFeatureFlag = (date: Date) => () =>
+  testnetFeatureFlag() || Date.now() > date.getTime();
 
-const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
-  return defaultFeatureFlag(game) || Date.now() > date.getTime();
-};
+const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) =>
+  defaultFeatureFlag(game) || Date.now() > date.getTime();
 
 const timePeriodFeatureFlag =
   ({ start, end }: { start: Date; end: Date }) =>
-  () => {
-    return Date.now() > start.getTime() && Date.now() < end.getTime();
-  };
+  () =>
+    Date.now() > start.getTime() && Date.now() < end.getTime();
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -61,7 +55,8 @@ const featureFlags = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  SKILLS_REVAMP: betaTimeBasedFeatureFlag(new Date("2025-02-10T00:00:00Z")),
+  SKILLS_REVAMP: timeBasedFeatureFlag(new Date("2025-02-10T00:20:00Z")),
+  REMOVE_OLD_SKILLS: timeBasedFeatureFlag(new Date("2025-02-10T00:00:00Z")),
   ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
     new Date("2024-12-18T00:00:00Z"),
   ),
