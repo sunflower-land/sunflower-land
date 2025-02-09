@@ -15,6 +15,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { getInstantGems, speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES } from "features/game/types/consumables";
+import { BuildingProduct } from "features/game/types/game";
 
 describe("instantCook", () => {
   it("requires item is cooking", () => {
@@ -41,35 +42,7 @@ describe("instantCook", () => {
       }),
     ).toThrow("Nothing is cooking");
   });
-  it("requires item is not ready", () => {
-    expect(() =>
-      speedUpRecipe({
-        action: {
-          buildingId: "123",
-          buildingName: "Fire Pit",
-          type: "recipe.spedUp",
-        },
-        state: {
-          ...INITIAL_FARM,
-          buildings: {
-            "Fire Pit": [
-              {
-                id: "123",
-                coordinates: { x: 0, y: 0 },
-                createdAt: 0,
-                readyAt: 0,
-                crafting: {
-                  name: "Mashed Potato",
-                  readyAt: 0,
-                  amount: 1,
-                },
-              },
-            ],
-          },
-        },
-      }),
-    ).toThrow("Already cooked");
-  });
+
   it("requires player has the gems", () => {
     expect(() =>
       speedUpRecipe({
@@ -88,11 +61,13 @@ describe("instantCook", () => {
                 coordinates: { x: 0, y: 0 },
                 createdAt: 0,
                 readyAt: 0,
-                crafting: {
-                  name: "Mashed Potato",
-                  readyAt: Date.now() + 30000,
-                  amount: 1,
-                },
+                crafting: [
+                  {
+                    name: "Mashed Potato",
+                    readyAt: Date.now() + 30000,
+                    amount: 1,
+                  },
+                ],
               },
             ],
           },
@@ -118,11 +93,13 @@ describe("instantCook", () => {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: {
-                name: "Mashed Potato",
-                readyAt: Date.now() + 30000,
-                amount: 1,
-              },
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: Date.now() + 30000,
+                  amount: 1,
+                },
+              ],
             },
           ],
         },
@@ -150,12 +127,14 @@ describe("instantCook", () => {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: {
-                name: "Radish Cake",
-                readyAt:
-                  now + BAKERY_COOKABLES["Radish Cake"].cookingSeconds * 1000,
-                amount: 1,
-              },
+              crafting: [
+                {
+                  name: "Radish Cake",
+                  readyAt:
+                    now + BAKERY_COOKABLES["Radish Cake"].cookingSeconds * 1000,
+                  amount: 1,
+                },
+              ],
             },
           ],
         },
@@ -164,6 +143,7 @@ describe("instantCook", () => {
 
     expect(state.inventory.Gem).toEqual(new Decimal(60));
   });
+
   it("charges half the gems for a half finished radish cake", () => {
     const now = Date.now();
     const state = speedUpRecipe({
@@ -182,13 +162,15 @@ describe("instantCook", () => {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: {
-                name: "Radish Cake",
-                readyAt:
-                  now +
-                  (BAKERY_COOKABLES["Radish Cake"].cookingSeconds / 2) * 1000,
-                amount: 1,
-              },
+              crafting: [
+                {
+                  name: "Radish Cake",
+                  readyAt:
+                    now +
+                    (BAKERY_COOKABLES["Radish Cake"].cookingSeconds / 2) * 1000,
+                  amount: 1,
+                },
+              ],
             },
           ],
         },
@@ -197,6 +179,7 @@ describe("instantCook", () => {
 
     expect(state.inventory.Gem).toEqual(new Decimal(75));
   });
+
   it("gives the player the food", () => {
     const now = Date.now();
     const state = speedUpRecipe({
@@ -215,11 +198,13 @@ describe("instantCook", () => {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: {
-                name: "Mashed Potato",
-                readyAt: now + 30000,
-                amount: 1,
-              },
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + 30000,
+                  amount: 1,
+                },
+              ],
             },
           ],
         },
@@ -228,7 +213,105 @@ describe("instantCook", () => {
     });
 
     expect(state.inventory["Mashed Potato"]).toEqual(new Decimal(1));
-    expect(state.buildings["Fire Pit"]?.[0].crafting).toBeUndefined();
+    expect(state.buildings["Fire Pit"]?.[0].crafting).toEqual([]);
+  });
+
+  it("only speeds up the recipe that is currently cooking", () => {
+    const now = Date.now();
+
+    const state = speedUpRecipe({
+      action: {
+        buildingId: "123",
+        buildingName: "Fire Pit",
+        type: "recipe.spedUp",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: { Gem: new Decimal(100) },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + 30000,
+                  amount: 1,
+                },
+                {
+                  name: "Radish Cake",
+                  readyAt: now + 30000 + 2000,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        createdAt: now,
+      },
+    });
+
+    const building = state.buildings["Fire Pit"]?.[0];
+
+    expect(building?.crafting).toMatchObject([
+      {
+        name: "Radish Cake",
+        readyAt: expect.any(Number),
+        amount: 1,
+      },
+    ]);
+  });
+
+  it("updates all the recipes readyAt times", () => {
+    const now = Date.now();
+    const thirtyMinutes = 30 * 60 * 1000;
+    const expectedMashedReadyAt = now + thirtyMinutes;
+    const expectedRadishReadyAt = now + thirtyMinutes * 2;
+
+    const state = speedUpRecipe({
+      action: {
+        buildingId: "123",
+        buildingName: "Fire Pit",
+        type: "recipe.spedUp",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: { Gem: new Decimal(100) },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: expectedMashedReadyAt,
+                  amount: 1,
+                },
+                {
+                  name: "Radish Cake",
+                  readyAt: expectedRadishReadyAt,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        createdAt: now,
+      },
+    });
+
+    const building = state.buildings["Fire Pit"]?.[0];
+    const radishCake = building?.crafting?.find(
+      (r) => r.name === "Radish Cake",
+    ) as BuildingProduct;
+
+    expect(radishCake?.readyAt).toEqual(expectedRadishReadyAt - thirtyMinutes);
   });
 });
 
