@@ -28,8 +28,9 @@ export function useCookingState(building: { crafting?: BuildingProduct[] }) {
     getQueue();
   }, [building, getRecipeBeingCooked, getQueue]);
 
-  const readyRecipes =
-    building?.crafting?.filter((recipe) => recipe.readyAt <= Date.now()) ?? [];
+  const readyRecipes = (building?.crafting ?? [])?.filter(
+    (recipe) => recipe.readyAt <= Date.now(),
+  );
 
   useTimeout(
     getRecipeBeingCooked,

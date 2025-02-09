@@ -266,7 +266,6 @@ describe("instantCook", () => {
   });
 
   it("updates all the recipes readyAt times", () => {
-    // Use a fixed timestamp
     const now = 1234567890000;
     const thirtyMinutes = 30 * 60 * 1000;
     const expectedMashedReadyAt = now + thirtyMinutes;
