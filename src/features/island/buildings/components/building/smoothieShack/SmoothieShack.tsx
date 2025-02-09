@@ -164,6 +164,7 @@ export const SmoothieShack: React.FC<Props> = ({
         cooking={cooking}
         itemInProgress={cooking?.name}
         buildingId={buildingId}
+        readyRecipes={readyRecipes}
       />
     </>
   );

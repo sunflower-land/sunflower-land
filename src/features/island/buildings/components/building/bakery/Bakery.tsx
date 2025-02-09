@@ -57,7 +57,7 @@ export const Bakery: React.FC<Props> = ({
   const handleCollect = () => {
     gameService?.send({
       type: "recipes.collected",
-      building: "Deli",
+      building: "Bakery",
       buildingId,
     });
   };
@@ -176,6 +176,7 @@ export const Bakery: React.FC<Props> = ({
         cooking={cooking}
         itemInProgress={cooking?.name}
         buildingId={buildingId}
+        readyRecipes={readyRecipes}
       />
     </>
   );

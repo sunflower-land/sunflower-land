@@ -21,6 +21,7 @@ interface Props {
   itemInProgress?: CookableName;
   buildingId: string;
   queue: BuildingProduct[];
+  readyRecipes: BuildingProduct[];
 }
 
 export const KitchenModal: React.FC<Props> = ({
@@ -31,6 +32,7 @@ export const KitchenModal: React.FC<Props> = ({
   itemInProgress,
   buildingId,
   queue,
+  readyRecipes,
 }) => {
   const kitchenRecipes = Object.values(KITCHEN_COOKABLES).sort(
     (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
@@ -67,6 +69,7 @@ export const KitchenModal: React.FC<Props> = ({
             buildingName="Kitchen"
             buildingId={buildingId}
             queue={queue}
+            readyRecipes={readyRecipes}
           />
         </CloseButtonPanel>
       </Modal>

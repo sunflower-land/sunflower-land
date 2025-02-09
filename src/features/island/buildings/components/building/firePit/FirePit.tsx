@@ -185,6 +185,7 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
         cooking={cooking}
         itemInProgress={cooking?.name}
         buildingId={buildingId}
+        readyRecipes={readyRecipes}
       />
     </>
   );

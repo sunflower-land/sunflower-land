@@ -35,6 +35,7 @@ interface Props {
   cooking?: BuildingProduct;
   itemInProgress?: CookableName;
   buildingId: string;
+  readyRecipes: BuildingProduct[];
   queue: BuildingProduct[];
 }
 export const FirePitModal: React.FC<Props> = ({
@@ -45,6 +46,7 @@ export const FirePitModal: React.FC<Props> = ({
   itemInProgress,
   buildingId,
   queue,
+  readyRecipes,
 }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
@@ -95,6 +97,7 @@ export const FirePitModal: React.FC<Props> = ({
             buildingName="Fire Pit"
             buildingId={buildingId}
             queue={queue}
+            readyRecipes={readyRecipes}
           />
         </CloseButtonPanel>
       )}

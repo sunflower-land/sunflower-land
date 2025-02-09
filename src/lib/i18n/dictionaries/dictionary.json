@@ -2135,7 +2135,7 @@
   "goblinTrade.conversion": "Conversion",
   "goblinTrade.select": "Select resource to sell",
   "goblinTrade.hoarding": "Oh no! You've reached the max SFL.",
-  "goblinTrade.vipRequired": "VIP Access Required",
+  "goblinTrade.vipRequired": "VIP Required",
   "goblinTrade.vipDelivery": "Hmmm, looks like you are a basic Bumpkin. I only trade with VIPs.",
   "goldTooth.intro.part1": "Arrr, me hearties! The treasure-diggin' area be teemin' with wealth and adventure, and it be openin' its gates soon for ye daring farmers!",
   "goldTooth.intro.part2": "Be ready to join me crew, for the hunt for riches begins shortly!",
@@ -5467,6 +5467,7 @@
   "portal.fruitDash.description": "Survive as long as you can collecting fruits while dodging obstacles in this endless challenge!",
   "portal.halloween.title": "Halloween",
   "portal.halloween.description": "Brave the haunted mansion, collect torches, and outrun ghosts in this spooky survival challenge!",
-  "recipes.upNext": "Up next",
-  "recipes.addToQueue": "Add to queue"
+  "recipes.upNext": "Up Next",
+  "recipes.addToQueue": "Add to queue",
+  "recipes.queue": "Queue"
 }

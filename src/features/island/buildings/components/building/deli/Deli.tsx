@@ -149,6 +149,7 @@ export const Deli: React.FC<Props> = ({ buildingId, isBuilt, season }) => {
         cooking={cooking}
         itemInProgress={cooking?.name}
         buildingId={buildingId}
+        readyRecipes={readyRecipes}
       />
     </>
   );
