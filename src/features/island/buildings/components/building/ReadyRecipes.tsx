@@ -1,7 +1,6 @@
 import React from "react";
 import { BuildingProduct } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 
@@ -19,7 +18,7 @@ export const ReadyRecipes: React.FC<Props> = ({ readyRecipes, leftOffset }) => {
         <img
           key={recipe.readyAt}
           src={ITEM_DETAILS[recipe.name].image}
-          className={classNames("absolute z-30 pointer-events-none")}
+          className="absolute z-30 pointer-events-none img-highlight"
           onLoad={(e) => {
             const img = e.currentTarget;
             if (

@@ -146,7 +146,7 @@ export const Label: React.FC<Props> = ({
           }}
         />
       )}
-      {children}
+      <span>{children}</span>
       {secondaryIcon && (
         <SquareIcon
           icon={secondaryIcon}

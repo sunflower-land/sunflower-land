@@ -30,17 +30,21 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingProduct, InventoryItemName } from "features/game/types/game";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { QueueSlot } from "./QueueSlot";
 
 interface Props {
   selected: Cookable;
   setSelected: Dispatch<SetStateAction<Cookable>>;
   recipes: Cookable[];
   queue: BuildingProduct[];
-  onClose: () => void;
-  onCook: (name: CookableName) => void;
   cooking?: BuildingProduct;
   buildingName: BuildingName;
   buildingId?: string;
+  readyRecipes: BuildingProduct[];
+  onClose: () => void;
+  onCook: (name: CookableName) => void;
 }
 
 /**
@@ -63,8 +67,10 @@ export const Recipes: React.FC<Props> = ({
   buildingId,
   buildingName,
   queue,
+  readyRecipes,
 }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const [
     {
@@ -191,35 +197,46 @@ export const Recipes: React.FC<Props> = ({
                 onInstantCooked={onInstantCook}
                 state={state}
               />
-              <div className="mb-2">
-                <div className="w-full">
-                  <Label
-                    className="mr-3 ml-2 mb-1"
-                    icon={SUNNYSIDE.icons.arrow_right}
-                    type="default"
-                  >
-                    {t("recipes.upNext")}
-                  </Label>
-                </div>
-                <div className="flex flex-wrap h-fit">
-                  {Array(3)
-                    .fill(null)
-                    .map((_, index) => {
-                      const item = queue[index];
-                      return item ? (
-                        <Box
-                          key={`${item.readyAt}-${item.name}`}
-                          image={ITEM_DETAILS[item.name].image}
-                          count={inventory[item.name]}
-                        />
-                      ) : (
-                        <Box key={index} />
-                      );
-                    })}
-                </div>
-              </div>
             </>
           )}
+          <div className="mb-2">
+            <div className="w-full flex justify-between">
+              <Label
+                className="mr-3 ml-2 mb-1"
+                icon={SUNNYSIDE.icons.arrow_right}
+                type="default"
+              >
+                {t("recipes.queue")}
+              </Label>
+              <VIPAccess
+                isVIP={hasVipAccess({ game: state })}
+                onUpgrade={() => {
+                  onClose();
+                  openModal("BUY_BANNER");
+                }}
+              />
+            </div>
+
+            <div className="flex flex-wrap h-fit">
+              {Array(cooking ? 3 : 4)
+                .fill(null)
+                .map((_, index) => {
+                  const isVIP = hasVipAccess({ game: state });
+                  const availableSlots = isVIP ? 4 : cooking ? 0 : 1;
+
+                  const displayItems = [...queue, ...readyRecipes];
+
+                  return (
+                    <QueueSlot
+                      key={`slot-${index}`}
+                      item={displayItems[index]}
+                      isLocked={!isVIP && index >= availableSlots}
+                      readyRecipes={readyRecipes}
+                    />
+                  );
+                })}
+            </div>
+          </div>
 
           <div className="w-full">
             <Label className="mr-3 ml-2 mb-1" icon={pumpkinSoup} type="default">
