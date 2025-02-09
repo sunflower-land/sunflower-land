@@ -345,19 +345,6 @@ export const BumpkinInfo: React.FC<{
           </ButtonPanel>
         )}
 
-        <ButtonPanel
-          onClick={() => setView("achievements")}
-          className="mb-2 relative mt-1 !px-2 !py-1"
-        >
-          <div className="flex items-center mb-1 justify-between">
-            <div className="flex items-center">
-              <span className="text-sm">{t("achievements")}</span>
-            </div>
-            <span className="underline text-sm">{t("viewAll")}</span>
-          </div>
-          <AchievementBadges achievements={bumpkin?.achievements} />
-        </ButtonPanel>
-
         {badges.length > 0 && (
           <ButtonPanel
             className="mb-2 relative mt-1 !px-2 !py-1"
@@ -372,6 +359,19 @@ export const BumpkinInfo: React.FC<{
             <div className="flex flex-wrap items-center mt-2">{badges}</div>
           </ButtonPanel>
         )}
+
+        <ButtonPanel
+          onClick={() => setView("achievements")}
+          className="mb-2 relative mt-1 !px-2 !py-1"
+        >
+          <div className="flex items-center mb-1 justify-between">
+            <div className="flex items-center">
+              <span className="text-sm">{t("achievements")}</span>
+            </div>
+            <span className="underline text-sm">{t("viewAll")}</span>
+          </div>
+          <AchievementBadges achievements={bumpkin?.achievements} />
+        </ButtonPanel>
       </div>
     </div>
   );
