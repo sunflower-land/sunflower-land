@@ -20,11 +20,7 @@ const _state = (state: MachineState) => {
   return state.context.state;
 };
 
-export const Mansion: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const Mansion: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, _state);
 
@@ -37,11 +33,6 @@ export const Mansion: React.FC<BuildingProps> = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/home");
 

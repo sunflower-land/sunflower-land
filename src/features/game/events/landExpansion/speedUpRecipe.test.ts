@@ -266,10 +266,14 @@ describe("instantCook", () => {
   });
 
   it("updates all the recipes readyAt times", () => {
-    const now = Date.now();
+    // Use a fixed timestamp
+    const now = 1234567890000;
     const thirtyMinutes = 30 * 60 * 1000;
     const expectedMashedReadyAt = now + thirtyMinutes;
     const expectedRadishReadyAt = now + thirtyMinutes * 2;
+
+    jest.useFakeTimers();
+    jest.setSystemTime(now);
 
     const state = speedUpRecipe({
       action: {
@@ -311,7 +315,9 @@ describe("instantCook", () => {
       (r) => r.name === "Radish Cake",
     ) as BuildingProduct;
 
-    expect(radishCake?.readyAt).toEqual(expectedRadishReadyAt - thirtyMinutes);
+    expect(radishCake?.readyAt).toBe(expectedRadishReadyAt - thirtyMinutes);
+
+    jest.useRealTimers();
   });
 });
 

@@ -12,7 +12,7 @@ import { DailyReward } from "features/game/expansion/components/dailyReward/Dail
 import { useNavigate } from "react-router";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 
-export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -21,11 +21,6 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [showHeart, setShowHeart] = useState(false);
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/home");
       // Add future on click actions here

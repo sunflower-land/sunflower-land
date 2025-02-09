@@ -5,31 +5,9 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { WATER_WELL_VARIANTS } from "features/island/lib/alternateArt";
 
-export const WaterWell: React.FC<BuildingProps> = ({
-  onRemove,
-  isBuilt,
-  buildingIndex,
-  season,
-}) => {
-  const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
-    if (isBuilt) {
-      // Add future on click actions here
-      return;
-    }
-  };
-
+export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   return (
-    <BuildingImageWrapper
-      name="Water Well"
-      index={buildingIndex}
-      onClick={handleClick}
-      nonInteractible={!onRemove}
-    >
+    <BuildingImageWrapper name="Water Well" nonInteractible>
       <img
         src={WATER_WELL_VARIANTS[season]}
         style={{
