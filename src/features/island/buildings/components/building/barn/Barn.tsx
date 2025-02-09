@@ -130,17 +130,7 @@ const _barnLevel = (state: MachineState) => {
   return state.context.state.barn.level;
 };
 
-<<<<<<< HEAD
-const _season = (state: MachineState) => state.context.state.season.season;
-
-export const Barn: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
-=======
-export const Barn: React.FC<BuildingProps> = ({ isBuilt }) => {
->>>>>>> e79e6e825 ([FEAT] Remove unused props)
+export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const buildingLevel = useSelector(
     gameService,
@@ -154,7 +144,6 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt }) => {
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);
   const animalsNeedLove = useSelector(gameService, _animalsNeedLove);
   const hasSickAnimals = useSelector(gameService, _hasSickAnimals);
-  const season = useSelector(gameService, _season);
   const handleClick = () => {
     if (isBuilt) {
       // Add future on click actions here
