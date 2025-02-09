@@ -8,6 +8,25 @@ import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
 import bee from "assets/icons/bee.webp";
+import baits from "assets/composters/baits.png";
+import fertilisers from "assets/composters/fertilisers.png";
+import pickaxes from "assets/icons/pickaxes.png";
+import rockOres from "assets/icons/1tap.png";
+import tomato_lemon from "assets/fruit/tomato_lemon.png";
+import orange_blueberry from "assets/fruit/orange_blueberry.png";
+import apple_banana from "assets/fruit/apple_banana.png";
+import field_expansion_module from "assets/icons/field_expansion_module.png";
+import field_extension_module from "assets/icons/field_extension_module.png";
+import glass_room from "assets/icons/glass_room.png";
+import seedy_business from "assets/icons/seedybusiness.png";
+import greasy_plants from "assets/icons/greasy.png";
+import greenhouse_gamble from "assets/icons/gamble.png";
+import greenhouse_guru from "assets/icons/guru.png";
+import hyperBees from "assets/icons/Hyperbees.png";
+import flower_sale from "assets/icons/flowersale.png";
+import blossom_bonding from "assets/icons/Bonding.png";
+import abode from "assets/icons/Abode.png";
+import pollen from "assets/icons/Pollen.png";
 import { NPCName } from "lib/npcs";
 
 export type BumpkinSkillName =
@@ -533,6 +552,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     power: true,
+    image: SUNNYSIDE.skills.cultivator,
   },
   "Acre Farm": {
     name: "Acre Farm",
@@ -790,7 +810,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: ITEM_DETAILS.Banana.image,
+    image: apple_banana,
   },
   "Short Pickings": {
     name: "Short Pickings",
@@ -815,7 +835,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
       },
     },
-    image: ITEM_DETAILS.Blueberry.image,
+    image: orange_blueberry,
   },
   "Zesty Vibes": {
     name: "Zesty Vibes",
@@ -831,6 +851,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.zestyVibes.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: tomato_lemon,
       },
       debuff: {
         shortDescription: translate("skill.zestyVibes.debuff"),
@@ -1550,6 +1571,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
+    image: glass_room,
   },
   "Seedy Business": {
     name: "Seedy Business",
@@ -1567,6 +1589,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: SUNNYSIDE.ui.coins,
       },
     },
+    image: seedy_business,
   },
   "Rice and Shine": {
     name: "Rice and Shine",
@@ -1699,6 +1722,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     power: true,
+    image: greenhouse_guru,
   },
   "Greenhouse Gamble": {
     name: "Greenhouse Gamble",
@@ -1716,6 +1740,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: greenhouse_gamble,
   },
   "Slick Saver": {
     name: "Slick Saver",
@@ -1757,6 +1782,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
     },
+    image: greasy_plants,
   },
 
   // Mining - Tier 1
@@ -1827,6 +1853,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.tapProspector"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: rockOres,
       },
     },
     disabled: false,
@@ -1999,7 +2026,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.morePicks"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
-        boostedItemIcon: ITEM_DETAILS.Pickaxe.image,
+        boostedItemIcon: pickaxes,
       },
     },
     disabled: false,
@@ -2300,6 +2327,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: hyperBees,
   },
   "Blooming Boost": {
     name: "Blooming Boost",
@@ -2336,6 +2364,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Sunpetal Seed"].image,
       },
     },
+    image: flower_sale,
   },
   // Bees & Flowers - Tier 2
   "Buzzworthy Treats": {
@@ -2355,6 +2384,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS["Honey Cake"].image,
   },
   "Blossom Bonding": {
     name: "Blossom Bonding",
@@ -2372,6 +2402,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: blossom_bonding,
   },
   "Pollen Power Up": {
     name: "Pollen Power Up",
@@ -2389,6 +2420,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: pollen,
   },
   "Petalled Perk": {
     name: "Petalled Perk",
@@ -2406,6 +2438,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS["Red Lotus"].image,
   },
   // Bees & Flowers - Tier 3
   "Bee Collective": {
@@ -2443,6 +2476,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: ITEM_DETAILS["Dawn Flower"].image,
   },
   "Flowery Abode": {
     name: "Flowery Abode",
@@ -2467,6 +2501,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: abode,
   },
   "Petal Blessed": {
     name: "Petal Blessed",
@@ -2485,6 +2520,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "transparent",
       },
     },
+    image: ITEM_DETAILS["Prism Petal"].image,
   },
 
   // Machinery - Tier 1
@@ -2643,6 +2679,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: powerup,
       },
     },
+    image: field_expansion_module,
     disabled: false,
   },
   "Field Extension Module": {
@@ -2661,6 +2698,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    image: field_extension_module,
   },
   "Efficiency Extension Module": {
     name: "Efficiency Extension Module",
@@ -2750,7 +2788,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.wormyTreat"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+        boostedItemIcon: baits,
       },
     },
     disabled: false,
@@ -2924,13 +2962,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.compostingOverhaul.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
+        boostedItemIcon: baits,
       },
       debuff: {
         shortDescription: translate("skill.compostingOverhaul.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
-        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+        boostedItemIcon: fertilisers,
       },
     },
     disabled: false,
@@ -2948,13 +2986,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.compostingRevamp.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+        boostedItemIcon: fertilisers,
       },
       debuff: {
         shortDescription: translate("skill.compostingRevamp.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
-        boostedItemIcon: ITEM_DETAILS.Earthworm.image,
+        boostedItemIcon: baits,
       },
     },
     disabled: false,

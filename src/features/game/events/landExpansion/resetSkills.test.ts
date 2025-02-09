@@ -23,12 +23,12 @@ describe("resetSkills", () => {
   });
 
   describe("free reset", () => {
-    it("requires Bumpkin to wait 6 months before free reset", () => {
-      const fiveMonthsAgo = new Date(dateNow);
-      fiveMonthsAgo.setMonth(fiveMonthsAgo.getMonth() - 5);
+    it("requires Bumpkin to wait 180 days before free reset", () => {
+      const oneSeventyDaysAgo = new Date(dateNow);
+      oneSeventyDaysAgo.setDate(oneSeventyDaysAgo.getDate() - 170);
 
       const timeUntilNextReset = getTimeUntilNextFreeReset(
-        fiveMonthsAgo.getTime(),
+        oneSeventyDaysAgo.getTime(),
         dateNow,
       );
       const daysRemaining = Math.ceil(
@@ -42,7 +42,7 @@ describe("resetSkills", () => {
             bumpkin: {
               ...TEST_BUMPKIN,
               skills: { "Green Thumb": 1 },
-              previousFreeSkillResetAt: fiveMonthsAgo.getTime(),
+              previousFreeSkillResetAt: oneSeventyDaysAgo.getTime(),
             },
           },
           action: { type: "skills.reset", paymentType: "free" },
