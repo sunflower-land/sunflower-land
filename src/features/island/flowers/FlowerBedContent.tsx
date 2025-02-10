@@ -66,6 +66,12 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     if (!seed) setSelecting("seed");
   };
 
+  const handleBack = () => {
+    setSelecting("seed");
+    setSeed(undefined);
+    setCrossBreed(undefined);
+  };
+
   const plant = () => {
     gameService.send({
       type: "flower.planted",
@@ -106,33 +112,53 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   return (
     <>
       <div className="p-2">
-        {seed && crossbreed && (
-          <div className="flex items-center justify-center">
-            <img
-              src={
-                resultFlower
-                  ? ITEM_DETAILS[resultFlower].image
-                  : SUNNYSIDE.icons.search
-              }
-              className="h-4 mr-1"
-            />
-            <span className="text-xs">
-              {resultFlower ?? "Unknown combination"}
-            </span>
+        <div
+          className="flex items-center"
+          style={{ height: `${PIXEL_SCALE * 11}px` }}
+        >
+          {selecting === "crossbreed" && (
+            <div className="">
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="cursor-pointer"
+                alt="back"
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                  marginRight: `${PIXEL_SCALE * 4}px`,
+                }}
+                onClick={handleBack}
+              />
+            </div>
+          )}
+          <div className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
+            {seed && crossbreed && (
+              <div className="flex items-center justify-center">
+                <img
+                  src={
+                    resultFlower
+                      ? ITEM_DETAILS[resultFlower].image
+                      : SUNNYSIDE.icons.search
+                  }
+                  className="h-4 mr-1"
+                />
+                <span className="text-xs">
+                  {resultFlower ?? "Unknown combination"}
+                </span>
+              </div>
+            )}
+            {!(seed && crossbreed) && (
+              <div className="flex items-center justify-center">
+                <img
+                  src={SUNNYSIDE.icons.expression_confused}
+                  className="h-4 mr-1"
+                />
+                <span className="text-xs">
+                  {t("flowerBedContent.select.combination")}
+                </span>
+              </div>
+            )}
           </div>
-        )}
-        {!(seed && crossbreed) && (
-          <div className="flex items-center justify-center">
-            <img
-              src={SUNNYSIDE.icons.expression_confused}
-              className="h-4 mr-1"
-            />
-            <span className="text-xs">
-              {t("flowerBedContent.select.combination")}
-            </span>
-          </div>
-        )}
-
+        </div>
         <div
           className="relative mx-auto w-full mt-2"
           style={{
