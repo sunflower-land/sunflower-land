@@ -50,7 +50,7 @@ export const MilestonePanel: React.FC<{
   ];
 
   return (
-    <InnerPanel>
+    <InnerPanel className="mx-2">
       <div
         className="flex items-center mt-1"
         style={{
