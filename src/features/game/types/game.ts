@@ -10,7 +10,7 @@ import {
 
 import { CollectibleName, CraftableName, Food } from "./craftables";
 import { CommodityName, MushroomName, ResourceName } from "./resources";
-import { SkillName } from "./skills";
+import { LegacyBadgeName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
@@ -441,7 +441,7 @@ export type InventoryItemName =
   | CraftableName
   | CommodityName
   | ResourceName
-  | SkillName
+  | LegacyBadgeName
   | EasterEgg
   | EasterEventItemName
   | Food
