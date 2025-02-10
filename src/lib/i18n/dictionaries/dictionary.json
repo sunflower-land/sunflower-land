@@ -5481,5 +5481,8 @@
   "portal.fruitDash.title": "Fruit Dash",
   "portal.fruitDash.description": "Survive as long as you can collecting fruits while dodging obstacles in this endless challenge!",
   "portal.halloween.title": "Halloween",
-  "portal.halloween.description": "Brave the haunted mansion, collect torches, and outrun ghosts in this spooky survival challenge!"
+  "portal.halloween.description": "Brave the haunted mansion, collect torches, and outrun ghosts in this spooky survival challenge!",
+  "whatsOn.ticketsEnd": "No more timeshards",
+  "whatsOn.april28th": "April 28th",
+  "whatsOn.ticketPaused": "The Bumpkins are on holidays. No more timeshards from deliveries, chores & bounties."
 }

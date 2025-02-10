@@ -122,6 +122,23 @@ export const WhatsOn = () => {
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
+            <Label type="default">{t("whatsOn.ticketsEnd")}</Label>
+            <Label type="formula">{t("whatsOn.april28th")}</Label>
+          </div>
+          <NoticeboardItems
+            items={[
+              {
+                text: t("whatsOn.ticketPaused"),
+                icon: ITEM_DETAILS.Timeshard.image,
+              },
+            ]}
+          />
+        </div>
+      </InnerPanel>
+
+      <InnerPanel className="mb-1">
+        <div className="p-1">
+          <div className="flex items-center justify-between mb-2">
             <Label type="default">{t("whatsOn.mysterySeason")}</Label>
             <Label type="formula">{t("whatsOn.may1st")}</Label>
           </div>
