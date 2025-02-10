@@ -15,7 +15,7 @@ import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
-import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
+import { BumpkinRevampSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
@@ -369,9 +369,7 @@ export type FactionBanner =
 
 export type GoldenCropEventItem = "Golden Crop";
 
-export type Skills = Partial<
-  Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
->;
+export type Skills = Partial<Record<BumpkinRevampSkillName, number>>;
 
 export type Bumpkin = {
   id: number;

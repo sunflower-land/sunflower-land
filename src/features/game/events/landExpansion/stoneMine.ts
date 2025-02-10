@@ -37,10 +37,6 @@ export function getMinedAt({
 }: GetMinedAtArgs): number {
   let totalSeconds = STONE_RECOVERY_TIME;
 
-  if (skills["Coal Face"]) {
-    totalSeconds = totalSeconds * 0.8;
-  }
-
   if (skills["Speed Miner"]) {
     totalSeconds = totalSeconds * 0.8;
   }
@@ -67,7 +63,7 @@ export function mineStone({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { stones, bumpkin, collectibles } = stateCopy;
+    const { stones, bumpkin } = stateCopy;
     const rock = stones?.[action.index];
 
     if (!rock) {

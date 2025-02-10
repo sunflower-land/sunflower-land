@@ -349,46 +349,6 @@ describe("deliver", () => {
     expect(state.coins).toEqual(384);
   });
 
-  it("rewards michellin star boost", () => {
-    const state = deliverOrder({
-      state: {
-        ...TEST_FARM,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          skills: {
-            "Michelin Stars": 1,
-          },
-        },
-        inventory: {
-          "Sunflower Cake": new Decimal(1),
-        },
-        delivery: {
-          ...TEST_FARM.delivery,
-          fulfilledCount: 0,
-          orders: [
-            {
-              id: "123",
-              createdAt: 0,
-              readyAt: MID_SEASON,
-              from: "betty",
-              items: {
-                "Sunflower Cake": 1,
-              },
-              reward: { coins: 320 },
-            },
-          ],
-        },
-      },
-      action: {
-        id: "123",
-        type: "order.delivered",
-      },
-      createdAt: MID_SEASON,
-    });
-
-    expect(state.coins).toEqual(336);
-  });
-
   it("rewards 25% SFL when Crown is Active", () => {
     const state = deliverOrder({
       state: {

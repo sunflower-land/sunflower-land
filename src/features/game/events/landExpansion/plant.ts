@@ -45,7 +45,6 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 import {
   CalendarEventName,
   getActiveCalendarEvent,
@@ -202,11 +201,6 @@ export function getCropTime({
     seconds = seconds * 0.85;
   }
 
-  // Cultivator skill: 5% reduction
-  if (skills["Cultivator"]) {
-    seconds = seconds * 0.95;
-  }
-
   // Lunar calender: 10% reduction
   if (isCollectibleBuilt({ name: "Lunar Calendar", game })) {
     seconds = seconds * 0.9;
@@ -235,11 +229,7 @@ export function getCropTime({
     seconds = seconds * 0.5;
   }
 
-  if (
-    skills["Green Thumb"] &&
-    !isGreenhouseCrop(crop) &&
-    hasFeatureAccess(game, "SKILLS_REVAMP")
-  ) {
+  if (skills["Green Thumb"] && !isGreenhouseCrop(crop)) {
     seconds = seconds * 0.95;
   }
 
@@ -491,16 +481,6 @@ export function getCropYieldAmount({
 
   if (inventory.Coder?.gte(1)) {
     amount *= 1.2;
-  }
-
-  //Bumpkin Skill boost Green Thumb Skill
-  if (skills["Green Thumb"] && !hasFeatureAccess(game, "SKILLS_REVAMP")) {
-    amount *= 1.05;
-  }
-
-  //Bumpkin Skill boost Master Farmer Skill
-  if (skills["Master Farmer"]) {
-    amount *= 1.1;
   }
 
   //Bumpkin Wearable boost Sunflower Amulet
