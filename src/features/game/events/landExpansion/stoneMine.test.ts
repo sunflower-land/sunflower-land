@@ -194,7 +194,6 @@ describe("getMinedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -218,7 +217,6 @@ describe("getMinedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -250,7 +248,6 @@ describe("getMinedAt", () => {
           ],
         },
       },
-      skills: {},
       createdAt: now,
     });
 
@@ -261,9 +258,6 @@ describe("getMinedAt", () => {
     const now = Date.now();
 
     const time = getMinedAt({
-      skills: {
-        "Speed Miner": 1,
-      },
       createdAt: now,
       game: {
         ...GAME_STATE,
@@ -281,7 +275,6 @@ describe("getMinedAt", () => {
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
     const now = Date.now();
     const time = getMinedAt({
-      skills: {},
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -306,7 +299,6 @@ describe("getMinedAt", () => {
     const fourHoursAgo = now - 4 * 60 * 60 * 1000;
 
     const time = getMinedAt({
-      skills: {},
       createdAt: now,
       game: {
         ...TEST_FARM,

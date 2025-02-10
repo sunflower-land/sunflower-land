@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState, Rock, Skills } from "../../types/game";
+import { GameState, Rock } from "../../types/game";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
 
@@ -17,7 +17,6 @@ type Options = {
 };
 
 type GetMinedAtArgs = {
-  skills: Skills;
   createdAt: number;
   game: GameState;
 };
@@ -30,11 +29,8 @@ export function canMine(rock: Rock, now: number = Date.now()) {
 /**
  * Set a mined in the past to make it replenish faster
  */
-export function getMinedAt({
-  skills,
-  createdAt,
-  game,
-}: GetMinedAtArgs): number {
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
+  const { skills } = game.bumpkin;
   let totalSeconds = STONE_RECOVERY_TIME;
 
   if (skills["Speed Miner"]) {
@@ -88,11 +84,7 @@ export function mineStone({
     const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
 
     rock.stone = {
-      minedAt: getMinedAt({
-        skills: bumpkin.skills,
-        createdAt: Date.now(),
-        game: stateCopy,
-      }),
+      minedAt: getMinedAt({ createdAt, game: stateCopy }),
       amount: 2,
     };
 
