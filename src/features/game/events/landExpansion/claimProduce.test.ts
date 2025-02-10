@@ -1254,8 +1254,8 @@ describe("claimProduce", () => {
       },
     });
 
-    // 0.9 (Wrangler) * 0.9 (Stable Hand) * 0.8 (Dream Scarf) = 0.648
-    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.648;
+    // 0.9 (Wrangler) * 0.8 (Dream Scarf) = 0.72
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.72;
 
     expect(state.barn.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
