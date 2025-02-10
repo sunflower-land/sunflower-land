@@ -3473,6 +3473,8 @@
   "time.hours.in": "in {{time}} {{hourORhours}}",
   "time.days.ago": "{{time}} {{dayORdays}} ago",
   "time.days.in": "in {{time}} {{dayORdays}}",
+  "time.ago": "{{time}} ago",
+  "time.in": "in {{time}}",
   "description.axe": "Used to chop wood",
   "description.pickaxe": "Used to mine stone",
   "description.stone.pickaxe": "Used to mine iron",
