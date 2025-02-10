@@ -51,7 +51,6 @@ import { AdminSettings } from "./general-settings/AdminSettings";
 import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
 import { Notifications } from "./general-settings/Notifications";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { hasFeatureAccess } from "lib/flags";
 import {
   getSubscriptionsForFarmId,
   Subscriptions,
@@ -191,38 +190,35 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
-      {hasFeatureAccess(
-        gameService.state.context.state,
-        "SEASONAL_EVENTS_NOTIFICATIONS",
-      ) && (
-        <Button
-          onClick={() => onSubMenuClick("notifications")}
-          className="mb-1 relative"
-          // Not available in players browser
-          disabled={
-            !(
-              "serviceWorker" in navigator &&
-              "PushManager" in window &&
-              notificationsSupported
-            )
-          }
-        >
-          <div className="flex items-center space-x-1">
-            <span>{t("gameOptions.notifications")}</span>
-            {!(
-              "serviceWorker" in navigator &&
-              "PushManager" in window &&
-              notificationsSupported
-            ) && (
-              <Label type="info" className="mt-0.5">
-                <span className=" text-xxs sm:text-xs">
-                  {t("gameOptions.notifications.notSupported")}
-                </span>
-              </Label>
-            )}
-          </div>
-        </Button>
-      )}
+
+      <Button
+        onClick={() => onSubMenuClick("notifications")}
+        className="mb-1 relative"
+        // Not available in players browser
+        disabled={
+          !(
+            "serviceWorker" in navigator &&
+            "PushManager" in window &&
+            notificationsSupported
+          )
+        }
+      >
+        <div className="flex items-center space-x-1">
+          <span>{t("gameOptions.notifications")}</span>
+          {!(
+            "serviceWorker" in navigator &&
+            "PushManager" in window &&
+            notificationsSupported
+          ) && (
+            <Label type="info" className="mt-0.5">
+              <span className=" text-xxs sm:text-xs">
+                {t("gameOptions.notifications.notSupported")}
+              </span>
+            </Label>
+          )}
+        </div>
+      </Button>
+
       <Button
         disabled={!canRefresh}
         className="p-1 mb-1 relative"
