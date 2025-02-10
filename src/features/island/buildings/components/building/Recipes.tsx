@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
@@ -29,10 +29,11 @@ import powerup from "assets/icons/level_up.png";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingProduct, InventoryItemName } from "features/game/types/game";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { VIPAccess } from "features/game/components/VipAccess";
+import { Queue } from "./Queue";
+import vipIcon from "assets/icons/vip.webp";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { QueueSlot } from "./QueueSlot";
+import { Panel } from "components/ui/Panel";
+import { ModalOverlay } from "components/ui/ModalOverlay";
 
 interface Props {
   selected: Cookable;
@@ -78,6 +79,8 @@ export const Recipes: React.FC<Props> = ({
     },
   ] = useActor(gameService);
   const { inventory, buildings, bumpkin, buds } = state;
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showQueueInformation, setShowQueueInformation] = useState(false);
 
   const ingredients = getCookingRequirements({
     state,
@@ -109,7 +112,7 @@ export const Recipes: React.FC<Props> = ({
     });
   };
 
-  const onInstantCook = (gems: number) => {
+  const handleInstantCook = (gems: number) => {
     gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,
@@ -123,6 +126,15 @@ export const Recipes: React.FC<Props> = ({
     });
   };
 
+  const handleAddToQueue = () => {
+    if (!isVIP) {
+      setShowQueueInformation(true);
+      return;
+    }
+
+    setShowConfirm(true);
+  };
+
   const building = buildings?.[buildingName]?.[0];
   const buildingCrafting = building?.crafting ?? [];
   const isOilBoosted = buildingCrafting.find(
@@ -133,135 +145,170 @@ export const Recipes: React.FC<Props> = ({
   const hasReadyRecipes = buildingCrafting.some(
     (recipe) => recipe.readyAt <= Date.now(),
   );
-  const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
+  const isVIP = hasVipAccess({ game: state });
+  const availableSlots = isVIP ? MAX_COOKING_SLOTS : 1;
   const hasAvailableSlots = buildingCrafting.length < availableSlots;
 
   return (
-    <SplitScreenView
-      panel={
-        <>
-          <CraftingRequirements
-            gameState={state}
-            details={{
-              item: selected.name,
-            }}
-            hideDescription
-            requirements={{
-              resources: ingredients,
-              xp: new Decimal(
-                getFoodExpBoost(selected, bumpkin, state, buds ?? {}),
-              ),
-              timeSeconds: cookingTime,
-            }}
-            actionView={
-              <>
-                {hasDoubleNom && (
-                  <Label type="success" icon={powerup}>
-                    {`Double Nom Boost: 2x Food`}
-                  </Label>
-                )}
-                {cooking && (
-                  <p className="sm:text-xs text-center my-1">
-                    {t("sceneDialogues.chefIsBusy")}
-                  </p>
-                )}
-                <Button
-                  disabled={
-                    lessIngredients() || selected.disabled || !hasAvailableSlots
-                  }
-                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-                  onClick={() => cook()}
-                >
-                  {cooking ? t("recipes.addToQueue") : t("cook")}
-                </Button>
-                <Button
-                  disabled={!hasReadyRecipes}
-                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-                  onClick={() => collect()}
-                >
-                  {t("collect")}
-                </Button>
-              </>
-            }
-          />
-        </>
-      }
-      content={
-        <>
-          {cooking && (
-            <>
+    <>
+      <SplitScreenView
+        panel={
+          <>
+            <CraftingRequirements
+              gameState={state}
+              details={{
+                item: selected.name,
+              }}
+              hideDescription
+              requirements={{
+                resources: ingredients,
+                xp: new Decimal(
+                  getFoodExpBoost(selected, bumpkin, state, buds ?? {}),
+                ),
+                timeSeconds: cookingTime,
+              }}
+              actionView={
+                <>
+                  {hasDoubleNom && (
+                    <Label type="success" icon={powerup}>
+                      {`Double Nom Boost: 2x Food`}
+                    </Label>
+                  )}
+                  {cooking && (
+                    <p className="sm:text-xs text-center my-1">
+                      {t("sceneDialogues.chefIsBusy")}
+                    </p>
+                  )}
+                  <Button
+                    disabled={
+                      lessIngredients() ||
+                      selected.disabled ||
+                      (!isVIP && readyRecipes.length > 0)
+                    }
+                    className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
+                    onClick={!cooking ? cook : handleAddToQueue}
+                  >
+                    {cooking && (
+                      <img
+                        src={vipIcon}
+                        alt="VIP"
+                        className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+                      />
+                    )}
+                    <span>{cooking ? t("recipes.addToQueue") : t("cook")}</span>
+                  </Button>
+                  <Button
+                    disabled={!hasReadyRecipes}
+                    className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                    onClick={() => collect()}
+                  >
+                    {t("collect")}
+                  </Button>
+                </>
+              }
+            />
+          </>
+        }
+        content={
+          <>
+            {cooking && (
               <InProgressInfo
                 cooking={cooking}
                 onClose={onClose}
                 isOilBoosted={!!isOilBoosted}
-                onInstantCooked={onInstantCook}
+                onInstantCooked={handleInstantCook}
                 state={state}
               />
-            </>
-          )}
-          <div className="mb-2">
-            <div className="w-full flex justify-between">
+            )}
+
+            {cooking && isVIP && (
+              <Queue
+                cooking={cooking}
+                queue={queue}
+                readyRecipes={readyRecipes}
+                onClose={onClose}
+              />
+            )}
+
+            <div className="w-full">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={SUNNYSIDE.icons.arrow_right}
+                icon={pumpkinSoup}
                 type="default"
               >
-                {t("recipes.queue")}
+                {t("recipes")}
               </Label>
-              <VIPAccess
-                isVIP={hasVipAccess({ game: state })}
-                onUpgrade={() => {
-                  onClose();
-                  openModal("BUY_BANNER");
-                }}
-              />
             </div>
-
             <div className="flex flex-wrap h-fit">
-              {Array(cooking ? 3 : 4)
-                .fill(null)
-                .map((_, index) => {
-                  const isVIP = hasVipAccess({ game: state });
-                  const availableSlots = isVIP ? 4 : cooking ? 0 : 1;
-
-                  const displayItems = [...queue, ...readyRecipes];
-
-                  return (
-                    <QueueSlot
-                      key={`slot-${index}`}
-                      item={displayItems[index]}
-                      isLocked={!isVIP && index >= availableSlots}
-                      readyRecipes={readyRecipes}
-                    />
-                  );
-                })}
+              {recipes.map((item) => (
+                <Box
+                  isSelected={selected.name === item.name}
+                  key={item.name}
+                  onClick={() => setSelected(item)}
+                  image={ITEM_DETAILS[item.name].image}
+                  count={inventory[item.name]}
+                />
+              ))}
             </div>
-          </div>
-
-          <div className="w-full">
-            <Label className="mr-3 ml-2 mb-1" icon={pumpkinSoup} type="default">
-              {t("recipes")}
-            </Label>
-          </div>
-          <div className="flex flex-wrap h-fit">
-            {recipes.map((item) => (
-              <Box
-                isSelected={selected.name === item.name}
-                key={item.name}
-                onClick={() => setSelected(item)}
-                image={ITEM_DETAILS[item.name].image}
-                count={inventory[item.name]}
+            {buildingId && (
+              <BuildingOilTank
+                buildingName={buildingName}
+                buildingId={buildingId}
               />
-            ))}
+            )}
+          </>
+        }
+      />
+      <ModalOverlay
+        show={showQueueInformation}
+        onBackdropClick={() => setShowQueueInformation(false)}
+      >
+        <Panel>
+          <div className="p-2 text-sm">
+            <p className="mb-1.5">{t("recipes.vipCookingQueue")}</p>
           </div>
-          {buildingId && (
-            <BuildingOilTank
-              buildingName={buildingName}
-              buildingId={buildingId}
-            />
-          )}
-        </>
-      }
-    />
+          <div className="flex space-x-1 justify-end">
+            <Button onClick={() => setShowQueueInformation(false)}>
+              {t("close")}
+            </Button>
+            <Button
+              className="relative"
+              onClick={() => {
+                onClose();
+                openModal("BUY_BANNER");
+              }}
+            >
+              <img
+                src={vipIcon}
+                alt="VIP"
+                className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+              />
+              <span>{t("upgrade")}</span>
+            </Button>
+          </div>
+        </Panel>
+      </ModalOverlay>
+      <ModalOverlay
+        show={showConfirm}
+        onBackdropClick={() => setShowConfirm(false)}
+      >
+        <Panel>
+          <p className="p-1.5 mb-1.5">
+            {t("recipes.confirmAddToQueue", { recipe: selected.name })}
+          </p>
+          <div className="flex space-x-1 justify-end">
+            <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
+            <Button
+              onClick={() => {
+                setShowConfirm(false);
+                cook();
+              }}
+            >
+              {t("confirm")}
+            </Button>
+          </div>
+        </Panel>
+      </ModalOverlay>
+    </>
   );
 };
