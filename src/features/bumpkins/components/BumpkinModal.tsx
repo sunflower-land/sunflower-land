@@ -85,7 +85,7 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
 };
 
 interface Props {
-  initialView: ViewState;
+  initialTab: number;
   onClose: () => void;
   bumpkin: Bumpkin;
   inventory: Inventory;
@@ -95,7 +95,7 @@ interface Props {
 }
 
 export const BumpkinModal: React.FC<Props> = ({
-  initialView,
+  initialTab,
   onClose,
   bumpkin,
   inventory,
@@ -113,11 +113,8 @@ export const BumpkinModal: React.FC<Props> = ({
   const rawToken = useSelector(authService, _rawToken);
   const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [view, setView] = useState<ViewState>(
-    !hasFeatureAccess(gameState, "SKILLS_REVAMP") ? initialView : "home",
-  );
-
-  const [tab, setTab] = useState(0);
+  const [view, setView] = useState<ViewState>("home");
+  const [tab, setTab] = useState(initialTab);
   const { t } = useAppTranslation();
   const getVisitBumpkinUrl = () => {
     if (readonly) {
