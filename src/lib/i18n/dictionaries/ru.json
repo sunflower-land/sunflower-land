@@ -5320,5 +5320,7 @@
   "skillReset.reduceOilInTank": "Уменьшите количество масла в баке перед перезагрузкой",
   "skillCategory.islands": "{{island}} Навыки",
   "skillCategory.reachIsland": "Доберитесь до острова {{island}}, чтобы разблокировать",
-  "powerSkills.reason.animalsNotAsleep": "Все ваши животные не спят"
+  "powerSkills.reason.animalsNotAsleep": "Все ваши животные не спят",
+  "time.ago": "{{time}} назад",
+  "time.in": "в {{time}}"
 }

@@ -5320,5 +5320,7 @@
   "skillReset.reduceOilInTank": "Ridurre l'olio nel serbatoio prima del ripristino",
   "skillCategory.islands": "{{island}} Competenze",
   "skillCategory.reachIsland": "Raggiungi l'isola {{island}} per sbloccarla",
-  "powerSkills.reason.animalsNotAsleep": "Tutti i tuoi animali non dormono"
+  "powerSkills.reason.animalsNotAsleep": "Tutti i tuoi animali non dormono",
+  "time.ago": "{{time}} fa",
+  "time.in": "nel {{time}}"
 }

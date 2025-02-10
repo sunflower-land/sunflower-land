@@ -5320,5 +5320,7 @@
   "skillReset.reduceOilInTank": "Kurangkan minyak dalam tangki sebelum menetapkan semula",
   "skillCategory.islands": "{{island}} Kemahiran",
   "skillCategory.reachIsland": "Jangkau pulau {{island}} untuk membuka kunci",
-  "powerSkills.reason.animalsNotAsleep": "Semua haiwan anda tidak tidur"
+  "powerSkills.reason.animalsNotAsleep": "Semua haiwan anda tidak tidur",
+  "time.ago": "{{time}} lalu",
+  "time.in": "dalam {{time}}"
 }

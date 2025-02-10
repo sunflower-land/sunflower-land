@@ -5320,5 +5320,7 @@
   "skillReset.reduceOilInTank": "재설정하기 전에 탱크의 오일을 줄이십시오",
   "skillCategory.islands": "{{island}} 스킬",
   "skillCategory.reachIsland": "잠금 해제하려면 {{island}} 섬에 도달하세요",
-  "powerSkills.reason.animalsNotAsleep": "당신의 모든 동물들은 잠들지 않습니다"
+  "powerSkills.reason.animalsNotAsleep": "당신의 모든 동물들은 잠들지 않습니다",
+  "time.ago": "{{time}} 전",
+  "time.in": "{{time}} 에서"
 }

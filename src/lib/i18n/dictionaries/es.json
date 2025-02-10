@@ -5320,5 +5320,7 @@
   "skillReset.reduceOilInTank": "Reduzca el aceite en el tanque antes de restablecerlo",
   "skillCategory.islands": "{{island}} Habilidades",
   "skillCategory.reachIsland": "Alcanza la isla {{island}} para desbloquearla",
-  "powerSkills.reason.animalsNotAsleep": "Todos tus animales no duermen"
+  "powerSkills.reason.animalsNotAsleep": "Todos tus animales no duermen",
+  "time.ago": "{{time}} hace",
+  "time.in": "en {{time}}"
 }

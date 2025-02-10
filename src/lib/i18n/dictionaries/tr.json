@@ -5320,5 +5320,7 @@
   "skillReset.reduceOilInTank": "Sıfırlamadan önce tanktaki yağı azaltın",
   "skillCategory.islands": "{{island}} Beceriler",
   "skillCategory.reachIsland": "Kilidini açmak için {{island}} adasına ulaşın",
-  "powerSkills.reason.animalsNotAsleep": "Bütün hayvanların uykuda değil"
+  "powerSkills.reason.animalsNotAsleep": "Bütün hayvanların uykuda değil",
+  "time.ago": "{{time}} önce",
+  "time.in": "içinde {{time}}"
 }

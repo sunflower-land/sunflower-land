@@ -5320,5 +5320,7 @@
   "skillReset.reduceOilInTank": "在重置之前减少油箱中的机油",
   "skillCategory.islands": "{{island}} 技能",
   "skillCategory.reachIsland": "到达 {{island}} 岛即可解锁",
-  "powerSkills.reason.animalsNotAsleep": "你所有的动物都没有睡觉"
+  "powerSkills.reason.animalsNotAsleep": "你所有的动物都没有睡觉",
+  "time.ago": "{{time}} 之前",
+  "time.in": "在 {{time}}"
 }

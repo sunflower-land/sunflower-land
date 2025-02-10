@@ -5320,5 +5320,7 @@
   "skillReset.reduceOilInTank": "リセットする前にタンク内のオイルを減らしてください",
   "skillCategory.islands": "{{island}} スキル",
   "skillCategory.reachIsland": "{{island}} 島に到達してロックを解除",
-  "powerSkills.reason.animalsNotAsleep": "すべての動物が眠っているわけではありません"
+  "powerSkills.reason.animalsNotAsleep": "すべての動物が眠っているわけではありません",
+  "time.ago": "{{time}} 前",
+  "time.in": "{{time}} に"
 }
