@@ -1,5 +1,5 @@
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { LEGACY_SKILL_TREE } from "features/game/types/skills";
+import { LEGACY_BADGE_TREE } from "features/game/types/skills";
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -19,7 +19,7 @@ interface Props {
 
 export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
   const { t } = useAppTranslation();
-  const BADGES = getObjectEntries(LEGACY_SKILL_TREE);
+  const BADGES = getObjectEntries(LEGACY_BADGE_TREE);
   const [selectedSkill, setSelectedSkill] = useState(BADGES[0]);
   const [LegacyBadgeName, legacySkillDetails] = selectedSkill;
   const { buff } = legacySkillDetails;

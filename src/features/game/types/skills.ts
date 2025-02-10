@@ -34,7 +34,7 @@ enum REQUIRED_XP {
   LEVEL_10 = 5000,
 }
 
-export const LEGACY_SKILL_TREE: Record<
+export const LEGACY_BADGE_TREE: Record<
   LegacyBadgeName,
   {
     level: number;

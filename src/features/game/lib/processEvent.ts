@@ -7,7 +7,7 @@ import {
   InventoryItemName,
   Wardrobe,
 } from "../types/game";
-import { LEGACY_SKILL_TREE } from "../types/skills";
+import { LEGACY_BADGE_TREE } from "../types/skills";
 import { Announcements } from "../types/announcements";
 import { EXOTIC_CROPS } from "../types/beans";
 import { BASIC_DECORATIONS } from "../types/decorations";
@@ -38,7 +38,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   ),
 
   // Max of 1 skill badge
-  ...getKeys(LEGACY_SKILL_TREE).reduce(
+  ...getKeys(LEGACY_BADGE_TREE).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(1),

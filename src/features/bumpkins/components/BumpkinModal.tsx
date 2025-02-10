@@ -38,7 +38,7 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
 import { MyReputation } from "features/island/hud/components/reputation/Reputation";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { LEGACY_SKILL_TREE } from "features/game/types/skills";
+import { LEGACY_BADGE_TREE } from "features/game/types/skills";
 import { setImageWidth } from "lib/images";
 import { LegacyBadges } from "./LegacyBadges";
 import { getKeys } from "features/game/types/decorations";
@@ -268,7 +268,7 @@ export const BumpkinInfo: React.FC<{
 }> = ({ readonly, level, maxLevel, gameState, setView, hasAvailableSP }) => {
   const { t } = useAppTranslation();
   const { bumpkin, inventory } = gameState;
-  const BADGES = getKeys(LEGACY_SKILL_TREE);
+  const BADGES = getKeys(LEGACY_BADGE_TREE);
 
   const badges = BADGES.map((badge) => {
     if (inventory[badge]) {
