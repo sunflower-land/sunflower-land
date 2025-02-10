@@ -5322,5 +5322,8 @@
   "skillCategory.reachIsland": "Erreiche die Insel {{island}}, um sie freizuschalten",
   "powerSkills.reason.animalsNotAsleep": "All deine Tiere schlafen nicht",
   "time.ago": "{{time}} vor",
-  "time.in": "in {{time}}"
+  "time.in": "in {{time}}",
+  "whatsOn.ticketsEnd": "Keine Timeshards mehr",
+  "whatsOn.april28th": "28. April",
+  "whatsOn.ticketPaused": "Die Bumpkins haben Ferien. Keine Zeitverschreibungen mehr durch Lieferungen, Hausarbeiten und Kopfgelder."
 }

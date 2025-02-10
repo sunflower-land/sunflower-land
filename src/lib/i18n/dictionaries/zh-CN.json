@@ -5322,5 +5322,8 @@
   "skillCategory.reachIsland": "到达 {{island}} 岛即可解锁",
   "powerSkills.reason.animalsNotAsleep": "你所有的动物都没有睡觉",
   "time.ago": "{{time}} 之前",
-  "time.in": "在 {{time}}"
+  "time.in": "在 {{time}}",
+  "whatsOn.ticketsEnd": "再也没有时间碎片了",
+  "whatsOn.april28th": "4 月 28 日",
+  "whatsOn.ticketPaused": "Bumpkins 正在度假。再也不会因为配送、琐事和赏金而浪费时间了。"
 }

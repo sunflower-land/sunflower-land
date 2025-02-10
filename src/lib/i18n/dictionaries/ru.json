@@ -5322,5 +5322,8 @@
   "skillCategory.reachIsland": "Доберитесь до острова {{island}}, чтобы разблокировать",
   "powerSkills.reason.animalsNotAsleep": "Все ваши животные не спят",
   "time.ago": "{{time}} назад",
-  "time.in": "в {{time}}"
+  "time.in": "в {{time}}",
+  "whatsOn.ticketsEnd": "Больше никаких временных интервалов",
+  "whatsOn.april28th": "28 апреля",
+  "whatsOn.ticketPaused": "«Бампкинс» в отпуске. Больше никаких временных отчислений, связанных с доставкой, работой по дому и вознаграждениями."
 }

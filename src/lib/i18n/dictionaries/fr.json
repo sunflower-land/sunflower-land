@@ -5322,5 +5322,8 @@
   "skillCategory.reachIsland": "Atteignez l'île {{island}} pour la débloquer",
   "powerSkills.reason.animalsNotAsleep": "Tous vos animaux ne dorment pas",
   "time.ago": "{{time}} il y a",
-  "time.in": "dans {{time}}"
+  "time.in": "dans {{time}}",
+  "whatsOn.ticketsEnd": "Plus de timeshards",
+  "whatsOn.april28th": "le 28 avril",
+  "whatsOn.ticketPaused": "Les Bumpkins sont en vacances. Plus de temps imparti pour les livraisons, les corvées et les primes."
 }

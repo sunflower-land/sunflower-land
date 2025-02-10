@@ -5322,5 +5322,8 @@
   "skillCategory.reachIsland": "Kilidini açmak için {{island}} adasına ulaşın",
   "powerSkills.reason.animalsNotAsleep": "Bütün hayvanların uykuda değil",
   "time.ago": "{{time}} önce",
-  "time.in": "içinde {{time}}"
+  "time.in": "içinde {{time}}",
+  "whatsOn.ticketsEnd": "Artık zaman sıkıntısı yok",
+  "whatsOn.april28th": "28 Nisan",
+  "whatsOn.ticketPaused": "Bumpkin'ler tatilde. Teslimatlar, ev işleri ve ödüller için artık zaman sıkıntısı yok."
 }

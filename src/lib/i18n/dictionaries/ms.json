@@ -5322,5 +5322,8 @@
   "skillCategory.reachIsland": "Jangkau pulau {{island}} untuk membuka kunci",
   "powerSkills.reason.animalsNotAsleep": "Semua haiwan anda tidak tidur",
   "time.ago": "{{time}} lalu",
-  "time.in": "dalam {{time}}"
+  "time.in": "dalam {{time}}",
+  "whatsOn.ticketsEnd": "Tiada lagi timeshards",
+  "whatsOn.april28th": "28 April",
+  "whatsOn.ticketPaused": "The Bumpkins sedang bercuti. Tiada lagi penghantaran masa daripada penghantaran, kerja rumah & hadiah."
 }

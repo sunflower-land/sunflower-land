@@ -5322,5 +5322,8 @@
   "skillCategory.reachIsland": "{{island}} 島に到達してロックを解除",
   "powerSkills.reason.animalsNotAsleep": "すべての動物が眠っているわけではありません",
   "time.ago": "{{time}} 前",
-  "time.in": "{{time}} に"
+  "time.in": "{{time}} に",
+  "whatsOn.ticketsEnd": "タイムシャードはもうありません",
+  "whatsOn.april28th": "4 月 28 日",
+  "whatsOn.ticketPaused": "バンプキンズは休暇中です。配達、雑用、報奨金によるタイムシャードはもうありません。"
 }

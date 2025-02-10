@@ -5322,5 +5322,8 @@
   "skillCategory.reachIsland": "잠금 해제하려면 {{island}} 섬에 도달하세요",
   "powerSkills.reason.animalsNotAsleep": "당신의 모든 동물들은 잠들지 않습니다",
   "time.ago": "{{time}} 전",
-  "time.in": "{{time}} 에서"
+  "time.in": "{{time}} 에서",
+  "whatsOn.ticketsEnd": "타임샤드는 이제 그만",
+  "whatsOn.april28th": "4월 28일",
+  "whatsOn.ticketPaused": "범킨스는 휴일이야.더 이상 배달, 집안일, 현상금으로 인한 타임샤드는 이제 그만."
 }
