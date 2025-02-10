@@ -4,6 +4,7 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "components/ui/SquareIcon";
 import classNames from "classnames";
+import { Label } from "components/ui/Label";
 
 const INNER_CANVAS_WIDTH = 14;
 
@@ -11,6 +12,7 @@ export interface BoxProps {
   image: string;
   silhouette: boolean;
   className?: string;
+  inventoryCount?: number;
   onClick: () => void;
 }
 
@@ -19,6 +21,7 @@ export const SimpleBox: React.FC<BoxProps> = ({
   silhouette,
   className,
   children,
+  inventoryCount,
   onClick,
 }) => {
   return (
@@ -35,6 +38,18 @@ export const SimpleBox: React.FC<BoxProps> = ({
           ...pixelDarkBorderStyle,
         }}
       >
+        {inventoryCount && (
+          <Label
+            className="absolute z-10 -top-3 -right-3"
+            type="default"
+            style={{
+              padding: "0 2.5",
+              height: "24px",
+            }}
+          >
+            {inventoryCount}
+          </Label>
+        )}
         <div className="absolute flex justify-center items-center w-full h-full">
           <SquareIcon
             icon={image}
