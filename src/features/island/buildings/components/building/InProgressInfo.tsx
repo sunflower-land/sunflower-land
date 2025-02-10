@@ -1,4 +1,3 @@
-import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -6,18 +5,18 @@ import { COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import React, { useState } from "react";
-import { MachineInterpreter } from "../../lib/craftingMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
-import { GameState } from "features/game/types/game";
+import { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
-  craftingService: MachineInterpreter;
+  cooking: BuildingProduct;
   onClose: () => void;
   isOilBoosted: boolean;
   onInstantCooked: (gems: number) => void;
@@ -25,33 +24,24 @@ interface Props {
 }
 
 export const InProgressInfo: React.FC<Props> = ({
-  craftingService,
-  onClose,
+  cooking,
   isOilBoosted,
   onInstantCooked,
   state,
 }) => {
   const { t } = useAppTranslation();
+  useUiRefresher();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const secondsTillReady = (cooking.readyAt - Date.now()) / 1000;
 
-  const [
-    {
-      context: { secondsTillReady, name, readyAt },
-    },
-  ] = useActor(craftingService);
+  if (!cooking.name) return null;
 
-  if (!name || !secondsTillReady) return null;
-
-  if (secondsTillReady <= 0) {
-    onClose();
-  }
-
-  const { cookingSeconds } = COOKABLES[name];
+  const { cookingSeconds } = COOKABLES[cooking.name];
   const { inventory } = state;
 
   const gems = getInstantGems({
-    readyAt: readyAt ?? 0,
+    readyAt: cooking.readyAt,
     game: state,
   });
 
@@ -66,7 +56,7 @@ export const InProgressInfo: React.FC<Props> = ({
       </Label>
       <div className="flex items-center justify-between">
         <Box
-          image={ITEM_DETAILS[name].image}
+          image={ITEM_DETAILS[cooking.name].image}
           // alternateIcon={isOilBoosted ? ITEM_DETAILS["Oil"].image : null}
           secondaryImage={isOilBoosted ? ITEM_DETAILS["Oil"].image : null}
         />

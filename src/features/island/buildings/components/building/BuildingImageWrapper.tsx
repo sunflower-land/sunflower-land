@@ -25,9 +25,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   name: string;
   index?: number;
-  nonInteractible?: boolean;
   ready?: boolean;
-  onClick: () => void;
+  nonInteractible?: boolean;
+  onClick?: () => void;
 }
 
 const _bumpkinLevel = (state: MachineState) =>

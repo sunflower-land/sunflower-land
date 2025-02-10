@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
@@ -12,30 +12,17 @@ import { DailyReward } from "features/game/expansion/components/dailyReward/Dail
 import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "./HomeBumpkins";
-import { MachineState } from "features/game/lib/gameMachine";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
-const _season = (state: MachineState) => state.context.state.season.season;
 
-export const House: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const season = useSelector(gameService, _season);
 
   const [showHeart, setShowHeart] = useState(false);
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/home");
 
@@ -48,7 +35,7 @@ export const House: React.FC<BuildingProps> = ({
     let timeout: NodeJS.Timeout;
 
     gameService.onEvent((event) => {
-      if (event.type === "recipe.collected") {
+      if (event.type === "recipes.collected") {
         setShowHeart(true);
         timeout = setTimeout(() => setShowHeart(false), 3000);
       }

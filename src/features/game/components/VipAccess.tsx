@@ -23,10 +23,10 @@ export const VIPAccess: React.FC<VIPAccessProps> = ({
 
   return isVIP ? (
     <Label
-      type="success"
+      className="mb-1 whitespace-nowrap"
       icon={vipIcon}
+      type="success"
       secondaryIcon={SUNNYSIDE.icons.confirm}
-      className="whitespace-nowrap"
     >
       {t("vipAccess")}
     </Label>
@@ -36,7 +36,7 @@ export const VIPAccess: React.FC<VIPAccessProps> = ({
       icon={vipIcon}
       secondaryIcon={SUNNYSIDE.ui.add_button}
       onClick={onUpgrade}
-      className="whitespace-nowrap"
+      className="mb-1 whitespace-nowrap"
     >
       {text ?? t("goblinTrade.vipRequired")}
     </Label>
