@@ -31,7 +31,9 @@ export const MilestonePanel: React.FC<{
 }> = ({ milestone, farmActivity, onClaim, onBack, isClaimed }) => {
   const { t } = useAppTranslation();
 
-  const percentageComplete = milestone.percentageComplete(farmActivity);
+  if (!milestone) return null;
+
+  const percentageComplete = milestone?.percentageComplete(farmActivity);
 
   // Currently only supporting one reward per milestone
   const reward = getKeys(milestone.reward)[0];
