@@ -23,23 +23,14 @@ export function getTimeUntilNextFreeReset(
   previousFreeSkillResetAt: number,
   now = Date.now(),
 ) {
-  // Get the reset date
-  const resetDate = new Date(previousFreeSkillResetAt);
+  // 180 days in milliseconds
+  const RESET_PERIOD_MS = 180 * 24 * 60 * 60 * 1000;
 
-  // Create next reset date
-  const nextResetDate = new Date(resetDate);
-
-  // First set the month, which might give us an incorrect date
-  nextResetDate.setMonth(resetDate.getMonth() + 6);
-
-  // If we've gone beyond 6 months due to day overflow,
-  // set to the last day of the target month
-  while (nextResetDate.getMonth() !== (resetDate.getMonth() + 6) % 12) {
-    nextResetDate.setDate(nextResetDate.getDate() - 1);
-  }
+  // Calculate next reset time by adding reset period
+  const nextResetTime = previousFreeSkillResetAt + RESET_PERIOD_MS;
 
   // Calculate time remaining
-  const timeRemaining = nextResetDate.getTime() - now;
+  const timeRemaining = nextResetTime - now;
   return timeRemaining;
 }
 

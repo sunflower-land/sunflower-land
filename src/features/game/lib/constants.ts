@@ -135,6 +135,7 @@ export const INITIAL_STOCK = (
     tools.Pickaxe = tools.Pickaxe.add(new Decimal(70));
     tools["Stone Pickaxe"] = tools["Stone Pickaxe"].add(new Decimal(20));
     tools["Iron Pickaxe"] = tools["Iron Pickaxe"].add(new Decimal(7));
+    tools["Gold Pickaxe"] = tools["Gold Pickaxe"].add(new Decimal(2));
   }
 
   const seeds: Record<SeedName, Decimal> = {

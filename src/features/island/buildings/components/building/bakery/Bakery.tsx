@@ -94,7 +94,7 @@ export const Bakery: React.FC<Props> = ({
           style={{
             left: `${PIXEL_SCALE * 1}px`,
             width: `${PIXEL_SCALE * 62}px`,
-            height: `${PIXEL_SCALE * 51}px`,
+            height: `${PIXEL_SCALE * (season === "spring" ? 59 : 51)}}px`,
           }}
         />
         <img

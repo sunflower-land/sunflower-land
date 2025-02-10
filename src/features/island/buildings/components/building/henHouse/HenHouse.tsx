@@ -81,7 +81,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
           src={HEN_HOUSE_VARIANTS[season][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
           style={{
-            width: `${PIXEL_SCALE * 61}px`,
+            width: `${PIXEL_SCALE * 68}px`,
             left: `${PIXEL_SCALE * 1}px`,
           }}
         />

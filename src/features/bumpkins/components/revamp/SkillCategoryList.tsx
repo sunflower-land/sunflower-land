@@ -30,6 +30,7 @@ import {
   getTimeUntilNextFreeReset,
 } from "features/game/events/landExpansion/resetSkills";
 import { SkillReset } from "./SkillReset";
+import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
@@ -37,7 +38,7 @@ export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Trees: SUNNYSIDE.skills.trees,
   Cooking: SUNNYSIDE.skills.cooking,
   Animals: SUNNYSIDE.animals.chickenIdle,
-  "Fruit Patch": ITEM_DETAILS.Apple.image,
+  "Fruit Patch": fruits,
   Fishing: SUNNYSIDE.icons.fish,
   Greenhouse: ITEM_DETAILS.Greenhouse.image,
   Mining: SUNNYSIDE.tools.stone_pickaxe,
@@ -144,7 +145,7 @@ export const SkillCategoryList: React.FC<{
     const { queue = [], unallocatedOilTime = 0 } = cropMachine ?? {};
 
     if (skills["Field Expansion Module"] && queue.length > 5) {
-      return "Remove crops from additional slots before resetting";
+      return t("skillReset.removeCrops");
     }
 
     if (skills["Leak-Proof Tank"]) {
@@ -153,7 +154,7 @@ export const SkillCategoryList: React.FC<{
         unallocatedOilTime,
       );
       if (oilMillisInMachine > 48 * 60 * 60 * 1000) {
-        return "Reduce oil in tank before resetting";
+        return t("skillReset.reduceOilInTank");
       }
     }
   };
@@ -169,73 +170,75 @@ export const SkillCategoryList: React.FC<{
             state.island.type,
             islandType,
           );
+          if (getRevampSkillTreeCategoriesByIsland(islandType).length <= 0)
+            return;
+
           return (
             <div key={islandType} className="flex flex-col items-stretch">
               <div className="flex items-center gap-2 mt-1 mb-2">
-                {getRevampSkillTreeCategoriesByIsland(islandType).length >
-                  0 && (
-                  <Label
-                    type={hasUnlockedIslandCategory ? "default" : "warning"}
-                    className="capitalize"
-                  >
-                    {`${islandType} Skills`}
-                  </Label>
-                )}
+                <Label
+                  type={hasUnlockedIslandCategory ? "default" : "warning"}
+                  className="capitalize"
+                >
+                  {t("skillCategory.islands", { island: islandType })}
+                </Label>
+
                 {!hasUnlockedIslandCategory && (
                   <Label type="warning">
-                    {`Reach ${islandType} island to unlock`}
+                    {t("skillCategory.reachIsland", { island: islandType })}
                   </Label>
                 )}
               </div>
+              <div className="grid grid-cols-2 gap-1">
+                {getRevampSkillTreeCategoriesByIsland(islandType).map(
+                  (category) => {
+                    const skills = getRevampSkills(category);
+                    const icon = SKILL_TREE_ICONS[skills[0].tree];
+                    const skillsAcquiredInCategoryCount = getKeys({
+                      ...bumpkin?.skills,
+                    }).filter((acquiredSkillName) =>
+                      skills.find((skill) => skill.name === acquiredSkillName),
+                    ).length;
 
-              {getRevampSkillTreeCategoriesByIsland(islandType).map(
-                (category) => {
-                  const skills = getRevampSkills(category);
-                  const icon = SKILL_TREE_ICONS[skills[0].tree];
-                  const skillsAcquiredInCategoryCount = getKeys({
-                    ...bumpkin?.skills,
-                  }).filter((acquiredSkillName) =>
-                    skills.find((skill) => skill.name === acquiredSkillName),
-                  ).length;
-
-                  return (
-                    <div key={category}>
-                      <ButtonPanel
-                        disabled={!hasUnlockedIslandCategory}
-                        onClick={
-                          hasUnlockedIslandCategory
-                            ? () => onClick(category)
-                            : undefined
-                        }
-                        className={classNames(
-                          `flex relative items-center mb-1 hover:bg-brown-200`,
-                          { "cursor-pointer": hasUnlockedIslandCategory },
-                        )}
-                      >
-                        <Label
-                          type="default"
-                          className="px-1 text-xxs absolute -top-3 -right-1"
+                    return (
+                      <div key={category}>
+                        <ButtonPanel
+                          disabled={!hasUnlockedIslandCategory}
+                          onClick={
+                            hasUnlockedIslandCategory
+                              ? () => onClick(category)
+                              : undefined
+                          }
+                          className={classNames(
+                            `flex relative items-center mb-1 hover:bg-brown-200`,
+                            { "cursor-pointer": hasUnlockedIslandCategory },
+                          )}
                         >
-                          {`${skillsAcquiredInCategoryCount}/${skills.filter((skill) => !skill.disabled).length}`}
-                        </Label>
-                        <div className="flex gap-2 justify-center items-center">
-                          <SquareIcon icon={icon} width={14} />
-                          <span className="text-sm">{category}</span>
-                        </div>
-                      </ButtonPanel>
-                    </div>
-                  );
-                },
-              )}
+                          <Label
+                            type="default"
+                            className="px-1 text-xxs absolute -top-3 -right-1"
+                          >
+                            {`${skillsAcquiredInCategoryCount}/${skills.filter((skill) => !skill.disabled).length}`}
+                          </Label>
+                          <div className="flex gap-2 justify-center items-center">
+                            <SquareIcon icon={icon} width={14} />
+                            <span className="text-sm">{category}</span>
+                          </div>
+                        </ButtonPanel>
+                      </div>
+                    );
+                  },
+                )}
+              </div>
             </div>
           );
         })}
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center m-1">
           <p
-            className="text-xs cursor-pointer underline"
+            className="text-xs cursor-pointer underline py-1"
             onClick={() => setShowSkillsResetModal(true)}
           >
-            {"Reset Skills"}
+            {t("skillReset.resetSkills")}
           </p>
         </div>
       </InnerPanel>

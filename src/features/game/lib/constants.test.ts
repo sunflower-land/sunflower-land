@@ -90,7 +90,7 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state).Pickaxe).toEqual(new Decimal(160));
     expect(INITIAL_STOCK(state)["Stone Pickaxe"]).toEqual(new Decimal(50));
     expect(INITIAL_STOCK(state)["Iron Pickaxe"]).toEqual(new Decimal(15));
-    expect(INITIAL_STOCK(state)["Gold Pickaxe"]).toEqual(new Decimal(8));
+    expect(INITIAL_STOCK(state)["Gold Pickaxe"]).toEqual(new Decimal(10));
     expect(INITIAL_STOCK(state)["Oil Drill"]).toEqual(new Decimal(8));
     expect(INITIAL_STOCK(state).Rod).toEqual(new Decimal(75));
   });
