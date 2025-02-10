@@ -262,7 +262,7 @@ export const READONLY_BUILDINGS: (
         src={HEN_HOUSE_VARIANTS[season][henHouseLevel] as string}
         className="absolute bottom-0"
         style={{
-          width: `${PIXEL_SCALE * 61}px`,
+          width: `${PIXEL_SCALE * 68}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
       />
@@ -288,7 +288,11 @@ export const READONLY_BUILDINGS: (
       <img
         src={BAKERY_VARIANTS[season]}
         className="absolute bottom-0"
-        style={{ width: `${PIXEL_SCALE * 62}px`, left: `${PIXEL_SCALE * 1}px` }}
+        style={{
+          width: `${PIXEL_SCALE * 62}px`,
+          height: `${PIXEL_SCALE * (season === "spring" ? 59 : 51)}}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
       />
     ),
     Deli: () => (
