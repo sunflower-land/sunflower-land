@@ -32,7 +32,7 @@ describe("cook", () => {
     ).toThrow(`Required building does not exist`);
   });
 
-  it("does not cook if something is already cooking", () => {
+  it("does not cook if there are no available slots", () => {
     expect(() =>
       cook({
         state: {
@@ -47,11 +47,28 @@ describe("cook", () => {
                 readyAt: 1660563190206,
                 createdAt: 1660563160206,
                 id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-                crafting: {
-                  name: "Boiled Eggs",
-                  readyAt: Date.now() + 60 * 1000,
-                  amount: 1,
-                },
+                crafting: [
+                  {
+                    name: "Boiled Eggs",
+                    readyAt: Date.now() + 60 * 1000,
+                    amount: 1,
+                  },
+                  {
+                    name: "Boiled Eggs",
+                    readyAt: Date.now() + 60 * 1000,
+                    amount: 1,
+                  },
+                  {
+                    name: "Boiled Eggs",
+                    readyAt: Date.now() + 60 * 1000,
+                    amount: 1,
+                  },
+                  {
+                    name: "Boiled Eggs",
+                    readyAt: Date.now() + 60 * 1000,
+                    amount: 1,
+                  },
+                ],
               },
             ],
           },
@@ -62,7 +79,7 @@ describe("cook", () => {
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
       }),
-    ).toThrow("Cooking already in progress");
+    ).toThrow("No available slots");
   });
 
   it("does not cook if player does not have all the ingredients", () => {
@@ -185,7 +202,7 @@ describe("cook", () => {
       },
     });
 
-    expect(state.buildings["Fire Pit"]?.[0].crafting).toEqual(
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[0]).toEqual(
       expect.objectContaining({
         name: "Boiled Eggs",
         readyAt: expect.any(Number),
@@ -261,7 +278,7 @@ describe("cook", () => {
 
     const readyAt = dateNow + 60 * 60 * 16 * 1000;
 
-    expect(state.buildings["Deli"]?.[0].crafting).toEqual(
+    expect(state.buildings["Deli"]?.[0].crafting?.[0]).toEqual(
       expect.objectContaining({
         name: "Fancy Fries",
         readyAt: readyAt,
@@ -304,6 +321,142 @@ describe("cook", () => {
 
     expect(state.inventory["Egg"]).toEqual(new Decimal(0));
   });
+
+  it("adds another recipe to the building if there is a slot available", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Potato: new Decimal(1000),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+          expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 2, y: 3 },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "blah",
+              oil: 0,
+              crafting: [
+                {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() + 60 * 1000,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Mashed Potato",
+        buildingId: "blah",
+      },
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[1]).toEqual(
+      expect.objectContaining({
+        name: "Mashed Potato",
+        readyAt: expect.any(Number),
+      }),
+    );
+  });
+
+  it("adds the correct readyAt for the second recipe when a recipe is already cooking", () => {
+    const firstReadyAt = Date.now() + 60 * 1000;
+    const cookingSeconds = COOKABLES["Mashed Potato"].cookingSeconds;
+
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Potato: new Decimal(1000),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+          expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 2, y: 3 },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "blah",
+              oil: 0,
+              crafting: [
+                {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() + 60 * 1000,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Mashed Potato",
+        buildingId: "blah",
+      },
+    });
+
+    const readyAt = firstReadyAt + cookingSeconds * 1000;
+
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[1].readyAt).toEqual(
+      readyAt,
+    );
+  });
+
+  it("adds the correct readyAt for the second recipe when a recipe is already cooked", () => {
+    const now = Date.now();
+
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Potato: new Decimal(100),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+          expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 2, y: 3 },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "blah",
+              oil: 0,
+              crafting: [
+                {
+                  name: "Boiled Eggs",
+                  readyAt: now - 60 * 60 * 1000, // Finished 1 hour ago
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Mashed Potato",
+        buildingId: "blah",
+      },
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[1].readyAt).toBeCloseTo(
+      now + COOKABLES["Mashed Potato"].cookingSeconds * 1000,
+    );
+  });
 });
 
 describe("getReadyAt", () => {
@@ -313,7 +466,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -335,10 +487,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Luna's Hat" },
-      },
       game: {
         ...TEST_FARM,
         bumpkin: {
@@ -364,10 +512,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
-      },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -401,10 +545,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
-      },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -435,10 +575,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
-      },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -463,7 +599,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -494,7 +629,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -525,7 +659,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -564,7 +697,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -602,7 +734,6 @@ describe("getReadyAt", () => {
     const result = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -651,7 +782,6 @@ describe("getReadyAt", () => {
     const boostedTime = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
       game: state,
     });
@@ -698,7 +828,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
-      bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
       game: state,
     });
@@ -714,7 +843,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -736,7 +864,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Sunflower Crunch",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -783,7 +910,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Sunflower Crunch",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -802,7 +928,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Parsnip Cake",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Frosted Cakes": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,
@@ -851,7 +976,6 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
       createdAt: now,
       game: {
         ...TEST_FARM,

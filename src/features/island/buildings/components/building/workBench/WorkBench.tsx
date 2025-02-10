@@ -25,11 +25,7 @@ const needsHelp = (state: MachineState) => {
   return false;
 };
 
-export const WorkBench: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const { gameService } = useContext(Context);
   // TODO: feat/crafting-box - remove this
   const [isOpen, setIsOpen] = useState(false);
@@ -38,11 +34,6 @@ export const WorkBench: React.FC<BuildingProps> = ({
   const { play: shopAudio } = useSound("shop");
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       // Add future on click actions here
       shopAudio();

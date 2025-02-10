@@ -18,7 +18,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
   coins: 10000,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
+  vip: {
+    bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+    expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+  },
   inventory: {
+    Potato: new Decimal(100),
+    Rhubarb: new Decimal(100),
     "Sunpetal Seed": new Decimal(1),
     "Bloom Seed": new Decimal(1),
     "Lily Seed": new Decimal(1),
@@ -388,8 +394,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: -1,
-          y: 0,
+          x: -3,
+          y: -4,
         },
         createdAt: 0,
       },

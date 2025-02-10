@@ -155,7 +155,7 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
         />
         <Button className="h-8 sm:h-10 mb-0">
           <div className="flex items-center space-x-1">
-            <div className="flex items-center space-x-1 text-xs sm:text-sm">
+            <div className="flex items-center space-x-1 text-sm">
               <span>{utcDay}</span>
               <span>{utcDate}</span>
             </div>

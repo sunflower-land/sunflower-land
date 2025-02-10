@@ -217,7 +217,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               </div>
             )}
             {isCropFertiliserSkill && (
-              <div className="flex flex-col items-start sm:items-center mb-2">
+              <div className="flex flex-col items-center mb-2">
                 <RequirementLabel
                   type="item"
                   requirement={
@@ -239,7 +239,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               </div>
             )}
             {isFruitFertiliserSkill && (
-              <div className="flex flex-col items-start sm:items-center mb-2">
+              <div className="flex flex-col items-center mb-2">
                 <RequirementLabel
                   type="item"
                   requirement={
@@ -255,41 +255,37 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               </div>
             )}
             <div className="flex flex-wrap justify-between gap-x-2 sm:flex-col lg:items-center">
-              {(!powerSkillReady || (disabled && reason) || !disabled) && (
-                <Label
-                  type={
-                    !powerSkillReady ? "info" : disabled ? "danger" : "success"
-                  }
-                  icon={
-                    !powerSkillReady ? SUNNYSIDE.icons.stopwatch : undefined
-                  }
-                  secondaryIcon={
-                    powerSkillReady && !disabled
-                      ? SUNNYSIDE.icons.confirm
-                      : undefined
-                  }
-                  className="mb-2"
-                >
-                  {!powerSkillReady ? (
-                    <div className="flex lg:flex-col items-center">
-                      <p className="mr-1">{t("powerSkills.nextUse")}</p>
-                      <TimerDisplay time={nextSkillUseCountdown} />
-                    </div>
-                  ) : disabled ? (
-                    reason
-                  ) : (
-                    t("powerSkills.ready")
-                  )}
-                </Label>
-              )}
-              {powerSkillReady && cooldown && (
+              <Label
+                type={
+                  !powerSkillReady ? "info" : disabled ? "danger" : "success"
+                }
+                icon={!powerSkillReady ? SUNNYSIDE.icons.stopwatch : undefined}
+                secondaryIcon={
+                  powerSkillReady && !disabled
+                    ? SUNNYSIDE.icons.confirm
+                    : undefined
+                }
+                className="mb-2"
+              >
+                {!powerSkillReady ? (
+                  <div className="flex lg:flex-col items-center">
+                    <p className="mr-1">{t("powerSkills.nextUse")}</p>
+                    <TimerDisplay time={nextSkillUseCountdown} />
+                  </div>
+                ) : disabled ? (
+                  reason
+                ) : (
+                  t("powerSkills.ready")
+                )}
+              </Label>
+              {powerSkillReady && (
                 <Label
                   type="info"
                   icon={SUNNYSIDE.icons.stopwatch}
                   className="mb-2"
                 >
                   {t("skill.cooldown", {
-                    cooldown: millisecondsToString(cooldown, {
+                    cooldown: millisecondsToString(requirements.cooldown ?? 0, {
                       length: "short",
                       isShortFormat: true,
                       removeTrailingZeros: true,

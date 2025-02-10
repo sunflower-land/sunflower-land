@@ -102,13 +102,12 @@ export function speedUpRecipe({
       throw new Error("Building does not exist");
     }
 
-    const recipe = building.crafting;
+    const recipe = building.crafting
+      ?.sort((a, b) => a.readyAt - b.readyAt)
+      .find((r) => r.readyAt > createdAt);
+
     if (!recipe) {
       throw new Error("Nothing is cooking");
-    }
-
-    if (createdAt > recipe.readyAt) {
-      throw new Error("Already cooked");
     }
 
     const gems = getInstantGems({
@@ -127,7 +126,17 @@ export function speedUpRecipe({
       game.inventory[recipe.name] ?? new Decimal(0)
     ).add(recipe.amount ?? 1);
 
-    delete building.crafting;
+    building.crafting = building.crafting?.filter(
+      (r) => r.readyAt !== recipe.readyAt,
+    );
+
+    // Calculate time difference between sped up recipe and now
+    const timeDiff = recipe.readyAt - createdAt;
+
+    // Adjust remaining recipes readyAt times
+    building.crafting?.forEach((r) => {
+      r.readyAt -= timeDiff;
+    });
 
     game = makeGemHistory({ game, amount: gems });
 

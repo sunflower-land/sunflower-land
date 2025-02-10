@@ -38,11 +38,7 @@ const _buildingLevel = (state: MachineState) => {
   return (state.context.state.henHouse.level || 1) as AnimalBuildingLevel;
 };
 
-export const ChickenHouse: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  season,
-}) => {
+export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -55,11 +51,6 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   const { play: barnAudio } = useSound("barn");
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       // Add future on click actions here
       barnAudio();

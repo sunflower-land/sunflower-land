@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState } from "features/game/types/game";
+import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 
 export type CollectRecipeAction = {
-  type: "recipe.collected";
+  type: "recipes.collected";
   building: BuildingName;
   buildingId: string;
 };
@@ -37,23 +37,32 @@ export function collectRecipe({
       throw new Error("You do not have a Bumpkin!");
     }
 
-    const recipe = building.crafting;
-    const amount = new Decimal(recipe?.amount || 1);
-    if (!recipe) {
+    const recipes = building.crafting ?? [];
+    if (!recipes.length) {
       throw new Error(translate("error.buildingNotCooking"));
     }
 
-    if (createdAt < recipe.readyAt) {
+    const nothingReady = recipes.every((recipe) => recipe.readyAt > createdAt);
+    if (nothingReady) {
       throw new Error(translate("error.recipeNotReady"));
     }
 
-    delete building.crafting;
+    // Collect all recipes that are ready
+    building.crafting = (building.crafting ?? []).reduce((acc, recipe) => {
+      if (recipe.readyAt <= createdAt) {
+        const amount = new Decimal(recipe?.amount || 1);
+        const consumableCount = game.inventory[recipe.name] || new Decimal(0);
+        game.inventory[recipe.name] = consumableCount.add(amount);
 
-    const consumableCount = game.inventory[recipe.name] || new Decimal(0);
+        bumpkin.activity = trackActivity(
+          `${recipe.name} Cooked`,
+          bumpkin.activity,
+        );
+        return acc;
+      }
 
-    bumpkin.activity = trackActivity(`${recipe.name} Cooked`, bumpkin.activity);
-
-    game.inventory[recipe.name] = consumableCount.add(amount);
+      return [...acc, recipe];
+    }, [] as BuildingProduct[]);
 
     return game;
   });
