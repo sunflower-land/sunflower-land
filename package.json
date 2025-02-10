@@ -134,6 +134,7 @@
     "vite": "^5.4.2",
     "vite-node": "^2.0.3",
     "vite-plugin-html": "^2.1.2",
+    "vite-plugin-preload": "^0.4.2",
     "vite-tsconfig-paths": "^3.3.17",
     "workbox-cacheable-response": "^7.0.0",
     "workbox-expiration": "^7.0.0",
