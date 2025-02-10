@@ -145,7 +145,6 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
       />
     );
   }
-
   if (selectedMilestone) {
     return (
       <MilestonePanel
@@ -153,6 +152,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
         farmActivity={farmActivity}
         onClaim={() => handleClaimReward(selectedMilestone)}
         onBack={() => setSelectedMilestone(undefined)}
+        setSelectedFish={setSelectedFish}
         isClaimed={!!milestones[selectedMilestone]}
       />
     );
