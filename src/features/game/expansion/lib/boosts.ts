@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { Bumpkin, GameState, Inventory } from "../../types/game";
+import { GameState, Inventory } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import {
   COOKABLES,
@@ -137,17 +137,12 @@ export const hasSellBoost = (inventory: Inventory) => {
 export const getCookingTime = (
   seconds: number,
   item: CookableName,
-  bumpkin: Bumpkin | undefined,
   game: GameState,
 ): number => {
   const buildingName = COOKABLES[item].building;
+  const { bumpkin } = game;
 
   let reducedSecs = new Decimal(seconds);
-
-  // 10% reduction
-  if (bumpkin?.skills["Rush Hour"]) {
-    reducedSecs = reducedSecs.mul(0.9);
-  }
 
   // Luna's Hat - 50% reduction
   if (isWearableActive({ name: "Luna's Hat", game })) {
@@ -209,23 +204,11 @@ export const getCookingTime = (
  */
 export const getFoodExpBoost = (
   food: Consumable,
-  bumpkin: Bumpkin,
   game: GameState,
   buds: NonNullable<GameState["buds"]>,
-  createdAt: number = Date.now(),
 ): number => {
   let boostedExp = new Decimal(food.experience);
-  const { skills } = bumpkin;
-
-  //Bumpkin Skill Boost Kitchen Hand
-  if (skills["Kitchen Hand"]) {
-    boostedExp = boostedExp.mul(1.05);
-  }
-
-  //Bumpkin Skill Boost Curer
-  if (isCookable(food) && food.building === "Deli" && skills["Curer"]) {
-    boostedExp = boostedExp.mul(1.15);
-  }
+  const { skills } = game.bumpkin;
 
   //Bumpkin Wearable Boost Golden Spatula
   if (isWearableActive({ name: "Golden Spatula", game })) {

@@ -172,7 +172,6 @@ export const craftingMachine = createMachine<
         });
       },
       assignCraftingDetails: assign((context, event) => {
-        const { bumpkin } = context.gameService.state.context.state;
         const reducedSeconds = getCookingTime(
           getCookingOilBoost(
             (event as CraftEvent).item,
@@ -180,7 +179,6 @@ export const craftingMachine = createMachine<
             context.buildingId,
           ).timeToCook,
           (event as CraftEvent).item,
-          bumpkin,
           context.gameService.state.context.state,
         );
 

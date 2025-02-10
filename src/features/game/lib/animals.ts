@@ -335,11 +335,6 @@ export function getResourceDropAmount({
     amount += 0.1;
   }
 
-  // Free Range boosts all produce
-  if (bumpkin.skills["Free Range"]) {
-    amount += 0.1;
-  }
-
   amount += getBudYieldBoosts(buds, resource);
 
   if (multiplier) amount *= multiplier;
@@ -464,10 +459,6 @@ export function getBoostedAwakeAt({
   }
 
   if (game.inventory["Wrangler"]?.gt(0)) {
-    totalDuration *= 0.9;
-  }
-
-  if (bumpkin.skills["Stable Hand"]) {
     totalDuration *= 0.9;
   }
 

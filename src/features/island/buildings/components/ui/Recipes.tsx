@@ -85,7 +85,6 @@ export const Recipes: React.FC<Props> = ({
   const cookingTime = getCookingTime(
     getCookingOilBoost(selected.name, state, buildingId).timeToCook,
     selected.name,
-    bumpkin,
     state,
   );
 
@@ -132,9 +131,7 @@ export const Recipes: React.FC<Props> = ({
             hideDescription
             requirements={{
               resources: ingredients,
-              xp: new Decimal(
-                getFoodExpBoost(selected, bumpkin, state, buds ?? {}),
-              ),
+              xp: new Decimal(getFoodExpBoost(selected, state, buds ?? {})),
               timeSeconds: cookingTime,
             }}
             actionView={

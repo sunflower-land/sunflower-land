@@ -6,6 +6,7 @@ import {
   BumpkinRevampSkillTree,
   BumpkinSkillTier,
 } from "features/game/types/bumpkinSkills";
+import { getKeys } from "features/game/types/decorations";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -24,7 +25,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return 0;
 
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
-  const skillsClaimed = Object.keys(bumpkin.skills) as BumpkinRevampSkillName[];
+  const skillsClaimed = getKeys(bumpkin.skills);
 
   const totalUsedSkillPoints = skillsClaimed.reduce((acc, skill) => {
     const skillData = BUMPKIN_REVAMP_SKILL_TREE[skill];
