@@ -21,7 +21,7 @@ export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
   const { t } = useAppTranslation();
   const BADGES = getObjectEntries(LEGACY_SKILL_TREE);
   const [selectedSkill, setSelectedSkill] = useState(BADGES[0]);
-  const [legacySkillName, legacySkillDetails] = selectedSkill;
+  const [LegacyBadgeName, legacySkillDetails] = selectedSkill;
   const { buff } = legacySkillDetails;
   return (
     <CloseButtonPanel
@@ -46,11 +46,11 @@ export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
               />
               <div className="sm:mt-2">
                 <SquareIcon
-                  icon={ITEM_DETAILS[legacySkillName].image}
+                  icon={ITEM_DETAILS[LegacyBadgeName].image}
                   width={14}
                 />
               </div>
-              <span className="sm:text-center">{legacySkillName}</span>
+              <span className="sm:text-center">{LegacyBadgeName}</span>
             </div>
             <div className="flex sm:flex-col flex-wrap gap-1 mt-2 ml-2 sm:ml-0 justify-start sm:justify-center items-start sm:items-center">
               {buff &&
@@ -104,7 +104,7 @@ export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
                     key={skill}
                     image={ITEM_DETAILS[skill].image}
                     onClick={() => setSelectedSkill([skill, details])}
-                    isSelected={legacySkillName === skill}
+                    isSelected={LegacyBadgeName === skill}
                   />
                 );
               })}

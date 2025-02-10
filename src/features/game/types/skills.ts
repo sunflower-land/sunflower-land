@@ -4,7 +4,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "./images";
 
-export type LegacySkillName =
+export type LegacyBadgeName =
   | "Green Thumb"
   | "Barn Manager"
   | "Seed Specialist"
@@ -35,12 +35,12 @@ enum REQUIRED_XP {
 }
 
 export const LEGACY_SKILL_TREE: Record<
-  LegacySkillName,
+  LegacyBadgeName,
   {
     level: number;
     profession: Profession;
-    conflicts?: LegacySkillName;
-    requires?: LegacySkillName;
+    conflicts?: LegacyBadgeName;
+    requires?: LegacyBadgeName;
     perks: string[];
     buff?: BuffLabel[];
   }
