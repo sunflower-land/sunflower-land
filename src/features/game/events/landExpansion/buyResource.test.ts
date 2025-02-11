@@ -80,4 +80,21 @@ describe("buyResource", () => {
     expect(state.inventory["Tree"]).toEqual(new Decimal(3));
     expect(state.inventory.Sunstone).toEqual(new Decimal(79)); // Cost 10
   });
+  it("buys a flower bed & beehive", () => {
+    const state = buyResource({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunstone: new Decimal(100),
+          "Flower Bed": new Decimal(0),
+          Beehive: new Decimal(0),
+        },
+      },
+      action: { type: "resource.bought", name: "Flower Bed" },
+    });
+
+    expect(state.inventory["Flower Bed"]).toEqual(new Decimal(1));
+    expect(state.inventory["Beehive"]).toEqual(new Decimal(1));
+    expect(state.inventory.Sunstone).toEqual(new Decimal(70)); // Cost 30
+  });
 });
