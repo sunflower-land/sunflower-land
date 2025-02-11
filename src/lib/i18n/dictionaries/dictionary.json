@@ -4079,7 +4079,7 @@
   "skill.tapProspector": "1 tap small mineral nodes",
   "skill.forgeWardProfits": "+20% Blacksmith deliveries revenue",
   "skill.ironHustle": "-30% Iron recovery time",
-  "skill.frugalMiner": "-20% Pickaxe coin cost",
+  "skill.frugalMiner": "-20% coin cost for all pickaxes",
   "skill.rockyFavor.buff": "+1 Stone yield",
   "skill.rockyFavor.debuff": "-0.5 Iron yield",
   "skill.ferrousFavor.buff": "+1 Iron yield",
