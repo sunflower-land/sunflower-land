@@ -668,7 +668,7 @@ export const SUNNYSIDE = {
     swimmer2: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer2.webp`,
     swimmer3: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer3.webp`,
     swimmer4: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer4.webp`,
-    frozen_swimmer: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/frozen_swimmer.webp`,
+    frozen_swimmer: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/winter_swimmer.webp`,
     synced: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/synced.gif`,
     syncing: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/syncing.gif`,
     sunflorian: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/lost_sunflorian.gif`,
