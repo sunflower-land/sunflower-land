@@ -707,6 +707,8 @@ const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isPaused = (state: MachineState) => !!state.context.paused;
+const _islandType = (state: MachineState) => state.context.state.island.type;
+const _season = (state: MachineState) => state.context.state.season.season;
 
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
@@ -715,6 +717,8 @@ export const Land: React.FC = () => {
 
   const { pathname } = useLocation();
   const state = useSelector(gameService, selectGameState);
+  const islandType = useSelector(gameService, _islandType);
+  const season = useSelector(gameService, _season);
   const showMarketplace = pathname.includes("marketplace");
 
   const {
@@ -777,7 +781,7 @@ export const Land: React.FC = () => {
           // dynamic gameboard
           width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
           height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
-          backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
+          backgroundImage: `url(${season === "winter" ? SUNNYSIDE.decorations.frozenOcean : islandType === "volcano" ? SUNNYSIDE.decorations.darkOcean : SUNNYSIDE.decorations.ocean})`,
           backgroundSize: `${64 * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
         }}

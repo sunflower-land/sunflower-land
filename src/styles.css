@@ -915,6 +915,20 @@ img {
   transition-timing-function: linear;
 }
 
+.fish-swimming2 {
+  animation-duration: 10s;
+  animation-name: swimming2;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
+.fish-swimming3 {
+  animation-duration: 20s;
+  animation-name: swimming3;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
 @keyframes swimming {
   0% {
     transform: translateX(0) scaleX(1);
@@ -928,6 +942,52 @@ img {
   }
   50% {
     transform: translateX(50px) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 0.8;
+  }
+}
+
+@keyframes swimming2 {
+  0% {
+    transform: translateX(0) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 0.8;
+  }
+  49% {
+    transform: translateX(100px) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateX(100px) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 0.8;
+  }
+}
+
+@keyframes swimming3 {
+  0% {
+    transform: translateX(0) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 0.8;
+  }
+  49% {
+    transform: translateX(150px) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateX(150px) scaleX(-1);
     animation-timing-function: linear;
     opacity: 0.1;
   }
