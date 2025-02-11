@@ -1959,7 +1959,6 @@
   "error.connection.three": "Пожалуйста, передай следующую информацию службе поддержки:",
   "error.connection.two": "Получить помощь",
   "error.contactSupport": "Связаться с поддержкой",
-  "error.cookingInProgress": "Приготовление в процессе",
   "error.diagnostic.info": "Диагностическая информация",
   "error.file": "Файл с ошибкой",
   "error.forbidden.goblinVillage": "Тебе нельзя тут быть!",
@@ -1985,7 +1984,6 @@
   "error.oilCapacityExceeded": "Для нефти больше нет места.",
   "error.polygon.cant.connect": "Не удается подключиться к сети Polygon",
   "error.polygonRPC": "Пожалуйста, попробуй еще раз или проверь настройки своего Polygon RPC.",
-  "error.recipeNotReady": "Рецепт не готов",
   "error.requiredBuildingNotExist": "Нужное строение не установлено",
   "error.toManyRequest.one": "Слишков много запросов!",
   "error.toManyRequest.two": "Похоже, ты был занят! Пожалуйста, повтори попытку позже.",
@@ -2390,7 +2388,6 @@
   "goblinTrade.hoarding": "О нет! Ты достиг максимума SFL.",
   "goblinTrade.select": "Выбери ресурсы на продажу",
   "goblinTrade.vipDelivery": "Хммм, похоже, ты обычный бампкин. Я торгую только с VIP-персонами.",
-  "goblinTrade.vipRequired": "Необходим VIP доступ",
   "goldFever.description": "Добыть золото 500 раз",
   "goldTooth.intro.part1": "Аррр, мои дорогие! Район, где копают сокровища, полон богатств и приключений, и скоро он откроет свои ворота для тебя, отважного фермера!",
   "goldTooth.intro.part2": "Будьте готовы присоединиться к моей команде, ведь охота за богатством начнется уже совсем скоро!",
@@ -5325,5 +5322,13 @@
   "time.in": "в {{time}}",
   "whatsOn.ticketsEnd": "Больше никаких временных интервалов",
   "whatsOn.april28th": "28 апреля",
-  "whatsOn.ticketPaused": "«Бампкинс» в отпуске. Больше никаких временных отчислений, связанных с доставкой, работой по дому и вознаграждениями."
+  "whatsOn.ticketPaused": "«Бампкинс» в отпуске. Больше никаких временных отчислений, связанных с доставкой, работой по дому и вознаграждениями.",
+  "error.recipeNotReady": "Рецепты не готовы",
+  "error.noAvailableSlots": "Нет доступных слотов",
+  "goblinTrade.vipRequired": "Требуется VIP",
+  "recipes.upNext": "На очереди",
+  "recipes.addToQueue": "Добавить в очередь",
+  "recipes.queue": "Очередь",
+  "recipes.vipCookingQueue": "Станьте VIP-членом и получите возможность приготовить до 4 рецептов одновременно! Обновитесь прямо сейчас, чтобы ускорить приготовление пищи.",
+  "recipes.confirmAddToQueue": "Вы действительно хотите добавить {{recipe}} в очередь?"
 }
