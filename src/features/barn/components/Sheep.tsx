@@ -40,6 +40,7 @@ import {
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -95,6 +96,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Sheep",
     foodQuantity: REQUIRED_FOOD_QTY.Sheep,
+    game,
+  });
+
+  const hasGoldenSheep = isCollectibleBuilt({
+    name: "Golden Sheep",
     game,
   });
 
@@ -256,6 +262,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
 
+    if (hasGoldenSheep) {
+      feedSheep();
+      return;
+    }
+
     if (hasFoodSelected) {
       const foodCount =
         inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
@@ -282,6 +293,17 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
       return t("animal.notEnoughFood", { amount: requiredFoodQty });
+  };
+
+  const getAnimalXPEarned = () => {
+    const { foodXp } = handleFoodXP({
+      state: game,
+      animal: "Sheep",
+      level,
+      food: hasGoldenSheep ? favFood : (selectedItem as AnimalFoodName),
+    });
+
+    return foodXp;
   };
 
   const animalImageInfo = () => {
@@ -322,6 +344,12 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   if (sheepState === "initial") return null;
 
   const level = getAnimalLevel(sheep.experience, "Sheep");
+
+  const xpIndicatorColor =
+    favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldenSheep
+      ? "#71e358"
+      : "#fff";
+  const xpIndicatorAmount = getAnimalXPEarned();
 
   const { animalXP } = getAnimalXP({ state: game, name: showLoveItem! });
 
@@ -393,7 +421,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
               request={requestBubbleRequest()}
-              quantity={idle ? requiredFoodQty : undefined}
+              quantity={idle && !hasGoldenSheep ? requiredFoodQty : undefined}
             />
           )}
           {sleeping && showWakesIn && (
@@ -438,13 +466,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           <span
             className="text-sm yield-text"
             style={{
-              color:
-                favFood === selectedItem || selectedItem === "Omnifeed"
-                  ? "#71e358"
-                  : "#fff",
+              color: xpIndicatorColor,
             }}
           >
-            {!!foodXp && `+${foodXp}`}
+            {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
           </span>
         </Transition>
         <Transition
