@@ -5,7 +5,6 @@ import {
   InventoryItemName,
   FERTILISERS,
   COUPONS,
-  Bumpkin,
   GameState,
   EASTER_EGG,
 } from "features/game/types/game";
@@ -267,12 +266,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                 : undefined,
               xp: isFood(selectedItem)
                 ? new Decimal(
-                    getFoodExpBoost(
-                      CONSUMABLES[selectedItem as ConsumableName],
-                      gameState.bumpkin as Bumpkin,
-                      gameState,
-                      gameState.buds ?? {},
-                    ),
+                    getFoodExpBoost({
+                      food: CONSUMABLES[selectedItem as ConsumableName],
+                      game: gameState,
+                    }),
                   )
                 : undefined,
               timeSeconds: isSeed(selectedItem)

@@ -10,7 +10,7 @@ import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { Bumpkin, Airdrop as IAirdrop } from "features/game/types/game";
+import { Airdrop as IAirdrop } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
@@ -28,9 +28,7 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ButtonPanel } from "components/ui/Panel";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _game = (state: MachineState) => state.context.state;
-const _buds = (state: MachineState) => state.context.state.buds;
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -48,9 +46,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   const { t } = useAppTranslation();
   const itemNames = getKeys(airdrop.items);
   const { showAnimations, gameService } = useContext(Context);
-  const bumpkin = useSelector(gameService, _bumpkin);
   const game = useSelector(gameService, _game);
-  const buds = useSelector(gameService, _buds);
 
   useEffect(() => {
     if (showAnimations) confetti();
@@ -137,12 +133,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                           className="ml-1 mb-1"
                         >{`+${formatNumber(
                           new Decimal(
-                            getFoodExpBoost(
-                              CONSUMABLES[name as ConsumableName],
-                              bumpkin as Bumpkin,
+                            getFoodExpBoost({
+                              food: CONSUMABLES[name as ConsumableName],
                               game,
-                              buds ?? {},
-                            ),
+                            }),
                           ),
                           { decimalPlaces: 0 },
                         )} XP`}</Label>

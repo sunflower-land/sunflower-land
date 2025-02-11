@@ -120,7 +120,7 @@ const HudComponent: React.FC = () => {
           <AuctionCountdown />
           <SpecialEventCountdown />
         </div>
-        <BumpkinProfile isFullUser={isFullUser} />
+        <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
         <div
           className="absolute z-50 flex flex-col justify-between"

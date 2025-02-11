@@ -48,7 +48,6 @@ import {
   BumpkinSkillRevamp,
 } from "features/game/types/bumpkinSkills";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { hasFeatureAccess } from "lib/flags";
 import {
   INNER_CANVAS_WIDTH,
   SkillBox,
@@ -662,44 +661,34 @@ const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
               {t("fishing.lookingMoreReels")}
             </span>
             <div className="flex flex-col">
-              {Object.entries(BoostReelItems)
-                .filter(
-                  ([name]) =>
-                    !isSkill(
-                      name as
-                        | BumpkinItem
-                        | CollectibleName
-                        | BumpkinRevampSkillName,
-                    ) || hasFeatureAccess(state, "SKILLS_REVAMP"),
-                )
-                .map(([name, item]) => (
-                  <div key={name} className="flex space-x-2">
-                    {getItemIcon(
-                      name as
-                        | BumpkinItem
-                        | CollectibleName
-                        | BumpkinRevampSkillName,
-                    )}
-                    <div className="flex flex-col justify-center space-y-1">
-                      <div className="flex flex-col space-y-0.5">
-                        <span className="text-xs">{name}</span>
-                        <span className="text-xxs italic">{item.location}</span>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        {item.buff.map((buff, index) => (
-                          <Label
-                            key={index}
-                            type={buff.labelType}
-                            icon={buff.boostTypeIcon}
-                            secondaryIcon={buff.boostedItemIcon}
-                          >
-                            {buff.shortDescription}
-                          </Label>
-                        ))}
-                      </div>
+              {Object.entries(BoostReelItems).map(([name, item]) => (
+                <div key={name} className="flex space-x-2">
+                  {getItemIcon(
+                    name as
+                      | BumpkinItem
+                      | CollectibleName
+                      | BumpkinRevampSkillName,
+                  )}
+                  <div className="flex flex-col justify-center space-y-1">
+                    <div className="flex flex-col space-y-0.5">
+                      <span className="text-xs">{name}</span>
+                      <span className="text-xxs italic">{item.location}</span>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      {item.buff.map((buff, index) => (
+                        <Label
+                          key={index}
+                          type={buff.labelType}
+                          icon={buff.boostTypeIcon}
+                          secondaryIcon={buff.boostedItemIcon}
+                        >
+                          {buff.shortDescription}
+                        </Label>
+                      ))}
                     </div>
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
           </div>
           {reelsLeft > 0 && (
