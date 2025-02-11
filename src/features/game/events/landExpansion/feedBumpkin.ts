@@ -30,7 +30,6 @@ export function feedBumpkin({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const bumpkin = stateCopy.bumpkin;
-    const buds = stateCopy.buds;
     const inventory = stateCopy.inventory;
 
     // throws error when player does not have a bumpkin
@@ -55,11 +54,7 @@ export function feedBumpkin({
 
     // increaes bumpkin experience
     const foodExperience = new Decimal(
-      getFoodExpBoost({
-        food: CONSUMABLES[action.food],
-        game: stateCopy,
-        buds: buds ?? {},
-      }),
+      getFoodExpBoost({ food: CONSUMABLES[action.food], game: stateCopy }),
     );
 
     bumpkin.experience += Number(foodExperience.mul(feedAmount));

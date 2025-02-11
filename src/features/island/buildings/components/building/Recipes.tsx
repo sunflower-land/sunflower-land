@@ -163,11 +163,7 @@ export const Recipes: React.FC<Props> = ({
               requirements={{
                 resources: ingredients,
                 xp: new Decimal(
-                  getFoodExpBoost({
-                    food: selected,
-                    game: state,
-                    buds: buds ?? {},
-                  }),
+                  getFoodExpBoost({ food: selected, game: state }),
                 ),
                 timeSeconds: cookingTime,
               }}

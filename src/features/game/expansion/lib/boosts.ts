@@ -209,14 +209,13 @@ export const getCookingTime = ({
 export const getFoodExpBoost = ({
   food,
   game,
-  buds,
 }: {
   food: Consumable;
   game: GameState;
-  buds: NonNullable<GameState["buds"]>;
 }): number => {
   let boostedExp = new Decimal(food.experience);
-  const { skills } = game.bumpkin;
+  const { bumpkin, buds = {} } = game;
+  const { skills } = bumpkin;
 
   //Bumpkin Wearable Boost Golden Spatula
   if (isWearableActive({ name: "Golden Spatula", game })) {

@@ -29,7 +29,6 @@ import { ButtonPanel } from "components/ui/Panel";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 
 const _game = (state: MachineState) => state.context.state;
-const _buds = (state: MachineState) => state.context.state.buds;
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -48,7 +47,6 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   const itemNames = getKeys(airdrop.items);
   const { showAnimations, gameService } = useContext(Context);
   const game = useSelector(gameService, _game);
-  const buds = useSelector(gameService, _buds);
 
   useEffect(() => {
     if (showAnimations) confetti();
@@ -138,7 +136,6 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                             getFoodExpBoost({
                               food: CONSUMABLES[name as ConsumableName],
                               game,
-                              buds: buds ?? {},
                             }),
                           ),
                           { decimalPlaces: 0 },
