@@ -5322,7 +5322,6 @@
   "time.in": "nel {{time}}",
   "whatsOn.ticketsEnd": "Niente più timeshards",
   "whatsOn.april28th": "28 aprile",
-  "whatsOn.ticketPaused": "I Bumpkins sono in vacanza. Niente più frazioni temporali dovute a consegne, faccende e ricompense.",
   "error.recipeNotReady": "Nessuna ricetta è pronta",
   "error.noAvailableSlots": "Nessuno slot disponibile",
   "goblinTrade.vipRequired": "VIP richiesto",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "Aggiungi alla coda",
   "recipes.queue": "Coda",
   "recipes.vipCookingQueue": "Diventa un membro VIP e sblocca la possibilità di cucinare fino a 4 ricette contemporaneamente! Effettua subito l'upgrade per potenziare la tua cucina.",
-  "recipes.confirmAddToQueue": "Sei sicuro di voler aggiungere {{recipe}} alla coda?"
+  "recipes.confirmAddToQueue": "Sei sicuro di voler aggiungere {{recipe}} alla coda?",
+  "whatsOn.ticketPaused": "I Bumpkins sono in vacanza: niente più distrazioni dalle faccende domestiche e dalle taglie.",
+  "whatsOn.mysterySeasonText2": "Niente più frazioni temporali rispetto alle consegne.",
+  "whatsOn.mysterySeasonText3": "Niente più orologi antichi mentre si scava."
 }

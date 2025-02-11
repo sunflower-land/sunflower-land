@@ -5322,7 +5322,6 @@
   "time.in": "içinde {{time}}",
   "whatsOn.ticketsEnd": "Artık zaman sıkıntısı yok",
   "whatsOn.april28th": "28 Nisan",
-  "whatsOn.ticketPaused": "Bumpkin'ler tatilde. Teslimatlar, ev işleri ve ödüller için artık zaman sıkıntısı yok.",
   "error.recipeNotReady": "Hiçbir tarif hazır değil",
   "error.noAvailableSlots": "Kullanılabilir yuva yok",
   "goblinTrade.vipRequired": "VIP Gerekli",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "Kuyruğa ekle",
   "recipes.queue": "Kuyruk",
   "recipes.vipCookingQueue": "VIP üye olun ve aynı anda 4 tariflere kadar pişirme yeteneğinin kilidini açın! Yemek pişirmenizi güçlendirmek için şimdi yükseltin.",
-  "recipes.confirmAddToQueue": "Kuyruğa {{recipe}} eklemek istediğinizden emin misiniz?"
+  "recipes.confirmAddToQueue": "Kuyruğa {{recipe}} eklemek istediğinizden emin misiniz?",
+  "whatsOn.ticketPaused": "Bumpkin'ler tatilde - Artık ev işleri ve ödüller için zaman sıkıntısı yok.",
+  "whatsOn.mysterySeasonText2": "Teslimatlardan daha fazla zaman sıkıntısı yok.",
+  "whatsOn.mysterySeasonText3": "Kazarken artık eski saat yok."
 }

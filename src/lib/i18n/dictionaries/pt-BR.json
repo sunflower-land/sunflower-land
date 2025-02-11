@@ -5322,7 +5322,6 @@
   "time.in": "em {{time}}",
   "whatsOn.ticketsEnd": "Chega de timeshards",
   "whatsOn.april28th": "28 de abril",
-  "whatsOn.ticketPaused": "Os Bumpkins estão de férias. Chega de demoras de entregas, tarefas e recompensas.",
   "error.recipeNotReady": "Nenhuma receita está pronta",
   "error.noAvailableSlots": "Não há vagas disponíveis",
   "goblinTrade.vipRequired": "VIP obrigatório",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "Adicionar à fila",
   "recipes.queue": "Fila",
   "recipes.vipCookingQueue": "Torne-se um membro VIP e desbloqueie a capacidade de preparar até 4 receitas ao mesmo tempo! Atualize agora para turbinar sua culinária.",
-  "recipes.confirmAddToQueue": "Tem certeza de que deseja adicionar {{recipe}} à fila?"
+  "recipes.confirmAddToQueue": "Tem certeza de que deseja adicionar {{recipe}} à fila?",
+  "whatsOn.ticketPaused": "Os Bumpkins estão de férias - Chega de ficar cansados de tarefas e recompensas.",
+  "whatsOn.mysterySeasonText2": "Chega de demoras nas entregas.",
+  "whatsOn.mysterySeasonText3": "Chega de relógios antigos durante a escavação."
 }

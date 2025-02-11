@@ -5322,7 +5322,6 @@
   "time.in": "{{time}} に",
   "whatsOn.ticketsEnd": "タイムシャードはもうありません",
   "whatsOn.april28th": "4 月 28 日",
-  "whatsOn.ticketPaused": "バンプキンズは休暇中です。配達、雑用、報奨金によるタイムシャードはもうありません。",
   "error.recipeNotReady": "レシピは用意されていません",
   "error.noAvailableSlots": "使用可能なスロットはありません",
   "goblinTrade.vipRequired": "VIP アドレスが必要です",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "キューに追加",
   "recipes.queue": "キュー",
   "recipes.vipCookingQueue": "VIPメンバーになると、一度に最大4つのレシピを調理できるようになります！今すぐアップグレードして料理の腕を磨きましょう。",
-  "recipes.confirmAddToQueue": "キューに {{recipe}} を追加してよろしいですか?"
+  "recipes.confirmAddToQueue": "キューに {{recipe}} を追加してよろしいですか?",
+  "whatsOn.ticketPaused": "Bumpkinsは休暇中です。家事や賞金で時間を無駄にすることはもうありません。",
+  "whatsOn.mysterySeasonText2": "配達によるタイムシェードはもうありません。",
+  "whatsOn.mysterySeasonText3": "掘っている間に古い時計はもう必要ありません。"
 }

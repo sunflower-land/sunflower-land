@@ -5322,7 +5322,6 @@
   "time.in": "{{time}} 에서",
   "whatsOn.ticketsEnd": "타임샤드는 이제 그만",
   "whatsOn.april28th": "4월 28일",
-  "whatsOn.ticketPaused": "범킨스는 휴일이야.더 이상 배달, 집안일, 현상금으로 인한 타임샤드는 이제 그만.",
   "error.recipeNotReady": "레시피가 준비되지 않았습니다.",
   "error.noAvailableSlots": "사용 가능한 슬롯 없음",
   "goblinTrade.vipRequired": "VIP 필요",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "대기열에 추가",
   "recipes.queue": "대기열",
   "recipes.vipCookingQueue": "VIP 회원이 되어 한 번에 최대 4개의 레시피를 요리할 수 있는 기능을 잠금 해제하세요!지금 업그레이드하여 요리의 품격을 높이세요.",
-  "recipes.confirmAddToQueue": "정말로 대기열에 {{recipe}} 를 추가하시겠습니까?"
+  "recipes.confirmAddToQueue": "정말로 대기열에 {{recipe}} 를 추가하시겠습니까?",
+  "whatsOn.ticketPaused": "범프킨은 휴일을 맞이합니다. 이제 집안일과 현상금으로 인한 타임샤드는 이제 그만.",
+  "whatsOn.mysterySeasonText2": "더 이상 배송으로 인한 타임샤드가 없습니다.",
+  "whatsOn.mysterySeasonText3": "땅을 파는 동안 더 이상 고대 시계를 볼 필요가 없습니다."
 }

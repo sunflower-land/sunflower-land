@@ -5322,7 +5322,6 @@
   "time.in": "dalam {{time}}",
   "whatsOn.ticketsEnd": "Tiada lagi timeshards",
   "whatsOn.april28th": "28 April",
-  "whatsOn.ticketPaused": "The Bumpkins sedang bercuti. Tiada lagi penghantaran masa daripada penghantaran, kerja rumah & hadiah.",
   "error.recipeNotReady": "Tiada resipi siap",
   "error.noAvailableSlots": "Tiada slot tersedia",
   "goblinTrade.vipRequired": "VIP Diperlukan",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "Tambah ke barisan",
   "recipes.queue": "Beratur",
   "recipes.vipCookingQueue": "Jadilah ahli VIP dan buka kunci keupayaan untuk memasak sehingga 4 resipi sekaligus! Naik taraf sekarang untuk mengecas masakan anda.",
-  "recipes.confirmAddToQueue": "Adakah anda pasti ingin menambah {{recipe}} ke barisan?"
+  "recipes.confirmAddToQueue": "Adakah anda pasti ingin menambah {{recipe}} ke barisan?",
+  "whatsOn.ticketPaused": "The Bumpkins sedang bercuti - Tiada lagi keras masa dari kerja & hadiah.",
+  "whatsOn.mysterySeasonText2": "Tiada lagi timeshards daripada penghantaran.",
+  "whatsOn.mysterySeasonText3": "Tiada lagi jam kuno semasa menggali."
 }

@@ -5322,7 +5322,6 @@
   "time.in": "in {{time}}",
   "whatsOn.ticketsEnd": "Keine Timeshards mehr",
   "whatsOn.april28th": "28. April",
-  "whatsOn.ticketPaused": "Die Bumpkins haben Ferien. Keine Zeitverschreibungen mehr durch Lieferungen, Hausarbeiten und Kopfgelder.",
   "error.recipeNotReady": "Keine Rezepte sind fertig",
   "error.noAvailableSlots": "Keine verfügbaren Slots",
   "goblinTrade.vipRequired": "VIP erforderlich",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "Zur Warteschlange hinzufügen",
   "recipes.queue": "Warteschlange",
   "recipes.vipCookingQueue": "Werde VIP-Mitglied und schalte die Möglichkeit frei, bis zu 4 Rezepte gleichzeitig zuzubereiten! Mache jetzt ein Upgrade, um deine Kochkünste zu verbessern.",
-  "recipes.confirmAddToQueue": "Sind Sie sicher, dass Sie {{recipe}} zur Warteschlange hinzufügen möchten?"
+  "recipes.confirmAddToQueue": "Sind Sie sicher, dass Sie {{recipe}} zur Warteschlange hinzufügen möchten?",
+  "whatsOn.ticketPaused": "Die Bumpkins sind im Urlaub — Schluss mit den Timeshards von Hausarbeiten und Kopfgeldern.",
+  "whatsOn.mysterySeasonText2": "Keine Zeitverschreibungen mehr durch Lieferungen.",
+  "whatsOn.mysterySeasonText3": "Keine alten Uhren mehr beim Graben."
 }

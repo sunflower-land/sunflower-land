@@ -5322,7 +5322,6 @@
   "time.in": "dans {{time}}",
   "whatsOn.ticketsEnd": "Plus de timeshards",
   "whatsOn.april28th": "le 28 avril",
-  "whatsOn.ticketPaused": "Les Bumpkins sont en vacances. Plus de temps imparti pour les livraisons, les corvées et les primes.",
   "error.recipeNotReady": "Aucune recette n'est prête",
   "error.noAvailableSlots": "Aucun créneau disponible",
   "goblinTrade.vipRequired": "VIP requis",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "Ajouter à la file",
   "recipes.queue": "File d'attente",
   "recipes.vipCookingQueue": "Devenez membre VIP et débloquez la possibilité de préparer jusqu'à 4 recettes à la fois ! Passez à la version supérieure dès maintenant pour améliorer votre cuisine.",
-  "recipes.confirmAddToQueue": "Êtes-vous sûr de vouloir ajouter {{recipe}} à la file d'attente ?"
+  "recipes.confirmAddToQueue": "Êtes-vous sûr de vouloir ajouter {{recipe}} à la file d'attente ?",
+  "whatsOn.ticketPaused": "Les Bumpkins sont en vacances. Fini les contraintes de temps à cause des corvées et des primes.",
+  "whatsOn.mysterySeasonText2": "Plus de délais impartis pour les livraisons.",
+  "whatsOn.mysterySeasonText3": "Plus d'horloges anciennes en creusant."
 }

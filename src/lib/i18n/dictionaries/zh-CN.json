@@ -5322,7 +5322,6 @@
   "time.in": "在 {{time}}",
   "whatsOn.ticketsEnd": "再也没有时间碎片了",
   "whatsOn.april28th": "4 月 28 日",
-  "whatsOn.ticketPaused": "Bumpkins 正在度假。再也不会因为配送、琐事和赏金而浪费时间了。",
   "error.recipeNotReady": "还没有准备好食谱",
   "error.noAvailableSlots": "没有可用的插槽",
   "goblinTrade.vipRequired": "需要VIP",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "添加到队列",
   "recipes.queue": "队列",
   "recipes.vipCookingQueue": "成为 VIP 会员，解锁一次烹饪多达 4 个食谱的能力！立即升级，为您的烹饪锦上添花。",
-  "recipes.confirmAddToQueue": "您确定要将 {{recipe}} 添加到队列中吗？"
+  "recipes.confirmAddToQueue": "您确定要将 {{recipe}} 添加到队列中吗？",
+  "whatsOn.ticketPaused": "Bumpkins 正在度假 —— 再也不需要从琐事和赏金中抽出时间了。",
+  "whatsOn.mysterySeasonText2": "再也不用在配送时间上了。",
+  "whatsOn.mysterySeasonText3": "挖掘时再也不会有古钟了"
 }

@@ -5322,7 +5322,6 @@
   "time.in": "в {{time}}",
   "whatsOn.ticketsEnd": "Больше никаких временных интервалов",
   "whatsOn.april28th": "28 апреля",
-  "whatsOn.ticketPaused": "«Бампкинс» в отпуске. Больше никаких временных отчислений, связанных с доставкой, работой по дому и вознаграждениями.",
   "error.recipeNotReady": "Рецепты не готовы",
   "error.noAvailableSlots": "Нет доступных слотов",
   "goblinTrade.vipRequired": "Требуется VIP",
@@ -5330,5 +5329,8 @@
   "recipes.addToQueue": "Добавить в очередь",
   "recipes.queue": "Очередь",
   "recipes.vipCookingQueue": "Станьте VIP-членом и получите возможность приготовить до 4 рецептов одновременно! Обновитесь прямо сейчас, чтобы ускорить приготовление пищи.",
-  "recipes.confirmAddToQueue": "Вы действительно хотите добавить {{recipe}} в очередь?"
+  "recipes.confirmAddToQueue": "Вы действительно хотите добавить {{recipe}} в очередь?",
+  "whatsOn.ticketPaused": "Семья Бампкинс в отпуске — больше нет лишних хлопот по дому и наград.",
+  "whatsOn.mysterySeasonText2": "Больше никаких временных отсрочек от поставок.",
+  "whatsOn.mysterySeasonText3": "Больше никаких старинных часов во время копания."
 }
