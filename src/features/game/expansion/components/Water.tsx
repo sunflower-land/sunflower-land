@@ -102,6 +102,45 @@ export const WaterComponent: React.FC<Props> = ({
 
           {/* Shark bumpkin */}
           <SharkBumpkin x={-8} y={offset + 10} />
+
+          {/* Marine Marvels when Full Moon */}
+          {weather === "Full Moon" && (
+            <>
+              <MapPlacement x={-20} y={9} width={2}>
+                <img
+                  src={fins1}
+                  className="absolute z-0 fish-swimming2"
+                  style={{
+                    width: `${PIXEL_SCALE * 17}px`,
+                    left: `${PIXEL_SCALE * -3}px`,
+                    top: 0,
+                  }}
+                />
+              </MapPlacement>
+              <MapPlacement x={offset + 7} y={2} width={2}>
+                <img
+                  src={fins2}
+                  className="absolute z-0 fish-swimming3"
+                  style={{
+                    width: `${PIXEL_SCALE * 17}px`,
+                    left: `${PIXEL_SCALE * -3}px`,
+                    top: 0,
+                  }}
+                />
+              </MapPlacement>
+              <MapPlacement x={-15} y={-9} width={1}>
+                <img
+                  src={fins3}
+                  className="absolute z-0 fish-swimming2"
+                  style={{
+                    width: `${PIXEL_SCALE * 9}px`,
+                    left: `${PIXEL_SCALE * -3}px`,
+                    top: 0,
+                  }}
+                />
+              </MapPlacement>
+            </>
+          )}
         </>
       )}
 
@@ -237,45 +276,6 @@ export const WaterComponent: React.FC<Props> = ({
             }}
           />
         </MapPlacement>
-      )}
-
-      {/* Marine Marvels when Full Moon */}
-      {weather === "Full Moon" && (
-        <>
-          <MapPlacement x={-20} y={9} width={2}>
-            <img
-              src={fins1}
-              className="absolute z-0 fish-swimming2"
-              style={{
-                width: `${PIXEL_SCALE * 17}px`,
-                left: `${PIXEL_SCALE * -3}px`,
-                top: 0,
-              }}
-            />
-          </MapPlacement>
-          <MapPlacement x={offset + 7} y={2} width={2}>
-            <img
-              src={fins2}
-              className="absolute z-0 fish-swimming3"
-              style={{
-                width: `${PIXEL_SCALE * 17}px`,
-                left: `${PIXEL_SCALE * -3}px`,
-                top: 0,
-              }}
-            />
-          </MapPlacement>
-          <MapPlacement x={-15} y={-9} width={1}>
-            <img
-              src={fins3}
-              className="absolute z-0 fish-swimming"
-              style={{
-                width: `${PIXEL_SCALE * 9}px`,
-                left: `${PIXEL_SCALE * -3}px`,
-                top: 0,
-              }}
-            />
-          </MapPlacement>
-        </>
       )}
 
       <MapPlacement x={-20} y={6} width={4}>

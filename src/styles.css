@@ -956,22 +956,22 @@ img {
   0% {
     transform: translateX(0) scaleX(1);
     animation-timing-function: linear;
-    opacity: 0.8;
+    opacity: 1;
   }
   49% {
     transform: translateX(100px) scaleX(1);
     animation-timing-function: linear;
-    opacity: 0.1;
+    opacity: 1;
   }
   50% {
     transform: translateX(100px) scaleX(-1);
     animation-timing-function: linear;
-    opacity: 0.1;
+    opacity: 1;
   }
   100% {
     transform: translateX(0) scaleX(-1);
     animation-timing-function: linear;
-    opacity: 0.8;
+    opacity: 1;
   }
 }
 
@@ -979,22 +979,22 @@ img {
   0% {
     transform: translateX(0) scaleX(1);
     animation-timing-function: linear;
-    opacity: 0.8;
+    opacity: 1;
   }
   49% {
     transform: translateX(150px) scaleX(1);
     animation-timing-function: linear;
-    opacity: 0.1;
+    opacity: 1;
   }
   50% {
     transform: translateX(150px) scaleX(-1);
     animation-timing-function: linear;
-    opacity: 0.1;
+    opacity: 1;
   }
   100% {
     transform: translateX(0) scaleX(-1);
     animation-timing-function: linear;
-    opacity: 0.8;
+    opacity: 1;
   }
 }
 
