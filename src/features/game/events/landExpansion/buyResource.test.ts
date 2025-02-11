@@ -80,6 +80,25 @@ describe("buyResource", () => {
     expect(state.inventory["Tree"]).toEqual(new Decimal(3));
     expect(state.inventory.Sunstone).toEqual(new Decimal(79)); // Cost 10
   });
+  it("throws an error if the player doesn't have the required island expansion", () => {
+    expect(() =>
+      buyResource({
+        state: {
+          ...TEST_FARM,
+          inventory: {
+            Sunstone: new Decimal(100),
+            "Flower Bed": new Decimal(0),
+            Beehive: new Decimal(0),
+          },
+          island: {
+            type: "basic",
+          },
+        },
+        action: { type: "resource.bought", name: "Flower Bed" },
+      }),
+    ).toThrow("Not in the right island expansion");
+  });
+
   it("buys a flower bed & beehive", () => {
     const state = buyResource({
       state: {
@@ -88,6 +107,9 @@ describe("buyResource", () => {
           Sunstone: new Decimal(100),
           "Flower Bed": new Decimal(0),
           Beehive: new Decimal(0),
+        },
+        island: {
+          type: "spring",
         },
       },
       action: { type: "resource.bought", name: "Flower Bed" },
