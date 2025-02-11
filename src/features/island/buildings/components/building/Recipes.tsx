@@ -299,6 +299,7 @@ export const Recipes: React.FC<Props> = ({
           <div className="flex space-x-1 justify-end">
             <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
             <Button
+              disabled={!hasAvailableSlots}
               onClick={() => {
                 setShowConfirm(false);
                 cook();
