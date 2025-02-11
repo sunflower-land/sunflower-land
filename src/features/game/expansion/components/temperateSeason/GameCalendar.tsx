@@ -155,7 +155,7 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
         />
         <Button className="h-8 sm:h-10 mb-0">
           <div className="flex items-center space-x-1">
-            <div className="flex items-center space-x-1 text-xs sm:text-sm">
+            <div className="flex items-center space-x-1 text-sm">
               <span>{utcDay}</span>
               <span>{utcDate}</span>
             </div>
@@ -194,16 +194,16 @@ export const GameCalendar: React.FC = () => {
   useUiRefresher({ delay: ONE_MINUTE });
 
   const now = new Date();
-  const utcDay = now.toLocaleString("en-US", {
+  const utcDay = now.toLocaleString(navigator.language, {
     weekday: "short",
     timeZone: "UTC",
   });
 
-  const utcDate = now.toLocaleString("en-US", {
+  const utcDate = now.toLocaleString(navigator.language, {
     day: "numeric",
     timeZone: "UTC",
   });
-  const utcTime = now.toLocaleTimeString("en-US", {
+  const utcTime = now.toLocaleTimeString(navigator.language, {
     timeZone: "UTC",
     hour: "2-digit",
     minute: "2-digit",

@@ -67,11 +67,7 @@ const getBettyPositioning = () => {
   };
 };
 
-export const Market: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -83,10 +79,6 @@ export const Market: React.FC<BuildingProps> = ({
   const { play: shopAudio } = useSound("shop");
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
     if (isBuilt) {
       // Add future on click actions here
       shopAudio();

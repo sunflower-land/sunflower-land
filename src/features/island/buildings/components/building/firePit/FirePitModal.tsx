@@ -4,18 +4,18 @@ import { Modal } from "components/ui/Modal";
 
 import chefHat from "assets/icons/chef_hat.png";
 
-import { Recipes } from "../../ui/Recipes";
+import { Recipes } from "../Recipes";
 import {
   Cookable,
   CookableName,
   FIRE_PIT_COOKABLES,
 } from "features/game/types/consumables";
-import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BuildingProduct } from "features/game/types/game";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `bruce-read.${host}-${window.location.pathname}`;
@@ -32,19 +32,21 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCook: (name: CookableName) => void;
-  crafting: boolean;
+  cooking?: BuildingProduct;
   itemInProgress?: CookableName;
-  craftingService?: MachineInterpreter;
   buildingId: string;
+  readyRecipes: BuildingProduct[];
+  queue: BuildingProduct[];
 }
 export const FirePitModal: React.FC<Props> = ({
   isOpen,
   onCook,
   onClose,
-  crafting,
+  cooking,
   itemInProgress,
-  craftingService,
   buildingId,
+  queue,
+  readyRecipes,
 }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
@@ -91,10 +93,11 @@ export const FirePitModal: React.FC<Props> = ({
             recipes={firePitRecipes}
             onCook={onCook}
             onClose={onClose}
-            crafting={!!crafting}
-            craftingService={craftingService}
+            cooking={cooking}
             buildingName="Fire Pit"
             buildingId={buildingId}
+            queue={queue}
+            readyRecipes={readyRecipes}
           />
         </CloseButtonPanel>
       )}

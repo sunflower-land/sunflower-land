@@ -676,7 +676,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
 
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
-  "recipe.collected": collectRecipe,
+  "recipes.collected": collectRecipe,
   "bumpkin.feed": feedBumpkin,
   "skill.chosen": choseSkill,
   "skills.reset": resetSkills,

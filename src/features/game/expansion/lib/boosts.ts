@@ -134,13 +134,17 @@ export const hasSellBoost = (inventory: Inventory) => {
  * @param game to check for wearables
  * @returns reduced cooking
  */
-export const getCookingTime = (
-  seconds: number,
-  item: CookableName,
-  game: GameState,
-): number => {
-  const buildingName = COOKABLES[item].building;
+export const getCookingTime = ({
+  seconds,
+  item,
+  game,
+}: {
+  seconds: number;
+  item: CookableName;
+  game: GameState;
+}): number => {
   const { bumpkin } = game;
+  const buildingName = COOKABLES[item].building;
 
   let reducedSecs = new Decimal(seconds);
 
