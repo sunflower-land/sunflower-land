@@ -43,11 +43,7 @@ const selectReadyPlants = (state: MachineState) => {
   );
 };
 
-export const Greenhouse: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  season,
-}) => {
+export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
 
   const readyPlants = useSelector(gameService, selectReadyPlants);
@@ -55,11 +51,6 @@ export const Greenhouse: React.FC<BuildingProps> = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/greenhouse");
 

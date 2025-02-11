@@ -597,7 +597,7 @@ describe("skillUse", () => {
       ).toThrow("No buildings are cooking");
     });
 
-    it("activates Instant Gratification", () => {
+    it("completes all recipes that are currently cooking", () => {
       const state = skillUse({
         state: {
           ...INITIAL_FARM,
@@ -613,17 +613,19 @@ describe("skillUse", () => {
                   y: -8,
                 },
                 readyAt: 1718582635573,
-                createdAt: 1718582635573,
+                createdAt: 0,
                 id: "2c7826e2",
                 oil: 1.36458333333333,
-                crafting: {
-                  name: "Antipasto",
-                  boost: {
-                    Oil: 0.125,
+                crafting: [
+                  {
+                    name: "Antipasto",
+                    boost: {
+                      Oil: 0.125,
+                    },
+                    amount: 1,
+                    readyAt: dateNow + 5000,
                   },
-                  amount: 1,
-                  readyAt: 1733818134518,
-                },
+                ],
               },
             ],
             "Smoothie Shack": [
@@ -636,14 +638,16 @@ describe("skillUse", () => {
                 },
                 readyAt: 1725322118500,
                 oil: 13.25,
-                crafting: {
-                  name: "Grape Juice",
-                  boost: {
-                    Oil: 1,
+                crafting: [
+                  {
+                    name: "Grape Juice",
+                    boost: {
+                      Oil: 1,
+                    },
+                    amount: 1,
+                    readyAt: dateNow + 6000,
                   },
-                  amount: 1,
-                  readyAt: 1733819691587,
-                },
+                ],
               },
             ],
           },
@@ -651,12 +655,13 @@ describe("skillUse", () => {
         action: { type: "skill.used", skill: "Instant Gratification" },
         createdAt: dateNow,
       });
-      expect(state.buildings["Fire Pit"]?.[0].crafting?.readyAt).toEqual(
-        dateNow,
-      );
-      expect(state.buildings["Smoothie Shack"]?.[0].crafting?.readyAt).toEqual(
-        dateNow,
-      );
+
+      const firePitRecipe = state.buildings?.["Fire Pit"]?.[0]?.crafting?.[0];
+      const smoothieShackRecipe =
+        state.buildings?.["Smoothie Shack"]?.[0].crafting?.[0];
+
+      expect(firePitRecipe?.readyAt).toEqual(dateNow);
+      expect(smoothieShackRecipe?.readyAt).toEqual(dateNow);
     });
   });
 
