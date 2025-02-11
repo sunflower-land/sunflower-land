@@ -135,11 +135,11 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                           className="ml-1 mb-1"
                         >{`+${formatNumber(
                           new Decimal(
-                            getFoodExpBoost(
-                              CONSUMABLES[name as ConsumableName],
+                            getFoodExpBoost({
+                              food: CONSUMABLES[name as ConsumableName],
                               game,
-                              buds ?? {},
-                            ),
+                              buds: buds ?? {},
+                            }),
                           ),
                           { decimalPlaces: 0 },
                         )} XP`}</Label>

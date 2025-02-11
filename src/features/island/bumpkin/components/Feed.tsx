@@ -109,7 +109,13 @@ export const Feed: React.FC<Props> = ({ food }) => {
             item: selected.name,
           }}
           properties={{
-            xp: new Decimal(getFoodExpBoost(selected, game, buds ?? {})),
+            xp: new Decimal(
+              getFoodExpBoost({
+                food: selected,
+                game,
+                buds: buds ?? {},
+              }),
+            ),
           }}
           actionView={
             <>

@@ -55,7 +55,11 @@ export function feedBumpkin({
 
     // increaes bumpkin experience
     const foodExperience = new Decimal(
-      getFoodExpBoost(CONSUMABLES[action.food], stateCopy, buds ?? {}),
+      getFoodExpBoost({
+        food: CONSUMABLES[action.food],
+        game: stateCopy,
+        buds: buds ?? {},
+      }),
     );
 
     bumpkin.experience += Number(foodExperience.mul(feedAmount));

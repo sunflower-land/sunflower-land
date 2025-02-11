@@ -206,11 +206,15 @@ export const getCookingTime = ({
  * @param bumpkin to check for skills
  * @returns boosted food exp
  */
-export const getFoodExpBoost = (
-  food: Consumable,
-  game: GameState,
-  buds: NonNullable<GameState["buds"]>,
-): number => {
+export const getFoodExpBoost = ({
+  food,
+  game,
+  buds,
+}: {
+  food: Consumable;
+  game: GameState;
+  buds: NonNullable<GameState["buds"]>;
+}): number => {
   let boostedExp = new Decimal(food.experience);
   const { skills } = game.bumpkin;
 

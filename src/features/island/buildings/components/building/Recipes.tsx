@@ -162,7 +162,13 @@ export const Recipes: React.FC<Props> = ({
               hideDescription
               requirements={{
                 resources: ingredients,
-                xp: new Decimal(getFoodExpBoost(selected, state, buds ?? {})),
+                xp: new Decimal(
+                  getFoodExpBoost({
+                    food: selected,
+                    game: state,
+                    buds: buds ?? {},
+                  }),
+                ),
                 timeSeconds: cookingTime,
               }}
               actionView={
