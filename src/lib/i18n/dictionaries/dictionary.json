@@ -5484,5 +5484,7 @@
   "portal.halloween.description": "Brave the haunted mansion, collect torches, and outrun ghosts in this spooky survival challenge!",
   "whatsOn.ticketsEnd": "No more timeshards",
   "whatsOn.april28th": "April 28th",
-  "whatsOn.ticketPaused": "The Bumpkins are on holidays. No more timeshards from deliveries, chores & bounties."
+  "whatsOn.ticketPaused": "The Bumpkins are on holidays - No more timeshards from chores & bounties.",
+  "whatsOn.mysterySeasonText2": "No more timeshards from deliveries.",
+  "whatsOn.mysterySeasonText3": "No more ancient clocks while digging."
 }

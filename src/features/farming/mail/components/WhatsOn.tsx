@@ -148,6 +148,14 @@ export const WhatsOn = () => {
                 text: t("whatsOn.mysterySeasonText"),
                 icon: SUNNYSIDE.icons.expression_confused,
               },
+              {
+                text: t("whatsOn.mysterySeasonText2"),
+                icon: SUNNYSIDE.icons.cancel,
+              },
+              {
+                text: t("whatsOn.mysterySeasonText3"),
+                icon: SUNNYSIDE.icons.cancel,
+              },
             ]}
           />
         </div>
