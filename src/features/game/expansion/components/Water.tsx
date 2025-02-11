@@ -172,10 +172,10 @@ export const WaterComponent: React.FC<Props> = ({
               }}
             />
           </MapPlacement>
-          <MapPlacement x={offset + 7} y={-2} width={1}>
+          <MapPlacement x={-16} y={offset - 21} width={1}>
             <img
               src={SUNNYSIDE.npcs.swimmer3}
-              className="absolute pointer-events-none"
+              className="absolute pointer-events-none z-0"
               style={{
                 width: `${1 * GRID_WIDTH_PX}px`,
                 zIndex: 2,
