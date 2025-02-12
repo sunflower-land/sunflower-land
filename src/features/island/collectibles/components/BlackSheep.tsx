@@ -1,9 +1,9 @@
 import React from "react";
 
-import toxicTuft from "assets/sfts/toxic_tuft.webp";
+import blackSheep from "assets/sfts/black_sheep.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const ToxicTuft: React.FC = () => {
+export const BlackSheep: React.FC = () => {
   return (
     <div
       className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
@@ -11,7 +11,7 @@ export const ToxicTuft: React.FC = () => {
         width: `${PIXEL_SCALE * 25}px`,
       }}
     >
-      <img src={toxicTuft} className="w-full" alt="Toxic Tuft" />
+      <img src={blackSheep} className="w-full" alt="Black Sheep" />
     </div>
   );
 };

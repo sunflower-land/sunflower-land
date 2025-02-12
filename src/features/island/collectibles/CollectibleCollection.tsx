@@ -350,6 +350,7 @@ import { FrozenSheep } from "./components/FrozenSheep";
 import { SummerChicken } from "./components/SummerChicken";
 import { Jellyfish } from "./components/Jellyfish";
 import { Chamomile } from "./components/Chamomile";
+import { BlackSheep } from "./components/BlackSheep";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -1439,21 +1440,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="UFO"
     />
   ),
-  "Black Sheep": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 25}px`,
-        bottom: `${PIXEL_SCALE * 4}px`,
-        left: `${PIXEL_SCALE * -3}px`,
-      }}
-      imgStyle={{
-        width: `${PIXEL_SCALE * 25}px`,
-      }}
-      image={ITEM_DETAILS["Black Sheep"].image}
-      alt="Black Sheep"
-    />
-  ),
+  "Black Sheep": BlackSheep,
   "Halloween Scarecrow": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
