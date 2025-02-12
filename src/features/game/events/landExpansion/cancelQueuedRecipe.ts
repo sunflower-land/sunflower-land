@@ -6,9 +6,9 @@ import {
   InventoryItemName,
   PlacedItem,
 } from "features/game/types/game";
-import { produce } from "immer";
 import { getCookingRequirements } from "./cook";
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
 
 export type CancelQueuedRecipeAction = {
   type: "recipe.cancelled";
