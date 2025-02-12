@@ -107,13 +107,19 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const { name: mutantName } = sheep.reward?.items?.[0] ?? {};
 
   useEffect(() => {
-    if (
-      sheep.state === "ready" &&
-      sheep.awakeAt < Date.now() &&
-      sheepState !== "ready"
-    ) {
+    if (sheep.awakeAt < Date.now() && sheepState === "sleeping") {
       sheepService.send({
-        type: "INSTANT_LEVEL_UP",
+        type: "INSTANT_WAKE_UP",
+        animal: sheep,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheep.awakeAt]);
+
+  useEffect(() => {
+    if (sheep.state === "sick" && sheepState !== "sick") {
+      sheepService.send({
+        type: "SICK",
         animal: sheep,
       });
     }
