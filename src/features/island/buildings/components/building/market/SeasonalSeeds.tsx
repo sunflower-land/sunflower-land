@@ -73,7 +73,7 @@ const _state = (state: MachineState) => state.context.state;
 export const SeasonalSeeds: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const { inventory, coins, island, bumpkin, buds, season } = state;
+  const { inventory, coins, island, bumpkin, season } = state;
   const currentSeason = season.season;
   // Sort the seeds by their default order
   const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
@@ -251,12 +251,7 @@ export const SeasonalSeeds: React.FC = () => {
       return seconds;
     }
 
-    return getCropPlotTime({
-      crop: yields as CropName,
-      inventory,
-      game: state,
-      buds: buds ?? {},
-    });
+    return getCropPlotTime({ crop: yields as CropName, game: state });
   };
 
   const getHarvestCount = () => {

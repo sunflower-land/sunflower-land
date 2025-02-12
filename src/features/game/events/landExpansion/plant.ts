@@ -2,12 +2,10 @@ import Decimal from "decimal.js-light";
 
 import { CropName, CROPS, GreenHouseCropName } from "../../types/crops";
 import {
-  Bumpkin,
+  Buildings,
   CropPlot,
   GameState,
-  Inventory,
   InventoryItemName,
-  PlacedItem,
   Position,
 } from "../../types/game";
 import {
@@ -20,7 +18,6 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
-import { BuildingName } from "features/game/types/buildings";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   isBasicCrop,
@@ -39,8 +36,6 @@ import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
-import { getBumpkinLevel } from "features/game/lib/level";
-import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
@@ -69,40 +64,14 @@ type Options = {
 type IsPlotFertile = {
   plotIndex: string;
   crops: Record<string, CropPlot>;
-  buildings: Partial<Record<BuildingName, PlacedItem[]>>;
-  bumpkin?: Bumpkin;
+  wellLevel: number;
+  buildings: Buildings;
 };
 
 // First 15 plots do not need water
-const INITIAL_SUPPORTED_PLOTS = 17;
+const INITIAL_SUPPORTED_PLOTS = 18;
 // Each well can support an additional 8 plots
 const WELL_PLOT_SUPPORT = 8;
-
-export const getCompletedWellCount = (
-  buildings: Partial<Record<BuildingName, PlacedItem[]>>,
-) => {
-  return (
-    buildings["Water Well"]?.filter((well) => well.readyAt < Date.now())
-      .length ?? 0
-  );
-};
-
-export const getEnabledWellCount = (
-  buildings: Partial<Record<BuildingName, PlacedItem[]>>,
-  bumpkin?: Bumpkin,
-) => {
-  let enabledWells =
-    buildings["Water Well"]?.filter((well) => well.readyAt < Date.now())
-      .length ?? 0;
-
-  const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
-  while (enabledWells > 0) {
-    if (isBuildingEnabled(bumpkinLevel, "Water Well", enabledWells - 1)) break;
-    --enabledWells;
-  }
-
-  return enabledWells;
-};
 
 function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
   // Sort oldest to newest
@@ -114,20 +83,32 @@ function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
   return cropsToRemove.includes(id);
 }
 
+const getSupportedPlots = ({
+  wellLevel,
+  buildings,
+}: {
+  wellLevel: number;
+  buildings: Buildings;
+}) => {
+  if (!buildings["Water Well"]) {
+    return INITIAL_SUPPORTED_PLOTS;
+  }
+
+  if (wellLevel >= 4) {
+    return 99;
+  }
+
+  return wellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
+};
+
 export function isPlotFertile({
   plotIndex,
   crops,
+  wellLevel,
   buildings,
-  bumpkin,
 }: IsPlotFertile): boolean {
   // get the well count
-  const wellCount = getEnabledWellCount(buildings, bumpkin);
-  let cropsWellCanWater =
-    wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
-
-  if (wellCount >= 4) {
-    cropsWellCanWater = 99;
-  }
+  const cropsWellCanWater = getSupportedPlots({ wellLevel, buildings });
 
   const cropPosition =
     getKeys(crops)
@@ -269,16 +250,12 @@ export function getCropTime({
  */
 export const getCropPlotTime = ({
   crop,
-  inventory,
   game,
-  buds,
   plot,
   fertiliser,
 }: {
   crop: CropName;
-  inventory: Inventory;
   game: GameState;
-  buds: NonNullable<GameState["buds"]>;
   plot?: CropPlot;
   fertiliser?: CropCompostName;
 }) => {
@@ -381,11 +358,9 @@ export const getCropPlotTime = ({
 
 type GetPlantedAtArgs = {
   crop: CropName;
-  inventory: Inventory;
   game: GameState;
   createdAt: number;
   plot: CropPlot;
-  buds: NonNullable<GameState["buds"]>;
   fertiliser?: CropCompostName;
 };
 
@@ -394,9 +369,7 @@ type GetPlantedAtArgs = {
  */
 export function getPlantedAt({
   crop,
-  inventory,
   game,
-  buds,
   createdAt,
   plot,
   fertiliser,
@@ -404,14 +377,7 @@ export function getPlantedAt({
   if (!crop) return 0;
 
   const cropTime = CROPS[crop].harvestSeconds;
-  const boostedTime = getCropPlotTime({
-    crop,
-    inventory,
-    game: game,
-    buds,
-    plot,
-    fertiliser,
-  });
+  const boostedTime = getCropPlotTime({ crop, game, plot, fertiliser });
 
   const offset = cropTime - boostedTime;
 
@@ -884,8 +850,7 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { crops: plots, bumpkin, inventory } = stateCopy;
-    const buds = stateCopy.buds ?? {};
+    const { crops: plots, bumpkin, inventory, buildings } = stateCopy;
 
     if (bumpkin === undefined) {
       throw new Error("You do not have a Bumpkin!");
@@ -899,6 +864,17 @@ export function plant({
 
     if (!plot) {
       throw new Error("Plot does not exist");
+    }
+
+    if (
+      isPlotFertile({
+        plotIndex: action.index,
+        crops: plots,
+        wellLevel: stateCopy.waterWell.level,
+        buildings,
+      })
+    ) {
+      throw new Error("Plot is not fertile");
     }
 
     if (plot.crop?.plantedAt) {
@@ -937,11 +913,9 @@ export function plant({
         id: action.cropId,
         plantedAt: getPlantedAt({
           crop: cropName,
-          inventory,
           game: stateCopy,
           createdAt,
           plot,
-          buds,
           fertiliser: plot.fertiliser?.name,
         }),
         name: cropName,

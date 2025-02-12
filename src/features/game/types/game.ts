@@ -83,7 +83,6 @@ import {
   Recipes,
   RecipeWearableName,
 } from "../lib/crafting";
-import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
 import { SeasonalCollectibleName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
@@ -1269,6 +1268,8 @@ type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
 export type AnimalBuildingKey = "henHouse" | "barn";
+export type UpgradableBuildingKey = AnimalBuildingKey | "waterWell";
+
 export type AnimalResource =
   | "Egg"
   | "Leather"
@@ -1292,9 +1293,12 @@ export type Animal = {
   reward?: Reward;
 };
 
-export type AnimalBuilding = {
-  level: AnimalBuildingLevel;
+export type AnimalBuilding = UpgradableBuilding & {
   animals: Record<string, Animal>;
+};
+
+export type UpgradableBuilding = {
+  level: number;
 };
 
 export type Bank = {
@@ -1529,6 +1533,7 @@ export interface GameState {
   experiments: ExperimentName[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
+  waterWell: UpgradableBuilding;
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";

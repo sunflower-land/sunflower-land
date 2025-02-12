@@ -502,8 +502,6 @@ export type PlayingEvent =
   | ExpandLandAction
   | MessageRead
   | PickMushroomAction
-  // TODO - remove once landscaping is released
-  | RemoveBuildingAction
   | RemoveCollectibleAction
   | RemoveChickenAction
   | DeliverOrderAction
@@ -711,8 +709,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.expanded": expandLand,
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
-  // TODO - remove once landscaping is released
-  "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
   "order.delivered": deliverOrder,

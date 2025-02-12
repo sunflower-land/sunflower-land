@@ -1,13 +1,17 @@
 import Decimal from "decimal.js-light";
-import { makeAnimalBuildingKey } from "features/game/lib/animals";
-import { AnimalBuildingType } from "features/game/types/animals";
+import { UpgradableBuildingType } from "features/game/types/animals";
+import { BuildingName } from "features/game/types/buildings";
 import { getKeys } from "features/game/types/decorations";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  UpgradableBuildingKey,
+} from "features/game/types/game";
 import { produce } from "immer";
 
 export type UpgradeBuildingAction = {
   type: "building.upgraded";
-  buildingType: AnimalBuildingType;
+  buildingType: UpgradableBuildingType;
 };
 
 type Options = {
@@ -23,8 +27,8 @@ type BuildingUpgradeCost = {
 };
 
 export const BUILDING_UPGRADES: Record<
-  AnimalBuildingType,
-  Record<AnimalBuildingLevel, BuildingUpgradeCost>
+  UpgradableBuildingType,
+  Record<number, BuildingUpgradeCost>
 > = {
   "Hen House": {
     // Level 1 is the default and does not require any upgrades
@@ -77,17 +81,46 @@ export const BUILDING_UPGRADES: Record<
       },
     },
   },
+  "Water Well": {
+    1: {
+      coins: 0,
+      items: {},
+    },
+    2: {
+      coins: 0,
+      items: {},
+    },
+    3: {
+      coins: 0,
+      items: {},
+    },
+    4: {
+      coins: 0,
+      items: {},
+    },
+  },
+};
+
+export const makeUpgradableBuildingKey = (
+  buildingName: Extract<BuildingName, "Hen House" | "Barn" | "Water Well">,
+): UpgradableBuildingKey => {
+  return buildingName
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "") as UpgradableBuildingKey;
 };
 
 export function upgradeBuilding({ state, action }: Options): GameState {
   return produce(state, (copy) => {
     const { buildings } = copy;
+    const { buildingType } = action;
 
-    if (!buildings[action.buildingType]) {
+    if (!buildings[buildingType]) {
       throw new Error("Building not found");
     }
 
-    const buildingKey = makeAnimalBuildingKey(action.buildingType);
+    const buildingKey = makeUpgradableBuildingKey(buildingType);
 
     const building = copy[buildingKey];
 
@@ -95,8 +128,13 @@ export function upgradeBuilding({ state, action }: Options): GameState {
       throw new Error("Building is at max level");
     }
 
-    const nextLevel = (building.level + 1) as Exclude<AnimalBuildingLevel, 1>;
-    const upgradeCost = BUILDING_UPGRADES[action.buildingType][nextLevel];
+    const upgrades = BUILDING_UPGRADES[buildingType];
+
+    const nextLevel = (building.level + 1) as Exclude<
+      keyof typeof upgrades,
+      "1"
+    >;
+    const upgradeCost = upgrades[nextLevel];
 
     if (state.coins < upgradeCost.coins) {
       throw new Error("Insufficient coins for upgrade");
