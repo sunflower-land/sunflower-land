@@ -20,7 +20,13 @@ export function restock({ state }: Options): GameState {
       throw new Error("You do not have enough Gems");
     }
 
-    game.stock = INITIAL_STOCK(state);
+    game.stock = {
+      ...INITIAL_STOCK(game),
+      "Duskberry Seed": game.stock["Duskberry Seed"] ?? new Decimal(0),
+      "Lunara Seed": game.stock["Lunara Seed"] ?? new Decimal(0),
+      "Celestine Seed": game.stock["Celestine Seed"] ?? new Decimal(0),
+    };
+
     game.inventory["Gem"] = gems.sub(1 * BB_TO_GEM_RATIO);
 
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
