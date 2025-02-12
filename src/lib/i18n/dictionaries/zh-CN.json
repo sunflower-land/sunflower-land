@@ -4205,7 +4205,6 @@
   "skill.tapProspector": "1 点按小型矿物节点",
   "skill.forgeWardProfits": "+20% 铁匠配送收入",
   "skill.ironHustle": "-30% 铁回收时间",
-  "skill.frugalMiner": "-20% 镐硬币成本",
   "skill.rockyFavor.buff": "+1 宝石产量",
   "skill.rockyFavor.debuff": "-0.5 铁产量",
   "skill.ferrousFavor.buff": "+1 铁产量",
@@ -4271,7 +4270,6 @@
   "skillTier.number": "{{number}} 阶层",
   "powerSkills.title": "强力技能",
   "powerSkills.ready": "强力技能准备就绪",
-  "powerSkills.nextUse": "下一次技能可用于：",
   "powerSkills.use": "使用",
   "powerSkills.confirmationMessage": "您确定要使用 {{skillName}} 吗？",
   "powerSkills.cooldownMessage": "您将无法再次使用此技能，直到 {{cooldown}} 冷却完成",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "您确定要将 {{recipe}} 添加到队列中吗？",
   "whatsOn.ticketPaused": "Bumpkins 正在度假 —— 再也不需要从琐事和赏金中抽出时间了。",
   "whatsOn.mysterySeasonText2": "再也不用在配送时间上了。",
-  "whatsOn.mysterySeasonText3": "挖掘时再也不会有古钟了"
+  "whatsOn.mysterySeasonText3": "挖掘时再也不会有古钟了",
+  "skill.frugalMiner": "所有镐的硬币消耗 -20%",
+  "powerSkills.nextUse": "下次使用技能 {{time}}"
 }

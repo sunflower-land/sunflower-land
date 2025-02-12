@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "1 탭 소형 미네랄 노드",
   "skill.forgeWardProfits": "+20% 블랙스미스 배송 수익",
   "skill.ironHustle": "철분 회복 시간 -30%",
-  "skill.frugalMiner": "곡괭이 주화 비용 -20%",
   "skill.rockyFavor.buff": "석재 생산량 +1",
   "skill.rockyFavor.debuff": "-0.5 철 생산량",
   "skill.ferrousFavor.buff": "+1 철 생산량",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "등급 {{number}}",
   "powerSkills.title": "파워 스킬",
   "powerSkills.ready": "파워 스킬 레디",
-  "powerSkills.nextUse": "다음 스킬 사용 장소:",
   "powerSkills.use": "용도",
   "powerSkills.confirmationMessage": "정말로 {{skillName}} 를 사용하시겠습니까?",
   "powerSkills.cooldownMessage": "{{cooldown}} 에는 이 스킬을 다시 사용할 수 없습니다.",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "정말로 대기열에 {{recipe}} 를 추가하시겠습니까?",
   "whatsOn.ticketPaused": "범프킨은 휴일을 맞이합니다. 이제 집안일과 현상금으로 인한 타임샤드는 이제 그만.",
   "whatsOn.mysterySeasonText2": "더 이상 배송으로 인한 타임샤드가 없습니다.",
-  "whatsOn.mysterySeasonText3": "땅을 파는 동안 더 이상 고대 시계를 볼 필요가 없습니다."
+  "whatsOn.mysterySeasonText3": "땅을 파는 동안 더 이상 고대 시계를 볼 필요가 없습니다.",
+  "skill.frugalMiner": "모든 곡괭이의 코인 소모량 -20%",
+  "powerSkills.nextUse": "다음 스킬 사용 {{time}}"
 }

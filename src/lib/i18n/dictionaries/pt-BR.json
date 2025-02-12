@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "1 toque em pequenos nós minerais",
   "skill.forgeWardProfits": "+20% de receita de entregas de ferreiros",
   "skill.ironHustle": "-30% de tempo de recuperação de ferro",
-  "skill.frugalMiner": "-20% de custo da moeda Pickaxe",
   "skill.rockyFavor.buff": "+1 Rendimento de pedra",
   "skill.rockyFavor.debuff": "-0,5 Rendimento de ferro",
   "skill.ferrousFavor.buff": "+1 Rendimento de ferro",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "Nível {{number}}",
   "powerSkills.title": "Habilidades de poder",
   "powerSkills.ready": "Power Skill Ready",
-  "powerSkills.nextUse": "Próximo uso de habilidade em:",
   "powerSkills.use": "Uso",
   "powerSkills.confirmationMessage": "Tem certeza de que deseja usar {{skillName}}?",
   "powerSkills.cooldownMessage": "Você não poderá usar essa habilidade novamente por {{cooldown}}",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "Tem certeza de que deseja adicionar {{recipe}} à fila?",
   "whatsOn.ticketPaused": "Os Bumpkins estão de férias - Chega de ficar cansados de tarefas e recompensas.",
   "whatsOn.mysterySeasonText2": "Chega de demoras nas entregas.",
-  "whatsOn.mysterySeasonText3": "Chega de relógios antigos durante a escavação."
+  "whatsOn.mysterySeasonText3": "Chega de relógios antigos durante a escavação.",
+  "skill.frugalMiner": "-20% do custo da moeda para todas as picaretas",
+  "powerSkills.nextUse": "Próximo uso da habilidade {{time}}"
 }

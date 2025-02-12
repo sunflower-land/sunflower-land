@@ -3784,7 +3784,6 @@
   "powerSkills.confirmationMessage": "Вы действительно хотите использовать {{skillName}}?",
   "powerSkills.cooldownMessage": "Вы больше не сможете использовать этот навык для {{cooldown}}",
   "powerSkills.fertiliser": "Навыки внесения удобрений",
-  "powerSkills.nextUse": "Следующее использование навыка в:",
   "powerSkills.ready": "Готов к силовым навыкам",
   "powerSkills.reason.allFruitPatchesFertilised": "Все грядки с фруктами уже оплодотворены",
   "powerSkills.reason.allPlotsFertilised": "Все участки уже удобрены",
@@ -4188,7 +4187,6 @@
   "skill.forgeWardProfits": "+20% Монет от доставок Blacksmith",
   "skill.frenziedFish": "Во время Рыбного безумия +1 рыба и 50% шанс получения ещё +1 рыбы",
   "skill.frostedCakes": "-10% времени приготовления тортов",
-  "skill.frugalMiner": "-20% монет стоимости Кирки",
   "skill.fruitfulBounty": "Двойной эффект фруктового удобрения",
   "skill.fruitfulFumble": "+0.1 урожаю фруктов",
   "skill.fruityHeaven": "-10% стоимости фруктовых семян",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "Вы действительно хотите добавить {{recipe}} в очередь?",
   "whatsOn.ticketPaused": "Семья Бампкинс в отпуске — больше нет лишних хлопот по дому и наград.",
   "whatsOn.mysterySeasonText2": "Больше никаких временных отсрочек от поставок.",
-  "whatsOn.mysterySeasonText3": "Больше никаких старинных часов во время копания."
+  "whatsOn.mysterySeasonText3": "Больше никаких старинных часов во время копания.",
+  "skill.frugalMiner": "-20% стоимости монет за все кирки",
+  "powerSkills.nextUse": "Следующее использование навыка {{time}}"
 }

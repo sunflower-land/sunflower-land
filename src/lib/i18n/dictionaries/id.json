@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "1 ketuk simpul mineral kecil",
   "skill.forgeWardProfits": "+20% pendapatan pengiriman Blacksmith",
   "skill.ironHustle": "-30% Waktu pemulihan zat besi",
-  "skill.frugalMiner": "-20% biaya koin Pickaxe",
   "skill.rockyFavor.buff": "+1 Hasil batu",
   "skill.rockyFavor.debuff": "-0.5 Hasil besi",
   "skill.ferrousFavor.buff": "+1 Hasil besi",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "Tingkat {{number}}",
   "powerSkills.title": "Keterampilan Kekuatan",
   "powerSkills.ready": "Keterampilan Kekuatan Siap",
-  "powerSkills.nextUse": "Penggunaan keterampilan berikutnya dalam:",
   "powerSkills.use": "Gunakan",
   "powerSkills.confirmationMessage": "Apakah Anda yakin ingin menggunakan {{skillName}}?",
   "powerSkills.cooldownMessage": "Anda tidak akan dapat menggunakan skill ini lagi untuk {{cooldown}}",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "Apakah Anda yakin ingin menambahkan {{recipe}} ke antrian?",
   "whatsOn.ticketPaused": "Keluarga Bumpkins sedang berlibur - Tidak ada lagi waktu yang sulit dari tugas-tugas & hadiah.",
   "whatsOn.mysterySeasonText2": "Tidak ada lagi waktu yang sulit dari pengiriman.",
-  "whatsOn.mysterySeasonText3": "Tidak ada lagi jam kuno saat menggali."
+  "whatsOn.mysterySeasonText3": "Tidak ada lagi jam kuno saat menggali.",
+  "skill.frugalMiner": "-20% biaya koin untuk semua beliung",
+  "powerSkills.nextUse": "Penggunaan keterampilan berikutnya {{time}}"
 }

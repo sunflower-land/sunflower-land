@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "1 musluk küçük mineral düğümleri",
   "skill.forgeWardProfits": "+20% Demirci teslimatları geliri",
   "skill.ironHustle": "-30% Demir geri kazanım süresi",
-  "skill.frugalMiner": "-20% Kazma madeni para maliyeti",
   "skill.rockyFavor.buff": "+1 Taş verimi",
   "skill.rockyFavor.debuff": "-0.5 Demir verimi",
   "skill.ferrousFavor.buff": "+1 Demir verimi",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "Katman {{number}}",
   "powerSkills.title": "Güç Becerileri",
   "powerSkills.ready": "Güç Becerisi Hazır",
-  "powerSkills.nextUse": "Sonraki beceri kullanımı:",
   "powerSkills.use": "Kullan",
   "powerSkills.confirmationMessage": "{{skillName}} kullanmak istediğinizden emin misiniz?",
   "powerSkills.cooldownMessage": "Bu beceriyi bir daha {{cooldown}} için kullanamayacaksınız.",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "Kuyruğa {{recipe}} eklemek istediğinizden emin misiniz?",
   "whatsOn.ticketPaused": "Bumpkin'ler tatilde - Artık ev işleri ve ödüller için zaman sıkıntısı yok.",
   "whatsOn.mysterySeasonText2": "Teslimatlardan daha fazla zaman sıkıntısı yok.",
-  "whatsOn.mysterySeasonText3": "Kazarken artık eski saat yok."
+  "whatsOn.mysterySeasonText3": "Kazarken artık eski saat yok.",
+  "skill.frugalMiner": "Tüm kazmalar için% -20 jeton maliyeti",
+  "powerSkills.nextUse": "Sonraki beceri kullanımı {{time}}"
 }

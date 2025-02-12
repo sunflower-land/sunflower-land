@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "1 Hahn kleine Mineralknoten",
   "skill.forgeWardProfits": "+20% Umsatz mit Schmiedelieferungen",
   "skill.ironHustle": "-30% Eisenrückgewinnungszeit",
-  "skill.frugalMiner": "-20% Kosten für Spitzhackenmünzen",
   "skill.rockyFavor.buff": "+1 Steinausbeute",
   "skill.rockyFavor.debuff": "-0,5 Eisenausbeute",
   "skill.ferrousFavor.buff": "+1 Eisenausbeute",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "Stufe {{number}}",
   "powerSkills.title": "Machtfähigkeiten",
   "powerSkills.ready": "Bereit für Power-Skill",
-  "powerSkills.nextUse": "Nächster Skilleinsatz in:",
   "powerSkills.use": "Benutzen",
   "powerSkills.confirmationMessage": "Sind Sie sicher, dass Sie {{skillName}} verwenden möchten?",
   "powerSkills.cooldownMessage": "Du wirst diesen Skill für {{cooldown}} nicht mehr verwenden können",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "Sind Sie sicher, dass Sie {{recipe}} zur Warteschlange hinzufügen möchten?",
   "whatsOn.ticketPaused": "Die Bumpkins sind im Urlaub — Schluss mit den Timeshards von Hausarbeiten und Kopfgeldern.",
   "whatsOn.mysterySeasonText2": "Keine Zeitverschreibungen mehr durch Lieferungen.",
-  "whatsOn.mysterySeasonText3": "Keine alten Uhren mehr beim Graben."
+  "whatsOn.mysterySeasonText3": "Keine alten Uhren mehr beim Graben.",
+  "skill.frugalMiner": "-20% Münzkosten für alle Spitzhacken",
+  "powerSkills.nextUse": "Nächster Skilleinsatz {{time}}"
 }

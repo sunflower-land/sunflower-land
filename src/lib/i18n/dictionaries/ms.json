@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "1 ketuk nod mineral kecil",
   "skill.forgeWardProfits": "+20% pendapatan penghantaran tukang besi",
   "skill.ironHustle": "-30% Masa pemulihan besi",
-  "skill.frugalMiner": "-20% kos duit syiling Pickaxe",
   "skill.rockyFavor.buff": "+1 Hasil batu",
   "skill.rockyFavor.debuff": "-0.5 Hasil besi",
   "skill.ferrousFavor.buff": "+1 Hasil besi",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "Tingkat {{number}}",
   "powerSkills.title": "Kemahiran Kuasa",
   "powerSkills.ready": "Kemahiran Kuasa Sedia",
-  "powerSkills.nextUse": "Penggunaan kemahiran seterusnya dalam:",
   "powerSkills.use": "Gunakan",
   "powerSkills.confirmationMessage": "Adakah anda pasti mahu menggunakan {{skillName}}?",
   "powerSkills.cooldownMessage": "Anda tidak akan dapat menggunakan kemahiran ini lagi untuk {{cooldown}}",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "Adakah anda pasti ingin menambah {{recipe}} ke barisan?",
   "whatsOn.ticketPaused": "The Bumpkins sedang bercuti - Tiada lagi keras masa dari kerja & hadiah.",
   "whatsOn.mysterySeasonText2": "Tiada lagi timeshards daripada penghantaran.",
-  "whatsOn.mysterySeasonText3": "Tiada lagi jam kuno semasa menggali."
+  "whatsOn.mysterySeasonText3": "Tiada lagi jam kuno semasa menggali.",
+  "skill.frugalMiner": "-20% kos duit syiling untuk semua pickaxes",
+  "powerSkills.nextUse": "Penggunaan kemahiran seterusnya {{time}}"
 }

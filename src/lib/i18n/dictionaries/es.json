@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "1 cucharadita de pequeños nodos minerales",
   "skill.forgeWardProfits": "+20% de ingresos por entregas de Blacksmith",
   "skill.ironHustle": "-30% de tiempo de recuperación de hierro",
-  "skill.frugalMiner": "-20% de coste de la moneda Pickaxe",
   "skill.rockyFavor.buff": "Rendimiento de +1 piedra",
   "skill.rockyFavor.debuff": "-0,5 Rendimiento de hierro",
   "skill.ferrousFavor.buff": "+1 Rendimiento de hierro",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "Nivel {{number}}",
   "powerSkills.title": "Habilidades de poder",
   "powerSkills.ready": "Listo para usar Power Skill",
-  "powerSkills.nextUse": "Siguiente uso de la habilidad en:",
   "powerSkills.use": "Utilice",
   "powerSkills.confirmationMessage": "¿Estás seguro de que quieres usar {{skillName}}?",
   "powerSkills.cooldownMessage": "No podrás volver a usar esta habilidad para {{cooldown}}",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "¿Estás seguro de que quieres añadir {{recipe}} a la cola?",
   "whatsOn.ticketPaused": "Los Bumpkins están de vacaciones, se acabaron las horas de trabajo y las recompensas.",
   "whatsOn.mysterySeasonText2": "No más tiempos compartidos en las entregas.",
-  "whatsOn.mysterySeasonText3": "No más relojes antiguos mientras cavas."
+  "whatsOn.mysterySeasonText3": "No más relojes antiguos mientras cavas.",
+  "skill.frugalMiner": "-20% de coste en monedas para todos los picos",
+  "powerSkills.nextUse": "Siguiente uso de habilidad {{time}}"
 }

@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "1 tocco piccoli nodi minerali",
   "skill.forgeWardProfits": "+20% dei ricavi delle consegne di Blacksmith",
   "skill.ironHustle": "-30% tempo di recupero del ferro",
-  "skill.frugalMiner": "-20% Costo della moneta Pickaxe",
   "skill.rockyFavor.buff": "+1 resa in pietra",
   "skill.rockyFavor.debuff": "-0,5 Rendimento in ferro",
   "skill.ferrousFavor.buff": "+1 Rendimento in ferro",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "Livello {{number}}",
   "powerSkills.title": "Competenze di potenza",
   "powerSkills.ready": "Power Skill Ready",
-  "powerSkills.nextUse": "Prossimo utilizzo delle abilità in:",
   "powerSkills.use": "Usare",
   "powerSkills.confirmationMessage": "Sei sicuro di voler usare {{skillName}}?",
   "powerSkills.cooldownMessage": "Non potrai più usare questa abilità per {{cooldown}}",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "Sei sicuro di voler aggiungere {{recipe}} alla coda?",
   "whatsOn.ticketPaused": "I Bumpkins sono in vacanza: niente più distrazioni dalle faccende domestiche e dalle taglie.",
   "whatsOn.mysterySeasonText2": "Niente più frazioni temporali rispetto alle consegne.",
-  "whatsOn.mysterySeasonText3": "Niente più orologi antichi mentre si scava."
+  "whatsOn.mysterySeasonText3": "Niente più orologi antichi mentre si scava.",
+  "skill.frugalMiner": "-20% di costo in monete per tutti i picconi",
+  "powerSkills.nextUse": "Prossima abilità utilizzata {{time}}"
 }

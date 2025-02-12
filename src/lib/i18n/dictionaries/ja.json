@@ -4203,7 +4203,6 @@
   "skill.tapProspector": "小さなミネラルノード1タップ",
   "skill.forgeWardProfits": "+20% 鍛冶屋配送収益",
   "skill.ironHustle": "-30% の鉄分回収時間",
-  "skill.frugalMiner": "ツルハシのコインコスト -20%",
   "skill.rockyFavor.buff": "+1 ストーン産出",
   "skill.rockyFavor.debuff": "-0.5 鉄収率",
   "skill.ferrousFavor.buff": "+1 鉄分産出量",
@@ -4269,7 +4268,6 @@
   "skillTier.number": "ティア {{number}}",
   "powerSkills.title": "パワースキル",
   "powerSkills.ready": "パワースキル準備完了",
-  "powerSkills.nextUse": "次のスキル使用場所:",
   "powerSkills.use": "使用",
   "powerSkills.confirmationMessage": "本当に {{skillName}} を使用してもよろしいですか？",
   "powerSkills.cooldownMessage": "{{cooldown}} ではこのスキルを再び使用することはできません",
@@ -5332,5 +5330,7 @@
   "recipes.confirmAddToQueue": "キューに {{recipe}} を追加してよろしいですか?",
   "whatsOn.ticketPaused": "Bumpkinsは休暇中です。家事や賞金で時間を無駄にすることはもうありません。",
   "whatsOn.mysterySeasonText2": "配達によるタイムシェードはもうありません。",
-  "whatsOn.mysterySeasonText3": "掘っている間に古い時計はもう必要ありません。"
+  "whatsOn.mysterySeasonText3": "掘っている間に古い時計はもう必要ありません。",
+  "skill.frugalMiner": "すべてのツルハシのコインコスト -20%",
+  "powerSkills.nextUse": "次のスキル使用 {{time}}"
 }
