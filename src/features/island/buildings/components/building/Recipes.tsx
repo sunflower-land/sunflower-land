@@ -223,6 +223,8 @@ export const Recipes: React.FC<Props> = ({
 
             {cooking && isVIP && (
               <Queue
+                buildingName={buildingName}
+                buildingId={buildingId as string}
                 cooking={cooking}
                 queue={queue}
                 readyRecipes={readyRecipes}
