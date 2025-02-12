@@ -101,7 +101,7 @@ export const getResources = (
     icon: ITEM_DETAILS["Sunstone"].image,
   },
   plots: {
-    component: () => <Plot id="1" index={0} />,
+    component: () => <Plot id="1" />,
     dimensions: {
       height: 1,
       width: 1,

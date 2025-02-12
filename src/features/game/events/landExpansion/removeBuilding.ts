@@ -1,14 +1,10 @@
-import Decimal from "decimal.js-light";
 import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
 import { Chicken, GameState } from "features/game/types/game";
 import { getSupportedChickens } from "./utils";
-import { getBumpkinLevel } from "features/game/lib/level";
-import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { produce } from "immer";
-
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
@@ -27,71 +23,6 @@ type Options = {
   state: Readonly<GameState>;
   action: RemoveBuildingAction;
   createdAt?: number;
-};
-
-// First 15 plots do not need water
-const INITIAL_SUPPORTED_PLOTS = 15;
-// Each well can support an additional 8 plots
-const WELL_PLOT_SUPPORT = 8;
-
-const getUnSupportedPlotCount = (gameState: GameState): number => {
-  // Get the well count
-  let activeWells =
-    gameState.buildings["Water Well"]?.filter(
-      (well) => well.readyAt < Date.now(),
-    ).length ?? 0;
-
-  const bumpkinLevel = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
-  while (activeWells > 0) {
-    if (isBuildingEnabled(bumpkinLevel, "Water Well", activeWells - 1)) break;
-    --activeWells;
-  }
-
-  // How many plots well can support
-  let supportedPlots =
-    activeWells * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
-
-  if (activeWells >= 4) {
-    supportedPlots = 99;
-  }
-
-  const plotCount = getKeys(gameState.crops).length;
-
-  return Math.max(plotCount - supportedPlots, 0);
-};
-
-/**
- * Removes crop data from any plots that don't have water well support.
- * It iterates backwards through the expansions and backwards through each expansions plots removing unsupported crops.
- * NOTE: At this time, we do not consider total crops planted vs supported crops. We just remove from then end even if early plots have no crops.
- * @param gameState
- * @returns LandExpansion[]
- */
-export const removeUnsupportedCrops = (gameState: GameState) => {
-  const unsupportedPlotCount = getUnSupportedPlotCount(gameState);
-  const { crops: plots } = gameState;
-
-  let count = 0;
-  let hasUnsupportedCrops = false;
-
-  const reversedPlotKeys = getKeys({
-    plots,
-  }).reverse();
-
-  for (let plotKeyIdx = 0; plotKeyIdx < reversedPlotKeys.length; plotKeyIdx++) {
-    if (count === unsupportedPlotCount) break;
-
-    const plot = plots?.[reversedPlotKeys[plotKeyIdx]];
-
-    if (plot?.crop) {
-      hasUnsupportedCrops = true;
-      delete plot.crop;
-    }
-
-    count++;
-  }
-
-  return { plots, hasUnsupportedCrops };
 };
 
 export const getUnsupportedChickens = (gameState: GameState) => {
@@ -138,7 +69,7 @@ export function removeBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { buildings, inventory, bumpkin } = stateCopy;
+    const { buildings, bumpkin } = stateCopy;
     const buildingGroup = buildings[action.name];
 
     if (bumpkin === undefined) {
@@ -171,24 +102,9 @@ export function removeBuilding({
       throw new Error(error);
     }
 
-    // TODO - remove once landscaping is launched
-    const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
-    if (shovelAmount.gte(1)) {
-      inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
-    }
-
     stateCopy.buildings[action.name] = buildingGroup.filter(
       (building) => building.id !== buildingToRemove.id,
     );
-
-    if (action.name === "Water Well") {
-      const { plots, hasUnsupportedCrops } = removeUnsupportedCrops(stateCopy);
-      if (hasUnsupportedCrops) {
-        throw new Error(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
-      }
-
-      stateCopy.crops = plots;
-    }
 
     if (action.name === "Hen House") {
       if (areUnsupportedChickensBrewing(stateCopy)) {
