@@ -41,6 +41,7 @@ import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
 import { Barn, BARN_IMAGES } from "./barn/Barn";
 import { CraftingBox } from "./craftingBox/CraftingBox";
+import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 
 export interface BuildingProps {
   buildingId: string;
@@ -161,7 +162,11 @@ export const READONLY_BUILDINGS: (
     ),
     "Hen House": () => (
       <img
-        src={HEN_HOUSE_VARIANTS[season][henHouseLevel] as string}
+        src={
+          HEN_HOUSE_VARIANTS[season][
+            henHouseLevel as AnimalBuildingLevel
+          ] as string
+        }
         className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 68}px`,
@@ -270,7 +275,7 @@ export const READONLY_BUILDINGS: (
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       >
         <img
-          src={BARN_IMAGES[island][season][barnLevel]}
+          src={BARN_IMAGES[island][season][barnLevel as AnimalBuildingLevel]}
           className="absolute bottom-0"
           style={{ width: `${PIXEL_SCALE * 64}px` }}
         />

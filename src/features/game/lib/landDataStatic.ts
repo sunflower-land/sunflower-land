@@ -636,6 +636,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
+  waterWell: {
+    level: 1,
+  },
   craftingBox: {
     status: "idle",
     startedAt: 0,
