@@ -76,16 +76,16 @@ export function shipmentRestock({
     if (!canRestockShipment({ game, now: createdAt })) {
       throw new Error("Already restocked today");
     }
-
     game.stock = getKeys(INITIAL_STOCK(game)).reduce((acc, name) => {
       let remainingStock = game.stock[name] ?? new Decimal(0);
       const totalStock = INITIAL_STOCK(game)[name];
       const shipmentAmount = SHIPMENT_STOCK[name] ?? 0;
 
-      // If shipment amount will exceed total stock
-      if (remainingStock.add(shipmentAmount).gt(totalStock)) {
+      if (remainingStock.gt(totalStock)) {
+        // Skip assignment - value already exceeds total stock
+      } else if (remainingStock.add(shipmentAmount).gt(totalStock)) {
         // return the difference between total and remaining stock
-        remainingStock = remainingStock.add(totalStock.sub(remainingStock));
+        remainingStock = totalStock;
       } else {
         // else return shipment stock
         remainingStock = remainingStock.add(shipmentAmount);

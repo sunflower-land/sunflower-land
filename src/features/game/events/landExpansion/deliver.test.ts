@@ -1842,7 +1842,7 @@ describe("deliver", () => {
       state: {
         ...TEST_FARM,
         coins: 6400,
-        inventory: { "Amber Fossil": new Decimal(0) },
+        inventory: { Timeshard: new Decimal(0) },
         delivery: {
           ...TEST_FARM.delivery,
           orders: [
@@ -1852,7 +1852,7 @@ describe("deliver", () => {
               readyAt: mockDate,
               from: "tywin",
               items: { coins: 6400 },
-              reward: {},
+              reward: { items: { Timeshard: 5 } },
             },
           ],
         },
@@ -1876,7 +1876,7 @@ describe("deliver", () => {
       createdAt: mockDate,
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
+    expect(state.inventory["Timeshard"]).toEqual(new Decimal(10));
   });
 
   it("can deliver items from the wardrobe", () => {
