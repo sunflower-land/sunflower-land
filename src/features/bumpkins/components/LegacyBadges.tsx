@@ -8,20 +8,26 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { Inventory } from "features/game/types/game";
 
 interface Props {
   onBack: () => void;
   onClose: () => void;
+  inventory: Inventory;
 }
 
-export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
-  const { t } = useAppTranslation();
-  const BADGES = getObjectEntries(LEGACY_BADGE_TREE);
+export const LegacyBadges: React.FC<Props> = ({
+  onBack,
+  onClose,
+  inventory,
+}) => {
+  const BADGES = getObjectEntries(LEGACY_BADGE_TREE).filter(
+    ([badge]) => !!inventory[badge],
+  );
   const [selectedSkill, setSelectedSkill] = useState(BADGES[0]);
-  const [LegacyBadgeName, legacySkillDetails] = selectedSkill;
+  const [legacyBadgeName, legacySkillDetails] = selectedSkill;
   const { buff } = legacySkillDetails;
   return (
     <CloseButtonPanel
@@ -46,11 +52,11 @@ export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
               />
               <div className="sm:mt-2">
                 <SquareIcon
-                  icon={ITEM_DETAILS[LegacyBadgeName].image}
+                  icon={ITEM_DETAILS[legacyBadgeName].image}
                   width={14}
                 />
               </div>
-              <span className="sm:text-center">{LegacyBadgeName}</span>
+              <span className="sm:text-center">{legacyBadgeName}</span>
             </div>
             <div className="flex sm:flex-col flex-wrap gap-1 mt-2 ml-2 sm:ml-0 justify-start sm:justify-center items-start sm:items-center">
               {buff &&
@@ -104,7 +110,7 @@ export const LegacyBadges: React.FC<Props> = ({ onBack, onClose }) => {
                     key={skill}
                     image={ITEM_DETAILS[skill].image}
                     onClick={() => setSelectedSkill([skill, details])}
-                    isSelected={LegacyBadgeName === skill}
+                    isSelected={legacyBadgeName === skill}
                   />
                 );
               })}

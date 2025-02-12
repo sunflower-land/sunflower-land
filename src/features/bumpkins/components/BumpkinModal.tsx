@@ -176,7 +176,13 @@ export const BumpkinModal: React.FC<Props> = ({
   }
 
   if (view === "legacyBadges") {
-    return <LegacyBadges onBack={() => setView("home")} onClose={onClose} />;
+    return (
+      <LegacyBadges
+        onBack={() => setView("home")}
+        onClose={onClose}
+        inventory={inventory}
+      />
+    );
   }
 
   const hasAvailableSP = getAvailableBumpkinOldSkillPoints(bumpkin) > 0;
