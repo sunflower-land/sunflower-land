@@ -623,12 +623,12 @@ export type BuildingProduce = {
   readyAt: number;
 };
 
-export type Cancelled = {
+export type Cancelled = Partial<{
   [key in InventoryItemName]: {
     count: number;
     cancelledAt: number;
   };
-};
+}>;
 
 export type PlacedItem = {
   id: string;
