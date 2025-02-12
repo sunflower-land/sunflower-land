@@ -5188,7 +5188,7 @@
   "skillTier.number": "Tier {{number}}",
   "powerSkills.title": "Power Skills",
   "powerSkills.ready": "Power Skill Ready",
-  "powerSkills.nextUse": "Next skill use in:",
+  "powerSkills.nextUse": "Next skill use {{time}}",
   "powerSkills.use": "Use",
   "powerSkills.confirmationMessage": "Are you sure you want to use {{skillName}}?",
   "powerSkills.cooldownMessage": "You won't be able to use this skill again for {{cooldown}}",
