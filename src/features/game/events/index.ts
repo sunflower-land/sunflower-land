@@ -441,6 +441,10 @@ import {
   exchangeObsidian,
   ObsidianExchangedAction,
 } from "./landExpansion/exchangeObsidian";
+import {
+  cancelQueuedRecipe,
+  CancelQueuedRecipeAction,
+} from "./landExpansion/cancelQueuedRecipe";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -578,6 +582,7 @@ export type PlayingEvent =
   | AcknowledgeCalendarEventAction
   | CollectLavaPitAction
   | StartLavaPitAction
+  | CancelQueuedRecipeAction
   // To remove once December is finished
   | CollectCandyAction;
 
@@ -647,6 +652,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "recipe.cancelled": cancelQueuedRecipe,
   "obsidian.exchanged": exchangeObsidian,
   "resource.bought": buyResource,
   "vip.purchased": purchaseVIP,
