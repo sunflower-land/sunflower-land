@@ -1,17 +1,11 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  Reward,
-  PlantedCrop,
-  PlacedItem,
-  InventoryItemName,
-} from "features/game/types/game";
-import { CROPS, CROP_SEEDS } from "features/game/types/crops";
+import { Reward, PlantedCrop } from "features/game/types/game";
+import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import {
   getAffectedWeather,
-  getCompletedWellCount,
   isPlotFertile,
 } from "features/game/events/landExpansion/plant";
 import Spritesheet from "components/animation/SpriteAnimator";
@@ -21,9 +15,8 @@ import { NonFertilePlot } from "./components/NonFertilePlot";
 import { FertilePlot } from "./components/FertilePlot";
 import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -32,11 +25,8 @@ import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "features/game/types/craftables";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
-import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { formatNumber } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TornadoPlot } from "./components/TornadoPlot";
 import { TsunamiPlot } from "./components/TsunamiPlot";
@@ -57,8 +47,8 @@ export function getYieldColour(yieldAmount: number) {
   return "#71e358"; // Green
 }
 
-const selectCrops = (state: MachineState) => state.context.state.crops;
-const selectBuildings = (state: MachineState) => state.context.state.buildings;
+const _crops = (state: MachineState) => state.context.state.crops;
+const _state = (state: MachineState) => state.context.state;
 
 const selectHarvests = (state: MachineState) => {
   return getKeys(CROPS).reduce(
@@ -79,13 +69,6 @@ const selectPlants = (state: MachineState) =>
 const selectCropsSold = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Sunflower Sold"] ?? 0;
 
-const compareBuildings = (
-  prev: Partial<Record<BuildingName, PlacedItem[]>>,
-  next: Partial<Record<BuildingName, PlacedItem[]>>,
-) => {
-  return getCompletedWellCount(prev) === getCompletedWellCount(next);
-};
-
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
   // - level 60+
@@ -97,33 +80,21 @@ const isSeasonedPlayer = (state: MachineState) =>
 
 interface Props {
   id: string;
-  index: number;
 }
 
-export const Plot: React.FC<Props> = ({ id, index }) => {
-  const { t } = useAppTranslation();
-
+export const Plot: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
-  const {
-    gameService,
-    selectedItem,
-    showAnimations,
-    enableQuickSelect,
-    showTimers,
-    shortcutItem,
-  } = useContext(Context);
+  const { gameService, selectedItem, showAnimations, showTimers } =
+    useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
-  const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
   const [reward, setReward] = useState<Omit<Reward, "sfl">>();
   const clickedAt = useRef<number>(0);
-  const [pulsating, setPulsating] = useState(false);
 
-  const crops = useSelector(gameService, selectCrops, (prev, next) => {
+  const crops = useSelector(gameService, _crops, (prev, next) => {
     return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
   });
-  const buildings = useSelector(gameService, selectBuildings, compareBuildings);
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
@@ -136,24 +107,17 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const { play: plantAudio } = useSound("plant");
   const { play: harvestAudio } = useSound("harvest");
 
+  const state = useSelector(gameService, _state);
+  const { inventory, waterWell, season } = state;
   const crop = crops?.[id]?.crop;
   const fertiliser = crops?.[id]?.fertiliser;
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const inventory = state.inventory;
-  const bumpkin = state.bumpkin;
-  const buds = state.buds;
   const plot = crops[id];
 
   const isFertile = isPlotFertile({
     plotIndex: id,
     crops: crops,
-    buildings: buildings,
-    bumpkin: bumpkin,
+    wellLevel: waterWell.level,
   });
 
   if (!isFertile) return <NonFertilePlot />;
@@ -271,19 +235,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
     // plant
     if (!crop) {
-      if (
-        hasFeatureAccess(state, "CROP_QUICK_SELECT") &&
-        enableQuickSelect &&
-        (!seed || !(seed in CROP_SEEDS) || !inventory[seed]?.gte(1))
-      ) {
-        setShowQuickSelect(true);
-        return;
-      }
-
-      if (
-        !!SEEDS[seed] &&
-        !SEASONAL_SEEDS[state.season.season].includes(seed)
-      ) {
+      if (!!SEEDS[seed] && !SEASONAL_SEEDS[season.season].includes(seed)) {
         setShowSeasonalSeed(true);
       }
 
@@ -335,36 +287,10 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
   return (
     <>
-      <Transition
-        appear={true}
-        show={showQuickSelect}
-        enter="transition-opacity duration-300"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity duration-300"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex top-[-255%] left-[50%] absolute z-40"
-      >
-        <QuickSelect
-          options={getKeys(CROP_SEEDS).map((seed) => ({
-            name: seed as InventoryItemName,
-            icon: CROP_SEEDS[seed].yield as InventoryItemName,
-            showSecondaryImage: true,
-          }))}
-          onClose={() => setShowQuickSelect(false)}
-          onSelected={(seed) => {
-            onClick(seed as SeedName);
-            setShowQuickSelect(false);
-          }}
-          type={t("quickSelect.cropSeeds")}
-        />
-      </Transition>
-
       <Modal show={showSeasonalSeed} onHide={() => setShowSeasonalSeed(false)}>
         <SeasonalSeed
           seed={selectedItem as SeedName}
-          season={state.season.season}
+          season={season.season}
           onClose={() => setShowSeasonalSeed(false)}
         />
       </Modal>
@@ -400,17 +326,13 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
         <FertilePlot
           cropName={crop?.name}
-          inventory={inventory}
-          // TODO
           game={gameService.state?.context?.state ?? TEST_FARM}
-          buds={buds}
           plot={plot}
           plantedAt={crop?.plantedAt}
           fertiliser={fertiliser}
           procAnimation={procAnimation}
           touchCount={touchCount}
           showTimers={showTimers}
-          pulsating={showQuickSelect && pulsating}
         />
       </div>
       {reward && (

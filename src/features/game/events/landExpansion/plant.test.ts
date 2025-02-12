@@ -1967,9 +1967,7 @@ describe("getCropTime", () => {
         ...TEST_FARM,
         bumpkin: { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
       },
-      buds: {},
       plot,
-      inventory: {},
     });
 
     expect(time).toEqual(57 * 60);
@@ -1978,8 +1976,6 @@ describe("getCropTime", () => {
   it("reduces in 20% carrot time when Bumpkin is wearing Carrot Amulet", () => {
     const time = getCropPlotTime({
       crop: "Carrot",
-      inventory: {},
-      buds: {},
       game: {
         ...TEST_FARM,
         bumpkin: {
@@ -1996,8 +1992,6 @@ describe("getCropTime", () => {
     const carrotHarvestSeconds = CROPS["Carrot"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Carrot",
-      inventory: {},
-      buds: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2021,7 +2015,6 @@ describe("getCropTime", () => {
     const cabbageHarvestSeconds = CROPS["Cabbage"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Cabbage",
-      buds: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2035,7 +2028,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      inventory: {},
       plot,
     });
 
@@ -2046,7 +2038,6 @@ describe("getCropTime", () => {
     const baseHarvestSeconds = CROPS["Eggplant"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Eggplant",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2060,7 +2051,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      buds: {},
       plot,
     });
 
@@ -2111,7 +2101,6 @@ describe("getCropTime", () => {
     const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Corn",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2125,7 +2114,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      buds: {},
       plot,
     });
 
@@ -2137,8 +2125,6 @@ describe("getCropTime", () => {
 
     const time = getCropPlotTime({
       crop: "Sunflower",
-      inventory: {},
-      buds: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2163,7 +2149,6 @@ describe("getCropTime", () => {
 
     const time = getCropPlotTime({
       crop: "Potato",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2178,7 +2163,6 @@ describe("getCropTime", () => {
         },
       },
       plot: { ...plot, x: 0, y: -2 },
-      buds: {},
     });
 
     expect(time).toEqual(potatoHarvestSeconds * 0.8);
@@ -2189,7 +2173,6 @@ describe("getCropTime", () => {
 
     const time = getCropPlotTime({
       crop: "Pumpkin",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2203,7 +2186,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      buds: {},
       plot: { ...plot, x: 0, y: -2 },
     });
 
@@ -2215,7 +2197,6 @@ describe("getCropTime", () => {
 
     const time = getCropPlotTime({
       crop: "Beetroot",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2229,7 +2210,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      buds: {},
       plot: { ...plot, x: 0, y: -2 },
     });
 
@@ -2241,7 +2221,6 @@ describe("getCropTime", () => {
 
     const time = getCropPlotTime({
       crop: "Sunflower",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2255,7 +2234,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      buds: {},
       plot: { ...plot, x: 2, y: -2 },
     });
 
@@ -2267,7 +2245,6 @@ describe("getCropTime", () => {
 
     const time = getCropPlotTime({
       crop: "Sunflower",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2281,7 +2258,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      buds: {},
       plot: { ...plot, x: 0, y: -3 },
     });
 
@@ -2450,7 +2426,6 @@ describe("getCropTime", () => {
     const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Corn",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {},
@@ -2461,7 +2436,6 @@ describe("getCropTime", () => {
           },
         },
       },
-      buds: {},
       plot: { ...plot, x: 0, y: -3 },
     });
 
@@ -2472,7 +2446,6 @@ describe("getCropTime", () => {
     const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Radish",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {},
@@ -2483,7 +2456,6 @@ describe("getCropTime", () => {
           },
         },
       },
-      buds: {},
       plot: { ...plot, x: 0, y: -3 },
     });
 
@@ -2494,7 +2466,6 @@ describe("getCropTime", () => {
     const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Sunflower",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {},
@@ -2505,7 +2476,6 @@ describe("getCropTime", () => {
           },
         },
       },
-      buds: {},
       plot: { ...plot, x: 0, y: -3 },
     });
 
@@ -2516,7 +2486,6 @@ describe("getCropTime", () => {
     const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Sunflower",
-      inventory: {},
       game: {
         ...TEST_FARM,
         collectibles: {},
@@ -2528,7 +2497,6 @@ describe("getCropTime", () => {
           },
         },
       },
-      buds: {},
       plot: { ...plot, x: 0, y: -3 },
     });
 
@@ -2569,8 +2537,17 @@ describe("isPlotFertile", () => {
         100: fakePlot(), // 19th
       },
       plotIndex: "99",
-      buildings: {},
-      bumpkin: { ...INITIAL_BUMPKIN },
+      wellLevel: 1,
+      buildings: {
+        "Water Well": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
     });
 
     expect(isFertile).toBeFalsy();
@@ -2596,7 +2573,6 @@ describe("isPlotFertile", () => {
           },
         ],
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       crops: {
         0: fakePlot(),
         1: fakePlot(),
@@ -2626,6 +2602,7 @@ describe("isPlotFertile", () => {
         25: fakePlot(), // 26th
       },
       plotIndex: "25",
+      wellLevel: 1,
     });
 
     expect(isFertile).toBeFalsy();
@@ -2655,49 +2632,9 @@ describe("isPlotFertile", () => {
         11: fakePlot,
       },
       plotIndex: "5",
+      wellLevel: 1,
       buildings: {},
-      bumpkin: { ...INITIAL_BUMPKIN },
     });
-    expect(isFertile).toBeTruthy();
-  });
-
-  it("can plant on 11th field if they have well", () => {
-    const fakePlot = {
-      createdAt: Date.now(),
-      x: 1,
-      y: 1,
-      height: 1,
-      width: 1,
-    };
-    const isFertile = isPlotFertile({
-      buildings: {
-        "Water Well": [
-          {
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            id: "123",
-            readyAt: 0,
-          },
-        ],
-      },
-      bumpkin: { ...INITIAL_BUMPKIN },
-      crops: {
-        0: fakePlot,
-        1: fakePlot,
-        2: fakePlot,
-        3: fakePlot,
-        4: fakePlot,
-        5: fakePlot,
-        6: fakePlot,
-        7: fakePlot,
-        8: fakePlot,
-        9: fakePlot,
-        10: fakePlot, //11th
-        11: fakePlot, // 12th
-      },
-      plotIndex: "8",
-    });
-
     expect(isFertile).toBeTruthy();
   });
 });
@@ -3995,9 +3932,7 @@ describe("getCropYield", () => {
       const now = Date.now();
 
       const time = getPlantedAt({
-        buds: {},
         crop: "Sunflower",
-        inventory: {},
         game: {
           ...TEST_FARM,
           collectibles: {
@@ -4028,9 +3963,7 @@ describe("getCropYield", () => {
       const now = Date.now();
 
       const time = getPlantedAt({
-        buds: {},
         crop: "Sunflower",
-        inventory: {},
         game: {
           ...TEST_FARM,
           collectibles: {
@@ -4061,9 +3994,7 @@ describe("getCropYield", () => {
       const now = Date.now();
 
       const time = getPlantedAt({
-        buds: {},
         crop: "Sunflower",
-        inventory: {},
         game: {
           ...TEST_FARM,
           collectibles: {
@@ -4096,8 +4027,6 @@ describe("getCropYield", () => {
 
       const time = getPlantedAt({
         crop: "Corn",
-        buds: {},
-        inventory: {},
         game: {
           ...TEST_FARM,
           collectibles: {
@@ -4128,9 +4057,7 @@ describe("getCropYield", () => {
       const now = Date.now();
 
       const time = getPlantedAt({
-        buds: {},
         crop: "Sunflower",
-        inventory: {},
         game: {
           ...TEST_FARM,
           collectibles: {
@@ -4171,8 +4098,6 @@ describe("getCropYield", () => {
 
       const time = getPlantedAt({
         crop: "Corn",
-        buds: {},
-        inventory: {},
         game: {
           ...TEST_FARM,
           collectibles: {
@@ -4207,8 +4132,6 @@ describe("getCropYield", () => {
 
       const time = getPlantedAt({
         crop: "Corn",
-        buds: {},
-        inventory: {},
         game: {
           ...TEST_FARM,
           collectibles: {
