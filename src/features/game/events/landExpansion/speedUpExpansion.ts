@@ -26,7 +26,7 @@ export function speedUpExpansion({
       throw new Error("Expansion not in progress");
     }
 
-    if (!hasRequiredIslandExpansion(game.island.type, "desert")) {
+    if (hasRequiredIslandExpansion(game.island.type, "desert")) {
       throw new Error("You can't speed up the expansion on this island");
     }
 
