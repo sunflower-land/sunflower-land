@@ -623,11 +623,19 @@ export type BuildingProduce = {
   readyAt: number;
 };
 
+export type Cancelled = Partial<{
+  [key in InventoryItemName]: {
+    count: number;
+    cancelledAt: number;
+  };
+}>;
+
 export type PlacedItem = {
   id: string;
   coordinates: { x: number; y: number };
   readyAt: number;
   createdAt: number;
+  cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   oil?: number;
 };

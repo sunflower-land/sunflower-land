@@ -11,11 +11,14 @@ import { useSelector } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { BuildingProduct } from "features/game/types/game";
 import { VIPAccess } from "features/game/components/VipAccess";
+import { BuildingName } from "features/game/types/buildings";
 
 type Props = {
   cooking?: BuildingProduct;
   readyRecipes: BuildingProduct[];
   queue: BuildingProduct[];
+  buildingName: BuildingName;
+  buildingId: string;
   onClose: () => void;
 };
 
@@ -24,6 +27,8 @@ const _state = (state: MachineState) => state.context.state;
 export const Queue: React.FC<Props> = ({
   cooking,
   queue,
+  buildingName,
+  buildingId,
   readyRecipes,
   onClose,
 }) => {
@@ -55,16 +60,14 @@ export const Queue: React.FC<Props> = ({
         {Array(cooking ? 3 : 4)
           .fill(null)
           .map((_, index) => {
-            const isVIP = hasVipAccess({ game: state });
-            const availableSlots = isVIP ? 4 : cooking ? 0 : 1;
-
             const displayItems = [...queue, ...readyRecipes];
 
             return (
               <QueueSlot
                 key={`slot-${index}`}
+                buildingName={buildingName}
+                buildingId={buildingId}
                 item={displayItems[index]}
-                isLocked={!isVIP && index >= availableSlots}
                 readyRecipes={readyRecipes}
               />
             );

@@ -22,6 +22,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Golden Sheep": new Decimal(1),
     Potato: new Decimal(100),
     Rhubarb: new Decimal(100),
     "Sunpetal Seed": new Decimal(1),
@@ -351,6 +352,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
   chickens: {},
   trades: {},
   buildings: {
+    Barn: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -1,
+          y: -8,
+        },
+        createdAt: 0,
+      },
+    ],
     Mansion: [
       {
         id: "123",
