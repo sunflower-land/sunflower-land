@@ -253,6 +253,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
             )}
             <div className="flex flex-wrap justify-between gap-x-2 sm:flex-col lg:items-center">
               {!powerSkillReady ? (
+                // If power skill is not ready, show the next use time
                 <Label
                   type="info"
                   icon={SUNNYSIDE.icons.stopwatch}
@@ -265,12 +266,14 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
               ) : (
                 <>
                   {disabled ? (
+                    // If power skill is disabled, show the reason if it exists
                     reason && (
                       <Label type="danger" className="mb-2">
                         {reason}
                       </Label>
                     )
                   ) : (
+                    // If power skill is not disabled, show the ready label
                     <Label
                       type="success"
                       secondaryIcon={SUNNYSIDE.icons.confirm}
@@ -280,6 +283,7 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                     </Label>
                   )}
                   {cooldown && (
+                    // If power skill has a cooldown, show the cooldown
                     <Label
                       type="info"
                       icon={SUNNYSIDE.icons.stopwatch}
