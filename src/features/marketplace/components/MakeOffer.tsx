@@ -29,6 +29,7 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { StoreOnChain } from "./StoreOnChain";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _previousBalance = (state: MachineState) =>
@@ -169,6 +170,10 @@ export const MakeOffer: React.FC<{
             sfl={offer}
             estTradePoints={estTradePoints}
           />
+          <div className="flex items-start mt-2">
+            <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
+            <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
+          </div>
         </div>
 
         <div className="flex">
