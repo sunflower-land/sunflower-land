@@ -106,7 +106,7 @@ export const WaterComponent: React.FC<Props> = ({
           {/* Marine Marvels when Full Moon */}
           {weather === "Full Moon" && (
             <>
-              <MapPlacement x={-20} y={9} width={2}>
+              <MapPlacement x={-7 - offset} y={9} width={2}>
                 <img
                   src={fins1}
                   className="absolute z-0 fish-swimming2"
@@ -128,7 +128,7 @@ export const WaterComponent: React.FC<Props> = ({
                   }}
                 />
               </MapPlacement>
-              <MapPlacement x={-15} y={-9} width={1}>
+              <MapPlacement x={-6 - offset} y={-9} width={1}>
                 <img
                   src={fins3}
                   className="absolute z-0 fish-swimming2"
@@ -192,7 +192,7 @@ export const WaterComponent: React.FC<Props> = ({
               }}
             />
           </MapPlacement>
-          <MapPlacement x={-19} y={-5} width={1}>
+          <MapPlacement x={-8 - offset} y={-5} width={1}>
             <img
               src={SUNNYSIDE.npcs.swimmer2}
               className="absolute pointer-events-none"
@@ -211,7 +211,7 @@ export const WaterComponent: React.FC<Props> = ({
               }}
             />
           </MapPlacement>
-          <MapPlacement x={-16} y={offset - 21} width={1}>
+          <MapPlacement x={-6 - offset} y={offset - 21} width={1}>
             <img
               src={SUNNYSIDE.npcs.swimmer3}
               className="absolute pointer-events-none z-0"
@@ -232,7 +232,7 @@ export const WaterComponent: React.FC<Props> = ({
               }}
             />
           </MapPlacement>
-          <MapPlacement x={-17} y={-1} width={1}>
+          <MapPlacement x={-7 - offset} y={-1} width={1}>
             <img
               src={SUNNYSIDE.npcs.swimmer4}
               className="absolute pointer-events-none"
