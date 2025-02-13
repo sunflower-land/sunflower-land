@@ -867,7 +867,7 @@ export function plant({
     }
 
     if (
-      isPlotFertile({
+      !isPlotFertile({
         plotIndex: action.index,
         crops: plots,
         wellLevel: stateCopy.waterWell.level,

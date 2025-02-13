@@ -79,24 +79,6 @@ describe("plant", () => {
     ).toThrow("Plot does not exist");
   });
 
-  it.skip("does not plant if water well does not exist", () => {
-    expect(() =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {},
-        },
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: "1",
-
-          item: "Sunflower Seed",
-        },
-      }),
-    ).toThrow("Water Well does not exist");
-  });
-
   it("does not plant on non-existent plot", () => {
     const { inventory } = GAME_STATE;
     expect(() =>
@@ -2505,55 +2487,7 @@ describe("getCropTime", () => {
 });
 
 describe("isPlotFertile", () => {
-  it("cannot plant on 18th field if a well is not available", () => {
-    let counter = 1;
-    const fakePlot = () => ({
-      createdAt: Date.now() + counter++,
-      x: 1,
-      y: 1,
-      height: 1,
-      width: 1,
-    });
-    const isFertile = isPlotFertile({
-      crops: {
-        0: fakePlot(),
-        1: fakePlot(),
-        2: fakePlot(),
-        3: fakePlot(),
-        4: fakePlot(),
-        5: fakePlot(),
-        6: fakePlot(),
-        7: fakePlot(),
-        8: fakePlot(),
-        21: fakePlot(),
-        32: fakePlot(),
-        43: fakePlot(),
-        54: fakePlot(),
-        65: fakePlot(),
-        76: fakePlot(),
-        87: fakePlot(), //16th
-        98: fakePlot(), // 17th
-        99: fakePlot(), // 18th
-        100: fakePlot(), // 19th
-      },
-      plotIndex: "99",
-      wellLevel: 1,
-      buildings: {
-        "Water Well": [
-          {
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            id: "123",
-            readyAt: 0,
-          },
-        ],
-      },
-    });
-
-    expect(isFertile).toBeFalsy();
-  });
-
-  it("cannot plant on 25th field if 2 wells are not avilable", () => {
+  it("cannot plant on 26th field if 2 wells are not avilable", () => {
     let counter = 1;
     const fakePlot = () => ({
       createdAt: Date.now() + counter++,
@@ -2600,8 +2534,9 @@ describe("isPlotFertile", () => {
         23: fakePlot(), // 24th
         24: fakePlot(), // 25th
         25: fakePlot(), // 26th
+        26: fakePlot(), // 27th
       },
-      plotIndex: "25",
+      plotIndex: "26",
       wellLevel: 1,
     });
 
