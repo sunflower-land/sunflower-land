@@ -25,7 +25,6 @@ type Options = {
   createdAt?: number;
 };
 
-export type AnimalBuildingLevel = 1 | 2 | 3;
 type BuildingUpgradeCost = {
   coins: number;
   items: Partial<Record<InventoryItemName, Decimal>>;
@@ -94,18 +93,18 @@ export const BUILDING_UPGRADES: Record<
       requiredLevel: 2,
     },
     2: {
-      coins: 0,
-      items: { Wood: new Decimal(5), Stone: new Decimal(5) },
+      coins: 200,
+      items: { Wood: new Decimal(5), Stone: new Decimal(2) },
       requiredLevel: 4,
     },
     3: {
-      coins: 0,
+      coins: 400,
       items: { Wood: new Decimal(5), Stone: new Decimal(5) },
       requiredLevel: 11,
     },
     4: {
-      coins: 0,
-      items: { Wood: new Decimal(5), Stone: new Decimal(5) },
+      coins: 800,
+      items: { Wood: new Decimal(10), Stone: new Decimal(10) },
       requiredLevel: 15,
     },
   },

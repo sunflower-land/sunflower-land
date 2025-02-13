@@ -8,13 +8,12 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { useSound } from "lib/utils/hooks/useSound";
 import { IslandType, TemperateSeasonName } from "features/game/types/game";
 
 export const BARN_IMAGES: Record<
   IslandType,
-  Record<TemperateSeasonName, Record<AnimalBuildingLevel, string>>
+  Record<TemperateSeasonName, Record<number, string>>
 > = {
   basic: {
     spring: {
@@ -132,10 +131,7 @@ const _barnLevel = (state: MachineState) => {
 
 export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { gameService, showAnimations } = useContext(Context);
-  const buildingLevel = useSelector(
-    gameService,
-    _barnLevel,
-  ) as AnimalBuildingLevel;
+  const buildingLevel = useSelector(gameService, _barnLevel);
 
   const navigate = useNavigate();
 

@@ -13,10 +13,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
-import {
-  BUILDING_UPGRADES,
-  AnimalBuildingLevel,
-} from "features/game/events/landExpansion/upgradeBuilding";
+import { BUILDING_UPGRADES } from "features/game/events/landExpansion/upgradeBuilding";
 import { AnimalBuildingType } from "features/game/types/animals";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import powerup from "assets/icons/level_up.png";
@@ -26,8 +23,8 @@ import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 
 interface Props {
   buildingName: AnimalBuildingType;
-  currentLevel: AnimalBuildingLevel;
-  nextLevel: AnimalBuildingLevel;
+  currentLevel: number;
+  nextLevel: number;
   show: boolean;
   onClose: () => void;
 }

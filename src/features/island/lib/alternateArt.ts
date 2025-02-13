@@ -1,7 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { IslandType, TemperateSeasonName } from "features/game/types/game";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { FlowerGrowthStage, FlowerName } from "features/game/types/flowers";
 import { CONFIG } from "lib/config";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
@@ -67,7 +66,7 @@ export const WAREHOUSE_VARIANTS: Record<TemperateSeasonName, string> = {
 
 export const HEN_HOUSE_VARIANTS: Record<
   TemperateSeasonName,
-  Record<AnimalBuildingLevel, string>
+  Record<number, string>
 > = {
   spring: {
     1: SUNNYSIDE.seasons.spring.hen_house_1,
