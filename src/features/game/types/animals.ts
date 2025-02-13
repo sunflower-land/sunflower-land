@@ -10,10 +10,6 @@ import { translate } from "lib/i18n/translate";
 import { getKeys } from "./decorations";
 
 export type AnimalBuildingType = Extract<BuildingName, "Barn" | "Hen House">;
-export type UpgradableBuildingType = Extract<
-  BuildingName,
-  AnimalBuildingType | "Water Well"
->;
 
 export type AnimalType = "Chicken" | "Cow" | "Sheep";
 

@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
-import { UpgradableBuildingType } from "features/game/types/animals";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { AnimalBuildingType } from "features/game/types/animals";
 import { BuildingName } from "features/game/types/buildings";
 import { getKeys } from "features/game/types/decorations";
 import {
@@ -13,6 +14,10 @@ export type UpgradeBuildingAction = {
   type: "building.upgraded";
   buildingType: UpgradableBuildingType;
 };
+export type UpgradableBuildingType = Extract<
+  BuildingName,
+  AnimalBuildingType | "Water Well"
+>;
 
 type Options = {
   state: Readonly<GameState>;
@@ -24,6 +29,7 @@ export type AnimalBuildingLevel = 1 | 2 | 3;
 type BuildingUpgradeCost = {
   coins: number;
   items: Partial<Record<InventoryItemName, Decimal>>;
+  requiredLevel?: number;
 };
 
 export const BUILDING_UPGRADES: Record<
@@ -85,18 +91,22 @@ export const BUILDING_UPGRADES: Record<
     1: {
       coins: 0,
       items: {},
+      requiredLevel: 2,
     },
     2: {
       coins: 0,
-      items: {},
+      items: { Wood: new Decimal(5), Stone: new Decimal(5) },
+      requiredLevel: 4,
     },
     3: {
       coins: 0,
-      items: {},
+      items: { Wood: new Decimal(5), Stone: new Decimal(5) },
+      requiredLevel: 11,
     },
     4: {
       coins: 0,
-      items: {},
+      items: { Wood: new Decimal(5), Stone: new Decimal(5) },
+      requiredLevel: 15,
     },
   },
 };
@@ -113,7 +123,8 @@ export const makeUpgradableBuildingKey = (
 
 export function upgradeBuilding({ state, action }: Options): GameState {
   return produce(state, (copy) => {
-    const { buildings } = copy;
+    const { buildings, bumpkin } = copy;
+    const { experience } = bumpkin;
     const { buildingType } = action;
 
     if (!buildings[buildingType]) {
@@ -124,17 +135,23 @@ export function upgradeBuilding({ state, action }: Options): GameState {
 
     const building = copy[buildingKey];
 
-    if (building.level >= 3) {
+    const upgrades = BUILDING_UPGRADES[buildingType];
+
+    if (building.level >= getKeys(upgrades).length) {
       throw new Error("Building is at max level");
     }
 
-    const upgrades = BUILDING_UPGRADES[buildingType];
+    const currentExperienceLevel = getBumpkinLevel(experience);
 
-    const nextLevel = (building.level + 1) as Exclude<
-      keyof typeof upgrades,
-      "1"
-    >;
+    const nextLevel = building.level + 1;
     const upgradeCost = upgrades[nextLevel];
+
+    if (
+      upgradeCost.requiredLevel &&
+      currentExperienceLevel < upgradeCost.requiredLevel
+    ) {
+      throw new Error("Insufficient level for upgrade");
+    }
 
     if (state.coins < upgradeCost.coins) {
       throw new Error("Insufficient coins for upgrade");

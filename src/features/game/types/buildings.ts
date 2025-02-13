@@ -148,51 +148,6 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
         },
       ],
     },
-    {
-      unlocksAtLevel: 4,
-      coins: 320,
-      constructionSeconds: 60 * 5,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
-    },
-    {
-      unlocksAtLevel: 11,
-      coins: 320,
-      constructionSeconds: 60 * 5,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
-    },
-    {
-      unlocksAtLevel: 15,
-      coins: 320,
-      constructionSeconds: 60 * 5,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
-    },
   ],
   Kitchen: [
     {
