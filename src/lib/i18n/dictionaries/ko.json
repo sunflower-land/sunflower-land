@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "더 이상 배송으로 인한 타임샤드가 없습니다.",
   "whatsOn.mysterySeasonText3": "땅을 파는 동안 더 이상 고대 시계를 볼 필요가 없습니다.",
   "skill.frugalMiner": "모든 곡괭이의 코인 소모량 -20%",
-  "powerSkills.nextUse": "다음 스킬 사용 {{time}}"
+  "powerSkills.nextUse": "다음 스킬 사용 {{time}}",
+  "recipes.confirmCancel": "이 {{recipe}} 을 (를) 대기열에서 정말로 제거하시겠습니까?"
 }

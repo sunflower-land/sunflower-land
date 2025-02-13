@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "Teslimatlardan daha fazla zaman sıkıntısı yok.",
   "whatsOn.mysterySeasonText3": "Kazarken artık eski saat yok.",
   "skill.frugalMiner": "Tüm kazmalar için% -20 jeton maliyeti",
-  "powerSkills.nextUse": "Sonraki beceri kullanımı {{time}}"
+  "powerSkills.nextUse": "Sonraki beceri kullanımı {{time}}",
+  "recipes.confirmCancel": "Bunu {{recipe}} kuyruğundan kaldırmak istediğinizden emin misiniz?"
 }

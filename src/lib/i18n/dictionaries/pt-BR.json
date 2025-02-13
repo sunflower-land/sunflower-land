@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "Chega de demoras nas entregas.",
   "whatsOn.mysterySeasonText3": "Chega de relógios antigos durante a escavação.",
   "skill.frugalMiner": "-20% do custo da moeda para todas as picaretas",
-  "powerSkills.nextUse": "Próximo uso da habilidade {{time}}"
+  "powerSkills.nextUse": "Próximo uso da habilidade {{time}}",
+  "recipes.confirmCancel": "Tem certeza de que deseja remover esse {{recipe}} da fila?"
 }

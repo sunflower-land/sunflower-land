@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "Tiada lagi timeshards daripada penghantaran.",
   "whatsOn.mysterySeasonText3": "Tiada lagi jam kuno semasa menggali.",
   "skill.frugalMiner": "-20% kos duit syiling untuk semua pickaxes",
-  "powerSkills.nextUse": "Penggunaan kemahiran seterusnya {{time}}"
+  "powerSkills.nextUse": "Penggunaan kemahiran seterusnya {{time}}",
+  "recipes.confirmCancel": "Adakah anda pasti ingin membuang {{recipe}} ini dari barisan?"
 }

@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "再也不用在配送时间上了。",
   "whatsOn.mysterySeasonText3": "挖掘时再也不会有古钟了",
   "skill.frugalMiner": "所有镐的硬币消耗 -20%",
-  "powerSkills.nextUse": "下次使用技能 {{time}}"
+  "powerSkills.nextUse": "下次使用技能 {{time}}",
+  "recipes.confirmCancel": "你确定要从队列中删除这个 {{recipe}} 吗？"
 }

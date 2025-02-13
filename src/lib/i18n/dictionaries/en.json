@@ -5326,6 +5326,7 @@
   "recipes.upNext": "Up Next",
   "recipes.addToQueue": "Add to queue",
   "recipes.queue": "Queue",
+  "recipes.confirmCancel": "Are you sure you want to remove this {{recipe}} from the queue?",
   "recipes.vipCookingQueue": "Become a VIP member and unlock the ability to cook up to 4 recipes at once! Upgrade now to supercharge your cooking.",
   "recipes.confirmAddToQueue": "Are you sure you want to add {{recipe}} to the queue?",
   "whatsOn.ticketsEnd": "No more timeshards",

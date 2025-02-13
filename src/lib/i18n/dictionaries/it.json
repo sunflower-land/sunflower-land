@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "Niente più frazioni temporali rispetto alle consegne.",
   "whatsOn.mysterySeasonText3": "Niente più orologi antichi mentre si scava.",
   "skill.frugalMiner": "-20% di costo in monete per tutti i picconi",
-  "powerSkills.nextUse": "Prossima abilità utilizzata {{time}}"
+  "powerSkills.nextUse": "Prossima abilità utilizzata {{time}}",
+  "recipes.confirmCancel": "Sei sicuro di voler rimuovere questo {{recipe}} dalla coda?"
 }

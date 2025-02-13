@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "配達によるタイムシェードはもうありません。",
   "whatsOn.mysterySeasonText3": "掘っている間に古い時計はもう必要ありません。",
   "skill.frugalMiner": "すべてのツルハシのコインコスト -20%",
-  "powerSkills.nextUse": "次のスキル使用 {{time}}"
+  "powerSkills.nextUse": "次のスキル使用 {{time}}",
+  "recipes.confirmCancel": "この {{recipe}} をキューから削除してもよろしいですか?"
 }

@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "Больше никаких временных отсрочек от поставок.",
   "whatsOn.mysterySeasonText3": "Больше никаких старинных часов во время копания.",
   "skill.frugalMiner": "-20% стоимости монет за все кирки",
-  "powerSkills.nextUse": "Следующее использование навыка {{time}}"
+  "powerSkills.nextUse": "Следующее использование навыка {{time}}",
+  "recipes.confirmCancel": "Вы действительно хотите удалить это {{recipe}} из очереди?"
 }

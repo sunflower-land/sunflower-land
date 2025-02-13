@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "No más tiempos compartidos en las entregas.",
   "whatsOn.mysterySeasonText3": "No más relojes antiguos mientras cavas.",
   "skill.frugalMiner": "-20% de coste en monedas para todos los picos",
-  "powerSkills.nextUse": "Siguiente uso de habilidad {{time}}"
+  "powerSkills.nextUse": "Siguiente uso de habilidad {{time}}",
+  "recipes.confirmCancel": "¿Estás seguro de que quieres eliminar este {{recipe}} de la cola?"
 }

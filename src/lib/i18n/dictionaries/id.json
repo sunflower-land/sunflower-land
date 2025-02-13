@@ -5332,5 +5332,6 @@
   "whatsOn.mysterySeasonText2": "Tidak ada lagi waktu yang sulit dari pengiriman.",
   "whatsOn.mysterySeasonText3": "Tidak ada lagi jam kuno saat menggali.",
   "skill.frugalMiner": "-20% biaya koin untuk semua beliung",
-  "powerSkills.nextUse": "Penggunaan keterampilan berikutnya {{time}}"
+  "powerSkills.nextUse": "Penggunaan keterampilan berikutnya {{time}}",
+  "recipes.confirmCancel": "Apakah Anda yakin ingin menghapus {{recipe}} ini dari antrian?"
 }
