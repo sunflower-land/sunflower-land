@@ -1250,6 +1250,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
 };
 
+if (Date.now() < new Date("2025-02-15T00:00:00.000Z").getTime()) {
+  // For each NPC who doesn't have Goblin Potion, set their oensie to Love Heart Onesie
+  for (const npc of Object.values(NPC_WEARABLES)) {
+    if (npc.body !== "Goblin Potion") {
+      npc.onesie = "Love Heart Onesie";
+    }
+  }
+}
+
 type AcknowledgedNPCs = Partial<Record<NPCName, number>>;
 export function acknowledgedNPCs(): AcknowledgedNPCs {
   const item = localStorage.getItem("acknowledgedNPCs");
