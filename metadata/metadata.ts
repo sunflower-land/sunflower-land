@@ -10698,7 +10698,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_number",
-        trait_type: "Barn Capacity",
+        trait_type: "Increase Barn Animals per Upgrade",
         value: 5,
       },
     ],
