@@ -90,15 +90,14 @@ const getSupportedPlots = ({
   wellLevel: number;
   buildings: Buildings;
 }) => {
-  if (!buildings["Water Well"]) {
-    return INITIAL_SUPPORTED_PLOTS;
-  }
+  let plots = INITIAL_SUPPORTED_PLOTS;
+  const hasWell = (buildings["Water Well"]?.length ?? 0) > 0;
 
-  if (wellLevel >= 4) {
-    return 99;
-  }
+  if (!hasWell) return plots;
+  if (wellLevel >= 4) return 99;
 
-  return wellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
+  plots = wellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
+  return plots;
 };
 
 export function isPlotFertile({

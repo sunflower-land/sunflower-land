@@ -2487,6 +2487,47 @@ describe("getCropTime", () => {
 });
 
 describe("isPlotFertile", () => {
+  it("cannot plant on the 19th field if well is not placed down, regardless of well level", () => {
+    let counter = 1;
+    const fakePlot = () => ({
+      createdAt: Date.now() + counter++,
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
+    });
+    const isFertile = isPlotFertile({
+      buildings: {
+        "Water Well": [],
+      },
+      crops: {
+        0: fakePlot(),
+        1: fakePlot(),
+        2: fakePlot(),
+        3: fakePlot(),
+        4: fakePlot(),
+        5: fakePlot(),
+        6: fakePlot(),
+        7: fakePlot(),
+        8: fakePlot(),
+        9: fakePlot(),
+        10: fakePlot(),
+        11: fakePlot(),
+        12: fakePlot(),
+        13: fakePlot(),
+        14: fakePlot(),
+        15: fakePlot(),
+        16: fakePlot(),
+        17: fakePlot(),
+        18: fakePlot(),
+      },
+      plotIndex: "18",
+      wellLevel: 3,
+    });
+
+    expect(isFertile).toBeFalsy();
+  });
+
   it("cannot plant on 26th field if 2 wells are not avilable", () => {
     let counter = 1;
     const fakePlot = () => ({
