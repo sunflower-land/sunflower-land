@@ -81,6 +81,7 @@ type IslandElementArgs = {
   beehives: GameState["beehives"];
   oilReserves: GameState["oilReserves"];
   lavaPits: GameState["lavaPits"];
+  isVisiting: boolean;
 };
 
 const getRecipeLocation = (game: GameState, level: number) => {
@@ -173,6 +174,7 @@ const getIslandElements = ({
   beehives,
   oilReserves,
   lavaPits,
+  isVisiting,
 }: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -661,42 +663,44 @@ const getIslandElements = ({
     }),
   );
 
-  const recipeLocations = getRecipeLocations(game);
-  // Group recipes by location, to stop them overlapping
-  const recipeGroups = recipeLocations.reduce(
-    (groups, recipe) => {
-      const key = `${recipe.x},${recipe.y}`;
-      if (!groups[key]) {
-        groups[key] = [];
-      }
-      groups[key].push(recipe);
-      return groups;
-    },
-    {} as Record<
-      string,
-      (Coordinates & {
-        recipe: RecipeItemName;
-      })[]
-    >,
-  );
-
-  Object.entries(recipeGroups).forEach(([key, recipes]) => {
-    const [x, y] = key.split(",").map(Number);
-    mapPlacements.push(
-      <MapPlacement
-        key={`recipe-group-${key}`}
-        x={x}
-        y={y}
-        height={1}
-        width={1}
-      >
-        <RecipeStack
-          key={`recipe-${recipes}`}
-          recipes={recipes.map((r) => r.recipe)}
-        />
-      </MapPlacement>,
+  if (!isVisiting) {
+    const recipeLocations = getRecipeLocations(game);
+    // Group recipes by location, to stop them overlapping
+    const recipeGroups = recipeLocations.reduce(
+      (groups, recipe) => {
+        const key = `${recipe.x},${recipe.y}`;
+        if (!groups[key]) {
+          groups[key] = [];
+        }
+        groups[key].push(recipe);
+        return groups;
+      },
+      {} as Record<
+        string,
+        (Coordinates & {
+          recipe: RecipeItemName;
+        })[]
+      >,
     );
-  });
+
+    Object.entries(recipeGroups).forEach(([key, recipes]) => {
+      const [x, y] = key.split(",").map(Number);
+      mapPlacements.push(
+        <MapPlacement
+          key={`recipe-group-${key}`}
+          x={x}
+          y={y}
+          height={1}
+          width={1}
+        >
+          <RecipeStack
+            key={`recipe-${recipes}`}
+            recipes={recipes.map((r) => r.recipe)}
+          />
+        </MapPlacement>,
+      );
+    });
+  }
 
   return mapPlacements;
 };
@@ -855,6 +859,7 @@ export const Land: React.FC = () => {
                 beehives,
                 oilReserves,
                 lavaPits,
+                isVisiting: visiting,
               }).sort((a, b) => {
                 if (a.props.canCollide === false) {
                   return -1;
