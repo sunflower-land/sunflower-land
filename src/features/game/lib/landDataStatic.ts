@@ -452,17 +452,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Barn: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 5,
-          y: -2,
-        },
-        createdAt: 0,
-      },
-    ],
   },
   crops: {
     "1": {
