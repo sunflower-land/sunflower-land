@@ -290,7 +290,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           points: tradeType === "instant" ? 1 : 3,
         }).multipliedPoints;
 
-  const isHigherThanOffer = price >= highestOffer;
+  const isLessThanOffer = price <= highestOffer;
 
   if (showConfirmation) {
     return (
@@ -299,9 +299,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <Label type="danger" className="-ml-1 mb-2">
             {t("are.you.sure")}
           </Label>
-          {isHigherThanOffer && (
+          {isLessThanOffer && (
             <Label type="danger" icon={lockIcon} className="my-1 mr-0.5">
-              {t("marketplace.higherThanOffer", { price: isHigherThanOffer })}
+              {t("marketplace.higherThanOffer", { price: highestOffer })}
             </Label>
           )}
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
@@ -321,7 +321,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <Button onClick={() => setShowConfirmation(false)} className="mr-1">
             {t("cancel")}
           </Button>
-          <Button disabled={isHigherThanOffer} onClick={() => confirm({})}>
+          <Button disabled={isLessThanOffer} onClick={() => confirm({})}>
             {t("confirm")}
           </Button>
         </div>
