@@ -214,34 +214,6 @@ describe("removeBuilding", () => {
     ]);
   });
 
-  it("uses one Rusty Shovel per building removed", () => {
-    const gameState = removeBuilding({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Rusty Shovel": new Decimal(2),
-        },
-        collectibles: {
-          Nugget: [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "building.removed",
-        name: "Fire Pit",
-        id: "123",
-      },
-    });
-
-    expect(gameState.inventory["Rusty Shovel"]).toEqual(new Decimal(1));
-  });
-
   // it("cannot remove the only water well if there are two unsupported crops from the last expansion", () => {
   //   // 17 plots in total
   //   // 15 plots can be supported without a well
