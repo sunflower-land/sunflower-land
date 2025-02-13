@@ -2490,7 +2490,7 @@
   "marketplace.lastSold": "Last sold: {{sfl}} SFL",
   "marketplace.noSales": "There have been no recent sales.",
   "marketplace.confirmDetails": "Please confirm the following details.",
-  "marketplace.higherThanOffer": "Price must be greater than the highest offer.",
+  "marketplace.higherThanOffer": "Price must be greater than the highest offer: {{price}}.",
   "marketplace.howMuch": "How much SFL would you like to offer?",
   "marketplace.sflLocked": "SFL secured",
   "marketplace.dodgyTrades": "Trades back and forth between players may be marked as suspicious.",

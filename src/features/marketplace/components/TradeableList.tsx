@@ -301,7 +301,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           </Label>
           {isHigherThanOffer && (
             <Label type="danger" icon={lockIcon} className="my-1 mr-0.5">
-              {t("marketplace.higherThanOffer")}
+              {t("marketplace.higherThanOffer", { price: isHigherThanOffer })}
             </Label>
           )}
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
