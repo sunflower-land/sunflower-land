@@ -140,7 +140,10 @@ export function getLand({
 
   // If they have bought resource nodes, we expect they should have more resources.
   getKeys(RESOURCE_NODE_PRICES).forEach((resource) => {
-    const bought = game.farmActivity[`${resource} Bought`] ?? 0;
+    const bought =
+      resource === "Beehive"
+        ? game.farmActivity[`Flower Bed Bought`] ?? 0
+        : game.farmActivity[`${resource} Bought`] ?? 0;
 
     expectedResources[resource as keyof Nodes] =
       (expectedResources[resource as keyof Nodes] ?? 0) + bought;
