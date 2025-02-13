@@ -192,7 +192,8 @@ export const Recipes: React.FC<Props> = ({
                     disabled={
                       lessIngredients() ||
                       selected.disabled ||
-                      (!isVIP && readyRecipes.length > 0)
+                      (!isVIP && readyRecipes.length > 0) ||
+                      !hasAvailableSlots
                     }
                     className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
                     onClick={!cooking ? cook : handleAddToQueue}
