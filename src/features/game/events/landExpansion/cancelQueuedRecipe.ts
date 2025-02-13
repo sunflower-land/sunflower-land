@@ -80,6 +80,10 @@ export function cancelQueuedRecipe({
 
     const newQueue = queue.filter((r) => r.readyAt !== recipe.readyAt);
 
+    if (recipe.boost?.Oil) {
+      building.oil = (building.oil ?? 0) + recipe.boost.Oil;
+    }
+
     building.crafting = newQueue;
 
     const cancelled = building.cancelled || ({} as Cancelled);

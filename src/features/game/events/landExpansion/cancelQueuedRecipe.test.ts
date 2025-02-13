@@ -5,6 +5,7 @@ import {
 } from "./cancelQueuedRecipe";
 import { BuildingProduct, PlacedItem } from "features/game/types/game";
 import { CookableName } from "features/game/types/consumables";
+import { getOilConsumption } from "./cook";
 
 describe("cancelQueuedRecipe", () => {
   it("throws an error if the building does not exist", () => {
@@ -246,6 +247,58 @@ describe("cancelQueuedRecipe", () => {
         cancelledAt: now,
       },
     });
+  });
+
+  it("returns the oil consumed by the queued recipe", () => {
+    const now = new Date("2025-01-01").getTime();
+    const itemName = "Carrot Cake" as CookableName;
+    const oil = 1000;
+    const oilConsumed = getOilConsumption("Bakery", itemName);
+
+    const item: BuildingProduct = {
+      name: itemName,
+      readyAt: now + 2 * 60 * 1000,
+      amount: 1,
+      boost: { Oil: oilConsumed },
+    };
+
+    const state = cancelQueuedRecipe({
+      state: {
+        ...INITIAL_FARM,
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+          expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+        },
+        buildings: {
+          Bakery: [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+              oil,
+              crafting: [
+                {
+                  name: "Sunflower Cake",
+                  readyAt: now + 60 * 1000,
+                  amount: 1,
+                },
+                item,
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cancelled",
+        buildingId: "1",
+        queueItem: item,
+        buildingName: "Bakery",
+      },
+      createdAt: now,
+    });
+
+    expect(state.buildings?.Bakery?.[0]?.oil).toEqual(oil + oilConsumed);
   });
 });
 
