@@ -353,6 +353,7 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: SEASONS["Winds of Change"].endDate,
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
+  "Love Heart Onesie": CAN_WITHDRAW_AND_TRADE,
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
