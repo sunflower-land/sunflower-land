@@ -3,9 +3,12 @@ import {
   BuildingProduct,
   Cancelled,
   GameState,
+  InventoryItemName,
   PlacedItem,
 } from "features/game/types/game";
 import { produce } from "immer";
+import { getCookingRequirements } from "./cook";
+import Decimal from "decimal.js-light";
 
 export type CancelQueuedRecipeAction = {
   type: "recipe.cancelled";
@@ -77,6 +80,21 @@ export function cancelQueuedRecipe({
         `Recipe ${queueItem.name} with readyAt ${recipe.readyAt} is currently being cooked`,
       );
     }
+
+    // return resources consumed by the recipe
+    const ingredients = getCookingRequirements({ state, item: recipe.name });
+    game.inventory = Object.entries(ingredients).reduce(
+      (inventory, [ingredient, amount]) => {
+        const count =
+          inventory[ingredient as InventoryItemName] ?? new Decimal(0);
+
+        return {
+          ...inventory,
+          [ingredient]: count.add(amount),
+        };
+      },
+      game.inventory,
+    );
 
     const newQueue = queue.filter((r) => r.readyAt !== recipe.readyAt);
 

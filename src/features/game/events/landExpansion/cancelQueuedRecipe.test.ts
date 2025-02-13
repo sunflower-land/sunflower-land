@@ -6,6 +6,7 @@ import {
 import { BuildingProduct, PlacedItem } from "features/game/types/game";
 import { CookableName } from "features/game/types/consumables";
 import { getOilConsumption } from "./cook";
+import Decimal from "decimal.js-light";
 
 describe("cancelQueuedRecipe", () => {
   it("throws an error if the building does not exist", () => {
@@ -201,7 +202,7 @@ describe("cancelQueuedRecipe", () => {
     ]);
   });
 
-  it("increments the cancelled count for recipe", () => {
+  it("returns resources consumed by the recipe", () => {
     const now = new Date("2025-01-01").getTime();
     const carrotCakeReadyAt = now + 60 * 1000;
     const queueItem = {
@@ -241,12 +242,9 @@ describe("cancelQueuedRecipe", () => {
       createdAt: now,
     });
 
-    expect(state.buildings?.Bakery?.[0]?.cancelled).toEqual({
-      "Carrot Cake": {
-        count: 1,
-        cancelledAt: now,
-      },
-    });
+    expect(state.inventory.Egg).toEqual(new Decimal(30));
+    expect(state.inventory.Wheat).toEqual(new Decimal(10));
+    expect(state.inventory.Carrot).toEqual(new Decimal(120));
   });
 
   it("returns the oil consumed by the queued recipe", () => {
@@ -299,6 +297,55 @@ describe("cancelQueuedRecipe", () => {
     });
 
     expect(state.buildings?.Bakery?.[0]?.oil).toEqual(oil + oilConsumed);
+  });
+
+  it("returns resources consumed by the recipe", () => {
+    const now = new Date("2025-01-01").getTime();
+    const carrotCakeReadyAt = now + 60 * 1000;
+    const queueItem = {
+      name: "Carrot Cake",
+      readyAt: carrotCakeReadyAt,
+      amount: 1,
+    } as BuildingProduct;
+
+    const state = cancelQueuedRecipe({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        buildings: {
+          Bakery: [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+              crafting: [
+                {
+                  name: "Cornbread",
+                  readyAt: now + 1000,
+                  amount: 1,
+                },
+                queueItem,
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Bakery",
+        buildingId: "1",
+        queueItem,
+      },
+      createdAt: now,
+    });
+
+    expect(state.buildings?.Bakery?.[0]?.cancelled).toEqual({
+      "Carrot Cake": {
+        count: 1,
+        cancelledAt: now,
+      },
+    });
   });
 });
 
