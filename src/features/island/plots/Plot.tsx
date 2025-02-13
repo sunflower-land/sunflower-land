@@ -118,6 +118,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     plotIndex: id,
     crops: crops,
     wellLevel: waterWell.level,
+    buildings: state.buildings,
   });
 
   if (!isFertile) return <NonFertilePlot />;
