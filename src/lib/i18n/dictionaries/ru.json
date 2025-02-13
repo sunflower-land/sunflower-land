@@ -5333,5 +5333,7 @@
   "whatsOn.mysterySeasonText3": "Больше никаких старинных часов во время копания.",
   "skill.frugalMiner": "-20% стоимости монет за все кирки",
   "powerSkills.nextUse": "Следующее использование навыка {{time}}",
-  "recipes.confirmCancel": "Вы действительно хотите удалить это {{recipe}} из очереди?"
+  "recipes.confirmCancel": "Вы действительно хотите удалить это {{recipe}} из очереди?",
+  "marketplace.higherThanOffer": "Цена должна быть выше самого высокого предложения: {{price}}.",
+  "marketplace.dodgyTrades": "Сделки между игроками могут быть отмечены как подозрительные."
 }

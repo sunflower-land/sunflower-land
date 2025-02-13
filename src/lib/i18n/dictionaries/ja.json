@@ -5333,5 +5333,7 @@
   "whatsOn.mysterySeasonText3": "掘っている間に古い時計はもう必要ありません。",
   "skill.frugalMiner": "すべてのツルハシのコインコスト -20%",
   "powerSkills.nextUse": "次のスキル使用 {{time}}",
-  "recipes.confirmCancel": "この {{recipe}} をキューから削除してもよろしいですか?"
+  "recipes.confirmCancel": "この {{recipe}} をキューから削除してもよろしいですか?",
+  "marketplace.higherThanOffer": "価格は最高額の {{price}} よりも高くなければなりません。",
+  "marketplace.dodgyTrades": "プレイヤー間でやり取りされる取引は、疑わしいとマークされる場合があります。"
 }

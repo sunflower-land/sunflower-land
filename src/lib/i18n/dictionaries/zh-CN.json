@@ -5333,5 +5333,7 @@
   "whatsOn.mysterySeasonText3": "挖掘时再也不会有古钟了",
   "skill.frugalMiner": "所有镐的硬币消耗 -20%",
   "powerSkills.nextUse": "下次使用技能 {{time}}",
-  "recipes.confirmCancel": "你确定要从队列中删除这个 {{recipe}} 吗？"
+  "recipes.confirmCancel": "你确定要从队列中删除这个 {{recipe}} 吗？",
+  "marketplace.higherThanOffer": "价格必须高于最高报价：{{price}}。",
+  "marketplace.dodgyTrades": "玩家之间的来回交易可能会被标记为可疑。"
 }
