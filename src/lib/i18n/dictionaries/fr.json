@@ -5333,5 +5333,7 @@
   "whatsOn.mysterySeasonText3": "Plus d'horloges anciennes en creusant.",
   "skill.frugalMiner": "-20 % du coût des pièces pour toutes les pioches",
   "powerSkills.nextUse": "Utilisation de la compétence suivante {{time}}",
-  "recipes.confirmCancel": "Êtes-vous sûr de vouloir supprimer ce {{recipe}} de la file d'attente ?"
+  "recipes.confirmCancel": "Êtes-vous sûr de vouloir supprimer ce {{recipe}} de la file d'attente ?",
+  "marketplace.higherThanOffer": "Le prix doit être supérieur à l'offre la plus élevée : {{price}}.",
+  "marketplace.dodgyTrades": "Les échanges entre joueurs peuvent être considérés comme suspects."
 }

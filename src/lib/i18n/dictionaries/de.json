@@ -5333,5 +5333,7 @@
   "whatsOn.mysterySeasonText3": "Keine alten Uhren mehr beim Graben.",
   "skill.frugalMiner": "-20% Münzkosten für alle Spitzhacken",
   "powerSkills.nextUse": "Nächster Skilleinsatz {{time}}",
-  "recipes.confirmCancel": "Möchten Sie {{recipe}} wirklich aus der Warteschlange entfernen?"
+  "recipes.confirmCancel": "Möchten Sie {{recipe}} wirklich aus der Warteschlange entfernen?",
+  "marketplace.higherThanOffer": "Der Preis muss höher sein als das höchste Angebot: {{price}}.",
+  "marketplace.dodgyTrades": "Hin- und Hergeschäfte zwischen Spielern können als verdächtig markiert werden."
 }
