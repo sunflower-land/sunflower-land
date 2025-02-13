@@ -94,4 +94,22 @@ describe("instantExpand", () => {
 
     expect(state.expansionConstruction?.readyAt).toEqual(now);
   });
+  it("cannot speed up expansion on desert island", () => {
+    expect(() =>
+      speedUpExpansion({
+        action: { type: "expansion.spedUp" },
+        state: {
+          ...INITIAL_FARM,
+          island: {
+            ...INITIAL_FARM.island,
+            type: "desert",
+          },
+          expansionConstruction: {
+            createdAt: 0,
+            readyAt: Date.now() + 1000,
+          },
+        },
+      }),
+    ).toThrow("You can't speed up the expansion on this island");
+  });
 });
