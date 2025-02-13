@@ -9,6 +9,9 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { LAVA_PIT_MS } from "features/game/events/landExpansion/collectLavaPit";
 
+import animatedLavaPit from "assets/resources/lava/lava_pit_animation.webp";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
 
@@ -21,6 +24,11 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
 
   const { gameService, showAnimations } = useContext(Context);
   const lavaPit = useSelector(gameService, _lavaPit(id));
+
+  useUiRefresher({ active: !!lavaPit?.startedAt });
+
+  const lavaPitRunning =
+    lavaPit?.startedAt && lavaPit?.startedAt + LAVA_PIT_MS > Date.now();
 
   const lavaPitReady =
     (lavaPit?.startedAt ?? Infinity) + LAVA_PIT_MS < Date.now() &&
@@ -41,11 +49,20 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
             />
           </div>
         )}
-        <img
-          id={`lavapit-${id}`}
-          src={ITEM_DETAILS["Lava Pit"].image}
-          width={36 * PIXEL_SCALE}
-        />
+
+        {lavaPitRunning ? (
+          <img
+            id={`lavapit-${id}`}
+            src={animatedLavaPit}
+            width={36 * PIXEL_SCALE}
+          />
+        ) : (
+          <img
+            id={`lavapit-${id}`}
+            src={ITEM_DETAILS["Lava Pit"].image}
+            width={36 * PIXEL_SCALE}
+          />
+        )}
       </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>

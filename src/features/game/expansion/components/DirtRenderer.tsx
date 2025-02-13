@@ -18,112 +18,112 @@ const NO_EDGE: CropAlternateArt = {
   basic: SUNNYSIDE.land.noEdge,
   spring: SUNNYSIDE.land.noEdge,
   desert: SUNNYSIDE.land.desertNoEdge,
-  volcano: SUNNYSIDE.land.desertNoEdge,
+  volcano: SUNNYSIDE.land.volcanoNoEdge,
 };
 
 const TOP_RIGHT_BOTTOM_LEFT: CropAlternateArt = {
   basic: SUNNYSIDE.land.fullEdge,
   spring: SUNNYSIDE.land.fullEdge,
   desert: SUNNYSIDE.land.desertFullEdge,
-  volcano: SUNNYSIDE.land.desertFullEdge,
+  volcano: SUNNYSIDE.land.volcanoFullEdge,
 };
 
 const TOP_LEFT: CropAlternateArt = {
   basic: SUNNYSIDE.land.topAndLeftEdge,
   spring: SUNNYSIDE.land.topAndLeftEdge,
   desert: SUNNYSIDE.land.desertTopAndLeftEdge,
-  volcano: SUNNYSIDE.land.desertTopAndLeftEdge,
+  volcano: SUNNYSIDE.land.volcanoTopAndLeftEdge,
 };
 
 const TOP_RIGHT: CropAlternateArt = {
   basic: SUNNYSIDE.land.topAndRightEdge,
   spring: SUNNYSIDE.land.topAndRightEdge,
   desert: SUNNYSIDE.land.desertTopAndRightEdge,
-  volcano: SUNNYSIDE.land.desertTopAndRightEdge,
+  volcano: SUNNYSIDE.land.volcanoTopAndRightEdge,
 };
 
 const BOTTOM_LEFT: CropAlternateArt = {
   basic: SUNNYSIDE.land.bottomAndLeftEdge,
   spring: SUNNYSIDE.land.bottomAndLeftEdge,
   desert: SUNNYSIDE.land.desertBottomAndLeftEdge,
-  volcano: SUNNYSIDE.land.desertBottomAndLeftEdge,
+  volcano: SUNNYSIDE.land.volcanoBottomAndLeftEdge,
 };
 
 const RIGHT_BOTTOM: CropAlternateArt = {
   basic: SUNNYSIDE.land.bottomAndRightEdge,
   spring: SUNNYSIDE.land.bottomAndRightEdge,
   desert: SUNNYSIDE.land.desertBottomAndRightEdge,
-  volcano: SUNNYSIDE.land.desertBottomAndRightEdge,
+  volcano: SUNNYSIDE.land.volcanoBottomAndRightEdge,
 };
 
 const TOP: CropAlternateArt = {
   basic: SUNNYSIDE.land.topEdge,
   spring: SUNNYSIDE.land.topEdge,
   desert: SUNNYSIDE.land.desertTopEdge,
-  volcano: SUNNYSIDE.land.desertTopEdge,
+  volcano: SUNNYSIDE.land.volcanoTopEdge,
 };
 
 const RIGHT: CropAlternateArt = {
   basic: SUNNYSIDE.land.rightEdge,
   spring: SUNNYSIDE.land.rightEdge,
   desert: SUNNYSIDE.land.desertRightEdge,
-  volcano: SUNNYSIDE.land.desertRightEdge,
+  volcano: SUNNYSIDE.land.volcanoRightEdge,
 };
 
 const BOTTOM: CropAlternateArt = {
   basic: SUNNYSIDE.land.bottomEdge,
   spring: SUNNYSIDE.land.bottomEdge,
   desert: SUNNYSIDE.land.desertBottomEdge,
-  volcano: SUNNYSIDE.land.desertBottomEdge,
+  volcano: SUNNYSIDE.land.volcanoBottomEdge,
 };
 
 const LEFT: CropAlternateArt = {
   basic: SUNNYSIDE.land.leftEdge,
   spring: SUNNYSIDE.land.leftEdge,
   desert: SUNNYSIDE.land.desertLeftEdge,
-  volcano: SUNNYSIDE.land.desertLeftEdge,
+  volcano: SUNNYSIDE.land.volcanoLeftEdge,
 };
 
 const TOP_BOTTOM: CropAlternateArt = {
   basic: SUNNYSIDE.land.topAndBottomEdge,
   spring: SUNNYSIDE.land.topAndBottomEdge,
   desert: SUNNYSIDE.land.desertTopAndBottomEdge,
-  volcano: SUNNYSIDE.land.desertTopAndBottomEdge,
+  volcano: SUNNYSIDE.land.volcanoTopAndBottomEdge,
 };
 
 const RIGHT_LEFT: CropAlternateArt = {
   basic: SUNNYSIDE.land.rightAndLeftEdge,
   spring: SUNNYSIDE.land.rightAndLeftEdge,
   desert: SUNNYSIDE.land.desertRightAndLeftEdge,
-  volcano: SUNNYSIDE.land.desertRightAndLeftEdge,
+  volcano: SUNNYSIDE.land.volcanoRightAndLeftEdge,
 };
 
 const TOP_BOTTOM_LEFT: CropAlternateArt = {
   basic: SUNNYSIDE.land.topLeftAndBottomEdge,
   spring: SUNNYSIDE.land.topLeftAndBottomEdge,
   desert: SUNNYSIDE.land.desertTopLeftAndBottomEdge,
-  volcano: SUNNYSIDE.land.desertTopLeftAndBottomEdge,
+  volcano: SUNNYSIDE.land.volcanoTopLeftAndBottomEdge,
 };
 
 const TOP_RIGHT_BOTTOM: CropAlternateArt = {
   basic: SUNNYSIDE.land.topRightAndBottomEdge,
   spring: SUNNYSIDE.land.topRightAndBottomEdge,
   desert: SUNNYSIDE.land.desertTopRightAndBottomEdge,
-  volcano: SUNNYSIDE.land.desertTopRightAndBottomEdge,
+  volcano: SUNNYSIDE.land.volcanoTopRightAndBottomEdge,
 };
 
 const TOP_RIGHT_LEFT: CropAlternateArt = {
   basic: SUNNYSIDE.land.topRightAndLeftEdge,
   spring: SUNNYSIDE.land.topRightAndLeftEdge,
   desert: SUNNYSIDE.land.desertTopRightAndLeftEdge,
-  volcano: SUNNYSIDE.land.desertTopRightAndLeftEdge,
+  volcano: SUNNYSIDE.land.volcanoTopRightAndLeftEdge,
 };
 
 const RIGHT_BOTTOM_LEFT: CropAlternateArt = {
   basic: SUNNYSIDE.land.rightBottomAndLeftEdge,
   spring: SUNNYSIDE.land.rightBottomAndLeftEdge,
   desert: SUNNYSIDE.land.desertRightBottomAndLeftEdge,
-  volcano: SUNNYSIDE.land.desertRightBottomAndLeftEdge,
+  volcano: SUNNYSIDE.land.volcanoRightBottomAndLeftEdge,
 };
 
 const IMAGE_PATHS: Record<string, CropAlternateArt> = {

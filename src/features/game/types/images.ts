@@ -18,6 +18,10 @@ import olive from "assets/greenhouse/olive.webp";
 import oliveSeed from "assets/greenhouse/olive_seed.webp";
 import rice from "assets/greenhouse/rice.webp";
 import riceSeed from "assets/greenhouse/rice_seed.webp";
+import edelweissSeed from "assets/flowers/edelweiss_seed.webp";
+import gladiolusSeed from "assets/flowers/gladiolus_seed.webp";
+import lavenderSeed from "assets/flowers/lavender_seed.webp";
+import cloverSeed from "assets/flowers/clover_seed.webp";
 
 import gem from "assets/icons/gem.webp";
 import tradePoint from "assets/icons/trade_points_coupon.webp";
@@ -26,7 +30,7 @@ import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
 import cropCircle from "assets/sfts/crop_circle.webp";
 
-// NFTs
+// SFTs
 import marty from "assets/sfts/morchi_marty.webp";
 import miffy from "assets/sfts/morchi_miffy.webp";
 import mog from "assets/sfts/morchi_mog.webp";
@@ -279,6 +283,7 @@ import sunflowerCake from "assets/food/cakes/sunflower_cake.png";
 import wheatCake from "assets/food/cakes/wheat_cake.png";
 
 // Food
+import rhubarbTart from "assets/food/rhubarb_tart.webp";
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
 import radishPie from "assets/food/radish_pie.png";
 import cheese from "assets/food/cheese.webp";
@@ -629,6 +634,26 @@ import yellowLotus from "assets/flowers/yellow_lotus.webp";
 import blueLotus from "assets/flowers/blue_lotus.webp";
 import whiteLotus from "assets/flowers/white_lotus.webp";
 import purpleLotus from "assets/flowers/purple_lotus.webp";
+import redEdelweiss from "assets/flowers/red_edelweiss.png";
+import yellowEdelweiss from "assets/flowers/yellow_edelweiss.png";
+import purpleEdelweiss from "assets/flowers/purple_edelweiss.png";
+import whiteEdelweiss from "assets/flowers/white_edelweiss.png";
+import blueEdelweiss from "assets/flowers/blue_edelweiss.png";
+import redGladiolus from "assets/flowers/red_gladiolus.png";
+import yellowGladiolus from "assets/flowers/yellow_gladiolus.png";
+import purpleGladiolus from "assets/flowers/purple_gladiolus.png";
+import whiteGladiolus from "assets/flowers/white_gladiolus.png";
+import blueGladiolus from "assets/flowers/blue_gladiolus.png";
+import redLavender from "assets/flowers/red_lavender.webp";
+import yellowLavender from "assets/flowers/yellow_lavender.webp";
+import purpleLavender from "assets/flowers/purple_lavender.webp";
+import whiteLavender from "assets/flowers/white_lavender.webp";
+import blueLavender from "assets/flowers/blue_lavender.webp";
+import redClover from "assets/flowers/red_clover.webp";
+import yellowClover from "assets/flowers/yellow_clover.webp";
+import purpleClover from "assets/flowers/purple_clover.webp";
+import whiteClover from "assets/flowers/white_clover.webp";
+import blueClover from "assets/flowers/blue_clover.webp";
 
 import babyPanda from "assets/sfts/baby_panda.png";
 import baozi from "assets/sfts/baozi.webp";
@@ -775,6 +800,11 @@ import alienChicken from "assets/sfts/alien_chicken.webp";
 import toxicTuft from "assets/sfts/toxic_tuft.webp";
 import mootant from "assets/sfts/mootant.webp";
 import tradeCake from "assets/food/trade_cake.webp";
+import chamomile from "assets/flowers/chamomile.webp";
+import jellyfish from "assets/fish/jellyfish.webp";
+import frozenCow from "assets/sfts/frozen_mutant_cow.webp";
+import frozenSheep from "assets/sfts/frozen_mutant_sheep.webp";
+import summerChicken from "assets/sfts/summer_chicken.webp";
 
 import kite from "assets/sfts/kite.webp";
 import acornHouse from "assets/sfts/acorn_house.webp";
@@ -787,9 +817,15 @@ import cupOfChocolate from "assets/sfts/cup_of_chocolate.webp";
 import goldenSheep from "assets/sfts/golden_sheep.webp";
 import barnBlueprint from "assets/sfts/barn_blueprint.webp";
 import mamaDuck from "assets/sfts/mama_duck.webp";
+import autumnDuckling from "assets/sfts/autumn_duckling.webp";
+import winterDuckling from "assets/sfts/winter_duckling.webp";
+import summerDuckling from "assets/sfts/summer_duckling.webp";
+import springDuckling from "assets/sfts/spring_duckling.webp";
 import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
+import pesticide from "assets/sfts/pesticide.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -846,191 +882,191 @@ type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 export const ITEM_DETAILS: Items = {
   Sunflower: {
-    image: CROP_LIFECYCLE.Sunflower.crop,
+    image: CROP_LIFECYCLE.basic.Sunflower.crop,
     description: CROPS.Sunflower.description,
   },
   Potato: {
-    image: CROP_LIFECYCLE.Potato.crop,
+    image: CROP_LIFECYCLE.basic.Potato.crop,
     description: CROPS.Potato.description,
   },
   Pumpkin: {
-    image: CROP_LIFECYCLE.Pumpkin.crop,
+    image: CROP_LIFECYCLE.basic.Pumpkin.crop,
     description: CROPS.Pumpkin.description,
   },
   Carrot: {
-    image: CROP_LIFECYCLE.Carrot.crop,
+    image: CROP_LIFECYCLE.basic.Carrot.crop,
     description: CROPS.Carrot.description,
   },
   Cabbage: {
-    image: CROP_LIFECYCLE.Cabbage.crop,
+    image: CROP_LIFECYCLE.basic.Cabbage.crop,
     description: CROPS.Cabbage.description,
   },
   Beetroot: {
-    image: CROP_LIFECYCLE.Beetroot.crop,
+    image: CROP_LIFECYCLE.basic.Beetroot.crop,
     description: CROPS.Beetroot.description,
   },
   Cauliflower: {
-    image: CROP_LIFECYCLE.Cauliflower.crop,
+    image: CROP_LIFECYCLE.basic.Cauliflower.crop,
     description: CROPS.Cauliflower.description,
   },
   Parsnip: {
-    image: CROP_LIFECYCLE.Parsnip.crop,
+    image: CROP_LIFECYCLE.basic.Parsnip.crop,
     description: CROPS.Parsnip.description,
   },
   Eggplant: {
-    image: CROP_LIFECYCLE.Eggplant.crop,
+    image: CROP_LIFECYCLE.basic.Eggplant.crop,
     description: CROPS.Eggplant.description,
   },
   Corn: {
-    image: CROP_LIFECYCLE.Corn.crop,
+    image: CROP_LIFECYCLE.basic.Corn.crop,
     description: CROPS.Corn.description,
   },
   Radish: {
-    image: CROP_LIFECYCLE.Radish.crop,
+    image: CROP_LIFECYCLE.basic.Radish.crop,
     description: CROPS.Radish.description,
   },
   Wheat: {
-    image: CROP_LIFECYCLE.Wheat.crop,
+    image: CROP_LIFECYCLE.basic.Wheat.crop,
     description: CROPS.Wheat.description,
   },
   Kale: {
-    image: CROP_LIFECYCLE.Kale.crop,
+    image: CROP_LIFECYCLE.basic.Kale.crop,
     description: CROPS.Kale.description,
   },
   Soybean: {
-    image: CROP_LIFECYCLE.Soybean.crop,
+    image: CROP_LIFECYCLE.basic.Soybean.crop,
     description: CROPS.Soybean.description,
   },
   Barley: {
-    image: CROP_LIFECYCLE.Barley.crop,
+    image: CROP_LIFECYCLE.basic.Barley.crop,
     description: translate("description.barley"),
   },
   Rhubarb: {
-    image: CROP_LIFECYCLE.Rhubarb.crop,
+    image: CROP_LIFECYCLE.basic.Rhubarb.crop,
     description: translate("description.rhubarb"),
   },
   Zucchini: {
-    image: CROP_LIFECYCLE.Zucchini.crop,
+    image: CROP_LIFECYCLE.basic.Zucchini.crop,
     description: translate("description.zucchini"),
   },
   Yam: {
-    image: CROP_LIFECYCLE.Yam.crop,
+    image: CROP_LIFECYCLE.basic.Yam.crop,
     description: translate("description.yam"),
   },
   Broccoli: {
-    image: CROP_LIFECYCLE.Broccoli.crop,
+    image: CROP_LIFECYCLE.basic.Broccoli.crop,
     description: translate("description.broccoli"),
   },
   Pepper: {
-    image: CROP_LIFECYCLE.Pepper.crop,
+    image: CROP_LIFECYCLE.basic.Pepper.crop,
     description: translate("description.pepper"),
   },
   Onion: {
-    image: CROP_LIFECYCLE.Onion.crop,
+    image: CROP_LIFECYCLE.basic.Onion.crop,
     description: translate("description.onion"),
   },
   Turnip: {
-    image: CROP_LIFECYCLE.Turnip.crop,
+    image: CROP_LIFECYCLE.basic.Turnip.crop,
     description: translate("description.turnip"),
   },
   Artichoke: {
-    image: CROP_LIFECYCLE.Artichoke.crop,
+    image: CROP_LIFECYCLE.basic.Artichoke.crop,
     description: translate("description.artichoke"),
   },
   "Sunflower Seed": {
-    image: CROP_LIFECYCLE.Sunflower.seed,
-    secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
+    image: CROP_LIFECYCLE.basic.Sunflower.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Sunflower.crop,
     description: CROP_SEEDS["Sunflower Seed"].description,
   },
   "Potato Seed": {
-    image: CROP_LIFECYCLE.Potato.seed,
-    secondaryImage: CROP_LIFECYCLE.Potato.crop,
+    image: CROP_LIFECYCLE.basic.Potato.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Potato.crop,
     description: CROP_SEEDS["Potato Seed"].description,
   },
   "Pumpkin Seed": {
-    image: CROP_LIFECYCLE.Pumpkin.seed,
-    secondaryImage: CROP_LIFECYCLE.Pumpkin.crop,
+    image: CROP_LIFECYCLE.basic.Pumpkin.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Pumpkin.crop,
     description: CROP_SEEDS["Pumpkin Seed"].description,
   },
   "Carrot Seed": {
-    image: CROP_LIFECYCLE.Carrot.seed,
-    secondaryImage: CROP_LIFECYCLE.Carrot.crop,
+    image: CROP_LIFECYCLE.basic.Carrot.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Carrot.crop,
     description: CROP_SEEDS["Carrot Seed"].description,
   },
   "Cabbage Seed": {
-    image: CROP_LIFECYCLE.Cabbage.seed,
-    secondaryImage: CROP_LIFECYCLE.Cabbage.crop,
+    image: CROP_LIFECYCLE.basic.Cabbage.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Cabbage.crop,
     description: CROP_SEEDS["Cabbage Seed"].description,
   },
   "Beetroot Seed": {
-    image: CROP_LIFECYCLE.Beetroot.seed,
-    secondaryImage: CROP_LIFECYCLE.Beetroot.crop,
+    image: CROP_LIFECYCLE.basic.Beetroot.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Beetroot.crop,
     description: CROP_SEEDS["Beetroot Seed"].description,
   },
   "Cauliflower Seed": {
-    image: CROP_LIFECYCLE.Cauliflower.seed,
-    secondaryImage: CROP_LIFECYCLE.Cauliflower.crop,
+    image: CROP_LIFECYCLE.basic.Cauliflower.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Cauliflower.crop,
     description: CROP_SEEDS["Cauliflower Seed"].description,
   },
   "Parsnip Seed": {
-    image: CROP_LIFECYCLE.Parsnip.seed,
-    secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
+    image: CROP_LIFECYCLE.basic.Parsnip.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Parsnip.crop,
     description: CROP_SEEDS["Parsnip Seed"].description,
   },
   "Eggplant Seed": {
-    image: CROP_LIFECYCLE.Eggplant.seed,
-    secondaryImage: CROP_LIFECYCLE.Eggplant.crop,
+    image: CROP_LIFECYCLE.basic.Eggplant.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Eggplant.crop,
     description: CROP_SEEDS["Eggplant Seed"].description,
   },
   "Corn Seed": {
-    image: CROP_LIFECYCLE.Corn.seed,
-    secondaryImage: CROP_LIFECYCLE.Corn.crop,
+    image: CROP_LIFECYCLE.basic.Corn.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Corn.crop,
     description: CROP_SEEDS["Corn Seed"].description,
   },
   "Radish Seed": {
-    image: CROP_LIFECYCLE.Radish.seed,
-    secondaryImage: CROP_LIFECYCLE.Radish.crop,
+    image: CROP_LIFECYCLE.basic.Radish.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Radish.crop,
     description: CROP_SEEDS["Radish Seed"].description,
   },
   "Wheat Seed": {
-    image: CROP_LIFECYCLE.Wheat.seed,
-    secondaryImage: CROP_LIFECYCLE.Wheat.crop,
+    image: CROP_LIFECYCLE.basic.Wheat.seed,
+    secondaryImage: CROP_LIFECYCLE.basic.Wheat.crop,
     description: CROP_SEEDS["Wheat Seed"].description,
   },
   "Barley Seed": {
-    image: CROP_LIFECYCLE.Barley.seed,
+    image: CROP_LIFECYCLE.basic.Barley.seed,
     description: translate("description.barley"),
   },
   "Rhubarb Seed": {
-    image: CROP_LIFECYCLE.Rhubarb.seed,
+    image: CROP_LIFECYCLE.basic.Rhubarb.seed,
     description: translate("description.rhubarb"),
   },
   "Zucchini Seed": {
-    image: CROP_LIFECYCLE.Zucchini.seed,
+    image: CROP_LIFECYCLE.basic.Zucchini.seed,
     description: translate("description.zucchini"),
   },
   "Yam Seed": {
-    image: CROP_LIFECYCLE.Yam.seed,
+    image: CROP_LIFECYCLE.basic.Yam.seed,
     description: translate("description.yam"),
   },
   "Broccoli Seed": {
-    image: CROP_LIFECYCLE.Broccoli.seed,
+    image: CROP_LIFECYCLE.basic.Broccoli.seed,
     description: translate("description.broccoli"),
   },
   "Pepper Seed": {
-    image: CROP_LIFECYCLE.Pepper.seed,
+    image: CROP_LIFECYCLE.basic.Pepper.seed,
     description: translate("description.pepper"),
   },
   "Onion Seed": {
-    image: CROP_LIFECYCLE.Onion.seed,
+    image: CROP_LIFECYCLE.basic.Onion.seed,
     description: translate("description.onion"),
   },
   "Turnip Seed": {
-    image: CROP_LIFECYCLE.Turnip.seed,
+    image: CROP_LIFECYCLE.basic.Turnip.seed,
     description: translate("description.turnip"),
   },
   "Artichoke Seed": {
-    image: CROP_LIFECYCLE.Artichoke.seed,
+    image: CROP_LIFECYCLE.basic.Artichoke.seed,
     description: translate("description.artichoke"),
   },
 
@@ -1039,11 +1075,11 @@ export const ITEM_DETAILS: Items = {
     description: BEANS()["Magic Bean"].description,
   },
   "Kale Seed": {
-    image: CROP_LIFECYCLE.Kale.seed,
+    image: CROP_LIFECYCLE.basic.Kale.seed,
     description: CROP_SEEDS["Kale Seed"].description,
   },
   "Soybean Seed": {
-    image: CROP_LIFECYCLE.Soybean.seed,
+    image: CROP_LIFECYCLE.basic.Soybean.seed,
     description: CROP_SEEDS["Soybean Seed"].description,
   },
   "Duskberry Seed": {
@@ -1093,6 +1129,22 @@ export const ITEM_DETAILS: Items = {
   "Lily Seed": {
     image: lilySeed,
     description: FLOWER_SEEDS["Lily Seed"].description,
+  },
+  "Edelweiss Seed": {
+    image: edelweissSeed,
+    description: FLOWER_SEEDS["Edelweiss Seed"].description,
+  },
+  "Gladiolus Seed": {
+    image: gladiolusSeed,
+    description: FLOWER_SEEDS["Gladiolus Seed"].description,
+  },
+  "Lavender Seed": {
+    image: lavenderSeed,
+    description: FLOWER_SEEDS["Lavender Seed"].description,
+  },
+  "Clover Seed": {
+    image: cloverSeed,
+    description: FLOWER_SEEDS["Clover Seed"].description,
   },
   "Apple Pie": {
     image: applePie,
@@ -3118,170 +3170,170 @@ export const ITEM_DETAILS: Items = {
   },
   Anchovy: {
     image: anchovy,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.anchovy.one"),
   },
   Butterflyfish: {
     image: butterflyfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.butterflyfish.one"),
   },
   Blowfish: {
     image: blowfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.blowfish.one"),
   },
   Clownfish: {
     image: clownfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.clownfish.one"),
   },
   "Sea Bass": {
     image: seaBass,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.seabass.one"),
   },
   "Sea Horse": {
     image: seahorse,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.seahorse.one"),
   },
   "Horse Mackerel": {
     image: horseMackerel,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.horsemackerel.one"),
   },
   Squid: {
     image: squid,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.squid.one"),
   },
   "Red Snapper": {
     image: redSnapper,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.redsnapper.one"),
   },
   "Moray Eel": {
     image: morayEel,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.morayeel.one"),
   },
   "Olive Flounder": {
     image: oliveFlounder,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.oliveflounder.one"),
   },
   Napoleanfish: {
     image: napoleonfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.napoleanfish.one"),
   },
   Surgeonfish: {
     image: surgeonfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.surgeonfish.one"),
   },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.zebraturkeyfish.one"),
   },
   Ray: {
     image: ray,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.ray.one"),
   },
   "Hammerhead shark": {
     image: hammerheadShark,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.hammerheadshark.one"),
   },
   Tuna: {
     image: tuna,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.tuna.one"),
   },
   "Mahi Mahi": {
     image: mahiMahi,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.mahimahi.one"),
   },
   "Blue Marlin": {
     image: blueMarlin,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.bluemarlin.one"),
   },
   Oarfish: {
     image: oarfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.oarfish.one"),
   },
   "Football fish": {
     image: footballFish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.footballfish.one"),
   },
   Sunfish: {
     image: sunfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.sunfish.one"),
   },
   Coelacanth: {
     image: coelacanth,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.coelacanth.one"),
   },
   "Whale Shark": {
     image: whaleShark,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.whaleshark.one"),
   },
   "Barred Knifejaw": {
     image: barredKnifejaw,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.barredknifejaw.one"),
   },
   "Saw Shark": {
     image: sawShark,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.sawshark.one"),
   },
   "White Shark": {
     image: whiteShark,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     description: translate("description.whiteshark.one"),
   },
   "Twilight Anglerfish": {
     image: twilightAnglerfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.twilight.anglerfish"),
     availability: translate("permanent"),
   },
   "Starlight Tuna": {
     image: startlightTuna,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.starlight.tuna"),
     availability: translate("permanent"),
   },
   "Radiant Ray": {
     image: radiantRay,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.radiant.ray"),
     availability: translate("permanent"),
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.phantom.barracuda"),
     availability: translate("permanent"),
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.gilded.swordfish"),
     availability: translate("permanent"),
@@ -3291,32 +3343,32 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("howToGetThisItem.crimsonCarp")],
     itemType: "collectible",
     description: translate("description.crimson.carp"),
-    availability: translate("seasonal"),
+    availability: translate("chapter"),
   },
   "Battle Fish": {
     image: battleFish,
     howToGetItem: [translate("howToGetThisItem.battleFish")],
     itemType: "collectible",
     description: translate("description.battle.fish"),
-    availability: translate("seasonal"),
+    availability: translate("chapter"),
   },
   "Lemon Shark": {
     image: lemonShark,
     howToGetItem: hasSeasonEnded("Pharaoh's Treasure")
       ? [translate("howToGetThisItem.lemonShark")]
-      : [translate("ocean.fishing"), translate("beach.fishing")],
+      : [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.lemon.shark"),
-    availability: translate("seasonal"),
+    availability: translate("chapter"),
   },
   "Longhorn Cowfish": {
     image: longhornCowfish,
     howToGetItem: hasSeasonEnded("Bull Run")
       ? [translate("howToGetThisItem.longhornCowfish")]
-      : [translate("ocean.fishing"), translate("beach.fishing")],
+      : [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.longhorn.cowfish"),
-    availability: translate("seasonal"),
+    availability: translate("chapter"),
   },
   "Kraken Tentacle": {
     image: krakenTentacle,
@@ -3436,17 +3488,17 @@ export const ITEM_DETAILS: Items = {
   },
   Angelfish: {
     image: angelFish,
-    howToGetItem: [translate("beach.fishing")],
+    howToGetItem: [],
     description: translate("description.angelfish"),
   },
   Halibut: {
     image: halibut,
-    howToGetItem: [translate("beach.fishing")],
+    howToGetItem: [],
     description: translate("description.halibut"),
   },
   Parrotfish: {
     image: parrotFish,
-    howToGetItem: [translate("beach.fishing")],
+    howToGetItem: [],
     description: translate("description.parrotFish"),
   },
   Porgy: {
@@ -3693,6 +3745,86 @@ export const ITEM_DETAILS: Items = {
   "Blue Lotus": {
     image: blueLotus,
     description: FLOWERS["Blue Lotus"].description,
+  },
+  "Red Edelweiss": {
+    image: redEdelweiss,
+    description: FLOWERS["Red Edelweiss"].description,
+  },
+  "Yellow Edelweiss": {
+    image: yellowEdelweiss,
+    description: FLOWERS["Yellow Edelweiss"].description,
+  },
+  "Purple Edelweiss": {
+    image: purpleEdelweiss,
+    description: FLOWERS["Purple Edelweiss"].description,
+  },
+  "White Edelweiss": {
+    image: whiteEdelweiss,
+    description: FLOWERS["White Edelweiss"].description,
+  },
+  "Blue Edelweiss": {
+    image: blueEdelweiss,
+    description: FLOWERS["Blue Edelweiss"].description,
+  },
+  "Red Gladiolus": {
+    image: redGladiolus,
+    description: FLOWERS["Red Gladiolus"].description,
+  },
+  "Yellow Gladiolus": {
+    image: yellowGladiolus,
+    description: FLOWERS["Yellow Gladiolus"].description,
+  },
+  "Purple Gladiolus": {
+    image: purpleGladiolus,
+    description: FLOWERS["Purple Gladiolus"].description,
+  },
+  "White Gladiolus": {
+    image: whiteGladiolus,
+    description: FLOWERS["White Gladiolus"].description,
+  },
+  "Blue Gladiolus": {
+    image: blueGladiolus,
+    description: FLOWERS["Blue Gladiolus"].description,
+  },
+  "Red Lavender": {
+    image: redLavender,
+    description: FLOWERS["Red Lavender"].description,
+  },
+  "Yellow Lavender": {
+    image: yellowLavender,
+    description: FLOWERS["Yellow Lavender"].description,
+  },
+  "Purple Lavender": {
+    image: purpleLavender,
+    description: FLOWERS["Purple Lavender"].description,
+  },
+  "White Lavender": {
+    image: whiteLavender,
+    description: FLOWERS["White Lavender"].description,
+  },
+  "Blue Lavender": {
+    image: blueLavender,
+    description: FLOWERS["Blue Lavender"].description,
+  },
+  "Red Clover": {
+    image: redClover,
+    description: FLOWERS["Red Clover"].description,
+  },
+  "Yellow Clover": {
+    image: yellowClover,
+    description: FLOWERS["Yellow Clover"].description,
+  },
+  "Purple Clover": {
+    image: purpleClover,
+    description: FLOWERS["Purple Clover"].description,
+  },
+  "White Clover": {
+    image: whiteClover,
+    description: FLOWERS["White Clover"].description,
+  },
+  "Blue Clover": {
+    image: blueClover,
+    description: FLOWERS["Blue Clover"].description,
   },
   "Earn Alliance Banner": {
     image: earnAllianceBanner,
@@ -4685,7 +4817,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.thermalStone"),
   },
   "Protective Pesticide": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pesticide,
     description: translate("description.protectivePesticide"),
   },
   "Volcano Gnome": {
@@ -4701,7 +4833,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.acornHouse"),
   },
   "Spring Duckling": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: springDuckling,
     description: translate("description.springDuckling"),
   },
   Igloo: {
@@ -4741,15 +4873,15 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.mamaDuck"),
   },
   "Summer Duckling": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: summerDuckling,
     description: translate("description.summerDuckling"),
   },
   "Autumn Duckling": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: autumnDuckling,
     description: translate("description.autumnDuckling"),
   },
   "Winter Duckling": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: winterDuckling,
     description: translate("description.winterDuckling"),
   },
   Timeshard: {
@@ -4763,5 +4895,29 @@ export const ITEM_DETAILS: Items = {
   "Winds of Change Banner": {
     image: windsOfChangeBanner,
     description: "",
+  },
+  "Frozen Cow": {
+    image: frozenCow,
+    description: translate("description.frozen.cow"),
+  },
+  "Frozen Sheep": {
+    image: frozenSheep,
+    description: translate("description.frozen.sheep"),
+  },
+  "Summer Chicken": {
+    image: summerChicken,
+    description: translate("description.summer.chicken"),
+  },
+  Jellyfish: {
+    image: jellyfish,
+    description: translate("description.jellyfish"),
+  },
+  Chamomile: {
+    image: chamomile,
+    description: translate("description.chamomile"),
+  },
+  "Rhubarb Tart": {
+    image: rhubarbTart,
+    description: translate("description.rhubarb.tart"),
   },
 };

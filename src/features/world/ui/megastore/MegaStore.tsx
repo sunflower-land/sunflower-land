@@ -13,15 +13,10 @@ import {
   GameState,
 } from "features/game/types/game";
 
-import lightning from "assets/icons/lightning.png";
 import shopIcon from "assets/icons/shop.png";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { MegaStoreMonthly } from "./MegaStoreMonthly";
-import { MegaStoreSeasonal } from "./MegaStoreSeasonal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SeasonalStore } from "./SeasonalStore";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
@@ -67,38 +62,19 @@ const _state = (state: MachineState) => state.context.state;
 
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
   const state = useSelector(gameService, _state);
 
   // Update logic after release
-  if (hasFeatureAccess(state, "SEASONAL_TIERS")) {
-    return (
-      <CloseButtonPanel
-        bumpkinParts={NPC_WEARABLES.stella}
-        tabs={[{ icon: shopIcon, name: "Seasonal Store" }]}
-        onClose={onClose}
-        currentTab={tab}
-        setCurrentTab={setTab}
-      >
-        {tab === 0 && <SeasonalStore state={state} />}
-      </CloseButtonPanel>
-    );
-  }
-
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
-      tabs={[
-        { icon: shopIcon, name: t("monthly") },
-        { icon: lightning, name: t("seasonal") },
-      ]}
+      tabs={[{ icon: shopIcon, name: "Seasonal Store" }]}
       onClose={onClose}
       currentTab={tab}
       setCurrentTab={setTab}
     >
-      {tab === 0 && <MegaStoreMonthly />}
-      {tab === 1 && <MegaStoreSeasonal />}
+      {tab === 0 && <SeasonalStore state={state} />}
     </CloseButtonPanel>
   );
 };

@@ -1,37 +1,15 @@
 import React from "react";
 
-import { SUNNYSIDE } from "assets/sunnyside";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
+import { WATER_WELL_VARIANTS } from "features/island/lib/alternateArt";
 
-export const WaterWell: React.FC<BuildingProps> = ({
-  onRemove,
-  isBuilt,
-  buildingIndex,
-}) => {
-  const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
-    if (isBuilt) {
-      // Add future on click actions here
-      return;
-    }
-  };
-
+export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   return (
-    <BuildingImageWrapper
-      name="Water Well"
-      index={buildingIndex}
-      onClick={handleClick}
-      nonInteractible={!onRemove}
-    >
+    <BuildingImageWrapper name="Water Well" nonInteractible>
       <img
-        src={SUNNYSIDE.building.well}
+        src={WATER_WELL_VARIANTS[season]}
         style={{
           width: `${PIXEL_SCALE * 25}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

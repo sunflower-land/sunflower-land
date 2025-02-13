@@ -109,7 +109,23 @@ const handleFreeFeeding = ({
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = nextLevelXp - beforeFeedXp;
 
-    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
+    const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp);
+
+    const { foodXp } = handleFoodXP({
+      state: copy,
+      animal: animalType,
+      level: nextLevel,
+      food: favouriteFood,
+    });
+
+    const noOfFeed = Math.ceil(xpDiff / foodXp);
+    const xpToFeed = noOfFeed * foodXp;
+    isReady = handleAnimalExperience(
+      animal,
+      animalType,
+      beforeFeedXp,
+      xpToFeed,
+    );
   }
 
   animal.state = isReady ? "ready" : "happy";
@@ -203,6 +219,10 @@ export function feedAnimal({
       name: "Golden Cow",
       game: copy,
     });
+    const hasGoldenSheepPlaced = isCollectibleBuilt({
+      name: "Golden Sheep",
+      game: copy,
+    });
     const favouriteFood = getAnimalFavoriteFood(
       action.animal,
       animal.experience,
@@ -220,6 +240,16 @@ export function feedAnimal({
 
     // Handle Golden Cow Free Food
     if (action.animal === "Cow" && hasGoldenCowPlaced) {
+      return handleFreeFeeding({
+        animal,
+        animalType: action.animal,
+        level,
+        copy,
+      });
+    }
+
+    // Handle Golden Sheep Free Food
+    if (action.animal === "Sheep" && hasGoldenSheepPlaced) {
       return handleFreeFeeding({
         animal,
         animalType: action.animal,

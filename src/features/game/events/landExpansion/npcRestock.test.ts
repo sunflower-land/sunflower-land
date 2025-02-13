@@ -42,7 +42,7 @@ describe("npcRestock", () => {
       },
     });
 
-    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(400));
+    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(800));
     expect(state.stock.Axe).toEqual(new Decimal(100));
   });
   it("restocks only the workbench", () => {
@@ -124,7 +124,7 @@ describe("npcRestock", () => {
         npc: "betty",
       },
     });
-    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(480));
+    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(960));
     expect(state.stock.Axe).toEqual(new Decimal(100));
     expect(state.stock["Sand Shovel"]).toEqual(new Decimal(25));
   });

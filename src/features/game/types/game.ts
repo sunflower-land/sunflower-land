@@ -10,7 +10,7 @@ import {
 
 import { CollectibleName, CraftableName, Food } from "./craftables";
 import { CommodityName, MushroomName, ResourceName } from "./resources";
-import { SkillName } from "./skills";
+import { LegacyBadgeName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
@@ -86,7 +86,11 @@ import {
 import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
 import { SeasonalCollectibleName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
-import { CalendarEvent, CalendarEventName } from "./calendar";
+import {
+  CalendarEvent,
+  CalendarEventName,
+  SeasonalEventName,
+} from "./calendar";
 import { VipBundle } from "../lib/vipAccess";
 
 export type Reward = {
@@ -193,11 +197,12 @@ export type MutantChicken =
   | "Crim Peckster"
   | "Knight Chicken"
   | "Pharaoh Chicken"
-  | "Alien Chicken";
+  | "Alien Chicken"
+  | "Summer Chicken";
 
-export type MutantCow = "Mootant";
+export type MutantCow = "Mootant" | "Frozen Cow";
 
-export type MutantSheep = "Toxic Tuft";
+export type MutantSheep = "Toxic Tuft" | "Frozen Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -376,8 +381,9 @@ export type Bumpkin = {
   skills: Skills;
   achievements?: Partial<Record<AchievementName, number>>;
   activity: Partial<Record<BumpkinActivityName, number>>;
-  previousSkillsResetAt?: number;
+  previousFreeSkillResetAt?: number;
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
+  paidSkillResets?: number;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
@@ -407,7 +413,12 @@ export type FlowerBounty = Bounty & {
   name: FlowerName;
 };
 
-export type BountyRequest = AnimalBounty | FlowerBounty;
+export type SFLBounty = Bounty & {
+  name: "Obsidian";
+  sfl: number;
+};
+
+export type BountyRequest = AnimalBounty | FlowerBounty | SFLBounty;
 
 export type Bounties = {
   requests: BountyRequest[];
@@ -430,7 +441,7 @@ export type InventoryItemName =
   | CraftableName
   | CommodityName
   | ResourceName
-  | SkillName
+  | LegacyBadgeName
   | EasterEgg
   | EasterEventItemName
   | Food
@@ -617,9 +628,8 @@ export type PlacedItem = {
   coordinates: { x: number; y: number };
   readyAt: number;
   createdAt: number;
-
+  crafting?: BuildingProduct[];
   oil?: number;
-  crafting?: BuildingProduct;
 };
 
 type ShakeItem = PlacedItem & { shakenAt?: number };
@@ -1133,7 +1143,12 @@ export type IslandType = "basic" | "spring" | "desert" | "volcano";
  * The order of the islands is important as it determines the levels of the islands.
  * Each new island should be added to the end of the array.
  */
-export const ISLAND_EXPANSIONS: IslandType[] = ["basic", "spring", "desert"];
+export const ISLAND_EXPANSIONS: IslandType[] = [
+  "basic",
+  "spring",
+  "desert",
+  "volcano",
+];
 
 export type Home = {
   collectibles: Collectibles;
@@ -1310,16 +1325,8 @@ type OtherCalendarEvent = BaseCalendarEventDetails & {
 
 export type CalendarEventDetails = CalendarScheduledEvent | OtherCalendarEvent;
 
-export type Calendar = {
+export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
   dates: CalendarEventDetails[];
-  tornado?: CalendarEvent;
-  tsunami?: CalendarEvent;
-  fullMoon?: CalendarEvent;
-  greatFreeze?: CalendarEvent;
-  doubleDelivery?: CalendarEvent;
-  bountifulHarvest?: CalendarEvent;
-  insectPlague?: CalendarEvent;
-  sunshower?: CalendarEvent;
 };
 
 export type LavaPit = {
@@ -1330,6 +1337,11 @@ export type LavaPit = {
   width: number;
   startedAt?: number;
   collectedAt?: number;
+};
+
+export type VIP = {
+  bundles: { name: VipBundle; boughtAt: number }[];
+  expiresAt: number;
 };
 
 export interface GameState {
@@ -1345,10 +1357,7 @@ export interface GameState {
   };
 
   calendar: Calendar;
-  vip?: {
-    bundles: { name: VipBundle; boughtAt: number }[];
-    expiresAt: number;
-  };
+  vip?: VIP;
   shipments: {
     restockedAt?: number;
   };

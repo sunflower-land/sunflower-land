@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
@@ -7,8 +7,17 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _island = (state: MachineState) => state.context.state.island.type;
 
 export const HeliosSunflower: React.FC = () => {
+  const { gameService } = useContext(Context);
+
+  const island = useSelector(gameService, _island);
+
   const { t } = useAppTranslation();
   const [showModal, setShowModal] = useState(false);
   return (
@@ -18,7 +27,7 @@ export const HeliosSunflower: React.FC = () => {
         onClick={() => setShowModal(true)}
       >
         <img
-          src={CROP_LIFECYCLE.Sunflower.ready}
+          src={CROP_LIFECYCLE[island].Sunflower.ready}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 16}px`,

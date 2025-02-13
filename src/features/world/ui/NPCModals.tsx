@@ -19,7 +19,6 @@ import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { Hopper } from "./npcs/Hopper";
-import { ChickenRescue } from "./portals/ChickenRescue";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
 import { KingdomChoresPanel } from "./factions/chores/KingdomChoresPanel";
@@ -36,6 +35,11 @@ import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 import { HalloweenNPC } from "./npcs/HalloweenNPC";
 import { FlowerBounties } from "./flowerShop/FlowerBounties";
 import { Santa } from "./npcs/Santa";
+import { SolarForge } from "./infernos/SolarForge";
+import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
+import { SFLBounties } from "./infernos/SFLBounties";
+import { ObsidianExchange } from "./infernos/ObsidianExchange";
+import { PortalChooser } from "./portals/PortalChooser";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -145,7 +149,11 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
+        {npc === "gunter" && <SolarForge onClose={closeModal} />}
+        {npc === "gorga" && <ObsidianExchange onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}
+        {npc === "bailey" && <WeatherShop onClose={closeModal} />}
+        {npc === "gilda" && <SFLBounties onClose={closeModal} />}
 
         {npc === "digby" && <Digby onClose={closeModal} />}
         {npc === "pharaoh" && <DeliveryPanel npc={npc} onClose={closeModal} />}
@@ -192,14 +200,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <GarbageCollectorModal />
           </CloseButtonPanel>
         )}
-        {npc === "billy" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.billy}
-          >
-            <ChickenRescue onClose={closeModal} />
-          </CloseButtonPanel>
-        )}
+        {npc === "billy" && <PortalChooser onClose={closeModal} />}
         {npc === "cluck e cheese" && (
           <CloseButtonPanel
             onClose={closeModal}

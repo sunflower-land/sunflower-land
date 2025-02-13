@@ -14,31 +14,25 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { MachineState } from "features/game/lib/gameMachine";
+const _season = (state: MachineState) => state.context.state.season.season;
 
 const _state = (state: MachineState) => {
   return state.context.state;
 };
 
-export const Mansion: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const Mansion: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, _state);
 
   const bumpkin = state.bumpkin as Bumpkin;
+
+  const season = useSelector(gameService, _season);
 
   const [showHeart, setShowHeart] = useState(false);
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/home");
 
@@ -51,7 +45,7 @@ export const Mansion: React.FC<BuildingProps> = ({
     let timeout: NodeJS.Timeout;
 
     gameService.onEvent((event) => {
-      if (event.type === "recipe.collected") {
+      if (event.type === "recipes.collected") {
         setShowHeart(true);
         timeout = setTimeout(() => setShowHeart(false), 3000);
       }
@@ -68,11 +62,11 @@ export const Mansion: React.FC<BuildingProps> = ({
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={MANOR_VARIANTS[island]}
+          src={MANOR_VARIANTS[island][season]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{
-            width: `${PIXEL_SCALE * 78}px`,
+            width: `${PIXEL_SCALE * 98}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
             left: `${PIXEL_SCALE * 1}px`,
           }}
@@ -102,7 +96,7 @@ export const Mansion: React.FC<BuildingProps> = ({
         className="absolute"
         style={{
           bottom: `${PIXEL_SCALE * 20}px`,
-          right: `${PIXEL_SCALE * 28}px`,
+          right: `${PIXEL_SCALE * 13}px`,
         }}
       >
         <LetterBox />

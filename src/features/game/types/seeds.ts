@@ -40,12 +40,28 @@ export type Seed = {
   disabled?: boolean;
 };
 
-export const SEEDS: Record<SeedName, Seed> = {
-  ...CROP_SEEDS,
-  ...PATCH_FRUIT_SEEDS,
-  ...FLOWER_SEEDS,
+const sortByPlantSeconds = <K extends SeedName, T extends Seed>(
+  obj: Record<K, T>,
+): Record<K, T> => {
+  const entries = Object.entries(obj) as [K, T][];
+  return Object.fromEntries(
+    entries.sort((a, b) => a[1].plantSeconds - b[1].plantSeconds),
+  ) as Record<K, T>;
+};
+
+const sortedCropSeeds = sortByPlantSeconds(CROP_SEEDS);
+const sortedPatchFruitSeeds = sortByPlantSeconds(PATCH_FRUIT_SEEDS);
+const sortedFlowerSeeds = sortByPlantSeconds(FLOWER_SEEDS);
+const sortedGreenhouseProduceSeeds = sortByPlantSeconds({
   ...GREENHOUSE_FRUIT_SEEDS,
   ...GREENHOUSE_SEEDS,
+});
+
+export const SEEDS: Record<SeedName, Seed> = {
+  ...sortedCropSeeds,
+  ...sortedPatchFruitSeeds,
+  ...sortedFlowerSeeds,
+  ...sortedGreenhouseProduceSeeds,
 };
 
 export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
@@ -69,6 +85,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Sunpetal Seed",
     "Bloom Seed",
     "Lily Seed",
+    "Lavender Seed",
     // Greenhouse
     "Rice Seed",
     "Olive Seed",
@@ -92,6 +109,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Sunpetal Seed",
     "Bloom Seed",
     "Lily Seed",
+    "Gladiolus Seed",
     // Greenhouse
     "Rice Seed",
     "Olive Seed",
@@ -115,6 +133,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Sunpetal Seed",
     "Bloom Seed",
     "Lily Seed",
+    "Clover Seed",
     // Greenhouse
     "Rice Seed",
     "Olive Seed",
@@ -138,6 +157,7 @@ export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
     "Sunpetal Seed",
     "Bloom Seed",
     "Lily Seed",
+    "Edelweiss Seed",
     // Greenhouse
     "Rice Seed",
     "Olive Seed",

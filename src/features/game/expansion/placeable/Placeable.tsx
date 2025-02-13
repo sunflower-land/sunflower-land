@@ -8,10 +8,7 @@ import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
 import { Coordinates } from "../components/MapPlacement";
-import {
-  BUILDINGS_DIMENSIONS,
-  PlaceableName,
-} from "features/game/types/buildings";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
@@ -30,17 +27,21 @@ import { isBudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameState, IslandType } from "features/game/types/game";
+import {
+  GameState,
+  IslandType,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 
-export const PLACEABLES: (
-  state: GameState,
-) => Record<PlaceableName | "Bud", React.FC<any>> = (state) => {
+export const PLACEABLES = (state: GameState) => {
   const island: IslandType = state.island.type;
+  const season: TemperateSeasonName = state.season.season;
+
   return {
     Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
     ...READONLY_COLLECTIBLES,
-    ...READONLY_RESOURCE_COMPONENTS(island),
+    ...READONLY_RESOURCE_COMPONENTS(island, season),
     ...READONLY_BUILDINGS(state),
     "Dirt Path": () => (
       <img
@@ -103,6 +104,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
+
+  const { island, season } = gameService.state.context.state;
 
   const [gameState] = useActor(gameService);
   const [showHint, setShowHint] = useState(true);
@@ -250,10 +253,19 @@ export const Placeable: React.FC<Props> = ({ location }) => {
               }}
             >
               <Collectible
+                buildingId={"123"}
+                buildingIndex={0}
+                createdAt={0}
+                readyAt={0}
+                x={0}
+                y={0}
+                island={island.type}
+                season={season.season}
                 grid={grid}
-                coordinates={coordinates}
-                id={isBudName(placeable) ? placeable.split("-")[1] : undefined}
                 game={gameState.context.state}
+                id={isBudName(placeable) ? placeable.split("-")[1] : "123"}
+                location="farm"
+                name={placeable as CollectibleName}
               />
             </div>
           </div>

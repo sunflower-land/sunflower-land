@@ -2,17 +2,14 @@ import React from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { FirePit } from "./firePit/FirePit";
-import { WithCraftingMachine } from "./WithCraftingMachine";
 import { Market } from "./market/Market";
 import { WorkBench } from "./workBench/WorkBench";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
 import { ChickenHouse } from "./henHouse/HenHouse";
 import { Bakery } from "./bakery/Bakery";
-
 import { Kitchen } from "./kitchen/Kitchen";
 import { Deli } from "./deli/Deli";
-
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
@@ -24,7 +21,11 @@ import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
 import { Manor } from "./manor/Manor";
 import { Mansion } from "./mansion/Mansion";
-import { GameState, IslandType } from "features/game/types/game";
+import {
+  GameState,
+  IslandType,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import {
   BAKERY_VARIANTS,
   DELI_VARIANTS,
@@ -48,61 +49,54 @@ export interface BuildingProps {
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
   isBuilt?: boolean;
+  season: TemperateSeasonName;
 }
 
 export const BUILDING_COMPONENTS: Record<
   BuildingName,
   React.FC<BuildingProps>
 > = {
-  "Fire Pit": ({
+  "Fire Pit": ({ buildingId, isBuilt, island, season }: BuildingProps) => (
+    <FirePit
+      isBuilt={!!isBuilt}
+      buildingId={buildingId}
+      island={island}
+      season={season}
+    />
+  ),
+  Kitchen: ({ buildingId, isBuilt, season, island }: BuildingProps) => (
+    <Kitchen
+      buildingId={buildingId}
+      isBuilt={!!isBuilt}
+      season={season}
+      island={island}
+    />
+  ),
+  Deli: ({ buildingId, isBuilt, season }: BuildingProps) => (
+    <Deli buildingId={buildingId} isBuilt={!!isBuilt} season={season} />
+  ),
+  Bakery: ({ buildingId, isBuilt, island, season }: BuildingProps) => (
+    <Bakery
+      isBuilt={!!isBuilt}
+      buildingId={buildingId}
+      island={island}
+      season={season}
+    />
+  ),
+  "Smoothie Shack": ({
     buildingId,
-    buildingIndex,
-    craftingItemName,
-    craftingReadyAt,
     isBuilt,
     island,
+    season,
   }: BuildingProps) => (
-    <WithCraftingMachine
+    <SmoothieShack
       buildingId={buildingId}
-      buildingName="Fire Pit"
-      buildingIndex={buildingIndex}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
+      isBuilt={!!isBuilt}
       island={island}
-    >
-      <FirePit
-        buildingId={buildingId}
-        buildingIndex={buildingIndex}
-        isBuilt={isBuilt}
-        island={island}
-      />
-    </WithCraftingMachine>
+      season={season}
+    />
   ),
   Workbench: WorkBench,
-  Bakery: ({
-    buildingId,
-    buildingIndex,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    island,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      buildingName="Bakery"
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-      island={island}
-    >
-      <Bakery
-        buildingId={buildingId}
-        buildingIndex={buildingIndex}
-        isBuilt={isBuilt}
-        island={island}
-      />
-    </WithCraftingMachine>
-  ),
   Market: Market,
   Tent: Tent,
   "Town Center": TownCenter,
@@ -112,78 +106,6 @@ export const BUILDING_COMPONENTS: Record<
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Barn: Barn,
-  Kitchen: ({
-    buildingId,
-    buildingIndex,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    island,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-      island={island}
-      buildingName="Kitchen"
-    >
-      <Kitchen
-        buildingId={buildingId}
-        buildingIndex={buildingIndex}
-        isBuilt={isBuilt}
-        island={island}
-      />
-    </WithCraftingMachine>
-  ),
-  Deli: ({
-    buildingId,
-    buildingIndex,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    island,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-      island={island}
-      buildingName="Deli"
-    >
-      <Deli
-        buildingId={buildingId}
-        buildingIndex={buildingIndex}
-        isBuilt={isBuilt}
-        island={island}
-      />
-    </WithCraftingMachine>
-  ),
-  "Smoothie Shack": ({
-    buildingId,
-    buildingIndex,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    island,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      buildingIndex={buildingIndex}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-      island={island}
-      buildingName="Smoothie Shack"
-    >
-      <SmoothieShack
-        buildingId={buildingId}
-        buildingIndex={buildingIndex}
-        isBuilt={isBuilt}
-        island={island}
-      />
-    </WithCraftingMachine>
-  ),
   "Compost Bin": () => <Composter name="Compost Bin" />,
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
@@ -198,8 +120,9 @@ export const BUILDING_COMPONENTS: Record<
 
 export const READONLY_BUILDINGS: (
   gameState: GameState,
-) => Record<BuildingName, React.FC<any>> = (gameState) => {
+) => Record<BuildingName, React.FC<BuildingProps>> = (gameState) => {
   const island: IslandType = gameState.island.type;
+  const season: TemperateSeasonName = gameState.season.season;
   const henHouseLevel = gameState.henHouse.level;
   const barnLevel = gameState.barn.level;
 
@@ -207,14 +130,14 @@ export const READONLY_BUILDINGS: (
     ...BUILDING_COMPONENTS,
     "Fire Pit": () => (
       <img
-        src={FIRE_PIT_VARIANTS[island]}
+        src={FIRE_PIT_VARIANTS[island][season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 47}px` }}
       />
     ),
     Kitchen: () => (
       <img
-        src={KITCHEN_VARIANTS[island]}
+        src={KITCHEN_VARIANTS[island][season]}
         className="absolute"
         style={{ width: `${PIXEL_SCALE * 63}px`, bottom: 0 }}
       />
@@ -231,17 +154,17 @@ export const READONLY_BUILDINGS: (
     ),
     Market: () => (
       <img
-        src={MARKET_VARIANTS[island]}
+        src={MARKET_VARIANTS[island][season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 48}px` }}
       />
     ),
     "Hen House": () => (
       <img
-        src={HEN_HOUSE_VARIANTS[island][henHouseLevel] as string}
+        src={HEN_HOUSE_VARIANTS[season][henHouseLevel] as string}
         className="absolute bottom-0"
         style={{
-          width: `${PIXEL_SCALE * 61}px`,
+          width: `${PIXEL_SCALE * 68}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
       />
@@ -265,14 +188,18 @@ export const READONLY_BUILDINGS: (
     ),
     Bakery: () => (
       <img
-        src={BAKERY_VARIANTS[island]}
+        src={BAKERY_VARIANTS[season]}
         className="absolute bottom-0"
-        style={{ width: `${PIXEL_SCALE * 62}px`, left: `${PIXEL_SCALE * 1}px` }}
+        style={{
+          width: `${PIXEL_SCALE * 62}px`,
+          height: `${PIXEL_SCALE * (season === "spring" ? 59 : 51)}}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
       />
     ),
     Deli: () => (
       <img
-        src={DELI_VARIANTS[island]}
+        src={DELI_VARIANTS[season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       />
@@ -343,7 +270,7 @@ export const READONLY_BUILDINGS: (
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       >
         <img
-          src={BARN_IMAGES[barnLevel]}
+          src={BARN_IMAGES[island][season][barnLevel]}
           className="absolute bottom-0"
           style={{ width: `${PIXEL_SCALE * 64}px` }}
         />

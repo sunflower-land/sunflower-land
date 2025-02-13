@@ -1818,4 +1818,378 @@ describe("plantGreenhouse", () => {
 
     expect(state.inventory["Rice Seed"]).toEqual(new Decimal(0));
   });
+
+  it("gives a 50% time boost when Solflare Aegis is worn in summer season", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Solflare Aegis",
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {},
+      },
+      createdAt: now,
+    });
+
+    const boostedTime = (GREENHOUSE_CROP_TIME_SECONDS["Rice"] * 1000) / 2;
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now - boostedTime,
+      },
+    });
+  });
+
+  it("gives a 50% time boost when Autumn's Embrace is worn in summer season", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Autumn's Embrace",
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {},
+      },
+      createdAt: now,
+    });
+
+    const boostedTime = (GREENHOUSE_CROP_TIME_SECONDS["Rice"] * 1000) / 2;
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now - boostedTime,
+      },
+    });
+  });
+
+  it("does not give a 50% time boost to FRUITS when Autumn's Embrace is worn in summer season", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Grape Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Autumn's Embrace",
+          },
+        },
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {},
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Grape",
+        plantedAt: now,
+      },
+    });
+  });
+
+  it("boosts +1 Greenhouse Crop yield when wearing Blossom Ward at Spring Season", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Blossom Ward",
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        collectibles: {},
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 2,
+        name: "Rice",
+        plantedAt: now,
+      },
+    });
+  });
+
+  it("boosts +1 Greenhouse Crop yield when wearing Frozen Heart at Winter Season", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Frozen Heart",
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        collectibles: {},
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 2,
+        name: "Rice",
+        plantedAt: now,
+      },
+    });
+  });
+
+  it("does not give yield boosts to FRUITS wearing Blossom Ward at Spring Season", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Grape Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Blossom Ward",
+          },
+        },
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        collectibles: {},
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Grape",
+        plantedAt: now,
+      },
+    });
+  });
+  it("does not give 5% time boost to Greenhouse Crops when wearing Green Thumb skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...farm.bumpkin,
+          skills: {
+            "Green Thumb": 1,
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        collectibles: {},
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now,
+      },
+    });
+  });
 });

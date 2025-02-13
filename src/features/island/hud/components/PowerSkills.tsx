@@ -19,10 +19,8 @@ import {
 } from "features/game/types/bumpkinSkills";
 import { InventoryItemName } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
-import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 import {
   INNER_CANVAS_WIDTH,
@@ -32,6 +30,7 @@ import { SkillSquareIcon } from "features/bumpkins/components/revamp/SkillSquare
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { powerSkillDisabledConditions } from "features/game/events/landExpansion/skillUsed";
+import { getRelativeTime, millisecondsToString } from "lib/utils/time";
 
 interface PowerSkillsProps {
   show: boolean;
@@ -152,7 +151,6 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
   };
 
   const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + (cooldown ?? 0);
-  const nextSkillUseCountdown = useCountdown(nextSkillUse);
 
   const powerSkillReady = nextSkillUse < Date.now();
 
@@ -253,30 +251,55 @@ const PowerSkillsContent: React.FC<PowerSkillsContentProps> = ({ onClose }) => {
                 />
               </div>
             )}
-            <div className="flex flex-col lg:items-center">
-              <Label
-                type={
-                  !powerSkillReady ? "info" : disabled ? "danger" : "success"
-                }
-                icon={!powerSkillReady ? SUNNYSIDE.icons.stopwatch : undefined}
-                secondaryIcon={
-                  powerSkillReady && !disabled
-                    ? SUNNYSIDE.icons.confirm
-                    : undefined
-                }
-                className="mb-2"
-              >
-                {!powerSkillReady ? (
-                  <div className="flex lg:flex-col items-center">
-                    <p className="mr-1">{t("powerSkills.nextUse")}</p>
-                    <TimerDisplay time={nextSkillUseCountdown} />
-                  </div>
-                ) : disabled ? (
-                  reason
-                ) : (
-                  t("powerSkills.ready")
-                )}
-              </Label>
+            <div className="flex flex-wrap justify-between gap-x-2 sm:flex-col lg:items-center">
+              {!powerSkillReady ? (
+                // If power skill is not ready, show the next use time
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  className="mb-2"
+                >
+                  {t("powerSkills.nextUse", {
+                    time: getRelativeTime(nextSkillUse, "medium"),
+                  })}
+                </Label>
+              ) : (
+                <>
+                  {disabled ? (
+                    // If power skill is disabled, show the reason if it exists
+                    reason && (
+                      <Label type="danger" className="mb-2">
+                        {reason}
+                      </Label>
+                    )
+                  ) : (
+                    // If power skill is not disabled, show the ready label
+                    <Label
+                      type="success"
+                      secondaryIcon={SUNNYSIDE.icons.confirm}
+                      className="mb-2"
+                    >
+                      {t("powerSkills.ready")}
+                    </Label>
+                  )}
+                  {cooldown && (
+                    // If power skill has a cooldown, show the cooldown
+                    <Label
+                      type="info"
+                      icon={SUNNYSIDE.icons.stopwatch}
+                      className="mb-2"
+                    >
+                      {t("skill.cooldown", {
+                        cooldown: millisecondsToString(cooldown, {
+                          length: "short",
+                          isShortFormat: true,
+                          removeTrailingZeros: true,
+                        }),
+                      })}
+                    </Label>
+                  )}
+                </>
+              )}
             </div>
           </div>
 

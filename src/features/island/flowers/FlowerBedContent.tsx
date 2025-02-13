@@ -24,6 +24,8 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
+import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 
 const isFlower = (name: FlowerCrossBreedName): name is FlowerName =>
   name in FLOWERS;
@@ -38,7 +40,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state, farmId },
+      context: { state },
     },
   ] = useActor(gameService);
   const { inventory, flowers } = state;
@@ -47,16 +49,27 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     "seed",
   );
   const [seed, setSeed] = useState<FlowerSeedName>();
+
   const [crossbreed, setCrossBreed] = useState<FlowerCrossBreedName>();
 
   const selectSeed = (name: FlowerSeedName) => {
     setSeed(name);
     if (!crossbreed) setSelecting("crossbreed");
+    if (crossbreed && !FLOWER_CROSS_BREED_AMOUNTS[name][crossbreed]) {
+      setSelecting("crossbreed");
+      setCrossBreed(undefined);
+    }
   };
 
   const selectCrossBreed = (name: FlowerCrossBreedName) => {
     setCrossBreed(name);
     if (!seed) setSelecting("seed");
+  };
+
+  const handleBack = () => {
+    setSelecting("seed");
+    setSeed(undefined);
+    setCrossBreed(undefined);
   };
 
   const plant = () => {
@@ -82,39 +95,70 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
 
   const hasCrossbreedRequirements = !!(
     crossbreed &&
-    inventory[crossbreed]?.gte(FLOWER_CROSS_BREED_AMOUNTS[crossbreed])
+    seed &&
+    inventory[crossbreed]?.gte(
+      FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed] ?? 0,
+    )
   );
+
+  const seasons = (flowerSeed: FlowerSeedName) =>
+    getKeys(SEASONAL_SEEDS).filter((season) =>
+      SEASONAL_SEEDS[season].find((seed) => seed === flowerSeed),
+    );
+
+  const isInSeason = (flowerSeed: FlowerSeedName) =>
+    seasons(flowerSeed).includes(state.season.season);
 
   return (
     <>
       <div className="p-2">
-        {seed && crossbreed && (
-          <div className="flex items-center justify-center">
-            <img
-              src={
-                resultFlower
-                  ? ITEM_DETAILS[resultFlower].image
-                  : SUNNYSIDE.icons.search
-              }
-              className="h-4 mr-1"
-            />
-            <span className="text-xs">
-              {resultFlower ?? "Unknown combination"}
-            </span>
+        <div
+          className="flex items-center"
+          style={{ height: `${PIXEL_SCALE * 11}px` }}
+        >
+          {selecting === "crossbreed" && (
+            <div className="">
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="cursor-pointer"
+                alt="back"
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                  marginRight: `${PIXEL_SCALE * 4}px`,
+                }}
+                onClick={handleBack}
+              />
+            </div>
+          )}
+          <div className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
+            {seed && crossbreed && (
+              <div className="flex items-center justify-center">
+                <img
+                  src={
+                    resultFlower
+                      ? ITEM_DETAILS[resultFlower].image
+                      : SUNNYSIDE.icons.search
+                  }
+                  className="h-4 mr-1"
+                />
+                <span className="text-xs">
+                  {resultFlower ?? "Unknown combination"}
+                </span>
+              </div>
+            )}
+            {!(seed && crossbreed) && (
+              <div className="flex items-center justify-center">
+                <img
+                  src={SUNNYSIDE.icons.expression_confused}
+                  className="h-4 mr-1"
+                />
+                <span className="text-xs">
+                  {t("flowerBedContent.select.combination")}
+                </span>
+              </div>
+            )}
           </div>
-        )}
-        {!(seed && crossbreed) && (
-          <div className="flex items-center justify-center">
-            <img
-              src={SUNNYSIDE.icons.expression_confused}
-              className="h-4 mr-1"
-            />
-            <span className="text-xs">
-              {t("flowerBedContent.select.combination")}
-            </span>
-          </div>
-        )}
-
+        </div>
         <div
           className="relative mx-auto w-full mt-2"
           style={{
@@ -187,15 +231,21 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
               {t("flowerBedContent.select.seed")}
             </Label>
             <div className="flex flex-wrap">
-              {getKeys(FLOWER_SEEDS).map((name) => (
-                <Box
-                  image={ITEM_DETAILS[name].image}
-                  count={inventory[name]}
-                  onClick={() => selectSeed(name)}
-                  key={name}
-                  isSelected={seed === name}
-                />
-              ))}
+              {getKeys(FLOWER_SEEDS)
+                .sort((a, b) => Number(isInSeason(b)) - Number(isInSeason(a)))
+                .map((name) => (
+                  <Box
+                    image={ITEM_DETAILS[name].image}
+                    count={inventory[name]}
+                    onClick={() => selectSeed(name)}
+                    key={name}
+                    isSelected={seed === name}
+                    disabled={!isInSeason(name)}
+                    secondaryImage={
+                      seasons(name).length < 4 && SEASON_ICONS[seasons(name)[0]]
+                    }
+                  />
+                ))}
             </div>
             {seed && (
               <div className="space-y-1">
@@ -222,13 +272,13 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
           </>
         )}
 
-        {selecting === "crossbreed" && (
+        {selecting === "crossbreed" && seed && (
           <>
             <Label type="default" className="mb-1">
               {t("flowerBedContent.select.crossbreed")}
             </Label>
             <div className="flex flex-wrap mb-2">
-              {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
+              {getKeys(FLOWER_CROSS_BREED_AMOUNTS[seed])
                 .filter(
                   (name) =>
                     !isFlower(name) ||
@@ -253,7 +303,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   </Label>
                   <Label
                     type={!hasCrossbreedRequirements ? "danger" : "default"}
-                  >{`${FLOWER_CROSS_BREED_AMOUNTS[crossbreed]} ${crossbreed} required`}</Label>
+                  >{`${FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed]} ${crossbreed} required`}</Label>
                 </div>
                 <p className="text-xs mt-1">
                   {FLOWER_CROSS_BREED_DETAILS[crossbreed]}

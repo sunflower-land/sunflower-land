@@ -107,9 +107,24 @@ export type NPCName =
   | "petro"
   | "pharaoh"
   | "worried pete"
-  | "chase"; //cowboy
+  | "gilda"
+  | "chase" //cowboy
+  | "gunter"
+  | "gorga"
+  | "bailey"; // weatherman
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  bailey: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Basic Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Wise Staff",
+    hat: "Weather Hat",
+    secondaryTool: "Autumn's Embrace",
+  },
   richie: {
     body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
@@ -130,6 +145,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Overalls",
     shirt: "Chic Gala Blouse",
     hat: "Chicken Hat",
+    suit: "Chicken Suit",
   },
   felga: {
     hair: "Basic Hair",
@@ -176,7 +192,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Pants",
     coat: "Chef Apron",
     hair: "Royal Braids",
-    hat: "Cowboy Hat",
+    hat: "Acorn Hat",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     tool: "Parsnip",
@@ -438,7 +454,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Parsnip",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
-    hat: "Cowboy Hat",
+    hat: "Acorn Hat",
   },
   blacksmith: {
     body: "Light Brown Farmer Potion",
@@ -448,7 +464,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
-    hat: "Cowboy Hat",
+    hat: "Acorn Hat",
   },
   bruce: {
     body: "Beige Farmer Potion",
@@ -486,7 +502,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     shirt: "Yellow Farmer Shirt",
-    hat: "Cowboy Hat",
+    hat: "Crab Hat",
   },
   grimtooth: {
     body: "Goblin Potion",
@@ -496,7 +512,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
-    hat: "Cowboy Hat",
+    hat: "Crab Hat",
   },
   grubnuk: {
     body: "Goblin Potion",
@@ -628,7 +644,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Tattered Slacks",
     shoes: "Old Shoes",
     tool: "Farmer Pitchfork",
-    hat: "Cowboy Hat",
+    hat: "Crab Hat",
   },
   // Announces news
   birdie: {
@@ -708,7 +724,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   stella: {
     body: "Beige Farmer Potion",
     hair: "White Long Hair",
-    hat: "Cowboy Hat",
+    hat: "Weather Hat",
 
     pants: "Farmer Overalls",
     shirt: "Daisy Tee",
@@ -754,7 +770,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Wise Slacks",
     shirt: "Wise Robes",
     tool: "Wise Staff",
-    hat: "Cowboy Hat",
+    hat: "Weather Hat",
     secondaryTool: "Wise Book",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
@@ -826,6 +842,26 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Forest Background",
     shoes: "Black Farmer Boots",
   },
+  gunter: {
+    body: "Infernal Goblin Potion",
+    hair: "Silver Streaks",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+  },
+  gorga: {
+    body: "Infernal Goblin Potion",
+    hair: "Goth Hair",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    hat: "Infernal Horns",
+    secondaryTool: "Infernal Drill",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+  },
   // Placeholder fisherman
   finn: {
     body: "Light Brown Farmer Potion",
@@ -836,6 +872,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Wellies",
     tool: "Sunflower Rod",
     hat: "Fishing Hat",
+  },
+  gilda: {
+    body: "Infernal Goblin Potion",
+    hair: "Rancher Hair",
+    pants: "Brown Suspenders",
+    shirt: "Fossil Armor",
+    tool: "Infernal Pitchfork",
+    background: "Forest Background",
+    shoes: "Black Farmer Boots",
+    hat: "Infernal Horns",
   },
   finley: {
     body: "Light Brown Farmer Potion",
@@ -895,7 +941,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   mayor: {
     body: "Light Brown Farmer Potion",
     shirt: "Pirate Leather Polo",
-    hat: "Cowboy Hat",
+    hat: "Weather Hat",
     hair: "Sun Spots",
     tool: "Merch Coffee Mug",
     pants: "Farmer Pants",

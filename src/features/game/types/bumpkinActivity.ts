@@ -34,6 +34,7 @@ import { FactionShopItemName } from "./factionShop";
 import { ShopDecorationName, SeasonalDecorationName } from "./decorations";
 import { AnimalType } from "./animals";
 import { SeasonalTierItemName } from "./megastore";
+import { WeatherShopItem } from "./calendar";
 
 type BuyableName =
   | SeedName
@@ -82,7 +83,8 @@ export type CraftedEvent = `${
   | PotionHouseItemName
   | LanternName
   | Keys
-  | PurchaseableBait} Crafted`;
+  | PurchaseableBait
+  | WeatherShopItem} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
@@ -123,6 +125,7 @@ export type BumpkinActivityName =
   | "Crimstone Mined"
   | "Sunstone Mined"
   | "Egg Collected"
+  | "Oil Drilled"
   // Misc
   | "Coins Spent"
   | "Coins Earned"

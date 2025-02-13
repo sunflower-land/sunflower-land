@@ -21,7 +21,6 @@ import {
   CHUM_DETAILS,
   Chum,
   FishingBait,
-  getTide,
 } from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
@@ -229,7 +228,6 @@ const BaitSelection: React.FC<{
     !isWearableActive({ name: "Ancient Rod", game: state }) &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
-  const tide = getTide();
   const { weather } = state.fishing;
 
   return (
@@ -238,24 +236,6 @@ const BaitSelection: React.FC<{
         <div className="p-2">
           <div className="flex items-center justify-between flex-wrap gap-1">
             <div className="flex items-center gap-1">
-              {tide === "Dusktide" ? (
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="formula"
-                  className="mr-2"
-                >
-                  {t("fishing.dusktide")}
-                </Label>
-              ) : (
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="default"
-                  className="mr-2"
-                >
-                  {t("fishing.dawnlight")}
-                </Label>
-              )}
-
               {weather === "Fish Frenzy" && (
                 <Label icon={lightning} type="vibrant">
                   {weather}

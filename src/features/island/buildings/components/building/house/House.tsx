@@ -12,8 +12,9 @@ import { DailyReward } from "features/game/expansion/components/dailyReward/Dail
 import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "./HomeBumpkins";
+import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 
-export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -22,11 +23,6 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/home");
 
@@ -39,7 +35,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     let timeout: NodeJS.Timeout;
 
     gameService.onEvent((event) => {
-      if (event.type === "recipe.collected") {
+      if (event.type === "recipes.collected") {
         setShowHeart(true);
         timeout = setTimeout(() => setShowHeart(false), 3000);
       }
@@ -58,7 +54,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={SUNNYSIDE.building.house}
+          src={MANOR_VARIANTS[island][season]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{

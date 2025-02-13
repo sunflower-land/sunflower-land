@@ -11,6 +11,7 @@ const API_URL = CONFIG.API_URL;
 
 export async function loadAuctions(request: Request): Promise<{
   auctions: Auction[];
+  totalSupply: Record<string, number>;
 }> {
   const response = await window.fetch(`${API_URL}/auctions`, {
     method: "GET",
@@ -31,5 +32,5 @@ export async function loadAuctions(request: Request): Promise<{
 
   const { auctions } = await response.json();
 
-  return { auctions };
+  return { auctions: auctions.auctions, totalSupply: auctions.totalSupply };
 }

@@ -53,6 +53,10 @@ export const getFlowerBySeed = () => {
     "Sunpetal Seed": [],
     "Bloom Seed": [],
     "Lily Seed": [],
+    "Edelweiss Seed": [],
+    "Gladiolus Seed": [],
+    "Lavender Seed": [],
+    "Clover Seed": [],
   };
 
   getKeys(FLOWERS).forEach((flowerName) => {

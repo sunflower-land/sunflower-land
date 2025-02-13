@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Seeds } from "./Seeds";
-import { Crops } from "./Crops";
 import { Equipped } from "features/game/types/bumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -10,7 +8,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { SeasonalSeeds } from "./SeasonalSeeds";
 import { Context } from "features/game/GameProvider";
 import { SeasonalCrops } from "./SeasonalCrops";
@@ -96,45 +93,22 @@ export const ShopItems: React.FC<Props> = ({
           unread: showBuyHelper,
         },
         {
-          icon: CROP_LIFECYCLE.Sunflower.crop,
+          icon: CROP_LIFECYCLE.basic.Sunflower.crop,
           name: t("sell"),
           unread: !hasSoldBefore,
         },
-        ...(hasFeatureAccess(
-          gameService.getSnapshot().context.state,
-          "SEASONAL_SEEDS",
-        )
-          ? [
-              {
-                icon: book,
-                name: t("guide"),
-              },
-            ]
-          : []),
+        {
+          icon: book,
+          name: t("guide"),
+        },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
       container={OuterPanel}
     >
-      {tab === 0 &&
-        (hasFeatureAccess(
-          gameService.getSnapshot().context.state,
-          "SEASONAL_SEEDS",
-        ) ? (
-          <SeasonalSeeds />
-        ) : (
-          <Seeds />
-        ))}
-      {tab === 1 &&
-        (hasFeatureAccess(
-          gameService.getSnapshot().context.state,
-          "SEASONAL_SEEDS",
-        ) ? (
-          <SeasonalCrops />
-        ) : (
-          <Crops />
-        ))}
+      {tab === 0 && <SeasonalSeeds />}
+      {tab === 1 && <SeasonalCrops />}
       {tab === 2 && <CropGuide />}
     </CloseButtonPanel>
   );

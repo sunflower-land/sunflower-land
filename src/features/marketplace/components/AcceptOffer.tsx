@@ -30,8 +30,15 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { StoreOnChain } from "./StoreOnChain";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 
 const _state = (state: MachineState) => state.context.state;
+const _hasReputation = (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -47,6 +54,7 @@ const AcceptOfferContent: React.FC<{
   const state = useSelector(gameService, _state);
   const [needsSync, setNeedsSync] = useState(false);
   const { previousInventory, previousWardrobe, bertObsession, npcs } = state;
+  const hasReputation = useSelector(gameService, _hasReputation);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -162,6 +170,9 @@ const AcceptOfferContent: React.FC<{
               {t("marketplace.walletRequired")}
             </Label>
           )}
+          {!hasReputation && (
+            <RequiredReputation reputation={Reputation.Cropkeeper} />
+          )}
         </div>
         <TradeableSummary
           display={display}
@@ -183,6 +194,7 @@ const AcceptOfferContent: React.FC<{
         </Button>
         <Button
           disabled={
+            !hasReputation ||
             !hasItem ||
             (isItemBertObsession && isBertsObesessionCompleted && !isResource)
           }

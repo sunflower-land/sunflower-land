@@ -1,30 +1,13 @@
 import React from "react";
 
-import { SUNNYSIDE } from "assets/sunnyside";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
+import { TOOLSHED_VARIANTS } from "features/island/lib/alternateArt";
 
-export const Toolshed: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
-  const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
-    if (isBuilt) {
-      // Add future on click actions here
-      return;
-    }
-  };
-
+export const Toolshed: React.FC<BuildingProps> = ({ season }) => {
   return (
-    <BuildingImageWrapper
-      name="Toolshed"
-      onClick={handleClick}
-      nonInteractible={!onRemove}
-    >
+    <BuildingImageWrapper name="Toolshed" nonInteractible>
       <div
         className="absolute pointer-events-none"
         style={{
@@ -34,7 +17,7 @@ export const Toolshed: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
         }}
       >
         <img
-          src={SUNNYSIDE.building.toolshed}
+          src={TOOLSHED_VARIANTS[season]}
           style={{
             width: `${PIXEL_SCALE * 36}px`,
           }}

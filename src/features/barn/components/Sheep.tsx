@@ -15,7 +15,6 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
-  isAnimalMedicine,
 } from "features/game/lib/animals";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -41,6 +40,7 @@ import {
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -90,9 +90,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const sleeping = sheepState === "sleeping";
   const needsLove = sheepState === "needsLove";
   const ready = sheepState === "ready";
-  const sick = sheepState === "sick";
+  const sick = sheepState === "sick" || sheep.state === "sick";
   const idle = sheepState === "idle";
-  const sickAndSleeping = sleeping && sheep.state === "sick";
 
   const requiredFoodQty = getBoostedFoodQuantity({
     animalType: "Sheep",
@@ -100,16 +99,27 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     game,
   });
 
+  const hasGoldenSheep = isCollectibleBuilt({
+    name: "Golden Sheep",
+    game,
+  });
+
   const { name: mutantName } = sheep.reward?.items?.[0] ?? {};
 
   useEffect(() => {
-    if (
-      sheep.state === "ready" &&
-      sheep.awakeAt < Date.now() &&
-      sheepState !== "ready"
-    ) {
+    if (sheep.awakeAt < Date.now() && sheepState === "sleeping") {
       sheepService.send({
-        type: "INSTANT_LEVEL_UP",
+        type: "INSTANT_WAKE_UP",
+        animal: sheep,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheep.awakeAt]);
+
+  useEffect(() => {
+    if (sheep.state === "sick" && sheepState !== "sick") {
+      sheepService.send({
+        type: "SICK",
         animal: sheep,
       });
     }
@@ -241,11 +251,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const handleClick = async () => {
     if (disabled) return;
 
+    if (sick) return onSickClick();
+
     if (needsLove) return onLoveClick();
-
-    const medicineSelected = selectedItem && isAnimalMedicine(selectedItem);
-
-    if (sick || (sickAndSleeping && medicineSelected)) return onSickClick();
 
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
@@ -259,6 +267,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
+
+    if (hasGoldenSheep) {
+      feedSheep();
+      return;
+    }
 
     if (hasFoodSelected) {
       const foodCount =
@@ -286,6 +299,17 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
       return t("animal.notEnoughFood", { amount: requiredFoodQty });
+  };
+
+  const getAnimalXPEarned = () => {
+    const { foodXp } = handleFoodXP({
+      state: game,
+      animal: "Sheep",
+      level,
+      food: hasGoldenSheep ? favFood : (selectedItem as AnimalFoodName),
+    });
+
+    return foodXp;
   };
 
   const animalImageInfo = () => {
@@ -316,9 +340,22 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     };
   };
 
+  const requestBubbleRequest = () => {
+    if (sick) return "Barn Delight";
+    if (needsLove) return sheep.item;
+    return favFood;
+  };
+  const showRequestBubble = sick || needsLove || idle;
+
   if (sheepState === "initial") return null;
 
   const level = getAnimalLevel(sheep.experience, "Sheep");
+
+  const xpIndicatorColor =
+    favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldenSheep
+      ? "#71e358"
+      : "#fff";
+  const xpIndicatorAmount = getAnimalXPEarned();
 
   const { animalXP } = getAnimalXP({ state: game, name: showLoveItem! });
 
@@ -385,33 +422,12 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
             />
           )}
           {/* Request */}
-          {idle && (
+          {showRequestBubble && (
             <RequestBubble
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
-              request={favFood}
-              quantity={requiredFoodQty}
-            />
-          )}
-          {sickAndSleeping && (
-            <RequestBubble
-              top={PIXEL_SCALE * 2}
-              left={PIXEL_SCALE * 23}
-              request="Barn Delight"
-            />
-          )}
-          {sick && (
-            <RequestBubble
-              top={PIXEL_SCALE * 2}
-              left={PIXEL_SCALE * 23}
-              request="Barn Delight"
-            />
-          )}
-          {needsLove && (
-            <RequestBubble
-              top={PIXEL_SCALE * 1}
-              left={PIXEL_SCALE * 23}
-              request={sheep.item}
+              request={requestBubbleRequest()}
+              quantity={idle && !hasGoldenSheep ? requiredFoodQty : undefined}
             />
           )}
           {sleeping && showWakesIn && (
@@ -456,13 +472,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           <span
             className="text-sm yield-text"
             style={{
-              color:
-                favFood === selectedItem || selectedItem === "Omnifeed"
-                  ? "#71e358"
-                  : "#fff",
+              color: xpIndicatorColor,
             }}
           >
-            {`+${foodXp}`}
+            {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
           </span>
         </Transition>
         <Transition
@@ -483,7 +496,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               color: "#ffffff",
             }}
           >
-            {`+${animalXP}`}
+            {!!animalXP && `+${animalXP}`}
           </span>
         </Transition>
       </div>

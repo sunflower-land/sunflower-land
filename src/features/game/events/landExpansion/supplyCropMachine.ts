@@ -5,7 +5,6 @@ import {
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
-import { getCropYieldAmount } from "./plant";
 import cloneDeep from "lodash.clonedeep";
 import { produce } from "immer";
 import { SeedName } from "features/game/types/seeds";
@@ -131,26 +130,6 @@ export function calculateCropTime(
 export function getOilTimeInMillis(oil: number, state: GameState) {
   // return the time in milliseconds
   return (oil / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000;
-}
-
-export function getPackYieldAmount(
-  amount: number,
-  crop: CropName,
-  state: GameState,
-): number {
-  if (!state.bumpkin) {
-    throw new Error("You do not have a Bumpkin");
-  }
-
-  // run getCropYieldAmount for each amount times to get the yield amount per each seed
-  let totalYield = 0;
-  for (let i = 0; i < amount; i++) {
-    totalYield += getCropYieldAmount({
-      game: state,
-      crop,
-    });
-  }
-  return totalYield;
 }
 
 export function updateCropMachine({

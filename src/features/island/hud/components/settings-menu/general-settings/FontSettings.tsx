@@ -27,6 +27,8 @@ export const FontSettings: React.FC = () => {
     }
   })();
 
+  const font = (localStorage.getItem("settings.font") ?? "default") as Font;
+
   const handleFontChange = (font: string) => changeFont(font as Font);
 
   return (
@@ -36,6 +38,7 @@ export const FontSettings: React.FC = () => {
         onChange={handleFontChange}
         options={fonts}
         className="w-48"
+        initialIndex={fonts.indexOf(font)}
       />
     </div>
   );

@@ -1,25 +1,23 @@
 import React from "react";
 
-import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { IslandType } from "features/game/types/game";
 import { CollectibleProps } from "../Collectible";
 
-const BUSH_IMAGE: Record<IslandType, string> = {
-  basic: SUNNYSIDE.decorations.bush,
-  spring: SUNNYSIDE.decorations.springBush,
-  desert: SUNNYSIDE.decorations.bush,
-  volcano: SUNNYSIDE.decorations.bush,
-};
+import { BUSH_VARIANTS } from "features/island/lib/alternateArt";
+
 export const Bush: React.FC<CollectibleProps> = ({ game }) => {
   return (
     <>
       <img
-        src={BUSH_IMAGE[game?.island.type ?? "basic"]}
+        src={
+          BUSH_VARIANTS[game?.island.type ?? "basic"][
+            game?.season?.season ?? "spring"
+          ]
+        }
         style={{
-          width: `${PIXEL_SCALE * 24}px`,
+          width: `${PIXEL_SCALE * (game.island.type === "desert" ? 20 : game.island.type === "volcano" ? 28 : 25)}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 4}px`,
+          left: `${PIXEL_SCALE * (game.island.type === "desert" ? 6 : game.island.type === "volcano" ? 2 : 3)}px`,
         }}
         className="absolute"
         alt="Bush"

@@ -45,9 +45,11 @@ type AuctionItems = Record<BumpkinItem | InventoryItemName, AuctionDetail>;
  */
 function getSeasonalAuctions({
   auctions,
+  totalSupply,
   season,
 }: {
   auctions: Auction[];
+  totalSupply: Record<string, number>;
   season: SeasonName;
 }) {
   const { startDate, endDate } = SEASONS[season];
@@ -92,7 +94,12 @@ function getSeasonalAuctions({
     };
   }, {} as AuctionItems);
 
-  return details;
+  // Filter totalSupply based on the remaining seasonal items
+  const filteredTotalSupply = Object.fromEntries(
+    Object.entries(totalSupply).filter(([name]) => name in details),
+  );
+
+  return { details, filteredTotalSupply };
 }
 
 const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
@@ -247,9 +254,11 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
 const Drops: React.FC<{
   detail: AuctionDetail;
   name: BumpkinItem | InventoryItemName;
+  maxSupply: number;
   game: GameState;
-}> = ({ detail, name, game }) => {
+}> = ({ detail, name, maxSupply, game }) => {
   const { t } = useAppTranslation();
+
   const buff = COLLECTIBLE_BUFF_LABELS(game);
   const buffLabel =
     detail.type === "collectible"
@@ -259,10 +268,17 @@ const Drops: React.FC<{
   return (
     <>
       <div className="p-1">
-        <p className="text-sm mb-1">{name}</p>
-        <Label type="default" className="mt-1 mb-1">
-          {detail.type === "collectible" ? t("collectible") : t("wearable")}
-        </Label>
+        <p className="text-sm mt-3 mb-2">{name}</p>
+        <div className="flex flex-row flex-wrap justify-between">
+          <Label type="default" className="mt-1 mb-1">
+            {detail.type === "collectible" ? t("collectible") : t("wearable")}
+          </Label>
+          <Label type="default" className="mt-1 mb-1">
+            {t("season.codex.auction.totalSupply", {
+              totalSupply: maxSupply,
+            })}
+          </Label>
+        </div>
         {buffLabel ? (
           <div className="flex">
             <img src={lightning} className="h-4 mr-0.5" />
@@ -393,10 +409,12 @@ export const SeasonalAuctions: React.FC<Props> = ({
     return <Loading />;
   }
 
-  const auctionItems = getSeasonalAuctions({
-    auctions: auctioneerState.context.auctions,
-    season,
-  });
+  const { details: auctionItems, filteredTotalSupply: totalItems } =
+    getSeasonalAuctions({
+      auctions: auctioneerState.context.auctions,
+      totalSupply: auctioneerState.context.totalSupply,
+      season,
+    });
 
   return (
     <>
@@ -412,6 +430,7 @@ export const SeasonalAuctions: React.FC<Props> = ({
             <Drops
               name={selected}
               detail={auctionItems[selected]}
+              maxSupply={totalItems[selected]}
               game={gameState}
             />
           )}

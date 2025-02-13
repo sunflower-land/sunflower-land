@@ -7,3 +7,10 @@ export function canMine(
 ) {
   return now - rock.stone.minedAt > recoveryTime * 1000;
 }
+
+/**
+ * getEntries is a ref to Object.entries, but the return is typed literally.
+ */
+export const getObjectEntries = Object.entries as <T extends object>(
+  obj: T,
+) => Array<[keyof T, T[keyof T]]>;

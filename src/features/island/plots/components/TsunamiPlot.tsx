@@ -11,6 +11,7 @@ import { GameState } from "features/game/types/game";
 import tsunamiIcon from "assets/icons/tsunami.webp";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
+import { SOIL_IMAGES } from "../lib/plant";
 
 const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
   const [showModal, setShowModal] = useState(false);
@@ -24,6 +25,8 @@ const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
     setShowTooltip(false);
   };
 
+  const soilImage = SOIL_IMAGES[game.island.type].dry;
+
   return (
     <>
       <div
@@ -32,7 +35,7 @@ const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
         onMouseLeave={handleMouseLeave}
       >
         <img
-          src={SUNNYSIDE.soil.soil_dry}
+          src={soilImage}
           alt="soil image"
           className="absolute"
           style={{

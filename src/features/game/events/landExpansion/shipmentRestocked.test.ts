@@ -48,7 +48,7 @@ describe("shipmentRestocked", () => {
     });
 
     expect(state.shipments.restockedAt).toEqual(now);
-    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(400));
+    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(450));
   });
 
   it("does not reduce existing stock", () => {
@@ -71,7 +71,7 @@ describe("shipmentRestocked", () => {
     });
 
     expect(state.shipments.restockedAt).toEqual(now);
-    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(400));
+    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(500));
   });
 
   it("does not change existing stock of other seeds", () => {

@@ -98,8 +98,6 @@ import {
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
-import { hasFeatureAccess } from "lib/flags";
-import { getBumpkinLevel } from "./level";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
@@ -599,7 +597,7 @@ export const saveGame = async (
 };
 
 const handleSuccessfulSave = (context: Context, event: any) => {
-  // Actions that occured since the server request
+  // Actions that occurred since the server request
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
   );
@@ -917,7 +915,9 @@ export function startGame(authContext: AuthContext) {
               target: "seasonChanged",
               cond: (context) => {
                 return (
-                  hasFeatureAccess(context.state, "TEMPERATE_SEASON") &&
+                  context.state.island.type !== "basic" &&
+                  (context.state.island.upgradedAt ?? 0) <
+                    context.state.season.startedAt &&
                   context.state.season.startedAt !==
                     getLastTemperateSeasonStartedAt()
                 );
@@ -927,10 +927,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "calendarEvent",
               cond: (context) => {
-                if (!hasFeatureAccess(context.state, "WEATHER_SHOP")) {
-                  return false;
-                }
-
                 const game = context.state;
 
                 const activeEvent = getActiveCalendarEvent({
@@ -990,24 +986,26 @@ export function startGame(authContext: AuthContext) {
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
-            {
-              target: "competition",
-              cond: (context: Context) => {
-                if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
-                  return false;
+            // {
+            //   target: "competition",
+            //   cond: (context: Context) => {
+            //     if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
+            //       return false;
 
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
+            //     // TODO is competition active?
 
-                if (level <= 5) return false;
+            //     const level = getBumpkinLevel(
+            //       context.state.bumpkin?.experience ?? 0,
+            //     );
 
-                const competition = context.state.competitions.progress.ANIMALS;
+            //     if (level <= 5) return false;
 
-                // Show the competition introduction if they have not started it yet
-                return !competition;
-              },
-            },
+            //     const competition = context.state.competitions.progress.ANIMALS;
+
+            //     // Show the competition introduction if they have not started it yet
+            //     return !competition;
+            //   },
+            // },
             {
               target: "playing",
             },
@@ -1350,13 +1348,12 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "seasonChanged",
                 cond: (context, event) => {
-                  if (!hasFeatureAccess(context.state, "TEMPERATE_SEASON")) {
-                    return false;
-                  }
-
                   return (
+                    context.state.island.type !== "basic" &&
+                    (context.state.island.upgradedAt ?? 0) <
+                      event.data.farm.seasonStartedAt &&
                     event.data.farm.season.startedAt !==
-                    getLastTemperateSeasonStartedAt()
+                      getLastTemperateSeasonStartedAt()
                   );
                 },
                 actions: assign((context: Context, event) =>
@@ -1366,10 +1363,6 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "calendarEvent",
                 cond: (_, event) => {
-                  if (!hasFeatureAccess(event.data.farm, "WEATHER_SHOP")) {
-                    return false;
-                  }
-
                   const game = event.data.farm;
 
                   const activeEvent = getActiveCalendarEvent({

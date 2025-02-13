@@ -44,8 +44,7 @@ export function collectCompost({
     }
 
     if (createdAt < compost.readyAt) {
-      throw new Error(translate("error.no.ready"));
-      ("Compost is not ready");
+      throw new Error("Compost is not ready");
     }
 
     getKeys(compost.items ?? {}).forEach((name) => {
@@ -58,8 +57,9 @@ export function collectCompost({
       bumpkin?.activity,
     );
 
-    // Set on backend
-    delete building.requires;
+    if (building.requires) {
+      delete building.requires;
+    }
 
     delete building.producing;
 

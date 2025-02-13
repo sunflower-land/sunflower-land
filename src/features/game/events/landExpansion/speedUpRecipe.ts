@@ -4,7 +4,6 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
@@ -103,19 +102,12 @@ export function speedUpRecipe({
       throw new Error("Building does not exist");
     }
 
-    const recipe = building.crafting;
+    const recipe = building.crafting
+      ?.sort((a, b) => a.readyAt - b.readyAt)
+      .find((r) => r.readyAt > createdAt);
+
     if (!recipe) {
       throw new Error("Nothing is cooking");
-    }
-
-    if (
-      recipe.name === "Pizza Margherita" &&
-      hasFeatureAccess(game, "PIZZA_SPEED_UP_RESTRICTION")
-    ) {
-      throw new Error("You can't speed up the pizza recipe");
-    }
-    if (createdAt > recipe.readyAt) {
-      throw new Error("Already cooked");
     }
 
     const gems = getInstantGems({
@@ -134,7 +126,17 @@ export function speedUpRecipe({
       game.inventory[recipe.name] ?? new Decimal(0)
     ).add(recipe.amount ?? 1);
 
-    delete building.crafting;
+    building.crafting = building.crafting?.filter(
+      (r) => r.readyAt !== recipe.readyAt,
+    );
+
+    // Calculate time difference between sped up recipe and now
+    const timeDiff = recipe.readyAt - createdAt;
+
+    // Adjust remaining recipes readyAt times
+    building.crafting?.forEach((r) => {
+      r.readyAt -= timeDiff;
+    });
 
     game = makeGemHistory({ game, amount: gems });
 

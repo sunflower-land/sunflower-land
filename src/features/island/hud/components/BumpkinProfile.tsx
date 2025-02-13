@@ -22,7 +22,6 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpringValue } from "@react-spring/web";
 import { useSound } from "lib/utils/hooks/useSound";
-import { hasFeatureAccess } from "lib/flags";
 
 const DIMENSIONS = {
   original: 80,
@@ -116,7 +115,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           "cursor-pointer hover:img-highlight": !!onClick,
         })}
         style={{
-          height: hasFeatureAccess(state, "TEMPERATE_SEASON") ? "70px" : "80px",
+          height: "70px",
         }}
         onClick={onClick}
       >
@@ -161,11 +160,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           image={SUNNYSIDE.ui.progressBarSprite}
           widthFrame={DIMENSIONS.original}
           heightFrame={DIMENSIONS.original}
-          zoomScale={
-            new SpringValue(
-              hasFeatureAccess(state, "TEMPERATE_SEASON") ? 0.7 : 1,
-            )
-          }
+          zoomScale={new SpringValue(0.7)}
           fps={10}
           steps={SPRITE_STEPS}
           autoplay={false}
@@ -210,7 +205,7 @@ export const BumpkinProfile: React.FC<{
   isFullUser: boolean;
 }> = ({ isFullUser }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
-  const [viewSkillsPage, setViewSkillsPage] = useState(false);
+  const [viewSkillsTab, setViewSkillsTab] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const profile = useSound("profile");
@@ -232,9 +227,7 @@ export const BumpkinProfile: React.FC<{
 
   const handleShowHomeModal = () => {
     profile.play();
-    setViewSkillsPage(
-      !hasFeatureAccess(state, "SKILLS_REVAMP") ? showSkillPointAlert : false,
-    );
+    setViewSkillsTab(showSkillPointAlert);
     setShowModal(true);
     if (showSkillPointAlert) {
       acknowledgeSkillPoints(state.bumpkin);
@@ -267,7 +260,7 @@ export const BumpkinProfile: React.FC<{
       {/* Bumpkin modal */}
       <Modal show={showModal} onHide={handleHideModal} size="lg">
         <BumpkinModal
-          initialView={viewSkillsPage ? "skills" : "home"}
+          initialTab={viewSkillsTab ? 2 : 0}
           onClose={handleHideModal}
           readonly={gameState.matches("visiting")}
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
@@ -278,19 +271,8 @@ export const BumpkinProfile: React.FC<{
       </Modal>
 
       {/* Bumpkin profile */}
-      {hasFeatureAccess(gameState.context.state, "TEMPERATE_SEASON") ? (
-        <div className="scale-[0.7] absolute left-0 top-0">
-          <BumpkinAvatar
-            state={gameState.context.state}
-            bumpkin={state.bumpkin}
-            username={username}
-            onClick={handleShowHomeModal}
-            showSkillPointAlert={
-              showSkillPointAlert && !gameState.matches("visiting")
-            }
-          />
-        </div>
-      ) : (
+      {/* Mobile */}
+      <div className="scale-[0.7] absolute left-0 top-0">
         <BumpkinAvatar
           state={gameState.context.state}
           bumpkin={state.bumpkin}
@@ -300,7 +282,7 @@ export const BumpkinProfile: React.FC<{
             showSkillPointAlert && !gameState.matches("visiting")
           }
         />
-      )}
+      </div>
     </>
   );
 };

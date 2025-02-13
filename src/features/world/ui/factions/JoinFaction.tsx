@@ -68,7 +68,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
         setIsLoading(false);
       }
 
-      // Error occured - let them join for 10
+      // Error occurred - let them join for 10
       if (!champions) {
         setCost(10);
         setIsLoading(false);

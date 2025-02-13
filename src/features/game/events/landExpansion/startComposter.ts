@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   ComposterName,
+  SEASON_COMPOST_REQUIREMENTS,
   composterDetails,
 } from "features/game/types/composters";
 import { getKeys } from "features/game/types/craftables";
@@ -76,6 +77,10 @@ export function getCompostAmount({
     produceAmount += 5;
   }
 
+  if (produceAmount < 0) {
+    produceAmount = 0;
+  }
+
   return { produceAmount };
 }
 
@@ -94,11 +99,15 @@ export function startComposter({
     const { bumpkin, inventory } = stateCopy;
     const { skills } = bumpkin;
     const composter = buildings[0];
-    const { producing, requires } = composter;
+    const { producing } = composter;
 
     if (producing && producing.readyAt > createdAt) {
       throw new Error(translate("error.alr.composter"));
     }
+
+    const requires = {
+      ...SEASON_COMPOST_REQUIREMENTS[building][stateCopy.season.season],
+    };
 
     if (!requires) {
       throw new Error(translate("error.alr.composter"));

@@ -12,14 +12,20 @@ export const getReturnValues = (timeLeft: number) => {
   return { days, hours, minutes, seconds };
 };
 
+const getTimeRemaining = (targetDate: number) => {
+  return Math.max(targetDate - Date.now(), 0);
+};
+
 export const useCountdown = (targetDate: number) => {
   const [countDown, setCountDown] = useState<number>(
-    Math.max(targetDate - Date.now(), 0),
+    getTimeRemaining(targetDate),
   );
 
   useEffect(() => {
+    setCountDown(getTimeRemaining(targetDate));
+
     const interval = setInterval(() => {
-      setCountDown(Math.max(targetDate - Date.now(), 0));
+      setCountDown(getTimeRemaining(targetDate));
     }, 1000);
 
     return () => clearInterval(interval);

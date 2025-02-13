@@ -18,7 +18,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
 import { tradeToId } from "features/marketplace/lib/offers";
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MyTableRow } from "./MyTableRow";
 
 const _isCancellingOffer = (state: MachineState) =>
@@ -143,7 +143,7 @@ export const MyListings: React.FC = () => {
                   });
 
                   const isResource =
-                    getKeys(TRADE_LIMITS).includes(itemName) &&
+                    isTradeResource(itemName) &&
                     listing.collection === "collectibles";
 
                   const quantity = listing.items[itemName];

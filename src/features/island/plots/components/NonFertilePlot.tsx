@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
@@ -6,10 +6,20 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SOIL_IMAGES } from "../lib/plant";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+
+const _island = (state: MachineState) => state.context.state.island.type;
 
 const NonFertilePlotComponent = () => {
+  const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showWaterWell, setShowWaterWell] = useState(false);
+
+  const island = useSelector(gameService, _island);
+
   const { t } = useAppTranslation();
   const handleHover = () => {
     setShowWaterWell(true);
@@ -19,6 +29,8 @@ const NonFertilePlotComponent = () => {
     setShowWaterWell(false);
   };
 
+  const soilImage = SOIL_IMAGES[island].dry;
+
   return (
     <>
       <div
@@ -27,7 +39,7 @@ const NonFertilePlotComponent = () => {
         onMouseLeave={handleMouseLeave}
       >
         <img
-          src={SUNNYSIDE.soil.soil_dry}
+          src={soilImage}
           alt="soil image"
           className="absolute"
           style={{

@@ -4,15 +4,14 @@ import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { InventoryItemName, Rock } from "features/game/types/game";
+import { InventoryItemName, Rock, Skills } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedIron } from "./components/DepletedIron";
 import { DepletingIron } from "./components/DepletingIron";
 import { canMine } from "features/game/expansion/lib/utils";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 
@@ -29,15 +28,17 @@ const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+const selectSkills = (state: MachineState) =>
+  state.context.state.bumpkin?.skills;
+
+const compareSkills = (prev: Skills, next: Skills) =>
+  (prev["Tap Prospector"] ?? false) === (next["Tap Prospector"] ?? false);
 
 interface Props {
   id: string;
-  index: number;
 }
 
-export const Iron: React.FC<Props> = ({ id, index }) => {
+export const Iron: React.FC<Props> = ({ id }) => {
   const { gameService, shortcutItem, showAnimations } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
@@ -45,11 +46,6 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
   const [collectedAmount, setCollectedAmount] = useState<number>();
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -81,6 +77,8 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
 
+  const skills = useSelector(gameService, selectSkills, compareSkills);
+
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME);
   const mined = !canMine(resource, IRON_RECOVERY_TIME);
@@ -92,7 +90,7 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
 
     shortcutItem(tool);
 
-    if (state.bumpkin.skills["Tap Prospector"]) {
+    if (skills["Tap Prospector"]) {
       // insta-mine the mineral
       return mine();
     }

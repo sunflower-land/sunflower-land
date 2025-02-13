@@ -40,7 +40,7 @@ export const RestockItems: Record<RestockNPC, Restock> = {
     shopName: translate("market"),
     categoryLabel: {
       labelText: translate("seeds"),
-      icon: CROP_LIFECYCLE.Sunflower.seed,
+      icon: CROP_LIFECYCLE.basic.Sunflower.seed,
     },
   },
   blacksmith: {
@@ -78,7 +78,14 @@ export function npcRestock({ state, action }: Options): GameState {
       return {
         ...acc,
         [name]:
-          name in restockItem ? INITIAL_STOCK(game)[name] : game.stock[name],
+          name in restockItem
+            ? new Decimal(
+                Math.max(
+                  INITIAL_STOCK(game)[name].toNumber(),
+                  (game.stock[name] ?? new Decimal(0)).toNumber(),
+                ),
+              )
+            : game.stock[name],
       };
     }, {});
     game.inventory["Gem"] = gems.sub(gemPrice);

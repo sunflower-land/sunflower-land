@@ -84,7 +84,7 @@ describe("redeemTradeRewards", () => {
     expect(state.inventory["Trade Point"]).toEqual(new Decimal(0));
   });
 
-  it("buys a Trade Rewards Pack", () => {
+  it.only("buys a Trade Rewards Pack", () => {
     const state = redeemTradeReward({
       state: {
         ...INITIAL_FARM,

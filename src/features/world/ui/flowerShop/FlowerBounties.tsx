@@ -15,7 +15,7 @@ import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/types/decorations";
 import { FLOWERS } from "features/game/types/flowers";
-import { BountyRequest, GameState } from "features/game/types/game";
+import { BountyRequest, GameState, SFLBounty } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
@@ -194,7 +194,7 @@ export const FlowerBountiesModal: React.FC<{
   );
 };
 
-const Deal: React.FC<{
+export const Deal: React.FC<{
   deal: BountyRequest;
   onClose: () => void;
   onSold: () => void;
@@ -244,23 +244,25 @@ const Deal: React.FC<{
         </div>
 
         <p>
-          {deal.coins
-            ? t("bounties.sell.coins", { amount: deal.coins })
-            : t("bounties.sell.items", {
-                amount: getKeys(deal.items ?? {})
-                  .map(
-                    (name) =>
-                      `${
-                        name !== getSeasonalTicket()
-                          ? deal.items?.[name]
-                          : generateBountyTicket({
-                              game: state,
-                              bounty: deal,
-                            })
-                      } x ${name}`,
-                  )
-                  .join(" - "),
-              })}
+          {deal.coins && t("bounties.sell.coins", { amount: deal.coins })}
+          {(deal as SFLBounty).sfl &&
+            t("bounties.sell.sfl", { amount: (deal as SFLBounty).sfl })}
+          {deal.items &&
+            t("bounties.sell.items", {
+              amount: getKeys(deal.items ?? {})
+                .map(
+                  (name) =>
+                    `${
+                      name !== getSeasonalTicket()
+                        ? deal.items?.[name]
+                        : generateBountyTicket({
+                            game: state,
+                            bounty: deal,
+                          })
+                    } x ${name}`,
+                )
+                .join(" - "),
+            })}
         </p>
       </div>
       <div className="flex">

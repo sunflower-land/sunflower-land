@@ -31,7 +31,6 @@ import { getKeys } from "features/game/types/decorations";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
@@ -110,7 +109,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     }
 
     if (
-      hasFeatureAccess(game, "SEASONAL_SEEDS") &&
       item &&
       item in PATCH_FRUIT_SEEDS &&
       !SEASONAL_SEEDS[game.season.season].includes(
@@ -123,7 +121,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     }
 
     if (
-      hasFeatureAccess(game, "FRUIT_PATCH_QUICK_SELECT") &&
       enableQuickSelect &&
       (!item || !(item in PATCH_FRUIT_SEEDS) || !inventory[item]?.gte(1))
     ) {
@@ -184,7 +181,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     });
 
     if (!newState.matches("hoarding")) {
-      const { woodReward } = getWoodReward({ state: game });
+      const { woodReward } = getWoodReward({
+        state: game,
+        patchFruitName: fruit?.name,
+      });
       setCollectingWood(true);
       setCollectedWoodAmount(woodReward);
 
@@ -266,10 +266,8 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           options={getKeys(PATCH_FRUIT_SEEDS)
             .filter(
               (seed) =>
-                !hasFeatureAccess(game, "SEASONAL_SEEDS") ||
-                SEASONAL_SEEDS[game.season.season].includes(
-                  seed as PatchFruitSeedName,
-                ),
+                SEASONAL_SEEDS[game.season.season].includes(seed) ||
+                isFullMoonBerry(seed),
             )
             .map((seed) => ({
               name: seed as InventoryItemName,

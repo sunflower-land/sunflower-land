@@ -9,6 +9,7 @@ import {
 
 import usedButton from "assets/ui/used_button.png";
 import cardButton from "assets/ui/card_button.png";
+import selectedButton from "assets/ui/selected_button.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
@@ -156,6 +157,11 @@ export const ButtonPanel: React.FC<
     borderImagePressed = usedButton;
   }
 
+  if (selected) {
+    borderImage = selectedButton;
+    borderImagePressed = selectedButton;
+  }
+
   const buttonVariables = {
     "--button-image": `url(${borderImage})`,
     "--button-pressed-image": `url(${borderImagePressed})`,
@@ -164,12 +170,13 @@ export const ButtonPanel: React.FC<
   return (
     <div
       className={classNames(
-        `![border-image:var(--button-image)_3_3_4_3_fill] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill] ${className}`,
+        `![border-image:var(--button-image)_3_3_4_3_fill] active:![border-image:var(--button-pressed-image)_3_3_4_3_fill] transition-transform active:scale-[0.997] ${className}`,
         "relative",
         {
           "opacity-50": !!disabled,
           "cursor-pointer": !disabled,
           "hover:brightness-90": !disabled,
+          // "img-highlight": selected,
         },
       )}
       style={{
@@ -187,7 +194,7 @@ export const ButtonPanel: React.FC<
     >
       {children}
 
-      {selected && (
+      {/* {selected && (
         <div
           className="absolute"
           style={{
@@ -203,7 +210,7 @@ export const ButtonPanel: React.FC<
             bottom: `${PIXEL_SCALE * -4}px`,
           }}
         />
-      )}
+      )} */}
     </div>
   );
 };
