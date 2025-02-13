@@ -49,6 +49,7 @@ import { getDayOfYear } from "lib/utils/time";
 import { StoreOnChain } from "./StoreOnChain";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -61,6 +62,7 @@ type TradeableListItemProps = {
   display: TradeableDisplay;
   id: number;
   floorPrice: number;
+  highestOffer: number;
   onClose: () => void;
 };
 
@@ -69,6 +71,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   display,
   id,
   floorPrice,
+  highestOffer,
   onClose,
 }) => {
   const { gameService } = useContext(Context);
@@ -287,6 +290,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           points: tradeType === "instant" ? 1 : 3,
         }).multipliedPoints;
 
+  const isHigherThanOffer = price >= highestOffer;
+
   if (showConfirmation) {
     return (
       <>
@@ -294,6 +299,11 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <Label type="danger" className="-ml-1 mb-2">
             {t("are.you.sure")}
           </Label>
+          {isHigherThanOffer && (
+            <Label type="danger" icon={lockIcon} className="my-1 mr-0.5">
+              {t("marketplace.higherThanOffer")}
+            </Label>
+          )}
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
           <TradeableSummary
             display={display}
@@ -301,13 +311,19 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             quantity={Math.max(1, quantity)}
             estTradePoints={estTradePoints}
           />
+          <div className="flex items-start mt-2">
+            <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
+            <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
+          </div>
         </div>
 
         <div className="flex">
           <Button onClick={() => setShowConfirmation(false)} className="mr-1">
             {t("cancel")}
           </Button>
-          <Button onClick={() => confirm({})}>{t("confirm")}</Button>
+          <Button disabled={isHigherThanOffer} onClick={() => confirm({})}>
+            {t("confirm")}
+          </Button>
         </div>
       </>
     );
@@ -362,7 +378,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between">
+      <div className="flex justify-between flex-wrap">
         <Label type="default" className="my-1 ml-2" icon={tradeIcon}>
           {t("marketplace.listItem", {
             type: `${display.type.slice(0, display.type.length - 1)}`,
