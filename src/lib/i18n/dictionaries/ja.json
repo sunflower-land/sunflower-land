@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "受賞者は現在計算中で、2月7日に発表されます！",
   "not.enough.sfl": "SFLが足りません",
   "description.goldenSheep.boost": "羊に無料で餌をやろう！",
-  "description.barnBlueprint.boost": "+5 バーン・アニマル",
   "description.solAndLuna.boost": "2倍のクラフトスピード",
   "description.blossomWard.boost": "+1プロットの春の収穫量",
   "description.solflareAegis.boost": "夏季の作付期間が 50% 減少",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "次のスキル使用 {{time}}",
   "recipes.confirmCancel": "この {{recipe}} をキューから削除してもよろしいですか?",
   "marketplace.higherThanOffer": "価格は最高額の {{price}} よりも高くなければなりません。",
-  "marketplace.dodgyTrades": "プレイヤー間でやり取りされる取引は、疑わしいとマークされる場合があります。"
+  "marketplace.dodgyTrades": "プレイヤー間でやり取りされる取引は、疑わしいとマークされる場合があります。",
+  "description.barnBlueprint.boost": "アップグレード1つにつき +5 バーン・アニマルズ"
 }

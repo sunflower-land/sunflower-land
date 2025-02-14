@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "Победители подсчитываются и будут объявлены 7 февраля!",
   "not.enough.sfl": "У вас недостаточно SFL",
   "description.goldenSheep.boost": "Кормите овец бесплатно!",
-  "description.barnBlueprint.boost": "+5 амбарных животных",
   "description.solAndLuna.boost": "Скорость изготовления в 2 раза",
   "description.blossomWard.boost": "Урожай на участке +1 весной",
   "description.solflareAegis.boost": "Время сбора урожая на участке: -50% летом",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "Следующее использование навыка {{time}}",
   "recipes.confirmCancel": "Вы действительно хотите удалить это {{recipe}} из очереди?",
   "marketplace.higherThanOffer": "Цена должна быть выше самого высокого предложения: {{price}}.",
-  "marketplace.dodgyTrades": "Сделки между игроками могут быть отмечены как подозрительные."
+  "marketplace.dodgyTrades": "Сделки между игроками могут быть отмечены как подозрительные.",
+  "description.barnBlueprint.boost": "+5 животных в амбаре за каждое улучшение"
 }

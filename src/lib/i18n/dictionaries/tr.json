@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "Kazananlar hesaplanıyor ve 7 Şubat'ta açıklanacak!",
   "not.enough.sfl": "Yeterli SFL'niz yok",
   "description.goldenSheep.boost": "Sheeps'i ücretsiz besleyin!",
-  "description.barnBlueprint.boost": "+5 Barn Hayvanları",
   "description.solAndLuna.boost": "2x İşleme Hızı",
   "description.blossomWard.boost": "İlkbaharda +1 Arsa Mahsul Verimi",
   "description.solflareAegis.boost": "Yaz aylarında -50% Arsa Mahsul Zamanı",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "Sonraki beceri kullanımı {{time}}",
   "recipes.confirmCancel": "Bunu {{recipe}} kuyruğundan kaldırmak istediğinizden emin misiniz?",
   "marketplace.higherThanOffer": "Fiyat en yüksek tekliften daha yüksek olmalıdır: {{price}}.",
-  "marketplace.dodgyTrades": "Oyuncular arasındaki ileri geri alım satımlar şüpheli olarak işaretlenebilir."
+  "marketplace.dodgyTrades": "Oyuncular arasındaki ileri geri alım satımlar şüpheli olarak işaretlenebilir.",
+  "description.barnBlueprint.boost": "Yükseltme başına +5 Ahır Hayvanı"
 }

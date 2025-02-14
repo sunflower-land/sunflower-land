@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "正在计算获胜者，并将于2月7日公布！",
   "not.enough.sfl": "你没有足够的 SFL",
   "description.goldenSheep.boost": "免费喂羊！",
-  "description.barnBlueprint.boost": "+5 谷仓动物",
   "description.solAndLuna.boost": "2 倍制作速度",
   "description.blossomWard.boost": "+1 地块春季作物产量",
   "description.solflareAegis.boost": "夏季作物作物时间 -50%",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "下次使用技能 {{time}}",
   "recipes.confirmCancel": "你确定要从队列中删除这个 {{recipe}} 吗？",
   "marketplace.higherThanOffer": "价格必须高于最高报价：{{price}}。",
-  "marketplace.dodgyTrades": "玩家之间的来回交易可能会被标记为可疑。"
+  "marketplace.dodgyTrades": "玩家之间的来回交易可能会被标记为可疑。",
+  "description.barnBlueprint.boost": "每次升级 +5 个谷仓动物"
 }

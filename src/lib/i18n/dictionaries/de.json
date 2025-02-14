@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "Die Gewinner werden berechnet und am 7. Februar bekannt gegeben!",
   "not.enough.sfl": "Du hast nicht genug SFL",
   "description.goldenSheep.boost": "Füttere Schafe kostenlos!",
-  "description.barnBlueprint.boost": "+5 Scheunentiere",
   "description.solAndLuna.boost": "Doppelte Herstellungsgeschwindigkeit",
   "description.blossomWard.boost": "+1 Ernteertrag auf der Parzelle im Frühjahr",
   "description.solflareAegis.boost": "-50% Erntezeit auf der Parzelle im Sommer",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "Nächster Skilleinsatz {{time}}",
   "recipes.confirmCancel": "Möchten Sie {{recipe}} wirklich aus der Warteschlange entfernen?",
   "marketplace.higherThanOffer": "Der Preis muss höher sein als das höchste Angebot: {{price}}.",
-  "marketplace.dodgyTrades": "Hin- und Hergeschäfte zwischen Spielern können als verdächtig markiert werden."
+  "marketplace.dodgyTrades": "Hin- und Hergeschäfte zwischen Spielern können als verdächtig markiert werden.",
+  "description.barnBlueprint.boost": "+5 Scheunentiere pro Upgrade"
 }

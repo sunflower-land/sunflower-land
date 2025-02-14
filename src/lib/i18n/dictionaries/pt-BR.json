@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "Os vencedores estão sendo calculados e serão anunciados em 7 de fevereiro!",
   "not.enough.sfl": "Você não tem SFL suficiente",
   "description.goldenSheep.boost": "Alimente ovelhas de graça!",
-  "description.barnBlueprint.boost": "+5 Animais de celeiro",
   "description.solAndLuna.boost": "2x Velocidade de Fabricação",
   "description.blossomWard.boost": "+1 parcela de rendimento da safra na primavera",
   "description.solflareAegis.boost": "-50% da safra do lote no verão",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "Próximo uso da habilidade {{time}}",
   "recipes.confirmCancel": "Tem certeza de que deseja remover esse {{recipe}} da fila?",
   "marketplace.higherThanOffer": "O preço deve ser maior do que a oferta mais alta: {{price}}.",
-  "marketplace.dodgyTrades": "As trocas de ida e volta entre jogadores podem ser marcadas como suspeitas."
+  "marketplace.dodgyTrades": "As trocas de ida e volta entre jogadores podem ser marcadas como suspeitas.",
+  "description.barnBlueprint.boost": "+5 animais de celeiro por atualização"
 }

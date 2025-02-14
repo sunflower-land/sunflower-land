@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "당첨자는 현재 집계되고 있으며 2월 7일에 발표될 예정입니다!",
   "not.enough.sfl": "SFL이 충분하지 않습니다",
   "description.goldenSheep.boost": "양에게 무료로 먹이를 주세요!",
-  "description.barnBlueprint.boost": "+5 헛간 애니멀",
   "description.solAndLuna.boost": "제작 속도 2배",
   "description.blossomWard.boost": "봄철 작물 수확량 +1",
   "description.solflareAegis.boost": "여름철 플롯 크롭 타임 -50%",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "다음 스킬 사용 {{time}}",
   "recipes.confirmCancel": "이 {{recipe}} 을 (를) 대기열에서 정말로 제거하시겠습니까?",
   "marketplace.higherThanOffer": "가격은 최고 오퍼 ({{price}}) 보다 커야 합니다.",
-  "marketplace.dodgyTrades": "플레이어 간의 거래는 의심스러운 것으로 표시될 수 있습니다."
+  "marketplace.dodgyTrades": "플레이어 간의 거래는 의심스러운 것으로 표시될 수 있습니다.",
+  "description.barnBlueprint.boost": "업그레이드당 헛간 동물 5마리 추가"
 }

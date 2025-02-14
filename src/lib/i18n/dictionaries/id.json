@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "Pemenang sedang dihitung dan akan diumumkan pada 7 Februari!",
   "not.enough.sfl": "Anda tidak memiliki cukup SFL",
   "description.goldenSheep.boost": "Beri makan domba secara gratis!",
-  "description.barnBlueprint.boost": "+5 Hewan Gudang",
   "description.solAndLuna.boost": "Kecepatan Kerajinan 2x",
   "description.blossomWard.boost": "+1 Hasil Tanaman Plot di Musim Semi",
   "description.solflareAegis.boost": "-50% Waktu Panen Plot di Musim Panas",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "Penggunaan keterampilan berikutnya {{time}}",
   "recipes.confirmCancel": "Apakah Anda yakin ingin menghapus {{recipe}} ini dari antrian?",
   "marketplace.higherThanOffer": "Harga harus lebih besar dari penawaran tertinggi: {{price}}.",
-  "marketplace.dodgyTrades": "Perdagangan bolak-balik antar pemain dapat ditandai sebagai mencurigakan."
+  "marketplace.dodgyTrades": "Perdagangan bolak-balik antar pemain dapat ditandai sebagai mencurigakan.",
+  "description.barnBlueprint.boost": "+5 Hewan Gudang per Upgrade"
 }

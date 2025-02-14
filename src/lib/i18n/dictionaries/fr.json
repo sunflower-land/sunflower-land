@@ -4802,7 +4802,6 @@
   "competition.ended.description.two": "Les gagnants sont en cours de calcul et seront annoncés le 7 février !",
   "not.enough.sfl": "Vous n'avez pas assez de SFL",
   "description.goldenSheep.boost": "Nourrissez les moutons gratuitement !",
-  "description.barnBlueprint.boost": "+5 animaux de grange",
   "description.solAndLuna.boost": "Vitesse de fabrication multipliée par 2",
   "description.blossomWard.boost": "Rendement des cultures par parcelle de +1 au printemps",
   "description.solflareAegis.boost": "-50 % de la durée de récolte des parcelles en été",
@@ -5335,5 +5334,6 @@
   "powerSkills.nextUse": "Utilisation de la compétence suivante {{time}}",
   "recipes.confirmCancel": "Êtes-vous sûr de vouloir supprimer ce {{recipe}} de la file d'attente ?",
   "marketplace.higherThanOffer": "Le prix doit être supérieur à l'offre la plus élevée : {{price}}.",
-  "marketplace.dodgyTrades": "Les échanges entre joueurs peuvent être considérés comme suspects."
+  "marketplace.dodgyTrades": "Les échanges entre joueurs peuvent être considérés comme suspects.",
+  "description.barnBlueprint.boost": "+5 animaux de grange par amélioration"
 }
