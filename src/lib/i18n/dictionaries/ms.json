@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "Adakah anda pasti ingin membuang {{recipe}} ini dari barisan?",
   "marketplace.higherThanOffer": "Harga mestilah lebih besar daripada tawaran tertinggi: {{price}}.",
   "marketplace.dodgyTrades": "Perdagangan berulang-alik antara pemain mungkin ditandakan sebagai mencurigakan.",
-  "description.barnBlueprint.boost": "+5 Haiwan Barn setiap Peningkatan"
+  "description.barnBlueprint.boost": "+5 Haiwan Barn setiap Peningkatan",
+  "vip.benefit.cookingQueue": "Beratur resipi di bangunan memasak"
 }

@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "你确定要从队列中删除这个 {{recipe}} 吗？",
   "marketplace.higherThanOffer": "价格必须高于最高报价：{{price}}。",
   "marketplace.dodgyTrades": "玩家之间的来回交易可能会被标记为可疑。",
-  "description.barnBlueprint.boost": "每次升级 +5 个谷仓动物"
+  "description.barnBlueprint.boost": "每次升级 +5 个谷仓动物",
+  "vip.benefit.cookingQueue": "在烹饪大楼里排队食谱"
 }

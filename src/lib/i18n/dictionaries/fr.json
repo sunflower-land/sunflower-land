@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "Êtes-vous sûr de vouloir supprimer ce {{recipe}} de la file d'attente ?",
   "marketplace.higherThanOffer": "Le prix doit être supérieur à l'offre la plus élevée : {{price}}.",
   "marketplace.dodgyTrades": "Les échanges entre joueurs peuvent être considérés comme suspects.",
-  "description.barnBlueprint.boost": "+5 animaux de grange par amélioration"
+  "description.barnBlueprint.boost": "+5 animaux de grange par amélioration",
+  "vip.benefit.cookingQueue": "Mettez les recettes en file d'attente dans les bâtiments de cuisine"
 }

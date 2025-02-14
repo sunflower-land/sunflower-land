@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "この {{recipe}} をキューから削除してもよろしいですか?",
   "marketplace.higherThanOffer": "価格は最高額の {{price}} よりも高くなければなりません。",
   "marketplace.dodgyTrades": "プレイヤー間でやり取りされる取引は、疑わしいとマークされる場合があります。",
-  "description.barnBlueprint.boost": "アップグレード1つにつき +5 バーン・アニマルズ"
+  "description.barnBlueprint.boost": "アップグレード1つにつき +5 バーン・アニマルズ",
+  "vip.benefit.cookingQueue": "クッキングビルでレシピをキューに入れる"
 }

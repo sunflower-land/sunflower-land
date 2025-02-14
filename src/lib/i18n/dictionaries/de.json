@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "Möchten Sie {{recipe}} wirklich aus der Warteschlange entfernen?",
   "marketplace.higherThanOffer": "Der Preis muss höher sein als das höchste Angebot: {{price}}.",
   "marketplace.dodgyTrades": "Hin- und Hergeschäfte zwischen Spielern können als verdächtig markiert werden.",
-  "description.barnBlueprint.boost": "+5 Scheunentiere pro Upgrade"
+  "description.barnBlueprint.boost": "+5 Scheunentiere pro Upgrade",
+  "vip.benefit.cookingQueue": "Stellen Sie Rezepte in Kochgebäuden in eine Warteschlange"
 }

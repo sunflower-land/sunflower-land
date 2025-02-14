@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "¿Estás seguro de que quieres eliminar este {{recipe}} de la cola?",
   "marketplace.higherThanOffer": "El precio debe ser superior a la oferta más alta: {{price}}.",
   "marketplace.dodgyTrades": "Las operaciones de ida y vuelta entre jugadores pueden marcarse como sospechosas.",
-  "description.barnBlueprint.boost": "+5 animales de establo por mejora"
+  "description.barnBlueprint.boost": "+5 animales de establo por mejora",
+  "vip.benefit.cookingQueue": "Haz cola de recetas en los edificios de cocina"
 }

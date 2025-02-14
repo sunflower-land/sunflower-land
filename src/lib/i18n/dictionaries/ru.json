@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "Вы действительно хотите удалить это {{recipe}} из очереди?",
   "marketplace.higherThanOffer": "Цена должна быть выше самого высокого предложения: {{price}}.",
   "marketplace.dodgyTrades": "Сделки между игроками могут быть отмечены как подозрительные.",
-  "description.barnBlueprint.boost": "+5 животных в амбаре за каждое улучшение"
+  "description.barnBlueprint.boost": "+5 животных в амбаре за каждое улучшение",
+  "vip.benefit.cookingQueue": "Выстраивайте рецепты в очереди в кулинарных зданиях"
 }

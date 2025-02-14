@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "Tem certeza de que deseja remover esse {{recipe}} da fila?",
   "marketplace.higherThanOffer": "O preço deve ser maior do que a oferta mais alta: {{price}}.",
   "marketplace.dodgyTrades": "As trocas de ida e volta entre jogadores podem ser marcadas como suspeitas.",
-  "description.barnBlueprint.boost": "+5 animais de celeiro por atualização"
+  "description.barnBlueprint.boost": "+5 animais de celeiro por atualização",
+  "vip.benefit.cookingQueue": "Coloque receitas em filas em prédios de culinária"
 }

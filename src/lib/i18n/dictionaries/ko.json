@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "이 {{recipe}} 을 (를) 대기열에서 정말로 제거하시겠습니까?",
   "marketplace.higherThanOffer": "가격은 최고 오퍼 ({{price}}) 보다 커야 합니다.",
   "marketplace.dodgyTrades": "플레이어 간의 거래는 의심스러운 것으로 표시될 수 있습니다.",
-  "description.barnBlueprint.boost": "업그레이드당 헛간 동물 5마리 추가"
+  "description.barnBlueprint.boost": "업그레이드당 헛간 동물 5마리 추가",
+  "vip.benefit.cookingQueue": "요리 건물에 레시피 등록하기"
 }

@@ -5335,5 +5335,6 @@
   "recipes.confirmCancel": "Bunu {{recipe}} kuyruğundan kaldırmak istediğinizden emin misiniz?",
   "marketplace.higherThanOffer": "Fiyat en yüksek tekliften daha yüksek olmalıdır: {{price}}.",
   "marketplace.dodgyTrades": "Oyuncular arasındaki ileri geri alım satımlar şüpheli olarak işaretlenebilir.",
-  "description.barnBlueprint.boost": "Yükseltme başına +5 Ahır Hayvanı"
+  "description.barnBlueprint.boost": "Yükseltme başına +5 Ahır Hayvanı",
+  "vip.benefit.cookingQueue": "Yemek pişirme binalarında tarifleri sıraya koyun"
 }
