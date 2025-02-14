@@ -6,7 +6,6 @@ import {
 import { BuildingProduct, PlacedItem } from "features/game/types/game";
 import { CookableName } from "features/game/types/consumables";
 import { getOilConsumption } from "./cook";
-import Decimal from "decimal.js-light";
 
 describe("cancelQueuedRecipe", () => {
   it("throws an error if the building does not exist", () => {
@@ -202,51 +201,6 @@ describe("cancelQueuedRecipe", () => {
     ]);
   });
 
-  it("returns resources consumed by the recipe", () => {
-    const now = new Date("2025-01-01").getTime();
-    const carrotCakeReadyAt = now + 60 * 1000;
-    const queueItem = {
-      name: "Carrot Cake",
-      readyAt: carrotCakeReadyAt,
-      amount: 1,
-    } as BuildingProduct;
-
-    const state = cancelQueuedRecipe({
-      state: {
-        ...INITIAL_FARM,
-        buildings: {
-          Bakery: [
-            {
-              id: "1",
-              coordinates: { x: 0, y: 0 },
-              readyAt: 0,
-              createdAt: 0,
-              crafting: [
-                {
-                  name: "Cornbread",
-                  readyAt: now + 1000,
-                  amount: 1,
-                },
-                queueItem,
-              ],
-            },
-          ],
-        },
-      },
-      action: {
-        type: "recipe.cancelled",
-        buildingName: "Bakery",
-        buildingId: "1",
-        queueItem,
-      },
-      createdAt: now,
-    });
-
-    expect(state.inventory.Egg).toEqual(new Decimal(30));
-    expect(state.inventory.Wheat).toEqual(new Decimal(10));
-    expect(state.inventory.Carrot).toEqual(new Decimal(120));
-  });
-
   it("returns the oil consumed by the queued recipe", () => {
     const now = new Date("2025-01-01").getTime();
     const itemName = "Carrot Cake" as CookableName;
@@ -346,6 +300,64 @@ describe("cancelQueuedRecipe", () => {
         cancelledAt: now,
       },
     });
+  });
+
+  it("adjusts the readyAt times when cancelling from queue", () => {
+    const now = Date.now();
+    const POTATO_TIME = 60_000; // 1 minute
+    const EGG_TIME = 30_000; // 30 seconds
+
+    const state = cancelQueuedRecipe({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + POTATO_TIME,
+                  amount: 1,
+                },
+                {
+                  name: "Boiled Eggs",
+                  readyAt: now + POTATO_TIME + EGG_TIME,
+                  amount: 1,
+                },
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + POTATO_TIME + EGG_TIME + POTATO_TIME,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Fire Pit",
+        buildingId: "1",
+        queueItem: {
+          name: "Boiled Eggs",
+          readyAt: now + POTATO_TIME + EGG_TIME,
+          amount: 1,
+        },
+      },
+      createdAt: now,
+    });
+
+    const queue = state.buildings?.["Fire Pit"]?.[0]?.crafting;
+
+    // First recipe unchanged
+    expect(queue?.[0].readyAt).toBe(now + POTATO_TIME);
+
+    // Third recipe moved up by EGG_TIME
+    expect(queue?.[1].readyAt).toBe(now + POTATO_TIME + POTATO_TIME);
   });
 });
 

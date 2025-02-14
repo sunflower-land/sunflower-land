@@ -62,11 +62,11 @@ export function cancelQueuedRecipe({
       throw new Error("No queue exists");
     }
 
-    const recipe = queue.find(
+    const recipeIndex = queue.findIndex(
       (r) => JSON.stringify(r) === JSON.stringify(queueItem),
     );
 
-    if (!recipe) {
+    if (recipeIndex === -1) {
       throw new Error("Recipe does not exist");
     }
 
@@ -74,6 +74,8 @@ export function cancelQueuedRecipe({
       building,
       createdAt,
     });
+
+    const recipe = queue[recipeIndex];
 
     if (currentCookingItem?.readyAt === recipe.readyAt) {
       throw new Error(
@@ -96,7 +98,19 @@ export function cancelQueuedRecipe({
       game.inventory,
     );
 
-    const newQueue = queue.filter((r) => r.readyAt !== recipe.readyAt);
+    const cancelledCookingTime =
+      recipe.readyAt - queue[recipeIndex - 1].readyAt;
+
+    const newQueue = queue
+      .map((r, index) => {
+        if (index < recipeIndex) return r;
+
+        return {
+          ...r,
+          readyAt: r.readyAt - cancelledCookingTime,
+        };
+      })
+      .filter((_, index) => index !== recipeIndex);
 
     if (recipe.boost?.Oil) {
       building.oil = (building.oil ?? 0) + recipe.boost.Oil;
