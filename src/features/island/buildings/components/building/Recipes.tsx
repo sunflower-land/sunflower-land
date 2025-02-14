@@ -20,7 +20,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getCookingOilBoost,
   getCookingRequirements,
-  MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "./BuildingOilTank";
@@ -79,7 +78,6 @@ export const Recipes: React.FC<Props> = ({
     },
   ] = useActor(gameService);
   const { inventory, buildings, bumpkin, buds } = state;
-  const [showConfirm, setShowConfirm] = useState(false);
   const [showQueueInformation, setShowQueueInformation] = useState(false);
 
   const ingredients = getCookingRequirements({
@@ -132,7 +130,7 @@ export const Recipes: React.FC<Props> = ({
       return;
     }
 
-    setShowConfirm(true);
+    cook();
   };
 
   const building = buildings?.[buildingName]?.[0];
@@ -146,8 +144,6 @@ export const Recipes: React.FC<Props> = ({
     (recipe) => recipe.readyAt <= Date.now(),
   );
   const isVIP = hasVipAccess({ game: state });
-  const availableSlots = isVIP ? MAX_COOKING_SLOTS : 1;
-  const hasAvailableSlots = buildingCrafting.length < availableSlots;
 
   return (
     <>
@@ -286,28 +282,6 @@ export const Recipes: React.FC<Props> = ({
                 className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
               />
               <span>{t("upgrade")}</span>
-            </Button>
-          </div>
-        </Panel>
-      </ModalOverlay>
-      <ModalOverlay
-        show={showConfirm}
-        onBackdropClick={() => setShowConfirm(false)}
-      >
-        <Panel>
-          <p className="p-1.5 mb-1.5">
-            {t("recipes.confirmAddToQueue", { recipe: selected.name })}
-          </p>
-          <div className="flex space-x-1 justify-end">
-            <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
-            <Button
-              disabled={!hasAvailableSlots}
-              onClick={() => {
-                setShowConfirm(false);
-                cook();
-              }}
-            >
-              {t("confirm")}
             </Button>
           </div>
         </Panel>
