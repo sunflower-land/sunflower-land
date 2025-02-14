@@ -126,14 +126,6 @@ export function cancelQueuedRecipe({
 
     building.cancelled = cancelled;
 
-    // console.log(
-    //   "New Queue:",
-    //   newQueue.map((item) => ({
-    //     ...item,
-    //     totalCookingTime: (item.readyAt - createdAt) / 1000, // Convert to seconds
-    //   })),
-    // );
-
     return game;
   });
 }
