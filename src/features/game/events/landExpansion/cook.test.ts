@@ -8,6 +8,7 @@ import {
   getOilConsumption,
   getReadyAt,
 } from "./cook";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -1069,6 +1070,144 @@ describe("getCookingOilBoost", () => {
     // Expected time = 86400 * 0.8 = 69120 seconds = 19.2 hours
     expect(boost.timeToCook).toEqual(60 * 60 * 19.2);
     expect(boost.oilConsumed).toEqual(6);
+  });
+
+  it("does not apply Gourmet Hourglass boost to queued recipe when boost expires before cooking starts", () => {
+    const now = Date.now();
+
+    // First recipe (Boiled Eggs) will finish in 10 seconds
+    const eggReadyAt = now + 10 * 1000;
+
+    // Hourglass expires in 1 second
+    const hourglassCreatedAt =
+      now - (EXPIRY_COOLDOWNS["Gourmet Hourglass"] as number) + 1 * 1000;
+
+    const mashedPotatoCookingTime =
+      COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+
+    const state = cook({
+      state: {
+        ...TEST_FARM,
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: now }],
+          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
+        },
+        inventory: {
+          Potato: new Decimal(100),
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Boiled Eggs",
+                  readyAt: eggReadyAt,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        collectibles: {
+          "Gourmet Hourglass": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: hourglassCreatedAt,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Mashed Potato",
+        buildingId: "1",
+      },
+      createdAt: now,
+    });
+
+    const building = state.buildings["Fire Pit"]?.[0];
+    const queuedRecipe = building?.crafting?.[1];
+
+    // Mashed Potato should start after eggs finish (eggReadyAt)
+    // and cook for the full duration since boost will have expired
+    expect(queuedRecipe?.readyAt).toEqual(eggReadyAt + mashedPotatoCookingTime);
+
+    expect(building?.crafting?.[0]).toEqual({
+      name: "Boiled Eggs",
+      readyAt: eggReadyAt,
+      amount: 1,
+    });
+  });
+
+  it("applies a partial boost if the hourglass expires after cooking starts but before it finishes", () => {
+    const now = Date.now();
+    // Hourglass expires in 30 minutes
+    const hourglassCreatedAt =
+      now - (EXPIRY_COOLDOWNS["Gourmet Hourglass"] as number) + 30 * 60 * 1000;
+
+    const state = cook({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Egg: new Decimal(100),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: now }],
+          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        collectibles: {
+          "Gourmet Hourglass": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: hourglassCreatedAt,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Boiled Eggs",
+        buildingId: "1",
+      },
+      createdAt: now,
+    });
+
+    // Egg cook time is 3600 seconds (1 hour)
+    // 1800 (30 minutes) of the 50% reduction boost should be applied
+    // 30 mins at full time and 30 mins at 50% time
+    // 30 mins at full time = 1800 seconds
+    // 30 mins at 50% time = 900 seconds
+    // 1800 + 900 = 2700 seconds
+    const expectedTimeMs = 2700 * 1000;
+    const building = state.buildings["Fire Pit"]?.[0];
+    const eggRecipe = building?.crafting?.find((r) => r.name === "Boiled Eggs");
+
+    expect(eggRecipe?.readyAt).toEqual(now + expectedTimeMs);
   });
 });
 

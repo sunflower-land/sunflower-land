@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { Bumpkin, GameState, Inventory } from "../../types/game";
+import { Bumpkin, GameState, Inventory, PlacedItem } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import {
   COOKABLES,
@@ -11,6 +11,7 @@ import {
   isCookable,
 } from "features/game/types/consumables";
 import {
+  EXPIRY_COOLDOWNS,
   isCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
@@ -126,29 +127,58 @@ export const hasSellBoost = (inventory: Inventory) => {
   return false;
 };
 
-/**
- * Get reduced cooking time from bumpkin skills.
- * @param seconds time to be decreased
- * @param item to check for cooking boosts
- * @param bumpkin to check for skills
- * @param game to check for wearables
- * @returns reduced cooking
- */
+const applyTempCollectibleBoost = ({
+  seconds,
+  cookStartAt,
+  collectibleName,
+  game,
+  boostValue,
+}: {
+  seconds: Decimal;
+  cookStartAt: number;
+  collectibleName: keyof typeof EXPIRY_COOLDOWNS;
+  game: GameState;
+  boostValue: number;
+}) => {
+  const active = isCollectibleActive({ name: collectibleName, game });
+  if (!active) return seconds;
+
+  const activeItems = game.collectibles[collectibleName] as PlacedItem[];
+  const newestItem = activeItems.sort((a, b) => b.createdAt - a.createdAt)[0];
+  const cooldown = EXPIRY_COOLDOWNS[collectibleName] as number;
+  const expiresAt = newestItem.createdAt + cooldown;
+
+  if (expiresAt <= cookStartAt) return seconds;
+
+  const totalCookingTime = seconds.toNumber();
+  const timeUntilExpiry = (expiresAt - cookStartAt) / 1000;
+
+  const boostedTime = Math.min(timeUntilExpiry, totalCookingTime);
+  const remainingTime = totalCookingTime - boostedTime;
+
+  const boostedTimeWithBoost = boostedTime * boostValue;
+
+  // boosted portion + remaining portion
+  return new Decimal(boostedTimeWithBoost + remainingTime);
+};
+
 export const getCookingTime = ({
   seconds,
   item,
   game,
+  cookStartAt,
 }: {
   seconds: number;
   item: CookableName;
   game: GameState;
+  cookStartAt: number;
 }): number => {
   const { bumpkin } = game;
   const buildingName = COOKABLES[item].building;
 
   let reducedSecs = new Decimal(seconds);
 
-  // 10% reduction
+  // Rush Hour - 10% reduction
   if (bumpkin?.skills["Rush Hour"]) {
     reducedSecs = reducedSecs.mul(0.9);
   }
@@ -170,15 +200,36 @@ export const getCookingTime = ({
     reducedSecs = reducedSecs.mul(0.75);
   }
 
-  if (
+  // Totems do not stack - apply either Super Totem or Time Warp Totem boost
+  const hasActiveTotem =
     isCollectibleActive({ name: "Super Totem", game }) ||
-    isCollectibleActive({ name: "Time Warp Totem", game })
-  ) {
-    reducedSecs = reducedSecs.mul(0.5);
+    isCollectibleActive({ name: "Time Warp Totem", game });
+
+  if (hasActiveTotem) {
+    const totemType = isCollectibleActive({
+      name: "Super Totem",
+      game,
+    })
+      ? "Super Totem"
+      : "Time Warp Totem";
+
+    reducedSecs = applyTempCollectibleBoost({
+      seconds: reducedSecs,
+      cookStartAt,
+      collectibleName: totemType,
+      game,
+      boostValue: 0.5,
+    });
   }
 
   if (isCollectibleActive({ name: "Gourmet Hourglass", game })) {
-    reducedSecs = reducedSecs.mul(0.5);
+    reducedSecs = applyTempCollectibleBoost({
+      seconds: reducedSecs,
+      cookStartAt,
+      collectibleName: "Gourmet Hourglass",
+      game,
+      boostValue: 0.5,
+    });
   }
 
   if (isCollectibleBuilt({ name: "Desert Gnome", game })) {
