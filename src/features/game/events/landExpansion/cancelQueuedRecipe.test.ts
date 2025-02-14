@@ -4,7 +4,7 @@ import {
   getCurrentCookingItem,
 } from "./cancelQueuedRecipe";
 import { BuildingProduct, PlacedItem } from "features/game/types/game";
-import { CookableName, COOKABLES } from "features/game/types/consumables";
+import { CookableName } from "features/game/types/consumables";
 import { getOilConsumption } from "./cook";
 
 describe("cancelQueuedRecipe", () => {
@@ -302,18 +302,10 @@ describe("cancelQueuedRecipe", () => {
     });
   });
 
-  it("adjusts the readyAt times for the recipes still in the queue", () => {
-    const now = new Date("2025-01-01").getTime();
-    const totalCookingTime = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
-    const mpReadyAt = now + totalCookingTime;
-    const mpOneReadyAt = mpReadyAt + totalCookingTime;
-    const mpTwoReadyAt = mpOneReadyAt + totalCookingTime;
-    const mpThreeReadyAt = mpTwoReadyAt + totalCookingTime;
-    const queueItem = {
-      name: "Mashed Potato",
-      readyAt: mpOneReadyAt,
-      amount: 1,
-    } as BuildingProduct;
+  it("adjusts the readyAt times when cancelling from queue", () => {
+    const now = Date.now();
+    const POTATO_TIME = 60_000; // 1 minute
+    const EGG_TIME = 30_000; // 30 seconds
 
     const state = cancelQueuedRecipe({
       state: {
@@ -328,18 +320,17 @@ describe("cancelQueuedRecipe", () => {
               crafting: [
                 {
                   name: "Mashed Potato",
-                  readyAt: mpReadyAt,
-                  amount: 1,
-                },
-                queueItem,
-                {
-                  name: "Mashed Potato",
-                  readyAt: mpTwoReadyAt,
+                  readyAt: now + POTATO_TIME,
                   amount: 1,
                 },
                 {
+                  name: "Boiled Eggs",
+                  readyAt: now + POTATO_TIME + EGG_TIME,
+                  amount: 1,
+                },
+                {
                   name: "Mashed Potato",
-                  readyAt: mpThreeReadyAt,
+                  readyAt: now + POTATO_TIME + EGG_TIME + POTATO_TIME,
                   amount: 1,
                 },
               ],
@@ -351,23 +342,22 @@ describe("cancelQueuedRecipe", () => {
         type: "recipe.cancelled",
         buildingName: "Fire Pit",
         buildingId: "1",
-        queueItem,
+        queueItem: {
+          name: "Boiled Eggs",
+          readyAt: now + POTATO_TIME + EGG_TIME,
+          amount: 1,
+        },
       },
       createdAt: now,
     });
 
-    const building = state.buildings?.["Fire Pit"]?.[0];
+    const queue = state.buildings?.["Fire Pit"]?.[0]?.crafting;
 
-    expect(building?.crafting?.[1]).toEqual({
-      name: "Mashed Potato",
-      readyAt: mpTwoReadyAt - totalCookingTime,
-      amount: 1,
-    });
-    expect(building?.crafting?.[2]).toEqual({
-      name: "Mashed Potato",
-      readyAt: mpThreeReadyAt - totalCookingTime,
-      amount: 1,
-    });
+    // First recipe unchanged
+    expect(queue?.[0].readyAt).toBe(now + POTATO_TIME);
+
+    // Third recipe moved up by EGG_TIME
+    expect(queue?.[1].readyAt).toBe(now + POTATO_TIME + POTATO_TIME);
   });
 });
 

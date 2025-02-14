@@ -98,11 +98,12 @@ export function cancelQueuedRecipe({
       game.inventory,
     );
 
+    const cancelledCookingTime =
+      recipe.readyAt - queue[recipeIndex - 1].readyAt;
+
     const newQueue = queue
       .map((r, index) => {
         if (index < recipeIndex) return r;
-
-        const cancelledCookingTime = r.readyAt - queue[index - 1].readyAt;
 
         return {
           ...r,
