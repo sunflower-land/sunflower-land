@@ -201,8 +201,6 @@ describe("cancelQueuedRecipe", () => {
     ]);
   });
 
-<<<<<<< HEAD
-=======
   it("increments the cancelled count for recipe", () => {
     const now = new Date("2025-01-01").getTime();
     const carrotCakeReadyAt = now + 60 * 1000;
@@ -251,7 +249,6 @@ describe("cancelQueuedRecipe", () => {
     });
   });
 
->>>>>>> 554b5ac89 ([FEAT] Cancel queued recipe)
   it("returns the oil consumed by the queued recipe", () => {
     const now = new Date("2025-01-01").getTime();
     const itemName = "Carrot Cake" as CookableName;
@@ -303,7 +300,6 @@ describe("cancelQueuedRecipe", () => {
 
     expect(state.buildings?.Bakery?.[0]?.oil).toEqual(oil + oilConsumed);
   });
-<<<<<<< HEAD
 
   it("returns resources consumed by the recipe", () => {
     const now = new Date("2025-01-01").getTime();
@@ -411,8 +407,6 @@ describe("cancelQueuedRecipe", () => {
     // Third recipe moved up by EGG_TIME
     expect(queue?.[1].readyAt).toBe(now + POTATO_TIME + POTATO_TIME);
   });
-=======
->>>>>>> 554b5ac89 ([FEAT] Cancel queued recipe)
 });
 
 describe("getCurrentCookingItem", () => {
