@@ -293,6 +293,10 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               icon: xpIcon,
             },
             {
+              text: t("vip.benefit.cookingQueue"),
+              icon: ITEM_DETAILS["Pumpkin Soup"].image,
+            },
+            {
               text: t("vip.benefit.stellaDiscounts"),
               icon: shopIcon,
             },
