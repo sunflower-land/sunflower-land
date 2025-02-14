@@ -487,9 +487,13 @@ export function isCookingBuildingWorking(
   buildingName: CookingBuildingName,
   game: GameState,
 ): Restriction {
-  const isBuildingCooking = !!game.buildings[buildingName]?.some(
-    (building) => !!building.crafting,
-  );
+  const isBuildingCooking = !!game.buildings[buildingName]?.some((building) => {
+    if (building.crafting) {
+      return building.crafting.length > 0;
+    }
+
+    return false;
+  });
 
   return [isBuildingCooking, "Building is in use"];
 }
