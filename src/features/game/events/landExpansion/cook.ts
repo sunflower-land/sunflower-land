@@ -102,6 +102,7 @@ export const getReadyAt = ({
     seconds: withOilBoost,
     item,
     game,
+    cookStartAt: createdAt,
   });
 
   return createdAt + seconds * 1000;
