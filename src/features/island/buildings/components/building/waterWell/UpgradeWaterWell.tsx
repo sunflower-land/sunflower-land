@@ -1,4 +1,3 @@
-import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
@@ -7,32 +6,27 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { BUILDING_UPGRADES } from "features/game/events/landExpansion/upgradeBuilding";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { useGame } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/types/decorations";
+import { Inventory } from "features/game/types/game";
 import React from "react";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  wellLevel: number;
+  coins: number;
+  inventory: Inventory;
+  handleUpgradeWaterWell: () => void;
 }
 
-const _wellLevel = (state: MachineState) => state.context.state.waterWell.level;
-const _coins = (state: MachineState) => state.context.state.coins;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-
-export const UpgradeWaterWell: React.FC<Props> = ({ open, onClose }) => {
-  const { gameService } = useGame();
-  const wellLevel = useSelector(gameService, _wellLevel);
-  const coins = useSelector(gameService, _coins);
-  const inventory = useSelector(gameService, _inventory);
-  const handleUpgradeWaterWell = () => {
-    gameService.send("building.upgraded", {
-      buildingType: "Water Well",
-    });
-    onClose();
-  };
-
+export const UpgradeWaterWell: React.FC<Props> = ({
+  open,
+  onClose,
+  wellLevel,
+  coins,
+  inventory,
+  handleUpgradeWaterWell,
+}) => {
   const WaterWellUpgradeCost = BUILDING_UPGRADES["Water Well"];
 
   if (wellLevel >= getKeys(WaterWellUpgradeCost).length) {
