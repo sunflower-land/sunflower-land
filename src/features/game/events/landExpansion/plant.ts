@@ -83,7 +83,7 @@ function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
   return cropsToRemove.includes(id);
 }
 
-const getSupportedPlots = ({
+export const getSupportedPlots = ({
   wellLevel,
   buildings,
 }: {
