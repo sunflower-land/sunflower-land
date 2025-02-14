@@ -90,15 +90,23 @@ export const Recipes: React.FC<Props> = ({
       amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
     );
 
-  const latestRecipeCompletionTime = queue.sort(
-    (a, b) => b.readyAt - a.readyAt,
-  )[0].readyAt;
+  const getNewRecipeStartAt = () => {
+    let latestRecipeCompletionTime = cooking?.readyAt ?? Date.now();
+
+    if (queue.length > 0) {
+      latestRecipeCompletionTime = queue.sort(
+        (a, b) => b.readyAt - a.readyAt,
+      )[0]?.readyAt;
+    }
+
+    return latestRecipeCompletionTime;
+  };
 
   const cookingTime = getCookingTime({
     seconds: getCookingOilBoost(selected.name, state, buildingId).timeToCook,
     item: selected.name,
     game: state,
-    cookStartAt: latestRecipeCompletionTime,
+    cookStartAt: getNewRecipeStartAt(),
   });
 
   const cook = () => {
