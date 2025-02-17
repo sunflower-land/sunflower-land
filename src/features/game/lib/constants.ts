@@ -190,13 +190,13 @@ export const INVENTORY_LIMIT = (
 ): Record<SeedName, Decimal> => {
   return getObjectEntries(INITIAL_STOCK(state)).reduce(
     (acc, [key, value]) => {
+      if (!isSeed(key)) return acc;
+
       return {
         ...acc,
-        [key]: isSeed(key)
-          ? new Decimal(
-              Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
-            )
-          : undefined,
+        [key]: new Decimal(
+          Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
+        ),
       };
     },
     {} as Record<SeedName, Decimal>,
