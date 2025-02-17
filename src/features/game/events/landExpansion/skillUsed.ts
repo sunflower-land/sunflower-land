@@ -23,6 +23,7 @@ import { CROPS } from "features/game/types/crops";
 import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
+import { getCurrentCookingItem } from "./cancelQueuedRecipe";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -116,17 +117,28 @@ function useInstantGratification({
   createdAt?: number;
 }): Buildings {
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((building) => {
-    const buildingRecipes = buildings[building]?.[0]?.crafting;
+    const buildingItem = buildings[building]?.[0];
+    if (!buildingItem) return;
+    const buildingRecipes = buildingItem.crafting;
 
     if (!buildingRecipes) return;
 
-    const currentlyCooking = buildingRecipes
-      .sort((a, b) => b.readyAt - a.readyAt)
-      .find((recipe) => recipe.readyAt > createdAt);
+    const currentlyCooking = getCurrentCookingItem({
+      building: buildingItem,
+      createdAt,
+    });
+    const currentCookingReadyAt = currentlyCooking?.readyAt ?? 0;
+    const timeSkipped = currentCookingReadyAt - createdAt;
 
-    if (currentlyCooking) {
-      currentlyCooking.readyAt = createdAt;
-    }
+    buildingRecipes
+      .sort((a, b) => a.readyAt - b.readyAt)
+      .forEach((recipe) => {
+        if (recipe === currentlyCooking) {
+          recipe.readyAt = createdAt;
+        } else {
+          recipe.readyAt -= timeSkipped;
+        }
+      });
   });
 
   return buildings;

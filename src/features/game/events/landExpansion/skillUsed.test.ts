@@ -1,6 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { skillUse } from "./skillUsed";
 import { CROPS } from "features/game/types/crops";
+import { COOKABLES } from "features/game/types/consumables";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -662,6 +663,61 @@ describe("skillUse", () => {
 
       expect(firePitRecipe?.readyAt).toEqual(dateNow);
       expect(smoothieShackRecipe?.readyAt).toEqual(dateNow);
+    });
+    it("shifts the readyAt times of queued recipes after instant gratification is used", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: {
+                  x: -4,
+                  y: -8,
+                },
+                readyAt: dateNow,
+                crafting: [
+                  {
+                    name: "Antipasto",
+                    readyAt:
+                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 3,
+                  },
+                  {
+                    name: "Antipasto",
+                    readyAt:
+                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 1,
+                  },
+                  {
+                    name: "Antipasto",
+                    readyAt:
+                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 2,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: dateNow,
+      });
+
+      const recipes = state.buildings?.["Fire Pit"]?.[0]?.crafting;
+      const sortedRecipes = recipes
+        ? [...recipes].sort((a, b) => a.readyAt - b.readyAt)
+        : undefined;
+      expect(sortedRecipes?.[0]?.readyAt).toEqual(dateNow);
+      expect(sortedRecipes?.[1]?.readyAt).toEqual(
+        dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 1,
+      );
+      expect(sortedRecipes?.[2]?.readyAt).toEqual(
+        dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 2,
+      );
     });
   });
 
