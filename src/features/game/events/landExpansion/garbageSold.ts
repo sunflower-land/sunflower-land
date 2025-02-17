@@ -36,6 +36,7 @@ export const getItemCount = (item: GarbageName, state: GameState) => {
     count = inventory[item] ?? new Decimal(0);
   }
 
+  // If item has a limit, subtract 1 from the count (player should have at least 1 in inventory at all times)
   if (GARBAGE[item].limit) {
     count = new Decimal(count).minus(1);
   }
@@ -72,15 +73,6 @@ export function sellGarbage({ state, action }: Options) {
       if (new Decimal(count).lessThan(amount)) {
         throw new Error("Insufficient quantity to sell");
       }
-    }
-
-    // Check limits
-    const { limit = 0 } = GARBAGE[item];
-    if (
-      (!isCollectibleItem && Number(count) - amount < limit) ||
-      (!!isCollectibleItem && new Decimal(count).sub(amount).lessThan(limit))
-    ) {
-      throw new Error("Limit Reached");
     }
 
     // Handle coins
