@@ -230,13 +230,14 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
         )}
       </Button>
-      {(CONFIG.NETWORK === "amoy" ||
+      {CONFIG.NETWORK === "amoy" ||
         !!gameService.state?.context?.state.wardrobe.Halo ||
-        !!gameService.state?.context?.state.wardrobe["Gift Giver"]) && (
-        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.developerOptions")}</span>
-        </Button>
-      )}
+        !!gameService.state?.context?.state.wardrobe["Gift Giver"] ||
+        (!!gameService.state?.context?.state.inventory["Beta Pass"] && (
+          <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
+            <span>{t("gameOptions.developerOptions")}</span>
+          </Button>
+        ))}
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
         <span>{t("gameOptions.blockchainSettings")}</span>
       </Button>
