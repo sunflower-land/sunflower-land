@@ -1,6 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { skillUse } from "./skillUsed";
 import { CROPS } from "features/game/types/crops";
+import { COOKABLES } from "features/game/types/consumables";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -684,11 +685,18 @@ describe("skillUse", () => {
                 crafting: [
                   {
                     name: "Antipasto",
-                    readyAt: dateNow + 1000 * 60 * 60 * 1,
+                    readyAt:
+                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 3,
                   },
                   {
                     name: "Antipasto",
-                    readyAt: dateNow + 1000 * 60 * 60 * 3,
+                    readyAt:
+                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 1,
+                  },
+                  {
+                    name: "Antipasto",
+                    readyAt:
+                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 2,
                   },
                 ],
               },
@@ -704,7 +712,12 @@ describe("skillUse", () => {
         ? [...recipes].sort((a, b) => a.readyAt - b.readyAt)
         : undefined;
       expect(sortedRecipes?.[0]?.readyAt).toEqual(dateNow);
-      expect(sortedRecipes?.[1]?.readyAt).toEqual(dateNow + 1000 * 60 * 60 * 2);
+      expect(sortedRecipes?.[1]?.readyAt).toEqual(
+        dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 1,
+      );
+      expect(sortedRecipes?.[2]?.readyAt).toEqual(
+        dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 2,
+      );
     });
   });
 

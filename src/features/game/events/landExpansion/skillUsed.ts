@@ -134,13 +134,15 @@ function useInstantGratification({
     const currentCookingReadyAt = currentlyCooking?.readyAt ?? 0;
     const timeSkipped = currentCookingReadyAt - createdAt;
 
-    buildingRecipes.forEach((recipe) => {
-      if (recipe === currentlyCooking) {
-        recipe.readyAt = createdAt;
-      } else {
-        recipe.readyAt -= timeSkipped;
-      }
-    });
+    buildingRecipes
+      .sort((a, b) => a.readyAt - b.readyAt)
+      .forEach((recipe) => {
+        if (recipe === currentlyCooking) {
+          recipe.readyAt = createdAt;
+        } else {
+          recipe.readyAt -= timeSkipped;
+        }
+      });
   });
 
   return buildings;
