@@ -22,12 +22,15 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
           <span>{`Admin`}</span>
         </Button>
       )}
-      <Button
-        onClick={() => onSubMenuClick("hoardingCheck")}
-        className="p-1 mb-1"
-      >
-        {`Hoarding Check`}
-      </Button>
+      {(CONFIG.NETWORK === "amoy" ||
+        !!gameService.state?.context?.state.inventory["Beta Pass"]) && (
+        <Button
+          onClick={() => onSubMenuClick("hoardingCheck")}
+          className="p-1 mb-1"
+        >
+          {`Hoarding Check`}
+        </Button>
+      )}
       {CONFIG.NETWORK === "amoy" && (
         <>
           <Button
