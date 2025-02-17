@@ -16819,7 +16819,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Acorn Hat": {
     description:
-      "A cute, nature-inspired hat shaped like an acorn, perfect for woodland adventures.",
+      "A cute, nature-inspired hat shaped like an acorn, perfect for woodland adventures. +1 Timeshard from Deliveries, Chores & Bounties during Winds of Change Chapter.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
