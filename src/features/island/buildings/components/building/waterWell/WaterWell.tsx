@@ -15,12 +15,14 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   const [openUpgradeModal, setOpenUpgradeModal] = React.useState(false);
   const { gameService } = useGame();
   const waterWell = useSelector(gameService, _waterWell);
-  const { level, upgradeReadyAt, upgradedAt } = waterWell;
+  const { level, upgradeReadyAt } = waterWell;
+  const isUpgrading = (upgradeReadyAt ?? 0) > Date.now();
+  const currentLevel = isUpgrading ? level - 1 : level;
 
   return (
     <BuildingImageWrapper name="Water Well" nonInteractible>
       <img
-        src={WATER_WELL_VARIANTS[season][level]}
+        src={WATER_WELL_VARIANTS[season][currentLevel]}
         style={{
           width: `${PIXEL_SCALE * 25}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
@@ -31,12 +33,10 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
       />
       <UpgradeBuildingModal
         buildingName={"Water Well"}
-        currentLevel={level}
-        nextLevel={level + 1}
+        currentLevel={currentLevel}
+        nextLevel={currentLevel + 1}
         show={openUpgradeModal}
         onClose={() => setOpenUpgradeModal(false)}
-        readyAt={upgradeReadyAt}
-        createdAt={upgradedAt}
       />
     </BuildingImageWrapper>
   );

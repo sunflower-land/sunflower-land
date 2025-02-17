@@ -445,9 +445,14 @@ import {
   cancelQueuedRecipe,
   CancelQueuedRecipeAction,
 } from "./landExpansion/cancelQueuedRecipe";
+import {
+  speedUpUpgrade,
+  SpeedUpUpgradeAction,
+} from "./landExpansion/speedUpUpgrade";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
+  | SpeedUpUpgradeAction
   | ResourceBoughtAction
   | PurchaseVIPAction
   | SellAnimalAction
@@ -786,6 +791,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "calendarEvent.acknowledged": acknowledgeCalendarEvent,
   "lavaPit.collected": collectLavaPit,
   "lavaPit.started": startLavaPit,
+  "upgrade.spedUp": speedUpUpgrade,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

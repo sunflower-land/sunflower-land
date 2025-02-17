@@ -34,6 +34,11 @@ import {
   getActiveCalendarEvent,
   SeasonalEventName,
 } from "features/game/types/calendar";
+import {
+  BUILDING_UPGRADES,
+  makeUpgradableBuildingKey,
+  UpgradableBuildingType,
+} from "features/game/events/landExpansion/upgradeBuilding";
 
 interface Prop {
   name: BuildingName;
@@ -84,10 +89,16 @@ const InProgressBuilding: React.FC<Prop> = ({
   }, []);
 
   const onSpeedUp = (gems: number) => {
-    gameService.send("building.spedUp", {
-      name,
-      id,
-    });
+    if (
+      name in BUILDING_UPGRADES &&
+      gameService.getSnapshot().context.state[
+        makeUpgradableBuildingKey(name as UpgradableBuildingType)
+      ].level > 1
+    ) {
+      gameService.send("upgrade.spedUp", { name });
+    } else {
+      gameService.send("building.spedUp", { name, id });
+    }
 
     gameAnalytics.trackSink({
       currency: "Gem",
@@ -397,7 +408,7 @@ export const Building = React.memo(MoveableBuilding);
 export const Constructing: React.FC<{
   state: GameState;
   onClose: () => void;
-  onInstantBuilt?: (gems: number) => void;
+  onInstantBuilt: (gems: number) => void;
   readyAt: number;
   createdAt: number;
   name: BuildingName;
@@ -450,22 +461,20 @@ export const Constructing: React.FC<{
         <Button className="mr-1" onClick={onClose}>
           {t("close")}
         </Button>
-        {onInstantBuilt && (
-          <Button
-            disabled={!state.inventory.Gem?.gte(gems)}
-            className="relative ml-1"
-            onClick={() => onInstantBuilt(gems)}
+        <Button
+          disabled={!state.inventory.Gem?.gte(gems)}
+          className="relative ml-1"
+          onClick={() => onInstantBuilt(gems)}
+        >
+          {t("gems.speedUp")}
+          <Label
+            type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+            icon={ITEM_DETAILS.Gem.image}
+            className="flex absolute right-0 top-0.5"
           >
-            {t("gems.speedUp")}
-            <Label
-              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-              icon={ITEM_DETAILS.Gem.image}
-              className="flex absolute right-0 top-0.5"
-            >
-              {gems}
-            </Label>
-          </Button>
-        )}
+            {gems}
+          </Label>
+        </Button>
       </div>
     </>
   );
