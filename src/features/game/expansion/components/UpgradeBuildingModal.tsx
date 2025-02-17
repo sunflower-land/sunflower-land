@@ -26,12 +26,15 @@ import {
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { getSupportedPlots } from "features/game/events/landExpansion/plant";
+import { Constructing } from "features/island/buildings/components/building/Building";
 
 interface Props {
   buildingName: UpgradableBuildingType;
   currentLevel: number;
   nextLevel: number;
   show: boolean;
+  readyAt?: number;
+  createdAt?: number;
   onClose: () => void;
 }
 
@@ -43,6 +46,8 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   nextLevel,
   onClose,
   show,
+  readyAt,
+  createdAt,
 }) => {
   const { gameService } = useContext(Context);
 
@@ -135,6 +140,14 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
             </div>
             <Button onClick={onClose}>{t("close")}</Button>
           </div>
+        ) : readyAt && readyAt > Date.now() ? (
+          <Constructing
+            state={state}
+            onClose={onClose}
+            readyAt={readyAt}
+            createdAt={createdAt ?? 0}
+            name={buildingName}
+          />
         ) : (
           // If not max level, show upgrade content
           <div className="flex flex-col">

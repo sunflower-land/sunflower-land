@@ -1307,6 +1307,8 @@ export type AnimalBuilding = UpgradableBuilding & {
 
 export type UpgradableBuilding = {
   level: number;
+  upgradeReadyAt?: number;
+  upgradedAt?: number;
 };
 
 export type Bank = {

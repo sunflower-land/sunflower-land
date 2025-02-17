@@ -29,6 +29,7 @@ type BuildingUpgradeCost = {
   coins: number;
   items: Partial<Record<InventoryItemName, Decimal>>;
   requiredLevel?: number;
+  upgradeTime?: number;
 };
 
 export const BUILDING_UPGRADES: Record<
@@ -96,16 +97,19 @@ export const BUILDING_UPGRADES: Record<
       coins: 200,
       items: { Wood: new Decimal(5), Stone: new Decimal(2) },
       requiredLevel: 4,
+      upgradeTime: 60 * 60 * 1000,
     },
     3: {
       coins: 400,
       items: { Wood: new Decimal(5), Stone: new Decimal(5) },
       requiredLevel: 11,
+      upgradeTime: 60 * 60 * 2 * 1000,
     },
     4: {
       coins: 800,
       items: { Wood: new Decimal(10), Stone: new Decimal(10) },
       requiredLevel: 15,
+      upgradeTime: 60 * 60 * 4 * 1000,
     },
   },
 };
@@ -120,7 +124,11 @@ export const makeUpgradableBuildingKey = (
     .replace(/\s+/g, "") as UpgradableBuildingKey;
 };
 
-export function upgradeBuilding({ state, action }: Options): GameState {
+export function upgradeBuilding({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (copy) => {
     const { buildings, bumpkin } = copy;
     const { experience } = bumpkin;
@@ -138,6 +146,9 @@ export function upgradeBuilding({ state, action }: Options): GameState {
 
     if (building.level >= getKeys(upgrades).length) {
       throw new Error("Building is at max level");
+    }
+    if (building.upgradeReadyAt && building.upgradeReadyAt > createdAt) {
+      throw new Error("Building is still under upgrade");
     }
 
     const currentExperienceLevel = getBumpkinLevel(experience);
@@ -174,6 +185,12 @@ export function upgradeBuilding({ state, action }: Options): GameState {
 
     // Upgrade building level
     copy[buildingKey].level = nextLevel;
+
+    // Set readyAt
+    if (upgradeCost.upgradeTime) {
+      copy[buildingKey].upgradeReadyAt = createdAt + upgradeCost.upgradeTime;
+      copy[buildingKey].upgradedAt = createdAt;
+    }
 
     return copy;
   });

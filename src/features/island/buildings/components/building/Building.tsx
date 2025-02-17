@@ -397,7 +397,7 @@ export const Building = React.memo(MoveableBuilding);
 export const Constructing: React.FC<{
   state: GameState;
   onClose: () => void;
-  onInstantBuilt: (gems: number) => void;
+  onInstantBuilt?: (gems: number) => void;
   readyAt: number;
   createdAt: number;
   name: BuildingName;
@@ -450,20 +450,22 @@ export const Constructing: React.FC<{
         <Button className="mr-1" onClick={onClose}>
           {t("close")}
         </Button>
-        <Button
-          disabled={!state.inventory.Gem?.gte(gems)}
-          className="relative ml-1"
-          onClick={() => onInstantBuilt(gems)}
-        >
-          {t("gems.speedUp")}
-          <Label
-            type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-            icon={ITEM_DETAILS.Gem.image}
-            className="flex absolute right-0 top-0.5"
+        {onInstantBuilt && (
+          <Button
+            disabled={!state.inventory.Gem?.gte(gems)}
+            className="relative ml-1"
+            onClick={() => onInstantBuilt(gems)}
           >
-            {gems}
-          </Label>
-        </Button>
+            {t("gems.speedUp")}
+            <Label
+              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+              icon={ITEM_DETAILS.Gem.image}
+              className="flex absolute right-0 top-0.5"
+            >
+              {gems}
+            </Label>
+          </Button>
+        )}
       </div>
     </>
   );
