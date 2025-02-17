@@ -73,6 +73,10 @@ export const MarketplaceNavigation: React.FC = () => {
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
 
+  const listingsLeft = getRemainingTrades({
+    game: gameService.getSnapshot().context.state,
+  });
+
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
@@ -151,7 +155,7 @@ export const MarketplaceNavigation: React.FC = () => {
               <div className="flex flex-col p-1">
                 <div className="flex justify-between items-center">
                   <Label type="danger" icon={crownIcon}>
-                    {`${getRemainingTrades({ game: gameService.getSnapshot().context.state })} Trades left`}
+                    {`${listingsLeft} ${listingsLeft > 1 ? t("reputation.marketplace.listingsLeft") : t("reputation.marketplace.listingLeft")}`}
                   </Label>
                   <p className="text-xxs underline">{t("read.more")}</p>
                 </div>
