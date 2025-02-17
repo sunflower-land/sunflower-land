@@ -121,16 +121,17 @@ function useInstantGratification({
 
     if (!buildingRecipes) return;
 
-    const currentlyCooking = buildingRecipes
-      .sort((a, b) => b.readyAt - a.readyAt)
-      .reduce<BuildingProduct | null>((closest, recipe) => {
+    const currentlyCooking = buildingRecipes.reduce<BuildingProduct | null>(
+      (closest, recipe) => {
         if (recipe.readyAt <= createdAt) return closest;
         if (!closest) return recipe;
         return Math.abs(recipe.readyAt - createdAt) <
           Math.abs(closest.readyAt - createdAt)
           ? recipe
           : closest;
-      }, null);
+      },
+      null,
+    );
     const currentCookingReadyAt = currentlyCooking?.readyAt ?? 0;
     const timeSkipped = currentCookingReadyAt - createdAt;
 
