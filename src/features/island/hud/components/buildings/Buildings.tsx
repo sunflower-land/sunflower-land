@@ -17,6 +17,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
+import {
+  BUILDING_UPGRADES,
+  makeUpgradableBuildingKey,
+  UpgradableBuildingType,
+} from "features/game/events/landExpansion/upgradeBuilding";
 
 interface Props {
   onClose: () => void;
@@ -214,8 +219,17 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
                 key={name}
                 onClick={() => setSelectedName(name)}
                 image={
-                  ITEM_ICONS(state.island.type, state.season.season)[name] ??
-                  ITEM_DETAILS[name].image
+                  ITEM_ICONS(
+                    state.island.type,
+                    state.season.season,
+                    name in BUILDING_UPGRADES
+                      ? state[
+                          makeUpgradableBuildingKey(
+                            name as UpgradableBuildingType,
+                          )
+                        ].level
+                      : undefined,
+                  )[name] ?? ITEM_DETAILS[name].image
                 }
                 secondaryImage={secondaryIcon}
                 showOverlay={isLocked}
