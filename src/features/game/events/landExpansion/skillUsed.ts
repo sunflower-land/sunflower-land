@@ -131,7 +131,8 @@ function useInstantGratification({
           ? recipe
           : closest;
       }, null);
-    const timeSkipped = (currentlyCooking?.readyAt ?? 0) - createdAt;
+    const currentCookingReadyAt = currentlyCooking?.readyAt ?? 0;
+    const timeSkipped = currentCookingReadyAt - createdAt;
 
     buildingRecipes.forEach((recipe) => {
       if (recipe === currentlyCooking) {
