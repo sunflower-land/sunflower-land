@@ -26,7 +26,7 @@ export const isCollectible = (
 
 export const getItemCount = (item: GarbageName, state: GameState) => {
   let count: number | Decimal;
-  const { inventory } = state;
+  const { inventory, wardrobe } = state;
 
   if (!isCollectible(item)) {
     count = availableWardrobe(state)[item] ?? 0;
@@ -38,7 +38,12 @@ export const getItemCount = (item: GarbageName, state: GameState) => {
 
   // If item has a limit, subtract 1 from the count (player should have at least 1 in inventory at all times)
   if (GARBAGE[item].limit) {
-    count = new Decimal(count).minus(1);
+    if (isCollectible(item)) {
+      if (inventory[item]?.minus(1).lte(0)) count = new Decimal(count).minus(1);
+    } else {
+      if (wardrobe[item] && wardrobe[item] - 1 <= 0)
+        count = new Decimal(count).minus(1);
+    }
   }
 
   return new Decimal(count);
