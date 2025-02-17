@@ -5,8 +5,9 @@ import { getKeys } from "features/game/types/decorations";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { GARBAGE, GarbageName } from "features/game/types/garbage";
 import { produce } from "immer";
-import { availableWardrobe } from "./equip";
 import { KNOWN_IDS } from "features/game/types";
+import { availableWardrobe } from "./equip";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 export type SellGarbageAction = {
   type: "garbage.sold";
@@ -22,6 +23,25 @@ type Options = {
 export const isCollectible = (
   item: InventoryItemName | BumpkinItem,
 ): item is InventoryItemName => item in KNOWN_IDS;
+
+export const getItemCount = (item: GarbageName, state: GameState) => {
+  let count: number | Decimal;
+  const { inventory } = state;
+
+  if (!isCollectible(item)) {
+    count = availableWardrobe(state)[item] ?? 0;
+  } else if (item === "Water Well" || item === "Hen House" || item === "Tent") {
+    count = getChestItems(state)[item] ?? new Decimal(0);
+  } else {
+    count = inventory[item] ?? new Decimal(0);
+  }
+
+  if (GARBAGE[item].limit) {
+    count = new Decimal(count).minus(1);
+  }
+
+  return new Decimal(count);
+};
 
 export function sellGarbage({ state, action }: Options) {
   return produce(state, (game) => {
@@ -40,9 +60,8 @@ export function sellGarbage({ state, action }: Options) {
       throw new Error("Invalid amount");
     }
     const isCollectibleItem = isCollectible(item);
-    const count = !isCollectibleItem
-      ? availableWardrobe(state)[item] ?? 0
-      : inventory[item] ?? new Decimal(0);
+
+    const count = getItemCount(item, game);
 
     // Check if enough quantity
     if (!isCollectibleItem) {
