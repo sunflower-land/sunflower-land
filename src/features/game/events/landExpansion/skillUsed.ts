@@ -14,7 +14,6 @@ import {
   Buildings,
   InventoryItemName,
   AnimalBuildingKey,
-  BuildingProduct,
 } from "features/game/types/game";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
@@ -24,6 +23,7 @@ import { CROPS } from "features/game/types/crops";
 import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
+import { getCurrentCookingItem } from "./cancelQueuedRecipe";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -117,21 +117,16 @@ function useInstantGratification({
   createdAt?: number;
 }): Buildings {
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((building) => {
-    const buildingRecipes = buildings[building]?.[0]?.crafting;
+    const buildingItem = buildings[building]?.[0];
+    if (!buildingItem) return;
+    const buildingRecipes = buildingItem.crafting;
 
     if (!buildingRecipes) return;
 
-    const currentlyCooking = buildingRecipes.reduce<BuildingProduct | null>(
-      (closest, recipe) => {
-        if (recipe.readyAt <= createdAt) return closest;
-        if (!closest) return recipe;
-        return Math.abs(recipe.readyAt - createdAt) <
-          Math.abs(closest.readyAt - createdAt)
-          ? recipe
-          : closest;
-      },
-      null,
-    );
+    const currentlyCooking = getCurrentCookingItem({
+      building: buildingItem,
+      createdAt,
+    });
     const currentCookingReadyAt = currentlyCooking?.readyAt ?? 0;
     const timeSkipped = currentCookingReadyAt - createdAt;
 
