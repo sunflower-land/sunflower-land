@@ -119,6 +119,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
     crops: crops,
     wellLevel: waterWell.level,
     buildings: state.buildings,
+    upgradeReadyAt: waterWell.upgradeReadyAt ?? 0,
+    createdAt: Date.now(),
   });
 
   if (!isFertile) return <NonFertilePlot />;

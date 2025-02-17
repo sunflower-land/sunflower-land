@@ -66,6 +66,8 @@ type IsPlotFertile = {
   crops: Record<string, CropPlot>;
   wellLevel: number;
   buildings: Buildings;
+  upgradeReadyAt?: number;
+  createdAt?: number;
 };
 
 // First 15 plots do not need water
@@ -86,17 +88,26 @@ function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
 export const getSupportedPlots = ({
   wellLevel,
   buildings,
+  upgradeReadyAt,
+  createdAt = Date.now(),
 }: {
   wellLevel: number;
   buildings: Buildings;
+  upgradeReadyAt?: number;
+  createdAt?: number;
 }) => {
   let plots = INITIAL_SUPPORTED_PLOTS;
   const hasWell = (buildings["Water Well"]?.length ?? 0) > 0;
+  let effectiveWellLevel = wellLevel;
+
+  if (upgradeReadyAt && upgradeReadyAt > createdAt) {
+    effectiveWellLevel -= 1;
+  }
 
   if (!hasWell) return plots;
-  if (wellLevel >= 4) return 99;
+  if (effectiveWellLevel >= 4) return 99;
 
-  plots = wellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
+  plots = effectiveWellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
   return plots;
 };
 
@@ -105,9 +116,16 @@ export function isPlotFertile({
   crops,
   wellLevel,
   buildings,
+  upgradeReadyAt,
+  createdAt = Date.now(),
 }: IsPlotFertile): boolean {
   // get the well count
-  const cropsWellCanWater = getSupportedPlots({ wellLevel, buildings });
+  const cropsWellCanWater = getSupportedPlots({
+    wellLevel,
+    buildings,
+    upgradeReadyAt,
+    createdAt,
+  });
 
   const cropPosition =
     getKeys(crops)
@@ -871,6 +889,8 @@ export function plant({
         crops: plots,
         wellLevel: stateCopy.waterWell.level,
         buildings,
+        upgradeReadyAt: stateCopy.waterWell.upgradeReadyAt ?? 0,
+        createdAt,
       })
     ) {
       throw new Error("Plot is not fertile");
