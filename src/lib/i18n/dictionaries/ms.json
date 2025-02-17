@@ -4655,10 +4655,8 @@
   "description.kite": "Melambung tinggi dengan angin dan biarkan kebimbangan anda hilang.",
   "description.acornHouse": "Tempat percutian hutan yang selesa, sesuai untuk tupai dan pemimpi.",
   "description.springDuckling": "Cerah dan cerah, anak itik kecil ini mengalu-alukan musim dengan kegembiraan.",
-  "description.igloo": "Sejuk di luar, selesa di bahagian dalam—rumah beku manis di rumah.",
   "description.uglyDuckling": "Dilahirkan berbeza, disalahpahami, tetapi ditakdirkan untuk menjadi sesuatu yang benar-benar megah.",
   "description.lakeRug": "Bawa ketenangan tasik yang damai ke rumah anda.",
-  "description.hammock": "Bergoyang perlahan-lahan dengan angin dan nikmati rehat yang diperoleh dengan baik.",
   "description.mammoth": "Raksasa kuno, berdiri kuat melalui ujian masa.",
   "description.cupOfChocolate": "Hangat, kaya, dan teman yang sempurna untuk hari yang sejuk.",
   "description.goldSheep": "Keajaiban yang mempesonakan, bernilai lebih daripada beratnya dalam bulu.",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "Harga mestilah lebih besar daripada tawaran tertinggi: {{price}}.",
   "marketplace.dodgyTrades": "Perdagangan berulang-alik antara pemain mungkin ditandakan sebagai mencurigakan.",
   "description.barnBlueprint.boost": "+5 Haiwan Barn setiap Peningkatan",
-  "vip.benefit.cookingQueue": "Beratur resipi di bangunan memasak"
+  "vip.benefit.cookingQueue": "Beratur resipi di bangunan memasak",
+  "restrictionReason.hasBonusAnimals.barn": "bangsal",
+  "restrictionReason.hasBonusAnimals.henHouse": "rumah ayam",
+  "description.igloo": "Sejuk di luar, selesa di dalam—rumah beku manis di rumah. +1 Timeshard dari Delivery, Hores & Bounties semasa Winds of Change Chapter.",
+  "description.hammock": "Bergoyang perlahan-lahan dengan angin dan nikmati rehat yang baik. +1 Timeshard dari Delivery, Chores & Bounties semasa Winds of Change Chapter."
 }

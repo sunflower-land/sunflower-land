@@ -4655,10 +4655,8 @@
   "description.kite": "随风腾飞，让烦恼消失。",
   "description.acornHouse": "舒适的林地度假胜地，非常适合松鼠和梦想家。",
   "description.springDuckling": "这只小鸭子既聪明又活泼，欢乐地迎接这个季节。",
-  "description.igloo": "外面很冷，里面很舒服——家的甜蜜冰冻家。",
   "description.uglyDuckling": "天生与众不同，被误解，但注定要成为真正伟大的事物。",
   "description.lakeRug": "将宁静湖泊的宁静带入您的家中。",
-  "description.hammock": "在微风中轻轻摇摆，享受来之不易的休息。",
   "description.mammoth": "一个古老的巨人，在时间的考验中站稳脚跟。",
   "description.cupOfChocolate": "温暖、丰富，是寒冷天气的完美伴侣。",
   "description.goldSheep": "一个令人眼花缭乱的奇迹，价值超过了它在羊毛中的重量。",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "价格必须高于最高报价：{{price}}。",
   "marketplace.dodgyTrades": "玩家之间的来回交易可能会被标记为可疑。",
   "description.barnBlueprint.boost": "每次升级 +5 个谷仓动物",
-  "vip.benefit.cookingQueue": "在烹饪大楼里排队食谱"
+  "vip.benefit.cookingQueue": "在烹饪大楼里排队食谱",
+  "restrictionReason.hasBonusAnimals.barn": "谷仓",
+  "restrictionReason.hasBonusAnimals.henHouse": "鸡舍",
+  "description.igloo": "外面很冷，里面很舒服——家的甜蜜冰冻家。在《变革之风》章节中，来自 “送货、家务和赏金” 的+1 Timeshard。",
+  "description.hammock": "在微风中轻轻摇摆，享受来之不易的休息。在《变革之风》章节中，从 “交付、琐事和赏金” 中获得 +1 Timeshard。"
 }

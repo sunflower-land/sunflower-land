@@ -4655,10 +4655,8 @@
   "description.kite": "Rüzgarlarla yükseğe uçun ve endişelerinizin uzaklaşmasına izin verin.",
   "description.acornHouse": "Hem sincaplar hem de hayalperestler için mükemmel, rahat bir ormanlık alan inziva yeri.",
   "description.springDuckling": "Parlak ve cıvıltılı, bu küçük ördek yavrusu mevsimi neşeyle karşılıyor.",
-  "description.igloo": "Dışarısı soğuk, içi rahat - ev tatlı donmuş ev.",
   "description.uglyDuckling": "Farklı doğdu, yanlış anlaşıldı, ama gerçekten muhteşem bir şey olmaya mahkum.",
   "description.lakeRug": "Huzurlu bir gölün sakinliğini evinize getirin.",
-  "description.hammock": "Esinti ile hafifçe sallayın ve hak edilmiş bir dinlenmenin tadını çıkarın.",
   "description.mammoth": "Zamanın sınavında güçlü duran eski bir dev.",
   "description.cupOfChocolate": "Sıcak, zengin ve soğuk bir gün için mükemmel bir arkadaş.",
   "description.goldSheep": "Göz kamaştırıcı bir mucize, yün ağırlığından daha değerli.",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "Fiyat en yüksek tekliften daha yüksek olmalıdır: {{price}}.",
   "marketplace.dodgyTrades": "Oyuncular arasındaki ileri geri alım satımlar şüpheli olarak işaretlenebilir.",
   "description.barnBlueprint.boost": "Yükseltme başına +5 Ahır Hayvanı",
-  "vip.benefit.cookingQueue": "Yemek pişirme binalarında tarifleri sıraya koyun"
+  "vip.benefit.cookingQueue": "Yemek pişirme binalarında tarifleri sıraya koyun",
+  "restrictionReason.hasBonusAnimals.barn": "ahır",
+  "restrictionReason.hasBonusAnimals.henHouse": "tavuk evi",
+  "description.igloo": "Dışarısı soğuk, içeride rahat - evdeki tatlı donmuş ev. Winds of Change Bölümünde Deliveries, Chores & Bounties'den +1 Timeshard.",
+  "description.hammock": "Esinti ile hafifçe sallayın ve hak ettiğiniz dinlenmenin tadını çıkarın. Winds of Change Bölümü sırasında Teslimatlar, İşler ve Ödüller bölümünden +1 Timeshard."
 }

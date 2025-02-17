@@ -4655,10 +4655,8 @@
   "description.kite": "Voe alto com os ventos e deixe suas preocupações desaparecerem.",
   "description.acornHouse": "Um retiro aconchegante na floresta, perfeito tanto para esquilos quanto para sonhadores.",
   "description.springDuckling": "Brilhante e alegre, este patinho recebe a temporada com alegria.",
-  "description.igloo": "Frio por fora, aconchegante por dentro — caseiro, doce, congelado, caseiro.",
   "description.uglyDuckling": "Nascido diferente, incompreendido, mas destinado a se tornar algo verdadeiramente magnífico.",
   "description.lakeRug": "Traga a calma de um lago tranquilo direto para sua casa.",
-  "description.hammock": "Balance suavemente com a brisa e desfrute de um merecido descanso.",
   "description.mammoth": "Um gigante antigo que se manteve firme durante o teste do tempo.",
   "description.cupOfChocolate": "Quente, rico e o companheiro perfeito para um dia frio.",
   "description.goldSheep": "Uma maravilha deslumbrante, que vale mais do que seu peso em lã.",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "O preço deve ser maior do que a oferta mais alta: {{price}}.",
   "marketplace.dodgyTrades": "As trocas de ida e volta entre jogadores podem ser marcadas como suspeitas.",
   "description.barnBlueprint.boost": "+5 animais de celeiro por atualização",
-  "vip.benefit.cookingQueue": "Coloque receitas em filas em prédios de culinária"
+  "vip.benefit.cookingQueue": "Coloque receitas em filas em prédios de culinária",
+  "restrictionReason.hasBonusAnimals.barn": "celeiro",
+  "restrictionReason.hasBonusAnimals.henHouse": "galinheiro",
+  "description.igloo": "Frio por fora, aconchegante por dentro — casa caseira e congelada. +1 vezes difícil de Entregas, tarefas e recompensas durante o capítulo Winds of Change.",
+  "description.hammock": "Balance suavemente com a brisa e desfrute de um merecido descanso. +1 vezes mais cansado de Entregas, tarefas e recompensas durante o capítulo Winds of Change."
 }

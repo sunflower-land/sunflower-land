@@ -1239,7 +1239,6 @@
   "description.halo.boost": "Доступ к инструментам модератора",
   "description.hammerheadshark.one": "Встречай, акула с головой для охоты, и телом для приключений",
   "description.hammerheadshark.two": "Лобовое столкновение со вкусом!",
-  "description.hammock": "Нежно покачивайтесь на ветру и наслаждайтесь заслуженным покоем .",
   "description.happy.crop": "Шанс получить двойной урожай",
   "description.harvest.hourglass.boost": "Время роста урожая: -25%",
   "description.harvest.hourglass.boost.effectTime": "Длится 6 часов",
@@ -1273,7 +1272,6 @@
   "description.hungry.caterpillar.boost": "Бесплатные семена цветов",
   "description.hungryHare": "Этот прожорливый кролик скачет по твоей ферме. Предмет особого события на Пасху 2024",
   "description.hungryHare.boost": "2x опыта от Fermented Carrots",
-  "description.igloo": "Снаружи мороз, внутри тепло — уютный ледяной дом.",
   "description.immortal.pear": "Увеличивает время жизни фруктовых лунок.",
   "description.immortal.pear.boost": "+1 сбор у фруктов",
   "description.immortal.pear.boosted.boost": "+2 сбора фруктов с каждого семени",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "Цена должна быть выше самого высокого предложения: {{price}}.",
   "marketplace.dodgyTrades": "Сделки между игроками могут быть отмечены как подозрительные.",
   "description.barnBlueprint.boost": "+5 животных в амбаре за каждое улучшение",
-  "vip.benefit.cookingQueue": "Выстраивайте рецепты в очереди в кулинарных зданиях"
+  "vip.benefit.cookingQueue": "Выстраивайте рецепты в очереди в кулинарных зданиях",
+  "restrictionReason.hasBonusAnimals.barn": "амбар",
+  "restrictionReason.hasBonusAnimals.henHouse": "курятник",
+  "description.igloo": "На улице холодно, а внутри уютно — домашний сладкий замороженный дом. Глава «Поставки, хлопоты и награды во время ветров перемен».",
+  "description.hammock": "Мягко покачивайтесь на ветерке и наслаждайтесь заслуженным отдыхом. Глава «Ветры перемен»: «Доставки, хлопоты и награды»."
 }

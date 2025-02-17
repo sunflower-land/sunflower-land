@@ -4655,10 +4655,8 @@
   "description.kite": "Vuela a lo alto con los vientos y deja que tus preocupaciones desaparezcan.",
   "description.acornHouse": "Un acogedor refugio en el bosque, perfecto tanto para ardillas como para soñadores.",
   "description.springDuckling": "Brillante y alegre, este patito recibe la temporada con alegría.",
-  "description.igloo": "Frío por fuera, acogedor por dentro, casero, dulce y congelado.",
   "description.uglyDuckling": "Nacido diferente, incomprendido, pero destinado a convertirse en algo verdaderamente magnífico.",
   "description.lakeRug": "Lleve la calma de un lago tranquilo directamente a su hogar.",
-  "description.hammock": "Balancéate suavemente con la brisa y disfruta de un merecido descanso.",
   "description.mammoth": "Un gigante antiguo, que se ha mantenido firme a pesar del paso del tiempo.",
   "description.cupOfChocolate": "Cálido, rico y el compañero perfecto para un día frío.",
   "description.goldSheep": "Una maravilla deslumbrante, que vale más que su peso en lana.",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "El precio debe ser superior a la oferta más alta: {{price}}.",
   "marketplace.dodgyTrades": "Las operaciones de ida y vuelta entre jugadores pueden marcarse como sospechosas.",
   "description.barnBlueprint.boost": "+5 animales de establo por mejora",
-  "vip.benefit.cookingQueue": "Haz cola de recetas en los edificios de cocina"
+  "vip.benefit.cookingQueue": "Haz cola de recetas en los edificios de cocina",
+  "restrictionReason.hasBonusAnimals.barn": "granero",
+  "restrictionReason.hasBonusAnimals.henHouse": "gallinero",
+  "description.igloo": "Frío por fuera, acogedor por dentro, dulce y casero congelado. +1 Timeshard de Entregas, tareas y recompensas durante el capítulo Winds of Change.",
+  "description.hammock": "Déjate llevar por la brisa y disfruta de un merecido descanso. +1 tiempo máximo de entregas, tareas y recompensas durante el capítulo Vientos de cambio."
 }

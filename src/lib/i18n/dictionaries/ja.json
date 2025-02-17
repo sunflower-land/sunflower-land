@@ -4655,10 +4655,8 @@
   "description.kite": "風に乗って高く舞い上がり、心配事を解き放ちましょう。",
   "description.acornHouse": "リスにも夢想家にも最適な、居心地の良い森の隠れ家。",
   "description.springDuckling": "明るく元気なこの小さなアヒルの子は、喜びをもって季節を迎えます。",
-  "description.igloo": "外は冷たく、中は居心地が良い。ホームスイートフローズンホーム。",
   "description.uglyDuckling": "生まれつき違って、誤解されてきたけど、本当に素晴らしいものになる運命にある。",
   "description.lakeRug": "静かな湖の静けさを自宅に持ち込んでください。",
-  "description.hammock": "そよ風にそっと揺れて、たっぷりと休息を取ってください。",
   "description.mammoth": "時の試練に耐え抜く古代の巨人。",
   "description.cupOfChocolate": "暖かく、コクがあり、肌寒い日のお供にぴったりです。",
   "description.goldSheep": "ウールの重さよりも価値がある、まばゆいばかりの驚異です。",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "価格は最高額の {{price}} よりも高くなければなりません。",
   "marketplace.dodgyTrades": "プレイヤー間でやり取りされる取引は、疑わしいとマークされる場合があります。",
   "description.barnBlueprint.boost": "アップグレード1つにつき +5 バーン・アニマルズ",
-  "vip.benefit.cookingQueue": "クッキングビルでレシピをキューに入れる"
+  "vip.benefit.cookingQueue": "クッキングビルでレシピをキューに入れる",
+  "restrictionReason.hasBonusAnimals.barn": "納屋",
+  "restrictionReason.hasBonusAnimals.henHouse": "鶏小屋",
+  "description.igloo": "外は冷たく、中は居心地が良い。まるで凍てつくような我が家。「変化の風」チャプター中、配達、雑用、報奨金でタイムハード+1獲得。",
+  "description.hammock": "そよ風にそっと揺れながら、たっぷり休息を取ってください。「変化の風」チャプター中、配達、雑用、報奨金でタイムチャード+1獲得。"
 }

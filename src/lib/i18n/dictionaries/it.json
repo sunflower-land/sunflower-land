@@ -4655,10 +4655,8 @@
   "description.kite": "Sali in alto con il vento e lascia che le tue preoccupazioni svaniscano.",
   "description.acornHouse": "Un accogliente rifugio nel bosco, perfetto sia per scoiattoli che per sognatori.",
   "description.springDuckling": "Brillante e allegro, questo piccolo anatroccolo accoglie la stagione con gioia.",
-  "description.igloo": "Freddo all'esterno, accogliente all'interno: una dolce casa ghiacciata.",
   "description.uglyDuckling": "Nato diverso, incompreso, ma destinato a diventare qualcosa di veramente magnifico.",
   "description.lakeRug": "Porta la calma di un lago tranquillo direttamente a casa tua.",
-  "description.hammock": "Oscilla dolcemente con la brezza e goditi il meritato riposo.",
   "description.mammoth": "Un gigante antico, che resiste alla prova del tempo.",
   "description.cupOfChocolate": "Caldo, ricco e il compagno perfetto per una giornata fredda.",
   "description.goldSheep": "Una meraviglia abbagliante, che vale più del suo peso in lana.",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "Il prezzo deve essere superiore all'offerta più alta: {{price}}.",
   "marketplace.dodgyTrades": "Gli scambi avanti e indietro tra giocatori possono essere contrassegnati come sospetti.",
   "description.barnBlueprint.boost": "+5 animali da stalla per potenziamento",
-  "vip.benefit.cookingQueue": "Mette in coda le ricette negli edifici di cucina"
+  "vip.benefit.cookingQueue": "Mette in coda le ricette negli edifici di cucina",
+  "restrictionReason.hasBonusAnimals.barn": "fienile",
+  "restrictionReason.hasBonusAnimals.henHouse": "pollaio",
+  "description.igloo": "Freddo all'esterno, accogliente all'interno: una dolce casa ghiacciata. +1 Timeshard da Deliveries, Chores & Bounties durante il capitolo Winds of Change.",
+  "description.hammock": "Oscilla dolcemente con la brezza e goditi il meritato riposo. +1 Timeshard da Deliveries, Chores & Bounties durante il capitolo Winds of Change."
 }

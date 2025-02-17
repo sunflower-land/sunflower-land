@@ -4655,10 +4655,8 @@
   "description.kite": "Envolez-vous au gré des vents et oubliez vos soucis.",
   "description.acornHouse": "Une retraite boisée confortable, idéale pour les écureuils comme pour les rêveurs.",
   "description.springDuckling": "Lumineux et gazouillé, ce petit canard accueille la saison avec joie.",
-  "description.igloo": "Froid à l'extérieur, douillet à l'intérieur : des produits faits maison, des bonbons glacés à la maison.",
   "description.uglyDuckling": "Né différent, incompris, mais destiné à devenir quelque chose de vraiment magnifique.",
   "description.lakeRug": "Apportez le calme d'un lac paisible directement dans votre maison.",
-  "description.hammock": "Balancez-vous doucement au gré de la brise et profitez d'un repos bien mérité.",
   "description.mammoth": "Un ancien géant qui a résisté à l'épreuve du temps.",
   "description.cupOfChocolate": "Chaud, riche et le compagnon idéal pour les journées froides.",
   "description.goldSheep": "Une merveille éblouissante qui vaut plus que son poids en laine.",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "Le prix doit être supérieur à l'offre la plus élevée : {{price}}.",
   "marketplace.dodgyTrades": "Les échanges entre joueurs peuvent être considérés comme suspects.",
   "description.barnBlueprint.boost": "+5 animaux de grange par amélioration",
-  "vip.benefit.cookingQueue": "Mettez les recettes en file d'attente dans les bâtiments de cuisine"
+  "vip.benefit.cookingQueue": "Mettez les recettes en file d'attente dans les bâtiments de cuisine",
+  "restrictionReason.hasBonusAnimals.barn": "grange",
+  "restrictionReason.hasBonusAnimals.henHouse": "poulailler",
+  "description.igloo": "Il fait froid à l'extérieur, douillet à l'intérieur. +1 Timeshard from Deliveries, Chores & Bounties during Winds of Change Chapter.",
+  "description.hammock": "Laissez-vous emporter par la brise et profitez d'un repos bien mérité. +1 Timeshard from Deliveries, Chores & Bounties during Winds of Change Chapter."
 }

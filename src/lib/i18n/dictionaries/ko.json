@@ -4655,10 +4655,8 @@
   "description.kite": "바람과 함께 높이 날아서 걱정을 떨쳐버리세요.",
   "description.acornHouse": "아늑한 삼림 휴양지로 다람쥐와 몽상가 모두에게 안성맞춤입니다.",
   "description.springDuckling": "밝고 지저귀는 이 작은 오리 새끼는 기쁨으로 계절을 맞이합니다.",
-  "description.igloo": "밖은 춥고 속은 아늑합니다. 집에서 만든 달콤한 프로즌 홈.",
   "description.uglyDuckling": "다르게 태어났고, 오해를 받았지만, 진정으로 위대한 무언가가 될 운명을 타고났습니다.",
   "description.lakeRug": "평화로운 호수의 고요함을 집 안으로 가져오세요.",
-  "description.hammock": "산들바람을 맞으며 부드럽게 몸을 흔들어 휴식을 취하세요.",
   "description.mammoth": "시간의 시험을 뚫고 굳건히 서 있는 고대 거인.",
   "description.cupOfChocolate": "따뜻하고 풍성하며 쌀쌀한 날에 완벽한 동반자입니다.",
   "description.goldSheep": "그 무게의 울보다 더 값진 놀라운 경이로움입니다.",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "가격은 최고 오퍼 ({{price}}) 보다 커야 합니다.",
   "marketplace.dodgyTrades": "플레이어 간의 거래는 의심스러운 것으로 표시될 수 있습니다.",
   "description.barnBlueprint.boost": "업그레이드당 헛간 동물 5마리 추가",
-  "vip.benefit.cookingQueue": "요리 건물에 레시피 등록하기"
+  "vip.benefit.cookingQueue": "요리 건물에 레시피 등록하기",
+  "restrictionReason.hasBonusAnimals.barn": "헛간",
+  "restrictionReason.hasBonusAnimals.henHouse": "헨 하우스",
+  "description.igloo": "밖은 춥고 안은 아늑한 집. 윈드 오브 체인지 챕터 기간 중 딜리버리, 초어스 앤 바운티 (Deliveries, Chores & Bounties) 를 통해 획득한 +1 타임샤드",
+  "description.hammock": "바람을 맞으며 부드럽게 몸을 움직이며 충분한 휴식을 취하세요. 윈드 오브 체인지 챕터에서 배달, 집안일, 현상금 획득 횟수를 1회까지 올리세요."
 }

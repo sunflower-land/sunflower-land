@@ -4655,10 +4655,8 @@
   "description.kite": "Schweben Sie hoch im Wind und lassen Sie Ihren Sorgen freien Lauf.",
   "description.acornHouse": "Ein gemütlicher Rückzugsort im Wald, perfekt für Eichhörnchen und Träumer gleichermaßen.",
   "description.springDuckling": "Hell und zwitschernd begrüßt dieses kleine Entlein die Jahreszeit mit Freude.",
-  "description.igloo": "Draußen kalt, innen gemütlich — wie zu Hause wie zu Hause.",
   "description.uglyDuckling": "Anders geboren, missverstanden, aber dazu bestimmt, etwas wirklich Großartiges zu werden.",
   "description.lakeRug": "Bringen Sie die Ruhe eines friedlichen Sees direkt in Ihr Zuhause.",
-  "description.hammock": "Lassen Sie sich sanft von der Brise wiegen und genießen Sie eine wohlverdiente Pause.",
   "description.mammoth": "Ein uralter Riese, der den Test der Zeit überstanden hat.",
   "description.cupOfChocolate": "Warm, reichhaltig und der perfekte Begleiter für einen kühlen Tag.",
   "description.goldSheep": "Ein schillerndes Wunder, das mehr wert ist als sein Gewicht in Wolle.",
@@ -5336,5 +5334,9 @@
   "marketplace.higherThanOffer": "Der Preis muss höher sein als das höchste Angebot: {{price}}.",
   "marketplace.dodgyTrades": "Hin- und Hergeschäfte zwischen Spielern können als verdächtig markiert werden.",
   "description.barnBlueprint.boost": "+5 Scheunentiere pro Upgrade",
-  "vip.benefit.cookingQueue": "Stellen Sie Rezepte in Kochgebäuden in eine Warteschlange"
+  "vip.benefit.cookingQueue": "Stellen Sie Rezepte in Kochgebäuden in eine Warteschlange",
+  "restrictionReason.hasBonusAnimals.barn": "Scheune",
+  "restrictionReason.hasBonusAnimals.henHouse": "Hühnerstall",
+  "description.igloo": "Außen kalt, innen gemütlich — wie zu Hause wie zu Hause wie zu Hause. +1 Timeshard von Deliveries, Chores & Bounties im Kapitel Winde des Wandels.",
+  "description.hammock": "Schwinge dich sanft im Wind und gönne dir eine wohlverdiente Pause. +1 Timeshard durch Lieferungen, Aufgaben und Kopfgelder im Kapitel Winde des Wandels."
 }
