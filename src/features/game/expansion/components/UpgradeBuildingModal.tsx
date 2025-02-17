@@ -45,6 +45,7 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   show,
 }) => {
   const { gameService } = useContext(Context);
+
   const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
 
@@ -53,17 +54,21 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   const requirements = BUILDING_UPGRADES[buildingName][nextLevel];
 
   const upgrade = () => {
+    // Implement the upgrade logic here
     gameService.send("building.upgraded", {
       buildingType: buildingName,
     });
+
     onClose();
   };
 
   const hasRequirements = () => {
+    // Check if player has enough coins
     if (state.coins < requirements.coins) {
       return false;
     }
 
+    // Check if player has enough items
     return getKeys(requirements.items).every((itemName) => {
       const requiredAmount = requirements.items[itemName] ?? new Decimal(0);
       const playerAmount = state.inventory[itemName] ?? new Decimal(0);
@@ -155,7 +160,6 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 }
               />
             </div>
-
             <div className="flex flex-col items-start w-full mt-2">
               <Label
                 type="default"
@@ -186,7 +190,6 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 </div>
               </InnerPanel>
             </div>
-
             <div className="flex flex-wrap justify-between">
               <Label
                 type="default"
@@ -204,7 +207,6 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 {upgradeMessage}
               </Label>
             </div>
-
             <Button
               className="mt-2"
               onClick={upgrade}
