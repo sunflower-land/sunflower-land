@@ -14,6 +14,7 @@ import {
   Buildings,
   InventoryItemName,
   AnimalBuildingKey,
+  BuildingProduct,
 } from "features/game/types/game";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
@@ -122,11 +123,23 @@ function useInstantGratification({
 
     const currentlyCooking = buildingRecipes
       .sort((a, b) => b.readyAt - a.readyAt)
-      .find((recipe) => recipe.readyAt > createdAt);
+      .reduce<BuildingProduct | null>((closest, recipe) => {
+        if (recipe.readyAt <= createdAt) return closest;
+        if (!closest) return recipe;
+        return Math.abs(recipe.readyAt - createdAt) <
+          Math.abs(closest.readyAt - createdAt)
+          ? recipe
+          : closest;
+      }, null);
+    const timeSkipped = (currentlyCooking?.readyAt ?? 0) - createdAt;
 
-    if (currentlyCooking) {
-      currentlyCooking.readyAt = createdAt;
-    }
+    buildingRecipes.forEach((recipe) => {
+      if (recipe === currentlyCooking) {
+        recipe.readyAt = createdAt;
+      } else {
+        recipe.readyAt -= timeSkipped;
+      }
+    });
   });
 
   return buildings;
