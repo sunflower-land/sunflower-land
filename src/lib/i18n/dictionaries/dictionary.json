@@ -3664,6 +3664,8 @@
   "worm.redWiggler": "An exotic worm that entices rare fish.",
   "restrictionReason.isGrowing": "{{item}} is growing",
   "restrictionReason.hasBonusAnimals": "Bonus animals in {{building}}",
+  "restrictionReason.hasBonusAnimals.barn": "barn",
+  "restrictionReason.hasBonusAnimals.henHouse": "hen house",
   "restrictionReason.beanPlanted": "Magic Bean is planted",
   "restrictionReason.cropsGrowing": "Crops are growing",
   "restrictionReason.?cropGrowing": "{{crop}} is growing",

@@ -480,7 +480,15 @@ function hasBonusAnimals(game: GameState, animalType: AnimalType): Restriction {
 
   const bonusAnimalCount = animalCount - baseCapacity;
 
-  return [bonusAnimalCount > 0, translate("restrictionReason.hasBonusAnimals")];
+  return [
+    bonusAnimalCount > 0,
+    translate("restrictionReason.hasBonusAnimals", {
+      building:
+        animalType === "Chicken"
+          ? translate("restrictionReason.hasBonusAnimals.henHouse")
+          : translate("restrictionReason.hasBonusAnimals.barn"),
+    }),
+  ];
 }
 
 export function isCookingBuildingWorking(
