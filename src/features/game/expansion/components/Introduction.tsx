@@ -25,35 +25,6 @@ export const Introduction: React.FC = () => {
   return (
     <Modal show={gameState.matches("introduction")}>
       {!showChallengesIntro && (
-        <Panel bumpkinParts={NPC_WEARABLES["richie"]}>
-          <div className="h-32 flex flex-col ">
-            <Label type={"default"}>{`Richie`}</Label>
-            {/* <Content /> */}
-            <SpeakingText
-              onClose={() => {
-                acknowledgeIntroduction();
-                send("ACKNOWLEDGE");
-
-                gameAnalytics.trackMilestone({
-                  event: "Tutorial:Intro:Completed",
-                });
-              }}
-              message={[
-                {
-                  text: t("richie.intro.one"),
-                },
-                {
-                  text: t("richie.intro.two"),
-                },
-                {
-                  text: t("richie.intro.three"),
-                },
-              ]}
-            />
-          </div>
-        </Panel>
-      )}
-      {!showChallengesIntro && (
         <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
           <div className="h-32 flex flex-col ">
             <Label type={"default"}>{`Pumpkin' Pete`}</Label>
