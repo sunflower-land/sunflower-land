@@ -115,11 +115,11 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   const getUpgradeMessage = () => {
     if (buildingName === "Water Well") {
       if (nextLevel === 4) {
-        return "Unlocks all plot fertility";
+        return t("upgrade.unlockAllPlots");
       }
-      return `+${nextLevelFertility} plot fertility`;
+      return t("upgrade.plusPlotFertility", { amount: nextLevelFertility });
     }
-    return `+${capacityIncrease} ${t("capacity")}`;
+    return t("upgrade.capacityIncrease", { amount: capacityIncrease });
   };
 
   const upgradeMessage = getUpgradeMessage();
@@ -159,17 +159,18 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 {t("upgrade.building", { building: buildingName })}
               </Label>
               <InlineDialogue
-                message={
+                message={t(
                   buildingName === "Water Well"
-                    ? `Hey there Bumpkin! Looking to upgrade your ${buildingName} to increase fertility of your plots?`
-                    : t("upgrade.intro", {
-                        building: buildingName,
-                        animals:
-                          buildingName === "Barn"
-                            ? "sheep and cows"
-                            : "chickens",
-                      })
-                }
+                    ? "upgrade.intro.water.well"
+                    : "upgrade.intro",
+                  {
+                    building: buildingName,
+                    animals:
+                      buildingName === "Barn"
+                        ? t("upgrade.sheep.cows")
+                        : t("upgrade.chickens"),
+                  },
+                )}
               />
             </div>
             <div className="flex flex-col items-start w-full mt-2">

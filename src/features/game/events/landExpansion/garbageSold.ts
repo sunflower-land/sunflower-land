@@ -24,7 +24,7 @@ export const isCollectible = (
   item: InventoryItemName | BumpkinItem,
 ): item is InventoryItemName => item in KNOWN_IDS;
 
-export const getItemCount = (item: GarbageName, state: GameState) => {
+export const getItemCount = (item: GarbageName, state: GameState): Decimal => {
   const { inventory, wardrobe } = state;
   let count: number | Decimal;
 
@@ -43,7 +43,7 @@ export const getItemCount = (item: GarbageName, state: GameState) => {
   // Handle item limits
   const sellLimit = GARBAGE[item].limit;
   if (!sellLimit) {
-    return count;
+    return new Decimal(count);
   }
 
   if (isCollectible(item) && isChestItem) {

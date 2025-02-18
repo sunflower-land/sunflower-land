@@ -20,7 +20,10 @@ import {
   CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BuildingName,
+  BUILDINGS_DIMENSIONS,
+} from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 import { isBudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
@@ -31,7 +34,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IslandType, TemperateSeasonName } from "features/game/types/game";
 import {
-  BUILDING_UPGRADES,
+  isBuildingUpgradable,
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
@@ -151,12 +154,11 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const island = gameState.context.state.island.type;
   const season = gameState.context.state.season.season;
-  const buildingLevel =
-    placeable in BUILDING_UPGRADES
-      ? gameState.context.state[
-          makeUpgradableBuildingKey(placeable as UpgradableBuildingType)
-        ].level
-      : undefined;
+  const buildingLevel = isBuildingUpgradable(placeable as BuildingName)
+    ? gameState.context.state[
+        makeUpgradableBuildingKey(placeable as UpgradableBuildingType)
+      ].level
+    : undefined;
 
   const getPlaceableImage = (
     placeable: LandscapingPlaceable,
