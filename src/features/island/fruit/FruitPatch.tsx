@@ -54,6 +54,18 @@ const HasAxes = (
   return (inventory.Axe ?? new Decimal(0)).gte(axesNeeded);
 };
 
+//Update inventory selector if player buys fruit seeds
+const HasFruitSeeds = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+) => {
+  return Object.fromEntries(
+    Object.keys(PATCH_FRUIT_SEEDS).map((seed) => [
+      seed,
+      inventory[seed as PatchFruitSeedName] ?? new Decimal(0),
+    ]),
+  );
+};
+
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectGame = (state: MachineState) => state.context.state;
 const compareFruit = (prev?: Patch, next?: Patch) =>
@@ -92,7 +104,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const inventory = useSelector(
     gameService,
     selectInventory,
-    (prev, next) => HasAxes(prev, game, fruit) === HasAxes(next, game, fruit),
+    (prev, next) =>
+      HasAxes(prev, game, fruit) === HasAxes(next, game, fruit) &&
+      JSON.stringify(HasFruitSeeds(prev)) ===
+        JSON.stringify(HasFruitSeeds(next)),
   );
   const island = useSelector(gameService, _island);
 
