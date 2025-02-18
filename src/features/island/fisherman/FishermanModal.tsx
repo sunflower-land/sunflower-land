@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
@@ -36,7 +36,6 @@ import Decimal from "decimal.js-light";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
-import { gameAnalytics } from "lib/gameAnalytics";
 import { getRemainingReels } from "features/game/events/landExpansion/castRod";
 import { BuffLabel } from "features/game/types";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
@@ -54,6 +53,8 @@ import {
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { MachineState } from "features/game/lib/gameMachine";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -77,10 +78,10 @@ const ChumSelection: React.FC<{
   bait: FishingBait;
   onList: (item: Chum) => void;
   onCancel: () => void;
-  initial?: Chum;
-}> = ({ state, bait, onList, onCancel, initial }) => {
+  initialChum?: Chum;
+}> = ({ state, bait, onList, onCancel, initialChum }) => {
   const { t } = useAppTranslation();
-  const [selected, setSelected] = useState<Chum | undefined>(initial);
+  const [selected, setSelected] = useState<Chum | undefined>(initialChum);
   const select = (name: Chum) => {
     setSelected(name);
   };
@@ -164,14 +165,8 @@ const BAIT: FishingBait[] = [
 const BaitSelection: React.FC<{
   onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
   onClickBuy: () => void;
-}> = ({ onCast, onClickBuy }) => {
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
+  state: GameState;
+}> = ({ onCast, onClickBuy, state }) => {
   const items = {
     ...getBasketItems(state.inventory),
     ...getChestItems(state),
@@ -209,7 +204,7 @@ const BaitSelection: React.FC<{
           bait={bait}
           state={state}
           onCancel={() => setShowChum(false)}
-          initial={chum}
+          initialChum={chum}
           onList={(selected) => {
             setChum(selected);
             localStorage.setItem("lastSelectedChum", selected);
@@ -384,21 +379,16 @@ interface Props {
   onClose: () => void;
   npc?: NPCName;
 }
-
+const _state = (state: MachineState) => state.context.state;
 export const FishermanModal: React.FC<Props> = ({
   onCast,
   onClose,
   npc = "reelin roy",
 }) => {
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
   const [showIntro, setShowIntro] = React.useState(!hasRead());
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const dailyFishingCount = getDailyFishingCount(state);
 
@@ -411,6 +401,18 @@ export const FishermanModal: React.FC<Props> = ({
   );
 
   const [tab, setTab] = useState(0);
+  const gemPrice = getReelGemPrice({ state });
+  const confirmBuyMoreReels = () => {
+    setTab(0);
+    gameService.send("fishing.reelsBought");
+
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gemPrice,
+      item: "FishingReels",
+      type: "Fee",
+    });
+  };
   if (showIntro) {
     return (
       <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
@@ -494,7 +496,11 @@ export const FishermanModal: React.FC<Props> = ({
       container={OuterPanel}
     >
       {tab === 0 && (
-        <BaitSelection onCast={onCast} onClickBuy={() => setTab(2)} />
+        <BaitSelection
+          onCast={onCast}
+          onClickBuy={() => setTab(2)}
+          state={state}
+        />
       )}
 
       {tab === 1 && (
@@ -504,7 +510,11 @@ export const FishermanModal: React.FC<Props> = ({
       )}
       {tab === 2 && (
         <InnerPanel>
-          <FishermanExtras onBuy={() => setTab(0)} />
+          <FishermanExtras
+            state={state}
+            confirmBuyMoreReels={confirmBuyMoreReels}
+            gemPrice={gemPrice}
+          />
         </InnerPanel>
       )}
     </CloseButtonPanel>
@@ -611,29 +621,15 @@ const getItemIcon = (
   }
 };
 
-const FishermanExtras: React.FC<{ onBuy: () => void }> = ({ onBuy }) => {
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+const FishermanExtras: React.FC<{
+  state: GameState;
+  confirmBuyMoreReels: () => void;
+  gemPrice: number;
+}> = ({ state, confirmBuyMoreReels, gemPrice }) => {
   const { t } = useAppTranslation();
   const [showConfirm, setShowConfirm] = useState(false);
   const { inventory } = state;
-  const gemPrice = getReelGemPrice({ state });
   const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(gemPrice);
-  const confirmBuyMoreReels = () => {
-    onBuy();
-    gameService.send("fishing.reelsBought");
-
-    gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: gemPrice,
-      item: "FishingReels",
-      type: "Fee",
-    });
-  };
 
   const reelsLeft = getRemainingReels(state);
   return (

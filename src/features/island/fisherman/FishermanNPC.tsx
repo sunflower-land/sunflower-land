@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
@@ -72,8 +73,7 @@ interface Props {
 
 const _canFish = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 5;
-const _fishing = (state: MachineState) => state.context.state.fishing;
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+const _state = (state: MachineState) => state.context.state;
 
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { t } = useAppTranslation();
@@ -87,15 +87,10 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const [challengeDifficulty, setChallengeDifficulty] = useState(1);
 
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
-  const fishing = useSelector(gameService, _fishing);
-  const farmActivity = useSelector(gameService, _farmActivity);
+  const state = useSelector(gameService, _state);
   const canFish = useSelector(gameService, _canFish);
+
+  const { fishing, farmActivity } = state;
 
   // Catches cases where players try reset their fishing challenge
   useEffect(() => {
