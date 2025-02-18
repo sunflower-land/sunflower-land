@@ -88,12 +88,19 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
 
   const nextLevelFertility = nextSupportedPlots - currentSupportedPlots;
 
-  const buildingIcon =
-    buildingName === "Hen House"
-      ? HEN_HOUSE_VARIANTS[state.season.season][nextLevel]
-      : buildingName === "Water Well"
-        ? WATER_WELL_VARIANTS[state.season.season][nextLevel]
-        : BARN_IMAGES[state.island.type][state.season.season][nextLevel];
+  const getBuildingIcon = () => {
+    if (buildingName === "Hen House") {
+      return HEN_HOUSE_VARIANTS[state.season.season][nextLevel];
+    }
+
+    if (buildingName === "Water Well") {
+      return WATER_WELL_VARIANTS[state.season.season][nextLevel];
+    }
+
+    return BARN_IMAGES[state.island.type][state.season.season][nextLevel];
+  };
+
+  const buildingIcon = getBuildingIcon();
 
   const hasChickenCoopBonus =
     buildingName === "Hen House" &&
@@ -105,12 +112,17 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
 
   const capacityIncrease = hasChickenCoopBonus || hasBarnBonus ? 10 : 5;
 
-  const upgradeMessage =
-    buildingName === "Water Well"
-      ? nextLevel === 4
-        ? "Unlocks all plot fertility"
-        : `+${nextLevelFertility} plot fertility`
-      : `+${capacityIncrease} ${t("capacity")}`;
+  const getUpgradeMessage = () => {
+    if (buildingName === "Water Well") {
+      if (nextLevel === 4) {
+        return "Unlocks all plot fertility";
+      }
+      return `+${nextLevelFertility} plot fertility`;
+    }
+    return `+${capacityIncrease} ${t("capacity")}`;
+  };
+
+  const upgradeMessage = getUpgradeMessage();
 
   return (
     <Modal show={show} onHide={onClose}>

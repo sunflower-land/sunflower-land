@@ -55,7 +55,7 @@ import {
 } from "../events/landExpansion/discoverRecipe";
 import { RecipeStack } from "features/island/recipes/RecipeStack";
 import {
-  BUILDING_UPGRADES,
+  isBuildingUpgradable,
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
 } from "../events/landExpansion/upgradeBuilding";
@@ -195,6 +195,16 @@ const getIslandElements = ({
             name as UpgradableBuildingType,
           );
 
+          const readyAt =
+            !!isBuildingUpgradable(name) && !!game[buildingKey].upgradeReadyAt
+              ? game[buildingKey].upgradeReadyAt
+              : building.readyAt;
+
+          const upgradedAt =
+            !!isBuildingUpgradable(name) && !!game[buildingKey].upgradedAt
+              ? game[buildingKey].upgradedAt
+              : building.createdAt;
+
           return (
             <MapPlacement
               key={`building-${nameIndex}-${itemIndex}`}
@@ -207,16 +217,8 @@ const getIslandElements = ({
                 name={name}
                 id={building.id}
                 index={itemIndex}
-                readyAt={
-                  name in BUILDING_UPGRADES && game[buildingKey].upgradeReadyAt
-                    ? game[buildingKey].upgradeReadyAt
-                    : building.readyAt
-                }
-                createdAt={
-                  name in BUILDING_UPGRADES && game[buildingKey].upgradedAt
-                    ? game[buildingKey].upgradedAt
-                    : building.createdAt
-                }
+                readyAt={readyAt}
+                createdAt={upgradedAt}
                 showTimers={showTimers}
                 x={x}
                 y={y}

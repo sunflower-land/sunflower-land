@@ -32,6 +32,10 @@ type BuildingUpgradeCost = {
   upgradeTime?: number;
 };
 
+export const isBuildingUpgradable = (
+  name: BuildingName,
+): name is UpgradableBuildingType => name in BUILDING_UPGRADES;
+
 export const BUILDING_UPGRADES: Record<
   UpgradableBuildingType,
   Record<number, BuildingUpgradeCost>
