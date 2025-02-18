@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
@@ -26,7 +26,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingCount } from "features/game/types/fishing";
-import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
@@ -54,6 +53,7 @@ import {
 } from "features/bumpkins/components/revamp/SkillBox";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -227,22 +227,20 @@ const BaitSelection: React.FC<{
     !isWearableActive({ name: "Ancient Rod", game: state }) &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
-  const { weather } = state.fishing;
-
   return (
     <>
       <InnerPanel>
         <div className="p-2">
           <div className="flex items-center justify-between flex-wrap gap-1">
             <div className="flex items-center gap-1">
-              {weather === "Fish Frenzy" && (
+              {isFishFrenzy(state) && (
                 <Label icon={lightning} type="vibrant">
-                  {weather}
+                  {t("calendar.events.fishFrenzy.title")}
                 </Label>
               )}
-              {weather === "Full Moon" && (
+              {isFullMoon(state) && (
                 <Label icon={fullMoon} type="vibrant">
-                  {weather}
+                  {t("calendar.events.fullMoon.title")}
                 </Label>
               )}
             </div>
@@ -387,16 +385,12 @@ interface Props {
   npc?: NPCName;
 }
 
-const currentWeather = (state: MachineState) =>
-  state.context.state.fishing.weather;
-
 export const FishermanModal: React.FC<Props> = ({
   onCast,
   onClose,
   npc = "reelin roy",
 }) => {
   const { gameService } = useContext(Context);
-  const weather = useSelector(gameService, currentWeather);
   const { t } = useAppTranslation();
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 
@@ -405,14 +399,15 @@ export const FishermanModal: React.FC<Props> = ({
       context: { state },
     },
   ] = useActor(gameService);
+
   const dailyFishingCount = getDailyFishingCount(state);
 
   const [showFishFrenzy, setShowFishFrenzy] = React.useState(
-    weather === "Fish Frenzy" && dailyFishingCount === 0,
+    isFishFrenzy(state) && dailyFishingCount === 0,
   );
 
   const [showFullMoon, setShowFullMoon] = React.useState(
-    weather === "Full Moon" && dailyFishingCount === 0,
+    isFullMoon(state) && dailyFishingCount === 0,
   );
 
   const [tab, setTab] = useState(0);

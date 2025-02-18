@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
@@ -27,6 +27,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
+import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -86,6 +87,12 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const [challengeDifficulty, setChallengeDifficulty] = useState(1);
 
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
   const fishing = useSelector(gameService, _fishing);
   const farmActivity = useSelector(gameService, _farmActivity);
   const canFish = useSelector(gameService, _canFish);
@@ -262,7 +269,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
         {!showReelLabel && canFish && (
           <>
-            {fishing.weather === "Fish Frenzy" && (
+            {isFishFrenzy(state) && (
               <img
                 src={lightning}
                 style={{
@@ -275,7 +282,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
                 className="absolute pointer-events-none"
               />
             )}
-            {fishing.weather === "Full Moon" && (
+            {isFullMoon(state) && (
               <img
                 src={fullMoon}
                 style={{
