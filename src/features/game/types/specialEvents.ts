@@ -6,7 +6,11 @@ export type SpecialEventName =
   | "One Planet Popper"
   | "Gas Hero"
   | "Easter"
-  | "La Tomatina";
+  | "La Tomatina"
+  | "Ronin Platinum Pack"
+  | "Ronin Gold Pack"
+  | "Ronin Silver Pack"
+  | "Ronin Bronze Pack";
 
 export type Task = {
   requirements: {
