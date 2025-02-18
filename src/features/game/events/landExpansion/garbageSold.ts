@@ -25,25 +25,41 @@ export const isCollectible = (
 ): item is InventoryItemName => item in KNOWN_IDS;
 
 export const getItemCount = (item: GarbageName, state: GameState) => {
-  let count: number | Decimal;
   const { inventory, wardrobe } = state;
+  let count: number | Decimal;
+
+  // Get initial count based on item type
+  const isChestItem =
+    item === "Water Well" || item === "Hen House" || item === "Tent";
 
   if (!isCollectible(item)) {
     count = availableWardrobe(state)[item] ?? 0;
-  } else if (item === "Water Well" || item === "Hen House" || item === "Tent") {
+  } else if (isChestItem) {
     count = getChestItems(state)[item] ?? new Decimal(0);
   } else {
     count = inventory[item] ?? new Decimal(0);
   }
 
-  // If item has a limit, subtract 1 from the count (player should have at least 1 in inventory at all times)
-  if (GARBAGE[item].limit) {
-    if (isCollectible(item)) {
-      if (inventory[item]?.minus(1).lte(0)) count = new Decimal(count).minus(1);
-    } else {
-      if (wardrobe[item] && wardrobe[item] - 1 <= 0)
-        count = new Decimal(count).minus(1);
-    }
+  // Handle item limits
+  const sellLimit = GARBAGE[item].limit;
+  if (!sellLimit) {
+    return count;
+  }
+
+  if (isCollectible(item) && isChestItem) {
+    const inventoryAmount = inventory[item]?.toNumber() ?? 0;
+    if (inventoryAmount <= 1) return new Decimal(0);
+
+    const unplacedAmount = getChestItems(state)[item]?.toNumber() ?? 0;
+    count = Math.min(unplacedAmount, sellLimit);
+  }
+
+  if (!isCollectible(item)) {
+    const wardrobeAmount = wardrobe[item] ?? 0;
+    if (wardrobeAmount <= 1) return new Decimal(0);
+
+    const unequippedAmount = availableWardrobe(state)[item] ?? 0;
+    count = Math.min(unequippedAmount, sellLimit);
   }
 
   return new Decimal(count);
