@@ -4920,4 +4920,8 @@ export const ITEM_DETAILS: Items = {
     image: rhubarbTart,
     description: translate("description.rhubarb.tart"),
   },
+  Jin: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
 };
