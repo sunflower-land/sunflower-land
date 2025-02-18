@@ -4375,8 +4375,6 @@
   "statements.tutorial.two": "Многие земли находятся далеко, и для того, чтобы их посетить, тебе понадобится опытный бампкин.",
   "statements.visit.firePit": "На Fire Pit можно быстро приготовит еду для Бампкина.",
   "statements.wallet.to.inventory.transfer": "Перенеси предметы из кошелька",
-  "statements.water.well.needed.one": "Требуется дополнительный колодец.",
-  "statements.water.well.needed.two": "Чтобы вырастить больше урожая, нужен колодец.",
   "statements.wishing.well.info.five": " в игре",
   "statements.wishing.well.info.four": "обеспеч ликвидность",
   "statements.wishing.well.info.six": "предоставление ликвидности",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "Список слева",
   "reputation.marketplace.listingsLeft": "Осталось объявлений",
   "reputation.cropkeeper.trades": "Неограниченное количество списков и предложений",
-  "reputation.cropkeeper.offers": "Делайте и принимайте предложения"
+  "reputation.cropkeeper.offers": "Делайте и принимайте предложения",
+  "statements.water.well.needed.one": "Постройте колодец для выращивания большего количества сельскохозяйственных культур",
+  "statements.water.well.needed.two": "Чтобы выращивать больше урожаев, постройте колодец.",
+  "statements.water.well.needed.three": "Хорошо поливайте водой, чтобы выращивать больше урожаев",
+  "statements.upgrade.water.well": "Модернизируйте колодец для выращивания большего количества сельскохозяйственных культур",
+  "upgrade.intro.water.well": "Привет, Бампкин! Хотите улучшить свои {{building}}, чтобы повысить плодородие своих участков?",
+  "upgrade.sheep.cows": "овцы и коровы",
+  "upgrade.chickens": "цыплята",
+  "upgrade.unlockAllPlots": "Разблокирует все возможности сюжета",
+  "upgrade.plusPlotFertility": "+ {{amount}} плодородие участка",
+  "upgrade.capacityIncrease": "+ {{amount}} вместимость"
 }

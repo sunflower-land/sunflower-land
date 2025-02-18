@@ -3012,8 +3012,6 @@
   "statements.chest.captcha": "Ketik dada untuk membukanya",
   "statements.frankie.plaza": "Pergi ke plaza untuk membuat hiasan langka!",
   "statements.blacksmith.plaza": "Pergi ke Plaza untuk barangan yang lebih jarang berlaku.",
-  "statements.water.well.needed.one": "Telaga Air Tambahan diperlukan.",
-  "statements.water.well.needed.two": "Untuk menyokong lebih banyak tanaman, bina telaga.",
   "statements.soldOut": "habis dijual",
   "statements.soldOutWearables": "Lihat barang pakai yang habis terjual",
   "statements.craft.composter": "Kraf dan Komposter",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "Penyenaraian kiri",
   "reputation.marketplace.listingsLeft": "Penyenaraian yang tinggal",
   "reputation.cropkeeper.trades": "Senarai & Tawaran Tanpa Had",
-  "reputation.cropkeeper.offers": "Buat & Terima Tawaran"
+  "reputation.cropkeeper.offers": "Buat & Terima Tawaran",
+  "statements.water.well.needed.one": "Membina sumur air untuk menyokong lebih banyak tanaman",
+  "statements.water.well.needed.two": "Untuk menyokong lebih banyak tanaman, bina telaga anda.",
+  "statements.water.well.needed.three": "Letakkan air dengan baik untuk menyokong lebih banyak tanaman",
+  "statements.upgrade.water.well": "Tingkatkan Telaga Air untuk menyokong lebih banyak tanaman",
+  "upgrade.intro.water.well": "Hei Bumpkin! Ingin menaik taraf {{building}} anda untuk meningkatkan kesuburan plot anda?",
+  "upgrade.sheep.cows": "domba dan lembu",
+  "upgrade.chickens": "ayam",
+  "upgrade.unlockAllPlots": "Membuka kunci semua kesuburan plot",
+  "upgrade.plusPlotFertility": "+ {{amount}} plot kesuburan",
+  "upgrade.capacityIncrease": "+ {{amount}} kapasiti"
 }

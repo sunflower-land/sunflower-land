@@ -3012,8 +3012,6 @@
   "statements.chest.captcha": "チェストをタップして開きます",
   "statements.frankie.plaza": "広場に行って珍しいデコレーションを作ろう！",
   "statements.blacksmith.plaza": "プラザに行って、もっとレアなアイテムを手に入れよう。",
-  "statements.water.well.needed.one": "追加の井戸が必要です。",
-  "statements.water.well.needed.two": "より多くの作物を育てるには、井戸を建設してください。",
   "statements.soldOut": "売り切れ",
   "statements.soldOutWearables": "完売したウェアラブルを見る",
   "statements.craft.composter": "クラフト＆コンポスター",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "リスト左",
   "reputation.marketplace.listingsLeft": "リストは残っています",
   "reputation.cropkeeper.trades": "無制限のリストとオファー",
-  "reputation.cropkeeper.offers": "オファーの作成と承認"
+  "reputation.cropkeeper.offers": "オファーの作成と承認",
+  "statements.water.well.needed.one": "より多くの作物を養うために井戸を作ろう",
+  "statements.water.well.needed.two": "より多くの作物を育てるには、井戸を建ててください。",
+  "statements.water.well.needed.three": "より多くの作物を支えるために井戸を設置してください",
+  "statements.upgrade.water.well": "ウォーターウェルをアップグレードして、より多くの作物を育てよう",
+  "upgrade.intro.water.well": "やあ、バンプキン！{{building}} をアップグレードして、区画の肥沃度を高めたいとお考えですか？",
+  "upgrade.sheep.cows": "羊と牛",
+  "upgrade.chickens": "鶏",
+  "upgrade.unlockAllPlots": "すべてのプロットの肥沃度をアンロックする",
+  "upgrade.plusPlotFertility": "+ {{amount}} プロットの肥沃度",
+  "upgrade.capacityIncrease": "+ {{amount}} キャパシティ"
 }

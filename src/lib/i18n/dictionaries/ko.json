@@ -3009,8 +3009,6 @@
   "statements.chest.captcha": "상자를 탭하여 엽니다.",
   "statements.frankie.plaza": "광장으로 가서 희귀한 장식을 만드세요!",
   "statements.blacksmith.plaza": "플라자로 가서 더 희귀한 아이템을 찾아보세요.",
-  "statements.water.well.needed.one": "추가 우물이 필요합니다.",
-  "statements.water.well.needed.two": "더 많은 농작물을 지원하려면 우물을 건설하십시오.",
   "statements.soldOut": "매진",
   "statements.soldOutWearables": "품절된 웨어러블 보기",
   "statements.craft.composter": "크래프트 앳 컴포스터",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "목록 왼쪽",
   "reputation.marketplace.listingsLeft": "리스팅 남음",
   "reputation.cropkeeper.trades": "무제한 리스팅 및 오퍼",
-  "reputation.cropkeeper.offers": "제안 작성 및 수락"
+  "reputation.cropkeeper.offers": "제안 작성 및 수락",
+  "statements.water.well.needed.one": "우물을 만들어 더 많은 농작물을 재배하세요",
+  "statements.water.well.needed.two": "더 많은 농작물을 재배하려면 우물을 건설하십시오.",
+  "statements.water.well.needed.three": "더 많은 작물을 재배할 수 있도록 물을 잘 주어야 합니다.",
+  "statements.upgrade.water.well": "Water Well을 업그레이드하여 더 많은 작물을 지원하세요",
+  "upgrade.intro.water.well": "안녕하세요 범프킨!{{building}} 를 업그레이드하여 토지의 비옥도를 높이고 싶으신가요?",
+  "upgrade.sheep.cows": "양 및 소",
+  "upgrade.chickens": "닭",
+  "upgrade.unlockAllPlots": "모든 플롯 비옥도 잠금 해제",
+  "upgrade.plusPlotFertility": "+ {{amount}} 플롯 비옥도",
+  "upgrade.capacityIncrease": "+ {{amount}} 용량"
 }

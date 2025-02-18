@@ -2131,8 +2131,6 @@
   "statements.chest.captcha": "Appuyez sur le coffre pour l'ouvrir",
   "statements.frankie.plaza": "Rendez-vous à la place pour fabriquer des décorations rares!",
   "statements.blacksmith.plaza": "Rendez-vous à la Plaza pour plus d'objets rares.",
-  "statements.water.well.needed.one": "Un puits d'eau supplémentaire est nécessaire.",
-  "statements.water.well.needed.two": "Pour soutenir davantage de cultures, construisez un puits.",
   "statements.soldOut": "Épuisé",
   "statements.soldOutWearables": "Voir les articles épuisés",
   "statements.craft.composter": "Fabriquez au composteur",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "Annonce laissée",
   "reputation.marketplace.listingsLeft": "Annonces laissées",
   "reputation.cropkeeper.trades": "Annonces et offres illimitées",
-  "reputation.cropkeeper.offers": "Faire et accepter des offres"
+  "reputation.cropkeeper.offers": "Faire et accepter des offres",
+  "statements.water.well.needed.one": "Construire un puits d'eau pour soutenir davantage de cultures",
+  "statements.water.well.needed.two": "Afin de soutenir davantage de cultures, construisez votre puits.",
+  "statements.water.well.needed.three": "Placer un puits d'eau pour soutenir davantage de cultures",
+  "statements.upgrade.water.well": "Moderniser le puits d'eau pour soutenir davantage de cultures",
+  "upgrade.intro.water.well": "Salut Bumpkin ! Vous souhaitez améliorer votre {{building}} pour augmenter la fertilité de vos parcelles ?",
+  "upgrade.sheep.cows": "moutons et vaches",
+  "upgrade.chickens": "poulets",
+  "upgrade.unlockAllPlots": "Débloque la fertilité de toutes les intrigues",
+  "upgrade.plusPlotFertility": "+ {{amount}} fertilité du graphique",
+  "upgrade.capacityIncrease": "+ {{amount}} capacité"
 }

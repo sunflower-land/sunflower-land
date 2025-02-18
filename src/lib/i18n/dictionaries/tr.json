@@ -2126,8 +2126,6 @@
   "statements.chest.captcha": "Açmak için sandığa dokunun",
   "statements.frankie.plaza": "Nadir dekorasyonlar yapmak için plazaya seyahat edin!",
   "statements.blacksmith.plaza": "Daha nadir eşyalar için Plaza'ya gidin.",
-  "statements.water.well.needed.one": "Ek Su Kuyusu gereklidir.",
-  "statements.water.well.needed.two": "Daha fazla mahsulü desteklemek için bir kuyu inşa edin.",
   "statements.soldOut": "Hepsi satıldı",
   "statements.soldOutWearables": "Tükenen giyilebilir ürünleri görüntüle",
   "statements.craft.composter": "Composter'da üret",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "İlan bırakıldı",
   "reputation.marketplace.listingsLeft": "Kalan listeler",
   "reputation.cropkeeper.trades": "Sınırsız İlanlar ve Teklifler",
-  "reputation.cropkeeper.offers": "Teklifler Yap ve Kabul Et"
+  "reputation.cropkeeper.offers": "Teklifler Yap ve Kabul Et",
+  "statements.water.well.needed.one": "Daha fazla mahsulü desteklemek için su kuyusu inşa edin",
+  "statements.water.well.needed.two": "Daha fazla mahsulü desteklemek için kuyunuzu inşa edin.",
+  "statements.water.well.needed.three": "Daha fazla mahsulü desteklemek için su kuyusu yerleştirin",
+  "statements.upgrade.water.well": "Daha fazla mahsulü desteklemek için Su Kuyusunu Yükseltin",
+  "upgrade.intro.water.well": "Selamlar Bumpkin! Parsellerinizin verimliliğini artırmak için {{building}} 'nizi yükseltmek mi istiyorsunuz?",
+  "upgrade.sheep.cows": "koyun ve inekler",
+  "upgrade.chickens": "tavuklar",
+  "upgrade.unlockAllPlots": "Tüm arsa verimliliğinin kilidini açar",
+  "upgrade.plusPlotFertility": "+ {{amount}} doğurganlık grafiği",
+  "upgrade.capacityIncrease": "+ {{amount}} kapasite"
 }

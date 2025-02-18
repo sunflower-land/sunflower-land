@@ -1840,8 +1840,6 @@
   "statements.visit.firePit": "访问 Fire Pit 做饭并喂你的乡包佬。",
   "statements.feed.bumpkin.two": "您需要烹饪食物来喂养您的乡包佬。",
   "statements.chest.captcha": "点击箱子将其打开",
-  "statements.water.well.needed.one": "需要增建 Water Well。",
-  "statements.water.well.needed.two": "要想滋养更多的庄稼，建造多一个 Water Well。",
   "statements.soldOut": "售罄",
   "statements.translation.joinDiscord": "加入 Discord",
   "time.second.full": "秒",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "清单左边",
   "reputation.marketplace.listingsLeft": "剩下的房源",
   "reputation.cropkeeper.trades": "无限量清单和优惠",
-  "reputation.cropkeeper.offers": "提出并接受报价"
+  "reputation.cropkeeper.offers": "提出并接受报价",
+  "statements.water.well.needed.one": "建造水井以支持更多农作物",
+  "statements.water.well.needed.two": "为了养活更多的农作物，请建造一口井。",
+  "statements.water.well.needed.three": "充分放水以支持更多农作物",
+  "statements.upgrade.water.well": "升级 Water Well 以支持更多作物",
+  "upgrade.intro.water.well": "嘿 Bumpkin！想升级你的 {{building}} 以提高地块的生育率吗？",
+  "upgrade.sheep.cows": "绵羊和奶牛",
+  "upgrade.chickens": "鸡",
+  "upgrade.unlockAllPlots": "解锁所有剧情生育能力",
+  "upgrade.plusPlotFertility": "+ {{amount}} 绘制生育率",
+  "upgrade.capacityIncrease": "+ {{amount}} 容量"
 }

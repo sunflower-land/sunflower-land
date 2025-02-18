@@ -2970,8 +2970,6 @@
   "statements.chest.captcha": "Tocca la cassa per aprirla",
   "statements.frankie.plaza": "Raggiungi la piazza per creare decorazioni rare!",
   "statements.blacksmith.plaza": "Raggiungi la Plaza per altri oggetti rari.",
-  "statements.water.well.needed.one": "È necessario un pozzo d'acqua aggiuntivo.",
-  "statements.water.well.needed.two": "Per sostenere più colture, costruisci un pozzo.",
   "statements.soldOut": "Esaurito",
   "statements.soldOutWearables": "Visualizza i dispositivi indossabili esauriti",
   "statements.craft.composter": "Craft presso Composter",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "Inserzione a sinistra",
   "reputation.marketplace.listingsLeft": "Inserzioni rimaste",
   "reputation.cropkeeper.trades": "Inserzioni e offerte illimitate",
-  "reputation.cropkeeper.offers": "Fai e accetta offerte"
+  "reputation.cropkeeper.offers": "Fai e accetta offerte",
+  "statements.water.well.needed.one": "Costruisci un pozzo d'acqua per sostenere più colture",
+  "statements.water.well.needed.two": "Per sostenere più colture, costruisci il tuo pozzo.",
+  "statements.water.well.needed.three": "Posiziona bene l'acqua per sostenere più colture",
+  "statements.upgrade.water.well": "Aggiorna Water Well per sostenere più colture",
+  "upgrade.intro.water.well": "Ehi, Bumpkin! Volete migliorare il vostro {{building}} per aumentare la fertilità dei vostri appezzamenti?",
+  "upgrade.sheep.cows": "pecore e mucche",
+  "upgrade.chickens": "polli",
+  "upgrade.unlockAllPlots": "Sblocca tutta la fertilità del terreno",
+  "upgrade.plusPlotFertility": "+ {{amount}} fertilità del grafico",
+  "upgrade.capacityIncrease": "+ {{amount}} capacità"
 }

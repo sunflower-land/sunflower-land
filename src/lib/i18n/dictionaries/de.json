@@ -3006,8 +3006,6 @@
   "statements.chest.captcha": "Tippe auf die Truhe, um sie zu öffnen",
   "statements.frankie.plaza": "Reise zum Platz, um seltene Dekorationen herzustellen!",
   "statements.blacksmith.plaza": "Reisen Sie zur Plaza, um seltenere Gegenstände zu erhalten.",
-  "statements.water.well.needed.one": "Zusätzlicher Wasserbrunnen erforderlich.",
-  "statements.water.well.needed.two": "Baue einen Brunnen, um mehr Pflanzen zu ernähren.",
   "statements.soldOut": "Ausverkauft",
   "statements.soldOutWearables": "Ausverkaufte Wearables ansehen",
   "statements.craft.composter": "Basteln bei Composter",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "Angebot übrig",
   "reputation.marketplace.listingsLeft": "Verbleibende Angebote",
   "reputation.cropkeeper.trades": "Unbegrenzte Anzahl an Inseraten und Angeboten",
-  "reputation.cropkeeper.offers": "Angebote abgeben und annehmen"
+  "reputation.cropkeeper.offers": "Angebote abgeben und annehmen",
+  "statements.water.well.needed.one": "Baue einen Wasserbrunnen, um mehr Pflanzen zu unterstützen",
+  "statements.water.well.needed.two": "Baue deinen Brunnen, um mehr Pflanzen zu ernähren.",
+  "statements.water.well.needed.three": "Platzieren Sie das Wasser gut, um mehr Pflanzen zu unterstützen",
+  "statements.upgrade.water.well": "Rüste den Wasserbrunnen aus, um mehr Nutzpflanzen zu unterstützen",
+  "upgrade.intro.water.well": "Hallo Bumpkin! Sie möchten Ihre {{building}} verbessern, um die Fruchtbarkeit Ihrer Parzellen zu erhöhen?",
+  "upgrade.sheep.cows": "Schafe und Kühe",
+  "upgrade.chickens": "Hühner",
+  "upgrade.unlockAllPlots": "Schaltet die gesamte Fruchtbarkeit der Handlung frei",
+  "upgrade.plusPlotFertility": "+ {{amount}} Fruchtbarkeit des Diagramms",
+  "upgrade.capacityIncrease": "+ {{amount}} Kapazität"
 }

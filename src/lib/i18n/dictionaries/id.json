@@ -3012,8 +3012,6 @@
   "statements.chest.captcha": "Ketuk peti untuk membukanya",
   "statements.frankie.plaza": "Bepergian ke alun-alun untuk membuat dekorasi langka!",
   "statements.blacksmith.plaza": "Pergilah ke Plaza untuk barang-barang yang lebih langka.",
-  "statements.water.well.needed.one": "Sumur Air Tambahan Diperlukan.",
-  "statements.water.well.needed.two": "Untuk mendukung lebih banyak tanaman, bangun sumur.",
   "statements.soldOut": "Habis terjual",
   "statements.soldOutWearables": "Lihat perangkat wearable yang terjual habis",
   "statements.craft.composter": "Kerajinan dan Komposter",
@@ -5341,5 +5339,15 @@
   "reputation.marketplace.listingLeft": "Daftar kiri",
   "reputation.marketplace.listingsLeft": "Daftar tersisa",
   "reputation.cropkeeper.trades": "Daftar & Penawaran Tidak Terbatas",
-  "reputation.cropkeeper.offers": "Membuat & Terima Penawaran"
+  "reputation.cropkeeper.offers": "Membuat & Terima Penawaran",
+  "statements.water.well.needed.one": "Bangun sumur air untuk mendukung lebih banyak tanaman",
+  "statements.water.well.needed.two": "Untuk mendukung lebih banyak tanaman, bangun sumur Anda.",
+  "statements.water.well.needed.three": "Tempatkan sumur air untuk mendukung lebih banyak tanaman",
+  "statements.upgrade.water.well": "Tingkatkan Sumur Air untuk mendukung lebih banyak tanaman",
+  "upgrade.intro.water.well": "Hei, Bumpkin! Ingin meningkatkan {{building}} Anda untuk meningkatkan kesuburan plot Anda?",
+  "upgrade.sheep.cows": "domba dan sapi",
+  "upgrade.chickens": "ayam",
+  "upgrade.unlockAllPlots": "Membuka semua kesuburan plot",
+  "upgrade.plusPlotFertility": "+ {{amount}} plot kesuburan",
+  "upgrade.capacityIncrease": "+ {{amount}} kapasitas"
 }
