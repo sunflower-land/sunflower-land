@@ -12,14 +12,16 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
 const _island = (state: MachineState) => state.context.state.island.type;
-
+const _buildings = (state: MachineState) => state.context.state.buildings;
+const _inventory = (state: MachineState) => state.context.state.inventory;
 const NonFertilePlotComponent = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showWaterWell, setShowWaterWell] = useState(false);
 
   const island = useSelector(gameService, _island);
-
+  const buildings = useSelector(gameService, _buildings);
+  const inventory = useSelector(gameService, _inventory);
   const { t } = useAppTranslation();
   const handleHover = () => {
     setShowWaterWell(true);
@@ -30,6 +32,8 @@ const NonFertilePlotComponent = () => {
   };
 
   const soilImage = SOIL_IMAGES[island].dry;
+  const hasWaterWellPlaced = (buildings["Water Well"]?.length ?? 0) > 0;
+  const hasWaterWellInInventory = inventory["Water Well"]?.gt(0);
 
   return (
     <>
@@ -60,7 +64,15 @@ const NonFertilePlotComponent = () => {
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>{t("statements.water.well.needed.one")}</span>
+              <span>
+                {t(
+                  hasWaterWellPlaced
+                    ? "statements.upgrade.water.well"
+                    : hasWaterWellInInventory
+                      ? "statements.water.well.needed.three"
+                      : "statements.water.well.needed.one",
+                )}
+              </span>
             </div>
           </InnerPanel>
         </div>
@@ -72,7 +84,13 @@ const NonFertilePlotComponent = () => {
           onClose={() => setShowModal(false)}
         >
           <div className="p-2">
-            {t("statements.water.well.needed.two")}
+            {t(
+              hasWaterWellPlaced
+                ? "statements.upgrade.water.well"
+                : hasWaterWellInInventory
+                  ? "statements.water.well.needed.three"
+                  : "statements.water.well.needed.one",
+            )}
             <img
               src={SUNNYSIDE.building.well}
               alt="well"
