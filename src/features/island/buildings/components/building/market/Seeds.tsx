@@ -235,12 +235,7 @@ export const Seeds: React.FC = () => {
       return seconds;
     }
 
-    return getCropPlotTime({
-      crop: yields as CropName,
-      inventory,
-      game: state,
-      buds: state.buds ?? {},
-    });
+    return getCropPlotTime({ crop: yields as CropName, game: state });
   };
 
   const getHarvestCount = () => {

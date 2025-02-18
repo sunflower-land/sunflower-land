@@ -445,9 +445,14 @@ import {
   cancelQueuedRecipe,
   CancelQueuedRecipeAction,
 } from "./landExpansion/cancelQueuedRecipe";
+import {
+  speedUpUpgrade,
+  SpeedUpUpgradeAction,
+} from "./landExpansion/speedUpUpgrade";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
+  | SpeedUpUpgradeAction
   | ResourceBoughtAction
   | PurchaseVIPAction
   | SellAnimalAction
@@ -506,8 +511,6 @@ export type PlayingEvent =
   | ExpandLandAction
   | MessageRead
   | PickMushroomAction
-  // TODO - remove once landscaping is released
-  | RemoveBuildingAction
   | RemoveCollectibleAction
   | RemoveChickenAction
   | DeliverOrderAction
@@ -717,8 +720,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.expanded": expandLand,
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
-  // TODO - remove once landscaping is released
-  "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
   "order.delivered": deliverOrder,
@@ -790,6 +791,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "calendarEvent.acknowledged": acknowledgeCalendarEvent,
   "lavaPit.collected": collectLavaPit,
   "lavaPit.started": startLavaPit,
+  "upgrade.spedUp": speedUpUpgrade,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

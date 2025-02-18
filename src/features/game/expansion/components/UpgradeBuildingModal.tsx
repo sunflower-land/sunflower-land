@@ -15,19 +15,22 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import {
   BUILDING_UPGRADES,
-  AnimalBuildingLevel,
+  UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
-import { AnimalBuildingType } from "features/game/types/animals";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import powerup from "assets/icons/level_up.png";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
-import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
+import {
+  HEN_HOUSE_VARIANTS,
+  WATER_WELL_VARIANTS,
+} from "features/island/lib/alternateArt";
+import { getSupportedPlots } from "features/game/events/landExpansion/plant";
 
 interface Props {
-  buildingName: AnimalBuildingType;
-  currentLevel: AnimalBuildingLevel;
-  nextLevel: AnimalBuildingLevel;
+  buildingName: UpgradableBuildingType;
+  currentLevel: number;
+  nextLevel: number;
   show: boolean;
   onClose: () => void;
 }
@@ -73,12 +76,61 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
     });
   };
 
+  const currentSupportedPlots = getSupportedPlots({
+    wellLevel: currentLevel,
+    buildings: state.buildings,
+  });
+
+  const nextSupportedPlots = getSupportedPlots({
+    wellLevel: nextLevel,
+    buildings: state.buildings,
+  });
+
+  const nextLevelFertility = nextSupportedPlots - currentSupportedPlots;
+
+  const getBuildingIcon = () => {
+    if (buildingName === "Hen House") {
+      return HEN_HOUSE_VARIANTS[state.season.season][nextLevel];
+    }
+
+    if (buildingName === "Water Well") {
+      return WATER_WELL_VARIANTS[state.season.season][nextLevel];
+    }
+
+    return BARN_IMAGES[state.island.type][state.season.season][nextLevel];
+  };
+
+  const buildingIcon = getBuildingIcon();
+
+  const hasChickenCoopBonus =
+    buildingName === "Hen House" &&
+    isCollectibleBuilt({ name: "Chicken Coop", game: state });
+
+  const hasBarnBonus =
+    buildingName === "Barn" &&
+    isCollectibleBuilt({ name: "Barn Blueprint", game: state });
+
+  const capacityIncrease = hasChickenCoopBonus || hasBarnBonus ? 10 : 5;
+
+  const getUpgradeMessage = () => {
+    if (buildingName === "Water Well") {
+      if (nextLevel === 4) {
+        return t("upgrade.unlockAllPlots");
+      }
+      return t("upgrade.plusPlotFertility", { amount: nextLevelFertility });
+    }
+    return t("upgrade.capacityIncrease", { amount: capacityIncrease });
+  };
+
+  const upgradeMessage = getUpgradeMessage();
+
   return (
     <Modal show={show} onHide={onClose}>
       <CloseButtonPanel
         bumpkinParts={NPC_WEARABLES.blacksmith}
         onClose={onClose}
       >
+        {/* Show max level content */}
         {isMaxLevel ? (
           <div className="flex flex-col">
             <div className="p-1 mb-2">
@@ -90,14 +142,13 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 {t("max.level")}
               </Label>
               <InlineDialogue
-                message={t("building.isMaxLevel", {
-                  building: buildingName,
-                })}
+                message={t("building.isMaxLevel", { building: buildingName })}
               />
             </div>
             <Button onClick={onClose}>{t("close")}</Button>
           </div>
         ) : (
+          // If not max level, show upgrade content
           <div className="flex flex-col">
             <div className="p-1">
               <Label
@@ -108,11 +159,18 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 {t("upgrade.building", { building: buildingName })}
               </Label>
               <InlineDialogue
-                message={t("upgrade.intro", {
-                  building: buildingName,
-                  animals:
-                    buildingName === "Barn" ? "sheep and cows" : "chickens",
-                })}
+                message={t(
+                  buildingName === "Water Well"
+                    ? "upgrade.intro.water.well"
+                    : "upgrade.intro",
+                  {
+                    building: buildingName,
+                    animals:
+                      buildingName === "Barn"
+                        ? t("upgrade.sheep.cows")
+                        : t("upgrade.chickens"),
+                  },
+                )}
               />
             </div>
             <div className="flex flex-col items-start w-full mt-2">
@@ -148,13 +206,7 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
             <div className="flex flex-wrap justify-between">
               <Label
                 type="default"
-                icon={
-                  buildingName === "Hen House"
-                    ? HEN_HOUSE_VARIANTS[state.season.season][nextLevel]
-                    : BARN_IMAGES[state.island.type][state.season.season][
-                        nextLevel
-                      ]
-                }
+                icon={buildingIcon}
                 iconWidth={11}
                 className={`${buildingName === "Hen House" ? "ml-2" : "ml-1.5"} mt-2`}
               >
@@ -164,7 +216,9 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 type="success"
                 secondaryIcon={powerup}
                 className="mr-1 mt-2"
-              >{`+${buildingName === "Hen House" && isCollectibleBuilt({ name: "Chicken Coop", game: state }) ? 10 : 5} ${t("capacity")}`}</Label>
+              >
+                {upgradeMessage}
+              </Label>
             </div>
             <Button
               className="mt-2"

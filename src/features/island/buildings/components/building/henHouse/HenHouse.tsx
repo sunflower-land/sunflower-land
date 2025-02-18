@@ -11,7 +11,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { useSound } from "lib/utils/hooks/useSound";
 
 const _hasHungryChickens = (state: MachineState) => {
@@ -34,9 +33,8 @@ const _chickensNeedLove = (state: MachineState) => {
   );
 };
 
-const _buildingLevel = (state: MachineState) => {
-  return (state.context.state.henHouse.level || 1) as AnimalBuildingLevel;
-};
+const _buildingLevel = (state: MachineState) =>
+  state.context.state.henHouse.level;
 
 export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);

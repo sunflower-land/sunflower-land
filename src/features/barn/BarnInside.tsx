@@ -21,7 +21,6 @@ import {
   hasReadGuide,
 } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
@@ -60,7 +59,7 @@ export const BarnInside: React.FC = () => {
   const [deal, setDeal] = useState<AnimalBounty>();
 
   const barn = useSelector(gameService, _barn);
-  const level = barn.level as AnimalBuildingLevel;
+  const level = barn.level;
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -71,7 +70,7 @@ export const BarnInside: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
+  const nextLevel = Math.min(level + 1, 3);
 
   const {
     x: floorX,

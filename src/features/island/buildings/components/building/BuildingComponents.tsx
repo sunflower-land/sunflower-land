@@ -161,7 +161,7 @@ export const READONLY_BUILDINGS: (
     ),
     "Hen House": () => (
       <img
-        src={HEN_HOUSE_VARIANTS[season][henHouseLevel] as string}
+        src={HEN_HOUSE_VARIANTS[season][henHouseLevel]}
         className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 68}px`,

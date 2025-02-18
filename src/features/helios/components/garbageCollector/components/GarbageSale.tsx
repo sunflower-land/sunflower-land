@@ -13,13 +13,14 @@ import { GARBAGE, GarbageName } from "features/game/types/garbage";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
-import { isCollectible } from "features/game/events/landExpansion/garbageSold";
+import {
+  isCollectible,
+  getItemCount,
+} from "features/game/events/landExpansion/garbageSold";
 
 export const GarbageSale: React.FC = () => {
-  const { t } = useAppTranslation();
   const garbage = getKeys(GARBAGE).sort(
     (a, b) => GARBAGE[a].sellPrice - GARBAGE[b].sellPrice,
   );
@@ -34,24 +35,10 @@ export const GarbageSale: React.FC = () => {
     },
   ] = useActor(gameService);
 
-  const inventory = state.inventory;
-
   // Undefined if zero
   const price = selected.sellPrice || undefined;
   const gems = selected.gems || undefined;
   const items = selected.items || undefined;
-
-  const getAmount = (name: GarbageName) => {
-    const selected = GARBAGE[name];
-
-    let count = !isCollectible(name)
-      ? availableWardrobe(state)[name] ?? 0
-      : inventory[name] ?? new Decimal(0);
-    if (new Decimal(count).gte(selected.limit ?? 0)) {
-      count = new Decimal(count).minus(selected.limit ?? 0);
-    }
-    return new Decimal(count);
-  };
 
   const sell = (amount = 1) => {
     gameService.send("garbage.sold", {
@@ -72,7 +59,9 @@ export const GarbageSale: React.FC = () => {
             gems,
             items,
           }}
-          actionView={<Action amount={getAmount(selectedName)} sell={sell} />}
+          actionView={
+            <Action amount={getItemCount(selectedName, state)} sell={sell} />
+          }
         />
       }
       content={
@@ -90,7 +79,7 @@ export const GarbageSale: React.FC = () => {
                     ).href
                   : ITEM_DETAILS[name as InventoryItemName].image
               }
-              count={getAmount(name)}
+              count={getItemCount(name, state)}
             />
           ))}
         </>

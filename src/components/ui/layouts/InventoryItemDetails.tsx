@@ -17,6 +17,12 @@ import { Label } from "../Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
+import {
+  isBuildingUpgradable,
+  UpgradableBuildingType,
+} from "features/game/events/landExpansion/upgradeBuilding";
+import { makeUpgradableBuildingKey } from "features/game/events/landExpansion/upgradeBuilding";
+import { BuildingName } from "features/game/types/buildings";
 
 /**
  * The props for the details for items.
@@ -80,9 +86,14 @@ export const InventoryItemDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const getItemDetail = () => {
     const item = ITEM_DETAILS[details.item];
+    const hasLevel = isBuildingUpgradable(details.item as BuildingName)
+      ? game[makeUpgradableBuildingKey(details.item as UpgradableBuildingType)]
+          .level
+      : undefined;
     const icon =
-      ITEM_ICONS(game.island.type, game.season.season)[details.item] ??
-      item.image;
+      ITEM_ICONS(game.island.type, game.season.season, hasLevel)[
+        details.item
+      ] ?? item.image;
     const title = details.item;
 
     let description = item.description;

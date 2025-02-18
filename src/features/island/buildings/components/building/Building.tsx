@@ -34,6 +34,10 @@ import {
   getActiveCalendarEvent,
   SeasonalEventName,
 } from "features/game/types/calendar";
+import {
+  isBuildingUpgradable,
+  makeUpgradableBuildingKey,
+} from "features/game/events/landExpansion/upgradeBuilding";
 
 interface Prop {
   name: BuildingName;
@@ -56,6 +60,10 @@ export interface BuildingProps {
   island: IslandType;
   season: TemperateSeasonName;
 }
+
+const _isUpgradable = (name: BuildingName) => (state: MachineState) =>
+  isBuildingUpgradable(name) &&
+  state.context.state[makeUpgradableBuildingKey(name)].level > 1;
 
 const InProgressBuilding: React.FC<Prop> = ({
   name,
@@ -83,11 +91,14 @@ const InProgressBuilding: React.FC<Prop> = ({
     }
   }, []);
 
+  const isUpgradable = useSelector(gameService, _isUpgradable(name));
+
   const onSpeedUp = (gems: number) => {
-    gameService.send("building.spedUp", {
-      name,
-      id,
-    });
+    if (isUpgradable) {
+      gameService.send("upgrade.spedUp", { name });
+    } else {
+      gameService.send("building.spedUp", { name, id });
+    }
 
     gameAnalytics.trackSink({
       currency: "Gem",

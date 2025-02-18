@@ -439,6 +439,9 @@ export const SUNNYSIDE = {
     workbench: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/workbench.png`,
     tent: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/tent.png`,
     well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/well1.png`,
+    well2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/well_2.webp`,
+    well3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/well_3.webp`,
+    well4: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/well_4.webp`,
     chickenHouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/hen_house.png`,
     bakery: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/bakery.png`,
     deli: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/deli.png`,
@@ -881,6 +884,9 @@ export const SUNNYSIDE = {
       hen_house_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/hen_house_3.webp`,
       smoothie_shack_desk: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/smoothie_shack_desk.webp`,
       well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well.webp`,
+      well2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well_2.webp`,
+      well3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well_3.webp`,
+      well4: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well_4.webp`,
 
       //Basic Land Expansion
       basicLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/basic/spring/level_1.webp`,
@@ -1000,6 +1006,9 @@ export const SUNNYSIDE = {
       hen_house_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/hen_house_3.webp`,
       smoothie_shack_desk: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/smoothie_shack_desk.webp`,
       well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well.webp`,
+      well2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well_2.webp`,
+      well3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well_3.webp`,
+      well4: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well_4.webp`,
 
       //Basic Land Expansion
       basicLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/basic/autumn/level_1.webp`,
@@ -1119,6 +1128,9 @@ export const SUNNYSIDE = {
       hen_house_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/hen_house_3.webp`,
       smoothie_shack_desk: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/smoothie_shack_desk.webp`,
       well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/well.webp`,
+      well2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/well_2.webp`,
+      well3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/well_3.webp`,
+      well4: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/well_4.webp`,
 
       //Basic Land Expansion
       basicLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/basic/winter/level_1.webp`,
