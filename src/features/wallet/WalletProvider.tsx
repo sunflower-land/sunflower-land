@@ -96,7 +96,7 @@ export const waypointConnector = injected({
       name: "Ronin Waypoint",
       provider: WaypointProvider.create({
         clientId: "f71ef546-f5e5-49a9-8835-f89b60868622",
-        chainId: CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id,
+        chainId: 2021,
       }) as EIP1193Provider,
     };
   },
@@ -104,7 +104,9 @@ export const waypointConnector = injected({
 
 export const config = createConfig({
   chains:
-    CONFIG.NETWORK === "mainnet" ? [polygon, ronin] : [polygonAmoy, saigon],
+    CONFIG.NETWORK === "mainnet"
+      ? [polygon, ronin]
+      : [ronin, polygonAmoy, saigon],
   multiInjectedProviderDiscovery: true,
   connectors: [
     sequenceConnector,

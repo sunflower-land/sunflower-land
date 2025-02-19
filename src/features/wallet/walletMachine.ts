@@ -186,6 +186,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             account = getAccount(config);
           }
 
+          console.log("account", account);
           return {
             address: account.address,
             chainId: account.chain?.id,
@@ -221,7 +222,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             context.linkedAddress !== context.address,
         },
         {
-          target: "signing",
+          target: "connectedToWallet",
           cond: (context) => !context.linkedAddress,
         },
         {
@@ -241,20 +242,34 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         },
       ],
     },
+    connectedToWallet: {
+      on: {
+        SIGN_MESSAGE: {
+          target: "signing",
+        },
+      },
+    },
     signing: {
       id: "signing",
       invoke: {
         src: async (context: Context) => {
           const timestamp = Math.floor(Date.now() / 8.64e7);
 
-          const signature = await signMessage(config, {
-            message: generateSignatureMessage({
-              address: context.address!,
-              nonce: timestamp,
-            }),
-          });
+          console.log("signing", context.address, context.chainId);
 
-          return { signature };
+          try {
+            const signature = await signMessage(config, {
+              message: generateSignatureMessage({
+                address: context.address!,
+                nonce: timestamp,
+              }),
+            });
+            console.log("signature", signature);
+
+            return { signature };
+          } catch (e) {
+            console.log("error", e);
+          }
         },
         onDone: [
           {

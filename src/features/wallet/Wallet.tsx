@@ -195,6 +195,21 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
     );
   }
 
+  if (walletState.matches("connectedToWallet")) {
+    return (
+      <div className="p-2">
+        <Label icon={walletIcon} type="default" className="mb-1">
+          {t("wallet.signRequest")}
+        </Label>
+        <p className="text-sm">
+          {t("wallet.signRequestInWallet")}
+          {"."}
+        </p>
+        <Button onClick={() => walletService.send("SIGN_MESSAGE")}>Hi</Button>
+      </div>
+    );
+  }
+
   if (walletState.matches("signing")) {
     return (
       <div className="p-2">
@@ -225,6 +240,8 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
   if (walletState.matches("migrating")) {
     return <NFTMigrating />;
   }
+
+  console.log("walletState", walletState.value);
 
   return <Loading text={t("connecting")} />;
 };
@@ -517,6 +534,21 @@ const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
           {t("wallet.transferFarm")}
           {"."}
         </p>
+      </div>
+    );
+  }
+
+  if (walletState.matches("connectedToWallet")) {
+    return (
+      <div className="p-2">
+        <Label icon={walletIcon} type="default" className="mb-1">
+          {t("wallet.signRequest")}
+        </Label>
+        <p className="text-sm">
+          {t("wallet.signRequestInWallet")}
+          {"."}
+        </p>
+        <Button onClick={() => walletService.send("SIGN_MESSAGE")}>Hi</Button>
       </div>
     );
   }
