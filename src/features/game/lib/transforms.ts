@@ -128,5 +128,6 @@ export function makeGame(farm: any): GameState {
     craftingBox: farm.craftingBox,
     season: farm.season,
     lavaPits: farm.lavaPits,
+    nfts: farm.nfts,
   };
 }
