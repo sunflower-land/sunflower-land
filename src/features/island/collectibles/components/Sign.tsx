@@ -38,8 +38,7 @@ export const Sign: React.FC = () => {
         }}
       >
         <p className="text-xxs mt-2 font-pixel">
-          {"#"}
-          {username ?? nftId ?? farmId}
+          {username ?? `#${nftId}` ?? `#${farmId}`}
         </p>
       </div>
     </div>
