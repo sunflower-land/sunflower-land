@@ -126,7 +126,7 @@ export type EventDecorationName =
   | "Festive Toy Train"
   | "Golden Cow"
   | "Volcano Gnome"
-  | "Jin";
+  | "Jin (陣)";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -828,7 +828,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
-  Jin: {
+  "Jin (陣)": {
     width: 1,
     height: 1,
   },

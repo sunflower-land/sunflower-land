@@ -241,7 +241,7 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   "Infernal Drill": CAN_WITHDRAW_AND_TRADE,
   "Grape Pants": CAN_WITHDRAW_AND_TRADE,
   "Carrot Amulet": CAN_WITHDRAW_AND_TRADE,
-  // Jin: CAN_WITHDRAW_AND_TRADE,
+
   // Bull Run Season Items
   "Cowboy Hat": {
     tradeAt: SEASONS["Bull Run"].endDate,
@@ -860,5 +860,9 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     Jellyfish: {
       tradeAt: SEASONS["Winds of Change"].startDate,
       withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Jin (陣)": {
+      tradeAt: new Date("2025-08-20T00:00:00Z"),
+      withdrawAt: new Date("2025-08-20T00:00:00Z"),
     },
   };

@@ -1832,7 +1832,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Winter Duckling"
     />
   ),
-  Jin: (props: CollectibleProps) => (
+  "Jin (陣)": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
@@ -1843,8 +1843,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 16}px`,
       }}
-      image={ITEM_DETAILS["Jin"].image}
-      alt="Jin"
+      image={ITEM_DETAILS["Jin (陣)"].image}
+      alt="Jin (陣)"
     />
   ),
 };

@@ -999,7 +999,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Chamomile: 2202,
   Jellyfish: 2203,
   "Rhubarb Tart": 2204,
-  Jin: 2205,
+  "Jin (陣)": 2205,
 };
 
 // The reverse of above
