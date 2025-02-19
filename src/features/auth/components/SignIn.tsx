@@ -260,7 +260,6 @@ const RoninWallets: React.FC<Props> = ({ onConnect }) => {
       </Button>
       {hasFeatureAccess(INITIAL_FARM, "WAYPOINT_LOGIN") && (
         <>
-          <div className="border-t-2 border-brown-600  my-2 w-[95%] mx-auto" />
           <Button className="mb-1 py-2 text-sm relative">
             <div className="px-8">
               <img
@@ -276,7 +275,7 @@ const RoninWallets: React.FC<Props> = ({ onConnect }) => {
   );
 };
 
-const PWAWallets: React.FC<Props> = ({ onConnect }) => {
+const PWAWallets: React.FC<Props & Page> = ({ onConnect, page, setPage }) => {
   return (
     <>
       <Button
@@ -293,7 +292,27 @@ const PWAWallets: React.FC<Props> = ({ onConnect }) => {
           {`Sequence`}
         </div>
       </Button>
-      <RoninWallets onConnect={onConnect} />
+      {page !== "ronin" && (
+        <Button
+          className="mb-1 py-2 text-sm relative justify-start"
+          onClick={() => setPage("ronin")}
+        >
+          <Label
+            type="info"
+            className="absolute top-1/2 -translate-y-1/2 right-1"
+          >
+            {t("featured")}
+          </Label>
+          <div className="px-8 mr-2 flex ">
+            <img
+              src={SUNNYSIDE.icons.roninIcon}
+              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            {"Ronin"}
+          </div>
+        </Button>
+      )}
+      {page === "ronin" && <RoninWallets onConnect={onConnect} />}
       <Button
         className="mb-1 py-2 text-sm relative"
         onClick={() => onConnect(walletConnectConnector)}
@@ -356,7 +375,14 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   }, [page]);
 
   if (isMobilePWA) {
-    return <PWAWallets onConnect={onConnect} showAll={showAll} />;
+    return (
+      <PWAWallets
+        onConnect={onConnect}
+        showAll={showAll}
+        page={page}
+        setPage={setPage}
+      />
+    );
   }
 
   const isCryptoCom = getPromoCode() === "crypto-com";
