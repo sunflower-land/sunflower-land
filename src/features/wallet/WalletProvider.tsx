@@ -103,9 +103,7 @@ export const waypointConnector = injected({
 
 export const config = createConfig({
   chains:
-    CONFIG.NETWORK === "mainnet"
-      ? [polygon, ronin]
-      : [ronin, polygonAmoy, saigon],
+    CONFIG.NETWORK === "mainnet" ? [polygon, ronin] : [polygonAmoy, saigon],
   multiInjectedProviderDiscovery: true,
   connectors: [
     sequenceConnector,
