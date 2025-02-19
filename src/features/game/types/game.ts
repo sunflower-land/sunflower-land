@@ -1571,6 +1571,7 @@ export interface GameState {
         name: string;
         tokenId: number;
         expiresAt: number;
+        acknowledgedAt?: number;
       }
     >
   >;

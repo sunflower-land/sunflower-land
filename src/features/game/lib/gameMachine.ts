@@ -909,6 +909,12 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "roninAirdrop",
+              cond: (context) =>
+                !!context.state.nfts?.ronin &&
+                !context.state.nfts.ronin.acknowledgedAt,
+            },
+            {
               target: "somethingArrived",
               cond: (context) => !!context.revealed,
             },
@@ -1033,6 +1039,16 @@ export function startGame(authContext: AuthContext) {
               target: "playing",
             },
           ],
+        },
+        onChainAirdrop: {
+          on: {
+            "onChainAirdrop.acknowledged": (GAME_EVENT_HANDLERS as any)[
+              "roninAirdrop.claimed"
+            ],
+            CLOSE: {
+              target: "playing",
+            },
+          },
         },
         vip: {
           on: {
