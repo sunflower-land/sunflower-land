@@ -32,7 +32,6 @@ import {
   getCurrentSeason,
   getSeasonalTicket,
 } from "features/game/types/seasons";
-import { hasFeatureAccess } from "lib/flags";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FLOWERS } from "features/game/types/flowers";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
@@ -184,16 +183,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-
-    ...(hasFeatureAccess(state, "ANIMAL_COMPETITION")
-      ? [
-          {
-            name: "Competition" as const,
-            icon: trophyIcon,
-            count: 0,
-          },
-        ]
-      : []),
+    {
+      name: "Competition" as const,
+      icon: trophyIcon,
+      count: 0,
+    },
   ];
 
   return (
