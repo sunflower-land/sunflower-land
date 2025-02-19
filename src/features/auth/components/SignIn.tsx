@@ -178,24 +178,26 @@ const MainWallets: React.FC<Props & Page> = ({
           {"Metamask"}
         </div>
       </Button>
-      <Button
-        className="mb-1 py-2 text-sm relative justify-start"
-        onClick={() => setPage("ronin")}
-      >
-        <Label
-          type="info"
-          className="absolute top-1/2 -translate-y-1/2 right-1"
+      {hasFeatureAccess(INITIAL_FARM, "RONIN_LOGIN") && (
+        <Button
+          className="mb-1 py-2 text-sm relative justify-start"
+          onClick={() => setPage("ronin")}
         >
-          {t("featured")}
-        </Label>
-        <div className="px-8 mr-2 flex ">
-          <img
-            src={SUNNYSIDE.icons.roninIcon}
-            className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
-          />
-          {"Ronin"}
-        </div>
-      </Button>
+          <Label
+            type="info"
+            className="absolute top-1/2 -translate-y-1/2 right-1"
+          >
+            {t("featured")}
+          </Label>
+          <div className="px-8 mr-2 flex ">
+            <img
+              src={SUNNYSIDE.icons.roninIcon}
+              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            {"Ronin"}
+          </div>
+        </Button>
+      )}
       {showAll && (
         <Button
           className="mb-1 py-2 text-sm relative"
@@ -269,7 +271,7 @@ const RoninWallets: React.FC<
           {"Ronin Mobile"}
         </div>
       </Button>
-      {hasFeatureAccess(INITIAL_FARM, "WAYPOINT_LOGIN") && !isPWA && (
+      {!isPWA && (
         <>
           <Button
             className="mb-1 py-2 text-sm relative"
@@ -310,7 +312,12 @@ const PWAWallets: React.FC<
           {`Sequence`}
         </div>
       </Button>
-      <RoninWallets onConnect={onConnect} setRoninDeepLink={setRoninDeepLink} />
+      {hasFeatureAccess(INITIAL_FARM, "RONIN_LOGIN") && (
+        <RoninWallets
+          onConnect={onConnect}
+          setRoninDeepLink={setRoninDeepLink}
+        />
+      )}
       <Button
         className="mb-1 py-2 text-sm relative"
         onClick={() => {
@@ -496,13 +503,14 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               />
             </>
           )}
-          {page === "ronin" && (
-            <RoninWallets
-              onConnect={onConnect}
-              showAll={showAll}
-              setRoninDeepLink={setRoninDeepLink}
-            />
-          )}
+          {hasFeatureAccess(INITIAL_FARM, "RONIN_LOGIN") &&
+            page === "ronin" && (
+              <RoninWallets
+                onConnect={onConnect}
+                showAll={showAll}
+                setRoninDeepLink={setRoninDeepLink}
+              />
+            )}
         </>
       )}
     </>
