@@ -9,7 +9,6 @@ import {
   getChainId,
   readContract,
   sendTransaction,
-  switchChain,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { formatEther, parseEther } from "viem";
@@ -40,48 +39,9 @@ export class Wallet {
     return Number(response.value);
   }
 
-  public async checkDefaultNetwork() {
+  public async isPolygon() {
     const chainId = getChainId(config);
     return chainId === CONFIG.POLYGON_CHAIN_ID;
-  }
-
-  private getDefaultChainParam() {
-    if (CONFIG.POLYGON_CHAIN_ID === 137) {
-      return {
-        chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-        chainName: "Polygon Mainnet",
-        nativeCurrency: {
-          name: "MATIC",
-          symbol: "MATIC",
-          decimals: 18,
-        },
-        rpcUrls: ["https://polygon-rpc.com/"],
-        blockExplorerUrls: ["https://polygonscan.com/"],
-      };
-    } else {
-      return {
-        chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-        chainName: "Polygon Testnet Amoy",
-        nativeCurrency: {
-          name: "MATIC",
-          symbol: "MATIC",
-          decimals: 18,
-        },
-        rpcUrls: ["https://rpc-amoy.polygon.technology"],
-        blockExplorerUrls: ["https://amoy.polygonscan.com/"],
-      };
-    }
-  }
-
-  public async switchNetwork() {
-    await switchChain(config, {
-      chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
-      addEthereumChainParameter: this.getDefaultChainParam(),
-    });
-  }
-
-  public async initialiseNetwork() {
-    await this.switchNetwork();
   }
 
   public async donate(

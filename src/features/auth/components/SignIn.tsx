@@ -6,7 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import metamaskIcon from "assets/icons/metamask_pixel.png";
 import walletIcon from "assets/icons/wallet.png";
 import fslIcon from "assets/icons/fsl_black.svg";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import world from "assets/icons/world.png";
 
 import { Label } from "components/ui/Label";
@@ -33,6 +33,7 @@ import {
 import { useActor } from "@xstate/react";
 import { useConnect } from "wagmi";
 import { fslAuthorization } from "../actions/oauth";
+import { hasFeatureAccess } from "lib/flags";
 
 const CONTENT_HEIGHT = 365;
 
@@ -93,12 +94,6 @@ const OtherWallets: React.FC<{
               alt="Bitget"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              {t("featured")}
-            </Label>
             {"Bitget Wallet"}
           </div>
         </Button>
@@ -152,8 +147,8 @@ interface Props {
 }
 
 interface Page {
-  page: "home" | "other";
-  setPage: (page: "home" | "other") => void;
+  page: "home" | "other" | "ronin";
+  setPage: (page: "home" | "other" | "ronin") => void;
 }
 
 const MainWallets: React.FC<Props & Page> = ({
@@ -176,6 +171,24 @@ const MainWallets: React.FC<Props & Page> = ({
             className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
           />
           {"Metamask"}
+        </div>
+      </Button>
+      <Button
+        className="mb-1 py-2 text-sm relative justify-start"
+        onClick={() => setPage("ronin")}
+      >
+        <Label
+          type="info"
+          className="absolute top-1/2 -translate-y-1/2 right-1"
+        >
+          {t("featured")}
+        </Label>
+        <div className="px-8 mr-2 flex ">
+          <img
+            src={SUNNYSIDE.icons.roninIcon}
+            className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+          />
+          {"Ronin"}
         </div>
       </Button>
       {showAll && (
@@ -206,6 +219,58 @@ const MainWallets: React.FC<Props & Page> = ({
             {t("welcome.otherWallets")}
           </div>
         </Button>
+      )}
+    </>
+  );
+};
+
+const RoninWallets: React.FC<Props> = ({ onConnect }) => {
+  const { connectors } = useConnect();
+
+  const eip6963Connectors = connectors
+    .filter((connector) => connector.type === "injected" && !!connector.icon)
+    .filter((connector) => connector.name === "Ronin Wallet");
+  return (
+    <>
+      {eip6963Connectors.length > 0 && (
+        <Button
+          className="mb-1 py-2 text-sm relative"
+          onClick={() => onConnect(eip6963Connectors[0])}
+        >
+          <div className="px-8">
+            <img
+              src={SUNNYSIDE.icons.roninIcon}
+              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            <span className="whitespace-nowrap">Ronin Browser Extension</span>
+          </div>
+        </Button>
+      )}
+      <Button
+        className="mb-1 py-2 text-sm relative"
+        onClick={() => onConnect(walletConnectConnector)}
+      >
+        <div className="px-8">
+          <img
+            src={SUNNYSIDE.icons.roninIcon}
+            className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+          />
+          {"Ronin Mobile"}
+        </div>
+      </Button>
+      {hasFeatureAccess(INITIAL_FARM, "WAYPOINT_LOGIN") && (
+        <>
+          <div className="border-t-2 border-brown-600  my-2 w-[95%] mx-auto" />
+          <Button className="mb-1 py-2 text-sm relative">
+            <div className="px-8">
+              <img
+                src={SUNNYSIDE.icons.roninIcon}
+                className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+              />
+              {"Ronin Waypoint"}
+            </div>
+          </Button>
+        </>
       )}
     </>
   );
@@ -253,7 +318,7 @@ const PWAWallets: React.FC<Props> = ({ onConnect }) => {
 };
 
 export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
-  const [page, setPage] = useState<"home" | "other">("home");
+  const [page, setPage] = useState<"home" | "other" | "ronin">("home");
   const isPWA = useIsPWA();
   const isMobilePWA = isMobile && isPWA;
 
@@ -291,8 +356,10 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
         </Button>
       )}
       <>
+        {/** Metamask and Ronin have custom buttons - don't show the injected connectors */}
         {eip6963Connectors
           .filter((connector) => connector.name !== "MetaMask")
+          .filter((connector) => connector.name !== "Ronin Wallet")
           .map((connector) => (
             <Button
               className="mb-1 py-2 text-sm relative"
@@ -367,6 +434,9 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               />
               <OtherWallets showSequence={!showAll} onConnect={onConnect} />
             </>
+          )}
+          {page === "ronin" && (
+            <RoninWallets onConnect={onConnect} showAll={showAll} />
           )}
         </>
       )}
@@ -459,12 +529,6 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
               });
             }}
           >
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              {t("featured")}
-            </Label>
             <img
               src={fslIcon}
               className="w-10 h-10 left-[2px] mr-6 absolute top-0"

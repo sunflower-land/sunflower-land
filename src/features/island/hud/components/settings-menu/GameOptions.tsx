@@ -127,6 +127,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   };
 
   const canRefresh = !gameService.state.context.state.transaction;
+  const hideRefresh = !gameService.state.context.nftId;
 
   return (
     <>
@@ -219,17 +220,19 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         </div>
       </Button>
 
-      <Button
-        disabled={!canRefresh}
-        className="p-1 mb-1 relative"
-        onClick={refreshSession}
-      >
-        {t("gameOptions.blockchainSettings.refreshChain")}
+      {!hideRefresh && (
+        <Button
+          disabled={!canRefresh}
+          className="p-1 mb-1 relative"
+          onClick={refreshSession}
+        >
+          {t("gameOptions.blockchainSettings.refreshChain")}
 
-        {!canRefresh && (
-          <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
-        )}
-      </Button>
+          {!canRefresh && (
+            <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
+          )}
+        </Button>
+      )}
       {(CONFIG.NETWORK === "amoy" ||
         !!gameService.state?.context?.state.wardrobe.Halo ||
         !!gameService.state?.context?.state.wardrobe["Gift Giver"] ||

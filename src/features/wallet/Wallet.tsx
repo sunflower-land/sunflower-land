@@ -22,6 +22,7 @@ import { PortalContext } from "features/portal/example/lib/PortalProvider";
 import { WagmiProvider, useAccount } from "wagmi";
 import { CONFIG } from "lib/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PolygonRequired } from "./components/PolygonRequired";
 
 interface Props {
   action: WalletAction;
@@ -107,20 +108,25 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
 
   if (walletState.matches("wrongWallet")) {
     return (
-      <div className="p-2">
-        <div className="flex justify-between items-center">
-          <Label type="danger" icon={walletIcon}>
-            {t("wallet.wrongWallet")}
-          </Label>
-          {linkedAddress && (
-            <Label type="formula">{shortAddress(linkedAddress)}</Label>
-          )}
+      <>
+        <div className="p-2">
+          <div className="flex justify-between items-center">
+            <Label type="danger" icon={walletIcon}>
+              {t("wallet.wrongWallet")}
+            </Label>
+            {linkedAddress && (
+              <Label type="formula">{shortAddress(linkedAddress)}</Label>
+            )}
+          </div>
+          <p className="text-sm my-2">
+            {t("wallet.connectedWrongWallet")}
+            {"."}
+          </p>
         </div>
-        <p className="text-sm my-2">
-          {t("wallet.connectedWrongWallet")}
-          {"."}
-        </p>
-      </div>
+        <Button onClick={() => walletService.send("CONTINUE")}>
+          {t("wallet.changeWallet")}
+        </Button>
+      </>
     );
   }
 
@@ -152,11 +158,7 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
   }
 
   if (walletState.matches("wrongNetwork")) {
-    return (
-      <div className="p-2">
-        <p>{t("wallet.wrongChain")}</p>
-      </div>
-    );
+    return <PolygonRequired />;
   }
 
   if (walletState.matches("alreadyLinkedWallet")) {
