@@ -1,10 +1,10 @@
 import React from "react";
-import { AirdropModal } from "./Airdrop";
 import { useGame } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { SpecialEventName } from "features/game/types/specialEvents";
 import { Airdrop } from "features/game/types/game";
+import { ClaimReward } from "./ClaimReward";
 
 const _specialEvents = (state: MachineState) =>
   state.context.state.specialEvents;
@@ -42,9 +42,9 @@ export const RoninWelcomePack: React.FC = () => {
   };
 
   return (
-    <AirdropModal
-      airdrop={roninAirdropDetails}
-      onClaimed={() => {
+    <ClaimReward
+      reward={roninAirdropDetails}
+      onClaim={() => {
         gameService.send("specialEvent.taskCompleted", {
           event: roninWelcomePack,
           task: 1,
@@ -52,6 +52,7 @@ export const RoninWelcomePack: React.FC = () => {
         gameService.send("CLOSE");
       }}
       onClose={() => gameService.send("CLOSE")}
+      label={roninWelcomePack}
     />
   );
 };
