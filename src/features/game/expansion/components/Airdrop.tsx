@@ -14,7 +14,25 @@ export const AirdropModal: React.FC<{
   onClose?: () => void;
   onClaimed: () => void;
 }> = ({ airdrop, onClose, onClaimed }) => {
-  return <ClaimReward reward={airdrop} onClaim={onClaimed} onClose={onClose} />;
+  const { gameService } = useContext(Context);
+
+  const claim = () => {
+    gameService.send("airdrop.claimed", {
+      id: airdrop.id,
+    });
+
+    if (airdrop.items["Time Warp Totem"]) {
+      gameService.send("LANDSCAPE", {
+        placeable: "Time Warp Totem",
+        action: "collectible.placed",
+        location: "farm",
+      });
+    }
+
+    onClaimed();
+  };
+
+  return <ClaimReward reward={airdrop} onClaim={claim} onClose={onClose} />;
 };
 
 interface Props {
@@ -23,7 +41,6 @@ interface Props {
 export const Airdrop: React.FC<Props> = ({ airdrop }) => {
   const { showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
-  const { gameService } = useContext(Context);
 
   return (
     <>
@@ -31,12 +48,7 @@ export const Airdrop: React.FC<Props> = ({ airdrop }) => {
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <AirdropModal
             airdrop={airdrop}
-            onClaimed={() => {
-              gameService.send("airdrop.claimed", {
-                id: airdrop.id,
-              });
-              setShowModal(false);
-            }}
+            onClaimed={() => setShowModal(false)}
           />
         </CloseButtonPanel>
       </Modal>
@@ -92,9 +104,6 @@ export const AirdropPopup: React.FC = () => {
     <AirdropModal
       airdrop={airdrop}
       onClaimed={() => {
-        gameService.send("airdrop.claimed", {
-          id: airdrop.id,
-        });
         gameService.send("CLOSE");
       }}
       onClose={() => {
