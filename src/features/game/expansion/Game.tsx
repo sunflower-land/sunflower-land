@@ -78,6 +78,7 @@ import { CompetitionModal } from "features/competition/CompetitionBoard";
 import { SeasonChanged } from "./components/temperateSeason/SeasonChanged";
 import { CalendarEvent } from "./components/temperateSeason/CalendarEvent";
 import { DailyReset } from "../components/DailyReset";
+import { RoninWelcomePack } from "./components/RoninWelcomePack";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -149,6 +150,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   sellMarketResource: false,
   somethingArrived: true,
   seasonChanged: false,
+  roninWelcomePack: true,
 };
 
 // State change selectors
@@ -222,6 +224,8 @@ const hasMarketplaceSales = (state: MachineState) =>
 const isCompetition = (state: MachineState) => state.matches("competition");
 const isSeasonChanged = (state: MachineState) => state.matches("seasonChanged");
 const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
+const isRoninWelcomePack = (state: MachineState) =>
+  state.matches("roninWelcomePack");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -387,7 +391,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const competition = useSelector(gameService, isCompetition);
   const seasonChanged = useSelector(gameService, isSeasonChanged);
   const calendarEvent = useSelector(gameService, isCalendarEvent);
-
+  const roninWelcomePack = useSelector(gameService, isRoninWelcomePack);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
   const { t } = useAppTranslation();
@@ -594,6 +598,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {vip && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}
+            {roninWelcomePack && <RoninWelcomePack />}
           </Panel>
         </Modal>
 

@@ -20,7 +20,6 @@ import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useLocation } from "react-router";
-import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
@@ -118,7 +117,7 @@ const HudComponent: React.FC = () => {
           <TransactionCountdown />
 
           <AuctionCountdown />
-          <SpecialEventCountdown />
+          {/* <SpecialEventCountdown /> */}
         </div>
         <BumpkinProfile isFullUser={isFullUser} />
         {!isTutorial && <GameCalendar />}
