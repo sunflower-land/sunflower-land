@@ -21,14 +21,6 @@ export const AirdropModal: React.FC<{
       id: airdrop.id,
     });
 
-    if (airdrop.items["Time Warp Totem"]) {
-      gameService.send("LANDSCAPE", {
-        placeable: "Time Warp Totem",
-        action: "collectible.placed",
-        location: "farm",
-      });
-    }
-
     onClaimed();
   };
 
