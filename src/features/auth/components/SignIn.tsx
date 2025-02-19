@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
@@ -293,6 +293,7 @@ const PWAWallets: React.FC<Props> = ({ onConnect }) => {
           {`Sequence`}
         </div>
       </Button>
+      <RoninWallets onConnect={onConnect} />
       <Button
         className="mb-1 py-2 text-sm relative"
         onClick={() => onConnect(walletConnectConnector)}
@@ -317,12 +318,42 @@ const PWAWallets: React.FC<Props> = ({ onConnect }) => {
   );
 };
 
+// This must be global so its reference doesn't change
+const displayUriListener = (uri: string) => {
+  console.log("uri", uri);
+  window.open(`roninwallet://wc?uri=${encodeURIComponent(uri)}`, "_self");
+};
+
 export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   const [page, setPage] = useState<"home" | "other" | "ronin">("home");
+
   const isPWA = useIsPWA();
   const isMobilePWA = isMobile && isPWA;
 
   const { connectors } = useConnect();
+
+  const walletConnectConnector = connectors.filter(
+    ({ id }) => id === "walletConnect",
+  )[0];
+
+  const [provider, setProvider] = useState<any>(null);
+
+  useEffect(() => {
+    (async () => {
+      const provider = await walletConnectConnector.getProvider();
+      setProvider(provider);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (provider && page === "ronin") {
+      (provider as any).once("display_uri", displayUriListener);
+    }
+
+    if (provider && page !== "ronin") {
+      (provider as any).removeListener("display_uri", displayUriListener);
+    }
+  }, [page]);
 
   if (isMobilePWA) {
     return <PWAWallets onConnect={onConnect} showAll={showAll} />;
