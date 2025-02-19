@@ -4920,7 +4920,7 @@ export const ITEM_DETAILS: Items = {
     image: rhubarbTart,
     description: translate("description.rhubarb.tart"),
   },
-  "Jin (陣)": {
+  Jin: {
     image: SUNNYSIDE.icons.expression_confused,
     description:
       "The Mythical Tiger of Ronin, embodies strength, resillence and adventurous spirit",
