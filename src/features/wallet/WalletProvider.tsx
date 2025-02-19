@@ -89,19 +89,18 @@ export const fallbackConnector = injected({
   },
 });
 
-// Ronin Waypoint Connector
-// export const waypointConnector = injected({
-//   target() {
-//     return {
-//       id: "waypoint",
-//       name: "Ronin Waypoint",
-//       provider: WaypointProvider.create({
-//         clientId: waypoint.clientId,
-//         chainId: waypoint.chainId,
-//       }) as EIP1193Provider,
-//     };
-//   },
-// });
+export const waypointConnector = injected({
+  target() {
+    return {
+      id: "waypoint",
+      name: "Ronin Waypoint",
+      provider: WaypointProvider.create({
+        clientId: "f71ef546-f5e5-49a9-8835-f89b60868622",
+        chainId: CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id,
+      }) as EIP1193Provider,
+    };
+  },
+});
 
 export const config = createConfig({
   chains:
@@ -115,6 +114,7 @@ export const config = createConfig({
     okexConnector,
     phantomConnector,
     fallbackConnector,
+    waypointConnector,
   ],
   transports: {
     [polygon.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),

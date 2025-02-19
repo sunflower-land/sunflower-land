@@ -29,6 +29,7 @@ import {
   phantomConnector,
   sequenceConnector,
   walletConnectConnector,
+  waypointConnector,
 } from "features/wallet/WalletProvider";
 import { useActor } from "@xstate/react";
 import { useConnect } from "wagmi";
@@ -260,7 +261,10 @@ const RoninWallets: React.FC<Props> = ({ onConnect }) => {
       </Button>
       {hasFeatureAccess(INITIAL_FARM, "WAYPOINT_LOGIN") && (
         <>
-          <Button className="mb-1 py-2 text-sm relative">
+          <Button
+            className="mb-1 py-2 text-sm relative"
+            onClick={() => onConnect(waypointConnector)}
+          >
             <div className="px-8">
               <img
                 src={SUNNYSIDE.icons.roninIcon}
@@ -276,6 +280,8 @@ const RoninWallets: React.FC<Props> = ({ onConnect }) => {
 };
 
 const PWAWallets: React.FC<Props & Page> = ({ onConnect, page, setPage }) => {
+  const { t } = useAppTranslation();
+
   return (
     <>
       <Button
