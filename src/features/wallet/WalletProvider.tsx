@@ -9,7 +9,6 @@ import { walletConnect, metaMask } from "@wagmi/connectors";
 import { sequenceWallet } from "@0xsequence/wagmi-connector";
 import { WaypointProvider } from "@sky-mavis/waypoint";
 import { EIP1193Provider } from "viem";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 export const WalletContext = React.createContext<{
   walletService: MachineInterpreter;

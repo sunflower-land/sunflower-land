@@ -25,27 +25,19 @@ export const PolygonRequired: React.FC = () => {
           icon={SUNNYSIDE.icons.polygonIcon}
           className="mb-2"
         >
-          Polygon Required
+          {t("polygon.required")}
         </Label>
         <div className="flex flex-col gap-2">
-          <p className="text-xs">
-            This interaction requires a connection to the Polygon network.
-          </p>
+          <p className="text-xs">{t("polygon.requiredDescription")}</p>
 
           <div className="flex gap-2">
             <img
               src={SUNNYSIDE.icons.roninIcon}
               style={{ width: `${PIXEL_SCALE * 8}px`, display: "inline" }}
             />
-            <p className="text-xs">
-              Ronin support will be available for this interaction in April
-              2025.
-            </p>
+            <p className="text-xs">{t("polygon.roninDescription")}</p>
           </div>
-          <p className="text-xs">
-            Switch to Polygon to continue. This may require POL on the Polygon
-            Network.
-          </p>
+          <p className="text-xs">{t("polygon.continueDescription")}</p>
         </div>
       </div>
       <div className="flex justify-evenly space-x-1">

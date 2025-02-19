@@ -43,8 +43,9 @@ export const SEQUENCE_ICON =
 
 const OtherWallets: React.FC<{
   onConnect: (connector: Connector | CreateConnectorFn) => void;
+  setRoninDeepLink: (isOn: boolean) => void;
   showSequence?: boolean;
-}> = ({ onConnect, showSequence = false }) => {
+}> = ({ onConnect, showSequence = false, setRoninDeepLink }) => {
   const { t } = useAppTranslation();
 
   return (
@@ -66,7 +67,10 @@ const OtherWallets: React.FC<{
         )}
         <Button
           className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(walletConnectConnector)}
+          onClick={() => {
+            setRoninDeepLink(false);
+            onConnect(walletConnectConnector);
+          }}
         >
           <div className="px-8">
             <svg
@@ -225,8 +229,11 @@ const MainWallets: React.FC<Props & Page> = ({
   );
 };
 
-const RoninWallets: React.FC<Props> = ({ onConnect }) => {
+const RoninWallets: React.FC<
+  Props & { setRoninDeepLink: (isOn: boolean) => void }
+> = ({ onConnect, setRoninDeepLink }) => {
   const { connectors } = useConnect();
+  const isPWA = useIsPWA();
 
   const eip6963Connectors = connectors
     .filter((connector) => connector.type === "injected" && !!connector.icon)
@@ -243,13 +250,16 @@ const RoninWallets: React.FC<Props> = ({ onConnect }) => {
               src={SUNNYSIDE.icons.roninIcon}
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            <span className="whitespace-nowrap">Ronin Browser Extension</span>
+            <span className="whitespace-nowrap">{`Ronin Browser Extension`}</span>
           </div>
         </Button>
       )}
       <Button
         className="mb-1 py-2 text-sm relative"
-        onClick={() => onConnect(walletConnectConnector)}
+        onClick={() => {
+          setRoninDeepLink(true);
+          onConnect(walletConnectConnector);
+        }}
       >
         <div className="px-8">
           <img
@@ -259,7 +269,7 @@ const RoninWallets: React.FC<Props> = ({ onConnect }) => {
           {"Ronin Mobile"}
         </div>
       </Button>
-      {hasFeatureAccess(INITIAL_FARM, "WAYPOINT_LOGIN") && (
+      {hasFeatureAccess(INITIAL_FARM, "WAYPOINT_LOGIN") && !isPWA && (
         <>
           <Button
             className="mb-1 py-2 text-sm relative"
@@ -279,7 +289,9 @@ const RoninWallets: React.FC<Props> = ({ onConnect }) => {
   );
 };
 
-const PWAWallets: React.FC<Props & Page> = ({ onConnect, page, setPage }) => {
+const PWAWallets: React.FC<
+  Props & { setRoninDeepLink: (isOn: boolean) => void }
+> = ({ onConnect, setRoninDeepLink }) => {
   const { t } = useAppTranslation();
 
   return (
@@ -298,30 +310,13 @@ const PWAWallets: React.FC<Props & Page> = ({ onConnect, page, setPage }) => {
           {`Sequence`}
         </div>
       </Button>
-      {page !== "ronin" && (
-        <Button
-          className="mb-1 py-2 text-sm relative justify-start"
-          onClick={() => setPage("ronin")}
-        >
-          <Label
-            type="info"
-            className="absolute top-1/2 -translate-y-1/2 right-1"
-          >
-            {t("featured")}
-          </Label>
-          <div className="px-8 mr-2 flex ">
-            <img
-              src={SUNNYSIDE.icons.roninIcon}
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
-            />
-            {"Ronin"}
-          </div>
-        </Button>
-      )}
-      {page === "ronin" && <RoninWallets onConnect={onConnect} />}
+      <RoninWallets onConnect={onConnect} setRoninDeepLink={setRoninDeepLink} />
       <Button
         className="mb-1 py-2 text-sm relative"
-        onClick={() => onConnect(walletConnectConnector)}
+        onClick={() => {
+          setRoninDeepLink(false);
+          onConnect(walletConnectConnector);
+        }}
       >
         <div className="px-8">
           <svg
@@ -345,7 +340,6 @@ const PWAWallets: React.FC<Props & Page> = ({ onConnect, page, setPage }) => {
 
 // This must be global so its reference doesn't change
 const displayUriListener = (uri: string) => {
-  console.log("uri", uri);
   window.open(`roninwallet://wc?uri=${encodeURIComponent(uri)}`, "_self");
 };
 
@@ -370,23 +364,23 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
     })();
   }, []);
 
-  useEffect(() => {
-    if (provider && page === "ronin") {
-      (provider as any).once("display_uri", displayUriListener);
+  const setRoninDeepLink = (isOn: boolean) => {
+    if (isOn && isMobile) {
+      provider && (provider as any).once("display_uri", displayUriListener);
     }
 
-    if (provider && page !== "ronin") {
-      (provider as any).removeListener("display_uri", displayUriListener);
+    if (!isOn) {
+      provider &&
+        (provider as any).removeListener("display_uri", displayUriListener);
     }
-  }, [page]);
+  };
 
   if (isMobilePWA) {
     return (
       <PWAWallets
         onConnect={onConnect}
         showAll={showAll}
-        page={page}
-        setPage={setPage}
+        setRoninDeepLink={setRoninDeepLink}
       />
     );
   }
@@ -495,11 +489,19 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
                 page={page}
                 setPage={setPage}
               />
-              <OtherWallets showSequence={!showAll} onConnect={onConnect} />
+              <OtherWallets
+                showSequence={!showAll}
+                onConnect={onConnect}
+                setRoninDeepLink={setRoninDeepLink}
+              />
             </>
           )}
           {page === "ronin" && (
-            <RoninWallets onConnect={onConnect} showAll={showAll} />
+            <RoninWallets
+              onConnect={onConnect}
+              showAll={showAll}
+              setRoninDeepLink={setRoninDeepLink}
+            />
           )}
         </>
       )}

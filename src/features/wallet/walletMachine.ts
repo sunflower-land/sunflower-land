@@ -38,6 +38,7 @@ export interface Context {
   nftReadyAt?: number;
   nftId?: number;
   chainId?: number;
+  signInAttempts?: number;
 }
 
 export type WalletAction =
@@ -84,6 +85,7 @@ export type WalletEvent =
   | InitialiseEvent
   | ConnectWalletEvent
   | { type: "CONTINUE" }
+  | { type: "BACK" }
   | { type: "RESET" }
   | { type: "MINT" }
   | {
@@ -98,6 +100,7 @@ export type WalletState = {
     | "initialising"
     | "chooseWallet"
     | "signing"
+    | "signingFailed"
     | "linking"
     | "minting"
     | "waiting"
@@ -137,6 +140,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     signature: "",
     nftReadyAt: 0,
     action: "" as WalletAction,
+    signInAttempts: 0,
   },
   states: {
     chooseWallet: {
@@ -186,7 +190,6 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             account = getAccount(config);
           }
 
-          console.log("account", account);
           return {
             address: account.address,
             chainId: account.chain?.id,
@@ -222,7 +225,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             context.linkedAddress !== context.address,
         },
         {
-          target: "connectedToWallet",
+          target: "signing",
           cond: (context) => !context.linkedAddress,
         },
         {
@@ -242,10 +245,19 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         },
       ],
     },
-    connectedToWallet: {
+    signingFailed: {
       on: {
-        SIGN_MESSAGE: {
+        CONTINUE: {
           target: "signing",
+          actions: assign<Context, any>({
+            signInAttempts: (_context) => (_context.signInAttempts ?? 0) + 1,
+          }),
+        },
+        BACK: {
+          target: "chooseWallet",
+          actions: assign<Context, any>({
+            signInAttempts: (_context) => 0,
+          }),
         },
       },
     },
@@ -255,21 +267,14 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         src: async (context: Context) => {
           const timestamp = Math.floor(Date.now() / 8.64e7);
 
-          console.log("signing", context.address, context.chainId);
+          const signature = await signMessage(config, {
+            message: generateSignatureMessage({
+              address: context.address!,
+              nonce: timestamp,
+            }),
+          });
 
-          try {
-            const signature = await signMessage(config, {
-              message: generateSignatureMessage({
-                address: context.address!,
-                nonce: timestamp,
-              }),
-            });
-            console.log("signature", signature);
-
-            return { signature };
-          } catch (e) {
-            console.log("error", e);
-          }
+          return { signature };
         },
         onDone: [
           {
@@ -287,15 +292,20 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             }),
           },
         ],
-        onError: {
-          target: "error",
-          actions: assign<Context, any>({
-            errorCode: (_context, event) => event.data.message,
-          }),
-        },
+        onError: [
+          {
+            target: "signingFailed",
+            cond: (context) => context.signInAttempts === 0,
+          },
+          {
+            target: "error",
+            actions: assign<Context, any>({
+              errorCode: (_context, event) => event.data.message,
+            }),
+          },
+        ],
       },
     },
-
     linking: {
       id: "linking",
       invoke: {

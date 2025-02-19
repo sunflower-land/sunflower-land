@@ -3571,6 +3571,7 @@
   "wallet.connectedWrongWallet": "You are connected to the wrong wallet",
   "wallet.changeWallet": "Change Wallet",
   "wallet.selectWallet": "Select Wallet",
+  "wallet.signIn": "Sign In",
   "wallet.missingNFT": "Missing NFT",
   "wallet.requireFarmNFT": "Some actions require a Farm NFT. This helps keep all of your items secure on the Blockchain",
   "wallet.uniqueFarmNFT": "A unique farm NFT will be minted to store your progress",
@@ -3581,6 +3582,8 @@
   "wallet.transferFarm": "Please transfer the farm to another wallet in order to mint the new account",
   "wallet.signRequest": "Sign",
   "wallet.signRequestInWallet": "Sign the request in your wallet to continue",
+  "wallet.rejected": "Wallet Rejected",
+  "wallet.rejectedDescription": "Wallet rejected the connection. Please try again.",
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters",
   "warning.chat.noSpecialCharacters": "No special characters",
@@ -5508,5 +5511,10 @@
   "whatsOn.april28th": "April 28th",
   "whatsOn.ticketPaused": "The Bumpkins are on holidays - No more timeshards from chores & bounties.",
   "whatsOn.mysterySeasonText2": "No more timeshards from deliveries.",
-  "whatsOn.mysterySeasonText3": "No more ancient clocks while digging."
+  "whatsOn.mysterySeasonText3": "No more ancient clocks while digging.",
+
+  "polygon.required": "Polygon Required",
+  "polygon.requiredDescription": "This interaction requires a connection to the Polygon network.",
+  "polygon.roninDescription": "Ronin support will be available for this interaction in April 2025.",
+  "polygon.continueDescription": "Switch to Polygon to continue. This may require POL on the Polygon Network."
 }

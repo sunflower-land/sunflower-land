@@ -195,18 +195,27 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
     );
   }
 
-  if (walletState.matches("connectedToWallet")) {
+  if (walletState.matches("signingFailed")) {
     return (
-      <div className="p-2">
-        <Label icon={walletIcon} type="default" className="mb-1">
-          {t("wallet.signRequest")}
-        </Label>
-        <p className="text-sm">
-          {t("wallet.signRequestInWallet")}
-          {"."}
-        </p>
-        <Button onClick={() => walletService.send("SIGN_MESSAGE")}>Hi</Button>
-      </div>
+      <>
+        <div className="p-2">
+          <Label icon={walletIcon} type="default" className="mb-1">
+            {t("wallet.signRequest")}
+          </Label>
+          <p className="text-sm">
+            {t("wallet.signRequestInWallet")}
+            {"."}
+          </p>
+        </div>
+        <div className="flex space-x-1">
+          <Button onClick={() => walletService.send("BACK")}>
+            {t("back")}
+          </Button>
+          <Button onClick={() => walletService.send("CONTINUE")}>
+            {t("wallet.signIn")}
+          </Button>
+        </div>
+      </>
     );
   }
 
@@ -240,8 +249,6 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
   if (walletState.matches("migrating")) {
     return <NFTMigrating />;
   }
-
-  console.log("walletState", walletState.value);
 
   return <Loading text={t("connecting")} />;
 };
@@ -538,18 +545,27 @@ const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
     );
   }
 
-  if (walletState.matches("connectedToWallet")) {
+  if (walletState.matches("signingFailed")) {
     return (
-      <div className="p-2">
-        <Label icon={walletIcon} type="default" className="mb-1">
-          {t("wallet.signRequest")}
-        </Label>
-        <p className="text-sm">
-          {t("wallet.signRequestInWallet")}
-          {"."}
-        </p>
-        <Button onClick={() => walletService.send("SIGN_MESSAGE")}>Hi</Button>
-      </div>
+      <>
+        <div className="p-2">
+          <Label icon={walletIcon} type="default" className="mb-1">
+            {t("wallet.signRequest")}
+          </Label>
+          <p className="text-sm">
+            {t("wallet.signRequestInWallet")}
+            {"."}
+          </p>
+        </div>
+        <div className="flex space-x-1">
+          <Button onClick={() => walletService.send("BACK")}>
+            {t("back")}
+          </Button>
+          <Button onClick={() => walletService.send("CONTINUE")}>
+            {t("wallet.signIn")}
+          </Button>
+        </div>
+      </>
     );
   }
 
