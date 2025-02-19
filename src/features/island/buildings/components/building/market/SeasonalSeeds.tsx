@@ -60,6 +60,7 @@ import {
   CROP_EXTENSION_MOD_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { isFullMoon } from "features/game/types/calendar";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -330,15 +331,17 @@ export const SeasonalSeeds: React.FC = () => {
               >
                 {`${currentSeason}`}
               </Label>
-              <Label
-                icon={SUNNYSIDE.icons.stopwatch}
-                type="transparent"
-                className="mb-1"
-              >
-                {`${secondsToString(secondsTillWeekReset(), {
-                  length: "short",
-                })} ${t("time.left")}`}
-              </Label>
+              {hasRequiredIslandExpansion(island.type, "spring") && (
+                <Label
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  type="transparent"
+                  className="mb-1"
+                >
+                  {`${secondsToString(secondsTillWeekReset(), {
+                    length: "short",
+                  })} ${t("time.left")}`}
+                </Label>
+              )}
             </div>
             <div className="flex flex-wrap mb-2">
               {currentSeasonSeeds.map((name: SeedName) => (
