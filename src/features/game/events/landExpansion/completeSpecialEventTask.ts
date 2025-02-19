@@ -2,12 +2,12 @@ import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-
+import { SpecialEventName } from "features/game/types/specialEvents";
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
 export type CompleteSpecialEventTaskAction = {
   type: "specialEvent.taskCompleted";
-  event: string;
+  event: SpecialEventName;
   task: number;
 };
 
@@ -92,6 +92,7 @@ export function completeSpecialEventTask({
     stateCopy.balance = (stateCopy.balance ?? new Decimal(0)).plus(
       task.reward.sfl,
     );
+    stateCopy.coins += task.reward.coins;
 
     const eventYear = new Date(event.startAt).getUTCFullYear();
     const completedTasks = event.tasks.filter(

@@ -6,7 +6,11 @@ export type SpecialEventName =
   | "One Planet Popper"
   | "Gas Hero"
   | "Easter"
-  | "La Tomatina";
+  | "La Tomatina"
+  | "Ronin Platinum Pack"
+  | "Ronin Gold Pack"
+  | "Ronin Silver Pack"
+  | "Ronin Bronze Pack";
 
 export type Task = {
   requirements: {
@@ -17,6 +21,7 @@ export type Task = {
     wearables: Wardrobe;
     items: Partial<Record<InventoryItemName, number>>;
     sfl: number;
+    coins: number;
   };
   isAirdrop?: boolean;
   airdropUrl?: string;
@@ -33,9 +38,11 @@ export type SpecialEvent = {
   bonus?: Partial<Record<InventoryItemName, { saleMultiplier: number }>>;
 };
 
-export type CurrentSpecialEvents = Partial<Record<string, SpecialEvent>>;
+export type CurrentSpecialEvents = Partial<
+  Record<SpecialEventName, SpecialEvent>
+>;
 
 export type SpecialEvents = {
-  history: Record<number, Partial<Record<string, number>>>;
+  history: Record<number, Partial<Record<SpecialEventName, number>>>;
   current: CurrentSpecialEvents;
 };

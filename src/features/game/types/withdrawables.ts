@@ -861,4 +861,8 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: SEASONS["Winds of Change"].startDate,
       withdrawAt: SEASONS["Winds of Change"].endDate,
     },
+    Jin: {
+      tradeAt: new Date("2025-08-20T00:00:00Z"),
+      withdrawAt: new Date("2025-08-20T00:00:00Z"),
+    },
   };

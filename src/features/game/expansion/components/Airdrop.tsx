@@ -7,7 +7,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Airdrop as IAirdrop } from "features/game/types/game";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ClaimReward } from "./ClaimReward";
 
 export const AirdropModal: React.FC<{
@@ -15,26 +14,7 @@ export const AirdropModal: React.FC<{
   onClose?: () => void;
   onClaimed: () => void;
 }> = ({ airdrop, onClose, onClaimed }) => {
-  const { gameService } = useContext(Context);
-  const { openModal } = useContext(ModalContext);
-
-  const claim = () => {
-    gameService.send("airdrop.claimed", {
-      id: airdrop.id,
-    });
-
-    if (airdrop.items["Time Warp Totem"]) {
-      gameService.send("LANDSCAPE", {
-        placeable: "Time Warp Totem",
-        action: "collectible.placed",
-        location: "farm",
-      });
-    }
-
-    onClaimed();
-  };
-
-  return <ClaimReward reward={airdrop} onClaim={claim} onClose={onClose} />;
+  return <ClaimReward reward={airdrop} onClaim={onClaimed} onClose={onClose} />;
 };
 
 interface Props {
@@ -43,6 +23,7 @@ interface Props {
 export const Airdrop: React.FC<Props> = ({ airdrop }) => {
   const { showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
+  const { gameService } = useContext(Context);
 
   return (
     <>
@@ -50,7 +31,12 @@ export const Airdrop: React.FC<Props> = ({ airdrop }) => {
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <AirdropModal
             airdrop={airdrop}
-            onClaimed={() => setShowModal(false)}
+            onClaimed={() => {
+              gameService.send("airdrop.claimed", {
+                id: airdrop.id,
+              });
+              setShowModal(false);
+            }}
           />
         </CloseButtonPanel>
       </Modal>
@@ -106,6 +92,9 @@ export const AirdropPopup: React.FC = () => {
     <AirdropModal
       airdrop={airdrop}
       onClaimed={() => {
+        gameService.send("airdrop.claimed", {
+          id: airdrop.id,
+        });
         gameService.send("CLOSE");
       }}
       onClose={() => {

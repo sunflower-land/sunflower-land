@@ -1832,6 +1832,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Winter Duckling"
     />
   ),
+  Jin: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Jin"].image}
+      alt="Jin"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
