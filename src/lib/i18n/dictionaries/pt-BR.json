@@ -2048,7 +2048,6 @@
   "statements.sflLim.one": "Você atingiu o limite diário de SFL.",
   "statements.sflLim.two": "Você pode continuar jogando, mas precisará esperar até amanhã para sincronizar novamente.",
   "statements.sniped": "Oh não! Outro jogador comprou esse comércio antes de você.",
-  "statements.switchNetwork": "Adicionar ou Trocar de Rede",
   "statements.sync": "Por favor, tenha paciência enquanto sincronizamos todos os seus dados na cadeia.",
   "statements.tapCont": "Toque para continuar",
   "statements.price.change": "Oh não! O preço mudou, tente novamente.",
@@ -5346,5 +5345,16 @@
   "upgrade.chickens": "galinhas",
   "upgrade.unlockAllPlots": "Desbloqueia toda a fertilidade da trama",
   "upgrade.plusPlotFertility": "+ {{amount}} fertilidade da parcela",
-  "upgrade.capacityIncrease": "+ {{amount}} capacidade"
+  "upgrade.capacityIncrease": "+ {{amount}} capacidade",
+  "statements.switchToPolygon": "Mudar para Polygon",
+  "wallet.changeWallet": "Alterar carteira",
+  "wallet.selectWallet": "Selecione a carteira",
+  "wallet.signIn": "Iniciar sessão",
+  "wallet.rejected": "Carteira rejeitada",
+  "wallet.rejectedDescription": "A carteira rejeitou a conexão. Por favor, tente novamente.",
+  "polygon.required": "Polígono obrigatório",
+  "polygon.requiredDescription": "Essa interação requer uma conexão com a rede Polygon.",
+  "polygon.roninDescription": "O suporte do Ronin estará disponível para essa interação em abril de 2025.",
+  "polygon.continueDescription": "Mude para o Polygon para continuar. Isso pode exigir POL na Polygon Network.",
+  "polygon.cantContinueDescription": "Infelizmente, sua carteira não suporta Polygon. Fique atento ao suporte de Ronin em abril de 2025."
 }

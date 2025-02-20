@@ -2112,7 +2112,6 @@
   "statements.sflLim.one": "Vous avez atteint la limite quotidienne de SFL.",
   "statements.sflLim.two": "Vous pouvez continuer à jouer, mais vous devrez attendre demain pour vous resynchroniser.",
   "statements.sniped": "Oh non ! Un autre joueur a acheté ce trade avant vous.",
-  "statements.switchNetwork": "Ajouter ou changer de réseau",
   "statements.sync": "Veuillez patienter pendant que nous synchronisons toutes vos données sur la chaîne.",
   "statements.tapCont": "Appuyez pour continuer",
   "statements.price.change": "Oh non ! Il semble que le prix ait changé. Veuillez réessayer !",
@@ -5346,5 +5345,16 @@
   "upgrade.chickens": "poulets",
   "upgrade.unlockAllPlots": "Débloque la fertilité de toutes les intrigues",
   "upgrade.plusPlotFertility": "+ {{amount}} fertilité du graphique",
-  "upgrade.capacityIncrease": "+ {{amount}} capacité"
+  "upgrade.capacityIncrease": "+ {{amount}} capacité",
+  "statements.switchToPolygon": "Basculer vers Polygon",
+  "wallet.changeWallet": "Changer de portefeuille",
+  "wallet.selectWallet": "Sélectionnez un portefeuille",
+  "wallet.signIn": "Connectez-vous",
+  "wallet.rejected": "Portefeuille rejeté",
+  "wallet.rejectedDescription": "Wallet a rejeté la connexion. Veuillez réessayer.",
+  "polygon.required": "Polygone requis",
+  "polygon.requiredDescription": "Cette interaction nécessite une connexion au réseau Polygon.",
+  "polygon.roninDescription": "Le support Ronin sera disponible pour cette interaction en avril 2025.",
+  "polygon.continueDescription": "Passez à Polygon pour continuer. Cela peut nécessiter un POL sur le réseau polygonal.",
+  "polygon.cantContinueDescription": "Malheureusement, votre portefeuille ne prend pas en charge Polygon. Restez à l'affût de l'assistance de Ronin en avril 2025."
 }

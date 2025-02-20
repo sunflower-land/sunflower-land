@@ -2988,7 +2988,6 @@
   "statements.sflLim.one": "1日のSFL制限に達しました。",
   "statements.sflLim.two": "プレイを続けることはできますが、再び同期するには明日まで待つ必要があります。",
   "statements.sniped": "ああ、いや！あなたより先に他のプレイヤーがそのトレードを買いました。",
-  "statements.switchNetwork": "ネットワークの追加または切り替え",
   "statements.sync": "チェーン上のすべてのデータを同期しますので、ご容赦ください。",
   "statements.tapCont": "タップして続行",
   "statements.price.change": "ああ、いや！価格が変更されたようです。もう一度試してください。",
@@ -5346,5 +5345,16 @@
   "upgrade.chickens": "鶏",
   "upgrade.unlockAllPlots": "すべてのプロットの肥沃度をアンロックする",
   "upgrade.plusPlotFertility": "+ {{amount}} プロットの肥沃度",
-  "upgrade.capacityIncrease": "+ {{amount}} キャパシティ"
+  "upgrade.capacityIncrease": "+ {{amount}} キャパシティ",
+  "statements.switchToPolygon": "ポリゴンに切り替え",
+  "wallet.changeWallet": "ウォレットを変更",
+  "wallet.selectWallet": "ウォレットを選択",
+  "wallet.signIn": "サインイン",
+  "wallet.rejected": "ウォレット拒否",
+  "wallet.rejectedDescription": "ウォレットは接続を拒否しました。もう一度試してください。",
+  "polygon.required": "ポリゴンが必要です",
+  "polygon.requiredDescription": "このインタラクションには、Polygonネットワークへの接続が必要です。",
+  "polygon.roninDescription": "このインタラクションについて Ronin のサポートは、2025 年 4 月に利用可能になる予定です。",
+  "polygon.continueDescription": "ポリゴンに切り替えて続行してください。これには、ポリゴンネットワーク上の POL が必要な場合があります。",
+  "polygon.cantContinueDescription": "残念ながら、あなたのウォレットはPolygonをサポートしていません。2025 年 4 月の Ronin サポートに引き続きご期待ください。"
 }

@@ -2109,7 +2109,6 @@
   "statements.sflLim.one": "Günlük SFL limitine ulaştınız.",
   "statements.sflLim.two": "Oynamaya devam edebilirsiniz ancak tekrar senkronizasyon için yarına kadar beklemeniz gerekecektir.",
   "statements.sniped": "Oh hayır! Bu takası sizden önce başka bir oyuncu satın aldı.",
-  "statements.switchNetwork": "Ağ Ekle veya Değiştir",
   "statements.sync": "Zincirdeki tüm verilerinizi senkronize ederken lütfen sabırlı olun.",
   "statements.tapCont": "Devam etmek için dokunun",
   "statements.tutorial.one": "Tekne sizi yeni topraklar ve heyecan verici maceralar keşfedebileceğiniz adalar arasında götürecek.",
@@ -5346,5 +5345,16 @@
   "upgrade.chickens": "tavuklar",
   "upgrade.unlockAllPlots": "Tüm arsa verimliliğinin kilidini açar",
   "upgrade.plusPlotFertility": "+ {{amount}} doğurganlık grafiği",
-  "upgrade.capacityIncrease": "+ {{amount}} kapasite"
+  "upgrade.capacityIncrease": "+ {{amount}} kapasite",
+  "statements.switchToPolygon": "Çokgene geç",
+  "wallet.changeWallet": "Cüzdanı Değiştir",
+  "wallet.selectWallet": "Cüzdan Seçin",
+  "wallet.signIn": "Oturum aç",
+  "wallet.rejected": "Cüzdan Reddedildi",
+  "wallet.rejectedDescription": "Cüzdan bağlantıyı reddetti. Lütfen tekrar deneyin.",
+  "polygon.required": "Çokgen Gerekli",
+  "polygon.requiredDescription": "Bu etkileşim Polygon ağına bağlantı gerektirir.",
+  "polygon.roninDescription": "Nisan 2025'te bu etkileşim için Ronin desteği mevcut olacak.",
+  "polygon.continueDescription": "Devamlamak için Çokgen seçeneğine geçin. Bu, Poligon Ağında POL gerektirebilir.",
+  "polygon.cantContinueDescription": "Ne yazık ki, cüzdanınız Polygon'u desteklemiyor. Lütfen Nisan 2025'te Ronin desteği için bizi izlemeye devam edin."
 }

@@ -3071,7 +3071,6 @@
   "statements.sflLim.one": "您已达到每日 SFL 上限。",
   "statements.sflLim.two": "您可以继续游戏，但需要等到明天才能再次同步。",
   "statements.sniped": "哦不！另一位玩家在你之前购买了那笔交易。",
-  "statements.switchNetwork": "添加或切换网络",
   "statements.price.change": "哦不！看来价格已经变了，请再试一次！",
   "statements.tutorial.one": "这艘船将带你穿越岛屿，在那里你可以探索新大陆和激动人心的冒险。",
   "statements.tutorial.two": "许多土地都很遥远，需要经验丰富的乡包佬才能登陆参观。",
@@ -5346,5 +5345,16 @@
   "upgrade.chickens": "鸡",
   "upgrade.unlockAllPlots": "解锁所有剧情生育能力",
   "upgrade.plusPlotFertility": "+ {{amount}} 绘制生育率",
-  "upgrade.capacityIncrease": "+ {{amount}} 容量"
+  "upgrade.capacityIncrease": "+ {{amount}} 容量",
+  "statements.switchToPolygon": "切换到多边形",
+  "wallet.changeWallet": "更换钱包",
+  "wallet.selectWallet": "选择钱包",
+  "wallet.signIn": "登录",
+  "wallet.rejected": "钱包被拒绝",
+  "wallet.rejectedDescription": "钱包拒绝了连接。请再试一次。",
+  "polygon.required": "需要多边形",
+  "polygon.requiredDescription": "这种交互需要连接到 Polygon 网络。",
+  "polygon.roninDescription": "2025 年 4 月将为这种互动提供 Ronin 支持。",
+  "polygon.continueDescription": "切换到 Polygon 继续。这可能需要在多边形网络上使用 POL。",
+  "polygon.cantContinueDescription": "不幸的是，你的钱包不支持 Polygon。请继续关注 2025 年 4 月的 Ronin 支持。"
 }

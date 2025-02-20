@@ -2988,7 +2988,6 @@
   "statements.sflLim.one": "Anda telah mencapai batas SFL harian.",
   "statements.sflLim.two": "Anda dapat terus bermain, tetapi harus menunggu sampai besok untuk menyinkronkan lagi.",
   "statements.sniped": "Oh tidak! Pemain lain membeli perdagangan itu sebelum Anda.",
-  "statements.switchNetwork": "Tambah atau Ganti Jaringan",
   "statements.sync": "Harap bersabar dengan kami saat kami menyinkronkan semua data Anda di rantai.",
   "statements.tapCont": "Ketuk untuk melanjutkan",
   "statements.price.change": "Oh tidak! Sepertinya harganya telah berubah, silakan coba lagi!",
@@ -5346,5 +5345,16 @@
   "upgrade.chickens": "ayam",
   "upgrade.unlockAllPlots": "Membuka semua kesuburan plot",
   "upgrade.plusPlotFertility": "+ {{amount}} plot kesuburan",
-  "upgrade.capacityIncrease": "+ {{amount}} kapasitas"
+  "upgrade.capacityIncrease": "+ {{amount}} kapasitas",
+  "statements.switchToPolygon": "Beralih ke Polygon",
+  "wallet.changeWallet": "Ubah Dompet",
+  "wallet.selectWallet": "Pilih Dompet",
+  "wallet.signIn": "Masuk",
+  "wallet.rejected": "Dompet Ditolak",
+  "wallet.rejectedDescription": "Dompet menolak koneksi. Silakan coba lagi.",
+  "polygon.required": "Poligon Diperlukan",
+  "polygon.requiredDescription": "Interaksi ini membutuhkan koneksi ke jaringan Polygon.",
+  "polygon.roninDescription": "Dukungan Ronin akan tersedia untuk interaksi ini pada April 2025.",
+  "polygon.continueDescription": "Beralih ke Polygon untuk melanjutkan. Ini mungkin memerlukan POL pada Jaringan Polygon.",
+  "polygon.cantContinueDescription": "Sayangnya, dompet Anda tidak mendukung Polygon. Nantikan dukungan Ronin pada April 2025."
 }

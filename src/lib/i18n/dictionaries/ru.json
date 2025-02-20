@@ -4363,7 +4363,6 @@
   "statements.soldOutWearables": "Одежда на маркетплейсе",
   "statements.startgame": "Начать игру",
   "statements.sure.buy": "Ты точно хочешь купить {{item}}?",
-  "statements.switchNetwork": "Добавить или переключить сеть",
   "statements.sync": "Пожалуйста, наберись терпения, пока мы синхронизируем все данные в блокчейне.",
   "statements.tapCont": "Нажми, чтобы продолжить",
   "statements.translation.joinDiscord": "Присоединиться к Discord серверу",
@@ -5346,5 +5345,16 @@
   "upgrade.chickens": "цыплята",
   "upgrade.unlockAllPlots": "Разблокирует все возможности сюжета",
   "upgrade.plusPlotFertility": "+ {{amount}} плодородие участка",
-  "upgrade.capacityIncrease": "+ {{amount}} вместимость"
+  "upgrade.capacityIncrease": "+ {{amount}} вместимость",
+  "statements.switchToPolygon": "Переключиться на многоугольник",
+  "wallet.changeWallet": "Сменить кошелек",
+  "wallet.selectWallet": "Выберите кошелек",
+  "wallet.signIn": "Войти",
+  "wallet.rejected": "Кошелек отклонен",
+  "wallet.rejectedDescription": "Wallet отклонил соединение. Пожалуйста, попробуйте еще раз.",
+  "polygon.required": "Требуется многоугольник",
+  "polygon.requiredDescription": "Для этого взаимодействия требуется подключение к сети Polygon.",
+  "polygon.roninDescription": "Поддержка Ronin будет доступна для этого взаимодействия в апреле 2025 года.",
+  "polygon.continueDescription": "Чтобы продолжить, переключитесь на Polygon. Для этого может потребоваться POL в сети Polygon.",
+  "polygon.cantContinueDescription": "К сожалению, ваш кошелек не поддерживает Polygon. Следите за новостями о поддержке Ronin в апреле 2025 года."
 }
