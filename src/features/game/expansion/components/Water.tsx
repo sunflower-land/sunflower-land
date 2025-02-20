@@ -21,7 +21,6 @@ import { GameState } from "features/game/types/game";
 
 import { CONFIG } from "lib/config";
 import { LaTomatina } from "./LaTomatina";
-import { Richie } from "./Richie";
 import { RestockBoat } from "./RestockBoat";
 import { SHIPMENT_STOCK } from "features/game/events/landExpansion/shipmentRestocked";
 import { SEEDS } from "features/game/types/seeds";
@@ -295,8 +294,6 @@ export const WaterComponent: React.FC<Props> = ({
       <TravelTeaser />
 
       <IslandUpgrader gameState={gameState} offset={offset} />
-
-      <Richie />
 
       {!restockIsEmpty && (
         <RestockBoat

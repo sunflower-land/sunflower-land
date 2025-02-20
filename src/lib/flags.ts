@@ -55,16 +55,10 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
  * Do not delete JEST_TEST.
  */
 const featureFlags = {
-  ONBOARDING_REWARDS: (game: GameState) =>
-    game.experiments.includes("ONBOARDING_CHALLENGES"),
   CROP_QUICK_SELECT: () => false,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  SKILLS_REVAMP: betaTimeBasedFeatureFlag(new Date("2025-02-10T00:00:00Z")),
-  ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
-    new Date("2024-12-18T00:00:00Z"),
-  ),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
