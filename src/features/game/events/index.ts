@@ -449,6 +449,10 @@ import {
   speedUpUpgrade,
   SpeedUpUpgradeAction,
 } from "./landExpansion/speedUpUpgrade";
+import {
+  acknowledgeOnChainAirdrop,
+  AcknowledgeOnChainAirdropAction,
+} from "./landExpansion/acknowledgeOnChainAirdrop";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -586,6 +590,7 @@ export type PlayingEvent =
   | CollectLavaPitAction
   | StartLavaPitAction
   | CancelQueuedRecipeAction
+  | AcknowledgeOnChainAirdropAction
   // To remove once December is finished
   | CollectCandyAction;
 
@@ -655,6 +660,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "onChainAirdrop.acknowledged": acknowledgeOnChainAirdrop,
   "recipe.cancelled": cancelQueuedRecipe,
   "obsidian.exchanged": exchangeObsidian,
   "resource.bought": buyResource,

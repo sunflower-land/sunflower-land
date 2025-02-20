@@ -5512,10 +5512,16 @@
   "whatsOn.ticketPaused": "The Bumpkins are on holidays - No more timeshards from chores & bounties.",
   "whatsOn.mysterySeasonText2": "No more timeshards from deliveries.",
   "whatsOn.mysterySeasonText3": "No more ancient clocks while digging.",
-
   "polygon.required": "Polygon Required",
   "polygon.requiredDescription": "This interaction requires a connection to the Polygon network.",
   "polygon.roninDescription": "Ronin support will be available for this interaction in April 2025.",
   "polygon.continueDescription": "Switch to Polygon to continue. This may require POL on the Polygon Network.",
-  "polygon.cantContinueDescription": "Unfortunately, your wallet does not support Polygon. Please stay tuned for Ronin support in April 2025."
+  "polygon.cantContinueDescription": "Unfortunately, your wallet does not support Polygon. Please stay tuned for Ronin support in April 2025.",
+  "ronin.nft.welcome": "Welcome Ronin Player!",
+  "ronin.nft.description": "Your {{nftName}} comes with exclusive perks!",
+  "ronin.nft.perkOne": "VIP Access",
+  "ronin.nft.perkTwo": "50% Faster Cooking",
+  "ronin.nft.perkThree": "Bonus Items",
+  "ronin.nft.perkFour": "Exclusive Ronin Collectible",
+  "ronin.nft.expires": "These perks won't last forever, so make the most of them while they last!"
 }
