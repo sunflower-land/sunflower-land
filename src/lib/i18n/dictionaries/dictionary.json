@@ -5521,7 +5521,5 @@
   "ronin.nft.description": "Your {{nftName}} comes with exclusive perks!",
   "ronin.nft.perkOne": "VIP Access",
   "ronin.nft.perkTwo": "50% Faster Cooking",
-  "ronin.nft.perkThree": "Bonus Items",
-  "ronin.nft.perkFour": "Exclusive Ronin Collectible",
   "ronin.nft.expires": "These perks won't last forever, so make the most of them while they last!"
 }

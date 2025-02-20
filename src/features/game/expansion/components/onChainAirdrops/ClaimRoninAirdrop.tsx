@@ -49,14 +49,6 @@ export const ClaimRoninAirdrop: React.FC = () => {
                 <span>{t("ronin.nft.perkTwo")}</span>
               </div>
             )}
-            <div className="flex items-center gap-2">
-              <img src={ITEM_DETAILS.Gem.image} className="w-6" />
-              <span>{t("ronin.nft.perkThree")}</span>
-            </div>
-            <div className="flex items-center gap-2 pb-1">
-              <img src={SUNNYSIDE.decorations.treasure_chest} className="h-6" />
-              <span>{t("ronin.nft.perkFour")}</span>
-            </div>
           </div>
           <p>{t("ronin.nft.expires")}</p>
           <Label
