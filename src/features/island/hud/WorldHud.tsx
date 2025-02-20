@@ -23,7 +23,6 @@ import { useLocation } from "react-router";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
-import { getDayOfChristmas } from "features/game/events/landExpansion/collectCandy";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 
 /**
@@ -38,10 +37,6 @@ const HudComponent: React.FC = () => {
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
-
-  const { dayOfChristmas } = getDayOfChristmas(
-    gameService?.state?.context?.state ?? {},
-  );
 
   const { pathname } = useLocation();
 
@@ -119,7 +114,7 @@ const HudComponent: React.FC = () => {
           <AuctionCountdown />
           {/* <SpecialEventCountdown /> */}
         </div>
-        <BumpkinProfile isFullUser={isFullUser} />
+        <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
         <div
           className="absolute z-50 flex flex-col justify-between"

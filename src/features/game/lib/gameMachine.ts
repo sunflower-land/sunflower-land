@@ -1014,8 +1014,6 @@ export function startGame(authContext: AuthContext) {
             // {
             //   target: "competition",
             //   cond: (context: Context) => {
-            //     if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
-            //       return false;
 
             //     // TODO is competition active?
 

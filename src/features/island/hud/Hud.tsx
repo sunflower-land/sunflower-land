@@ -198,7 +198,7 @@ const HudComponent: React.FC<{
           <Save />
           <Settings isFarming={isFarming} />
         </div>
-        <BumpkinProfile isFullUser={isFullUser} />
+        <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
 
         <DepositModal
