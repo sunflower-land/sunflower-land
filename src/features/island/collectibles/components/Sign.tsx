@@ -3,11 +3,19 @@ import React, { useContext } from "react";
 import sign from "assets/decorations/woodsign.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+
+const _username = (state: MachineState) => state.context.state.username;
+const _nftId = (state: MachineState) => state.context.nftId;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Sign: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+
+  const username = useSelector(gameService, _username);
+  const nftId = useSelector(gameService, _nftId);
+  const farmId = useSelector(gameService, _farmId);
 
   return (
     <div
@@ -30,10 +38,7 @@ export const Sign: React.FC = () => {
         }}
       >
         <p className="text-xxs mt-2 font-pixel">
-          {"#"}
-          {gameState.context.nftId
-            ? gameState.context.nftId
-            : gameState.context.farmId}
+          {username ?? `#${nftId}` ?? `#${farmId}`}
         </p>
       </div>
     </div>
