@@ -847,13 +847,13 @@ export function startGame(authContext: AuthContext) {
                 const april30th2025 = new Date("2025-04-30").getTime();
                 const dateNow = Date.now();
 
-                // Don't show $FLOWER teaser if they have been read in the last 14 days
+                // Don't show $FLOWER teaser if they have been read in the last 7 days
                 // or if the user has come from a pwa install magic link
                 // or if it's after April 30th 2025
                 return (
                   dateNow < april30th2025 &&
                   (!lastRead ||
-                    dateNow - lastRead.getTime() > 14 * 24 * 60 * 60 * 1000)
+                    dateNow - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000)
                 );
               },
             },
