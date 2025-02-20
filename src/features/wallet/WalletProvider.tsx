@@ -4,9 +4,11 @@ import { MachineInterpreter, walletMachine } from "./walletMachine";
 import { CONFIG } from "lib/config";
 
 import { http, createConfig, fallback, injected } from "@wagmi/core";
-import { polygon, polygonAmoy } from "@wagmi/core/chains";
+import { polygon, polygonAmoy, ronin, saigon } from "@wagmi/core/chains";
 import { walletConnect, metaMask } from "@wagmi/connectors";
 import { sequenceWallet } from "@0xsequence/wagmi-connector";
+import { WaypointProvider } from "@sky-mavis/waypoint";
+import { EIP1193Provider } from "viem";
 
 export const WalletContext = React.createContext<{
   walletService: MachineInterpreter;
@@ -86,8 +88,22 @@ export const fallbackConnector = injected({
   },
 });
 
+export const waypointConnector = injected({
+  target() {
+    return {
+      id: "waypoint",
+      name: "Ronin Waypoint",
+      provider: WaypointProvider.create({
+        clientId: "f71ef546-f5e5-49a9-8835-f89b60868622",
+        chainId: 2021,
+      }) as EIP1193Provider,
+    };
+  },
+});
+
 export const config = createConfig({
-  chains: [CONFIG.NETWORK === "mainnet" ? polygon : polygonAmoy],
+  chains:
+    CONFIG.NETWORK === "mainnet" ? [polygon, ronin] : [polygonAmoy, saigon],
   multiInjectedProviderDiscovery: true,
   connectors: [
     sequenceConnector,
@@ -97,10 +113,13 @@ export const config = createConfig({
     okexConnector,
     phantomConnector,
     fallbackConnector,
+    waypointConnector,
   ],
   transports: {
     [polygon.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
     [polygonAmoy.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
+    [ronin.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
+    [saigon.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
   },
 });
 

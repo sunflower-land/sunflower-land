@@ -4337,6 +4337,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@sky-mavis/waypoint@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@sky-mavis/waypoint/-/waypoint-4.1.0.tgz#9b8eebff433db7ac5630c7f71985eb3113ea0d25"
+  integrity sha512-LcRMoGBfwo133LwMRV58cMVocnqJka/bCQcD6K40fl2FFZo8/6nPhycHbGnM6eupxgYz08RxzGEmomg8NHpJPA==
+
 "@smithy/abort-controller@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@smithy/abort-controller/-/abort-controller-3.1.1.tgz#291210611ff6afecfc198d0ca72d5771d8461d16"
