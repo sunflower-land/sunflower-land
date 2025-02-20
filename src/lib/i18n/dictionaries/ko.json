@@ -5356,5 +5356,10 @@
   "polygon.requiredDescription": "이 상호 작용에는 Polygon 네트워크와의 연결이 필요합니다.",
   "polygon.roninDescription": "이 인터랙션에 대한 Ronin 지원은 2025년 4월에 제공될 예정입니다.",
   "polygon.continueDescription": "계속하려면 폴리곤으로 전환하세요.이를 위해서는 폴리곤 네트워크에서 POL이 필요할 수 있습니다.",
-  "polygon.cantContinueDescription": "안타깝게도 지갑은 Polygon을 지원하지 않습니다.2025년 4월에 있을 로닌 지원을 계속 지켜봐 주시기 바랍니다."
+  "polygon.cantContinueDescription": "안타깝게도 지갑은 Polygon을 지원하지 않습니다.2025년 4월에 있을 로닌 지원을 계속 지켜봐 주시기 바랍니다.",
+  "ronin.nft.welcome": "로닌 플레이어를 환영합니다!",
+  "ronin.nft.description": "{{nftName}} 에는 독점 혜택이 제공됩니다!",
+  "ronin.nft.perkOne": "VIP 액세스",
+  "ronin.nft.perkTwo": "2배 빠른 요리",
+  "ronin.nft.expires": "이러한 혜택은 영원히 지속되지 않으므로 지속되는 동안 최대한 활용하세요!"
 }

@@ -5356,5 +5356,10 @@
   "polygon.requiredDescription": "Для этого взаимодействия требуется подключение к сети Polygon.",
   "polygon.roninDescription": "Поддержка Ronin будет доступна для этого взаимодействия в апреле 2025 года.",
   "polygon.continueDescription": "Чтобы продолжить, переключитесь на Polygon. Для этого может потребоваться POL в сети Polygon.",
-  "polygon.cantContinueDescription": "К сожалению, ваш кошелек не поддерживает Polygon. Следите за новостями о поддержке Ronin в апреле 2025 года."
+  "polygon.cantContinueDescription": "К сожалению, ваш кошелек не поддерживает Polygon. Следите за новостями о поддержке Ronin в апреле 2025 года.",
+  "ronin.nft.welcome": "Добро пожаловать, Ронин Плейер!",
+  "ronin.nft.description": "Ваш {{nftName}} сопровождается эксклюзивными привилегиями!",
+  "ronin.nft.perkOne": "VIP-доступ",
+  "ronin.nft.perkTwo": "В 2 раза более быстрое приготовление",
+  "ronin.nft.expires": "Эти привилегии не будут длиться вечно, поэтому используйте их по максимуму, пока они есть!"
 }

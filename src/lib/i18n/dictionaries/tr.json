@@ -5356,5 +5356,10 @@
   "polygon.requiredDescription": "Bu etkileşim Polygon ağına bağlantı gerektirir.",
   "polygon.roninDescription": "Nisan 2025'te bu etkileşim için Ronin desteği mevcut olacak.",
   "polygon.continueDescription": "Devamlamak için Çokgen seçeneğine geçin. Bu, Poligon Ağında POL gerektirebilir.",
-  "polygon.cantContinueDescription": "Ne yazık ki, cüzdanınız Polygon'u desteklemiyor. Lütfen Nisan 2025'te Ronin desteği için bizi izlemeye devam edin."
+  "polygon.cantContinueDescription": "Ne yazık ki, cüzdanınız Polygon'u desteklemiyor. Lütfen Nisan 2025'te Ronin desteği için bizi izlemeye devam edin.",
+  "ronin.nft.welcome": "Hoşgeldin Ronin Player!",
+  "ronin.nft.description": "{{nftName}} sizin özel avantajlarla birlikte gelir!",
+  "ronin.nft.perkOne": "VIP Erişimi",
+  "ronin.nft.perkTwo": "2x Daha Hızlı Pişirme",
+  "ronin.nft.expires": "Bu avantajlar sonsuza kadar sürmeyecek, bu yüzden devam ederken onlardan en iyi şekilde yararlanın!"
 }

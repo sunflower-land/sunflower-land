@@ -5356,5 +5356,10 @@
   "polygon.requiredDescription": "Interaksi ini membutuhkan koneksi ke jaringan Polygon.",
   "polygon.roninDescription": "Dukungan Ronin akan tersedia untuk interaksi ini pada April 2025.",
   "polygon.continueDescription": "Beralih ke Polygon untuk melanjutkan. Ini mungkin memerlukan POL pada Jaringan Polygon.",
-  "polygon.cantContinueDescription": "Sayangnya, dompet Anda tidak mendukung Polygon. Nantikan dukungan Ronin pada April 2025."
+  "polygon.cantContinueDescription": "Sayangnya, dompet Anda tidak mendukung Polygon. Nantikan dukungan Ronin pada April 2025.",
+  "ronin.nft.welcome": "Selamat datang Ronin Player!",
+  "ronin.nft.description": "{{nftName}} Anda dilengkapi dengan fasilitas eksklusif!",
+  "ronin.nft.perkOne": "Akses VIP",
+  "ronin.nft.perkTwo": "2x Memasak Lebih Cepat",
+  "ronin.nft.expires": "Fasilitas ini tidak akan bertahan selamanya, jadi manfaatkan sebaik-baiknya selagi masih ada!"
 }

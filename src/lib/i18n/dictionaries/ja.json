@@ -5356,5 +5356,10 @@
   "polygon.requiredDescription": "このインタラクションには、Polygonネットワークへの接続が必要です。",
   "polygon.roninDescription": "このインタラクションについて Ronin のサポートは、2025 年 4 月に利用可能になる予定です。",
   "polygon.continueDescription": "ポリゴンに切り替えて続行してください。これには、ポリゴンネットワーク上の POL が必要な場合があります。",
-  "polygon.cantContinueDescription": "残念ながら、あなたのウォレットはPolygonをサポートしていません。2025 年 4 月の Ronin サポートに引き続きご期待ください。"
+  "polygon.cantContinueDescription": "残念ながら、あなたのウォレットはPolygonをサポートしていません。2025 年 4 月の Ronin サポートに引き続きご期待ください。",
+  "ronin.nft.welcome": "Ronin プレイヤーへようこそ！",
+  "ronin.nft.description": "あなたの {{nftName}} には限定特典が付いてきます！",
+  "ronin.nft.perkOne": "VIP アクセス",
+  "ronin.nft.perkTwo": "2倍速い調理",
+  "ronin.nft.expires": "これらの特典は永遠には続かないので、存続する間に最大限に活用してください！"
 }

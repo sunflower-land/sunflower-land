@@ -5356,5 +5356,10 @@
   "polygon.requiredDescription": "这种交互需要连接到 Polygon 网络。",
   "polygon.roninDescription": "2025 年 4 月将为这种互动提供 Ronin 支持。",
   "polygon.continueDescription": "切换到 Polygon 继续。这可能需要在多边形网络上使用 POL。",
-  "polygon.cantContinueDescription": "不幸的是，你的钱包不支持 Polygon。请继续关注 2025 年 4 月的 Ronin 支持。"
+  "polygon.cantContinueDescription": "不幸的是，你的钱包不支持 Polygon。请继续关注 2025 年 4 月的 Ronin 支持。",
+  "ronin.nft.welcome": "欢迎 Ronin Player！",
+  "ronin.nft.description": "你的 {{nftName}} 自带专属福利！",
+  "ronin.nft.perkOne": "贵宾访问权限",
+  "ronin.nft.perkTwo": "烹饪速度快 2 倍",
+  "ronin.nft.expires": "这些福利不会永远持续下去，所以在它们持续的时候充分利用它们！"
 }

@@ -5356,5 +5356,10 @@
   "polygon.requiredDescription": "Essa interação requer uma conexão com a rede Polygon.",
   "polygon.roninDescription": "O suporte do Ronin estará disponível para essa interação em abril de 2025.",
   "polygon.continueDescription": "Mude para o Polygon para continuar. Isso pode exigir POL na Polygon Network.",
-  "polygon.cantContinueDescription": "Infelizmente, sua carteira não suporta Polygon. Fique atento ao suporte de Ronin em abril de 2025."
+  "polygon.cantContinueDescription": "Infelizmente, sua carteira não suporta Polygon. Fique atento ao suporte de Ronin em abril de 2025.",
+  "ronin.nft.welcome": "Bem-vindo Ronin Player!",
+  "ronin.nft.description": "Seu {{nftName}} vem com vantagens exclusivas!",
+  "ronin.nft.perkOne": "Acesso VIP",
+  "ronin.nft.perkTwo": "Cozimento 2x mais rápido",
+  "ronin.nft.expires": "Essas vantagens não durarão para sempre, então aproveite ao máximo enquanto duram!"
 }
