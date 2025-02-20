@@ -21,6 +21,10 @@ export const hasVipAccess = ({
 
   if (hasSeasonPass || hasLifetimePass) return true;
 
+  // Has Ronin NFT VIP Access
+  const nft = game.nfts?.ronin;
+  if (nft && nft.expiresAt > now) return true;
+
   // New Code
   return !!game.vip?.expiresAt && game.vip?.expiresAt > now;
 };

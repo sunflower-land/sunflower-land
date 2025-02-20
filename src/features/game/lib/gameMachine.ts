@@ -541,6 +541,7 @@ export type BlockchainState = {
     | "randomising"
     | "competition"
     | "roninWelcomePack"
+    | "roninAirdrop"
     | StateName
     | StateNameWithStatus; // TEST ONLY
   context: Context;
@@ -909,6 +910,13 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "roninAirdrop",
+              cond: (context) =>
+                !!context.state.nfts?.ronin &&
+                !context.state.nfts.ronin.acknowledgedAt &&
+                context.state.nfts.ronin.expiresAt > Date.now(),
+            },
+            {
               target: "somethingArrived",
               cond: (context) => !!context.revealed,
             },
@@ -1033,6 +1041,16 @@ export function startGame(authContext: AuthContext) {
               target: "playing",
             },
           ],
+        },
+        roninAirdrop: {
+          on: {
+            "onChainAirdrop.acknowledged": (GAME_EVENT_HANDLERS as any)[
+              "onChainAirdrop.acknowledged"
+            ],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
         },
         vip: {
           on: {
