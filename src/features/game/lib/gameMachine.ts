@@ -53,6 +53,7 @@ import { randomID } from "lib/utils/random";
 import { buySFL } from "../actions/buySFL";
 import { PlaceableLocation } from "../types/collectibles";
 import {
+  getFLOWERTeaserLastRead,
   getGameRulesLastRead,
   getIntroductionRead,
   getVipRead,
@@ -491,6 +492,7 @@ export type BlockchainState = {
     | "landToVisitNotFound"
     | "visiting"
     | "gameRules"
+    | "FLOWERTeaser"
     | "portalling"
     | "introduction"
     | "gems"
@@ -839,6 +841,24 @@ export function startGame(authContext: AuthContext) {
             },
 
             {
+              target: "FLOWERTeaser",
+              cond: () => {
+                const lastRead = getFLOWERTeaserLastRead();
+                const april30th2025 = new Date("2025-04-30").getTime();
+                const dateNow = Date.now();
+
+                // Don't show $FLOWER teaser if they have been read in the last 14 days
+                // or if the user has come from a pwa install magic link
+                // or if it's after April 30th 2025
+                return (
+                  dateNow < april30th2025 &&
+                  (!lastRead ||
+                    dateNow - lastRead.getTime() > 14 * 24 * 60 * 60 * 1000)
+                );
+              },
+            },
+
+            {
               target: "introduction",
               cond: (context) => {
                 return (
@@ -1107,6 +1127,13 @@ export function startGame(authContext: AuthContext) {
         },
 
         gameRules: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        FLOWERTeaser: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",

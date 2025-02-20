@@ -80,6 +80,7 @@ import { CalendarEvent } from "./components/temperateSeason/CalendarEvent";
 import { DailyReset } from "../components/DailyReset";
 import { RoninWelcomePack } from "./components/RoninWelcomePack";
 import { ClaimRoninAirdrop } from "./components/onChainAirdrops/ClaimRoninAirdrop";
+import { FLOWERTeaserContent } from "../components/FLOWERTeaser";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -114,6 +115,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   swarming: true,
   coolingDown: true,
   gameRules: true,
+  FLOWERTeaser: true,
   randomising: false,
   visiting: false,
   loadLandToVisit: true,
@@ -186,6 +188,7 @@ const isPurchasing = (state: MachineState) =>
 const showGems = (state: MachineState) => state.matches("gems");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
+const isFLOWERTeaser = (state: MachineState) => state.matches("FLOWERTeaser");
 const isDepositing = (state: MachineState) => state.matches("depositing");
 const isLoadingLandToVisit = (state: MachineState) =>
   state.matches("loadLandToVisit");
@@ -369,6 +372,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const swarming = useSelector(gameService, isSwarming);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const gameRules = useSelector(gameService, isGameRules);
+  const FLOWERTeaser = useSelector(gameService, isFLOWERTeaser);
   const depositing = useSelector(gameService, isDepositing);
   const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
   const loadingSession = useSelector(gameService, isLoadingSession);
@@ -584,6 +588,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {swarming && <Swarming />}
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
+            {FLOWERTeaser && <FLOWERTeaserContent />}
             {transacting && <Transaction />}
             {depositing && <Loading text={t("depositing")} />}
             {trading && <Loading text={t("trading")} />}
