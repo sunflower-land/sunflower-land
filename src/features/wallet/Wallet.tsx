@@ -158,7 +158,11 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
   }
 
   if (walletState.matches("wrongNetwork")) {
-    return <PolygonRequired />;
+    return <PolygonRequired canContinue={true} />;
+  }
+
+  if (walletState.matches("networkNotSupported")) {
+    return <PolygonRequired canContinue={false} />;
   }
 
   if (walletState.matches("alreadyLinkedWallet")) {
@@ -504,11 +508,11 @@ const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
   }
 
   if (walletState.matches("wrongNetwork")) {
-    return (
-      <div className="p-2">
-        <p>{t("wallet.wrongChain")}</p>
-      </div>
-    );
+    return <PolygonRequired canContinue={true} />;
+  }
+
+  if (walletState.matches("networkNotSupported")) {
+    return <PolygonRequired canContinue={false} />;
   }
 
   if (walletState.matches("alreadyLinkedWallet")) {

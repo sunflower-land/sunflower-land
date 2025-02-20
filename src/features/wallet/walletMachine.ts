@@ -110,6 +110,7 @@ export type WalletState = {
     | "missingNFT"
     | "wrongWallet"
     | "wrongNetwork"
+    | "networkNotSupported"
     | "alreadyLinkedWallet"
     | "alreadyHasFarm"
     | "error";
@@ -521,7 +522,13 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         },
       },
     },
-    networkNotSupported: {},
+    networkNotSupported: {
+      on: {
+        CONTINUE: {
+          target: "chooseWallet",
+        },
+      },
+    },
     alreadyLinkedWallet: {},
     alreadyHasFarm: {},
     error: {

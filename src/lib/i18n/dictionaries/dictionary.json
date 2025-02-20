@@ -5516,5 +5516,6 @@
   "polygon.required": "Polygon Required",
   "polygon.requiredDescription": "This interaction requires a connection to the Polygon network.",
   "polygon.roninDescription": "Ronin support will be available for this interaction in April 2025.",
-  "polygon.continueDescription": "Switch to Polygon to continue. This may require POL on the Polygon Network."
+  "polygon.continueDescription": "Switch to Polygon to continue. This may require POL on the Polygon Network.",
+  "polygon.cantContinueDescription": "Unfortunately, your wallet does not support Polygon. Please stay tuned for Ronin support in April 2025."
 }

@@ -19,6 +19,10 @@ const defaultFeatureFlag = ({ inventory }: GameState) =>
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
+const testnetLocalStorageFeatureFlag = (key: string) => {
+  return testnetFeatureFlag || (() => !!localStorage.getItem(key) === true);
+};
+
 const timeBasedFeatureFlag = (date: Date) => () => {
   return testnetFeatureFlag() || Date.now() > date.getTime();
 };
@@ -59,7 +63,7 @@ const featureFlags = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  RONIN_LOGIN: testnetFeatureFlag,
+  RONIN_LOGIN: testnetLocalStorageFeatureFlag("ronin_login"),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

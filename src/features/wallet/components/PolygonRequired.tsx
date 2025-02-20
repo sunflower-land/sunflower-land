@@ -7,11 +7,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { WalletContext } from "../WalletProvider";
 
-export const PolygonRequired: React.FC = () => {
+export const PolygonRequired: React.FC<{
+  canContinue: boolean;
+}> = ({ canContinue }) => {
   const { t } = useAppTranslation();
   const { walletService } = useContext(WalletContext);
 
-  const switchToPolygon = () => {
+  const doContinue = () => {
     walletService.send({
       type: "CONTINUE",
     });
@@ -37,13 +39,18 @@ export const PolygonRequired: React.FC = () => {
             />
             <p className="text-xs">{t("polygon.roninDescription")}</p>
           </div>
-          <p className="text-xs">{t("polygon.continueDescription")}</p>
+          {canContinue && (
+            <p className="text-xs">{t("polygon.continueDescription")}</p>
+          )}
+          {!canContinue && (
+            <p className="text-xs">{t("polygon.cantContinueDescription")}</p>
+          )}
         </div>
       </div>
       <div className="flex justify-evenly space-x-1">
-        <Button onClick={switchToPolygon} className="py-2 text-sm relative">
+        <Button onClick={doContinue} className="py-2 text-sm relative">
           <div className="text-center whitespace-nowrap">
-            {t("statements.switchToPolygon")}
+            {canContinue ? t("statements.switchToPolygon") : t("back")}
           </div>
         </Button>
       </div>
