@@ -60,6 +60,7 @@ import fieryJackpot from "assets/icons/skill_icons/fiery_jackpot.png";
 import fineFibers from "assets/icons/skill_icons/fine_fibers.png";
 import fireKissed from "assets/resources/crimstone/crimstone_rock_5.webp";
 import firesideAlchemist from "assets/icons/skill_icons/fireside_alchemist.png";
+import fishFrenzy from "assets/icons/fish_frenzy.webp";
 import fishyFeast from "assets/icons/skill_icons/fishy_feast.png";
 import frugalMiner from "assets/icons/skill_icons/frugal_miner.png";
 import fruitfulBounty from "assets/icons/skill_icons/fruitful_bounty.png";
@@ -1258,6 +1259,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     },
+    image: fishFrenzy,
     disabled: false,
   },
   "More With Less": {
@@ -1912,7 +1914,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
     },
-    image: SUNNYSIDE.resource.stone,
+    image: SUNNYSIDE.resource.stone_small,
     disabled: false,
   },
   "Tap Prospector": {
@@ -2635,9 +2637,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.cropProcessorUnit.debuff"),
         labelType: "danger",
         boostTypeIcon: redArrowDown,
-        boostedItemIcon: SUNNYSIDE.icons.timer,
+        boostedItemIcon: ITEM_DETAILS["Oil"].image,
       },
     },
+    image: SUNNYSIDE.icons.timer,
     disabled: false,
   },
   "Oil Gadget": {
@@ -2690,7 +2693,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.leakProofTank"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
-        boostedItemIcon: ITEM_DETAILS["Oil"].image,
+        boostedItemIcon: oilTank,
       },
     },
     image: oilTank,
