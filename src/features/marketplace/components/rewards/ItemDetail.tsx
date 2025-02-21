@@ -20,6 +20,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useLayoutEffect, useState } from "react";
 
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+
 interface Props {
   onClose: () => void;
   itemName: TradeRewardsItem | TradeRewardPacks;
@@ -133,6 +136,23 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
                       {t("marketplace.reward.seedLimit")}
                     </span>
                   </Label>
+                )}
+                {itemName === "Trade Cake" && (
+                  <div className="flex flex-1 items-end">
+                    <RequirementLabel
+                      type="xp"
+                      xp={
+                        new Decimal(
+                          getFoodExpBoost(
+                            CONSUMABLES["Trade Cake" as ConsumableName],
+                            state.bumpkin,
+                            state,
+                            state.buds ?? {},
+                          ),
+                        )
+                      }
+                    />
+                  </div>
                 )}
                 <div className="flex flex-1 items-end">
                   <RequirementLabel
