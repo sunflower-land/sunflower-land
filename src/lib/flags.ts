@@ -19,8 +19,11 @@ const defaultFeatureFlag = ({ inventory }: GameState) =>
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
-const testnetLocalStorageFeatureFlag = (key: string) => {
-  return testnetFeatureFlag || (() => !!localStorage.getItem(key) === true);
+const localStorageFeatureFlag = (key: string) =>
+  !!localStorage.getItem(key) === true;
+
+const testnetLocalStorageFeatureFlag = (key: string) => (game: GameState) => {
+  return testnetFeatureFlag() || localStorageFeatureFlag(key);
 };
 
 const timeBasedFeatureFlag = (date: Date) => () => {
