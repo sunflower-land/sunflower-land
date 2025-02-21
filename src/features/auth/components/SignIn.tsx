@@ -423,7 +423,11 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
         {/** Metamask and Ronin have custom buttons - don't show the injected connectors */}
         {eip6963Connectors
           .filter((connector) => connector.name !== "MetaMask")
-          .filter((connector) => connector.name !== "Ronin Wallet")
+          .filter((connector) =>
+            hasFeatureAccess(INITIAL_FARM, "RONIN_LOGIN")
+              ? connector.name !== "Ronin Wallet"
+              : true,
+          )
           .map((connector) => (
             <Button
               className="mb-1 py-2 text-sm relative"
