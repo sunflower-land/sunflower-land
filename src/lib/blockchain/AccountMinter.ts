@@ -20,6 +20,7 @@ export async function getCreatedAt(
 
   try {
     const createdAt = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: ABI,
       address: CONFIG.ACCOUNT_MINTER_CONTRACT,
       functionName: "farmCreatedAt",
