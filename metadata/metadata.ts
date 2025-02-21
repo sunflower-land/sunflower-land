@@ -4449,7 +4449,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_number",
-        trait_type: "Grants 3 Wishes from the Wish list",
+        trait_type: "Grants Wishes from the Wish list",
         value: 3,
       },
       { trait_type: "Tradable", value: "Yes" },
