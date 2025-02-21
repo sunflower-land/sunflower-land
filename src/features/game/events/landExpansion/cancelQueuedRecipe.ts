@@ -6,7 +6,7 @@ import {
   InventoryItemName,
   PlacedItem,
 } from "features/game/types/game";
-import { getCookingRequirements } from "./cook";
+import { getCookingRequirements, getReadyAt } from "./cook";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
@@ -98,19 +98,27 @@ export function cancelQueuedRecipe({
       game.inventory,
     );
 
-    const cancelledCookingTime =
-      recipe.readyAt - queue[recipeIndex - 1].readyAt;
+    // When a recipe is cancelled, we need to recalculate the readyAt times for all recipes that come after it.
+    // Each recipe's start time should be the readyAt time of the recipe before it in the queue.
 
-    const newQueue = queue
-      .map((r, index) => {
-        if (index < recipeIndex) return r;
+    const filteredQueue = queue.filter((_, index) => index !== recipeIndex);
+    const newQueue = filteredQueue.map((r, index) => {
+      if (index === 0) return r;
 
-        return {
-          ...r,
-          readyAt: r.readyAt - cancelledCookingTime,
-        };
-      })
-      .filter((_, index) => index !== recipeIndex);
+      const previousRecipeReadyAt = filteredQueue[recipeIndex - 1]?.readyAt;
+
+      const readyAt = getReadyAt({
+        buildingId: buildingId,
+        item: r.name,
+        createdAt: previousRecipeReadyAt,
+        game: state,
+      });
+
+      return {
+        ...r,
+        readyAt,
+      };
+    });
 
     if (recipe.boost?.Oil) {
       building.oil = (building.oil ?? 0) + recipe.boost.Oil;

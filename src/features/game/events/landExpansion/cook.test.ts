@@ -1015,35 +1015,6 @@ describe("getReadyAt", () => {
 
     expect(time).toEqual(COOKABLES["Fermented Fish"].cookingSeconds * 0.4);
   });
-});
-
-describe("getCookingOilBoost", () => {
-  it("returns 60 minutes for Boiled Egg if no oil", () => {
-    const time = getCookingOilBoost("Boiled Eggs", TEST_FARM, "1").timeToCook;
-
-    expect(time).toEqual(60 * 60);
-  });
-
-  it("boosts Fire Pit time by 20% with oil", () => {
-    const game = {
-      ...TEST_FARM,
-      buildings: {
-        "Fire Pit": [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: Date.now(),
-            id: "1",
-            readyAt: 0,
-            oil: 1,
-          },
-        ],
-      },
-    };
-
-    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
-
-    expect(time).toEqual(60 * 60 * 0.8);
-  });
 
   it("partial boost if oil is less than cooking required oil", () => {
     const game = {
@@ -1145,11 +1116,12 @@ describe("getCookingOilBoost", () => {
     });
   });
 
-  it("applies a partial boost if the hourglass expires after cooking starts but before it finishes", () => {
+  it("applies the Gourmet Hourglass boost if the queued recipe will start before the boost expires", () => {
     const now = Date.now();
     // Hourglass expires in 30 minutes
     const hourglassCreatedAt =
       now - (EXPIRY_COOLDOWNS["Gourmet Hourglass"] as number) + 30 * 60 * 1000;
+    const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cook({
       state: {
@@ -1170,8 +1142,8 @@ describe("getCookingOilBoost", () => {
               readyAt: 0,
               crafting: [
                 {
-                  name: "Mashed Potato",
-                  readyAt: now,
+                  name: "Boiled Eggs",
+                  readyAt: now + 29 * 60 * 1000, // Ready in 29 minutes
                   amount: 1,
                 },
               ],
@@ -1197,17 +1169,40 @@ describe("getCookingOilBoost", () => {
       createdAt: now,
     });
 
-    // Egg cook time is 3600 seconds (1 hour)
-    // 1800 (30 minutes) of the 50% reduction boost should be applied
-    // 30 mins at full time and 30 mins at 50% time
-    // 30 mins at full time = 1800 seconds
-    // 30 mins at 50% time = 900 seconds
-    // 1800 + 900 = 2700 seconds
-    const expectedTimeMs = 2700 * 1000;
     const building = state.buildings["Fire Pit"]?.[0];
-    const eggRecipe = building?.crafting?.find((r) => r.name === "Boiled Eggs");
+    const currentRecipeReadyAt = building?.crafting?.[0]?.readyAt as number;
+    const nextRecipeReadyAt = building?.crafting?.[1]?.readyAt;
 
-    expect(eggRecipe?.readyAt).toEqual(now + expectedTimeMs);
+    expect(nextRecipeReadyAt).toEqual(currentRecipeReadyAt + cookTimeMs * 0.5);
+  });
+});
+
+describe("getCookingOilBoost", () => {
+  it("returns 60 minutes for Boiled Egg if no oil", () => {
+    const time = getCookingOilBoost("Boiled Eggs", TEST_FARM, "1").timeToCook;
+
+    expect(time).toEqual(60 * 60);
+  });
+
+  it("boosts Fire Pit time by 20% with oil", () => {
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        "Fire Pit": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 1,
+          },
+        ],
+      },
+    };
+
+    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
+
+    expect(time).toEqual(60 * 60 * 0.8);
   });
 
   it("applies the 50% cooking boost for valid Ronin NFTs", () => {

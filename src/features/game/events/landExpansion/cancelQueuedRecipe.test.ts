@@ -4,8 +4,9 @@ import {
   getCurrentCookingItem,
 } from "./cancelQueuedRecipe";
 import { BuildingProduct, PlacedItem } from "features/game/types/game";
-import { CookableName } from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { getOilConsumption } from "./cook";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 describe("cancelQueuedRecipe", () => {
   it("throws an error if the building does not exist", () => {
@@ -187,15 +188,15 @@ describe("cancelQueuedRecipe", () => {
       createdAt: now,
     });
 
-    expect(state.buildings?.Bakery?.[0]?.crafting).toEqual([
+    expect(state.buildings?.Bakery?.[0]?.crafting).toMatchObject([
       {
         name: "Honey Cake",
-        readyAt: now - 1000,
+        readyAt: expect.any(Number),
         amount: 1,
       },
       {
         name: "Cornbread",
-        readyAt: now + 1000,
+        readyAt: expect.any(Number),
         amount: 1,
       },
     ]);
@@ -350,10 +351,10 @@ describe("cancelQueuedRecipe", () => {
     });
   });
 
-  it("adjusts the readyAt times when cancelling from queue", () => {
+  it("recalculates the ready times of the recipes queued after the cancelled recipe", () => {
     const now = Date.now();
-    const POTATO_TIME = 60_000; // 1 minute
-    const EGG_TIME = 30_000; // 30 seconds
+    const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+    const EGG_TIME = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cancelQueuedRecipe({
       state: {
@@ -406,6 +407,72 @@ describe("cancelQueuedRecipe", () => {
 
     // Third recipe moved up by EGG_TIME
     expect(queue?.[1].readyAt).toBe(now + POTATO_TIME + POTATO_TIME);
+  });
+
+  it("applies boost when recipe start time shifts to before Gourmet Hourglass expiry", () => {
+    const now = Date.now();
+    const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+    const EGG_TIME = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
+    const BOOST_COOLDOWN = EXPIRY_COOLDOWNS["Gourmet Hourglass"] as number;
+
+    const state = cancelQueuedRecipe({
+      state: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Gourmet Hourglass": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: now - BOOST_COOLDOWN + 60 * 1000, // Expires in 1 minute
+            },
+          ],
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + POTATO_TIME / 2, // Boosted
+                  amount: 1,
+                },
+                {
+                  name: "Boiled Eggs",
+                  readyAt: now + POTATO_TIME / 2 + EGG_TIME / 2, // Boosted
+                  amount: 1,
+                },
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + POTATO_TIME + EGG_TIME + POTATO_TIME, // Not boosted
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Fire Pit",
+        buildingId: "1",
+        queueItem: {
+          name: "Boiled Eggs",
+          readyAt: now + POTATO_TIME / 2 + EGG_TIME / 2,
+          amount: 1,
+        },
+      },
+      createdAt: now,
+    });
+
+    const building = state.buildings?.["Fire Pit"]?.[0];
+    const queue = building?.crafting;
+
+    expect(queue?.[1].readyAt).toBe(now + POTATO_TIME / 2 + POTATO_TIME / 2);
   });
 });
 

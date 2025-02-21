@@ -150,16 +150,7 @@ const applyTempCollectibleBoost = ({
 
   if (expiresAt <= cookStartAt) return seconds;
 
-  const totalCookingTime = seconds.toNumber();
-  const timeUntilExpiry = (expiresAt - cookStartAt) / 1000;
-
-  const boostedTime = Math.min(timeUntilExpiry, totalCookingTime);
-  const remainingTime = totalCookingTime - boostedTime;
-
-  const boostedTimeWithBoost = boostedTime * boostValue;
-
-  // boosted portion + remaining portion
-  return new Decimal(boostedTimeWithBoost + remainingTime);
+  return new Decimal(seconds.toNumber() * boostValue);
 };
 
 const hasValidRoninNFT = (game: GameState, cookStartAt: number) => {
