@@ -4,8 +4,7 @@ import ABI from "./abis/BuyGems";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
-import { polygonAmoy } from "viem/_types/chains/definitions/polygonAmoy";
-import { polygon } from "viem/chains";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const address = CONFIG.BUY_GEMS_CONTRACT;
 
