@@ -81,7 +81,6 @@ import { DailyReset } from "../components/DailyReset";
 import { RoninWelcomePack } from "./components/RoninWelcomePack";
 import { ClaimRoninAirdrop } from "./components/onChainAirdrops/ClaimRoninAirdrop";
 import { FLOWERTeaserContent } from "../components/FLOWERTeaser";
-import { acknowledgeFLOWERTeaser } from "features/announcements/announcementsStorage";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -543,9 +542,6 @@ export const GameWrapper: React.FC = ({ children }) => {
       tradeAlreadyFulfilled
     ) {
       gameService.send("CONTINUE");
-    } else if (FLOWERTeaser) {
-      acknowledgeFLOWERTeaser();
-      gameService.send("ACKNOWLEDGE");
     } else {
       return undefined;
     }

@@ -103,6 +103,8 @@ import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { SpecialEventName } from "../types/specialEvents";
+import { getAccount } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -844,16 +846,21 @@ export function startGame(authContext: AuthContext) {
               target: "FLOWERTeaser",
               cond: () => {
                 const lastRead = getFLOWERTeaserLastRead();
-                const april30th2025 = new Date("2025-04-30").getTime();
+                const march31st2025 = new Date("2025-03-31").getTime();
                 const dateNow = Date.now();
+                const account = getAccount(config);
+                const accountConnectorName = account?.connector?.name;
+                const isRonin = !!accountConnectorName?.includes("Ronin");
+                const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
 
-                // Don't show $FLOWER teaser if they have been read in the last 7 days
-                // or if the user has come from a pwa install magic link
-                // or if it's after April 30th 2025
+                // Show teaser if:
+                // 1. Player is using Ronin wallet
+                // 2. Current date is before March 31st 2025
+                // 3. Player has read teaser before AND it's been 7+ days since last read
                 return (
-                  dateNow < april30th2025 &&
-                  (!lastRead ||
-                    dateNow - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000)
+                  (isRonin || !!lastRead) &&
+                  dateNow < march31st2025 &&
+                  dateNow - (lastRead?.getTime() ?? 0) > sevenDaysInMs
                 );
               },
             },
