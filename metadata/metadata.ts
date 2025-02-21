@@ -4441,7 +4441,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Genie Lamp": {
     description:
-      "A magical lamp that contains a genie who will grant you three wishes.",
+      "A magical lamp that contains a genie who will grant you three wishes and burn the lamp after the third wish. Wish list: Genie Bear, Pirate Bounty, Pearl, Bumpkin Roast, Goblin Brunch and Sand Drill x10",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/460.png",
@@ -4449,7 +4449,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_number",
-        trait_type: "Grants Wishes",
+        trait_type: "Grants 3 Wishes from the Wish list",
         value: 3,
       },
       { trait_type: "Tradable", value: "Yes" },
