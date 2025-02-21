@@ -207,6 +207,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("woc_banner_spring", "world/winds_of_change_spring.webp");
     this.load.image("woc_banner_autumn", "world/winds_of_change_autumn.webp");
     this.load.image("woc_banner_winter", "world/winds_of_change_winter.webp");
+    this.load.image("ronin_banner", "world/ronin_banner.webp");
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -518,6 +519,13 @@ export class PlazaScene extends BaseScene {
     this.add.image(480, 386, banner).setDepth(386);
 
     this.add.sprite(385, 386, banner).setDepth(386);
+
+    // Ronin Banner
+    this.add.sprite(400, 150, "ronin_banner").setDepth(150);
+    this.add.sprite(330, 355, "ronin_banner").setDepth(355);
+    this.add.sprite(672, 270, "ronin_banner").setDepth(270);
+    this.add.sprite(41, 287, "ronin_banner").setDepth(287);
+    this.add.sprite(106, 110, "ronin_banner").setDepth(120);
 
     const bud3 = this.add.sprite(176, 290, "plaza_bud_3");
     this.anims.create({
