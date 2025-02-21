@@ -12,6 +12,7 @@ import {
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { formatEther, parseEther } from "viem";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
@@ -83,6 +84,7 @@ export class Wallet {
     const maticMinusFee = (BigInt(matic) * BigInt(950)) / BigInt(1000);
 
     const result = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: [
         {
           inputs: [
@@ -107,6 +109,7 @@ export class Wallet {
 
   public async getMaticForSFL(sfl: string) {
     const result = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: [
         {
           inputs: [

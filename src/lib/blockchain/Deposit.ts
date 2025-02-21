@@ -2,6 +2,8 @@ import { CONFIG } from "lib/config";
 import BudDepositAbi from "./abis/BudDeposit";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygon } from "viem/chains";
+import { polygonAmoy } from "viem/chains";
 
 const budsDepositAddress = CONFIG.BUD_DEPOSIT_CONTRACT;
 
@@ -27,6 +29,7 @@ export async function depositToFarm({
   budIds,
 }: DepositArgs) {
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: BudDepositAbi,
     address: budsDepositAddress as `0x${string}`,
     functionName: "depositToFarm",

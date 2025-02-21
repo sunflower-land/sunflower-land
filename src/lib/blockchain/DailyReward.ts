@@ -7,6 +7,8 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygonAmoy } from "viem/chains";
+import { polygon } from "viem/chains";
 
 export async function getDailyCode(
   account: `0x${string}`,
@@ -16,6 +18,7 @@ export async function getDailyCode(
 
   try {
     const code = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: ABI,
       address: CONFIG.DAILY_REWARD_CONTRACT as `0x${string}`,
       functionName: "counts",
@@ -42,6 +45,7 @@ export async function trackDailyReward({
   code: number;
 }): Promise<void> {
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: ABI,
     address: CONFIG.DAILY_REWARD_CONTRACT as `0x${string}`,
     functionName: "reward",

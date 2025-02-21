@@ -4,6 +4,8 @@ import { getNextSessionId, getSessionId } from "./Session";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
+import { polygon } from "viem/chains";
+import { polygonAmoy } from "viem/chains";
 
 const address = CONFIG.GAME_CONTRACT;
 
@@ -41,6 +43,7 @@ export async function syncProgress({
   const oldSessionId = await getSessionId(farmId);
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: GameABI,
     functionName: "syncProgress",
     address,
