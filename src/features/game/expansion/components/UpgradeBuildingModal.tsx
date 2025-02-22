@@ -64,7 +64,7 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   };
 
   const hasRequiredLevel = () => {
-    const bumpkinLevel = getBumpkinLevel(state.bumpkin.experience);
+    const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
     if (requirements.requiredLevel) {
       return bumpkinLevel >= requirements.requiredLevel;
