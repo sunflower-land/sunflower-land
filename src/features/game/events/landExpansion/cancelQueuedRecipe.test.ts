@@ -3,7 +3,11 @@ import {
   cancelQueuedRecipe,
   getCurrentCookingItem,
 } from "./cancelQueuedRecipe";
-import { BuildingProduct, PlacedItem } from "features/game/types/game";
+import {
+  BuildingProduct,
+  GameState,
+  PlacedItem,
+} from "features/game/types/game";
 import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { getOilConsumption } from "./cook";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
@@ -473,6 +477,138 @@ describe("cancelQueuedRecipe", () => {
     const queue = building?.crafting;
 
     expect(queue?.[1].readyAt).toBe(now + POTATO_TIME / 2 + POTATO_TIME / 2);
+  });
+
+  it("has the correct ready at times when recipes are cancelled", () => {
+    const now = Date.now();
+    const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+
+    const startState: GameState = {
+      ...INITIAL_FARM,
+      buildings: {
+        "Fire Pit": [
+          {
+            id: "1",
+            coordinates: { x: 0, y: 0 },
+            readyAt: 0,
+            createdAt: 0,
+            crafting: [
+              {
+                name: "Mashed Potato",
+                readyAt: now,
+                amount: 1,
+              },
+              {
+                name: "Mashed Potato",
+                readyAt: now + POTATO_TIME,
+                amount: 1,
+              },
+              {
+                name: "Mashed Potato",
+                readyAt: now + POTATO_TIME * 2,
+                amount: 1,
+              },
+              {
+                name: "Mashed Potato",
+                readyAt: now + POTATO_TIME * 3,
+                amount: 1,
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    // Cancel the first recipe in the queue
+    const afterFirstCancel = cancelQueuedRecipe({
+      state: startState,
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Fire Pit",
+        buildingId: "1",
+        queueItem: {
+          name: "Mashed Potato",
+          readyAt: now + POTATO_TIME * 3,
+          amount: 1,
+        },
+      },
+      createdAt: now,
+    });
+
+    // Cancel the second recipe in the queue
+    const afterSecondCancel = cancelQueuedRecipe({
+      state: afterFirstCancel,
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Fire Pit",
+        buildingId: "1",
+        queueItem: {
+          name: "Mashed Potato",
+          readyAt: now + POTATO_TIME * 2,
+          amount: 1,
+        },
+      },
+      createdAt: now + 1000,
+    });
+
+    // Third recipe should now be cooking and should have a readyAt of now + POTATO_TIME
+    const building = afterSecondCancel.buildings?.["Fire Pit"]?.[0];
+    const queue = building?.crafting;
+    expect(queue).toHaveLength(2);
+    expect(queue?.[0].readyAt).toBe(now);
+    expect(queue?.[1].readyAt).toBeCloseTo(now + POTATO_TIME);
+  });
+
+  it("doesn't recalculate the current cooking item readyAt", () => {
+    const now = Date.now();
+    const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+
+    const state = cancelQueuedRecipe({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + POTATO_TIME - 10 * 1000,
+                  amount: 1,
+                },
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + POTATO_TIME * 2,
+                  amount: 1,
+                },
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + POTATO_TIME * 3,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Fire Pit",
+        buildingId: "1",
+        queueItem: {
+          name: "Mashed Potato",
+          readyAt: now + POTATO_TIME * 2,
+          amount: 1,
+        },
+      },
+      createdAt: now,
+    });
+
+    const queue = state.buildings?.["Fire Pit"]?.[0]?.crafting;
+    expect(queue?.[0].readyAt).toBe(now + POTATO_TIME - 10 * 1000);
   });
 });
 

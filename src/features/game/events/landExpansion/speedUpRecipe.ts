@@ -4,6 +4,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
@@ -102,11 +103,13 @@ export function speedUpRecipe({
       throw new Error("Building does not exist");
     }
 
-    const recipe = building.crafting
-      ?.sort((a, b) => a.readyAt - b.readyAt)
-      .find((r) => r.readyAt > createdAt);
+    const queue = building.crafting;
+    const recipe = getCurrentCookingItem({ building, createdAt });
+    const recipeIndex = queue?.findIndex(
+      (r) => r.readyAt === recipe?.readyAt,
+    ) as number;
 
-    if (!recipe) {
+    if (!queue || !recipe) {
       throw new Error("Nothing is cooking");
     }
 
@@ -126,16 +129,15 @@ export function speedUpRecipe({
       game.inventory[recipe.name] ?? new Decimal(0)
     ).add(recipe.amount ?? 1);
 
-    building.crafting = building.crafting?.filter(
-      (r) => r.readyAt !== recipe.readyAt,
-    );
+    // Remove the sped up recipe from the queue
+    const filteredQueue = queue.filter((r) => r.readyAt !== recipe.readyAt);
 
-    // Calculate time difference between sped up recipe and now
-    const timeDiff = recipe.readyAt - createdAt;
-
-    // Adjust remaining recipes readyAt times
-    building.crafting?.forEach((r) => {
-      r.readyAt -= timeDiff;
+    building.crafting = recalculateQueue({
+      queue: filteredQueue,
+      createdAt,
+      buildingId: building.id,
+      game,
+      isInstant: true,
     });
 
     game = makeGemHistory({ game, amount: gems });

@@ -36,6 +36,7 @@ export const Queue: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
   const { t } = useTranslation();
+  const sortedQueue = [...queue].sort((a, b) => a.readyAt - b.readyAt);
 
   return (
     <div className="mb-2">
@@ -60,7 +61,7 @@ export const Queue: React.FC<Props> = ({
         {Array(cooking ? 3 : 4)
           .fill(null)
           .map((_, index) => {
-            const displayItems = [...queue, ...readyRecipes];
+            const displayItems = [...sortedQueue, ...readyRecipes];
 
             return (
               <QueueSlot

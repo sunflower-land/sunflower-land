@@ -14,8 +14,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { getInstantGems, speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
-import { BAKERY_COOKABLES } from "features/game/types/consumables";
-import { BuildingProduct } from "features/game/types/game";
+import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
 
 describe("instantCook", () => {
   it("requires item is cooking", () => {
@@ -218,7 +217,6 @@ describe("instantCook", () => {
 
   it("only speeds up the recipe that is currently cooking", () => {
     const now = Date.now();
-
     const state = speedUpRecipe({
       action: {
         buildingId: "123",
@@ -265,21 +263,12 @@ describe("instantCook", () => {
     ]);
   });
 
-  it("updates all the recipes readyAt times", () => {
-    const now = 1234567890000;
-    const thirtyMinutes = 30 * 60 * 1000;
-    const expectedMashedReadyAt = now + thirtyMinutes;
-    const expectedRadishReadyAt = now + thirtyMinutes * 2;
-
-    jest.useFakeTimers();
-    jest.setSystemTime(now);
+  it("updates all the recipes readyAt times correctly", () => {
+    const now = Date.now();
+    const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+    const RHUBARB_TIME = COOKABLES["Rhubarb Tart"].cookingSeconds * 1000;
 
     const state = speedUpRecipe({
-      action: {
-        buildingId: "123",
-        buildingName: "Fire Pit",
-        type: "recipe.spedUp",
-      },
       state: {
         ...INITIAL_FARM,
         inventory: { Gem: new Decimal(100) },
@@ -293,12 +282,22 @@ describe("instantCook", () => {
               crafting: [
                 {
                   name: "Mashed Potato",
-                  readyAt: expectedMashedReadyAt,
+                  readyAt: now,
                   amount: 1,
                 },
                 {
-                  name: "Radish Cake",
-                  readyAt: expectedRadishReadyAt,
+                  name: "Rhubarb Tart",
+                  readyAt: now + RHUBARB_TIME,
+                  amount: 1,
+                },
+                {
+                  name: "Rhubarb Tart",
+                  readyAt: now + RHUBARB_TIME * 2,
+                  amount: 1,
+                },
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + RHUBARB_TIME * 2 + POTATO_TIME,
                   amount: 1,
                 },
               ],
@@ -307,16 +306,21 @@ describe("instantCook", () => {
         },
         createdAt: now,
       },
+      action: {
+        buildingId: "123",
+        buildingName: "Fire Pit",
+        type: "recipe.spedUp",
+      },
     });
 
     const building = state.buildings["Fire Pit"]?.[0];
-    const radishCake = building?.crafting?.find(
-      (r) => r.name === "Radish Cake",
-    ) as BuildingProduct;
+    const queue = building?.crafting;
 
-    expect(radishCake?.readyAt).toBe(expectedRadishReadyAt - thirtyMinutes);
-
-    jest.useRealTimers();
+    // Finished recipe
+    expect(queue?.[0].readyAt).toBe(now);
+    // Upcoming recipes
+    expect(queue?.[1].readyAt).toBeCloseTo(now + RHUBARB_TIME);
+    expect(queue?.[2].readyAt).toBeCloseTo(now + RHUBARB_TIME + POTATO_TIME);
   });
 });
 
