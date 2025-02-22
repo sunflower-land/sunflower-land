@@ -105,9 +105,6 @@ export function speedUpRecipe({
 
     const queue = building.crafting;
     const recipe = getCurrentCookingItem({ building, createdAt });
-    const recipeIndex = queue?.findIndex(
-      (r) => r.readyAt === recipe?.readyAt,
-    ) as number;
 
     if (!queue || !recipe) {
       throw new Error("Nothing is cooking");
