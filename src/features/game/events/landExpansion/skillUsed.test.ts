@@ -664,7 +664,12 @@ describe("skillUse", () => {
       expect(firePitRecipe?.readyAt).toEqual(dateNow);
       expect(smoothieShackRecipe?.readyAt).toEqual(dateNow);
     });
-    it("shifts the readyAt times of queued recipes after instant gratification is used", () => {
+
+    it("updates all the recipes readyAt times correctly", () => {
+      const now = Date.now();
+      const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+      const RHUBARB_TIME = COOKABLES["Rhubarb Tart"].cookingSeconds * 1000;
+
       const state = skillUse({
         state: {
           ...INITIAL_FARM,
@@ -676,48 +681,52 @@ describe("skillUse", () => {
             "Fire Pit": [
               {
                 id: "123",
-                createdAt: dateNow,
-                coordinates: {
-                  x: -4,
-                  y: -8,
-                },
-                readyAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
                 crafting: [
                   {
-                    name: "Antipasto",
-                    readyAt:
-                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 3,
+                    name: "Mashed Potato",
+                    readyAt: now,
+                    amount: 1,
                   },
                   {
-                    name: "Antipasto",
-                    readyAt:
-                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 1,
+                    name: "Rhubarb Tart",
+                    readyAt: now + RHUBARB_TIME,
+                    amount: 1,
                   },
                   {
-                    name: "Antipasto",
-                    readyAt:
-                      dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 2,
+                    name: "Rhubarb Tart",
+                    readyAt: now + RHUBARB_TIME * 2,
+                    amount: 1,
+                  },
+                  {
+                    name: "Mashed Potato",
+                    readyAt: now + RHUBARB_TIME * 2 + POTATO_TIME,
+                    amount: 1,
                   },
                 ],
               },
             ],
           },
+          createdAt: now,
         },
-        action: { type: "skill.used", skill: "Instant Gratification" },
-        createdAt: dateNow,
+        action: {
+          type: "skill.used",
+          skill: "Instant Gratification",
+        },
       });
 
-      const recipes = state.buildings?.["Fire Pit"]?.[0]?.crafting;
-      const sortedRecipes = recipes
-        ? [...recipes].sort((a, b) => a.readyAt - b.readyAt)
-        : undefined;
-      expect(sortedRecipes?.[0]?.readyAt).toEqual(dateNow);
-      expect(sortedRecipes?.[1]?.readyAt).toEqual(
-        dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 1,
-      );
-      expect(sortedRecipes?.[2]?.readyAt).toEqual(
-        dateNow + COOKABLES.Antipasto.cookingSeconds * 1000 * 2,
-      );
+      const building = state.buildings["Fire Pit"]?.[0];
+      const queue = building?.crafting;
+
+      // Finished recipe
+      expect(queue?.[0].readyAt).toBe(now);
+      // Instant Gratification
+      expect(queue?.[1].readyAt).toBe(now);
+      // Upcoming recipes
+      expect(queue?.[2].readyAt).toBeCloseTo(now + RHUBARB_TIME);
+      expect(queue?.[3].readyAt).toBeCloseTo(now + RHUBARB_TIME + POTATO_TIME);
     });
   });
 

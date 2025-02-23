@@ -20,6 +20,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getCookingOilBoost,
   getCookingRequirements,
+  MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "./BuildingOilTank";
@@ -79,6 +80,8 @@ export const Recipes: React.FC<Props> = ({
   ] = useActor(gameService);
   const { inventory, buildings, bumpkin, buds } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
+
+  const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
 
   const ingredients = getCookingRequirements({
     state,
@@ -157,6 +160,7 @@ export const Recipes: React.FC<Props> = ({
     (recipe) => recipe.readyAt <= Date.now(),
   );
   const isVIP = hasVipAccess({ game: state });
+  const isQueueFull = [...readyRecipes, ...queue].length >= availableSlots;
 
   return (
     <>
@@ -190,9 +194,7 @@ export const Recipes: React.FC<Props> = ({
                   )}
                   <Button
                     disabled={
-                      lessIngredients() ||
-                      selected.disabled ||
-                      (!isVIP && readyRecipes.length > 0)
+                      lessIngredients() || selected.disabled || isQueueFull
                     }
                     className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
                     onClick={!cooking ? cook : handleAddToQueue}

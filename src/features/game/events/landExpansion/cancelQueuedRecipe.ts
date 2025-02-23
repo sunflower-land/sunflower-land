@@ -9,6 +9,7 @@ import {
 import { getCookingRequirements, getReadyAt } from "./cook";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import cloneDeep from "lodash.clonedeep";
 
 export type CancelQueuedRecipeAction = {
   type: "recipe.cancelled";
@@ -23,6 +24,65 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Recalculates the queue after a recipe has been modified (cancelled, sped up, etc.)
+ * Returns a new queue with updated readyAt times
+ */
+export function recalculateQueue({
+  queue,
+  createdAt,
+  buildingId,
+  game,
+  isInstant,
+}: {
+  queue: BuildingProduct[];
+  createdAt: number;
+  buildingId: string;
+  game: GameState;
+  isInstant?: boolean;
+}): BuildingProduct[] {
+  // Keep only ready recipes
+  const readyRecipes = queue.filter((r) => r.readyAt <= createdAt);
+
+  // Get all other recipes that aren't ready yet
+  const upcomingRecipes = queue.filter((r) => r.readyAt > createdAt);
+
+  // Get currently cooking item
+  const currentlyCooking = getCurrentCookingItem({
+    building: { id: buildingId, crafting: queue } as PlacedItem,
+    createdAt,
+  });
+
+  // Recalculate readyAt times for upcoming recipes
+  const updatedUpcomingRecipes = upcomingRecipes.reduce(
+    (recipes, recipe, index) => {
+      // Skip recalculation for currently cooking item
+      if (
+        !isInstant &&
+        currentlyCooking &&
+        recipe.readyAt === currentlyCooking.readyAt
+      ) {
+        return [...recipes, recipe];
+      }
+
+      const previousRecipeReadyAt =
+        index === 0 ? createdAt : recipes[recipes.length - 1].readyAt;
+
+      const readyAt = getReadyAt({
+        buildingId,
+        item: recipe.name,
+        createdAt: previousRecipeReadyAt,
+        game,
+      });
+
+      return [...recipes, { ...recipe, readyAt }];
+    },
+    [] as BuildingProduct[],
+  );
+
+  return [...readyRecipes, ...updatedUpcomingRecipes];
+}
+
 export function getCurrentCookingItem({
   building,
   createdAt,
@@ -30,7 +90,7 @@ export function getCurrentCookingItem({
   building: PlacedItem;
   createdAt: number;
 }) {
-  const queue = building.crafting;
+  const queue = cloneDeep(building.crafting);
   const sortedByReadyAt = queue?.sort(
     (a: BuildingProduct, b: BuildingProduct) => a.readyAt - b.readyAt,
   );
@@ -98,33 +158,17 @@ export function cancelQueuedRecipe({
       game.inventory,
     );
 
-    // When a recipe is cancelled, we need to recalculate the readyAt times for all recipes that come after it.
-    // Each recipe's start time should be the readyAt time of the recipe before it in the queue.
-
-    const filteredQueue = queue.filter((_, index) => index !== recipeIndex);
-    const newQueue = filteredQueue.map((r, index) => {
-      if (index === 0) return r;
-
-      const previousRecipeReadyAt = filteredQueue[recipeIndex - 1]?.readyAt;
-
-      const readyAt = getReadyAt({
-        buildingId: buildingId,
-        item: r.name,
-        createdAt: previousRecipeReadyAt,
-        game: state,
-      });
-
-      return {
-        ...r,
-        readyAt,
-      };
-    });
-
     if (recipe.boost?.Oil) {
       building.oil = (building.oil ?? 0) + recipe.boost.Oil;
     }
 
-    building.crafting = newQueue;
+    building.crafting = recalculateQueue({
+      queue: queue.filter((r) => r.readyAt !== recipe.readyAt), // Remove cancelled recipe
+      createdAt,
+      buildingId: building.id,
+      game: state,
+      isInstant: false,
+    });
 
     const cancelled = building.cancelled || ({} as Cancelled);
 
