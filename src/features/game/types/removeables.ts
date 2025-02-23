@@ -518,7 +518,9 @@ export function areAnyCookingBuildingWorking(game: GameState): Restriction {
     BUILDING_DAILY_OIL_CAPACITY,
   ).some(
     (building) =>
-      !!game.buildings[building]?.some((building) => !!building.crafting),
+      !!game.buildings[building]?.some(
+        (building) => building.crafting && building.crafting.length > 0,
+      ),
   );
 
   return [areAnyCookingBuildingWorking, "Building is in use"];
