@@ -12,27 +12,34 @@ export type ChestReward = {
 const multiplier = 900;
 
 const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
-  const isBullRunSeason =
-    Date.now() >= SEASONS["Bull Run"].startDate.getTime() &&
-    Date.now() < SEASONS["Bull Run"].endDate.getTime();
+  const isWindsOfChangeChapter =
+    Date.now() >= SEASONS["Winds of Change"].startDate.getTime() &&
+    Date.now() < SEASONS["Winds of Change"].endDate.getTime();
 
-  if (isBullRunSeason) {
+  if (isWindsOfChangeChapter) {
     return [
       // Deco
-      { items: { "Cow Scratcher": 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Spinning Wheel": 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Sleepy Rug": 1 }, weighting: weight * (multiplier / 5) },
-      { items: { Meteorite: 1 }, weighting: weight * (multiplier / 5) },
-      { items: { "Mechanical Bull": 1 }, weighting: weight * (multiplier / 5) },
-      { items: { "Crop Circle": 1 }, weighting: weight * (multiplier / 25) },
+      { items: { Kite: 1 }, weighting: weight * (multiplier / 2) },
+      { items: { "Acorn House": 1 }, weighting: weight * (multiplier / 2) },
+      { items: { "Ugly Duckling": 1 }, weighting: weight * (multiplier / 5) },
+      { items: { "Spring Duckling": 1 }, weighting: weight * (multiplier / 5) },
+      { items: { "Lake Rug": 1 }, weighting: weight * (multiplier / 5) },
+      {
+        items: { "Cup of Chocolate": 1 },
+        weighting: weight * (multiplier / 25),
+      },
+
+      //SFTs - Utility
+      { items: { Mammoth: 1 }, weighting: weight * (multiplier / 25) },
 
       // Wearables
+
+      // Wearables - Utility
+      { wearables: { "Crab Hat": 1 }, weighting: weight * (multiplier / 25) },
       {
-        wearables: { "Cowgirl Skirt": 1 },
-        weighting: weight * (multiplier / 2),
+        wearables: { "Ladybug Suit": 1 },
+        weighting: weight * (multiplier / 10),
       },
-      { wearables: { "Dream Scarf": 1 }, weighting: weight * (multiplier / 5) },
-      { wearables: { "Milk Apron": 1 }, weighting: weight * (multiplier / 25) },
 
       // Leftovers
       { items: { Crimsteel: 1 }, weighting: weight * (multiplier / 2) },
@@ -49,7 +56,7 @@ const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
 
       // Mega item
       {
-        items: { "Sheaf of Plenty": 1 },
+        wearables: { Sickle: 1 },
         weighting: weight * (multiplier / 50),
       },
     ];
@@ -138,20 +145,23 @@ export const LUXURY_REWARDS: () => ChestReward[] = () => [
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [
-  { items: { "Gold Pickaxe": 3 }, weighting: 5 },
-  { items: { Grub: 3, Earthworm: 3, "Red Wiggler": 3 }, weighting: 10 },
+  { items: { "Gold Pickaxe": 5 }, weighting: 5 },
+  { items: { "Fishing Lure": 6 }, weighting: 10 },
   { items: { "Pirate Cake": 3 }, weighting: 5 },
-  { items: { "Red Pansy": 2 }, weighting: 10 },
-  { items: { "Purple Cosmos": 2 }, weighting: 10 },
+  { items: { "Red Pansy": 2, "Yellow Pansy": 2 }, weighting: 10 },
+  { items: { "Purple Cosmos": 2, "Blue Cosmos": 2 }, weighting: 10 },
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
   { items: { "Prize Ticket": 1 }, weighting: 10 },
-  { items: { "Oil Drill": 2 }, weighting: 5 },
+  { items: { "Oil Drill": 3 }, weighting: 5 },
   { items: { "Shroom Syrup": 1 }, weighting: 5 },
   { items: { Antipasto: 1, "Steamed Red Rice": 1 }, weighting: 5 },
   { items: { "Beetroot Blaze": 1, "Rapid Roast": 1 }, weighting: 5 },
-  { items: { "White Carrot": 1 }, weighting: 10 },
-  { items: { "Warty Goblin Pumpkin": 1 }, weighting: 5 },
-  { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 10 },
+  { items: { "White Carrot": 1, "Warty Goblin Pumpkin": 1 }, weighting: 10 },
+  { items: { "Adirondack Potato": 1, "White Carrot": 1 }, weighting: 5 },
+  { items: { "Rapid Root": 20, "Sprout Mix": 20 }, weighting: 10 },
+  { items: { "Royal Ornament": 1 }, weighting: 3 },
+  { items: { Omnifeed: 25 }, weighting: 5 },
+  { items: { "Barn Delight": 5 }, weighting: 5 },
 ];
 
 export const GIFT_GIVER_REWARDS: ChestReward[] = [
@@ -204,8 +214,9 @@ export const ADVANCED_DESERT_STREAK: ChestReward[] = [
 
 // 11+ days
 export const EXPERT_DESERT_STREAK: ChestReward[] = [
-  { items: { "Pirate Bounty": 1 }, weighting: 5 },
-  { items: { Pearl: 1 }, weighting: 10 },
+  { items: { "Pirate Bounty": 1 }, weighting: 3 },
+  { items: { Coral: 1 }, weighting: 10 },
+  { items: { Pearl: 1 }, weighting: 5 },
   { items: { "Prize Ticket": 1 }, weighting: 5 },
   { items: { "Rare Key": 1 }, weighting: 5 },
   { items: { "Sand Shovel": 15 }, weighting: 20 },
