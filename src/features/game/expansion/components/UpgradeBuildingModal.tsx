@@ -26,6 +26,7 @@ import {
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { getSupportedPlots } from "features/game/events/landExpansion/plant";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 interface Props {
   buildingName: UpgradableBuildingType;
@@ -62,7 +63,22 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
     onClose();
   };
 
+  const hasRequiredLevel = () => {
+    const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+
+    if (requirements.requiredLevel) {
+      return bumpkinLevel >= requirements.requiredLevel;
+    }
+
+    return true;
+  };
+
   const hasRequirements = () => {
+    // Check if player has enough bumpkin level
+    if (!hasRequiredLevel()) {
+      return false;
+    }
+
     // Check if player has enough coins
     if (state.coins < requirements.coins) {
       return false;
@@ -173,14 +189,28 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 )}
               />
             </div>
-            <div className="flex flex-col items-start w-full mt-2">
-              <Label
-                type="default"
-                icon={SUNNYSIDE.icons.basket}
-                className="ml-2 mb-2"
-              >
-                {t("requirements")}
-              </Label>
+            <div className="flex flex-col w-full mt-2">
+              <div className="flex flex-wrap justify-between">
+                <Label
+                  type="default"
+                  icon={SUNNYSIDE.icons.basket}
+                  className="ml-2 mb-2"
+                >
+                  {t("requirements")}
+                </Label>
+
+                {requirements.requiredLevel && !hasRequiredLevel() && (
+                  <Label
+                    type="danger"
+                    secondaryIcon={SUNNYSIDE.icons.player}
+                    className="mr-2 mb-2"
+                  >
+                    {t("warning.level.required", {
+                      lvl: requirements.requiredLevel,
+                    })}
+                  </Label>
+                )}
+              </div>
               <InnerPanel className="flex flex-wrap gap-2 w-full">
                 {getKeys(requirements.items).map((itemName) => (
                   <div key={itemName} className="flex-shrink-0 gap-1">
