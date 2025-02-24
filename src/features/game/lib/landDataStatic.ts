@@ -23,6 +23,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    Jin: new Decimal(1),
     Egg: new Decimal(100),
     Oil: new Decimal(50),
     "Golden Sheep": new Decimal(1),
