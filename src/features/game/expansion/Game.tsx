@@ -5,6 +5,8 @@ import { useActor, useSelector } from "@xstate/react";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
 
+import mailIcon from "assets/icons/letter.png";
+
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
@@ -81,6 +83,7 @@ import { DailyReset } from "../components/DailyReset";
 import { RoninWelcomePack } from "./components/RoninWelcomePack";
 import { ClaimRoninAirdrop } from "./components/onChainAirdrops/ClaimRoninAirdrop";
 import { FLOWERTeaserContent } from "../components/FLOWERTeaser";
+import { pixelGrayBorderStyle } from "../lib/style";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -452,16 +455,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <>
-        <div
-          className="h-screen w-full fixed top-0"
-          style={{
-            zIndex: 49,
-
-            backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
-            backgroundSize: `${64 * PIXEL_SCALE}px`,
-            imageRendering: "pixelated",
-          }}
-        >
+        <Ocean>
           <Modal show backdrop={false}>
             <div
               className={classNames(
@@ -512,8 +506,21 @@ export const GameWrapper: React.FC = ({ children }) => {
             <Panel>
               <Loading />
             </Panel>
+            <div
+              className={classNames(
+                `w-full justify-center items-center flex  text-xs p-1 pr-4 mt-1 relative`,
+              )}
+              style={{
+                background: "#c0cbdc",
+                color: "#181425",
+                ...pixelGrayBorderStyle,
+              }}
+            >
+              <img src={mailIcon} className="w-8 mr-2" />
+              <p className="text-xs flex-1">{t("news.flowerSoon")}</p>
+            </div>
           </Modal>
-        </div>
+        </Ocean>
       </>
     );
   }

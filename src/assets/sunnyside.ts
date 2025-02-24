@@ -424,6 +424,7 @@ export const SUNNYSIDE = {
   //Brand
   brand: {
     landing: `${CONFIG.PROTECTED_IMAGE_URL}/brand/landing.webp`,
+    water_landing: `${CONFIG.PROTECTED_IMAGE_URL}/brand/water_landing.webp`,
     greenBg: `${CONFIG.PROTECTED_IMAGE_URL}/brand/green_bg.png`,
     logo: `${CONFIG.PROTECTED_IMAGE_URL}/brand/logo_v2.png`,
     easterlogo: `${CONFIG.PROTECTED_IMAGE_URL}/brand/easterlogo.png`,
