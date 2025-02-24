@@ -25,7 +25,7 @@ export const hasVipAccess = ({
 
   // Has Ronin NFT VIP Access
   const nft = game.nfts?.ronin;
-  if (nft && nft.expiresAt > now && !hasValidInGameVIP) {
+  if (nft && nft.expiresAt > now) {
     const RONIN_FARM_CREATION_CUTOFF = new Date(
       "2025-02-01T00:00:00Z",
     ).getTime();
