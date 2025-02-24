@@ -546,6 +546,7 @@ export type BlockchainState = {
     | "competition"
     | "roninWelcomePack"
     | "roninAirdrop"
+    | "jinAirdrop"
     | StateName
     | StateNameWithStatus; // TEST ONLY
   context: Context;
@@ -980,6 +981,29 @@ export function startGame(authContext: AuthContext) {
                 return !isAcknowledged;
               },
             },
+            {
+              target: "roninWelcomePack",
+              cond: (context: Context) => {
+                return (
+                  [
+                    "Ronin Bronze Pack",
+                    "Ronin Silver Pack",
+                    "Ronin Gold Pack",
+                    "Ronin Platinum Pack",
+                  ] as SpecialEventName[]
+                ).some(
+                  (pack) =>
+                    context.state.specialEvents.current[pack]?.isEligible ===
+                      true &&
+                    context.state.specialEvents.current[pack]?.tasks[0]
+                      .completedAt === undefined &&
+                    context.state.specialEvents.current[pack]?.startAt <
+                      Date.now() &&
+                    context.state.specialEvents.current[pack]?.endAt >
+                      Date.now(),
+                );
+              },
+            },
 
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
@@ -1024,28 +1048,14 @@ export function startGame(authContext: AuthContext) {
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
+
             {
-              target: "roninWelcomePack",
-              cond: (context: Context) => {
-                return (
-                  [
-                    "Ronin Bronze Pack",
-                    "Ronin Silver Pack",
-                    "Ronin Gold Pack",
-                    "Ronin Platinum Pack",
-                  ] as SpecialEventName[]
-                ).some(
-                  (pack) =>
-                    context.state.specialEvents.current[pack]?.isEligible ===
-                      true &&
-                    context.state.specialEvents.current[pack]?.tasks[0]
-                      .completedAt === undefined &&
-                    context.state.specialEvents.current[pack]?.startAt <
-                      Date.now() &&
-                    context.state.specialEvents.current[pack]?.endAt >
-                      Date.now(),
-                );
-              },
+              target: "jinAirdrop",
+              cond: (context) =>
+                !!context.state.nfts?.ronin?.name &&
+                !context.state.nfts.ronin.acknowledgedAt &&
+                context.state.nfts.ronin.expiresAt > Date.now() &&
+                (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
             },
             // {
             //   target: "competition",
@@ -1253,6 +1263,16 @@ export function startGame(authContext: AuthContext) {
         roninWelcomePack: {
           on: {
             // Add function here to claim pack
+            "specialEvent.taskCompleted": (GAME_EVENT_HANDLERS as any)[
+              "specialEvent.taskCompleted"
+            ],
+            CLOSE: {
+              target: "notifying",
+            },
+          },
+        },
+        jinAirdrop: {
+          on: {
             "specialEvent.taskCompleted": (GAME_EVENT_HANDLERS as any)[
               "specialEvent.taskCompleted"
             ],

@@ -828,10 +828,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
-  Jin: {
-    width: 1,
-    height: 1,
-  },
+  Jin: { width: 2, height: 2 },
 };
 
 export type Decoration = {

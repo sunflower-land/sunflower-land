@@ -825,6 +825,7 @@ import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import pesticide from "assets/sfts/pesticide.webp";
+import jin from "assets/sfts/jin_ronin.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4921,7 +4922,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.rhubarb.tart"),
   },
   Jin: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: jin,
     description:
       "The Mythical Tiger of Ronin, embodies strength, resillence and adventurous spirit",
   },
