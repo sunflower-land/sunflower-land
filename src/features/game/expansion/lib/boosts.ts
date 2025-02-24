@@ -156,6 +156,10 @@ const applyTempCollectibleBoost = ({
 const hasValidRoninNFT = (game: GameState, cookStartAt: number) => {
   if (!game.nfts?.ronin) return false;
 
+  const RONIN_FARM_CREATION_CUTOFF = new Date("2025-02-01T00:00:00Z").getTime();
+
+  if (game.createdAt < RONIN_FARM_CREATION_CUTOFF) return false;
+
   const { name, expiresAt } = game.nfts.ronin;
 
   const hasCookBoost = !name.includes("Bronze");
