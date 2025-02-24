@@ -66,7 +66,7 @@ const featureFlags = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  RONIN_LOGIN: testnetLocalStorageFeatureFlag("ronin_login"),
+  RONIN_LOGIN: () => true,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
