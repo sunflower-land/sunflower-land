@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "Çiftlik NFT'sini basmak, Polygon ağında ve çiftliğinizin bağlantılı cüzdanında POL belirteçleri gerektirir",
   "description.thermalStone": "Sizi büyük donmadan koruyan bir termal taş! Sadece tek kullanımlık.",
   "description.protectivePesticide": "Ekinlerinizi böcek vebasından koruyan bir böcek ilacı! Sadece tek kullanımlık.",
-  "season.PlaceProtectiveEquipment": "Hava olaylarından kurtulmak için, olay gerçekleşmeden hemen önce çiftliğe veya evin içine koruyucu ekipman yerleştirin."
+  "season.PlaceProtectiveEquipment": "Hava olaylarından kurtulmak için, olay gerçekleşmeden hemen önce çiftliğe veya evin içine koruyucu ekipman yerleştirin.",
+  "chore.harvest.yam.30": "Yam'ı 30 kez hasat et",
+  "chore.harvest.yam.60": "Yam'ı 60 kez hasat et",
+  "chore.harvest.yam.90": "Yam'ı 90 kez hasat et"
 }

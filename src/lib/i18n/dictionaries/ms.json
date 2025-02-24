@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "Membuat NFT ladang memerlukan token POL pada rangkaian Polygon dan di dompet berpaut ladang anda",
   "description.thermalStone": "Batu haba yang melindungi anda dari pembekuan yang hebat! Satu penggunaan sahaja.",
   "description.protectivePesticide": "Racun perosak yang melindungi tanaman anda daripada wabak serangga! Satu penggunaan sahaja.",
-  "season.PlaceProtectiveEquipment": "Untuk bertahan dalam peristiwa cuaca, letakkan peralatan pelindung di ladang atau di dalam rumah sebelum kejadian itu berlaku."
+  "season.PlaceProtectiveEquipment": "Untuk bertahan dalam peristiwa cuaca, letakkan peralatan pelindung di ladang atau di dalam rumah sebelum kejadian itu berlaku.",
+  "chore.harvest.yam.30": "Tuai Yam 30 kali",
+  "chore.harvest.yam.60": "Tuai Yam 60 kali",
+  "chore.harvest.yam.90": "Tuai Yam 90 kali"
 }

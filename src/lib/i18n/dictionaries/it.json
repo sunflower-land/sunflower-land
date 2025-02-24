@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "Minting the farm NFT richiede token POL sulla rete Polygon e nel portafoglio collegato della tua fattoria",
   "description.thermalStone": "Una pietra termale che ti protegge dal grande gelo! Solo usa e getta.",
   "description.protectivePesticide": "Un pesticida che protegge le tue colture dalla piaga degli insetti! Solo usa e getta.",
-  "season.PlaceProtectiveEquipment": "Per sopravvivere agli eventi meteorologici, posiziona i dispositivi di protezione nella fattoria o all'interno della casa poco prima che si verifichi l'evento."
+  "season.PlaceProtectiveEquipment": "Per sopravvivere agli eventi meteorologici, posiziona i dispositivi di protezione nella fattoria o all'interno della casa poco prima che si verifichi l'evento.",
+  "chore.harvest.yam.30": "Raccogli l'igname 30 volte",
+  "chore.harvest.yam.60": "Raccogli l'igname 60 volte",
+  "chore.harvest.yam.90": "Raccogli l'igname 90 volte"
 }

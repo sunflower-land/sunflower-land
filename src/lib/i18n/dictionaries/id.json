@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "Mencetak NFT pertanian membutuhkan token POL di jaringan Polygon dan di dompet tertaut pertanian Anda",
   "description.thermalStone": "Batu termal yang melindungi Anda dari pembekuan hebat! Sekali pakai saja.",
   "description.protectivePesticide": "Pestisida yang melindungi tanaman Anda dari wabah serangga! Hanya sekali pakai.",
-  "season.PlaceProtectiveEquipment": "Untuk bertahan dari peristiwa cuaca, letakkan peralatan pelindung di pertanian atau di dalam rumah tepat sebelum peristiwa terjadi."
+  "season.PlaceProtectiveEquipment": "Untuk bertahan dari peristiwa cuaca, letakkan peralatan pelindung di pertanian atau di dalam rumah tepat sebelum peristiwa terjadi.",
+  "chore.harvest.yam.30": "Panen Ubi 30 kali",
+  "chore.harvest.yam.60": "Panen Ubi 60 kali",
+  "chore.harvest.yam.90": "Panen Ubi 90 kali"
 }

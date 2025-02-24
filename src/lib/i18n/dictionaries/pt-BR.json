@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "A cunhagem do NFT da fazenda requer tokens POL na rede Polygon e na carteira vinculada da sua fazenda.",
   "description.thermalStone": "Uma pedra térmica que protege você do grande congelamento! Somente para uso único.",
   "description.protectivePesticide": "Um pesticida que protege suas plantações da praga de insetos! Somente para uso único.",
-  "season.PlaceProtectiveEquipment": "Para sobreviver a eventos climáticos, coloque equipamento de proteção na fazenda ou dentro de casa pouco antes do evento ocorrer."
+  "season.PlaceProtectiveEquipment": "Para sobreviver a eventos climáticos, coloque equipamento de proteção na fazenda ou dentro de casa pouco antes do evento ocorrer.",
+  "chore.harvest.yam.30": "Colha o inhame 30 vezes",
+  "chore.harvest.yam.60": "Colha o inhame 60 vezes",
+  "chore.harvest.yam.90": "Colha o inhame 90 vezes"
 }

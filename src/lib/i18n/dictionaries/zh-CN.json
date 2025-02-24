@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "铸造农场 NFT 需要 Polygon 网络和农场关联钱包中的 POL 代币",
   "description.thermalStone": "一块能保护你免受极度冻结的热石！仅限一次性使用。",
   "description.protectivePesticide": "一种可以保护您的农作物免受昆虫瘟疫侵害的杀虫剂！仅限一次性使用。",
-  "season.PlaceProtectiveEquipment": "为了抵御天气事件，请在事件发生前在农场或房屋内放置防护设备。"
+  "season.PlaceProtectiveEquipment": "为了抵御天气事件，请在事件发生前在农场或房屋内放置防护设备。",
+  "chore.harvest.yam.30": "收获山药 30 次",
+  "chore.harvest.yam.60": "收获山药 60 次",
+  "chore.harvest.yam.90": "收获山药 90 次"
 }

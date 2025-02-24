@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "Für das Mining der Farm NFT sind POL-Token im Polygon-Netzwerk und in der verknüpften Wallet Ihrer Farm erforderlich",
   "description.thermalStone": "Ein Thermostein, der Sie vor dem großen Frost schützt! Nur zum einmaligen Gebrauch.",
   "description.protectivePesticide": "Ein Pestizid, das Ihre Pflanzen vor der Insektenplage schützt! Nur zum einmaligen Gebrauch.",
-  "season.PlaceProtectiveEquipment": "Um Wetterereignisse zu überstehen, platzieren Sie kurz vor dem Ereignis Schutzausrüstung auf der Farm oder im Haus."
+  "season.PlaceProtectiveEquipment": "Um Wetterereignisse zu überstehen, platzieren Sie kurz vor dem Ereignis Schutzausrüstung auf der Farm oder im Haus.",
+  "chore.harvest.yam.30": "30 mal Yam ernten",
+  "chore.harvest.yam.60": "Yam 60 mal ernten",
+  "chore.harvest.yam.90": "Yam 90 mal ernten"
 }

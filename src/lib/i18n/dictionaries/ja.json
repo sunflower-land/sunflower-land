@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "ファームNFTをマイニングするには、PolygonネットワークとファームのリンクされたウォレットにPOLトークンが必要です",
   "description.thermalStone": "極寒から身を守るサーマルストーン！1回限りの使用です。",
   "description.protectivePesticide": "作物を害虫から守る農薬！1回限りの使用です。",
-  "season.PlaceProtectiveEquipment": "気象災害に耐えるために、イベントが発生する直前に農場または家の中に保護具を設置してください。"
+  "season.PlaceProtectiveEquipment": "気象災害に耐えるために、イベントが発生する直前に農場または家の中に保護具を設置してください。",
+  "chore.harvest.yam.30": "山芋を30回収穫",
+  "chore.harvest.yam.60": "山芋を60回収穫",
+  "chore.harvest.yam.90": "山芋を90回収穫"
 }

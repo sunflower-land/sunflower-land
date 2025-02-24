@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "La création de la ferme (NFT) nécessite des jetons POL sur le réseau Polygon et dans le portefeuille associé de votre ferme.",
   "description.thermalStone": "Une pierre thermale qui vous protège du grand froid ! À usage unique.",
   "description.protectivePesticide": "Un pesticide qui protège vos cultures de la peste des insectes ! À usage unique.",
-  "season.PlaceProtectiveEquipment": "Pour survivre aux intempéries, placez un équipement de protection à la ferme ou à l'intérieur de la maison juste avant que l'événement ne se produise."
+  "season.PlaceProtectiveEquipment": "Pour survivre aux intempéries, placez un équipement de protection à la ferme ou à l'intérieur de la maison juste avant que l'événement ne se produise.",
+  "chore.harvest.yam.30": "Récoltez l'igname 30 fois",
+  "chore.harvest.yam.60": "Récoltez l'igname 60 fois",
+  "chore.harvest.yam.90": "Récoltez l'igname 90 fois"
 }

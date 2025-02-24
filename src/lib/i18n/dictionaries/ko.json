@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "팜 NFT를 발행하려면 Polygon 네트워크와 팜의 연결된 지갑에 POL 토큰이 필요합니다.",
   "description.thermalStone": "극한의 추위로부터 몸을 보호해 주는 보온석!한 번만 사용할 수 있습니다.",
   "description.protectivePesticide": "해충으로부터 작물을 보호하는 살충제!한 번만 사용할 수 있습니다.",
-  "season.PlaceProtectiveEquipment": "기상 이변에서 살아남으려면 이벤트가 발생하기 직전에 농장이나 집 안에 보호 장비를 설치하십시오."
+  "season.PlaceProtectiveEquipment": "기상 이변에서 살아남으려면 이벤트가 발생하기 직전에 농장이나 집 안에 보호 장비를 설치하십시오.",
+  "chore.harvest.yam.30": "하베스트 얌 30회",
+  "chore.harvest.yam.60": "하베스트 얌 60회",
+  "chore.harvest.yam.90": "하베스트 얌 90회"
 }

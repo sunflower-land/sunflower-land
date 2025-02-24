@@ -5363,5 +5363,8 @@
   "wallet.RequiresPol": "Acuñar el NFT de la granja requiere tokens POL en la red Polygon y en la billetera vinculada de tu granja.",
   "description.thermalStone": "¡Una piedra térmica que te protege de las grandes heladas! De un solo uso.",
   "description.protectivePesticide": "¡Un pesticida que protege sus cultivos de la plaga de insectos! De un solo uso.",
-  "season.PlaceProtectiveEquipment": "Para sobrevivir a los eventos climáticos, coloque equipo de protección en la granja o dentro de la casa justo antes de que ocurra el evento."
+  "season.PlaceProtectiveEquipment": "Para sobrevivir a los eventos climáticos, coloque equipo de protección en la granja o dentro de la casa justo antes de que ocurra el evento.",
+  "chore.harvest.yam.30": "Cosecha ñame 30 veces",
+  "chore.harvest.yam.60": "Cosecha ñame 60 veces",
+  "chore.harvest.yam.90": "Cosecha ñame 90 veces"
 }
