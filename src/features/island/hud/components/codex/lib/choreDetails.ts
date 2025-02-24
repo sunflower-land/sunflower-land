@@ -115,6 +115,18 @@ export const CHORE_DETAILS: Record<
     icon: ITEM_DETAILS.Carrot.image,
     description: translate("chore.harvest.carrot.120"),
   },
+  "Harvest Yam 30 times": {
+    icon: ITEM_DETAILS.Yam.image,
+    description: translate("chore.harvest.yam.30"),
+  },
+  "Harvest Yam 60 times": {
+    icon: ITEM_DETAILS.Yam.image,
+    description: translate("chore.harvest.yam.60"),
+  },
+  "Harvest Yam 90 times": {
+    icon: ITEM_DETAILS.Yam.image,
+    description: translate("chore.harvest.yam.90"),
+  },
   "Harvest Yam 125 times": {
     icon: ITEM_DETAILS.Yam.image,
     description: translate("chore.harvest.yam.125"),

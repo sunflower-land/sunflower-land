@@ -146,6 +146,18 @@ export const NPC_CHORES = {
     activity: "Carrot Harvested",
     amount: 120,
   }),
+  "Harvest Yam 30 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 30,
+  }),
+  "Harvest Yam 60 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 60,
+  }),
+  "Harvest Yam 90 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 90,
+  }),
   "Harvest Yam 125 times": bumpkinActivityTask({
     activity: "Yam Harvested",
     amount: 125,
