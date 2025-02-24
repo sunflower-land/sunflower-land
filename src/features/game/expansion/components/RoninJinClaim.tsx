@@ -20,13 +20,13 @@ export const RoninJinClaim: React.FC = () => {
   const jinAirdropDetails: Airdrop = {
     id: "",
     createdAt: 0,
-    ...(jinAirdrop?.tasks[0].reward ?? {
+    ...(jinAirdrop.tasks[0].reward ?? {
       wearables: {},
       items: {},
       sfl: 0,
       coins: 0,
     }),
-    message: jinAirdrop?.text,
+    message: jinAirdrop.text,
   };
 
   return (

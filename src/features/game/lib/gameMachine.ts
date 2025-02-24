@@ -1091,10 +1091,10 @@ export function startGame(authContext: AuthContext) {
         },
         jinAirdrop: {
           on: {
-            "onChainAirdrop.acknowledged": (GAME_EVENT_HANDLERS as any)[
-              "onChainAirdrop.acknowledged"
+            "specialEvent.taskCompleted": (GAME_EVENT_HANDLERS as any)[
+              "specialEvent.taskCompleted"
             ],
-            ACKNOWLEDGE: {
+            CLOSE: {
               target: "notifying",
             },
           },
