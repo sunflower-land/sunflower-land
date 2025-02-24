@@ -5366,5 +5366,14 @@
   "chore.harvest.yam.30": "Собирайте урожай батата 30 раз",
   "chore.harvest.yam.60": "Собирайте урожай батата 60 раз",
   "chore.harvest.yam.90": "Собирайте урожай батата 90 раз",
-  "ronin.nft.perkOne": "VIP-доступ (ферма, созданная после 1 февраля 2025 года)"
+  "ronin.nft.perkOne": "VIP-доступ (ферма, созданная после 1 февраля 2025 года)",
+  "news.flower.launch": "Запуск программы «Цветок»",
+  "news.flower.launch.description": "В Sunflower Land появится новая цена в 20 долларов США. Узнайте о новой утилите и о том, как заработать.",
+  "news.ronin.network": "Сеть «Ронин»",
+  "news.ronin.network.description": "Игроки Ronin теперь могут играть в Sunflower Land! Скоро появятся дополнительные функции кошелька.",
+  "news.winds.of.change.chapter": "Глава «Ветры перемен»",
+  "news.winds.of.change.description": "Глава «Ветры перемен» началась. Соревнуйтесь за NFT и награды!",
+  "news.title": "Новости",
+  "news.whatsOn": "Что происходит в стране подсолнухов?",
+  "news.flowerSoon": "$FLOWER ERC20 скоро выйдет!"
 }

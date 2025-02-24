@@ -5366,5 +5366,14 @@
   "chore.harvest.yam.30": "Cosecha ñame 30 veces",
   "chore.harvest.yam.60": "Cosecha ñame 60 veces",
   "chore.harvest.yam.90": "Cosecha ñame 90 veces",
-  "ronin.nft.perkOne": "Acceso VIP (granja creada después del 1 de febrero de 2025)"
+  "ronin.nft.perkOne": "Acceso VIP (granja creada después del 1 de febrero de 2025)",
+  "news.flower.launch": "Lanzamiento de $FLOWER",
+  "news.flower.launch.description": "Llega un nuevo ERC20 $ a Sunflower Land. Obtén más información sobre la nueva empresa de servicios públicos y cómo ganar dinero.",
+  "news.ronin.network": "Red Ronin",
+  "news.ronin.network.description": "¡Los jugadores de Ronin ahora pueden jugar a Sunflower Land! Próximamente habrá funciones adicionales de monedero.",
+  "news.winds.of.change.chapter": "Capítulo Vientos de cambio",
+  "news.winds.of.change.description": "El capítulo de Vientos de Cambio ha comenzado. ¡Compite por NFT y recompensas!",
+  "news.title": "Noticias",
+  "news.whatsOn": "¿Qué pasa en Sunflower Land?",
+  "news.flowerSoon": "¡$FLOWER ERC20 se lanzará pronto!"
 }

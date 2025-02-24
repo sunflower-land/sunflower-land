@@ -5366,5 +5366,14 @@
   "chore.harvest.yam.30": "Récoltez l'igname 30 fois",
   "chore.harvest.yam.60": "Récoltez l'igname 60 fois",
   "chore.harvest.yam.90": "Récoltez l'igname 90 fois",
-  "ronin.nft.perkOne": "Accès VIP (ferme créée après le 1er février 2025)"
+  "ronin.nft.perkOne": "Accès VIP (ferme créée après le 1er février 2025)",
+  "news.flower.launch": "Lancement de $FLOWER",
+  "news.flower.launch.description": "Un nouveau ERC20 de dollars arrive à Sunflower Land. Découvrez le nouvel utilitaire et comment gagner de l'argent.",
+  "news.ronin.network": "Réseau Ronin",
+  "news.ronin.network.description": "Les joueurs de Ronin peuvent désormais jouer à Sunflower Land ! Des fonctionnalités de portefeuille supplémentaires seront bientôt disponibles.",
+  "news.winds.of.change.chapter": "Chapitre Winds of Change",
+  "news.winds.of.change.description": "Le chapitre Winds of Change a commencé. Participez pour les NFT et les récompenses !",
+  "news.title": "Actualités",
+  "news.whatsOn": "Que se passe-t-il à Sunflower Land ?",
+  "news.flowerSoon": "$FLOWER ERC20 sera bientôt disponible !"
 }

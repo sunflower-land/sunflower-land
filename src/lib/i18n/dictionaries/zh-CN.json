@@ -5366,5 +5366,14 @@
   "chore.harvest.yam.30": "收获山药 30 次",
   "chore.harvest.yam.60": "收获山药 60 次",
   "chore.harvest.yam.90": "收获山药 90 次",
-  "ronin.nft.perkOne": "VIP 访问权限（2025 年 2 月 1 日之后创建的农场）"
+  "ronin.nft.perkOne": "VIP 访问权限（2025 年 2 月 1 日之后创建的农场）",
+  "news.flower.launch": "$FLOWER 发布会",
+  "news.flower.launch.description": "向日葵乐园即将推出新的$ERC20。了解新实用程序以及如何赚钱。",
+  "news.ronin.network": "浪人网络",
+  "news.ronin.network.description": "Ronin 玩家现在可以玩向日葵乐园了！额外的钱包功能即将推出。",
+  "news.winds.of.change.chapter": "《变革之风》章节",
+  "news.winds.of.change.description": "变革之风章节已经开始。争夺 NFT 和奖励！",
+  "news.title": "新闻",
+  "news.whatsOn": "向日葵之地发生了什么？",
+  "news.flowerSoon": "$FLOWER ERC20 即将推出！"
 }

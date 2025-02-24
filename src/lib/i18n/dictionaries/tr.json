@@ -5366,5 +5366,14 @@
   "chore.harvest.yam.30": "Yam'ı 30 kez hasat et",
   "chore.harvest.yam.60": "Yam'ı 60 kez hasat et",
   "chore.harvest.yam.90": "Yam'ı 90 kez hasat et",
-  "ronin.nft.perkOne": "VIP Erişimi (Çiftlik 1 Şubat 2025'ten sonra oluşturuldu)"
+  "ronin.nft.perkOne": "VIP Erişimi (Çiftlik 1 Şubat 2025'ten sonra oluşturuldu)",
+  "news.flower.launch": "$FLOWER Lansmanı",
+  "news.flower.launch.description": "Sunflower Land'e yeni bir $ERC20 geliyor. Yeni yardımcı program ve nasıl kazanılacağı hakkında bilgi edinin.",
+  "news.ronin.network": "Ronin Ağı",
+  "news.ronin.network.description": "Ronin oyuncuları artık Sunflower Land oynayabilir! Ekstra cüzdan işlevselliği yakında geliyor.",
+  "news.winds.of.change.chapter": "Değişim Rüzgarları Bölümü",
+  "news.winds.of.change.description": "Değişim Rüzgarları Bölümü başladı. NFT'ler ve ödüller için yarışın!",
+  "news.title": "Haber",
+  "news.whatsOn": "Ayçiçeği Ülkesinde neler oluyor?",
+  "news.flowerSoon": "$FLOWER ERC20 yakında piyasaya çıkıyor!"
 }

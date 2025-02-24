@@ -5366,5 +5366,14 @@
   "chore.harvest.yam.30": "山芋を30回収穫",
   "chore.harvest.yam.60": "山芋を60回収穫",
   "chore.harvest.yam.90": "山芋を90回収穫",
-  "ronin.nft.perkOne": "VIPアクセス（2025年2月1日以降に作成されたファーム）"
+  "ronin.nft.perkOne": "VIPアクセス（2025年2月1日以降に作成されたファーム）",
+  "news.flower.launch": "$フラワー発売",
+  "news.flower.launch.description": "新しい$ERC20がサンフラワーランドにやってきます。新しいユーティリティと獲得方法について学びましょう。",
+  "news.ronin.network": "ローニンネットワーク",
+  "news.ronin.network.description": "Roninのプレイヤーがひまわりランドをプレイできるようになりました！追加のウォレット機能が間もなく登場します。",
+  "news.winds.of.change.chapter": "ウィンズ・オブ・チェンジチャプター",
+  "news.winds.of.change.description": "ウィンズ・オブ・チェンジの章が始まりました。NFTと報酬を競い合おう！",
+  "news.title": "ニュース",
+  "news.whatsOn": "ひまわりランドで何が起きているの？",
+  "news.flowerSoon": "$FLOWER ERC20がまもなく発売されます！"
 }

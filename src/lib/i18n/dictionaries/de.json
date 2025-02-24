@@ -5366,5 +5366,14 @@
   "chore.harvest.yam.30": "30 mal Yam ernten",
   "chore.harvest.yam.60": "Yam 60 mal ernten",
   "chore.harvest.yam.90": "Yam 90 mal ernten",
-  "ronin.nft.perkOne": "VIP-Zugang (Farm, die nach dem 1. Februar 2025 erstellt wurde)"
+  "ronin.nft.perkOne": "VIP-Zugang (Farm, die nach dem 1. Februar 2025 erstellt wurde)",
+  "news.flower.launch": "$FLOWER wird gestartet",
+  "news.flower.launch.description": "Ein neuer ERC20 $ kommt nach Sunflower Land. Erfahre mehr über das neue Hilfsprogramm und wie du Geld verdienen kannst.",
+  "news.ronin.network": "Ronin-Netzwerk",
+  "news.ronin.network.description": "Ronin-Spieler können jetzt Sunflower Land spielen! Zusätzliche Wallet-Funktionen sind in Kürze verfügbar.",
+  "news.winds.of.change.chapter": "Kapitel Winde des Wandels",
+  "news.winds.of.change.description": "Das Kapitel Winds of Change hat begonnen. Konkurrieren Sie um NFTs und Belohnungen!",
+  "news.title": "Neuigkeiten",
+  "news.whatsOn": "Was passiert in Sunflower Land?",
+  "news.flowerSoon": "$FLOWER ERC20 wird bald veröffentlicht!"
 }

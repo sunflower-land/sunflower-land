@@ -5366,5 +5366,14 @@
   "chore.harvest.yam.30": "하베스트 얌 30회",
   "chore.harvest.yam.60": "하베스트 얌 60회",
   "chore.harvest.yam.90": "하베스트 얌 90회",
-  "ronin.nft.perkOne": "VIP 액세스 (2025년 2월 1일 이후에 생성된 팜)"
+  "ronin.nft.perkOne": "VIP 액세스 (2025년 2월 1일 이후에 생성된 팜)",
+  "news.flower.launch": "$플라워 런칭",
+  "news.flower.launch.description": "선플라워 랜드에 새로운 $ERC20이 출시됩니다.새로운 유틸리티와 적립 방법에 대해 알아보세요.",
+  "news.ronin.network": "로닌 네트워크",
+  "news.ronin.network.description": "이제 로닌 플레이어들이 선플라워 랜드를 플레이할 수 있습니다!추가 지갑 기능이 곧 출시될 예정입니다.",
+  "news.winds.of.change.chapter": "윈즈 오브 체인지 챕터",
+  "news.winds.of.change.description": "윈즈 오브 체인지 챕터가 시작되었습니다.NFT와 보상을 놓고 경쟁하세요!",
+  "news.title": "뉴스",
+  "news.whatsOn": "선플라워 랜드에서 무슨 일이 벌어지고 있나요?",
+  "news.flowerSoon": "$FLOWER ERC20 출시가 곧 시작됩니다!"
 }
