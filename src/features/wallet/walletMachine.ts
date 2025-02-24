@@ -65,7 +65,7 @@ const NON_NFT_ACTIONS: WalletAction[] = [
   "dequip",
 ];
 
-const NON_POLYGON_ACTIONS: WalletAction[] = ["login"];
+const NON_POLYGON_ACTIONS: WalletAction[] = ["login", "dailyReward"];
 
 type InitialiseEvent = {
   type: "INITIALISE";
