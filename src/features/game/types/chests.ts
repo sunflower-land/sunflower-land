@@ -145,23 +145,20 @@ export const LUXURY_REWARDS: () => ChestReward[] = () => [
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [
-  { items: { "Gold Pickaxe": 5 }, weighting: 5 },
-  { items: { "Fishing Lure": 6 }, weighting: 10 },
+  { items: { "Gold Pickaxe": 3 }, weighting: 5 },
+  { items: { Grub: 3, Earthworm: 3, "Red Wiggler": 3 }, weighting: 10 },
   { items: { "Pirate Cake": 3 }, weighting: 5 },
-  { items: { "Red Pansy": 2, "Yellow Pansy": 2 }, weighting: 10 },
-  { items: { "Purple Cosmos": 2, "Blue Cosmos": 2 }, weighting: 10 },
+  { items: { "Red Pansy": 2 }, weighting: 10 },
+  { items: { "Purple Cosmos": 2 }, weighting: 10 },
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
   { items: { "Prize Ticket": 1 }, weighting: 10 },
-  { items: { "Oil Drill": 3 }, weighting: 5 },
+  { items: { "Oil Drill": 2 }, weighting: 5 },
   { items: { "Shroom Syrup": 1 }, weighting: 5 },
   { items: { Antipasto: 1, "Steamed Red Rice": 1 }, weighting: 5 },
   { items: { "Beetroot Blaze": 1, "Rapid Roast": 1 }, weighting: 5 },
-  { items: { "White Carrot": 1, "Warty Goblin Pumpkin": 1 }, weighting: 10 },
-  { items: { "Adirondack Potato": 1, "White Carrot": 1 }, weighting: 5 },
-  { items: { "Rapid Root": 20, "Sprout Mix": 20 }, weighting: 10 },
-  { items: { "Royal Ornament": 1 }, weighting: 3 },
-  { items: { Omnifeed: 25 }, weighting: 5 },
-  { items: { "Barn Delight": 5 }, weighting: 5 },
+  { items: { "White Carrot": 1 }, weighting: 10 },
+  { items: { "Warty Goblin Pumpkin": 1 }, weighting: 5 },
+  { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 10 },
 ];
 
 export const GIFT_GIVER_REWARDS: ChestReward[] = [
@@ -214,9 +211,8 @@ export const ADVANCED_DESERT_STREAK: ChestReward[] = [
 
 // 11+ days
 export const EXPERT_DESERT_STREAK: ChestReward[] = [
-  { items: { "Pirate Bounty": 1 }, weighting: 3 },
-  { items: { Coral: 1 }, weighting: 10 },
-  { items: { Pearl: 1 }, weighting: 5 },
+  { items: { "Pirate Bounty": 1 }, weighting: 5 },
+  { items: { Pearl: 1 }, weighting: 10 },
   { items: { "Prize Ticket": 1 }, weighting: 5 },
   { items: { "Rare Key": 1 }, weighting: 5 },
   { items: { "Sand Shovel": 15 }, weighting: 20 },
