@@ -5535,5 +5535,6 @@
   "news.winds.of.change.description": "The Winds of Change Chapter has begun. Compete for NFTs and rewards!",
   "news.title": "News",
   "news.whatsOn": "What's happening in Sunflower Land?",
-  "news.flowerSoon": "$FLOWER ERC20 is launching soon!"
+  "news.flowerSoon": "$FLOWER ERC20 is launching soon!",
+  "vip.ronin.purchase.warning": "Ronin NFT VIP active. Return 3 days before expiry to purchase VIP."
 }
