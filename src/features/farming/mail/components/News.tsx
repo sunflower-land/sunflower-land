@@ -11,19 +11,20 @@ export const News: React.FC = () => {
   const { t } = useAppTranslation();
   return (
     <>
-      <ButtonPanel className="mb-1">
-        <div className="flex justify-between items-center">
-          <Label type="vibrant" className="my-1 ml-1" icon={flowerIcon}>
+      <ButtonPanel
+        onClick={() =>
+          window.open(
+            "https://docs.sunflower-land.com/getting-started/usdflower-erc20",
+            "_blank",
+          )
+        }
+        className="mb-1"
+      >
+        <div className="flex justify-between items-center mb-1">
+          <Label type="vibrant" className="ml-1" icon={flowerIcon}>
             {t("news.flower.launch")}
           </Label>
-          <a
-            href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-xs pr-1"
-          >
-            {t("read.more")}
-          </a>
+          <span className="underline text-xs pr-1">{t("read.more")}</span>
         </div>
         <div className="w-full relative">
           <img
@@ -36,19 +37,20 @@ export const News: React.FC = () => {
           {t("news.flower.launch.description")}
         </p>
       </ButtonPanel>
-      <ButtonPanel className="mb-1">
-        <div className="flex justify-between items-center">
-          <Label type="info" className="my-1 ml-1" icon={giftIcon}>
+      <ButtonPanel
+        onClick={() =>
+          window.open(
+            "https://docs.sunflower-land.com/getting-started/usdflower-erc20/ronin",
+            "_blank",
+          )
+        }
+        className="mb-1"
+      >
+        <div className="flex justify-between items-center mb-1">
+          <Label type="info" className="ml-1" icon={giftIcon}>
             {t("news.ronin.network")}
           </Label>
-          <a
-            href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-xs pr-1"
-          >
-            {t("read.more")}
-          </a>
+          <span className="underline text-xs pr-1">{t("read.more")}</span>
         </div>
         <div className="w-full relative">
           <img
@@ -61,19 +63,19 @@ export const News: React.FC = () => {
           {t("news.ronin.network.description")}
         </p>
       </ButtonPanel>
-      <ButtonPanel>
-        <div className="flex flex-wrap justify-between items-center">
-          <Label type="formula" className="my-1 ml-1" icon={chapterIcon}>
+      <ButtonPanel
+        onClick={() =>
+          window.open(
+            "https://docs.sunflower-land.com/player-guides/chapters-whats-new/chapter-8-winds-of-change",
+            "_blank",
+          )
+        }
+      >
+        <div className="flex flex-wrap justify-between items-center mb-1">
+          <Label type="formula" className=" ml-1" icon={chapterIcon}>
             {t("news.winds.of.change.chapter")}
           </Label>
-          <a
-            href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-xs pr-1"
-          >
-            {t("read.more")}
-          </a>
+          <span className="underline text-xs pr-1">{t("read.more")}</span>
         </div>
         <img
           src={SUNNYSIDE.announcement.windsOfChangeSeason}
