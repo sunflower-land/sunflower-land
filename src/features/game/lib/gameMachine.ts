@@ -846,11 +846,13 @@ export function startGame(authContext: AuthContext) {
               target: "FLOWERTeaser",
               cond: () => {
                 const lastRead = getFLOWERTeaserLastRead();
+
+                if (!lastRead) return true;
+
                 const march31st2025 = new Date("2025-03-31").getTime();
                 const dateNow = Date.now();
                 const account = getAccount(config);
                 const accountConnectorName = account?.connector?.name;
-                const isRonin = !!accountConnectorName?.includes("Ronin");
                 const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
 
                 // Show teaser if:
@@ -858,7 +860,6 @@ export function startGame(authContext: AuthContext) {
                 // 2. Current date is before March 31st 2025
                 // 3. Player has read teaser before AND it's been 7+ days since last read
                 return (
-                  (isRonin || !!lastRead) &&
                   dateNow < march31st2025 &&
                   dateNow - (lastRead?.getTime() ?? 0) > sevenDaysInMs
                 );
