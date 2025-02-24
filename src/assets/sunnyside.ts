@@ -54,6 +54,8 @@ export const SUNNYSIDE = {
 
   //Announcement
   announcement: {
+    roninBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_banner.png`,
+    flowerBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/flower_banner.png`,
     summer: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/summer_banner.webp`,
     winter: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winter_banner.webp`,
     spring: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/spring_banner.webp`,
@@ -422,6 +424,7 @@ export const SUNNYSIDE = {
   //Brand
   brand: {
     landing: `${CONFIG.PROTECTED_IMAGE_URL}/brand/landing.webp`,
+    water_landing: `${CONFIG.PROTECTED_IMAGE_URL}/brand/water_landing.webp`,
     greenBg: `${CONFIG.PROTECTED_IMAGE_URL}/brand/green_bg.png`,
     logo: `${CONFIG.PROTECTED_IMAGE_URL}/brand/logo_v2.png`,
     easterlogo: `${CONFIG.PROTECTED_IMAGE_URL}/brand/easterlogo.png`,

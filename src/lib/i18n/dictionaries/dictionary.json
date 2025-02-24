@@ -5526,5 +5526,14 @@
   "ronin.nft.description": "Your {{nftName}} comes with exclusive perks!",
   "ronin.nft.perkOne": "VIP Access (Farm created after February 1st, 2025)",
   "ronin.nft.perkTwo": "2x Faster Cooking",
-  "ronin.nft.expires": "These perks won't last forever, so make the most of them while they last!"
+  "ronin.nft.expires": "These perks won't last forever, so make the most of them while they last!",
+  "news.flower.launch": "$FLOWER Launch",
+  "news.flower.launch.description": "A new $ERC20 is coming to Sunflower Land. Learn about the new utility & how to earn.",
+  "news.ronin.network": "Ronin Network",
+  "news.ronin.network.description": "Ronin players can now play Sunflower Land! Extra wallet functionality coming soon.",
+  "news.winds.of.change.chapter": "Winds of Change Chapter",
+  "news.winds.of.change.description": "The Winds of Change Chapter has begun. Compete for NFTs and rewards!",
+  "news.title": "News",
+  "news.whatsOn": "What's happening in Sunflower Land?",
+  "news.flowerSoon": "$FLOWER ERC20 is launching soon!"
 }

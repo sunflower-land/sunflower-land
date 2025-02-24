@@ -53,6 +53,7 @@ import { randomID } from "lib/utils/random";
 import { buySFL } from "../actions/buySFL";
 import { PlaceableLocation } from "../types/collectibles";
 import {
+  getFLOWERTeaserLastRead,
   getGameRulesLastRead,
   getIntroductionRead,
   getVipRead,
@@ -102,6 +103,8 @@ import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { SpecialEventName } from "../types/specialEvents";
+import { getAccount } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -491,6 +494,7 @@ export type BlockchainState = {
     | "landToVisitNotFound"
     | "visiting"
     | "gameRules"
+    | "FLOWERTeaser"
     | "portalling"
     | "introduction"
     | "gems"
@@ -839,6 +843,30 @@ export function startGame(authContext: AuthContext) {
             },
 
             {
+              target: "FLOWERTeaser",
+              cond: () => {
+                const lastRead = getFLOWERTeaserLastRead();
+
+                if (!lastRead) return true;
+
+                const march31st2025 = new Date("2025-03-31").getTime();
+                const dateNow = Date.now();
+                const account = getAccount(config);
+                const accountConnectorName = account?.connector?.name;
+                const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+
+                // Show teaser if:
+                // 1. Player is using Ronin wallet
+                // 2. Current date is before March 31st 2025
+                // 3. Player has read teaser before AND it's been 7+ days since last read
+                return (
+                  dateNow < march31st2025 &&
+                  dateNow - (lastRead?.getTime() ?? 0) > sevenDaysInMs
+                );
+              },
+            },
+
+            {
               target: "introduction",
               cond: (context) => {
                 return (
@@ -1107,6 +1135,13 @@ export function startGame(authContext: AuthContext) {
         },
 
         gameRules: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        FLOWERTeaser: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
