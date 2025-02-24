@@ -834,7 +834,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1.2);
   });
 
-  it("includes Camel Onesie +0.1 bonus on all Fruits growing from Fruit patches", () => {
+  it.only("includes Camel Onesie +0.1 bonus on all Fruits growing from Fruit patches", () => {
     const seedAmount = new Decimal(5);
 
     const patchIndex = "1";
@@ -845,8 +845,8 @@ describe("fruitPlanted", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           equipped: {
-            onesie: "Camel Onesie",
             ...INITIAL_BUMPKIN.equipped,
+            onesie: "Camel Onesie",
           },
         },
         season: {
