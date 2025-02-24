@@ -10,7 +10,8 @@ export type SpecialEventName =
   | "Ronin Platinum Pack"
   | "Ronin Gold Pack"
   | "Ronin Silver Pack"
-  | "Ronin Bronze Pack";
+  | "Ronin Bronze Pack"
+  | "Jin Airdrop";
 
 export type Task = {
   requirements: {

@@ -84,6 +84,7 @@ import { RoninWelcomePack } from "./components/RoninWelcomePack";
 import { ClaimRoninAirdrop } from "./components/onChainAirdrops/ClaimRoninAirdrop";
 import { FLOWERTeaserContent } from "../components/FLOWERTeaser";
 import { pixelGrayBorderStyle } from "../lib/style";
+import { RoninJinClaim } from "./components/RoninJinClaim";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -622,7 +623,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {hasBBs && <Gems />}
             {roninWelcomePack && <RoninWelcomePack />}
             {roninAirdrop && <ClaimRoninAirdrop />}
-            {/* {jinAirdrop && <ClaimJinCollectible />} */}
+            {jinAirdrop && <RoninJinClaim />}
           </Panel>
         </Modal>
 
