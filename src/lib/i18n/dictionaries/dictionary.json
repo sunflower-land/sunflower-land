@@ -5524,7 +5524,7 @@
   "polygon.cantContinueDescription": "Unfortunately, your wallet does not support Polygon. Please stay tuned for Ronin support in April 2025.",
   "ronin.nft.welcome": "Welcome Ronin Player!",
   "ronin.nft.description": "Your {{nftName}} comes with exclusive perks!",
-  "ronin.nft.perkOne": "VIP Access",
+  "ronin.nft.perkOne": "VIP Access (Farm created after February 1st, 2025)",
   "ronin.nft.perkTwo": "2x Faster Cooking",
   "ronin.nft.expires": "These perks won't last forever, so make the most of them while they last!"
 }
