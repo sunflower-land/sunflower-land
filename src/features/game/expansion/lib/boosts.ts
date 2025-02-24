@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { Bumpkin, GameState, Inventory, PlacedItem } from "../../types/game";
+import { Bumpkin, GameState, Inventory } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import {
   COOKABLES,
@@ -143,7 +143,10 @@ const applyTempCollectibleBoost = ({
   const active = isCollectibleActive({ name: collectibleName, game });
   if (!active) return seconds;
 
-  const activeItems = game.collectibles[collectibleName] as PlacedItem[];
+  const activeItems = [
+    ...(game.collectibles[collectibleName] ?? []),
+    ...(game.home.collectibles[collectibleName] ?? []),
+  ];
   const newestItem = activeItems.sort((a, b) => b.createdAt - a.createdAt)[0];
   const cooldown = EXPIRY_COOLDOWNS[collectibleName] as number;
   const expiresAt = newestItem.createdAt + cooldown;
