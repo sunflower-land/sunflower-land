@@ -420,7 +420,6 @@ export const INITIAL_EQUIPMENT: BumpkinParts = {
   pants: "Farmer Overalls",
   tool: "Farmer Pitchfork",
   shirt: "Red Farmer Shirt",
-  onesie: "Rocket Onesie",
 };
 
 export const INITIAL_BUMPKIN: Bumpkin = {
