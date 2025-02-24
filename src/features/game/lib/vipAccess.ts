@@ -21,9 +21,11 @@ export const hasVipAccess = ({
 
   if (hasSeasonPass || hasLifetimePass) return true;
 
+  const hasValidInGameVIP = !!game.vip?.expiresAt && game.vip?.expiresAt > now;
+
   // Has Ronin NFT VIP Access
   const nft = game.nfts?.ronin;
-  if (nft && nft.expiresAt > now) {
+  if (nft && nft.expiresAt > now && !hasValidInGameVIP) {
     const RONIN_FARM_CREATION_CUTOFF = new Date(
       "2025-02-01T00:00:00Z",
     ).getTime();
@@ -31,7 +33,7 @@ export const hasVipAccess = ({
   }
 
   // New Code
-  return !!game.vip?.expiresAt && game.vip?.expiresAt > now;
+  return hasValidInGameVIP;
 };
 
 export type VipBundle = "1_MONTH" | "3_MONTHS" | "2_YEARS";
