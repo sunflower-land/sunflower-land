@@ -158,6 +158,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   seasonChanged: false,
   roninWelcomePack: true,
   roninAirdrop: true,
+  jinAirdrop: true,
 };
 
 // State change selectors
@@ -235,6 +236,7 @@ const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
 const isRoninWelcomePack = (state: MachineState) =>
   state.matches("roninWelcomePack");
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
+const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
   useSound("desert", true);
@@ -402,7 +404,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const calendarEvent = useSelector(gameService, isCalendarEvent);
   const roninWelcomePack = useSelector(gameService, isRoninWelcomePack);
   const roninAirdrop = useSelector(gameService, isRoninAirdrop);
-
+  const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
   const { t } = useAppTranslation();
@@ -620,6 +622,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {hasBBs && <Gems />}
             {roninWelcomePack && <RoninWelcomePack />}
             {roninAirdrop && <ClaimRoninAirdrop />}
+            {/* {jinAirdrop && <ClaimJinCollectible />} */}
           </Panel>
         </Modal>
 
