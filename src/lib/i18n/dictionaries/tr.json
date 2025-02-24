@@ -5351,7 +5351,6 @@
   "polygon.cantContinueDescription": "Ne yazık ki, cüzdanınız Polygon'u desteklemiyor. Lütfen Nisan 2025'te Ronin desteği için bizi izlemeye devam edin.",
   "ronin.nft.welcome": "Hoşgeldin Ronin Player!",
   "ronin.nft.description": "{{nftName}} sizin özel avantajlarla birlikte gelir!",
-  "ronin.nft.perkOne": "VIP Erişimi",
   "ronin.nft.perkTwo": "2x Daha Hızlı Pişirme",
   "ronin.nft.expires": "Bu avantajlar sonsuza kadar sürmeyecek, bu yüzden devam ederken onlardan en iyi şekilde yararlanın!",
   "description.genie.lamp": "Size üç dilek yerine getirecek ve üçüncü dilekten sonra lambayı yakacak bir cin içeren büyülü bir lamba. İstek listesi: Genie Bear, Pirate Bounty, Pearl, Bumpkin Roast, Goblin Brunch ve Kum Matkabı x10",
@@ -5366,5 +5365,6 @@
   "season.PlaceProtectiveEquipment": "Hava olaylarından kurtulmak için, olay gerçekleşmeden hemen önce çiftliğe veya evin içine koruyucu ekipman yerleştirin.",
   "chore.harvest.yam.30": "Yam'ı 30 kez hasat et",
   "chore.harvest.yam.60": "Yam'ı 60 kez hasat et",
-  "chore.harvest.yam.90": "Yam'ı 90 kez hasat et"
+  "chore.harvest.yam.90": "Yam'ı 90 kez hasat et",
+  "ronin.nft.perkOne": "VIP Erişimi (Çiftlik 1 Şubat 2025'ten sonra oluşturuldu)"
 }

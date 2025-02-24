@@ -5351,7 +5351,6 @@
   "polygon.cantContinueDescription": "不幸的是，你的钱包不支持 Polygon。请继续关注 2025 年 4 月的 Ronin 支持。",
   "ronin.nft.welcome": "欢迎 Ronin Player！",
   "ronin.nft.description": "你的 {{nftName}} 自带专属福利！",
-  "ronin.nft.perkOne": "贵宾访问权限",
   "ronin.nft.perkTwo": "烹饪速度快 2 倍",
   "ronin.nft.expires": "这些福利不会永远持续下去，所以在它们持续的时候充分利用它们！",
   "description.genie.lamp": "一盏神奇的灯，里面有一个精灵，他会给你三个愿望，并在第三个愿望之后烧掉灯泡。愿望清单：Genie Bear、Pirate Bounty、Pearl、Bumpkin Roast、Goblin Brunch 和 Sand Drill x10",
@@ -5366,5 +5365,6 @@
   "season.PlaceProtectiveEquipment": "为了抵御天气事件，请在事件发生前在农场或房屋内放置防护设备。",
   "chore.harvest.yam.30": "收获山药 30 次",
   "chore.harvest.yam.60": "收获山药 60 次",
-  "chore.harvest.yam.90": "收获山药 90 次"
+  "chore.harvest.yam.90": "收获山药 90 次",
+  "ronin.nft.perkOne": "VIP 访问权限（2025 年 2 月 1 日之后创建的农场）"
 }

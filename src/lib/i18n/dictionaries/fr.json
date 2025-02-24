@@ -5351,7 +5351,6 @@
   "polygon.cantContinueDescription": "Malheureusement, votre portefeuille ne prend pas en charge Polygon. Restez à l'affût de l'assistance de Ronin en avril 2025.",
   "ronin.nft.welcome": "Bienvenue Ronin Player !",
   "ronin.nft.description": "Votre {{nftName}} est assorti d'avantages exclusifs !",
-  "ronin.nft.perkOne": "Accès VIP",
   "ronin.nft.perkTwo": "Cuisson 2 fois plus rapide",
   "ronin.nft.expires": "Ces avantages ne dureront pas éternellement, alors profitez-en tant qu'ils sont là !",
   "description.genie.lamp": "Une lampe magique contenant un génie qui exaucera trois vœux et brûlera la lampe après le troisième souhait. Liste de souhaits : Genie Bear, Pirate Bounty, Pearl, Bumpkin Roast, Goblin Brunch et Sand Drill x10",
@@ -5366,5 +5365,6 @@
   "season.PlaceProtectiveEquipment": "Pour survivre aux intempéries, placez un équipement de protection à la ferme ou à l'intérieur de la maison juste avant que l'événement ne se produise.",
   "chore.harvest.yam.30": "Récoltez l'igname 30 fois",
   "chore.harvest.yam.60": "Récoltez l'igname 60 fois",
-  "chore.harvest.yam.90": "Récoltez l'igname 90 fois"
+  "chore.harvest.yam.90": "Récoltez l'igname 90 fois",
+  "ronin.nft.perkOne": "Accès VIP (ferme créée après le 1er février 2025)"
 }

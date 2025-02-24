@@ -5351,7 +5351,6 @@
   "polygon.cantContinueDescription": "Leider unterstützt dein Wallet Polygon nicht. Bitte seien Sie gespannt auf die Unterstützung von Ronin im April 2025.",
   "ronin.nft.welcome": "Willkommen Ronin Player!",
   "ronin.nft.description": "Dein {{nftName}} beinhaltet exklusive Vorteile!",
-  "ronin.nft.perkOne": "VIP-Zugang",
   "ronin.nft.perkTwo": "2x Schnelleres Kochen",
   "ronin.nft.expires": "Diese Vorteile werden nicht ewig andauern, also mach das Beste daraus, solange sie gültig sind!",
   "description.genie.lamp": "Eine magische Lampe, die einen Geist enthält, der dir drei Wünsche erfüllt und die Lampe nach dem dritten Wunsch verbrennt. Wunschliste: Genie Bear, Pirate Bounty, Pearl, Bumpkin Roast, Goblin Brunch und Sandbohrer x10",
@@ -5366,5 +5365,6 @@
   "season.PlaceProtectiveEquipment": "Um Wetterereignisse zu überstehen, platzieren Sie kurz vor dem Ereignis Schutzausrüstung auf der Farm oder im Haus.",
   "chore.harvest.yam.30": "30 mal Yam ernten",
   "chore.harvest.yam.60": "Yam 60 mal ernten",
-  "chore.harvest.yam.90": "Yam 90 mal ernten"
+  "chore.harvest.yam.90": "Yam 90 mal ernten",
+  "ronin.nft.perkOne": "VIP-Zugang (Farm, die nach dem 1. Februar 2025 erstellt wurde)"
 }

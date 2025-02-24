@@ -5351,7 +5351,6 @@
   "polygon.cantContinueDescription": "Infelizmente, sua carteira não suporta Polygon. Fique atento ao suporte de Ronin em abril de 2025.",
   "ronin.nft.welcome": "Bem-vindo Ronin Player!",
   "ronin.nft.description": "Seu {{nftName}} vem com vantagens exclusivas!",
-  "ronin.nft.perkOne": "Acesso VIP",
   "ronin.nft.perkTwo": "Cozimento 2x mais rápido",
   "ronin.nft.expires": "Essas vantagens não durarão para sempre, então aproveite ao máximo enquanto duram!",
   "description.genie.lamp": "Uma lâmpada mágica que contém um gênio que concederá três desejos e queimará a lâmpada após o terceiro desejo. Lista de desejos: Genie Bear, Pirate Bounty, Pearl, Bumpkin Roast, Goblin Brunch e Sand Drill x10",
@@ -5366,5 +5365,6 @@
   "season.PlaceProtectiveEquipment": "Para sobreviver a eventos climáticos, coloque equipamento de proteção na fazenda ou dentro de casa pouco antes do evento ocorrer.",
   "chore.harvest.yam.30": "Colha o inhame 30 vezes",
   "chore.harvest.yam.60": "Colha o inhame 60 vezes",
-  "chore.harvest.yam.90": "Colha o inhame 90 vezes"
+  "chore.harvest.yam.90": "Colha o inhame 90 vezes",
+  "ronin.nft.perkOne": "Acesso VIP (Fazenda criada após 1º de fevereiro de 2025)"
 }

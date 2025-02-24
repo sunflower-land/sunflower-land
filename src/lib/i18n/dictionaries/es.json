@@ -5351,7 +5351,6 @@
   "polygon.cantContinueDescription": "Lamentablemente, tu monedero no es compatible con Polygon. Estad atentos al soporte de Ronin en abril de 2025.",
   "ronin.nft.welcome": "¡Bienvenido Ronin Player!",
   "ronin.nft.description": "¡Tu {{nftName}} viene con ventajas exclusivas!",
-  "ronin.nft.perkOne": "Acceso VIP",
   "ronin.nft.perkTwo": "Cocción 2 veces más rápida",
   "ronin.nft.expires": "Estas ventajas no durarán para siempre, ¡así que aprovéchalas mientras duren!",
   "description.genie.lamp": "Una lámpara mágica que contiene un genio que te concederá tres deseos y quemará la lámpara después del tercer deseo. Lista de deseos: Genie Bear, Pirate Bounty, Pearl, Bumpkin Roast, Goblin Brunch y Sand Drill x10",
@@ -5366,5 +5365,6 @@
   "season.PlaceProtectiveEquipment": "Para sobrevivir a los eventos climáticos, coloque equipo de protección en la granja o dentro de la casa justo antes de que ocurra el evento.",
   "chore.harvest.yam.30": "Cosecha ñame 30 veces",
   "chore.harvest.yam.60": "Cosecha ñame 60 veces",
-  "chore.harvest.yam.90": "Cosecha ñame 90 veces"
+  "chore.harvest.yam.90": "Cosecha ñame 90 veces",
+  "ronin.nft.perkOne": "Acceso VIP (granja creada después del 1 de febrero de 2025)"
 }
