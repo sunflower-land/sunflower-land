@@ -4,6 +4,8 @@ import React from "react";
 import { useSelector } from "@xstate/react";
 import { Airdrop } from "features/game/types/game";
 import { ClaimReward } from "./ClaimReward";
+import { Button } from "components/ui/Button";
+import { useTranslation } from "react-i18next";
 const _specialEvents = (state: MachineState) =>
   state.context.state.specialEvents;
 
@@ -11,10 +13,14 @@ export const RoninJinClaim: React.FC = () => {
   const { gameService } = useGame();
   const specialEvents = useSelector(gameService, _specialEvents);
 
+  const { t } = useTranslation();
+
   const jinAirdrop = specialEvents.current["Jin Airdrop"];
 
   if (!jinAirdrop?.isEligible) {
-    return null;
+    return (
+      <Button onClick={() => gameService.send("CLOSE")}>{t("continue")}</Button>
+    );
   }
 
   const jinAirdropDetails: Airdrop = {
