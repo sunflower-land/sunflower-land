@@ -102,9 +102,9 @@ import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
-import { SpecialEventName } from "../types/specialEvents";
 import { getAccount } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { SpecialEventName } from "../types/specialEvents";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -981,29 +981,6 @@ export function startGame(authContext: AuthContext) {
                 return !isAcknowledged;
               },
             },
-            {
-              target: "roninWelcomePack",
-              cond: (context: Context) => {
-                return (
-                  [
-                    "Ronin Bronze Pack",
-                    "Ronin Silver Pack",
-                    "Ronin Gold Pack",
-                    "Ronin Platinum Pack",
-                  ] as SpecialEventName[]
-                ).some(
-                  (pack) =>
-                    context.state.specialEvents.current[pack]?.isEligible ===
-                      true &&
-                    context.state.specialEvents.current[pack]?.tasks[0]
-                      .completedAt === undefined &&
-                    context.state.specialEvents.current[pack]?.startAt <
-                      Date.now() &&
-                    context.state.specialEvents.current[pack]?.endAt >
-                      Date.now(),
-                );
-              },
-            },
 
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
@@ -1048,7 +1025,29 @@ export function startGame(authContext: AuthContext) {
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
-
+            {
+              target: "roninWelcomePack",
+              cond: (context: Context) => {
+                return (
+                  [
+                    "Ronin Bronze Pack",
+                    "Ronin Silver Pack",
+                    "Ronin Gold Pack",
+                    "Ronin Platinum Pack",
+                  ] as SpecialEventName[]
+                ).some(
+                  (pack) =>
+                    context.state.specialEvents.current[pack]?.isEligible ===
+                      true &&
+                    context.state.specialEvents.current[pack]?.tasks[0]
+                      .completedAt === undefined &&
+                    context.state.specialEvents.current[pack]?.startAt <
+                      Date.now() &&
+                    context.state.specialEvents.current[pack]?.endAt >
+                      Date.now(),
+                );
+              },
+            },
             {
               target: "jinAirdrop",
               cond: (context) =>
@@ -1265,7 +1264,7 @@ export function startGame(authContext: AuthContext) {
               "specialEvent.taskCompleted"
             ],
             CLOSE: {
-              target: "notifying",
+              target: "playing",
             },
           },
         },
