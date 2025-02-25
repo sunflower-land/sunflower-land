@@ -117,7 +117,7 @@
           "name": "Winter Water",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -349,7 +349,7 @@
           "name": "Summer Water",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -644,7 +644,7 @@
           "name": "Winter Ground",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -945,7 +945,7 @@
           "name": "Summer Ground",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -1215,7 +1215,7 @@
           "name": "Winter Flowers & Grass",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -1400,7 +1400,7 @@
           "name": "Summer Flowers & Grass",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -1630,7 +1630,7 @@
           "name": "Winter Paths",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -1862,7 +1862,7 @@
           "name": "Summer Paths",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -2091,7 +2091,7 @@
           "name": "Winter Paths Layer 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -2290,7 +2290,7 @@
           "name": "Summer Paths Layer 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -2866,7 +2866,7 @@
           "name": "Winter Decoration Base",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -3190,7 +3190,7 @@
           "name": "Spring Decoration Base",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -3297,7 +3297,7 @@
           "name": "Winter Decoration Base 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -3589,7 +3589,7 @@
           "name": "Spring Decoration Base 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -3691,7 +3691,7 @@
           "name": "Winter Decoration Base 3",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -3964,7 +3964,7 @@
           "name": "Spring Decoration Base 3",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -4070,7 +4070,7 @@
           "name": "Winter Decorations Layer 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -4355,7 +4355,7 @@
           "name": "Spring Decorations Layer 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -4457,7 +4457,7 @@
           "name": "Winter Decorations Layer 3",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -4732,7 +4732,7 @@
           "name": "Spring Decorations Layer 3",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -4839,7 +4839,7 @@
           "name": "Winter Building Base",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -5127,7 +5127,7 @@
           "name": "Spring Building Base",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -6092,7 +6092,7 @@
           "name": "Winter Building Base Decorations",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -6276,7 +6276,7 @@
           "name": "Summer Building Base Decorations",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -6475,7 +6475,7 @@
           "name": "Winter Building Layer 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -6665,7 +6665,7 @@
           "name": "Summer Building Layer 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -6863,7 +6863,7 @@
           "name": "Winter Building Layer 3",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -7047,7 +7047,7 @@
           "name": "Summer Building Layer 3",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
@@ -7242,7 +7242,7 @@
           "name": "Winter Building Layer 4",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 55,
           "x": 0,
           "y": 0
@@ -7426,7 +7426,7 @@
           "name": "Summer Building Layer 4",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": true,
+          "visible": false,
           "width": 55,
           "x": 0,
           "y": 0
