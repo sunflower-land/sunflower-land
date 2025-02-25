@@ -1797,6 +1797,10 @@ describe("deliver", () => {
           Orange: new Decimal(5),
           Grape: new Decimal(2),
         },
+        vip: {
+          bundles: [],
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 365,
+        },
         delivery: {
           ...TEST_FARM.delivery,
           orders: [
