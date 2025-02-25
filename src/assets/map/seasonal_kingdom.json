@@ -7083,10 +7083,10 @@
           ],
           "height": 55,
           "id": 142,
-          "name": "Autumn Building Decorations Layer2",
+          "name": "Autumn Building Decorations Layer 2",
           "opacity": 1,
           "type": "tilelayer",
-          "visible": false,
+          "visible": true,
           "width": 30,
           "x": 0,
           "y": 0
