@@ -1051,7 +1051,7 @@ export function startGame(authContext: AuthContext) {
             {
               target: "jinAirdrop",
               cond: (context) =>
-                !!context.state.nfts?.ronin?.acknowledgedAt &&
+                !!context.state.nfts?.ronin &&
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
             },
             // {
