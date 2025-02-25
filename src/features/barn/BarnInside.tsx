@@ -131,10 +131,9 @@ export const BarnInside: React.FC = () => {
         onClose={() => setShowUpgradeModal(false)}
       />
 
-      <Modal show={!!selected} onHide={() => setDeal(undefined)}>
+      <Modal show={!!selected} onHide={() => setSelected(undefined)}>
         <AnimalDeal
           onClose={() => {
-            setDeal(undefined);
             setSelected(undefined);
           }}
           onSold={() => {
