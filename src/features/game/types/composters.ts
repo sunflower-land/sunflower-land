@@ -108,7 +108,7 @@ export const SEASON_COMPOST_REQUIREMENTS: Record<
       Carrot: 5,
     },
     summer: {
-      Pumpkin: 10,
+      Zucchini: 10,
       Pepper: 2,
     },
     autumn: {
