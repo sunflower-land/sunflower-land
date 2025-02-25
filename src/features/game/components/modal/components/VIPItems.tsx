@@ -43,6 +43,7 @@ import { REPUTATION_POINTS } from "features/game/lib/reputation";
 const _farmId = (state: MachineState) => state.context.farmId;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
+const _state = (state: MachineState) => state.context.state;
 
 type Props = {
   onClose: () => void;
@@ -98,12 +99,12 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
 
   const inventory = useSelector(gameService, _inventory);
   const vip = useSelector(gameService, _vip);
-  const farmId = useSelector(gameService, _farmId);
+  const state = useSelector(gameService, _state);
 
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
 
   const handlePurchase = () => {
-    const state = gameService.send("vip.purchased", {
+    gameService.send("vip.purchased", {
       name: selected,
     });
     gameAnalytics.trackSink({
@@ -117,7 +118,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   };
 
   const hasVip = hasVipAccess({
-    game: gameService.getSnapshot().context.state,
+    game: state,
   });
 
   const expiresSoon =
@@ -127,6 +128,31 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
 
   const hasOneYear =
     vip && vip.expiresAt > Date.now() + 1000 * 60 * 60 * 24 * 365;
+
+  const getExpiresAt = () => {
+    if (!vip && !state.nfts?.ronin) return 0;
+
+    const paidVipExpiresAt = vip?.expiresAt ?? 0;
+    const roninVipExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
+
+    const expiresAt = Math.max(paidVipExpiresAt, roninVipExpiresAt);
+
+    return expiresAt;
+  };
+
+  const vipExpiresAt = getExpiresAt();
+  const hasRoninVip = (state.nfts?.ronin?.expiresAt ?? 0) > Date.now();
+
+  // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 1 day
+  const shouldDisableVipPurchase = () => {
+    if (!hasRoninVip) return false;
+
+    const roninExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
+
+    return roninExpiresAt > Date.now() + 1000 * 60 * 60 * 24 * 1;
+  };
+
+  const disableVipPurchase = shouldDisableVipPurchase();
 
   return (
     <>
@@ -159,11 +185,12 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 icon={SUNNYSIDE.icons.cancel}
                 className="mb-2"
                 type="transparent"
-              >{`Expires ${new Date(vip?.expiresAt ?? 0).toLocaleDateString()}`}</Label>
+              >{`Expires ${new Date(vipExpiresAt).toLocaleDateString()}`}</Label>
               <Label
                 icon={SUNNYSIDE.icons.confirm}
                 type="transparent"
                 className="mb-2"
+                // Leave this as checking vip.expiresAt because purchased vip doesn't stack on Ronin NFT VIP
               >{`Expires ${new Date((vip?.expiresAt ?? 0) + VIP_DURATIONS[selected as VipBundle]).toLocaleDateString()}`}</Label>
             </div>
           )}
@@ -213,12 +240,14 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               >
                 {t("vip.access")}
               </Label>
-              <Label
-                type={expiresSoon ? "danger" : "transparent"}
-                icon={SUNNYSIDE.icons.stopwatch}
-              >
-                {`Expires: ${new Date(vip?.expiresAt ?? 0).toLocaleDateString()}`}
-              </Label>
+              {Number(vipExpiresAt) > 0 && (
+                <Label
+                  type={expiresSoon ? "danger" : "transparent"}
+                  icon={SUNNYSIDE.icons.stopwatch}
+                >
+                  {`Expires: ${new Date(vipExpiresAt).toLocaleDateString()}`}
+                </Label>
+              )}
             </div>
           </>
         )}
@@ -231,14 +260,21 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             {t("expired")}
           </Label>
         )}
-
+        {disableVipPurchase && (
+          <Label type="info" className="ml-1 my-1">
+            {t("vip.ronin.purchase.warning")}
+          </Label>
+        )}
         <div className="flex mt-3 mb-2">
           {getKeys(VIP_PRICES).map((name) => (
             <div className="w-1/3 pr-1" key={name}>
               <ButtonPanel
                 key={name}
-                className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
-                onClick={() => setSelected(name)}
+                className="flex flex-col items-center relative"
+                onClick={
+                  disableVipPurchase ? undefined : () => setSelected(name)
+                }
+                disabled={disableVipPurchase}
               >
                 {name === "3_MONTHS" && (
                   <>
