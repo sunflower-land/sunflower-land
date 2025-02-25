@@ -2140,7 +2140,6 @@
   "goblinTrade.conversion": "换算",
   "goblinTrade.select": "选择要出售的资源",
   "goblinTrade.hoarding": "噢不！您已经达到了 SFL 的囤积上限。",
-  "goblinTrade.vipDelivery": "唔，看起来你只是个普通乡包佬。我只跟 VIP 做买卖。",
   "goldTooth.intro.part1": "哈哈，亲爱的！这个挖宝地充满了财富和冒险，很快就会为你们这些勇敢的农民敞开大门！",
   "goldTooth.intro.part2": "准备好加入我，因为寻宝行动很快就要开始了！",
   "greenhouse.oilDescription": "温室需要石油来种植植物。",
@@ -5376,5 +5375,6 @@
   "news.title": "新闻",
   "news.whatsOn": "向日葵之地发生了什么？",
   "news.flowerSoon": "$FLOWER ERC20 即将推出！",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP 活跃。在到期前 3 天退货以购买 VIP。"
+  "vip.ronin.purchase.warning": "Ronin NFT VIP 活跃。在到期前 3 天退货以购买 VIP。",
+  "goblinTrade.missingReputation.sflDelivery": "嗯，看来你是个基本的 Bumpkin。我只和 Cropkeeper 交易。"
 }

@@ -1840,7 +1840,6 @@
   "goblinTrade.conversion": "Konversi",
   "goblinTrade.select": "Pilih sumber daya untuk dijual",
   "goblinTrade.hoarding": "Oh tidak! Anda telah mencapai SFL maksimal.",
-  "goblinTrade.vipDelivery": "Hmmm, sepertinya kamu adalah Bumpkin dasar. Saya hanya berdagang dengan VIP.",
   "goldTooth.intro.part1": "Arrr, aku sayang! Area penggalian harta karun akan dipenuhi dengan kekayaan dan petualangan, dan segera membuka gerbangnya bagi para petani pemberani!",
   "goldTooth.intro.part2": "Bersiaplah untuk bergabung dengan kru saya, karena perburuan kekayaan segera dimulai!",
   "greenhouse.oilDescription": "Rumah kaca membutuhkan minyak untuk menumbuhkan tanaman.",
@@ -5376,5 +5375,6 @@
   "news.title": "Berita",
   "news.whatsOn": "Apa yang terjadi di Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 akan segera diluncurkan!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. Kembali 3 hari sebelum kedaluwarsa untuk membeli VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. Kembali 3 hari sebelum kedaluwarsa untuk membeli VIP.",
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, sepertinya kamu adalah Bumpkin dasar. Saya hanya berdagang dengan Cropkeeper."
 }

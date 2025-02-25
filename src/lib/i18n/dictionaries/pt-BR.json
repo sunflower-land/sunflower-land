@@ -2815,7 +2815,6 @@
   "goblinTrade.conversion": "Conversão",
   "goblinTrade.select": "Selecione o recurso para vender",
   "goblinTrade.hoarding": "Ah, não! Você atingiu o SFL máximo.",
-  "goblinTrade.vipDelivery": "Hmmm, parece que você é um caipira básico. Eu só negocio com VIPs.",
   "greenhouse.oilDescription": "A estufa precisa de óleo para cultivar plantas.",
   "greenhouse.oilRequired": "Óleo necessário",
   "greenhouse.oilInMachine": "{{oil}} Óleo na máquina",
@@ -5376,5 +5375,6 @@
   "news.title": "Notícias",
   "news.whatsOn": "O que está acontecendo em Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 será lançado em breve!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP ativo. Devolva 3 dias antes do vencimento para comprar VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP ativo. Devolva 3 dias antes do vencimento para comprar VIP.",
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, parece que você é um caipira básico. Eu só negocio com um Cropkeeper."
 }

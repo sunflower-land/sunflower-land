@@ -1822,7 +1822,6 @@
   "goblinTrade.conversion": "Conversión",
   "goblinTrade.select": "Seleccione el recurso para vender",
   "goblinTrade.hoarding": "Oh, no! Has alcanzado el SFL máximo.",
-  "goblinTrade.vipDelivery": "Hmmm, parece que eres un patán básico. Solo comercio con personas VIP.",
   "goldTooth.intro.part1": "Arrr, cariño mío! La zona de búsqueda de tesoros está repleta de riquezas y aventuras, y pronto abrirá sus puertas para los intrépidos granjeros!",
   "goldTooth.intro.part2": "Prepárate para unirte a mi tripulación, porque la búsqueda de riquezas comenzará pronto!",
   "greenhouse.oilDescription": "El invernadero necesita aceite para cultivar plantas.",
@@ -5376,5 +5375,6 @@
   "news.title": "Noticias",
   "news.whatsOn": "¿Qué pasa en Sunflower Land?",
   "news.flowerSoon": "¡$FLOWER ERC20 se lanzará pronto!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP activo. Regrese 3 días antes de que caduque para comprar VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP activo. Regrese 3 días antes de que caduque para comprar VIP.",
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, parece que eres un patán básico. Solo comercio con un Cropkeeper."
 }

@@ -2847,7 +2847,6 @@
   "goblinTrade.conversion": "Dönüşüm",
   "goblinTrade.select": "Satılacak kaynağı seçin",
   "goblinTrade.hoarding": "Oh hayır! Maksimum SFL'ye ulaştınız.",
-  "goblinTrade.vipDelivery": "Hmmm, basit bir Bumpkin gibi görünüyorsun. Sadece VIP'lerle ticaret yapıyorum.",
   "greenhouse.oilDescription": "Seranın bitki yetiştirmek için yağa ihtiyacı vardır.",
   "greenhouse.oilRequired": "Yağ gerekli",
   "greenhouse.oilInMachine": "{{oil}} Makinede yağ",
@@ -5376,5 +5375,6 @@
   "news.title": "Haber",
   "news.whatsOn": "Ayçiçeği Ülkesinde neler oluyor?",
   "news.flowerSoon": "$FLOWER ERC20 yakında piyasaya çıkıyor!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. VIP satın almak için son kullanma tarihinden 3 gün önce iade edin."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. VIP satın almak için son kullanma tarihinden 3 gün önce iade edin.",
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, basit bir Bumpkin gibi görünüyorsun. Sadece bir çiftçi ile ticaret yapıyorum."
 }

@@ -1840,7 +1840,6 @@
   "goblinTrade.conversion": "Konvertierung",
   "goblinTrade.select": "Wählen Sie die zu verkaufende Ressource aus",
   "goblinTrade.hoarding": "Oh nein! Du hast die maximale SFL erreicht.",
-  "goblinTrade.vipDelivery": "Hmmm, sieht aus, als wärst du ein einfacher Bumpkin. Ich tausche nur mit VIPs.",
   "goldTooth.intro.part1": "Arrr, meine Lieblinge! In der Schatzgräbergegend wimmelt es nur so vor Reichtum und Abenteuern, und sie öffnet bald ihre Tore für wagemutige Farmer!",
   "goldTooth.intro.part2": "Sei bereit, dich meiner Crew anzuschließen, denn die Jagd nach Reichtümern beginnt in Kürze!",
   "greenhouse.oilDescription": "Das Gewächshaus benötigt Öl, um Pflanzen wachsen zu lassen.",
@@ -5376,5 +5375,6 @@
   "news.title": "Neuigkeiten",
   "news.whatsOn": "Was passiert in Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 wird bald veröffentlicht!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP aktiv. Kehren Sie 3 Tage vor Ablauf zurück, um VIP zu kaufen."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktiv. Kehren Sie 3 Tage vor Ablauf zurück, um VIP zu kaufen.",
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, sieht aus, als wärst du ein einfacher Bumpkin. Ich tausche nur mit einem Cropkeeper."
 }
