@@ -104,7 +104,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
 
   const handlePurchase = () => {
-    const state = gameService.send("vip.purchased", {
+    gameService.send("vip.purchased", {
       name: selected,
     });
     gameAnalytics.trackSink({
@@ -143,7 +143,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const vipExpiresAt = getExpiresAt();
   const hasRoninVip = (state.nfts?.ronin?.expiresAt ?? 0) > Date.now();
 
-  // Disable VIP purchase if Ronin NFT is active and expires in more than 3 days
+  // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 3 days
   const shouldDisableVipPurchase = () => {
     if (!hasRoninVip) return false;
 
@@ -151,6 +151,8 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
 
     return roninExpiresAt > Date.now() + 1000 * 60 * 60 * 24 * 3;
   };
+
+  const disableVipPurchase = shouldDisableVipPurchase();
 
   return (
     <>
@@ -258,7 +260,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             {t("expired")}
           </Label>
         )}
-        {shouldDisableVipPurchase() && (
+        {disableVipPurchase && (
           <Label type="info" className="ml-1 my-1">
             {t("vip.ronin.purchase.warning")}
           </Label>
@@ -268,9 +270,11 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             <div className="w-1/3 pr-1" key={name}>
               <ButtonPanel
                 key={name}
-                className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
-                onClick={() => setSelected(name)}
-                disabled={shouldDisableVipPurchase()}
+                className="flex flex-col items-center relative"
+                onClick={
+                  disableVipPurchase ? undefined : () => setSelected(name)
+                }
+                disabled={disableVipPurchase}
               >
                 {name === "3_MONTHS" && (
                   <>
