@@ -474,30 +474,41 @@ export class PlazaScene extends BaseScene {
       "Decoration Base 3",
       "Decorations Layer 2",
       "Decorations Layer 3",
+      "Building Base",
+      "Building Base Decorations",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+      "Club House Base",
     ];
     const seasons = ["Spring", "Summer", "Autumn", "Winter"];
 
-    // Hide all seasonal layers at the start
+    const topElements = [
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+    ];
+
+    const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
+
+    // Hide all seasonal layers that are not used for the active season
     seasons.forEach((seasonName) => {
       seasonElements.forEach((element) => {
         const layerName = `${element}/${seasonName} ${element}`;
-        this.layers[layerName]?.setVisible(false);
+        if (seasonName !== activeSeasonName)
+          this.layers[layerName]?.setVisible(false);
+
+        // Add Elements here that are drawn on top of the map
+        topElements.forEach((layer) => {
+          if (element === layer) {
+            this.layers[layerName]?.setDepth(1000000);
+          }
+        });
       });
-    });
-
-    // Determine active season layer and show relevant elements
-    const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
-    seasonElements.forEach((element) => {
-      const activeLayer = `${element}/${activeSeasonName} ${element}`;
-      this.layers[activeLayer]?.setVisible(true);
-
-      // Add Elements here that are drawn on top of the map
-      if (
-        element === "Decorations Layer 2" ||
-        element === "Decorations Layer 3"
-      ) {
-        this.layers[activeLayer]?.setDepth(1000000);
-      }
     });
 
     const Banners: Record<TemperateSeasonName, string> = {
@@ -669,8 +680,11 @@ export class PlazaScene extends BaseScene {
       const wasOpen = chest.visible;
       const isOpen = (obj1 as any).y > (obj2 as any).y;
 
-      this.layers["Club House Roof"].setVisible(isOpen);
-      this.layers["Club House Base"].setVisible(isOpen);
+      const roofBase = `${"Club House Base"}/${activeSeasonName} ${"Club House Base"}`;
+      const roofLayer = `${"Club House Roof"}/${activeSeasonName} ${"Club House Roof"}`;
+
+      this.layers[roofLayer].setVisible(isOpen);
+      this.layers[roofBase].setVisible(isOpen);
       this.layers["Club House Door"].setVisible(isOpen);
       clubHouseLabel.setVisible(isOpen);
 
