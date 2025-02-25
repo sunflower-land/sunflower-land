@@ -160,6 +160,41 @@ describe("deliver", () => {
     ).toThrow("Insufficient ingredient: coins");
   });
 
+  it("requires player has the reputation", () => {
+    expect(() =>
+      deliverOrder({
+        state: {
+          ...TEST_FARM,
+          vip: {
+            bundles: [],
+            expiresAt: Date.now() - 1000 * 60,
+          },
+          coins: 50,
+          delivery: {
+            ...TEST_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: MID_SEASON,
+                from: "gambit",
+                items: {
+                  coins: 50,
+                },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: MID_SEASON,
+      }),
+    ).toThrow("You do not have the required reputation");
+  });
+
   it("takes sfl from player is required in delivery", () => {
     const balance = new Decimal(100);
     const game = deliverOrder({
