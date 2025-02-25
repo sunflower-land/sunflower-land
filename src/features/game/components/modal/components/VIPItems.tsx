@@ -143,13 +143,13 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const vipExpiresAt = getExpiresAt();
   const hasRoninVip = (state.nfts?.ronin?.expiresAt ?? 0) > Date.now();
 
-  // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 3 days
+  // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 1 day
   const shouldDisableVipPurchase = () => {
     if (!hasRoninVip) return false;
 
     const roninExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
 
-    return roninExpiresAt > Date.now() + 1000 * 60 * 60 * 24 * 3;
+    return roninExpiresAt > Date.now() + 1000 * 60 * 60 * 24 * 1;
   };
 
   const disableVipPurchase = shouldDisableVipPurchase();
