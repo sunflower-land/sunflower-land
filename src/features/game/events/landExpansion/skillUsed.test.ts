@@ -709,8 +709,8 @@ describe("skillUse", () => {
               },
             ],
           },
-          createdAt: now,
         },
+        createdAt: now,
         action: {
           type: "skill.used",
           skill: "Instant Gratification",
