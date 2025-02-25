@@ -5375,5 +5375,6 @@
   "news.winds.of.change.description": "윈즈 오브 체인지 챕터가 시작되었습니다.NFT와 보상을 놓고 경쟁하세요!",
   "news.title": "뉴스",
   "news.whatsOn": "선플라워 랜드에서 무슨 일이 벌어지고 있나요?",
-  "news.flowerSoon": "$FLOWER ERC20 출시가 곧 시작됩니다!"
+  "news.flowerSoon": "$FLOWER ERC20 출시가 곧 시작됩니다!",
+  "vip.ronin.purchase.warning": "로닌 NFT VIP 액티브.만료일 3일 전에 돌아오시면 VIP를 구매하실 수 있습니다."
 }

@@ -5375,5 +5375,6 @@
   "news.winds.of.change.description": "Değişim Rüzgarları Bölümü başladı. NFT'ler ve ödüller için yarışın!",
   "news.title": "Haber",
   "news.whatsOn": "Ayçiçeği Ülkesinde neler oluyor?",
-  "news.flowerSoon": "$FLOWER ERC20 yakında piyasaya çıkıyor!"
+  "news.flowerSoon": "$FLOWER ERC20 yakında piyasaya çıkıyor!",
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. VIP satın almak için son kullanma tarihinden 3 gün önce iade edin."
 }
