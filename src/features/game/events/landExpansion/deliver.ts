@@ -367,7 +367,7 @@ export function getOrderSellPrice<T>(
   return ((order.reward.coins ?? 0) * mul) as T;
 }
 
-export const GOBLINS_REQUIRING_SEASON_PASS: NPCName[] = [
+export const GOBLINS_REQUIRING_REPUTATION: NPCName[] = [
   "grimtooth",
   "grubnuk",
   "gordo",
@@ -402,7 +402,7 @@ export function deliverOrder({
       reputation: Reputation.Cropkeeper,
     });
 
-    const requiresReputation = GOBLINS_REQUIRING_SEASON_PASS.includes(
+    const requiresReputation = GOBLINS_REQUIRING_REPUTATION.includes(
       order.from,
     );
 

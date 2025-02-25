@@ -41,7 +41,7 @@ import {
   generateDeliveryTickets,
   getCountAndTypeForDelivery,
   getOrderSellPrice,
-  GOBLINS_REQUIRING_SEASON_PASS,
+  GOBLINS_REQUIRING_REPUTATION,
 } from "features/game/events/landExpansion/deliver";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
@@ -680,7 +680,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     });
   };
 
-  const requiresReputation = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
+  const requiresReputation = GOBLINS_REQUIRING_REPUTATION.includes(npc);
   const hasCropkeeperReputation = useSelector(gameService, _hasReputation);
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
