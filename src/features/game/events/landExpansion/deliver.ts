@@ -28,6 +28,7 @@ import { FISH } from "features/game/types/fishing";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -366,6 +367,14 @@ export function getOrderSellPrice<T>(
   return ((order.reward.coins ?? 0) * mul) as T;
 }
 
+export const GOBLINS_REQUIRING_SEASON_PASS: NPCName[] = [
+  "grimtooth",
+  "grubnuk",
+  "gordo",
+  "guria",
+  "gambit",
+];
+
 export function deliverOrder({
   state,
   action,
@@ -386,6 +395,19 @@ export function deliverOrder({
 
     if (order.readyAt > createdAt) {
       throw new Error("Order has not started");
+    }
+
+    const hasCropkeeperReputation = hasReputation({
+      game,
+      reputation: Reputation.Cropkeeper,
+    });
+
+    const requiresReputation = GOBLINS_REQUIRING_SEASON_PASS.includes(
+      order.from,
+    );
+
+    if (requiresReputation && !hasCropkeeperReputation) {
+      throw new Error("You do not have the required reputation");
     }
 
     if (order.completedAt) {

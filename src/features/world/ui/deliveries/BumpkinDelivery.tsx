@@ -41,6 +41,7 @@ import {
   generateDeliveryTickets,
   getCountAndTypeForDelivery,
   getOrderSellPrice,
+  GOBLINS_REQUIRING_SEASON_PASS,
 } from "features/game/events/landExpansion/deliver";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
@@ -622,13 +623,6 @@ interface Props {
   npc: NPCName;
 }
 
-const GOBLINS_REQUIRING_SEASON_PASS: Partial<NPCName[]> = [
-  "grimtooth",
-  "grubnuk",
-  "gordo",
-  "guria",
-];
-
 const _hasReputation = (state: MachineState) =>
   hasReputation({
     game: state.context.state,
@@ -686,7 +680,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     });
   };
 
-  const requiresSeasonPass = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
+  const requiresReputation = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
   const hasCropkeeperReputation = useSelector(gameService, _hasReputation);
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
@@ -721,16 +715,16 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   if (!delivery || (!!tickets && isHoliday)) {
     message = noOrder;
   }
+  const missingRequiredReputation =
+    requiresReputation && !hasCropkeeperReputation;
 
-  if (requiresSeasonPass && !hasCropkeeperReputation) {
+  if (missingRequiredReputation) {
     message = t("goblinTrade.missingReputation.sflDelivery");
   }
 
   const missingLevels =
     (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
     getBumpkinLevel(game.bumpkin?.experience ?? 0);
-  const missingRequiredReputation =
-    requiresSeasonPass && !hasCropkeeperReputation;
   const isLocked = missingLevels >= 1;
   const isTicketOrder = tickets > 0;
   const deliveryFrozen = isHoliday && isTicketOrder;
@@ -868,7 +862,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               )}
             </div>
           </InnerPanel>
-          {requiresSeasonPass && !hasCropkeeperReputation && (
+          {missingRequiredReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
           <div className="flex mt-1">
