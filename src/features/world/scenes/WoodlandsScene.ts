@@ -9,6 +9,7 @@ import { npcModalManager } from "../ui/NPCModals";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { capitalize } from "lib/utils/capitalize";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -98,22 +99,25 @@ export class WoodlandsScene extends BaseScene {
       "Building Layer 3",
     ];
 
-    const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
+    const topElementsSet = new Set(topElements);
 
-    // Hide all seasonal layers that are not used for the active season
-    seasons.forEach((seasonName) => {
-      seasonElements.forEach((element) => {
-        const layerName = `${element}/${seasonName} ${element}`;
-        if (seasonName !== activeSeasonName)
-          this.layers[layerName]?.setVisible(false);
+    // Filter all seasonal layers that are not used for the active season
+    seasons
+      .filter((seasonName) => seasonName !== capitalize(season)) // Skip the active season
+      .forEach((seasonName) => {
+        seasonElements.forEach((element) => {
+          const layerName = `${element}/${seasonName} ${element}`;
+          const layer = this.layers[layerName];
 
-        // Add Elements here that are drawn on top of the map
-        topElements.forEach((layer) => {
-          if (element === layer) {
-            this.layers[layerName]?.setDepth(1000000);
+          if (!layer) return; // Skip undefined layers
+
+          layer.setVisible(false); // Hide inactive season layer
+
+          // Set depth for elements that should be drawn on top
+          if (topElementsSet.has(element)) {
+            layer.setDepth(1000000);
           }
         });
       });
-    });
   }
 }

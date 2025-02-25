@@ -15,6 +15,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
+import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 
@@ -493,23 +494,26 @@ export class PlazaScene extends BaseScene {
       "Club House Roof",
     ];
 
-    const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
+    const topElementsSet = new Set(topElements);
 
-    // Hide all seasonal layers that are not used for the active season
-    seasons.forEach((seasonName) => {
-      seasonElements.forEach((element) => {
-        const layerName = `${element}/${seasonName} ${element}`;
-        if (seasonName !== activeSeasonName)
-          this.layers[layerName]?.setVisible(false);
+    // Filter all seasonal layers that are not used for the active season
+    seasons
+      .filter((seasonName) => seasonName !== capitalize(season)) // Skip the active season
+      .forEach((seasonName) => {
+        seasonElements.forEach((element) => {
+          const layerName = `${element}/${seasonName} ${element}`;
+          const layer = this.layers[layerName];
 
-        // Add Elements here that are drawn on top of the map
-        topElements.forEach((layer) => {
-          if (element === layer) {
-            this.layers[layerName]?.setDepth(1000000);
+          if (!layer) return; // Skip undefined layers
+
+          layer.setVisible(false); // Hide inactive season layer
+
+          // Set depth for elements that should be drawn on top
+          if (topElementsSet.has(element)) {
+            layer.setDepth(1000000);
           }
         });
       });
-    });
 
     const Banners: Record<TemperateSeasonName, string> = {
       spring: "woc_banner_spring",
@@ -680,8 +684,8 @@ export class PlazaScene extends BaseScene {
       const wasOpen = chest.visible;
       const isOpen = (obj1 as any).y > (obj2 as any).y;
 
-      const roofBase = `${"Club House Base"}/${activeSeasonName} ${"Club House Base"}`;
-      const roofLayer = `${"Club House Roof"}/${activeSeasonName} ${"Club House Roof"}`;
+      const roofBase = `${"Club House Base"}/${capitalize(season)} ${"Club House Base"}`;
+      const roofLayer = `${"Club House Roof"}/${capitalize(season)} ${"Club House Roof"}`;
 
       this.layers[roofLayer].setVisible(isOpen);
       this.layers[roofBase].setVisible(isOpen);
