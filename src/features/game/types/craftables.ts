@@ -23,7 +23,7 @@ import {
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
 import { MarineMarvelName, OldFishName } from "./fishing";
-import { SeasonalBanner } from "./chapters";
+import { ChapterBanner } from "./chapters";
 import { EpicFlowerName, MutantFlowerName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { FactionShopCollectibleName } from "./factionShop";
@@ -196,7 +196,7 @@ export type CollectibleName =
   | GoblinBlacksmithItemName
   | SoldOutCollectibleName
   | GoblinPirateItemName
-  | SeasonalBanner
+  | ChapterBanner
   | BoostTreasure
   | WarBanner
   | LanternName
