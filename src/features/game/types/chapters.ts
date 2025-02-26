@@ -63,9 +63,7 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
   },
 };
 
-export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
-
-export type SeasonalTicket =
+export type ChapterTicket =
   | "Solar Flare Ticket"
   | "Dawn Breaker Ticket"
   | "Crow Feather"
@@ -99,7 +97,7 @@ export const SEASONAL_BANNERS: Record<SeasonalBanner, ChapterName> = {
   "Winds of Change Banner": "Winds of Change",
 };
 
-export const SEASON_TICKET_NAME: Record<ChapterName, SeasonalTicket> = {
+export const SEASON_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Solar Flare": "Solar Flare Ticket",
   "Dawn Breaker": "Dawn Breaker Ticket",
   "Witches' Eve": "Crow Feather",
@@ -142,7 +140,7 @@ export function getCurrentSeason(now = new Date()): ChapterName {
   return currentSeason;
 }
 
-export function getSeasonalTicket(now = new Date()): SeasonalTicket {
+export function getSeasonalTicket(now = new Date()): ChapterTicket {
   const currentSeason = getCurrentSeason(now);
 
   return SEASON_TICKET_NAME[currentSeason];
