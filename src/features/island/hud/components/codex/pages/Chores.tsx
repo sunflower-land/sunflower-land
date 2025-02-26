@@ -7,7 +7,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getSeasonChangeover } from "lib/utils/getChapterWeek";
+import { getChapterChangeover } from "lib/utils/getChapterWeek";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext } from "react";
 
@@ -27,7 +27,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
   const { t } = useAppTranslation();
 
   const { ticketTasksAreFrozen, ticketTasksAreClosing, tasksCloseAt } =
-    getSeasonChangeover({
+    getChapterChangeover({
       id: farmId,
     });
 

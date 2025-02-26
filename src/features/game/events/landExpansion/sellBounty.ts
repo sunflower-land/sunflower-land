@@ -10,7 +10,7 @@ import {
   getSeasonalTicket,
 } from "features/game/types/chapters";
 import { produce } from "immer";
-import { getSeasonChangeover } from "lib/utils/getChapterWeek";
+import { getChapterChangeover } from "lib/utils/getChapterWeek";
 
 export type SellBountyAction = {
   type: "bounty.sold";
@@ -126,7 +126,7 @@ export function sellBounty({
       throw new Error("Bounty already completed");
     }
 
-    const { ticketTasksAreFrozen } = getSeasonChangeover({
+    const { ticketTasksAreFrozen } = getChapterChangeover({
       now: createdAt,
       id: farmId as number,
     });
