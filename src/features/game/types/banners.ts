@@ -1,5 +1,5 @@
 import { ChapterBanner } from "./chapters";
-import { SEASONAL_BANNERS } from "./chapters";
+import { CHAPTER_BANNERS } from "./chapters";
 import { FactionBanner } from "./game";
 type bannerName =
   | "Human War Banner"
@@ -10,7 +10,7 @@ type bannerName =
   | FactionBanner;
 
 export const BANNERS: Record<bannerName, string> = {
-  ...SEASONAL_BANNERS,
+  ...CHAPTER_BANNERS,
   "Human War Banner": "",
   "Goblin War Banner": "",
   "Lifetime Farmer Banner": "",
