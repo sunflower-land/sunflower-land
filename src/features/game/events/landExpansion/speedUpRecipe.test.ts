@@ -311,6 +311,7 @@ describe("instantCook", () => {
         buildingName: "Fire Pit",
         type: "recipe.spedUp",
       },
+      createdAt: now,
     });
 
     const building = state.buildings["Fire Pit"]?.[0];
