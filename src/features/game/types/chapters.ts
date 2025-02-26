@@ -152,10 +152,10 @@ export function getChapterArtefact(now = new Date()) {
   return CHAPTER_ARTEFACT_NAME[currentChapter];
 }
 
-export function getSeasonalBanner(now = new Date()): ChapterBanner {
-  const currentSeason = getCurrentChapter(now);
+export function getChapterBanner(now = new Date()): ChapterBanner {
+  const currentChapter = getCurrentChapter(now);
 
-  return `${currentSeason} Banner`;
+  return `${currentChapter} Banner`;
 }
 
 export function secondsLeftInSeason() {
@@ -192,7 +192,7 @@ export function getSeasonalBannerImage() {
     "Bull Run Banner": bullsRunBanner,
     "Winds of Change Banner": windsOfChangeBanner,
   };
-  return banners[getSeasonalBanner()];
+  return banners[getChapterBanner()];
 }
 
 function getPreviousSeason(now = new Date()): ChapterName {

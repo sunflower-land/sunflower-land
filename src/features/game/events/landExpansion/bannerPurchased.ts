@@ -6,7 +6,7 @@ import {
   ChapterBanner,
   getPreviousSeasonalBanner,
   getSeasonByBanner,
-  getSeasonalBanner,
+  getChapterBanner,
 } from "features/game/types/chapters";
 import { produce } from "immer";
 
@@ -99,7 +99,7 @@ export function purchaseBanner({
       throw new Error("You already have this banner");
     }
 
-    const seasonBanner = getSeasonalBanner(new Date(createdAt));
+    const seasonBanner = getChapterBanner(new Date(createdAt));
     if (action.name !== seasonBanner) {
       throw new Error(
         `Attempt to purchase ${action.name} in ${seasonBanner} Season`,
