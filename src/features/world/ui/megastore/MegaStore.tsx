@@ -16,7 +16,7 @@ import {
 import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
-import { SeasonalStore } from "./SeasonalStore";
+import { SeasonalStore } from "./ChapterStore";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 

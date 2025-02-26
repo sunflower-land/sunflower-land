@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 // import { getItemBuffLabel, getItemImage } from "../MegaStore";
-import { getItemImage, getItemBuffLabel } from "../SeasonalStore";
+import { getItemImage, getItemBuffLabel } from "../ChapterStore";
 import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";

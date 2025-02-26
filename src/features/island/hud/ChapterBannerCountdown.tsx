@@ -12,7 +12,7 @@ import {
   getSeasonalBanner,
   SEASONS,
 } from "features/game/types/chapters";
-import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import { getChapterWeek } from "lib/utils/getChapterWeek";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -31,7 +31,7 @@ export const SeasonBannerCountdown: React.FC = () => {
   const { openModal } = useContext(ModalContext);
 
   const season = getCurrentSeason();
-  const seasonWeek = getSeasonWeek();
+  const seasonWeek = getChapterWeek();
 
   const offerEndsAt =
     SEASONS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;

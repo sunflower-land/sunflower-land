@@ -42,7 +42,7 @@ import { secondsTillReset } from "features/helios/components/hayseedHank/Hayseed
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getChapterWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { useNavigate } from "react-router";

@@ -10,7 +10,7 @@ import {
   getSeasonalTicket,
 } from "features/game/types/chapters";
 import { produce } from "immer";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getSeasonChangeover } from "lib/utils/getChapterWeek";
 
 export type SellBountyAction = {
   type: "bounty.sold";

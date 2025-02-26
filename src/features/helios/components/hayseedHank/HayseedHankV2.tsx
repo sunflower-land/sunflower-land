@@ -9,7 +9,7 @@ import { secondsToString } from "lib/utils/time";
 import { getSeasonalTicket } from "features/game/types/chapters";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getSeasonChangeover } from "lib/utils/getChapterWeek";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";

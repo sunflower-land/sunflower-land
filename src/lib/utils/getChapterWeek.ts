@@ -6,7 +6,7 @@ import { ADMIN_IDS } from "lib/flags";
  * Helper function to get the week number of the season
  * @returns week number of the season 1-12
  */
-export function getSeasonWeek(): SeasonWeek {
+export function getChapterWeek(): SeasonWeek {
   const now = Date.now();
   const { startDate, endDate } = SEASONS[getCurrentSeason()];
   const endTime = endDate.getTime();

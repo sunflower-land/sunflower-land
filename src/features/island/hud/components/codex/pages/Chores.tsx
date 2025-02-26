@@ -7,7 +7,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { getSeasonChangeover } from "lib/utils/getChapterWeek";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext } from "react";
 

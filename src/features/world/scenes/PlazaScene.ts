@@ -15,7 +15,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getChapterWeek";
 import { DogContainer } from "../containers/DogContainer";
 
 export type FactionNPC = {

@@ -15,11 +15,11 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chores from "assets/icons/chores.webp";
 import lock from "assets/icons/lock.png";
 
-import { SeasonalAuctions } from "../components/SeasonalAuctions";
+import { SeasonalAuctions } from "../components/ChapterAuctions";
 import classNames from "classnames";
-import { SeasonalMutants } from "../components/SeasonalMutants";
+import { SeasonalMutants } from "../components/ChapterMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
+import { SeasonalStore } from "features/world/ui/megastore/ChapterStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
 import { BertObsession } from "features/world/ui/npcs/Bert";
