@@ -5373,8 +5373,8 @@
   "news.title": "Notizie",
   "news.whatsOn": "Cosa sta succedendo a Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 verrà lanciato presto!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP attivo. Restituisci 3 giorni prima della scadenza per acquistare VIP.",
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, sembra che tu sia un semplice Bumpkin. Faccio scambi solo con un Cropkeeper.",
   "skill.noAxeNoWorries.buff": "Tritate rami e gambi di frutta senza asce",
-  "skill.noAxeNoWorries.debuff": "-1 legno ricavato da rami e fusti di frutta"
+  "skill.noAxeNoWorries.debuff": "-1 legno ricavato da rami e fusti di frutta",
+  "vip.ronin.purchase.warning": "Ronin NFT VIP attivo. Restituisci 1 giorno prima della scadenza per acquistare VIP."
 }

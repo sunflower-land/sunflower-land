@@ -5373,8 +5373,8 @@
   "news.title": "ニュース",
   "news.whatsOn": "ひまわりランドで何が起きているの？",
   "news.flowerSoon": "$FLOWER ERC20がまもなく発売されます！",
-  "vip.ronin.purchase.warning": "ローニンNFT VIPアクティブ有効期限が切れる 3 日前に戻って VIP を購入してください。",
   "goblinTrade.missingReputation.sflDelivery": "うーん、あなたはベーシックなバンプキンみたいですね。私はクロップキーパーとしか取引しない。",
   "skill.noAxeNoWorries.buff": "果物の枝と茎を斧なしで切り刻む",
-  "skill.noAxeNoWorries.debuff": "-1果物の枝と茎からの木材"
+  "skill.noAxeNoWorries.debuff": "-1果物の枝と茎からの木材",
+  "vip.ronin.purchase.warning": "ローニンNFT VIPアクティブ有効期限の 1 日前に戻って VIP を購入してください。"
 }

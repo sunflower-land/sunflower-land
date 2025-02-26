@@ -5373,8 +5373,8 @@
   "news.title": "Neuigkeiten",
   "news.whatsOn": "Was passiert in Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 wird bald veröffentlicht!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP aktiv. Kehren Sie 3 Tage vor Ablauf zurück, um VIP zu kaufen.",
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, sieht aus, als wärst du ein einfacher Bumpkin. Ich tausche nur mit einem Cropkeeper.",
   "skill.noAxeNoWorries.buff": "Fruchtzweige und Stängel ohne Äxte hacken",
-  "skill.noAxeNoWorries.debuff": "-1 Holz aus Fruchtzweigen und Stängeln"
+  "skill.noAxeNoWorries.debuff": "-1 Holz aus Fruchtzweigen und Stängeln",
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktiv. Kehren Sie 1 Tag vor Ablauf zurück, um VIP zu kaufen."
 }

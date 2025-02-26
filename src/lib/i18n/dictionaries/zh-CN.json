@@ -5373,8 +5373,8 @@
   "news.title": "新闻",
   "news.whatsOn": "向日葵之地发生了什么？",
   "news.flowerSoon": "$FLOWER ERC20 即将推出！",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP 活跃。在到期前 3 天退货以购买 VIP。",
   "goblinTrade.missingReputation.sflDelivery": "嗯，看来你是个基本的 Bumpkin。我只和 Cropkeeper 交易。",
   "skill.noAxeNoWorries.buff": "不用斧头砍掉水果的树枝和茎",
-  "skill.noAxeNoWorries.debuff": "-1 根来自果枝和茎的木头"
+  "skill.noAxeNoWorries.debuff": "-1 根来自果枝和茎的木头",
+  "vip.ronin.purchase.warning": "Ronin NFT VIP 活跃。在到期前 1 天退货以购买 VIP。"
 }

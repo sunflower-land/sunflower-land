@@ -5373,8 +5373,8 @@
   "news.title": "뉴스",
   "news.whatsOn": "선플라워 랜드에서 무슨 일이 벌어지고 있나요?",
   "news.flowerSoon": "$FLOWER ERC20 출시가 곧 시작됩니다!",
-  "vip.ronin.purchase.warning": "로닌 NFT VIP 액티브.만료일 3일 전에 돌아오시면 VIP를 구매하실 수 있습니다.",
   "goblinTrade.missingReputation.sflDelivery": "흠, 당신은 기본 범프킨인 것 같습니다.저는 크롭키퍼와만 거래해요.",
   "skill.noAxeNoWorries.buff": "도끼없이 과일 가지와 줄기를 자릅니다.",
-  "skill.noAxeNoWorries.debuff": "-열매 가지와 줄기에서 나온 나무"
+  "skill.noAxeNoWorries.debuff": "-열매 가지와 줄기에서 나온 나무",
+  "vip.ronin.purchase.warning": "로닌 NFT VIP 액티브.만료 1일 전에 돌아오시면 VIP를 구매하실 수 있습니다."
 }

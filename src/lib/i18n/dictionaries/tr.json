@@ -5373,8 +5373,8 @@
   "news.title": "Haber",
   "news.whatsOn": "Ayçiçeği Ülkesinde neler oluyor?",
   "news.flowerSoon": "$FLOWER ERC20 yakında piyasaya çıkıyor!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. VIP satın almak için son kullanma tarihinden 3 gün önce iade edin.",
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, basit bir Bumpkin gibi görünüyorsun. Sadece bir çiftçi ile ticaret yapıyorum.",
   "skill.noAxeNoWorries.buff": "Meyve dallarını ve saplarını baltasız doğrayın",
-  "skill.noAxeNoWorries.debuff": "-1 meyve dallarından ve saplarından ağaç"
+  "skill.noAxeNoWorries.debuff": "-1 meyve dallarından ve saplarından ağaç",
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. VIP satın almak için son kullanma tarihinden 1 gün önce iade edin."
 }

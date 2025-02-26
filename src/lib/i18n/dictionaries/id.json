@@ -5373,8 +5373,8 @@
   "news.title": "Berita",
   "news.whatsOn": "Apa yang terjadi di Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 akan segera diluncurkan!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. Kembali 3 hari sebelum kedaluwarsa untuk membeli VIP.",
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, sepertinya kamu adalah Bumpkin dasar. Saya hanya berdagang dengan Cropkeeper.",
   "skill.noAxeNoWorries.buff": "Potong cabang dan batang buah tanpa kapak",
-  "skill.noAxeNoWorries.debuff": "-1 kayu dari cabang dan batang buah"
+  "skill.noAxeNoWorries.debuff": "-1 kayu dari cabang dan batang buah",
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. Kembali 1 hari sebelum kedaluwarsa untuk membeli VIP."
 }

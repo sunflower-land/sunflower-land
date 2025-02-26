@@ -5373,8 +5373,8 @@
   "news.title": "Новости",
   "news.whatsOn": "Что происходит в стране подсолнухов?",
   "news.flowerSoon": "$FLOWER ERC20 скоро выйдет!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP-активирован. Вернитесь за 3 дня до истечения срока действия, чтобы приобрести VIP.",
   "goblinTrade.missingReputation.sflDelivery": "Хммм, похоже, ты обычный Бампкин. Я торгую только с земледельцем.",
   "skill.noAxeNoWorries.buff": "Измельчите ветки и стебли фруктов без топоров",
-  "skill.noAxeNoWorries.debuff": "-1 древесина из фруктовых веток и стеблей"
+  "skill.noAxeNoWorries.debuff": "-1 древесина из фруктовых веток и стеблей",
+  "vip.ronin.purchase.warning": "Ronin NFT VIP-активирован. Вернитесь за 1 день до истечения срока действия, чтобы приобрести VIP."
 }
