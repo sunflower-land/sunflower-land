@@ -146,10 +146,10 @@ export function getChapterTicket(now = new Date()): ChapterTicket {
   return CHAPTER_TICKET_NAME[currentChapter];
 }
 
-export function getSeasonalArtefact(now = new Date()) {
-  const currentSeason = getCurrentChapter(now);
+export function getChapterArtefact(now = new Date()) {
+  const currentChapter = getCurrentChapter(now);
 
-  return CHAPTER_ARTEFACT_NAME[currentSeason];
+  return CHAPTER_ARTEFACT_NAME[currentChapter];
 }
 
 export function getSeasonalBanner(now = new Date()): ChapterBanner {

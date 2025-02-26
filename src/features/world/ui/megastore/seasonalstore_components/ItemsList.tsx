@@ -8,7 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { shortenCount } from "lib/utils/formatNumber";
 import {
   getCurrentChapter,
-  getSeasonalArtefact,
+  getChapterArtefact,
   getChapterTicket,
 } from "features/game/types/chapters";
 
@@ -121,8 +121,8 @@ export const ItemsList: React.FC<Props> = ({
       item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
         ? getChapterTicket()
         : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
+            (item.cost?.items[getChapterArtefact()] ?? 0 > 0)
+          ? getChapterArtefact()
           : Object.keys(item.cost.items)[0];
 
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
@@ -135,7 +135,7 @@ export const ItemsList: React.FC<Props> = ({
     const currency =
       item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
         ? getChapterTicket()
-        : getSeasonalArtefact();
+        : getChapterArtefact();
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]
