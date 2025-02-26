@@ -18,14 +18,24 @@ type Options = {
   createdAt?: number;
 };
 
-// Max 2 days worth of oil
+// Max 5 days worth of oil so that VIP players can queue
+// 4 items without having to refill between each add.
+//
+// This is based on the longest base cook duration being
+// 30 hours for Lemon Cheesecake.
+//    30 hr x 4 = 120 hrs = 5 days
 export const BUILDING_DAILY_OIL_CAPACITY: Record<CookingBuildingName, number> =
   {
-    "Fire Pit": 2,
-    Kitchen: 10,
-    "Smoothie Shack": 16,
-    Bakery: 20,
-    Deli: 24,
+    // Pizza Margherita base time is 20 hours.
+    "Fire Pit": 5,
+    // Spaghetti al Limone base time is 15 hours.
+    Kitchen: 25,
+    // Slow Juice base time is 24 hours.
+    "Smoothie Shack": 40,
+    // Lemon Cheesecake base time is 30 hours.
+    Bakery: 50,
+    // Fermented Fish base time is 24 hours.
+    Deli: 60,
   };
 
 export function supplyCookingOil({
