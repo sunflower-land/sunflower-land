@@ -4,7 +4,7 @@ import {
   CHAPTER_BANNERS,
   CHAPTERS,
   ChapterBanner,
-  getPreviousSeasonalBanner,
+  getPreviousChapterBanner,
   getChapterByBanner,
   getChapterBanner,
 } from "features/game/types/chapters";
@@ -106,7 +106,7 @@ export function purchaseBanner({
       );
     }
 
-    const previousBanner = getPreviousSeasonalBanner(new Date(createdAt));
+    const previousBanner = getPreviousChapterBanner(new Date(createdAt));
     const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(
       0,
     );

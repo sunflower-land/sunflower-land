@@ -5,7 +5,7 @@ import {
   CHAPTERS,
   ChapterBanner,
   getCurrentChapter,
-  getPreviousSeasonalBanner,
+  getPreviousChapterBanner,
   getChapterBanner,
 } from "features/game/types/chapters";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
@@ -97,7 +97,7 @@ describe("purchaseBanner", () => {
     const season = getCurrentChapter();
     const seasonStart = CHAPTERS[season].startDate;
     const banner = getChapterBanner();
-    const previousSeasonalBanner = getPreviousSeasonalBanner();
+    const previousSeasonalBanner = getPreviousChapterBanner();
 
     const result = purchaseBanner({
       state: {

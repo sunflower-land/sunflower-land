@@ -20,9 +20,9 @@ export type BeachBountyTreasure =
   | "Camel Bone"
   | "Vase"
   | "Hieroglyph"
-  | BeachBountySeasonalArtefact;
+  | BeachBountyChapterArtefact;
 
-export type BeachBountySeasonalArtefact =
+export type BeachBountyChapterArtefact =
   | "Scarab"
   | "Cow Skull"
   | "Ancient Clock";
