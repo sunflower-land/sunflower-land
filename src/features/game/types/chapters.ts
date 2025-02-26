@@ -125,19 +125,19 @@ export const CHAPTER_ARTEFACT_NAME: Record<
 };
 
 export function getCurrentChapter(now = new Date()): ChapterName {
-  const seasons = getKeys(CHAPTERS);
+  const chapters = getKeys(CHAPTERS);
 
-  const currentSeason = seasons.find((season) => {
-    const { startDate, endDate } = CHAPTERS[season];
+  const currentChapter = chapters.find((chapter) => {
+    const { startDate, endDate } = CHAPTERS[chapter];
 
     return now >= startDate && now < endDate;
   });
 
-  if (!currentSeason) {
-    throw new Error("No Season found");
+  if (!currentChapter) {
+    throw new Error("No Chapter found");
   }
 
-  return currentSeason;
+  return currentChapter;
 }
 
 export function getSeasonalTicket(now = new Date()): ChapterTicket {
