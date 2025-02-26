@@ -17,7 +17,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
-import { SEASONAL_ARTEFACT } from "features/game/types/desert";
+import { CHAPTER_ARTEFACT } from "features/game/types/desert";
 import { getCurrentChapter } from "features/game/types/chapters";
 
 export const TreasureShopSell: React.FC = () => {
@@ -56,7 +56,7 @@ export const TreasureShopSell: React.FC = () => {
     });
   };
   const isValuable =
-    selectedName === SEASONAL_ARTEFACT[getCurrentChapter()] || price > 1000;
+    selectedName === CHAPTER_ARTEFACT[getCurrentChapter()] || price > 1000;
   const handleSellOne = () => {
     if (isValuable) {
       showConfirmationModal(true);
@@ -140,7 +140,7 @@ export const TreasureShopSell: React.FC = () => {
         show={confirmationModal}
         onHide={() => showConfirmationModal(false)}
         messages={[
-          selectedName === SEASONAL_ARTEFACT[getCurrentChapter()]
+          selectedName === CHAPTER_ARTEFACT[getCurrentChapter()]
             ? t("confirmation.sellSeasonalArtefact")
             : price > 1000
               ? t("confirmation.valuableTreasure")

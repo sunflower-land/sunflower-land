@@ -11,7 +11,7 @@ import {
   getTreasureCount,
   getTreasuresFound,
   getArtefactsFound,
-  SEASONAL_ARTEFACT,
+  CHAPTER_ARTEFACT,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -309,7 +309,7 @@ export const DailyPuzzle: React.FC = () => {
             />
             <span className="text-xs ml-2">{`${artefactsFound}/3`}</span>
             <img
-              src={ITEM_DETAILS[SEASONAL_ARTEFACT[getCurrentChapter()]].image}
+              src={ITEM_DETAILS[CHAPTER_ARTEFACT[getCurrentChapter()]].image}
               className="h-5 ml-1"
             />
           </div>
@@ -318,7 +318,7 @@ export const DailyPuzzle: React.FC = () => {
         <div className="mb-2">
           <span className="text-xs">
             {t("digby.streakReward", {
-              name: SEASONAL_ARTEFACT[getCurrentChapter()],
+              name: CHAPTER_ARTEFACT[getCurrentChapter()],
             })}
           </span>
         </div>
