@@ -15,6 +15,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
+import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 
@@ -474,31 +475,45 @@ export class PlazaScene extends BaseScene {
       "Decoration Base 3",
       "Decorations Layer 2",
       "Decorations Layer 3",
+      "Building Base",
+      "Building Base Decorations",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+      "Club House Base",
     ];
     const seasons = ["Spring", "Summer", "Autumn", "Winter"];
 
-    // Hide all seasonal layers at the start
-    seasons.forEach((seasonName) => {
-      seasonElements.forEach((element) => {
-        const layerName = `${element}/${seasonName} ${element}`;
-        this.layers[layerName]?.setVisible(false);
+    const topElements = [
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+    ];
+
+    const topElementsSet = new Set(topElements);
+
+    // Filter all seasonal layers that are not used for the active season
+    seasons
+      .filter((seasonName) => seasonName !== capitalize(season)) // Skip the active season
+      .forEach((seasonName) => {
+        seasonElements.forEach((element) => {
+          const layerName = `${element}/${seasonName} ${element}`;
+          const layer = this.layers[layerName];
+
+          if (!layer) return; // Skip undefined layers
+
+          layer.setVisible(false); // Hide inactive season layer
+
+          // Set depth for elements that should be drawn on top
+          if (topElementsSet.has(element)) {
+            layer.setDepth(1000000);
+          }
+        });
       });
-    });
-
-    // Determine active season layer and show relevant elements
-    const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
-    seasonElements.forEach((element) => {
-      const activeLayer = `${element}/${activeSeasonName} ${element}`;
-      this.layers[activeLayer]?.setVisible(true);
-
-      // Add Elements here that are drawn on top of the map
-      if (
-        element === "Decorations Layer 2" ||
-        element === "Decorations Layer 3"
-      ) {
-        this.layers[activeLayer]?.setDepth(1000000);
-      }
-    });
 
     const Banners: Record<TemperateSeasonName, string> = {
       spring: "woc_banner_spring",
@@ -669,8 +684,11 @@ export class PlazaScene extends BaseScene {
       const wasOpen = chest.visible;
       const isOpen = (obj1 as any).y > (obj2 as any).y;
 
-      this.layers["Club House Roof"].setVisible(isOpen);
-      this.layers["Club House Base"].setVisible(isOpen);
+      const roofBase = `${"Club House Base"}/${capitalize(season)} ${"Club House Base"}`;
+      const roofLayer = `${"Club House Roof"}/${capitalize(season)} ${"Club House Roof"}`;
+
+      this.layers[roofLayer].setVisible(isOpen);
+      this.layers[roofBase].setVisible(isOpen);
       this.layers["Club House Door"].setVisible(isOpen);
       clubHouseLabel.setVisible(isOpen);
 

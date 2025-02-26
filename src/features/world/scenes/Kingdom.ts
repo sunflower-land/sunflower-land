@@ -1,4 +1,5 @@
-import mapJSON from "assets/map/kingdom.json";
+import seasonal_kingdom from "assets/map/seasonal_kingdom.json";
+import seasonal_tileset from "assets/map/seasonal_tileset.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -23,6 +24,7 @@ import {
 } from "features/game/lib/factions";
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
+import { capitalize } from "lib/utils/capitalize";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -93,7 +95,11 @@ export class KingdomScene extends BaseScene {
   constructor() {
     super({
       name: "kingdom",
-      map: { json: mapJSON },
+      map: {
+        json: seasonal_kingdom,
+        imageKey: "seasonal-tileset",
+        defaultTilesetConfig: seasonal_tileset,
+      },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
@@ -179,6 +185,62 @@ export class KingdomScene extends BaseScene {
     this.initialiseNPCs(KINGDOM_NPCS);
     this.addShopDisplayItems();
 
+    const season = this.gameState.season.season;
+
+    // List of all seasonal elements
+    const seasonElements = [
+      "Water",
+      "Ground",
+      "Flowers & Grass",
+      "Paths",
+      "Paths Layer 2",
+      "Decoration Base",
+      "Decoration Base 2",
+      "Decoration Base 3",
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Base",
+      "Building Base 2",
+      "Building Base Decorations",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Building Decorations Layer 2",
+      "Building Decorations Layer 3",
+    ];
+    const seasons = ["Spring", "Summer", "Autumn", "Winter"];
+
+    const topElements = [
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Building Decorations Layer 2",
+      "Building Decorations Layer 3",
+    ];
+
+    const topElementsSet = new Set(topElements);
+
+    // Filter all seasonal layers that are not used for the active season
+    seasons
+      .filter((seasonName) => seasonName !== capitalize(season)) // Skip the active season
+      .forEach((seasonName) => {
+        seasonElements.forEach((element) => {
+          const layerName = `${element}/${seasonName} ${element}`;
+          const layer = this.layers[layerName];
+
+          if (!layer) return; // Skip undefined layers
+
+          layer.setVisible(false); // Hide inactive season layer
+
+          // Set depth for elements that should be drawn on top
+          if (topElementsSet.has(element)) {
+            layer.setDepth(1000000);
+          }
+        });
+      });
+
     const portal = this.add.sprite(285, 515, "portal");
     this.anims.create({
       key: "portal_anim",
@@ -201,7 +263,7 @@ export class KingdomScene extends BaseScene {
     const board1 = this.add.sprite(328, 620, "sunflorian_board");
 
     board1
-      .setDepth(622)
+      .setDepth(1000000)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         npcModalManager.open("reginald");
@@ -219,7 +281,7 @@ export class KingdomScene extends BaseScene {
     const board3 = this.add.sprite(315, 425, "bumpkin_board");
 
     board3
-      .setDepth(444)
+      .setDepth(1000000)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         npcModalManager.open("barlow");
@@ -228,7 +290,7 @@ export class KingdomScene extends BaseScene {
     const board4 = this.add.sprite(148, 760, "goblin_board");
 
     board4
-      .setDepth(763)
+      .setDepth(1000000)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         npcModalManager.open("graxle");
