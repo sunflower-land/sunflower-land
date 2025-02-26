@@ -99,7 +99,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
 
         <p className="text-xs mb-2 px-2">
           {t("chores.completeChoresToEarn", {
-            seasonalTicket: getChapterTicket(),
+            chapterTicket: getChapterTicket(),
           })}
         </p>
 
