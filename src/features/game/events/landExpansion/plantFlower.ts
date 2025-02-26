@@ -6,7 +6,7 @@ import {
   FLOWER_CROSS_BREED_AMOUNTS,
   FLOWER_SEEDS,
   FlowerCrossBreedName,
-  FlowerName,
+  FLOWERS,
   FlowerSeedName,
   isFlowerSeed,
 } from "features/game/types/flowers";
@@ -18,7 +18,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getKeys } from "features/game/types/decorations";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -141,23 +141,12 @@ export function plantFlower({
     stateCopy.inventory[action.crossbreed] =
       crossBreedCount.minus(crossBreedAmount);
 
-    const { discovered } = flowers;
-
-    // Convert discovered map to get crossbreed -> flower mapping
-    const flowerCrossBreeds: Partial<Record<FlowerCrossBreedName, FlowerName>> =
-      {};
-
-    // Iterate through discovered flowers and their crossbreeds
-    getObjectEntries(discovered).forEach(([flowerName, crossbreeds]) => {
-      crossbreeds?.forEach((crossbreed) => {
-        flowerCrossBreeds[crossbreed] = flowerName;
-      });
-    });
-
-    let flower: FlowerName | undefined;
-    if (flowerCrossBreeds[action.crossbreed]) {
-      flower = flowerCrossBreeds[action.crossbreed];
-    }
+    const seedFlowers = getKeys(FLOWERS).filter(
+      (flowerName) => FLOWERS[flowerName].seed === action.seed,
+    );
+    const flower = seedFlowers.find((seedFlower) =>
+      (flowers.discovered[seedFlower] ?? []).includes(action.crossbreed),
+    );
 
     flowerBed.flower = {
       plantedAt: getPlantedAt({
