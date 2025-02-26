@@ -44,7 +44,7 @@ import {
   CalendarEventName,
   getActiveCalendarEvent,
 } from "features/game/types/calendar";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type LandExpansionPlantAction = {

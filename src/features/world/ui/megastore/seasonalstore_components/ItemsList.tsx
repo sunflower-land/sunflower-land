@@ -10,7 +10,7 @@ import {
   getCurrentSeason,
   getSeasonalArtefact,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 
 import token from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";

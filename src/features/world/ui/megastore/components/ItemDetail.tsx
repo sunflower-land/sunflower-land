@@ -19,7 +19,7 @@ import { BuffLabel } from "features/game/types";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

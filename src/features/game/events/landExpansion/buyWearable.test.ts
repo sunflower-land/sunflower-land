@@ -6,7 +6,7 @@ import {
   STYLIST_WEARABLES,
   StylistWearable,
 } from "features/game/types/stylist";
-import { getSeasonalBanner } from "features/game/types/seasons";
+import { getSeasonalBanner } from "features/game/types/chapters";
 
 const GAME_STATE: GameState = TEST_FARM;
 

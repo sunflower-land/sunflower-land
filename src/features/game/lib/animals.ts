@@ -20,7 +20,7 @@ import {
   GameState,
   InventoryItemName,
 } from "../types/game";
-import { getCurrentSeason } from "../types/seasons";
+import { getCurrentSeason } from "../types/chapters";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { hasVipAccess } from "./vipAccess";

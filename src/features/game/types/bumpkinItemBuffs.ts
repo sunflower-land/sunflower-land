@@ -9,7 +9,7 @@ import bee from "assets/icons/bee.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
-import { hasSeasonEnded } from "./seasons";
+import { hasSeasonEnded } from "./chapters";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 
 export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {

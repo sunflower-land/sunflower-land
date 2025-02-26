@@ -1,5 +1,5 @@
 import { SeasonWeek } from "features/game/types/game";
-import { SEASONS, getCurrentSeason } from "features/game/types/seasons";
+import { SEASONS, getCurrentSeason } from "features/game/types/chapters";
 import { ADMIN_IDS } from "lib/flags";
 
 /**

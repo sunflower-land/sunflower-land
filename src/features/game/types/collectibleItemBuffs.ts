@@ -8,7 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import memoize from "lodash.memoize";
-import { hasSeasonEnded } from "./seasons";
+import { hasSeasonEnded } from "./chapters";
 
 export const COLLECTIBLE_BUFF_LABELS = memoize(getCollectibleBuffLabels);
 

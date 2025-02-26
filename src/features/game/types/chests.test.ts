@@ -1,5 +1,5 @@
 import { BASIC_REWARDS, LUXURY_REWARDS, RARE_REWARDS } from "./chests";
-import { SEASONS } from "./seasons";
+import { SEASONS } from "./chapters";
 
 describe("SEASONAL_REWARDS", () => {
   it("does not include Kite during Bull Run Chapter", () => {

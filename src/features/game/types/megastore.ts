@@ -1,6 +1,6 @@
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { SeasonName } from "./seasons";
+import { SeasonName } from "./chapters";
 
 export type SeasonalTierItemName =
   | SeasonalCollectibleName

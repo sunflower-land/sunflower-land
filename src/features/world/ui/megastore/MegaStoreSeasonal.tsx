@@ -11,7 +11,7 @@ import lightning from "assets/icons/lightning.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import classNames from "classnames";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
+import { getCurrentSeason, SEASONS } from "features/game/types/chapters";
 import { getKeys } from "features/game/types/decorations";
 import {
   getItemImage,

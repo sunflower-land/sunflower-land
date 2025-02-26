@@ -16,7 +16,7 @@ import { SeedName } from "../types/seeds";
 import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
-import { getSeasonalTicket } from "../types/seasons";
+import { getSeasonalTicket } from "../types/chapters";
 import { CROP_SEEDS } from "../types/crops";
 import { PATCH_FRUIT_SEEDS } from "../types/fruits";
 

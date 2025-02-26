@@ -4,7 +4,7 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { translate } from "lib/i18n/translate";
 
 interface Props {

@@ -11,7 +11,7 @@ import {
   getCurrentSeason,
   getSeasonalBanner,
   SEASONS,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";

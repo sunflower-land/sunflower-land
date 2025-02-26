@@ -8,7 +8,7 @@ import { BountyRequest, GameState, SFLBounty } from "features/game/types/game";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { produce } from "immer";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 

@@ -17,7 +17,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
