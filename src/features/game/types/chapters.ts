@@ -168,12 +168,12 @@ export function secondsLeftInChapter() {
   return secondsLeft;
 }
 
-export function hasSeasonStarted(season: ChapterName, now = Date.now()) {
-  return now >= CHAPTERS[season].startDate.getTime();
+export function hasChapterStarted(chapter: ChapterName, now = Date.now()) {
+  return now >= CHAPTERS[chapter].startDate.getTime();
 }
 
-export function hasSeasonEnded(season: ChapterName, now = Date.now()) {
-  return now >= CHAPTERS[season].endDate.getTime();
+export function hasChapterEnded(chapter: ChapterName, now = Date.now()) {
+  return now >= CHAPTERS[chapter].endDate.getTime();
 }
 
 export function getSeasonByBanner(banner: ChapterBanner): ChapterName {

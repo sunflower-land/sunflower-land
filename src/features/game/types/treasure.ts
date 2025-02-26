@@ -1,5 +1,5 @@
 import { translate } from "lib/i18n/translate";
-import { hasSeasonEnded, CHAPTERS } from "./chapters";
+import { hasChapterEnded, CHAPTERS } from "./chapters";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -164,7 +164,7 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     "Cow Skull": {
       sellPrice: 200,
       description: translate("description.cowSkull"),
-      ...(hasSeasonEnded("Bull Run")
+      ...(hasChapterEnded("Bull Run")
         ? {}
         : {
             from: CHAPTERS["Bull Run"].startDate,
@@ -174,7 +174,7 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     "Ancient Clock": {
       description: "",
       sellPrice: 200,
-      ...(hasSeasonEnded("Winds of Change")
+      ...(hasChapterEnded("Winds of Change")
         ? {}
         : {
             from: CHAPTERS["Winds of Change"].startDate,

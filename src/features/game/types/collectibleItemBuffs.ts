@@ -8,7 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import memoize from "lodash.memoize";
-import { hasSeasonEnded } from "./chapters";
+import { hasChapterEnded } from "./chapters";
 
 export const COLLECTIBLE_BUFF_LABELS = memoize(getCollectibleBuffLabels);
 
@@ -1267,7 +1267,7 @@ function getCollectibleBuffLabels(
       },
     ],
     Igloo: [
-      ...(hasSeasonEnded("Winds of Change")
+      ...(hasChapterEnded("Winds of Change")
         ? []
         : ([
             {
@@ -1279,7 +1279,7 @@ function getCollectibleBuffLabels(
           ] as BuffLabel[])),
     ],
     Hammock: [
-      ...(hasSeasonEnded("Winds of Change")
+      ...(hasChapterEnded("Winds of Change")
         ? []
         : ([
             {
