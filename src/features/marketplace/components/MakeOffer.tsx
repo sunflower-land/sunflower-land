@@ -62,7 +62,9 @@ export const MakeOffer: React.FC<{
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [needsSync, setNeedsSync] = useState(false);
 
-  const isResource = isTradeResource(KNOWN_ITEMS[Number(itemId)]);
+  const isResource =
+    display.type === "collectibles" &&
+    isTradeResource(KNOWN_ITEMS[Number(itemId)]);
 
   const tradeType = getTradeType({
     collection: display.type,
