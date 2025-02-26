@@ -162,7 +162,10 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
 
   return (
     <>
-      <ModalOverlay show={!!selected} onBackdropClick={onClose}>
+      <ModalOverlay
+        show={!!selected}
+        onBackdropClick={() => setSelected(undefined)}
+      >
         <Panel className="w-full h-full">
           <div className="flex justify-between">
             <Label type="default" className="mb-2">
