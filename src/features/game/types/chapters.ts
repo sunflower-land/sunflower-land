@@ -11,7 +11,7 @@ import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_bann
 import { BeachBountySeasonalArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 
-export type SeasonName =
+export type ChapterName =
   | "Solar Flare"
   | "Dawn Breaker"
   | "Witches' Eve"
@@ -24,7 +24,7 @@ export type SeasonName =
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
-export const SEASONS: Record<SeasonName, SeasonDates> = {
+export const SEASONS: Record<ChapterName, SeasonDates> = {
   "Solar Flare": {
     startDate: new Date("2023-01-01T00:00:00.000Z"),
     endDate: new Date("2023-05-01T00:00:00.000Z"),
@@ -87,7 +87,7 @@ export type SeasonalBanner =
   | "Bull Run Banner"
   | "Winds of Change Banner";
 
-export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
+export const SEASONAL_BANNERS: Record<SeasonalBanner, ChapterName> = {
   "Solar Flare Banner": "Solar Flare",
   "Dawn Breaker Banner": "Dawn Breaker",
   "Witches' Eve Banner": "Witches' Eve",
@@ -99,7 +99,7 @@ export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Winds of Change Banner": "Winds of Change",
 };
 
-export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
+export const SEASON_TICKET_NAME: Record<ChapterName, SeasonalTicket> = {
   "Solar Flare": "Solar Flare Ticket",
   "Dawn Breaker": "Dawn Breaker Ticket",
   "Witches' Eve": "Crow Feather",
@@ -112,7 +112,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
 };
 
 export const SEASON_ARTEFACT_NAME: Record<
-  SeasonName,
+  ChapterName,
   BeachBountySeasonalArtefact
 > = {
   "Solar Flare": "Scarab",
@@ -126,7 +126,7 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Winds of Change": "Ancient Clock",
 };
 
-export function getCurrentSeason(now = new Date()): SeasonName {
+export function getCurrentSeason(now = new Date()): ChapterName {
   const seasons = getKeys(SEASONS);
 
   const currentSeason = seasons.find((season) => {
@@ -170,15 +170,15 @@ export function secondsLeftInSeason() {
   return secondsLeft;
 }
 
-export function hasSeasonStarted(season: SeasonName, now = Date.now()) {
+export function hasSeasonStarted(season: ChapterName, now = Date.now()) {
   return now >= SEASONS[season].startDate.getTime();
 }
 
-export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
+export function hasSeasonEnded(season: ChapterName, now = Date.now()) {
   return now >= SEASONS[season].endDate.getTime();
 }
 
-export function getSeasonByBanner(banner: SeasonalBanner): SeasonName {
+export function getSeasonByBanner(banner: SeasonalBanner): ChapterName {
   return SEASONAL_BANNERS[banner];
 }
 
@@ -197,7 +197,7 @@ export function getSeasonalBannerImage() {
   return banners[getSeasonalBanner()];
 }
 
-function getPreviousSeason(now = new Date()): SeasonName {
+function getPreviousSeason(now = new Date()): ChapterName {
   const currentSeason = getCurrentSeason(now);
   const startDateOfCurrentSeason = SEASONS[currentSeason].startDate;
 
@@ -211,7 +211,7 @@ function getPreviousSeason(now = new Date()): SeasonName {
     throw new Error("No previous banner found");
   }
 
-  return previousSeason[0] as SeasonName;
+  return previousSeason[0] as ChapterName;
 }
 
 export function getPreviousSeasonalBanner(now = new Date()): SeasonalBanner {

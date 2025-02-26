@@ -1,6 +1,6 @@
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { SeasonName } from "./chapters";
+import { ChapterName } from "./chapters";
 
 export type SeasonalTierItemName =
   | SeasonalCollectibleName
@@ -490,7 +490,7 @@ const MEGA_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
-export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
+export const MEGASTORE: Record<ChapterName, SeasonalStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
   "Dawn Breaker": EMPTY_SEASONAL_STORE,

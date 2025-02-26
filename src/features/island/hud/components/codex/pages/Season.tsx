@@ -4,7 +4,7 @@ import { TicketLeaderboard } from "features/game/expansion/components/leaderboar
 import { InnerPanel } from "components/ui/Panel";
 import {
   SEASON_TICKET_NAME,
-  SeasonName,
+  ChapterName,
   secondsLeftInSeason,
 } from "features/game/types/chapters";
 import { Label } from "components/ui/Label";
@@ -25,7 +25,7 @@ import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties
 import { BertObsession } from "features/world/ui/npcs/Bert";
 import { GameState } from "features/game/types/game";
 
-const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
+const CHAPTER_GRAPHICS: Record<ChapterName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -37,7 +37,7 @@ const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
 };
 
-const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
+const CHORES_DELIVERIES_START_DATE: Record<ChapterName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -53,7 +53,7 @@ interface Props {
   id: string;
   isLoading: boolean;
   data: TicketLeaderboard | null;
-  season: SeasonName;
+  season: ChapterName;
   state: GameState;
   farmId: number;
 }

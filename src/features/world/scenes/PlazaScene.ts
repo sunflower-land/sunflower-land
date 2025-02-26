@@ -478,9 +478,9 @@ export class PlazaScene extends BaseScene {
     const seasons = ["Spring", "Summer", "Autumn", "Winter"];
 
     // Hide all seasonal layers at the start
-    seasons.forEach((seasonName) => {
+    seasons.forEach((ChapterName) => {
       seasonElements.forEach((element) => {
-        const layerName = `${element}/${seasonName} ${element}`;
+        const layerName = `${element}/${ChapterName} ${element}`;
         this.layers[layerName]?.setVisible(false);
       });
     });

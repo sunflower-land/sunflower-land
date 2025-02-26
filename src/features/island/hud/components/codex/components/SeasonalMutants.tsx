@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { SeasonName } from "features/game/types/chapters";
+import { ChapterName } from "features/game/types/chapters";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
@@ -17,7 +17,7 @@ type SeasonalMutants = {
   sheep: InventoryItemName;
 };
 
-const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
+const SEASONAL_MUTANTS: Partial<Record<ChapterName, SeasonalMutants>> = {
   "Pharaoh's Treasure": {
     chicken: "Pharaoh Chicken",
     flower: "Desert Rose",
@@ -45,7 +45,7 @@ const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
 };
 
 interface Props {
-  season: SeasonName;
+  season: ChapterName;
 }
 export const SeasonalMutants: React.FC<Props> = ({ season }) => {
   const mutants = SEASONAL_MUTANTS[season];

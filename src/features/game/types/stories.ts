@@ -1,5 +1,5 @@
 import { NPCName } from "lib/npcs";
-import { SeasonName } from "./chapters";
+import { ChapterName } from "./chapters";
 import { translate } from "lib/i18n/translate";
 
 /**
@@ -187,7 +187,7 @@ export const STORY_NPCS: Partial<
   },
 };
 
-const SEASONAL_LORE: Record<SeasonName, string> = {
+const SEASONAL_LORE: Record<ChapterName, string> = {
   "Solar Flare": "",
   "Dawn Breaker": "",
   "Witches' Eve": "",
