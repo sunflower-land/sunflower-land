@@ -109,7 +109,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Winds of Change": "Timeshard",
 };
 
-export const SEASON_ARTEFACT_NAME: Record<
+export const CHAPTER_ARTEFACT_NAME: Record<
   ChapterName,
   BeachBountySeasonalArtefact
 > = {
@@ -149,7 +149,7 @@ export function getSeasonalTicket(now = new Date()): ChapterTicket {
 export function getSeasonalArtefact(now = new Date()) {
   const currentSeason = getCurrentSeason(now);
 
-  return SEASON_ARTEFACT_NAME[currentSeason];
+  return CHAPTER_ARTEFACT_NAME[currentSeason];
 }
 
 export function getSeasonalBanner(now = new Date()): ChapterBanner {
