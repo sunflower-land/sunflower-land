@@ -4208,8 +4208,6 @@
   "skill.moreWithLess.buff": "+15 к дневному лимиту рыбалки",
   "skill.moreWithLess.debuff": "-1 червь из всех компостеров",
   "skill.munchingMastery": "+5% опыты при приеме пищи",
-  "skill.noAxeNoWorries.buff": "Рубите фруктовые ветки без топоров",
-  "skill.noAxeNoWorries.debuff": "-1 дерево от фруктовых веток",
   "skill.nomNom": "+10% дохода от доставки еды",
   "skill.oilBeBack": "-20% времени востановления нефти",
   "skill.oilExtraction": "+1 нефть при сборе",
@@ -5376,5 +5374,7 @@
   "news.whatsOn": "Что происходит в стране подсолнухов?",
   "news.flowerSoon": "$FLOWER ERC20 скоро выйдет!",
   "vip.ronin.purchase.warning": "Ronin NFT VIP-активирован. Вернитесь за 3 дня до истечения срока действия, чтобы приобрести VIP.",
-  "goblinTrade.missingReputation.sflDelivery": "Хммм, похоже, ты обычный Бампкин. Я торгую только с земледельцем."
+  "goblinTrade.missingReputation.sflDelivery": "Хммм, похоже, ты обычный Бампкин. Я торгую только с земледельцем.",
+  "skill.noAxeNoWorries.buff": "Измельчите ветки и стебли фруктов без топоров",
+  "skill.noAxeNoWorries.debuff": "-1 древесина из фруктовых веток и стеблей"
 }

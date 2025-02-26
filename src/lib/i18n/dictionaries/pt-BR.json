@@ -4142,8 +4142,6 @@
   "skill.fruityHeaven": "-10% de custo de sementes de frutas",
   "skill.fruityProfit": "+50% de moedas das entregas do Tango",
   "skill.loyalMacaw": "Efeito Double Macaw",
-  "skill.noAxeNoWorries.buff": "Corte galhos de frutas sem machados",
-  "skill.noAxeNoWorries.debuff": "-1 madeira de galhos de frutas",
   "skill.fruityWoody": "+1 madeira de galhos e caules de frutas",
   "skill.pearTurbocharge": "Efeito de Double Immortal Pear",
   "skill.longPickings.buff": "-50% de tempo de crescimento de maçã e banana",
@@ -5376,5 +5374,7 @@
   "news.whatsOn": "O que está acontecendo em Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 será lançado em breve!",
   "vip.ronin.purchase.warning": "Ronin NFT VIP ativo. Devolva 3 dias antes do vencimento para comprar VIP.",
-  "goblinTrade.missingReputation.sflDelivery": "Hmmm, parece que você é um caipira básico. Eu só negocio com um Cropkeeper."
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, parece que você é um caipira básico. Eu só negocio com um Cropkeeper.",
+  "skill.noAxeNoWorries.buff": "Corte galhos e caules de frutas sem machados",
+  "skill.noAxeNoWorries.debuff": "-1 madeira de galhos e caules de frutas"
 }

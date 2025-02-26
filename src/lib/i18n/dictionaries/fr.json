@@ -4142,8 +4142,6 @@
   "skill.fruityHeaven": "-10% du coût des graines de fruits",
   "skill.fruityProfit": "+50 % de pièces provenant des livraisons de Tango",
   "skill.loyalMacaw": "L'effet de Double Macaw",
-  "skill.noAxeNoWorries.buff": "Hachez les branches de fruits sans hache",
-  "skill.noAxeNoWorries.debuff": "-1 bois provenant de branches de fruits",
   "skill.fruityWoody": "+1 bois provenant de branches et de tiges de fruits",
   "skill.pearTurbocharge": "Effet de Double Immortal Pear",
   "skill.longPickings.buff": "-50 % de temps de croissance des pommes et des bananes",
@@ -5376,5 +5374,7 @@
   "news.whatsOn": "Que se passe-t-il à Sunflower Land ?",
   "news.flowerSoon": "$FLOWER ERC20 sera bientôt disponible !",
   "vip.ronin.purchase.warning": "Ronin NFT VIP actif. Retournez 3 jours avant l'expiration pour acheter VIP.",
-  "goblinTrade.missingReputation.sflDelivery": "Hmmm, on dirait que tu es un Bumpkin basique. Je n'échange qu'avec un Cropkeeper."
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, on dirait que tu es un Bumpkin basique. Je n'échange qu'avec un Cropkeeper.",
+  "skill.noAxeNoWorries.buff": "Hachez les branches et les tiges des fruits sans hache",
+  "skill.noAxeNoWorries.debuff": "-1 bois provenant de branches et de tiges de fruits"
 }

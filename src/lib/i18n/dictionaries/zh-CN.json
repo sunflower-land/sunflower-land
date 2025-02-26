@@ -4142,8 +4142,6 @@
   "skill.fruityHeaven": "-10% 水果种子成本",
   "skill.fruityProfit": "+50% 来自探戈交付的硬币",
   "skill.loyalMacaw": "双金刚鹦鹉的效果",
-  "skill.noAxeNoWorries.buff": "不用斧头砍伐水果树枝",
-  "skill.noAxeNoWorries.debuff": "-1 根来自果树枝的木头",
   "skill.fruityWoody": "+1 根来自果枝和茎的木头",
   "skill.pearTurbocharge": "双重不朽梨的效果",
   "skill.longPickings.buff": "-50% 苹果和香蕉的生长时间",
@@ -5376,5 +5374,7 @@
   "news.whatsOn": "向日葵之地发生了什么？",
   "news.flowerSoon": "$FLOWER ERC20 即将推出！",
   "vip.ronin.purchase.warning": "Ronin NFT VIP 活跃。在到期前 3 天退货以购买 VIP。",
-  "goblinTrade.missingReputation.sflDelivery": "嗯，看来你是个基本的 Bumpkin。我只和 Cropkeeper 交易。"
+  "goblinTrade.missingReputation.sflDelivery": "嗯，看来你是个基本的 Bumpkin。我只和 Cropkeeper 交易。",
+  "skill.noAxeNoWorries.buff": "不用斧头砍掉水果的树枝和茎",
+  "skill.noAxeNoWorries.debuff": "-1 根来自果枝和茎的木头"
 }

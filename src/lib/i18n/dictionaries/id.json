@@ -4142,8 +4142,6 @@
   "skill.fruityHeaven": "-10% biaya benih buah",
   "skill.fruityProfit": "+50% koin dari pengiriman Tango",
   "skill.loyalMacaw": "Efek Double Macaw",
-  "skill.noAxeNoWorries.buff": "Potong cabang buah tanpa kapak",
-  "skill.noAxeNoWorries.debuff": "-1 kayu dari cabang buah",
   "skill.fruityWoody": "+1 kayu dari cabang dan batang buah",
   "skill.pearTurbocharge": "Efek Double Immortal Pear",
   "skill.longPickings.buff": "-50% Waktu pertumbuhan Apel dan Pisang",
@@ -5376,5 +5374,7 @@
   "news.whatsOn": "Apa yang terjadi di Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 akan segera diluncurkan!",
   "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. Kembali 3 hari sebelum kedaluwarsa untuk membeli VIP.",
-  "goblinTrade.missingReputation.sflDelivery": "Hmmm, sepertinya kamu adalah Bumpkin dasar. Saya hanya berdagang dengan Cropkeeper."
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, sepertinya kamu adalah Bumpkin dasar. Saya hanya berdagang dengan Cropkeeper.",
+  "skill.noAxeNoWorries.buff": "Potong cabang dan batang buah tanpa kapak",
+  "skill.noAxeNoWorries.debuff": "-1 kayu dari cabang dan batang buah"
 }

@@ -4142,8 +4142,6 @@
   "skill.fruityHeaven": "-10% de costo de semillas de fruta",
   "skill.fruityProfit": "+50% de monedas de las entregas de Tango",
   "skill.loyalMacaw": "El efecto de Double Guacamaw",
-  "skill.noAxeNoWorries.buff": "Corta ramas de fruta sin hachas",
-  "skill.noAxeNoWorries.debuff": "-1 madera de ramas frutales",
   "skill.fruityWoody": "+1 madera de ramas y tallos de frutas",
   "skill.pearTurbocharge": "El efecto de Double Immortal Pear",
   "skill.longPickings.buff": "-50% de tiempo de crecimiento de manzanas y plátanos",
@@ -5376,5 +5374,7 @@
   "news.whatsOn": "¿Qué pasa en Sunflower Land?",
   "news.flowerSoon": "¡$FLOWER ERC20 se lanzará pronto!",
   "vip.ronin.purchase.warning": "Ronin NFT VIP activo. Regrese 3 días antes de que caduque para comprar VIP.",
-  "goblinTrade.missingReputation.sflDelivery": "Hmmm, parece que eres un patán básico. Solo comercio con un Cropkeeper."
+  "goblinTrade.missingReputation.sflDelivery": "Hmmm, parece que eres un patán básico. Solo comercio con un Cropkeeper.",
+  "skill.noAxeNoWorries.buff": "Picar ramas y tallos de frutas sin hachas",
+  "skill.noAxeNoWorries.debuff": "-1 madera de ramas y tallos de frutas"
 }
