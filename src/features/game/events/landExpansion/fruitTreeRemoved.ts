@@ -26,13 +26,13 @@ type Options = {
 
 export function getRequiredAxeAmount(inventory: Inventory, game: GameState) {
   let requiredAxeAmount = 1;
-  // Apply boost for Trees
-  if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
-    requiredAxeAmount = 0;
-  }
 
   if (inventory.Logger?.gte(1)) {
     requiredAxeAmount = 0.5;
+  }
+
+  if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
+    requiredAxeAmount = 0;
   }
 
   if (game.bumpkin.skills["No Axe No Worries"]) {
