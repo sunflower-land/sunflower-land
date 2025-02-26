@@ -1,10 +1,10 @@
 import { BASIC_REWARDS, LUXURY_REWARDS, RARE_REWARDS } from "./chests";
-import { SEASONS } from "./chapters";
+import { CHAPTERS } from "./chapters";
 
 describe("SEASONAL_REWARDS", () => {
   it("does not include Kite during Bull Run Chapter", () => {
     jest.useFakeTimers();
-    jest.setSystemTime(SEASONS["Bull Run"].startDate);
+    jest.setSystemTime(CHAPTERS["Bull Run"].startDate);
 
     expect(BASIC_REWARDS()).not.toContainEqual({
       items: { Kite: 1 },
@@ -24,7 +24,7 @@ describe("SEASONAL_REWARDS", () => {
 
   it("includes Kite during Winds of Change Chapter", () => {
     jest.useFakeTimers();
-    jest.setSystemTime(SEASONS["Winds of Change"].startDate);
+    jest.setSystemTime(CHAPTERS["Winds of Change"].startDate);
 
     expect(BASIC_REWARDS()).toContainEqual({
       items: { Kite: 1 },

@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { completeChore } from "./completeChore";
 import { ChoreV2 } from "features/game/types/game";
-import { getSeasonalTicket, SEASONS } from "features/game/types/chapters";
+import { getSeasonalTicket, CHAPTERS } from "features/game/types/chapters";
 import cloneDeep from "lodash.clonedeep";
 
 describe("chore.completed", () => {
@@ -11,7 +11,7 @@ describe("chore.completed", () => {
     jest.useRealTimers();
   });
   it("throws an error if the chore number doesn't exits", () => {
-    const { startDate } = SEASONS["Witches' Eve"];
+    const { startDate } = CHAPTERS["Witches' Eve"];
 
     const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 
@@ -59,7 +59,7 @@ describe("chore.completed", () => {
   });
 
   it("errors if the chore is not complete", () => {
-    const { startDate } = SEASONS["Witches' Eve"];
+    const { startDate } = CHAPTERS["Witches' Eve"];
 
     const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 
@@ -107,7 +107,7 @@ describe("chore.completed", () => {
   });
 
   it("adds the reward into the inventory", () => {
-    const { startDate } = SEASONS["Witches' Eve"];
+    const { startDate } = CHAPTERS["Witches' Eve"];
 
     const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 
@@ -155,7 +155,7 @@ describe("chore.completed", () => {
   });
 
   it("marks chores as complete", () => {
-    const { startDate } = SEASONS["Witches' Eve"];
+    const { startDate } = CHAPTERS["Witches' Eve"];
 
     const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 
@@ -203,7 +203,7 @@ describe("chore.completed", () => {
   });
 
   it("prevents players from completing chores twice", () => {
-    const { startDate } = SEASONS["Witches' Eve"];
+    const { startDate } = CHAPTERS["Witches' Eve"];
 
     const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 
@@ -260,7 +260,7 @@ describe("chore.completed", () => {
   });
 
   it("errors if the bumpkin changed", () => {
-    const { startDate } = SEASONS["Witches' Eve"];
+    const { startDate } = CHAPTERS["Witches' Eve"];
 
     const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 
@@ -309,7 +309,7 @@ describe("chore.completed", () => {
   });
 
   it("adds to the completed count", () => {
-    const { startDate } = SEASONS["Witches' Eve"];
+    const { startDate } = CHAPTERS["Witches' Eve"];
 
     const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 

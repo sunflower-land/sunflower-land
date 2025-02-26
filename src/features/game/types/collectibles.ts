@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState, Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
-import { SEASONS } from "./chapters";
+import { CHAPTERS } from "./chapters";
 
 export type PlaceableLocation = "farm" | "home";
 
@@ -354,24 +354,24 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
       Scarab: new Decimal(40),
     },
     description: translate("description.sunlit.citadel"),
-    from: SEASONS["Pharaoh's Treasure"].startDate,
-    to: SEASONS["Pharaoh's Treasure"].endDate,
+    from: CHAPTERS["Pharaoh's Treasure"].startDate,
+    to: CHAPTERS["Pharaoh's Treasure"].endDate,
   },
   "Baobab Tree": {
     ingredients: {
       Scarab: new Decimal(35),
     },
     description: translate("description.baobab.tree"),
-    from: SEASONS["Pharaoh's Treasure"].startDate,
-    to: SEASONS["Pharaoh's Treasure"].endDate,
+    from: CHAPTERS["Pharaoh's Treasure"].startDate,
+    to: CHAPTERS["Pharaoh's Treasure"].endDate,
   },
   Camel: {
     ingredients: {
       Scarab: new Decimal(200),
     },
     description: translate("description.camel"),
-    from: SEASONS["Pharaoh's Treasure"].startDate,
-    to: SEASONS["Pharaoh's Treasure"].endDate,
+    from: CHAPTERS["Pharaoh's Treasure"].startDate,
+    to: CHAPTERS["Pharaoh's Treasure"].endDate,
   },
   ...ARTEFACT_SHOP_KEYS,
 };

@@ -10,7 +10,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentSeason,
   getSeasonalBanner,
-  SEASONS,
+  CHAPTERS,
 } from "features/game/types/chapters";
 import { getChapterWeek } from "lib/utils/getChapterWeek";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -34,7 +34,7 @@ export const SeasonBannerCountdown: React.FC = () => {
   const seasonWeek = getChapterWeek();
 
   const offerEndsAt =
-    SEASONS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
+    CHAPTERS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
 
   const end = useCountdown(offerEndsAt);
 

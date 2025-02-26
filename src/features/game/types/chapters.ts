@@ -22,9 +22,9 @@ export type ChapterName =
   | "Bull Run"
   | "Winds of Change";
 
-type SeasonDates = { startDate: Date; endDate: Date };
+type ChapterDates = { startDate: Date; endDate: Date };
 
-export const SEASONS: Record<ChapterName, SeasonDates> = {
+export const CHAPTERS: Record<ChapterName, ChapterDates> = {
   "Solar Flare": {
     startDate: new Date("2023-01-01T00:00:00.000Z"),
     endDate: new Date("2023-05-01T00:00:00.000Z"),
@@ -127,10 +127,10 @@ export const SEASON_ARTEFACT_NAME: Record<
 };
 
 export function getCurrentSeason(now = new Date()): ChapterName {
-  const seasons = getKeys(SEASONS);
+  const seasons = getKeys(CHAPTERS);
 
   const currentSeason = seasons.find((season) => {
-    const { startDate, endDate } = SEASONS[season];
+    const { startDate, endDate } = CHAPTERS[season];
 
     return now >= startDate && now < endDate;
   });
@@ -163,7 +163,7 @@ export function getSeasonalBanner(now = new Date()): SeasonalBanner {
 export function secondsLeftInSeason() {
   const season = getCurrentSeason();
 
-  const times = SEASONS[season];
+  const times = CHAPTERS[season];
 
   const secondsLeft = (times.endDate.getTime() - Date.now()) / 1000;
 
@@ -171,11 +171,11 @@ export function secondsLeftInSeason() {
 }
 
 export function hasSeasonStarted(season: ChapterName, now = Date.now()) {
-  return now >= SEASONS[season].startDate.getTime();
+  return now >= CHAPTERS[season].startDate.getTime();
 }
 
 export function hasSeasonEnded(season: ChapterName, now = Date.now()) {
-  return now >= SEASONS[season].endDate.getTime();
+  return now >= CHAPTERS[season].endDate.getTime();
 }
 
 export function getSeasonByBanner(banner: SeasonalBanner): ChapterName {
@@ -199,10 +199,10 @@ export function getSeasonalBannerImage() {
 
 function getPreviousSeason(now = new Date()): ChapterName {
   const currentSeason = getCurrentSeason(now);
-  const startDateOfCurrentSeason = SEASONS[currentSeason].startDate;
+  const startDateOfCurrentSeason = CHAPTERS[currentSeason].startDate;
 
   // Find the season where the end date matches the start date of the current season
-  const previousSeason = Object.entries(SEASONS).find(
+  const previousSeason = Object.entries(CHAPTERS).find(
     ([_, { endDate }]) =>
       endDate.getTime() === startDateOfCurrentSeason.getTime(),
   );

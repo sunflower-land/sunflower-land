@@ -13,7 +13,7 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeVIP } from "features/announcements/announcementsStorage";
-import { SEASONS, getSeasonalBanner } from "features/game/types/chapters";
+import { CHAPTERS, getSeasonalBanner } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import blockBuck from "assets/icons/block_buck.png";
@@ -60,7 +60,7 @@ export const PromotingModal: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
 
   const isPreSeason =
-    Date.now() < SEASONS["Spring Blossom"].startDate.getTime();
+    Date.now() < CHAPTERS["Spring Blossom"].startDate.getTime();
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
@@ -177,7 +177,7 @@ export const PromotingModal: React.FC<Props> = ({
       );
     }
 
-    const msLeft = SEASONS["Spring Blossom"].startDate.getTime() - Date.now();
+    const msLeft = CHAPTERS["Spring Blossom"].startDate.getTime() - Date.now();
     const secondsLeft = msLeft / 1000;
     const insufficientBlockBucks = !inventory["Gem"]?.gte(price);
 

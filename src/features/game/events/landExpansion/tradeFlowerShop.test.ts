@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import { tradeFlowerShop } from "./tradeFlowerShop";
-import { SEASONS, getSeasonalTicket } from "features/game/types/chapters";
+import { CHAPTERS, getSeasonalTicket } from "features/game/types/chapters";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
 describe("tradeFlowerShop", () => {
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
-  const createdAt = SEASONS["Clash of Factions"].startDate.getTime();
+  const createdAt = CHAPTERS["Clash of Factions"].startDate.getTime();
 
   it("throws if the flower shop is not open", () => {
     expect(() =>
