@@ -446,8 +446,8 @@ describe("upgradeFarm", () => {
           "Orchard Hourglass": [
             {
               id: "1",
-              readyAt: Date.now() - 6 * 60 * 60 * 1000,
-              createdAt: Date.now() - 6 * 60 * 60 * 1000 - 1,
+              readyAt: createdAt - 6 * 60 * 60 * 1000,
+              createdAt: createdAt - 6 * 60 * 60 * 1000 - 1,
               coordinates: { x: 0, y: 0 },
             },
           ],
