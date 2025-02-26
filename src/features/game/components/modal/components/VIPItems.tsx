@@ -27,6 +27,7 @@ import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   hasVipAccess,
+  RONIN_FARM_CREATION_CUTOFF,
   VIP_DURATIONS,
   VIP_PRICES,
   VipBundle,
@@ -124,13 +125,16 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const expiresSoon =
     vip && vip.expiresAt < Date.now() + 1000 * 60 * 60 * 24 * 7;
 
-  const hasExpired = vip && vip.expiresAt < Date.now();
-
   const hasOneYear =
     vip && vip.expiresAt > Date.now() + 1000 * 60 * 60 * 24 * 365;
 
+  const isRoninFarmCreatedAfterCutOff =
+    state.createdAt > RONIN_FARM_CREATION_CUTOFF;
+
+  const roninVip = state.nfts?.ronin && isRoninFarmCreatedAfterCutOff;
+
   const getExpiresAt = () => {
-    if (!vip && !state.nfts?.ronin) return 0;
+    if (!vip && !roninVip) return 0;
 
     const paidVipExpiresAt = vip?.expiresAt ?? 0;
     const roninVipExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
@@ -141,13 +145,13 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   };
 
   const vipExpiresAt = getExpiresAt();
-  const hasRoninVip =
+  const activeRoninVip =
     (state.nfts?.ronin?.expiresAt ?? 0) > Date.now() &&
-    state.createdAt > new Date("2025-02-01").getTime();
+    isRoninFarmCreatedAfterCutOff;
 
   // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 1 day
   const shouldDisableVipPurchase = () => {
-    if (!hasRoninVip) return false;
+    if (!activeRoninVip) return false;
 
     const roninExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
 
@@ -158,7 +162,10 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
 
   return (
     <>
-      <ModalOverlay show={!!selected} onBackdropClick={onClose}>
+      <ModalOverlay
+        show={!!selected}
+        onBackdropClick={() => setSelected(undefined)}
+      >
         <Panel className="w-full h-full">
           <div className="flex justify-between">
             <Label type="default" className="mb-2">
@@ -232,7 +239,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
           </a>
         </div>
         <p className="text-xs px-1 mt-2">{t("season.vip.description")}</p>
-        {hasVip && (
+        {hasVip ? (
           <>
             <div className="flex justify-between my-2">
               <Label
@@ -252,15 +259,16 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               )}
             </div>
           </>
-        )}
-        {hasExpired && (
-          <Label
-            icon={SUNNYSIDE.icons.stopwatch}
-            type="danger"
-            className="ml-2"
-          >
-            {t("expired")}
-          </Label>
+        ) : (
+          (vip || roninVip) && (
+            <Label
+              icon={SUNNYSIDE.icons.stopwatch}
+              type="danger"
+              className="ml-2"
+            >
+              {t("expired")}
+            </Label>
+          )
         )}
         {disableVipPurchase && (
           <Label type="info" className="ml-1 my-1">
