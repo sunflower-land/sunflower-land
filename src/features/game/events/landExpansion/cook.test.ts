@@ -426,7 +426,7 @@ describe("cook", () => {
         },
         vip: {
           bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
-          expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
         },
         buildings: {
           "Fire Pit": [
@@ -452,6 +452,7 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
+      createdAt: now,
     });
 
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[1].readyAt).toBeCloseTo(
