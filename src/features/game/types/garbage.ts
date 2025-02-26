@@ -1,5 +1,5 @@
 import { BB_TO_GEM_RATIO, Inventory, InventoryItemName } from "./game";
-import { SEASON_TICKET_NAME, ChapterTicket, CHAPTERS } from "./chapters";
+import { CHAPTER_TICKET_NAME, ChapterTicket, CHAPTERS } from "./chapters";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
 import { getObjectEntries } from "../expansion/lib/utils";
@@ -110,7 +110,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: 0.1,
     gems: 0,
   },
-  ...getObjectEntries(SEASON_TICKET_NAME).reduce(
+  ...getObjectEntries(CHAPTER_TICKET_NAME).reduce(
     (acc, [season, ticket]) => {
       return {
         ...acc,
