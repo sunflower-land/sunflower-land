@@ -5,7 +5,7 @@ import {
   CHAPTERS,
   ChapterBanner,
   getPreviousSeasonalBanner,
-  getSeasonByBanner,
+  getChapterByBanner,
   getChapterBanner,
 } from "features/game/types/chapters";
 import { produce } from "immer";
@@ -37,7 +37,7 @@ export function getBannerPrice(
 
   if (hasLifetimeBanner) return new Decimal(0);
 
-  const season = getSeasonByBanner(banner);
+  const season = getChapterByBanner(banner);
   const seasonStartDate = CHAPTERS[season].startDate;
 
   const WEEK = 1000 * 60 * 60 * 24 * 7;

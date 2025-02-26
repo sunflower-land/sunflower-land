@@ -176,7 +176,7 @@ export function hasChapterEnded(chapter: ChapterName, now = Date.now()) {
   return now >= CHAPTERS[chapter].endDate.getTime();
 }
 
-export function getSeasonByBanner(banner: ChapterBanner): ChapterName {
+export function getChapterByBanner(banner: ChapterBanner): ChapterName {
   return CHAPTER_BANNERS[banner];
 }
 
