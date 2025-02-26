@@ -700,16 +700,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   if (delivery?.completedAt) {
     message = t("bumpkin.delivery.waiting");
-
-    if (
-      npc === "pumpkin' pete" &&
-      (game.npcs?.[npc]?.friendship?.points ?? 0) > 2 &&
-      getActiveCalendarEvent({ game }) !== "doubleDelivery"
-    ) {
-      message = t("double.delivery.hint", {
-        date: game.delivery.doubleDelivery ?? "",
-      });
-    }
   }
 
   if (!delivery || (!!tickets && isHoliday)) {
