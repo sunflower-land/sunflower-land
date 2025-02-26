@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalTicket,
 } from "features/game/types/chapters";
 import { translate } from "lib/i18n/translate";
@@ -101,7 +101,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         },
         {
           text: translate("birdieplaza.currentSeason", {
-            currentSeason: getCurrentSeason(),
+            currentSeason: getCurrentChapter(),
             seasonalTicket: getSeasonalTicket(),
           }),
         },

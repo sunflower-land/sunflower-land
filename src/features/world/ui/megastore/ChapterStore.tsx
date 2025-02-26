@@ -5,7 +5,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 import React, { useState, useEffect } from "react";
-import { getCurrentSeason, CHAPTERS } from "features/game/types/chapters";
+import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
 import {
   MEGASTORE,
   SeasonalStoreCollectible,
@@ -96,18 +96,18 @@ export const SeasonalStore: React.FC<{
     setSelectedTier(tier);
   };
   const getTotalSecondsAvailable = () => {
-    const { startDate, endDate } = CHAPTERS[getCurrentSeason()];
+    const { startDate, endDate } = CHAPTERS[getCurrentChapter()];
 
     return (endDate.getTime() - startDate.getTime()) / 1000;
   };
 
   const timeRemaining = getTimeLeft(
-    CHAPTERS[getCurrentSeason()].startDate.getTime(),
+    CHAPTERS[getCurrentChapter()].startDate.getTime(),
     getTotalSecondsAvailable(),
   );
   const { t } = useAppTranslation();
 
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const currentSeason = getCurrentChapter(new Date(createdAt));
 
   // Basic-Epic
   const basicAllItems = MEGASTORE[currentSeason].basic.items;

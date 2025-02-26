@@ -8,7 +8,7 @@ import {
 import { produce } from "immer";
 import { NPCName } from "lib/npcs";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalTicket,
 } from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -107,42 +107,42 @@ export function generateChoreRewards({
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Hat" })
   ) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Shirt" })
   ) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
   }
 
   if (
-    getCurrentSeason() === "Bull Run" &&
+    getCurrentChapter() === "Bull Run" &&
     isWearableActive({ game, name: "Cowboy Trouser" })
   ) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isWearableActive({ game, name: "Acorn Hat" })
   ) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Igloo" })
   ) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;
   }
 
   if (
-    getCurrentSeason() === "Winds of Change" &&
+    getCurrentChapter() === "Winds of Change" &&
     isCollectibleBuilt({ game, name: "Hammock" })
   ) {
     items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 1;

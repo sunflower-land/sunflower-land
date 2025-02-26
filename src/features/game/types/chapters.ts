@@ -124,7 +124,7 @@ export const CHAPTER_ARTEFACT_NAME: Record<
   "Winds of Change": "Ancient Clock",
 };
 
-export function getCurrentSeason(now = new Date()): ChapterName {
+export function getCurrentChapter(now = new Date()): ChapterName {
   const seasons = getKeys(CHAPTERS);
 
   const currentSeason = seasons.find((season) => {
@@ -141,25 +141,25 @@ export function getCurrentSeason(now = new Date()): ChapterName {
 }
 
 export function getSeasonalTicket(now = new Date()): ChapterTicket {
-  const currentSeason = getCurrentSeason(now);
+  const currentSeason = getCurrentChapter(now);
 
   return CHAPTER_TICKET_NAME[currentSeason];
 }
 
 export function getSeasonalArtefact(now = new Date()) {
-  const currentSeason = getCurrentSeason(now);
+  const currentSeason = getCurrentChapter(now);
 
   return CHAPTER_ARTEFACT_NAME[currentSeason];
 }
 
 export function getSeasonalBanner(now = new Date()): ChapterBanner {
-  const currentSeason = getCurrentSeason(now);
+  const currentSeason = getCurrentChapter(now);
 
   return `${currentSeason} Banner`;
 }
 
 export function secondsLeftInSeason() {
-  const season = getCurrentSeason();
+  const season = getCurrentChapter();
 
   const times = CHAPTERS[season];
 
@@ -196,7 +196,7 @@ export function getSeasonalBannerImage() {
 }
 
 function getPreviousSeason(now = new Date()): ChapterName {
-  const currentSeason = getCurrentSeason(now);
+  const currentSeason = getCurrentChapter(now);
   const startDateOfCurrentSeason = CHAPTERS[currentSeason].startDate;
 
   // Find the season where the end date matches the start date of the current season

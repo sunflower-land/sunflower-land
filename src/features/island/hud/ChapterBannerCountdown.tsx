@@ -8,7 +8,7 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalBanner,
   CHAPTERS,
 } from "features/game/types/chapters";
@@ -30,7 +30,7 @@ export const SeasonBannerCountdown: React.FC = () => {
   const hasBanner = useSelector(gameService, _hasBanner);
   const { openModal } = useContext(ModalContext);
 
-  const season = getCurrentSeason();
+  const season = getCurrentChapter();
   const seasonWeek = getChapterWeek();
 
   const offerEndsAt =

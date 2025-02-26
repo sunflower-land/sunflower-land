@@ -9,7 +9,7 @@ import { Modal } from "components/ui/Modal";
 import { Digby } from "features/world/ui/beach/Digby";
 import { useTranslation } from "react-i18next";
 import { isWearableActive } from "features/game/lib/wearables";
-import { getCurrentSeason } from "features/game/types/chapters";
+import { getCurrentChapter } from "features/game/types/chapters";
 
 export const getRegularMaxDigs = (game: GameState) => {
   let maxDigs = 25;
@@ -33,7 +33,7 @@ export const getRegularMaxDigs = (game: GameState) => {
 
   if (
     !!game.inventory["Pharaoh's Treasure Banner"] &&
-    getCurrentSeason() === "Pharaoh's Treasure"
+    getCurrentChapter() === "Pharaoh's Treasure"
   ) {
     maxDigs += 5;
   }

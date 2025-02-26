@@ -44,7 +44,7 @@ import {
   CalendarEventName,
   getActiveCalendarEvent,
 } from "features/game/types/calendar";
-import { getCurrentSeason } from "features/game/types/chapters";
+import { getCurrentChapter } from "features/game/types/chapters";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type LandExpansionPlantAction = {
@@ -410,7 +410,7 @@ const getWindsOfChangeVIPYieldBoost = ({
   createdAt: number;
 }) => {
   try {
-    const chapter = getCurrentSeason(new Date(createdAt));
+    const chapter = getCurrentChapter(new Date(createdAt));
 
     if (chapter !== "Winds of Change") return 0;
 

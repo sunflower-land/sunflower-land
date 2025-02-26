@@ -11,7 +11,7 @@ import lightning from "assets/icons/lightning.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import classNames from "classnames";
-import { getCurrentSeason, CHAPTERS } from "features/game/types/chapters";
+import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
 import { getKeys } from "features/game/types/decorations";
 import {
   getItemImage,
@@ -34,7 +34,7 @@ export const MegaStoreSeasonal: React.FC<{
   ] = useActor(gameService);
   const megastore = useSelector(gameService, _megastore);
   const getTotalSecondsAvailableMega = () => {
-    const { startDate, endDate } = CHAPTERS[getCurrentSeason()];
+    const { startDate, endDate } = CHAPTERS[getCurrentChapter()];
 
     return (endDate.getTime() - startDate.getTime()) / 1000;
   };
@@ -54,7 +54,7 @@ export const MegaStoreSeasonal: React.FC<{
   };
 
   const megaTimeRemaining = getTimeLeft(
-    CHAPTERS[getCurrentSeason()].startDate.getTime(),
+    CHAPTERS[getCurrentChapter()].startDate.getTime(),
     getTotalSecondsAvailableMega(),
   );
 

@@ -15,7 +15,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalArtefact,
   getSeasonalTicket,
   // getSeasonalTicket,
@@ -81,7 +81,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   ] = useActor(gameService);
 
   const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const currentSeason = getCurrentChapter(new Date(createdAt));
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers =
     tier === "basic"
