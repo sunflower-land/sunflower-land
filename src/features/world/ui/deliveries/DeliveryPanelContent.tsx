@@ -15,7 +15,7 @@ import {
   getCountAndTypeForDelivery,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinDelivery } from "./BumpkinDelivery";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -142,10 +142,10 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 {!!tickets && (
                   <div
                     className="flex items-center mt-1"
-                    key={getSeasonalTicket()}
+                    key={getChapterTicket()}
                   >
                     <img
-                      src={ITEM_DETAILS[getSeasonalTicket()].image}
+                      src={ITEM_DETAILS[getChapterTicket()].image}
                       className="h-5 mr-1"
                     />
                     <span className="text-xs">{tickets}</span>

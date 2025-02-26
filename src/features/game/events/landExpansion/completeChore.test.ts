@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { completeChore } from "./completeChore";
 import { ChoreV2 } from "features/game/types/game";
-import { getSeasonalTicket, CHAPTERS } from "features/game/types/chapters";
+import { getChapterTicket, CHAPTERS } from "features/game/types/chapters";
 import cloneDeep from "lodash.clonedeep";
 
 describe("chore.completed", () => {
@@ -614,7 +614,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(5));
   });
 
   it("provides +1 tickets when Cowboy Shirt is worn at Bull Run Season", () => {
@@ -670,7 +670,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(5));
   });
 
   it("provides +1 tickets when Cowboy Trouser is worn at Bull Run Season", () => {
@@ -726,7 +726,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(5));
   });
 
   it("stacks Cowboy Set boost at Bull Run Season", () => {
@@ -784,7 +784,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(7));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(7));
   });
 
   it("does not provide +1 tickets when Cowboy Trouser is worn outside Bull Run Season", () => {
@@ -840,7 +840,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(4));
   });
 
   it("provides +1 tickets when Acorn Hat is worn at Winds of Change", () => {
@@ -896,7 +896,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(5));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(5));
   });
 
   it("stacks timeshard boosts at Winds of Change", () => {
@@ -970,6 +970,6 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(7));
+    expect(state.inventory[getChapterTicket()]).toEqual(new Decimal(7));
   });
 });

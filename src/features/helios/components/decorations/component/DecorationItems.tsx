@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
@@ -70,10 +70,10 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
       });
     }
 
-    if (selected.ingredients[getSeasonalTicket()]) {
+    if (selected.ingredients[getChapterTicket()]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount: selected.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        amount: selected.ingredients[getChapterTicket()]?.toNumber() ?? 1,
         item: selected.name,
         type: "Collectible",
       });

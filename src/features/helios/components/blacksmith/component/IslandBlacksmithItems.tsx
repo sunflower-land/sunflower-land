@@ -17,7 +17,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
@@ -77,11 +77,11 @@ export const IslandBlacksmithItems: React.FC = () => {
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
 
-    if ((selectedItem?.ingredients ?? {})[getSeasonalTicket()]) {
+    if ((selectedItem?.ingredients ?? {})[getChapterTicket()]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
         amount:
-          (selectedItem?.ingredients ?? {})[getSeasonalTicket()]?.toNumber() ??
+          (selectedItem?.ingredients ?? {})[getChapterTicket()]?.toNumber() ??
           1,
         item: selectedName,
         type: "Collectible",

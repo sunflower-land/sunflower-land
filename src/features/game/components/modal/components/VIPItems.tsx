@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import {
   CHAPTERS,
   getCurrentChapter,
-  getSeasonalTicket,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -340,7 +340,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             },
             {
               text: t("vip.benefit.bonusDelivery"),
-              icon: ITEM_DETAILS[getSeasonalTicket()].image,
+              icon: ITEM_DETAILS[getChapterTicket()].image,
             },
             {
               text: t("vip.benefit.reputation", {

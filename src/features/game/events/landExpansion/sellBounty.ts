@@ -7,7 +7,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { BountyRequest, GameState, SFLBounty } from "features/game/types/game";
 import {
   getCurrentChapter,
-  getSeasonalTicket,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { produce } from "immer";
 import { getChapterChangeover } from "lib/utils/getChapterWeek";
@@ -33,7 +33,7 @@ export function generateBountyTicket({
   bounty: BountyRequest;
   now?: number;
 }) {
-  let amount = bounty.items?.[getSeasonalTicket(new Date(now))] ?? 0;
+  let amount = bounty.items?.[getChapterTicket(new Date(now))] ?? 0;
 
   if (!amount) {
     return 0;
@@ -161,7 +161,7 @@ export function sellBounty({
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = draft.inventory[name] ?? new Decimal(0);
-      const seasonalTicket = getSeasonalTicket();
+      const seasonalTicket = getChapterTicket();
       if (tickets > 0 && seasonalTicket === name) {
         draft.inventory[name] = previous.add(tickets ?? 0);
       } else draft.inventory[name] = previous.add(request.items?.[name] ?? 0);

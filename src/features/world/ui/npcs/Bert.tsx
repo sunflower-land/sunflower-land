@@ -19,7 +19,7 @@ import {
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -46,23 +46,23 @@ interface Props {
 const obsessionDialogues = (itemName: string) => [
   `${translate("obsessionDialogue.line1", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket().toLowerCase(),
+    seasonalTicket: getChapterTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line2", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket().toLowerCase(),
+    seasonalTicket: getChapterTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line3", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket().toLowerCase(),
+    seasonalTicket: getChapterTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line4", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket().toLowerCase(),
+    seasonalTicket: getChapterTicket().toLowerCase(),
   })}`,
   `${translate("obsessionDialogue.line5", {
     itemName: itemName,
-    seasonalTicket: getSeasonalTicket().toLowerCase(),
+    seasonalTicket: getChapterTicket().toLowerCase(),
   })}`,
 ];
 
@@ -285,12 +285,12 @@ const CompleteObsession: React.FC<{
         disabled={!canCompleteObsession()}
         onClick={() => gameService.send("bertObsession.completed")}
       >
-        {`${t("claim")} ${reward} ${getSeasonalTicket()}${
+        {`${t("claim")} ${reward} ${getChapterTicket()}${
           reward > 1 ? "s" : ""
         }`}
       </Button>
       <span className="text-xs text-center">
-        {t("bert.day", { seasonalTicket: getSeasonalTicket() })}
+        {t("bert.day", { seasonalTicket: getChapterTicket() })}
       </span>
     </>
   );
@@ -348,7 +348,7 @@ const BertObsessionReadonly: React.FC<{
             <span className="text-xs leading-none">
               {t("obsessionDialogue.codex", {
                 itemName: obsessionName ?? "",
-                seasonalTicket: getSeasonalTicket().toLowerCase(),
+                seasonalTicket: getChapterTicket().toLowerCase(),
               })}
             </span>
             <div className="flex flex-row flex-wrap gap-1">
@@ -356,7 +356,7 @@ const BertObsessionReadonly: React.FC<{
                 className="whitespace-nowrap font-secondary relative"
                 type="default"
               >
-                {`Reward: ${reward} ${getSeasonalTicket()}s`}
+                {`Reward: ${reward} ${getChapterTicket()}s`}
               </Label>
               {obsessionCompletedAt &&
                 obsessionCompletedAt >= currentObsession.startDate &&

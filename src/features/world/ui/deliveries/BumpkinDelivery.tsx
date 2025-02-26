@@ -31,7 +31,7 @@ import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
 } from "features/island/delivery/lib/delivery";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUMPKIN_FLOWER_BONUSES,
@@ -156,7 +156,7 @@ export const OrderCard: React.FC<{
                     <div className="flex items-center">
                       <span className="text-xs mx-1">{tickets}</span>
                       <img
-                        src={ITEM_DETAILS[getSeasonalTicket()].image}
+                        src={ITEM_DETAILS[getChapterTicket()].image}
                         className="h-4 w-auto"
                       />
                     </div>

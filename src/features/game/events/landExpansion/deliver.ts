@@ -12,7 +12,7 @@ import {
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
   getCurrentChapter,
-  getSeasonalTicket,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { NPCName } from "lib/npcs";
 import { getBumpkinHoliday } from "lib/utils/getChapterWeek";
@@ -493,7 +493,7 @@ export function deliverOrder({
     }
 
     if (tickets > 0) {
-      const seasonalTicket = getSeasonalTicket();
+      const seasonalTicket = getChapterTicket();
 
       const count = game.inventory[seasonalTicket] || new Decimal(0);
       const amount = tickets || new Decimal(0);

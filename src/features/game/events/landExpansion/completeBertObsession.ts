@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 
@@ -68,8 +68,8 @@ export function completeBertObsession({
     }
 
     const currentTickets =
-      stateCopy.inventory[getSeasonalTicket()] || new Decimal(0);
-    stateCopy.inventory[getSeasonalTicket()] = currentTickets.add(
+      stateCopy.inventory[getChapterTicket()] || new Decimal(0);
+    stateCopy.inventory[getChapterTicket()] = currentTickets.add(
       currentObsession.reward,
     );
 

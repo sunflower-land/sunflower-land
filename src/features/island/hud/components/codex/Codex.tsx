@@ -30,7 +30,7 @@ import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { Season } from "./pages/Season";
 import {
   getCurrentChapter,
-  getSeasonalTicket,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FLOWERS } from "features/game/types/flowers";
@@ -160,7 +160,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
     {
       name: "Leaderboard",
-      icon: ITEM_DETAILS[getSeasonalTicket()].image,
+      icon: ITEM_DETAILS[getChapterTicket()].image,
       count: incompleteObsession + incompleteFlowerBountiesCount,
     },
     {

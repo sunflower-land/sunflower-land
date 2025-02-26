@@ -17,8 +17,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentChapter,
   getSeasonalArtefact,
-  getSeasonalTicket,
-  // getSeasonalTicket,
+  getChapterTicket,
+  // getChapterTicket,
 } from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
@@ -201,16 +201,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const currency =
       item.cost.sfl !== 0
         ? "SFL"
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
           ? "Seasonal Ticket"
           : "SFL";
     const price =
       item.cost.sfl !== 0
         ? sfl
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? item.cost?.items[getSeasonalTicket()] ?? 0
+        : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+          ? item.cost?.items[getChapterTicket()] ?? 0
           : sfl;
     const itemName = isWearable
       ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)
@@ -276,8 +274,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const getCurrencyName = (item: SeasonalStoreItem) => {
     const currencyName =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
+      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        ? getChapterTicket()
         : item.cost.sfl === 0 &&
             (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
           ? getSeasonalArtefact()
@@ -286,8 +284,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
   const getCurrencyBalance = (item: SeasonalStoreItem) => {
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
+      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        ? getChapterTicket()
         : item.cost.sfl === 0 &&
             (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
           ? getSeasonalArtefact()
@@ -297,8 +295,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
   const getCurrency = (item: SeasonalStoreItem) => {
     const currency =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
+      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        ? getChapterTicket()
         : getSeasonalArtefact();
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
