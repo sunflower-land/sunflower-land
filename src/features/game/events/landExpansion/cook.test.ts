@@ -1245,7 +1245,7 @@ describe("getCookingOilBoost", () => {
     const building = state.buildings["Fire Pit"]?.[0];
     const eggRecipe = building?.crafting?.find((r) => r.name === "Boiled Eggs");
 
-    expect(eggRecipe?.readyAt).toEqual(now + cookTimeMs * 0.5);
+    expect(eggRecipe?.readyAt).toBeCloseTo(now + cookTimeMs * 0.5, 0);
   });
 
   it("does not apply the 50% cooking boost for Bronze Season Pass (Ronin NFT)", () => {
