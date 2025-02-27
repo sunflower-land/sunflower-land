@@ -218,7 +218,7 @@ describe("INVENTORY_LIMIT", () => {
 
     getObjectEntries(INVENTORY_LIMIT(state)).forEach(([key, value]) => {
       if (isFullMoonBerry(key)) {
-        expect(value).toEqual(new Decimal(1));
+        expect(value).toEqual(new Decimal(10));
       } else if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key)) {
         expect(value).toEqual(
           new Decimal(
@@ -255,7 +255,7 @@ describe("INVENTORY_LIMIT", () => {
     };
     getObjectEntries(INVENTORY_LIMIT(state)).forEach(([key, value]) => {
       if (isFullMoonBerry(key)) {
-        expect(value).toEqual(new Decimal(1));
+        expect(value).toEqual(new Decimal(10));
       } else if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key)) {
         expect(value).toEqual(
           new Decimal(

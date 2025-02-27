@@ -196,7 +196,7 @@ export const INVENTORY_LIMIT = (
               Math.ceil((value ?? new Decimal(0)).mul(5).toNumber()),
             ),
           };
-        if (isFullMoonBerry(key)) return { ...acc, [key]: new Decimal(1) };
+        if (isFullMoonBerry(key)) return { ...acc, [key]: new Decimal(10) };
 
         return {
           ...acc,
