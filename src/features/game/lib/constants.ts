@@ -22,6 +22,11 @@ import {
   isGreenhouseCropSeed,
   isGreenhouseFruitSeed,
 } from "../events/landExpansion/seedBought";
+import {
+  isAdvancedFruitSeed,
+  isBasicFruitSeed,
+} from "../events/landExpansion/fruitPlanted";
+import { PatchFruitSeedName } from "../types/fruits";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -139,10 +144,10 @@ export const INITIAL_STOCK = (
     "Olive Seed": new Decimal(10),
     "Rice Seed": new Decimal(10),
 
-    "Tomato Seed": new Decimal(30),
-    "Lemon Seed": new Decimal(30),
-    "Blueberry Seed": new Decimal(25),
-    "Orange Seed": new Decimal(25),
+    "Tomato Seed": new Decimal(20),
+    "Lemon Seed": new Decimal(20),
+    "Blueberry Seed": new Decimal(20),
+    "Orange Seed": new Decimal(20),
     "Apple Seed": new Decimal(20),
     "Banana Plant": new Decimal(20),
 
@@ -168,6 +173,11 @@ export const INITIAL_STOCK = (
       (seed) =>
         (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(1.2).toNumber()))),
     );
+  }
+
+  if (state?.bumpkin.skills["Crime Fruit"]) {
+    seeds["Tomato Seed"] = seeds["Tomato Seed"].add(10);
+    seeds["Lemon Seed"] = seeds["Lemon Seed"].add(10);
   }
 
   return {
@@ -197,6 +207,20 @@ export const INVENTORY_LIMIT = (
             ),
           };
         if (isFullMoonBerry(key)) return { ...acc, [key]: new Decimal(10) };
+        if (isBasicFruitSeed(key as PatchFruitSeedName))
+          return {
+            ...acc,
+            [key]: new Decimal(
+              Math.ceil((value ?? new Decimal(0)).mul(2).toNumber()),
+            ),
+          };
+        if (isAdvancedFruitSeed(key as PatchFruitSeedName))
+          return {
+            ...acc,
+            [key]: new Decimal(
+              Math.ceil((value ?? new Decimal(0)).mul(1.5).toNumber()),
+            ),
+          };
 
         return {
           ...acc,

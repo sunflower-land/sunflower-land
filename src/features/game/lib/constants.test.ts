@@ -6,6 +6,11 @@ import {
   isGreenhouseCropSeed,
   isGreenhouseFruitSeed,
 } from "../events/landExpansion/seedBought";
+import { PatchFruitSeedName } from "../types/fruits";
+import {
+  isAdvancedFruitSeed,
+  isBasicFruitSeed,
+} from "../events/landExpansion/fruitPlanted";
 
 describe("INITIAL_STOCK", () => {
   it("does not increase stock of tools if Toolshed is placed but NOT ready", () => {
@@ -134,12 +139,12 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state)["Radish Seed"]).toEqual(new Decimal(40 * 2));
     expect(INITIAL_STOCK(state)["Wheat Seed"]).toEqual(new Decimal(40 * 2));
     expect(INITIAL_STOCK(state)["Kale Seed"]).toEqual(new Decimal(30 * 2));
-    expect(INITIAL_STOCK(state)["Tomato Seed"]).toEqual(new Decimal(30));
-    expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(25));
-    expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(25));
+    expect(INITIAL_STOCK(state)["Tomato Seed"]).toEqual(new Decimal(10 * 2));
+    expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(10 * 2));
+    expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(10 * 2));
     expect(INITIAL_STOCK(state)["Apple Seed"]).toEqual(new Decimal(10 * 2));
     expect(INITIAL_STOCK(state)["Banana Plant"]).toEqual(new Decimal(10 * 2));
-    expect(INITIAL_STOCK(state)["Lemon Seed"]).toEqual(new Decimal(30));
+    expect(INITIAL_STOCK(state)["Lemon Seed"]).toEqual(new Decimal(10 * 2));
 
     expect(INITIAL_STOCK(state)["Grape Seed"]).toEqual(new Decimal(10));
     expect(INITIAL_STOCK(state)["Olive Seed"]).toEqual(new Decimal(10));
@@ -183,12 +188,12 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state)["Radish Seed"]).toEqual(new Decimal(48 * 2));
     expect(INITIAL_STOCK(state)["Wheat Seed"]).toEqual(new Decimal(48 * 2));
     expect(INITIAL_STOCK(state)["Kale Seed"]).toEqual(new Decimal(36 * 2));
-    expect(INITIAL_STOCK(state)["Tomato Seed"]).toEqual(new Decimal(36));
-    expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(30));
-    expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(30));
+    expect(INITIAL_STOCK(state)["Tomato Seed"]).toEqual(new Decimal(12 * 2));
+    expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(12 * 2));
+    expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(12 * 2));
     expect(INITIAL_STOCK(state)["Apple Seed"]).toEqual(new Decimal(12 * 2));
     expect(INITIAL_STOCK(state)["Banana Plant"]).toEqual(new Decimal(12 * 2));
-    expect(INITIAL_STOCK(state)["Lemon Seed"]).toEqual(new Decimal(36));
+    expect(INITIAL_STOCK(state)["Lemon Seed"]).toEqual(new Decimal(12 * 2));
 
     expect(INITIAL_STOCK(state)["Grape Seed"]).toEqual(new Decimal(12));
     expect(INITIAL_STOCK(state)["Olive Seed"]).toEqual(new Decimal(12));
@@ -227,6 +232,22 @@ describe("INVENTORY_LIMIT", () => {
             ),
           ),
         );
+      } else if (isBasicFruitSeed(key as PatchFruitSeedName)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(2)).toNumber(),
+            ),
+          ),
+        );
+      } else if (isAdvancedFruitSeed(key as PatchFruitSeedName)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(1.5)).toNumber(),
+            ),
+          ),
+        );
       } else {
         expect(value).toEqual(
           new Decimal(
@@ -261,6 +282,22 @@ describe("INVENTORY_LIMIT", () => {
           new Decimal(
             Math.ceil(
               new Decimal(INITIAL_STOCK(state)[key]?.mul(5)).toNumber(),
+            ),
+          ),
+        );
+      } else if (isBasicFruitSeed(key as PatchFruitSeedName)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(2)).toNumber(),
+            ),
+          ),
+        );
+      } else if (isAdvancedFruitSeed(key as PatchFruitSeedName)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(1.5)).toNumber(),
             ),
           ),
         );
