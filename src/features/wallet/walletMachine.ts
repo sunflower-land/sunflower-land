@@ -234,6 +234,12 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           cond: (context) =>
             !NON_POLYGON_ACTIONS.includes(context.action as WalletAction) &&
             context.chainId !== CONFIG.POLYGON_CHAIN_ID,
+          actions: (context) => {
+            // HACK: How we can tell a wallet is Ronin
+            if (context.chainId === 2020) {
+              localStorage.setItem("isRonin", "true");
+            }
+          },
         },
         {
           target: "missingNFT",

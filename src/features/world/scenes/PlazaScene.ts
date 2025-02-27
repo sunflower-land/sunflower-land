@@ -29,6 +29,12 @@ export type FactionNPC = {
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    x: 496,
+    y: 410,
+    npc: "rocket man",
+    direction: "left",
+  },
+  {
     x: 207,
     y: 379,
     npc: "peggy",
@@ -440,7 +446,7 @@ export class PlazaScene extends BaseScene {
     });
 
     // Plaza Bud
-    const bud = this.add.sprite(500, 420, "plaza_bud");
+    const bud = this.add.sprite(525, 436, "plaza_bud");
     this.anims.create({
       key: "plaza_bud_animation",
       frames: this.anims.generateFrameNumbers("plaza_bud", {

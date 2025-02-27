@@ -59,6 +59,7 @@ import { preload } from "swr";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isSupported } from "firebase/messaging";
+import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -329,6 +330,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
       >
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
+      <LockdownWidget />
     </Modal>
   );
 };

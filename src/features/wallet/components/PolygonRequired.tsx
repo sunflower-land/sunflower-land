@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 
@@ -6,6 +6,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { WalletContext } from "../WalletProvider";
+import classNames from "classnames";
+import { pixelGrayBorderStyle } from "features/game/lib/style";
+import { useGame } from "features/game/GameProvider";
+import { isRonin } from "../lib/ronin";
 
 export const PolygonRequired: React.FC<{
   canContinue: boolean;
@@ -55,5 +59,39 @@ export const PolygonRequired: React.FC<{
         </Button>
       </div>
     </>
+  );
+};
+
+export const RoninSupportWidget: React.FC = () => {
+  const [showMessage, setShowMessage] = useState(true);
+
+  const { gameState } = useGame();
+  const { t } = useAppTranslation();
+
+  const isRoninUser = isRonin({ game: gameState.context.state });
+
+  if (!isRoninUser || !showMessage) {
+    return null;
+  }
+
+  return (
+    <div
+      className={classNames(
+        `w-full justify-center items-center flex  text-xs p-1 pr-4 mt-1 relative`,
+      )}
+      style={{
+        background: "#c0cbdc",
+        color: "#181425",
+        ...pixelGrayBorderStyle,
+      }}
+    >
+      <img src={SUNNYSIDE.icons.heart} className="w-8 mr-2" />
+      <p className="text-xs flex-1">{t("ronin.comingSoon")}</p>
+      <img
+        src={SUNNYSIDE.icons.close}
+        className="absolute right-2 top-1 w-5 cursor-pointer"
+        onClick={() => setShowMessage(false)}
+      />
+    </div>
   );
 };

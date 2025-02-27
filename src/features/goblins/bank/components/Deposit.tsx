@@ -45,6 +45,7 @@ import { formatEther } from "viem";
 import { hasFeatureAccess } from "lib/flags";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -664,6 +665,7 @@ export const DepositModal: React.FC<DepositModalProps> = ({
           onClose={handleClose}
         />
       </CloseButtonPanel>
+      <LockdownWidget />
     </Modal>
   );
 };
