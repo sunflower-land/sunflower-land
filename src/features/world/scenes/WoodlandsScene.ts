@@ -115,7 +115,8 @@ export class WoodlandsScene extends BaseScene {
 
           // Set depth for elements that should be drawn on top
           if (topElementsSet.has(element)) {
-            layer.setDepth(1000000);
+            const activeLayerName = `${element}/${capitalize(season)} ${element}`;
+            this.layers[activeLayerName]?.setDepth(1000000);
           }
         });
       });
