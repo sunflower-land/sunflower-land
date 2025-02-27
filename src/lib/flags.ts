@@ -62,11 +62,9 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
  * Do not delete JEST_TEST.
  */
 const featureFlags = {
-  CROP_QUICK_SELECT: () => false,
-  PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  RONIN_LOGIN: () => true,
+  DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(new Date("2025-03-21")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
