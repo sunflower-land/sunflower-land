@@ -34,18 +34,11 @@ const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
   return defaultFeatureFlag(game) || Date.now() > date.getTime();
 };
 
-export const timePeriodFeatureFlag =
-  ({
-    start,
-    end,
-    now = Date.now(),
-  }: {
-    start?: Date;
-    end: Date;
-    now?: number;
-  }) =>
-  () =>
-    (!start || now > start.getTime()) && now < end.getTime();
+const timePeriodFeatureFlag =
+  ({ start, end }: { start: Date; end: Date }) =>
+  () => {
+    return Date.now() > start.getTime() && Date.now() < end.getTime();
+  };
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -71,9 +64,7 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 const featureFlags = {
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  DISABLE_BLOCKCHAIN_ACTIONS: timePeriodFeatureFlag({
-    end: new Date("2025-03-21"),
-  }),
+  DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(new Date("2025-03-21")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

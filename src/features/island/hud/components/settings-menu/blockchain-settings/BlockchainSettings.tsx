@@ -40,7 +40,7 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
         <Button onClick={storeOnChain}>
           {t("gameOptions.blockchainSettings.storeOnChain")}
         </Button>
-        {hasFeatureAccess(state, "DISABLE_BLOCKCHAIN_ACTIONS") && (
+        {!hasFeatureAccess(state, "DISABLE_BLOCKCHAIN_ACTIONS") && (
           <Button onClick={() => onSubMenuClick("swapSFL")}>
             {t("gameOptions.blockchainSettings.swapPOLForSFL")}
           </Button>
