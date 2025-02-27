@@ -5381,5 +5381,15 @@
   "deposit.noCollectibles": "수집품, 웨어러블 또는 이어폰을 찾을 수 없습니다!",
   "deposit.addCollectiblesToPolygonWallet": "수집품, 웨어러블 및 버드를 연결된 Polygon Wallet에 추가하여 입금하세요.",
   "deposit.linkedWallet": "연동 지갑:",
-  "deposit.refreshWallet": "리프레시 월렛"
+  "deposit.refreshWallet": "리프레시 월렛",
+  "ronin.comingSoon": "4월 1일 - 로닌 지갑을 사용하여 보석 구매, NFT 발행, 거래 등을 하세요!",
+  "announcement.lockdown": "$FLOWER를 준비하기 위해 $SFL 출금 및 입금은 3월 24일부터 사용할 수 없습니다.",
+  "announcement.flowerGems": "$FLOWER로 젬을 구매하세요 - 2025년 5월 출시 예정",
+  "announcement.gasless": "가스없는 거래가 4월 1일에 시작됩니다.",
+  "rocketman.intro": "안녕 범프킨, 달에 꽃탑을 세우려는 중이야!",
+  "rocketman.flower.coming": "$플라워가 온다",
+  "rocketman.flower.launch": "4월 1일에 $FLOWER가 게임에 추가됩니다!",
+  "rocketman.flower.compete": "월간 챌린지에서 경쟁하여 $FLOWER를 획득하세요.",
+  "rocketman.flower.social": "소셜 작업을 완료하고 소문을 퍼뜨리고 $FLOWER를 받으세요.",
+  "rocketman.flower.eligible": "폴리곤, 로닌, 베이스 사용자가 대상입니다."
 }

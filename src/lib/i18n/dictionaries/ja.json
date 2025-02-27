@@ -5381,5 +5381,15 @@
   "deposit.noCollectibles": "収集品、ウェアラブル、イヤホンが見つかりません！",
   "deposit.addCollectiblesToPolygonWallet": "収集品、ウェアラブル、イヤホンをリンクされたポリゴンウォレットに追加して、入金してください。",
   "deposit.linkedWallet": "リンクされたウォレット:",
-  "deposit.refreshWallet": "ウォレットを更新"
+  "deposit.refreshWallet": "ウォレットを更新",
+  "ronin.comingSoon": "4月1日-Roninウォレットを使ってジェムの購入、NFTの発行、トレードなどを行いましょう！",
+  "announcement.lockdown": "$FLOWERの準備のため、3月24日から$SFLの出金と入金が無効になります。",
+  "announcement.flowerGems": "$FLOWERでジェムを購入-2025年5月発売予定",
+  "announcement.gasless": "ガスレス取引は4月1日に行われます。",
+  "rocketman.intro": "やあ、バンプキン、月に向けてフラワータワーを建てようとしてるんだ！",
+  "rocketman.flower.coming": "$フラワーがやってくる",
+  "rocketman.flower.launch": "4月1日に、$FLOWERがゲームに追加されます！",
+  "rocketman.flower.compete": "毎月のチャレンジに参加して$FLOWERを獲得しましょう。",
+  "rocketman.flower.social": "ソーシャルタスクを完了して情報を広め、$FLOWERを獲得しましょう。",
+  "rocketman.flower.eligible": "ポリゴン、Ronin、BASEのユーザーが対象です。"
 }

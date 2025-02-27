@@ -5381,5 +5381,15 @@
   "deposit.noCollectibles": "Tidak Ada Koleksi, Pakaian, atau Tunas yang Ditemukan!",
   "deposit.addCollectiblesToPolygonWallet": "Tambahkan Collectibles, Wearables, dan Buds Anda ke Dompet Polygon tertaut Anda untuk menyetornya.",
   "deposit.linkedWallet": "Dompet Tertaut:",
-  "deposit.refreshWallet": "Segarkan Dompet"
+  "deposit.refreshWallet": "Segarkan Dompet",
+  "ronin.comingSoon": "1 April - Gunakan dompet Ronin untuk membeli permata, mencetak NFT, berdagang & lainnya!",
+  "announcement.lockdown": "Untuk mempersiapkan $FLOWER, penarikan dan setoran $SFL akan dinonaktifkan mulai 24 Maret.",
+  "announcement.flowerGems": "Beli Permata dengan $FLOWER - akan datang Mei 2025",
+  "announcement.gasless": "Transaksi tanpa gas akan datang 1 April.",
+  "rocketman.intro": "Howdy Bumpkin, aku mencoba membangun menara bunga ke bulan!",
+  "rocketman.flower.coming": "$FLOWER akan datang",
+  "rocketman.flower.launch": "Pada tanggal 1 April, $FLOWER akan ditambahkan ke game!",
+  "rocketman.flower.compete": "Bersaing dalam tantangan bulanan untuk mendapatkan $FLOWER.",
+  "rocketman.flower.social": "Selesaikan tugas sosial, sebarkan berita, dan dapatkan $FLOWER.",
+  "rocketman.flower.eligible": "Pengguna Polygon, Ronin & BASE memenuhi syarat."
 }

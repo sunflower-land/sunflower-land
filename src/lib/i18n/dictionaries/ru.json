@@ -5381,5 +5381,15 @@
   "deposit.noCollectibles": "Предметы коллекционирования, носимые вещи или бутоны не найдены!",
   "deposit.addCollectiblesToPolygonWallet": "Добавьте свои коллекционные предметы, носимые вещи и бутоны в привязанный кошелек Polygon, чтобы внести их на счет.",
   "deposit.linkedWallet": "Связанный кошелек:",
-  "deposit.refreshWallet": "Обновить кошелек"
+  "deposit.refreshWallet": "Обновить кошелек",
+  "ronin.comingSoon": "1 апреля. Используйте кошелек Ronin для покупки драгоценных камней, создания NFT, торговли и многого другого!",
+  "announcement.lockdown": "Чтобы подготовиться к акции $FLOWER, снятие средств и депозиты в долларах SFL будут отключены с 24 марта.",
+  "announcement.flowerGems": "Покупайте драгоценные камни за $FLOWER - в мае 2025 года",
+  "announcement.gasless": "Сделки без газа начнутся 1 апреля.",
+  "rocketman.intro": "Привет, Бампкин, я пытаюсь построить цветочную башню на Луне!",
+  "rocketman.flower.coming": "Скоро появится $FLOWER",
+  "rocketman.flower.launch": "1 апреля в игру будет добавлен $FLOWER!",
+  "rocketman.flower.compete": "Соревнуйтесь в ежемесячных соревнованиях, чтобы заработать $FLOWER.",
+  "rocketman.flower.social": "Выполняйте социальные задания, распространяйте информацию и зарабатывайте $FLOWER.",
+  "rocketman.flower.eligible": "На участие допускаются пользователи Polygon, Ronin и BASE."
 }

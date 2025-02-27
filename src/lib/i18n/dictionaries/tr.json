@@ -5381,5 +5381,15 @@
   "deposit.noCollectibles": "Koleksiyon, Giyilebilir Ürün veya Tomurcuk Bulunamadı!",
   "deposit.addCollectiblesToPolygonWallet": "Koleksiyon Ürünlerinizi, Giyilebilir Cihazlarınızı ve Bud'larınızı bağlanmış Polygon Cüzdanınıza yatırmak için ekleyin.",
   "deposit.linkedWallet": "Bağlantılı Cüzdan:",
-  "deposit.refreshWallet": "Cüzdanı Yenile"
+  "deposit.refreshWallet": "Cüzdanı Yenile",
+  "ronin.comingSoon": "1 Nisan - Mücevher satın almak, NFT'ler oluşturmak, ticaret yapmak ve daha fazlasını yapmak için Ronin cüzdanını kullanın!",
+  "announcement.lockdown": "$FLOWER'a hazırlanmak için, $SFL para çekme ve para yatırma işlemleri 24 Mart'tan itibaren devre dışı bırakılacak.",
+  "announcement.flowerGems": "$FLOWER ile Mücevher satın alın - Mayıs 2025'te",
+  "announcement.gasless": "Gazsız işlemler 1 Nisan'da geliyor.",
+  "rocketman.intro": "Merhaba Bumpkin, Ay'a bir çiçek kulesi inşa etmeye çalışıyorum!",
+  "rocketman.flower.coming": "$FLOWER Geliyor",
+  "rocketman.flower.launch": "1 Nisan'da $FLOWER oyuna eklenecek!",
+  "rocketman.flower.compete": "$FLOWER kazanmak için aylık mücadelelerde yarışın.",
+  "rocketman.flower.social": "Sosyal görevleri tamamlayın, haberi yayın ve $FLOWER kazanın.",
+  "rocketman.flower.eligible": "Polygon, Ronin & BASE kullanıcıları uygundur."
 }

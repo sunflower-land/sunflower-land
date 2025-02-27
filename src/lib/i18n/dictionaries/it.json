@@ -5381,5 +5381,15 @@
   "deposit.noCollectibles": "Non sono stati trovati oggetti da collezione, indossabili o gemme!",
   "deposit.addCollectiblesToPolygonWallet": "Aggiungi i tuoi oggetti da collezione, indossabili e auricolari al tuo portafoglio Polygon collegato per depositarli.",
   "deposit.linkedWallet": "Portafoglio collegato:",
-  "deposit.refreshWallet": "Aggiorna portafoglio"
+  "deposit.refreshWallet": "Aggiorna portafoglio",
+  "ronin.comingSoon": "1 aprile - Usa il portafoglio Ronin per acquistare gemme, coniare NFT, fare trading e altro!",
+  "announcement.lockdown": "Per prepararsi a $FLOWER, i prelievi e i depositi in $SFL saranno disabilitati a partire dal 24 marzo.",
+  "announcement.flowerGems": "Acquista gemme con $FLOWER - in arrivo a maggio 2025",
+  "announcement.gasless": "Le transazioni senza gas arriveranno il 1 aprile.",
+  "rocketman.intro": "Salve Bumpkin, sto cercando di costruire una torre di fiori sulla luna!",
+  "rocketman.flower.coming": "$FLOWER sta arrivando",
+  "rocketman.flower.launch": "Il 1° aprile, $FLOWER verrà aggiunto al gioco!",
+  "rocketman.flower.compete": "Competi nelle sfide mensili per guadagnare $FLOWER.",
+  "rocketman.flower.social": "Completa le attività sociali, diffondi la notizia e guadagna $FLOWER.",
+  "rocketman.flower.eligible": "Gli utenti Polygon, Ronin e BASE sono idonei."
 }
