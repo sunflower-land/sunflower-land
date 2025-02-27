@@ -23,6 +23,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    Beetroot: new Decimal(100),
     Jin: new Decimal(1),
     Egg: new Decimal(100),
     Oil: new Decimal(50),
@@ -111,7 +112,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
   beehives: {},
   crimstones: {},
   flowers: {
-    discovered: {},
+    discovered: {
+      "Red Balloon Flower": ["Beetroot"],
+    },
     flowerBeds: {
       "1": {
         createdAt: 0,
