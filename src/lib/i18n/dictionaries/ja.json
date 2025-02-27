@@ -972,7 +972,6 @@
   "deliveryitem.deliver": "配信",
   "deposit.errorLoadingBalances": "残高の読み込み中にエラーが発生しました。",
   "deposit.yourPersonalWallet": "あなたのパーソナルウォレット",
-  "deposit.farmWillReceive": "農場には次のものが届きます。",
   "deposit.depositDidNotArrive": "デポジットが届きませんでしたか？",
   "deposit.goblinTaxInfo": "プレイヤーがSFLを出金すると、ゴブリン税が適用されます。",
   "deposit.sendToFarm": "農場に送る",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "果物の枝と茎を斧なしで切り刻む",
   "skill.noAxeNoWorries.debuff": "-1果物の枝と茎からの木材",
   "vip.ronin.purchase.warning": "ローニンNFT VIPアクティブ有効期限の 1 日前に戻って VIP を購入してください。",
-  "withdraw.sfl.disabled": "$FLOWERへの移行が完了するまでの間、トークンの出金は一時的に停止されます。"
+  "withdraw.sfl.disabled": "$FLOWERへの移行が完了するまでの間、トークンの出金は一時的に停止されます。",
+  "deposit.farmWillReceive": "あなたの農場は受け取ります",
+  "deposit.noCollectibles": "収集品、ウェアラブル、イヤホンが見つかりません！",
+  "deposit.addCollectiblesToPolygonWallet": "収集品、ウェアラブル、イヤホンをリンクされたポリゴンウォレットに追加して、入金してください。",
+  "deposit.linkedWallet": "リンクされたウォレット:",
+  "deposit.refreshWallet": "ウォレットを更新"
 }

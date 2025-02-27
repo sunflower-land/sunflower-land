@@ -918,7 +918,6 @@
   "deliveryitem.deliver": "提取",
   "deposit.errorLoadingBalances": "加载您的余额时出错。",
   "deposit.yourPersonalWallet": "您的个人钱包",
-  "deposit.farmWillReceive": "您的农场将收到：",
   "deposit.depositDidNotArrive": "存入没到？",
   "deposit.goblinTaxInfo": "当玩家提取任意 SFL 时，都会被征收哥布林税。",
   "deposit.sendToFarm": "送往农场",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "不用斧头砍掉水果的树枝和茎",
   "skill.noAxeNoWorries.debuff": "-1 根来自果枝和茎的木头",
   "vip.ronin.purchase.warning": "Ronin NFT VIP 活跃。在到期前 1 天退货以购买 VIP。",
-  "withdraw.sfl.disabled": "当我们完成向 $FLOWER 的迁移时，代币提款暂时暂停。"
+  "withdraw.sfl.disabled": "当我们完成向 $FLOWER 的迁移时，代币提款暂时暂停。",
+  "deposit.farmWillReceive": "您的农场将获得",
+  "deposit.noCollectibles": "未找到任何收藏品、可穿戴设备或耳机！",
+  "deposit.addCollectiblesToPolygonWallet": "将您的收藏品、可穿戴设备和耳机添加到关联的 Polygon 钱包中进行存款。",
+  "deposit.linkedWallet": "关联钱包：",
+  "deposit.refreshWallet": "刷新钱包"
 }

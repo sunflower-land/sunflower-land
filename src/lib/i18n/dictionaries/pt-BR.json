@@ -668,7 +668,6 @@
   "deliveryHelp.chest": "Construa relacionamentos com os Bumpkins completando vários pedidos para desbloquear recompensas extras.",
   "deposit.errorLoadingBalances": "Houve um erro ao carregar seus saldos.",
   "deposit.yourPersonalWallet": "Sua Carteira Pessoal",
-  "deposit.farmWillReceive": "Sua fazenda receberá",
   "deposit.depositDidNotArrive": "Depósito não chegou?",
   "deposit.goblinTaxInfo": "Quando os jogadores retiram qualquer SFL, um Imposto Goblin é aplicado.",
   "deposit.sendToFarm": "Enviar para a fazenda",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "Corte galhos e caules de frutas sem machados",
   "skill.noAxeNoWorries.debuff": "-1 madeira de galhos e caules de frutas",
   "vip.ronin.purchase.warning": "Ronin NFT VIP ativo. Devolva 1 dia antes do vencimento para comprar VIP.",
-  "withdraw.sfl.disabled": "As retiradas de tokens são temporariamente pausadas enquanto concluímos nossa migração para $FLOWER."
+  "withdraw.sfl.disabled": "As retiradas de tokens são temporariamente pausadas enquanto concluímos nossa migração para $FLOWER.",
+  "deposit.farmWillReceive": "Sua fazenda receberá",
+  "deposit.noCollectibles": "Não foram encontrados itens colecionáveis, vestíveis ou fones de ouvido!",
+  "deposit.addCollectiblesToPolygonWallet": "Adicione seus itens colecionáveis, vestíveis e fones de ouvido à sua carteira Polygon vinculada para depositá-los.",
+  "deposit.linkedWallet": "Carteira vinculada:",
+  "deposit.refreshWallet": "Atualizar carteira"
 }

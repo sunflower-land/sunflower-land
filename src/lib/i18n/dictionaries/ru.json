@@ -689,7 +689,6 @@
   "deposit.depositDidNotArrive": "Депозит не поступил?",
   "deposit.errorLoadingBalances": "Произошла ошибка при загрузке твоего баланса.",
   "deposit.farmAddress": "Адрес фермы",
-  "deposit.farmWillReceive": "Твоя ферма получит",
   "deposit.goblinTaxInfo": "Когда игроки выводят любое количество SFL, гоблинам платится налог.",
   "deposit.level": "3 уровень",
   "deposit.noSflOrCollectibles": "SFL или коллекционные предметы не найдены!",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "Измельчите ветки и стебли фруктов без топоров",
   "skill.noAxeNoWorries.debuff": "-1 древесина из фруктовых веток и стеблей",
   "vip.ronin.purchase.warning": "Ronin NFT VIP-активирован. Вернитесь за 1 день до истечения срока действия, чтобы приобрести VIP.",
-  "withdraw.sfl.disabled": "Вывод токенов временно приостановлен, пока мы завершим переход на $FLOWER."
+  "withdraw.sfl.disabled": "Вывод токенов временно приостановлен, пока мы завершим переход на $FLOWER.",
+  "deposit.farmWillReceive": "Ваша ферма получит",
+  "deposit.noCollectibles": "Предметы коллекционирования, носимые вещи или бутоны не найдены!",
+  "deposit.addCollectiblesToPolygonWallet": "Добавьте свои коллекционные предметы, носимые вещи и бутоны в привязанный кошелек Polygon, чтобы внести их на счет.",
+  "deposit.linkedWallet": "Связанный кошелек:",
+  "deposit.refreshWallet": "Обновить кошелек"
 }

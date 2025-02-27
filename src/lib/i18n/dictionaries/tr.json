@@ -698,7 +698,6 @@
   "deliveryitem.deliver": "Teslim etmek",
   "deposit.errorLoadingBalances": "Bakiyeniz yüklenirken bir hata oluştu.",
   "deposit.yourPersonalWallet": "Kişisel Cüzdanınız",
-  "deposit.farmWillReceive": "Çiftliğiniz alacak",
   "deposit.depositDidNotArrive": "Depozito ulaşmadı mı?",
   "deposit.goblinTaxInfo": "Oyuncular herhangi bir SFL'yi geri çektiklerinde Goblin Vergisi uygulanır.",
   "deposit.sendToFarm": "Çiftliğe gönder",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "Meyve dallarını ve saplarını baltasız doğrayın",
   "skill.noAxeNoWorries.debuff": "-1 meyve dallarından ve saplarından ağaç",
   "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. VIP satın almak için son kullanma tarihinden 1 gün önce iade edin.",
-  "withdraw.sfl.disabled": "Biz $FLOWER'a geçişimizi tamamlarken token çekme işlemleri geçici olarak duraklatılır."
+  "withdraw.sfl.disabled": "Biz $FLOWER'a geçişimizi tamamlarken token çekme işlemleri geçici olarak duraklatılır.",
+  "deposit.farmWillReceive": "Çiftliğiniz alacak",
+  "deposit.noCollectibles": "Koleksiyon, Giyilebilir Ürün veya Tomurcuk Bulunamadı!",
+  "deposit.addCollectiblesToPolygonWallet": "Koleksiyon Ürünlerinizi, Giyilebilir Cihazlarınızı ve Bud'larınızı bağlanmış Polygon Cüzdanınıza yatırmak için ekleyin.",
+  "deposit.linkedWallet": "Bağlantılı Cüzdan:",
+  "deposit.refreshWallet": "Cüzdanı Yenile"
 }

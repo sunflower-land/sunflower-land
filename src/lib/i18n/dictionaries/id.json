@@ -972,7 +972,6 @@
   "deliveryitem.deliver": "Menyampaikan",
   "deposit.errorLoadingBalances": "Terjadi kesalahan saat memuat saldo Anda.",
   "deposit.yourPersonalWallet": "Dompet Pribadi Anda",
-  "deposit.farmWillReceive": "Peternakan Anda akan menerima:",
   "deposit.depositDidNotArrive": "Deposit tidak sampai?",
   "deposit.goblinTaxInfo": "Ketika pemain menarik SFL apa pun, Pajak Goblin diterapkan.",
   "deposit.sendToFarm": "Kirim ke peternakan",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "Potong cabang dan batang buah tanpa kapak",
   "skill.noAxeNoWorries.debuff": "-1 kayu dari cabang dan batang buah",
   "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. Kembali 1 hari sebelum kedaluwarsa untuk membeli VIP.",
-  "withdraw.sfl.disabled": "Penarikan token dijeda sementara saat kami menyelesaikan migrasi kami ke $FLOWER."
+  "withdraw.sfl.disabled": "Penarikan token dijeda sementara saat kami menyelesaikan migrasi kami ke $FLOWER.",
+  "deposit.farmWillReceive": "Peternakan Anda akan menerima",
+  "deposit.noCollectibles": "Tidak Ada Koleksi, Pakaian, atau Tunas yang Ditemukan!",
+  "deposit.addCollectiblesToPolygonWallet": "Tambahkan Collectibles, Wearables, dan Buds Anda ke Dompet Polygon tertaut Anda untuk menyetornya.",
+  "deposit.linkedWallet": "Dompet Tertaut:",
+  "deposit.refreshWallet": "Segarkan Dompet"
 }

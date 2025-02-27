@@ -963,7 +963,6 @@
   "deliveryitem.deliver": "Entregar",
   "deposit.errorLoadingBalances": "Se ha producido un error al cargar tus saldos.",
   "deposit.yourPersonalWallet": "Tu billetera personal",
-  "deposit.farmWillReceive": "Su granja recibirá:",
   "deposit.depositDidNotArrive": "¿No ha llegado el depósito?",
   "deposit.goblinTaxInfo": "Cuando los jugadores retiran cualquier SFL, se aplica un impuesto a los duendes.",
   "deposit.sendToFarm": "Enviar a la granja",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "Picar ramas y tallos de frutas sin hachas",
   "skill.noAxeNoWorries.debuff": "-1 madera de ramas y tallos de frutas",
   "vip.ronin.purchase.warning": "Ronin NFT VIP activo. Devuélvelo 1 día antes de que caduque para comprar VIP.",
-  "withdraw.sfl.disabled": "Los retiros de tokens se detienen temporalmente mientras completamos nuestra migración a $FLOWER."
+  "withdraw.sfl.disabled": "Los retiros de tokens se detienen temporalmente mientras completamos nuestra migración a $FLOWER.",
+  "deposit.farmWillReceive": "Tu granja recibirá",
+  "deposit.noCollectibles": "¡No se encontraron objetos coleccionables, wearables ni auriculares!",
+  "deposit.addCollectiblesToPolygonWallet": "Añade tus objetos coleccionables, wearables y auriculares a tu monedero Polygon vinculado para depositarlos.",
+  "deposit.linkedWallet": "Billetera vinculada:",
+  "deposit.refreshWallet": "Actualizar billetera"
 }

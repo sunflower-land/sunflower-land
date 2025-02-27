@@ -693,7 +693,6 @@
   "deliveryitem.deliver": "Livrer",
   "deposit.errorLoadingBalances": "Une erreur s'est produite lors du chargement de vos soldes.",
   "deposit.yourPersonalWallet": "Votre Portefeuille Personnel",
-  "deposit.farmWillReceive": "Votre ferme recevra :",
   "deposit.depositDidNotArrive": "Le dépôt n'est pas arrivé?",
   "deposit.goblinTaxInfo": "Lorsque les joueurs retirent des SFL, une taxe des Gobelins est appliquée.",
   "deposit.sendToFarm": "Envoyer à la ferme",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "Hachez les branches et les tiges des fruits sans hache",
   "skill.noAxeNoWorries.debuff": "-1 bois provenant de branches et de tiges de fruits",
   "vip.ronin.purchase.warning": "Ronin NFT VIP actif. Retournez 1 jour avant l'expiration pour acheter VIP.",
-  "withdraw.sfl.disabled": "Les retraits de jetons sont temporairement suspendus pendant que nous terminons notre migration vers $FLOWER."
+  "withdraw.sfl.disabled": "Les retraits de jetons sont temporairement suspendus pendant que nous terminons notre migration vers $FLOWER.",
+  "deposit.farmWillReceive": "Votre ferme recevra",
+  "deposit.noCollectibles": "Aucun objet de collection, objet portable ou écouteur trouvé !",
+  "deposit.addCollectiblesToPolygonWallet": "Ajoutez vos objets de collection, appareils portables et écouteurs à votre portefeuille Polygon associé afin de les déposer.",
+  "deposit.linkedWallet": "Portefeuille lié :",
+  "deposit.refreshWallet": "Actualiser le portefeuille"
 }

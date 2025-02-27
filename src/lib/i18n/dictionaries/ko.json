@@ -972,7 +972,6 @@
   "deliveryitem.deliver": "배달",
   "deposit.errorLoadingBalances": "잔액을 로드하는 중 오류가 발생했습니다.",
   "deposit.yourPersonalWallet": "나만의 지갑",
-  "deposit.farmWillReceive": "농장에는 다음이 제공됩니다.",
   "deposit.depositDidNotArrive": "보증금이 도착하지 않았나요?",
   "deposit.goblinTaxInfo": "플레이어가 SFL을 인출하면 고블린 세금이 적용됩니다.",
   "deposit.sendToFarm": "농장으로 보내기",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "도끼없이 과일 가지와 줄기를 자릅니다.",
   "skill.noAxeNoWorries.debuff": "-열매 가지와 줄기에서 나온 나무",
   "vip.ronin.purchase.warning": "로닌 NFT VIP 액티브.만료 1일 전에 돌아오시면 VIP를 구매하실 수 있습니다.",
-  "withdraw.sfl.disabled": "$FLOWER로의 마이그레이션이 완료되는 동안 토큰 인출은 일시적으로 일시 중지됩니다."
+  "withdraw.sfl.disabled": "$FLOWER로의 마이그레이션이 완료되는 동안 토큰 인출은 일시적으로 일시 중지됩니다.",
+  "deposit.farmWillReceive": "농장에서 받을 수 있는 혜택",
+  "deposit.noCollectibles": "수집품, 웨어러블 또는 이어폰을 찾을 수 없습니다!",
+  "deposit.addCollectiblesToPolygonWallet": "수집품, 웨어러블 및 버드를 연결된 Polygon Wallet에 추가하여 입금하세요.",
+  "deposit.linkedWallet": "연동 지갑:",
+  "deposit.refreshWallet": "리프레시 월렛"
 }

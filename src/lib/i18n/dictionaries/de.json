@@ -972,7 +972,6 @@
   "deliveryitem.deliver": "Liefern",
   "deposit.errorLoadingBalances": "Beim Laden Ihres Guthabens ist ein Fehler aufgetreten.",
   "deposit.yourPersonalWallet": "Deine persönliche Geldbörse",
-  "deposit.farmWillReceive": "Ihre Farm erhält:",
   "deposit.depositDidNotArrive": "Die Anzahlung ist nicht angekommen?",
   "deposit.goblinTaxInfo": "Wenn Spieler SFL abheben, wird eine Goblinsteuer erhoben.",
   "deposit.sendToFarm": "Zur Farm schicken",
@@ -5377,5 +5376,10 @@
   "skill.noAxeNoWorries.buff": "Fruchtzweige und Stängel ohne Äxte hacken",
   "skill.noAxeNoWorries.debuff": "-1 Holz aus Fruchtzweigen und Stängeln",
   "vip.ronin.purchase.warning": "Ronin NFT VIP aktiv. Kehren Sie 1 Tag vor Ablauf zurück, um VIP zu kaufen.",
-  "withdraw.sfl.disabled": "Token-Auszahlungen werden vorübergehend unterbrochen, während wir unsere Migration zu $FLOWER abschließen."
+  "withdraw.sfl.disabled": "Token-Auszahlungen werden vorübergehend unterbrochen, während wir unsere Migration zu $FLOWER abschließen.",
+  "deposit.farmWillReceive": "Ihre Farm erhält",
+  "deposit.noCollectibles": "Keine Sammlerstücke, Wearables oder Buds gefunden!",
+  "deposit.addCollectiblesToPolygonWallet": "Füge deine Sammlerstücke, Wearables und Buds zu deiner verknüpften Polygon-Wallet hinzu, um sie einzuzahlen.",
+  "deposit.linkedWallet": "Verknüpfte Geldbörse:",
+  "deposit.refreshWallet": "Wallet aktualisieren"
 }
