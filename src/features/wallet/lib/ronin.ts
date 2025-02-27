@@ -8,9 +8,5 @@ export function isRonin({ game }: { game: GameState }) {
     return true;
   }
 
-  if (localStorage.getItem("isRonin")) {
-    return true;
-  }
-
   return false;
 }
