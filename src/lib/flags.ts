@@ -64,7 +64,9 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 const featureFlags = {
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(new Date("2025-03-21")),
+  DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
+    new Date("2025-03-24T00:00:00Z"),
+  ),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
