@@ -78,15 +78,13 @@ export const MarketplaceNavigation: React.FC = () => {
     game: gameService.getSnapshot().context.state,
   });
 
+  const quickswapDisabled = hasFeatureAccess(
+    gameService.getSnapshot().context.state,
+    "DISABLE_BLOCKCHAIN_ACTIONS",
+  );
+
   const openQuickswap = () => {
-    if (
-      hasFeatureAccess(
-        gameService.getSnapshot().context.state,
-        "DISABLE_BLOCKCHAIN_ACTIONS",
-      )
-    ) {
-      return;
-    }
+    if (quickswapDisabled) return;
     setShowQuickswap(true);
   };
 
@@ -95,7 +93,11 @@ export const MarketplaceNavigation: React.FC = () => {
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
           <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
-          <EstimatedPrice price={price} onClick={openQuickswap} />
+          <EstimatedPrice
+            price={price}
+            onClick={openQuickswap}
+            quickswapDisabled={quickswapDisabled}
+          />
         </CloseButtonPanel>
       </Modal>
 
@@ -152,7 +154,11 @@ export const MarketplaceNavigation: React.FC = () => {
             </div>
           </InnerPanel>
 
-          <EstimatedPrice price={price} onClick={openQuickswap} />
+          <EstimatedPrice
+            price={price}
+            onClick={openQuickswap}
+            quickswapDisabled={quickswapDisabled}
+          />
 
           {!hasTradeReputation && (
             <InnerPanel
@@ -427,10 +433,11 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
   );
 };
 
-const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
-  price,
-  onClick,
-}) => {
+const EstimatedPrice: React.FC<{
+  price: number;
+  onClick: () => void;
+  quickswapDisabled: boolean;
+}> = ({ price, onClick, quickswapDisabled }) => {
   const { t } = useTranslation();
   return (
     <InnerPanel className="cursor-pointer mb-1" onClick={onClick}>
@@ -439,7 +446,9 @@ const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
           <img src={sflIcon} className="w-6" />
           <span className="text-sm ml-2">{`$${price.toFixed(4)}`}</span>
         </div>
-        <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
+        {!quickswapDisabled && (
+          <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
+        )}
       </div>
       <p className="text-xxs italic">{t("marketplace.estimated.price")}</p>
     </InnerPanel>
