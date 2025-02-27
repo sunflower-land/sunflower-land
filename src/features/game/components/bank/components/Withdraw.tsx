@@ -13,11 +13,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
-import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 
 const getPageIcon = (page: Page) => {
@@ -69,7 +68,7 @@ type Page =
 
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
   const withdrawSFLDisabled = hasFeatureAccess(
-    {} as GameState,
+    INITIAL_FARM,
     "DISABLE_BLOCKCHAIN_ACTIONS",
   );
 
