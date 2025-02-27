@@ -16,8 +16,6 @@ import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getSeasonalTicket } from "../types/seasons";
-import { CROP_SEEDS } from "../types/crops";
-import { PATCH_FRUIT_SEEDS } from "../types/fruits";
 import { getObjectEntries } from "../expansion/lib/utils";
 
 // Our "zoom" factor
@@ -108,40 +106,40 @@ export const INITIAL_STOCK = (
   }
 
   const seeds: Record<SeedName, Decimal> = {
-    "Sunflower Seed": new Decimal(400),
-    "Potato Seed": new Decimal(200),
-    "Rhubarb Seed": new Decimal(200),
-    "Zucchini Seed": new Decimal(200),
-    "Pumpkin Seed": new Decimal(150),
-    "Carrot Seed": new Decimal(100),
-    "Cabbage Seed": new Decimal(90),
-    "Yam Seed": new Decimal(90),
-    "Soybean Seed": new Decimal(90),
-    "Broccoli Seed": new Decimal(90),
-    "Beetroot Seed": new Decimal(80),
-    "Pepper Seed": new Decimal(80),
-    "Cauliflower Seed": new Decimal(80),
-    "Parsnip Seed": new Decimal(60),
-    "Eggplant Seed": new Decimal(50),
-    "Corn Seed": new Decimal(50),
-    "Onion Seed": new Decimal(50),
-    "Turnip Seed": new Decimal(40),
-    "Radish Seed": new Decimal(40),
-    "Wheat Seed": new Decimal(40),
-    "Kale Seed": new Decimal(30),
-    "Artichoke Seed": new Decimal(30),
-    "Barley Seed": new Decimal(30),
+    "Sunflower Seed": new Decimal(800),
+    "Potato Seed": new Decimal(400),
+    "Rhubarb Seed": new Decimal(400),
+    "Zucchini Seed": new Decimal(400),
+    "Pumpkin Seed": new Decimal(300),
+    "Carrot Seed": new Decimal(200),
+    "Cabbage Seed": new Decimal(180),
+    "Yam Seed": new Decimal(180),
+    "Soybean Seed": new Decimal(180),
+    "Broccoli Seed": new Decimal(180),
+    "Beetroot Seed": new Decimal(160),
+    "Pepper Seed": new Decimal(160),
+    "Cauliflower Seed": new Decimal(160),
+    "Parsnip Seed": new Decimal(120),
+    "Eggplant Seed": new Decimal(100),
+    "Corn Seed": new Decimal(100),
+    "Onion Seed": new Decimal(100),
+    "Turnip Seed": new Decimal(80),
+    "Radish Seed": new Decimal(80),
+    "Wheat Seed": new Decimal(80),
+    "Kale Seed": new Decimal(60),
+    "Artichoke Seed": new Decimal(60),
+    "Barley Seed": new Decimal(60),
 
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
     "Rice Seed": new Decimal(10),
 
-    "Tomato Seed": new Decimal(10),
-    "Blueberry Seed": new Decimal(10),
-    "Orange Seed": new Decimal(10),
-    "Apple Seed": new Decimal(10),
-    "Banana Plant": new Decimal(10),
-    "Lemon Seed": new Decimal(10),
+    "Tomato Seed": new Decimal(60),
+    "Lemon Seed": new Decimal(50),
+    "Blueberry Seed": new Decimal(40),
+    "Orange Seed": new Decimal(30),
+    "Apple Seed": new Decimal(20),
+    "Banana Plant": new Decimal(20),
 
     "Sunpetal Seed": new Decimal(16),
     "Bloom Seed": new Decimal(8),
@@ -166,12 +164,6 @@ export const INITIAL_STOCK = (
         (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(1.2).toNumber()))),
     );
   }
-
-  getKeys(seeds).forEach((seed) => {
-    if (seed in CROP_SEEDS || seed in PATCH_FRUIT_SEEDS) {
-      seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(2).toNumber()));
-    }
-  });
 
   return {
     // Tools
