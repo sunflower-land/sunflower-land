@@ -11,6 +11,8 @@ import {
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
 import { polygon, polygonAmoy } from "viem/chains";
+import { hasFeatureAccess } from "lib/flags";
+import { INITIAL_FARM } from "features/game/lib/constants";
 
 const address = CONFIG.WITHDRAWAL_CONTRACT;
 
@@ -38,6 +40,10 @@ export async function withdrawSFLTransaction({
   sfl,
 }: WithdrawSFLParams): Promise<string> {
   const oldSessionId = sessionId;
+
+  if (hasFeatureAccess(INITIAL_FARM, "DISABLE_BLOCKCHAIN_ACTIONS")) {
+    throw new Error("Withdrawals are disabled");
+  }
 
   const quote = await simulateContract(config, {
     abi: QuoterABI,
