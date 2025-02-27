@@ -17,6 +17,11 @@ import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getSeasonalTicket } from "../types/seasons";
 import { getObjectEntries } from "../expansion/lib/utils";
+import {
+  isFullMoonBerry,
+  isGreenhouseCropSeed,
+  isGreenhouseFruitSeed,
+} from "../events/landExpansion/seedBought";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -134,10 +139,10 @@ export const INITIAL_STOCK = (
     "Olive Seed": new Decimal(10),
     "Rice Seed": new Decimal(10),
 
-    "Tomato Seed": new Decimal(60),
-    "Lemon Seed": new Decimal(50),
-    "Blueberry Seed": new Decimal(40),
-    "Orange Seed": new Decimal(30),
+    "Tomato Seed": new Decimal(30),
+    "Lemon Seed": new Decimal(30),
+    "Blueberry Seed": new Decimal(25),
+    "Orange Seed": new Decimal(25),
     "Apple Seed": new Decimal(20),
     "Banana Plant": new Decimal(20),
 
@@ -180,19 +185,29 @@ export const INITIAL_STOCK = (
 export const INVENTORY_LIMIT = (
   state?: GameState,
 ): Record<SeedName, Decimal> => {
-  return getObjectEntries(INITIAL_STOCK(state)).reduce(
-    (acc, [key, value]) => {
-      if (!isSeed(key)) return acc;
+  return {
+    ...getObjectEntries(INITIAL_STOCK(state)).reduce(
+      (acc, [key, value]) => {
+        if (!isSeed(key)) return acc;
+        if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key))
+          return {
+            ...acc,
+            [key]: new Decimal(
+              Math.ceil((value ?? new Decimal(0)).mul(5).toNumber()),
+            ),
+          };
+        if (isFullMoonBerry(key)) return { ...acc, [key]: new Decimal(1) };
 
-      return {
-        ...acc,
-        [key]: new Decimal(
-          Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
-        ),
-      };
-    },
-    {} as Record<SeedName, Decimal>,
-  );
+        return {
+          ...acc,
+          [key]: new Decimal(
+            Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
+          ),
+        };
+      },
+      {} as Record<SeedName, Decimal>,
+    ),
+  };
 };
 
 export const INITIAL_GOLD_MINES: GameState["gold"] = {
