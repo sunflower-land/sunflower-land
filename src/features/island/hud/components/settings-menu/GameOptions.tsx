@@ -61,6 +61,7 @@ import { isSupported } from "firebase/messaging";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
+import { LivenessQuickStartReact } from "features/retreat/components/personhood/Rekognition";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -193,6 +194,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
+
+      <Button
+        onClick={() => onSubMenuClick("rekognition")}
+        className="mb-1 relative"
+      >
+        <span>{t("gameOptions.rekognition")}</span>
+      </Button>
 
       <Button
         onClick={() => onSubMenuClick("notifications")}
@@ -408,6 +416,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.notifications"),
     parent: "main",
     content: (props) => <Notifications {...props} />,
+  },
+  rekognition: {
+    title: translate("gameOptions.rekognition"),
+    parent: "main",
+    content: LivenessQuickStartReact,
   },
 
   // Blockchain Settings
