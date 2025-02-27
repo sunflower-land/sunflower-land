@@ -21,7 +21,11 @@ import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
+import {
+  isCropSeed,
+  SEASONAL_SEEDS,
+  SeedName,
+} from "features/game/types/seeds";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "features/game/types/craftables";
@@ -238,7 +242,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // plant
     if (!crop) {
-      if (!!SEEDS[seed] && !SEASONAL_SEEDS[season.season].includes(seed)) {
+      if (isCropSeed(seed) && !SEASONAL_SEEDS[season.season].includes(seed)) {
         setShowSeasonalSeed(true);
       }
 
