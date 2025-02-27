@@ -6,7 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import metamaskIcon from "assets/icons/metamask_pixel.png";
 import walletIcon from "assets/icons/wallet.png";
 import fslIcon from "assets/icons/fsl_black.svg";
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import world from "assets/icons/world.png";
 
 import { Label } from "components/ui/Label";
@@ -34,7 +34,6 @@ import {
 import { useActor } from "@xstate/react";
 import { useConnect } from "wagmi";
 import { fslAuthorization } from "../actions/oauth";
-import { hasFeatureAccess } from "lib/flags";
 
 const CONTENT_HEIGHT = 365;
 
@@ -178,26 +177,25 @@ const MainWallets: React.FC<Props & Page> = ({
           {"Metamask"}
         </div>
       </Button>
-      {hasFeatureAccess(INITIAL_FARM, "RONIN_LOGIN") && (
-        <Button
-          className="mb-1 py-2 text-sm relative justify-start"
-          onClick={() => setPage("ronin")}
+      <Button
+        className="mb-1 py-2 text-sm relative justify-start"
+        onClick={() => setPage("ronin")}
+      >
+        <Label
+          type="info"
+          className="absolute top-1/2 -translate-y-1/2 right-1"
         >
-          <Label
-            type="info"
-            className="absolute top-1/2 -translate-y-1/2 right-1"
-          >
-            {t("featured")}
-          </Label>
-          <div className="px-8 mr-2 flex ">
-            <img
-              src={SUNNYSIDE.icons.roninIcon}
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
-            />
-            {"Ronin"}
-          </div>
-        </Button>
-      )}
+          {t("featured")}
+        </Label>
+        <div className="px-8 mr-2 flex ">
+          <img
+            src={SUNNYSIDE.icons.roninIcon}
+            className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+          />
+          {"Ronin"}
+        </div>
+      </Button>
+
       {showAll && (
         <Button
           className="mb-1 py-2 text-sm relative"
@@ -312,12 +310,7 @@ const PWAWallets: React.FC<
           {`Sequence`}
         </div>
       </Button>
-      {hasFeatureAccess(INITIAL_FARM, "RONIN_LOGIN") && (
-        <RoninWallets
-          onConnect={onConnect}
-          setRoninDeepLink={setRoninDeepLink}
-        />
-      )}
+      <RoninWallets onConnect={onConnect} setRoninDeepLink={setRoninDeepLink} />
       <Button
         className="mb-1 py-2 text-sm relative"
         onClick={() => {
@@ -423,11 +416,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
         {/** Metamask and Ronin have custom buttons - don't show the injected connectors */}
         {eip6963Connectors
           .filter((connector) => connector.name !== "MetaMask")
-          .filter((connector) =>
-            hasFeatureAccess(INITIAL_FARM, "RONIN_LOGIN")
-              ? connector.name !== "Ronin Wallet"
-              : true,
-          )
+          .filter((connector) => connector.name !== "Ronin Wallet")
           .map((connector) => (
             <Button
               className="mb-1 py-2 text-sm relative"
@@ -507,14 +496,13 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               />
             </>
           )}
-          {hasFeatureAccess(INITIAL_FARM, "RONIN_LOGIN") &&
-            page === "ronin" && (
-              <RoninWallets
-                onConnect={onConnect}
-                showAll={showAll}
-                setRoninDeepLink={setRoninDeepLink}
-              />
-            )}
+          {page === "ronin" && (
+            <RoninWallets
+              onConnect={onConnect}
+              showAll={showAll}
+              setRoninDeepLink={setRoninDeepLink}
+            />
+          )}
         </>
       )}
     </>
