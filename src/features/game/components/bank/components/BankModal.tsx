@@ -7,6 +7,7 @@ import withdrawIcon from "assets/icons/withdraw.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "../../CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
+import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 
 interface Props {
   farmAddress: string;
@@ -17,14 +18,17 @@ export const BankModal: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   return (
-    <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES["greedclaw"]}
-      tabs={[{ icon: withdrawIcon, name: t("withdraw") }]}
-      onClose={onClose}
-    >
-      <GameWallet action="withdraw">
-        <Withdraw onClose={onClose} />
-      </GameWallet>
-    </CloseButtonPanel>
+    <>
+      <CloseButtonPanel
+        bumpkinParts={NPC_WEARABLES["greedclaw"]}
+        tabs={[{ icon: withdrawIcon, name: t("withdraw") }]}
+        onClose={onClose}
+      >
+        <GameWallet action="withdraw">
+          <Withdraw onClose={onClose} />
+        </GameWallet>
+      </CloseButtonPanel>
+      <LockdownWidget />
+    </>
   );
 };

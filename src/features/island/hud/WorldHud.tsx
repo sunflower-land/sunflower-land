@@ -26,6 +26,7 @@ import { MarketplaceButton } from "./components/MarketplaceButton";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 
 import chest from "assets/icons/chest.png";
+import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -153,6 +154,7 @@ const HudComponent: React.FC = () => {
                 onClose={handleDepositModal}
               />
             </CloseButtonPanel>
+            <LockdownWidget />
           </Modal>
         )}
       </HudContainer>

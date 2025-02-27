@@ -5541,5 +5541,15 @@
   "news.whatsOn": "What's happening in Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 is launching soon!",
   "vip.ronin.purchase.warning": "Ronin NFT VIP active. Return 1 day before expiry to purchase VIP.",
-  "withdraw.sfl.disabled": "Token withdrawals are temporarily paused while we complete our migration to $FLOWER."
+  "withdraw.sfl.disabled": "Token withdrawals are temporarily paused while we complete our migration to $FLOWER.",
+  "ronin.comingSoon": "April 1st - Use Ronin wallet to purchase gems, mint NFTs, trade & more!",
+  "announcement.lockdown": "To prepare for $FLOWER, $SFL withdrawals and deposits will be disabled from March 24th.",
+  "announcement.flowerGems": "Buy Gems with $FLOWER - coming May 2025",
+  "announcement.gasless": "Gasless transactions are coming April 1st.",
+  "rocketman.intro": "Howdy Bumpkin, I'm trying to build a flower tower to the moon!",
+  "rocketman.flower.coming": "$FLOWER is coming",
+  "rocketman.flower.launch": "On April 1st, $FLOWER will be added to the game!",
+  "rocketman.flower.compete": "Compete in monthly challenges to earn $FLOWER.",
+  "rocketman.flower.social": "Complete social tasks, spread the word, and earn $FLOWER.",
+  "rocketman.flower.eligible": "Polygon, Ronin & BASE users are eligible."
 }

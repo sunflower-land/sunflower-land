@@ -33,6 +33,8 @@ import { VIPItems } from "../../../game/components/modal/components/VIPItems";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
+import { RoninSupportWidget } from "features/wallet/components/PolygonRequired";
+import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
 
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
@@ -283,6 +285,8 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
           {tab === 2 && <VIPItems onClose={onClose} />}
         </CloseButtonPanel>
       )}
+      <RoninSupportWidget />
+      <BuyGemsWidget />
     </Modal>
   );
 };
