@@ -25,6 +25,8 @@ import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 
+import chest from "assets/icons/chest.png";
+
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
@@ -57,6 +59,7 @@ const HudComponent: React.FC = () => {
   };
 
   const farmAddress = gameService.state?.context?.farmAddress;
+  const linkedWallet = gameService.state?.context?.linkedWallet;
   const isFullUser = farmAddress !== undefined;
   const isTutorial = gameState.context.state.island.type === "basic";
   return (
@@ -128,17 +131,23 @@ const HudComponent: React.FC = () => {
           <Save />
           <Settings isFarming={false} />
         </div>
-        {farmAddress && (
+        {farmAddress && linkedWallet && (
           <Modal
             show={showDepositModal}
             onHide={() => setShowDepositModal(false)}
           >
             <CloseButtonPanel
-              title={depositDataLoaded ? t("deposit") : undefined}
               onClose={depositDataLoaded ? handleDepositModal : undefined}
+              tabs={[
+                {
+                  icon: chest,
+                  name: t("deposit"),
+                },
+              ]}
             >
               <Deposit
                 farmAddress={farmAddress}
+                linkedWallet={linkedWallet}
                 onDeposit={handleDeposit}
                 onLoaded={(loaded) => setDepositDataLoaded(loaded)}
                 onClose={handleDepositModal}
