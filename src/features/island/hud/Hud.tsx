@@ -33,6 +33,7 @@ import {
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -47,6 +48,7 @@ const HudComponent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const farmAddress = useSelector(gameService, _farmAddress);
+  const linkedWallet = useSelector(gameService, _linkedWallet);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
@@ -203,6 +205,7 @@ const HudComponent: React.FC<{
 
         <DepositModal
           farmAddress={farmAddress ?? ""}
+          linkedWallet={linkedWallet ?? ""}
           handleClose={() => setShowDepositModal(false)}
           handleDeposit={handleDeposit}
           showDepositModal={showDepositModal}
