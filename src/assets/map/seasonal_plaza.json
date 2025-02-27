@@ -9203,12 +9203,23 @@
           "width": 16,
           "x": 32,
           "y": 297.6
+        },
+        {
+          "height": 16,
+          "id": 302,
+          "name": "",
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 80,
+          "y": 9.6
         }
       ],
       "opacity": 1,
       "tintcolor": "#ff0000",
       "type": "objectgroup",
-      "visible": false,
+      "visible": true,
       "x": 0,
       "y": 0
     },
@@ -9535,7 +9546,7 @@
     }
   ],
   "nextlayerid": 159,
-  "nextobjectid": 302,
+  "nextobjectid": 303,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.11.0",
