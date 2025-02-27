@@ -44,6 +44,7 @@ import {
   hasReputation,
   Reputation,
 } from "features/game/lib/reputation";
+import { hasFeatureAccess } from "lib/flags";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -77,15 +78,24 @@ export const MarketplaceNavigation: React.FC = () => {
     game: gameService.getSnapshot().context.state,
   });
 
+  const openQuickswap = () => {
+    if (
+      hasFeatureAccess(
+        gameService.getSnapshot().context.state,
+        "DISABLE_BLOCKCHAIN_ACTIONS",
+      )
+    ) {
+      return;
+    }
+    setShowQuickswap(true);
+  };
+
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
           <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
-          <EstimatedPrice
-            price={price}
-            onClick={() => setShowQuickswap(true)}
-          />
+          <EstimatedPrice price={price} onClick={openQuickswap} />
         </CloseButtonPanel>
       </Modal>
 
@@ -142,10 +152,7 @@ export const MarketplaceNavigation: React.FC = () => {
             </div>
           </InnerPanel>
 
-          <EstimatedPrice
-            price={price}
-            onClick={() => setShowQuickswap(true)}
-          />
+          <EstimatedPrice price={price} onClick={openQuickswap} />
 
           {!hasTradeReputation && (
             <InnerPanel
