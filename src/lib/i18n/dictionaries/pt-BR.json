@@ -5376,5 +5376,6 @@
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, parece que você é um caipira básico. Eu só negocio com um Cropkeeper.",
   "skill.noAxeNoWorries.buff": "Corte galhos e caules de frutas sem machados",
   "skill.noAxeNoWorries.debuff": "-1 madeira de galhos e caules de frutas",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP ativo. Devolva 1 dia antes do vencimento para comprar VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP ativo. Devolva 1 dia antes do vencimento para comprar VIP.",
+  "withdraw.sfl.disabled": "As retiradas de tokens são temporariamente pausadas enquanto concluímos nossa migração para $FLOWER."
 }

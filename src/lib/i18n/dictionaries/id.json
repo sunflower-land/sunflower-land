@@ -5376,5 +5376,6 @@
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, sepertinya kamu adalah Bumpkin dasar. Saya hanya berdagang dengan Cropkeeper.",
   "skill.noAxeNoWorries.buff": "Potong cabang dan batang buah tanpa kapak",
   "skill.noAxeNoWorries.debuff": "-1 kayu dari cabang dan batang buah",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. Kembali 1 hari sebelum kedaluwarsa untuk membeli VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktif. Kembali 1 hari sebelum kedaluwarsa untuk membeli VIP.",
+  "withdraw.sfl.disabled": "Penarikan token dijeda sementara saat kami menyelesaikan migrasi kami ke $FLOWER."
 }

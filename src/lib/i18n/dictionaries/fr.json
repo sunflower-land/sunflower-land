@@ -5376,5 +5376,6 @@
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, on dirait que tu es un Bumpkin basique. Je n'échange qu'avec un Cropkeeper.",
   "skill.noAxeNoWorries.buff": "Hachez les branches et les tiges des fruits sans hache",
   "skill.noAxeNoWorries.debuff": "-1 bois provenant de branches et de tiges de fruits",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP actif. Retournez 1 jour avant l'expiration pour acheter VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP actif. Retournez 1 jour avant l'expiration pour acheter VIP.",
+  "withdraw.sfl.disabled": "Les retraits de jetons sont temporairement suspendus pendant que nous terminons notre migration vers $FLOWER."
 }

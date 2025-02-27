@@ -5376,5 +5376,6 @@
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, parece que eres un patán básico. Solo comercio con un Cropkeeper.",
   "skill.noAxeNoWorries.buff": "Picar ramas y tallos de frutas sin hachas",
   "skill.noAxeNoWorries.debuff": "-1 madera de ramas y tallos de frutas",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP activo. Devuélvelo 1 día antes de que caduque para comprar VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP activo. Devuélvelo 1 día antes de que caduque para comprar VIP.",
+  "withdraw.sfl.disabled": "Los retiros de tokens se detienen temporalmente mientras completamos nuestra migración a $FLOWER."
 }

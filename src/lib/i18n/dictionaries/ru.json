@@ -5376,5 +5376,6 @@
   "goblinTrade.missingReputation.sflDelivery": "Хммм, похоже, ты обычный Бампкин. Я торгую только с земледельцем.",
   "skill.noAxeNoWorries.buff": "Измельчите ветки и стебли фруктов без топоров",
   "skill.noAxeNoWorries.debuff": "-1 древесина из фруктовых веток и стеблей",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP-активирован. Вернитесь за 1 день до истечения срока действия, чтобы приобрести VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP-активирован. Вернитесь за 1 день до истечения срока действия, чтобы приобрести VIP.",
+  "withdraw.sfl.disabled": "Вывод токенов временно приостановлен, пока мы завершим переход на $FLOWER."
 }

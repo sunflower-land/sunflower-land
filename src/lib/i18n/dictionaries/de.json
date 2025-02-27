@@ -5376,5 +5376,6 @@
   "goblinTrade.missingReputation.sflDelivery": "Hmmm, sieht aus, als wärst du ein einfacher Bumpkin. Ich tausche nur mit einem Cropkeeper.",
   "skill.noAxeNoWorries.buff": "Fruchtzweige und Stängel ohne Äxte hacken",
   "skill.noAxeNoWorries.debuff": "-1 Holz aus Fruchtzweigen und Stängeln",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP aktiv. Kehren Sie 1 Tag vor Ablauf zurück, um VIP zu kaufen."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP aktiv. Kehren Sie 1 Tag vor Ablauf zurück, um VIP zu kaufen.",
+  "withdraw.sfl.disabled": "Token-Auszahlungen werden vorübergehend unterbrochen, während wir unsere Migration zu $FLOWER abschließen."
 }

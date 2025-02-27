@@ -5376,5 +5376,6 @@
   "news.title": "News",
   "news.whatsOn": "What's happening in Sunflower Land?",
   "news.flowerSoon": "$FLOWER ERC20 is launching soon!",
-  "vip.ronin.purchase.warning": "Ronin NFT VIP active. Return 1 day before expiry to purchase VIP."
+  "vip.ronin.purchase.warning": "Ronin NFT VIP active. Return 1 day before expiry to purchase VIP.",
+  "withdraw.sfl.disabled": "Token withdrawals are temporarily paused while we complete our migration to $FLOWER."
 }
