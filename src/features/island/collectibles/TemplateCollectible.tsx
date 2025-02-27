@@ -15,7 +15,7 @@ export const TemplateCollectible: React.FC<Props> = ({ name, dimensions }) => {
   return (
     <img
       src={ITEM_DETAILS[name].image}
-      className="absolute left-1/2 transform -translate-x-1/2"
+      className="absolute left-1/2 transform -translate-x-1/2 pointer-events-none"
       alt={name}
       style={{
         maxWidth: "none",
