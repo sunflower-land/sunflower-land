@@ -18,8 +18,6 @@ import { KNOWN_IDS } from "../types";
 import { ANIMAL_FOODS } from "../types/animals";
 import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
-import { getObjectEntries } from "../expansion/lib/utils";
-import { INVENTORY_LIMIT, INITIAL_FARM } from "./constants";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
   ...getKeys(EXOTIC_CROPS).reduce(
@@ -396,30 +394,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   Squirrel: new Decimal(5),
   Butterfly: new Decimal(5),
   Macaw: new Decimal(5),
-  ...getObjectEntries(
-    INVENTORY_LIMIT({
-      ...INITIAL_FARM,
-      buildings: {
-        ...INITIAL_FARM.buildings,
-        Warehouse: [
-          {
-            id: "1",
-            coordinates: { x: 0, y: 0 },
-            readyAt: 0,
-            createdAt: 0,
-          },
-        ],
-      },
-    }),
-  ).reduce(
-    (acc, [key, value]) => ({
-      ...acc,
-      [key]: new Decimal(
-        Math.ceil((value ?? new Decimal(0)).mul(1.2).toNumber()),
-      ),
-    }),
-    {},
-  ),
 };
 /**
  * Add wearable into array if it requires a hoard limit
