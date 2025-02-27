@@ -64,6 +64,10 @@ export const SEEDS: Record<SeedName, Seed> = {
   ...sortedGreenhouseProduceSeeds,
 };
 
+export const isCropSeed = (seed: SeedName): seed is CropSeedName => {
+  return seed in CROP_SEEDS;
+};
+
 export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
   spring: [
     // Crops
