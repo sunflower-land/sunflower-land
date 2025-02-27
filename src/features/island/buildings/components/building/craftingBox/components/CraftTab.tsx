@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import {
@@ -6,6 +7,7 @@ import {
 } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import {
+  GameState,
   Inventory,
   InventoryItemName,
   Wardrobe,
@@ -79,16 +81,8 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
 
 const VALID_CRAFTING_WEARABLES: BumpkinItem[] = ["Basic Hair", "Farmer Pants"];
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _craftingStatus = (state: MachineState) =>
-  state.context.state.craftingBox.status;
-const _craftingReadyAt = (state: MachineState) =>
-  state.context.state.craftingBox.readyAt;
-const _craftingBoxRecipes = (state: MachineState) =>
-  state.context.state.craftingBox.recipes;
 const _state = (state: MachineState) => state.context.state;
 
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 interface Props {
   gameService: MachineInterpreter;
   selectedItems: (RecipeIngredient | null)[];
@@ -102,11 +96,13 @@ export const CraftTab: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
 
-  const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
-  const craftingStatus = useSelector(gameService, _craftingStatus);
-  const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
-  const recipes = useSelector(gameService, _craftingBoxRecipes);
+  const state = useSelector(gameService, _state);
+  const { inventory, wardrobe, craftingBox } = state;
+  const {
+    status: craftingStatus,
+    readyAt: craftingReadyAt,
+    recipes,
+  } = craftingBox;
 
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [failedAttempt, setFailedAttempt] = useState(false);
@@ -428,7 +424,7 @@ export const CraftTab: React.FC<Props> = ({
             failedAttempt={failedAttempt}
           />
           <CraftTimer
-            gameService={gameService}
+            state={state}
             recipe={currentRecipe}
             remainingTime={remainingTime}
             isIdle={isIdle}
@@ -560,7 +556,7 @@ export const CraftTab: React.FC<Props> = ({
                 failedAttempt={failedAttempt}
               />
               <CraftTimer
-                gameService={gameService}
+                state={state}
                 recipe={currentRecipe}
                 remainingTime={remainingTime}
                 isIdle={isIdle}
@@ -660,11 +656,10 @@ const CraftDetails: React.FC<{
 };
 
 const RecipeLabelContent: React.FC<{
-  gameService: MachineInterpreter;
+  state: GameState;
   recipe: Recipe | null;
-}> = ({ gameService, recipe }) => {
+}> = ({ state, recipe }) => {
   const { t } = useTranslation();
-  const state = useSelector(gameService, _state);
 
   if (!recipe) {
     return <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />;
@@ -714,11 +709,11 @@ const InProgressLabelContent: React.FC<{ remainingTime: number | null }> = ({
 };
 
 const CraftTimer: React.FC<{
-  gameService: MachineInterpreter;
+  state: GameState;
   recipe: Recipe | null;
   remainingTime: number | null;
   isIdle: boolean;
-}> = ({ gameService, recipe, remainingTime, isIdle }) => {
+}> = ({ state, recipe, remainingTime, isIdle }) => {
   if (isIdle) {
     return (
       <Label
@@ -726,7 +721,7 @@ const CraftTimer: React.FC<{
         className="ml-3 my-1"
         icon={SUNNYSIDE.icons.stopwatch}
       >
-        <RecipeLabelContent gameService={gameService} recipe={recipe} />
+        <RecipeLabelContent state={state} recipe={recipe} />
       </Label>
     );
   }
