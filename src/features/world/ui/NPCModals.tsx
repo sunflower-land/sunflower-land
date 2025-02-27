@@ -40,6 +40,7 @@ import { WeatherShop } from "features/game/expansion/components/temperateSeason/
 import { SFLBounties } from "./infernos/SFLBounties";
 import { ObsidianExchange } from "./infernos/ObsidianExchange";
 import { PortalChooser } from "./portals/PortalChooser";
+import { Rocketman } from "./npcs/Rocketman";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -143,6 +144,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           />
         )}
         {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
+        {npc === "rocket man" && <Rocketman onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
         {npc === "poppy" && <FlowerBounties onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
