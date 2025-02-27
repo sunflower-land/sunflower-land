@@ -359,12 +359,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (previous, name) => ({
       ...previous,
-      [name]: () => (
-        <TemplateCollectible
-          name={name}
-          dimensions={DECORATION_TEMPLATES[name].dimensions}
-        />
-      ),
+      [name]: () => <TemplateCollectible name={name} />,
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
