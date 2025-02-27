@@ -76,7 +76,9 @@ const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
   return (
     <div className="p-2 flex flex-col justify-center space-y-1">
       <span className="mb-1">{translate("withdraw.sync")}</span>
-      <Label type="info">{translate("withdraw.sfl.disabled")}</Label>
+      {withdrawSFLDisabled && (
+        <Label type="info">{translate("withdraw.sfl.disabled")}</Label>
+      )}
       <div className="flex space-x-1">
         <Button
           onClick={() => setPage("tokens")}
