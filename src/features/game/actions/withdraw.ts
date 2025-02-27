@@ -2,6 +2,7 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { makeGame } from "../lib/transforms";
 import { GameState } from "../types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 const API_URL = CONFIG.API_URL;
 
@@ -16,11 +17,14 @@ type SFLOptions = {
 
 export async function withdrawSFLRequest({
   farmId,
-  sessionId,
   sfl,
   token,
   transactionId,
 }: SFLOptions): Promise<{ game: GameState }> {
+  if (hasFeatureAccess({} as GameState, "DISABLE_BLOCKCHAIN_ACTIONS")) {
+    throw new Error("Withdrawals are disabled");
+  }
+
   const response = await window.fetch(`${API_URL}/withdraw-sfl/${farmId}`, {
     method: "POST",
     headers: {
@@ -60,7 +64,6 @@ type ItemsOptions = {
 
 export async function withdrawItemsRequest({
   farmId,
-  sessionId,
   ids,
   amounts,
   token,
