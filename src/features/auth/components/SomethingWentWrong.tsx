@@ -97,6 +97,13 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
 
   const tsFileName = stack ? getFirstTsFileName(stack) : null;
 
+  const truncateError = (error: string, maxLength: number) => {
+    if (error.length > maxLength) {
+      return error.substring(0, maxLength) + "...";
+    }
+    return error;
+  };
+
   return showGetHelp ? (
     <div className="relative">
       <img
@@ -156,6 +163,13 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
       <div className="p-2 py-1 space-y-2 mb-2">
         <h1 className="mb-1 text-base text-center">{t("error.wentWrong")}</h1>
         <p>{t("error.connection.one")}</p>
+        {error && (
+          <p className="mb-1 text-xs">
+            {t("error")}
+            {": "}
+            {truncateError(error, 140)}
+          </p>
+        )}
         <p
           onClick={() => setShowGetHelp(true)}
           className="underline text-xs cursor-pointer"
