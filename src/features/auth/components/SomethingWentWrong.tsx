@@ -170,16 +170,15 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
             {truncateError(error, 140)}
           </p>
         )}
-        <p
-          onClick={() => setShowGetHelp(true)}
-          className="underline text-xs cursor-pointer"
-        >
-          {t("error.connection.two")}
-        </p>
       </div>
-      {onAcknowledge && (
-        <Button onClick={onAcknowledge}>{t("try.again")}</Button>
-      )}
+      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0">
+        {onAcknowledge && (
+          <Button onClick={onAcknowledge}>{t("try.again")}</Button>
+        )}
+        <Button onClick={() => setShowGetHelp(true)}>
+          {t("error.connection.two")}
+        </Button>
+      </div>
     </>
   );
 };
