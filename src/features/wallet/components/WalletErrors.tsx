@@ -20,7 +20,7 @@ export const WalletErrorMessage: React.FC<Props> = ({
   const { walletService } = useContext(WalletContext);
 
   const onAcknowledge = () => {
-    walletService.send("RESET");
+    walletService.send("CONTINUE");
   };
 
   if (errorCode === ERRORS.NO_WEB3_PHANTOM) {
