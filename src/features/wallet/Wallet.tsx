@@ -149,10 +149,10 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
             {t("wallet.uniqueFarmNFT")}
             {"."}
           </p>
-          <p className="text-xs mb-2">
+          <Label type="info" className="text-xs mb-1">
             {t("wallet.RequiresPol")}
             {"."}
-          </p>
+          </Label>
         </div>
         <Button onClick={() => walletService.send("MINT")}>
           {t("wallet.mintFreeNFT")}
