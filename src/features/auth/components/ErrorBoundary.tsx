@@ -4,6 +4,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { BoundaryError } from "./SomethingWentWrong";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   children?: ReactNode;
@@ -23,6 +24,10 @@ class ErrorBoundary extends Component<Props, State> {
     return { error };
   }
 
+  public handleAcknowledge = () => {
+    window.location.reload();
+  };
+
   public render() {
     if (this.state.error !== null) {
       return (
@@ -40,6 +45,8 @@ class ErrorBoundary extends Component<Props, State> {
               <BoundaryError
                 error={this.state.error.message}
                 stack={this.state.error.stack}
+                onAcknowledge={this.handleAcknowledge}
+                onAcknowledgeText={translate("refresh")}
               />
             </Panel>
           </Modal>

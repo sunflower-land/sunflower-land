@@ -43,6 +43,7 @@ interface BoundaryErrorProps {
   stack?: string;
   transactionId?: string;
   onAcknowledge?: () => void;
+  onAcknowledgeText?: string;
 }
 
 /*
@@ -54,6 +55,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   error,
   transactionId,
   onAcknowledge,
+  onAcknowledgeText,
   stack,
 }) => {
   const [showGetHelp, setShowGetHelp] = useState(false);
@@ -171,9 +173,11 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           </p>
         )}
       </div>
-      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0">
+      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0 ">
         {onAcknowledge && (
-          <Button onClick={onAcknowledge}>{t("try.again")}</Button>
+          <Button onClick={onAcknowledge}>
+            {onAcknowledgeText ?? t("try.again")}
+          </Button>
         )}
         <Button onClick={() => setShowGetHelp(true)}>
           {t("error.connection.two")}
