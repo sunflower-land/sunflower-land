@@ -1210,7 +1210,6 @@
   "error.Web3NotFound": "Web3 Not Found",
   "error.wentWrong": "Oops! Something went wrong!",
   "error.getHelp": "Get help",
-  "error.contactSupport": "Contact support",
   "error.askOnDiscord": "Ask on discord",
   "error.tooManyFarms": "Slow down Bumpkin! It looks like you have too many accounts on your network. Please try again later.",
   "error.clock.not.synced": "Clock not in sync",
