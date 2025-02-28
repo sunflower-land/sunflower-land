@@ -71,7 +71,7 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
           className="mr-1"
           onClick={() => {
             window.open(
-              "https://app.gitbook.com/o/bntEYvEP4dzoxNUbvnHA/s/IWGEodCG0c07OUY9iW9t/getting-started/usdflower-erc20/schedule#usdflower-campaigns-and-earning",
+              "https://docs.sunflower-land.com/getting-started/usdflower-erc20/schedule",
               "_blank",
             );
           }}
