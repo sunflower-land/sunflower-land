@@ -24,7 +24,7 @@ export const REPUTATION_NAME: Record<Reputation, string> = {
 
 export const REPUTATION_TIERS: Record<Reputation, number> = {
   [Reputation.Beginner]: 0,
-  [Reputation.Sprout]: 100,
+  [Reputation.Sprout]: 200,
   [Reputation.Seedling]: 250,
   [Reputation.Grower]: 350,
   [Reputation.Cropkeeper]: 600,
