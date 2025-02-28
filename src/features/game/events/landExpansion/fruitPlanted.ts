@@ -77,10 +77,11 @@ export function getPlantedAt(
   return createdAt - offset * 1000;
 }
 
-const isBasicFruitSeed = (name: PatchFruitSeedName | GreenHouseFruitSeedName) =>
-  name === "Blueberry Seed" || name === "Orange Seed";
+export const isBasicFruitSeed = (
+  name: PatchFruitSeedName | GreenHouseFruitSeedName,
+) => name === "Blueberry Seed" || name === "Orange Seed";
 
-const isAdvancedFruitSeed = (
+export const isAdvancedFruitSeed = (
   name: PatchFruitSeedName | GreenHouseFruitSeedName,
 ) => name === "Apple Seed" || name === "Banana Plant";
 

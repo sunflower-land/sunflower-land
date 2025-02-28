@@ -19,6 +19,7 @@ import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useLayoutEffect, useState } from "react";
+import { isSeed } from "features/game/types/seeds";
 
 interface Props {
   onClose: () => void;
@@ -85,7 +86,9 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
     itemName === "Seed Pack" &&
     getKeys(items).some((item) => {
       const inventoryAmount = state.inventory[item] ?? new Decimal(0);
-      const inventoryLimit = INVENTORY_LIMIT(state)[item];
+      const inventoryLimit = isSeed(item)
+        ? INVENTORY_LIMIT(state)[item]
+        : undefined;
 
       return !!inventoryLimit && inventoryAmount.gte(inventoryLimit);
     });

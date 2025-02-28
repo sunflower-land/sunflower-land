@@ -11,9 +11,13 @@ import { FLOWER_SEEDS } from "features/game/types/flowers";
 import { produce } from "immer";
 import {
   GREENHOUSE_FRUIT_SEEDS,
+  GreenHouseFruitSeedName,
   isPatchFruitSeed,
 } from "features/game/types/fruits";
-import { GREENHOUSE_SEEDS } from "features/game/types/crops";
+import {
+  GREENHOUSE_SEEDS,
+  GreenHouseCropSeedName,
+} from "features/game/types/crops";
 import { isFullMoon } from "features/game/types/calendar";
 
 export type SeedBoughtAction = {
@@ -75,15 +79,27 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
   return price;
 }
 
-export const FULL_MOON_SEEDS: SeedName[] = [
+export const isGreenhouseCropSeed = (
+  seedName: SeedName,
+): seedName is GreenHouseCropSeedName => seedName in GREENHOUSE_SEEDS;
+
+export const isGreenhouseFruitSeed = (
+  seedName: SeedName,
+): seedName is GreenHouseFruitSeedName => seedName in GREENHOUSE_FRUIT_SEEDS;
+
+export type FullMoonSeed = Extract<
+  SeedName,
+  "Celestine Seed" | "Lunara Seed" | "Duskberry Seed"
+>;
+
+export const FULL_MOON_SEEDS: FullMoonSeed[] = [
   "Celestine Seed",
   "Lunara Seed",
   "Duskberry Seed",
 ];
 
-export const isFullMoonBerry = (seedName: SeedName) => {
-  return FULL_MOON_SEEDS.includes(seedName);
-};
+export const isFullMoonBerry = (seedName: SeedName): seedName is FullMoonSeed =>
+  FULL_MOON_SEEDS.includes(seedName as FullMoonSeed);
 
 type Options = {
   state: Readonly<GameState>;

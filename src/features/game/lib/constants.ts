@@ -3,7 +3,6 @@ import { fromWei } from "web3-utils";
 import {
   Bumpkin,
   GameState,
-  Inventory,
   ExpansionConstruction,
   PlacedItem,
   BB_TO_GEM_RATIO,
@@ -12,13 +11,22 @@ import {
 import { getKeys } from "../types/craftables";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
-import { SeedName } from "../types/seeds";
+import { isSeed, SeedName } from "../types/seeds";
 import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getSeasonalTicket } from "../types/seasons";
-import { CROP_SEEDS } from "../types/crops";
-import { PATCH_FRUIT_SEEDS } from "../types/fruits";
+import { getObjectEntries } from "../expansion/lib/utils";
+import {
+  isFullMoonBerry,
+  isGreenhouseCropSeed,
+  isGreenhouseFruitSeed,
+} from "../events/landExpansion/seedBought";
+import {
+  isAdvancedFruitSeed,
+  isBasicFruitSeed,
+} from "../events/landExpansion/fruitPlanted";
+import { PatchFruitSeedName } from "../types/fruits";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -69,40 +77,9 @@ export type StockableName = Extract<
   | "Gold Pickaxe"
   | "Oil Drill"
   | "Rod"
-  | "Sunflower Seed"
-  | "Potato Seed"
-  | "Pumpkin Seed"
-  | "Carrot Seed"
-  | "Cabbage Seed"
-  | "Soybean Seed"
-  | "Beetroot Seed"
-  | "Cauliflower Seed"
-  | "Parsnip Seed"
-  | "Eggplant Seed"
-  | "Corn Seed"
-  | "Radish Seed"
-  | "Wheat Seed"
-  | "Kale Seed"
-  | "Barley Seed"
-  | "Grape Seed"
-  | "Olive Seed"
-  | "Rice Seed"
-  | "Tomato Seed"
-  | "Blueberry Seed"
-  | "Orange Seed"
-  | "Apple Seed"
-  | "Rhubarb Seed"
-  | "Zucchini Seed"
-  | "Yam Seed"
-  | "Broccoli Seed"
-  | "Pepper Seed"
-  | "Banana Plant"
-  | "Lemon Seed"
-  | "Sunpetal Seed"
-  | "Bloom Seed"
-  | "Lily Seed"
   | "Sand Shovel"
   | "Sand Drill"
+  | SeedName
 >;
 
 export const INITIAL_STOCK = (
@@ -139,40 +116,40 @@ export const INITIAL_STOCK = (
   }
 
   const seeds: Record<SeedName, Decimal> = {
-    "Sunflower Seed": new Decimal(400),
-    "Potato Seed": new Decimal(200),
-    "Rhubarb Seed": new Decimal(200),
-    "Zucchini Seed": new Decimal(200),
-    "Pumpkin Seed": new Decimal(150),
-    "Carrot Seed": new Decimal(100),
-    "Cabbage Seed": new Decimal(90),
-    "Yam Seed": new Decimal(90),
-    "Soybean Seed": new Decimal(90),
-    "Broccoli Seed": new Decimal(90),
-    "Beetroot Seed": new Decimal(80),
-    "Pepper Seed": new Decimal(80),
-    "Cauliflower Seed": new Decimal(80),
-    "Parsnip Seed": new Decimal(60),
-    "Eggplant Seed": new Decimal(50),
-    "Corn Seed": new Decimal(50),
-    "Onion Seed": new Decimal(50),
-    "Turnip Seed": new Decimal(40),
-    "Radish Seed": new Decimal(40),
-    "Wheat Seed": new Decimal(40),
-    "Kale Seed": new Decimal(30),
-    "Artichoke Seed": new Decimal(30),
-    "Barley Seed": new Decimal(30),
+    "Sunflower Seed": new Decimal(800),
+    "Potato Seed": new Decimal(400),
+    "Rhubarb Seed": new Decimal(400),
+    "Zucchini Seed": new Decimal(400),
+    "Pumpkin Seed": new Decimal(300),
+    "Carrot Seed": new Decimal(200),
+    "Cabbage Seed": new Decimal(180),
+    "Yam Seed": new Decimal(180),
+    "Soybean Seed": new Decimal(180),
+    "Broccoli Seed": new Decimal(180),
+    "Beetroot Seed": new Decimal(160),
+    "Pepper Seed": new Decimal(160),
+    "Cauliflower Seed": new Decimal(160),
+    "Parsnip Seed": new Decimal(120),
+    "Eggplant Seed": new Decimal(100),
+    "Corn Seed": new Decimal(100),
+    "Onion Seed": new Decimal(100),
+    "Turnip Seed": new Decimal(80),
+    "Radish Seed": new Decimal(80),
+    "Wheat Seed": new Decimal(80),
+    "Kale Seed": new Decimal(60),
+    "Artichoke Seed": new Decimal(60),
+    "Barley Seed": new Decimal(60),
 
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
     "Rice Seed": new Decimal(10),
 
-    "Tomato Seed": new Decimal(10),
-    "Blueberry Seed": new Decimal(10),
-    "Orange Seed": new Decimal(10),
-    "Apple Seed": new Decimal(10),
-    "Banana Plant": new Decimal(10),
-    "Lemon Seed": new Decimal(10),
+    "Tomato Seed": new Decimal(20),
+    "Lemon Seed": new Decimal(20),
+    "Blueberry Seed": new Decimal(20),
+    "Orange Seed": new Decimal(20),
+    "Apple Seed": new Decimal(20),
+    "Banana Plant": new Decimal(20),
 
     "Sunpetal Seed": new Decimal(16),
     "Bloom Seed": new Decimal(8),
@@ -198,11 +175,10 @@ export const INITIAL_STOCK = (
     );
   }
 
-  getKeys(seeds).forEach((seed) => {
-    if (seed in CROP_SEEDS || seed in PATCH_FRUIT_SEEDS) {
-      seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(2).toNumber()));
-    }
-  });
+  if (state?.bumpkin.skills["Crime Fruit"]) {
+    seeds["Tomato Seed"] = seeds["Tomato Seed"].add(10);
+    seeds["Lemon Seed"] = seeds["Lemon Seed"].add(10);
+  }
 
   return {
     // Tools
@@ -215,73 +191,47 @@ export const INITIAL_STOCK = (
   };
 };
 
-export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
-  const seeds: Record<SeedName, Decimal> = {
-    "Sunflower Seed": new Decimal(1000),
-    "Potato Seed": new Decimal(500),
-    "Rhubarb Seed": new Decimal(500),
-    "Pumpkin Seed": new Decimal(400),
-    "Carrot Seed": new Decimal(250),
-    "Zucchini Seed": new Decimal(200),
-    "Cabbage Seed": new Decimal(240),
-    "Soybean Seed": new Decimal(240),
-    "Beetroot Seed": new Decimal(220),
-    "Yam Seed": new Decimal(200),
-    "Cauliflower Seed": new Decimal(200),
-    "Parsnip Seed": new Decimal(150),
-    "Broccoli Seed": new Decimal(150),
-    "Pepper Seed": new Decimal(150),
-    "Onion Seed": new Decimal(150),
-    "Turnip Seed": new Decimal(150),
-    "Artichoke Seed": new Decimal(120),
-    "Eggplant Seed": new Decimal(120),
-    "Corn Seed": new Decimal(120),
-    "Radish Seed": new Decimal(100),
-    "Wheat Seed": new Decimal(100),
-    "Kale Seed": new Decimal(80),
-    "Barley Seed": new Decimal(80),
+// Inventory limit is 2.5x the initial stock for seeds
+export const INVENTORY_LIMIT = (
+  state?: GameState,
+): Record<SeedName, Decimal> => {
+  return {
+    ...getObjectEntries(INITIAL_STOCK(state)).reduce(
+      (acc, [key, value]) => {
+        if (!isSeed(key)) return acc;
+        if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key))
+          return {
+            ...acc,
+            [key]: new Decimal(
+              Math.ceil((value ?? new Decimal(0)).mul(5).toNumber()),
+            ),
+          };
+        if (isFullMoonBerry(key)) return { ...acc, [key]: new Decimal(10) };
+        if (isBasicFruitSeed(key as PatchFruitSeedName))
+          return {
+            ...acc,
+            [key]: new Decimal(
+              Math.ceil((value ?? new Decimal(0)).mul(2).toNumber()),
+            ),
+          };
+        if (isAdvancedFruitSeed(key as PatchFruitSeedName))
+          return {
+            ...acc,
+            [key]: new Decimal(
+              Math.ceil((value ?? new Decimal(0)).mul(1.5).toNumber()),
+            ),
+          };
 
-    "Tomato Seed": new Decimal(50),
-    "Lemon Seed": new Decimal(45),
-    "Blueberry Seed": new Decimal(40),
-    "Orange Seed": new Decimal(33),
-    "Apple Seed": new Decimal(25),
-    "Banana Plant": new Decimal(25),
-
-    "Rice Seed": new Decimal(50),
-    "Grape Seed": new Decimal(50),
-    "Olive Seed": new Decimal(50),
-
-    "Sunpetal Seed": new Decimal(40),
-    "Bloom Seed": new Decimal(20),
-    "Lily Seed": new Decimal(10),
-    "Edelweiss Seed": new Decimal(10),
-    "Gladiolus Seed": new Decimal(10),
-    "Lavender Seed": new Decimal(10),
-    "Clover Seed": new Decimal(10),
-
-    "Duskberry Seed": new Decimal(10),
-    "Lunara Seed": new Decimal(10),
-    "Celestine Seed": new Decimal(10),
+        return {
+          ...acc,
+          [key]: new Decimal(
+            Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
+          ),
+        };
+      },
+      {} as Record<SeedName, Decimal>,
+    ),
   };
-
-  if (
-    state?.buildings["Warehouse"] &&
-    isBuildingReady(state?.buildings["Warehouse"])
-  ) {
-    // Multiply each seed quantity by 1.2 and round up
-    getKeys(seeds).forEach(
-      (seed) =>
-        (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(1.2).toNumber()))),
-    );
-  }
-
-  if (state?.bumpkin.skills["Crime Fruit"]) {
-    seeds["Tomato Seed"] = seeds["Tomato Seed"].add(10);
-    seeds["Lemon Seed"] = seeds["Lemon Seed"].add(10);
-  }
-
-  return seeds;
 };
 
 export const INITIAL_GOLD_MINES: GameState["gold"] = {

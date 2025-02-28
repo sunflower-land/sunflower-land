@@ -16,7 +16,7 @@ import {
 } from "./fruits";
 import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
 import { ResourceName } from "./resources";
-import { TemperateSeasonName } from "./game";
+import { InventoryItemName, TemperateSeasonName } from "./game";
 
 export type SeedName =
   | CropSeedName
@@ -67,6 +67,9 @@ export const SEEDS: Record<SeedName, Seed> = {
 export const isCropSeed = (seed: SeedName): seed is CropSeedName => {
   return seed in CROP_SEEDS;
 };
+
+export const isSeed = (name: InventoryItemName): name is SeedName =>
+  name in SEEDS;
 
 export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
   spring: [
