@@ -147,9 +147,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           </p>
         </div>
       </div>
-      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0">
-        <Button onClick={handleAskOnDiscord}>{t("error.askOnDiscord")}</Button>
-      </div>
+      <Button onClick={handleAskOnDiscord}>{t("error.askOnDiscord")}</Button>
     </div>
   ) : (
     <>
@@ -164,7 +162,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           </p>
         )}
       </div>
-      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0 ">
+      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0">
         {onAcknowledge && (
           <Button onClick={onAcknowledge}>
             {onAcknowledgeText ?? t("try.again")}
@@ -181,6 +179,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
 export const SomethingWentWrong: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   // If we get a connecting error before the game has loaded then try to connect again via the authService
   const service = gameService ?? authService;
@@ -203,6 +202,7 @@ export const SomethingWentWrong: React.FC = () => {
       transactionId={transactionId}
       error={errorCode}
       onAcknowledge={onAcknowledge}
+      onAcknowledgeText={t("refresh")}
     />
   );
 };
