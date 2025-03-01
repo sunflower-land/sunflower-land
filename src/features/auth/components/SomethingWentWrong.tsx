@@ -43,6 +43,7 @@ interface BoundaryErrorProps {
   stack?: string;
   transactionId?: string;
   onAcknowledge?: () => void;
+  onAcknowledgeText?: string;
 }
 
 /*
@@ -54,6 +55,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   error,
   transactionId,
   onAcknowledge,
+  onAcknowledgeText,
   stack,
 }) => {
   const [showGetHelp, setShowGetHelp] = useState(false);
@@ -79,14 +81,6 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
     );
   }
 
-  const handleGetSupport = () => {
-    window.open(
-      "https://sunflower-land.help/",
-      "_blank",
-      "noopener,noreferrer",
-    );
-  };
-
   const handleAskOnDiscord = () => {
     window.open(
       "https://discord.gg/sunflowerland",
@@ -96,6 +90,13 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   };
 
   const tsFileName = stack ? getFirstTsFileName(stack) : null;
+
+  const truncateError = (error: string, maxLength: number) => {
+    if (error.length > maxLength) {
+      return error.substring(0, maxLength) + "...";
+    }
+    return error;
+  };
 
   return showGetHelp ? (
     <div className="relative">
@@ -147,7 +148,6 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
         </div>
       </div>
       <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0">
-        <Button onClick={handleGetSupport}>{t("error.contactSupport")}</Button>
         <Button onClick={handleAskOnDiscord}>{t("error.askOnDiscord")}</Button>
       </div>
     </div>
@@ -156,16 +156,24 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
       <div className="p-2 py-1 space-y-2 mb-2">
         <h1 className="mb-1 text-base text-center">{t("error.wentWrong")}</h1>
         <p>{t("error.connection.one")}</p>
-        <p
-          onClick={() => setShowGetHelp(true)}
-          className="underline text-xs cursor-pointer"
-        >
-          {t("error.connection.two")}
-        </p>
+        {error && (
+          <p className="mb-1 text-xs">
+            {t("error")}
+            {": "}
+            {truncateError(error, 140)}
+          </p>
+        )}
       </div>
-      {onAcknowledge && (
-        <Button onClick={onAcknowledge}>{t("try.again")}</Button>
-      )}
+      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0 ">
+        {onAcknowledge && (
+          <Button onClick={onAcknowledge}>
+            {onAcknowledgeText ?? t("try.again")}
+          </Button>
+        )}
+        <Button onClick={() => setShowGetHelp(true)}>
+          {t("error.connection.two")}
+        </Button>
+      </div>
     </>
   );
 };
