@@ -50,6 +50,7 @@ export const ClaimRoninAirdrop: React.FC = () => {
               </div>
             )}
           </div>
+          <p className="my-1">{t("ronin.nft.activates")}</p>
           <p>{t("ronin.nft.expires")}</p>
           <Label
             type="info"
