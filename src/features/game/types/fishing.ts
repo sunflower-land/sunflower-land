@@ -623,14 +623,3 @@ export const BAIT: Record<FishingBait, true> = {
   "Red Wiggler": true,
   "Fishing Lure": true,
 };
-
-export const WINDS_OF_CHANGE_FISH: FishName[] = [
-  "Porgy",
-  "Muskellunge",
-  "Trout",
-  "Walleye",
-  "Weakfish",
-  "Rock Blackfish",
-  "Cobia",
-  "Tilapia",
-];
