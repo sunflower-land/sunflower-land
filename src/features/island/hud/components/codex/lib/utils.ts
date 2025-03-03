@@ -38,6 +38,7 @@ export const getFishByType = () => {
     advanced: [],
     expert: [],
     "marine marvel": [],
+    chapter: [],
   };
 
   getKeys(FISH).forEach((fishName) => {

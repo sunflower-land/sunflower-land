@@ -7,7 +7,12 @@ import { translate } from "lib/i18n/translate";
 
 export type PurchaseableBait = "Fishing Lure";
 export type FishingBait = Worm | PurchaseableBait;
-export type FishType = "basic" | "advanced" | "expert" | "marine marvel";
+export type FishType =
+  | "basic"
+  | "advanced"
+  | "expert"
+  | "marine marvel"
+  | "chapter";
 
 export type FishName =
   | "Anchovy"
@@ -231,44 +236,43 @@ type Fish = {
   seasons: TemperateSeasonName[];
 };
 
-export const CHAPTER_FISH: Record<
-  Extract<
-    MarineMarvelName,
-    | "Crimson Carp"
-    | "Lemon Shark"
-    | "Battle Fish"
-    | "Longhorn Cowfish"
-    | "Jellyfish"
-  >,
-  Fish
-> = {
+export type ChapterFish = Extract<
+  MarineMarvelName,
+  | "Crimson Carp"
+  | "Lemon Shark"
+  | "Battle Fish"
+  | "Longhorn Cowfish"
+  | "Jellyfish"
+>;
+
+export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
   "Crimson Carp": {
     baits: ["Grub", "Fishing Lure"],
-    type: "marine marvel",
+    type: "chapter",
     likes: [],
     seasons: [],
   },
   "Battle Fish": {
     baits: ["Earthworm", "Grub", "Fishing Lure"],
-    type: "marine marvel",
+    type: "chapter",
     likes: [],
     seasons: [],
   },
   "Lemon Shark": {
     baits: ["Grub", "Fishing Lure"],
-    type: "marine marvel",
+    type: "chapter",
     likes: [],
     seasons: [],
   },
   "Longhorn Cowfish": {
     baits: ["Red Wiggler", "Fishing Lure"],
-    type: "marine marvel",
+    type: "chapter",
     likes: [],
     seasons: [],
   },
   Jellyfish: {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
-    type: "marine marvel",
+    type: "chapter",
     likes: [],
     seasons: [],
   },
