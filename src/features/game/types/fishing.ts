@@ -347,6 +347,20 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     likes: ["Eggplant", "Onion"],
     seasons: ["spring", "winter"],
   },
+  Porgy: {
+    baits: ["Earthworm"],
+    type: "basic",
+    locations: ["wharf"],
+    likes: ["Yam"],
+    seasons: ["spring"],
+  },
+  Muskellunge: {
+    baits: ["Earthworm"],
+    type: "basic",
+    locations: ["wharf"],
+    likes: ["Turnip"],
+    seasons: ["autumn"],
+  },
 
   // Advanced
   "Red Snapper": {
@@ -418,6 +432,27 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     locations: ["wharf"],
     likes: ["Anchovy"],
     seasons: ["spring", "summer"],
+  },
+  Walleye: {
+    baits: ["Grub"],
+    type: "advanced",
+    locations: ["wharf"],
+    likes: ["Broccoli"],
+    seasons: ["winter"],
+  },
+  "Rock Blackfish": {
+    baits: ["Grub"],
+    type: "advanced",
+    locations: ["wharf"],
+    likes: ["Onion"],
+    seasons: ["autumn"],
+  },
+  Tilapia: {
+    baits: ["Grub"],
+    type: "advanced",
+    locations: ["wharf"],
+    likes: ["Zucchini"],
+    seasons: ["summer"],
   },
 
   // Expert
@@ -498,6 +533,27 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     likes: ["Tuna", "Rich Chicken"],
     seasons: ["summer", "winter"],
   },
+  Cobia: {
+    baits: ["Red Wiggler"],
+    type: "expert",
+    locations: ["wharf"],
+    likes: ["Broccoli"],
+    seasons: ["summer"],
+  },
+  Trout: {
+    baits: ["Red Wiggler"],
+    type: "expert",
+    locations: ["wharf"],
+    likes: ["Pepper"],
+    seasons: ["winter"],
+  },
+  Weakfish: {
+    baits: ["Red Wiggler"],
+    type: "expert",
+    locations: ["wharf"],
+    likes: ["Artichoke"],
+    seasons: ["spring"],
+  },
 
   // Marine Marvel
   "Twilight Anglerfish": {
@@ -534,64 +590,6 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     locations: ["wharf"],
     likes: ["Gold"],
     seasons: ["winter", "spring", "summer", "autumn"],
-  },
-
-  Porgy: {
-    baits: ["Earthworm"],
-    type: "basic",
-    locations: ["wharf"],
-    likes: ["Yam"],
-    seasons: ["spring"],
-  },
-  Muskellunge: {
-    baits: ["Earthworm"],
-    type: "basic",
-    locations: ["wharf"],
-    likes: ["Turnip"],
-    seasons: ["autumn"],
-  },
-  Walleye: {
-    baits: ["Grub"],
-    type: "advanced",
-    locations: ["wharf"],
-    likes: ["Broccoli"],
-    seasons: ["winter"],
-  },
-  "Rock Blackfish": {
-    baits: ["Grub"],
-    type: "advanced",
-    locations: ["wharf"],
-    likes: ["Onion"],
-    seasons: ["autumn"],
-  },
-  Cobia: {
-    baits: ["Red Wiggler"],
-    type: "expert",
-    locations: ["wharf"],
-    likes: ["Broccoli"],
-    seasons: ["summer"],
-  },
-  Trout: {
-    baits: ["Red Wiggler"],
-    type: "expert",
-    locations: ["wharf"],
-    likes: ["Pepper"],
-    seasons: ["winter"],
-  },
-
-  Weakfish: {
-    baits: ["Red Wiggler"],
-    type: "expert",
-    locations: ["wharf"],
-    likes: ["Artichoke"],
-    seasons: ["spring"],
-  },
-  Tilapia: {
-    baits: ["Grub"],
-    type: "advanced",
-    locations: ["wharf"],
-    likes: ["Zucchini"],
-    seasons: ["summer"],
   },
 
   ...CHAPTER_FISH,
