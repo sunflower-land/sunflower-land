@@ -6,6 +6,9 @@ export const RONIN_FARM_CREATION_CUTOFF = new Date(
   "2025-02-01T00:00:00Z",
 ).getTime();
 
+// Prevents people sharing VIP across their farms
+const RONIN_VIP_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+
 export const hasVipAccess = ({
   game,
   now = Date.now(),
@@ -29,7 +32,16 @@ export const hasVipAccess = ({
 
   // Has Ronin NFT VIP Access
   const nft = game.nfts?.ronin;
-  if (nft && nft.expiresAt > now && !hasValidInGameVIP) {
+  if (
+    nft &&
+    nft.expiresAt > now &&
+    !hasValidInGameVIP &&
+    nft.acknowledgedAt &&
+    // They acknowledged the NFT before the 24 hour cooldown cutover rule
+    (nft.acknowledgedAt < new Date("2025-03-03T00:00:00Z").getTime() ||
+      // Ensure they have had the NFT for 24 hours
+      nft.acknowledgedAt > now - RONIN_VIP_COOLDOWN_MS)
+  ) {
     return game.createdAt > RONIN_FARM_CREATION_CUTOFF;
   }
 
