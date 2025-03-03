@@ -121,6 +121,7 @@ export type Chum = Extract<
   | "Yam"
   | "Onion"
   | "Turnip"
+  | "Zucchini"
 >;
 
 export const CHUM_AMOUNTS: Record<Chum, number> = {
@@ -169,6 +170,7 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   "Horse Mackerel": 1,
   Sunfish: 1,
   "Zebra Turkeyfish": 1,
+  Zucchini: 20,
 };
 
 export const CHUM_DETAILS: Record<Chum, string> = {
@@ -217,6 +219,7 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Artichoke: translate("chumDetails.artichoke"),
   Onion: translate("chumDetails.onion"),
   Turnip: translate("chumDetails.turnip"),
+  Zucchini: "",
 };
 
 export type FishingLocation = "beach" | "wharf";
@@ -279,6 +282,7 @@ export const CHAPTER_FISH: Record<
 
 // TODO
 export const FISH: Record<FishName | MarineMarvelName, Fish> = {
+  // Basic
   Anchovy: {
     baits: ["Earthworm"],
     type: "basic",
@@ -312,7 +316,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Earthworm"],
     type: "basic",
     locations: ["wharf"],
-    likes: ["Yam"],
+    likes: ["Anchovy"],
     seasons: ["spring", "autumn"],
   },
   "Sea Horse": {
@@ -343,6 +347,8 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     likes: ["Eggplant", "Onion"],
     seasons: ["spring", "winter"],
   },
+
+  // Advanced
   "Red Snapper": {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "advanced",
@@ -413,6 +419,8 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     likes: ["Anchovy"],
     seasons: ["spring", "summer"],
   },
+
+  // Expert
   Tuna: {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
@@ -473,113 +481,116 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
     locations: ["wharf"],
-    likes: ["Crab"],
+    likes: ["Crab", "Fat Chicken"],
     seasons: ["summer", "winter"],
   },
   "Saw Shark": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
     locations: ["wharf"],
-    likes: ["Red Snapper"],
+    likes: ["Red Snapper", "Speed Chicken"],
     seasons: ["spring", "summer"],
   },
   "White Shark": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
     locations: ["wharf"],
-    likes: ["Tuna"],
+    likes: ["Tuna", "Rich Chicken"],
     seasons: ["summer", "winter"],
   },
+
+  // Marine Marvel
   "Twilight Anglerfish": {
     baits: ["Red Wiggler", "Grub", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf"],
-    likes: [],
-    seasons: [],
+    likes: ["Sunfish"],
+    seasons: ["winter", "spring", "summer", "autumn"],
   },
   "Starlight Tuna": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf"],
-    likes: [],
-    seasons: [],
+    likes: ["Horse Mackerel", "Zebra Turkeyfish"],
+    seasons: ["winter", "spring", "summer", "autumn"],
   },
   "Radiant Ray": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf"],
-    likes: [],
-    seasons: [],
+    likes: ["Iron"],
+    seasons: ["winter", "spring", "summer", "autumn"],
   },
   "Phantom Barracuda": {
     baits: ["Grub", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf"],
-    likes: [],
-    seasons: [],
+    likes: ["Squid"],
+    seasons: ["winter", "spring", "summer", "autumn"],
   },
   "Gilded Swordfish": {
     baits: ["Earthworm", "Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf"],
-    likes: [],
-    seasons: [],
+    likes: ["Gold"],
+    seasons: ["winter", "spring", "summer", "autumn"],
   },
+
   Porgy: {
     baits: ["Earthworm"],
     type: "basic",
     locations: ["wharf"],
-    likes: [], // TODO - release after chapter
+    likes: ["Yam"],
     seasons: ["spring"],
   },
   Muskellunge: {
     baits: ["Earthworm"],
     type: "basic",
     locations: ["wharf"],
-    likes: [], // TODO - release after chapter
+    likes: ["Turnip"],
     seasons: ["autumn"],
   },
   Walleye: {
     baits: ["Grub"],
     type: "advanced",
     locations: ["wharf"],
-    likes: [], // TODO - release after chapter
+    likes: ["Broccoli"],
     seasons: ["winter"],
   },
   "Rock Blackfish": {
     baits: ["Grub"],
     type: "advanced",
     locations: ["wharf"],
-    likes: [], // TODO - release after chapter
+    likes: ["Onion"],
     seasons: ["autumn"],
   },
   Cobia: {
-    baits: ["Grub"],
+    baits: ["Red Wiggler"],
     type: "expert",
     locations: ["wharf"],
-    likes: [], // TODO - release after chapter
+    likes: ["Broccoli"],
     seasons: ["summer"],
   },
   Trout: {
-    baits: ["Earthworm"],
+    baits: ["Red Wiggler"],
     type: "expert",
     locations: ["wharf"],
-    likes: [], // TODO - release after chapter
+    likes: ["Pepper"],
     seasons: ["winter"],
   },
 
   Weakfish: {
-    baits: ["Earthworm"],
+    baits: ["Red Wiggler"],
     type: "expert",
     locations: ["wharf"],
-    likes: [], // TODO - release after chapter
+    likes: ["Artichoke"],
     seasons: ["spring"],
   },
   Tilapia: {
     baits: ["Grub"],
     type: "advanced",
     locations: ["wharf"],
-    likes: [], // TODO - release after chapter
+    likes: ["Zucchini"],
     seasons: ["summer"],
   },
 
