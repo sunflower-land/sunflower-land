@@ -4,6 +4,7 @@ import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { InventoryItemName, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { isSeed } from "features/game/types/seeds";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
@@ -211,7 +212,9 @@ export function redeemTradeReward({ state, action }: Options): GameState {
 
     getKeys(items).forEach((name) => {
       const inventoryAmount = game.inventory[name] ?? new Decimal(0);
-      const inventoryLimit = INVENTORY_LIMIT(game)[name];
+      const inventoryLimit = isSeed(name)
+        ? INVENTORY_LIMIT(game)[name]
+        : undefined;
       const packAmount = items[name] ?? 0;
 
       // Checks if buying the pack will exceed Inventory Limit for Seeds and Tools

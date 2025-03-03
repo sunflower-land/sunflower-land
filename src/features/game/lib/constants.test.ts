@@ -1,5 +1,16 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, INVENTORY_LIMIT, TEST_FARM } from "./constants";
+import { getObjectEntries } from "../expansion/lib/utils";
+import {
+  isFullMoonBerry,
+  isGreenhouseCropSeed,
+  isGreenhouseFruitSeed,
+} from "../events/landExpansion/seedBought";
+import { PatchFruitSeedName } from "../types/fruits";
+import {
+  isAdvancedFruitSeed,
+  isBasicFruitSeed,
+} from "../events/landExpansion/fruitPlanted";
 
 describe("INITIAL_STOCK", () => {
   it("does not increase stock of tools if Toolshed is placed but NOT ready", () => {
@@ -210,37 +221,43 @@ describe("INVENTORY_LIMIT", () => {
       },
     };
 
-    expect(INVENTORY_LIMIT(state)["Sunflower Seed"]).toEqual(new Decimal(1000));
-    expect(INVENTORY_LIMIT(state)["Potato Seed"]).toEqual(new Decimal(500));
-    expect(INVENTORY_LIMIT(state)["Pumpkin Seed"]).toEqual(new Decimal(400));
-    expect(INVENTORY_LIMIT(state)["Carrot Seed"]).toEqual(new Decimal(250));
-    expect(INVENTORY_LIMIT(state)["Cabbage Seed"]).toEqual(new Decimal(240));
-    expect(INVENTORY_LIMIT(state)["Soybean Seed"]).toEqual(new Decimal(240));
-    expect(INVENTORY_LIMIT(state)["Beetroot Seed"]).toEqual(new Decimal(220));
-    expect(INVENTORY_LIMIT(state)["Cauliflower Seed"]).toEqual(
-      new Decimal(200),
-    );
-    expect(INVENTORY_LIMIT(state)["Parsnip Seed"]).toEqual(new Decimal(150));
-    expect(INVENTORY_LIMIT(state)["Eggplant Seed"]).toEqual(new Decimal(120));
-    expect(INVENTORY_LIMIT(state)["Corn Seed"]).toEqual(new Decimal(120));
-    expect(INVENTORY_LIMIT(state)["Radish Seed"]).toEqual(new Decimal(100));
-    expect(INVENTORY_LIMIT(state)["Wheat Seed"]).toEqual(new Decimal(100));
-    expect(INVENTORY_LIMIT(state)["Kale Seed"]).toEqual(new Decimal(80));
-
-    expect(INVENTORY_LIMIT(state)["Tomato Seed"]).toEqual(new Decimal(50));
-    expect(INVENTORY_LIMIT(state)["Lemon Seed"]).toEqual(new Decimal(45));
-    expect(INVENTORY_LIMIT(state)["Blueberry Seed"]).toEqual(new Decimal(40));
-    expect(INVENTORY_LIMIT(state)["Orange Seed"]).toEqual(new Decimal(33));
-    expect(INVENTORY_LIMIT(state)["Apple Seed"]).toEqual(new Decimal(25));
-    expect(INVENTORY_LIMIT(state)["Banana Plant"]).toEqual(new Decimal(25));
-
-    expect(INVENTORY_LIMIT(state)["Grape Seed"]).toEqual(new Decimal(50));
-    expect(INVENTORY_LIMIT(state)["Olive Seed"]).toEqual(new Decimal(50));
-    expect(INVENTORY_LIMIT(state)["Rice Seed"]).toEqual(new Decimal(50));
-
-    expect(INVENTORY_LIMIT(state)["Sunpetal Seed"]).toEqual(new Decimal(40));
-    expect(INVENTORY_LIMIT(state)["Bloom Seed"]).toEqual(new Decimal(20));
-    expect(INVENTORY_LIMIT(state)["Lily Seed"]).toEqual(new Decimal(10));
+    getObjectEntries(INVENTORY_LIMIT(state)).forEach(([key, value]) => {
+      if (isFullMoonBerry(key)) {
+        expect(value).toEqual(new Decimal(10));
+      } else if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(5)).toNumber(),
+            ),
+          ),
+        );
+      } else if (isBasicFruitSeed(key as PatchFruitSeedName)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(2)).toNumber(),
+            ),
+          ),
+        );
+      } else if (isAdvancedFruitSeed(key as PatchFruitSeedName)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(1.5)).toNumber(),
+            ),
+          ),
+        );
+      } else {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(2.5)).toNumber(),
+            ),
+          ),
+        );
+      }
+    });
   });
 
   it("increases inventory limit of seeds if Warehouse is placed and ready", () => {
@@ -257,37 +274,42 @@ describe("INVENTORY_LIMIT", () => {
         ],
       },
     };
-
-    expect(INVENTORY_LIMIT(state)["Sunflower Seed"]).toEqual(new Decimal(1200));
-    expect(INVENTORY_LIMIT(state)["Potato Seed"]).toEqual(new Decimal(600));
-    expect(INVENTORY_LIMIT(state)["Pumpkin Seed"]).toEqual(new Decimal(480));
-    expect(INVENTORY_LIMIT(state)["Carrot Seed"]).toEqual(new Decimal(300));
-    expect(INVENTORY_LIMIT(state)["Cabbage Seed"]).toEqual(new Decimal(288));
-    expect(INVENTORY_LIMIT(state)["Soybean Seed"]).toEqual(new Decimal(288));
-    expect(INVENTORY_LIMIT(state)["Beetroot Seed"]).toEqual(new Decimal(264));
-    expect(INVENTORY_LIMIT(state)["Cauliflower Seed"]).toEqual(
-      new Decimal(240),
-    );
-    expect(INVENTORY_LIMIT(state)["Parsnip Seed"]).toEqual(new Decimal(180));
-    expect(INVENTORY_LIMIT(state)["Eggplant Seed"]).toEqual(new Decimal(144));
-    expect(INVENTORY_LIMIT(state)["Corn Seed"]).toEqual(new Decimal(144));
-    expect(INVENTORY_LIMIT(state)["Radish Seed"]).toEqual(new Decimal(120));
-    expect(INVENTORY_LIMIT(state)["Wheat Seed"]).toEqual(new Decimal(120));
-    expect(INVENTORY_LIMIT(state)["Kale Seed"]).toEqual(new Decimal(96));
-
-    expect(INVENTORY_LIMIT(state)["Tomato Seed"]).toEqual(new Decimal(60));
-    expect(INVENTORY_LIMIT(state)["Lemon Seed"]).toEqual(new Decimal(54));
-    expect(INVENTORY_LIMIT(state)["Blueberry Seed"]).toEqual(new Decimal(48));
-    expect(INVENTORY_LIMIT(state)["Orange Seed"]).toEqual(new Decimal(40));
-    expect(INVENTORY_LIMIT(state)["Apple Seed"]).toEqual(new Decimal(30));
-    expect(INVENTORY_LIMIT(state)["Banana Plant"]).toEqual(new Decimal(30));
-
-    expect(INVENTORY_LIMIT(state)["Grape Seed"]).toEqual(new Decimal(60));
-    expect(INVENTORY_LIMIT(state)["Olive Seed"]).toEqual(new Decimal(60));
-    expect(INVENTORY_LIMIT(state)["Rice Seed"]).toEqual(new Decimal(60));
-
-    expect(INVENTORY_LIMIT(state)["Sunpetal Seed"]).toEqual(new Decimal(48));
-    expect(INVENTORY_LIMIT(state)["Bloom Seed"]).toEqual(new Decimal(24));
-    expect(INVENTORY_LIMIT(state)["Lily Seed"]).toEqual(new Decimal(12));
+    getObjectEntries(INVENTORY_LIMIT(state)).forEach(([key, value]) => {
+      if (isFullMoonBerry(key)) {
+        expect(value).toEqual(new Decimal(10));
+      } else if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(5)).toNumber(),
+            ),
+          ),
+        );
+      } else if (isBasicFruitSeed(key as PatchFruitSeedName)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(2)).toNumber(),
+            ),
+          ),
+        );
+      } else if (isAdvancedFruitSeed(key as PatchFruitSeedName)) {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(1.5)).toNumber(),
+            ),
+          ),
+        );
+      } else {
+        expect(value).toEqual(
+          new Decimal(
+            Math.ceil(
+              new Decimal(INITIAL_STOCK(state)[key]?.mul(2.5)).toNumber(),
+            ),
+          ),
+        );
+      }
+    });
   });
 });
