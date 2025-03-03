@@ -1305,6 +1305,7 @@ describe("getCookingOilBoost", () => {
             tokenId: 1,
             name: "Sunflower Land Platinum Pass",
             expiresAt: now + cookTimeMs,
+            acknowledgedAt: new Date("2025-03-02T00:00:00Z").getTime(),
           },
         },
         buildings: {

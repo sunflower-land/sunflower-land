@@ -5391,5 +5391,6 @@
   "rocketman.flower.launch": "1 апреля в игру будет добавлен $FLOWER!",
   "rocketman.flower.compete": "Соревнуйтесь в ежемесячных соревнованиях, чтобы заработать $FLOWER.",
   "rocketman.flower.social": "Выполняйте социальные задания, распространяйте информацию и зарабатывайте $FLOWER.",
-  "rocketman.flower.eligible": "На участие допускаются пользователи Polygon, Ronin и BASE."
+  "rocketman.flower.eligible": "На участие допускаются пользователи Polygon, Ronin и BASE.",
+  "ronin.nft.activates": "Ваш VIP-доступ будет активирован через 24 часа."
 }
