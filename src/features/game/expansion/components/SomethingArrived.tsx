@@ -1,22 +1,30 @@
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
-import React, { useContext } from "react";
+import { useGame } from "features/game/GameProvider";
+import React from "react";
 import { ClaimReward } from "./ClaimReward";
 import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { InventoryItemName } from "features/game/types/game";
+import { BumpkinItem } from "features/game/types/bumpkin";
+
+const _revealed = (state: MachineState) => state.context.revealed;
 
 export const SomethingArrived: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { gameService } = useGame();
+  const revealed = useSelector(gameService, _revealed);
 
   const { t } = useAppTranslation();
 
-  const changeset = gameState.context.revealed;
+  const {
+    inventory = {} as Record<InventoryItemName, string>,
+    wardrobe = {} as Record<BumpkinItem, number>,
+    balance = 0,
+    coins = 0,
+  } = revealed ?? {};
 
-  const items = getKeys(changeset?.inventory ?? {});
-  const wardrobe = changeset?.wardrobe ?? {};
-  const sfl = Number(changeset?.balance ?? 0);
-  const coins = changeset?.coins ?? 0;
+  const items = getKeys(inventory);
+  const sfl = Number(balance ?? 0);
 
   return (
     <ClaimReward
@@ -28,7 +36,7 @@ export const SomethingArrived: React.FC = () => {
         items: items.reduce(
           (acc, name) => ({
             ...acc,
-            [name]: Number(gameState.context.revealed?.inventory[name] ?? 0),
+            [name]: Number(revealed?.inventory[name] ?? 0),
           }),
           {},
         ),
