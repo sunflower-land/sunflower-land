@@ -19,13 +19,14 @@ import {
 } from "features/game/types/flowers";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 const isFlower = (name: FlowerCrossBreedName): name is FlowerName =>
   name in FLOWERS;
@@ -35,16 +36,18 @@ interface Props {
   onClose: () => void;
 }
 
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _flowers = (state: MachineState) => state.context.state.flowers;
+const _season = (state: MachineState) => state.context.state.season.season;
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+
 export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const { inventory, flowers } = state;
-
+  const inventory = useSelector(gameService, _inventory);
+  const flowers = useSelector(gameService, _flowers);
+  const season = useSelector(gameService, _season);
+  const farmActivity = useSelector(gameService, _farmActivity);
   const [selecting, setSelecting] = useState<"seed" | "crossbreed" | null>(
     "seed",
   );
@@ -107,7 +110,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     );
 
   const isInSeason = (flowerSeed: FlowerSeedName) =>
-    seasons(flowerSeed).includes(state.season.season);
+    seasons(flowerSeed).includes(season);
 
   return (
     <>
@@ -282,8 +285,8 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                 .filter(
                   (name) =>
                     !isFlower(name) ||
-                    !!state.farmActivity[`${name} Harvested`] ||
-                    !!state.inventory[name],
+                    !!farmActivity[`${name} Harvested`] ||
+                    !!inventory[name],
                 )
                 .map((name) => (
                   <Box
