@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
@@ -57,6 +57,9 @@ const _hasTradeReputation = (state: MachineState) =>
     reputation: Reputation.Cropkeeper,
   });
 
+const _state = (state: MachineState) => state.context.state;
+const _nftId = (state: MachineState) => state.context.nftId;
+
 type TradeableListItemProps = {
   authToken: string;
   display: TradeableDisplay;
@@ -75,7 +78,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   onClose,
 }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
   const [isSigning, setIsSigning] = useState(false);
@@ -86,12 +88,12 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [needsSync, setNeedsSync] = useState(false);
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
-
-  const { state } = gameState.context;
+  const state = useSelector(gameService, _state);
+  const nftId = useSelector(gameService, _nftId);
 
   const getDailyListings = () => {
     const today = getDayOfYear(new Date());
-    const dailyListings = gameState.context.state.trades.dailyListings ?? {
+    const dailyListings = state.trades.dailyListings ?? {
       date: 0,
       count: 0,
     };
@@ -237,7 +239,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         ],
       },
       message: {
-        farmId: BigInt(gameState.context.nftId as number),
+        farmId: BigInt(nftId as number),
         collection: display.type,
         itemId: BigInt(id),
         item: display.name,
