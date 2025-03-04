@@ -5,15 +5,19 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { Context } from "features/auth/lib/Provider";
 import { isAddress } from "ethers/lib/utils";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Wallet } from "features/wallet/Wallet";
 import { ClaimAccount } from "./NoAccount";
 import { Label } from "components/ui/Label";
 import { removeJWT } from "../actions/social";
+import { AuthMachineState } from "../lib/authMachine";
+
+const _userAddress = (state: AuthMachineState) =>
+  state.context.user.token?.address;
 
 export const WalletInUse: React.FC = () => {
   const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
+  const userAddress = useSelector(authService, _userAddress);
 
   const { t } = useAppTranslation();
 
@@ -38,7 +42,7 @@ export const WalletInUse: React.FC = () => {
         </Label>
         <p className="mb-3">{t("error.walletInUse.one")}</p>
         <p className="mb-2 text-xs">{t("error.walletInUse.two")}</p>
-        {isAddress(authState.context.user.token?.address ?? "") && (
+        {isAddress(userAddress ?? "") && (
           <div className="mb-2">
             <a
               target="_blank"
