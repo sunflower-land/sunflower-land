@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { useGame } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineInterpreter } from "./landscapingMachine";
 
@@ -103,19 +103,25 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
 
   const nodeRef = useRef(null);
-  const { gameService } = useContext(Context);
+  const { gameService, state } = useGame();
 
-  const { island, season } = gameService.state.context.state;
+  const { island, season } = state;
 
-  const [gameState] = useActor(gameService);
   const [showHint, setShowHint] = useState(true);
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
-  const [machine, send] = useActor(child);
-  const { placeable, collisionDetected, origin, coordinates } = machine.context;
+  const placeable = useSelector(child, (state) => state.context.placeable);
+  const collisionDetected = useSelector(
+    child,
+    (state) => state.context.collisionDetected,
+  );
+  const origin = useSelector(child, (state) => state.context.origin);
+  const isDragging = useSelector(child, (state) =>
+    state.matches({ editing: "dragging" }),
+  );
 
-  const grid = getGameGrid(gameState.context.state);
+  const grid = getGameGrid(state);
 
   const { t } = useAppTranslation();
 
@@ -133,7 +139,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision({
-      state: gameService.state.context.state,
+      state,
       position: {
         x,
         y,
@@ -144,7 +150,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
       name: placeable as CollectibleName,
     });
 
-    send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
+    child.send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
   const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] =
@@ -168,8 +174,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   }
 
   const Collectible = isBudName(placeable)
-    ? PLACEABLES(gameState.context.state)["Bud"]
-    : PLACEABLES(gameState.context.state)[placeable];
+    ? PLACEABLES(state)["Bud"]
+    : PLACEABLES(state)[placeable];
 
   return (
     <>
@@ -198,7 +204,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
           scale={scale.get()}
           onStart={() => {
             // reset
-            send("DRAG");
+            child.send("DRAG");
           }}
           onDrag={(_, data) => {
             const x = Math.round(data.x / GRID_WIDTH_PX);
@@ -213,15 +219,15 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
             detect({ x, y });
 
-            send("DROP");
+            child.send("DROP");
           }}
         >
           <div
             ref={nodeRef}
             data-prevent-drag-scroll
             className={classNames("flex flex-col items-center", {
-              "cursor-grab": !machine.matches({ editing: "dragging" }),
-              "cursor-grabbing": machine.matches({ editing: "dragging" }),
+              "cursor-grab": !isDragging,
+              "cursor-grabbing": isDragging,
             })}
             style={{ pointerEvents: "auto" }}
           >
@@ -262,7 +268,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 island={island.type}
                 season={season.season}
                 grid={grid}
-                game={gameState.context.state}
+                game={state}
                 id={isBudName(placeable) ? placeable.split("-")[1] : "123"}
                 location="farm"
                 name={placeable as CollectibleName}
