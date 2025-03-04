@@ -20,10 +20,10 @@ export const TradeNotFound: React.FC = () => {
     <div className="flex flex-col gap-1">
       <div className="flex flex-col p-2">
         <Label type="danger" className="mb-2">
-          {`Trade not found`}
+          {t("marketplace.listing.failure.tradeNotFound")}
         </Label>
 
-        <p>{`This trade is not found. Please try again.`}</p>
+        <p>{t("marketplace.listing.failure")}</p>
       </div>
       <Button onClick={reload}>{t("continue")}</Button>
     </div>
