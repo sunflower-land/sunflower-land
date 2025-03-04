@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import React from "react";
+import { useSelector } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
@@ -15,10 +15,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 
 const _announcements = (state: MachineState) => state.context.announcements;
 const _mailbox = (state: MachineState) => state.context.state.mailbox;
-
+const _isMailbox = (state: MachineState) => state.matches("mailbox");
 export const NewMail: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState, send] = useActor(gameService);
+  const { gameService } = useGame();
+  const isMailbox = useSelector(gameService, _isMailbox);
 
   const announcements = useSelector(gameService, _announcements);
   const mailbox = useSelector(gameService, _mailbox);
@@ -36,10 +36,7 @@ export const NewMail: React.FC = () => {
   const details = newestMailId ? announcements[newestMailId] : undefined;
 
   return (
-    <Modal
-      show={gameState.matches("mailbox")}
-      onHide={() => send("ACKNOWLEDGE")}
-    >
+    <Modal show={isMailbox} onHide={() => gameService.send("ACKNOWLEDGE")}>
       {details ? (
         <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
           <div className="flex items-center justify-between mb-1">
@@ -47,7 +44,7 @@ export const NewMail: React.FC = () => {
             <img
               src={SUNNYSIDE.icons.close}
               className="h-6 mr-2 cursor-pointer"
-              onClick={() => send("ACKNOWLEDGE")}
+              onClick={() => gameService.send("ACKNOWLEDGE")}
             />
           </div>
 
@@ -55,12 +52,12 @@ export const NewMail: React.FC = () => {
             message={announcements[newestMailId as ConversationName]}
             conversationId={newestMailId as ConversationName}
             read={!!mailbox.read.find((item) => item.id === newestMailId)}
-            onAcknowledge={() => send("ACKNOWLEDGE")}
-            onClose={() => send("ACKNOWLEDGE")}
+            onAcknowledge={() => gameService.send("ACKNOWLEDGE")}
+            onClose={() => gameService.send("ACKNOWLEDGE")}
           />
         </Panel>
       ) : (
-        <CloseButtonPanel onClose={() => send("ACKNOWLEDGE")}>
+        <CloseButtonPanel onClose={() => gameService.send("ACKNOWLEDGE")}>
           <div>{t("no.mail")}</div>
         </CloseButtonPanel>
       )}
