@@ -8,12 +8,14 @@ import {
 
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
+import { MachineState } from "features/game/lib/gameMachine";
+
 const iconList = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -22,19 +24,16 @@ const iconList = {
   Animals: SUNNYSIDE.skills.animals,
 };
 
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+
 export const SkillCategoryList = ({
   onClick,
 }: {
   onClick: (category: BumpkinSkillTree) => void;
 }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const bumpkin = useSelector(gameService, _bumpkin);
 
-  const { bumpkin } = state;
   return (
     <>
       {SKILL_TREE_CATEGORIES.map((category) => {
