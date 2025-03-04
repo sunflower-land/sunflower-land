@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { ANIMALS, getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
@@ -13,25 +12,21 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { GenericItemDetails } from "components/ui/layouts/GenericItemDetails";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
 }
 
+const _autosaving = (state: MachineState) => state.matches("autosaving");
+
 export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
+  const { gameService, state } = useGame();
+  const autosaving = useSelector(gameService, _autosaving);
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
-  const autosaving = gameState.matches("autosaving");
-
-  const inventory = state.inventory;
+  const { inventory } = state;
 
   // V1 may have ones without coords
   const workingChickenCount = new Decimal(
