@@ -10,14 +10,18 @@ import { Wallet } from "features/wallet/Wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { isAddress } from "web3-utils";
-import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "./Loading";
+import { AuthMachineState } from "../lib/authMachine";
+import { useSelector } from "@xstate/react";
+
+const _userAddress = (state: AuthMachineState) =>
+  state.context.user.token?.address;
 
 export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
+  const userAddress = useSelector(authService, _userAddress);
 
   const [showPromoCode, setShowPromoCode] = useState(false);
   const [promoCode, setPromoCode] = useState(getPromoCode());
@@ -105,7 +109,7 @@ export const NoAccount: React.FC = () => {
       <div className="flex flex-col space-y-2">
         <span className="px-2 text-sm">{t("noaccount.welcomeMessage")}</span>
         <div className="flex space-x-1 mt-2.5">
-          {isAddress(authState.context.user.token?.address ?? "") && (
+          {isAddress(userAddress ?? "") && (
             <Button onClick={() => setShowClaimAccount(true)}>
               {t("noaccount.haveFarm")}
             </Button>
