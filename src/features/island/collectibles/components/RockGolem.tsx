@@ -7,19 +7,20 @@ import Spritesheet, {
 import golemSheet from "assets/sfts/rock_golem.png";
 import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { ZoomContext } from "components/ZoomProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+
+const _stones = (state: MachineState) => state.context.state.stones;
 
 export const RockGolem: React.FC = () => {
   const { scale } = useContext(ZoomContext);
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { gameService } = useGame();
+  const stones = useSelector(gameService, _stones);
 
-  const state = gameState.context.state;
-
-  const someStonesMined = Object.values(state.stones).some(
+  const someStonesMined = Object.values(stones).some(
     (stone) => !canMine(stone),
   );
 
