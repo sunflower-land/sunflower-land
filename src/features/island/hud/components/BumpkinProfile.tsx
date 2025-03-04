@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "components/ui/Modal";
-import { useActor } from "@xstate/react";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -22,6 +21,8 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpringValue } from "@react-spring/web";
 import { useSound } from "lib/utils/hooks/useSound";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 const DIMENSIONS = {
   original: 80,
@@ -197,6 +198,8 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
   );
 };
 
+const _visiting = (state: MachineState) => state.matches("visiting");
+
 export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsTab, setViewSkillsTab] = useState(false);
@@ -204,12 +207,8 @@ export const BumpkinProfile: React.FC = () => {
 
   const profile = useSound("profile");
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
-
+  const { gameService, state } = useGame();
+  const visiting = useSelector(gameService, _visiting);
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
@@ -256,10 +255,10 @@ export const BumpkinProfile: React.FC = () => {
         <BumpkinModal
           initialTab={viewSkillsTab ? 2 : 0}
           onClose={handleHideModal}
-          readonly={gameState.matches("visiting")}
-          bumpkin={gameState.context.state.bumpkin as Bumpkin}
-          inventory={gameState.context.state.inventory}
-          gameState={gameState.context.state}
+          readonly={visiting}
+          bumpkin={state.bumpkin as Bumpkin}
+          inventory={state.inventory}
+          gameState={state}
         />
       </Modal>
 
@@ -269,9 +268,7 @@ export const BumpkinProfile: React.FC = () => {
         <BumpkinAvatar
           bumpkin={state.bumpkin}
           onClick={handleShowHomeModal}
-          showSkillPointAlert={
-            showSkillPointAlert && !gameState.matches("visiting")
-          }
+          showSkillPointAlert={showSkillPointAlert && !visiting}
         />
       </div>
     </>
