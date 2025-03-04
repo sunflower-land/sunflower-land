@@ -12,10 +12,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useActor } from "@xstate/react";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 export const getBeanStates = (name: InventoryItemName, createdAt: number) => {
   const plantSeconds = BEANS()[name as BeanName].plantSeconds;
@@ -27,13 +28,17 @@ export const getBeanStates = (name: InventoryItemName, createdAt: number) => {
   return { isReady, timeLeft, plantSeconds };
 };
 
+const _beanRevealing = (state: MachineState) => state.matches("revealing");
+const _beanRevealed = (state: MachineState) => state.matches("beanRevealed");
+
 export const Bean: React.FC<CollectibleProps> = ({
   createdAt,
   id,
   name = "Magic Bean",
 }) => {
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const beanRevealing = useSelector(gameService, _beanRevealing);
+  const beanRevealed = useSelector(gameService, _beanRevealed);
   const [showModal, setShowModal] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
@@ -83,7 +88,7 @@ export const Bean: React.FC<CollectibleProps> = ({
           />
         </div>
 
-        {gameState.matches("revealing") && isRevealing && (
+        {beanRevealing && isRevealing && (
           <Modal show backdrop="static">
             <Panel className="z-10">
               <Revealing icon={SUNNYSIDE.crops.magicBean} />
@@ -91,7 +96,7 @@ export const Bean: React.FC<CollectibleProps> = ({
           </Modal>
         )}
 
-        {gameState.matches("beanRevealed") && isRevealing && (
+        {beanRevealed && isRevealing && (
           <Modal show backdrop="static">
             <Panel className="z-10">
               <Revealed id={id} onAcknowledged={() => setIsRevealing(false)} />

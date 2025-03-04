@@ -7,7 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context, useGame } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 import { CookableName } from "features/game/types/consumables";
 import {
@@ -303,14 +303,15 @@ const BuildingComponent: React.FC<Prop> = ({
   island,
   season,
 }) => {
-  const { gameState } = useGame();
   const BuildingPlaced = BUILDING_COMPONENTS[name];
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _gameState);
 
   const inProgress = readyAt > Date.now();
 
   const destroyedBy = useMemo(
-    () => isBuildingDestroyed({ name, game: gameState.context.state }),
-    [gameState.context.state.calendar],
+    () => isBuildingDestroyed({ name, game: state }),
+    [state.calendar],
   );
 
   useUiRefresher({ active: inProgress });

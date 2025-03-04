@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { MixingPotion } from "./MixingPotion";
@@ -14,6 +13,7 @@ import { PotionName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
+import { useGame } from "features/game/GameProvider";
 
 interface Props {
   onClose: () => void;
@@ -29,15 +29,27 @@ export const Experiment: React.FC<Props> = ({
   onClose,
   potionHouseService,
 }) => {
-  const { gameService } = useContext(Context);
-  const [potionState] = useActor(potionHouseService);
   const { t } = useAppTranslation();
+  const { gameService, state } = useGame();
 
-  const {
-    context: { guessSpot, currentGuess, isNewGame, feedbackText },
-  } = potionState;
+  const guessSpot = useSelector(
+    potionHouseService,
+    (state) => state.context.guessSpot,
+  );
+  const currentGuess = useSelector(
+    potionHouseService,
+    (state) => state.context.currentGuess,
+  );
+  const isNewGame = useSelector(
+    potionHouseService,
+    (state) => state.context.isNewGame,
+  );
+  const feedbackText = useSelector(
+    potionHouseService,
+    (state) => state.context.feedbackText,
+  );
 
-  const potionHouse = gameService.state.context.state.potionHouse;
+  const potionHouse = state.potionHouse;
   const previousAttempts = potionHouse?.game.attempts ?? [];
   const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
@@ -235,7 +247,7 @@ export const Experiment: React.FC<Props> = ({
           <Button onClick={onClose}>{t("close")}</Button>
           <Button
             onClick={handleStart}
-            disabled={(gameService.state.context.state.coins ?? 0) < 320}
+            disabled={(state.coins ?? 0) < 320}
           >{`${t("statements.startgame")} (320 coins)`}</Button>
         </div>
       )}

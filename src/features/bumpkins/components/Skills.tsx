@@ -7,7 +7,7 @@ import {
 
 import { getAvailableBumpkinOldSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { SkillCategoryList } from "./SkillCategoryList";
 
 import { SkillPathDetails } from "./SkillPathDetails";
@@ -29,10 +29,10 @@ interface Props {
 
 export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
+  const bumpkin = useSelector(
+    gameService,
+    (state) => state.context.state.bumpkin,
+  );
 
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinSkillTree | null>(null);
@@ -59,8 +59,7 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
     onBack();
   };
   const { t } = useAppTranslation();
-  const { bumpkin } = state;
-  const experience = bumpkin?.experience || 0;
+  const { experience } = bumpkin;
 
   const availableSkillPoints = getAvailableBumpkinOldSkillPoints(bumpkin);
 

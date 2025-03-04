@@ -2,7 +2,7 @@
  * A wrapper that provides game state and dispatches events
  */
 import { useState, useCallback } from "react";
-import { useActor, useInterpret } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -11,7 +11,7 @@ import {
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
 
-import { startGame, MachineInterpreter } from "./lib/gameMachine";
+import { startGame, MachineInterpreter, MachineState } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import {
   cacheShowAnimationsSetting,
@@ -44,9 +44,9 @@ export const Context = React.createContext<GameContext>({} as GameContext);
 
 export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const authStateContext = useSelector(authService, (state) => state.context);
 
-  const [gameMachine] = useState(startGame(authState.context) as any);
+  const [gameMachine] = useState(startGame(authStateContext) as any);
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
@@ -119,13 +119,16 @@ export const GameProvider: React.FC = ({ children }) => {
   );
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const useGame = () => {
   const context = React.useContext(Context);
-  const [gameState] = useActor(context.gameService);
+  const { gameService } = context;
+  const state = useSelector(gameService, _state);
 
   if (!context) {
     throw new Error("useAuth must be used within an GameProvider");
   }
 
-  return { gameState, gameService: context.gameService };
+  return { state, gameService };
 };

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
 
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
   Decoration,
@@ -24,11 +23,7 @@ export const PotionHouseItems: React.FC = () => {
     POTION_HOUSE_DECORATIONS()["Giant Potato"],
   );
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
   const inventory = state.inventory;
 
   const price = selected.coins ?? 0;

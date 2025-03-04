@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Balances } from "components/Balances";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import Decimal from "decimal.js-light";
@@ -27,15 +26,19 @@ import { GameCalendar } from "features/game/expansion/components/temperateSeason
 
 import chest from "assets/icons/chest.png";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
+const _autosaving = (state: MachineState) => state.matches("autosaving");
+
 const HudComponent: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
   const { openModal } = useContext(ModalContext);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
@@ -43,7 +46,7 @@ const HudComponent: React.FC = () => {
 
   const { pathname } = useLocation();
 
-  const autosaving = gameState.matches("autosaving");
+  const autosaving = useSelector(gameService, _autosaving);
 
   const handleBuyCurrenciesModal = () => {
     openModal("BUY_GEMS");
@@ -62,12 +65,12 @@ const HudComponent: React.FC = () => {
   const farmAddress = gameService.state?.context?.farmAddress;
   const linkedWallet = gameService.state?.context?.linkedWallet;
   const isFullUser = farmAddress !== undefined;
-  const isTutorial = gameState.context.state.island.type === "basic";
+  const isTutorial = state.island.type === "basic";
   return (
     <>
       <HudContainer>
         <Inventory
-          state={gameState.context.state}
+          state={state}
           isFullUser={isFullUser}
           shortcutItem={shortcutItem}
           selectedItem={selectedItem}
@@ -90,9 +93,9 @@ const HudComponent: React.FC = () => {
         {pathname.includes("beach") && <DesertDiggingDisplay />}
         <Balances
           onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
-          sfl={gameState.context.state.balance}
-          coins={gameState.context.state.coins}
-          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
+          sfl={state.balance}
+          coins={state.coins}
+          gems={state.inventory["Gem"] ?? new Decimal(0)}
         />
         <div
           className="absolute z-50 flex flex-col space-y-2.5 justify-between"

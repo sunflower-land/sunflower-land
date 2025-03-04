@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { isAddress } from "web3-utils";
 
 import farmImg from "assets/brand/nft.png";
@@ -12,19 +12,27 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { wallet } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MachineState } from "features/game/lib/gameMachine";
 const transferring = SUNNYSIDE.npcs.minting;
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+const _nftId = (state: MachineState) => state.context.nftId;
 export const TransferAccount: React.FC = () => {
   const { t } = useAppTranslation();
 
   const { authService } = useContext(AuthProvider.Context);
+  const rawToken = useSelector(authService, _rawToken);
   const { gameService } = useContext(Context);
-  const [authState] = useActor(authService);
+  const nftId = useSelector(gameService, _nftId);
 
   const [receiver, setReceiver] = useState({ address: "" });
   const [state, setState] = useState<"idle" | "loading" | "error" | "success">(
     "idle",
   );
+
+  if (!nftId) {
+    return null;
+  }
 
   const transfer = async () => {
     setState("loading");
@@ -32,9 +40,9 @@ export const TransferAccount: React.FC = () => {
       await transferAccount({
         receiver: receiver.address,
         farmId: gameService.state.context.farmId,
-        token: authState.context.user.rawToken as string,
+        token: rawToken as string,
         account: wallet.getAccount() as string,
-        nftId: gameService.state.context.nftId!,
+        nftId,
       });
       setState("success");
     } catch {

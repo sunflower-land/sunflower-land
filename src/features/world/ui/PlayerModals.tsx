@@ -1,5 +1,5 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import levelIcon from "assets/icons/level_up.png";
 import giftIcon from "assets/icons/gift.png";
@@ -12,8 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label, LABEL_STYLES } from "components/ui/Label";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "./chests/ChestRevealing";
@@ -21,6 +20,7 @@ import { secondsToString } from "lib/utils/time";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { AdminSettings } from "features/island/hud/components/settings-menu/general-settings/AdminSettings";
 import { CONFIG } from "lib/config";
+import { useSelector } from "@xstate/react";
 
 type Player = {
   id: number;
@@ -106,11 +106,16 @@ const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
   );
 };
 
-export const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+export const PlayerGift: React.FC = () => {
+  const { gameService, state } = useGame();
+  const giftRevealing = useSelector(gameService, (state) =>
+    state.matches("revealing"),
+  );
+  const giftRevealed = useSelector(gameService, (state) =>
+    state.matches("revealed"),
+  );
 
-  const { pumpkinPlaza } = gameState.context.state;
+  const { pumpkinPlaza } = state;
 
   const [isRevealing, setIsRevealing] = useState(false);
 
@@ -142,11 +147,11 @@ export const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
     new Date(openedAt).toISOString().substring(0, 10) ===
       new Date().toISOString().substring(0, 10);
 
-  if (isPicking || (gameState.matches("revealing") && isRevealing)) {
+  if (isPicking || (giftRevealing && isRevealing)) {
     return <ChestRevealing type={"Gift Giver"} />;
   }
 
-  if (gameState.matches("revealed") && isRevealing) {
+  if (giftRevealed && isRevealing) {
     return (
       <Revealed
         onAcknowledged={() => {
@@ -185,10 +190,8 @@ interface Props {
 }
 
 export const PlayerModals: React.FC<Props> = ({ game }) => {
-  const { gameService } = useContext(Context);
   const [tab, setTab] = useState(0);
   const [player, setPlayer] = useState<Player>();
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -220,9 +223,7 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
               icon: SUNNYSIDE.icons.player,
               name: "Player",
             },
-            ...(!!gameService.getSnapshot().context.state.wardrobe[
-              "Gift Giver"
-            ] || CONFIG.NETWORK === "amoy"
+            ...(!!game.wardrobe["Gift Giver"] || CONFIG.NETWORK === "amoy"
               ? [
                   {
                     icon: SUNNYSIDE.icons.search,
@@ -234,7 +235,7 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
         >
           {tab === 0 &&
             (playerHasGift ? (
-              <PlayerGift player={player as Player} />
+              <PlayerGift />
             ) : (
               <PlayerDetails player={player as Player} />
             ))}

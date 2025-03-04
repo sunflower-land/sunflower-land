@@ -1,11 +1,10 @@
 import React, { SyntheticEvent, useContext, useRef, useState } from "react";
-import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import Decimal from "decimal.js-light";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TREASURE_TOOLS, TreasureToolName } from "features/game/types/tools";
@@ -41,14 +40,8 @@ interface ToolContentProps {
 
 const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
-
   const { gameService, shortcutItem } = useContext(Context);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const selected = TREASURE_TOOLS[selectedName];
@@ -124,14 +117,9 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
   selectedName,
 }) => {
   const { t } = useAppTranslation();
-
   const selected = TREASURE_COLLECTIBLE_ITEM[selectedName];
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
   const { inventory, pumpkinPlaza } = state;
 
   const isKey = (name: TreasureCollectibleItem | Keys): name is Keys =>
@@ -217,14 +205,9 @@ interface WearableContentProps {
 
 const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
-
   const selected = ARTEFACT_SHOP_WEARABLES[selectedName];
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
   const inventory = state.inventory;
   const wardrobe = state.wardrobe;
 
@@ -300,13 +283,9 @@ export const TreasureShopBuy: React.FC = () => {
 
   const [selectedName, setSelectedName] =
     useState<ArtefactShopItems>("Sand Shovel");
-  const { gameService, shortcutItem } = useContext(Context);
+  const { shortcutItem } = useContext(Context);
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
 
   const divRef = useRef<HTMLDivElement>(null);
 

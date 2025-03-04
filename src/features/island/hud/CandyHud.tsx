@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import candy from "public/world/candy_icon.png";
 
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import {
   DAILY_CANDY,
   getDayOfChristmas,
@@ -14,12 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const CandyHUD: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
-
+  const { state } = useGame();
   const { t } = useAppTranslation();
 
   const { dayOfChristmas } = getDayOfChristmas(state);

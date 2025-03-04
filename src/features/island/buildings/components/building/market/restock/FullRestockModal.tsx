@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { Context, useGame } from "features/game/GameProvider";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import stockIcon from "assets/icons/stock.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -34,11 +33,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
   const { openModal } = useContext(ModalContext);
 
   const { gameService, showAnimations } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
 
   const canRestock = state.inventory["Gem"]?.gte(20);
 

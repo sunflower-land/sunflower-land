@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 
 import mailIcon from "assets/icons/letter.png";
@@ -10,7 +10,6 @@ import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "./components";
 
-import { ErrorCode } from "lib/errors";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";
@@ -26,24 +25,54 @@ import { WalletInUse } from "./components/WalletInUse";
 import { LoginSettings } from "./components/LoginSettings";
 import { NPC_WEARABLES } from "lib/npcs";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
+import { AuthMachineState } from "./lib/authMachine";
+import { ErrorCode } from "lib/errors";
 
 type Props = {
   showOfflineModal: boolean;
 };
 
+const _isConnected = (state: AuthMachineState) => state.matches("connected");
+const _isVisiting = (state: AuthMachineState) => state.matches("visiting");
+const _isUnauthorised = (state: AuthMachineState) =>
+  state.matches("unauthorised");
+const _isWelcome = (state: AuthMachineState) => state.matches("welcome");
+const _isNoAccount = (state: AuthMachineState) => state.matches("noAccount");
+const _isWalletInUse = (state: AuthMachineState) =>
+  state.matches("walletInUse");
+const _isAuthorising = (state: AuthMachineState) =>
+  state.matches("authorising");
+const _isVerifying = (state: AuthMachineState) => state.matches("verifying");
+const _isIdle = (state: AuthMachineState) => state.matches("idle");
+const _isSignIn = (state: AuthMachineState) => state.matches("signIn");
+const _isSignUp = (state: AuthMachineState) => state.matches("signUp");
+const _isCreating = (state: AuthMachineState) => state.matches("creating");
+const _isClaiming = (state: AuthMachineState) => state.matches("claiming");
+const _errorCode = (state: AuthMachineState) => state.context.errorCode;
+
 export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const isConnected = useSelector(authService, _isConnected);
+  const isVisiting = useSelector(authService, _isVisiting);
+  const isUnauthorised = useSelector(authService, _isUnauthorised);
+  const isWelcome = useSelector(authService, _isWelcome);
+  const isNoAccount = useSelector(authService, _isNoAccount);
+  const isWalletInUse = useSelector(authService, _isWalletInUse);
+  const isAuthorising = useSelector(authService, _isAuthorising);
+  const isVerifying = useSelector(authService, _isVerifying);
+  const isIdle = useSelector(authService, _isIdle);
+  const isSignIn = useSelector(authService, _isSignIn);
+  const isSignUp = useSelector(authService, _isSignUp);
+  const isCreating = useSelector(authService, _isCreating);
+  const isClaiming = useSelector(authService, _isClaiming);
+  const errorCode = useSelector(authService, _errorCode);
 
   const [showMessage, setShowMessage] = useState(true);
   const { t } = useAppTranslation();
 
   return (
     <>
-      <Modal
-        show={!authState.matches("connected") && !authState.matches("visiting")}
-        backdrop={false}
-      >
+      <Modal show={!isConnected && !isVisiting} backdrop={false}>
         <div
           className={classNames(
             "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100",
@@ -95,27 +124,21 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
         ) : (
           <Panel
             bumpkinParts={
-              authState.matches("unauthorised")
-                ? NPC_WEARABLES["worried pete"]
-                : undefined
+              isUnauthorised ? NPC_WEARABLES["worried pete"] : undefined
             }
             className="pb-1 relative"
           >
-            {authState.matches("welcome") && <Welcome />}
-            {authState.matches("noAccount") && <NoAccount />}
-            {authState.matches("walletInUse") && <WalletInUse />}
-            {authState.matches("authorising") && <Loading />}
-            {authState.matches("verifying") && <Verifying />}
-            {(authState.matches("idle") || authState.matches("signIn")) && (
-              <SignIn type="signin" />
-            )}
-            {authState.matches("signUp") && <SignUp />}
-            {authState.matches("creating") && <Loading text={t("creating")} />}
-            {authState.matches("claiming") && <Loading text={t("claiming")} />}
-            {authState.matches("unauthorised") && (
-              <ErrorMessage
-                errorCode={authState.context.errorCode as ErrorCode}
-              />
+            {isWelcome && <Welcome />}
+            {isNoAccount && <NoAccount />}
+            {isWalletInUse && <WalletInUse />}
+            {isAuthorising && <Loading />}
+            {isVerifying && <Verifying />}
+            {(isIdle || isSignIn) && <SignIn type="signin" />}
+            {isSignUp && <SignUp />}
+            {isCreating && <Loading text={t("creating")} />}
+            {isClaiming && <Loading text={t("claiming")} />}
+            {isUnauthorised && (
+              <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}
           </Panel>
         )}
@@ -141,9 +164,7 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
         )}
       </Modal>
 
-      {!authState.matches("connected") && !authState.matches("visiting") && (
-        <LoginSettings />
-      )}
+      {!isConnected && !isVisiting && <LoginSettings />}
     </>
   );
 };

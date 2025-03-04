@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   Auction,
@@ -395,24 +395,35 @@ export const SeasonalAuctions: React.FC<Props> = ({
     },
   ) as unknown as MachineInterpreter;
 
-  const [auctioneerState] = useActor(auctionService);
+  const isIdle = useSelector(auctionService, (state) => state.matches("idle"));
+  const isLoading = useSelector(auctionService, (state) =>
+    state.matches("loading"),
+  );
+  const auctions = useSelector(
+    auctionService,
+    (state) => state.context.auctions,
+  );
+  const totalSupply = useSelector(
+    auctionService,
+    (state) => state.context.totalSupply,
+  );
 
   useEffect(() => {
     auctionService.send("OPEN", { gameState });
   }, []);
 
-  if (auctioneerState.matches("idle")) {
+  if (isIdle) {
     return null;
   }
 
-  if (auctioneerState.matches("loading")) {
+  if (isLoading) {
     return <Loading />;
   }
 
   const { details: auctionItems, filteredTotalSupply: totalItems } =
     getSeasonalAuctions({
-      auctions: auctioneerState.context.auctions,
-      totalSupply: auctioneerState.context.totalSupply,
+      auctions,
+      totalSupply,
       season,
     });
 

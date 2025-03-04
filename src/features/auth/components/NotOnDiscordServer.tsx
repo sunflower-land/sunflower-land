@@ -1,20 +1,18 @@
 import React, { useContext } from "react";
 
-import * as AuthProvider from "features/auth/lib/Provider";
-
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { discordOAuth } from "../actions/oauth";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _oauthNonce = (state: MachineState) => state.context.oauthNonce;
 
 export const NotOnDiscordServer: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
-
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
+  const oauthNonce = useSelector(gameService, _oauthNonce);
   const { t } = useAppTranslation();
   return (
     <div className="flex flex-col text-center  items-center p-1">
@@ -59,7 +57,7 @@ export const NotOnDiscordServer: React.FC = () => {
         </Button>
         <Button
           onClick={() => {
-            discordOAuth({ nonce: gameState.context.oauthNonce });
+            discordOAuth({ nonce: oauthNonce });
           }}
         >
           {t("try.again")}

@@ -9,18 +9,25 @@ import {
   loadPersonhoodDetails,
 } from "features/game/actions/personhood";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { signMessage } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+
+const _rawToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+const _transactionId = (state: AuthMachineState) =>
+  state.context.transactionId as string;
 
 export const PersonhoodContent: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
+  const rawToken = useSelector(authService, _rawToken);
+  const transactionId = useSelector(authService, _transactionId);
 
   const { t } = useAppTranslation();
 
@@ -32,8 +39,8 @@ export const PersonhoodContent: React.FC = () => {
   const loadPersonhood = async () => {
     return await loadPersonhoodDetails(
       Number(gameService.state.context.farmId),
-      authState.context.user.rawToken as string,
-      authState.context.transactionId as string,
+      rawToken,
+      transactionId,
     );
   };
 

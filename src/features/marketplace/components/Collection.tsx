@@ -2,7 +2,7 @@ import { Loading } from "features/auth/components";
 import React, { useContext, useRef } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
@@ -14,6 +14,7 @@ import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -28,6 +29,8 @@ export const preloadCollections = (token: string) => {
 };
 
 const _state = (state: MachineState) => state.context.state;
+const _rawToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const Collection: React.FC<{
   search?: string;
@@ -36,7 +39,7 @@ export const Collection: React.FC<{
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
   const [queryParams] = useSearchParams();
@@ -52,14 +55,12 @@ export const Collection: React.FC<{
 
   const navigate = useNavigate();
 
-  const token = authState.context.user.rawToken as string;
-
   const {
     data: wearables,
     isLoading: isWearablesLoading,
     error: wearablesError,
   } = useSWR(
-    filters.includes("wearables") ? ["wearables", token] : null,
+    filters.includes("wearables") ? ["wearables", rawToken] : null,
     collectionFetcher,
   );
 
@@ -68,7 +69,7 @@ export const Collection: React.FC<{
     isLoading: isCollectiblesLoading,
     error: collectiblesError,
   } = useSWR(
-    filters.includes("collectibles") ? ["collectibles", token] : null,
+    filters.includes("collectibles") ? ["collectibles", rawToken] : null,
     collectionFetcher,
   );
   const {
@@ -76,7 +77,7 @@ export const Collection: React.FC<{
     isLoading: isResourcesLoading,
     error: resourcesError,
   } = useSWR(
-    filters.includes("resources") ? ["resources", token] : null,
+    filters.includes("resources") ? ["resources", rawToken] : null,
     collectionFetcher,
   );
   const {
@@ -84,7 +85,7 @@ export const Collection: React.FC<{
     isLoading: isBudsLoading,
     error: budsError,
   } = useSWR(
-    filters.includes("buds") ? ["buds", token] : null,
+    filters.includes("buds") ? ["buds", rawToken] : null,
     collectionFetcher,
   );
   const {
@@ -92,7 +93,7 @@ export const Collection: React.FC<{
     isLoading: isLimitedLoading,
     error: limitedError,
   } = useSWR(
-    filters.includes("temporary") ? ["temporary", token] : null,
+    filters.includes("temporary") ? ["temporary", rawToken] : null,
     collectionFetcher,
   );
 

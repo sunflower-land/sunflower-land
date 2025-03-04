@@ -1,5 +1,4 @@
 import React, { useContext, useRef, useState } from "react";
-import * as Auth from "features/auth/lib/Provider";
 
 import boat from "assets/decorations/isle_boat.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -10,8 +9,8 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
-import { useActor, useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { Context, useGame } from "features/game/GameProvider";
 import { discordOAuth } from "features/auth/actions/oauth";
 import { ClaimReward } from "./ClaimReward";
 import { BONUSES } from "features/game/types/bonuses";
@@ -20,22 +19,23 @@ import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+const _discordId = (state: MachineState) => state.context.discordId;
+const _oauthNonce = (state: MachineState) => state.context.oauthNonce;
 export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { gameService, state: game } = useGame();
+  const discordId = useSelector(gameService, _discordId);
+  const oauthNonce = useSelector(gameService, _oauthNonce);
 
   const initialState = (): "connected" | "noDiscord" | "claim" | "claimed" => {
-    if (BONUSES["discord-signup"].isClaimed(gameState.context.state)) {
+    if (BONUSES["discord-signup"].isClaimed(game)) {
       return "claimed";
     }
 
-    if (gameState.context.discordId) {
+    if (discordId) {
       return "connected";
     }
 
@@ -47,7 +47,7 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   >(initialState());
 
   const oauth = () => {
-    discordOAuth({ nonce: gameState.context.oauthNonce });
+    discordOAuth({ nonce: oauthNonce });
   };
 
   const acknowledge = () => {
@@ -136,9 +136,6 @@ const _expansions = (state: MachineState) =>
 
 export const DiscordBoat: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
   const isClaimed = useSelector(gameService, _isClaimed);

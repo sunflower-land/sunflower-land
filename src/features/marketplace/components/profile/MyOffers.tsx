@@ -3,7 +3,7 @@ import { InnerPanel, Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { getItemId, tradeToId } from "../../lib/offers";
@@ -18,12 +18,16 @@ import { InventoryItemName } from "features/game/types/game";
 import { formatNumber } from "lib/utils/formatNumber";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MyTableRow } from "./MyTableRow";
+import { MachineState } from "features/game/lib/gameMachine";
 
 import lock from "assets/icons/lock.png";
 import trade from "assets/icons/trade.png";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
+
+const _state = (state: MachineState) => state.context.state;
+const _prices = (state: MachineState) => state.context.prices;
 
 export const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
@@ -32,14 +36,15 @@ export const MyOffers: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const { authService } = useContext(Auth.Context);
-  const [gameState] = useActor(gameService);
+  const state = useSelector(gameService, _state);
+  const prices = useSelector(gameService, _prices);
 
   const [claimId, setClaimId] = useState<string>();
   const [removeId, setRemoveId] = useState<string>();
 
   const authToken = useSelector(authService, _authToken);
 
-  const { trades } = gameState.context.state;
+  const { trades } = state;
   const offers = trades.offers ?? {};
 
   const filteredOffers =
@@ -85,7 +90,7 @@ export const MyOffers: React.FC = () => {
     setClaimId(undefined);
   };
 
-  const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+  const usd = prices.sfl?.usd ?? 0.0;
 
   return (
     <>
@@ -153,7 +158,7 @@ export const MyOffers: React.FC = () => {
                   const details = getTradeableDisplay({
                     id: itemId,
                     type: offer.collection,
-                    state: gameState.context.state,
+                    state,
                   });
 
                   const isResource =

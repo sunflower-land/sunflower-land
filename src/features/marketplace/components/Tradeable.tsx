@@ -4,7 +4,7 @@ import {
 } from "features/game/types/marketplace";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
@@ -34,17 +34,24 @@ import { tradeToId } from "../lib/offers";
 import { getDayOfYear } from "lib/utils/time";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import useSWR from "swr";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _rawToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+const _state = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const location = useLocation();
 
-  const farmId = gameState.context.farmId;
-  const authToken = authState.context.user.rawToken as string;
-  const inventory = gameState.context.state.inventory;
+  const rawToken = useSelector(authService, _rawToken);
+  const state = useSelector(gameService, _state);
+  const farmId = useSelector(gameService, _farmId);
+
+  const inventory = state.inventory;
 
   const { collection, id } = useParams<{
     collection: CollectionName;
@@ -57,17 +64,16 @@ export const Tradeable: React.FC = () => {
   const display = getTradeableDisplay({
     id: Number(id),
     type: collection as CollectionName,
-    state: gameState.context.state,
+    state,
   });
 
   let count = 0;
 
-  const game = gameState.context.state;
   if (display.type === "collectibles") {
     const name = KNOWN_ITEMS[Number(id)];
 
     if (name in COLLECTIBLES_DIMENSIONS) {
-      count = getChestItems(game)[name]?.toNumber() ?? 0;
+      count = getChestItems(state)[name]?.toNumber() ?? 0;
     } else {
       count = getBasketItems(inventory)[name]?.toNumber() ?? 0;
     }
@@ -75,31 +81,29 @@ export const Tradeable: React.FC = () => {
 
   if (display.type === "wearables") {
     const name = ITEM_NAMES[Number(id)];
-    count = availableWardrobe(game)[name] ?? 0;
+    count = availableWardrobe(state)[name] ?? 0;
   }
 
   if (display.type === "buds") {
-    count = getChestBuds(game)[Number(id)] ? 1 : 0;
+    count = getChestBuds(state)[Number(id)] ? 1 : 0;
   }
 
   const {
     data: tradeable,
     error,
     mutate: reload,
-  } = useSWR(
-    [collection, id, authState.context.user.rawToken as string],
-    ([collection, id, token]) =>
-      loadTradeable({
-        type: collection as CollectionName,
-        id: Number(id),
-        token,
-      }),
+  } = useSWR([collection, id, rawToken], ([collection, id, token]) =>
+    loadTradeable({
+      type: collection as CollectionName,
+      id: Number(id),
+      token,
+    }),
   );
   if (error) throw error;
 
   const getDailyListings = () => {
     const today = getDayOfYear(new Date());
-    const dailyListings = gameState.context.state.trades.dailyListings ?? {
+    const dailyListings = state.trades.dailyListings ?? {
       date: 0,
       count: 0,
     };
@@ -122,7 +126,7 @@ export const Tradeable: React.FC = () => {
     }
   };
 
-  const trades = gameState.context.state.trades;
+  const trades = state.trades;
   const hasListings = getKeys(trades.listings ?? {}).some(
     (listing) =>
       tradeToId({ details: trades.listings![listing] }) === Number(id),
@@ -157,7 +161,7 @@ export const Tradeable: React.FC = () => {
       <div className="w-full">
         <TradeableHeader
           dailyListings={getDailyListings()}
-          authToken={authToken}
+          authToken={rawToken}
           farmId={farmId}
           collection={collection as CollectionName}
           display={display}
@@ -180,7 +184,7 @@ export const Tradeable: React.FC = () => {
 
         <TradeableListings
           id={Number(id)}
-          authToken={authState.context.user.rawToken as string}
+          authToken={rawToken}
           tradeable={tradeable}
           display={display}
           farmId={farmId}

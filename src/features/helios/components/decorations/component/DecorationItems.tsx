@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decoration, DecorationName } from "features/game/types/decorations";
@@ -30,25 +29,23 @@ const ADVANCED_DECORATIONS: DecorationName[] = [
 interface Props {
   items: Partial<Record<DecorationName, Decoration>>;
 }
+
 export const DecorationItems: React.FC<Props> = ({ items }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration>(
     items[getKeys(items)[0]] as Decoration,
   );
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const inventory = state.inventory;
+  const { state } = useGame();
+
+  const { inventory, coins: coinBalance } = state;
 
   const price = selected.coins;
 
   const lessFunds = () => {
     if (!price) return false;
 
-    return state.coins < price;
+    return coinBalance < price;
   };
 
   const lessIngredients = () =>

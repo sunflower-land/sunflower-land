@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { IntroPage } from "./Intro";
 import { Experiment } from "./Experiment";
@@ -11,24 +11,32 @@ import {
   PotionHouseMachineInterpreter,
   potionHouseMachine,
 } from "./lib/potionHouseMachine";
-import { useActor, useInterpret } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useSelector, useInterpret } from "@xstate/react";
+import { useGame } from "features/game/GameProvider";
 
 interface Props {
   onClose: () => void;
 }
 
 export const PotionHouse: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
+  const { state } = useGame();
 
-  const potionHouse = gameService.state.context.state.potionHouse;
+  const potionHouse = state.potionHouse;
   const isNewGame = !potionHouse || potionHouse?.game.status === "finished";
 
   const potionHouseService = useInterpret(potionHouseMachine, {
     context: { isNewGame },
   }) as unknown as PotionHouseMachineInterpreter;
 
-  const [state, send] = useActor(potionHouseService);
+  const isIntroduction = useSelector(potionHouseService, (state) =>
+    state.matches("introduction"),
+  );
+  const isPlaying = useSelector(potionHouseService, (state) =>
+    state.matches("playing"),
+  );
+  const isRules = useSelector(potionHouseService, (state) =>
+    state.matches("rules"),
+  );
 
   return (
     <Modal show onHide={onClose}>
@@ -44,7 +52,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
           {/* Header */}
           <div className="flex mb-3 w-full justify-center">
             <div
-              onClick={() => send("OPEN_RULES")}
+              onClick={() => potionHouseService.send("OPEN_RULES")}
               style={{
                 height: `${PIXEL_SCALE * 11}px`,
                 width: `${PIXEL_SCALE * 11}px`,
@@ -56,7 +64,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
               />
             </div>
             <h1 className="grow text-center text-lg">
-              {state.matches("rules") ? "How to play" : "Potion Room"}
+              {isRules ? "How to play" : "Potion Room"}
             </h1>
             <img
               src={SUNNYSIDE.icons.close}
@@ -68,17 +76,19 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
             />
           </div>
           <div className="flex flex-col grow mb-1">
-            {state.matches("introduction") && (
-              <IntroPage onClose={() => send("ACKNOWLEDGE")} />
+            {isIntroduction && (
+              <IntroPage
+                onClose={() => potionHouseService.send("ACKNOWLEDGE")}
+              />
             )}
-            {state.matches("playing") && (
+            {isPlaying && (
               <Experiment
                 onClose={onClose}
                 potionHouseService={potionHouseService}
               />
             )}
-            {state.matches("rules") && (
-              <Rules onDone={() => send("ACKNOWLEDGE")} />
+            {isRules && (
+              <Rules onDone={() => potionHouseService.send("ACKNOWLEDGE")} />
             )}
           </div>
         </div>

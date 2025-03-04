@@ -1,12 +1,11 @@
-import { useActor } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import manekiNekoShaking from "assets/sfts/maneki_neko.gif";
 import manekiNeko from "assets/sfts/maneki_neko_idle.gif";
 import shadow from "assets/npcs/shadow16px.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
@@ -16,19 +15,26 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { canShake } from "features/game/types/removeables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   id: string;
 }
 
+const _manekiRevealing = (state: MachineState) => state.matches("revealing");
+const _manekiRevealed = (state: MachineState) => state.matches("revealed");
+
 export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { gameService, state } = useGame();
+  const manekiRevealing = useSelector(gameService, _manekiRevealing);
+  const manekiRevealed = useSelector(gameService, _manekiRevealed);
+
   const [showTooltip, setShowTooltip] = useState(false);
   const manekiNekos =
-    gameState.context.state.collectibles["Maneki Neko"] ??
-    gameState.context.state.home.collectibles["Maneki Neko"] ??
+    state.collectibles["Maneki Neko"] ??
+    state.home.collectibles["Maneki Neko"] ??
     [];
 
   useUiRefresher();
@@ -116,14 +122,14 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           />
         </div>
       )}
-      {gameState.matches("revealing") && isRevealing && (
+      {manekiRevealing && isRevealing && (
         <Modal show>
           <Panel>
             <ChestRevealing type="Maneki Neko" />
           </Panel>
         </Modal>
       )}
-      {gameState.matches("revealed") && isRevealing && (
+      {manekiRevealed && isRevealing && (
         <Modal show>
           <Panel>
             <Revealed onAcknowledged={() => setIsRevealing(false)} />

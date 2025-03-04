@@ -1,4 +1,3 @@
-import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
@@ -8,6 +7,8 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Airdrop as IAirdrop } from "features/game/types/game";
 import { ClaimReward } from "./ClaimReward";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 export const AirdropModal: React.FC<{
   airdrop: IAirdrop;
@@ -80,13 +81,13 @@ export const Airdrop: React.FC<Props> = ({ airdrop }) => {
 /**
  * Display airdrops that have no coordinates
  */
+const _airdrops = (state: MachineState) => state.context.state.airdrops;
+
 export const AirdropPopup: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [state] = useActor(gameService);
+  const airdrops = useSelector(gameService, _airdrops);
 
-  const airdrop = state.context.state.airdrops?.find(
-    (airdrop) => !airdrop.coordinates,
-  );
+  const airdrop = airdrops?.find((airdrop) => !airdrop.coordinates);
 
   if (!airdrop) {
     return null;

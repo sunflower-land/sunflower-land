@@ -2,8 +2,8 @@ import { NPCName } from "lib/npcs";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { Context, useGame } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
@@ -43,7 +43,6 @@ import {
   getOrderSellPrice,
   GOBLINS_REQUIRING_REPUTATION,
 } from "features/game/events/landExpansion/deliver";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -631,15 +630,12 @@ const _hasReputation = (state: MachineState) =>
 
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { openModal } = useContext(ModalContext);
+  const { gameService, state } = useGame();
 
-  const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
   const [gift, setGift] = useState<Airdrop>();
 
-  const delivery = game.delivery.orders.find((order) => order.from === npc);
+  const delivery = state.delivery.orders.find((order) => order.from === npc);
 
   const { holiday } = getBumpkinHoliday({});
 
@@ -654,20 +650,20 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "coins") {
-      return game.coins > (delivery?.items.coins ?? 0);
+      return state.coins > (delivery?.items.coins ?? 0);
     }
 
     if (name === "sfl") {
-      return game.balance?.gte(delivery?.items.sfl ?? 0);
+      return state.balance?.gte(delivery?.items.sfl ?? 0);
     }
 
-    const { count } = getCountAndTypeForDelivery(game, name);
+    const { count } = getCountAndTypeForDelivery(state, name);
 
     return count.gte(delivery?.items[name] ?? 0);
   });
 
   const openReward = () => {
-    const nextGift = getNextGift({ game, npc });
+    const nextGift = getNextGift({ game: state, npc });
 
     setGift({
       id: "delivery-gift",
@@ -688,7 +684,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
 
-  const tickets = generateDeliveryTickets({ game, npc });
+  const tickets = generateDeliveryTickets({ game: state, npc });
 
   const dateKey = new Date().toISOString().substring(0, 10);
 
@@ -714,13 +710,13 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const missingLevels =
     (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
-    getBumpkinLevel(game.bumpkin?.experience ?? 0);
+    getBumpkinLevel(state.bumpkin?.experience ?? 0);
   const isLocked = missingLevels >= 1;
   const isTicketOrder = tickets > 0;
   const deliveryFrozen = isHoliday && isTicketOrder;
-  const acceptGifts = !!getNextGift({ game, npc });
+  const acceptGifts = !!getNextGift({ game: state, npc });
 
-  const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
+  const completedAt = state.npcs?.[npc]?.deliveryCompletedAt;
 
   const hasClaimedBonus =
     !!completedAt &&
@@ -746,7 +742,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       {showFlowers && (
         <Gifts
           onClose={() => setShowFlowers(false)}
-          game={gameState.context.state}
+          game={state}
           onOpen={openReward}
           name={npc}
         />
@@ -764,7 +760,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   {npc}
                 </Label>
                 <div className="flex">
-                  <BumpkinGiftBar onOpen={openReward} game={game} npc={npc} />
+                  <BumpkinGiftBar onOpen={openReward} game={state} npc={npc} />
                   {onClose && (
                     <img
                       src={SUNNYSIDE.icons.close}
@@ -788,8 +784,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
-                  {getActiveCalendarEvent({ game }) === "doubleDelivery" &&
-                  !hasClaimedBonus ? (
+                  {getActiveCalendarEvent({ game: state }) ===
+                    "doubleDelivery" && !hasClaimedBonus ? (
                     <Label type="vibrant" icon={lightning}>
                       {t("double.rewards.delivery")}
                     </Label>
@@ -838,7 +834,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               {delivery && !deliveryFrozen && (
                 <>
                   <OrderCard
-                    game={gameState.context.state}
+                    game={state}
                     order={delivery as Order}
                     hasRequirementsCheck={() => true}
                     onDeliver={deliver}

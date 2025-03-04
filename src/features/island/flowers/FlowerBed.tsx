@@ -3,9 +3,8 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { FlowerBedModal } from "./FlowerBedModal";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { useActor } from "@xstate/react";
 import {
   FLOWERS,
   FLOWER_SEEDS,
@@ -75,11 +74,8 @@ const getGrowthStage = (
 export const FlowerBed: React.FC<Props> = ({ id }) => {
   const { t } = useAppTranslation();
   const { showTimers, gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
+
   const { flowers, farmActivity } = state;
 
   const flowerBed = flowers.flowerBeds[id];

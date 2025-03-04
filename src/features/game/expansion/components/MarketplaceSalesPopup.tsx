@@ -1,7 +1,5 @@
-import { useActor } from "@xstate/react";
-import React, { useContext } from "react";
+import React from "react";
 
-import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -20,17 +18,19 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
+import { useGame } from "features/game/GameProvider";
 
 /**
  * Display listings that have been fulfilled
  */
+
 export const MarketplaceSalesPopup: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [state] = useActor(gameService);
+  const { gameService, state } = useGame();
+
+  const { trades } = state;
 
   const { t } = useAppTranslation();
 
-  const { trades } = state.context.state;
   const soldListingIds = getKeys(trades.listings ?? {}).filter(
     (id) => !!trades.listings?.[id].fulfilledAt,
   );
@@ -67,7 +67,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
           const details = getTradeableDisplay({
             id: itemId,
             type: listing.collection,
-            state: state.context.state,
+            state,
           });
           const amount = listing.items[itemName as InventoryItemName];
           const sfl = new Decimal(listing.sfl).mul(1 - MARKETPLACE_TAX);

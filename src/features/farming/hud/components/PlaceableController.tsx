@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import {
@@ -47,20 +47,20 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const { gameService } = useContext(Context);
   const child = gameService.state.children.landscaping as MachineInterpreter;
   const { t } = useAppTranslation();
-  const [
-    {
-      context: {
-        collisionDetected,
-        placeable,
-        requirements,
-        coordinates,
-        maximum,
-      },
-    },
-    send,
-  ] = useActor(child);
 
-  const [gameState] = useActor(gameService);
+  const collisionDetected = useSelector(
+    child,
+    (state) => state.context.collisionDetected,
+  );
+  const placeable = useSelector(child, (state) => state.context.placeable);
+  const requirements = useSelector(
+    child,
+    (state) => state.context.requirements,
+  );
+  const coordinates = useSelector(child, (state) => state.context.coordinates);
+  const maximum = useSelector(child, (state) => state.context.maximum);
+
+  const state = useSelector(gameService, (state) => state.context.state);
 
   if (!placeable) return null;
 
@@ -77,7 +77,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   }
   const { width, height } = dimensions;
 
-  const items = getChestItems(gameState.context.state);
+  const items = getChestItems(state);
 
   const available = isBudName(placeable)
     ? new Decimal(1)
@@ -91,11 +91,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     let hasRequirements = false;
     if (requirements) {
-      const hasCoins = gameState.context.state.coins > requirements.coins * 2;
+      const hasCoins = state.coins > requirements.coins * 2;
       const hasIngredients = getKeys(requirements.ingredients).every((name) =>
-        gameState.context.state.inventory[name]?.gte(
-          requirements.ingredients[name]?.mul(2) ?? 0,
-        ),
+        state.inventory[name]?.gte(requirements.ingredients[name]?.mul(2) ?? 0),
       );
 
       hasRequirements = hasCoins && hasIngredients;
@@ -113,8 +111,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     if (isBudName(placeable)) {
       placeMore = false;
     } else {
-      const previous =
-        gameState.context.state.inventory[placeable] ?? new Decimal(0);
+      const previous = state.inventory[placeable] ?? new Decimal(0);
 
       if (maximum && previous.gte(maximum - 1)) {
         placeMore = false;
@@ -134,14 +131,14 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
         location,
       });
 
-      send({
+      child.send({
         type: "PLACE",
         nextOrigin: nextPosition,
         nextWillCollide: collisionDetected,
         location,
       });
     } else {
-      send({
+      child.send({
         type: "PLACE",
         location,
       });
@@ -149,15 +146,14 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   };
 
   const handleCancelPlacement = () => {
-    send("BACK");
+    child.send("BACK");
   };
 
-  const island = gameState.context.state.island.type;
-  const season = gameState.context.state.season.season;
+  const island = state.island.type;
+  const season = state.season.season;
   const buildingLevel = isBuildingUpgradable(placeable as BuildingName)
-    ? gameState.context.state[
-        makeUpgradableBuildingKey(placeable as UpgradableBuildingType)
-      ].level
+    ? state[makeUpgradableBuildingKey(placeable as UpgradableBuildingType)]
+        .level
     : undefined;
 
   const getPlaceableImage = (

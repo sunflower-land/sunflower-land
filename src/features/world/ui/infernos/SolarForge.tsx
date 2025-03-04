@@ -23,9 +23,7 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 
 export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [selected, setSelected] = useState<ResourceName>("Crop Plot");
-  const { gameState, gameService } = useGame();
-
-  const state = gameState.context.state;
+  const { state, gameService } = useGame();
 
   const hasBoughtResource = getKeys(RESOURCE_NODE_PRICES).some(
     (resource) => !!state.farmActivity[`${resource} Bought`],

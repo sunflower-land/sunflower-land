@@ -5,10 +5,10 @@ import * as Auth from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 import { createErrorLogger } from "lib/errorLogger";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSelector } from "@xstate/react";
 
 function getFirstTsFileName(stackTrace: string) {
   try {
@@ -176,13 +176,13 @@ export const SomethingWentWrong: React.FC = () => {
 
   // If we get a connecting error before the game has loaded then try to connect again via the authService
   const service = gameService ?? authService;
-  const id = service.state?.context?.farmId;
+  const farmId = useSelector(service, (state) => state.context.farmId);
 
-  const [
-    {
-      context: { transactionId, errorCode },
-    },
-  ] = useActor(service);
+  const transactionId = useSelector(
+    service,
+    (state) => state.context.transactionId,
+  );
+  const errorCode = useSelector(service, (state) => state.context.errorCode);
 
   const onAcknowledge = () => {
     window.history.pushState({}, "", window.location.pathname);
@@ -191,7 +191,7 @@ export const SomethingWentWrong: React.FC = () => {
 
   return (
     <BoundaryError
-      farmId={id}
+      farmId={farmId}
       transactionId={transactionId}
       error={errorCode}
       onAcknowledge={onAcknowledge}

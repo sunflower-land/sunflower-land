@@ -10,7 +10,6 @@ import {
   TRADE_FOOD,
 } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { Feed } from "./Feed";
 import { Modal } from "components/ui/Modal";
 import foodIcon from "assets/food/chicken_drumstick.png";
@@ -22,6 +21,8 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuildingName } from "features/game/types/buildings";
 import { OuterPanel } from "components/ui/Panel";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   isOpen: boolean;
@@ -36,13 +37,14 @@ export const BUILDING_ORDER: BuildingName[] = [
   "Bakery",
 ];
 
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+
 export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const inventory = useSelector(gameService, _inventory);
+  const bumpkin = useSelector(gameService, _bumpkin);
+
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
 
@@ -61,21 +63,21 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   ];
 
   const availableFood: Consumable[] = allFoods
-    .filter((consumable) => !!state.inventory[consumable.name]?.gt(0))
+    .filter((consumable) => !!inventory[consumable.name]?.gt(0))
     .map((consumable) => consumable);
 
   const [showLevelUp, setShowLevelUp] = useState(false);
 
-  const bumpkinLevel = useRef(getBumpkinLevel(state.bumpkin?.experience ?? 0));
+  const bumpkinLevel = useRef(getBumpkinLevel(bumpkin?.experience ?? 0));
 
   useEffect(() => {
-    const newLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+    const newLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
 
     if (newLevel !== bumpkinLevel.current) {
       setShowLevelUp(true);
       bumpkinLevel.current = newLevel;
     }
-  }, [state.bumpkin?.experience]);
+  }, [bumpkin?.experience]);
 
   return (
     <Modal
@@ -101,7 +103,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
             setTimeout(() => setShowLevelUp(false), 500);
           }}
           title="Level up!"
-          bumpkinParts={state.bumpkin?.equipped}
+          bumpkinParts={bumpkin?.equipped}
         >
           <LevelUp
             level={bumpkinLevel.current}
@@ -114,14 +116,14 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
               setTimeout(() => setShowLevelUp(false), 500);
             }}
-            wearables={state.bumpkin?.equipped as Equipped}
+            wearables={bumpkin?.equipped as Equipped}
           />
         </CloseButtonPanel>
       ) : (
         <CloseButtonPanel
           onClose={onClose}
           tabs={[{ icon: foodIcon, name: t("feed.bumpkin") }]}
-          bumpkinParts={state.bumpkin?.equipped}
+          bumpkinParts={bumpkin?.equipped}
           container={OuterPanel}
         >
           <Feed food={availableFood} />

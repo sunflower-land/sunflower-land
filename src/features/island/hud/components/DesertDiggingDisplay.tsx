@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { Modal } from "components/ui/Modal";
@@ -60,10 +59,9 @@ export const getRemainingDigs = (game: GameState) => {
 };
 
 export const DesertDiggingDisplay = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
   const [show, setShow] = useState(false);
-  const { desert } = gameState.context.state;
+  const { desert } = state;
 
   const { t } = useTranslation();
 
@@ -75,7 +73,7 @@ export const DesertDiggingDisplay = () => {
   };
 
   const dugCount = desert.digging.grid.length;
-  const digsLeft = getRemainingDigs(gameState.context.state);
+  const digsLeft = getRemainingDigs(state);
 
   return (
     <>

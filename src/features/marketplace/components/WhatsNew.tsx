@@ -3,18 +3,22 @@ import { Marketplace as ICollection } from "features/game/types/marketplace";
 import React, { useContext, useEffect, useState } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useNavigate, useLocation } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _state = (state: MachineState) => state.context.state;
+const _rawToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+
 export const WhatsNew: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
 
   const filters = "collectibles,wearables";
 
@@ -31,7 +35,7 @@ export const WhatsNew: React.FC = () => {
 
     const data = await loadMarketplace({
       filters: filters ?? "",
-      token: authState.context.user.rawToken as string,
+      token: rawToken,
     });
 
     setCollection(data);

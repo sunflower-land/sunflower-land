@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
 import orange from "assets/resources/orange.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
   CROP_SEEDS,
@@ -60,11 +59,7 @@ export const Seeds: React.FC = () => {
 
   const selected = SEEDS[selectedName];
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
   const { t } = useAppTranslation();
 
   const { inventory } = state;

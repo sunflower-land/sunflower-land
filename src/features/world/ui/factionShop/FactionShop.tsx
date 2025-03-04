@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -25,8 +25,7 @@ import {
 } from "features/game/types/factionShop";
 import { ItemsList } from "./components/ItemList";
 import { CONSUMABLES, FACTION_FOOD } from "features/game/types/consumables";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useGame } from "features/game/GameProvider";
 import { GameState } from "features/game/types/game";
 
 interface Props {
@@ -91,12 +90,7 @@ export const getItemBuffLabel = (
 };
 
 export const FactionShop: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
   const { t } = useAppTranslation();
 
   const [selectedItem, setSelectedItem] = useState<FactionShopItem | null>(

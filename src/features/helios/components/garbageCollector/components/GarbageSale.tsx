@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useState } from "react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
@@ -28,12 +27,7 @@ export const GarbageSale: React.FC = () => {
   const [selectedName, setSelectedName] = useState<GarbageName>(garbage[0]);
 
   const selected = GARBAGE[selectedName];
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { gameService, state } = useGame();
 
   // Undefined if zero
   const price = selected.sellPrice || undefined;

@@ -33,7 +33,7 @@ import { CONFIG } from "lib/config";
 import { MarketplaceUser } from "./MarketplaceUser";
 import { Context } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
@@ -45,12 +45,15 @@ import {
   Reputation,
 } from "features/game/lib/reputation";
 import { hasFeatureAccess } from "lib/flags";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
+
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
 export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
@@ -60,11 +63,10 @@ export const MarketplaceNavigation: React.FC = () => {
   const { openModal } = useContext(ModalContext);
 
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
 
   useEffect(() => {
-    const token = authState.context.user.rawToken as string;
-    if (CONFIG.API_URL) preloadCollections(token);
+    if (CONFIG.API_URL) preloadCollections(rawToken as string);
   }, []);
   const { t } = useTranslation();
 

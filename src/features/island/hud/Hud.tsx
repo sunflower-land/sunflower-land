@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-undef */
 import React, { useContext, useState } from "react";
 import { Balances } from "components/Balances";
-import { useActor, useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { Context, useGame } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
@@ -34,6 +34,7 @@ import { GameCalendar } from "features/game/expansion/components/temperateSeason
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _autosaving = (state: MachineState) => state.matches("autosaving");
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -45,7 +46,7 @@ const HudComponent: React.FC<{
   location: PlaceableLocation;
 }> = ({ isFarming, location }) => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
 
   const farmAddress = useSelector(gameService, _farmAddress);
   const linkedWallet = useSelector(gameService, _linkedWallet);
@@ -56,7 +57,7 @@ const HudComponent: React.FC<{
   const sfl = useSound("sfl");
   const button = useSound("button");
 
-  const autosaving = gameState.matches("autosaving");
+  const autosaving = useSelector(gameService, _autosaving);
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -70,10 +71,10 @@ const HudComponent: React.FC<{
   };
 
   const isFullUser = farmAddress !== undefined;
-  const isTutorial = gameState.context.state.island.type === "basic";
+  const isTutorial = state.island.type === "basic";
 
   const powerSkills = getPowerSkills();
-  const { skills } = gameState.context.state.bumpkin;
+  const { skills } = state.bumpkin;
   const hasPowerSkills = powerSkills.some(
     (skill) => !!skills[skill.name as BumpkinRevampSkillName],
   );
@@ -130,7 +131,7 @@ const HudComponent: React.FC<{
             </div>
           )}
           <Inventory
-            state={gameState.context.state}
+            state={state}
             isFullUser={isFullUser}
             shortcutItem={shortcutItem}
             selectedItem={selectedItem}
@@ -156,9 +157,9 @@ const HudComponent: React.FC<{
         </div>
 
         <Balances
-          sfl={gameState.context.state.balance}
-          coins={gameState.context.state.coins}
-          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
+          sfl={state.balance}
+          coins={state.coins}
+          gems={state.inventory["Gem"] ?? new Decimal(0)}
           onClick={handleBuyCurrenciesModal}
         />
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
@@ -16,8 +16,7 @@ import {
   CompostName,
 } from "features/game/types/composters";
 import Decimal from "decimal.js-light";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useGame } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
@@ -224,16 +223,10 @@ const ComposterModalContent: React.FC<{
   onCollect: () => void;
   onBoost: () => void;
 }> = ({ composterName, startComposter, readyAt, onCollect, onBoost }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, state } = useGame();
   const [showRequirements, setShowRequirements] = useState(false);
 
   const { t } = useAppTranslation();
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const { inventory, bumpkin, buildings } = state;
 

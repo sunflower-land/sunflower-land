@@ -1,7 +1,6 @@
-import { useActor } from "@xstate/react";
-import React, { useContext } from "react";
+import React from "react";
 
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -24,12 +23,11 @@ import { KNOWN_ITEMS } from "features/game/types";
  * Display listings that have been fulfilled
  */
 export const OffersAcceptedPopup: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [state] = useActor(gameService);
+  const { gameService, state } = useGame();
 
   const { t } = useAppTranslation();
 
-  const { trades } = state.context.state;
+  const { trades } = state;
   const offersAcceptedIds = getKeys(trades.offers ?? {}).filter(
     (id) => !!trades.offers?.[id].fulfilledAt,
   );
@@ -65,7 +63,7 @@ export const OffersAcceptedPopup: React.FC = () => {
           const details = getTradeableDisplay({
             id: itemId,
             type: offer.collection,
-            state: state.context.state,
+            state,
           });
           const amount = offer.items[itemName as InventoryItemName];
           const sfl = new Decimal(offer.sfl);
