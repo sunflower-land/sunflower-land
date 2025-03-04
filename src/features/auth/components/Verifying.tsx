@@ -1,18 +1,17 @@
 import React, { useContext, useEffect } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { CONFIG } from "lib/config";
 
 import { Context } from "../lib/Provider";
 import { wallet } from "lib/blockchain/wallet";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "./Loading";
+import { AuthMachineState } from "../lib/authMachine";
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
 export const Verifying: React.FC = () => {
   const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
-
-  const { t } = useAppTranslation();
+  const rawToken = useSelector(authService, _rawToken);
 
   useEffect(() => {
     const setup = () => {
@@ -57,7 +56,7 @@ export const Verifying: React.FC = () => {
     <>
       <iframe
         hidden
-        src={`${CONFIG.API_URL}/auth/verify?token=${authState.context.user.rawToken}`}
+        src={`${CONFIG.API_URL}/auth/verify?token=${rawToken}`}
         title="Yeeeet!"
         id="iframe"
         style={{ height: 0 }}
