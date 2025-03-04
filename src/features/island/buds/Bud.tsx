@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useGame } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { Bud as _Bud } from "../collectibles/components/Bud";
 import { MachineState } from "features/game/expansion/placeable/landscapingMachine";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 
 export interface BudProps {
   id: string;
@@ -13,11 +14,11 @@ export interface BudProps {
 }
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
+const _buds = (state: GameMachineState) => state.context.state.buds ?? {};
 
 const BudComponent: React.FC<BudProps> = ({ id, x, y }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const buds = gameState.context.state.buds ?? {};
+  const { gameService } = useGame();
+  const buds = useSelector(gameService, _buds);
   const landscaping = useSelector(gameService, isLandscaping);
   const bud = buds[Number(id)];
 
