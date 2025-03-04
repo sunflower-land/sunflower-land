@@ -71,6 +71,10 @@ export async function postEffect(
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
+  if (response.status === 400) {
+    throw new Error(ERRORS.TRADE_NOT_FOUND);
+  }
+
   if (response.status !== 200 || !response.ok) {
     throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
