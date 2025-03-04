@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useState } from "react";
 import { Box } from "components/ui/Box";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BUILDINGS, BuildingName } from "features/game/types/buildings";
 import { Button } from "components/ui/Button";
@@ -56,12 +55,8 @@ const getValidBuildings = (): BuildingName[] => {
 
 export const Buildings: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<BuildingName>("Water Well");
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { gameService, state } = useGame();
+
   const { inventory } = state;
   const { t } = useAppTranslation();
   const buildingBlueprints = BUILDINGS[selectedName];
