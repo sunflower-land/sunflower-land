@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Modal } from "components/ui/Modal";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -12,7 +12,7 @@ import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
-import { Context } from "../GameProvider";
+import { Context, useGame } from "../GameProvider";
 import {
   BlockchainState,
   INITIAL_SESSION,
@@ -174,8 +174,6 @@ const isDeletingListing = (state: MachineState) =>
   state.matches("deleteTradeListing");
 const isListingDeleted = (state: MachineState) =>
   state.matches("tradeListingDeleted");
-const isFulfillingTradeListing = (state: MachineState) =>
-  state.matches("fulfillTradeListing");
 const isSniped = (state: MachineState) => state.matches("sniped");
 const isTradeAlreadyFulfilled = (state: MachineState) =>
   state.matches("tradeAlreadyFulfilled");
@@ -239,13 +237,12 @@ const isRoninWelcomePack = (state: MachineState) =>
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const GameContent: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, state } = useGame();
   useSound("desert", true);
 
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
-  const [gameState] = useActor(gameService);
 
   const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
     GreenHouse: (game) =>
@@ -258,9 +255,7 @@ const GameContent: React.FC = () => {
   };
 
   const hasAccess = (pathName: string) => {
-    return (
-      PATH_ACCESS[pathName] && PATH_ACCESS[pathName](gameState.context.state)
-    );
+    return PATH_ACCESS[pathName] && PATH_ACCESS[pathName](state);
   };
 
   if (landToVisitNotFound) {
