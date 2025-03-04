@@ -9,6 +9,16 @@ import { readContract } from "viem/actions";
 import { createPublicClient, encodePacked, http, keccak256 } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";
 import { CONFIG } from "lib/config";
+import { getKeys } from "features/game/types/craftables";
+import { SEEDS } from "features/game/types/seeds";
+import { SELLABLE_TREASURE } from "features/game/types/treasure";
+
+const OFFCHAIN_ITEMS = [
+  "Mark",
+  "Trade Point",
+  ...getKeys(SELLABLE_TREASURE),
+  ...getKeys(SEEDS),
+];
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
@@ -76,6 +86,8 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
           if (limit > 100000) {
             limit = limit / 10 ** 18;
           }
+
+          if (OFFCHAIN_ITEMS.includes(key)) return;
 
           if (diff > limit) {
             inventoryLimits.push(`${key} (Diff ${diff} > Limit ${limit})`);
