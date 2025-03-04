@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useGame } from "features/game/GameProvider";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GuideTask } from "./Task";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -14,12 +13,9 @@ interface Props {
   onSelect: (guide?: GuidePath) => void;
 }
 export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
 
   const { t } = useAppTranslation();
-
-  const state = gameState.context.state;
 
   const Content = () => {
     if (selected) {
@@ -80,14 +76,6 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
         </div>
         {getKeys(GUIDE_PATHS).map((path) => {
           const achievements = GUIDE_PATHS[path].achievements;
-
-          const activeAchievement = achievements.find((name) => {
-            const achievement = ACHIEVEMENTS()[name];
-            const progress = achievement.progress(state);
-            const isComplete = progress >= achievement.requirement;
-
-            return !isComplete;
-          });
 
           return (
             <ButtonPanel
