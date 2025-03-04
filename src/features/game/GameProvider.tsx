@@ -2,7 +2,7 @@
  * A wrapper that provides game state and dispatches events
  */
 import { useState, useCallback } from "react";
-import { useActor, useInterpret } from "@xstate/react";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -44,9 +44,9 @@ export const Context = React.createContext<GameContext>({} as GameContext);
 
 export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const authStateContext = useSelector(authService, (state) => state.context);
 
-  const [gameMachine] = useState(startGame(authState.context) as any);
+  const [gameMachine] = useState(startGame(authStateContext) as any);
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
