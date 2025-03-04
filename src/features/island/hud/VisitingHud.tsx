@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 
 import { Balances } from "components/Balances";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { Context, useGame } from "features/game/GameProvider";
 
 import { Inventory } from "./components/inventory/Inventory";
 import { InnerPanel } from "components/ui/Panel";
@@ -14,14 +14,21 @@ import { TravelButton } from "./components/deliveries/TravelButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
+
+const _landToVisitNotFound = (state: MachineState) =>
+  state.matches("landToVisitNotFound");
+const _farmId = (state: MachineState) => state.context.farmId;
 export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
+  const landToVisitNotFound = useSelector(gameService, _landToVisitNotFound);
+  const farmId = useSelector(gameService, _farmId);
   const { t } = useAppTranslation();
 
   return createPortal(
@@ -30,20 +37,18 @@ export const VisitingHud: React.FC = () => {
       aria-label="Hud"
       className="absolute z-40"
     >
-      {!gameState.matches("landToVisitNotFound") && (
+      {!landToVisitNotFound && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50">
-          <span className="text-white">
-            {t("visiting.farmId", { farmId: gameState.context.farmId })}
-          </span>
+          <span className="text-white">{t("visiting.farmId", { farmId })}</span>
         </InnerPanel>
       )}
       <Balances
-        sfl={gameState.context.state.balance}
-        coins={gameState.context.state.coins}
-        gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
+        sfl={state.balance}
+        coins={state.coins}
+        gems={state.inventory["Gem"] ?? new Decimal(0)}
       />
       <Inventory
-        state={gameState.context.state}
+        state={state}
         shortcutItem={shortcutItem}
         selectedItem={selectedItem as InventoryItemName}
         isFarming={false}
