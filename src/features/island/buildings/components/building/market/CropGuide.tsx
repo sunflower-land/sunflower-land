@@ -34,8 +34,11 @@ import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import fullMoon from "assets/icons/full_moon.png";
 
 export const CropGuide = () => {
-  const { gameState } = useGame();
-  const inventory = gameState.context.state.inventory;
+  const { state } = useGame();
+  const {
+    inventory,
+    island: { type: islandType },
+  } = state;
   const { t } = useAppTranslation();
   return (
     <InnerPanel className="scrollable max-h-[300px] overflow-y-scroll">
@@ -51,7 +54,7 @@ export const CropGuide = () => {
               text: t("cropGuide.payAttentionToSeason"),
               icon: seasonIcon,
             },
-            ...(gameState.context.state.island.type === "basic"
+            ...(islandType === "basic"
               ? [
                   {
                     text: t("cropGuide.tutorialAlwaysSpring"),
