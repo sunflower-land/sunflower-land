@@ -216,7 +216,7 @@ function getCollectibleBuffLabels(
               boostedItemIcon: CROP_LIFECYCLE.basic.Cabbage.crop,
             },
           ] as BuffLabel[])),
-    ],    
+    ],
     "Golden Cauliflower": [
       {
         shortDescription: translate("description.golden.cauliflower.boost"),
