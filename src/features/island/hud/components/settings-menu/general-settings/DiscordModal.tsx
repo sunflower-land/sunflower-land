@@ -10,7 +10,7 @@ import sunflorianBanner from "assets/decorations/banners/factions/sunflorians_ba
 import goblinBanner from "assets/decorations/banners/factions/goblins_banner.webp";
 import nightshadeBanner from "assets/decorations/banners/factions/nightshades_banner.webp";
 
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { FactionName, InventoryItemName } from "features/game/types/game";
 import { addDiscordRole, DiscordRole } from "features/game/actions/discordRole";
@@ -19,6 +19,8 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { OuterPanel } from "components/ui/Panel";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MachineState } from "features/game/lib/gameMachine";
 
 const GROUPS: {
   channel: string;
@@ -53,28 +55,36 @@ function getFactionImage(faction: FactionName) {
       return "";
   }
 }
+
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+const _discordId = (state: MachineState) => state.context.discordId;
+const _oauthNonce = (state: MachineState) => state.context.oauthNonce;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _faction = (state: MachineState) => state.context.state.faction?.name;
+const _buds = (state: MachineState) => state.context.state.buds;
+
 export const Discord: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { t } = useAppTranslation();
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const discordId = useSelector(gameService, _discordId);
+  const oauthNonce = useSelector(gameService, _oauthNonce);
+  const inventory = useSelector(gameService, _inventory);
+  const faction = useSelector(gameService, _faction);
+  const buds = useSelector(gameService, _buds);
 
   const [state, setState] = useState<
     "idle" | "noDiscord" | "joining" | "joined" | "error"
-  >(gameState.context.discordId ? "idle" : "noDiscord");
+  >(discordId ? "idle" : "noDiscord");
 
-  const inventory = gameState.context.state.inventory;
-  const faction = gameState.context.state.faction?.name;
-
-  const buds = gameState.context.state.buds;
   const oauth = () => {
-    discordOAuth({ nonce: gameState.context.oauthNonce });
+    discordOAuth({ nonce: oauthNonce });
   };
 
   const addRole = async (role: DiscordRole) => {
-    if (!gameState.context.discordId) {
+    if (!discordId) {
       setState("noDiscord");
       return;
     }
@@ -84,7 +94,7 @@ export const Discord: React.FC = () => {
     try {
       await addDiscordRole({
         farmId: gameService.state.context.farmId,
-        token: authState.context.user.rawToken as string,
+        token: rawToken as string,
         role: role,
       });
       setState("joined");
