@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { CollectionName } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -16,10 +15,13 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
 import { ListViewCard } from "../ListViewCard";
+import { MachineState } from "features/game/lib/gameMachine";
 
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
 import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
+
+const _state = (state: MachineState) => state.context.state;
 
 type CollectionItem = {
   id: number;
@@ -32,16 +34,15 @@ export const MyCollection: React.FC = () => {
   const location = useLocation();
   const isWorldRoute = location.pathname.includes("/world");
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
+  const { buds } = state;
 
   const [search, setSearch] = useState("");
-  const { buds } = gameState.context.state;
 
   const navigate = useNavigate();
   let items: CollectionItem[] = [];
 
-  const inventory = getChestItems(gameState.context.state);
+  const inventory = getChestItems(state);
   getKeys(inventory)
     .filter((name) => !isNode(name))
     .forEach((name) => {
@@ -52,7 +53,7 @@ export const MyCollection: React.FC = () => {
       });
     });
 
-  const wardrobe = availableWardrobe(gameState.context.state);
+  const wardrobe = availableWardrobe(state);
   getKeys(wardrobe).forEach((name) => {
     const withdrawAt = BUMPKIN_RELEASES[name]?.withdrawAt;
     const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
@@ -79,7 +80,7 @@ export const MyCollection: React.FC = () => {
     const details = getTradeableDisplay({
       id: item.id,
       type: item.collection,
-      state: gameState.context.state,
+      state,
     });
 
     return details.name.toLowerCase().includes(search.toLowerCase());
@@ -98,7 +99,7 @@ export const MyCollection: React.FC = () => {
         const details = getTradeableDisplay({
           id: item.id,
           type: item.collection,
-          state: gameState.context.state,
+          state,
         });
 
         return (
