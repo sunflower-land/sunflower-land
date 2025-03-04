@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -42,11 +41,8 @@ export const IslandBlacksmithItems: React.FC = () => {
   const [selectedName, setSelectedName] =
     useState<HeliosBlacksmithItem>("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
+
   const { inventory, coins } = state;
 
   const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
