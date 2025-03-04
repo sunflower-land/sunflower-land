@@ -8,15 +8,19 @@ import tradeIcon from "assets/icons/trade.png";
 import { MarketplaceProfile } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { loadProfile } from "../actions/loadProfile";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Sales } from "./PriceHistory";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+
+const _rawToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const MarketplaceUser: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -28,7 +32,7 @@ export const MarketplaceUser: React.FC = () => {
   useEffect(() => {
     setProfile(undefined);
     loadProfile({
-      token: authState.context.user.rawToken as string,
+      token: rawToken,
       id: Number(id),
     }).then(setProfile);
   }, [id]);
