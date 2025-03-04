@@ -10,7 +10,7 @@ import {
 
 import { getAvailableBumpkinOldSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { acknowledgeSkillPoints } from "../../island/bumpkin/lib/skillPointStorage";
 import { SkillPath } from "./SkillPath";
@@ -82,10 +82,10 @@ export const SkillPathDetails: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
+  const bumpkin = useSelector(
+    gameService,
+    (state) => state.context.state.bumpkin,
+  );
 
   const [showConfirmButton, setShowConfirmButton] = useState(false);
   const [selectedSkill, setSelectedSkill] =
@@ -94,15 +94,13 @@ export const SkillPathDetails: React.FC<Props> = ({
   useEffect(() => {
     const nextAvailableSkillInTree =
       skillsInPath.find((skill) => {
-        return !(`${skill.name}` in { ...state.bumpkin?.skills });
+        return !(`${skill.name}` in { ...bumpkin?.skills });
       }) ?? skillsInPath[0];
 
     const defaultSkill = nextAvailableSkillInTree ?? skillsInPath[0];
 
     setSelectedSkill(defaultSkill.name);
-  }, [skillsInPath, state.bumpkin?.skills]);
-
-  const { bumpkin } = state;
+  }, [skillsInPath, bumpkin?.skills]);
 
   const availableSkillPoints = getAvailableBumpkinOldSkillPoints(bumpkin);
   const hasSelectedSkill = !!bumpkin?.skills[selectedSkill];
@@ -135,7 +133,7 @@ export const SkillPathDetails: React.FC<Props> = ({
       });
     }
 
-    acknowledgeSkillPoints(gameService.state.context.state.bumpkin);
+    acknowledgeSkillPoints(bumpkin);
   };
 
   return (
