@@ -14,6 +14,7 @@ import { ClockIssue } from "features/game/components/ClockIssue";
 import { SFLExceeded } from "features/game/components/SFLExceeded";
 import { NotOnDiscordServer } from "./components/NotOnDiscordServer";
 import { TooManyFarms } from "./components/TooManyFarms";
+import { TradeNotFound } from "./components/TradeNotFound";
 
 interface Props {
   errorCode: ErrorCode;
@@ -82,6 +83,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     errorCode === ERRORS.CLAIM_FARM_TOO_MANY_FARMS
   ) {
     return <TooManyFarms />;
+  }
+  // console.log("errorCode", errorCode);
+  if (errorCode === ERRORS.TRADE_NOT_FOUND) {
+    return <TradeNotFound />;
   }
 
   return <SomethingWentWrong />;
