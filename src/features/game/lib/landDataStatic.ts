@@ -14,7 +14,7 @@ import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 
 export const STATIC_OFFLINE_FARM: GameState = {
-  username: "Local Hero",
+  username: "Gabi",
   coins: 10000,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
@@ -202,7 +202,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   bumpkin: {
     equipped: INITIAL_EQUIPMENT as Equipped,
-    experience: 100000,
+    experience: 1000,
 
     id: 1,
     skills: {
@@ -650,7 +650,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     recipes: {},
   },
   season: {
-    season: "autumn",
+    season: "summer",
     startedAt: Date.now(),
   },
 };
