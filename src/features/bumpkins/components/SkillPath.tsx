@@ -12,7 +12,7 @@ import { getAvailableBumpkinOldSkillPoints } from "features/game/events/landExpa
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -28,13 +28,10 @@ export const SkillPath = ({
   skillsInPath,
 }: SkillPathProps) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
-  const { bumpkin } = state;
+  const bumpkin = useSelector(
+    gameService,
+    (state) => state.context.state.bumpkin,
+  );
 
   if (!bumpkin) return null;
 
@@ -45,9 +42,8 @@ export const SkillPath = ({
       {skillPath.map((level, index) => (
         <div className="flex justify-center" key={index}>
           {level.map((skill) => {
-            const availableSkillPoints = getAvailableBumpkinOldSkillPoints(
-              state.bumpkin,
-            );
+            const availableSkillPoints =
+              getAvailableBumpkinOldSkillPoints(bumpkin);
             const hasSkill = !!bumpkin.skills[skill];
 
             const { points: pointsRequired, skill: skillRequired } =
