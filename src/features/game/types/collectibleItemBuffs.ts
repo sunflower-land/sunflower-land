@@ -76,7 +76,7 @@ function getCollectibleBuffLabels(
       },
       {
         shortDescription: translate("description.nancy.warning"),
-        labelType: "danger",        
+        labelType: "danger",
       },
     ],
     Scarecrow: [
@@ -92,7 +92,7 @@ function getCollectibleBuffLabels(
       },
       {
         shortDescription: translate("description.scarecrow.warning"),
-        labelType: "danger",        
+        labelType: "danger",
       },
     ],
     Kuebiko: [
@@ -125,7 +125,7 @@ function getCollectibleBuffLabels(
       },
       {
         shortDescription: translate("description.gnome.warning"),
-        labelType: "danger",        
+        labelType: "danger",
       },
     ],
     "Sir Goldensnout": [
@@ -217,7 +217,7 @@ function getCollectibleBuffLabels(
             },
             {
               shortDescription: translate("description.Karkinos.warning"),
-              labelType: "danger",        
+              labelType: "danger",  
             },
           ] as BuffLabel[])),
     ],
@@ -573,7 +573,7 @@ function getCollectibleBuffLabels(
       },
       {
         shortDescription: translate("description.woody.beaver.warning"),
-        labelType: "danger",        
+        labelType: "danger",
       },
     ],
     "Apprentice Beaver": [
@@ -591,7 +591,7 @@ function getCollectibleBuffLabels(
       },
       {
         shortDescription: translate("description.apprentice.beaver.warning"),
-        labelType: "danger",        
+        labelType: "danger",
       },
     ],
     "Foreman Beaver": [
