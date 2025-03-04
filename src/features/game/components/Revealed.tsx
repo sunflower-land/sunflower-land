@@ -1,23 +1,30 @@
-import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
+import React from "react";
 
 import { Button } from "components/ui/Button";
 
-import { Context } from "../GameProvider";
+import { useGame } from "../GameProvider";
 import { getKeys } from "../types/craftables";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ClaimReward } from "../expansion/components/ClaimReward";
 import Gift from "assets/icons/gift.png";
 import Lightning from "assets/icons/lightning.png";
+import { MachineState } from "../lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { InventoryItemName } from "../types/game";
+import { BumpkinItem } from "../types/bumpkin";
+
+const _revealed = (state: MachineState) => state.context.revealed;
+const _currentStreaks = (state: MachineState) =>
+  state.context.state.dailyRewards?.streaks ?? 1;
 
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
   id?: string;
   streaks?: boolean;
 }> = ({ onAcknowledged, id, streaks = false }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { gameService } = useGame();
+  const revealed = useSelector(gameService, _revealed);
   const { t } = useAppTranslation();
 
   const handleAcknowledge = () => {
@@ -25,12 +32,17 @@ export const Revealed: React.FC<{
     if (onAcknowledged) onAcknowledged();
   };
 
-  const items = getKeys(gameState.context.revealed?.inventory ?? {});
-  const wearables = getKeys(gameState.context.revealed?.wardrobe ?? {});
-  const sfl = Number(gameState.context.revealed?.balance ?? 0);
-  const coins = gameState.context.revealed?.coins ?? 0;
+  const {
+    inventory = {} as Record<InventoryItemName, string>,
+    wardrobe = {} as Record<BumpkinItem, number>,
+    balance = 0,
+    coins = 0,
+  } = revealed ?? {};
 
-  const currentStreaks = gameState.context.state.dailyRewards?.streaks ?? 1;
+  const items = getKeys(inventory);
+  const sfl = Number(balance);
+
+  const currentStreaks = useSelector(gameService, _currentStreaks);
   const streakBonus = currentStreaks % 5 == 0;
 
   return (
@@ -42,11 +54,11 @@ export const Revealed: React.FC<{
           items: items.reduce(
             (acc, name) => ({
               ...acc,
-              [name]: Number(gameState.context.revealed?.inventory[name] ?? 0),
+              [name]: Number(inventory[name] ?? 0),
             }),
             {},
           ),
-          wearables: gameState.context.revealed?.wardrobe ?? {},
+          wearables: wardrobe,
           sfl,
           coins,
         }}
