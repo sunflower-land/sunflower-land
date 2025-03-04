@@ -4763,7 +4763,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Trade Cake": {
     image: tradeCake,
-    description: "Cake that you can redeem at Trade Rewards Shop",
+    description: "Cake purchased at Trade Rewards Shop.",
   },
   "Christmas Stocking": {
     image: christmasStocking,
