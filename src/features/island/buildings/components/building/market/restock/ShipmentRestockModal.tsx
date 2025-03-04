@@ -1,11 +1,10 @@
-import { useActor } from "@xstate/react";
 import confetti from "canvas-confetti";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
 import { SHIPMENT_STOCK } from "features/game/events/landExpansion/shipmentRestocked";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { StockableName, INITIAL_STOCK } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS } from "features/game/types/seeds";
@@ -21,7 +20,7 @@ export const ShipmentRestockModal: React.FC<{
   const { t } = useAppTranslation();
 
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
 
   const replenish = () => {
     gameService.send("shipment.restocked");
@@ -31,9 +30,8 @@ export const ShipmentRestockModal: React.FC<{
   };
 
   const getShipmentAmount = (item: StockableName, amount: number): Decimal => {
-    const totalStock = INITIAL_STOCK(gameState.context.state)[item];
-    const remainingStock =
-      gameState.context.state.stock[item] ?? new Decimal(0);
+    const totalStock = INITIAL_STOCK(state)[item];
+    const remainingStock = state.stock[item] ?? new Decimal(0);
     // If shipment amount will exceed total stock
     if (remainingStock.add(amount).gt(totalStock)) {
       // return the difference between total and remaining stock
