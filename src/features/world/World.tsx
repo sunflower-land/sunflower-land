@@ -1,8 +1,8 @@
-import { Context, GameProvider } from "features/game/GameProvider";
+import { Context, GameProvider, useGame } from "features/game/GameProvider";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import React, { createContext, useContext, useEffect } from "react";
 import { PhaserComponent } from "./Phaser";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
@@ -28,6 +28,7 @@ import { Loading } from "features/auth/components";
 import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 interface Props {
   isCommunity?: boolean;
@@ -111,40 +112,44 @@ const SCENE_ACCESS: Partial<Record<SceneId, (game: GameState) => boolean>> = {
   },
 };
 
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+const _farmId = (state: MachineState) => state.context.farmId;
+const _moderation = (state: MachineState) => state.context.moderation;
+
 export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { gameService, state } = useGame();
+  const farmId = useSelector(gameService, _farmId);
+  const moderation = useSelector(gameService, _moderation);
+
   const { name } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
   const mmoService = useInterpret(mmoMachine, {
     context: {
-      jwt: authState.context.user.rawToken,
-      farmId: gameState.context.farmId,
-      bumpkin: gameState.context.state.bumpkin,
-      faction: gameState.context.state.faction?.name,
+      jwt: rawToken,
+      farmId,
+      bumpkin: state.bumpkin,
+      faction: state.faction?.name,
       sceneId: (name ?? "plaza") as SceneId,
-      experience: gameState.context.state.bumpkin?.experience ?? 0,
+      experience: state.bumpkin.experience,
       isCommunity,
-      moderation: gameState.context.moderation,
-      username: gameState.context.state.username,
+      moderation,
+      username: state.username,
     },
   }) as unknown as MMOMachineInterpreter;
-  const [mmoState] = useActor(mmoService);
+
+  const sceneId = useSelector(mmoService, (state) => state.context.sceneId);
 
   useEffect(() => {
-    if (
-      mmoState.context.sceneId &&
-      !location.pathname.includes("marketplace")
-    ) {
-      navigate(`/world/${mmoState.context.sceneId}`);
+    if (sceneId && !location.pathname.includes("marketplace")) {
+      navigate(`/world/${sceneId}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mmoState.context.sceneId]);
+  }, [sceneId]);
 
   // We need to listen to events outside of MMO scope (Settings Panel)
   useEffect(() => {
@@ -173,7 +178,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   if (
     SCENE_ACCESS[name as SceneId] &&
-    !SCENE_ACCESS[name as SceneId]?.(gameState.context.state)
+    !SCENE_ACCESS[name as SceneId]?.(state)
   ) {
     return (
       <Panel>
@@ -198,7 +203,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       <PhaserComponent
         mmoService={mmoService}
         isCommunity={isCommunity}
-        inventory={gameState.context.state.inventory}
+        inventory={state.inventory}
         route={name as SceneId}
       />
 
