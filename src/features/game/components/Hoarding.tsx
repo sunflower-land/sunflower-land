@@ -2,28 +2,29 @@ import React, { useContext } from "react";
 
 import token from "assets/icons/sfl.webp";
 
-import { Context } from "../GameProvider";
-import { useActor } from "@xstate/react";
+import { useGame } from "../GameProvider";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "../types/images";
-import { InventoryItemName } from "../types/game";
 import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "./modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
+import { ITEM_IDS } from "../types/bumpkin";
 import { isCollectible } from "../events/landExpansion/garbageSold";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "../lib/gameMachine";
+
+const _maxedItem = (state: MachineState) => state.context.maxedItem;
 
 export const Hoarding: React.FC = () => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { gameService } = useGame();
+  const maxedItem = useSelector(gameService, _maxedItem);
   const { openModal } = useContext(ModalContext);
 
-  const maxedItem = gameState.context.maxedItem as
-    | InventoryItemName
-    | BumpkinItem
-    | "SFL";
+  if (!maxedItem) {
+    return null;
+  }
 
   let maxedItemImage = "";
   if (maxedItem === "SFL") {
