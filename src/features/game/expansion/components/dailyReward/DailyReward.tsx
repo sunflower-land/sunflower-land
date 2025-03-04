@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -44,11 +44,36 @@ export const DailyReward: React.FC = () => {
     },
   });
 
+  const chestCode = useSelector(chestService, (state) => state.context.code);
+  const chestOpened = useSelector(chestService, (state) =>
+    state.matches("opened"),
+  );
+  const chestLocked = useSelector(chestService, (state) =>
+    state.matches("locked"),
+  );
+  const chestUnlocked = useSelector(chestService, (state) =>
+    state.matches("unlocked"),
+  );
+  const chestError = useSelector(chestService, (state) =>
+    state.matches("error"),
+  );
+  const chestComingSoon = useSelector(chestService, (state) =>
+    state.matches("comingSoon"),
+  );
+  const chestOpening = useSelector(chestService, (state) =>
+    state.matches("opening"),
+  );
+  const chestUnlocking = useSelector(chestService, (state) =>
+    state.matches("unlocking"),
+  );
+  const chestLoading = useSelector(chestService, (state) =>
+    state.matches("loading"),
+  );
+  const chestIdle = useSelector(chestService, (state) => state.matches("idle"));
+
   useEffect(() => {
     chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
   }, [bumpkinLevel]);
-
-  const [chestState] = useActor(chestService);
 
   if (getBumpkinLevel(bumpkin?.experience ?? 0) <= 5) {
     return null;
@@ -62,7 +87,7 @@ export const DailyReward: React.FC = () => {
       event: {
         type: "dailyReward.collected",
         createdAt: new Date(),
-        code: chestState.context.code,
+        code: chestCode,
       },
     });
     chestService.send("OPEN");
@@ -83,7 +108,7 @@ export const DailyReward: React.FC = () => {
   const getNextBonus = streaks + (5 - streakRemainder);
 
   const ModalContent = () => {
-    if (chestState.matches("opened")) {
+    if (chestOpened) {
       const now = new Date();
       const nextRefreshInSeconds =
         24 * 60 * 60 -
@@ -113,7 +138,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("locked")) {
+    if (chestLocked) {
       return (
         <CloseButtonPanel
           title={t("reward.daily.reward")}
@@ -146,7 +171,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("unlocked")) {
+    if (chestUnlocked) {
       return (
         <CloseButtonPanel
           title={t("reward.daily.reward")}
@@ -166,7 +191,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("error")) {
+    if (chestError) {
       return (
         <CloseButtonPanel
           title={t("error.wentWrong")}
@@ -186,7 +211,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("comingSoon")) {
+    if (chestComingSoon) {
       return (
         <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
           <div className="px-2 pb-2 w-full flex flex-col items-center">
@@ -197,7 +222,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("opening") && isRevealed) {
+    if (chestOpening && isRevealed) {
       return (
         <Panel>
           <Revealed
@@ -208,7 +233,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("opening")) {
+    if (chestOpening) {
       return (
         <Panel>
           <ChestRevealing type="Daily Reward" />
@@ -216,7 +241,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("unlocking")) {
+    if (chestUnlocking) {
       return (
         <Panel>
           <Loading text={t("unlocking")} />
@@ -224,7 +249,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("loading")) {
+    if (chestLoading) {
       return (
         <Panel>
           <Loading />
@@ -249,14 +274,14 @@ export const DailyReward: React.FC = () => {
         <img
           id="daily-reward"
           src={
-            chestState.matches("opened")
+            chestOpened
               ? SUNNYSIDE.decorations.treasure_chest_opened
               : SUNNYSIDE.decorations.treasure_chest
           }
           className="cursor-pointer hover:img-highlight w-full absolute bottom-0"
-          onClick={() => openModal()}
+          onClick={openModal}
         />
-        {!chestState.matches("opened") && (
+        {!chestOpened && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className={"absolute" + (showAnimations ? " animate-float" : "")}
@@ -287,7 +312,7 @@ export const DailyReward: React.FC = () => {
           </CloseButtonPanel>
         )}
 
-        {!showIntro && chestState.matches("idle") && (
+        {!showIntro && chestIdle && (
           <Panel>
             <GameWallet
               action="dailyReward"
@@ -300,7 +325,7 @@ export const DailyReward: React.FC = () => {
           </Panel>
         )}
 
-        {!showIntro && !chestState.matches("idle") && (
+        {!showIntro && !chestIdle && (
           <GameWallet
             action="dailyReward"
             onReady={() => {
