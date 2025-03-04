@@ -7,7 +7,7 @@ import { Modal } from "components/ui/Modal";
 import { ShopItems } from "./ShopItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
@@ -30,6 +30,8 @@ const _specialEvents = (state: MachineState) =>
       ([, specialEvent]) => (specialEvent?.endAt ?? Infinity) > Date.now(),
     )
     .filter(([, specialEvent]) => (specialEvent?.startAt ?? 0) < Date.now());
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _farmCreatedAt = (state: MachineState) => state.context.state.createdAt;
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return false;
@@ -70,10 +72,12 @@ const getBettyPositioning = () => {
 export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const specialEvents = useSelector(gameService, _specialEvents);
 
   const season = useSelector(gameService, _season);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const farmCreatedAt = useSelector(gameService, _farmCreatedAt);
+
   const { t } = useAppTranslation();
 
   const { play: shopAudio } = useSound("shop");
@@ -87,19 +91,15 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
     }
   };
 
-  const hasSoldBefore = hasSoldCropsBefore(gameState.context.state.bumpkin);
-  const showBuyHelper =
-    !hasBoughtCropsBefore(gameState.context.state.bumpkin) && !!hasSoldBefore;
+  const hasSoldBefore = hasSoldCropsBefore(bumpkin);
+  const showBuyHelper = !hasBoughtCropsBefore(bumpkin) && !!hasSoldBefore;
 
   const showHelper =
-    gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 9 &&
-    !gameState.context.state.bumpkin?.activity?.["Sunflower Sold"];
+    bumpkin?.activity?.["Sunflower Harvested"] === 9 &&
+    !bumpkin?.activity?.["Sunflower Sold"];
 
   const cropShortageSecondsLeft =
-    (gameState.context.state.createdAt +
-      CROP_SHORTAGE_HOURS * 60 * 60 * 1000 -
-      Date.now()) /
-    1000;
+    (farmCreatedAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000 - Date.now()) / 1000;
   const isCropShortage = cropShortageSecondsLeft >= 0;
 
   const specialEventDetails = specialEvents[0];
