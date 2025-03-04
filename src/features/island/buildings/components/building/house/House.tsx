@@ -2,11 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { Context, useGame } from "features/game/GameProvider";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router";
@@ -16,7 +14,7 @@ import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 
 export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
 
   const [showHeart, setShowHeart] = useState(false);
 
@@ -48,7 +46,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
     };
   }, []);
 
-  const bumpkin = gameState.context.state.bumpkin as Bumpkin;
+  const { bumpkin } = state;
 
   return (
     <div className="absolute h-full w-full">
@@ -79,7 +77,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
+        {bumpkin && <HomeBumpkins game={state} />}
       </div>
 
       <div
