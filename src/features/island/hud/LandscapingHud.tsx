@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Balances } from "components/Balances";
-import { useActor, useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { Context, useGame } from "features/game/GameProvider";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -280,12 +280,11 @@ const Chest: React.FC<{
   onPlaceChestItem: (item: InventoryItemName) => void;
   onPlaceBud: (bud: BudName) => void;
 }> = ({ onPlaceChestItem, onPlaceBud }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
 
   const [showChest, setShowChest] = useState(false);
 
-  const chestItems = getChestItems(gameState.context.state);
+  const chestItems = getChestItems(state);
 
   return (
     <>
@@ -339,7 +338,7 @@ const Chest: React.FC<{
       </div>
 
       <LandscapingChest
-        state={gameState.context.state}
+        state={state}
         onHide={() => setShowChest(false)}
         show={showChest}
         onPlace={onPlaceChestItem}
