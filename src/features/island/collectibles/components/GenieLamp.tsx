@@ -1,13 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 
 import genieLamp from "assets/sfts/genie_lamp.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
-import { useActor } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
 
@@ -16,16 +15,22 @@ import { setImageWidth } from "lib/images";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   id: string;
 }
 
-export const GenieLamp: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+const _genieRevealing = (state: MachineState) => state.matches("revealing");
+const _genieRevealed = (state: MachineState) => state.matches("revealed");
 
-  const lamps = gameState.context.state.collectibles["Genie Lamp"];
+export const GenieLamp: React.FC<Props> = ({ id }) => {
+  const { gameService, state } = useGame();
+  const genieRevealing = useSelector(gameService, _genieRevealing);
+  const genieRevealed = useSelector(gameService, _genieRevealed);
+
+  const lamps = state.collectibles["Genie Lamp"];
   const lamp = lamps?.find((lamp) => lamp.id === id);
   const rubbedCount = lamp?.rubbedCount ?? 0;
   const wishesRemaining = 3 - rubbedCount;
@@ -116,14 +121,14 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
         </CloseButtonPanel>
       </Modal>
 
-      {gameState.matches("revealing") && isRevealing && (
+      {genieRevealing && isRevealing && (
         <Modal show backdrop="static">
           <Panel className="z-10">
             <Revealing icon={genieLamp} />
           </Panel>
         </Modal>
       )}
-      {gameState.matches("genieRevealed") && isRevealing && (
+      {genieRevealed && isRevealing && (
         <Modal show backdrop="static">
           <img
             src={genieImg}
