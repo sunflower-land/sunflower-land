@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useState } from "react";
 
 import { Box } from "components/ui/Box";
 
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -25,12 +24,7 @@ export const BeachBaitShop: React.FC = () => {
 
   const [selectedName, setSelectedName] =
     useState<PurchaseableBait>("Fishing Lure");
-  const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { gameService, state } = useGame();
   const inventory = state.inventory;
 
   const selectedItem = PURCHASEABLE_BAIT[selectedName];
