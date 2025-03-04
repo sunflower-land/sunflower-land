@@ -1,10 +1,6 @@
-import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
-
-import { Context } from "features/game/GameProvider";
+import React from "react";
 
 import { getKeys } from "features/game/types/decorations";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CompetitionPrize, PRIZES } from "features/game/types/competitions";
@@ -13,14 +9,6 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 type PrizeRow = CompetitionPrize & { from: number; to?: number };
 
 export const CompetitionPrizes: React.FC = () => {
-  const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
   // Group together rows that have the same prize
   const prizes: PrizeRow[] = [];
   let previous: PrizeRow | undefined = undefined;
@@ -68,37 +56,31 @@ export const CompetitionPrizes: React.FC = () => {
                   <div className="flex items-center space-x-2 pl-1 flex-wrap">
                     {getKeys(prize.items)
                       .filter((item) => (prize.items[item] ?? 0) > 0)
-                      .map((item, index) => {
-                        const count = prize.items[item];
-                        return (
-                          <div key={index} className="flex items-center mr-1">
-                            <span className="text-xs">{`${item} `}</span>
-                            <img
-                              src={ITEM_DETAILS[item].image}
-                              className="h-4 ml-0.5"
-                            />
-                          </div>
-                        );
-                      })}
+                      .map((item, index) => (
+                        <div key={index} className="flex items-center mr-1">
+                          <span className="text-xs">{`${item} `}</span>
+                          <img
+                            src={ITEM_DETAILS[item].image}
+                            className="h-4 ml-0.5"
+                          />
+                        </div>
+                      ))}
                     {getKeys(prize.wearables)
                       .filter((item) => (prize.wearables[item] ?? 0) > 0)
-                      .map((item, index) => {
-                        const count = prize.wearables[item];
-                        return (
-                          <div key={index} className="flex items-center mr-1">
-                            <span className="text-xs">{`${item} `}</span>
-                            <img
-                              src={
-                                new URL(
-                                  `/src/assets/wearables/${ITEM_IDS[item]}.webp`,
-                                  import.meta.url,
-                                ).href
-                              }
-                              className="h-4 ml-0.5"
-                            />
-                          </div>
-                        );
-                      })}
+                      .map((item, index) => (
+                        <div key={index} className="flex items-center mr-1">
+                          <span className="text-xs">{`${item} `}</span>
+                          <img
+                            src={
+                              new URL(
+                                `/src/assets/wearables/${ITEM_IDS[item]}.webp`,
+                                import.meta.url,
+                              ).href
+                            }
+                            className="h-4 ml-0.5"
+                          />
+                        </div>
+                      ))}
                   </div>
                 </td>
               </tr>
