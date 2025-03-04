@@ -5,7 +5,7 @@ import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { MapPlacement } from "./MapPlacement";
 
 import { Button } from "components/ui/Button";
@@ -13,7 +13,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
-import { useActor } from "@xstate/react";
 import { ISLAND_UPGRADE } from "features/game/events/landExpansion/upgradeFarm";
 import { getKeys } from "features/game/types/craftables";
 import { createPortal } from "react-dom";
@@ -65,12 +64,11 @@ const IslandUpgraderModal: React.FC<{
   onClose: () => void;
   onUpgrade: () => void;
 }> = ({ onClose, onUpgrade }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const { island, inventory } = gameState.context.state;
+  const { island, inventory } = state;
   const upgrade = ISLAND_UPGRADE[island.type];
   const { t } = useAppTranslation();
 
@@ -124,7 +122,7 @@ const IslandUpgraderModal: React.FC<{
         <p className="text-xs mb-2">{t("islandupgrade.newOpportunities")}</p>
         <p className="text-xs mb-2">{t("islandupgrade.confirmation")}</p>
         <img
-          src={UPGRADE_PREVIEW[gameState.context.state.island.type] as string}
+          src={UPGRADE_PREVIEW[island.type] as string}
           className="w-full rounded-md"
         />
 
