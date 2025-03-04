@@ -2,25 +2,23 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
-import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { Context, useGame } from "features/game/GameProvider";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
-import { MachineState } from "features/game/lib/gameMachine";
-const _season = (state: MachineState) => state.context.state.season.season;
 
 export const Manor: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const season = useSelector(gameService, _season);
+  const { state } = useGame();
+  const {
+    season: { season },
+    bumpkin,
+  } = state;
 
   const [showHeart, setShowHeart] = useState(false);
 
@@ -51,8 +49,6 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, island }) => {
       }
     };
   }, []);
-
-  const bumpkin = gameState.context.state.bumpkin as Bumpkin;
 
   return (
     <div className="absolute h-full w-full">
@@ -86,7 +82,7 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
+        {bumpkin && <HomeBumpkins game={state} />}
       </div>
 
       <div
