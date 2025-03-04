@@ -1,4 +1,3 @@
-import { useActor } from "@xstate/react";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -15,6 +14,8 @@ import { OuterPanel } from "components/ui/Panel";
 import { ANIMAL_FOODS, Feed, FeedType } from "features/game/types/animals";
 import { Label } from "components/ui/Label";
 import { getIngredients } from "./feedMixed";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   show: boolean;
@@ -26,14 +27,12 @@ const FOOD_TYPE_TERMS = {
   medicine: "feeder.foodTypes.medicine",
 } as const;
 
+const _state = (state: MachineState) => state.context.state;
 export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
+
   const [selectedName, setSelectedName] = useState<
     AnimalFoodName | AnimalMedicineName
   >("Hay");
