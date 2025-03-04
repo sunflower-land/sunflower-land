@@ -6,11 +6,10 @@ import { Coordinates, MapPlacement } from "./MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Pontoon } from "./Pontoon";
 
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { useActor } from "@xstate/react";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
@@ -230,19 +229,14 @@ export const ExpansionBuilding: React.FC<{
 export const UpcomingExpansion: React.FC = () => {
   const [_, setRender] = useState(0);
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const { openModal } = useContext(ModalContext);
 
-  const state = gameState.context.state;
-
   const requirements = expansionRequirements({ game: state });
 
-  const { t } = useAppTranslation();
-
-  const expansions =
-    (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+  const expansions = (state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
 
   const onReveal = () => {
     gameService.send("land.revealed");
