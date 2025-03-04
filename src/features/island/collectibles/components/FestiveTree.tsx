@@ -1,10 +1,9 @@
-import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
 import festiveTreeImage from "assets/sfts/festive_tree.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
@@ -14,21 +13,29 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   id: string;
 }
 
+const _revealing = (state: MachineState) => state.matches("revealing");
+const _revealed = (state: MachineState) => state.matches("revealed");
+
 export const FestiveTree: React.FC<Props> = ({ id }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { state } = useGame();
+
+  const revealing = useSelector(gameService, _revealing);
+  const revealed = useSelector(gameService, _revealed);
 
   const [showGiftedModal, setShowGiftedModal] = useState(false);
   const [showWrongTimeModal, setShowWrongTimeModal] = useState(false);
   const trees = [
-    ...(gameState.context.state.collectibles["Festive Tree"] || []),
-    ...(gameState.context.state.home.collectibles["Festive Tree"] || []),
+    ...(state.collectibles["Festive Tree"] || []),
+    ...(state.home.collectibles["Festive Tree"] || []),
   ];
   const tree = trees.find((t) => t.id === id);
 
@@ -106,14 +113,14 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
         />
       </div>
 
-      {gameState.matches("revealing") && isRevealing && (
+      {revealing && isRevealing && (
         <Modal show>
           <Panel>
             <ChestRevealing type="Festive Tree Rewards" />
           </Panel>
         </Modal>
       )}
-      {gameState.matches("revealed") && isRevealing && (
+      {revealed && isRevealing && (
         <Modal show>
           <Panel bumpkinParts={NPC_WEARABLES.santa}>
             <Revealed onAcknowledged={() => setIsRevealing(false)} />
