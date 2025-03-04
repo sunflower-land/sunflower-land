@@ -24,6 +24,7 @@ import { Context } from "features/game/GameProvider";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import { getChapterMarvelFish } from "features/game/types/seasons";
 
 const FISH_BY_TYPE = getFishByType();
 
@@ -182,7 +183,12 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
         <InnerPanel>
           <div className="flex flex-col">
             {getKeys(FISH_BY_TYPE).map((type) => {
-              const typeIcon = ITEM_DETAILS[FISH_BY_TYPE[type][0]].image;
+              const { image: typeIcon } =
+                ITEM_DETAILS[
+                  type === "chapter"
+                    ? getChapterMarvelFish()
+                    : FISH_BY_TYPE[type][0]
+                ];
 
               return (
                 <div key={type} className="flex flex-col mb-2">
