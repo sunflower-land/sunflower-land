@@ -84,7 +84,6 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
   ) {
     return <TooManyFarms />;
   }
-  // console.log("errorCode", errorCode);
   if (errorCode === ERRORS.TRADE_NOT_FOUND) {
     return <TradeNotFound />;
   }
