@@ -217,7 +217,7 @@ function getCollectibleBuffLabels(
             },
             {
               shortDescription: translate("description.Karkinos.warning"),
-              labelType: "danger",  
+              labelType: "danger",
             },
           ] as BuffLabel[])),
     ],
