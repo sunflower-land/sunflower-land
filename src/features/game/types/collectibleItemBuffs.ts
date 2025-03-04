@@ -74,6 +74,10 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
+      {
+        shortDescription: translate("description.nancy.warning"),
+        labelType: "danger",        
+      },
     ],
     Scarecrow: [
       {
@@ -85,6 +89,10 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.scarecrow.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
+      },
+      {
+        shortDescription: translate("description.scarecrow.warning"),
+        labelType: "danger",        
       },
     ],
     Kuebiko: [
@@ -114,6 +122,10 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.gnome.boost.aoe"),
         labelType: "vibrant",
         boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.gnome.warning"),
+        labelType: "danger",        
       },
     ],
     "Sir Goldensnout": [
@@ -204,7 +216,7 @@ function getCollectibleBuffLabels(
               boostedItemIcon: CROP_LIFECYCLE.basic.Cabbage.crop,
             },
           ] as BuffLabel[])),
-    ],
+    ],    
     "Golden Cauliflower": [
       {
         shortDescription: translate("description.golden.cauliflower.boost"),
@@ -555,6 +567,10 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.resource.wood,
       },
+      {
+        shortDescription: translate("description.woody.beaver.warning"),
+        labelType: "danger",        
+      },
     ],
     "Apprentice Beaver": [
       {
@@ -568,6 +584,10 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: SUNNYSIDE.resource.wood,
+      },
+      {
+        shortDescription: translate("description.apprentice.beaver.warning"),
+        labelType: "danger",        
       },
     ],
     "Foreman Beaver": [
