@@ -9,7 +9,7 @@ import potionMasterBombSheet from "assets/npcs/potion_master_sheet_bomb.png";
 import potionMasterSuccessSheet from "assets/npcs/potion_master_sheet_success.png";
 import { SpringValue } from "react-spring";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { SpeechBubble } from "./SpeechBubble";
@@ -90,14 +90,29 @@ export const MixingPotion: React.FC<{
   const [loaded, setLoaded] = useState(false);
 
   const { gameService } = useContext(Context);
-  const [potionState] = useActor(potionHouseService);
+
+  const isIdle = useSelector(potionHouseService, (state) =>
+    state.matches("playing.idle"),
+  );
+  const isStartMixing = useSelector(potionHouseService, (state) =>
+    state.matches("playing.startMixing"),
+  );
+  const isLoopMixing = useSelector(potionHouseService, (state) =>
+    state.matches("playing.loopMixing"),
+  );
+  const isSuccess = useSelector(potionHouseService, (state) =>
+    state.matches("playing.success"),
+  );
+  const isBomb = useSelector(potionHouseService, (state) =>
+    state.matches("playing.bomb"),
+  );
 
   const getCurrentAnimation = (): DesiredAnimation => {
-    if (potionState.matches("playing.idle")) return "idle";
-    if (potionState.matches("playing.startMixing")) return "startMixing";
-    if (potionState.matches("playing.loopMixing")) return "loopMixing";
-    if (potionState.matches("playing.success")) return "success";
-    if (potionState.matches("playing.bomb")) return "bomb";
+    if (isIdle) return "idle";
+    if (isStartMixing) return "startMixing";
+    if (isLoopMixing) return "loopMixing";
+    if (isSuccess) return "success";
+    if (isBomb) return "bomb";
 
     return "idle";
   };
