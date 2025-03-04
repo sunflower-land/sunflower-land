@@ -2,9 +2,7 @@ import { Button } from "components/ui/Button";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { RESOURCE_NODE_PRICES } from "features/game/events/landExpansion/buyResource";
 import { useGame } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
@@ -16,13 +14,9 @@ import { getObsidianSunstonePrice } from "features/game/events/landExpansion/exc
 export const ObsidianExchange: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
-  const { gameState, gameService } = useGame();
+  const { state, gameService } = useGame();
 
-  const state = gameState.context.state;
-
-  const hasBoughtResource = getKeys(RESOURCE_NODE_PRICES).some(
-    (resource) => !!state.farmActivity[`Obsidian Exchanged`],
-  );
+  const hasBoughtResource = !!state.farmActivity["Obsidian Exchanged"];
 
   const [showIntro, setShowIntro] = useState(!hasBoughtResource);
   const [showPriceIncrease, setShowPriceIncrease] = useState(false);
