@@ -4,8 +4,10 @@ import { Button } from "components/ui/Button";
 
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 type FormEvent = Element & {
   landId: {
@@ -13,15 +15,20 @@ type FormEvent = Element & {
   };
 };
 
+const _playing = (state: MachineState) => state.matches("playing");
+const _actions = (state: MachineState) => state.context.actions;
+const _connected = (state: AuthMachineState) => state.matches("connected");
+
 export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   onBack,
 }) => {
   const { t } = useAppTranslation();
 
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
-  const [gameState, gameSend] = useActor(gameService);
+  const playing = useSelector(gameService, _playing);
+  const actions = useSelector(gameService, _actions);
+  const connected = useSelector(authService, _connected);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,17 +39,15 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
 
     if (isNaN(landId) || landId <= 0) return;
 
-    const playing = gameState.matches("playing");
-
     // If the player has been playing and there are unsaved actions then save progress
-    if (playing && gameState.context.actions.length > 0) {
-      gameSend("SAVE");
+    if (playing && actions.length > 0) {
+      gameService.send("SAVE");
     }
 
     // If the player has already been visiting ie /visit/id then there will be no rerender when navigating
     // therefore we stay in the current game machine so we send an event back to handle the visit flow
     if (location.pathname.includes("visit")) {
-      gameSend({ type: "VISIT", landId });
+      gameService.send({ type: "VISIT", landId });
     }
 
     // If a player has been playing the game ie /land/id there will be a rerender and the current gameMachine
@@ -51,7 +56,7 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   };
 
   const handleEndVisit = () => {
-    if (authState.matches("connected")) {
+    if (connected) {
       gameService.send("END_VISIT");
     } else {
       authService.send("RETURN");
