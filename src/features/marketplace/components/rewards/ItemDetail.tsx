@@ -1,4 +1,3 @@
-import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import confetti from "canvas-confetti";
 import classNames from "classnames";
@@ -13,7 +12,7 @@ import {
   TradeRewardPacks,
   TradeRewardsItem,
 } from "features/game/events/landExpansion/redeemTradeReward";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { INVENTORY_LIMIT, PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -23,19 +22,16 @@ import { isSeed } from "features/game/types/seeds";
 
 interface Props {
   onClose: () => void;
-  itemName: TradeRewardsItem | TradeRewardPacks;
+  itemName: TradeRewardPacks | TradeRewardsItem;
 }
+
 export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
   const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
+  const { state } = useGame();
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState(false);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
   const { ingredients, items, image, description } = TRADE_REWARDS[itemName];
 
   useLayoutEffect(() => {
