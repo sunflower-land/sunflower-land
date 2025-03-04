@@ -1,8 +1,8 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import {
   Crop,
   CropName,
@@ -10,7 +10,6 @@ import {
   GREENHOUSE_CROPS,
   GreenHouseCrop,
 } from "features/game/types/crops";
-import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -59,16 +58,13 @@ export const Crops: React.FC = () => {
   const [customAmount, setCustomAmount] = useState(new Decimal(0));
   const [isCustomSellModalOpen, showCustomSellModal] = useState(false);
 
-  const { gameService } = useContext(Context);
+  const { gameService, state } = useGame();
   const { t } = useAppTranslation();
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
-  const inventory = state.inventory;
-  const island = state.island.type;
+  const {
+    inventory,
+    island: { type: islandType },
+  } = state;
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +98,7 @@ export const Crops: React.FC = () => {
   const cropAmount = setPrecision(inventory[selected.name] ?? 0, 2);
   const coinAmount = setPrecision(
     new Decimal(displaySellPrice(selected)).mul(
-      state.island.type !== "basic" ? new Decimal(customAmount) : cropAmount,
+      islandType !== "basic" ? new Decimal(customAmount) : cropAmount,
     ),
     2,
   );
@@ -194,15 +190,13 @@ export const Crops: React.FC = () => {
                       {cropAmount.greaterThan(10) && (
                         <Button
                           onClick={
-                            state.island.type !== "basic"
+                            islandType !== "basic"
                               ? openBulkSellModal
                               : openConfirmationModal
                           }
                         >
                           {t(
-                            state.island.type !== "basic"
-                              ? "sell.inBulk"
-                              : "sell.all",
+                            islandType !== "basic" ? "sell.inBulk" : "sell.all",
                           )}
                         </Button>
                       )}
@@ -223,7 +217,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE[island].Sunflower.crop}
+                icon={CROP_LIFECYCLE[islandType].Sunflower.crop}
                 type="default"
               >
                 {`Basic Crops`}
@@ -247,7 +241,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE[island].Carrot.crop}
+                icon={CROP_LIFECYCLE[islandType].Carrot.crop}
                 type="default"
               >
                 {`Medium Crops`}
@@ -271,7 +265,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE[island].Kale.crop}
+                icon={CROP_LIFECYCLE[islandType].Kale.crop}
                 type="default"
               >
                 {`Advanced Crops`}
@@ -371,7 +365,7 @@ export const Crops: React.FC = () => {
         onHide={closeConfirmationModal}
         messages={[
           t("confirmation.sell", {
-            amount: state.island.type !== "basic" ? customAmount : cropAmount,
+            amount: islandType !== "basic" ? customAmount : cropAmount,
             name: selected.name,
             coinAmount,
           }),
@@ -379,13 +373,11 @@ export const Crops: React.FC = () => {
         onCancel={closeConfirmationModal}
         onConfirm={() =>
           handleSell(
-            state.island.type !== "basic"
-              ? new Decimal(customAmount)
-              : cropAmount,
+            islandType !== "basic" ? new Decimal(customAmount) : cropAmount,
           )
         }
         confirmButtonLabel={
-          state.island.type !== "basic"
+          islandType !== "basic"
             ? t("sell.amount", { amount: customAmount })
             : t("sell.all")
         }
