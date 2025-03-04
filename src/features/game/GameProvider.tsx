@@ -11,7 +11,7 @@ import {
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
 
-import { startGame, MachineInterpreter } from "./lib/gameMachine";
+import { startGame, MachineInterpreter, MachineState } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import {
   cacheShowAnimationsSetting,
@@ -119,13 +119,17 @@ export const GameProvider: React.FC = ({ children }) => {
   );
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const useGame = () => {
   const context = React.useContext(Context);
-  const [gameState] = useActor(context.gameService);
+  const { gameService } = context;
+  const [gameState] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   if (!context) {
     throw new Error("useAuth must be used within an GameProvider");
   }
 
-  return { gameState, gameService: context.gameService };
+  return { gameState, state, gameService };
 };
