@@ -1,10 +1,9 @@
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
-import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { Context } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Cookable, CookableName } from "features/game/types/consumables";
@@ -70,14 +69,10 @@ export const Recipes: React.FC<Props> = ({
   queue,
   readyRecipes,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, state } = useGame();
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+
   const { inventory, buildings, bumpkin, buds } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
 
