@@ -31,13 +31,13 @@ import salesIcon from "assets/icons/sale.webp";
 export const MyReputation: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
-  const { gameState } = useGame();
+  const { state } = useGame();
 
   return (
     <ButtonPanel onClick={() => openModal("REPUTATION")}>
       <div className="flex flex-col">
         <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>
-          {`${t("reputation.title")} - ${REPUTATION_NAME[getReputation({ game: gameState.context.state })]}`}
+          {`${t("reputation.title")} - ${REPUTATION_NAME[getReputation({ game: state })]}`}
         </Label>
         <p className="text-xs">{t("reputation.description")}</p>
       </div>
@@ -93,8 +93,6 @@ export const ReputationSystem: React.FC<{
 
 export const ReputationTiers: React.FC = () => {
   const { t } = useAppTranslation();
-  const { gameState } = useGame();
-  const reputation = getReputation({ game: gameState.context.state });
 
   return (
     <div className="p-2 scrollable overflow-y-scroll max-h-[350px]">
@@ -228,18 +226,16 @@ export const ReputationTiers: React.FC = () => {
 export const ReputationPoints: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
-  const { gameState } = useGame();
+  const { state } = useGame();
 
-  const points = getReputationPoints({ game: gameState.context.state });
+  const points = getReputationPoints({ game: state });
   return (
     <>
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">
             {t("reputation.points.title", {
-              name: REPUTATION_NAME[
-                getReputation({ game: gameState.context.state })
-              ],
+              name: REPUTATION_NAME[getReputation({ game: state })],
             })}
           </Label>
           <Label className="mr-1" type="warning">
@@ -255,7 +251,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.SpringIsland,
               }),
               icon: REPUTATION_TASKS.SpringIsland({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -265,7 +261,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.Level15,
               }),
               icon: REPUTATION_TASKS.Level15({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -275,7 +271,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.DesertIsland,
               }),
               icon: REPUTATION_TASKS.DesertIsland({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -285,7 +281,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.VolcanoIsland,
               }),
               icon: REPUTATION_TASKS.VolcanoIsland({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -295,7 +291,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.Discord,
               }),
               icon: REPUTATION_TASKS.Discord({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -305,7 +301,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.ProofOfHumanity,
               }),
               icon: REPUTATION_TASKS.ProofOfHumanity({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -315,7 +311,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.Level100,
               }),
               icon: REPUTATION_TASKS.Level100({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -325,7 +321,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.Bud,
               }),
               icon: REPUTATION_TASKS.Bud({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -335,7 +331,7 @@ export const ReputationPoints: React.FC = () => {
                 points: REPUTATION_POINTS.VIP,
               }),
               icon: REPUTATION_TASKS.VIP({
-                game: gameState.context.state,
+                game: state,
               })
                 ? SUNNYSIDE.icons.confirm
                 : SUNNYSIDE.icons.cancel,
@@ -343,7 +339,7 @@ export const ReputationPoints: React.FC = () => {
           ]}
         />
       </div>
-      {!hasVipAccess({ game: gameState.context.state }) && (
+      {!hasVipAccess({ game: state }) && (
         <Button onClick={() => openModal("VIP_ITEMS")}>
           {t("reputation.vip.purchase")}
         </Button>

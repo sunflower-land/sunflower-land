@@ -2,7 +2,7 @@
  * A wrapper that provides game state and dispatches events
  */
 import { useState, useCallback } from "react";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -124,12 +124,11 @@ const _state = (state: MachineState) => state.context.state;
 export const useGame = () => {
   const context = React.useContext(Context);
   const { gameService } = context;
-  const [gameState] = useActor(gameService);
   const state = useSelector(gameService, _state);
 
   if (!context) {
     throw new Error("useAuth must be used within an GameProvider");
   }
 
-  return { gameState, state, gameService };
+  return { state, gameService };
 };
