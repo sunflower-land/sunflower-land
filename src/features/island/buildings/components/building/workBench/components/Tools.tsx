@@ -1,10 +1,9 @@
 import React, { SyntheticEvent, useContext, useState } from "react";
-import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import {
@@ -38,12 +37,7 @@ export const Tools: React.FC = () => {
     WorkbenchToolName | LoveAnimalItem
   >("Axe");
   const { gameService, shortcutItem } = useContext(Context);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const { state } = useGame();
 
   const selected = isLoveAnimalTool(selectedName)
     ? LOVE_ANIMAL_TOOLS[selectedName]
