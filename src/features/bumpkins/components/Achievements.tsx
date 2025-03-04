@@ -1,4 +1,3 @@
-import { useActor } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
@@ -18,6 +17,8 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -26,20 +27,19 @@ interface Props {
   readonly: boolean;
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
   const [selected, setSelected] = useState<AchievementName>("Farm Hand");
 
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
+  const { bumpkin } = state;
 
   const achievements = ACHIEVEMENTS();
 
   useEffect(() => {
-    const bumpkinAchievements = state.bumpkin?.achievements || {};
+    const bumpkinAchievements = bumpkin?.achievements || {};
     const achievementKeys = getKeys(achievements).filter((achievement) => {
       const item = ACHIEVEMENTS()[achievement];
       return item.rewards || item.coins > 0;
@@ -96,9 +96,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
 
               const progress = achievement.progress(state);
               const isComplete = progress >= achievement.requirement;
-
-              const bumpkinAchievements = state.bumpkin?.achievements || {};
-              const isAlreadyClaimed = !!bumpkinAchievements[name];
+              const isAlreadyClaimed = !!(bumpkin?.achievements ?? {})[name];
 
               return (
                 <div
