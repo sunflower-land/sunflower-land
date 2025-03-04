@@ -14,10 +14,13 @@ import { MarketplaceTrends } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import { loadTrends } from "../actions/loadTrends";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { TopTrades } from "./TopTrades";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
 const hotNowFetcher = ([, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadTrends({ token });
@@ -27,13 +30,13 @@ export const preloadHotNow = (token: string) =>
 
 export const MarketplaceHotNow: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
   const { data, error } = useSWR(
-    ["/marketplace/trends", authState.context.user.rawToken as string],
+    ["/marketplace/trends", rawToken as string],
     hotNowFetcher,
   );
   // Errors are handled by the game machine
