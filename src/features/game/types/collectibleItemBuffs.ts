@@ -215,6 +215,10 @@ function getCollectibleBuffLabels(
               boostTypeIcon: powerup,
               boostedItemIcon: CROP_LIFECYCLE.basic.Cabbage.crop,
             },
+            {
+              shortDescription: translate("description.Karkinos.warning"),
+              labelType: "danger",        
+            },
           ] as BuffLabel[])),
     ],
     "Golden Cauliflower": [
