@@ -10,6 +10,8 @@ import classNames from "classnames";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
 import { useGame } from "features/game/GameProvider";
 import { isRonin } from "../lib/ronin";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export const PolygonRequired: React.FC<{
   canContinue: boolean;
@@ -62,13 +64,16 @@ export const PolygonRequired: React.FC<{
   );
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const RoninSupportWidget: React.FC = () => {
   const [showMessage, setShowMessage] = useState(true);
 
-  const { gameState } = useGame();
+  const { gameService } = useGame();
+  const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
 
-  const isRoninUser = isRonin({ game: gameState.context.state });
+  const isRoninUser = isRonin({ game: state });
 
   if (!isRoninUser || !showMessage) {
     return null;
