@@ -11,6 +11,11 @@ export const TradeNotFound: React.FC = () => {
 
   const { mutate } = useSWRConfig();
 
+  const reload = () => {
+    mutate(() => true, undefined, { revalidate: true });
+    gameService.send("CONTINUE");
+  };
+
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-col p-2">
@@ -20,14 +25,7 @@ export const TradeNotFound: React.FC = () => {
 
         <p>{`This trade is not found. Please try again.`}</p>
       </div>
-      <Button
-        onClick={() => {
-          mutate(() => true, undefined, { revalidate: true });
-          gameService.send("CONTINUE");
-        }}
-      >
-        {t("continue")}
-      </Button>
+      <Button onClick={reload}>{t("continue")}</Button>
     </div>
   );
 };
