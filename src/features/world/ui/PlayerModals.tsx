@@ -11,7 +11,7 @@ import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Label } from "components/ui/Label";
+import { Label, LABEL_STYLES } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
@@ -46,6 +46,20 @@ export const playerModalManager = new PlayerModalManager();
 
 const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
   const { t } = useAppTranslation();
+  const [showLabel, setShowLabel] = useState(false);
+
+  const copyToClipboard = async (text: string): Promise<void> => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setShowLabel(true);
+    } catch (e: unknown) {
+      setShowLabel(typeof e === "string" ? e : t("copy.failed"));
+    }
+
+    setTimeout(() => {
+      setShowLabel(false);
+    }, 2000);
+  };
 
   return (
     <>
@@ -66,9 +80,25 @@ const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
         </div>
 
         {player?.id && (
-          <div className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary">
+          <div
+            className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary cursor-pointer"
+            onClick={() => {
+              copyToClipboard(player?.id as unknown as string);
+            }}
+          >
             {"#"}
             {player?.id}
+            {showLabel && (
+              <div
+                className="absolute right-2 text-xs pointer-events-none"
+                style={{
+                  ...LABEL_STYLES["default"].borderStyle,
+                  background: LABEL_STYLES["default"].background,
+                }}
+              >
+                {t("copied")}
+              </div>
+            )}
           </div>
         )}
       </div>
