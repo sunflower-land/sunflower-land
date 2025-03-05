@@ -5392,5 +5392,6 @@
   "rocketman.flower.compete": "Bersaing dalam cabaran bulanan untuk mendapatkan $FLOWER.",
   "rocketman.flower.social": "Lengkapkan tugas sosial, sebarkan berita, dan dapatkan $FLOWER.",
   "rocketman.flower.eligible": "Pengguna Polygon, Ronin & BASE layak.",
-  "ronin.nft.activates": "Akses VIP anda akan diaktifkan dalam masa 24 jam."
+  "ronin.nft.activates": "Akses VIP anda akan diaktifkan dalam masa 24 jam.",
+  "marketplace.listing.failure.tradeNotFound": "Perdagangan tidak dijumpai"
 }

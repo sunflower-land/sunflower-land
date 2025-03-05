@@ -5392,5 +5392,6 @@
   "rocketman.flower.compete": "Nimm an monatlichen Herausforderungen teil, um $FLOWER zu verdienen.",
   "rocketman.flower.social": "Erledige soziale Aufgaben, verbreite die Nachricht und verdiene $FLOWER.",
   "rocketman.flower.eligible": "Polygon-, Ronin- und BASE-Benutzer sind berechtigt.",
-  "ronin.nft.activates": "Ihr VIP-Zugang wird in 24 Stunden aktiviert."
+  "ronin.nft.activates": "Ihr VIP-Zugang wird in 24 Stunden aktiviert.",
+  "marketplace.listing.failure.tradeNotFound": "Handel wurde nicht gefunden"
 }

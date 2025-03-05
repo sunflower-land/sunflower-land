@@ -2525,6 +2525,7 @@
   "marketplace.offering.success": "Congratulations, you have successfully made an offer. Now be patient and wait for a Bumpkin to accept!",
   "marketplace.listing.success": "Congratulations, you have successfully listed your item for sale. Now be patient and wait for a Bumpkin to buy it!",
   "marketplace.listing.failure": "Oops, something went wrong. Please try again.",
+  "marketplace.listing.failure.tradeNotFound": "Trade not found",
   "marketplace.listing.cancelling": "Cancelling listing",
   "marketplace.listing.cancelling.success": "Congratulations, you have successfully cancelled your listing!",
   "marketplace.listing.cancelling.failure": "Oops, something went wrong. Please try again.",
