@@ -5393,5 +5393,6 @@
   "rocketman.flower.social": "Выполняйте социальные задания, распространяйте информацию и зарабатывайте $FLOWER.",
   "rocketman.flower.eligible": "На участие допускаются пользователи Polygon, Ronin и BASE.",
   "ronin.nft.activates": "Ваш VIP-доступ будет активирован через 24 часа.",
-  "marketplace.listing.failure.tradeNotFound": "Сделка не найдена"
+  "marketplace.listing.failure.tradeNotFound": "Сделка не найдена",
+  "bountyType.label": "{{type}} Награды"
 }

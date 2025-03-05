@@ -5393,5 +5393,6 @@
   "rocketman.flower.social": "Erledige soziale Aufgaben, verbreite die Nachricht und verdiene $FLOWER.",
   "rocketman.flower.eligible": "Polygon-, Ronin- und BASE-Benutzer sind berechtigt.",
   "ronin.nft.activates": "Ihr VIP-Zugang wird in 24 Stunden aktiviert.",
-  "marketplace.listing.failure.tradeNotFound": "Handel wurde nicht gefunden"
+  "marketplace.listing.failure.tradeNotFound": "Handel wurde nicht gefunden",
+  "bountyType.label": "{{type}} Kopfgelder"
 }

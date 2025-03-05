@@ -5393,5 +5393,6 @@
   "rocketman.flower.social": "Completa tareas sociales, haz correr la voz y gana $FLOWER.",
   "rocketman.flower.eligible": "Los usuarios de Polygon, Ronin y BASE son elegibles.",
   "ronin.nft.activates": "Tu acceso VIP se activará en 24 horas.",
-  "marketplace.listing.failure.tradeNotFound": "No se encontró la operación"
+  "marketplace.listing.failure.tradeNotFound": "No se encontró la operación",
+  "bountyType.label": "{{type}} Recompensas"
 }

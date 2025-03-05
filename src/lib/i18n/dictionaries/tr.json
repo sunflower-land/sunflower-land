@@ -5393,5 +5393,6 @@
   "rocketman.flower.social": "Sosyal görevleri tamamlayın, haberi yayın ve $FLOWER kazanın.",
   "rocketman.flower.eligible": "Polygon, Ronin & BASE kullanıcıları uygundur.",
   "ronin.nft.activates": "VIP Erişiminiz 24 saat içinde etkinleştirilecektir.",
-  "marketplace.listing.failure.tradeNotFound": "Ticaret bulunamadı"
+  "marketplace.listing.failure.tradeNotFound": "Ticaret bulunamadı",
+  "bountyType.label": "{{type}} Ödüller"
 }
