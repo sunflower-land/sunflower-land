@@ -4000,6 +4000,7 @@
   "bounties.sell.sfl": "Are you sure you want to sell this for {{amount}} SFL?",
   "bounties.sell.animal.sick": "Hmm, I see this poor animal is sick. I'll still take them off your hands, but I will have to offer you a reduced bounty. Deal?",
   "bounties.animal.select": "Select a {{name}} to sell.",
+  "bountyType.label": "{{type}} Bounties",
   "npcDialogues.chase.intro1": "Howdy Bumpkin! Animals are coming to Sunflower Land on November 1st.",
   "npcDialogues.chase.intro2": "However I'm in a bit of a pickle. My herd has mysteriously gone missing - it's like they disappeared out of thin air!",
   "npcDialogues.sheep.intro1": "Thanks for finding me! One moment I was pretending to be a sheep with the Cowboy and the next moment I was here.",

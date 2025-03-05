@@ -28,7 +28,7 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 
 const _exchange = (state: MachineState) => state.context.state.bounties;
 
@@ -53,6 +53,33 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const expiresAt = useCountdown(weekResetsAt());
   const hasDeals = deals.length > 0;
 
+  const dealsByType = useMemo(() => {
+    const grouped = deals.reduce(
+      (acc, deal) => {
+        if (deal.coins !== undefined) {
+          acc.coins = acc.coins ?? [];
+          acc.coins.push(deal);
+          return acc;
+        }
+
+        Object.keys(deal.items ?? {}).forEach((item) => {
+          acc[item] = acc[item] ?? [];
+          acc[item].push(deal);
+        });
+
+        return acc;
+      },
+      {} as Record<string, AnimalBounty[]>,
+    );
+
+    // Sort each array by level
+    Object.keys(grouped).forEach((key) => {
+      grouped[key].sort((a, b) => a.level - b.level);
+    });
+
+    return grouped;
+  }, [deals]);
+
   return (
     <InnerPanel>
       <div className="p-1">
@@ -66,101 +93,58 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
         </div>
 
         {hasDeals && <p className="text-xs mb-3">{t("bounties.board.info")}</p>}
-        <div className="flex flex-wrap">
-          {deals.length === 0 && (
-            <p className="text-sm mb-2">{t("bounties.board.empty")}</p>
-          )}
-          {deals.map((deal) => {
-            const isSold = !!state.bounties.completed.find(
-              (request) => request.id === deal.id,
-            );
-            const { coins } = generateBountyCoins({
-              game: state,
-              bounty: deal,
-            });
-            return (
-              <div
-                key={deal.id}
-                className={classNames("w-1/3 sm:w-1/4 pr-1.5 pb-1.5", {
-                  "pointer-events-none": isSold,
-                })}
+        {deals.length === 0 && (
+          <p className="text-xs mb-3">{t("bounties.board.empty")}</p>
+        )}
+        {dealsByType.coins && (
+          <div className="flex flex-col">
+            <div>
+              <Label
+                type="default"
+                icon={SUNNYSIDE.ui.coinsImg}
+                className="mb-3"
               >
-                <ButtonPanel
-                  // disabled={isDisabled}
-                  onClick={() => onExchanging(deal)}
-                >
-                  <div className="flex justify-center items-center my-2 mb-6">
-                    <div className="relative">
-                      <img
-                        src={ITEM_DETAILS[deal.name].image}
-                        className="w-10 z-20"
-                      />
-                    </div>
-                  </div>
-
-                  <Label
-                    type="formula"
-                    className="absolute -top-3.5  -left-2"
-                  >{`Lvl ${deal.level}+`}</Label>
-
-                  {!!isSold && (
-                    <Label
-                      type="success"
-                      className={"absolute -top-3.5 text-center p-1 "}
-                      style={{
-                        right: `${PIXEL_SCALE * -3}px`,
-                        // width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                        height: "25px",
-                      }}
-                    >
-                      {t("bounties.sold")}
-                    </Label>
-                  )}
-
-                  {!!deal.coins && (
-                    <Label
-                      type="warning"
-                      icon={SUNNYSIDE.ui.coinsImg}
-                      className={"absolute -bottom-2 text-center p-1 "}
-                      style={{
-                        left: `${PIXEL_SCALE * -3}px`,
-                        right: `${PIXEL_SCALE * -3}px`,
-                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                        height: "25px",
-                      }}
-                    >
-                      {coins}
-                    </Label>
-                  )}
-
-                  {getKeys(deal.items ?? {}).map((name) => {
-                    return (
-                      <Label
-                        key={name}
-                        type="warning"
-                        icon={ITEM_DETAILS[name].image}
-                        className={"absolute -bottom-2 text-center p-1 "}
-                        style={{
-                          left: `${PIXEL_SCALE * -3}px`,
-                          right: `${PIXEL_SCALE * -3}px`,
-                          width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                          height: "25px",
-                        }}
-                      >
-                        {name !== getSeasonalTicket()
-                          ? deal.items?.[name]
-                          : generateBountyTicket({
-                              game: state,
-                              bounty: deal,
-                            })}
-                      </Label>
-                    );
-                  })}
-                </ButtonPanel>
+                {t("bountyType.label", { type: "Coin" })}
+              </Label>
+              <div className="flex flex-wrap">
+                {dealsByType.coins?.map((deal) => (
+                  <BountyCard
+                    key={deal.id}
+                    deal={deal}
+                    onExchanging={onExchanging}
+                    state={state}
+                  />
+                ))}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          </div>
+        )}
+
+        {getKeys(dealsByType).map((itemType) => {
+          if (itemType === "coins") return null;
+
+          return (
+            <div key={itemType}>
+              <Label
+                type="default"
+                icon={ITEM_DETAILS[itemType as InventoryItemName].image}
+                className="mb-3"
+              >
+                {t("bountyType.label", { type: itemType })}
+              </Label>
+              <div className="flex flex-wrap">
+                {dealsByType[itemType]?.map((deal) => (
+                  <BountyCard
+                    key={deal.id}
+                    deal={deal}
+                    onExchanging={onExchanging}
+                    state={state}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
 
         {hasDeals && (
           <div className="flex items-center">
@@ -355,5 +339,105 @@ export const ExchangeHud: React.FC<{
         />
       </div>
     </HudContainer>
+  );
+};
+
+interface BountyCardProps {
+  deal: AnimalBounty;
+  onExchanging: (deal: AnimalBounty) => void;
+  state: MachineState["context"]["state"];
+}
+
+const BountyCard: React.FC<BountyCardProps> = ({
+  deal,
+  onExchanging,
+  state,
+}) => {
+  const { t } = useAppTranslation();
+
+  const isSold = !!state.bounties.completed.find(
+    (request) => request.id === deal.id,
+  );
+
+  const { coins } = generateBountyCoins({
+    game: state,
+    bounty: deal,
+  });
+
+  return (
+    <div
+      className={classNames("w-1/3 sm:w-1/4 pr-1.5 pb-1.5", {
+        "pointer-events-none": isSold,
+      })}
+    >
+      <ButtonPanel
+        variant={isSold ? "secondary" : "primary"}
+        onClick={() => onExchanging(deal)}
+      >
+        <div className="flex justify-center items-center my-2 mb-6">
+          <div className="relative">
+            <img src={ITEM_DETAILS[deal.name].image} className="w-10 z-20" />
+          </div>
+        </div>
+
+        <Label
+          type="formula"
+          className="absolute -top-3.5 -left-2"
+        >{`Lvl ${deal.level}+`}</Label>
+
+        {isSold && (
+          <Label
+            type="success"
+            className="absolute -top-3.5 text-center p-1"
+            style={{
+              right: `${PIXEL_SCALE * -3}px`,
+              height: "25px",
+            }}
+          >
+            {t("bounties.sold")}
+          </Label>
+        )}
+
+        {/* Show coins if it's a coin bounty */}
+        {deal.coins && (
+          <Label
+            type="warning"
+            icon={SUNNYSIDE.ui.coinsImg}
+            className="absolute -bottom-2 text-center p-1"
+            style={{
+              left: `${PIXEL_SCALE * -3}px`,
+              right: `${PIXEL_SCALE * -3}px`,
+              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+              height: "25px",
+            }}
+          >
+            {coins}
+          </Label>
+        )}
+
+        {/* Show items if it's an item bounty */}
+        {getKeys(deal.items ?? {}).map((name) => (
+          <Label
+            key={name}
+            type="warning"
+            icon={ITEM_DETAILS[name].image}
+            className="absolute -bottom-2 text-center p-1"
+            style={{
+              left: `${PIXEL_SCALE * -3}px`,
+              right: `${PIXEL_SCALE * -3}px`,
+              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+              height: "25px",
+            }}
+          >
+            {name !== getSeasonalTicket()
+              ? deal.items?.[name]
+              : generateBountyTicket({
+                  game: state,
+                  bounty: deal,
+                })}
+          </Label>
+        ))}
+      </ButtonPanel>
+    </div>
   );
 };
