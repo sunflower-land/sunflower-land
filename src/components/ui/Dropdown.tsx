@@ -105,10 +105,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             imageRendering: "pixelated",
           }}
         >
-          <div
-            className="max-h-48 overflow-y-auto scrollable"
-            style={{ scrollbarWidth: "thin" }}
-          >
+          <div className="max-h-14 overflow-y-auto scrollable">
             {options.map((option) => (
               <div
                 key={option}
