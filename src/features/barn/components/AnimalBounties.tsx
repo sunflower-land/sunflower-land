@@ -81,7 +81,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   }, [deals]);
 
   return (
-    <InnerPanel>
+    <InnerPanel className="overflow-y-auto max-h-[500px] scrollable">
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
