@@ -19,11 +19,13 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "./chests/ChestRevealing";
 import { secondsToString } from "lib/utils/time";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { CONFIG } from "lib/config";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
+import { hasFeatureAccess } from "lib/flags";
+import { ReportPlayer } from "./ReportPlayer";
 
 type Player = {
   id: number;
+  username?: string;
   clothing: BumpkinParts;
   experience: number;
 };
@@ -79,34 +81,34 @@ const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
           <BumpkinLevel experience={player?.experience} />
         </div>
 
-        {player?.id && (
-          <div
-            className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary cursor-pointer"
-            onClick={() => {
-              copyToClipboard(player?.id as unknown as string);
-            }}
-          >
-            {"#"}
-            {player?.id}
-            {showLabel && (
-              <div
-                className="absolute right-2 text-xs pointer-events-none"
-                style={{
-                  ...LABEL_STYLES["default"].borderStyle,
-                  background: LABEL_STYLES["default"].background,
-                }}
-              >
-                {t("copied")}
-              </div>
-            )}
-          </div>
-        )}
+        <div
+          className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary cursor-pointer"
+          onClick={() => {
+            copyToClipboard(player?.id as unknown as string);
+          }}
+        >
+          {player?.username && (
+            <p className="text-xs mb-1">{player?.username}</p>
+          )}
+          <p className="text-xs">{`#${player?.id}`}</p>
+          {showLabel && (
+            <div
+              className="absolute right-2 text-xs pointer-events-none"
+              style={{
+                ...LABEL_STYLES["default"].borderStyle,
+                background: LABEL_STYLES["default"].background,
+              }}
+            >
+              {t("copied")}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
 };
 
-export const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
+export const PlayerGift: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -185,10 +187,8 @@ interface Props {
 }
 
 export const PlayerModals: React.FC<Props> = ({ game }) => {
-  const { gameService } = useContext(Context);
   const [tab, setTab] = useState(0);
   const [player, setPlayer] = useState<Player>();
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -220,9 +220,11 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
               icon: SUNNYSIDE.icons.player,
               name: "Player",
             },
-            ...(!!gameService.getSnapshot().context.state.wardrobe[
-              "Gift Giver"
-            ] || CONFIG.NETWORK === "amoy"
+            {
+              icon: "",
+              name: "Report",
+            },
+            ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
               ? [
                   {
                     icon: SUNNYSIDE.icons.search,
@@ -234,11 +236,12 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
         >
           {tab === 0 &&
             (playerHasGift ? (
-              <PlayerGift player={player as Player} />
+              <PlayerGift />
             ) : (
               <PlayerDetails player={player as Player} />
             ))}
-          {tab === 1 && (
+          {tab === 1 && <ReportPlayer id={player?.id as number} />}
+          {tab === 2 && (
             <AirdropPlayer
               id={player?.id as number}
               // Noops
