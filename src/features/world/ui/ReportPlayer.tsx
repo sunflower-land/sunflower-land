@@ -9,11 +9,11 @@ import React, { useState } from "react";
 interface Props {
   id: number;
 }
-const REASONS = ["Botting", "Bug Abuse", "Multiaccounting", "Other"];
+const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 export const ReportPlayer: React.FC<Props> = ({ id }) => {
   const [farmId, setFarmId] = useState(id);
-  const [reason, setReason] = useState(REASONS[0]);
-  const [message, setMessage] = useState("");
+  const [reason, setReason] = useState<string | undefined>(undefined);
+  const [message, setMessage] = useState<string>("");
   return (
     <>
       <div className="p-1 flex flex-col overflow-y-auto scrollable">
@@ -45,7 +45,11 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           >
             {`Message`}
           </Label>
-          <TextInput value={message} onValueChange={setMessage} />
+          <TextInput
+            value={message}
+            onValueChange={setMessage}
+            placeholder="Describe the issue..."
+          />
         </div>
       </div>
       <Button className="my-1" disabled={!farmId || !reason || !message}>

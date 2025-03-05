@@ -13,6 +13,7 @@ interface DropdownProps {
   className?: string;
   disabled?: boolean;
   initialIndex?: number;
+  placeholder?: string;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -21,14 +22,17 @@ export const Dropdown: React.FC<DropdownProps> = ({
   onChange,
   className = "",
   disabled = false,
-  initialIndex = 0,
+  initialIndex,
+  placeholder = "Select an option",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [selectedValue, setSelectedValue] = useState(options[initialIndex]);
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(
+    initialIndex !== undefined ? options[initialIndex] : undefined,
+  );
 
-  // Initialize with either provided value or initial index value
+  // Initialize with provided value
   useEffect(() => {
     if (value !== undefined) {
       setSelectedValue(value);
@@ -77,10 +81,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
           "!bg-transparent cursor-pointer w-full p-2 h-10 font-secondary flex items-center justify-between",
           {
             "opacity-50 cursor-not-allowed": disabled,
+            "text-gray-500": !selectedValue,
           },
         )}
       >
-        <span>{selectedValue}</span>
+        <span>{selectedValue || placeholder}</span>
         <img
           src={SUNNYSIDE.icons.chevron_down}
           alt="dropdown"
@@ -110,7 +115,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 className={classNames(
                   "p-2 cursor-pointer font-secondary hover:brightness-110",
                   {
-                    "bg-blue-500 text-white": option === selectedValue,
+                    "bg-[#e4a672]": option === selectedValue,
                   },
                 )}
                 onClick={() => handleChange(option)}
