@@ -73,8 +73,8 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
     );
 
     // Sort each array by level
-    Object.keys(grouped).forEach((key) => {
-      grouped[key].sort((a, b) => a.level - b.level);
+    Object.values(grouped).forEach((deals) => {
+      deals.sort((a, b) => a.level - b.level);
     });
 
     return grouped;
@@ -96,44 +96,31 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
         {deals.length === 0 && (
           <p className="text-xs mb-3">{t("bounties.board.empty")}</p>
         )}
-        {dealsByType.coins && (
-          <div className="flex flex-col">
-            <div>
-              <Label
-                type="default"
-                icon={SUNNYSIDE.ui.coinsImg}
-                className="mb-3"
-              >
-                {t("bountyType.label", { type: "Coin" })}
-              </Label>
-              <div className="flex flex-wrap">
-                {dealsByType.coins?.map((deal) => (
-                  <BountyCard
-                    key={deal.id}
-                    deal={deal}
-                    onExchanging={onExchanging}
-                    state={state}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
 
-        {getKeys(dealsByType).map((itemType) => {
-          if (itemType === "coins") return null;
+        {Object.entries(dealsByType).map(([itemType, deals]) => {
+          // Sort deals by animal type first, then by level
+          const sortedDeals = [...deals].sort((a, b) => {
+            if (a.name !== b.name) {
+              return a.name.localeCompare(b.name);
+            }
+            return a.level - b.level;
+          });
 
           return (
             <div key={itemType}>
               <Label
                 type="default"
-                icon={ITEM_DETAILS[itemType as InventoryItemName].image}
-                className="mb-3"
+                icon={
+                  itemType === "coins"
+                    ? SUNNYSIDE.ui.coinsImg
+                    : ITEM_DETAILS[itemType as InventoryItemName].image
+                }
+                className="mb-3 capitalize"
               >
                 {t("bountyType.label", { type: itemType })}
               </Label>
               <div className="flex flex-wrap">
-                {dealsByType[itemType]?.map((deal) => (
+                {sortedDeals.map((deal) => (
                   <BountyCard
                     key={deal.id}
                     deal={deal}
