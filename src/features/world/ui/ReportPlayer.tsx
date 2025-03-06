@@ -4,16 +4,60 @@ import { Dropdown } from "components/ui/Dropdown";
 import { Label } from "components/ui/Label";
 import { NumberInput } from "components/ui/NumberInput";
 import { TextInput } from "components/ui/TextInput";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { CONFIG } from "lib/config";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 interface Props {
   id: number;
 }
 const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
+
 export const ReportPlayer: React.FC<Props> = ({ id }) => {
   const [farmId, setFarmId] = useState(id);
-  const [reason, setReason] = useState<string | undefined>(undefined);
-  const [message, setMessage] = useState<string>("");
+  const [reason, setReason] = useState<string>();
+  const [message, setMessage] = useState<string>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [logMessage, setLogMessage] = useState<string>();
+
+  const { authService } = useContext(AuthProvider.Context);
+
+  const handleSubmit = async () => {
+    if (!farmId || !reason || !message) {
+      setLogMessage("Please fill in all fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${CONFIG.API_URL}/report/player`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authService.state.context.user.rawToken as string}`,
+        },
+        body: JSON.stringify({
+          farmId,
+          reason,
+          message,
+        }),
+      });
+
+      if (!response.ok) {
+        setLogMessage("Failed to send report");
+      }
+
+      // Clear form after successful submission
+      setReason(undefined);
+      setMessage(undefined);
+      setLogMessage("Report submitted successfully!");
+    } catch (error) {
+      setLogMessage("Failed to submit report. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       <div className="p-1 flex flex-col overflow-y-auto scrollable">
@@ -52,8 +96,17 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           />
         </div>
       </div>
-      <Button className="my-1" disabled={!farmId || !reason || !message}>
-        {`Send`}
+      {logMessage && (
+        <Label type="default" className="my-1">
+          {logMessage}
+        </Label>
+      )}
+      <Button
+        className="my-1"
+        disabled={!farmId || !reason || !message || isSubmitting}
+        onClick={handleSubmit}
+      >
+        {isSubmitting ? "Sending..." : "Send"}
       </Button>
     </>
   );

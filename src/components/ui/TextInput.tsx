@@ -8,7 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
-  value: string;
+  value?: string;
   className?: string;
   onValueChange: (value: string) => void;
   onCancel?: () => void;
