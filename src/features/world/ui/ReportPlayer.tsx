@@ -12,10 +12,11 @@ import { useGame } from "features/game/GameProvider";
 
 interface Props {
   id: number;
+  username: string;
 }
 const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 
-export const ReportPlayer: React.FC<Props> = ({ id }) => {
+export const ReportPlayer: React.FC<Props> = ({ id, username }) => {
   const [reportedFarmId, setReportedFarmId] = useState(id);
   const [reason, setReason] = useState<string>();
   const [message, setMessage] = useState<string>("");
@@ -56,6 +57,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
         },
         body: JSON.stringify({
           reportedFarmId,
+          reportedUsername: username,
           reason,
           message,
           reporterFarmId,
@@ -89,6 +91,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           value={reportedFarmId}
           onValueChange={(decimal) => setReportedFarmId(decimal.toNumber())}
           maxDecimalPlaces={0}
+          readOnly
         />
       </div>
       <div className="flex flex-col">
