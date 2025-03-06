@@ -86,6 +86,7 @@ const FEATURE_FLAGS = {
   // Testnet only feature flags - Please don't change these until release
   COMMUNITY_COIN_EXCHANGE: testnetFeatureFlag,
   FLOWER_GEMS: testnetFeatureFlag,
+  LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
