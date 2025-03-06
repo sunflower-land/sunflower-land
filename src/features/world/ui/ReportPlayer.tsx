@@ -8,6 +8,8 @@ import React, { useContext, useState } from "react";
 import { CONFIG } from "lib/config";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
+import { hasFeatureAccess } from "lib/flags";
+import { useGame } from "features/game/GameProvider";
 
 interface Props {
   id: number;
@@ -15,7 +17,7 @@ interface Props {
 const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 
 export const ReportPlayer: React.FC<Props> = ({ id }) => {
-  const [farmId, setFarmId] = useState(id);
+  const [reportedFarmId, setReportedFarmId] = useState(id);
   const [reason, setReason] = useState<string>();
   const [message, setMessage] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,9 +28,17 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
     authService,
     (state) => state.context.user.rawToken as string,
   );
+  const { gameService } = useGame();
+  const state = useSelector(gameService, (state) => state.context.state);
+  const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const handleSubmit = async () => {
-    if (!farmId || !reason || !message) {
+    if (!hasFeatureAccess(state, "REPORT_PLAYER")) {
+      setLogMessage("You are not authorized to report players");
+      return;
+    }
+
+    if (!reportedFarmId || !reason || !message) {
       setLogMessage("Please fill in all fields");
       return;
     }
@@ -42,9 +52,11 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           Authorization: `Bearer ${rawToken}`,
         },
         body: JSON.stringify({
-          farmId,
+          farmId: reportedFarmId,
           reason,
           message,
+          reporterFarmId: farmId,
+          reporterUsername: state.username,
         }),
       });
 
@@ -55,10 +67,10 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
       // Clear form after successful submission
       setReason(undefined);
       setMessage("");
-      setLogMessage("Report submitted successfully!");
     } catch (error) {
       setLogMessage("Failed to submit report. Please try again later.");
     } finally {
+      setLogMessage("Report submitted successfully!");
       setIsSubmitting(false);
     }
   };
@@ -71,8 +83,8 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
             {`Farm ID`}
           </Label>
           <NumberInput
-            value={farmId}
-            onValueChange={(decimal) => setFarmId(decimal.toNumber())}
+            value={reportedFarmId}
+            onValueChange={(decimal) => setReportedFarmId(decimal.toNumber())}
             maxDecimalPlaces={0}
           />
         </div>
@@ -108,7 +120,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
       )}
       <Button
         className="my-1"
-        disabled={!farmId || !reason || !message || isSubmitting}
+        disabled={!reportedFarmId || !reason || !message || isSubmitting}
         onClick={handleSubmit}
       >
         {isSubmitting ? "Sending..." : "Send"}

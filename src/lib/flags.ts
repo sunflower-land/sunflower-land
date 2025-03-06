@@ -1,8 +1,12 @@
+import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
-const adminFeatureFlag = ({ wardrobe }: GameState) =>
-  CONFIG.NETWORK === "amoy" || !!((wardrobe["Gift Giver"] ?? 0) > 0);
+const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
+  CONFIG.NETWORK === "amoy" ||
+  process.env.NODE_ENV === "test" ||
+  (!!((wardrobe["Gift Giver"] ?? 0) > 0) &&
+    !!(inventory["Beta Pass"] ?? new Decimal(0)).gt(0));
 
 const seasonAdminFeatureFlag = (game: GameState) => {
   return (
@@ -14,7 +18,9 @@ const seasonAdminFeatureFlag = (game: GameState) => {
 };
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
-  CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
+  CONFIG.NETWORK === "amoy" ||
+  process.env.NODE_ENV === "test" ||
+  !!(inventory["Beta Pass"] ?? new Decimal(0)).gt(0);
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
@@ -68,6 +74,7 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
+  REPORT_PLAYER: defaultFeatureFlag,
 
   // Temporary Feature Flags
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
