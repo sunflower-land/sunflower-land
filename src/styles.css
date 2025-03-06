@@ -813,13 +813,6 @@ img {
   );
 }
 
-.npc-dialog {
-  position: absolute;
-  bottom: 0;
-  width: 66%;
-  left: 17.5%;
-}
-
 /* Expanding Full Screen Panel */
 #expanding-base {
   position: fixed;

@@ -45,6 +45,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public frontfx: Phaser.GameObjects.Sprite | undefined;
 
   public clothing: Player["clothing"];
+  public username: string | undefined;
+  public experience: number | undefined;
+  public farmId: number | undefined;
   public faction: FactionName | undefined;
   private ready = false;
 
@@ -68,6 +71,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onClick,
     name,
     direction,
+    username,
+    experience,
+    farmId,
     faction,
   }: {
     scene: Phaser.Scene;
@@ -78,6 +84,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onCollide?: () => void;
     name?: string;
     direction?: "left" | "right";
+    username?: string;
+    experience?: number;
+    farmId?: number;
     faction?: FactionName;
   }) {
     super(scene, x, y);
@@ -101,6 +110,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.reaction = this.scene.add.group();
 
+    this.username = username;
+    this.experience = experience;
+    this.farmId = farmId;
     this.faction = faction;
 
     if (name) {

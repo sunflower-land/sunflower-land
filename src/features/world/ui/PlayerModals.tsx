@@ -23,7 +23,7 @@ import { AirdropPlayer } from "features/island/hud/components/settings-menu/gene
 import { hasFeatureAccess } from "lib/flags";
 import { ReportPlayer } from "./ReportPlayer";
 
-type Player = {
+export type PlayerModalPlayer = {
   id: number;
   username?: string;
   clothing: BumpkinParts;
@@ -31,22 +31,22 @@ type Player = {
 };
 
 class PlayerModalManager {
-  private listener?: (player: Player) => void;
+  private listener?: (player: PlayerModalPlayer) => void;
 
-  public open(player: Player) {
+  public open(player: PlayerModalPlayer) {
     if (this.listener) {
       this.listener(player);
     }
   }
 
-  public listen(cb: (player: Player) => void) {
+  public listen(cb: (player: PlayerModalPlayer) => void) {
     this.listener = cb;
   }
 }
 
 export const playerModalManager = new PlayerModalManager();
 
-const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
+const PlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({ player }) => {
   const { t } = useAppTranslation();
   const [showLabel, setShowLabel] = useState(false);
 
@@ -188,7 +188,7 @@ interface Props {
 
 export const PlayerModals: React.FC<Props> = ({ game }) => {
   const [tab, setTab] = useState(0);
-  const [player, setPlayer] = useState<Player>();
+  const [player, setPlayer] = useState<PlayerModalPlayer>();
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -204,57 +204,51 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
 
   return (
-    <>
-      <Modal
-        // dialogClassName="npc-dialog"
-        show={!!player}
-        onHide={closeModal}
+    <Modal show={!!player} onHide={closeModal}>
+      <CloseButtonPanel
+        onClose={closeModal}
+        bumpkinParts={player?.clothing}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        tabs={[
+          {
+            icon: SUNNYSIDE.icons.player,
+            name: "Player",
+          },
+          ...(hasFeatureAccess(game, "REPORT_PLAYER")
+            ? [
+                {
+                  icon: SUNNYSIDE.icons.search,
+                  name: "Report",
+                },
+              ]
+            : []),
+          ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
+            ? [
+                {
+                  icon: giftIcon,
+                  name: "Airdrop",
+                },
+              ]
+            : []),
+        ]}
       >
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={player?.clothing}
-          currentTab={tab}
-          setCurrentTab={setTab}
-          tabs={[
-            {
-              icon: SUNNYSIDE.icons.player,
-              name: "Player",
-            },
-            ...(hasFeatureAccess(game, "REPORT_PLAYER")
-              ? [
-                  {
-                    icon: SUNNYSIDE.icons.search,
-                    name: "Report",
-                  },
-                ]
-              : []),
-            ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
-              ? [
-                  {
-                    icon: giftIcon,
-                    name: "Airdrop",
-                  },
-                ]
-              : []),
-          ]}
-        >
-          {tab === 0 &&
-            (playerHasGift ? (
-              <PlayerGift />
-            ) : (
-              <PlayerDetails player={player as Player} />
-            ))}
-          {tab === 1 && <ReportPlayer id={player?.id as number} />}
-          {tab === 2 && (
-            <AirdropPlayer
-              id={player?.id as number}
-              // Noops
-              onClose={alert}
-              onSubMenuClick={alert}
-            />
-          )}
-        </CloseButtonPanel>
-      </Modal>
-    </>
+        {tab === 0 &&
+          (playerHasGift ? (
+            <PlayerGift />
+          ) : (
+            <PlayerDetails player={player as PlayerModalPlayer} />
+          ))}
+        {tab === 1 && <ReportPlayer id={player?.id as number} />}
+        {tab === 2 && (
+          <AirdropPlayer
+            id={player?.id as number}
+            // Noops
+            onClose={alert}
+            onSubMenuClick={alert}
+          />
+        )}
+      </CloseButtonPanel>
+    </Modal>
   );
 };
