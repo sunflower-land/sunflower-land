@@ -8,7 +8,6 @@ import React, { useContext, useState } from "react";
 import { CONFIG } from "lib/config";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
-import { hasFeatureAccess } from "lib/flags";
 import { useGame } from "features/game/GameProvider";
 
 interface Props {
@@ -33,11 +32,6 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
   const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const handleSubmit = async () => {
-    if (!hasFeatureAccess(state, "REPORT_PLAYER")) {
-      setLogMessage("You are not authorized to report players");
-      return;
-    }
-
     if (!reportedFarmId || !reason || !message) {
       setLogMessage("Please fill in all fields");
       return;
