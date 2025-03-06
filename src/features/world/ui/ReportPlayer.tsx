@@ -18,7 +18,7 @@ const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 export const ReportPlayer: React.FC<Props> = ({ id }) => {
   const [reportedFarmId, setReportedFarmId] = useState(id);
   const [reason, setReason] = useState<string>();
-  const [message, setMessage] = useState<string>();
+  const [message, setMessage] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [logMessage, setLogMessage] = useState<string>("");
 
