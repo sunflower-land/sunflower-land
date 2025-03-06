@@ -52,11 +52,12 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           Authorization: `Bearer ${rawToken}`,
         },
         body: JSON.stringify({
-          farmId: reportedFarmId,
+          reportedFarmId,
           reason,
           message,
           reporterFarmId: farmId,
           reporterUsername: state.username,
+          reporterGameState: state,
         }),
       });
 
