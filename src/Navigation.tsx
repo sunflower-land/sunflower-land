@@ -26,9 +26,11 @@ import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Marketplace } from "features/marketplace/Marketplace";
+import { FlowerDashboardProfile } from "features/flowerDashboard/FlowerDashboardProfile";
+import { hasFeatureAccess } from "lib/flags";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -204,7 +206,14 @@ export const Navigation: React.FC = () => {
                       element={<Builder key="builder" />}
                     />
                   )}
-
+                  {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
+                    <Route
+                      path="/flower-dashboard/:id"
+                      element={
+                        <FlowerDashboardProfile key="flower-dashboard" />
+                      }
+                    />
+                  )}
                   <Route path="*" element={<LandExpansion key="land" />} />
                 </Routes>
               </Suspense>
