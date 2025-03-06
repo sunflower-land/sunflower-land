@@ -28,9 +28,18 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
     (state) => state.context.user.rawToken as string,
   );
   const { gameService } = useGame();
-  const state = useSelector(gameService, (state) => state.context.state);
-  const farmId = useSelector(gameService, (state) => state.context.farmId);
-
+  const reporterInventory = useSelector(
+    gameService,
+    (state) => state.context.state.inventory,
+  );
+  const reporterFarmId = useSelector(
+    gameService,
+    (state) => state.context.farmId,
+  );
+  const reporterUsername = useSelector(
+    gameService,
+    (state) => state.context.state.username,
+  );
   const handleSubmit = async () => {
     if (!reportedFarmId || !reason || !message) {
       setLogMessage("Please fill in all fields");
@@ -49,9 +58,9 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           reportedFarmId,
           reason,
           message,
-          reporterFarmId: farmId,
-          reporterUsername: state.username,
-          reporterGameState: state,
+          reporterFarmId,
+          reporterUsername,
+          reporterInventory,
         }),
       });
 
