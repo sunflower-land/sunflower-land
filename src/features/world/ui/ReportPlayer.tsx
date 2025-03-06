@@ -7,6 +7,7 @@ import { TextInput } from "components/ui/TextInput";
 import React, { useContext, useState } from "react";
 import { CONFIG } from "lib/config";
 import * as AuthProvider from "features/auth/lib/Provider";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   id: number;
@@ -18,9 +19,13 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
   const [reason, setReason] = useState<string>();
   const [message, setMessage] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [logMessage, setLogMessage] = useState<string>();
+  const [logMessage, setLogMessage] = useState<string>("");
 
   const { authService } = useContext(AuthProvider.Context);
+  const rawToken = useSelector(
+    authService,
+    (state) => state.context.user.rawToken as string,
+  );
 
   const handleSubmit = async () => {
     if (!farmId || !reason || !message) {
@@ -34,7 +39,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${authService.state.context.user.rawToken as string}`,
+          Authorization: `Bearer ${rawToken}`,
         },
         body: JSON.stringify({
           farmId,
@@ -49,7 +54,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
 
       // Clear form after successful submission
       setReason(undefined);
-      setMessage(undefined);
+      setMessage("");
       setLogMessage("Report submitted successfully!");
     } catch (error) {
       setLogMessage("Failed to submit report. Please try again later.");

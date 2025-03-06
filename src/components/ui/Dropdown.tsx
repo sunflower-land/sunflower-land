@@ -36,6 +36,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (value !== undefined) {
       setSelectedValue(value);
+    } else {
+      setSelectedValue(undefined);
     }
   }, [value]);
 
