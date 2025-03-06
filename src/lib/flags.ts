@@ -8,7 +8,7 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
 const seasonAdminFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
-    ["adam", "tango", "eliassfl", "dcol", "Aeon", "Craig", "Spencer", "Sacul"]
+    ["adam", "tango", "eliassfl", "dcol", "Aeon", "Craig", "Spencer"]
       .map((name) => name.toLowerCase())
       .includes(game.username?.toLowerCase() ?? "")
   );
@@ -61,16 +61,24 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
  *
  * Do not delete JEST_TEST.
  */
-const featureFlags = {
+const FEATURE_FLAGS = {
+  // For testing
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
+
+  // Permanent Feature Flags
+  AIRDROP_PLAYER: adminFeatureFlag,
+  HOARDING_CHECK: defaultFeatureFlag,
+  REPORT_PLAYER: defaultFeatureFlag,
+
+  // Temporary Feature Flags
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
     new Date("2025-03-24T00:00:00Z"),
   ),
 } satisfies Record<string, FeatureFlag>;
 
-export type FeatureName = keyof typeof featureFlags;
+export type FeatureName = keyof typeof FEATURE_FLAGS;
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
-  return featureFlags[featureName](game);
+  return FEATURE_FLAGS[featureName](game);
 };

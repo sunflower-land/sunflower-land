@@ -701,6 +701,7 @@ export abstract class BaseScene extends Phaser.Scene {
             // Always get the latest clothing
             clothing: this.playerEntities[sessionId]?.clothing ?? clothing,
             experience,
+            username,
           });
         }
       }

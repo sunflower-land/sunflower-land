@@ -10,7 +10,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { TextInput } from "components/ui/TextInput";
 
-export const AdminSettings: React.FC<
+export const AirdropPlayer: React.FC<
   ContentComponentProps & { id?: number }
 > = ({ id = 0 }) => {
   const { authService } = useContext(AuthProvider.Context);
