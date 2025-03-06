@@ -5392,7 +5392,7 @@
   "rocketman.flower.compete": "毎月のチャレンジに参加して$FLOWERを獲得しましょう。",
   "rocketman.flower.social": "ソーシャルタスクを完了して情報を広め、$FLOWERを獲得しましょう。",
   "rocketman.flower.eligible": "ポリゴン、Ronin、BASEのユーザーが対象です。",
-  "ronin.nft.activates": "VIPアクセスは24時間以内に有効になります。",
   "marketplace.listing.failure.tradeNotFound": "取引が見つかりません",
-  "bountyType.label": "{{type}} バウンティ"
+  "bountyType.label": "{{type}} バウンティ",
+  "ronin.nft.activates": "VIPアクセスは3日後に有効になります。"
 }

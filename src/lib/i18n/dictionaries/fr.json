@@ -5392,7 +5392,7 @@
   "rocketman.flower.compete": "Participez à des défis mensuels pour gagner des $FLOWER.",
   "rocketman.flower.social": "Accomplissez des tâches sociales, faites passer le message et gagnez $FLOWER.",
   "rocketman.flower.eligible": "Les utilisateurs de Polygon, Ronin et BASE sont éligibles.",
-  "ronin.nft.activates": "Votre accès VIP sera activé dans les 24 heures.",
   "marketplace.listing.failure.tradeNotFound": "Commerce introuvable",
-  "bountyType.label": "{{type}} Primes"
+  "bountyType.label": "{{type}} Primes",
+  "ronin.nft.activates": "Votre accès VIP sera activé dans 3 jours."
 }
