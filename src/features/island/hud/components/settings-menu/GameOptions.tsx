@@ -60,6 +60,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { isSupported } from "firebase/messaging";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
+import { hasFeatureAccess } from "lib/flags";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -234,10 +235,10 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           )}
         </Button>
       )}
-      {(CONFIG.NETWORK === "amoy" ||
-        !!gameService.state?.context?.state.wardrobe.Halo ||
-        !!gameService.state?.context?.state.wardrobe["Gift Giver"] ||
-        !!gameService.state?.context?.state.inventory["Beta Pass"]) && (
+      {hasFeatureAccess(
+        gameService.state?.context?.state,
+        "HOARDING_CHECK",
+      ) && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
           <span>{t("gameOptions.developerOptions")}</span>
         </Button>
