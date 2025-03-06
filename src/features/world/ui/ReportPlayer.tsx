@@ -12,7 +12,7 @@ import { useGame } from "features/game/GameProvider";
 
 interface Props {
   id: number;
-  username: string;
+  username?: string;
 }
 const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 
