@@ -7,6 +7,8 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ButtonPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getBumpkinLevel } from "features/game/lib/level";
+import giftIcon from "assets/icons/gift.png";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 class PlayerSelectionListManager {
   private listener?: (players: PlayerModalPlayer[]) => void;
@@ -54,6 +56,13 @@ export const PlayerSelectionList: React.FC = () => {
               onClick={() => openPlayerModal(player)}
             >
               <NPCIcon parts={player.clothing} />
+              {player.clothing.shirt !== "Gift Giver" && (
+                <SquareIcon
+                  className="absolute -top-1 left-3.5"
+                  icon={giftIcon}
+                  width={7}
+                />
+              )}
               <div className="flex flex-col ml-1">
                 {player.username && <div>{player.username}</div>}
                 <div>{`#${player.id}`}</div>
