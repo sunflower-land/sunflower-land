@@ -4150,7 +4150,6 @@
   "skill.treeCharge": "-10% masa pertumbuhan pokok",
   "skill.moreAxes": "+50 stok kapak",
   "skill.instaChop": "1 Tap Pokok",
-  "skill.toughTree": "1/10 peluang +3 hasil kayu",
   "skill.fellersDiscount": "-20% kos kapak",
   "skill.moneyTree": "1% peluang mencari 200 Syiling semasa memotong pokok",
   "skill.treeBlitz": "Keupayaan untuk membuat semua pokok tumbuh dengan serta-merta",
@@ -5395,5 +5394,6 @@
   "marketplace.listing.failure.tradeNotFound": "Perdagangan tidak dijumpai",
   "bountyType.label": "{{type}} Ganjaran",
   "ronin.nft.activates": "Akses VIP anda akan diaktifkan dalam masa 3 hari.",
-  "select.player": "Pilih Pemain"
+  "select.player": "Pilih Pemain",
+  "skill.toughTree": "1/10 peluang hasil kayu x3"
 }

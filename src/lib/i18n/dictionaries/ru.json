@@ -4240,7 +4240,6 @@
   "skill.swiftDecomposer": "-10% времени компостирования",
   "skill.swiftSizzle": "-40% времени приготовления на костре с нефтью",
   "skill.tapProspector": "Добыча малых миниральных узлов в 1 клик",
-  "skill.toughTree": "1/10 шанс получить +3 древесины",
   "skill.treeBlitz": "Мгновенно восстановить все деревья",
   "skill.treeCharge": "-10% времени роста деревьев",
   "skill.treeTurnaround": "15% вероятности мгновенного роста деревьев",
@@ -5395,5 +5394,6 @@
   "marketplace.listing.failure.tradeNotFound": "Сделка не найдена",
   "bountyType.label": "{{type}} Награды",
   "ronin.nft.activates": "Ваш VIP-доступ будет активирован через 3 дня.",
-  "select.player": "Выберите игрока"
+  "select.player": "Выберите игрока",
+  "skill.toughTree": "Вероятность получения урожая древесины в 3 раза больше"
 }

@@ -4150,7 +4150,6 @@
   "skill.treeCharge": "나무 성장 시간 -10%",
   "skill.moreAxes": "+50 액스 스톡",
   "skill.instaChop": "1 탭 트리",
-  "skill.toughTree": "1/10 확률로 목재 수확량 +3",
   "skill.fellersDiscount": "도끼 비용 -20%",
   "skill.moneyTree": "나무를 베면 1% 의 확률로 코인 200개를 찾을 수 있습니다.",
   "skill.treeBlitz": "모든 나무를 즉시 자라게 하는 능력",
@@ -5395,5 +5394,6 @@
   "marketplace.listing.failure.tradeNotFound": "거래를 찾을 수 없음",
   "bountyType.label": "{{type}} 바운티",
   "ronin.nft.activates": "VIP 액세스는 3일 후에 활성화됩니다.",
-  "select.player": "플레이어 선택"
+  "select.player": "플레이어 선택",
+  "skill.toughTree": "1/10 확률로 3배의 목재 생산량"
 }

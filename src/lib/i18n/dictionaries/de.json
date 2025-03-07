@@ -4150,7 +4150,6 @@
   "skill.treeCharge": "-10% Baumwachstumszeit",
   "skill.moreAxes": "+50 Axtstock",
   "skill.instaChop": "1 Stechbäume",
-  "skill.toughTree": "1/10 Chance auf +3 Holzausbeute",
   "skill.fellersDiscount": "-20% Steuerkosten",
   "skill.moneyTree": "1% Chance, beim Baumfällen 200 Münzen zu finden",
   "skill.treeBlitz": "Fähigkeit, alle Bäume sofort wachsen zu lassen",
@@ -5395,5 +5394,6 @@
   "marketplace.listing.failure.tradeNotFound": "Handel wurde nicht gefunden",
   "bountyType.label": "{{type}} Kopfgelder",
   "ronin.nft.activates": "Ihr VIP-Zugang wird in 3 Tagen aktiviert.",
-  "select.player": "Wähle Spieler"
+  "select.player": "Wähle Spieler",
+  "skill.toughTree": "Chance von 1/10 auf x3 Holzausbeute"
 }

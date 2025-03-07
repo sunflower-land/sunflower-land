@@ -4150,7 +4150,6 @@
   "skill.treeCharge": "-10% tempo di crescita degli alberi",
   "skill.moreAxes": "+50 assi di scorta",
   "skill.instaChop": "1 Tap Tree",
-  "skill.toughTree": "1/10 di possibilità di +3 di resa in legno",
   "skill.fellersDiscount": "-20% costo dell'ascia",
   "skill.moneyTree": "1% di possibilità di trovare 200 monete tagliando gli alberi",
   "skill.treeBlitz": "Capacità di far crescere istantaneamente tutti gli alberi",
@@ -5395,5 +5394,6 @@
   "marketplace.listing.failure.tradeNotFound": "Commercio non trovato",
   "bountyType.label": "{{type}} Premi",
   "ronin.nft.activates": "Il tuo accesso VIP verrà attivato tra 3 giorni.",
-  "select.player": "Seleziona giocatore"
+  "select.player": "Seleziona giocatore",
+  "skill.toughTree": "1/10 di possibilità di resa del legno x3"
 }

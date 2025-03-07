@@ -4150,7 +4150,6 @@
   "skill.treeCharge": "-10% 树木生长时间",
   "skill.moreAxes": "+50 斧头枪托",
   "skill.instaChop": "1 点击树木",
-  "skill.toughTree": "有 1/10 的几率获得 +3 的木材产量",
   "skill.fellersDiscount": "-20% 斧头消耗",
   "skill.moneyTree": "砍树时有 1% 的几率找到 200 个硬币",
   "skill.treeBlitz": "能够让所有树木立即生长",
@@ -5395,5 +5394,6 @@
   "marketplace.listing.failure.tradeNotFound": "未找到交易",
   "bountyType.label": "{{type}} 赏金",
   "ronin.nft.activates": "您的 VIP 访问权限将在 3 天后激活。",
-  "select.player": "选择玩家"
+  "select.player": "选择玩家",
+  "skill.toughTree": "获得 x3 木材产量的几率为 1/10"
 }

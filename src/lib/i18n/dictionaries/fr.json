@@ -4150,7 +4150,6 @@
   "skill.treeCharge": "-10 % de temps de croissance des arbres",
   "skill.moreAxes": "Crosse pour haches +50",
   "skill.instaChop": "1 Tap Trees",
-  "skill.toughTree": "1/10 de chance d'obtenir un rendement en bois de +3",
   "skill.fellersDiscount": "-20 % du coût de la hache",
   "skill.moneyTree": "1 % de chances de trouver 200 pièces en coupant des arbres",
   "skill.treeBlitz": "Possibilité de faire pousser instantanément tous les arbres",
@@ -5395,5 +5394,6 @@
   "marketplace.listing.failure.tradeNotFound": "Commerce introuvable",
   "bountyType.label": "{{type}} Primes",
   "ronin.nft.activates": "Votre accès VIP sera activé dans 3 jours.",
-  "select.player": "Sélectionnez un joueur"
+  "select.player": "Sélectionnez un joueur",
+  "skill.toughTree": "1/10 de chance d'obtenir un rendement en bois multiplié par 3"
 }
