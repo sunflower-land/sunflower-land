@@ -36,7 +36,7 @@ export const ReportPlayer: React.FC<Props> = ({ id, reportedUsername }) => {
   );
 
   const handleSubmit = async () => {
-    if (!reportedFarmId || !reason || (reason === "Other" && !message)) {
+    if (!reportedFarmId || !reason || !message) {
       setLogMessage("Please fill in all fields");
       return;
     }
@@ -115,12 +115,7 @@ export const ReportPlayer: React.FC<Props> = ({ id, reportedUsername }) => {
         {logMessage && <Label type="default">{logMessage}</Label>}
         <Button
           className="mt-1"
-          disabled={
-            !reportedFarmId ||
-            !reason ||
-            (reason === "Other" && !message) ||
-            isSubmitting
-          }
+          disabled={!reportedFarmId || !reason || !message || isSubmitting}
           onClick={handleSubmit}
         >
           {isSubmitting ? "Sending..." : "Send"}
