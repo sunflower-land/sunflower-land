@@ -33,7 +33,7 @@ const UPGRADE_DATES: Record<IslandType, number | null> = {
   volcano: null, // Next prestige after volcano
 };
 
-const UPGRADE_RAFTS: Record<IslandType, string | null> = {
+export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
