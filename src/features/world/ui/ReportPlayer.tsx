@@ -17,7 +17,7 @@ const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 interface PlayerReportBody {
   reportedFarmId: number;
   reason: string;
-  message: string;
+  message?: string;
 }
 
 export const ReportPlayer: React.FC<Props> = ({ id }) => {
@@ -34,7 +34,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
   );
 
   const handleSubmit = async () => {
-    if (!reportedFarmId || !reason || !message) {
+    if (!reportedFarmId || !reason || (reason === "Other" && !message)) {
       setLogMessage("Please fill in all fields");
       return;
     }
@@ -112,7 +112,12 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
         {logMessage && <Label type="default">{logMessage}</Label>}
         <Button
           className="mt-1"
-          disabled={!reportedFarmId || !reason || !message || isSubmitting}
+          disabled={
+            !reportedFarmId ||
+            !reason ||
+            (reason === "Other" && !message) ||
+            isSubmitting
+          }
           onClick={handleSubmit}
         >
           {isSubmitting ? "Sending..." : "Send"}
