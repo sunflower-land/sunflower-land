@@ -45,11 +45,27 @@ export const PlayerSelectionList: React.FC = () => {
     playerModalManager.open(player);
   };
 
+  const playersSortedByGiftGiver = players.sort((a, b) => {
+    if (
+      a.clothing.shirt === "Gift Giver" &&
+      b.clothing.shirt !== "Gift Giver"
+    ) {
+      return -1;
+    }
+    if (
+      b.clothing.shirt === "Gift Giver" &&
+      a.clothing.shirt !== "Gift Giver"
+    ) {
+      return 1;
+    }
+    return 0;
+  });
+
   return (
     <Modal show={!!players.length} onHide={closeModal}>
       <CloseButtonPanel title={t("select.player")} onClose={closeModal}>
         <div className="overflow-y-auto max-h-[70vh] scrollable">
-          {players.map((player) => (
+          {playersSortedByGiftGiver.map((player) => (
             <ButtonPanel
               key={player.id}
               className="flex flex-row items-center gap-1 mx-1 text-xs"
