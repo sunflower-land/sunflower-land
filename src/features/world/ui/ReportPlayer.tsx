@@ -95,17 +95,30 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
         />
       </div>
       <div className="flex flex-col">
-        <Label
-          type="default"
-          icon={SUNNYSIDE.icons.expression_chat}
-          className="mx-2"
-        >
-          {`Message`}
-        </Label>
+        <div className="flex flex-row justify-between mb-1">
+          <Label
+            type="default"
+            icon={SUNNYSIDE.icons.expression_chat}
+            className="mx-2"
+          >
+            {`Message`}
+          </Label>
+          {message.length > 450 && (
+            <Label
+              type={message.length >= 500 ? "danger" : "warning"}
+              className="mx-2"
+            >
+              {`${500 - message.length} characters remaining`}
+            </Label>
+          )}
+        </div>
         <TextInput
           value={message}
-          onValueChange={setMessage}
+          onValueChange={(value) => {
+            setMessage(value);
+          }}
           placeholder="Describe the issue..."
+          maxLength={500}
         />
       </div>
       <div className="flex flex-col">
@@ -116,6 +129,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
             !reportedFarmId ||
             !reason ||
             (reason === "Other" && !message) ||
+            message.length > 500 ||
             isSubmitting
           }
           onClick={handleSubmit}
