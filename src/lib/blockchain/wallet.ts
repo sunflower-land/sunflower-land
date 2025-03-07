@@ -9,6 +9,7 @@ import {
   getChainId,
   readContract,
   sendTransaction,
+  switchChain,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { formatEther, parseEther } from "viem";
@@ -134,6 +135,38 @@ export class Wallet {
     );
 
     return maticWithFee;
+  }
+
+  public async switchToPolygon() {
+    const chainParameter =
+      CONFIG.POLYGON_CHAIN_ID === 137
+        ? {
+            chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
+            chainName: "Polygon Mainnet",
+            nativeCurrency: {
+              name: "MATIC",
+              symbol: "MATIC",
+              decimals: 18,
+            },
+            rpcUrls: ["https://polygon-rpc.com/"],
+            blockExplorerUrls: ["https://polygonscan.com/"],
+          }
+        : {
+            chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
+            chainName: "Polygon Testnet Amoy",
+            nativeCurrency: {
+              name: "MATIC",
+              symbol: "MATIC",
+              decimals: 18,
+            },
+            rpcUrls: ["https://rpc-amoy.polygon.technology"],
+            blockExplorerUrls: ["https://amoy.polygonscan.com/"],
+          };
+
+    await switchChain(config, {
+      chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
+      addEthereumChainParameter: chainParameter,
+    });
   }
 }
 
