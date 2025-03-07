@@ -8,11 +8,10 @@ import React, { useContext, useState } from "react";
 import { CONFIG } from "lib/config";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
-import { useGame } from "features/game/GameProvider";
 
 interface Props {
   id: number;
-  username?: string;
+  reportedUsername?: string;
 }
 const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 
@@ -21,11 +20,9 @@ interface PlayerReportBody {
   reportedUsername?: string;
   reason: string;
   message: string;
-  reporterFarmId: number;
-  reporterUsername?: string;
 }
 
-export const ReportPlayer: React.FC<Props> = ({ id, username }) => {
+export const ReportPlayer: React.FC<Props> = ({ id, reportedUsername }) => {
   const [reportedFarmId, setReportedFarmId] = useState(id);
   const [reason, setReason] = useState<string>();
   const [message, setMessage] = useState<string>("");
@@ -37,16 +34,6 @@ export const ReportPlayer: React.FC<Props> = ({ id, username }) => {
     authService,
     (state) => state.context.user.rawToken as string,
   );
-  const { gameService } = useGame();
-
-  const reporterFarmId = useSelector(
-    gameService,
-    (state) => state.context.farmId,
-  );
-  const reporterUsername = useSelector(
-    gameService,
-    (state) => state.context.state.username,
-  );
 
   const handleSubmit = async () => {
     if (!reportedFarmId || !reason || (reason === "Other" && !message)) {
@@ -56,11 +43,9 @@ export const ReportPlayer: React.FC<Props> = ({ id, username }) => {
 
     const body: PlayerReportBody = {
       reportedFarmId,
-      reportedUsername: username,
+      reportedUsername,
       reason,
       message,
-      reporterFarmId,
-      reporterUsername,
     };
 
     setIsSubmitting(true);
