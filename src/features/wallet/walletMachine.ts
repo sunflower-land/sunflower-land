@@ -13,7 +13,6 @@ import {
   connect,
   signMessage,
   CreateConnectorFn,
-  switchChain,
 } from "@wagmi/core";
 import {
   bitGetConnector,
@@ -22,7 +21,7 @@ import {
   okexConnector,
   phantomConnector,
 } from "./WalletProvider";
-import { generateSignatureMessage } from "lib/blockchain/wallet";
+import { generateSignatureMessage, wallet } from "lib/blockchain/wallet";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -448,35 +447,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     switchingToPolygon: {
       invoke: {
         src: async () => {
-          const chainParameter =
-            CONFIG.POLYGON_CHAIN_ID === 137
-              ? {
-                  chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-                  chainName: "Polygon Mainnet",
-                  nativeCurrency: {
-                    name: "MATIC",
-                    symbol: "MATIC",
-                    decimals: 18,
-                  },
-                  rpcUrls: ["https://polygon-rpc.com/"],
-                  blockExplorerUrls: ["https://polygonscan.com/"],
-                }
-              : {
-                  chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-                  chainName: "Polygon Testnet Amoy",
-                  nativeCurrency: {
-                    name: "MATIC",
-                    symbol: "MATIC",
-                    decimals: 18,
-                  },
-                  rpcUrls: ["https://rpc-amoy.polygon.technology"],
-                  blockExplorerUrls: ["https://amoy.polygonscan.com/"],
-                };
-
-          await switchChain(config, {
-            chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
-            addEthereumChainParameter: chainParameter,
-          });
+          await wallet.switchToPolygon();
 
           const account = getAccount(config);
 

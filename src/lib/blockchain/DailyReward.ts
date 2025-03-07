@@ -10,6 +10,7 @@ import {
 import { config } from "features/wallet/WalletProvider";
 import { polygonAmoy, ronin, saigon } from "viem/chains";
 import { polygon } from "viem/chains";
+import { wallet } from "./wallet";
 
 export async function getDailyCode(
   account: `0x${string}`,
@@ -65,26 +66,27 @@ export async function trackDailyReward({
 }): Promise<void> {
   const chainAccount = getAccount(config);
 
-  // Polygon
-  if (
-    chainAccount.chainId === polygonAmoy.id ||
-    chainAccount.chainId === polygon.id
-  ) {
+  // Ronin
+  if (chainAccount.chainId === ronin.id || chainAccount.chainId === saigon.id) {
     const hash = await writeContract(config, {
-      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
+      chainId: CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id,
       abi: ABI,
-      address: CONFIG.DAILY_REWARD_CONTRACT as `0x${string}`,
+      address: CONFIG.RONIN_DAILY_REWARD_CONTRACT as `0x${string}`,
       functionName: "reward",
       args: [code],
       account,
     });
     await waitForTransactionReceipt(config, { hash });
+
+    return;
   }
 
+  await wallet.switchToPolygon();
+
   const hash = await writeContract(config, {
-    chainId: CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id,
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: ABI,
-    address: CONFIG.RONIN_DAILY_REWARD_CONTRACT as `0x${string}`,
+    address: CONFIG.DAILY_REWARD_CONTRACT as `0x${string}`,
     functionName: "reward",
     args: [code],
     account,
