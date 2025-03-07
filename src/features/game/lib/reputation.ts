@@ -6,7 +6,6 @@ import { hasVipAccess } from "./vipAccess";
 
 export enum Reputation {
   Beginner = 0,
-  Sprout = 1,
   Seedling = 2,
   Grower = 3,
   Cropkeeper = 4,
@@ -15,7 +14,6 @@ export enum Reputation {
 
 export const REPUTATION_NAME: Record<Reputation, string> = {
   [Reputation.Beginner]: "Beginner",
-  [Reputation.Sprout]: "Sprout",
   [Reputation.Seedling]: "Seedling",
   [Reputation.Grower]: "Grower",
   [Reputation.Cropkeeper]: "Cropkeeper",
@@ -24,7 +22,6 @@ export const REPUTATION_NAME: Record<Reputation, string> = {
 
 export const REPUTATION_TIERS: Record<Reputation, number> = {
   [Reputation.Beginner]: 0,
-  [Reputation.Sprout]: 200,
   [Reputation.Seedling]: 250,
   [Reputation.Grower]: 350,
   [Reputation.Cropkeeper]: 600,
@@ -84,7 +81,7 @@ export function getReputation({ game }: { game: GameState }): Reputation {
       (tier) => points >= REPUTATION_TIERS[tier as Reputation],
     ) as Reputation;
 
-  return tier || Reputation.Sprout;
+  return tier || Reputation.Beginner;
 }
 
 export function hasReputation({
@@ -111,11 +108,6 @@ export function getRemainingTrades({ game }: { game: GameState }) {
 
   if (playerReputation == Reputation.Beginner) {
     return 0;
-  }
-
-  // 1 trade per day
-  if (playerReputation == Reputation.Sprout) {
-    return 1 - count;
   }
 
   // 2 trades per day
