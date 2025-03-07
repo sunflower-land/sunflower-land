@@ -5394,5 +5394,6 @@
   "rocketman.flower.eligible": "Polygon-, Ronin- und BASE-Benutzer sind berechtigt.",
   "marketplace.listing.failure.tradeNotFound": "Handel wurde nicht gefunden",
   "bountyType.label": "{{type}} Kopfgelder",
-  "ronin.nft.activates": "Ihr VIP-Zugang wird in 3 Tagen aktiviert."
+  "ronin.nft.activates": "Ihr VIP-Zugang wird in 3 Tagen aktiviert.",
+  "select.player": "Wähle Spieler"
 }

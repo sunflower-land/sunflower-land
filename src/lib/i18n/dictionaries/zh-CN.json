@@ -5394,5 +5394,6 @@
   "rocketman.flower.eligible": "Polygon、Ronin 和 BASE 用户符合资格。",
   "marketplace.listing.failure.tradeNotFound": "未找到交易",
   "bountyType.label": "{{type}} 赏金",
-  "ronin.nft.activates": "您的 VIP 访问权限将在 3 天后激活。"
+  "ronin.nft.activates": "您的 VIP 访问权限将在 3 天后激活。",
+  "select.player": "选择玩家"
 }

@@ -5394,5 +5394,6 @@
   "rocketman.flower.eligible": "폴리곤, 로닌, 베이스 사용자가 대상입니다.",
   "marketplace.listing.failure.tradeNotFound": "거래를 찾을 수 없음",
   "bountyType.label": "{{type}} 바운티",
-  "ronin.nft.activates": "VIP 액세스는 3일 후에 활성화됩니다."
+  "ronin.nft.activates": "VIP 액세스는 3일 후에 활성화됩니다.",
+  "select.player": "플레이어 선택"
 }

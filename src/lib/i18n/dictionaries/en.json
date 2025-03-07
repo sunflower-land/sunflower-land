@@ -5394,5 +5394,6 @@
   "rocketman.flower.launch": "On April 1st, $FLOWER will be added to the game!",
   "rocketman.flower.compete": "Compete in monthly challenges to earn $FLOWER.",
   "rocketman.flower.social": "Complete social tasks, spread the word, and earn $FLOWER.",
-  "rocketman.flower.eligible": "Polygon, Ronin & BASE users are eligible."
+  "rocketman.flower.eligible": "Polygon, Ronin & BASE users are eligible.",
+  "select.player": "Select Player"
 }

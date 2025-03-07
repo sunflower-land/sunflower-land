@@ -5394,5 +5394,6 @@
   "rocketman.flower.eligible": "Pengguna Polygon, Ronin & BASE layak.",
   "marketplace.listing.failure.tradeNotFound": "Perdagangan tidak dijumpai",
   "bountyType.label": "{{type}} Ganjaran",
-  "ronin.nft.activates": "Akses VIP anda akan diaktifkan dalam masa 3 hari."
+  "ronin.nft.activates": "Akses VIP anda akan diaktifkan dalam masa 3 hari.",
+  "select.player": "Pilih Pemain"
 }

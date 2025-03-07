@@ -5394,5 +5394,6 @@
   "rocketman.flower.eligible": "Gli utenti Polygon, Ronin e BASE sono idonei.",
   "marketplace.listing.failure.tradeNotFound": "Commercio non trovato",
   "bountyType.label": "{{type}} Premi",
-  "ronin.nft.activates": "Il tuo accesso VIP verrà attivato tra 3 giorni."
+  "ronin.nft.activates": "Il tuo accesso VIP verrà attivato tra 3 giorni.",
+  "select.player": "Seleziona giocatore"
 }
