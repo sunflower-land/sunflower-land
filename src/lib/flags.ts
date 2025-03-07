@@ -69,7 +69,6 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
-  REPORT_PLAYER: defaultFeatureFlag,
 
   // Temporary Feature Flags
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
