@@ -16,6 +16,15 @@ interface Props {
 }
 const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 
+interface PlayerReportBody {
+  reportedFarmId: number;
+  reportedUsername?: string;
+  reason: string;
+  message: string;
+  reporterFarmId: number;
+  reporterUsername?: string;
+}
+
 export const ReportPlayer: React.FC<Props> = ({ id, username }) => {
   const [reportedFarmId, setReportedFarmId] = useState(id);
   const [reason, setReason] = useState<string>();
@@ -29,10 +38,7 @@ export const ReportPlayer: React.FC<Props> = ({ id, username }) => {
     (state) => state.context.user.rawToken as string,
   );
   const { gameService } = useGame();
-  const reporterInventory = useSelector(
-    gameService,
-    (state) => state.context.state.inventory,
-  );
+
   const reporterFarmId = useSelector(
     gameService,
     (state) => state.context.farmId,
@@ -41,11 +47,21 @@ export const ReportPlayer: React.FC<Props> = ({ id, username }) => {
     gameService,
     (state) => state.context.state.username,
   );
+
   const handleSubmit = async () => {
-    if (!reportedFarmId || !reason || !message) {
+    if (!reportedFarmId || !reason || (reason === "Other" && !message)) {
       setLogMessage("Please fill in all fields");
       return;
     }
+
+    const body: PlayerReportBody = {
+      reportedFarmId,
+      reportedUsername: username,
+      reason,
+      message,
+      reporterFarmId,
+      reporterUsername,
+    };
 
     setIsSubmitting(true);
     try {
@@ -55,15 +71,7 @@ export const ReportPlayer: React.FC<Props> = ({ id, username }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${rawToken}`,
         },
-        body: JSON.stringify({
-          reportedFarmId,
-          reportedUsername: username,
-          reason,
-          message,
-          reporterFarmId,
-          reporterUsername,
-          reporterInventory,
-        }),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
