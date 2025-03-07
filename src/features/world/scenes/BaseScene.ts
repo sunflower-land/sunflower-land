@@ -336,6 +336,9 @@ export abstract class BaseScene extends Phaser.Scene {
       // handles player modal
       // get all player under the pointer click
       this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
+        // ignore click if the joystick is active
+        if (this.joystick?.pointer) return;
+
         const clickedObjects = this.input.hitTestPointer(pointer);
 
         // filter other players
