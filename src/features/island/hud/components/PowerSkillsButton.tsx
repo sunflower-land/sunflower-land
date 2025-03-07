@@ -25,14 +25,21 @@ export const PowerSkillsButton: React.FC = () => {
     (skill) => !!skills[skill.name as BumpkinRevampSkillName],
   );
 
-  const powerSkillsReady = powerSkillsUnlocked.some(
-    (skill: BumpkinSkillRevamp) => {
+  const powerSkillsReady = powerSkillsUnlocked
+    .filter((skill: BumpkinSkillRevamp) => {
+      const fertiliserSkill: BumpkinRevampSkillName[] = [
+        "Sprout Surge",
+        "Root Rocket",
+        "Blend-tastic",
+      ];
+      return !fertiliserSkill.includes(skill.name as BumpkinRevampSkillName);
+    })
+    .some((skill: BumpkinSkillRevamp) => {
       const nextSkillUse =
         (previousPowerUseAt?.[skill.name as BumpkinRevampSkillName] ?? 0) +
         (skill.requirements.cooldown ?? 0);
       return nextSkillUse < Date.now();
-    },
-  );
+    });
 
   return (
     <div className="relative">
