@@ -63,6 +63,7 @@ import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import worldIcon from "assets/icons/world.png";
 import { InfernosScene } from "./scenes/InferniaScene";
+import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -533,6 +534,7 @@ export const PhaserComponent: React.FC<Props> = ({
       )}
 
       <NPCModals id={farmId as number} scene={scene} />
+      <PlayerSelectionList />
       <PlayerModals game={state} />
       <TradeCompleted mmoService={mmoService} farmId={farmId as number} />
       <CommunityModals />

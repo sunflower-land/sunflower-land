@@ -100,7 +100,7 @@ export class DogContainer extends Phaser.GameObjects.Container {
       key: `dog_${this.dogNumber}-idle`,
       frames: this.sprite?.anims.generateFrameNumbers(`dog_${this.dogNumber}`, {
         start: 6,
-        end: 10,
+        end: 9,
       }),
       frameRate: 1000 / 280,
       repeat: -1,

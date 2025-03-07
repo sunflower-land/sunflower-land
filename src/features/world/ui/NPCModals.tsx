@@ -89,11 +89,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
 
   return (
     <>
-      <Modal
-        // dialogClassName="npc-dialog"
-        show={!!npc && !isSeparateModal}
-        onHide={closeModal}
-      >
+      <Modal show={!!npc && !isSeparateModal} onHide={closeModal}>
         {npc === "chase" && (
           <SpeakingModal
             onClose={closeModal}
