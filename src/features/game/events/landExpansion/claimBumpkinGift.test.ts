@@ -1,7 +1,6 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { claimGift } from "./claimBumpkinGift";
 import Decimal from "decimal.js-light";
-import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("claimBumpkinGift", () => {
   it("requires a bumpkin exists", () => {
@@ -98,7 +97,7 @@ describe("claimBumpkinGift", () => {
     expect(
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(5);
-    expect(state.inventory["Gem"]).toEqual(new Decimal(1 * BB_TO_GEM_RATIO));
+    expect(state.coins).toEqual(160);
   });
 
   it("claims a gift of wearables", () => {
@@ -221,9 +220,8 @@ describe("claimBumpkinGift", () => {
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(200);
 
-    expect(state.inventory["Gem"]).toEqual(new Decimal(1 * BB_TO_GEM_RATIO));
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
-    expect(state.coins).toEqual(1280);
+    expect(state.coins).toEqual(1440);
   });
 
   it("requires player has points for bonus gift", () => {
