@@ -428,7 +428,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             message={[
               {
                 text: t("beehive.pollinationCelebration", {
-                  amount: Number(calculateSwarmBoost(0, gameState).toFixed(2)),
+                  amount: formatNumber(calculateSwarmBoost(0, gameState)),
                 }),
               },
             ]}
