@@ -71,55 +71,56 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
   };
 
   return (
-    <>
-      <div className="p-1 flex flex-col overflow-y-auto scrollable">
-        <div className="flex flex-col">
-          <Label type="default" icon={SUNNYSIDE.icons.search} className="my-1">
-            {`Farm ID`}
-          </Label>
-          <NumberInput
-            value={reportedFarmId}
-            onValueChange={(decimal) => setReportedFarmId(decimal.toNumber())}
-            maxDecimalPlaces={0}
-          />
-        </div>
-        <div className="flex flex-col">
-          <Label type="default" icon={SUNNYSIDE.icons.search} className="my-1">
-            {`Reason`}
-          </Label>
-          <Dropdown
-            options={REASONS}
-            value={reason}
-            onChange={(value) => setReason(value)}
-          />
-        </div>
-        <div className="flex flex-col">
-          <Label
-            type="default"
-            icon={SUNNYSIDE.icons.expression_chat}
-            className="my-1"
-          >
-            {`Message`}
-          </Label>
-          <TextInput
-            value={message}
-            onValueChange={setMessage}
-            placeholder="Describe the issue..."
-          />
-        </div>
-      </div>
-      {logMessage && (
-        <Label type="default" className="my-1">
-          {logMessage}
+    <div className="flex flex-col gap-2 overflow-y-auto scrollable">
+      <div className="flex flex-col">
+        <Label type="default" icon={SUNNYSIDE.icons.search} className="mx-2">
+          {`Farm ID`}
         </Label>
-      )}
-      <Button
-        className="my-1"
-        disabled={!reportedFarmId || !reason || !message || isSubmitting}
-        onClick={handleSubmit}
-      >
-        {isSubmitting ? "Sending..." : "Send"}
-      </Button>
-    </>
+        <NumberInput
+          value={reportedFarmId}
+          onValueChange={(decimal) => setReportedFarmId(decimal.toNumber())}
+          maxDecimalPlaces={0}
+        />
+      </div>
+      <div className="flex flex-col">
+        <Label type="default" icon={SUNNYSIDE.icons.search} className="mx-2">
+          {`Reason`}
+        </Label>
+        <Dropdown
+          options={REASONS}
+          value={reason}
+          onChange={(value) => setReason(value)}
+        />
+      </div>
+      <div className="flex flex-col">
+        <Label
+          type="default"
+          icon={SUNNYSIDE.icons.expression_chat}
+          className="mx-2"
+        >
+          {`Message`}
+        </Label>
+        <TextInput
+          value={message}
+          onValueChange={setMessage}
+          placeholder="Describe the issue..."
+        />
+      </div>
+      <div className="flex flex-col">
+        {logMessage && <Label type="default">{logMessage}</Label>}
+        <Button
+          className="mt-1"
+          disabled={
+            !reportedFarmId ||
+            !reason ||
+            (reason === "Other" && !message) ||
+            isSubmitting
+          }
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? "Sending..." : "Send"}
+        </Button>
+      </div>
+    </div>
   );
 };
