@@ -93,32 +93,10 @@ export const ReputationSystem: React.FC<{
 
 export const ReputationTiers: React.FC = () => {
   const { t } = useAppTranslation();
-  const { gameState } = useGame();
-  const reputation = getReputation({ game: gameState.context.state });
 
   return (
     <div className="p-2 scrollable overflow-y-scroll max-h-[350px]">
       <p className="text-xs mb-2">{t("reputation.description")}</p>
-
-      <div className="flex items-center mb-1 mt-2">
-        <Label type="default" icon={SUNNYSIDE.crops.sprout} className="mr-2">
-          {t("reputation.sprout")}
-        </Label>
-        <Label type="warning">
-          {t("reputation.points", {
-            amount: REPUTATION_TIERS[Reputation.Sprout],
-          })}
-        </Label>
-      </div>
-
-      <NoticeboardItems
-        items={[
-          {
-            text: t("reputation.sprout.description"),
-            icon: tradeIcon,
-          },
-        ]}
-      />
 
       <div className="flex items-center mb-1 mt-2">
         <Label type="default" icon={SUNNYSIDE.crops.seedling} className="mr-2">
