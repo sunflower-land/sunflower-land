@@ -56,7 +56,7 @@ export const PlayerSelectionList: React.FC = () => {
               onClick={() => openPlayerModal(player)}
             >
               <NPCIcon parts={player.clothing} />
-              {player.clothing.shirt !== "Gift Giver" && (
+              {player.clothing.shirt === "Gift Giver" && (
                 <SquareIcon
                   className="absolute -top-1 left-3.5"
                   icon={giftIcon}
