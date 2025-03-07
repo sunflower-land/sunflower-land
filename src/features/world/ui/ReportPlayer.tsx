@@ -11,18 +11,16 @@ import { useSelector } from "@xstate/react";
 
 interface Props {
   id: number;
-  reportedUsername?: string;
 }
 const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
 
 interface PlayerReportBody {
   reportedFarmId: number;
-  reportedUsername?: string;
   reason: string;
   message: string;
 }
 
-export const ReportPlayer: React.FC<Props> = ({ id, reportedUsername }) => {
+export const ReportPlayer: React.FC<Props> = ({ id }) => {
   const [reportedFarmId, setReportedFarmId] = useState(id);
   const [reason, setReason] = useState<string>();
   const [message, setMessage] = useState<string>("");
@@ -43,7 +41,6 @@ export const ReportPlayer: React.FC<Props> = ({ id, reportedUsername }) => {
 
     const body: PlayerReportBody = {
       reportedFarmId,
-      reportedUsername,
       reason,
       message,
     };

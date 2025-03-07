@@ -239,9 +239,7 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
           ) : (
             <PlayerDetails player={player as PlayerModalPlayer} />
           ))}
-        {tab === 1 && (
-          <ReportPlayer id={player?.id as number} username={player?.username} />
-        )}
+        {tab === 1 && <ReportPlayer id={player?.id as number} />}
         {tab === 2 && (
           <AirdropPlayer
             id={player?.id as number}
