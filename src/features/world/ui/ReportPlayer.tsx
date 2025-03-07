@@ -8,12 +8,17 @@ import React, { useContext, useState } from "react";
 import { CONFIG } from "lib/config";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
-import { useGame } from "features/game/GameProvider";
 
 interface Props {
   id: number;
 }
 const REASONS = ["Botting", "Multiaccounting", "Bug Abuse", "Other"];
+
+interface PlayerReportBody {
+  reportedFarmId: number;
+  reason: string;
+  message: string;
+}
 
 export const ReportPlayer: React.FC<Props> = ({ id }) => {
   const [reportedFarmId, setReportedFarmId] = useState(id);
@@ -27,15 +32,18 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
     authService,
     (state) => state.context.user.rawToken as string,
   );
-  const { gameService } = useGame();
-  const state = useSelector(gameService, (state) => state.context.state);
-  const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const handleSubmit = async () => {
     if (!reportedFarmId || !reason || !message) {
       setLogMessage("Please fill in all fields");
       return;
     }
+
+    const body: PlayerReportBody = {
+      reportedFarmId,
+      reason,
+      message,
+    };
 
     setIsSubmitting(true);
     try {
@@ -45,14 +53,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${rawToken}`,
         },
-        body: JSON.stringify({
-          reportedFarmId,
-          reason,
-          message,
-          reporterFarmId: farmId,
-          reporterUsername: state.username,
-          reporterGameState: state,
-        }),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
@@ -80,6 +81,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           value={reportedFarmId}
           onValueChange={(decimal) => setReportedFarmId(decimal.toNumber())}
           maxDecimalPlaces={0}
+          readOnly
         />
       </div>
       <div className="flex flex-col">
@@ -110,12 +112,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
         {logMessage && <Label type="default">{logMessage}</Label>}
         <Button
           className="mt-1"
-          disabled={
-            !reportedFarmId ||
-            !reason ||
-            (reason === "Other" && !message) ||
-            isSubmitting
-          }
+          disabled={!reportedFarmId || !reason || !message || isSubmitting}
           onClick={handleSubmit}
         >
           {isSubmitting ? "Sending..." : "Send"}

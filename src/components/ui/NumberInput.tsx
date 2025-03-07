@@ -18,6 +18,7 @@ type Props = {
   className?: string;
   onValueChange?: (value: Decimal) => void;
   icon?: string;
+  readOnly?: boolean;
 };
 
 export const NumberInput: React.FC<Props> = ({
@@ -28,6 +29,7 @@ export const NumberInput: React.FC<Props> = ({
   className,
   onValueChange,
   icon,
+  readOnly,
 }) => {
   const VALID_DECIMAL_NUMBER_WITH_PRECISION = new RegExp(
     `^\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`,
@@ -71,6 +73,7 @@ export const NumberInput: React.FC<Props> = ({
         type="number"
         placeholder="0"
         value={numberDisplay}
+        readOnly={readOnly}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           if (/^0+(?!\.)/.test(e.target.value) && e.target.value.length > 1) {
             e.target.value = e.target.value.replace(/^0/, "");
