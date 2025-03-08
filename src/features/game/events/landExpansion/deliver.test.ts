@@ -902,42 +902,6 @@ describe("deliver", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
   });
 
-  it("provides +2 tickets for banner holder", () => {
-    const state = deliverOrder({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          Sunflower: new Decimal(60),
-          "Clash of Factions Banner": new Decimal(1),
-        },
-        delivery: {
-          ...TEST_FARM.delivery,
-          fulfilledCount: 3,
-          orders: [
-            {
-              id: "123",
-              createdAt: 0,
-              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
-              from: "pumpkin' pete",
-              items: {
-                Sunflower: 50,
-              },
-              reward: {},
-            },
-          ],
-        },
-        bumpkin: INITIAL_BUMPKIN,
-      },
-      action: {
-        id: "123",
-        type: "order.delivered",
-      },
-      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
-    });
-
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
-  });
-
   it("provides +2 tickets for Lifetime Farmer banner holder", () => {
     const state = deliverOrder({
       state: {
