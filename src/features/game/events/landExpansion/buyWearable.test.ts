@@ -6,7 +6,6 @@ import {
   STYLIST_WEARABLES,
   StylistWearable,
 } from "features/game/types/stylist";
-import { getSeasonalBanner } from "features/game/types/seasons";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -138,7 +137,7 @@ describe("buyWearable", () => {
 
     const shirt = STYLIST_WEARABLES["Red Farmer Shirt"] as StylistWearable;
 
-    expect(state.coins).toEqual(coins - shirt.coins ?? 0);
+    expect(state.coins).toEqual(coins - (shirt.coins ?? 0));
   });
 
   it("mints the newly bought decoration", () => {
