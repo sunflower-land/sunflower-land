@@ -72,7 +72,7 @@ export const getEncyclopediaFish = () => {
   const encyclopediaFish: (FishName | MarineMarvelName)[] = [];
   getKeys(FISH).forEach((fishName) => {
     const fish = FISH[fishName];
-    if (fish.type !== "marine marvel") {
+    if (fish.type !== "marine marvel" && fish.type !== "chapter") {
       encyclopediaFish.push(fishName);
     }
   });
