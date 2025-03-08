@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
-import { getSeasonalBanner } from "../types/seasons";
 
 export const RONIN_FARM_CREATION_CUTOFF = new Date(
   "2025-02-01T00:00:00Z",
@@ -16,17 +15,12 @@ export const hasVipAccess = ({
   game: GameState;
   now?: number;
 }): boolean => {
-  // Legacy Code - remove once DB is updated with expiresAt
-  const seasonBannerQuantity =
-    game.inventory[getSeasonalBanner(new Date(now))] ?? new Decimal(0);
-  const hasSeasonPass = seasonBannerQuantity.gt(0);
-
   const lifetimeBannerQuantity =
     game.inventory["Lifetime Farmer Banner"] ?? new Decimal(0);
 
   const hasLifetimePass = lifetimeBannerQuantity.gt(0);
 
-  if (hasSeasonPass || hasLifetimePass) return true;
+  if (hasLifetimePass) return true;
 
   const hasValidInGameVIP = !!game.vip?.expiresAt && game.vip?.expiresAt > now;
 
