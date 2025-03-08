@@ -75,6 +75,7 @@ const FEATURE_FLAGS = {
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
     new Date("2025-03-24T00:00:00Z"),
   ),
+  LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
