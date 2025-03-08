@@ -236,7 +236,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                 <div className="w-full grid grid-cols-5 sm:grid-cols-4 py-1 px-1 gap-2">
                   {filteredWardrobeNames.map((name) => {
                     const boostLabel =
-                      BUMPKIN_ITEM_BUFF_LABELS[name] &&
+                      BUMPKIN_ITEM_BUFF_LABELS[name]?.[0] &&
                       !SPECIAL_ITEM_LABELS[name];
 
                     const specialItem = SPECIAL_ITEM_LABELS[name];
