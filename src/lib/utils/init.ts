@@ -2,7 +2,7 @@ import util from "util";
 import Decimal from "decimal.js-light";
 import { initialiseFont } from "./fonts";
 
-// import { Amplify } from "aws-amplify";
+import { Amplify } from "aws-amplify";
 
 export function initialise() {
   /**
@@ -18,14 +18,10 @@ export function initialise() {
 
   initialiseFont();
 
-  // Amplify.configure({
-  //   Auth: {
-  //     // region: "us-east-1",
-  //     identityPoolId: "your-identity-pool-id", // Get from SST output
-  //   },
-  //   FaceLiveness: {
-  //     region: "us-east-1",
-  //     collectionId: "face-liveness-collection", // Get from SST output
-  //   },
-  // });
+  Amplify.configure({
+    // FaceLiveness: {
+    //   region: "us-east-1",
+    //   collectionId: "face-liveness-collection", // Get from SST output
+    // },
+  });
 }

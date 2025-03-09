@@ -20,22 +20,24 @@ type Response = {
 
 const API_URL = CONFIG.API_URL;
 
-export async function startRekognition(request: Request): Promise<Response> {
-  const response = await window.fetch(`${API_URL}/rekognition/start`, {
+export async function startFaceRecognition(
+  request: Request,
+): Promise<Response> {
+  const response = await window.fetch(`${API_URL}/face-recognition`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${request.token}`,
       "X-Transaction-ID": request.transactionId,
     },
-    body: JSON.stringify(request),
+    body: JSON.stringify({}),
   });
 
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
-  if (response.status !== 200 || !response.ok) {
+  if (response.status !== 200) {
     throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 

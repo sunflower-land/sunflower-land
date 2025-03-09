@@ -61,7 +61,7 @@ import { isSupported } from "firebase/messaging";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
-import { LivenessQuickStartReact } from "features/retreat/components/personhood/Rekognition";
+import { LivenessQuickStartReact } from "features/retreat/components/personhood/FaceRecognition";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
